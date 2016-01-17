@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GridDominance.Shared", "GridDominance.Shared\GridDominance.Shared.shproj", "{8FC3B872-A050-4329-8999-8B490B0B6274}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.DirectX", "GridDominance.DirectX\GridDominance.DirectX.csproj", "{DAED060D-BE0D-44D1-AC38-E189C7A6D300}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android", "GridDominance.Android\GridDominance.Android.csproj", "{D49363EF-8D37-42B4-9AB4-C2083A4B186E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Debug|x86.Build.0 = Debug|Any CPU
+		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Release|x86.ActiveCfg = Release|Any CPU
+		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Release|x86.Build.0 = Release|Any CPU
+		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|x86.ActiveCfg = Debug|x86
+		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|x86.Build.0 = Debug|x86
+		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Release|x86.ActiveCfg = Release|x86
+		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+EndGlobal
