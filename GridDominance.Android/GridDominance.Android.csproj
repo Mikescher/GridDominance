@@ -6,7 +6,7 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{D49363EF-8D37-42B4-9AB4-C2083A4B186E}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <MonoGamePlatform>Windows</MonoGamePlatform>
+    <MonoGamePlatform>Android</MonoGamePlatform>
     <MonoGameContentBuilderExe>
     </MonoGameContentBuilderExe>
     <RootNamespace>GridDominance.Android</RootNamespace>
