@@ -44,18 +44,7 @@ namespace GridDominance.Shared
 #endif
 			graphics.ApplyChanges();
 
-			vpAdapter = new BoxingViewportAdapter(GraphicsDevice, 800, 500);
-			Window.ClientSizeChanged += (s, e) =>
-			{
-				vpAdapter.OnClientSizeChanged();
-
-				if (graphics.PreferredBackBufferWidth != Window.ClientBounds.Width || graphics.PreferredBackBufferHeight != Window.ClientBounds.Height)
-				{
-					graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
-					graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
-					graphics.ApplyChanges();
-				}
-			};
+			vpAdapter = new BoxingViewportAdapter(Window, graphics, 800, 500);
 
 			graphics.ApplyChanges();
 		}
