@@ -92,7 +92,15 @@ namespace GridDominance.Shared
 			spriteBatch.Begin(transformMatrix: vpAdapter.GetScaleMatrix());
 			{
 //				spriteBatch.Draw(atlas["tile_debug"].Texture, new Rectangle(0, 0, 800, 500), atlas["tile_debug"].Bounds, Color.White);
-				spriteBatch.Draw(tx, new Rectangle(0, 0, 800, 500), Color.White);
+				
+
+				for (int x = 0; x < 8; x++)
+				{
+					for (int y = 0; y < 5; y++)
+					{
+						spriteBatch.Draw(tx, new Rectangle(x*100, y*100, 100, 100), Color.White);
+					}	
+				}
 			}
 			spriteBatch.End();
 
