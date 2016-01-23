@@ -1,12 +1,12 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
-
-#endregion
+using MonoGame.Extended;
+using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.ViewportAdapters;
 
 namespace GridDominance.Shared
 {
@@ -17,77 +17,80 @@ namespace GridDominance.Shared
 	{
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
+		private ViewportAdapter vpAdapter;
+		private TextureAtlas atlas;
+		private Texture2D tx;
 
 		public MainGame()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
-			#if __WINDOWS__
-			IsMouseVisible = true;
-			graphics.IsFullScreen = false;
-			graphics.PreferredBackBufferWidth =  1080;
-			graphics.PreferredBackBufferHeight =  720;
-			#else
-			graphics.IsFullScreen = true;
-			graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
-			#endif
 		}
 
-		/// <summary>
-		/// Allows the game to perform any initialization it needs to before starting to run.
-		/// This is where it can query for any required services and load any non-graphic
-		/// related content.  Calling base.Initialize will enumerate through any components
-		/// and initialize them as well.
-		/// </summary>
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
+#if __DESKTOP__
+			IsMouseVisible = true;
+			graphics.IsFullScreen = false;
+
+			graphics.PreferredBackBufferWidth = 500;
+			graphics.PreferredBackBufferHeight = 500;
+			Window.AllowUserResizing = true;
+#else
+			graphics.IsFullScreen = true;
+			graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
+#endif
+			graphics.ApplyChanges();
+
+			vpAdapter = new BoxingViewportAdapter(GraphicsDevice, 800, 500);
+			Window.ClientSizeChanged += (s, e) =>
+			{
+				vpAdapter.OnClientSizeChanged();
+			};
+
+			graphics.ApplyChanges();
+
 			base.Initialize();
 				
 		}
 
-		/// <summary>
-		/// LoadContent will be called once per game and is the place to load
-		/// all of your content.
-		/// </summary>
 		protected override void LoadContent()
 		{
-			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			//TODO: use this.Content to load your game content here 
+			tx = Content.Load<Texture2D>("textures/spritesheet");
+			atlas = Content.Load<TextureAtlas>("textures/spritesheet-sheet");
+		}
+		
+		protected override void UnloadContent()
+		{
+			// NOP
 		}
 
-		/// <summary>
-		/// Allows the game to run logic such as updating the world,
-		/// checking for collisions, gathering input, and playing audio.
-		/// </summary>
-		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
-			// For Mobile devices, this logic will close the Game when the Back button is pressed
-			// Exit() is obsolete on iOS
-			#if !__IOS__
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-			    Keyboard.GetState().IsKeyDown(Keys.Escape))
+#if !__IOS__
+			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{
 				Exit();
 			}
-			#endif
-			// TODO: Add your update logic here			
+#endif
+			
 			base.Update(gameTime);
 		}
 
-		/// <summary>
-		/// This is called when the game should draw itself.
-		/// </summary>
-		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			graphics.GraphicsDevice.Clear(Color.Magenta);
-		
-			//TODO: Add your drawing code here
-            
+			graphics.GraphicsDevice.Clear(Color.Red);
+
+			spriteBatch.Begin(transformMatrix: vpAdapter.GetScaleMatrix());
+			{
+//				spriteBatch.Draw(atlas["tile_debug"].Texture, new Rectangle(0, 0, 800, 500), atlas["tile_debug"].Bounds, Color.White);
+				spriteBatch.Draw(tx, new Rectangle(0, 0, 800, 500), Color.White);
+			}
+			spriteBatch.End();
+
+
 			base.Draw(gameTime);
 		}
 	}

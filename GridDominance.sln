@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GridDominance.Shared", "GridDominance.Shared\GridDominance.Shared.shproj", "{8FC3B872-A050-4329-8999-8B490B0B6274}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.DirectX", "GridDominance.DirectX\GridDominance.DirectX.csproj", "{DAED060D-BE0D-44D1-AC38-E189C7A6D300}"
@@ -8,18 +10,26 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android", "GridDominance.Android\GridDominance.Android.csproj", "{D49363EF-8D37-42B4-9AB4-C2083A4B186E}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		GridDominance.Shared\GridDominance.Shared.projitems*{daed060d-be0d-44d1-ac38-e189c7a6d300}*SharedItemsImports = 4
+		GridDominance.Shared\GridDominance.Shared.projitems*{d49363ef-8d37-42b4-9ab4-c2083a4b186e}*SharedItemsImports = 4
+		GridDominance.Shared\GridDominance.Shared.projitems*{8fc3b872-a050-4329-8999-8b490b0b6274}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Debug|x86.Build.0 = Debug|Any CPU
-		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Release|x86.ActiveCfg = Release|Any CPU
-		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Release|x86.Build.0 = Release|Any CPU
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|x86.ActiveCfg = Debug|x86
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|x86.Build.0 = Debug|x86
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Release|x86.ActiveCfg = Release|x86
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Release|x86.Build.0 = Release|x86
+		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Debug|x86.Build.0 = Debug|Any CPU
+		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Release|x86.ActiveCfg = Release|Any CPU
+		{D49363EF-8D37-42B4-9AB4-C2083A4B186E}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
