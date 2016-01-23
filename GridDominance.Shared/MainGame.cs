@@ -29,6 +29,8 @@ namespace GridDominance.Shared
 
 		protected override void Initialize()
 		{
+			base.Initialize();
+
 #if __DESKTOP__
 			IsMouseVisible = true;
 			graphics.IsFullScreen = false;
@@ -46,12 +48,16 @@ namespace GridDominance.Shared
 			Window.ClientSizeChanged += (s, e) =>
 			{
 				vpAdapter.OnClientSizeChanged();
+
+				if (graphics.PreferredBackBufferWidth != Window.ClientBounds.Width || graphics.PreferredBackBufferHeight != Window.ClientBounds.Height)
+				{
+					graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
+					graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
+					graphics.ApplyChanges();
+				}
 			};
 
 			graphics.ApplyChanges();
-
-			base.Initialize();
-				
 		}
 
 		protected override void LoadContent()
