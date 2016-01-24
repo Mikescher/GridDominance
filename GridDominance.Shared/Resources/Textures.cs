@@ -10,12 +10,14 @@ namespace GridDominance.Shared.Resources
         public static TextureAtlas AtlasTextures;
 
         public static TextureRegion2D TexDebugTile;
+        public static TextureRegion2D TexDebugCannonBody;
 
         public static void LoadContent(ContentManager content)
         {
             AtlasTextures = content.Load<TextureAtlas>("textures/spritesheet-sheet");
 
-            TexDebugTile = AtlasTextures["tile_debug"];
+            TexDebugTile        = AtlasTextures["tile_debug"];
+            TexDebugCannonBody  = AtlasTextures["cannonbody_debug"];
 
             IsLoaded = true;
         }

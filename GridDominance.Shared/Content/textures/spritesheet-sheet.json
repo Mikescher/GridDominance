@@ -1,8 +1,17 @@
 {"frames": [
 
 {
-	"filename": "tile_debug.png",
+	"filename": "cannonbody_debug.png",
 	"frame": {"x":1,"y":1,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tile_debug.png",
+	"frame": {"x":67,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -14,8 +23,8 @@
 	"version": "1.0",
 	"image": "spritesheet.png",
 	"format": "RGBA8888",
-	"size": {"w":66,"h":66},
+	"size": {"w":132,"h":66},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:841b09f265a59c1ce4d5b33c36edced7:0dac1c047e3e7fd623b44f11b1771755:729adc6043343cfda41c447ce8f464d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:2284d450ac153e68ceb0660ce2c21350:21a836ec4530d50bde4c71f087e91e17:729adc6043343cfda41c447ce8f464d6$"
 }
 }
