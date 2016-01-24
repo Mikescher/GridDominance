@@ -152,7 +152,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../GridDominance.DirectX/Content/textures/spritesheet.json</filename>
+                <filename>../GridDominance.Shared/Content/textures/spritesheet.json</filename>
             </struct>
             <key>datafile</key>
             <struct type="DataFile">
@@ -208,6 +208,7 @@
         <key>fileList</key>
         <array>
             <filename>tile_debug.png</filename>
+            <filename>cannonbody_debug.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

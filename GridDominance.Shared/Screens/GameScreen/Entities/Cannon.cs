@@ -35,7 +35,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
         public override void Update(GameTime gameTime)
         {
-            spriteBody.Rotation += gameTime.GetElapsedSeconds() * 1f;
+            spriteBody.Rotation += gameTime.GetElapsedSeconds() * FloatMath.ToRadians(90);
         }
     }
 }
