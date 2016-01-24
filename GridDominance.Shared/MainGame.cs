@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.GameScreen;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Screens;
 using MonoGame.Extended.TextureAtlases;
 using MonoGame.Extended.ViewportAdapters;
 
@@ -11,11 +14,9 @@ namespace GridDominance.Shared
 	/// </summary>
 	public class MainGame : Game
 	{
-		private GraphicsDeviceManager graphics;
-		private SpriteBatch spriteBatch;
-		private ViewportAdapter vpAdapter;
-		private TextureAtlas atlas;
-		private Texture2D tx;
+	    private ScreenManager screens;
+
+		private readonly GraphicsDeviceManager graphics;
 
 		public MainGame()
 		{
@@ -31,8 +32,8 @@ namespace GridDominance.Shared
 			IsMouseVisible = true;
 			graphics.IsFullScreen = false;
 
-			graphics.PreferredBackBufferWidth = 500;
-			graphics.PreferredBackBufferHeight = 500;
+			graphics.PreferredBackBufferWidth = 800;
+			graphics.PreferredBackBufferHeight = 600;
 			Window.AllowUserResizing = true;
 #else
 			graphics.IsFullScreen = true;
@@ -40,17 +41,15 @@ namespace GridDominance.Shared
 #endif
 			graphics.ApplyChanges();
 
-			vpAdapter = new BoxingViewportAdapter(Window, graphics, 800, 500);
-
-			graphics.ApplyChanges();
+		    screens = new ScreenManager(this)
+		    {
+		        CurrentScreen = new GameScreen(this, graphics)
+		    };
 		}
 
 		protected override void LoadContent()
 		{
-			spriteBatch = new SpriteBatch(GraphicsDevice);
-
-			tx = Content.Load<Texture2D>("textures/spritesheet");
-			atlas = Content.Load<TextureAtlas>("textures/spritesheet-sheet");
+            Textures.LoadContent(Content);
 		}
 		
 		protected override void UnloadContent()
@@ -60,35 +59,14 @@ namespace GridDominance.Shared
 
 		protected override void Update(GameTime gameTime)
 		{
-#if !__IOS__
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-			{
-				Exit();
-			}
-#endif
-			
-			base.Update(gameTime);
-		}
+            screens.Update(gameTime);
+
+            base.Update(gameTime);
+        }
 
 		protected override void Draw(GameTime gameTime)
 		{
-			graphics.GraphicsDevice.Clear(Color.Red);
-
-			spriteBatch.Begin(transformMatrix: vpAdapter.GetScaleMatrix());
-			{
-//				spriteBatch.Draw(atlas["tile_debug"].Texture, new Rectangle(0, 0, 800, 500), atlas["tile_debug"].Bounds, Color.White);
-				
-
-				for (int x = 0; x < 8; x++)
-				{
-					for (int y = 0; y < 5; y++)
-					{
-						spriteBatch.Draw(tx, new Rectangle(x*100, y*100, 100, 100), Color.White);
-					}	
-				}
-			}
-			spriteBatch.End();
-
+            screens.Draw(gameTime);
 
 			base.Draw(gameTime);
 		}
