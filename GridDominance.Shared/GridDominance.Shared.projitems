@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FloatMath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\InputState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\InputStateManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\TolerantBoxingViewportAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />

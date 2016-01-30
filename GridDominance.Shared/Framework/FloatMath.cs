@@ -48,14 +48,24 @@ namespace GridDominance.Shared.Framework
         public static float Atan(float value)
         {
             return (float)Math.Atan(value);
-        }
+		}
 
-        public static float Atan2(float y, float x)
-        {
-            return (float)Math.Atan2(y, x);
-        }
+		public static float Atan2(float y, float x)
+		{
+			return (float)Math.Atan2(y, x);
+		}
 
-        public static float Tan(float value)
+		public static float PositiveAtan2(float y, float x)
+		{
+			var r = (float)Math.Atan2(y, x) + TAU;
+
+			if (r >= TAU) r -= TAU;
+			if (r < 0) r = 0;
+
+			return r;
+		}
+
+		public static float Tan(float value)
         {
             return (float)Math.Tan(value);
         }
@@ -67,7 +77,7 @@ namespace GridDominance.Shared.Framework
 
         public static float Abs(float value)
         {
-            return (float)Math.Abs(value);
+            return Math.Abs(value);
         }
 
         public static int Ceiling(float value)
@@ -203,5 +213,41 @@ namespace GridDominance.Shared.Framework
         {
             return degree * DegreesToRadians;
         }
+
+		public static float DiffRadians(float a1, float a2) // [a1 - a2]
+		{
+			if (a1 > a2)
+			{
+				float diff = a1 - a2;
+				if (Abs(diff) < PI) return diff;
+				if (diff <= -PI) return diff + TAU;
+				if (diff >= +PI) return diff - TAU;
+
+				throw new ArgumentException();
+			}
+			else if (a2 > a1)
+			{
+				float diff = a1 - a2;
+				if (Abs(diff) < PI) return diff;
+				if (diff <= -PI) return diff + TAU;
+				if (diff >= +PI) return diff - TAU;
+
+				throw new ArgumentException();
+			}
+			else
+			{
+				return 0f;
+			}
+		}
+
+	    public static float AddRads(float a, float b)
+	    {
+		    float r = a + b;
+
+			while (r < 0) r += TAU;
+			while (r >= TAU) r -= TAU;
+
+		    return r;
+	    }
     }
 }

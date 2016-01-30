@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GridDominance.Shared.Framework;
+using GridDominance.Shared.Screens.GameScreen.Background;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GridDominance.Shared.Screens.GameScreen
@@ -10,7 +12,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			//
         }
 
+        public abstract void Update(GameTime gameTime, InputState state);
         public abstract void Draw(SpriteBatch sbatch);
-        public abstract void Update(GameTime gameTime);
     }
 }

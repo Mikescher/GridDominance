@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using GridDominance.Shared.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,11 +14,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		    
 	    }
 
-	    public void Update(GameTime gameTime)
+	    public void Update(GameTime gameTime, InputState state)
 		{
 			foreach (var gdEntity in entities)
 			{
-				gdEntity.Update(gameTime);
+				gdEntity.Update(gameTime, state);
 			}
 		}
 

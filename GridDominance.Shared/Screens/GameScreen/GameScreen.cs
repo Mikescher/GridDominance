@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using GridDominance.Shared.Framework;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Framework;
 using GridDominance.Shared.Screens.GameScreen.Background;
 using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.ViewportAdapters;
-using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.InputListeners;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
@@ -22,11 +17,16 @@ namespace GridDominance.Shared.Screens.GameScreen
 
         //-----------------------------------------------------------------
 
-        private TolerantBoxingViewportAdapter vpAdapter;
-
-        public SpriteBatch EntityBatch;
-
+        private TolerantBoxingViewportAdapter viewport;
 	    private GDEntityManager entities;
+
+		private InputStateManager inputStateMan;
+		private InputListenerManager inputs;
+	    private MouseListener mouseListener;
+	    private TouchListener touchListener;
+
+		private SpriteBatch entityBatch;
+
 		private GameGridBackground background;
 
         public GameScreen(MainGame game, GraphicsDeviceManager gdm) : base(game, gdm)
@@ -36,10 +36,16 @@ namespace GridDominance.Shared.Screens.GameScreen
 
         private void Initialize()
         {
-            EntityBatch = new SpriteBatch(Graphics.GraphicsDevice);
-            vpAdapter = new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
-            background = new GameGridBackground(Graphics.GraphicsDevice, vpAdapter);
+			entityBatch = new SpriteBatch(Graphics.GraphicsDevice);
+            viewport = new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+			inputs = new InputListenerManager(viewport);
+			inputStateMan = new InputStateManager(viewport);
+			background = new GameGridBackground(Graphics.GraphicsDevice, viewport);
 			entities = new GDEntityManager();
+
+			mouseListener = inputs.AddListener(new MouseListenerSettings());
+			touchListener = inputs.AddListener(new TouchListenerSettings());
+
 			//--------------------
 
 			entities.AddEntity(new Cannon(2, 3));
@@ -50,27 +56,26 @@ namespace GridDominance.Shared.Screens.GameScreen
 
         public override void Update(GameTime gameTime)
         {
-#if !__IOS__
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Owner.Exit();
-            }
-#endif
+	        var state = inputStateMan.GetNewState();
+			
+			if (state.IsExit()) Owner.Exit();
 
-			entities.Update(gameTime);
+			inputs.Update(gameTime);
+
+			entities.Update(gameTime, state);
         }
 
         public override void Draw(GameTime gameTime)
         {
             Graphics.GraphicsDevice.Clear(Color.AliceBlue);
 
-            EntityBatch.Begin(transformMatrix: vpAdapter.GetScaleMatrix());
+            entityBatch.Begin(transformMatrix: viewport.GetScaleMatrix());
             {
-                background.Draw(EntityBatch);
+                background.Draw(entityBatch);
 
-                entities.Draw(EntityBatch);
+                entities.Draw(entityBatch);
             }
-            EntityBatch.End();
+            entityBatch.End();
         }
     }
 }
