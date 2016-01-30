@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
-using MonoGame.Extended;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
-    abstract class GDEntity : IDraw, IUpdate
+    abstract class GDEntity
     {
-        protected readonly GameScreen Owner;
-
-        protected GDEntity(GameScreen screen)
+        protected GDEntity()
         {
-            Owner = screen;
+			//
         }
 
-        public abstract void Draw(GameTime gameTime);
+        public abstract void Draw(SpriteBatch sbatch);
         public abstract void Update(GameTime gameTime);
     }
 }

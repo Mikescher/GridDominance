@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Background\GameGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Entities\Cannon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Entities\GDEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\GDEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\GameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GDScreen.cs" />

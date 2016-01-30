@@ -23,7 +23,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
         private double rotation = 0; // radians
         private double targetRotation = 0; // radians
 
-        public Cannon(GameScreen owner, int gridX, int gridY) : base(owner)
+        public Cannon(int gridX, int gridY)
         {
             gridPositionX = gridX;
             gridPositionY = gridY;
@@ -42,10 +42,10 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
             };
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(SpriteBatch sbatch)
         {
-            Owner.EntityBatch.Draw(spriteBarrel);
-            Owner.EntityBatch.Draw(spriteBody);
+            sbatch.Draw(spriteBarrel);
+			sbatch.Draw(spriteBody);
         }
 
         public override void Update(GameTime gameTime)

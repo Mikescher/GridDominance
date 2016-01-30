@@ -26,8 +26,8 @@ namespace GridDominance.Shared.Screens.GameScreen
 
         public SpriteBatch EntityBatch;
 
-        private GameGridBackground background;
-        private List<GDEntity> entities = new List<GDEntity>();
+	    private GDEntityManager entities;
+		private GameGridBackground background;
 
         public GameScreen(MainGame game, GraphicsDeviceManager gdm) : base(game, gdm)
         {
@@ -38,13 +38,14 @@ namespace GridDominance.Shared.Screens.GameScreen
         {
             EntityBatch = new SpriteBatch(Graphics.GraphicsDevice);
             vpAdapter = new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
-            background = new GameGridBackground(this, Graphics.GraphicsDevice, vpAdapter);
-            //--------------------
+            background = new GameGridBackground(Graphics.GraphicsDevice, vpAdapter);
+			entities = new GDEntityManager();
+			//--------------------
 
-            entities.Add(new Cannon(this, 2, 3));
-            entities.Add(new Cannon(this, 2, 0));
-            entities.Add(new Cannon(this, 5, 1));
-            entities.Add(new Cannon(this, 6, 2));
+			entities.AddEntity(new Cannon(2, 3));
+            entities.AddEntity(new Cannon(2, 0));
+            entities.AddEntity(new Cannon(5, 1));
+            entities.AddEntity(new Cannon(6, 2));
         }
 
         public override void Update(GameTime gameTime)
@@ -56,10 +57,7 @@ namespace GridDominance.Shared.Screens.GameScreen
             }
 #endif
 
-            foreach (var entity in entities)
-            {
-                entity.Update(gameTime);
-            }
+			entities.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
@@ -68,12 +66,9 @@ namespace GridDominance.Shared.Screens.GameScreen
 
             EntityBatch.Begin(transformMatrix: vpAdapter.GetScaleMatrix());
             {
-                background.Draw(gameTime);
+                background.Draw(EntityBatch);
 
-                foreach (var entity in entities)
-                {
-                    entity.Draw(gameTime);
-                }
+                entities.Draw(EntityBatch);
             }
             EntityBatch.End();
         }
