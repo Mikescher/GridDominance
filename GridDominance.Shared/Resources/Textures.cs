@@ -1,23 +1,28 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GridDominance.Shared.Resources
 {
     static class Textures
     {
+        public static Vector2 DEFAULT_TEXTURE_SCALE = new Vector2(0.5f);
+
         public static bool IsLoaded { get; private set; } = false;
 
         public static TextureAtlas AtlasTextures;
 
         public static TextureRegion2D TexDebugTile;
-        public static TextureRegion2D TexDebugCannonBody;
+        public static TextureRegion2D TexCannonBody;
+        public static TextureRegion2D TexCannonBarrel;
 
         public static void LoadContent(ContentManager content)
         {
             AtlasTextures = content.Load<TextureAtlas>("textures/spritesheet-sheet");
 
-            TexDebugTile        = AtlasTextures["tile_debug"];
-            TexDebugCannonBody  = AtlasTextures["cannonbody_debug"];
+            TexDebugTile    = AtlasTextures["tile_debug"];
+            TexCannonBody   = AtlasTextures["cannonbody"];
+            TexCannonBarrel = AtlasTextures["cannonbarrel"];
 
             IsLoaded = true;
         }

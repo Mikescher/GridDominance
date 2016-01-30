@@ -11,20 +11,32 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 {
     class Cannon : GDEntity
     {
+        private const float CANNON_SIZE = GameScreen.TILE_WIDTH;
+
         private readonly Sprite spriteBody;
+        private readonly Sprite spriteBarrel;
 
         private readonly int gridPositionX;
         private readonly int gridPositionY;
+
+        private double rotation = 0; // radians
+        private double targetRotation = 0; // radians
 
         public Cannon(GameScreen owner, int gridX, int gridY) : base(owner)
         {
             gridPositionX = gridX;
             gridPositionY = gridY;
 
-            spriteBody = new Sprite(Textures.TexDebugCannonBody)
+            spriteBody = new Sprite(Textures.TexCannonBody)
             {
-                Position = new Vector2(gridX*100 + 50, gridY*100 + 50),
-                Scale = new Vector2(100f / Textures.TexDebugCannonBody.Width, 100f / Textures.TexDebugCannonBody.Height)
+                Scale = Textures.DEFAULT_TEXTURE_SCALE,
+                Position = new Vector2(gridPositionX * CANNON_SIZE + CANNON_SIZE / 2, gridPositionY * CANNON_SIZE + CANNON_SIZE / 2)
+            };
+
+            spriteBarrel = new Sprite(Textures.TexCannonBarrel)
+            {
+                Scale = Textures.DEFAULT_TEXTURE_SCALE,
+                Position = new Vector2(gridPositionX * 100 + 50, gridPositionY * 100 + 50)
             };
         }
 

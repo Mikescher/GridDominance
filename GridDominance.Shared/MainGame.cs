@@ -32,16 +32,18 @@ namespace GridDominance.Shared
 			IsMouseVisible = true;
 			graphics.IsFullScreen = false;
 
-			graphics.PreferredBackBufferWidth = 800;
-			graphics.PreferredBackBufferHeight = 600;
+			graphics.PreferredBackBufferWidth = 1200;
+			graphics.PreferredBackBufferHeight = 900;
 			Window.AllowUserResizing = true;
+            graphics.ApplyChanges();
+		    Window.Position = new Point((1920 - graphics.PreferredBackBufferWidth) / 2, (1080 - graphics.PreferredBackBufferHeight) / 2);
 #else
 			graphics.IsFullScreen = true;
 			graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
-#endif
 			graphics.ApplyChanges();
+#endif
 
-		    screens = new ScreenManager(this)
+            screens = new ScreenManager(this)
 		    {
 		        CurrentScreen = new GameScreen(this, graphics)
 		    };

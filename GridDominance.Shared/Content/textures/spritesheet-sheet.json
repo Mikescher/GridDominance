@@ -1,21 +1,30 @@
 {"frames": [
 
 {
-	"filename": "cannonbody_debug.png",
-	"frame": {"x":1,"y":1,"w":64,"h":64},
+	"filename": "cannonbarrel.png",
+	"frame": {"x":259,"y":199,"w":128,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64},
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":64},
+	"sourceSize": {"w":128,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "cannonbody.png",
+	"frame": {"x":259,"y":1,"w":196,"h":196},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":30,"w":196,"h":196},
+	"sourceSize": {"w":256,"h":256},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "tile_debug.png",
-	"frame": {"x":67,"y":1,"w":64,"h":64},
+	"frame": {"x":1,"y":1,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64},
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -23,8 +32,8 @@
 	"version": "1.0",
 	"image": "spritesheet.png",
 	"format": "RGBA8888",
-	"size": {"w":132,"h":66},
+	"size": {"w":456,"h":264},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:2284d450ac153e68ceb0660ce2c21350:21a836ec4530d50bde4c71f087e91e17:729adc6043343cfda41c447ce8f464d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:985fc3a215f5cd54e7cc064c4c9a59f2:3dbd443d945b5144cc72312c6cdfbe9f:729adc6043343cfda41c447ce8f464d6$"
 }
 }
