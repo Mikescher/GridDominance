@@ -5,13 +5,13 @@ namespace GridDominance.Shared.Screens
 {
     abstract class GDScreen : Screen
     {
-        protected readonly GraphicsDeviceManager graphics;
-        protected readonly MainGame owner;
+        public readonly GraphicsDeviceManager Graphics;
+        public readonly MainGame Owner;
 
         public GDScreen(MainGame game, GraphicsDeviceManager gdm)
         {
-            graphics = gdm;
-            owner = game;
+            Graphics = gdm;
+            Owner = game;
         }
     }
 }

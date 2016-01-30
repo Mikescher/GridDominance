@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.GameScreen.Background;
 using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,16 +16,17 @@ namespace GridDominance.Shared.Screens.GameScreen
     class GameScreen : GDScreen
     {
         public const int TILE_WIDTH = 128;
-
+        
         public const int VIEW_WIDTH  = 8 * TILE_WIDTH; // 1024
         public const int VIEW_HEIGHT = 5 * TILE_WIDTH; // 640
 
         //-----------------------------------------------------------------
 
-        private ViewportAdapter vpAdapter;
+        private TolerantBoxingViewportAdapter vpAdapter;
 
         public SpriteBatch EntityBatch;
 
+        private GameGridBackground background;
         private List<GDEntity> entities = new List<GDEntity>();
 
         public GameScreen(MainGame game, GraphicsDeviceManager gdm) : base(game, gdm)
@@ -33,10 +36,9 @@ namespace GridDominance.Shared.Screens.GameScreen
 
         private void Initialize()
         {
-            EntityBatch = new SpriteBatch(graphics.GraphicsDevice);
-            vpAdapter = new BoxingViewportAdapter(owner.Window, graphics, VIEW_WIDTH, VIEW_HEIGHT);
-            graphics.ApplyChanges();
-
+            EntityBatch = new SpriteBatch(Graphics.GraphicsDevice);
+            vpAdapter = new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+            background = new GameGridBackground(this, Graphics.GraphicsDevice, vpAdapter);
             //--------------------
 
             entities.Add(new Cannon(this, 2, 3));
@@ -50,7 +52,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 #if !__IOS__
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                owner.Exit();
+                Owner.Exit();
             }
 #endif
 
@@ -62,15 +64,11 @@ namespace GridDominance.Shared.Screens.GameScreen
 
         public override void Draw(GameTime gameTime)
         {
+            Graphics.GraphicsDevice.Clear(Color.AliceBlue);
+
             EntityBatch.Begin(transformMatrix: vpAdapter.GetScaleMatrix());
             {
-                for (int x = 0; x < 8; x++)
-                {
-                    for (int y = 0; y < 5; y++)
-                    {
-                        EntityBatch.Draw(Textures.TexDebugTile, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), Color.White);
-                    }
-                }
+                background.Draw(gameTime);
 
                 foreach (var entity in entities)
                 {

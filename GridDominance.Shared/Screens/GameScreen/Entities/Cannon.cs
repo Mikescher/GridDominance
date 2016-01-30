@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Sprites;
+using GridDominance.Shared.Framework;
 
 namespace GridDominance.Shared.Screens.GameScreen.Entities
 {
@@ -36,18 +37,21 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
             spriteBarrel = new Sprite(Textures.TexCannonBarrel)
             {
                 Scale = Textures.DEFAULT_TEXTURE_SCALE,
-                Position = new Vector2(gridPositionX * 100 + 50, gridPositionY * 100 + 50)
+                Position = new Vector2(gridPositionX * CANNON_SIZE + CANNON_SIZE / 2, gridPositionY * CANNON_SIZE + CANNON_SIZE / 2),
+                Origin = new Vector2(192, 32),
             };
         }
 
         public override void Draw(GameTime gameTime)
         {
+            Owner.EntityBatch.Draw(spriteBarrel);
             Owner.EntityBatch.Draw(spriteBody);
         }
 
         public override void Update(GameTime gameTime)
         {
-            spriteBody.Rotation += gameTime.GetElapsedSeconds() * FloatMath.ToRadians(90);
+            spriteBody.Rotation   += gameTime.GetElapsedSeconds() * FloatMath.ToRadians(90);
+            spriteBarrel.Rotation += gameTime.GetElapsedSeconds() * FloatMath.ToRadians(90);
         }
     }
 }

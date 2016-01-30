@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace GridDominance.Shared
+namespace GridDominance.Shared.Framework
 {
     public static class FloatMath
     {
@@ -70,14 +70,14 @@ namespace GridDominance.Shared
             return (float)Math.Abs(value);
         }
 
-        public static float Ceiling(float value)
+        public static int Ceiling(float value)
         {
-            return (float)Math.Ceiling(value);
+            return (int)Math.Ceiling(value);
         }
 
-        public static float Floor(float value)
+        public static int Floor(float value)
         {
-            return (float)Math.Floor(value);
+            return (int)Math.Floor(value);
         }
 
         public static float Round(float value)

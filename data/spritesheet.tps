@@ -208,7 +208,8 @@
         <key>fileList</key>
         <array>
             <filename>tile_debug.png</filename>
-            <filename>cannonbody_debug.png</filename>
+            <filename>cannonbarrel.png</filename>
+            <filename>cannonbody.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
