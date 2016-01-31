@@ -12,7 +12,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 {
 	class DebugTextDisplay : IDebugTextDisplay
 	{
-		private const float INERTIA_SPEED = 100f;
+		private const float INERTIA_SPEED = 256f;
 		private const float TEXT_OFFSET = 5;
 		private const float TEXT_SPACING = 1.15f;
 

@@ -15,6 +15,8 @@ namespace GridDominance.Shared.Framework
         public const float DegreesToRadians = PI / 180;
         public const float DegRad = DegreesToRadians;
 
+		public static readonly Random Random = new Random();
+
         public static float Asin(float value)
         {
             return (float)Math.Asin(value);
@@ -267,5 +269,10 @@ namespace GridDominance.Shared.Framework
 			if (value > limit) value = limit;
 			return value;
 		}
+
+	    public static float GetRangedRandom(float min, float max)
+	    {
+		    return (float) (Random.NextDouble() * (max - min) + min);
+	    }
 	}
 }

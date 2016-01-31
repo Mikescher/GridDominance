@@ -12,13 +12,18 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
     class Cannon : GDEntity
     {
 	    private const float ROTATION_SPEED = FloatMath.TAU / 2; // 3.141 rad/sec
-		
+
+		private const float BARREL_CHARGE_SPEED = 0.9f;
 		private const float CANNON_DIAMETER = 96;
+		private const float BULLET_ANGLE_VARIANCE = 0.035f; // ~ 2 degree
+		private const float BULLET_INITIAL_SPEED = 100f;
 
 		private readonly Sprite spriteBody;
         private readonly Sprite spriteBarrel;
 
 	    private bool isMouseDragging = false;
+
+	    private float barrelCharge = 0f;
 
         private float actualRotation = 0;	// radians
         private float targetRotation = 0;	// radians
@@ -50,7 +55,30 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public override void Update(GameTime gameTime, InputState istate)
 		{
 			UpdateRotation(gameTime, istate);
+			UpdateBarrel(gameTime);
 		}
+
+	    private void UpdateBarrel(GameTime gameTime)
+	    {
+		    barrelCharge += BARREL_CHARGE_SPEED*gameTime.GetElapsedSeconds();
+
+		    if (barrelCharge >= 1f)
+		    {
+			    barrelCharge -= 1f;
+
+			    Shoot();
+		    }
+	    }
+
+	    private void Shoot()
+		{
+			var position = GetBulletSpawnPoint();
+			var velocity = GetBulletVelocity();
+
+			Owner.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
+
+			Manager.AddEntity(new Bullet(Owner, this, position, velocity));
+	    }
 
 	    private void UpdateRotation(GameTime gameTime, InputState istate)
 	    {
@@ -86,6 +114,19 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
         {
             sbatch.Draw(spriteBarrel);
 			sbatch.Draw(spriteBody);
-        }
-    }
+		}
+
+		public Vector2 GetBulletSpawnPoint()
+		{
+			return center + new Vector2(64, 0).Rotate(actualRotation);
+		}
+
+		public Vector2 GetBulletVelocity()
+		{
+			var variance = FloatMath.GetRangedRandom(-BULLET_ANGLE_VARIANCE, +BULLET_ANGLE_VARIANCE);
+			var angle = FloatMath.AddRads(actualRotation, variance);
+
+			return new Vector2(1, 0).Rotate(angle) * BULLET_INITIAL_SPEED;
+		}
+	}
 }

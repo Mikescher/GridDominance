@@ -15,9 +15,10 @@ namespace GridDominance.Shared.Resources
 
         public static TextureRegion2D TexDebugTile;
         public static TextureRegion2D TexCannonBody;
-        public static TextureRegion2D TexCannonBarrel;
+		public static TextureRegion2D TexCannonBarrel;
+		public static TextureRegion2D TexBullet;
 
-	    public static SpriteFont DebugFont;
+		public static SpriteFont DebugFont;
 
         public static void LoadContent(ContentManager content)
         {
@@ -25,7 +26,8 @@ namespace GridDominance.Shared.Resources
 
             TexDebugTile    = AtlasTextures["tile_debug"];
             TexCannonBody   = AtlasTextures["cannonbody"];
-            TexCannonBarrel = AtlasTextures["cannonbarrel"];
+			TexCannonBarrel = AtlasTextures["cannonbarrel"];
+			TexBullet       = AtlasTextures["cannonball"];
 
 			DebugFont = content.Load<SpriteFont>("fonts/debugFont");
 
