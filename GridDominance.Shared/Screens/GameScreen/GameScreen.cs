@@ -25,7 +25,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		private TolerantBoxingViewportAdapter viewport;
 	    private GDEntityManager entities;
-	    private DebugTextDisplay debugDisp;
+	    private IDebugTextDisplay debugDisp;
 
 		private InputStateManager inputStateMan;
 		private InputListenerManager inputs;

@@ -10,7 +10,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 {
 	class DummyDebugTextDisplay : IDebugTextDisplay
 	{
-		private readonly Func<string> dummyFunc = () => string.Empty; 
+		private readonly DebugTextDisplayLine dummy = new DebugTextDisplayLine(() => string.Empty); 
 
 		public DummyDebugTextDisplay()
 		{
@@ -19,17 +19,22 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 
 		public DebugTextDisplayLine AddLine(DebugTextDisplayLine l)
 		{
-			return new DebugTextDisplayLine(dummyFunc);
+			return dummy;
 		}
 
 		public DebugTextDisplayLine AddLine(Func<string> text)
 		{
-			return new DebugTextDisplayLine(dummyFunc);
+			return dummy;
 		}
 
 		public DebugTextDisplayLine AddLine(string text)
 		{
-			return new DebugTextDisplayLine(dummyFunc);
+			return dummy;
+		}
+
+		public DebugTextDisplayLine AddDecayLine(string text, float lifetime = 2, float decaytime = 0.75f, float spawntime = 0.25f)
+		{
+			return dummy;
 		}
 
 		public void Update(GameTime gameTime, InputState istate)
