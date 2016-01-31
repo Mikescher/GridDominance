@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GridDominance.Shared.Resources
@@ -16,6 +17,8 @@ namespace GridDominance.Shared.Resources
         public static TextureRegion2D TexCannonBody;
         public static TextureRegion2D TexCannonBarrel;
 
+	    public static SpriteFont DebugFont;
+
         public static void LoadContent(ContentManager content)
         {
             AtlasTextures = content.Load<TextureAtlas>("textures/spritesheet-sheet");
@@ -24,7 +27,9 @@ namespace GridDominance.Shared.Resources
             TexCannonBody   = AtlasTextures["cannonbody"];
             TexCannonBarrel = AtlasTextures["cannonbarrel"];
 
-            IsLoaded = true;
+			DebugFont = content.Load<SpriteFont>("fonts/debugFont");
+
+			IsLoaded = true;
         }
     }
 }

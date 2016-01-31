@@ -30,3 +30,9 @@
 /processor:TexturePackerProcessor
 /build:textures/spritesheet-sheet.json
 
+#begin fonts/debugFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:fonts/debugFont.spritefont
+

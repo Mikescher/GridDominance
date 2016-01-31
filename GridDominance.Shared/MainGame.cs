@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.GameScreen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,6 +38,9 @@ namespace GridDominance.Shared
 			Window.AllowUserResizing = true;
             graphics.ApplyChanges();
 		    Window.Position = new Point((1920 - graphics.PreferredBackBufferWidth) / 2, (1080 - graphics.PreferredBackBufferHeight) / 2);
+
+			IsFixedTimeStep = true;
+			TargetElapsedTime = TimeSpan.FromMilliseconds(1);
 #else
 			graphics.IsFullScreen = true;
 			graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;

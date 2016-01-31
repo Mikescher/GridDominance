@@ -59,6 +59,9 @@
     <None Include="Content\bin\$(MonoGamePlatform)\textures\*.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\bin\$(MonoGamePlatform)\fonts\*.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame.Extended\Source\MonoGame.Extended\MonoGame.Extended.csproj">

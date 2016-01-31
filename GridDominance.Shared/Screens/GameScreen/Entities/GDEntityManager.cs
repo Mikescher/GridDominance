@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GridDominance.Shared.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,5 +35,10 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 	    {
 			entities.Add(e);
 	    }
+
+		public int Count()
+		{
+			return entities.Count;
+		}
 	}
 }
