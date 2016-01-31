@@ -92,9 +92,9 @@ namespace GridDominance.Shared.Framework
             return (int)Math.Floor(value);
         }
 
-        public static float Round(float value)
+        public static int Round(float value)
         {
-            return (float)Math.Round(value);
+            return (int)Math.Round(value);
         }
 
         public static float Round(float value, int digits)

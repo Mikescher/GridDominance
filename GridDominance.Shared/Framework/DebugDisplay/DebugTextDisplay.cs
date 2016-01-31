@@ -74,7 +74,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 				}
 				else if (posY < line.inertiaPosition)
 				{
-					var speed = gameTime.GetElapsedSeconds()*INERTIA_SPEED;
+					var speed = gameTime.GetElapsedSeconds() * INERTIA_SPEED * FloatMath.Max(1, FloatMath.Round((line.inertiaPosition - posY) / Textures.DebugFont.LineSpacing));
 
 					line.inertiaPosition = FloatMath.LimitedDec(line.inertiaPosition, speed, posY);
 					posY = line.inertiaPosition;
