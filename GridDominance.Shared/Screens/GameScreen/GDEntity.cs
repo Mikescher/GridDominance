@@ -7,9 +7,11 @@ namespace GridDominance.Shared.Screens.GameScreen
 {
     abstract class GDEntity
     {
-        protected GDEntity()
+	    protected readonly GameScreen Owner;
+
+        protected GDEntity(GameScreen scrn)
         {
-			//
+	        Owner = scrn;
         }
 
         public abstract void Update(GameTime gameTime, InputState istate);

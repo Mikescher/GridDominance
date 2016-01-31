@@ -37,7 +37,7 @@ namespace GridDominance.Shared.Framework
 		    else
 			{
 				IsDown = false;
-				PointerPosition = Point.Zero;
+				PointerPosition = prev.PointerPosition;
 			}
 
 		    IsJustDown = IsDown && !prev.IsDown;
@@ -50,6 +50,8 @@ namespace GridDominance.Shared.Framework
 			Keyboard = ks;
 			TouchPanel = ts;
 			GamePad = gs;
+
+			PointerPosition = Point.Zero;
 
 			IsDown = false;
 			IsJustDown = false;
@@ -81,8 +83,9 @@ namespace GridDominance.Shared.Framework
 
 #if !__IOS__
 		    return GamePad.Buttons.Back == ButtonState.Pressed || Keyboard.IsKeyDown(Keys.Escape);
-#endif
+#else
 			return false;
+#endif
 
 		}
     }

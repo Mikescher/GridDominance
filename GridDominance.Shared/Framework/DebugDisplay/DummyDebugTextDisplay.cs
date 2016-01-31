@@ -37,7 +37,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 			// DUMMY
 		}
 
-		public void Draw()
+		public void Draw(GameTime gameTime)
 		{
 			// DUMMY
 		}

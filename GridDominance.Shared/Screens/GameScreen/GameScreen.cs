@@ -59,10 +59,16 @@ namespace GridDominance.Shared.Screens.GameScreen
 #if DEBUG
 			debugDisp = new DebugTextDisplay(Graphics.GraphicsDevice);
 	        {
-				debugDisp.AddLine(() => string.Format("FPS = {0:0000.0} (current = {1:0000.0} | delta = {2:000.00} | min = {3:0000.0} | total = {4:000000})", fpsCounter.AverageAPS, fpsCounter.CurrentAPS, fpsCounter.AverageDelta * 1000, fpsCounter.MinimumAPS, fpsCounter.TotalActions));
-				debugDisp.AddLine(() => string.Format("UPS = {0:0000.0} (current = {1:0000.0} | delta = {2:000.00} | min = {3:0000.0} | total = {4:000000})", upsCounter.AverageAPS, upsCounter.CurrentAPS, upsCounter.AverageDelta * 1000, upsCounter.MinimumAPS, upsCounter.TotalActions));
-				debugDisp.AddLine(() => string.Format("Entities = {0}", entities.Count()));
+				debugDisp.AddLine(() => $"FPS = {fpsCounter.AverageAPS:0000.0} (current = {fpsCounter.CurrentAPS:0000.0} | delta = {fpsCounter.AverageDelta*1000:000.00} | min = {fpsCounter.MinimumAPS:0000.0} | total = {fpsCounter.TotalActions:000000})");
+				debugDisp.AddLine(() => $"UPS = {upsCounter.AverageAPS:0000.0} (current = {upsCounter.CurrentAPS:0000.0} | delta = {upsCounter.AverageDelta*1000:000.00} | min = {upsCounter.MinimumAPS:0000.0} | total = {upsCounter.TotalActions:000000})");
+				debugDisp.AddLine(() => $"Entities = {entities.Count()}");
+				debugDisp.AddLine(() => $"Pointer = ({inputStateMan.GetCurrentState().PointerPosition.X:000.0}|{inputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 			}
+
+			mouseListener.MouseDown += (o, a) => debugDisp.AddDecayLine($"Mouse::OnDown({a.Position.X:0000}|{a.Position.Y:0000})", 0.75f, 0.5f, 0.25f);
+			mouseListener.MouseUp += (o, a) => debugDisp.AddDecayLine($"Mouse::OnUp({a.Position.X:0000}|{a.Position.Y:0000})", 0.75f, 0.5f, 0.25f);
+			touchListener.TouchStarted += (o, a) => debugDisp.AddDecayLine($"TouchPad::OnDown({a.Location.Position.X:0000}|{a.Location.Position.Y:0000})", 0.75f, 0.5f, 0.25f);
+			touchListener.TouchEnded += (o, a) => debugDisp.AddDecayLine($"TouchPad::OnUp({a.Location.Position.X:0000}|{a.Location.Position.Y:0000})", 0.75f, 0.5f, 0.25f);
 #else
 			debugDisp = new DummyDebugTextDisplay();
 #endif
@@ -70,10 +76,10 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 			//--------------------
 
-			entities.AddEntity(new Cannon(2 * 128 + 64, 3 * 128 + 64));
-            entities.AddEntity(new Cannon(2 * 128 + 64, 0 * 128 + 64));
-            entities.AddEntity(new Cannon(5 * 128 + 64, 1 * 128 + 64));
-            entities.AddEntity(new Cannon(6 * 128 + 64, 2 * 128 + 64));
+			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 3 * 128 + 64));
+            entities.AddEntity(new Cannon(this, 2 * 128 + 64, 0 * 128 + 64));
+            entities.AddEntity(new Cannon(this, 5 * 128 + 64, 1 * 128 + 64));
+            entities.AddEntity(new Cannon(this, 6 * 128 + 64, 2 * 128 + 64));
         }
 
         public override void Update(GameTime gameTime)
@@ -105,7 +111,12 @@ namespace GridDominance.Shared.Screens.GameScreen
 			}
             mainBatch.End();
 			
-			debugDisp.Draw();
+			debugDisp.Draw(gameTime);
 		}
-	}
+
+	    public void PushNotification(string text)
+	    {
+		    debugDisp.AddDecayLine(text);
+	    }
+    }
 }

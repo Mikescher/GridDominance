@@ -248,6 +248,24 @@ namespace GridDominance.Shared.Framework
 			while (r >= TAU) r -= TAU;
 
 		    return r;
-	    }
-    }
+		}
+
+		public static float LimitedDec(float value, float dec, float limit)
+		{
+			if (dec < 0) return LimitedInc(value, -dec, limit);
+
+			value -= dec;
+			if (value < limit) value = limit;
+			return value;
+		}
+
+		public static float LimitedInc(float value, float inc, float limit)
+		{
+			if (inc < 0) return LimitedDec(value, -inc, limit);
+
+			value += inc;
+			if (value > limit) value = limit;
+			return value;
+		}
+	}
 }

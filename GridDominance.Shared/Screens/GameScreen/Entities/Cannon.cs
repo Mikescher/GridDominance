@@ -26,7 +26,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 	    private Vector2 center;
 	    private CircleF innerBoundings;
 
-        public Cannon(int posX, float posY)
+        public Cannon(GameScreen scrn, int posX, float posY)
+			:base(scrn)
         {
 	        center = new Vector2(posX, posY);
 			innerBoundings = new CircleF(center, CANNON_DIAMETER/2);
@@ -57,9 +58,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		    {
 			    isMouseDragging = true;
 		    }
-		    else if (!istate.IsDown)
+		    else if (!istate.IsDown && isMouseDragging)
 		    {
 			    isMouseDragging = false;
+
+			    Owner.PushNotification($"Cannon :: target({FloatMath.ToDegree(targetRotation):000}°)");
 		    }
 		    else if (isMouseDragging && istate.IsDown && !innerBoundings.Contains(istate.PointerPosition))
 		    {

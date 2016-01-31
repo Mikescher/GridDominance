@@ -10,6 +10,6 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 	    DebugTextDisplayLine AddLine(string text);
 
 	    void Update(GameTime gameTime, InputState istate);
-	    void Draw();
+	    void Draw(GameTime gameTime);
     }
 }
