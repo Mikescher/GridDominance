@@ -1,5 +1,5 @@
 [submodule "MonoGame.Extended"]
-	path = MonoGame.Extended
+	path = Source/External/MonoGame.Extended
 	url = https://github.com/Mikescher/MonoGame.Extended.git
 [submodule "FarseerPhysics.Portable"]
 	path = FarseerPhysics.Portable
