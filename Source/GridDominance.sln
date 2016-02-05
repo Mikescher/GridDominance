@@ -11,13 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android", "Gr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.OpenGL", "GridDominance.OpenGL\GridDominance.OpenGL.csproj", "{AF110750-B036-4FDC-AF51-B08C7389AAA8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MonoGame.Extended", "MonoGame.Extended", "{5BE91AC0-10D4-4E61-BB33-45BD0E9A4490}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{3A0EEB35-977B-4A96-87D0-A6C29BD9F96C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Extended", "MonoGame.Extended\Source\MonoGame.Extended\MonoGame.Extended.csproj", "{41724C52-3D50-45BB-81EB-3C8A247EAFD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Extended", "External\MonoGame.Extended\Source\MonoGame.Extended\MonoGame.Extended.csproj", "{41724C52-3D50-45BB-81EB-3C8A247EAFD1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FarseerPhysics.Portable", "FarseerPhysics.Portable", "{460324AE-96DE-4C93-BD4A-522E965A0AE4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarseerPhysics.Portable", "FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj", "{A1807D3F-3546-4C28-B713-C4F767383B61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarseerPhysics.Portable", "External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj", "{A1807D3F-3546-4C28-B713-C4F767383B61}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -76,7 +74,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{41724C52-3D50-45BB-81EB-3C8A247EAFD1} = {5BE91AC0-10D4-4E61-BB33-45BD0E9A4490}
-		{A1807D3F-3546-4C28-B713-C4F767383B61} = {460324AE-96DE-4C93-BD4A-522E965A0AE4}
+		{41724C52-3D50-45BB-81EB-3C8A247EAFD1} = {3A0EEB35-977B-4A96-87D0-A6C29BD9F96C}
+		{A1807D3F-3546-4C28-B713-C4F767383B61} = {3A0EEB35-977B-4A96-87D0-A6C29BD9F96C}
 	EndGlobalSection
 EndGlobal
