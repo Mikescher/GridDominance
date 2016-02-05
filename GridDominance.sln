@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MonoGame.Extended", "MonoGa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Extended", "MonoGame.Extended\Source\MonoGame.Extended\MonoGame.Extended.csproj", "{41724C52-3D50-45BB-81EB-3C8A247EAFD1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FarseerPhysics.Portable", "FarseerPhysics.Portable", "{460324AE-96DE-4C93-BD4A-522E965A0AE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarseerPhysics.Portable", "FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj", "{A1807D3F-3546-4C28-B713-C4F767383B61}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		GridDominance.Shared\GridDominance.Shared.projitems*{daed060d-be0d-44d1-ac38-e189c7a6d300}*SharedItemsImports = 4
@@ -59,11 +63,20 @@ Global
 		{41724C52-3D50-45BB-81EB-3C8A247EAFD1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41724C52-3D50-45BB-81EB-3C8A247EAFD1}.Release|x86.ActiveCfg = Release|Any CPU
 		{41724C52-3D50-45BB-81EB-3C8A247EAFD1}.Release|x86.Build.0 = Release|Any CPU
+		{A1807D3F-3546-4C28-B713-C4F767383B61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1807D3F-3546-4C28-B713-C4F767383B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1807D3F-3546-4C28-B713-C4F767383B61}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1807D3F-3546-4C28-B713-C4F767383B61}.Debug|x86.Build.0 = Debug|Any CPU
+		{A1807D3F-3546-4C28-B713-C4F767383B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1807D3F-3546-4C28-B713-C4F767383B61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1807D3F-3546-4C28-B713-C4F767383B61}.Release|x86.ActiveCfg = Release|Any CPU
+		{A1807D3F-3546-4C28-B713-C4F767383B61}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{41724C52-3D50-45BB-81EB-3C8A247EAFD1} = {5BE91AC0-10D4-4E61-BB33-45BD0E9A4490}
+		{A1807D3F-3546-4C28-B713-C4F767383B61} = {460324AE-96DE-4C93-BD4A-522E965A0AE4}
 	EndGlobalSection
 EndGlobal

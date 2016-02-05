@@ -67,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj">
+      <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
+      <Name>FarseerPhysics.Portable</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MonoGame.Extended\Source\MonoGame.Extended\MonoGame.Extended.csproj">
       <Project>{41724c52-3d50-45bb-81eb-3c8a247eafd1}</Project>
       <Name>MonoGame.Extended</Name>
