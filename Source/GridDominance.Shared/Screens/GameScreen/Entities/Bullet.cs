@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Text;
 using FarseerPhysics;
@@ -53,10 +54,17 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			body.LinearDamping = 0f;
 		}
 
+		public override void OnRemove()
+		{
+			Manager.PhysicsWorld.RemoveBody(body);
+		}
+
 		public override void Update(GameTime gameTime, InputState istate)
 		{
 			spriteBullet.Position = ConvertUnits.ToDisplayUnits(body.Position);
 			spriteBullet.Rotation = body.Rotation;
+
+			if (!Manager.BoundingBox.Contains(spriteBullet.Position)) Remove();
 		}
 
 		public override void Draw(SpriteBatch sbatch)

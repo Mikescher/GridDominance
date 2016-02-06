@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using MonoGame.Extended.Shapes;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
@@ -19,6 +20,8 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		public readonly World PhysicsWorld;
 		public readonly GameScreen Owner;
+
+		public RectangleF BoundingBox;
 
 #if DEBUG
 		private DebugViewXNA debugView;
@@ -40,6 +43,19 @@ namespace GridDominance.Shared.Screens.GameScreen
 			debugView.AppendFlags(DebugViewFlags.Controllers);
 			debugView.TextColor = Color.Black;
 #endif
+
+			Owner.Owner.Window.ClientSizeChanged += (s, e) => RecalculateBoundingBox();
+			RecalculateBoundingBox();
+		}
+
+		private void RecalculateBoundingBox()
+		{
+			var ox = Owner.Viewport.GetOffsetX();
+			var oy = Owner.Viewport.GetOffsetY();
+
+			var tolerance = GameScreen.TILE_WIDTH;
+
+			BoundingBox = new RectangleF(-(ox + tolerance), -(oy + tolerance), GameScreen.VIEW_WIDTH + 2* (oy + tolerance), GameScreen.VIEW_HEIGHT + 2 * (ox + tolerance));
 		}
 
 		public void Update(GameTime gameTime, InputState state)
@@ -53,12 +69,17 @@ namespace GridDominance.Shared.Screens.GameScreen
 				debugView.Enabled = !debugView.Enabled;
 			}
 #endif
-
+			
 			PhysicsWorld.Step(gameTime.GetElapsedSeconds());
 
 			foreach (var gdEntity in entities.ToList())
 			{
 				gdEntity.Update(gameTime, state);
+				if (!gdEntity.Alive)
+				{
+					entities.Remove(gdEntity);
+					gdEntity.OnRemove();
+				}
 			}
 		}
 

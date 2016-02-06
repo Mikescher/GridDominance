@@ -128,5 +128,15 @@ namespace GridDominance.Shared.Framework
 		{
 			return scaleXY;
 		}
+
+		public float GetOffsetX()
+		{
+			return offsetX;
+		}
+
+		public float GetOffsetY()
+		{
+			return offsetX;
+		}
 	}
 }

@@ -61,6 +61,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(CANNON_DIAMETER /2), 1, ConvertUnits.ToSimUnits(center), BodyType.Static, this);
 		}
 
+		public override void OnRemove()
+		{
+			Manager.PhysicsWorld.RemoveBody(body);
+		}
+
 		public override void Update(GameTime gameTime, InputState istate)
 		{
 			UpdateRotation(gameTime, istate);

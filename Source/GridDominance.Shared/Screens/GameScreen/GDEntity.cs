@@ -11,13 +11,21 @@ namespace GridDominance.Shared.Screens.GameScreen
 		protected readonly GameScreen Owner;
 		public GDEntityManager Manager = null; // only set after Add - use only in Update() and Render()
 
-		 protected GDEntity(GameScreen scrn)
+		public bool Alive = true;
+
+		protected GDEntity(GameScreen scrn)
 		{
 			Owner = scrn;
+		}
+
+		protected void Remove()
+		{
+			Alive = false;
 		}
 
 		public abstract void Update(GameTime gameTime, InputState istate);
 		public abstract void Draw(SpriteBatch sbatch);
 		public abstract void OnInitialize();
+		public abstract void OnRemove();
 	}
 }

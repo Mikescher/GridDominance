@@ -32,11 +32,16 @@ namespace GridDominance.Shared
 			graphics.PreferredBackBufferWidth = 1200;
 			graphics.PreferredBackBufferHeight = 900;
 			Window.AllowUserResizing = true;
+
+#if DEBUG
+			graphics.SynchronizeWithVerticalRetrace = false;
+			IsFixedTimeStep = false;
+			TargetElapsedTime = TimeSpan.FromMilliseconds(1);
+#endif
+
 			graphics.ApplyChanges();
 			Window.Position = new Point((1920 - graphics.PreferredBackBufferWidth) / 2, (1080 - graphics.PreferredBackBufferHeight) / 2);
 
-			IsFixedTimeStep = true;
-			TargetElapsedTime = TimeSpan.FromMilliseconds(1);
 #else
 			graphics.IsFullScreen = true;
 			graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
