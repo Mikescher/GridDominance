@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Framework;
@@ -42,19 +43,20 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Position = initial_position,
 			};
 
-			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, BULLET_DIAMETER/2, 1, initial_position, BodyType.Kinematic, this);
-			body.LinearVelocity = initial_velocity;
-
+			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(BULLET_DIAMETER /2), 1, ConvertUnits.ToSimUnits(initial_position), BodyType.Dynamic, this);
+			body.LinearVelocity = ConvertUnits.ToSimUnits(initial_velocity);
 			body.CollidesWith = Category.All;
 			body.IsBullet = true;
+			body.Restitution = 0.95f;
+			body.AngularDamping = 0.5f;
+			body.Friction = 0.2f;
+			body.LinearDamping = 0f;
 		}
 
 		public override void Update(GameTime gameTime, InputState istate)
 		{
-			//position += gameTime.GetElapsedSeconds() * velocity;
-
-
-			spriteBullet.Position = body.Position;
+			spriteBullet.Position = ConvertUnits.ToDisplayUnits(body.Position);
+			spriteBullet.Rotation = body.Rotation;
 		}
 
 		public override void Draw(SpriteBatch sbatch)

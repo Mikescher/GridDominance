@@ -1,4 +1,5 @@
 ﻿using System;
+using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Resources;
@@ -33,6 +34,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private Vector2 center;
 		private CircleF innerBoundings;
 
+		private Body body;
+
 		public Cannon(GameScreen scrn, int posX, float posY)
 			: base(scrn)
 		{
@@ -55,7 +58,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Origin = new Vector2(-32, 32),
 			};
 
-			BodyFactory.CreateCircle(Manager.PhysicsWorld, CANNON_DIAMETER/2, 1, center, BodyType.Static, this);
+			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(CANNON_DIAMETER /2), 1, ConvertUnits.ToSimUnits(center), BodyType.Static, this);
 		}
 
 		public override void Update(GameTime gameTime, InputState istate)
@@ -110,6 +113,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				var diff = FloatMath.DiffRadians(actualRotation, targetRotation);
 
 				actualRotation = Math.Abs(diff) <= radSpeed ? targetRotation : FloatMath.AddRads(actualRotation, -FloatMath.Sign(diff) * radSpeed);
+				body.Rotation = actualRotation;
 			}
 
 			spriteBody.Rotation = actualRotation;

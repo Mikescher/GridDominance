@@ -8,6 +8,7 @@ using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 
 namespace GridDominance.Shared.Screens.GameScreen
@@ -46,6 +47,11 @@ namespace GridDominance.Shared.Screens.GameScreen
 #if DEBUG
 			debugView.DebugPanelPosition = new Vector2(55, Owner.Viewport.ViewportHeight - 180);
 			debugView.PerformancePanelBounds = new Rectangle(450, Owner.Viewport.ViewportHeight - 180, 200, 100);
+
+			if (state.IsKeyJustDown(Keys.F1))
+			{
+				debugView.Enabled = !debugView.Enabled;
+			}
 #endif
 
 			PhysicsWorld.Step(gameTime.GetElapsedSeconds());
@@ -80,7 +86,8 @@ namespace GridDominance.Shared.Screens.GameScreen
 		{
 #if DEBUG
 			var pMatrix = Owner.Viewport.GetFarseerDebugProjectionMatrix();
-			debugView.RenderDebugData(ref pMatrix);
+			var vMatrix = Matrix.CreateScale(GDSettings.PHYSICS_CONVERSION_FACTOR);
+			debugView.RenderDebugData(ref pMatrix, ref vMatrix);
 #endif
 		}
 	}

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.Extended.ViewportAdapters;
@@ -16,6 +18,9 @@ namespace GridDominance.Shared.Framework
 		public readonly bool IsJustDown;
 		public readonly bool IsJustUp;
 		public readonly Point PointerPosition;
+
+		private Dictionary<Keys, bool> lastKeyState;
+		private Dictionary<Keys, bool> currentKeyState;
 
 		private InputState(ViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, InputState prev)
 		{
@@ -42,6 +47,9 @@ namespace GridDominance.Shared.Framework
 
 			IsJustDown = IsDown && !prev.IsDown;
 			IsJustUp = !IsDown && prev.IsDown;
+
+			lastKeyState = prev.currentKeyState;
+			currentKeyState = lastKeyState.ToDictionary(p => p.Key, p => ks.IsKeyDown(p.Key));
 		}
 
 		public InputState(KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs)
@@ -56,6 +64,8 @@ namespace GridDominance.Shared.Framework
 			IsDown = false;
 			IsJustDown = false;
 			IsJustUp = false;
+
+			currentKeyState = new Dictionary<Keys, bool>(0);
 		}
 
 		public static InputState GetState(ViewportAdapter adapter, InputState previous)
@@ -87,6 +97,22 @@ namespace GridDominance.Shared.Framework
 			return false;
 #endif
 
+		}
+
+		public bool IsKeyJustDown(Keys key)
+		{
+			bool v;
+
+			if (currentKeyState.TryGetValue(key, out v))
+			{
+				return v && !lastKeyState[key];
+			}
+			else
+			{
+				v = Keyboard.IsKeyDown(key);
+				currentKeyState.Add(key, v);
+				return v;
+			}
 		}
 	}
 }

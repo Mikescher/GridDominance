@@ -53,16 +53,17 @@ namespace GridDominance.Shared.Screens.GameScreen
 			inputStateMan = new InputStateManager(Viewport);
 			background = new GameGridBackground(Graphics.GraphicsDevice, Viewport);
 			entities = new GDEntityManager(this);
-#if DEBUG
-			fpsCounter = new RealtimeAPSCounter();
-			upsCounter = new RealtimeAPSCounter();
-#endif
+
+			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
 
 			mouseListener = inputs.AddListener(new MouseListenerSettings());
 			touchListener = inputs.AddListener(new TouchListenerSettings());
 
 
 #if DEBUG
+			fpsCounter = new RealtimeAPSCounter();
+			upsCounter = new RealtimeAPSCounter();
+
 			debugDisp = new DebugTextDisplay(Graphics.GraphicsDevice);
 			{
 				debugDisp.AddLine(() => $"FPS = {fpsCounter.AverageAPS:0000.0} (current = {fpsCounter.CurrentAPS:0000.0} | delta = {fpsCounter.AverageDelta*1000:000.00} | min = {fpsCounter.MinimumAPS:0000.0} | total = {fpsCounter.TotalActions:000000})");
