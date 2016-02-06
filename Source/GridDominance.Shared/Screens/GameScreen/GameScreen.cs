@@ -1,13 +1,14 @@
-﻿using GridDominance.Shared.Framework;
+﻿using FarseerPhysics;
+using GridDominance.Shared.Framework;
 using GridDominance.Shared.Framework.DebugDisplay;
 using GridDominance.Shared.Screens.GameScreen.Background;
 using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended;
 using MonoGame.Extended.InputListeners;
-using System.Threading;
+using FarseerPhysics.DebugView;
+using FarseerPhysics.Dynamics;
+using GridDominance.Shared.Resources;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
@@ -20,10 +21,12 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		//-----------------------------------------------------------------
 
+#if DEBUG
 		private RealtimeAPSCounter fpsCounter;
 		private RealtimeAPSCounter upsCounter;
+#endif
 
-		private TolerantBoxingViewportAdapter viewport;
+		public TolerantBoxingViewportAdapter Viewport;
 		private GDEntityManager entities;
 		private IDebugTextDisplay debugDisp;
 
@@ -45,16 +48,19 @@ namespace GridDominance.Shared.Screens.GameScreen
 		private void Initialize()
 		{
 			mainBatch = new SpriteBatch(Graphics.GraphicsDevice);
-			viewport = new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
-			inputs = new InputListenerManager(viewport);
-			inputStateMan = new InputStateManager(viewport);
-			background = new GameGridBackground(Graphics.GraphicsDevice, viewport);
-			entities = new GDEntityManager();
+			Viewport = new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+			inputs = new InputListenerManager(Viewport);
+			inputStateMan = new InputStateManager(Viewport);
+			background = new GameGridBackground(Graphics.GraphicsDevice, Viewport);
+			entities = new GDEntityManager(this);
+#if DEBUG
 			fpsCounter = new RealtimeAPSCounter();
 			upsCounter = new RealtimeAPSCounter();
+#endif
 
 			mouseListener = inputs.AddListener(new MouseListenerSettings());
 			touchListener = inputs.AddListener(new TouchListenerSettings());
+
 
 #if DEBUG
 			debugDisp = new DebugTextDisplay(Graphics.GraphicsDevice);
@@ -84,7 +90,9 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		public override void Update(GameTime gameTime)
 		{
+#if DEBUG
 			upsCounter.Update(gameTime);
+#endif
 
 			var state = inputStateMan.GetNewState();
 			
@@ -99,18 +107,22 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		public override void Draw(GameTime gameTime)
 		{
+#if DEBUG
 			fpsCounter.Update(gameTime);
-
+#endif
+			
 			Graphics.GraphicsDevice.Clear(Color.OrangeRed);
-
-			mainBatch.Begin(transformMatrix: viewport.GetScaleMatrix());
+			
+			mainBatch.Begin(transformMatrix: Viewport.GetScaleMatrix());
 			{
 				background.Draw(mainBatch);
-
+			
 				entities.Draw(mainBatch);
 			}
 			mainBatch.End();
-			
+
+			entities.DrawRest();
+
 			debugDisp.Draw(gameTime);
 		}
 

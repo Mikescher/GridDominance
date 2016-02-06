@@ -4,3 +4,6 @@
 [submodule "FarseerPhysics.Portable"]
 	path = Source/External/FarseerPhysics.Portable
 	url = https://github.com/Mikescher/FarseerPhysics.Portable.git
+[submodule "Source/External/DebugView.Portable"]
+	path = Source/External/DebugView.Portable
+	url = https://github.com/Mikescher/FarseerPhysics.DebugView.Portable.git

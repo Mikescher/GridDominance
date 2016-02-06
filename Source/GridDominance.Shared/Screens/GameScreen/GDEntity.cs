@@ -18,5 +18,6 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		public abstract void Update(GameTime gameTime, InputState istate);
 		public abstract void Draw(SpriteBatch sbatch);
+		public abstract void OnInitialize();
 	}
 }

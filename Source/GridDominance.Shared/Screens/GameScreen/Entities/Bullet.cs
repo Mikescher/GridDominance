@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
@@ -12,35 +14,47 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 {
 	class Bullet : GDEntity
 	{
-		private readonly Sprite spriteBullet;
+		private const float BULLET_DIAMETER = 25;
+
+		private Sprite spriteBullet;
 
 		private Cannon collisionExcluder;
 
-		private Vector2 position;
-		private Vector2 velocity;
+		private readonly Vector2 initial_position;
+		private readonly Vector2 initial_velocity;
+
+		private Body body;
 
 		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo)
 			: base(scrn)
 		{
-			position = pos;
-			velocity = velo;
+			initial_position = pos;
+			initial_velocity = velo;
 
+			collisionExcluder = shooter;
+		}
+
+		public override void OnInitialize()
+		{
 			spriteBullet = new Sprite(Textures.TexBullet)
 			{
 				Scale = Textures.DEFAULT_TEXTURE_SCALE,
-				Position = position,
+				Position = initial_position,
 			};
 
-			collisionExcluder = shooter;
+			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, BULLET_DIAMETER/2, 1, initial_position, BodyType.Kinematic, this);
+			body.LinearVelocity = initial_velocity;
 
+			body.CollidesWith = Category.All;
+			body.IsBullet = true;
 		}
 
 		public override void Update(GameTime gameTime, InputState istate)
 		{
-			position += gameTime.GetElapsedSeconds() * velocity;
+			//position += gameTime.GetElapsedSeconds() * velocity;
 
 
-			spriteBullet.Position = position;
+			spriteBullet.Position = body.Position;
 		}
 
 		public override void Draw(SpriteBatch sbatch)

@@ -27,8 +27,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 
 		public void Draw(SpriteBatch sbatch)
 		{
-			int extensionX = FloatMath.Ceiling((Graphics.Viewport.Width - Adapter.RealWidth) / (TILE_WIDTH * 2f));
-			int extensionY = FloatMath.Ceiling((Graphics.Viewport.Height - Adapter.RealHeight) / (TILE_WIDTH * 2f));
+			int extensionX = FloatMath.Ceiling((Graphics.Viewport.Width  - Adapter.RealWidth)  / (TILE_WIDTH * 2f * Adapter.GetScale()));
+			int extensionY = FloatMath.Ceiling((Graphics.Viewport.Height - Adapter.RealHeight) / (TILE_WIDTH * 2f * Adapter.GetScale()));
 
 			for (int x = -extensionX; x < TILE_COUNT_X + extensionX; x++)
 			{

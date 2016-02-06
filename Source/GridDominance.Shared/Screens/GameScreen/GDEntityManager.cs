@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FarseerPhysics;
+using FarseerPhysics.DebugView;
+using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Framework;
+using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
@@ -11,12 +16,40 @@ namespace GridDominance.Shared.Screens.GameScreen
 	{
 		private List<GDEntity> entities = new List<GDEntity>();
 
-		public GDEntityManager()
+		public readonly World PhysicsWorld;
+		public readonly GameScreen Owner;
+
+#if DEBUG
+		private DebugViewXNA debugView;
+#endif
+
+		public GDEntityManager(GameScreen screen)
 		{
+			Owner = screen;
+			PhysicsWorld = new World(Vector2.Zero);
+
+#if DEBUG
+			debugView = new DebugViewXNA(PhysicsWorld);
+			debugView.LoadContent(screen.Graphics.GraphicsDevice, screen.Owner.Content, Textures.DebugFont);
+			debugView.AppendFlags(DebugViewFlags.Shape);
+			debugView.AppendFlags(DebugViewFlags.DebugPanel);
+			debugView.AppendFlags(DebugViewFlags.PerformanceGraph);
+			debugView.AppendFlags(DebugViewFlags.ContactPoints);
+			debugView.AppendFlags(DebugViewFlags.ContactNormals);
+			debugView.AppendFlags(DebugViewFlags.Controllers);
+			debugView.TextColor = Color.Black;
+#endif
 		}
 
-;		public void Update(GameTime gameTime, InputState state)
+		public void Update(GameTime gameTime, InputState state)
 		{
+#if DEBUG
+			debugView.DebugPanelPosition = new Vector2(55, Owner.Viewport.ViewportHeight - 180);
+			debugView.PerformancePanelBounds = new Rectangle(450, Owner.Viewport.ViewportHeight - 180, 200, 100);
+#endif
+
+			PhysicsWorld.Step(gameTime.GetElapsedSeconds());
+
 			foreach (var gdEntity in entities.ToList())
 			{
 				gdEntity.Update(gameTime, state);
@@ -35,11 +68,20 @@ namespace GridDominance.Shared.Screens.GameScreen
 		{
 			e.Manager = this;
 			entities.Add(e);
+			e.OnInitialize();
 		}
 
 		public int Count()
 		{
 			return entities.Count;
+		}
+
+		public void DrawRest()
+		{
+#if DEBUG
+			var pMatrix = Owner.Viewport.GetFarseerDebugProjectionMatrix();
+			debugView.RenderDebugData(ref pMatrix);
+#endif
 		}
 	}
 }

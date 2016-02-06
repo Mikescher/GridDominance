@@ -1,4 +1,6 @@
 ﻿using System;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,8 +20,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private const float BULLET_ANGLE_VARIANCE = 0.035f; // ~ 2 degree
 		private const float BULLET_INITIAL_SPEED = 100f;
 
-		private readonly Sprite spriteBody;
-		private readonly Sprite spriteBarrel;
+		private Sprite spriteBody;
+		private Sprite spriteBarrel;
 
 		private bool isMouseDragging = false;
 
@@ -36,7 +38,10 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			center = new Vector2(posX, posY);
 			innerBoundings = new CircleF(center, CANNON_DIAMETER / 2);
+		}
 
+		public override void OnInitialize()
+		{
 			spriteBody = new Sprite(Textures.TexCannonBody)
 			{
 				Scale = Textures.DEFAULT_TEXTURE_SCALE,
@@ -50,6 +55,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Origin = new Vector2(-32, 32),
 			};
 
+			BodyFactory.CreateCircle(Manager.PhysicsWorld, CANNON_DIAMETER/2, 1, center, BodyType.Static, this);
 		}
 
 		public override void Update(GameTime gameTime, InputState istate)
@@ -75,7 +81,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			var position = GetBulletSpawnPoint();
 			var velocity = GetBulletVelocity();
 
-			Owner.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
+			//Owner.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
 
 			Manager.AddEntity(new Bullet(Owner, this, position, velocity));
 		}

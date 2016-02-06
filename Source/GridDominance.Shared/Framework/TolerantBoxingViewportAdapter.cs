@@ -19,14 +19,13 @@ namespace GridDominance.Shared.Framework
 		public override int ViewportHeight => GraphicsDevice.Viewport.Height;
 
 		public BoxingMode BoxingMode { get; private set; }
-		public float RealWidth => VirtualWidth * scaleX;
-		public float RealHeight => VirtualHeight * scaleY;
+		public float RealWidth => VirtualWidth * scaleXY;
+		public float RealHeight => VirtualHeight * scaleXY;
 
 		private float offsetX = 0.0f;
 		private float offsetY = 0.0f;
 
-		private float scaleX = 1.0f;
-		private float scaleY = 1.0f;
+		private float scaleXY = 1.0f;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TolerantBoxingViewportAdapter"/>. 
@@ -72,19 +71,17 @@ namespace GridDominance.Shared.Framework
 			{
 				BoxingMode = BoxingMode.Pillarbox;
 
-				scaleX = viewport.Height * 1f / VirtualHeight;
-				scaleY = viewport.Height * 1f / VirtualHeight;
+				scaleXY = viewport.Height * 1f / VirtualHeight;
 			}
 			else
 			{
 				BoxingMode = BoxingMode.Letterbox;
 
-				scaleX = viewport.Width * 1f / VirtualWidth;
-				scaleY = viewport.Width * 1f / VirtualWidth;
+				scaleXY = viewport.Width * 1f / VirtualWidth;
 			}
 
-			offsetX = (viewport.Width - VirtualWidth * scaleX) / 2;
-			offsetY = (viewport.Height - VirtualHeight * scaleY) / 2;
+			offsetX = (viewport.Width - VirtualWidth * scaleXY) / 2;
+			offsetY = (viewport.Height - VirtualHeight * scaleXY) / 2;
 
 			GraphicsDevice.Viewport = new Viewport(0, 0, viewport.Width, viewport.Height);
 
@@ -119,7 +116,17 @@ namespace GridDominance.Shared.Framework
 			 *  = scale(scaleX, scaleY) * translate(offsetX, offsetY)
 			*/
 
-			return new Matrix(scaleX, 0f, 0f, 0, 0, scaleY, 0, 0, 0, 0, 1, 0, offsetX, offsetY, 0, 1);
+			return new Matrix(scaleXY, 0f, 0f, 0, 0, scaleXY, 0, 0, 0, 0, 1, 0, offsetX, offsetY, 0, 1);
+		}
+
+		public Matrix GetFarseerDebugProjectionMatrix()
+		{
+			return Matrix.CreateScale(new Vector3(scaleXY, scaleXY, 1)) * Matrix.CreateTranslation(offsetX, offsetY, 0) * Matrix.CreateOrthographicOffCenter(0f, ViewportWidth, ViewportHeight, 0f, 0f, 1f);
+		}
+
+		public float GetScale()
+		{
+			return scaleXY;
 		}
 	}
 }
