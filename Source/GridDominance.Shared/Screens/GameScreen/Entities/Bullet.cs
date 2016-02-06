@@ -10,14 +10,14 @@ using MonoGame.Extended.Sprites;
 
 namespace GridDominance.Shared.Screens.GameScreen.Entities
 {
-    class Bullet : GDEntity
-    {
+	class Bullet : GDEntity
+	{
 		private readonly Sprite spriteBullet;
 
-	    private Cannon collisionExcluder;
+		private Cannon collisionExcluder;
 
-	    private Vector2 position;
-	    private Vector2 velocity;
+		private Vector2 position;
+		private Vector2 velocity;
 
 		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo)
 			: base(scrn)
@@ -33,19 +33,19 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			collisionExcluder = shooter;
 
-	    }
+		}
 
-	    public override void Update(GameTime gameTime, InputState istate)
-	    {
-		    position += gameTime.GetElapsedSeconds() * velocity;
+		public override void Update(GameTime gameTime, InputState istate)
+		{
+			position += gameTime.GetElapsedSeconds() * velocity;
 
 
 			spriteBullet.Position = position;
-	    }
+		}
 
-	    public override void Draw(SpriteBatch sbatch)
-	    {
+		public override void Draw(SpriteBatch sbatch)
+		{
 			sbatch.Draw(spriteBullet);
 		}
-    }
+	}
 }

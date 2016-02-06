@@ -55,7 +55,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 			{
 				lines[i].Update(gameTime, istate);
 
-				if (! lines[i].IsAlive) lines.RemoveAt(i);
+				if (!lines[i].IsAlive) lines.RemoveAt(i);
 			}
 		}
 
@@ -101,7 +101,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 		{
 			if (a < 1)
 			{
-				return new Color(c.R, c.G, c.B, (c.A/255f) * a);
+				return new Color(c.R, c.G, c.B, (c.A / 255f) * a);
 			}
 			else
 			{

@@ -45,9 +45,9 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 			if (lifetime < 0) IsAlive = false;
 
 			if (age < spawntime && spawntime > 0)
-				Decay = (float) (age/spawntime);
+				Decay = (float)(age / spawntime);
 			else if (lifetime < decaytime)
-				Decay = (float) (lifetime/decaytime);
+				Decay = (float)(lifetime / decaytime);
 			else
 				Decay = 1;
 		}

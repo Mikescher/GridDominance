@@ -11,12 +11,12 @@ using System.Threading;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
-    class GameScreen : GDScreen
-    {
-        public const int TILE_WIDTH = 128;
-        
-        public const int VIEW_WIDTH  = 8 * TILE_WIDTH; // 1024
-        public const int VIEW_HEIGHT = 5 * TILE_WIDTH; // 640
+	class GameScreen : GDScreen
+	{
+		public const int TILE_WIDTH = 128;
+		
+		public const int VIEW_WIDTH  = 8 * TILE_WIDTH; // 1024
+		public const int VIEW_HEIGHT = 5 * TILE_WIDTH; // 640
 
 		//-----------------------------------------------------------------
 
@@ -24,28 +24,28 @@ namespace GridDominance.Shared.Screens.GameScreen
 		private RealtimeAPSCounter upsCounter;
 
 		private TolerantBoxingViewportAdapter viewport;
-	    private GDEntityManager entities;
-	    private IDebugTextDisplay debugDisp;
+		private GDEntityManager entities;
+		private IDebugTextDisplay debugDisp;
 
 		private InputStateManager inputStateMan;
 		private InputListenerManager inputs;
-	    private MouseListener mouseListener;
-	    private TouchListener touchListener;
+		private MouseListener mouseListener;
+		private TouchListener touchListener;
 
 		private SpriteBatch mainBatch;
 
 		private GameGridBackground background;
 
-        public GameScreen(MainGame game, GraphicsDeviceManager gdm) 
+		public GameScreen(MainGame game, GraphicsDeviceManager gdm) 
 			: base(game, gdm)
-        {
-            Initialize();
-        }
+		{
+			Initialize();
+		}
 
-        private void Initialize()
-        {
+		private void Initialize()
+		{
 			mainBatch = new SpriteBatch(Graphics.GraphicsDevice);
-            viewport = new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+			viewport = new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 			inputs = new InputListenerManager(viewport);
 			inputStateMan = new InputStateManager(viewport);
 			background = new GameGridBackground(Graphics.GraphicsDevice, viewport);
@@ -58,7 +58,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 #if DEBUG
 			debugDisp = new DebugTextDisplay(Graphics.GraphicsDevice);
-	        {
+			{
 				debugDisp.AddLine(() => $"FPS = {fpsCounter.AverageAPS:0000.0} (current = {fpsCounter.CurrentAPS:0000.0} | delta = {fpsCounter.AverageDelta*1000:000.00} | min = {fpsCounter.MinimumAPS:0000.0} | total = {fpsCounter.TotalActions:000000})");
 				debugDisp.AddLine(() => $"UPS = {upsCounter.AverageAPS:0000.0} (current = {upsCounter.CurrentAPS:0000.0} | delta = {upsCounter.AverageDelta*1000:000.00} | min = {upsCounter.MinimumAPS:0000.0} | total = {upsCounter.TotalActions:000000})");
 				debugDisp.AddLine(() => $"Entities = {entities.Count()}");
@@ -77,12 +77,12 @@ namespace GridDominance.Shared.Screens.GameScreen
 			//--------------------
 
 			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 3 * 128 + 64));
-            entities.AddEntity(new Cannon(this, 2 * 128 + 64, 0 * 128 + 64));
-            entities.AddEntity(new Cannon(this, 5 * 128 + 64, 1 * 128 + 64));
-            entities.AddEntity(new Cannon(this, 6 * 128 + 64, 2 * 128 + 64));
-        }
+			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 0 * 128 + 64));
+			entities.AddEntity(new Cannon(this, 5 * 128 + 64, 1 * 128 + 64));
+			entities.AddEntity(new Cannon(this, 6 * 128 + 64, 2 * 128 + 64));
+		}
 
-        public override void Update(GameTime gameTime)
+		public override void Update(GameTime gameTime)
 		{
 			upsCounter.Update(gameTime);
 
@@ -97,26 +97,26 @@ namespace GridDominance.Shared.Screens.GameScreen
 			debugDisp.Update(gameTime, state);
 		}
 
-        public override void Draw(GameTime gameTime)
+		public override void Draw(GameTime gameTime)
 		{
 			fpsCounter.Update(gameTime);
 
 			Graphics.GraphicsDevice.Clear(Color.OrangeRed);
 
-            mainBatch.Begin(transformMatrix: viewport.GetScaleMatrix());
-            {
-                background.Draw(mainBatch);
+			mainBatch.Begin(transformMatrix: viewport.GetScaleMatrix());
+			{
+				background.Draw(mainBatch);
 
-                entities.Draw(mainBatch);
+				entities.Draw(mainBatch);
 			}
-            mainBatch.End();
+			mainBatch.End();
 			
 			debugDisp.Draw(gameTime);
 		}
 
-	    public void PushNotification(string text)
-	    {
-		    debugDisp.AddDecayLine(text);
-	    }
-    }
+		public void PushNotification(string text)
+		{
+			debugDisp.AddDecayLine(text);
+		}
+	}
 }

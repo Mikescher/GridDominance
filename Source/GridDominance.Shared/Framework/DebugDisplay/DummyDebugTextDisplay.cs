@@ -10,7 +10,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 {
 	class DummyDebugTextDisplay : IDebugTextDisplay
 	{
-		private readonly DebugTextDisplayLine dummy = new DebugTextDisplayLine(() => string.Empty); 
+		private readonly DebugTextDisplayLine dummy = new DebugTextDisplayLine(() => string.Empty);
 
 		public DummyDebugTextDisplay()
 		{

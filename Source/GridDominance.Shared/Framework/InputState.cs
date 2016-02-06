@@ -5,10 +5,10 @@ using MonoGame.Extended.ViewportAdapters;
 
 namespace GridDominance.Shared.Framework
 {
-    class InputState
-    {
-	    public readonly MouseState Mouse;
-	    public readonly KeyboardState Keyboard;
+	class InputState
+	{
+		public readonly MouseState Mouse;
+		public readonly KeyboardState Keyboard;
 		public readonly TouchCollection TouchPanel;
 		public readonly GamePadState GamePad;
 
@@ -18,29 +18,29 @@ namespace GridDominance.Shared.Framework
 		public readonly Point PointerPosition;
 
 		private InputState(ViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, InputState prev)
-	    {
-		    Mouse = ms;
-		    Keyboard = ks;
+		{
+			Mouse = ms;
+			Keyboard = ks;
 			TouchPanel = ts;
-		    GamePad = gs;
+			GamePad = gs;
 
-		    if (Mouse.LeftButton == ButtonState.Pressed)
-		    {
-			    IsDown = true;
-			    PointerPosition = adapter.PointToScreen(Mouse.Position);
-		    }
+			if (Mouse.LeftButton == ButtonState.Pressed)
+			{
+				IsDown = true;
+				PointerPosition = adapter.PointToScreen(Mouse.Position);
+			}
 			else if (TouchPanel.Count > 0)
 			{
 				IsDown = true;
 				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint());
 			}
-		    else
+			else
 			{
 				IsDown = false;
 				PointerPosition = prev.PointerPosition;
 			}
 
-		    IsJustDown = IsDown && !prev.IsDown;
+			IsJustDown = IsDown && !prev.IsDown;
 			IsJustUp = !IsDown && prev.IsDown;
 		}
 
@@ -59,11 +59,11 @@ namespace GridDominance.Shared.Framework
 		}
 
 		public static InputState GetState(ViewportAdapter adapter, InputState previous)
-	    {
-		    var ks = Microsoft.Xna.Framework.Input.Keyboard.GetState();
-		    var ms = Microsoft.Xna.Framework.Input.Mouse.GetState();
-		    var ts = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();
-		    var gs = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
+		{
+			var ks = Microsoft.Xna.Framework.Input.Keyboard.GetState();
+			var ms = Microsoft.Xna.Framework.Input.Mouse.GetState();
+			var ts = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();
+			var gs = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
 
 			return new InputState(adapter, ks, ms, ts, gs, previous);
 		}
@@ -79,14 +79,14 @@ namespace GridDominance.Shared.Framework
 		}
 
 		public bool IsExit()
-	    {
+		{
 
 #if !__IOS__
-		    return GamePad.Buttons.Back == ButtonState.Pressed || Keyboard.IsKeyDown(Keys.Escape);
+			return GamePad.Buttons.Back == ButtonState.Pressed || Keyboard.IsKeyDown(Keys.Escape);
 #else
 			return false;
 #endif
 
 		}
-    }
+	}
 }

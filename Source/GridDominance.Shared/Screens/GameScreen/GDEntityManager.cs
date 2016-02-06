@@ -7,16 +7,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
-    class GDEntityManager
+	class GDEntityManager
 	{
 		private List<GDEntity> entities = new List<GDEntity>();
 
-	    public GDEntityManager()
-	    {
-		    
-	    }
+		public GDEntityManager()
+		{
+		}
 
-	    public void Update(GameTime gameTime, InputState state)
+;		public void Update(GameTime gameTime, InputState state)
 		{
 			foreach (var gdEntity in entities.ToList())
 			{
@@ -24,19 +23,19 @@ namespace GridDominance.Shared.Screens.GameScreen
 			}
 		}
 
-	    public void Draw(SpriteBatch sbatch)
-	    {
-		    foreach (var gdEntity in entities)
-		    {
-			    gdEntity.Draw(sbatch);
-		    }
-	    }
+		public void Draw(SpriteBatch sbatch)
+		{
+			foreach (var gdEntity in entities)
+			{
+				gdEntity.Draw(sbatch);
+			}
+		}
 
-	    public void AddEntity(GDEntity e)
-	    {
-		    e.Manager = this;
+		public void AddEntity(GDEntity e)
+		{
+			e.Manager = this;
 			entities.Add(e);
-	    }
+		}
 
 		public int Count()
 		{

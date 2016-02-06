@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework;
 
 namespace GridDominance.Shared.Framework
 {
-    class RealtimeAPSCounter
-    {
-	    private readonly float interval;
-		
-	    private double lastUpdate;
+	class RealtimeAPSCounter
+	{
+		private readonly float interval;
+
+		private double lastUpdate;
 		private int bufferCount = 0;
 		private double bufferSum = 0;
 
@@ -24,12 +24,12 @@ namespace GridDominance.Shared.Framework
 		public double MinimumAPS { get; private set; }
 
 		public RealtimeAPSCounter(float updateInterval = 2.5f)
-	    {
-		    interval = updateInterval;
+		{
+			interval = updateInterval;
 
 			lastUpdate = new GameTime().TotalGameTime.TotalSeconds;
 			MinimumAPS = 0;
-	    }
+		}
 
 		public void Reset()
 		{
@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Framework
 			lastUpdate = gt.TotalGameTime.TotalSeconds;
 
 			CurrentDelta = delta;
-			CurrentAPS = 1.0/delta;
+			CurrentAPS = 1.0 / delta;
 			MinimumAPS = Math.Min(CurrentAPS, MinimumAPS);
 
 			bufferSum += delta;
