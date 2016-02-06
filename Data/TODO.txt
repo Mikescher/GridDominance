@@ -1,0 +1,15 @@
+mit ton + musik
+
+different tower types
+
+Level select wie Sokobond, drag around
+	- Level build a tree
+	- some (3) branches must be bought per in-app-buy, or buy full eversion with everything
+	- dead ends and master level with two roots
+
+Levels in plaintext, code like format
+	-> Level Editor / Level Live Preview tool
+
+Digital World (like World of Goo)
+
+Art Style wie Tron? - somth simplistic

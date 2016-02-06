@@ -17,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Framework\InputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\InputStateManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\RealtimeAPSCounter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\Screen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\ScreenManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\TolerantBoxingViewportAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />

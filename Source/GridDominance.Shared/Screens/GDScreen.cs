@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended.Screens;
+﻿using GridDominance.Shared.Framework;
+using Microsoft.Xna.Framework;
 
 namespace GridDominance.Shared.Screens
 {
