@@ -66,7 +66,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			Manager.PhysicsWorld.RemoveBody(body);
 		}
 
-		public override void Update(GameTime gameTime, InputState istate)
+		public override void OnUpdate(GameTime gameTime, InputState istate)
 		{
 			UpdateRotation(gameTime, istate);
 			UpdateBarrel(gameTime);

@@ -7,6 +7,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.GameScreen.EntityOperations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -17,8 +18,9 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 	class Bullet : GDEntity
 	{
 		private const float BULLET_DIAMETER = 25;
+		private const float MAXIMUM_LIEFTIME = 25;
 
-		private Sprite spriteBullet;
+		public Sprite SpriteBullet;
 
 		private Cannon collisionExcluder;
 
@@ -38,7 +40,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void OnInitialize()
 		{
-			spriteBullet = new Sprite(Textures.TexBullet)
+			SpriteBullet = new Sprite(Textures.TexBullet)
 			{
 				Scale = Textures.DEFAULT_TEXTURE_SCALE,
 				Position = initial_position,
@@ -59,17 +61,19 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			Manager.PhysicsWorld.RemoveBody(body);
 		}
 
-		public override void Update(GameTime gameTime, InputState istate)
+		public override void OnUpdate(GameTime gameTime, InputState istate)
 		{
-			spriteBullet.Position = ConvertUnits.ToDisplayUnits(body.Position);
-			spriteBullet.Rotation = body.Rotation;
+			SpriteBullet.Position = ConvertUnits.ToDisplayUnits(body.Position);
+			SpriteBullet.Rotation = body.Rotation;
 
-			if (!Manager.BoundingBox.Contains(spriteBullet.Position)) Remove();
+			if (Lifetime > MAXIMUM_LIEFTIME) AddEntitOperation(new BulletFadeAndDieOperation());
+
+			if (!Manager.BoundingBox.Contains(SpriteBullet.Position)) Remove();
 		}
 
 		public override void Draw(SpriteBatch sbatch)
 		{
-			sbatch.Draw(spriteBullet);
+			sbatch.Draw(SpriteBullet);
 		}
 	}
 }
