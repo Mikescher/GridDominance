@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Screens.GameScreen.Background;
 using GridDominance.Shared.Screens.GameScreen.Entities;
@@ -12,8 +13,8 @@ namespace GridDominance.Shared.Screens.GameScreen
 	{
 		protected readonly GameScreen Owner;
 		public GDEntityManager Manager = null; // only set after Add - use only in Update() and Render()
-
-		private List<IGDEntityOperation> operations = new List<IGDEntityOperation>(); 
+ 
+		protected readonly List<IGDEntityOperation> ActiveOperations = new List<IGDEntityOperation>(); 
 
 		public bool Alive = true;
 		public float Lifetime = 0;
@@ -32,11 +33,12 @@ namespace GridDominance.Shared.Screens.GameScreen
 		{
 			Lifetime += gameTime.GetElapsedSeconds();
 
-			for (int i = operations.Count - 1; i >= 0; i--)
+			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
 			{
-				if (!operations[i].Update(this, gameTime, istate))
+				if (!ActiveOperations[i].Update(this, gameTime, istate))
 				{
-					operations.RemoveAt(i);
+					ActiveOperations[i].OnEnd(this);
+					ActiveOperations.RemoveAt(i);
 				}
 			}
 
@@ -45,7 +47,20 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		public void AddEntityOperation(IGDEntityOperation op)
 		{
-			operations.Add(op);
+			ActiveOperations.Add(op);
+			op.OnStart(this);
+		}
+
+		public void RemoveAllOperations(Func<IGDEntityOperation, bool> condition )
+		{
+			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
+			{
+				if (condition(ActiveOperations[i]))
+				{
+					ActiveOperations[i].OnEnd(this);
+					ActiveOperations.RemoveAt(i);
+				}
+			}
 		}
 
 		public abstract void OnUpdate(GameTime gameTime, InputState istate);

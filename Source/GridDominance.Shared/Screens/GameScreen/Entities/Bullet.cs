@@ -78,6 +78,16 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			if (otherCannon != null)
 			{
 				this.Disintegrate();
+
+				if (otherCannon.Fraction == this.Fraction)
+				{
+					otherCannon.ApplyBoost();
+				}
+				else // if (otherCannon.Fraction != this.Fraction)
+				{
+					otherCannon.TakeDamage(this.Fraction);
+				}
+
 				return false;
 			}
 

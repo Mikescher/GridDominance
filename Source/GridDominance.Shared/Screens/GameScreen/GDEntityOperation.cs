@@ -9,6 +9,8 @@ namespace GridDominance.Shared.Screens.GameScreen
 		private readonly float length;
 		private float time;
 
+		public float Progress => time/length;
+
 		public GDEntityOperation(float operationlength)
 		{
 			length = operationlength;
@@ -20,27 +22,29 @@ namespace GridDominance.Shared.Screens.GameScreen
 			return Update((TEntity)entity, gameTime, istate);
 		}
 
-		public bool Update(TEntity entity, GameTime gameTime, InputState istate)
+		public void OnStart(GDEntity entity)
 		{
-			if (time == 0) OnStart(entity, istate);
-
-			time += gameTime.GetElapsedSeconds();
-
-			if (time >= length)
-			{
-				OnEnd(entity, istate);
-				return false;
-			}
-			else
-			{
-				OnProgress(entity, time / length, istate);
-				return true;
-			}
+			OnStart((TEntity)entity);
 		}
 
-		protected abstract void OnStart(TEntity entity, InputState istate);
+		public void OnEnd(GDEntity entity)
+		{
+			OnEnd((TEntity)entity);
+		}
+
+		public bool Update(TEntity entity, GameTime gameTime, InputState istate)
+		{
+			time += gameTime.GetElapsedSeconds();
+
+			if (time >= length) return false;
+
+			OnProgress(entity, time / length, istate);
+			return true;
+		}
+
+		protected abstract void OnStart(TEntity entity);
 		protected abstract void OnProgress(TEntity entity, float progress, InputState istate);
-		protected abstract void OnEnd(TEntity entity, InputState istate);
+		protected abstract void OnEnd(TEntity entity);
 
 	}
 }

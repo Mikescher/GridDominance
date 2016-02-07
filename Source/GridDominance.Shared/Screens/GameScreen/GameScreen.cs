@@ -39,11 +39,11 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		private GameGridBackground background;
 
-		private Fraction fraction_player = new Fraction(Color.Green);
-		private Fraction fraction_ki1    = new Fraction(Color.Red);
-		private Fraction fraction_ki2    = new Fraction(Color.Blue);
-		private Fraction fraction_ki3    = new Fraction(Color.Yellow);
-		private Fraction fraction_ki4    = new Fraction(Color.Cyan);
+		private Fraction fractionNeutral;
+		private Fraction fractionPlayer;
+		private Fraction fractionComputer1;
+		private Fraction fractionComputer2;
+		private Fraction fractionComputer3;
 
 		public GameScreen(MainGame game, GraphicsDeviceManager gdm) 
 			: base(game, gdm)
@@ -89,10 +89,17 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 			//--------------------
 
-			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 3 * 128 + 64, fraction_player));
-			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 0 * 128 + 64, fraction_player));
-			entities.AddEntity(new Cannon(this, 5 * 128 + 64, 1 * 128 + 64, fraction_ki1));
-			entities.AddEntity(new Cannon(this, 6 * 128 + 64, 2 * 128 + 64, fraction_ki2));
+			fractionNeutral   = Fraction.CreateNeutralFraction();
+			fractionPlayer    = Fraction.CreatePlayerFraction(fractionNeutral);
+			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
+			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
+			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
+
+			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 3 * 128 + 64, fractionPlayer));
+			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 0 * 128 + 64, fractionPlayer));
+			entities.AddEntity(new Cannon(this, 5 * 128 + 64, 1 * 128 + 64, fractionComputer1));
+			entities.AddEntity(new Cannon(this, 6 * 128 + 64, 2 * 128 + 64, fractionComputer2));
+			entities.AddEntity(new Cannon(this, 1 * 128 + 64, 2 * 128 + 64, fractionNeutral));
 		}
 
 		public override void Update(GameTime gameTime)

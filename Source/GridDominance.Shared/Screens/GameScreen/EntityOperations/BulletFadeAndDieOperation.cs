@@ -9,7 +9,7 @@ namespace GridDominance.Shared.Screens.GameScreen.EntityOperations
 		{
 		}
 
-		protected override void OnStart(Bullet entity, InputState istate)
+		protected override void OnStart(Bullet entity)
 		{
 			entity.SpriteBullet.Alpha = 1;
 			entity.IsDying = true;
@@ -20,7 +20,7 @@ namespace GridDominance.Shared.Screens.GameScreen.EntityOperations
 			entity.SpriteBullet.Alpha = 1 - progress;
 		}
 
-		protected override void OnEnd(Bullet entity, InputState istate)
+		protected override void OnEnd(Bullet entity)
 		{
 			entity.SpriteBullet.Alpha = 0;
 			entity.Alive = false;
