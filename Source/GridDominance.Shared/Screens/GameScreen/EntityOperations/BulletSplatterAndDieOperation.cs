@@ -3,9 +3,9 @@ using GridDominance.Shared.Screens.GameScreen.Entities;
 
 namespace GridDominance.Shared.Screens.GameScreen.EntityOperations
 {
-	class BulletFadeAndDieOperation : GDEntityOperation<Bullet>
+	class BulletSplatterAndDieOperation : GDEntityOperation<Bullet>
 	{
-		public BulletFadeAndDieOperation() : base(1.0f)
+		public BulletSplatterAndDieOperation() : base(0.05f)
 		{
 		}
 

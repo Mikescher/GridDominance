@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			OnUpdate(gameTime, istate);
 		}
 
-		public void AddEntitOperation(IGDEntityOperation op)
+		public void AddEntityOperation(IGDEntityOperation op)
 		{
 			operations.Add(op);
 		}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
@@ -20,22 +21,23 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private const float BULLET_DIAMETER = 25;
 		private const float MAXIMUM_LIEFTIME = 25;
 
-		public Sprite SpriteBullet;
+		public readonly Fraction Fraction;
 
-		private Cannon collisionExcluder;
+		public bool IsDying = false;
+
+		public Sprite SpriteBullet;
+		private Body body;
 
 		private readonly Vector2 initial_position;
 		private readonly Vector2 initial_velocity;
 
-		private Body body;
 
 		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo)
 			: base(scrn)
 		{
 			initial_position = pos;
 			initial_velocity = velo;
-
-			collisionExcluder = shooter;
+			Fraction = shooter.Fraction;
 		}
 
 		public override void OnInitialize()
@@ -44,6 +46,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			{
 				Scale = Textures.DEFAULT_TEXTURE_SCALE,
 				Position = initial_position,
+				Color = Fraction.Color,
 			};
 
 			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(BULLET_DIAMETER /2), 1, ConvertUnits.ToSimUnits(initial_position), BodyType.Dynamic, this);
@@ -54,6 +57,48 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			body.AngularDamping = 0.5f;
 			body.Friction = 0.2f;
 			body.LinearDamping = 0f;
+			body.OnCollision += OnCollision;
+		}
+
+		private bool OnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
+		{
+			if (!Alive || IsDying) return false;
+
+			var otherBullet = fixtureB.UserData as Bullet;
+			if (otherBullet != null)
+			{
+				if (otherBullet.Fraction == this.Fraction) return true;
+
+				otherBullet.MutualDestruct();
+				this.MutualDestruct();
+				return false;
+			}
+
+			var otherCannon = fixtureB.UserData as Cannon;
+			if (otherCannon != null)
+			{
+				this.Disintegrate();
+				return false;
+			}
+
+			// wud ???
+			return true;
+		}
+
+		private void MutualDestruct()
+		{
+			// After Bullet-Bulllet Collision
+
+			AddEntityOperation(new BulletSplatterAndDieOperation());
+			IsDying = true;
+		}
+
+		private void Disintegrate()
+		{
+			// After Bullet-Cannon Collision
+
+			AddEntityOperation(new BulletConsumeAndDieOperation());
+			IsDying = true;
 		}
 
 		public override void OnRemove()
@@ -66,7 +111,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			SpriteBullet.Position = ConvertUnits.ToDisplayUnits(body.Position);
 			SpriteBullet.Rotation = body.Rotation;
 
-			if (Lifetime > MAXIMUM_LIEFTIME) AddEntitOperation(new BulletFadeAndDieOperation());
+			if (Lifetime > MAXIMUM_LIEFTIME) AddEntityOperation(new BulletFadeAndDieOperation());
 
 			if (!Manager.BoundingBox.Contains(SpriteBullet.Position)) Remove();
 		}

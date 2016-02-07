@@ -21,6 +21,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private const float BULLET_ANGLE_VARIANCE = 0.035f; // ~ 2 degree
 		private const float BULLET_INITIAL_SPEED = 100f;
 
+		public readonly Fraction Fraction;
+
 		private Sprite spriteBody;
 		private Sprite spriteBarrel;
 
@@ -36,9 +38,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		private Body body;
 
-		public Cannon(GameScreen scrn, int posX, float posY)
+		public Cannon(GameScreen scrn, int posX, float posY, Fraction cannonfraction)
 			: base(scrn)
 		{
+			Fraction = cannonfraction;
+
 			center = new Vector2(posX, posY);
 			innerBoundings = new CircleF(center, CANNON_DIAMETER / 2);
 		}
@@ -49,6 +53,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			{
 				Scale = Textures.DEFAULT_TEXTURE_SCALE,
 				Position = center,
+				Color = Fraction.Color,
 			};
 
 			spriteBarrel = new Sprite(Textures.TexCannonBarrel)
@@ -56,6 +61,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Scale = Textures.DEFAULT_TEXTURE_SCALE,
 				Position = center,
 				Origin = new Vector2(-32, 32),
+				Color = Fraction.Color,
 			};
 
 			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(CANNON_DIAMETER /2), 1, ConvertUnits.ToSimUnits(center), BodyType.Static, this);

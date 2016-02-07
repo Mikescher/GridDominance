@@ -39,6 +39,12 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		private GameGridBackground background;
 
+		private Fraction fraction_player = new Fraction(Color.Green);
+		private Fraction fraction_ki1    = new Fraction(Color.Red);
+		private Fraction fraction_ki2    = new Fraction(Color.Blue);
+		private Fraction fraction_ki3    = new Fraction(Color.Yellow);
+		private Fraction fraction_ki4    = new Fraction(Color.Cyan);
+
 		public GameScreen(MainGame game, GraphicsDeviceManager gdm) 
 			: base(game, gdm)
 		{
@@ -83,10 +89,10 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 			//--------------------
 
-			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 3 * 128 + 64));
-			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 0 * 128 + 64));
-			entities.AddEntity(new Cannon(this, 5 * 128 + 64, 1 * 128 + 64));
-			entities.AddEntity(new Cannon(this, 6 * 128 + 64, 2 * 128 + 64));
+			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 3 * 128 + 64, fraction_player));
+			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 0 * 128 + 64, fraction_player));
+			entities.AddEntity(new Cannon(this, 5 * 128 + 64, 1 * 128 + 64, fraction_ki1));
+			entities.AddEntity(new Cannon(this, 6 * 128 + 64, 2 * 128 + 64, fraction_ki2));
 		}
 
 		public override void Update(GameTime gameTime)
