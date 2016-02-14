@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarseerPhysics.Portable", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugView.Portable", "External\DebugView.Portable\DebugView.Portable.csproj", "{550F035E-F23E-4999-BB01-4857486E4125}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leveleditor", "Leveleditor\Leveleditor.csproj", "{57EA7C31-A396-494D-B475-4FAF431475C0}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		GridDominance.Shared\GridDominance.Shared.projitems*{daed060d-be0d-44d1-ac38-e189c7a6d300}*SharedItemsImports = 4
@@ -83,6 +85,14 @@ Global
 		{550F035E-F23E-4999-BB01-4857486E4125}.Release|Any CPU.Build.0 = Release|Any CPU
 		{550F035E-F23E-4999-BB01-4857486E4125}.Release|x86.ActiveCfg = Release|Any CPU
 		{550F035E-F23E-4999-BB01-4857486E4125}.Release|x86.Build.0 = Release|Any CPU
+		{57EA7C31-A396-494D-B475-4FAF431475C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57EA7C31-A396-494D-B475-4FAF431475C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57EA7C31-A396-494D-B475-4FAF431475C0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57EA7C31-A396-494D-B475-4FAF431475C0}.Debug|x86.Build.0 = Debug|Any CPU
+		{57EA7C31-A396-494D-B475-4FAF431475C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57EA7C31-A396-494D-B475-4FAF431475C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57EA7C31-A396-494D-B475-4FAF431475C0}.Release|x86.ActiveCfg = Release|Any CPU
+		{57EA7C31-A396-494D-B475-4FAF431475C0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

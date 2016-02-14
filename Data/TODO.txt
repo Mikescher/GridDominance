@@ -13,3 +13,9 @@ Levels in plaintext, code like format
 Digital World (like World of Goo)
 
 Art Style wie Tron? - somth simplistic
+	On Cannon shoot eject particles in color on grid
+	particles follow grid lines
+	particles split into smaller ones on intersections
+	tiles get colors from surrounding particles
+	enemy particles neutralize each other
+	whole map gets colored in sections of the fractions naturally
