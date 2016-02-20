@@ -4,6 +4,8 @@ using Leveleditor.Properties;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -150,7 +152,15 @@ namespace Leveleditor
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			edCode.Text = Encoding.UTF8.GetString(Resources.example);
+			if (Environment.GetCommandLineArgs().Count() > 1 && File.Exists(Environment.GetCommandLineArgs()[1]))
+			{
+				edPath.Text = Environment.GetCommandLineArgs()[1];
+				edCode.Text = File.ReadAllText(edPath.Text);
+			}
+			else
+			{
+				edCode.Text = Encoding.UTF8.GetString(Resources.example);
+			}
 
 			//###########################
 
@@ -172,6 +182,57 @@ namespace Leveleditor
 		private void canvas_SizeChanged(object sender, EventArgs e)
 		{
 			Reparse();
+		}
+
+		private void btnReload_Click(object sender, EventArgs e)
+		{
+			edCode.Text = File.ReadAllText(edPath.Text);
+			Reparse();
+		}
+
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			File.WriteAllText(edPath.Text, edCode.Text, Encoding.UTF8);
+		}
+
+		private void edPath_DragDrop(object sender, DragEventArgs e)
+		{
+			string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+			foreach (string file in files)
+			{
+				edPath.Text = file;
+				edCode.Text = File.ReadAllText(edPath.Text);
+				Reparse();
+			}
+		}
+
+		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (File.Exists(edPath.Text) && File.ReadAllText(edPath.Text) != edCode.Text)
+			{
+				switch (MessageBox.Show("Save changes ?", "Save?", MessageBoxButtons.YesNoCancel))
+				{
+					case DialogResult.None:
+					case DialogResult.Cancel:
+						e.Cancel = true;
+						return;
+					case DialogResult.Yes:
+						File.WriteAllText(edPath.Text, edCode.Text, Encoding.UTF8);
+						e.Cancel = false;
+						return;
+					case DialogResult.No:
+						e.Cancel = false;
+						return;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+			}
+		}
+
+		private void edPath_DragEnter(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
 		}
 	}
 }
