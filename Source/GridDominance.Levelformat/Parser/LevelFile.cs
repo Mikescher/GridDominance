@@ -12,7 +12,8 @@ namespace GridDominance.Levelformat.Parser
 		private static readonly Regex REX_COMMAND = new Regex(@"^(?<ident>[A-Za-z_]+)\s*\((((?<param>[^,\(\)]+)\s*,\s*)*(?<param>[^,\(\)]+))?\)$");
 		private static readonly Regex REX_EXPRESSION = new Regex(@"(\d*\.\d+)|(\d+)|([A-Za-z_]+)|[\+\-\*/]");
 
-		private const byte SERIALIZE_ID_CANNON = 1;
+		private const byte SERIALIZE_ID_CANNON = 0x01;
+		private const byte SERIALIZE_ID_EOF    = 0xFF;
 
 		private readonly string content;
 		private readonly Dictionary<string, float> constants = new Dictionary<string, float>();
@@ -128,10 +129,13 @@ namespace GridDominance.Levelformat.Parser
 			return int.Parse(methodParameter[idx]);
 		}
 
-		private float ExtractNumberParameter(List<string> methodParameter, int idx)
+		private float ExtractNumberParameter(List<string> methodParameter, int idx, int? defaultValue = null)
 		{
 			if (idx >= methodParameter.Count)
+			{
+				if (defaultValue != null) return defaultValue.Value;
 				throw new Exception($"Not enough parameter (missing param {idx})");
+			}
 
 			float constResult;
 
@@ -194,16 +198,19 @@ namespace GridDominance.Levelformat.Parser
 
 		private void AddCannon(List<string> methodParameter)
 		{
-			var size   = ExtractNumberParameter(methodParameter, 0);
-			var player = ExtractIntegerParameter(methodParameter, 1);
-			var posX   = ExtractNumberParameter(methodParameter, 2);
-			var posY   = ExtractNumberParameter(methodParameter, 3);
+			var size     = ExtractNumberParameter(methodParameter, 0);
+			var player   = ExtractIntegerParameter(methodParameter, 1);
+			var posX     = ExtractNumberParameter(methodParameter, 2);
+			var posY     = ExtractNumberParameter(methodParameter, 3);
+			var rotation = ExtractNumberParameter(methodParameter, 4, -1);
 
-			BlueprintCannons.Add(new LPCannon(posX, posY, size, player));
+			BlueprintCannons.Add(new LPCannon(posX, posY, size, player, rotation));
 		}
 
 		#endregion
-		
+
+		#region Pipeline Serialize
+
 		public void BinarySerialize(BinaryWriter bw)
 		{
 			foreach (var cannon in BlueprintCannons)
@@ -213,7 +220,10 @@ namespace GridDominance.Levelformat.Parser
 				bw.Write(cannon.X);
 				bw.Write(cannon.Y);
 				bw.Write(cannon.Radius);
+				bw.Write(cannon.Rotation);
 			}
+
+			bw.Write(SERIALIZE_ID_EOF);
 		}
 
 		public void BinaryDeserialize(BinaryReader br)
@@ -229,15 +239,27 @@ namespace GridDominance.Levelformat.Parser
 						var x = br.ReadSingle();
 						var y = br.ReadSingle();
 						var r = br.ReadSingle();
+						var a = br.ReadSingle();
 
-						BlueprintCannons.Add(new LPCannon(x, y, r, p));
+						BlueprintCannons.Add(new LPCannon(x, y, r, p, a));
 
 						break;
 					}
+					case SERIALIZE_ID_EOF:
+					{
+						return;
+					}
+
 					default:
+					{
 						throw new Exception("Unkwown binary ID:" + id[0]);
+					}
 				}
 			}
+
+			throw new Exception("Unexpected binary file end");
 		}
+
+		#endregion
 	}
 }

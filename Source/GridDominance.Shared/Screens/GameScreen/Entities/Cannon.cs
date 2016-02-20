@@ -3,6 +3,7 @@ using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,15 +52,27 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		private Body body;
 
-		public Cannon(GameScreen scrn, float posX, float posY, Fraction cannonfraction)
-			: base(scrn)
+		public Cannon(GameScreen scrn, float posX, float posY, Fraction cannonfraction) : base(scrn)
 		{
 			Fraction = cannonfraction;
 
 			center = new Vector2(posX, posY);
-			innerBoundings = new CircleF(center, CANNON_DIAMETER / 2);
 
-			cannonHealth = cannonfraction.IsNeutral ? 0f : 1f;
+			innerBoundings = new CircleF(center, CANNON_DIAMETER / 2);
+			cannonHealth = Fraction.IsNeutral ? 0f : 1f;
+		}
+
+		public Cannon(GameScreen scrn, LPCannon blueprint, Fraction[] fractions) : base(scrn)
+		{
+			Fraction = fractions[blueprint.Player];
+
+			center = new Vector2(blueprint.X, blueprint.Y);
+
+			actualRotation = FloatMath.ToRadians(blueprint.Rotation);
+			targetRotation = FloatMath.ToRadians(blueprint.Rotation);
+
+			innerBoundings = new CircleF(center, CANNON_DIAMETER / 2);
+			cannonHealth = Fraction.IsNeutral ? 0f : 1f;
 		}
 
 		public override void OnInitialize()

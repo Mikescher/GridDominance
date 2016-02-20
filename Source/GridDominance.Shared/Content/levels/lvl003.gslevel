@@ -7,6 +7,15 @@ define(A2, 2) # PC
 define(A3, 3) # PC
 define(A4, 4) # PC
 
+define(ROT_N,  000)
+define(ROT_NE, 315)
+define(ROT_E,  270)
+define(ROT_SE, 225)
+define(ROT_S,  090)
+define(ROT_SW, 135)
+define(ROT_W,  180)
+define(ROT_NW, 045)
+
 define(SIZE_TINY,     32)
 define(SIZE_SMALL,    48)
 define(SIZE_NORMAL,   64)
@@ -18,10 +27,10 @@ define(CELL_H, 64)
 
 ########################################################################
 
-Cannon(SIZE_TINY, P1,  2 * CELL_W,  5 * CELL_H)
+Cannon(SIZE_TINY, P1,  2 * CELL_W,  5 * CELL_H, ROT_N)
 
-Cannon(SIZE_TINY, A2, 14 * CELL_W,  5 * CELL_H)
+Cannon(SIZE_TINY, A2, 14 * CELL_W,  5 * CELL_H, ROT_S)
 
-Cannon(SIZE_TINY, N0,  8 * CELL_W,  1 * CELL_H)
-Cannon(SIZE_TINY, N0,  8 * CELL_W,  5 * CELL_H)
-Cannon(SIZE_TINY, N0,  8 * CELL_W,  9 * CELL_H)
+Cannon(SIZE_TINY, N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
+Cannon(SIZE_TINY, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)
+Cannon(SIZE_TINY, N0,  8 * CELL_W,  9 * CELL_H, ROT_NE)

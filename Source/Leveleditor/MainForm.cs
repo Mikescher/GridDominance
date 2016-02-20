@@ -65,21 +65,37 @@ namespace Leveleditor
 
 					foreach (var c in level.BlueprintCannons)
 					{
-						var centerX = (int) (c.X - c.Radius);
-						var centerY = (int) (c.Y - c.Radius);
+						var topleftX = (int) (c.X - c.Radius);
+						var topleftY = (int) (c.Y - c.Radius);
 						var width   = (int)(c.Radius * 2);
 						var height  = (int)(c.Radius * 2);
 
-						var rectReal = new Rectangle(centerX, centerY, width, height);
+						var rectReal = new Rectangle(topleftX, topleftY, width, height);
 						var rectCircle = new Rectangle(rectReal.Location, rectReal.Size);
 						var rectOuter = new Rectangle(rectReal.Location, rectReal.Size);
 						rectCircle.Inflate((width * 48 / 64 - width) / 2, (height * 48 / 64 - height) / 2);
 						rectOuter.Inflate((width * 80 / 64 - width) / 2, (height * 80 / 64 - height) / 2);
 
+						var save = g.Save();
+						{
+							g.TranslateTransform(c.X, c.Y);
+							g.RotateTransform(c.Rotation);
+
+							var bHeight = height / 4;
+							var bWidth = width / 2;
+							var bPosX = width / 8;
+
+							var br = new Rectangle(bPosX, -bHeight / 2, bWidth, bHeight);
+
+							g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), br);
+						}
+						g.Restore(save);
 
 						g.FillRectangle(new SolidBrush(Color.FromArgb(64, CANNON_COLORS[c.Player])), rectReal);
 						g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectCircle);
+						g.DrawEllipse(new Pen(Color.Black), rectCircle);
 						g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 2), rectOuter);
+
 					}
 				}
 			}

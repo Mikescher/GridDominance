@@ -105,7 +105,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		private void LoadLevelFromBlueprint()
 		{
-			Fraction[] fracList = new Fraction[]
+			Fraction[] fracList = 
 			{
 				fractionNeutral,
 				fractionPlayer,
@@ -114,9 +114,9 @@ namespace GridDominance.Shared.Screens.GameScreen
 				fractionComputer3,
 			};
 
-			foreach (var cannon in blueprint.BlueprintCannons)
+			foreach (var bPrint in blueprint.BlueprintCannons)
 			{
-				entities.AddEntity(new Cannon(this, cannon.X, cannon.Y, fracList[cannon.Player]));
+				entities.AddEntity(new Cannon(this, bPrint, fracList));
 			}
 		}
 
