@@ -79,6 +79,10 @@
       <Project>{41724c52-3d50-45bb-81eb-3c8a247eafd1}</Project>
       <Name>MonoGame.Extended</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Levelformat\GridDominance.Levelformat.csproj">
+      <Project>{fd075788-85e3-488e-bad4-d3ea72b1d851}</Project>
+      <Name>GridDominance.Levelformat</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" />
   <!-- Specify the search path explicitly so the ResolveAssemblyReferences task picks the right ones -->

@@ -1,4 +1,4 @@
-﻿namespace Leveleditor.Parser
+﻿namespace GridDominance.Shared.Parser
 {
 	struct LPCannon
 	{

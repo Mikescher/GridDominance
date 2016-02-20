@@ -51,7 +51,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		private Body body;
 
-		public Cannon(GameScreen scrn, int posX, float posY, Fraction cannonfraction)
+		public Cannon(GameScreen scrn, float posX, float posY, Fraction cannonfraction)
 			: base(scrn)
 		{
 			Fraction = cannonfraction;
@@ -184,8 +184,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void Draw(SpriteBatch sbatch)
 		{
-			sbatch.Draw(spriteBody);
 			sbatch.Draw(spriteBarrel);
+			sbatch.Draw(spriteBody);
 
 #if DEBUG
 			DrawDebugView(sbatch);

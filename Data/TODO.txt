@@ -19,3 +19,19 @@ Art Style wie Tron? - somth simplistic
 	tiles get colors from surrounding particles
 	enemy particles neutralize each other
 	whole map gets colored in sections of the fractions naturally
+
+Special Stuff:
+	Laser Cannons
+		Continoous damage
+		Lasers combine
+		Lasers reflect each other
+		Reflecting Walls
+		Refracting walls -> Glass Walls
+			(game machanic: bullets feflect, lasers only refract)
+	Destructible Turrets
+		Can't convert - only destroy
+	Smaller turrets, bullets have less weight
+	Shield Turrets
+		Protect other turret from damage
+		Dont shoot itself
+		Shield turret can't form loop (shielded turret can's shield other turret)

@@ -1,5 +1,5 @@
-﻿using ICSharpCode.AvalonEdit;
-using Leveleditor.Parser;
+﻿using GridDominance.Levelformat.Parser;
+using ICSharpCode.AvalonEdit;
 using Leveleditor.Properties;
 using System;
 using System.Drawing;
@@ -35,7 +35,7 @@ namespace Leveleditor
 			Reparse();
 		}
 
-		private void RecreateBuffer(Levelparser level)
+		private void RecreateBuffer(LevelFile level)
 		{
 			timerCountDown = -1;
 
@@ -113,7 +113,7 @@ namespace Leveleditor
 
 		private void Reparse()
 		{
-			var lp = new Levelparser(edCode.Text);
+			var lp = new LevelFile(edCode.Text);
 
 			try
 			{

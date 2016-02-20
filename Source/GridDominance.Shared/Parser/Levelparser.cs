@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Leveleditor.Parser
+namespace GridDominance.Shared.Parser
 {
 	class Levelparser
 	{

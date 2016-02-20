@@ -1,4 +1,5 @@
 ﻿using System;
+using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.GameScreen;
@@ -50,13 +51,14 @@ namespace GridDominance.Shared
 
 			screens = new ScreenManager(this)
 			{
-				CurrentScreen = new GameScreen(this, graphics)
+				CurrentScreen = new GameScreen(this, graphics, Levels.LEVEL_003)
 			};
 		}
 
 		protected override void LoadContent()
 		{
 			Textures.LoadContent(Content);
+			Levels.LoadContent(Content);
 		}
 
 		protected override void UnloadContent()

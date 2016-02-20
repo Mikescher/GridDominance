@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Leveleditor
+namespace GridDominance.Levelformat.Parser
 {
 	public class ParsingException : Exception
 	{

@@ -11,6 +11,7 @@
 #-------------------------------- References --------------------------------#
 
 /reference:..\..\dependencies\MonoGame.Extended.0.4.64\lib\MonoGame.Extended.Content.Pipeline.dll
+/reference:..\..\..\Bin\GridDominance.Content.Pipeline\GridDominance.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -35,4 +36,9 @@
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
 /build:fonts/debugFont.spritefont
+
+#begin levels/lvl003.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl003.gslevel
 

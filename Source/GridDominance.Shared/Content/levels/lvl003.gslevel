@@ -1,0 +1,27 @@
+# Level 00 - Example   #
+########################
+
+define(N0, 0) # Neutral
+define(P1, 1) # Human
+define(A2, 2) # PC
+define(A3, 3) # PC
+define(A4, 4) # PC
+
+define(SIZE_TINY,     32)
+define(SIZE_SMALL,    48)
+define(SIZE_NORMAL,   64)
+define(SIZE_BIG,      80)
+define(SIZE_GIGANTIC, 128)
+
+define(CELL_W, 64)
+define(CELL_H, 64)
+
+########################################################################
+
+Cannon(SIZE_TINY, P1,  2 * CELL_W,  5 * CELL_H)
+
+Cannon(SIZE_TINY, A2, 14 * CELL_W,  5 * CELL_H)
+
+Cannon(SIZE_TINY, N0,  8 * CELL_W,  1 * CELL_H)
+Cannon(SIZE_TINY, N0,  8 * CELL_W,  5 * CELL_H)
+Cannon(SIZE_TINY, N0,  8 * CELL_W,  9 * CELL_H)

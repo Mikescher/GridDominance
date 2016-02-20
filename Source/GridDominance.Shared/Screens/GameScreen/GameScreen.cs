@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.InputListeners;
 using FarseerPhysics.DebugView;
 using FarseerPhysics.Dynamics;
+using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 
 namespace GridDominance.Shared.Screens.GameScreen
@@ -45,9 +46,13 @@ namespace GridDominance.Shared.Screens.GameScreen
 		private Fraction fractionComputer2;
 		private Fraction fractionComputer3;
 
-		public GameScreen(MainGame game, GraphicsDeviceManager gdm) 
+		private readonly LevelFile blueprint;
+
+		public GameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp) 
 			: base(game, gdm)
 		{
+			blueprint = bp;
+
 			Initialize();
 		}
 
@@ -95,11 +100,24 @@ namespace GridDominance.Shared.Screens.GameScreen
 			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
 			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
 
-			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 3 * 128 + 64, fractionPlayer));
-			entities.AddEntity(new Cannon(this, 2 * 128 + 64, 0 * 128 + 64, fractionPlayer));
-			entities.AddEntity(new Cannon(this, 5 * 128 + 64, 1 * 128 + 64, fractionComputer1));
-			entities.AddEntity(new Cannon(this, 6 * 128 + 64, 2 * 128 + 64, fractionComputer2));
-			entities.AddEntity(new Cannon(this, 1 * 128 + 64, 2 * 128 + 64, fractionNeutral));
+			LoadLevelFromBlueprint();
+		}
+
+		private void LoadLevelFromBlueprint()
+		{
+			Fraction[] fracList = new Fraction[]
+			{
+				fractionNeutral,
+				fractionPlayer,
+				fractionComputer1,
+				fractionComputer2,
+				fractionComputer3,
+			};
+
+			foreach (var cannon in blueprint.BlueprintCannons)
+			{
+				entities.AddEntity(new Cannon(this, cannon.X, cannon.Y, fracList[cannon.Player]));
+			}
 		}
 
 		public override void Update(GameTime gameTime)
