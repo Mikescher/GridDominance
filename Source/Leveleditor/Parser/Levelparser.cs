@@ -9,7 +9,7 @@ namespace Leveleditor.Parser
 {
 	class Levelparser
 	{
-		private static readonly Regex REX_COMMAND = new Regex(@"(?<ident>[A-Za-z_]+)\s*\((((?<param>[^,\(\)]+)\s*,\s*)*(?<param>[^,\(\)]+))?\)");
+		private static readonly Regex REX_COMMAND = new Regex(@"^(?<ident>[A-Za-z_]+)\s*\((((?<param>[^,\(\)]+)\s*,\s*)*(?<param>[^,\(\)]+))?\)$");
 		private static readonly Regex REX_EXPRESSION = new Regex(@"(\d*\.\d+)|(\d+)|([A-Za-z_]+)|[\+\-\*/]");
 
 		private readonly string content;

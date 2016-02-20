@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Leveleditor.CodeEditor"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:local="clr-namespace:Leveleditor"
+			 mc:Ignorable="d" Height="447.265" Width="859.578">
+	<avalonEdit:TextEditor
+		HorizontalScrollBarVisibility="Hidden"
+		VerticalScrollBarVisibility="Auto"
+		ShowLineNumbers="True"
+		x:Name="EditMain"
+		xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+		SyntaxHighlighting="C#"
+		FontFamily="Consolas"
+		FontSize="10pt"/>
+</UserControl>

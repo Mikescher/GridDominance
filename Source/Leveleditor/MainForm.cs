@@ -1,4 +1,5 @@
-﻿using Leveleditor.Parser;
+﻿using ICSharpCode.AvalonEdit;
+using Leveleditor.Parser;
 using Leveleditor.Properties;
 using System;
 using System.Drawing;
@@ -13,6 +14,8 @@ namespace Leveleditor
 		private const int TIMER_COOLDOWN = 33;
 		private readonly Color[] CANNON_COLORS = new Color[] { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
 
+		private TextEditor edCode;
+
 		readonly Bitmap graphicsBuffer = new Bitmap(1024, 640);
 
 		private readonly Timer refreshTimer = new Timer();
@@ -21,6 +24,10 @@ namespace Leveleditor
 		public MainForm()
 		{
 			InitializeComponent();
+			var ce = new CodeEditor();
+			edCode = ce.EditMain;
+			hostCode.Child = ce;
+			edCode.TextChanged += textBox1_TextChanged;
 		}
 
 		private void btnRefresh_Click(object sender, EventArgs e)
@@ -130,6 +137,11 @@ namespace Leveleditor
 
 			//###########################
 
+			Reparse();
+		}
+
+		private void canvas_SizeChanged(object sender, EventArgs e)
+		{
 			Reparse();
 		}
 	}
