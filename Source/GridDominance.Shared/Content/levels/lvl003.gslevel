@@ -16,21 +16,21 @@ define(ROT_SW, 135)
 define(ROT_W,  180)
 define(ROT_NW, 045)
 
-define(SIZE_TINY,     32)
-define(SIZE_SMALL,    48)
-define(SIZE_NORMAL,   64)
-define(SIZE_BIG,      80)
-define(SIZE_GIGANTIC, 128)
+define(SIZE_TINY,     2/4)
+define(SIZE_SMALL,    3/4)
+define(SIZE_NORMAL,   4/4)
+define(SIZE_BIG,      5/4)
+define(SIZE_GIGANTIC, 8/4)
 
 define(CELL_W, 64)
 define(CELL_H, 64)
 
 ########################################################################
 
-Cannon(SIZE_TINY, P1,  2 * CELL_W,  5 * CELL_H, ROT_N)
+Cannon(SIZE_SMALL, P1,  2 * CELL_W,  5 * CELL_H, ROT_N)
 
-Cannon(SIZE_TINY, A2, 14 * CELL_W,  5 * CELL_H, ROT_S)
+Cannon(SIZE_SMALL, A2, 14 * CELL_W,  5 * CELL_H, ROT_S)
 
-Cannon(SIZE_TINY, N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
-Cannon(SIZE_TINY, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)
-Cannon(SIZE_TINY, N0,  8 * CELL_W,  9 * CELL_H, ROT_NE)
+Cannon(SIZE_SMALL, N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
+Cannon(SIZE_SMALL, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)
+Cannon(SIZE_SMALL, N0,  8 * CELL_W,  9 * CELL_H, ROT_NE)

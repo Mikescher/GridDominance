@@ -67,14 +67,14 @@ namespace Leveleditor
 
 					foreach (var c in level.BlueprintCannons)
 					{
-						var topleftX = (int) (c.X - c.Radius);
-						var topleftY = (int) (c.Y - c.Radius);
-						var width   = (int)(c.Radius * 2);
-						var height  = (int)(c.Radius * 2);
+						var topleftX = (int) (c.X - c.Scale * 64);
+						var topleftY = (int) (c.Y - c.Scale * 64);
+						var width    = (int)(c.Scale * 128);
+						var height   = (int)(c.Scale * 128);
 
-						var rectReal = new Rectangle(topleftX, topleftY, width, height);
+						var rectReal   = new Rectangle(topleftX, topleftY, width, height);
 						var rectCircle = new Rectangle(rectReal.Location, rectReal.Size);
-						var rectOuter = new Rectangle(rectReal.Location, rectReal.Size);
+						var rectOuter  = new Rectangle(rectReal.Location, rectReal.Size);
 						rectCircle.Inflate((width * 48 / 64 - width) / 2, (height * 48 / 64 - height) / 2);
 						rectOuter.Inflate((width * 80 / 64 - width) / 2, (height * 80 / 64 - height) / 2);
 
@@ -84,8 +84,8 @@ namespace Leveleditor
 							g.RotateTransform(c.Rotation);
 
 							var bHeight = height / 4;
-							var bWidth = width / 2;
-							var bPosX = width / 8;
+							var bWidth  = width  / 2;
+							var bPosX   = width  / 8;
 
 							var br = new Rectangle(bPosX, -bHeight / 2, bWidth, bHeight);
 

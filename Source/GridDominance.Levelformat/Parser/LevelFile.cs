@@ -219,7 +219,7 @@ namespace GridDominance.Levelformat.Parser
 				bw.Write(cannon.Player);
 				bw.Write(cannon.X);
 				bw.Write(cannon.Y);
-				bw.Write(cannon.Radius);
+				bw.Write(cannon.Scale);
 				bw.Write(cannon.Rotation);
 			}
 

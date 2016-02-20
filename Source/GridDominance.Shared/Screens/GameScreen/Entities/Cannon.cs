@@ -47,8 +47,9 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private float actualRotation = 0;   // radians
 		private float targetRotation = 0;   // radians
 
-		private Vector2 center;
-		private CircleF innerBoundings;
+		private readonly Vector2 center;
+		private readonly CircleF innerBoundings;
+		private readonly float scale;
 
 		private Body body;
 
@@ -57,8 +58,9 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			Fraction = cannonfraction;
 
 			center = new Vector2(posX, posY);
+			scale = 1f;
 
-			innerBoundings = new CircleF(center, CANNON_DIAMETER / 2);
+			innerBoundings = new CircleF(center, scale * CANNON_DIAMETER / 2);
 			cannonHealth = Fraction.IsNeutral ? 0f : 1f;
 		}
 
@@ -67,11 +69,12 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			Fraction = fractions[blueprint.Player];
 
 			center = new Vector2(blueprint.X, blueprint.Y);
+			scale = blueprint.Scale;
 
 			actualRotation = FloatMath.ToRadians(blueprint.Rotation);
 			targetRotation = FloatMath.ToRadians(blueprint.Rotation);
 
-			innerBoundings = new CircleF(center, CANNON_DIAMETER / 2);
+			innerBoundings = new CircleF(center, scale * CANNON_DIAMETER / 2);
 			cannonHealth = Fraction.IsNeutral ? 0f : 1f;
 		}
 
@@ -79,20 +82,20 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			spriteBody = new Sprite(Textures.TexCannonBody)
 			{
-				Scale = Textures.DEFAULT_TEXTURE_SCALE,
+				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
 				Position = center,
 				Color = Fraction.Color,
 			};
 
 			spriteBarrel = new Sprite(Textures.TexCannonBarrel)
 			{
-				Scale = Textures.DEFAULT_TEXTURE_SCALE,
+				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
 				Position = center,
 				Origin = new Vector2(-32, 32),
 				Color = Fraction.Color,
 			};
 
-			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(CANNON_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(center), BodyType.Static, this);
+			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(scale * CANNON_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(center), BodyType.Static, this);
 		}
 
 		public override void OnRemove()
@@ -144,7 +147,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			//Owner.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
 
-			Manager.AddEntity(new Bullet(Owner, this, position, velocity));
+			Manager.AddEntity(new Bullet(Owner, this, position, velocity, scale));
 		}
 
 		private void UpdateRotation(GameTime gameTime, InputState istate)
@@ -210,15 +213,15 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		private void DrawDebugView(SpriteBatch sbatch)
 		{
-			var rectChargeFull = new RectangleF(center.X - CANNON_DIAMETER / 2, center.Y + CANNON_DIAMETER / 2 + (0 * 12) + 4, CANNON_DIAMETER * 1, 8);
-			var rectChargeProg = new RectangleF(center.X - CANNON_DIAMETER / 2, center.Y + CANNON_DIAMETER / 2 + (0 * 12) + 4, CANNON_DIAMETER * barrelCharge, 8);
+			var rectChargeFull = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (0 * 12) + 4, innerBoundings.Diameter, 8);
+			var rectChargeProg = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (0 * 12) + 4, innerBoundings.Diameter * barrelCharge, 8);
 
 			sbatch.FillRectangle(rectChargeFull, Color.White);
 			sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
 			sbatch.DrawRectangle(rectChargeFull, Color.Black);
 
-			var rectHealthFull = new RectangleF(center.X - CANNON_DIAMETER / 2, center.Y + CANNON_DIAMETER / 2 + (1 * 12) + 4, CANNON_DIAMETER * 1, 8);
-			var rectHealthProg = new RectangleF(center.X - CANNON_DIAMETER / 2, center.Y + CANNON_DIAMETER / 2 + (1 * 12) + 4, CANNON_DIAMETER * cannonHealth, 8);
+			var rectHealthFull = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (1 * 12) + 4, innerBoundings.Diameter, 8);
+			var rectHealthProg = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (1 * 12) + 4, innerBoundings.Diameter * cannonHealth, 8);
 
 			sbatch.FillRectangle(rectHealthFull, Color.White);
 			sbatch.FillRectangle(rectHealthProg, Fraction.Color);
@@ -226,8 +229,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			for (int i = 0; i < ActiveOperations.Count; i++)
 			{
-				var rectFull = new RectangleF(center.X - CANNON_DIAMETER / 2, center.Y + CANNON_DIAMETER / 2 + ((i+2) * 12) + 16, CANNON_DIAMETER * 1, 8);
-				var rectProg = new RectangleF(center.X - CANNON_DIAMETER / 2, center.Y + CANNON_DIAMETER / 2 + ((i+2) * 12) + 16, CANNON_DIAMETER * (1- ActiveOperations[i].Progress), 8);
+				var rectFull = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + ((i+2) * 12) + 16, innerBoundings.Diameter, 8);
+				var rectProg = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + ((i+2) * 12) + 16, innerBoundings.Diameter * (1- ActiveOperations[i].Progress), 8);
 
 				sbatch.FillRectangle(rectFull, Color.White);
 				sbatch.FillRectangle(rectProg, Color.Chocolate);
