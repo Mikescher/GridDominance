@@ -54,20 +54,33 @@ namespace Leveleditor
 					g.SmoothingMode = SmoothingMode.AntiAlias;
 					g.Clear(Color.Black);
 
-					for (int x = 0; x < 8; x++)
+					for (int x = 0; x < 16; x++)
 					{
-						g.DrawLine(Pens.DarkGray, x * 128, 0, x * 128, 640);
+						g.DrawLine((x%2==0)? Pens.DarkGray : Pens.DimGray, x * 64, 0, x * 64, 640);
 					}
-					for (int y = 0; y < 5; y++)
+					for (int y = 0; y < 10; y++)
 					{
-						g.DrawLine(Pens.DarkGray, 0, y * 128, 1024, y * 128);
+						g.DrawLine((y % 2 == 0) ? Pens.DarkGray : new Pen(Color.FromArgb(88, 88, 88)), 0, y * 64, 1024, y * 64);
 					}
 
 					foreach (var c in level.BlueprintCannons)
 					{
-						g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), new Rectangle((int) (c.X - c.Radius), (int)(c.Y - c.Radius),(int)(c.Radius * 2), (int)(c.Radius * 2)));
-					}
+						var centerX = (int) (c.X - c.Radius);
+						var centerY = (int) (c.Y - c.Radius);
+						var width   = (int)(c.Radius * 2);
+						var height  = (int)(c.Radius * 2);
 
+						var rectReal = new Rectangle(centerX, centerY, width, height);
+						var rectCircle = new Rectangle(rectReal.Location, rectReal.Size);
+						var rectOuter = new Rectangle(rectReal.Location, rectReal.Size);
+						rectCircle.Inflate((width * 48 / 64 - width) / 2, (height * 48 / 64 - height) / 2);
+						rectOuter.Inflate((width * 80 / 64 - width) / 2, (height * 80 / 64 - height) / 2);
+
+
+						g.FillRectangle(new SolidBrush(Color.FromArgb(64, CANNON_COLORS[c.Player])), rectReal);
+						g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectCircle);
+						g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 2), rectOuter);
+					}
 				}
 			}
 

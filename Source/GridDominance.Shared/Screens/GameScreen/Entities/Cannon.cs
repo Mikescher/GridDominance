@@ -79,7 +79,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Color = Fraction.Color,
 			};
 
-			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(CANNON_DIAMETER /2), 1, ConvertUnits.ToSimUnits(center), BodyType.Static, this);
+			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(CANNON_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(center), BodyType.Static, this);
 		}
 
 		public override void OnRemove()
@@ -184,8 +184,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void Draw(SpriteBatch sbatch)
 		{
-			sbatch.Draw(spriteBarrel);
 			sbatch.Draw(spriteBody);
+			sbatch.Draw(spriteBarrel);
 
 #if DEBUG
 			DrawDebugView(sbatch);
