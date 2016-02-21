@@ -7,7 +7,7 @@ define(A2, 2) # PC
 define(A3, 3) # PC
 define(A4, 4) # PC
 
-define(SIZE_NORMAL, 64)
+define(SIZE_NORMAL, 1.0)
 define(CELL_W, 128)
 define(CELL_H, 128)
 
