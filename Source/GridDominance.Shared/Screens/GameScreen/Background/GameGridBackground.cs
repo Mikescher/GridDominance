@@ -2,10 +2,8 @@
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
-using MonoGame.Extended.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.GameScreen.Background
 {
@@ -13,8 +11,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 	{
 		private const int TILE_WIDTH = GameScreen.TILE_WIDTH;
 
-		private const int TILE_COUNT_X = 8;
-		private const int TILE_COUNT_Y = 5;
+		private const int TILE_COUNT_X = 16;
+		private const int TILE_COUNT_Y = 10;
 
 		protected readonly GraphicsDevice Graphics;
 		protected readonly TolerantBoxingViewportAdapter Adapter;
@@ -34,7 +32,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 			{
 				for (int y = -extensionY; y < TILE_COUNT_Y + extensionY; y++)
 				{
-					sbatch.Draw(Textures.TexDebugTile, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), Color.White);
+					sbatch.Draw(Textures.TexPixel, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), FlatColors.Background);
+					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), Color.White);
 				}
 			}
 

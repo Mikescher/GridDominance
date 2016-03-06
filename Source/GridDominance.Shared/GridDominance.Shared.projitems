@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\DebugTextDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\DebugTextDisplayLine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\IDebugTextDisplay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\FlatColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FloatMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\InputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\InputStateManager.cs" />

@@ -38,6 +38,9 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		private Sprite spriteBody;
 		private Sprite spriteBarrel;
+		private Sprite spriteBodyShadow;
+		private Sprite spriteBarrelShadow;
+		private Sprite spriteCog;
 
 		private bool isMouseDragging = false;
 
@@ -84,7 +87,20 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			{
 				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
 				Position = center,
-				Color = Fraction.Color,
+				Color = FlatColors.Silver,
+			};
+
+			spriteBodyShadow = new Sprite(Textures.TexCannonBodyShadow)
+			{
+				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
+				Position = center,
+			};
+
+			spriteCog = new Sprite(Textures.TexCannonCog)
+			{
+				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
+				Position = center,
+				Color = Fraction.Color
 			};
 
 			spriteBarrel = new Sprite(Textures.TexCannonBarrel)
@@ -92,7 +108,14 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
 				Position = center,
 				Origin = new Vector2(-32, 32),
-				Color = Fraction.Color,
+				Color = FlatColors.Silver,
+			};
+
+			spriteBarrelShadow = new Sprite(Textures.TexCannonBarrelShadow)
+			{
+				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
+				Position = center,
+				Origin = new Vector2(-16, 48),
 			};
 
 			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(scale * CANNON_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(center), BodyType.Static, this);
@@ -178,7 +201,10 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			}
 
 			spriteBody.Rotation = actualRotation;
+			spriteBodyShadow.Rotation = actualRotation;
+
 			spriteBarrel.Rotation = actualRotation;
+			spriteBarrelShadow.Rotation = actualRotation;
 		}
 
 		public Vector2 GetBulletSpawnPoint()
@@ -200,8 +226,13 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void Draw(SpriteBatch sbatch)
 		{
+			sbatch.Draw(spriteBarrelShadow);
+			sbatch.Draw(spriteBodyShadow);
+
 			sbatch.Draw(spriteBarrel);
 			sbatch.Draw(spriteBody);
+
+			sbatch.Draw(spriteCog);
 
 #if DEBUG
 			DrawDebugView(sbatch);
@@ -299,8 +330,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			Fraction = f;
 
-			spriteBody.Color = f.Color;
-			spriteBarrel.Color = f.Color;
+			spriteCog.Color = f.Color;
 		}
 
 		#endregion

@@ -42,6 +42,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			debugView.AppendFlags(DebugViewFlags.ContactNormals);
 			debugView.AppendFlags(DebugViewFlags.Controllers);
 			debugView.TextColor = Color.Black;
+			debugView.Enabled = false;
 #endif
 
 			Owner.Owner.Window.ClientSizeChanged += (s, e) => RecalculateBoundingBox();

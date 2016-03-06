@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GridDominance.Shared.Framework;
 using Microsoft.Xna.Framework;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
 	public class Fraction
 	{
-		public static readonly Color COLOR_NEUTRAL     = Color.LightGray;
-		public static readonly Color COLOR_PLAYER      = Color.Green;
-		public static readonly Color COLOR_COMPUTER_01 = Color.Red;
-		public static readonly Color COLOR_COMPUTER_02 = Color.Blue;
-		public static readonly Color COLOR_COMPUTER_03 = Color.Yellow;
-		public static readonly Color COLOR_COMPUTER_04 = Color.Cyan;
-		public static readonly Color COLOR_COMPUTER_05 = Color.Orange;
-		public static readonly Color COLOR_COMPUTER_06 = Color.Pink;
+		public static readonly Color COLOR_NEUTRAL     = FlatColors.Silver;
+		public static readonly Color COLOR_PLAYER      = FlatColors.Nephritis;     
+		public static readonly Color COLOR_COMPUTER_01 = FlatColors.Pomegranate;    
+		public static readonly Color COLOR_COMPUTER_02 = FlatColors.BelizeHole;  
+		public static readonly Color COLOR_COMPUTER_03 = FlatColors.Wisteria;   
+		public static readonly Color COLOR_COMPUTER_04 = FlatColors.Orange;
+		public static readonly Color COLOR_COMPUTER_05 = FlatColors.GreenSea;
 
 		public const float MULTIPLICATOR_PLAYER     = 1.000f;
 		public const float MULTIPLICATOR_NEUTRAL    = 0.500f;

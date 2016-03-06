@@ -15,10 +15,10 @@ namespace GridDominance.Shared.Screens.GameScreen
 {
 	class GameScreen : GDScreen
 	{
-		public const int TILE_WIDTH = 128;
+		public const int TILE_WIDTH = 64;
 		
-		public const int VIEW_WIDTH  = 8 * TILE_WIDTH; // 1024
-		public const int VIEW_HEIGHT = 5 * TILE_WIDTH; // 640
+		public const int VIEW_WIDTH  = 16 * TILE_WIDTH; // 1024
+		public const int VIEW_HEIGHT = 10 * TILE_WIDTH; // 640
 
 		//-----------------------------------------------------------------
 
