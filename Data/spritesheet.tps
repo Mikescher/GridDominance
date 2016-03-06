@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.0.1</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/data/spritesheet.tps</string>
+        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -108,9 +108,9 @@
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
-            <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
+            <enum type="AlgorithmSettings::SizeConstraints">POT</enum>
             <key>forceSquared</key>
-            <false/>
+            <true/>
             <key>forceWordAligned</key>
             <false/>
             <key>maxRects</key>
@@ -152,7 +152,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../GridDominance.Shared/Content/textures/spritesheet.json</filename>
+                <filename>../Source/GridDominance.Shared/Content/textures/spritesheet.json</filename>
             </struct>
             <key>datafile</key>
             <struct type="DataFile">
@@ -207,10 +207,14 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>tile_debug.png</filename>
+            <filename>cannonball.png</filename>
+            <filename>cannonbody_shadow.png</filename>
             <filename>cannonbarrel.png</filename>
             <filename>cannonbody.png</filename>
-            <filename>cannonball.png</filename>
+            <filename>grid.png</filename>
+            <filename>pixel.png</filename>
+            <filename>cannonbarrel_shadow.png</filename>
+            <filename>cannoncog.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
