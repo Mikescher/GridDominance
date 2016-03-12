@@ -67,12 +67,6 @@
     <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
-    <None Include="Content\bin\$(MonoGamePlatform)\textures\*.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\bin\$(MonoGamePlatform)\fonts\*.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj">
