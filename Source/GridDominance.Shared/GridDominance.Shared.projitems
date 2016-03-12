@@ -9,10 +9,13 @@
     <Import_RootNamespace>GridDominance.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\ColorMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\DummyDebugTextDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\DebugTextDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\DebugTextDisplayLine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\IDebugTextDisplay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\DeltaLimitedFloat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\DeltaLimitedModuloFloat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FlatColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FloatMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\InputState.cs" />

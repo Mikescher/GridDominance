@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
@@ -15,13 +16,15 @@ namespace GridDominance.Shared.Resources
 
 		#region Textures
 
+		public static int ANIMATION_CANNONCOG_SIZE = 128;
+
 		public static TextureRegion2D TexTileBorder;
 
 		public static TextureRegion2D TexCannonBody;
 		public static TextureRegion2D TexCannonBodyShadow;
 		public static TextureRegion2D TexCannonBarrel;
 		public static TextureRegion2D TexCannonBarrelShadow;
-		public static TextureRegion2D TexCannonCog;
+		public static TextureRegion2D[] AnimCannonCog;
 
 		public static TextureRegion2D TexBullet;
 
@@ -41,7 +44,7 @@ namespace GridDominance.Shared.Resources
 			TexCannonBodyShadow = AtlasTextures["cannonbody_shadow"];
 			TexCannonBarrel = AtlasTextures["cannonbarrel"];
 			TexCannonBarrelShadow = AtlasTextures["cannonbarrel_shadow"];
-			TexCannonCog = AtlasTextures["cannoncog"];
+			AnimCannonCog = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[string.Format("cannoncog_{0:000}", p)]).ToArray();
 
 			TexBullet = AtlasTextures["cannonball"];
 

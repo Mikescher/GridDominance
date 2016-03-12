@@ -206,6 +206,18 @@ namespace GridDominance.Shared.Framework
 			return Abs(value) <= tolerance;
 		}
 
+		public static bool IsZero(float value)
+		{
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			return value == 0;
+		}
+
+		public static bool IsNotZero(float value)
+		{
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			return value != 0;
+		}
+
 		public static float ToDegree(float radians)
 		{
 			return radians * RadiansToDegrees;
@@ -218,21 +230,26 @@ namespace GridDominance.Shared.Framework
 
 		public static float DiffRadians(float a1, float a2) // [a1 - a2]
 		{
+			return DiffModulo(a1, a2, TAU);
+		}
+
+		public static float DiffModulo(float a1, float a2, float mod) // [a1 - a2]
+		{
 			if (a1 > a2)
 			{
 				float diff = a1 - a2;
-				if (Abs(diff) < PI) return diff;
-				if (diff <= -PI) return diff + TAU;
-				if (diff >= +PI) return diff - TAU;
+				if (Abs(diff) < mod / 2) return diff;
+				if (diff <= -mod / 2) return diff + mod;
+				if (diff >= +mod / 2) return diff - mod;
 
 				throw new ArgumentException();
 			}
 			else if (a2 > a1)
 			{
 				float diff = a1 - a2;
-				if (Abs(diff) < PI) return diff;
-				if (diff <= -PI) return diff + TAU;
-				if (diff >= +PI) return diff - TAU;
+				if (Abs(diff) < mod / 2) return diff;
+				if (diff <= -mod / 2) return diff + mod;
+				if (diff >= +mod / 2) return diff - mod;
 
 				throw new ArgumentException();
 			}
@@ -261,6 +278,22 @@ namespace GridDominance.Shared.Framework
 			return value;
 		}
 
+		public static float LimitedDec(float value, float dec, float limit, out bool limitHit)
+		{
+			if (dec < 0) return LimitedInc(value, -dec, limit, out limitHit);
+
+			value -= dec;
+			if (value <= limit)
+			{
+				limitHit = true;
+				return limit;
+			}
+
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			limitHit = (value == limit);
+			return value;
+		}
+
 		public static float LimitedInc(float value, float inc, float limit)
 		{
 			if (inc < 0) return LimitedDec(value, -inc, limit);
@@ -270,9 +303,37 @@ namespace GridDominance.Shared.Framework
 			return value;
 		}
 
+		public static float LimitedInc(float value, float inc, float limit, out bool limitHit)
+		{
+			if (inc < 0) return LimitedDec(value, -inc, limit, out limitHit);
+
+			value += inc;
+			if (value >= limit)
+			{
+				limitHit = true;
+				return limit;
+			}
+
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			limitHit = (value == limit);
+			return value;
+		}
+
 		public static float GetRangedRandom(float min, float max)
 		{
 			return (float)(Random.NextDouble() * (max - min) + min);
+		}
+
+		public static bool FloatEquals(float a, float b)
+		{
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			return (a == b);
+		}
+
+		public static bool FloatInequals(float a, float b)
+		{
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			return (a != b);
 		}
 	}
 }

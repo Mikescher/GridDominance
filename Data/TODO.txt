@@ -1,3 +1,5 @@
+Different spritesheet scales for diff devices
+
 mit ton + musik
 
 different tower types

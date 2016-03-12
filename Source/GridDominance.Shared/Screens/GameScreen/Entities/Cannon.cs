@@ -12,12 +12,15 @@ using MonoGame.Extended.Sprites;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Screens.GameScreen.EntityOperations;
 using MonoGame.Extended.Shapes;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GridDominance.Shared.Screens.GameScreen.Entities
 {
 	class Cannon : GDEntity
 	{
 		private const float ROTATION_SPEED = FloatMath.TAU / 2; // 3.141 rad/sec
+		private const float HEALTH_PROGRESS_SPEED = 1f; // min 1sec for 360°
+		private const float BASE_COG_ROTATION_SPEED = FloatMath.TAU / 3; // 2.1 rad/sec
 
 		private const float BARREL_CHARGE_SPEED = 0.9f;
 		private const float CANNON_DIAMETER = 96;
@@ -40,32 +43,22 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private Sprite spriteBarrel;
 		private Sprite spriteBodyShadow;
 		private Sprite spriteBarrelShadow;
-		private Sprite spriteCog;
 
 		private bool isMouseDragging = false;
 
 		private float barrelCharge = 0f;
-		private float cannonHealth = 1f;
+		private readonly DeltaLimitedFloat cannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
-		private float actualRotation = 0;   // radians
-		private float targetRotation = 0;   // radians
+		private readonly DeltaLimitedModuloFloat rotation;
 
 		private readonly Vector2 center;
 		private readonly CircleF innerBoundings;
 		private readonly float scale;
 
+		private readonly Vector2 cannonCogOrigin;
+		private float cannonCogRotation;
+
 		private Body body;
-
-		public Cannon(GameScreen scrn, float posX, float posY, Fraction cannonfraction) : base(scrn)
-		{
-			Fraction = cannonfraction;
-
-			center = new Vector2(posX, posY);
-			scale = 1f;
-
-			innerBoundings = new CircleF(center, scale * CANNON_DIAMETER / 2);
-			cannonHealth = Fraction.IsNeutral ? 0f : 1f;
-		}
 
 		public Cannon(GameScreen scrn, LPCannon blueprint, Fraction[] fractions) : base(scrn)
 		{
@@ -73,12 +66,13 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			center = new Vector2(blueprint.X, blueprint.Y);
 			scale = blueprint.Scale;
-
-			actualRotation = FloatMath.ToRadians(blueprint.Rotation);
-			targetRotation = FloatMath.ToRadians(blueprint.Rotation);
+			
+			rotation = new DeltaLimitedModuloFloat(FloatMath.ToRadians(blueprint.Rotation), ROTATION_SPEED, FloatMath.TAU);
 
 			innerBoundings = new CircleF(center, scale * CANNON_DIAMETER / 2);
-			cannonHealth = Fraction.IsNeutral ? 0f : 1f;
+			cannonHealth.SetForce(Fraction.IsNeutral ? 0f : 1f);
+
+			cannonCogOrigin = new Vector2(0.5f * Textures.AnimCannonCog[0].Width, 0.5f * Textures.AnimCannonCog[0].Height); // better cache than sorry
 		}
 
 		public override void OnInitialize()
@@ -94,13 +88,6 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			{
 				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
 				Position = center,
-			};
-
-			spriteCog = new Sprite(Textures.TexCannonCog)
-			{
-				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = center,
-				Color = Fraction.Color
 			};
 
 			spriteBarrel = new Sprite(Textures.TexCannonBarrel)
@@ -139,18 +126,38 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		private void UpdateHealth(GameTime gameTime)
 		{
-			if (cannonHealth < 1 && cannonHealth > 0)
-			{
-				var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * cannonHealth;
+			cannonHealth.Update(gameTime);
 
-				cannonHealth += bonus * gameTime.GetElapsedSeconds();
-				if (cannonHealth > 1) cannonHealth = 1;
+			if (cannonHealth.TargetValue < 1 && cannonHealth.TargetValue > 0)
+			{
+				var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * cannonHealth.TargetValue;
+
+				cannonHealth.Inc(bonus * gameTime.GetElapsedSeconds());
+				cannonHealth.Limit(0f, 1f);
+			}
+
+			if (cannonHealth.ActualValue >= 1 || (cannonHealth.ActualValue <= 0 && Fraction.IsNeutral))
+			{
+				var rotInc = BASE_COG_ROTATION_SPEED * Fraction.Multiplicator * (1 + TotalBoost) * gameTime.GetElapsedSeconds();
+
+				cannonCogRotation = (cannonCogRotation + rotInc) % (FloatMath.PI / 2);
+			}
+			else
+			{
+				if (FloatMath.FloatInequals(cannonCogRotation, FloatMath.PI / 2))
+				{
+					var rotInc = BASE_COG_ROTATION_SPEED * Fraction.GetNeutral().Multiplicator * (1 + TotalBoost) * gameTime.GetElapsedSeconds();
+
+					bool isLimited;
+					cannonCogRotation = FloatMath.LimitedInc(cannonCogRotation, rotInc, FloatMath.PI/2, out isLimited);
+					if (isLimited) cannonCogRotation = FloatMath.PI / 2;
+				}
 			}
 		}
 
 		private void UpdateBarrel(GameTime gameTime)
 		{
-			if (cannonHealth >= 1)
+			if (cannonHealth.TargetValue >= 1)
 			{
 				barrelCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * (1 + TotalBoost) * gameTime.GetElapsedSeconds();
 
@@ -183,39 +190,33 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			{
 				isMouseDragging = false;
 
-				Owner.PushNotification($"Cannon :: target({FloatMath.ToDegree(targetRotation):000}°)");
+				Owner.PushNotification($"Cannon :: target({FloatMath.ToDegree(rotation.TargetValue):000}°)");
 			}
 			else if (isMouseDragging && istate.IsDown && !innerBoundings.Contains(istate.PointerPosition))
 			{
-				targetRotation = FloatMath.PositiveAtan2(istate.PointerPosition.Y - center.Y, istate.PointerPosition.X - center.X);
+				rotation.Set(FloatMath.PositiveAtan2(istate.PointerPosition.Y - center.Y, istate.PointerPosition.X - center.X));
 			}
 
-			// ReSharper disable once CompareOfFloatsByEqualityOperator
-			if (actualRotation != targetRotation)
-			{
-				var radSpeed = ROTATION_SPEED * gameTime.GetElapsedSeconds();
-				var diff = FloatMath.DiffRadians(actualRotation, targetRotation);
+			rotation.Update(gameTime);
 
-				actualRotation = Math.Abs(diff) <= radSpeed ? targetRotation : FloatMath.AddRads(actualRotation, -FloatMath.Sign(diff) * radSpeed);
-				body.Rotation = actualRotation;
-			}
+			body.Rotation = rotation.ActualValue;
 
-			spriteBody.Rotation = actualRotation;
-			spriteBodyShadow.Rotation = actualRotation;
+			spriteBody.Rotation = rotation.ActualValue;
+			spriteBodyShadow.Rotation = rotation.ActualValue;
 
-			spriteBarrel.Rotation = actualRotation;
-			spriteBarrelShadow.Rotation = actualRotation;
+			spriteBarrel.Rotation = rotation.ActualValue;
+			spriteBarrelShadow.Rotation = rotation.ActualValue;
 		}
 
 		public Vector2 GetBulletSpawnPoint()
 		{
-			return center + new Vector2(64, 0).Rotate(actualRotation);
+			return center + new Vector2(64, 0).Rotate(rotation.ActualValue);
 		}
 
 		public Vector2 GetBulletVelocity()
 		{
 			var variance = FloatMath.GetRangedRandom(-BULLET_ANGLE_VARIANCE, +BULLET_ANGLE_VARIANCE);
-			var angle = FloatMath.AddRads(actualRotation, variance);
+			var angle = FloatMath.AddRads(rotation.ActualValue, variance);
 
 			return new Vector2(1, 0).Rotate(angle) * BULLET_INITIAL_SPEED;
 		}
@@ -232,7 +233,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			sbatch.Draw(spriteBarrel);
 			sbatch.Draw(spriteBody);
 
-			sbatch.Draw(spriteCog);
+			DrawCog(sbatch);
 
 #if DEBUG
 			DrawDebugView(sbatch);
@@ -240,6 +241,34 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			// ASSERTION
 			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBoost/BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
+		}
+
+		private void DrawCog(SpriteBatch sbatch)
+		{
+			TextureRegion2D texBack = Textures.AnimCannonCog[Textures.ANIMATION_CANNONCOG_SIZE - 1];
+			TextureRegion2D texProg = Textures.AnimCannonCog[(int)(cannonHealth.ActualValue * (Textures.ANIMATION_CANNONCOG_SIZE - 1))];
+
+			sbatch.Draw(
+				texBack.Texture,
+				center,
+				texBack.Bounds,
+				FlatColors.Clouds,
+				cannonCogRotation + 3 * (FloatMath.PI / 2),
+				cannonCogOrigin,
+				scale * Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
+
+			sbatch.Draw(
+				texProg.Texture,
+				center,
+				texProg.Bounds,
+				Fraction.Color,
+				cannonCogRotation + 3 * (FloatMath.PI / 2),
+				cannonCogOrigin, 
+				scale * Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
 		}
 
 		private void DrawDebugView(SpriteBatch sbatch)
@@ -252,11 +281,29 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			sbatch.DrawRectangle(rectChargeFull, Color.Black);
 
 			var rectHealthFull = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (1 * 12) + 4, innerBoundings.Diameter, 8);
-			var rectHealthProg = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (1 * 12) + 4, innerBoundings.Diameter * cannonHealth, 8);
+			var rectHealthProgT = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (1 * 12) + 4, innerBoundings.Diameter * cannonHealth.TargetValue, 8);
+			var rectHealthProgA = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (1 * 12) + 4, innerBoundings.Diameter * cannonHealth.ActualValue, 8);
 
-			sbatch.FillRectangle(rectHealthFull, Color.White);
-			sbatch.FillRectangle(rectHealthProg, Fraction.Color);
-			sbatch.DrawRectangle(rectHealthFull, Color.Black);
+			if (cannonHealth.IsDecreasing())
+			{
+				sbatch.FillRectangle(rectHealthFull, Color.White);
+				sbatch.FillRectangle(rectHealthProgA, Fraction.Color.Lighten());
+				sbatch.FillRectangle(rectHealthProgT, Fraction.Color);
+				sbatch.DrawRectangle(rectHealthFull, Color.Black);
+			}
+			else if (cannonHealth.IsIncreasing())
+			{
+				sbatch.FillRectangle(rectHealthFull, Color.White);
+				sbatch.FillRectangle(rectHealthProgT, Fraction.Color.Lighten());
+				sbatch.FillRectangle(rectHealthProgA, Fraction.Color);
+				sbatch.DrawRectangle(rectHealthFull, Color.Black);
+			}
+			else
+			{
+				sbatch.FillRectangle(rectHealthFull, Color.White);
+				sbatch.FillRectangle(rectHealthProgA, Fraction.Color);
+				sbatch.DrawRectangle(rectHealthFull, Color.Black);
+			}
 
 			for (int i = 0; i < ActiveOperations.Count; i++)
 			{
@@ -284,13 +331,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			if (Fraction.IsNeutral) return;
 
-			cannonHealth += HEALTH_HIT_GEN;
-			if (cannonHealth >= 1)
+			cannonHealth.Inc(HEALTH_HIT_GEN);
+			if (cannonHealth.Limit(0f, 1f) == 1)
 			{
-				cannonHealth = 1;
 				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1/(BOOSTER_LIFETIME_MULTIPLIER * Fraction.Multiplicator))); //TODO This means the length goes up for lesser multiplicators? wtf
 			}
-
 		}
 
 		public void TakeDamage(Fraction source)
@@ -303,24 +348,23 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			{
 				SetFraction(source);
 				ResetChargeAndBooster();
-				cannonHealth = HEALTH_HIT_GEN;
+				cannonHealth.Set(HEALTH_HIT_GEN);
 			}
 			else
 			{
-				cannonHealth -= HEALTH_HIT_DROP;
+				cannonHealth.Dec(HEALTH_HIT_DROP);
 
-				// ReSharper disable once CompareOfFloatsByEqualityOperator
-				if (cannonHealth == 0)
+				if (cannonHealth.TargetValue == 0)
 				{
 					// Never tell me the odds
 
 					SetFraction(Fraction.GetNeutral());
 					ResetChargeAndBooster();
 				}
-				else if (cannonHealth < 0)
+				else if (cannonHealth.TargetValue < 0)
 				{
 					SetFraction(source);
-					cannonHealth = FloatMath.Abs(cannonHealth);
+					cannonHealth.Set(FloatMath.Abs(cannonHealth.TargetValue));
 					ResetChargeAndBooster();
 				}
 			}
@@ -329,8 +373,6 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private void SetFraction(Fraction f)
 		{
 			Fraction = f;
-
-			spriteCog.Color = f.Color;
 		}
 
 		#endregion

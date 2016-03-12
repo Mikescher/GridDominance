@@ -42,6 +42,6 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 				for (int y = 0; y < TILE_COUNT_Y; y++)
 					sbatch.DrawRectangle(new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), Color.Magenta);
 #endif
-		}
+		} 
 	}
 }
