@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>4.0.1</string>
+        <string>4.1.0</string>
         <key>fileName</key>
         <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/spritesheet.tps</string>
         <key>autoSDSettings</key>
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>json-array</string>
         <key>textureFileName</key>
-        <filename></filename>
+        <filename>spritesheet.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -108,9 +108,9 @@
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
-            <enum type="AlgorithmSettings::SizeConstraints">POT</enum>
+            <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
             <key>forceSquared</key>
-            <true/>
+            <false/>
             <key>forceWordAligned</key>
             <false/>
             <key>maxRects</key>
@@ -152,7 +152,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Source/GridDominance.Shared/Content/textures/spritesheet.json</filename>
+                <filename>../Source/GridDominance.Shared/Content/textures/spritesheet-sheet.json</filename>
             </struct>
             <key>datafile</key>
             <struct type="DataFile">
@@ -197,14 +197,158 @@
             <key>trimMargin</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">Polygon</enum>
+            <enum type="SpriteSettings::TrimMode">None</enum>
             <key>tracerTolerance</key>
             <int>10</int>
             <key>heuristicMask</key>
             <false/>
-            <key>pivotPoint</key>
-            <enum type="SpriteSettings::PivotPoint">Center</enum>
+            <key>defaultPivotPoint</key>
+            <point_f>0.5,0.5</point_f>
+            <key>writePivotPoints</key>
+            <false/>
         </struct>
+        <key>individualSpriteSettings</key>
+        <map type="IndividualSpriteSettingsMap">
+            <key type="filename">cannonball.png</key>
+            <key type="filename">cannonbarrel.png</key>
+            <key type="filename">cannonbarrel_shadow.png</key>
+            <key type="filename">cannonbody.png</key>
+            <key type="filename">cannonbody_shadow.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_000.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_001.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_002.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_003.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_004.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_005.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_006.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_007.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_008.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_009.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_010.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_011.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_012.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_013.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_014.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_015.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_016.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_017.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_018.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_019.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_020.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_021.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_022.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_023.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_024.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_025.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_026.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_027.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_028.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_029.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_030.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_031.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_032.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_033.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_034.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_035.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_036.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_037.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_038.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_039.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_040.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_041.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_042.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_043.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_044.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_045.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_046.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_047.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_048.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_049.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_050.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_051.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_052.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_053.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_054.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_055.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_056.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_057.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_058.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_059.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_060.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_061.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_062.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_063.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_064.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_065.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_066.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_067.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_068.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_069.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_070.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_071.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_072.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_073.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_074.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_075.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_076.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_077.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_078.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_079.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_080.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_081.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_082.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_083.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_084.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_085.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_086.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_087.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_088.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_089.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_090.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_091.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_092.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_093.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_094.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_095.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_096.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_097.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_098.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_099.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_100.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_101.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_102.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_103.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_104.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_105.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_106.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_107.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_108.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_109.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_110.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_111.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_112.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_113.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_114.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_115.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_116.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_117.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_118.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_119.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_120.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_121.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_122.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_123.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_124.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_125.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_126.png</key>
+            <key type="filename">cannoncog_animated/cannoncog_127.png</key>
+            <key type="filename">grid.png</key>
+            <key type="filename">pixel.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+            </struct>
+        </map>
         <key>fileList</key>
         <array>
             <filename>cannonball.png</filename>
@@ -214,7 +358,7 @@
             <filename>grid.png</filename>
             <filename>pixel.png</filename>
             <filename>cannonbarrel_shadow.png</filename>
-            <filename>cannoncog.png</filename>
+            <filename>cannoncog_animated</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
