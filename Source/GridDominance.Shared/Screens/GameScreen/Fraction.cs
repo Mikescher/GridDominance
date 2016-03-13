@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using GridDominance.Shared.Framework;
+using GridDominance.Shared.Screens.GameScreen.Entities;
+using GridDominance.Shared.Screens.GameScreen.FractionController;
 using Microsoft.Xna.Framework;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
-	public class Fraction
+	class Fraction
 	{
 		public static readonly Color COLOR_NEUTRAL     = FlatColors.Silver;
 		public static readonly Color COLOR_PLAYER      = FlatColors.Nephritis;     
@@ -23,39 +23,62 @@ namespace GridDominance.Shared.Screens.GameScreen
 		public const float MULTIPLICATOR_COMPUTER_2 = 0.095f;  // Hard
 		public const float MULTIPLICATOR_COMPUTER_3 = 1.000f;  // Impossible
 
+		public enum FractionType
+		{
+			PlayerFraction,
+			ComputerFraction,
+			NeutralFraction,
+		}
+
 		private readonly Fraction neutralFraction;
 		public readonly float Multiplicator;
 
 		public readonly Color Color;
-		public readonly bool IsNeutral;
+		public readonly FractionType Type;
 
-		private Fraction(Color c, Fraction nfrac, bool neutral, float mult)
+		public bool IsNeutral => (Type == FractionType.NeutralFraction);
+
+		private Fraction(Color c, Fraction nfrac, FractionType type, float mult)
 		{
 			this.Color = c;
-			this.IsNeutral = neutral;
-			this.neutralFraction = neutral ? this : nfrac;
+			this.Type = type;
+			this.neutralFraction = (Type == FractionType.NeutralFraction) ? this : nfrac;
 			this.Multiplicator = mult;
 		}
-
-
+		
 		public static Fraction CreatePlayerFraction(Fraction neutral)
 		{
-			return new Fraction(COLOR_PLAYER, neutral, false, MULTIPLICATOR_PLAYER);
+			return new Fraction(COLOR_PLAYER, neutral, FractionType.PlayerFraction, MULTIPLICATOR_PLAYER);
 		}
 
-		public static Fraction CreateComputerFraction(Color c, Fraction neutral, float difficulty_multiplier)
+		public static Fraction CreateComputerFraction(Color c, Fraction neutral, float difficultyMultiplier)
 		{
-			return new Fraction(c, neutral, false, difficulty_multiplier);
+			return new Fraction(c, neutral, FractionType.ComputerFraction, difficultyMultiplier);
 		}
 
 		public static Fraction CreateNeutralFraction()
 		{
-			return new Fraction(COLOR_NEUTRAL, null, true, MULTIPLICATOR_NEUTRAL);
+			return new Fraction(COLOR_NEUTRAL, null, FractionType.NeutralFraction, MULTIPLICATOR_NEUTRAL);
 		}
 
 		public Fraction GetNeutral()
 		{
 			return neutralFraction;
+		}
+
+		public AbstractFractionController CreateController(GameScreen owner, Cannon cannon)
+		{
+			switch (Type)
+			{
+				case FractionType.PlayerFraction:
+					return new PlayerController(owner, cannon, this);
+				case FractionType.ComputerFraction:
+					return new KIController(owner, cannon, this);
+				case FractionType.NeutralFraction:
+					return new EmptyController(owner, cannon, this);
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 	}
 }

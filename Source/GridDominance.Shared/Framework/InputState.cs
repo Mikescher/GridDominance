@@ -7,7 +7,7 @@ using MonoGame.Extended.ViewportAdapters;
 
 namespace GridDominance.Shared.Framework
 {
-	class InputState
+	public class InputState
 	{
 		public readonly MouseState Mouse;
 		public readonly KeyboardState Keyboard;

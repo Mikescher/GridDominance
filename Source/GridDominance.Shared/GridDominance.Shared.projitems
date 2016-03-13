@@ -36,6 +36,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\EntityOperations\BulletConsumeAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\EntityOperations\BulletFadeAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Fraction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\FractionController\AbstractFractionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\FractionController\KIController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\FractionController\EmptyController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\FractionController\PlayerController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\GDEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\GameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\GDEntityManager.cs" />

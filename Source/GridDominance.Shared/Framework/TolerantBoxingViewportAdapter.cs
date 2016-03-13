@@ -113,7 +113,7 @@ namespace GridDominance.Shared.Framework
 			 * | 0       0      1       0       |
 			 * | 0       0      0       1       |
 			 *
-			 *  = scale(scaleX, scaleY) * translate(offsetX, offsetY)
+			 *  = Scale(scaleX, scaleY) * translate(offsetX, offsetY)
 			*/
 
 			return new Matrix(scaleXY, 0f, 0f, 0, 0, scaleXY, 0, 0, 0, 0, 1, 0, offsetX, offsetY, 0, 1);

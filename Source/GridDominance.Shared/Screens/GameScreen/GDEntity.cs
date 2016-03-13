@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GridDominance.Shared.Framework;
-using GridDominance.Shared.Screens.GameScreen.Background;
-using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;

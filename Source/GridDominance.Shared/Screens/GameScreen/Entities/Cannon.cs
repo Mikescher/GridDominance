@@ -11,6 +11,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.Sprites;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Screens.GameScreen.EntityOperations;
+using GridDominance.Shared.Screens.GameScreen.FractionController;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
 
@@ -23,7 +24,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private const float BASE_COG_ROTATION_SPEED = FloatMath.TAU / 3; // 2.1 rad/sec
 
 		private const float BARREL_CHARGE_SPEED = 0.9f;
-		private const float CANNON_DIAMETER = 96;
+		public  const float CANNON_DIAMETER = 96;
 		private const float BULLET_ANGLE_VARIANCE = 0.035f; // ~ 2 degree
 		private const float BULLET_INITIAL_SPEED = 100f;
 
@@ -36,7 +37,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private const float HEALTH_HIT_DROP = 0.20f; // on Hit
 		private const float HEALTH_HIT_GEN  = 0.20f; // on Hit from own fraction
 
-		public Fraction Fraction;
+		public Fraction Fraction { get; private set; }
+		private AbstractFractionController controller;
 		public float TotalBoost = 0f;
 
 		private Sprite spriteBody;
@@ -44,16 +46,13 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private Sprite spriteBodyShadow;
 		private Sprite spriteBarrelShadow;
 
-		private bool isMouseDragging = false;
-
 		private float barrelCharge = 0f;
 		private readonly DeltaLimitedFloat cannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
-		private readonly DeltaLimitedModuloFloat rotation;
+		public readonly DeltaLimitedModuloFloat Rotation;
 
-		private readonly Vector2 center;
-		private readonly CircleF innerBoundings;
-		private readonly float scale;
+		public readonly Vector2 Center;
+		public readonly float Scale;
 
 		private readonly Vector2 cannonCogOrigin;
 		private float cannonCogRotation;
@@ -64,12 +63,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			Fraction = fractions[blueprint.Player];
 
-			center = new Vector2(blueprint.X, blueprint.Y);
-			scale = blueprint.Scale;
+			Center = new Vector2(blueprint.X, blueprint.Y);
+			Scale = blueprint.Scale;
 			
-			rotation = new DeltaLimitedModuloFloat(FloatMath.ToRadians(blueprint.Rotation), ROTATION_SPEED, FloatMath.TAU);
-
-			innerBoundings = new CircleF(center, scale * CANNON_DIAMETER / 2);
+			Rotation = new DeltaLimitedModuloFloat(FloatMath.ToRadians(blueprint.Rotation), ROTATION_SPEED, FloatMath.TAU);
+			
 			cannonHealth.SetForce(Fraction.IsNeutral ? 0f : 1f);
 
 			cannonCogOrigin = new Vector2(0.5f * Textures.AnimCannonCog[0].Width, 0.5f * Textures.AnimCannonCog[0].Height); // better cache than sorry
@@ -77,35 +75,37 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void OnInitialize()
 		{
+			controller = Fraction.CreateController(Owner, this);
+
 			spriteBody = new Sprite(Textures.TexCannonBody)
 			{
-				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = center,
+				Scale = Scale * Textures.DEFAULT_TEXTURE_SCALE,
+				Position = Center,
 				Color = FlatColors.Silver,
 			};
 
 			spriteBodyShadow = new Sprite(Textures.TexCannonBodyShadow)
 			{
-				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = center,
+				Scale = Scale * Textures.DEFAULT_TEXTURE_SCALE,
+				Position = Center,
 			};
 
 			spriteBarrel = new Sprite(Textures.TexCannonBarrel)
 			{
-				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = center,
+				Scale = Scale * Textures.DEFAULT_TEXTURE_SCALE,
+				Position = Center,
 				Origin = new Vector2(-32, 32),
 				Color = FlatColors.Silver,
 			};
 
 			spriteBarrelShadow = new Sprite(Textures.TexCannonBarrelShadow)
 			{
-				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = center,
+				Scale = Scale * Textures.DEFAULT_TEXTURE_SCALE,
+				Position = Center,
 				Origin = new Vector2(-16, 48),
 			};
 
-			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(scale * CANNON_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(center), BodyType.Static, this);
+			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(Center), BodyType.Static, this);
 		}
 
 		public override void OnRemove()
@@ -117,10 +117,10 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void OnUpdate(GameTime gameTime, InputState istate)
 		{
-			UpdateRotation(gameTime, istate);
+			controller.Update(gameTime, istate);
 
+			UpdateRotation(gameTime);
 			UpdateHealth(gameTime);
-
 			UpdateBarrel(gameTime);
 		}
 
@@ -177,46 +177,31 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			//Owner.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
 
-			Manager.AddEntity(new Bullet(Owner, this, position, velocity, scale));
+			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
 		}
 
-		private void UpdateRotation(GameTime gameTime, InputState istate)
+		private void UpdateRotation(GameTime gameTime)
 		{
-			if (istate.IsJustDown && innerBoundings.Contains(istate.PointerPosition))
-			{
-				isMouseDragging = true;
-			}
-			else if (!istate.IsDown && isMouseDragging)
-			{
-				isMouseDragging = false;
+			Rotation.Update(gameTime);
 
-				Owner.PushNotification($"Cannon :: target({FloatMath.ToDegree(rotation.TargetValue):000}°)");
-			}
-			else if (isMouseDragging && istate.IsDown && !innerBoundings.Contains(istate.PointerPosition))
-			{
-				rotation.Set(FloatMath.PositiveAtan2(istate.PointerPosition.Y - center.Y, istate.PointerPosition.X - center.X));
-			}
+			body.Rotation = Rotation.ActualValue;
 
-			rotation.Update(gameTime);
+			spriteBody.Rotation = Rotation.ActualValue;
+			spriteBodyShadow.Rotation = Rotation.ActualValue;
 
-			body.Rotation = rotation.ActualValue;
-
-			spriteBody.Rotation = rotation.ActualValue;
-			spriteBodyShadow.Rotation = rotation.ActualValue;
-
-			spriteBarrel.Rotation = rotation.ActualValue;
-			spriteBarrelShadow.Rotation = rotation.ActualValue;
+			spriteBarrel.Rotation = Rotation.ActualValue;
+			spriteBarrelShadow.Rotation = Rotation.ActualValue;
 		}
 
 		public Vector2 GetBulletSpawnPoint()
 		{
-			return center + new Vector2(64, 0).Rotate(rotation.ActualValue);
+			return Center + new Vector2(64, 0).Rotate(Rotation.ActualValue);
 		}
 
 		public Vector2 GetBulletVelocity()
 		{
 			var variance = FloatMath.GetRangedRandom(-BULLET_ANGLE_VARIANCE, +BULLET_ANGLE_VARIANCE);
-			var angle = FloatMath.AddRads(rotation.ActualValue, variance);
+			var angle = FloatMath.AddRads(Rotation.ActualValue, variance);
 
 			return new Vector2(1, 0).Rotate(angle) * BULLET_INITIAL_SPEED;
 		}
@@ -250,39 +235,42 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			sbatch.Draw(
 				texBack.Texture,
-				center,
+				Center,
 				texBack.Bounds,
 				FlatColors.Clouds,
 				cannonCogRotation + 3 * (FloatMath.PI / 2),
 				cannonCogOrigin,
-				scale * Textures.DEFAULT_TEXTURE_SCALE,
+				Scale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
 
 			sbatch.Draw(
 				texProg.Texture,
-				center,
+				Center,
 				texProg.Bounds,
 				Fraction.Color,
 				cannonCogRotation + 3 * (FloatMath.PI / 2),
 				cannonCogOrigin, 
-				scale * Textures.DEFAULT_TEXTURE_SCALE,
+				Scale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
 		}
 
+#if DEBUG
 		private void DrawDebugView(SpriteBatch sbatch)
 		{
-			var rectChargeFull = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (0 * 12) + 4, innerBoundings.Diameter, 8);
-			var rectChargeProg = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (0 * 12) + 4, innerBoundings.Diameter * barrelCharge, 8);
+			var innerRadius = Scale*CANNON_DIAMETER/2;
+
+			var rectChargeFull = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
+			var rectChargeProg = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * barrelCharge, 8);
 
 			sbatch.FillRectangle(rectChargeFull, Color.White);
 			sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
 			sbatch.DrawRectangle(rectChargeFull, Color.Black);
 
-			var rectHealthFull = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (1 * 12) + 4, innerBoundings.Diameter, 8);
-			var rectHealthProgT = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (1 * 12) + 4, innerBoundings.Diameter * cannonHealth.TargetValue, 8);
-			var rectHealthProgA = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + (1 * 12) + 4, innerBoundings.Diameter * cannonHealth.ActualValue, 8);
+			var rectHealthFull = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2, 8);
+			var rectHealthProgT = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * cannonHealth.TargetValue, 8);
+			var rectHealthProgA = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * cannonHealth.ActualValue, 8);
 
 			if (cannonHealth.IsDecreasing())
 			{
@@ -307,16 +295,17 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			for (int i = 0; i < ActiveOperations.Count; i++)
 			{
-				var rectFull = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + ((i+2) * 12) + 16, innerBoundings.Diameter, 8);
-				var rectProg = new RectangleF(center.X - innerBoundings.Radius, center.Y + innerBoundings.Radius + ((i+2) * 12) + 16, innerBoundings.Diameter * (1- ActiveOperations[i].Progress), 8);
+				var rectFull = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2, 8);
+				var rectProg = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2 * (1- ActiveOperations[i].Progress), 8);
 
 				sbatch.FillRectangle(rectFull, Color.White);
 				sbatch.FillRectangle(rectProg, Color.Chocolate);
 				sbatch.DrawRectangle(rectFull, Color.Black);
 			}
 		}
+#endif
 
-		#endregion
+#endregion
 
 		#region Change State
 
@@ -354,7 +343,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			{
 				cannonHealth.Dec(HEALTH_HIT_DROP);
 
-				if (cannonHealth.TargetValue == 0)
+				if (FloatMath.IsZero(cannonHealth.TargetValue))
 				{
 					// Never tell me the odds
 
@@ -373,6 +362,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private void SetFraction(Fraction f)
 		{
 			Fraction = f;
+			controller = Fraction.CreateController(Owner, this);
 		}
 
 		#endregion

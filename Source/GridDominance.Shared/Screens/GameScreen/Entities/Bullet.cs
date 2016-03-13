@@ -56,7 +56,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			body.LinearDamping = 0f;
 			body.OnCollision += OnCollision;
 			body.AngularVelocity = FloatMath.GetRangedRandom(-FloatMath.PI, +FloatMath.PI);
-			//body.Mass = scale * scale; // Weight dependent on size
+			//body.Mass = Scale * Scale; // Weight dependent on size
 		}
 
 		private bool OnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
