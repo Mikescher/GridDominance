@@ -15,6 +15,9 @@ namespace GridDominance.Shared.Framework
 		{
 			deltaSpeed = maxDelta;
 			modulo = moduloValue;
+
+			ActualValue = initialValue;
+			TargetValue = initialValue;
 		}
 		
 		public void Update(GameTime gameTime)

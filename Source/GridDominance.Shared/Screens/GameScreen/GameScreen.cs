@@ -10,15 +10,19 @@ using FarseerPhysics.DebugView;
 using FarseerPhysics.Dynamics;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
 	class GameScreen : GDScreen
 	{
 		public const int TILE_WIDTH = 64;
-		
+
 		public const int VIEW_WIDTH  = 16 * TILE_WIDTH; // 1024
 		public const int VIEW_HEIGHT = 10 * TILE_WIDTH; // 640
+
+		public const int TILE_WIDTH_SQUARED = TILE_WIDTH * TILE_WIDTH;
 
 		//-----------------------------------------------------------------
 
@@ -161,6 +165,16 @@ namespace GridDominance.Shared.Screens.GameScreen
 		public void PushNotification(string text)
 		{
 			debugDisp.AddDecayLine(text);
+		}
+
+		public IEnumerable<T> GetEntities<T>()
+		{
+			return entities.Enumerate().OfType<T>();
+		}
+
+		public World GetPhysicsWorld()
+		{
+			return entities.PhysicsWorld;
 		}
 	}
 }

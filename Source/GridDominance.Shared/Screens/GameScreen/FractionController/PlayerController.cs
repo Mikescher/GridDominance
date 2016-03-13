@@ -11,7 +11,8 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 
 		private readonly CircleF innerBoundings;
 
-		public PlayerController(GameScreen owner, Cannon cannon, Fraction fraction) : base(0f, owner, cannon, fraction)
+		public PlayerController(GameScreen owner, Cannon cannon, Fraction fraction) 
+			: base(0f, owner, cannon, fraction)
 		{
 			innerBoundings = new CircleF(Cannon.Center, Cannon.Scale * Cannon.CANNON_DIAMETER / 2);
 		}

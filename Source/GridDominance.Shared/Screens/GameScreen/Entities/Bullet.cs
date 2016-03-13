@@ -20,20 +20,23 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public bool IsDying = false;
 
-		public  Sprite SpriteBullet;
-		private Body body;
+		public Sprite SpriteBullet;
+		public Body PhysicsBody;
+		public Cannon Source;
 		private readonly float scale;
 
-		private readonly Vector2 initial_position;
-		private readonly Vector2 initial_velocity;
+		private readonly Vector2 initialPosition;
+		private readonly Vector2 initialVelocity;
 
+		public override Vector2 Position => SpriteBullet.Position;
 
 		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float _scale)
 			: base(scrn)
 		{
-			initial_position = pos;
-			initial_velocity = velo;
-			Fraction = shooter.Fraction;
+			initialPosition = pos;
+			initialVelocity = velo;
+			Source = shooter;
+			Fraction = Source.Fraction;
 			scale = _scale;
 		}
 
@@ -42,21 +45,21 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			SpriteBullet = new Sprite(Textures.TexBullet)
 			{
 				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = initial_position,
+				Position = initialPosition,
 				Color = Fraction.Color,
 			};
 
-			body = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(initial_position), BodyType.Dynamic, this);
-			body.LinearVelocity = ConvertUnits.ToSimUnits(initial_velocity);
-			body.CollidesWith = Category.All;
-			body.IsBullet = true;
-			body.Restitution = 0.95f;
-			body.AngularDamping = 0.5f;
-			body.Friction = 0.2f;
-			body.LinearDamping = 0f;
-			body.OnCollision += OnCollision;
-			body.AngularVelocity = FloatMath.GetRangedRandom(-FloatMath.PI, +FloatMath.PI);
-			//body.Mass = Scale * Scale; // Weight dependent on size
+			PhysicsBody = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(initialPosition), BodyType.Dynamic, this);
+			PhysicsBody.LinearVelocity = ConvertUnits.ToSimUnits(initialVelocity);
+			PhysicsBody.CollidesWith = Category.All;
+			PhysicsBody.IsBullet = true;
+			PhysicsBody.Restitution = 0.95f;
+			PhysicsBody.AngularDamping = 0.5f;
+			PhysicsBody.Friction = 0.2f;
+			PhysicsBody.LinearDamping = 0f;
+			PhysicsBody.OnCollision += OnCollision;
+			PhysicsBody.AngularVelocity = FloatMath.GetRangedRandom(-FloatMath.PI, +FloatMath.PI);
+			//Body.Mass = Scale * Scale; // Weight dependent on size
 		}
 
 		private bool OnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
@@ -112,13 +115,13 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void OnRemove()
 		{
-			Manager.PhysicsWorld.RemoveBody(body);
+			Manager.PhysicsWorld.RemoveBody(PhysicsBody);
 		}
 
-		public override void OnUpdate(GameTime gameTime, InputState istate)
+		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
-			SpriteBullet.Position = ConvertUnits.ToDisplayUnits(body.Position);
-			SpriteBullet.Rotation = body.Rotation;
+			SpriteBullet.Position = ConvertUnits.ToDisplayUnits(PhysicsBody.Position);
+			SpriteBullet.Rotation = PhysicsBody.Rotation;
 
 			if (Lifetime > MAXIMUM_LIEFTIME) AddEntityOperation(new BulletFadeAndDieOperation());
 

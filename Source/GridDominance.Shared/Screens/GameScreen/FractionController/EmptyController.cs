@@ -5,7 +5,8 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 {
 	class EmptyController : AbstractFractionController
 	{
-		public EmptyController(GameScreen owner, Cannon cannon, Fraction fraction) : base(0, owner, cannon, fraction)
+		public EmptyController(GameScreen owner, Cannon cannon, Fraction fraction) 
+			: base(0, owner, cannon, fraction)
 		{
 		}
 

@@ -14,6 +14,8 @@ namespace GridDominance.Shared.Screens.GameScreen
  
 		protected readonly List<IGDEntityOperation> ActiveOperations = new List<IGDEntityOperation>(); 
 
+		public abstract Vector2 Position { get; }
+
 		public bool Alive = true;
 		public float Lifetime = 0;
 
@@ -61,7 +63,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			}
 		}
 
-		public abstract void OnUpdate(GameTime gameTime, InputState istate);
+		protected abstract void OnUpdate(GameTime gameTime, InputState istate);
 		public abstract void Draw(SpriteBatch sbatch);
 		public abstract void OnInitialize();
 		public abstract void OnRemove();

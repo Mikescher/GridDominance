@@ -112,5 +112,10 @@ namespace GridDominance.Shared.Screens.GameScreen
 			debugView.RenderDebugData(ref pMatrix, ref vMatrix);
 #endif
 		}
+
+		public IEnumerable<GDEntity> Enumerate()
+		{
+			return entities;
+		} 
 	}
 }
