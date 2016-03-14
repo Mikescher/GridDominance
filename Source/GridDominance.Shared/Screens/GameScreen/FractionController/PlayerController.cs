@@ -11,6 +11,8 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 
 		private readonly CircleF innerBoundings;
 
+		public override bool DoBarrelRecharge() => true;
+
 		public PlayerController(GameScreen owner, Cannon cannon, Fraction fraction) 
 			: base(0f, owner, cannon, fraction)
 		{
@@ -27,7 +29,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 			{
 				isMouseDragging = false;
 
-				Owner.PushNotification($"Cannon :: target({FloatMath.ToDegree(Cannon.Rotation.TargetValue):000}°)");
+				//Owner.PushNotification($"Cannon :: target({FloatMath.ToDegree(Cannon.Rotation.TargetValue):000}°)");
 			}
 			else if (isMouseDragging && istate.IsDown && !innerBoundings.Contains(istate.PointerPosition))
 			{

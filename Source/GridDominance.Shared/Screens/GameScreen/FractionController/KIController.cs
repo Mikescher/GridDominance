@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
@@ -8,113 +9,42 @@ using Microsoft.Xna.Framework;
 
 namespace GridDominance.Shared.Screens.GameScreen.FractionController
 {
-	class KIController : AbstractFractionController
+	abstract class KIController : AbstractFractionController
 	{
+		protected const float STANDARD_UPDATE_TIME = 1.666f;
+		protected const float NEUTRAL_UPDATE_TIME  = 0.111f;
+
 		private readonly ConstantRandom crng;
 		
-		public KIController(GameScreen owner, Cannon cannon, Fraction fraction) 
-			: base(COMPUTER_UPDATE_TIME, owner, cannon, fraction)
+		protected KIController(float interval, GameScreen owner, Cannon cannon, Fraction fraction) 
+			: base(interval, owner, cannon, fraction)
 		{
 			crng = new ConstantRandom(cannon);
 		}
 
-		protected override void Calculate(InputState istate)
+		protected bool CalculateKI(List<Func<GDEntity>> searchFunctions, bool idleRotate)
 		{
-			// ------------------------ Dodge incoming missiles ------------------------
-
-			var attackBullet = FindTargetAttackingBullet();
-			if (attackBullet != null)
+			foreach (var sf in searchFunctions)
 			{
-				Cannon.RotateTo(attackBullet);
+				var target = sf();
+				if (target != null)
+				{
+					Cannon.RotateTo(target);
 
-				Owner.PushNotification("Cannon :: KIController --> AttackingBullet");
-				return;
+					//Owner.PushNotification("Cannon :: KIController --> " + sf.Method.Name);
+					return true;
+				}
 			}
 
-			// -------------------------- Help low HP friends --------------------------
+			if (idleRotate) Cannon.Rotation.Set(FloatMath.GetRangedRandom(0, FloatMath.TAU));
+			//Owner.PushNotification("Cannon :: KIController --> Idle");
 
-			var supportCannon = FindTargetSupportCannon();
-			if (supportCannon != null)
-			{
-				Cannon.RotateTo(supportCannon);
-
-				Owner.PushNotification("Cannon :: KIController --> SupportFriendlyCannon");
-				return;
-			}
-
-			// ------------------------ Conquer neutral cannons ------------------------
-
-			var neutralCannon = FindTargetNeutralCannon();
-			if (neutralCannon != null)
-			{
-				Cannon.RotateTo(neutralCannon);
-
-				Owner.PushNotification("Cannon :: KIController --> ConquerNeutralCannon");
-				return;
-			}
-
-			// ---------------------------- Attack opponents ---------------------------
-
-			var enemyCannon = FindTargetEnemyCannon();
-			if (enemyCannon != null)
-			{
-				Cannon.RotateTo(enemyCannon);
-
-				Owner.PushNotification("Cannon :: KIController --> ConquerNeutralCannon");
-				return;
-			}
-
-			// -------------------------- Support teamplayers --------------------------
-
-			var boostCannon = FindTargetFriendlyCannon();
-			if (boostCannon != null)
-			{
-				Cannon.RotateTo(boostCannon);
-
-				Owner.PushNotification("Cannon :: KIController --> BoostTeamplayer");
-				return;
-			}
-
-			// --------------------------- Attack who you can --------------------------
-
-			var blockedEnemyCannon = FindTargetBlockedEnemyCannon();
-			if (blockedEnemyCannon != null)
-			{
-				Cannon.RotateTo(blockedEnemyCannon);
-
-				Owner.PushNotification("Cannon :: KIController --> AttackBlockedCannon");
-				return;
-			}
-
-			// -------------------------- Support who you can --------------------------
-
-			var blockedFriendlyCannon = FindTargetBlockedFriendlyCannon();
-			if (blockedFriendlyCannon != null)
-			{
-				Cannon.RotateTo(blockedFriendlyCannon);
-
-				Owner.PushNotification("Cannon :: KIController --> SupportBlockedCannon");
-				return;
-			}
-
-			// ------------------------------- Just guess ------------------------------
-
-			var nearestEnemyCannon = FindNearestEnemyCannon();
-			if (nearestEnemyCannon != null)
-			{
-				Cannon.RotateTo(nearestEnemyCannon);
-
-				Owner.PushNotification("Cannon :: KIController --> AttackNearestCannon");
-				return;
-			}
-
-			Cannon.Rotation.Set(FloatMath.GetRangedRandom(0, FloatMath.TAU));
-			Owner.PushNotification("Cannon :: KIController --> Idle");
+			return false;
 		}
 
 		#region Target Finding
 
-		private Bullet FindTargetAttackingBullet()
+		protected Bullet FindTargetAttackingBullet()
 		{
 			return Owner
 				.GetEntities<Bullet>()
@@ -124,7 +54,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.RandomOrDefault(crng);
 		}
 
-		private Cannon FindTargetSupportCannon()
+		protected Cannon FindTargetSupportCannon()
 		{
 			return Owner
 				.GetEntities<Cannon>()
@@ -136,7 +66,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.RandomOrDefault(crng);
 		}
 
-		private Cannon FindTargetNeutralCannon()
+		protected Cannon FindTargetNeutralCannon()
 		{
 			return Owner
 				.GetEntities<Cannon>()
@@ -146,7 +76,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.RandomOrDefault(crng);
 		}
 
-		private Cannon FindTargetEnemyCannon()
+		protected Cannon FindTargetEnemyCannon()
 		{
 			return Owner
 				.GetEntities<Cannon>()
@@ -157,7 +87,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.RandomOrDefault(crng);
 		}
 
-		private Cannon FindTargetFriendlyCannon()
+		protected Cannon FindTargetFriendlyCannon()
 		{
 			return Owner
 				.GetEntities<Cannon>()
@@ -168,7 +98,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.RandomOrDefault(crng);
 		}
 
-		private Cannon FindTargetBlockedEnemyCannon()
+		protected Cannon FindTargetBlockedEnemyCannon()
 		{
 			return Owner
 				.GetEntities<Cannon>()
@@ -179,7 +109,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.RandomOrDefault(crng);
 		}
 
-		private Cannon FindTargetBlockedFriendlyCannon()
+		protected Cannon FindTargetBlockedFriendlyCannon()
 		{
 			return Owner
 				.GetEntities<Cannon>()
@@ -190,7 +120,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.RandomOrDefault(crng);
 		}
 
-		private Cannon FindNearestEnemyCannon()
+		protected Cannon FindNearestEnemyCannon()
 		{
 			return Owner
 				.GetEntities<Cannon>()

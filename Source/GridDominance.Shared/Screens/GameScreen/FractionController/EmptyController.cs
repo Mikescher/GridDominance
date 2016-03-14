@@ -5,6 +5,8 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 {
 	class EmptyController : AbstractFractionController
 	{
+		public override bool DoBarrelRecharge() => false;
+
 		public EmptyController(GameScreen owner, Cannon cannon, Fraction fraction) 
 			: base(0, owner, cannon, fraction)
 		{

@@ -73,9 +73,9 @@ namespace GridDominance.Shared.Screens.GameScreen
 				case FractionType.PlayerFraction:
 					return new PlayerController(owner, cannon, this);
 				case FractionType.ComputerFraction:
-					return new KIController(owner, cannon, this);
+					return new StandardKIController(owner, cannon, this);
 				case FractionType.NeutralFraction:
-					return new EmptyController(owner, cannon, this);
+					return new NeutralKIController(owner, cannon, this);
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

@@ -158,7 +158,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		private void UpdateBarrel(GameTime gameTime)
 		{
-			if (CannonHealth.TargetValue >= 1)
+			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral) && controller.DoBarrelRecharge())
 			{
 				barrelCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * (1 + TotalBoost) * gameTime.GetElapsedSeconds();
 
@@ -337,7 +337,6 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			else if (Fraction.IsNeutral)
 			{
 				SetFraction(source);
-				ResetChargeAndBooster();
 				CannonHealth.Set(HEALTH_HIT_GEN);
 			}
 			else
@@ -349,13 +348,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 					// Never tell me the odds
 
 					SetFraction(Fraction.GetNeutral());
-					ResetChargeAndBooster();
 				}
 				else if (CannonHealth.TargetValue < 0)
 				{
 					SetFraction(source);
 					CannonHealth.Set(FloatMath.Abs(CannonHealth.TargetValue));
-					ResetChargeAndBooster();
 				}
 			}
 		}
@@ -363,6 +360,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private void SetFraction(Fraction f)
 		{
 			Fraction = f;
+			ResetChargeAndBooster();
 			controller = Fraction.CreateController(Owner, this);
 		}
 

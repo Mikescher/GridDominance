@@ -7,8 +7,6 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 {
 	abstract class AbstractFractionController
 	{
-		public const float COMPUTER_UPDATE_TIME = 1.666f;
-
 		protected readonly GameScreen Owner;
 
 		private readonly float updateInterval;
@@ -37,5 +35,6 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 		}
 
 		protected abstract void Calculate(InputState istate);
+		public abstract bool DoBarrelRecharge();
 	}
 }
