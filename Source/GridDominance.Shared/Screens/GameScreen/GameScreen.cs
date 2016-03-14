@@ -22,8 +22,6 @@ namespace GridDominance.Shared.Screens.GameScreen
 		public const int VIEW_WIDTH  = 16 * TILE_WIDTH; // 1024
 		public const int VIEW_HEIGHT = 10 * TILE_WIDTH; // 640
 
-		public const int TILE_WIDTH_SQUARED = TILE_WIDTH * TILE_WIDTH;
-
 		//-----------------------------------------------------------------
 
 #if DEBUG

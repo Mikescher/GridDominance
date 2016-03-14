@@ -33,7 +33,7 @@ namespace GridDominance.Shared.Framework
 			int count = 0;
 
 			foreach (T element in source)
-				if (rng.Next(count++) == 0) current = element;
+				if (rng.Next(++count) == 0) current = element;
 
 			return current;
 		}
@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Framework
 
 			crng.Reseed();
 			foreach (T element in source)
-				if (crng.Next(count++) == 0) current = element;
+				if (crng.Next(++count) == 0) current = element;
 
 			return current;
 		}

@@ -51,6 +51,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.Where(p => p.Fraction != Fraction)
 				.Where(p => ! p.IsDying)
 				.Where(IsHoming)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GameScreen.TILE_WIDTH / 2f)
 				.RandomOrDefault(crng);
 		}
 
@@ -62,7 +63,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.Where(p => p != Cannon)
 				.Where(p => p.CannonHealth.TargetValue < 0.5f)
 				.Where(IsReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).LengthSquared(), GameScreen.TILE_WIDTH_SQUARED)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GameScreen.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -72,7 +73,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.GetEntities<Cannon>()
 				.Where(p => p.Fraction.IsNeutral)
 				.Where(IsReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).LengthSquared(), GameScreen.TILE_WIDTH_SQUARED)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), 2 * GameScreen.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -83,7 +84,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.Where(p => !p.Fraction.IsNeutral)
 				.Where(p => p.Fraction != Fraction)
 				.Where(IsReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).LengthSquared(), GameScreen.TILE_WIDTH_SQUARED)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GameScreen.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -94,7 +95,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
 				.Where(IsFullyReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).LengthSquared(), GameScreen.TILE_WIDTH_SQUARED)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GameScreen.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -105,7 +106,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.Where(p => !p.Fraction.IsNeutral)
 				.Where(p => p.Fraction != Fraction)
 				.Where(IsBulletBlockedReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).LengthSquared(), GameScreen.TILE_WIDTH_SQUARED)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GameScreen.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -116,7 +117,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
 				.Where(IsReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).LengthSquared(), GameScreen.TILE_WIDTH_SQUARED)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GameScreen.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -126,7 +127,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.GetEntities<Cannon>()
 				.Where(p => !p.Fraction.IsNeutral)
 				.Where(p => p.Fraction != Fraction)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).LengthSquared(), GameScreen.TILE_WIDTH_SQUARED)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GameScreen.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 

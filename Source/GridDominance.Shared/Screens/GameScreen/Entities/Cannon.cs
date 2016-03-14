@@ -367,7 +367,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public void RotateTo(GDEntity target)
 		{
 			Rotation.Set(FloatMath.PositiveAtan2(target.Position.Y - Center.Y, target.Position.X - Center.X));
-			Owner.PushNotification($"Cannon :: target({FloatMath.ToDegree(Rotation.TargetValue):000}°)");
+			//Owner.PushNotification($"Cannon :: target({FloatMath.ToDegree(Rotation.TargetValue):000}°)");
 		}
 
 		#endregion

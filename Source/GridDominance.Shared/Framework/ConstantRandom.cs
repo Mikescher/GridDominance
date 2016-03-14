@@ -16,7 +16,7 @@ namespace GridDominance.Shared.Framework
 		public ConstantRandom(object o)
 		{
 			seedArray = new int[0x38];
-			int num2 = 0x9a4ec86 - Math.Abs(o.GetHashCode());
+			int num2 = 0x9a4ec86 - Math.Abs(Environment.TickCount ^ o.GetHashCode());
 			seedArray[0x37] = num2;
 			int num3 = 0x1;
 			for (int i = 0x1; i < 0x37; i++)

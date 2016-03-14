@@ -17,7 +17,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 		public static readonly Color COLOR_COMPUTER_05 = FlatColors.GreenSea;
 
 		public const float MULTIPLICATOR_PLAYER     = 1.000f;
-		public const float MULTIPLICATOR_NEUTRAL    = 0.500f;
+		public const float MULTIPLICATOR_NEUTRAL    = 0.666f;
 		public const float MULTIPLICATOR_COMPUTER_0 = 0.800f;  // Easy
 		public const float MULTIPLICATOR_COMPUTER_1 = 0.875f;  // Normal
 		public const float MULTIPLICATOR_COMPUTER_2 = 0.095f;  // Hard
