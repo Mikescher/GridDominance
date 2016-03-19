@@ -12,6 +12,8 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 {
 	class DebugTextDisplay : IDebugTextDisplay
 	{
+		private const int OVERFLOW_MAX = 32;
+
 		private const float INERTIA_SPEED = 256f;
 		private const float TEXT_OFFSET = 5;
 		private const float TEXT_SPACING = 1.15f;
@@ -46,6 +48,9 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 
 		public DebugTextDisplayLine AddDecayLine(string text, float lifetime = 2f, float decaytime = 0.75f, float spawntime = 0.25f)
 		{
+			if (lines.Count > OVERFLOW_MAX) decaytime = 0;
+			if (lines.Count > OVERFLOW_MAX) spawntime = 0;
+
 			return AddLine(new DebugTextDisplayLine(() => text).SetLifetime(lifetime).SetDecaytime(decaytime).SetSpawntime(spawntime));
 		}
 
@@ -75,6 +80,8 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 				else if (posY < line.inertiaPosition)
 				{
 					var speed = gameTime.GetElapsedSeconds() * INERTIA_SPEED * FloatMath.Max(1, FloatMath.Round((line.inertiaPosition - posY) / Textures.DebugFont.LineSpacing));
+
+					if (lines.Count > OVERFLOW_MAX) speed = 99999;
 
 					line.inertiaPosition = FloatMath.LimitedDec(line.inertiaPosition, speed, posY);
 					posY = line.inertiaPosition;
