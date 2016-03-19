@@ -31,13 +31,13 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				{
 					Cannon.RotateTo(target);
 
-					//Owner.PushNotification("Cannon :: KIController --> " + sf.Method.Name);
+					Owner.PushNotification("Cannon :: KIController --> " + sf.Method.Name);
 					return true;
 				}
 			}
 
 			if (idleRotate) Cannon.Rotation.Set(FloatMath.GetRangedRandom(0, FloatMath.TAU));
-			//Owner.PushNotification("Cannon :: KIController --> Idle");
+			Owner.PushNotification("Cannon :: KIController --> Idle");
 
 			return false;
 		}
@@ -94,7 +94,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.GetEntities<Cannon>()
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
-				.Where(IsFullyReachable)
+				.Where(IsReachable)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GameScreen.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
@@ -116,7 +116,7 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				.GetEntities<Cannon>()
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
-				.Where(IsReachable)
+				.Where(IsBulletBlockedReachable)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GameScreen.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
@@ -177,28 +177,6 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				}
 
 				result = (GDEntity) f.UserData;
-
-				return 0; // terminate
-			};
-
-			var rayStart = Cannon.PhysicsBody.Position;
-			var rayEnd = c.PhysicsBody.Position;
-
-			Owner.GetPhysicsWorld().RayCast(callback, rayStart, rayEnd);
-
-			return (result == null);
-		}
-
-		// ignore nothing
-		private bool IsFullyReachable(Cannon c)
-		{
-			GDEntity result = null;
-
-			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
-			{
-				if (f.UserData == c) return frac; // limit
-			
-				result = (GDEntity)f.UserData;
 
 				return 0; // terminate
 			};
