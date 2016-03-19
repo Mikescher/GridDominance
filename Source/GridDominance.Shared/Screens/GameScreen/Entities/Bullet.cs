@@ -15,14 +15,15 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 	{
 		private const float BULLET_DIAMETER = 25;
 		private const float MAXIMUM_LIEFTIME = 25;
+		private const float SELF_PRESERVANCE_TIME = 0.5f;
 
 		public readonly Fraction Fraction;
 
-		public bool IsDying = false;
+		public bool IsDying;
 
 		public Sprite SpriteBullet;
 		public Body PhysicsBody;
-		public Cannon Source;
+		public readonly Cannon Source;
 		private readonly float scale;
 
 		private readonly Vector2 initialPosition;
@@ -30,14 +31,14 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override Vector2 Position => SpriteBullet.Position;
 
-		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float _scale)
+		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale)
 			: base(scrn)
 		{
 			initialPosition = pos;
 			initialVelocity = velo;
 			Source = shooter;
 			Fraction = Source.Fraction;
-			scale = _scale;
+			scale = entityScale;
 		}
 
 		public override void OnInitialize()
@@ -46,7 +47,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			{
 				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
 				Position = initialPosition,
-				Color = Fraction.Color,
+				Color = Fraction.Color
 			};
 
 			PhysicsBody = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(initialPosition), BodyType.Dynamic, this);
@@ -69,32 +70,38 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			var otherBullet = fixtureB.UserData as Bullet;
 			if (otherBullet != null)
 			{
-				if (otherBullet.Fraction == this.Fraction) return true;
+				if (otherBullet.Fraction == Fraction) return true;
 
 				otherBullet.MutualDestruct();
-				this.MutualDestruct();
+				MutualDestruct();
 				return false;
 			}
 
 			var otherCannon = fixtureB.UserData as Cannon;
 			if (otherCannon != null)
 			{
-				this.Disintegrate();
+				if (otherCannon == Source && Lifetime < SELF_PRESERVANCE_TIME)
+				{
+					return false;
+				}
 
-				if (otherCannon.Fraction == this.Fraction)
+				Disintegrate();
+
+				if (otherCannon.Fraction == Fraction)
 				{
 					otherCannon.ApplyBoost();
 				}
 				else // if (otherCannon.Fraction != this.Fraction)
 				{
-					otherCannon.TakeDamage(this.Fraction);
+					otherCannon.TakeDamage(Fraction);
 				}
 
 				return false;
 			}
-
+			
 			// wud ???
-			return true;
+			Owner.PushErrorNotification(string.Format("Bullet collided with unkown fixture: {0}", fixtureB.UserData ?? "<NULL>"));
+			return false;
 		}
 
 		private void MutualDestruct()

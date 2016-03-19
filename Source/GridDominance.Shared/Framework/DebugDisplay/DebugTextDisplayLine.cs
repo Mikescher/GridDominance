@@ -25,6 +25,8 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 		private double decaytime = double.MinValue;
 		private double spawntime = 0;
 
+		public Color Background = Color.White;
+
 		public DebugTextDisplayLine(Func<string> text)
 			: this(text, ActionTrue)
 		{
@@ -55,6 +57,12 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 		public DebugTextDisplayLine SetColor(Color c)
 		{
 			Color = c;
+			return this;
+		}
+
+		public DebugTextDisplayLine SetBackground(Color c)
+		{
+			Background = c;
 			return this;
 		}
 

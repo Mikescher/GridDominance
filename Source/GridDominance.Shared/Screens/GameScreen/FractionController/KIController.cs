@@ -31,13 +31,13 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 				{
 					Cannon.RotateTo(target);
 
-					Owner.PushNotification("Cannon :: KIController --> " + sf.Method.Name);
+					//Owner.PushNotification("Cannon :: KIController --> " + sf.Method.Name);
 					return true;
 				}
 			}
 
 			if (idleRotate) Cannon.Rotation.Set(FloatMath.GetRangedRandom(0, FloatMath.TAU));
-			Owner.PushNotification("Cannon :: KIController --> Idle");
+			//Owner.PushNotification("Cannon :: KIController --> Idle");
 
 			return false;
 		}
@@ -168,6 +168,8 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
+				if (f.UserData == Cannon) return -1; // ignore self;
+
 				if (f.UserData == c) return frac; // limit
 
 				var bulletData = f.UserData as Bullet;
@@ -196,6 +198,8 @@ namespace GridDominance.Shared.Screens.GameScreen.FractionController
 
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
+				if (f.UserData == Cannon) return -1; // ignore self;
+
 				if (f.UserData == c) return frac; // limit
 				
 				if (f.UserData is Bullet) // ignore _all_ Bullets

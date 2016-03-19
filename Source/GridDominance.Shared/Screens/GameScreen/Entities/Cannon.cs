@@ -26,6 +26,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		private const float BARREL_CHARGE_SPEED = 0.9f;
 		public  const float CANNON_DIAMETER = 96;
+		public  const float BARREL_HEIGHT = 32;
+		public  const float BARREL_WIDTH = 64;
 		private const float BULLET_ANGLE_VARIANCE = 0.035f; // ~ 2 degree
 		private const float BULLET_INITIAL_SPEED = 100f;
 
@@ -72,7 +74,17 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			controller = Fraction.CreateController(Owner, this);
 
-			PhysicsBody = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(Center), BodyType.Static, this);
+			PhysicsBody = BodyFactory.CreateBody(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(Center), 0, BodyType.Static);
+
+			FixtureFactory.AttachCircle(
+				ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1,
+				PhysicsBody,
+				Vector2.Zero, this);
+
+			FixtureFactory.AttachRectangle(
+				ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH), ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT), 1, 
+				new Vector2(ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 0),
+				PhysicsBody, this);
 		}
 
 		public override void OnRemove()
@@ -86,7 +98,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			controller.Update(gameTime, istate);
 
-			UpdateRotation(gameTime);
+			Rotation.Update(gameTime);
+			UpdatePhysicBodies();
 			UpdateHealth(gameTime);
 			UpdateBarrel(gameTime);
 		}
@@ -154,10 +167,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
 		}
 
-		private void UpdateRotation(GameTime gameTime)
+		private void UpdatePhysicBodies()
 		{
-			Rotation.Update(gameTime);
-
 			PhysicsBody.Rotation = Rotation.ActualValue;
 		}
 

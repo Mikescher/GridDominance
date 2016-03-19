@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
-using MonoGame.Extended.Shapes;
 
 namespace GridDominance.Shared.Framework.DebugDisplay
 {
@@ -33,6 +28,11 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 		}
 
 		public DebugTextDisplayLine AddDecayLine(string text, float lifetime = 2, float decaytime = 0.75f, float spawntime = 0.25f)
+		{
+			return dummy;
+		}
+
+		public DebugTextDisplayLine AddErrorDecayLine(string text, float lifetime = 2, float decaytime = 0.75f, float spawntime = 0.25f)
 		{
 			return dummy;
 		}

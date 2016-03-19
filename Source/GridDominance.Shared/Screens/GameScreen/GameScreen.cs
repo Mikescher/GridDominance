@@ -165,6 +165,11 @@ namespace GridDominance.Shared.Screens.GameScreen
 			debugDisp.AddDecayLine(text);
 		}
 
+		public void PushErrorNotification(string text)
+		{
+			debugDisp.AddErrorDecayLine(text);
+		}
+
 		public IEnumerable<T> GetEntities<T>()
 		{
 			return entities.Enumerate().OfType<T>();

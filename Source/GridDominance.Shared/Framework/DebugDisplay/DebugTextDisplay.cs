@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +21,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 
 		private SpriteBatch debugBatch;
 
-		private Color background = new Color(Color.White, 0.666f);
+		private float backgroundAlpha = 0.666f;
 
 		public DebugTextDisplay(GraphicsDevice graphics)
 		{
@@ -52,6 +51,14 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 			if (lines.Count > OVERFLOW_MAX) spawntime = 0;
 
 			return AddLine(new DebugTextDisplayLine(() => text).SetLifetime(lifetime).SetDecaytime(decaytime).SetSpawntime(spawntime));
+		}
+
+		public DebugTextDisplayLine AddErrorDecayLine(string text, float lifetime = 2f, float decaytime = 0.75f, float spawntime = 0.25f)
+		{
+			if (lines.Count > OVERFLOW_MAX) decaytime = 0;
+			if (lines.Count > OVERFLOW_MAX) spawntime = 0;
+
+			return AddLine(new DebugTextDisplayLine(() => text).SetLifetime(lifetime).SetDecaytime(decaytime).SetSpawntime(spawntime).SetBackground(Color.Red));
 		}
 
 		public void Update(GameTime gameTime, InputState istate)
@@ -95,7 +102,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 				var pos = new Vector2(TEXT_OFFSET, posY);
 				var size = Textures.DebugFont.MeasureString(text);
 
-				debugBatch.FillRectangle(new RectangleF(pos, size), BlendColor(background, line.Decay));
+				debugBatch.FillRectangle(new RectangleF(pos, size), BlendColor(line.Background, line.Decay * backgroundAlpha));
 				debugBatch.DrawString(Textures.DebugFont, text, new Vector2(5, posY), BlendColor(line.Color, line.Decay));
 
 				posY += size.Y * TEXT_SPACING;
