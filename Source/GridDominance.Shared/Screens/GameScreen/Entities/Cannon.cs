@@ -8,7 +8,6 @@ using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using MonoGame.Extended.Sprites;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Screens.GameScreen.EntityOperations;
 using GridDominance.Shared.Screens.GameScreen.FractionController;
@@ -22,6 +21,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private const float ROTATION_SPEED = FloatMath.TAU / 2; // 3.141 rad/sec
 		private const float HEALTH_PROGRESS_SPEED = 1f; // min 1sec for 360°
 		private const float BASE_COG_ROTATION_SPEED = FloatMath.TAU / 3; // 2.1 rad/sec
+		private const float BARREL_RECOIL_SPEED = 4; // 250ms for full recovery (on normal boost and normal fraction mult)
+		private const float BARREL_RECOIL_LENGTH = 32;
 
 		private const float BARREL_CHARGE_SPEED = 0.9f;
 		public  const float CANNON_DIAMETER = 96;
@@ -41,12 +42,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private AbstractFractionController controller;
 		public float TotalBoost = 0f;
 
-		private Sprite spriteBody;
-		private Sprite spriteBarrel;
-		private Sprite spriteBodyShadow;
-		private Sprite spriteBarrelShadow;
-
 		private float barrelCharge = 0f;
+		private float barrelRecoil = 0f;
 		public readonly DeltaLimitedFloat CannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
 		public readonly DeltaLimitedModuloFloat Rotation;
@@ -54,8 +51,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public readonly Vector2 Center;
 		public readonly float Scale;
 		public override Vector2 Position => Center;
-
-		private readonly Vector2 cannonCogOrigin;
+		
 		private float cannonCogRotation;
 
 		public Body PhysicsBody;
@@ -70,41 +66,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			Rotation = new DeltaLimitedModuloFloat(FloatMath.ToRadians(blueprint.Rotation), ROTATION_SPEED, FloatMath.TAU);
 			
 			CannonHealth.SetForce(Fraction.IsNeutral ? 0f : 1f);
-
-			cannonCogOrigin = new Vector2(0.5f * Textures.AnimCannonCog[0].Width, 0.5f * Textures.AnimCannonCog[0].Height); // better cache than sorry
 		}
 
 		public override void OnInitialize()
 		{
 			controller = Fraction.CreateController(Owner, this);
-
-			spriteBody = new Sprite(Textures.TexCannonBody)
-			{
-				Scale = Scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = Center,
-				Color = FlatColors.Silver,
-			};
-
-			spriteBodyShadow = new Sprite(Textures.TexCannonBodyShadow)
-			{
-				Scale = Scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = Center,
-			};
-
-			spriteBarrel = new Sprite(Textures.TexCannonBarrel)
-			{
-				Scale = Scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = Center,
-				Origin = new Vector2(-32, 32),
-				Color = FlatColors.Silver,
-			};
-
-			spriteBarrelShadow = new Sprite(Textures.TexCannonBarrelShadow)
-			{
-				Scale = Scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = Center,
-				Origin = new Vector2(-16, 48),
-			};
 
 			PhysicsBody = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(Center), BodyType.Static, this);
 		}
@@ -169,6 +135,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 					Shoot();
 				}
 			}
+
+			if (barrelRecoil < 1)
+			{
+				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.Multiplicator * (1 + TotalBoost) * gameTime.GetElapsedSeconds(), 1f);
+			}
 		}
 
 		private void Shoot()
@@ -178,6 +149,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			//Owner.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
 
+			barrelRecoil = 0f;
+
 			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
 		}
 
@@ -186,12 +159,6 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			Rotation.Update(gameTime);
 
 			PhysicsBody.Rotation = Rotation.ActualValue;
-
-			spriteBody.Rotation = Rotation.ActualValue;
-			spriteBodyShadow.Rotation = Rotation.ActualValue;
-
-			spriteBarrel.Rotation = Rotation.ActualValue;
-			spriteBarrelShadow.Rotation = Rotation.ActualValue;
 		}
 
 		public Vector2 GetBulletSpawnPoint()
@@ -213,12 +180,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void Draw(SpriteBatch sbatch)
 		{
-			sbatch.Draw(spriteBarrelShadow);
-			sbatch.Draw(spriteBodyShadow);
-
-			sbatch.Draw(spriteBarrel);
-			sbatch.Draw(spriteBody);
-
+			DrawBodyAndBarrel(sbatch);
 			DrawCog(sbatch);
 
 #if DEBUG
@@ -227,6 +189,55 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			// ASSERTION
 			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBoost/BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
+		}
+
+		private void DrawBodyAndBarrel(SpriteBatch sbatch)
+		{
+			var recoil = (1-barrelRecoil) * BARREL_RECOIL_LENGTH;
+
+			sbatch.Draw(
+				Textures.TexCannonBarrelShadow.Texture,
+				Center,
+				Textures.TexCannonBarrelShadow.Bounds,
+				Color.White,
+				Rotation.ActualValue,
+				new Vector2(-16 + recoil, 48),
+				Scale*Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
+
+			sbatch.Draw(
+				Textures.TexCannonBodyShadow.Texture,
+				Center,
+				Textures.TexCannonBodyShadow.Bounds,
+				Color.White,
+				Rotation.ActualValue,
+				new Vector2(Textures.TexCannonBodyShadow.Width/2f, Textures.TexCannonBodyShadow.Height/2f),
+				Scale*Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
+
+			sbatch.Draw(
+				Textures.TexCannonBarrel.Texture,
+				Center,
+				Textures.TexCannonBarrel.Bounds,
+				Color.White,
+				Rotation.ActualValue,
+				new Vector2(-32 + recoil, 32),
+				Scale*Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
+
+			sbatch.Draw(
+				Textures.TexCannonBody.Texture,
+				Center,
+				Textures.TexCannonBody.Bounds,
+				Color.White,
+				Rotation.ActualValue,
+				new Vector2(Textures.TexCannonBody.Width/2f, Textures.TexCannonBody.Height/2f),
+				Scale*Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
 		}
 
 		private void DrawCog(SpriteBatch sbatch)
@@ -240,7 +251,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				texBack.Bounds,
 				FlatColors.Clouds,
 				cannonCogRotation + 3 * (FloatMath.PI / 2),
-				cannonCogOrigin,
+				new Vector2(0.5f * texBack.Width, 0.5f * texBack.Height),
 				Scale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
@@ -251,7 +262,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				texProg.Bounds,
 				Fraction.Color,
 				cannonCogRotation + 3 * (FloatMath.PI / 2),
-				cannonCogOrigin, 
+				new Vector2(0.5f * texProg.Width, 0.5f * texProg.Height),
 				Scale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
