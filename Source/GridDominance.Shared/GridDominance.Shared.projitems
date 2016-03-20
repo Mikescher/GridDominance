@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Framework\DeltaLimitedFloat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\DeltaLimitedModuloFloat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\ConstantRandom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\Direction4.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FlatColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FloatMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\InputState.cs" />
@@ -30,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Levels.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Background\BackgroundParticle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Background\GameGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Entities\Bullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Entities\Cannon.cs" />

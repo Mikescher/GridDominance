@@ -40,7 +40,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		private SpriteBatch mainBatch;
 
-		private GameGridBackground background;
+		public GameGridBackground Background;
 
 		private Fraction fractionNeutral;
 		private Fraction fractionPlayer;
@@ -64,7 +64,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			Viewport = new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 			inputs = new InputListenerManager(Viewport);
 			inputStateMan = new InputStateManager(Viewport);
-			background = new GameGridBackground(Graphics.GraphicsDevice, Viewport);
+			Background = new GameGridBackground(Graphics.GraphicsDevice, Viewport);
 			entities = new GDEntityManager(this);
 
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
@@ -134,6 +134,8 @@ namespace GridDominance.Shared.Screens.GameScreen
 			
 			inputs.Update(gameTime);
 
+			Background.Update(gameTime, state);
+
 			entities.Update(gameTime, state);
 
 			debugDisp.Update(gameTime, state);
@@ -149,7 +151,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			
 			mainBatch.Begin(transformMatrix: Viewport.GetScaleMatrix());
 			{
-				background.Draw(mainBatch);
+				Background.Draw(mainBatch);
 			
 				entities.Draw(mainBatch);
 			}

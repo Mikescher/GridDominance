@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
@@ -9,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using GridDominance.Shared.Framework;
+using GridDominance.Shared.Screens.GameScreen.Background;
 using GridDominance.Shared.Screens.GameScreen.EntityOperations;
 using GridDominance.Shared.Screens.GameScreen.FractionController;
 using MonoGame.Extended.Shapes;
@@ -49,14 +51,15 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public readonly DeltaLimitedFloat CannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
 		public readonly DeltaLimitedModuloFloat Rotation;
-
 		public readonly Vector2 Center;
 		public readonly float Scale;
 		public override Vector2 Position => Center;
-		
 		private float cannonCogRotation;
+		private List<Vector2> ParticleSpawns;
 
 		public Body PhysicsBody;
+		public Fixture PhysicsFictureBase;
+		public Fixture PhysicsFictureBarrel;
 
 		public Cannon(GameScreen scrn, LPCannon blueprint, Fraction[] fractions) : base(scrn)
 		{
@@ -68,7 +71,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			Rotation = new DeltaLimitedModuloFloat(FloatMath.ToRadians(blueprint.Rotation), ROTATION_SPEED, FloatMath.TAU);
 			
 			CannonHealth.SetForce(Fraction.IsNeutral ? 0f : 1f);
+
+			FindParticleSpawns();
 		}
+
+		#region Manage
 
 		public override void OnInitialize()
 		{
@@ -76,12 +83,12 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			PhysicsBody = BodyFactory.CreateBody(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(Center), 0, BodyType.Static);
 
-			FixtureFactory.AttachCircle(
+			PhysicsFictureBase = FixtureFactory.AttachCircle(
 				ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1,
 				PhysicsBody,
 				Vector2.Zero, this);
 
-			FixtureFactory.AttachRectangle(
+			PhysicsFictureBarrel = FixtureFactory.AttachRectangle(
 				ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH), ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT), 1, 
 				new Vector2(ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 0),
 				PhysicsBody, this);
@@ -90,7 +97,36 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public override void OnRemove()
 		{
 			Manager.PhysicsWorld.RemoveBody(PhysicsBody);
+
+			foreach (var spawn in ParticleSpawns)
+			{
+				Owner.Background.DeregisterBlockedSpawn(this, (int)spawn.X, (int)spawn.Y);
+			}
 		}
+
+		private void FindParticleSpawns()
+		{
+			ParticleSpawns = new List<Vector2>();
+
+			var cx = Center.X/GameScreen.TILE_WIDTH;
+			var cy = Center.Y/GameScreen.TILE_WIDTH;
+			var cr = (CANNON_DIAMETER * Scale * 0.5f)/GameScreen.TILE_WIDTH;
+
+			for (int x = FloatMath.Ceiling(cx - cr); x <= FloatMath.Floor(cx + cr); x++)
+			{
+				for (int y = FloatMath.Ceiling(cy - cr); y <= FloatMath.Floor(cy + cr); y++)
+				{
+					var d = (cx - x)*(cx - x) + (cy - y)*(cy - y);
+					if (d <= cr*cr)
+					{
+						ParticleSpawns.Add(new Vector2(x, y));
+						Owner.Background.RegisterBlockedSpawn(this, x, y);
+					}
+				}
+			}
+		}
+
+		#endregion
 
 		#region Update
 
@@ -164,7 +200,12 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			barrelRecoil = 0f;
 
-			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
+			foreach (var spawn in ParticleSpawns)
+			{
+				Owner.Background.SpawnParticles(Fraction, (int)spawn.X, (int)spawn.Y);
+			}
+
+			//Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
 		}
 
 		private void UpdatePhysicBodies()
@@ -174,7 +215,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public Vector2 GetBulletSpawnPoint()
 		{
-			return Center + new Vector2(64, 0).Rotate(Rotation.ActualValue);
+			return Center + new Vector2(Scale * (CANNON_DIAMETER/2 + Bullet.BULLET_DIAMETER * 0.66f), 0).Rotate(Rotation.ActualValue);
 		}
 
 		public Vector2 GetBulletVelocity()
@@ -232,7 +273,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Textures.TexCannonBarrel.Texture,
 				Center,
 				Textures.TexCannonBarrel.Bounds,
-				Color.White,
+				Color.White * 0.5f,
 				Rotation.ActualValue,
 				new Vector2(-32 + recoil, 32),
 				Scale*Textures.DEFAULT_TEXTURE_SCALE,
@@ -243,7 +284,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Textures.TexCannonBody.Texture,
 				Center,
 				Textures.TexCannonBody.Bounds,
-				Color.White,
+				Color.White * 0.5f,
 				Rotation.ActualValue,
 				new Vector2(Textures.TexCannonBody.Width/2f, Textures.TexCannonBody.Height/2f),
 				Scale*Textures.DEFAULT_TEXTURE_SCALE,

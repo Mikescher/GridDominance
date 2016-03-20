@@ -35,6 +35,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 
 		public readonly Color Color;
 		public readonly FractionType Type;
+		public readonly int ParticleLifetime = 16;//TODO
 
 		public bool IsNeutral => (Type == FractionType.NeutralFraction);
 

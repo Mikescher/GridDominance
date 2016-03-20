@@ -13,9 +13,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 {
 	class Bullet : GDEntity
 	{
-		private const float BULLET_DIAMETER = 25;
+		public  const float BULLET_DIAMETER = 25;
 		private const float MAXIMUM_LIEFTIME = 25;
-		private const float SELF_PRESERVANCE_TIME = 0.5f;
 
 		public readonly Fraction Fraction;
 
@@ -76,23 +75,23 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				MutualDestruct();
 				return false;
 			}
-
+			
 			var otherCannon = fixtureB.UserData as Cannon;
 			if (otherCannon != null)
 			{
-				if (otherCannon == Source && Lifetime < SELF_PRESERVANCE_TIME)
-				{
-					return false;
-				}
-
-				Disintegrate();
 
 				if (otherCannon.Fraction == Fraction)
 				{
-					otherCannon.ApplyBoost();
+					// if Source barrel then ignore collision
+					if (otherCannon != Source || fixtureB == otherCannon.PhysicsFictureBase)
+					{
+						Disintegrate();
+						otherCannon.ApplyBoost();
+					}
 				}
 				else // if (otherCannon.Fraction != this.Fraction)
 				{
+					Disintegrate();
 					otherCannon.TakeDamage(Fraction);
 				}
 

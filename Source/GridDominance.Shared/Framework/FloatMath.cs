@@ -324,6 +324,16 @@ namespace GridDominance.Shared.Framework
 			return (float)(Random.NextDouble() * (max - min) + min);
 		}
 
+		public static float GetRangedRandom(float max)
+		{
+			return (float)(Random.NextDouble() * max);
+		}
+
+		public static int GetRandomSign()
+		{
+			return (Random.Next()%2)*2 - 1; // returns -1 or +1
+		}
+
 		public static bool FloatEquals(float a, float b)
 		{
 			// ReSharper disable once CompareOfFloatsByEqualityOperator
@@ -334,6 +344,15 @@ namespace GridDominance.Shared.Framework
 		{
 			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			return (a != b);
+		}
+
+		public static float IncModulo(float value, float add, float max)
+		{
+			value += add;
+
+			if (value < 0) return max - (value % max);
+
+			return value%max;
 		}
 	}
 }
