@@ -42,3 +42,9 @@
 /processor:GDLevelProcessor
 /build:levels/lvl003.gslevel
 
+#begin fonts/debugFontSmall.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:fonts/debugFontSmall.spritefont
+

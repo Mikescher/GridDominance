@@ -34,8 +34,8 @@ namespace GridDominance.Shared.Screens.GameScreen
 		public readonly float Multiplicator;
 
 		public readonly Color Color;
+		public readonly Color BackgroundColor;
 		public readonly FractionType Type;
-		public readonly int ParticleLifetime = 16;//TODO
 
 		public bool IsNeutral => (Type == FractionType.NeutralFraction);
 
@@ -45,6 +45,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			this.Type = type;
 			this.neutralFraction = (Type == FractionType.NeutralFraction) ? this : nfrac;
 			this.Multiplicator = mult;
+			this.BackgroundColor = IsNeutral ? Color.Magenta : ColorMath.Blend(FlatColors.Background, c, 0.25f);
 		}
 		
 		public static Fraction CreatePlayerFraction(Fraction neutral)
@@ -65,6 +66,26 @@ namespace GridDominance.Shared.Screens.GameScreen
 		public Fraction GetNeutral()
 		{
 			return neutralFraction;
+		}
+
+		public override string ToString()
+		{
+			switch (Type)
+			{
+				case FractionType.PlayerFraction:
+					return "P";
+				case FractionType.ComputerFraction:
+					if (Math.Abs(Multiplicator - MULTIPLICATOR_COMPUTER_0) < 0.001f) return "C0";
+					if (Math.Abs(Multiplicator - MULTIPLICATOR_COMPUTER_1) < 0.001f) return "C1";
+					if (Math.Abs(Multiplicator - MULTIPLICATOR_COMPUTER_2) < 0.001f) return "C2";
+					if (Math.Abs(Multiplicator - MULTIPLICATOR_COMPUTER_3) < 0.001f) return "C3";
+					return "C?";
+
+				case FractionType.NeutralFraction:
+					return "N";
+				default:
+					return base.ToString();
+			}
 		}
 
 		public AbstractFractionController CreateController(GameScreen owner, Cannon cannon)

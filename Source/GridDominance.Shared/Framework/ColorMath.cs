@@ -21,5 +21,14 @@ namespace GridDominance.Shared.Framework
 				1f - perc*(1f - c.B/255f),
 				c.A);
 		}
+
+		public static Color Blend(Color a, Color b, float perc)
+		{
+			var cr = (1 - perc)*a.R + perc*b.R;
+			var cg = (1 - perc)*a.G + perc*b.G;
+			var cb = (1 - perc)*a.B + perc*b.B;
+
+			return new Color((int)cr, (int)cg, (int)cb);
+		}
 	}
 }

@@ -9,6 +9,7 @@ using MonoGame.Extended.Shapes;
 
 namespace GridDominance.Shared.Framework.DebugDisplay
 {
+#if DEBUG
 	class DebugTextDisplay : IDebugTextDisplay
 	{
 		private const int OVERFLOW_MAX = 32;
@@ -123,4 +124,5 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 			}
 		}
 	}
+#endif
 }

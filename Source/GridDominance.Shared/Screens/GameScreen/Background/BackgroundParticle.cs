@@ -11,13 +11,17 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 		public const float ROTATION_SPEED_MIN = 3;
 		public const float ROTATION_SPEED_MAX = 9;
 
-		public const int PARTICLE_WIDTH = 8;
-		public const float PARTICLE_ALPHA = 0.5f;
+		public const int INITIAL_POWER = 10;
+
+		public const int PARTICLE_WIDTH = 4;
+		public const float PARTICLE_ALPHA = 0.4f;
 
 		public bool Alive = true;
 
 		public readonly Fraction Fraction;
-		public int RemainingLifetime;
+		public int RemainingPower;
+
+		public float PowerPercentage => RemainingPower*1f/INITIAL_POWER;
 
 		public readonly Direction4 Direction;
 
@@ -32,7 +36,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 
 		public List<BackgroundParticle> TravelSection;
 
-		public BackgroundParticle(int ox, int oy, Fraction f, int life, float px, float py, Direction4 dir)
+		public BackgroundParticle(int ox, int oy, Fraction f, float px, float py, Direction4 dir)
 		{
 			OriginX = ox;
 			OriginY = oy;
@@ -41,7 +45,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 			Y = py;
 
 			Fraction = f;
-			RemainingLifetime = life;
+			RemainingPower = INITIAL_POWER;
 			Direction = dir;
 
 			Rotation = FloatMath.GetRangedRandom(FloatMath.TAU);
@@ -57,7 +61,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 			Y = py;
 
 			Fraction = source.Fraction;
-			RemainingLifetime = source.RemainingLifetime;
+			RemainingPower = source.RemainingPower - 1;
 			Direction = dir;
 
 			Rotation = source.Rotation;

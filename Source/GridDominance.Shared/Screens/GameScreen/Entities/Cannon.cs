@@ -205,7 +205,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Owner.Background.SpawnParticles(Fraction, (int)spawn.X, (int)spawn.Y);
 			}
 
-			//Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
+			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
 		}
 
 		private void UpdatePhysicBodies()
@@ -273,7 +273,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Textures.TexCannonBarrel.Texture,
 				Center,
 				Textures.TexCannonBarrel.Bounds,
-				Color.White * 0.5f,
+				Color.White,
 				Rotation.ActualValue,
 				new Vector2(-32 + recoil, 32),
 				Scale*Textures.DEFAULT_TEXTURE_SCALE,
@@ -284,7 +284,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Textures.TexCannonBody.Texture,
 				Center,
 				Textures.TexCannonBody.Bounds,
-				Color.White * 0.5f,
+				Color.White,
 				Rotation.ActualValue,
 				new Vector2(Textures.TexCannonBody.Width/2f, Textures.TexCannonBody.Height/2f),
 				Scale*Textures.DEFAULT_TEXTURE_SCALE,

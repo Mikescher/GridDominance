@@ -32,7 +32,10 @@ namespace GridDominance.Shared.Resources
 
 		#endregion
 
+#if DEBUG
 		public static SpriteFont DebugFont;
+		public static SpriteFont DebugFontSmall;
+#endif
 
 		public static void LoadContent(ContentManager content)
 		{
@@ -50,7 +53,10 @@ namespace GridDominance.Shared.Resources
 
 			TexPixel = AtlasTextures["pixel"];
 
+#if DEBUG
 			DebugFont = content.Load<SpriteFont>("fonts/debugFont");
+			DebugFontSmall = content.Load<SpriteFont>("fonts/debugFontSmall");
+#endif
 
 			IsLoaded = true;
 		}
