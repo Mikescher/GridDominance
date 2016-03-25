@@ -6,6 +6,7 @@ TODO NEXT
  - menu syntax add #include (and use real expression syntax) - heck why not use real scripting language
  - target ring around player cannons when targeting
  - Bullet animations, break fade, etc
+ - Less cannoncog frames in spritesheet (mirror on axis)
 
 
 --------------------------------------------------------------------------

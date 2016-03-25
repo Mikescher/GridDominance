@@ -96,7 +96,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 				}
 			}
 
-#if DEBUG
+#if DEBUG_GAME_GRID_BACKGROUND
 
 			foreach (var particle in Particles)
 			{

@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.1.0</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/spritesheet.tps</string>
+        <string>F:/Symlinks/GridDominance/Data/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>json-array</string>
         <key>textureFileName</key>
-        <filename>spritesheet.png</filename>
+        <filename>../Source/GridDominance.Shared/Content/textures/spritesheet.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -342,6 +342,7 @@
             <key type="filename">cannoncog_animated/cannoncog_125.png</key>
             <key type="filename">cannoncog_animated/cannoncog_126.png</key>
             <key type="filename">cannoncog_animated/cannoncog_127.png</key>
+            <key type="filename">cannoncrosshair.png</key>
             <key type="filename">grid.png</key>
             <key type="filename">pixel.png</key>
             <struct type="IndividualSpriteSettings">
@@ -359,6 +360,7 @@
             <filename>pixel.png</filename>
             <filename>cannonbarrel_shadow.png</filename>
             <filename>cannoncog_animated</filename>
+            <filename>cannoncrosshair.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

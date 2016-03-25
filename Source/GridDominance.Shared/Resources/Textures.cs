@@ -9,9 +9,7 @@ namespace GridDominance.Shared.Resources
 	static class Textures
 	{
 		public static Vector2 DEFAULT_TEXTURE_SCALE = new Vector2(0.5f); // Texturen haben doppelte Auflösung - HD
-
-		public static bool IsLoaded { get; private set; } = false;
-
+		
 		public static TextureAtlas AtlasTextures;
 
 		#region Textures
@@ -24,6 +22,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexCannonBodyShadow;
 		public static TextureRegion2D TexCannonBarrel;
 		public static TextureRegion2D TexCannonBarrelShadow;
+		public static TextureRegion2D TexCannonCrosshair;
 		public static TextureRegion2D[] AnimCannonCog;
 
 		public static TextureRegion2D TexBullet;
@@ -47,7 +46,9 @@ namespace GridDominance.Shared.Resources
 			TexCannonBodyShadow = AtlasTextures["cannonbody_shadow"];
 			TexCannonBarrel = AtlasTextures["cannonbarrel"];
 			TexCannonBarrelShadow = AtlasTextures["cannonbarrel_shadow"];
-			AnimCannonCog = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[string.Format("cannoncog_{0:000}", p)]).ToArray();
+			TexCannonCrosshair = AtlasTextures["cannoncrosshair"];
+
+			AnimCannonCog = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
 
 			TexBullet = AtlasTextures["cannonball"];
 
@@ -57,8 +58,6 @@ namespace GridDominance.Shared.Resources
 			DebugFont = content.Load<SpriteFont>("fonts/debugFont");
 			DebugFontSmall = content.Load<SpriteFont>("fonts/debugFontSmall");
 #endif
-
-			IsLoaded = true;
 		}
 	}
 }

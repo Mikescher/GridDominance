@@ -45,6 +45,9 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private const float HEALTH_HIT_DROP = 0.20f; // on Hit
 		private const float HEALTH_HIT_GEN  = 0.20f; // on Hit from own fraction
 
+		private const float CROSSHAIR_TRANSPARENCY = 0.5f;
+		private const float CROSSHAIR_GROW_SPEED = 3f;
+
 		public Fraction Fraction { get; private set; }
 		private AbstractFractionController controller;
 		public float TotalBoost = 0f;
@@ -54,6 +57,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public readonly DeltaLimitedFloat CannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
 		public readonly DeltaLimitedModuloFloat Rotation;
+		public readonly DeltaLimitedFloat CrosshairSize = new DeltaLimitedFloat(0f, CROSSHAIR_GROW_SPEED);
 		public readonly Vector2 Center;
 		public readonly float Scale;
 		public override Vector2 Position => Center;
@@ -138,6 +142,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			controller.Update(gameTime, istate);
 
 			Rotation.Update(gameTime);
+			CrosshairSize.Update(gameTime);
+
 			UpdatePhysicBodies();
 			UpdateHealth(gameTime);
 			UpdateBarrel(gameTime);
@@ -235,6 +241,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void Draw(SpriteBatch sbatch)
 		{
+			DrawCrosshair(sbatch);
 			DrawBodyAndBarrel(sbatch);
 			DrawCog(sbatch);
 
@@ -244,6 +251,23 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			// ASSERTION
 			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBoost/BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
+		}
+
+		private void DrawCrosshair(SpriteBatch sbatch)
+		{
+			if (FloatMath.IsNotZero(CrosshairSize.ActualValue))
+			{
+				sbatch.Draw(
+					Textures.TexCannonCrosshair.Texture,
+					Center,
+					Textures.TexCannonCrosshair.Bounds,
+					Color.White * (CROSSHAIR_TRANSPARENCY * CrosshairSize.ActualValue),
+					Rotation.TargetValue,
+					new Vector2(Textures.TexCannonCrosshair.Width/2f, Textures.TexCannonCrosshair.Height/2f),
+					Scale * Textures.DEFAULT_TEXTURE_SCALE * CrosshairSize.ActualValue,
+					SpriteEffects.None,
+					0);
+			}
 		}
 
 		private void DrawBodyAndBarrel(SpriteBatch sbatch)
