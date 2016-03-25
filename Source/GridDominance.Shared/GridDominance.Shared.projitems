@@ -31,7 +31,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Levels.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Background\BackgroundParticle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Background\GameGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Entities\Bullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Entities\Cannon.cs" />

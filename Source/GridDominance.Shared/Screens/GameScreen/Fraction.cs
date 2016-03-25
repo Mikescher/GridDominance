@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			this.Type = type;
 			this.neutralFraction = (Type == FractionType.NeutralFraction) ? this : nfrac;
 			this.Multiplicator = mult;
-			this.BackgroundColor = IsNeutral ? Color.Magenta : ColorMath.Blend(FlatColors.Background, c, 0.25f);
+			this.BackgroundColor = IsNeutral ? FlatColors.Background : ColorMath.Blend(FlatColors.Background, c, 0.25f);
 		}
 		
 		public static Fraction CreatePlayerFraction(Fraction neutral)

@@ -55,7 +55,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public readonly float Scale;
 		public override Vector2 Position => Center;
 		private float cannonCogRotation;
-		private List<Vector2> ParticleSpawns;
+		private List<Vector2> GridSourcePoints;
 
 		public Body PhysicsBody;
 		public Fixture PhysicsFictureBase;
@@ -72,7 +72,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			
 			CannonHealth.SetForce(Fraction.IsNeutral ? 0f : 1f);
 
-			FindParticleSpawns();
+			FindGridSourcePoints();
 		}
 
 		#region Manage
@@ -98,15 +98,15 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			Manager.PhysicsWorld.RemoveBody(PhysicsBody);
 
-			foreach (var spawn in ParticleSpawns)
+			foreach (var source in GridSourcePoints)
 			{
-				Owner.Background.DeregisterBlockedSpawn(this, (int)spawn.X, (int)spawn.Y);
+				Owner.Background.DeregisterBlockedSpawn(this, (int)source.X, (int)source.Y);
 			}
 		}
 
-		private void FindParticleSpawns()
+		private void FindGridSourcePoints()
 		{
-			ParticleSpawns = new List<Vector2>();
+			GridSourcePoints = new List<Vector2>();
 
 			var cx = Center.X/GameScreen.TILE_WIDTH;
 			var cy = Center.Y/GameScreen.TILE_WIDTH;
@@ -119,7 +119,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 					var d = (cx - x)*(cx - x) + (cy - y)*(cy - y);
 					if (d <= cr*cr)
 					{
-						ParticleSpawns.Add(new Vector2(x, y));
+						GridSourcePoints.Add(new Vector2(x, y));
 						Owner.Background.RegisterBlockedSpawn(this, x, y);
 					}
 				}
@@ -199,11 +199,6 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			//Owner.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
 
 			barrelRecoil = 0f;
-
-			foreach (var spawn in ParticleSpawns)
-			{
-				Owner.Background.SpawnParticles(Fraction, (int)spawn.X, (int)spawn.Y);
-			}
 
 			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
 		}
