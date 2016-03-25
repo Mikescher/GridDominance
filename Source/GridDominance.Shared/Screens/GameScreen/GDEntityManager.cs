@@ -1,4 +1,7 @@
-﻿using System;
+﻿#if DEBUG
+#define DEBUG_FARSEER
+#endif
+
 using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
@@ -32,7 +35,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			Owner = screen;
 			PhysicsWorld = new World(Vector2.Zero);
 
-#if DEBUG
+#if DEBUG_FARSEER
 			debugView = new DebugViewXNA(PhysicsWorld);
 			debugView.LoadContent(screen.Graphics.GraphicsDevice, screen.Owner.Content, Textures.DebugFont);
 			debugView.AppendFlags(DebugViewFlags.Shape);

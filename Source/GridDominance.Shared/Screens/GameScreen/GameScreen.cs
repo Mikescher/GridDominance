@@ -1,4 +1,8 @@
-﻿using FarseerPhysics;
+﻿#if DEBUG
+#define DEBUG_GAMESCREEN
+#endif
+
+using FarseerPhysics;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Framework.DebugDisplay;
 using GridDominance.Shared.Screens.GameScreen.Background;
@@ -6,7 +10,6 @@ using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.InputListeners;
-using FarseerPhysics.DebugView;
 using FarseerPhysics.Dynamics;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
@@ -73,7 +76,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			touchListener = inputs.AddListener(new TouchListenerSettings());
 
 
-#if DEBUG
+#if DEBUG_GAMESCREEN
 			fpsCounter = new RealtimeAPSCounter();
 			upsCounter = new RealtimeAPSCounter();
 

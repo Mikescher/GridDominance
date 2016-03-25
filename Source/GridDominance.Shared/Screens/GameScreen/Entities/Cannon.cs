@@ -1,4 +1,8 @@
-﻿using System;
+﻿#if DEBUG
+#define DEBUG_CANNON
+#endif
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
@@ -10,7 +14,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using GridDominance.Shared.Framework;
-using GridDominance.Shared.Screens.GameScreen.Background;
 using GridDominance.Shared.Screens.GameScreen.EntityOperations;
 using GridDominance.Shared.Screens.GameScreen.FractionController;
 using MonoGame.Extended.Shapes;
@@ -235,7 +238,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			DrawBodyAndBarrel(sbatch);
 			DrawCog(sbatch);
 
-#if DEBUG
+#if DEBUG_CANNON
 			DrawDebugView(sbatch);
 
 			// ASSERTION

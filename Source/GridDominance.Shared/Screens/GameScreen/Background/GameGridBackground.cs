@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿#if DEBUG
+//#define DEBUG_GAME_GRID_BACKGROUND
+#endif
+
+using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
@@ -74,7 +78,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 					sbatch.Draw(Textures.TexPixel, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), color);
 					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), Color.White);
 
-#if DEBUG
+#if DEBUG_GAME_GRID_BACKGROUND
 					if (x < -1) continue;
 					if (y < -1) continue;
 					if (x > TILE_COUNT_X) continue;
@@ -92,20 +96,21 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 				}
 			}
 
-			//foreach (var particle in Particles)
-			//{
-			//	sbatch.Draw(
-			//		Textures.TexPixel.Texture, 
-			//		new Vector2(particle.X, particle.Y),
-			//		Textures.TexPixel.Bounds,
-			//		particle.Fraction.Color * BackgroundParticle.PARTICLE_ALPHA * particle.PowerPercentage,
-			//		0,
-			//		new Vector2(0.5f, 0.5f),
-			//		8, 
-			//		SpriteEffects.None, 1);
-			//}
-
 #if DEBUG
+
+			foreach (var particle in Particles)
+			{
+				sbatch.Draw(
+					Textures.TexPixel.Texture, 
+					new Vector2(particle.X, particle.Y),
+					Textures.TexPixel.Bounds,
+					particle.Fraction.Color * 0.6f * particle.PowerPercentage,
+					0,
+					new Vector2(0.5f, 0.5f),
+					8, 
+					SpriteEffects.None, 1);
+			}
+
 			sbatch.DrawRectangle(new Rectangle(0, 0, TILE_COUNT_X * TILE_WIDTH, TILE_COUNT_Y * TILE_WIDTH), Color.Magenta);
 #endif
 		}
@@ -313,6 +318,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 
 		private void ColorGridCellDirect(Fraction f, int x, int y, float power)
 		{
+			if (x < 0 || y < 0 || x >= TILE_COUNT_X || y >= TILE_COUNT_Y) power *= 4;
+
 			if (f.IsNeutral)
 			{
 				bool convert;
