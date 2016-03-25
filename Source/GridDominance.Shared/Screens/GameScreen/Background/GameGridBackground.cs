@@ -30,13 +30,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 		protected readonly GraphicsDevice Graphics;
 		protected readonly TolerantBoxingViewportAdapter Adapter;
 
-		public readonly List<BackgroundParticle> Particles = new List<BackgroundParticle>(); 
-
+		public readonly List<BackgroundParticle> Particles = new List<BackgroundParticle>();
 		private readonly List<BackgroundParticle>[,] particlesHorizontal = new List<BackgroundParticle>[TILE_COUNT_X, TILE_COUNT_Y + 1];
 		private readonly List<BackgroundParticle>[,] particlesVertical = new List<BackgroundParticle>[TILE_COUNT_X + 1, TILE_COUNT_Y];
 		private readonly List<Cannon>[,] blockedGridPoints = new List<Cannon>[TILE_COUNT_X + 1, TILE_COUNT_Y + 1];
 		private readonly GridCellMembership[,] gridColor = new GridCellMembership[TILE_COUNT_X + 2, TILE_COUNT_Y + 2]; 
-
 
 		public GameGridBackground(GraphicsDevice graphicsDevice, TolerantBoxingViewportAdapter adapter)
 		{
@@ -94,18 +92,18 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 				}
 			}
 
-			foreach (var particle in Particles)
-			{
-				sbatch.Draw(
-					Textures.TexPixel.Texture, 
-					new Vector2(particle.X, particle.Y),
-					Textures.TexPixel.Bounds,
-					particle.Fraction.Color * BackgroundParticle.PARTICLE_ALPHA * particle.PowerPercentage,
-					particle.Rotation,
-					new Vector2(0.5f, 0.5f),
-					BackgroundParticle.PARTICLE_WIDTH, 
-					SpriteEffects.None, 1);
-			}
+			//foreach (var particle in Particles)
+			//{
+			//	sbatch.Draw(
+			//		Textures.TexPixel.Texture, 
+			//		new Vector2(particle.X, particle.Y),
+			//		Textures.TexPixel.Bounds,
+			//		particle.Fraction.Color * BackgroundParticle.PARTICLE_ALPHA * particle.PowerPercentage,
+			//		0,
+			//		new Vector2(0.5f, 0.5f),
+			//		8, 
+			//		SpriteEffects.None, 1);
+			//}
 
 #if DEBUG
 			sbatch.DrawRectangle(new Rectangle(0, 0, TILE_COUNT_X * TILE_WIDTH, TILE_COUNT_Y * TILE_WIDTH), Color.Magenta);
@@ -121,9 +119,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 			foreach (var particle in Particles.ToList())
 			{
 				if (! particle.Alive) continue;
-
-				particle.Rotation = FloatMath.IncModulo(particle.Rotation, particle.RotationSpeed * gameTime.GetElapsedSeconds(), FloatMath.TAU);
-
+				
 				switch (particle.Direction)
 				{
 					case Direction4.North:
