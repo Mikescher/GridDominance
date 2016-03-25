@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using MonoGame.Extended.InputListeners;
 using MonoGame.Extended.ViewportAdapters;
 
+// ReSharper disable ImpureMethodCallOnReadonlyValueField
 namespace GridDominance.Shared.Framework
 {
 	public class InputState
@@ -19,8 +22,8 @@ namespace GridDominance.Shared.Framework
 		public readonly bool IsJustUp;
 		public readonly Point PointerPosition;
 
-		private Dictionary<Keys, bool> lastKeyState;
-		private Dictionary<Keys, bool> currentKeyState;
+		private readonly Dictionary<Keys, bool> lastKeyState;
+		private readonly Dictionary<Keys, bool> currentKeyState;
 
 		private InputState(ViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, InputState prev)
 		{
@@ -113,6 +116,32 @@ namespace GridDominance.Shared.Framework
 				currentKeyState.Add(key, v);
 				return v;
 			}
+		}
+
+		public bool IsModifierDown(KeyboardModifiers mod)
+		{
+			switch (mod)
+			{
+				case KeyboardModifiers.Control:
+					return Keyboard.IsKeyDown(Keys.LeftControl) || Keyboard.IsKeyDown(Keys.RightControl);
+
+				case KeyboardModifiers.Shift:
+					return Keyboard.IsKeyDown(Keys.LeftShift) || Keyboard.IsKeyDown(Keys.RightShift);
+
+				case KeyboardModifiers.Alt:
+					return Keyboard.IsKeyDown(Keys.LeftAlt) || Keyboard.IsKeyDown(Keys.RightAlt);
+
+				case KeyboardModifiers.None:
+					return true;
+
+				default:
+					throw new ArgumentOutOfRangeException(nameof(mod), mod, null);
+			}
+		}
+
+		public bool IsShortcutJustPressed(KeyboardModifiers mod, Keys key)
+		{
+			return IsModifierDown(mod) && IsKeyJustDown(key);
 		}
 	}
 }

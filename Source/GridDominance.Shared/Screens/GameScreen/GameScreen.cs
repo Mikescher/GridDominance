@@ -1,5 +1,6 @@
 ﻿#if DEBUG
 #define DEBUG_GAMESCREEN
+#define DEBUG_SHORTCUTS
 #endif
 
 using FarseerPhysics;
@@ -15,6 +16,7 @@ using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework.Input;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
@@ -22,8 +24,11 @@ namespace GridDominance.Shared.Screens.GameScreen
 	{
 		public const int TILE_WIDTH = 64;
 
-		public const int VIEW_WIDTH  = 16 * TILE_WIDTH; // 1024
-		public const int VIEW_HEIGHT = 10 * TILE_WIDTH; // 640
+		public const int GRID_WIDTH = 16;
+		public const int GRID_HEIGHT = 10;
+
+		public const int VIEW_WIDTH  = GRID_WIDTH * TILE_WIDTH; // 1024
+		public const int VIEW_HEIGHT = GRID_HEIGHT * TILE_WIDTH; // 640
 
 		//-----------------------------------------------------------------
 
@@ -84,10 +89,10 @@ namespace GridDominance.Shared.Screens.GameScreen
 			{
 				debugDisp.AddLine(() => $"FPS = {fpsCounter.AverageAPS:0000.0} (current = {fpsCounter.CurrentAPS:0000.0} | delta = {fpsCounter.AverageDelta*1000:000.00} | min = {fpsCounter.MinimumAPS:0000.0} | total = {fpsCounter.TotalActions:000000})");
 				debugDisp.AddLine(() => $"UPS = {upsCounter.AverageAPS:0000.0} (current = {upsCounter.CurrentAPS:0000.0} | delta = {upsCounter.AverageDelta*1000:000.00} | min = {upsCounter.MinimumAPS:0000.0} | total = {upsCounter.TotalActions:000000})");
+				debugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f/Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Owner.GraphicsDevice):#.00} | Viewport=[{Owner.GraphicsDevice.Viewport.Width}|{Owner.GraphicsDevice.Viewport.Height}]");
 				debugDisp.AddLine(() => $"Entities = {entities.Count()}");
 				debugDisp.AddLine(() => $"Particles = {Background.Particles.Count()}");
 				debugDisp.AddLine(() => $"Pointer = ({inputStateMan.GetCurrentState().PointerPosition.X:000.0}|{inputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
-				debugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} ({Textures.DEFAULT_TEXTURE_SCALE.X}|{Textures.DEFAULT_TEXTURE_SCALE.Y})");
 			}
 
 			mouseListener.MouseDown += (o, a) => debugDisp.AddDecayLine($"Mouse::OnDown({a.Position.X:0000}|{a.Position.Y:0000})", 0.75f, 0.5f, 0.25f);
@@ -144,7 +149,31 @@ namespace GridDominance.Shared.Screens.GameScreen
 			entities.Update(gameTime, state);
 
 			debugDisp.Update(gameTime, state);
+
+#if DEBUG_SHORTCUTS
+			UpdateDebugShortcuts(state);
+#endif
 		}
+
+#if DEBUG
+		private void UpdateDebugShortcuts(InputState state)
+		{
+			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D1))
+				Textures.ChangeQuality(Owner.Content, TextureQuality.FD);
+
+			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D2))
+				Textures.ChangeQuality(Owner.Content, TextureQuality.BD);
+
+			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D3))
+				Textures.ChangeQuality(Owner.Content, TextureQuality.LD);
+
+			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D4))
+				Textures.ChangeQuality(Owner.Content, TextureQuality.MD);
+
+			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D5))
+				Textures.ChangeQuality(Owner.Content, TextureQuality.HD);
+		}
+#endif
 
 		public override void Draw(GameTime gameTime)
 		{
@@ -186,5 +215,17 @@ namespace GridDominance.Shared.Screens.GameScreen
 		{
 			return entities.PhysicsWorld;
 		}
+
+#if DEBUG
+		public override void Resize(int width, int height)
+		{
+			var newQuality = Textures.GetPreferredQuality(Owner.GraphicsDevice);
+			if (newQuality != Textures.TEXTURE_QUALITY)
+			{
+				Textures.ChangeQuality(Owner.Content, newQuality);
+			}
+		}
+#endif
+
 	}
 }

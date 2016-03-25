@@ -20,20 +20,22 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public bool IsDying;
 
-		public Sprite SpriteBullet;
+		public Vector2 BulletPosition;
+		public float BulletRotation = 0f;
+		public float BulletAlpha = 1f;
+
 		public Body PhysicsBody;
 		public readonly Cannon Source;
 		private readonly float scale;
-
-		private readonly Vector2 initialPosition;
+		
 		private readonly Vector2 initialVelocity;
 
-		public override Vector2 Position => SpriteBullet.Position;
+		public override Vector2 Position => BulletPosition;
 
 		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale)
 			: base(scrn)
 		{
-			initialPosition = pos;
+			BulletPosition = pos;
 			initialVelocity = velo;
 			Source = shooter;
 			Fraction = Source.Fraction;
@@ -42,14 +44,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public override void OnInitialize()
 		{
-			SpriteBullet = new Sprite(Textures.TexBullet)
-			{
-				Scale = scale * Textures.DEFAULT_TEXTURE_SCALE,
-				Position = initialPosition,
-				Color = Fraction.Color
-			};
-
-			PhysicsBody = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(initialPosition), BodyType.Dynamic, this);
+			PhysicsBody = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(BulletPosition), BodyType.Dynamic, this);
 			PhysicsBody.LinearVelocity = ConvertUnits.ToSimUnits(initialVelocity);
 			PhysicsBody.CollidesWith = Category.All;
 			PhysicsBody.IsBullet = true;
@@ -126,17 +121,26 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
-			SpriteBullet.Position = ConvertUnits.ToDisplayUnits(PhysicsBody.Position);
-			SpriteBullet.Rotation = PhysicsBody.Rotation;
+			BulletPosition = ConvertUnits.ToDisplayUnits(PhysicsBody.Position);
+			BulletRotation = PhysicsBody.Rotation;
 
 			if (Lifetime > MAXIMUM_LIEFTIME) AddEntityOperation(new BulletFadeAndDieOperation());
 
-			if (!Manager.BoundingBox.Contains(SpriteBullet.Position)) Remove();
+			if (!Manager.BoundingBox.Contains(BulletPosition)) Remove();
 		}
 
 		public override void Draw(SpriteBatch sbatch)
 		{
-			sbatch.Draw(SpriteBullet);
+			sbatch.Draw(
+				Textures.TexBullet.Texture, 
+				BulletPosition,
+				Textures.TexBullet.Bounds, 
+				Fraction.Color * BulletAlpha,
+				BulletRotation, 
+				new Vector2(Textures.TexBullet.Width/2f, Textures.TexBullet.Height/2f), 
+				scale * Textures.DEFAULT_TEXTURE_SCALE, 
+				SpriteEffects.None, 
+				0);
 		}
 	}
 }

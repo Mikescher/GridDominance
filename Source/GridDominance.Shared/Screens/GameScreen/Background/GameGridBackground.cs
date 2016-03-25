@@ -25,8 +25,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 	{
 		private const int TILE_WIDTH = GameScreen.TILE_WIDTH;
 
-		private const int TILE_COUNT_X = 16;
-		private const int TILE_COUNT_Y = 10;
+		private const int TILE_COUNT_X = GameScreen.GRID_WIDTH;
+		private const int TILE_COUNT_Y = GameScreen.GRID_HEIGHT;
 
 		private const float GRID_ADAPTION_SPEED = 0.2f;
 		private const float GRID_ADAPTION_SPEED_DIRECT = 2f;

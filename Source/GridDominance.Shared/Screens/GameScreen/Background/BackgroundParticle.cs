@@ -18,8 +18,8 @@ namespace GridDominance.Shared.Screens.GameScreen.Background
 
 		public readonly Direction4 Direction;
 
-		public int OriginX;
-		public int OriginY;
+		public readonly int OriginX;
+		public readonly int OriginY;
 
 		public float X;
 		public float Y;

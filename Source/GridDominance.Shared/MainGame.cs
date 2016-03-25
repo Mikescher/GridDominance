@@ -57,7 +57,7 @@ namespace GridDominance.Shared
 
 		protected override void LoadContent()
 		{
-			Textures.LoadContent(Content);
+			Textures.Initialize(Content, GraphicsDevice);
 			Levels.LoadContent(Content);
 		}
 
