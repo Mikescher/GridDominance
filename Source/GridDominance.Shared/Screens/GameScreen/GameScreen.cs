@@ -87,6 +87,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 				debugDisp.AddLine(() => $"Entities = {entities.Count()}");
 				debugDisp.AddLine(() => $"Particles = {Background.Particles.Count()}");
 				debugDisp.AddLine(() => $"Pointer = ({inputStateMan.GetCurrentState().PointerPosition.X:000.0}|{inputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
+				debugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} ({Textures.DEFAULT_TEXTURE_SCALE.X}|{Textures.DEFAULT_TEXTURE_SCALE.Y})");
 			}
 
 			mouseListener.MouseDown += (o, a) => debugDisp.AddDecayLine($"Mouse::OnDown({a.Position.X:0000}|{a.Position.Y:0000})", 0.75f, 0.5f, 0.25f);

@@ -74,4 +74,7 @@
       <Name>GridDominance.Levelformat</Name>
     </ProjectReference>
   </ItemGroup>
+  <PropertyGroup>
+    <PreBuildEvent>texturepacker $(SolutionDir)..\Data\spritesheet.tps</PreBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -274,14 +274,16 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			var recoil = (1-barrelRecoil) * BARREL_RECOIL_LENGTH;
 
+			var barrelCenter = Center + new Vector2(Scale * (CANNON_DIAMETER/2f - recoil), 0).Rotate(Rotation.ActualValue);
+
 			sbatch.Draw(
 				Textures.TexCannonBarrelShadow.Texture,
-				Center,
+				barrelCenter,
 				Textures.TexCannonBarrelShadow.Bounds,
 				Color.White,
 				Rotation.ActualValue,
-				new Vector2(-16 + recoil, 48),
-				Scale*Textures.DEFAULT_TEXTURE_SCALE,
+				new Vector2(Textures.TexCannonBarrelShadow.Width/2f, Textures.TexCannonBarrelShadow.Height/2f),
+				Scale *Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
 
@@ -298,12 +300,12 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			sbatch.Draw(
 				Textures.TexCannonBarrel.Texture,
-				Center,
+				barrelCenter,
 				Textures.TexCannonBarrel.Bounds,
 				Color.White,
 				Rotation.ActualValue,
-				new Vector2(-32 + recoil, 32),
-				Scale*Textures.DEFAULT_TEXTURE_SCALE,
+				new Vector2(Textures.TexCannonBarrel.Width/2f, Textures.TexCannonBarrel.Height/2f),
+				Scale *Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
 

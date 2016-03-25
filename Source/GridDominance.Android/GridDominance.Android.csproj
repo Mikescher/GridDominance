@@ -89,4 +89,7 @@
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" Condition="Exists('..\GridDominance.Shared\GridDominance.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>texturepacker $(SolutionDir)..\Data\spritesheet.tps</PreBuildEvent>
+  </PropertyGroup>
 </Project>

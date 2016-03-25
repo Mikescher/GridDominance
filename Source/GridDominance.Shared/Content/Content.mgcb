@@ -15,22 +15,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin textures/spritesheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:TextureFormat=Color
-/build:textures/spritesheet.png
-
-#begin textures/spritesheet-sheet.json
-/importer:TexturePackerJsonImporter
-/processor:TexturePackerProcessor
-/build:textures/spritesheet-sheet.json
-
 #begin fonts/debugFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -47,4 +31,68 @@
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
 /build:fonts/debugFontSmall.spritefont
+
+#begin textures/spritesheet_hd.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:textures/spritesheet_hd.png
+
+#begin textures/spritesheet_ld.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:textures/spritesheet_ld.png
+
+#begin textures/spritesheet_md.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:textures/spritesheet_md.png
+
+#begin textures/spritesheet-sheet_hd.json
+/importer:TexturePackerJsonImporter
+/processor:TexturePackerProcessor
+/build:textures/spritesheet-sheet_hd.json
+
+#begin textures/spritesheet-sheet_ld.json
+/importer:TexturePackerJsonImporter
+/processor:TexturePackerProcessor
+/build:textures/spritesheet-sheet_ld.json
+
+#begin textures/spritesheet-sheet_md.json
+/importer:TexturePackerJsonImporter
+/processor:TexturePackerProcessor
+/build:textures/spritesheet-sheet_md.json
+
+#begin textures/spritesheet_bd.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:textures/spritesheet_bd.png
+
+#begin textures/spritesheet-sheet_bd.json
+/importer:TexturePackerJsonImporter
+/processor:TexturePackerProcessor
+/build:textures/spritesheet-sheet_bd.json
 

@@ -27,9 +27,9 @@ define(CELL_H, 64)
 
 ########################################################################
 
-Cannon(SIZE_SMALL, P1,  2 * CELL_W,  5 * CELL_H, ROT_N)
+Cannon(SIZE_SMALL, A2,  2 * CELL_W,  5 * CELL_H, ROT_N)
 
-Cannon(SIZE_SMALL, N0, 14 * CELL_W,  5 * CELL_H, ROT_S)
+Cannon(SIZE_SMALL, A3, 14 * CELL_W,  5 * CELL_H, ROT_S)
 
 Cannon(SIZE_SMALL, N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
 Cannon(SIZE_SMALL, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)

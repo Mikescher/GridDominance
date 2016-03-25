@@ -110,7 +110,7 @@
 },
 {
 	"filename": "cannoncog_007.png",
-	"frame": {"x":264,"y":1137,"w":128,"h":128},
+	"frame": {"x":264,"y":1156,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "cannoncog_008.png",
-	"frame": {"x":264,"y":1268,"w":128,"h":128},
+	"frame": {"x":264,"y":1287,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -1217,20 +1217,20 @@
 },
 {
 	"filename": "pixel.png",
-	"frame": {"x":2,"y":1425,"w":1,"h":1},
+	"frame": {"x":261,"y":1137,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
-	"sourceSize": {"w":1,"h":1},
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "spritesheet.png",
+	"image": "spritesheet_hd.png",
 	"format": "RGBA8888",
 	"size": {"w":1966,"h":1442},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f2b89b04697d27f8542bdf975b91c493:d12f172e682d6518263cd972ea7cff9d:3006828edb55ff31fa8f33d7a542b598$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a624712fe17b4dee123b6a8e1f71f135:ad38297105815fc3fa5eeecde8f12d0a:63773311eac23039002e2e2c4ec6777b$"
 }
 }

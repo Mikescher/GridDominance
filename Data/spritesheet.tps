@@ -13,7 +13,58 @@
                 <key>scale</key>
                 <double>1</double>
                 <key>extension</key>
+                <string>hd</string>
+                <key>spriteFilter</key>
                 <string></string>
+                <key>acceptFractionalValues</key>
+                <false/>
+                <key>maxTextureSize</key>
+                <QSize>
+                    <key>width</key>
+                    <int>-1</int>
+                    <key>height</key>
+                    <int>-1</int>
+                </QSize>
+            </struct>
+            <struct type="AutoSDSettings">
+                <key>scale</key>
+                <double>0.5</double>
+                <key>extension</key>
+                <string>md</string>
+                <key>spriteFilter</key>
+                <string></string>
+                <key>acceptFractionalValues</key>
+                <false/>
+                <key>maxTextureSize</key>
+                <QSize>
+                    <key>width</key>
+                    <int>-1</int>
+                    <key>height</key>
+                    <int>-1</int>
+                </QSize>
+            </struct>
+            <struct type="AutoSDSettings">
+                <key>scale</key>
+                <double>0.25</double>
+                <key>extension</key>
+                <string>ld</string>
+                <key>spriteFilter</key>
+                <string></string>
+                <key>acceptFractionalValues</key>
+                <false/>
+                <key>maxTextureSize</key>
+                <QSize>
+                    <key>width</key>
+                    <int>-1</int>
+                    <key>height</key>
+                    <int>-1</int>
+                </QSize>
+            </struct>
+            <struct type="AutoSDSettings">
+                <key>scale</key>
+                <double>0.125</double>
+                <key>extension</key>
+                <string>bd</string>
                 <key>spriteFilter</key>
                 <string></string>
                 <key>acceptFractionalValues</key>
@@ -38,7 +89,7 @@
         <key>dataFormat</key>
         <string>json-array</string>
         <key>textureFileName</key>
-        <filename>../Source/GridDominance.Shared/Content/textures/spritesheet.png</filename>
+        <filename>../Source/GridDominance.Shared/Content/textures/spritesheet_{v}.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -152,7 +203,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Source/GridDominance.Shared/Content/textures/spritesheet-sheet.json</filename>
+                <filename>../Source/GridDominance.Shared/Content/textures/spritesheet-sheet_{v}.json</filename>
             </struct>
             <key>datafile</key>
             <struct type="DataFile">
