@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Background\GameGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Entities\Bullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Entities\Cannon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\EntityOperations\BulletDamageAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\EntityOperations\CannonBooster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\EntityOperations\BulletSplatterAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\EntityOperations\BulletConsumeAndDieOperation.cs" />

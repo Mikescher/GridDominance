@@ -23,6 +23,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public Vector2 BulletPosition;
 		public float BulletRotation = 0f;
 		public float BulletAlpha = 1f;
+		public float BulletExtraScale = 1f;
 
 		public Body PhysicsBody;
 		public readonly Cannon Source;
@@ -80,13 +81,13 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 					// if Source barrel then ignore collision
 					if (otherCannon != Source || fixtureB == otherCannon.PhysicsFictureBase)
 					{
-						Disintegrate();
+						DisintegrateIntoFriend();
 						otherCannon.ApplyBoost();
 					}
 				}
 				else // if (otherCannon.Fraction != this.Fraction)
 				{
-					Disintegrate();
+					DisintegrateIntoEnemy();
 					otherCannon.TakeDamage(Fraction);
 				}
 
@@ -106,7 +107,15 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			IsDying = true;
 		}
 
-		private void Disintegrate()
+		private void DisintegrateIntoEnemy()
+		{
+			// After Bullet-Cannon Collision
+
+			AddEntityOperation(new BulletDamageAndDieOperation());
+			IsDying = true;
+		}
+
+		private void DisintegrateIntoFriend()
 		{
 			// After Bullet-Cannon Collision
 
@@ -138,7 +147,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Fraction.Color * BulletAlpha,
 				BulletRotation, 
 				new Vector2(Textures.TexBullet.Width/2f, Textures.TexBullet.Height/2f), 
-				scale * Textures.DEFAULT_TEXTURE_SCALE, 
+				scale * Textures.DEFAULT_TEXTURE_SCALE * BulletExtraScale, 
 				SpriteEffects.None, 
 				0);
 		}
