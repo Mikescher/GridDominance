@@ -1,15 +1,16 @@
 ﻿using GridDominance.Levelformat.Parser;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
+using System.Linq;
 
 namespace GridDominance.Content.Pipeline
 {
 	[ContentProcessor(DisplayName = "GridDominance Level Processor")]
-	public class GDLevelProcessor : ContentProcessor<string, LevelFile>
+	public class GDLevelProcessor : ContentProcessor<LevelPackage, LevelFile>
 	{
-		public override LevelFile Process(string input, ContentProcessorContext context)
+		public override LevelFile Process(LevelPackage input, ContentProcessorContext context)
 		{
-			var lf = new LevelFile(input);
+			var lf = new LevelFile(input.Content, x => input.Includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value);
 
 			lf.Parse();
 			

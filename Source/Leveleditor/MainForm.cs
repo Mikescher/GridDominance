@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Leveleditor
@@ -131,15 +132,15 @@ namespace Leveleditor
 
 		private void Reparse()
 		{
-			var lp = new LevelFile(edCode.Text);
-
 			try
 			{
-				lp.Parse();
+				var lp = ParseLevelFile();
 
 				edError.Text = string.Empty;
 
 				RecreateBuffer(lp);
+
+				RecreateMap(lp);
 			}
 			catch (ParsingException pe)
 			{
@@ -147,6 +148,51 @@ namespace Leveleditor
 				Console.Out.WriteLine(pe.ToString());
 
 				RecreateBuffer(null);
+			}
+		}
+
+		private LevelFile ParseLevelFile()
+		{
+			Func<string, string> includesFunc = x => null;
+			if (File.Exists(edPath.Text))
+			{
+				var path = Path.GetDirectoryName(edPath.Text) ?? "";
+				var pattern = "*" + Path.GetExtension(edPath.Text);
+
+				var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
+
+				includesFunc = x => includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value;
+			}
+
+			var lp = new LevelFile(edCode.Text, includesFunc);
+			lp.Parse();
+
+			return lp;
+		}
+
+		private void RecreateMap(LevelFile lp)
+		{
+			var rex = new Regex(@"^#<map>.*^#</map>", RegexOptions.Multiline | RegexOptions.Singleline);
+			
+			var newCode = rex.Replace(edCode.Text, lp.GenerateASCIIMap());
+
+			if (newCode != edCode.Text)
+			{
+				int tc = timerCountDown;
+				int selS = edCode.SelectionStart;
+				int selL = edCode.SelectionLength;
+
+				edCode.Text = newCode;
+
+				try
+				{
+					timerCountDown = tc;
+					edCode.SelectionStart = selS;
+					edCode.SelectionLength = selL;
+				}
+				catch (Exception) { /* wayne */ }
+
+				Console.WriteLine("Regenerate map");
 			}
 		}
 
@@ -233,6 +279,74 @@ namespace Leveleditor
 		private void edPath_DragEnter(object sender, DragEventArgs e)
 		{
 			if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+		}
+
+		private void btnCompile_Click(object sender, EventArgs e) // too lazy to include BinaryWriter - or analyze format in depth
+		{
+			try
+			{
+				if (! File.Exists(edPath.Text)) throw new FileNotFoundException(edPath.Text);
+
+				var lp = ParseLevelFile();
+
+				var dir = Path.GetDirectoryName(edPath.Text);
+				var name = Path.GetFileNameWithoutExtension(edPath.Text) + ".xnb";
+
+				if (string.IsNullOrWhiteSpace(dir)) throw new Exception("dir == null");
+				if (string.IsNullOrWhiteSpace(name)) throw new Exception("name == null");
+
+				var outPath = Path.Combine(dir, name);
+
+				byte[] binData;
+				using (var ms = new MemoryStream())
+				using (var bw = new BinaryWriter(ms))
+				{
+					lp.BinarySerialize(bw);
+					binData = ms.ToArray();
+				}
+
+				using (var fs = new FileStream(outPath, FileMode.Create))
+				using (var bw = new ExtendedBinaryWriter(fs))
+				{
+					// Header
+
+					bw.Write('X');
+					bw.Write('N');
+					bw.Write('B');
+					bw.Write('g');        // Target Platform
+					bw.Write((byte)5); 	  // XNB Version
+					bw.Write((byte)0);    // Flags
+
+
+					bw.Write((UInt32)0x95);
+
+					bw.Write((byte) 0x01);
+					bw.Write("GridDominance.Levelformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
+
+					bw.Write(binData);
+
+					bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00 });
+					bw.Write(new byte[] { 0x9B, 0x00, 0x00, 0x00, 0x01});
+
+					bw.Write("GridDominance.Levelformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+
+					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
+					bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00 });
+					bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0xA1 });
+					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x01});
+
+					bw.Write("GridDominance.Levelformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+
+					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
+				}
+
+			}
+			catch (Exception exc)
+			{
+				edError.Text = exc.ToString();
+				Console.Out.WriteLine(exc.ToString());
+			}
 		}
 	}
 }

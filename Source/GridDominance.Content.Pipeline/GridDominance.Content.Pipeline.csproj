@@ -55,6 +55,7 @@
     <Compile Include="GDLevelImporter.cs" />
     <Compile Include="GDLevelProcessor.cs" />
     <Compile Include="GDLevelWriter.cs" />
+    <Compile Include="LevelPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

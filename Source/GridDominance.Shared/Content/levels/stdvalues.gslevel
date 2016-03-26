@@ -1,0 +1,27 @@
+﻿#  STANDARD DEFINES    #
+########################
+
+define(N0, 0) # Neutral
+define(P1, 1) # Human
+define(A2, 2) # PC 1
+define(A3, 3) # PC 2
+define(A4, 4) # PC 3
+
+define(ROT_N,  000)
+define(ROT_NE, 315)
+define(ROT_E,  270)
+define(ROT_SE, 225)
+define(ROT_S,  180)
+define(ROT_SW, 135)
+define(ROT_W,  090)
+define(ROT_NW, 045)
+
+define(SIZE_TINY,     2/4)
+define(SIZE_SMALL,    3/4)
+define(SIZE_NORMAL,   4/4)
+define(SIZE_BIG,      5/4)
+define(SIZE_GIGANTIC, 8/4)
+
+define(CELL_W, 64)
+define(CELL_H, 64)
+

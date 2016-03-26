@@ -16,6 +16,10 @@ namespace GridDominance.Content.Pipeline
 			var length = output.BaseStream.Position - start;
 
 			Console.WriteLine("Writing " + length + " byte long serialized file");
+			Console.WriteLine("-------------------------------------------------");
+			Console.WriteLine(Environment.StackTrace);
+			Console.WriteLine("-------------------------------------------------");
+
 		}
 		
 		public override string GetRuntimeType(TargetPlatform targetPlatform)

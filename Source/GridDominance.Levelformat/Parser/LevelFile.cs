@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace GridDominance.Levelformat.Parser
@@ -17,18 +18,34 @@ namespace GridDominance.Levelformat.Parser
 
 		private readonly string content;
 		private readonly Dictionary<string, float> constants = new Dictionary<string, float>();
-		private readonly Dictionary<string, Action<List<string>>> actions;
+		private Dictionary<string, Action<List<string>>> actions;
+		private readonly Func<string, string> includeFinderFunction; 
 
 		public readonly List<LPCannon> BlueprintCannons = new List<LPCannon>();
 
-		public LevelFile(string levelContent)
+		public LevelFile()
+		{
+			content = string.Empty;
+			includeFinderFunction = s => null; 
+
+			Init();
+		}
+
+		public LevelFile(string levelContent, Func<string, string> includeFunction)
 		{
 			content = levelContent;
+			includeFinderFunction = includeFunction;
 
+			Init();
+		}
+
+		private void Init()
+		{
 			actions = new Dictionary<string, Action<List<string>>>
 			{
-				{ "define", DefineConstant },
-				{ "cannon", AddCannon },
+				{"define", DefineConstant},
+				{"cannon", AddCannon},
+				{"include", IncludeSource},
 			};
 		}
 
@@ -36,7 +53,12 @@ namespace GridDominance.Levelformat.Parser
 
 		public void Parse()
 		{
-			using (StringReader sr = new StringReader(content))
+			Parse("__root__", content);
+		}
+
+		public void Parse(string fileName, string fileContent)
+		{
+			using (StringReader sr = new StringReader(fileContent))
 			{
 				string rawline;
 				int lineNumber = 0;
@@ -52,7 +74,7 @@ namespace GridDominance.Levelformat.Parser
 					}
 					catch (Exception e)
 					{
-						throw new ParsingException(lineNumber, e);
+						throw new ParsingException(fileName, lineNumber, e);
 					}
 				}
 			}
@@ -109,9 +131,23 @@ namespace GridDominance.Levelformat.Parser
 			if (idx >= methodParameter.Count)
 				throw new Exception($"Not enough parameter (missing param {idx})");
 
+			var x = methodParameter[idx];
+
+			if (x.Length < 2) throw new Exception("String parse exception");
+			if (!x.StartsWith("\"")) throw new Exception("String parse exception");
+			if (!x.EndsWith("\"")) throw new Exception("String parse exception");
+
+			return x.Substring(1, x.Length - 2);
+		}
+
+		private string ExtractValueParameter(List<string> methodParameter, int idx)
+		{
+			if (idx >= methodParameter.Count)
+				throw new Exception($"Not enough parameter (missing param {idx})");
+
 			return methodParameter[idx];
 		}
-		
+
 		private int ExtractIntegerParameter(List<string> methodParameter, int idx)
 		{
 			if (idx >= methodParameter.Count)
@@ -190,7 +226,7 @@ namespace GridDominance.Levelformat.Parser
 
 		private void DefineConstant(List<string> methodParameter)
 		{
-			var key = ExtractStringParameter(methodParameter, 0).ToLower();
+			var key = ExtractValueParameter(methodParameter, 0).ToLower();
 			var val = ExtractNumberParameter(methodParameter, 1);
 
 			constants.Add(key, val);
@@ -205,6 +241,16 @@ namespace GridDominance.Levelformat.Parser
 			var rotation = ExtractNumberParameter(methodParameter, 4, -1);
 
 			BlueprintCannons.Add(new LPCannon(posX, posY, size, player, rotation));
+		}
+
+		private void IncludeSource(List<string> methodParameter)
+		{
+			var fileName = ExtractStringParameter(methodParameter, 0);
+			var fileContent = includeFinderFunction(fileName);
+
+			if (fileContent == null) throw new Exception("Include not found: " + fileName);
+
+			Parse(fileName, fileContent);
 		}
 
 		#endregion
@@ -258,6 +304,64 @@ namespace GridDominance.Levelformat.Parser
 			}
 
 			throw new Exception("Unexpected binary file end");
+		}
+
+		#endregion
+
+		#region Static Helper
+		
+		public static bool IsIncludeMatch(string a, string b)
+		{
+			const StringComparison icic = StringComparison.CurrentCultureIgnoreCase;
+
+			if (string.Equals(a, b, icic)) return true;
+
+			if (a.LastIndexOf('.') > 0) a = a.Substring(0, a.LastIndexOf('.'));
+			if (b.LastIndexOf('.') > 0) b = b.Substring(0, b.LastIndexOf('.'));
+
+			return string.Equals(a, b, icic);
+		}
+
+		#endregion
+
+		#region Output
+
+		public string GenerateASCIIMap()
+		{
+			var builder = new StringBuilder();
+
+			builder.AppendLine("#<map>");
+			builder.AppendLine("#");
+			builder.AppendLine("#            0 1 2 3 4 5 6 7 8 9 A B C D E F");
+			builder.AppendLine("#          # # # # # # # # # # # # # # # # # #");
+			for (int y = 0; y < 10; y++)
+			{
+				builder.Append("#        ");
+				builder.Append(y);
+				builder.Append(" #");
+
+				for (int x = 0; x < 16; x++)
+				{
+					builder.Append(" ");
+					if (BlueprintCannons.Any(p => (int) Math.Round(p.X / 64) == (x + 0) && (int) Math.Round(p.Y / 64) == (y + 0)))
+						builder.Append("/");
+					else if (BlueprintCannons.Any(p => (int)Math.Round(p.X / 64) == (x + 1) && (int)Math.Round(p.Y / 64) == (y + 0)))
+						builder.Append("\\");
+					else if (BlueprintCannons.Any(p => (int)Math.Round(p.X / 64) == (x + 0) && (int)Math.Round(p.Y / 64) == (y + 1)))
+						builder.Append("\\");
+					else if (BlueprintCannons.Any(p => (int)Math.Round(p.X / 64) == (x + 1) && (int)Math.Round(p.Y / 64) == (y + 1)))
+						builder.Append("/");
+					else
+						builder.Append(" ");
+				}
+
+				builder.AppendLine(" #");
+			}
+			builder.AppendLine("#          # # # # # # # # # # # # # # # # # #");
+			builder.AppendLine("#");
+			builder.Append("#</map>");
+
+			return builder.ToString();
 		}
 
 		#endregion

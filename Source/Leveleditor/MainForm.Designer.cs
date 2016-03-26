@@ -41,6 +41,7 @@
 			this.edPath = new System.Windows.Forms.TextBox();
 			this.btnReload = new System.Windows.Forms.Button();
 			this.btnSave = new System.Windows.Forms.Button();
+			this.btnCompile = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -164,13 +165,15 @@
 			// 
 			// tableLayoutPanel3
 			// 
-			this.tableLayoutPanel3.ColumnCount = 3;
+			this.tableLayoutPanel3.ColumnCount = 4;
 			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel3.Controls.Add(this.edPath, 0, 0);
 			this.tableLayoutPanel3.Controls.Add(this.btnReload, 1, 0);
 			this.tableLayoutPanel3.Controls.Add(this.btnSave, 2, 0);
+			this.tableLayoutPanel3.Controls.Add(this.btnCompile, 3, 0);
 			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -185,7 +188,7 @@
 			this.edPath.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.edPath.Location = new System.Drawing.Point(3, 3);
 			this.edPath.Name = "edPath";
-			this.edPath.Size = new System.Drawing.Size(844, 20);
+			this.edPath.Size = new System.Drawing.Size(763, 20);
 			this.edPath.TabIndex = 0;
 			this.edPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.edPath_DragDrop);
 			this.edPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.edPath_DragEnter);
@@ -193,7 +196,7 @@
 			// btnReload
 			// 
 			this.btnReload.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnReload.Location = new System.Drawing.Point(853, 3);
+			this.btnReload.Location = new System.Drawing.Point(772, 3);
 			this.btnReload.Name = "btnReload";
 			this.btnReload.Size = new System.Drawing.Size(75, 23);
 			this.btnReload.TabIndex = 1;
@@ -203,13 +206,23 @@
 			// 
 			// btnSave
 			// 
-			this.btnSave.Location = new System.Drawing.Point(934, 3);
+			this.btnSave.Location = new System.Drawing.Point(853, 3);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(75, 23);
 			this.btnSave.TabIndex = 2;
 			this.btnSave.Text = "Save";
 			this.btnSave.UseVisualStyleBackColor = true;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			// 
+			// btnCompile
+			// 
+			this.btnCompile.Location = new System.Drawing.Point(934, 3);
+			this.btnCompile.Name = "btnCompile";
+			this.btnCompile.Size = new System.Drawing.Size(75, 23);
+			this.btnCompile.TabIndex = 0;
+			this.btnCompile.Text = "Compile";
+			this.btnCompile.UseVisualStyleBackColor = true;
+			this.btnCompile.Click += new System.EventHandler(this.btnCompile_Click);
 			// 
 			// MainForm
 			// 
@@ -253,6 +266,7 @@
 		private System.Windows.Forms.TextBox edPath;
 		private System.Windows.Forms.Button btnReload;
 		private System.Windows.Forms.Button btnSave;
+		private System.Windows.Forms.Button btnCompile;
 	}
 }
 

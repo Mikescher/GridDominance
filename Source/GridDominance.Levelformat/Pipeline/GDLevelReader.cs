@@ -7,7 +7,7 @@ namespace GridDominance.Levelformat.Pipeline
 	{
 		protected override LevelFile Read(ContentReader input, LevelFile existingInstance)
 		{
-			var lf = new LevelFile(string.Empty);
+			var lf = new LevelFile();
 
 			lf.BinaryDeserialize(input);
 

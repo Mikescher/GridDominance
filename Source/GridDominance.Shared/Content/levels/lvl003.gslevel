@@ -1,31 +1,7 @@
 ﻿# Level 03 - Example   #
 ########################
 
-define(N0, 0) # Neutral
-define(P1, 1) # Human
-define(A2, 2) # PC
-define(A3, 3) # PC
-define(A4, 4) # PC
-
-define(ROT_N,  000)
-define(ROT_NE, 315)
-define(ROT_E,  270)
-define(ROT_SE, 225)
-define(ROT_S,  180)
-define(ROT_SW, 135)
-define(ROT_W,  090)
-define(ROT_NW, 045)
-
-define(SIZE_TINY,     2/4)
-define(SIZE_SMALL,    3/4)
-define(SIZE_NORMAL,   4/4)
-define(SIZE_BIG,      5/4)
-define(SIZE_GIGANTIC, 8/4)
-
-define(CELL_W, 64)
-define(CELL_H, 64)
-
-########################################################################
+include("stdvalues")
 
 Cannon(SIZE_SMALL, A2,  2 * CELL_W,  5 * CELL_H, ROT_N)
 
@@ -34,3 +10,24 @@ Cannon(SIZE_SMALL, A3, 14 * CELL_W,  5 * CELL_H, ROT_S)
 Cannon(SIZE_SMALL, N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
 Cannon(SIZE_SMALL, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)
 Cannon(SIZE_SMALL, N0,  8 * CELL_W,  9 * CELL_H, ROT_NE)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#        0 #               / \               #
+#        1 #               \ /               #
+#        2 #       / \                       #
+#        3 #       \ /                       #
+#        4 #   / \ \ /     / \         / \   #
+#        5 #   \ / \ /     \ /         \ /   #
+#        6 #       \ /                       #
+#        7 #       \ /                       #
+#        8 #               / \               #
+#        9 #               \ /               #
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

@@ -1,11 +1,9 @@
 TODO NEXT
 
- - diff Texture Quali implement
  - diff Gamespeed implement
- - Less cannoncog frames in spritesheet (mirror on axis)
+ - Less cannoncog frames in spritesheet (mirror on axis) (does not work with less than hd ??)
  - HUD
  - menu syntax add #include (and use real expression syntax) - heck why not use real scripting language
- - target ring around player cannons when targeting
  - Bullet animations, break fade, etc
 
 
