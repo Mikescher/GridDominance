@@ -278,6 +278,7 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">cannonball.png</key>
+            <key type="filename">cannonball_piece.png</key>
             <key type="filename">cannonbarrel.png</key>
             <key type="filename">cannonbarrel_shadow.png</key>
             <key type="filename">cannonbody.png</key>
@@ -429,6 +430,7 @@
             <filename>cannonbarrel_shadow.png</filename>
             <filename>cannoncog_animated</filename>
             <filename>cannoncrosshair.png</filename>
+            <filename>cannonball_piece.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

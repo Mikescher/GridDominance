@@ -27,7 +27,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		public Body PhysicsBody;
 		public readonly Cannon Source;
-		private readonly float scale;
+		public readonly float Scale;
 		
 		private readonly Vector2 initialVelocity;
 
@@ -40,12 +40,12 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			initialVelocity = velo;
 			Source = shooter;
 			Fraction = Source.Fraction;
-			scale = entityScale;
+			Scale = entityScale;
 		}
 
 		public override void OnInitialize()
 		{
-			PhysicsBody = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(BulletPosition), BodyType.Dynamic, this);
+			PhysicsBody = BodyFactory.CreateCircle(Manager.PhysicsWorld, ConvertUnits.ToSimUnits(Scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(BulletPosition), BodyType.Dynamic, this);
 			PhysicsBody.LinearVelocity = ConvertUnits.ToSimUnits(initialVelocity);
 			PhysicsBody.CollidesWith = Category.All;
 			PhysicsBody.IsBullet = true;
@@ -102,9 +102,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		private void MutualDestruct()
 		{
 			// After Bullet-Bulllet Collision
-
-			AddEntityOperation(new BulletSplatterAndDieOperation());
-			IsDying = true;
+			
+			for (int i = 0; i < 8; i++)
+				Manager.AddEntity(new BulletSplitter(Owner, this, (Direction8) i));
+			
+			Alive = false;
 		}
 
 		private void DisintegrateIntoEnemy()
@@ -147,7 +149,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				Fraction.Color * BulletAlpha,
 				BulletRotation, 
 				new Vector2(Textures.TexBullet.Width/2f, Textures.TexBullet.Height/2f), 
-				scale * Textures.DEFAULT_TEXTURE_SCALE * BulletExtraScale, 
+				Scale * Textures.DEFAULT_TEXTURE_SCALE * BulletExtraScale, 
 				SpriteEffects.None, 
 				0);
 		}

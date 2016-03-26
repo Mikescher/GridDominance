@@ -10,6 +10,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "cannonball_piece.png",
+	"frame": {"x":484,"y":2,"w":6,"h":6},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":6},
+	"sourceSize": {"w":6,"h":6},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "cannonbarrel.png",
 	"frame": {"x":484,"y":49,"w":16,"h":8},
 	"rotated": false,
@@ -1231,6 +1240,6 @@
 	"format": "RGBA8888",
 	"size": {"w":502,"h":119},
 	"scale": "0.125",
-	"smartupdate": "$TexturePacker:SmartUpdate:c354ba16195d7718b4d79b33b0c37b0f:ad38297105815fc3fa5eeecde8f12d0a:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:25f5120c4bb2e0c482b4e0c37643fc98:aecab31ace99a63682c10476f0d765b1:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

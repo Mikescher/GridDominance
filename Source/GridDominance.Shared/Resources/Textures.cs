@@ -99,6 +99,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D[] AnimCannonCog;
 
 		public static TextureRegion2D TexBullet;
+		public static TextureRegion2D TexBulletSplitter;
 
 		public static TextureRegion2D TexPixel;
 
@@ -130,6 +131,7 @@ namespace GridDominance.Shared.Resources
 			AnimCannonCog = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
 
 			TexBullet = AtlasTextures["cannonball"];
+			TexBulletSplitter = AtlasTextures["cannonball_piece"];
 
 			// Anti-Antialising
 			TexPixel = AtlasTextures["pixel"];

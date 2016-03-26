@@ -63,9 +63,9 @@ namespace GridDominance.Shared.Screens.GameScreen
 			}
 		}
 
-		protected abstract void OnUpdate(GameTime gameTime, InputState istate);
-		public abstract void Draw(SpriteBatch sbatch);
 		public abstract void OnInitialize();
 		public abstract void OnRemove();
+		protected abstract void OnUpdate(GameTime gameTime, InputState istate);
+		public abstract void Draw(SpriteBatch sbatch);
 	}
 }
