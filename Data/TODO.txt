@@ -3,7 +3,6 @@ TODO NEXT
  - diff Gamespeed implement
  - Less cannoncog frames in spritesheet (mirror on axis) (does not work with less than hd ??)
  - HUD
- - menu syntax add #include (and use real expression syntax) - heck why not use real scripting language
  - Bullet animations, break fade, etc
 
 
