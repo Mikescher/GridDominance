@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
-namespace GridDominance.Shared.Framework
+namespace MonoSAMFramework.Portable
 {
-	class RealtimeAPSCounter
+	public class RealtimeAPSCounter
 	{
 		private readonly float interval;
 
@@ -46,7 +43,7 @@ namespace GridDominance.Shared.Framework
 
 			CurrentDelta = delta;
 			CurrentAPS = 1.0 / delta;
-			MinimumAPS = Math.Min(CurrentAPS, MinimumAPS);
+			MinimumAPS = System.Math.Min(CurrentAPS, MinimumAPS);
 
 			bufferSum += delta;
 			bufferCount++;

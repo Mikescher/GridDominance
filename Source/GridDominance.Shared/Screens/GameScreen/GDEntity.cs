@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GridDominance.Shared.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoSAMFramework.Portable.Input;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {

@@ -1,5 +1,5 @@
-﻿using GridDominance.Shared.Framework;
-using GridDominance.Shared.Screens.GameScreen.Entities;
+﻿using GridDominance.Shared.Screens.GameScreen.Entities;
+using MonoSAMFramework.Portable.Input;
 
 namespace GridDominance.Shared.Screens.GameScreen.EntityOperations
 {

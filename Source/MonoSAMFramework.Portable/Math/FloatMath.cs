@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace GridDominance.Shared.Framework
+namespace MonoSAMFramework.Portable.Math
 {
 	public static class FloatMath
 	{
@@ -19,47 +19,47 @@ namespace GridDominance.Shared.Framework
 
 		public static float Asin(float value)
 		{
-			return (float)Math.Asin(value);
+			return (float)System.Math.Asin(value);
 		}
 
 		public static float Sin(float value)
 		{
-			return (float)Math.Sin(value);
+			return (float)System.Math.Sin(value);
 		}
 
 		public static float Sinh(float value)
 		{
-			return (float)Math.Sinh(value);
+			return (float)System.Math.Sinh(value);
 		}
 
 		public static float Acos(float value)
 		{
-			return (float)Math.Acos(value);
+			return (float)System.Math.Acos(value);
 		}
 
 		public static float Cos(float value)
 		{
-			return (float)Math.Cos(value);
+			return (float)System.Math.Cos(value);
 		}
 
 		public static float Cosh(float value)
 		{
-			return (float)Math.Cosh(value);
+			return (float)System.Math.Cosh(value);
 		}
 
 		public static float Atan(float value)
 		{
-			return (float)Math.Atan(value);
+			return (float)System.Math.Atan(value);
 		}
 
 		public static float Atan2(float y, float x)
 		{
-			return (float)Math.Atan2(y, x);
+			return (float)System.Math.Atan2(y, x);
 		}
 
 		public static float PositiveAtan2(float y, float x)
 		{
-			var r = (float)Math.Atan2(y, x) + TAU;
+			var r = (float)System.Math.Atan2(y, x) + TAU;
 
 			if (r >= TAU) r -= TAU;
 			if (r < 0) r = 0;
@@ -69,57 +69,57 @@ namespace GridDominance.Shared.Framework
 
 		public static float Tan(float value)
 		{
-			return (float)Math.Tan(value);
+			return (float)System.Math.Tan(value);
 		}
 
 		public static float Tanh(float value)
 		{
-			return (float)Math.Tanh(value);
+			return (float)System.Math.Tanh(value);
 		}
 
 		public static float Abs(float value)
 		{
-			return Math.Abs(value);
+			return System.Math.Abs(value);
 		}
 
 		public static int Ceiling(float value)
 		{
-			return (int)Math.Ceiling(value);
+			return (int)System.Math.Ceiling(value);
 		}
 
 		public static int Floor(float value)
 		{
-			return (int)Math.Floor(value);
+			return (int)System.Math.Floor(value);
 		}
 
 		public static int Round(float value)
 		{
-			return (int)Math.Round(value);
+			return (int)System.Math.Round(value);
 		}
 
 		public static float Round(float value, int digits)
 		{
-			return (float)Math.Round(value, digits);
+			return (float)System.Math.Round(value, digits);
 		}
 
 		public static float Sqrt(float value)
 		{
-			return (float)Math.Sqrt(value);
+			return (float)System.Math.Sqrt(value);
 		}
 
 		public static float Log(float value, float newBase)
 		{
-			return (float)Math.Log(value, newBase);
+			return (float)System.Math.Log(value, newBase);
 		}
 
 		public static float Log(float value)
 		{
-			return (float)Math.Log(value);
+			return (float)System.Math.Log(value);
 		}
 
 		public static float Log10(float value)
 		{
-			return (float)Math.Log10(value);
+			return (float)System.Math.Log10(value);
 		}
 
 		public static float Log2(float value)
@@ -129,12 +129,12 @@ namespace GridDominance.Shared.Framework
 
 		public static float Exp(float value)
 		{
-			return (float)Math.Exp(value);
+			return (float)System.Math.Exp(value);
 		}
 
 		public static float Pow(float x, float y)
 		{
-			return (float)Math.Pow(x, y);
+			return (float)System.Math.Pow(x, y);
 		}
 
 		public static float Min(float val1, float val2)

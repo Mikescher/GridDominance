@@ -1,9 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.Input;
+using System;
 
-namespace GridDominance.Shared.Framework.DebugDisplay
+namespace MonoSAMFramework.Portable.DebugDisplay
 {
-	class DummyDebugTextDisplay : IDebugTextDisplay
+	public class DummyDebugTextDisplay : IDebugTextDisplay
 	{
 		private readonly DebugTextDisplayLine dummy = new DebugTextDisplayLine(() => string.Empty);
 

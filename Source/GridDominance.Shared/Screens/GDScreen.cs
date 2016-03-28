@@ -1,5 +1,5 @@
-﻿using GridDominance.Shared.Framework;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.Shared.Screens
 {

@@ -1,11 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
+using System;
 
-namespace GridDominance.Shared.Framework
+namespace MonoSAMFramework.Portable
 {
-	//TODO Use MonoGame.Xetended version once its merged into Main
-	// 532bb549f7f15b4e25ac3ea936a05154ed5e35fd 
 	public class ScreenManager : IDraw, IUpdate
 	{
 		private readonly Game _game;

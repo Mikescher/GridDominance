@@ -4,8 +4,6 @@
 #endif
 
 using FarseerPhysics;
-using GridDominance.Shared.Framework;
-using GridDominance.Shared.Framework.DebugDisplay;
 using GridDominance.Shared.Screens.GameScreen.Background;
 using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
@@ -18,6 +16,9 @@ using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Shared.Screens.GameScreen.hud;
 using Microsoft.Xna.Framework.Input;
+using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.DebugDisplay;
+using MonoSAMFramework.Portable.Input;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {
@@ -88,7 +89,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			fpsCounter = new RealtimeAPSCounter();
 			upsCounter = new RealtimeAPSCounter();
 
-			debugDisp = new DebugTextDisplay(Graphics.GraphicsDevice);
+			debugDisp = new DebugTextDisplay(Graphics.GraphicsDevice, Textures.DebugFont);
 			{
 				debugDisp.AddLine(() => $"FPS = {fpsCounter.AverageAPS:0000.0} (current = {fpsCounter.CurrentAPS:0000.0} | delta = {fpsCounter.AverageDelta*1000:000.00} | min = {fpsCounter.MinimumAPS:0000.0} | total = {fpsCounter.TotalActions:000000})");
 				debugDisp.AddLine(() => $"UPS = {upsCounter.AverageAPS:0000.0} (current = {upsCounter.CurrentAPS:0000.0} | delta = {upsCounter.AverageDelta*1000:000.00} | min = {upsCounter.MinimumAPS:0000.0} | total = {upsCounter.TotalActions:000000})");

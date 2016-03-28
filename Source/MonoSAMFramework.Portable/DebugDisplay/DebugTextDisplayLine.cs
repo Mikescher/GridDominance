@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
+using MonoSAMFramework.Portable.Input;
+using System;
 
-namespace GridDominance.Shared.Framework.DebugDisplay
+namespace MonoSAMFramework.Portable.DebugDisplay
 {
-	class DebugTextDisplayLine
+	public class DebugTextDisplayLine
 	{
 		private static readonly Func<bool> ActionTrue = () => true;
 
@@ -16,7 +15,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 		public float inertiaPosition = -1;
 
 		public bool IsAlive { get; private set; } = true;
-		public Color Color { get; private set; } = Color.Black;
+		public Microsoft.Xna.Framework.Color Color { get; private set; } = Microsoft.Xna.Framework.Color.Black;
 		public float Decay { get; private set; } = 1f;
 
 		private double age = 0f;
@@ -25,7 +24,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 		private double decaytime = double.MinValue;
 		private double spawntime = 0;
 
-		public Color Background = Color.White;
+		public Microsoft.Xna.Framework.Color Background = Microsoft.Xna.Framework.Color.White;
 
 		public DebugTextDisplayLine(Func<string> text)
 			: this(text, ActionTrue)
@@ -54,13 +53,13 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 				Decay = 1;
 		}
 
-		public DebugTextDisplayLine SetColor(Color c)
+		public DebugTextDisplayLine SetColor(Microsoft.Xna.Framework.Color c)
 		{
 			Color = c;
 			return this;
 		}
 
-		public DebugTextDisplayLine SetBackground(Color c)
+		public DebugTextDisplayLine SetBackground(Microsoft.Xna.Framework.Color c)
 		{
 			Background = c;
 			return this;

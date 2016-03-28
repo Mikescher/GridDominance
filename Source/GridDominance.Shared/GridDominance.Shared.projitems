@@ -9,25 +9,6 @@
     <Import_RootNamespace>GridDominance.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\ColorMath.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\DummyDebugTextDisplay.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\DebugTextDisplay.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\DebugTextDisplayLine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\DebugDisplay\IDebugTextDisplay.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\DeltaLimitedFloat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\DeltaLimitedModuloFloat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\ConstantRandom.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\Direction8.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\Direction4.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\FlatColors.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\FloatMath.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\InputState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\InputStateManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\LinqExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\RealtimeAPSCounter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\Screen.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\ScreenManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\TolerantBoxingViewportAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Levels.cs" />

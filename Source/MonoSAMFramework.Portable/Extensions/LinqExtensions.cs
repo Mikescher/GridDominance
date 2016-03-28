@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.Math;
 
-namespace GridDominance.Shared.Framework
+namespace MonoSAMFramework.Portable.Extensions
 {
 	public static class LinqExtensions
 	{

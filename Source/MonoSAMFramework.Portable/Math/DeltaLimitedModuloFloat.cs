@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 
-namespace GridDominance.Shared.Framework
+namespace MonoSAMFramework.Portable.Math
 {
-	class DeltaLimitedModuloFloat
+	public class DeltaLimitedModuloFloat
 	{
 		private readonly float deltaSpeed; // 1/sec
 		private readonly float modulo; // 1/sec

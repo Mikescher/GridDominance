@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
-using GridDominance.Shared.Framework;
 using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.Math;
 
 namespace GridDominance.Shared.Screens.GameScreen.FractionController
 {

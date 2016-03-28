@@ -1,8 +1,9 @@
 ﻿using System;
-using GridDominance.Shared.Framework;
 using GridDominance.Shared.Screens.GameScreen.Entities;
 using GridDominance.Shared.Screens.GameScreen.FractionController;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.Color;
+using MonoSAMFramework.Portable.Math;
 
 namespace GridDominance.Shared.Screens.GameScreen
 {

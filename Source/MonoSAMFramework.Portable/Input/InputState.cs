@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.Extended.InputListeners;
 using MonoGame.Extended.ViewportAdapters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
-namespace GridDominance.Shared.Framework
+namespace MonoSAMFramework.Portable.Input
 {
 	public class InputState
 	{
@@ -135,7 +135,7 @@ namespace GridDominance.Shared.Framework
 					return true;
 
 				default:
-					throw new ArgumentOutOfRangeException(nameof(mod), mod, null);
+					throw new ArgumentOutOfRangeException(nameof(mod), mod.ToString());
 			}
 		}
 

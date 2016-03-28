@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GridDominance.Shared.Resources;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Shapes;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Math;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace GridDominance.Shared.Framework.DebugDisplay
+namespace MonoSAMFramework.Portable.DebugDisplay
 {
 #if DEBUG
-	class DebugTextDisplay : IDebugTextDisplay
+	public class DebugTextDisplay : IDebugTextDisplay
 	{
 		private const int OVERFLOW_MAX = 32;
 
@@ -24,9 +25,12 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 
 		private float backgroundAlpha = 0.666f;
 
-		public DebugTextDisplay(GraphicsDevice graphics)
+		private readonly SpriteFont font;
+
+		public DebugTextDisplay(GraphicsDevice graphics, SpriteFont renderFont)
 		{
 			debugBatch = new SpriteBatch(graphics);
+			font = renderFont;
 		}
 
 		public DebugTextDisplayLine AddLine(DebugTextDisplayLine l)
@@ -59,7 +63,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 			if (lines.Count > OVERFLOW_MAX) decaytime = 0;
 			if (lines.Count > OVERFLOW_MAX) spawntime = 0;
 
-			return AddLine(new DebugTextDisplayLine(() => text).SetLifetime(lifetime).SetDecaytime(decaytime).SetSpawntime(spawntime).SetBackground(Color.Red));
+			return AddLine(new DebugTextDisplayLine(() => text).SetLifetime(lifetime).SetDecaytime(decaytime).SetSpawntime(spawntime).SetBackground(Microsoft.Xna.Framework.Color.Red));
 		}
 
 		public void Update(GameTime gameTime, InputState istate)
@@ -87,7 +91,7 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 				}
 				else if (posY < line.inertiaPosition)
 				{
-					var speed = gameTime.GetElapsedSeconds() * INERTIA_SPEED * FloatMath.Max(1, FloatMath.Round((line.inertiaPosition - posY) / Textures.DebugFont.LineSpacing));
+					var speed = gameTime.GetElapsedSeconds() * INERTIA_SPEED * FloatMath.Max(1, FloatMath.Round((line.inertiaPosition - posY) / font.LineSpacing));
 
 					if (lines.Count > OVERFLOW_MAX) speed = 99999;
 
@@ -101,10 +105,10 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 				}
 
 				var pos = new Vector2(TEXT_OFFSET, posY);
-				var size = Textures.DebugFont.MeasureString(text);
+				var size = font.MeasureString(text);
 
 				debugBatch.FillRectangle(new RectangleF(pos, size), BlendColor(line.Background, line.Decay * backgroundAlpha));
-				debugBatch.DrawString(Textures.DebugFont, text, new Vector2(5, posY), BlendColor(line.Color, line.Decay));
+				debugBatch.DrawString(font, text, new Vector2(5, posY), BlendColor(line.Color, line.Decay));
 
 				posY += size.Y * TEXT_SPACING;
 			}
@@ -112,11 +116,11 @@ namespace GridDominance.Shared.Framework.DebugDisplay
 			debugBatch.End();
 		}
 
-		private Color BlendColor(Color c, float a)
+		private Microsoft.Xna.Framework.Color BlendColor(Microsoft.Xna.Framework.Color c, float a)
 		{
 			if (a < 1)
 			{
-				return new Color(c.R, c.G, c.B, (c.A / 255f) * a);
+				return new Microsoft.Xna.Framework.Color(c.R, c.G, c.B, (c.A / 255f) * a);
 			}
 			else
 			{

@@ -1,9 +1,9 @@
 ﻿using System;
 using GridDominance.Levelformat.Parser;
-using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.GameScreen;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.Shared
 {

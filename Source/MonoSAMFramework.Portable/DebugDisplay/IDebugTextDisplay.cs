@@ -1,9 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.Input;
+using System;
 
-namespace GridDominance.Shared.Framework.DebugDisplay
+namespace MonoSAMFramework.Portable.DebugDisplay
 {
-	interface IDebugTextDisplay
+	public interface IDebugTextDisplay
 	{
 		DebugTextDisplayLine AddLine(DebugTextDisplayLine l);
 		DebugTextDisplayLine AddLine(Func<string> text);

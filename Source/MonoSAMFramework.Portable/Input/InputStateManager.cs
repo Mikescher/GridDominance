@@ -1,8 +1,8 @@
 ﻿using MonoGame.Extended.ViewportAdapters;
 
-namespace GridDominance.Shared.Framework
+namespace MonoSAMFramework.Portable.Input
 {
-	class InputStateManager
+	public class InputStateManager
 	{
 		private readonly ViewportAdapter adapter;
 

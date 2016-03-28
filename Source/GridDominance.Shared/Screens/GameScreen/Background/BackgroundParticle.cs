@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GridDominance.Shared.Framework;
+using MonoSAMFramework.Portable.Math;
 
 namespace GridDominance.Shared.Screens.GameScreen.Background
 {

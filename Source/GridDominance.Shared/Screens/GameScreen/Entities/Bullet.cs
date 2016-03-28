@@ -2,12 +2,13 @@
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
-using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.GameScreen.EntityOperations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Math;
 
 namespace GridDominance.Shared.Screens.GameScreen.Entities
 {

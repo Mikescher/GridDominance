@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.ViewportAdapters;
+using System;
 
-namespace GridDominance.Shared.Framework
+namespace MonoSAMFramework.Portable
 {
 	public class TolerantBoxingViewportAdapter : ViewportAdapter
 	{

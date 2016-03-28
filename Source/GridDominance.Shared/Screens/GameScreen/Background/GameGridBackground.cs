@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using GridDominance.Shared.Framework;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
@@ -12,6 +11,10 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.Color;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Math;
 
 namespace GridDominance.Shared.Screens.GameScreen.Background
 {
