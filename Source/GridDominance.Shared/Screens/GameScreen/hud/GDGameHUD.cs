@@ -18,17 +18,17 @@ namespace GridDominance.Shared.Screens.GameScreen.hud
 
 		private void OnInitialize()
 		{
-			throw new NotImplementedException();
+//			throw new NotImplementedException();
 		}
 
 		public void Update(GameTime gameTime, InputState istate)
 		{
-			throw new NotImplementedException();
+//			throw new NotImplementedException();
 		}
 
 		public void Draw(SpriteBatch sbatch)
 		{
-			throw new NotImplementedException();
+//			throw new NotImplementedException();
 		}
 	}
 }

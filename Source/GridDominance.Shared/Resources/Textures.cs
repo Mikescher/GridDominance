@@ -112,7 +112,13 @@ namespace GridDominance.Shared.Resources
 
 		public static void Initialize(ContentManager content, GraphicsDevice device)
 		{
+
+#if __DESKTOP__
+			TEXTURE_QUALITY = TextureQuality.HD;
+#else
 			TEXTURE_QUALITY = GetPreferredQuality(device);
+#endif
+
 			LoadContent(content);
 		}
 
