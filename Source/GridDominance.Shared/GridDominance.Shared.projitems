@@ -52,6 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\GameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\GDEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\GDEntityOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\hud\GDGameHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\IGDEntityOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\GDScreen.cs" />
   </ItemGroup>

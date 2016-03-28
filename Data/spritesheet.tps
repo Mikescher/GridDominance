@@ -413,6 +413,22 @@
             <key type="filename">cannoncog_animated/cannoncog_127.png</key>
             <key type="filename">cannoncrosshair.png</key>
             <key type="filename">grid.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_01.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_02.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_03.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_04.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_05.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_06.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_07.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_08.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_09.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_10.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_11.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_12.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_13.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_14.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_15.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_16.png</key>
             <key type="filename">pixel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -431,6 +447,7 @@
             <filename>cannoncog_animated</filename>
             <filename>cannoncrosshair.png</filename>
             <filename>cannonball_piece.png</filename>
+            <filename>hud_pause_animated</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

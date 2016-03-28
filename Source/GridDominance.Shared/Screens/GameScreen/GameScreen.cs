@@ -16,6 +16,7 @@ using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using System.Collections.Generic;
 using System.Linq;
+using GridDominance.Shared.Screens.GameScreen.hud;
 using Microsoft.Xna.Framework.Input;
 
 namespace GridDominance.Shared.Screens.GameScreen
@@ -38,7 +39,6 @@ namespace GridDominance.Shared.Screens.GameScreen
 #endif
 
 		public TolerantBoxingViewportAdapter Viewport;
-		private GDEntityManager entities;
 		private IDebugTextDisplay debugDisp;
 
 		private InputStateManager inputStateMan;
@@ -46,8 +46,10 @@ namespace GridDominance.Shared.Screens.GameScreen
 		private MouseListener mouseListener;
 		private TouchListener touchListener;
 
+		private GDGameHUD gameHUD;
 		private SpriteBatch mainBatch;
-
+		private GDEntityManager entities;
+		
 		public GameGridBackground Background;
 
 		private Fraction fractionNeutral;
@@ -74,6 +76,7 @@ namespace GridDominance.Shared.Screens.GameScreen
 			inputStateMan = new InputStateManager(Viewport);
 			Background = new GameGridBackground(Graphics.GraphicsDevice, Viewport);
 			entities = new GDEntityManager(this);
+			gameHUD = new GDGameHUD(this);
 
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
 
@@ -144,6 +147,8 @@ namespace GridDominance.Shared.Screens.GameScreen
 			
 			inputs.Update(gameTime);
 
+			gameHUD.Update(gameTime, state);
+
 			Background.Update(gameTime, state);
 
 			entities.Update(gameTime, state);
@@ -181,19 +186,23 @@ namespace GridDominance.Shared.Screens.GameScreen
 			fpsCounter.Update(gameTime);
 #endif
 			
-			Graphics.GraphicsDevice.Clear(Color.OrangeRed);
+			Graphics.GraphicsDevice.Clear(Color.Magenta);
 			
 			mainBatch.Begin(transformMatrix: Viewport.GetScaleMatrix());
 			{
 				Background.Draw(mainBatch);
 			
 				entities.Draw(mainBatch);
+
+				gameHUD.Draw(mainBatch);
 			}
 			mainBatch.End();
-
+			
+#if DEBUG
 			entities.DrawRest();
 
 			debugDisp.Draw(gameTime);
+#endif
 		}
 
 		public void PushNotification(string text)
