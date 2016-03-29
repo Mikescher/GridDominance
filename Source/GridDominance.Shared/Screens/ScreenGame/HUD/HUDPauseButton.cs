@@ -40,20 +40,21 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
 		{
 			var center = new Vector2(Position.X + bounds.Width / 2f, Position.Y + bounds.Height / 2f);
+			var texScale = bounds.Width / (Textures.TexHUDButtonBase.Width * Textures.DEFAULT_TEXTURE_SCALE.X);
 
-			TextureRegion2D tex;
+			TextureRegion2D texIcon;
 
 			if (FloatMath.IsZero(animationProgress))
 			{
-				tex = Textures.TexHUDButtonPause[0];
+				texIcon = Textures.TexHUDButtonPause[0];
 			}
 			else if (FloatMath.IsOne(animationProgress))
 			{
-				tex = Textures.TexHUDButtonPause[Textures.ANIMATION_HUDBUTTONPAUSE_SIZE - 1];
+				texIcon = Textures.TexHUDButtonPause[Textures.ANIMATION_HUDBUTTONPAUSE_SIZE - 1];
 			}
 			else
 			{
-				tex = Textures.TexHUDButtonPause[(int)(Textures.ANIMATION_HUDBUTTONPAUSE_SIZE * animationProgress)];
+				texIcon = Textures.TexHUDButtonPause[(int)(Textures.ANIMATION_HUDBUTTONPAUSE_SIZE * animationProgress)];
 			}
 			
 			sbatch.Draw(
@@ -63,18 +64,18 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				FlatColors.Asbestos,
 				0f,
 				Textures.TexHUDButtonBase.Center(),
-				Textures.DEFAULT_TEXTURE_SCALE,
+				texScale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
 
 			sbatch.Draw(
-				tex.Texture,
+				texIcon.Texture,
 				center,
-				tex.Bounds,
+				texIcon.Bounds,
 				FlatColors.Clouds,
 				0f,
-				tex.Center(),
-				Textures.DEFAULT_TEXTURE_SCALE,
+				texIcon.Center(),
+				texScale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
 		}
