@@ -70,8 +70,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta*1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} | total = {FPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta*1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} | total = {UPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f/Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Owner.GraphicsDevice):#.00} | Viewport=[{Owner.GraphicsDevice.Viewport.Width}|{Owner.GraphicsDevice.Viewport.Height}]");
-				DebugDisp.AddLine(() => $"Entities = {Entities.Count()}");
-				DebugDisp.AddLine(() => $"Particles = {GDBackground.Particles.Count}");
+				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {GDBackground.Particles.Count,3} | Bodies = {GDEntities.PhysicsWorld.BodyList.Count,3}");
+				DebugDisp.AddLine(() => $"");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 			}
 			
@@ -148,16 +148,18 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			return GDEntities.PhysicsWorld;
 		}
 
-#if DEBUG
 		public override void Resize(int width, int height)
 		{
+			GameHUD.RecalculateAllElementPositions();
+
+#if DEBUG
 			var newQuality = Textures.GetPreferredQuality(Owner.GraphicsDevice);
 			if (newQuality != Textures.TEXTURE_QUALITY)
 			{
 				Textures.ChangeQuality(Owner.Content, newQuality);
 			}
-		}
 #endif
+		}
 
 	}
 }

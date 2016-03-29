@@ -9,7 +9,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 {
 	public abstract class EntityManager : ISAMDrawable, ISAMUpdateable
 	{
-		private List<GameEntity> entities = new List<GameEntity>();
+		private readonly List<GameEntity> entities = new List<GameEntity>();
 
 		public readonly GameScreen Owner;
 
@@ -32,13 +32,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			OnBeforeUpdate(gameTime, state);
 
-			foreach (var gdEntity in entities.ToList())
+			foreach (var entity in entities.ToList())
 			{
-				gdEntity.Update(gameTime, state);
-				if (!gdEntity.Alive)
+				entity.Update(gameTime, state);
+				if (!entity.Alive)
 				{
-					entities.Remove(gdEntity);
-					gdEntity.OnRemove();
+					entities.Remove(entity);
+					entity.OnRemove();
 				}
 			}
 

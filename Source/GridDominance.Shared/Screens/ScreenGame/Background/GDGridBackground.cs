@@ -74,8 +74,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		public override void Draw(SpriteBatch sbatch)
 		{
-			int extensionX = FloatMath.Ceiling((Graphics.Viewport.Width  - Adapter.RealWidth)  / (TILE_WIDTH * 2f * Adapter.GetScale()));
-			int extensionY = FloatMath.Ceiling((Graphics.Viewport.Height - Adapter.RealHeight) / (TILE_WIDTH * 2f * Adapter.GetScale()));
+			int extensionX = FloatMath.Ceiling((Graphics.Viewport.Width  - Adapter.RealWidth)  / (TILE_WIDTH * 2f * Adapter.Scale));
+			int extensionY = FloatMath.Ceiling((Graphics.Viewport.Height - Adapter.RealHeight) / (TILE_WIDTH * 2f * Adapter.Scale));
 
 			for (int x = -extensionX; x < TILE_COUNT_X + extensionX; x++)
 			{

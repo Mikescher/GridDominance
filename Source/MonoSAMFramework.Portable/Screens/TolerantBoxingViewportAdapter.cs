@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.ViewportAdapters;
+using System;
 
 namespace MonoSAMFramework.Portable.Screens
 {
@@ -26,6 +26,12 @@ namespace MonoSAMFramework.Portable.Screens
 		private float offsetY = 0.0f;
 
 		private float scaleXY = 1.0f;
+
+		public float Scale => scaleXY;
+		public float OffsetX => offsetX;
+		public float OffsetY => offsetY;
+		public float VirtualOffsetX => offsetX / scaleXY;
+		public float VirtualOffsetY => offsetY / scaleXY;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TolerantBoxingViewportAdapter"/>. 
@@ -122,21 +128,6 @@ namespace MonoSAMFramework.Portable.Screens
 		public Matrix GetFarseerDebugProjectionMatrix()
 		{
 			return Matrix.CreateScale(new Vector3(scaleXY, scaleXY, 1)) * Matrix.CreateTranslation(offsetX, offsetY, 0) * Matrix.CreateOrthographicOffCenter(0f, ViewportWidth, ViewportHeight, 0f, 0f, 1f);
-		}
-
-		public float GetScale()
-		{
-			return scaleXY;
-		}
-
-		public float GetOffsetX()
-		{
-			return offsetX;
-		}
-
-		public float GetOffsetY()
-		{
-			return offsetX;
 		}
 	}
 }
