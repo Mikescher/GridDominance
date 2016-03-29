@@ -33,6 +33,12 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public const int VIEW_WIDTH  = GRID_WIDTH * TILE_WIDTH; // 1024
 		public const int VIEW_HEIGHT = GRID_HEIGHT * TILE_WIDTH; // 640
 
+		public const float GAMESPEED_SUPERSLOW = 0.25f;
+		public const float GAMESPEED_SLOW      = 0.5f;
+		public const float GAMESPEED_NORMAL    = 1f;
+		public const float GAMESPEED_FAST      = 2f;
+		public const float GAMESPEED_SUPERFAST = 4f;
+
 		//-----------------------------------------------------------------
 
 		public GDGridBackground GDBackground => (GDGridBackground) Background;
@@ -40,6 +46,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public TolerantBoxingViewportAdapter GDViewport => (TolerantBoxingViewportAdapter) Viewport;
 
 		//-----------------------------------------------------------------
+
+		public float GameSpeed = 1f;
+		public float RealGameSpeed => GameSpeed;
 
 		private Fraction fractionNeutral;
 		private Fraction fractionPlayer;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Language;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,9 +9,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 {
 	public abstract class GameHUD : ISAMDrawable, ISAMUpdateable
 	{
+		private class GameHUDElementComparer : Comparer<GameHUDElement>
+		{
+			public override int Compare(GameHUDElement x, GameHUDElement y) =>(x==null||y==null) ? 0 : x.Depth.CompareTo(y.Depth);
+		}
+
 		public readonly GameScreen Owner;
 
-		private readonly List<GameHUDElement> elements = new List<GameHUDElement>();
+		private readonly AlwaysSortList<GameHUDElement> elements = new AlwaysSortList<GameHUDElement>(new GameHUDElementComparer());
 
 		protected GameHUD(GameScreen scrn)
 		{

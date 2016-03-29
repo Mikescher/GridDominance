@@ -371,5 +371,11 @@ namespace MonoSAMFramework.Portable.MathHelper
 
 			return value%max;
 		}
+
+		public static float FunctionEaseOutElastic(float t, float power = 0.3f, float bounces = 2)
+		{
+			t *= 0.175f * bounces + 0.0875f;
+			return Pow(2, -10 * t) * Sin((t - power / 4) * (2 * PI) / power) + 1;
+		}
 	}
 }

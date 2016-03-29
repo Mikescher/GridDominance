@@ -1,5 +1,5 @@
 ﻿#if DEBUG
-#define DEBUG_HUDBOUNDS
+//#define DEBUG_HUDBOUNDS
 #endif
 
 using Microsoft.Xna.Framework;
@@ -40,7 +40,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public Point Position { get; private set; } = Point.Zero;
 		public Rectangle BoundingRectangle { get; private set; } = Rectangle.Empty;
 
-		private bool IsPointerDownOnElement = false;
+		private bool isPointerDownOnElement = false;
+
+		public abstract int Depth { get; }
 
 		protected GameHUDElement()
 		{
@@ -55,6 +57,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public void Initialize()
 		{
 			RecalculatePosition();
+
+			OnInitialize();
 		}
 
 		public void Draw(SpriteBatch sbatch)
@@ -72,17 +76,17 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			if (istate.IsJustDown && BoundingRectangle.Contains(istate.PointerPosition))
 			{
 				OnPointerDown(istate.PointerPosition - Position, istate);
-				IsPointerDownOnElement = true;
+				isPointerDownOnElement = true;
 			}
 			else if (istate.IsJustUp && BoundingRectangle.Contains(istate.PointerPosition))
 			{
 				OnPointerUp(istate.PointerPosition - Position, istate);
 
-				if (IsPointerDownOnElement)
+				if (isPointerDownOnElement)
 					OnPointerClick(istate.PointerPosition - Position, istate);
 			}
 
-			if (!istate.IsDown) IsPointerDownOnElement = false;
+			if (!istate.IsDown) isPointerDownOnElement = false;
 
 			DoUpdate(gameTime, istate);
 		}

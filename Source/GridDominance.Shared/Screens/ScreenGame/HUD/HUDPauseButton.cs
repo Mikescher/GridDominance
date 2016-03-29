@@ -9,12 +9,14 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	class HUDPauseButton : GameHUDElement
+	class HUDPauseButton : GDGameHUDElement
 	{
 		private const float ANIMATION_SPEED = 5f;
 
 		private bool isClicked = false;
 		private float animationProgress = 0f;
+
+		public override int Depth => 1;
 
 		public HUDPauseButton()
 		{
@@ -39,15 +41,15 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			if (FloatMath.IsZero(animationProgress))
 			{
-				tex = Textures.HUDButtonPause[0];
+				tex = Textures.TexHUDButtonPause[0];
 			}
 			else if (FloatMath.IsOne(animationProgress))
 			{
-				tex = Textures.HUDButtonPause[Textures.ANIMATION_HUDBUTTONPAUSE_SIZE - 1];
+				tex = Textures.TexHUDButtonPause[Textures.ANIMATION_HUDBUTTONPAUSE_SIZE - 1];
 			}
 			else
 			{
-				tex = Textures.HUDButtonPause[(int)(Textures.ANIMATION_HUDBUTTONPAUSE_SIZE * animationProgress)];
+				tex = Textures.TexHUDButtonPause[(int)(Textures.ANIMATION_HUDBUTTONPAUSE_SIZE * animationProgress)];
 			}
 
 			sbatch.Draw(tex, bounds, Color.White);

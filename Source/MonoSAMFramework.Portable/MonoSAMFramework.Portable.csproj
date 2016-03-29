@@ -37,6 +37,7 @@
     <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="ISAMDrawable.cs" />
     <Compile Include="ISAMUpdateable.cs" />
+    <Compile Include="Language\AlwaysSortedList.cs" />
     <Compile Include="MathHelper\ColorMath.cs" />
     <Compile Include="MathHelper\ConstantRandom.cs" />
     <Compile Include="DebugDisplay\DebugTextDisplay.cs" />
