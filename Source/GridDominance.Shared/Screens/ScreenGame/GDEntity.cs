@@ -1,5 +1,4 @@
-﻿using GridDominance.Shared.Screens.GameScreen;
-using MonoSAMFramework.Portable.Screens.Entities;
+﻿using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {

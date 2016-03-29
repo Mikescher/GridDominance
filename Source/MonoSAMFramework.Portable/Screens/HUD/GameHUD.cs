@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.External;
 using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
-	public abstract class GameHUD
+	public abstract class GameHUD : ISAMDrawable, ISAMUpdateable
 	{
 		protected readonly Screen Owner;
 

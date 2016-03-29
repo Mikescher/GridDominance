@@ -11,10 +11,6 @@ namespace GridDominance.Shared
 	/// </summary>
 	public class MainGame : MonoSAMGame
 	{
-		public MainGame()
-		{
-		}
-
 		protected override void OnInitialize()
 		{
 #if __DESKTOP__

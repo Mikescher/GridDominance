@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.Input;
+using System;
+using System.Collections.Generic;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {
-	public abstract class GameEntity
+	public abstract class GameEntity : ISAMDrawable, ISAMUpdateable
 	{
 		protected readonly GameScreen Owner;
 		public EntityManager Manager = null; // only set after Add - use only in Update() and Render()

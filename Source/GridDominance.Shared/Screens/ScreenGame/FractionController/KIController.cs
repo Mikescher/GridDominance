@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
-using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
-using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.MathHelper;
 
-namespace GridDominance.Shared.Screens.GameScreen.FractionController
+namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
 	abstract class KIController : AbstractFractionController
 	{

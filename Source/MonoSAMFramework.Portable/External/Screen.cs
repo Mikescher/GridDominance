@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 
-namespace MonoSAMFramework.Portable.Screens
+namespace MonoSAMFramework.Portable.External
 {
 	//TODO Use MonoGame.Xetended version once its merged into Main
 	// 532bb549f7f15b4e25ac3ea936a05154ed5e35fd 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MonoSAMFramework.Portable.MathHelper;
 
-namespace GridDominance.Shared.Screens.GameScreen.Background
+namespace GridDominance.Shared.Screens.ScreenGame.Background
 {
 	class BackgroundParticle
 	{

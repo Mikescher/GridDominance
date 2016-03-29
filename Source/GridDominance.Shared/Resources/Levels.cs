@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Levelformat.Parser;
+﻿using GridDominance.Levelformat.Parser;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.TextureAtlases;
 
 namespace GridDominance.Shared.Resources
 {

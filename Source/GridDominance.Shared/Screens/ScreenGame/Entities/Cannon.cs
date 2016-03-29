@@ -9,21 +9,19 @@ using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame;
-using GridDominance.Shared.Screens.ScreenGame.Entities;
 using GridDominance.Levelformat.Parser;
-using GridDominance.Shared.Screens.GameScreen.EntityOperations;
+using GridDominance.Shared.Screens.ScreenGame.EntityOperations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using GridDominance.Shared.Screens.GameScreen.FractionController;
+using GridDominance.Shared.Screens.ScreenGame.FractionController;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 
-namespace GridDominance.Shared.Screens.GameScreen.Entities
+namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {
 	class Cannon : GDEntity
 	{
@@ -66,11 +64,11 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public readonly float Scale;
 		public override Vector2 Position => Center;
 		private float cannonCogRotation;
-		private List<Vector2> ParticleSpawns;
+		private List<Vector2> particleSpawns;
 
 		public Body PhysicsBody;
-		public Fixture PhysicsFictureBase;
-		public Fixture PhysicsFictureBarrel;
+		public Fixture PhysicsFixtureBase;
+		public Fixture PhysicsFixtureBarrel;
 
 		public Cannon(GDGameScreen scrn, LPCannon blueprint, Fraction[] fractions) : base(scrn)
 		{
@@ -94,12 +92,12 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			PhysicsBody = BodyFactory.CreateBody(GDManager.PhysicsWorld, ConvertUnits.ToSimUnits(Center), 0, BodyType.Static);
 
-			PhysicsFictureBase = FixtureFactory.AttachCircle(
+			PhysicsFixtureBase = FixtureFactory.AttachCircle(
 				ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1,
 				PhysicsBody,
 				Vector2.Zero, this);
 
-			PhysicsFictureBarrel = FixtureFactory.AttachRectangle(
+			PhysicsFixtureBarrel = FixtureFactory.AttachRectangle(
 				ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH), ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT), 1, 
 				new Vector2(ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 0),
 				PhysicsBody, this);
@@ -109,7 +107,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			GDManager.PhysicsWorld.RemoveBody(PhysicsBody);
 
-			foreach (var spawn in ParticleSpawns)
+			foreach (var spawn in particleSpawns)
 			{
 				GDOwner.GDBackground.DeregisterBlockedSpawn(this, (int)spawn.X, (int)spawn.Y);
 			}
@@ -117,7 +115,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 		private void FindParticleSpawns()
 		{
-			ParticleSpawns = new List<Vector2>();
+			particleSpawns = new List<Vector2>();
 
 			var cx = Center.X/GDGameScreen.TILE_WIDTH;
 			var cy = Center.Y/GDGameScreen.TILE_WIDTH;
@@ -130,7 +128,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 					var d = (cx - x)*(cx - x) + (cy - y)*(cy - y);
 					if (d <= cr*cr)
 					{
-						ParticleSpawns.Add(new Vector2(x, y));
+						particleSpawns.Add(new Vector2(x, y));
 						GDOwner.GDBackground.RegisterBlockedSpawn(this, x, y);
 					}
 				}
@@ -213,7 +211,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 
 			barrelRecoil = 0f;
 
-			foreach (var spawn in ParticleSpawns)
+			foreach (var spawn in particleSpawns)
 			{
 				GDOwner.GDBackground.SpawnParticles(Fraction, (int)spawn.X, (int)spawn.Y);
 			}

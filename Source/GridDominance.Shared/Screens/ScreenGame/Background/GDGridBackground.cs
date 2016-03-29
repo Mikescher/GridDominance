@@ -5,9 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.GameScreen;
-using GridDominance.Shared.Screens.GameScreen.Background;
-using GridDominance.Shared.Screens.GameScreen.Entities;
+using GridDominance.Shared.Screens.ScreenGame.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;

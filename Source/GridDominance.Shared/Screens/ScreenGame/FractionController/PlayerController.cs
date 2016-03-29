@@ -1,11 +1,9 @@
-﻿using GridDominance.Shared.Screens.ScreenGame;
-using GridDominance.Shared.Screens.ScreenGame.Entities;
-using GridDominance.Shared.Screens.GameScreen.Entities;
+﻿using GridDominance.Shared.Screens.ScreenGame.Entities;
 using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 
-namespace GridDominance.Shared.Screens.GameScreen.FractionController
+namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
 	// ReSharper disable ImpureMethodCallOnReadonlyValueField
 	class PlayerController : AbstractFractionController

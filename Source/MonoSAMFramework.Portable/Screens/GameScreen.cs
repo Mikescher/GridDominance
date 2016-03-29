@@ -2,12 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.ViewportAdapters;
 using MonoSAMFramework.Portable.DebugDisplay;
+using MonoSAMFramework.Portable.External;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens.Background;
+using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.Screens.Background;
-using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace MonoSAMFramework.Portable.Screens
 {
@@ -17,21 +18,21 @@ namespace MonoSAMFramework.Portable.Screens
 		public readonly MonoSAMGame Owner;
 
 #if DEBUG
-		protected RealtimeAPSCounter fpsCounter;
-		protected RealtimeAPSCounter upsCounter;
+		protected RealtimeAPSCounter FPSCounter;
+		protected RealtimeAPSCounter UPSCounter;
 #endif
 
 		public ViewportAdapter Viewport;
-		protected IDebugTextDisplay debugDisp;
+		protected IDebugTextDisplay DebugDisp;
 
-		protected InputStateManager inputStateMan;
+		protected InputStateManager InputStateMan;
 
-		protected GameHUD gameHUD;
-		protected SpriteBatch mainBatch;
-		protected EntityManager entities;
-		protected GameBackground background;
+		protected GameHUD GameHUD;
+		protected SpriteBatch MainBatch;
+		protected EntityManager Entities;
+		protected GameBackground Background;
 
-		public GameScreen(MonoSAMGame game, GraphicsDeviceManager gdm)
+		protected GameScreen(MonoSAMGame game, GraphicsDeviceManager gdm)
 		{
 			Graphics = gdm;
 			Owner = game;
@@ -41,31 +42,32 @@ namespace MonoSAMFramework.Portable.Screens
 
 		private void Initialize()
 		{
-			mainBatch = new SpriteBatch(Graphics.GraphicsDevice);
+			MainBatch = new SpriteBatch(Graphics.GraphicsDevice);
 			Viewport = CreateViewport();
 
-			inputStateMan = new InputStateManager(Viewport);
-			gameHUD = CreateHUD();
-			background = CreateBackground();
+			InputStateMan = new InputStateManager(Viewport);
+			GameHUD = CreateHUD();
+			Background = CreateBackground();
 
-			entities = CreateEntityManager();
+			Entities = CreateEntityManager();
 		}
 		
 		public override void Update(GameTime gameTime)
 		{
 #if DEBUG
-			upsCounter.Update(gameTime);
+			UPSCounter.Update(gameTime);
 #endif
 
-			var state = inputStateMan.GetNewState();
+			var state = InputStateMan.GetNewState();
+			InputStateMan.TriggerListener();
 
 			if (state.IsExit()) Owner.Exit();
 
-			gameHUD.Update(gameTime, state);
-			background.Update(gameTime, state);
-			entities.Update(gameTime, state);
+			GameHUD.Update(gameTime, state);
+			Background.Update(gameTime, state);
+			Entities.Update(gameTime, state);
 
-			debugDisp.Update(gameTime, state);
+			DebugDisp.Update(gameTime, state);
 
 			OnUpdate(gameTime, state);
 		}
@@ -74,41 +76,41 @@ namespace MonoSAMFramework.Portable.Screens
 		public override void Draw(GameTime gameTime)
 		{
 #if DEBUG
-			fpsCounter.Update(gameTime);
+			FPSCounter.Update(gameTime);
 #endif
 
 			Graphics.GraphicsDevice.Clear(Color.Magenta);
 
-			mainBatch.Begin(transformMatrix: Viewport.GetScaleMatrix());
+			MainBatch.Begin(transformMatrix: Viewport.GetScaleMatrix());
 			{
-				background.Draw(mainBatch);
+				Background.Draw(MainBatch);
 
-				entities.Draw(mainBatch);
+				Entities.Draw(MainBatch);
 
-				gameHUD.Draw(mainBatch);
+				GameHUD.Draw(MainBatch);
 			}
-			mainBatch.End();
+			MainBatch.End();
 
 #if DEBUG
-			entities.DrawOuterDebug();
+			Entities.DrawOuterDebug();
 
-			debugDisp.Draw(gameTime);
+			DebugDisp.Draw();
 #endif
 		}
 
 		public void PushNotification(string text)
 		{
-			debugDisp.AddDecayLine(text);
+			DebugDisp.AddDecayLine(text);
 		}
 
 		public void PushErrorNotification(string text)
 		{
-			debugDisp.AddErrorDecayLine(text);
+			DebugDisp.AddErrorDecayLine(text);
 		}
 
 		public IEnumerable<T> GetEntities<T>()
 		{
-			return entities.Enumerate().OfType<T>();
+			return Entities.Enumerate().OfType<T>();
 		}
 		
 		protected abstract void OnUpdate(GameTime gameTime, InputState istate);

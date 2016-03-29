@@ -43,7 +43,7 @@ namespace MonoSAMFramework.Portable.DebugDisplay
 			// DUMMY
 		}
 
-		public void Draw(GameTime gameTime)
+		public void Draw()
 		{
 			// DUMMY
 		}

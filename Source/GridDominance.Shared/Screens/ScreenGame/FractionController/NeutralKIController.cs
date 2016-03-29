@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
-using GridDominance.Shared.Screens.GameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 
-namespace GridDominance.Shared.Screens.GameScreen.FractionController
+namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
 	class NeutralKIController : KIController
 	{

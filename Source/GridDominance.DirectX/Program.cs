@@ -1,8 +1,6 @@
 ﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using GridDominance.Shared;
+using System;
 
 #if MONOMAC
 using MonoMac.AppKit;
@@ -14,7 +12,7 @@ using MonoTouch.UIKit;
 #endif
 #endregion
 
-namespace GridDominance.Shared
+namespace GridDominance.DirectX
 {
 	static class Program
 	{

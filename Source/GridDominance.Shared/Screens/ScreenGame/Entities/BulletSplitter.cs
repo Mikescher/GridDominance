@@ -1,15 +1,12 @@
-﻿using System;
-using FarseerPhysics;
+﻿using FarseerPhysics;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame;
-using GridDominance.Shared.Screens.ScreenGame.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 
-namespace GridDominance.Shared.Screens.GameScreen.Entities
+namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {
 	class BulletSplitter : GDEntity
 	{
@@ -32,13 +29,13 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		public readonly Fraction Fraction;
 		public float ShapeAlpha;
 		public Vector2 ShapePosition;
-		private float scale;
+		public float ShapeRotation = 0f;
 
-		private float rotation = 0f;
-		private float rotationSpeed = 0f;
-
+		private readonly float scale;
+		
 		private readonly float maxLifetime;
 
+		private readonly float rotationSpeed = 0f;
 		private readonly Vector2 velocity;
 		private readonly Vector2 velocityAngular;
 		private readonly Direction8 direction;
@@ -54,7 +51,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 			direction = d;
 			velocity = VELOCITIES[(int)d] * FloatMath.GetRangedRandom(0.5f, 2f) + ConvertUnits.ToDisplayUnits(b.PhysicsBody.LinearVelocity)/10f;
 			maxLifetime = FloatMath.GetRangedRandom(SPLITTER_LIFETIME_MIN, SPLITTER_LIFETIME_MAX);
-			rotation = FloatMath.ToRadians((int) direction * 45f);
+			ShapeRotation = FloatMath.ToRadians((int) direction * 45f);
 			rotationSpeed = FloatMath.GetRangedRandom(-FloatMath.TAU, FloatMath.TAU);
 		}
 
@@ -72,7 +69,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 		{
 			ShapePosition += velocity * gameTime.GetElapsedSeconds();
 
-			rotation = FloatMath.IncModulo(rotation, rotationSpeed * gameTime.GetElapsedSeconds(), FloatMath.TAU);
+			ShapeRotation = FloatMath.IncModulo(ShapeRotation, rotationSpeed * gameTime.GetElapsedSeconds(), FloatMath.TAU);
 
 			if (Lifetime < maxLifetime) ShapeAlpha = 1 - Lifetime / maxLifetime;
 			if (Lifetime > maxLifetime) Alive = false;
@@ -85,7 +82,7 @@ namespace GridDominance.Shared.Screens.GameScreen.Entities
 				ShapePosition,
 				Textures.TexBulletSplitter.Bounds,
 				Fraction.Color * ShapeAlpha,
-				rotation,
+				ShapeRotation,
 				new Vector2(Textures.TexBullet.Width / 2f, Textures.TexBullet.Height / 2f),
 				scale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,

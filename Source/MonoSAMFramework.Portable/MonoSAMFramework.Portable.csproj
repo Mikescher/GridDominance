@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Input\PointerEventArgs.cs" />
+    <Compile Include="ISAMDrawable.cs" />
+    <Compile Include="ISAMUpdateable.cs" />
     <Compile Include="MathHelper\ColorMath.cs" />
     <Compile Include="MathHelper\ConstantRandom.cs" />
     <Compile Include="DebugDisplay\DebugTextDisplay.cs" />
@@ -59,8 +62,8 @@
     <Compile Include="Screens\Background\GameBackground.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\GameHUD.cs" />
-    <Compile Include="Screens\Screen.cs" />
-    <Compile Include="Screens\ScreenManager.cs" />
+    <Compile Include="External\Screen.cs" />
+    <Compile Include="External\ScreenManager.cs" />
     <Compile Include="Screens\TolerantBoxingViewportAdapter.cs" />
   </ItemGroup>
   <ItemGroup>

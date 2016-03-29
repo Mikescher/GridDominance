@@ -2,7 +2,7 @@
 using MonoGame.Extended;
 using System;
 
-namespace MonoSAMFramework.Portable.Screens
+namespace MonoSAMFramework.Portable.External
 {
 	public class ScreenManager : IDraw, IUpdate
 	{

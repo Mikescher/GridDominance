@@ -14,6 +14,6 @@ namespace MonoSAMFramework.Portable.DebugDisplay
 
 
 		void Update(GameTime gameTime, InputState istate);
-		void Draw(GameTime gameTime);
+		void Draw();
 	}
 }

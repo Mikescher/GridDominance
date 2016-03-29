@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {
-	public abstract class EntityManager
+	public abstract class EntityManager : ISAMDrawable, ISAMUpdateable
 	{
 		private List<GameEntity> entities = new List<GameEntity>();
 

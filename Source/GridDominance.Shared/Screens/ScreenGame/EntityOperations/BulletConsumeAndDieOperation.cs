@@ -1,9 +1,8 @@
 ﻿using GridDominance.Shared.Screens.ScreenGame.Entities;
-using GridDominance.Shared.Screens.GameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.Entities;
 
-namespace GridDominance.Shared.Screens.GameScreen.EntityOperations
+namespace GridDominance.Shared.Screens.ScreenGame.EntityOperations
 {
 	class BulletConsumeAndDieOperation : GameEntityOperation<Bullet>
 	{

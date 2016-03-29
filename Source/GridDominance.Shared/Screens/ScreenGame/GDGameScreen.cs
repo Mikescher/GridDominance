@@ -3,7 +3,6 @@
 #define DEBUG_SHORTCUTS
 #endif
 
-using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Resources;
@@ -11,8 +10,6 @@ using GridDominance.Shared.Screens.ScreenGame.Background;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
 using GridDominance.Shared.Screens.ScreenGame.hud;
 using GridDominance.Levelformat.Parser;
-using GridDominance.Shared.Screens.GameScreen;
-using GridDominance.Shared.Screens.GameScreen.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.InputListeners;
@@ -26,7 +23,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
-	class GDGameScreen : MonoSAMFramework.Portable.Screens.GameScreen
+	class GDGameScreen : GameScreen
 	{
 		public const int TILE_WIDTH = 64;
 
@@ -38,8 +35,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		//-----------------------------------------------------------------
 
-		public GDGridBackground GDBackground => (GDGridBackground) background;
-		public GDEntityManager GDEntities => (GDEntityManager) entities;
+		public GDGridBackground GDBackground => (GDGridBackground) Background;
+		public GDEntityManager GDEntities => (GDEntityManager) Entities;
 		public TolerantBoxingViewportAdapter GDViewport => (TolerantBoxingViewportAdapter) Viewport;
 
 		//-----------------------------------------------------------------
@@ -65,26 +62,23 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
 			
 #if DEBUG_GAMESCREEN
-			fpsCounter = new RealtimeAPSCounter();
-			upsCounter = new RealtimeAPSCounter();
+			FPSCounter = new RealtimeAPSCounter();
+			UPSCounter = new RealtimeAPSCounter();
 
-			debugDisp = new DebugTextDisplay(Graphics.GraphicsDevice, Textures.DebugFont);
+			DebugDisp = new DebugTextDisplay(Graphics.GraphicsDevice, Textures.DebugFont);
 			{
-				debugDisp.AddLine(() => $"FPS = {fpsCounter.AverageAPS:0000.0} (current = {fpsCounter.CurrentAPS:0000.0} | delta = {fpsCounter.AverageDelta*1000:000.00} | min = {fpsCounter.MinimumAPS:0000.0} | total = {fpsCounter.TotalActions:000000})");
-				debugDisp.AddLine(() => $"UPS = {upsCounter.AverageAPS:0000.0} (current = {upsCounter.CurrentAPS:0000.0} | delta = {upsCounter.AverageDelta*1000:000.00} | min = {upsCounter.MinimumAPS:0000.0} | total = {upsCounter.TotalActions:000000})");
-				debugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f/Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Owner.GraphicsDevice):#.00} | Viewport=[{Owner.GraphicsDevice.Viewport.Width}|{Owner.GraphicsDevice.Viewport.Height}]");
-				debugDisp.AddLine(() => $"Entities = {entities.Count()}");
-				debugDisp.AddLine(() => $"Particles = {GDBackground.Particles.Count()}");
-				debugDisp.AddLine(() => $"Pointer = ({inputStateMan.GetCurrentState().PointerPosition.X:000.0}|{inputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
+				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta*1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} | total = {FPSCounter.TotalActions:000000})");
+				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta*1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} | total = {UPSCounter.TotalActions:000000})");
+				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f/Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Owner.GraphicsDevice):#.00} | Viewport=[{Owner.GraphicsDevice.Viewport.Width}|{Owner.GraphicsDevice.Viewport.Height}]");
+				DebugDisp.AddLine(() => $"Entities = {Entities.Count()}");
+				DebugDisp.AddLine(() => $"Particles = {GDBackground.Particles.Count}");
+				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 			}
-
-			// TODO move to inputman
-			//mouseListener.MouseDown += (o, a) => debugDisp.AddDecayLine($"Mouse::OnDown({a.Position.X:0000}|{a.Position.Y:0000})", 0.75f, 0.5f, 0.25f);
-			//mouseListener.MouseUp += (o, a) => debugDisp.AddDecayLine($"Mouse::OnUp({a.Position.X:0000}|{a.Position.Y:0000})", 0.75f, 0.5f, 0.25f);
-			//touchListener.TouchStarted += (o, a) => debugDisp.AddDecayLine($"TouchPad::OnDown({a.Location.Position.X:0000}|{a.Location.Position.Y:0000})", 0.75f, 0.5f, 0.25f);
-			//touchListener.TouchEnded += (o, a) => debugDisp.AddDecayLine($"TouchPad::OnUp({a.Location.Position.X:0000}|{a.Location.Position.Y:0000})", 0.75f, 0.5f, 0.25f);
+			
+			InputStateMan.PointerDown += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnDown({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);
+			InputStateMan.PointerUp += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnUp({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);
 #else
-			debugDisp = new DummyDebugTextDisplay();
+			DebugDisp = new DummyDebugTextDisplay();
 #endif
 
 
@@ -118,7 +112,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			foreach (var bPrint in blueprint.BlueprintCannons)
 			{
-				entities.AddEntity(new Cannon(this, bPrint, fracList));
+				Entities.AddEntity(new Cannon(this, bPrint, fracList));
 			}
 		}
 

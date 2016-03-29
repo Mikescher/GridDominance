@@ -1,13 +1,11 @@
 ﻿using System;
-using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.MathHelper;
-using GridDominance.Shared.Screens.GameScreen.Entities;
-using GridDominance.Shared.Screens.GameScreen.FractionController;
+using GridDominance.Shared.Screens.ScreenGame.FractionController;
 
-namespace GridDominance.Shared.Screens.GameScreen
+namespace GridDominance.Shared.Screens.ScreenGame
 {
 	class Fraction
 	{

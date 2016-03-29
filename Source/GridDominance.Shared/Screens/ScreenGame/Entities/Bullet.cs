@@ -3,9 +3,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.GameScreen;
-using GridDominance.Shared.Screens.GameScreen.Entities;
-using GridDominance.Shared.Screens.GameScreen.EntityOperations;
+using GridDominance.Shared.Screens.ScreenGame.EntityOperations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.Input;
@@ -81,7 +79,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				if (otherCannon.Fraction == Fraction)
 				{
 					// if Source barrel then ignore collision
-					if (otherCannon != Source || fixtureB == otherCannon.PhysicsFictureBase)
+					if (otherCannon != Source || fixtureB == otherCannon.PhysicsFixtureBase)
 					{
 						DisintegrateIntoFriend();
 						otherCannon.ApplyBoost();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.MathHelper;
 using System;
 
 namespace MonoSAMFramework.Portable.DebugDisplay
@@ -12,10 +13,10 @@ namespace MonoSAMFramework.Portable.DebugDisplay
 		public readonly Func<string> DisplayText;
 		public readonly Func<bool> Active;
 
-		public float inertiaPosition = -1;
+		public float InertiaPosition = -1;
 
 		public bool IsAlive { get; private set; } = true;
-		public Microsoft.Xna.Framework.Color Color { get; private set; } = Microsoft.Xna.Framework.Color.Black;
+		public Color Color { get; private set; } = Color.Black;
 		public float Decay { get; private set; } = 1f;
 
 		private double age = 0f;
@@ -24,7 +25,10 @@ namespace MonoSAMFramework.Portable.DebugDisplay
 		private double decaytime = double.MinValue;
 		private double spawntime = 0;
 
-		public Microsoft.Xna.Framework.Color Background = Microsoft.Xna.Framework.Color.White;
+		public Color Background = Color.White;
+
+		public float PositionY = 0f;
+		public bool IsDecaying => lifetime < 1000;
 
 		public DebugTextDisplayLine(Func<string> text)
 			: this(text, ActionTrue)
@@ -38,28 +42,74 @@ namespace MonoSAMFramework.Portable.DebugDisplay
 			Active = active;
 		}
 
-		public void Update(GameTime gameTime, InputState istate)
+		public void UpdateDecay(GameTime gameTime, bool first)
 		{
-			lifetime -= gameTime.GetElapsedSeconds();
-			age += gameTime.GetElapsedSeconds();
+			if (age < spawntime && spawntime > 0)
+			{
+				lifetime -= gameTime.GetElapsedSeconds();
+				age += gameTime.GetElapsedSeconds();
+
+				Decay = (float) (age / spawntime);
+			}
+			else if (lifetime < decaytime)
+			{
+				if (first)
+				{
+					lifetime -= gameTime.GetElapsedSeconds();
+					age += gameTime.GetElapsedSeconds();
+
+					Decay = (float) (lifetime / decaytime);
+				}
+				else
+				{
+					Decay = 1;
+				}
+			}
+			else
+			{
+				lifetime -= gameTime.GetElapsedSeconds();
+				age += gameTime.GetElapsedSeconds();
+
+				Decay = 1;
+			}
 
 			if (lifetime < 0) IsAlive = false;
 
-			if (age < spawntime && spawntime > 0)
-				Decay = (float)(age / spawntime);
-			else if (lifetime < decaytime)
-				Decay = (float)(lifetime / decaytime);
-			else
-				Decay = 1;
 		}
 
-		public DebugTextDisplayLine SetColor(Microsoft.Xna.Framework.Color c)
+		public void UpdatePosition(GameTime gameTime, SpriteFont font, int lineCount, ref float posY)
+		{
+			if (InertiaPosition < 0)
+			{
+				InertiaPosition = posY;
+			}
+			else if (posY < InertiaPosition)
+			{
+				var speed = gameTime.GetElapsedSeconds() * DebugTextDisplay.INERTIA_SPEED * FloatMath.Max(1, FloatMath.Round((InertiaPosition - posY) / font.LineSpacing));
+
+				if (lineCount > DebugTextDisplay.OVERFLOW_MAX) speed = 99999;
+
+				InertiaPosition = FloatMath.LimitedDec(InertiaPosition, speed, posY);
+				posY = InertiaPosition;
+			}
+			else if (posY > InertiaPosition)
+			{
+				// should never happen ^^
+				InertiaPosition = posY;
+			}
+
+			PositionY = posY;
+			
+			posY += font.MeasureString(DisplayText()).Y * DebugTextDisplay.TEXT_SPACING;
+		}
+
+		public DebugTextDisplayLine SetColor(Color c)
 		{
 			Color = c;
 			return this;
 		}
 
-		public DebugTextDisplayLine SetBackground(Microsoft.Xna.Framework.Color c)
+		public DebugTextDisplayLine SetBackground(Color c)
 		{
 			Background = c;
 			return this;

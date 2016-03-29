@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.External;
 using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.Background
 {
-	public abstract class GameBackground
+	public abstract class GameBackground : ISAMDrawable, ISAMUpdateable
 	{
 		protected readonly Screen Owner;
 

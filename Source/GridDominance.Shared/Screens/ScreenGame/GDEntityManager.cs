@@ -2,23 +2,18 @@
 #define DEBUG_FARSEER
 #endif
 
-using System.Collections.Generic;
-using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.DebugView;
 using FarseerPhysics.Dynamics;
-using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using GridDominance.Shared.Resources;
 
-namespace GridDominance.Shared.Screens.GameScreen
+namespace GridDominance.Shared.Screens.ScreenGame
 {
 	class GDEntityManager : EntityManager
 	{
