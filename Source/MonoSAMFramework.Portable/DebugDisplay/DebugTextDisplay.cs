@@ -8,7 +8,6 @@ using System.Linq;
 
 namespace MonoSAMFramework.Portable.DebugDisplay
 {
-#if DEBUG
 	public class DebugTextDisplay : IDebugTextDisplay, ISAMUpdateable
 	{
 		public const int OVERFLOW_MAX = 32;
@@ -131,5 +130,4 @@ namespace MonoSAMFramework.Portable.DebugDisplay
 			}
 		}
 	}
-#endif
 }

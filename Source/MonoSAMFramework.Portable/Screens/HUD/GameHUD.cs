@@ -29,8 +29,18 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public virtual int Bottom => Owner.Viewport.VirtualHeight;
 		public virtual int Right => Owner.Viewport.VirtualWidth;
 
+		private bool recalculateNextUpdate = false;
+
 		public void Update(GameTime gameTime, InputState istate)
 		{
+			if (recalculateNextUpdate)
+			{
+				foreach (var element in elements)
+					element.RecalculatePosition();
+
+				recalculateNextUpdate = false;
+			}
+
 			foreach (var element in elements.ToList())
 			{
 				element.Update(gameTime, istate);
@@ -60,10 +70,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public void RecalculateAllElementPositions()
 		{
-			foreach (var element in elements)
-			{
-				element.RecalculatePosition();
-			}
+			// force the TolerantViewboxAdapter.Onresize to execute _before_ recalc
+			recalculateNextUpdate = true;
 		}
 	}
 }
