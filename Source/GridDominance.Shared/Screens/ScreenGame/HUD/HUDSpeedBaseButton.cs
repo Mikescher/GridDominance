@@ -77,12 +77,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			var center = new Vector2(Position.X + bounds.Width / 2f, Position.Y + bounds.Height / 2f);
 
 			sbatch.Draw(
-				Textures.TexHUDButtonSpeedBase.Texture,
+				Textures.TexHUDButtonBase.Texture,
 				center,
-				Textures.TexHUDButtonSpeedBase.Bounds,
+				Textures.TexHUDButtonBase.Bounds,
 				ColorMath.Blend(FlatColors.Flamingo, FlatColors.Asbestos, openingProgress),
 				0f,
-				Textures.TexHUDButtonSpeedBase.Center(),
+				Textures.TexHUDButtonBase.Center(),
 				Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);

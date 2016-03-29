@@ -413,6 +413,7 @@
             <key type="filename">cannoncog_animated/cannoncog_127.png</key>
             <key type="filename">cannoncrosshair.png</key>
             <key type="filename">grid.png</key>
+            <key type="filename">hud_button_base.png</key>
             <key type="filename">hud_pause_animated/hud_pause_00.png</key>
             <key type="filename">hud_pause_animated/hud_pause_01.png</key>
             <key type="filename">hud_pause_animated/hud_pause_02.png</key>
@@ -434,10 +435,8 @@
             <key type="filename">hud_time_2.png</key>
             <key type="filename">hud_time_3.png</key>
             <key type="filename">hud_time_4.png</key>
-            <key type="filename">hud_time_base.png</key>
             <key type="filename">hud_time_clock.png</key>
             <key type="filename">hud_time_hand.png</key>
-            <key type="filename">hud_time_opened.png</key>
             <key type="filename">pixel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -457,15 +456,14 @@
             <filename>cannoncrosshair.png</filename>
             <filename>cannonball_piece.png</filename>
             <filename>hud_pause_animated</filename>
-            <filename>hud_time_base.png</filename>
             <filename>hud_time_0.png</filename>
             <filename>hud_time_1.png</filename>
             <filename>hud_time_2.png</filename>
             <filename>hud_time_3.png</filename>
             <filename>hud_time_4.png</filename>
             <filename>hud_time_hand.png</filename>
-            <filename>hud_time_opened.png</filename>
             <filename>hud_time_clock.png</filename>
+            <filename>hud_button_base.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

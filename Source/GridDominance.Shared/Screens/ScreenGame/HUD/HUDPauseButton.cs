@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.Screens.HUD;
@@ -37,6 +39,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
 		{
+			var center = new Vector2(Position.X + bounds.Width / 2f, Position.Y + bounds.Height / 2f);
+
 			TextureRegion2D tex;
 
 			if (FloatMath.IsZero(animationProgress))
@@ -51,8 +55,28 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				tex = Textures.TexHUDButtonPause[(int)(Textures.ANIMATION_HUDBUTTONPAUSE_SIZE * animationProgress)];
 			}
+			
+			sbatch.Draw(
+				Textures.TexHUDButtonBase.Texture,
+				center,
+				Textures.TexHUDButtonBase.Bounds,
+				FlatColors.Asbestos,
+				0f,
+				Textures.TexHUDButtonBase.Center(),
+				Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
 
-			sbatch.Draw(tex, bounds, Color.White);
+			sbatch.Draw(
+				tex.Texture,
+				center,
+				tex.Bounds,
+				FlatColors.Clouds,
+				0f,
+				tex.Center(),
+				Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
 		}
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)

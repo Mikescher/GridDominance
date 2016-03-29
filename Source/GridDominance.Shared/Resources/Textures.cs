@@ -104,9 +104,8 @@ namespace GridDominance.Shared.Resources
 
 		public static TextureRegion2D TexPixel;
 
+		public static TextureRegion2D TexHUDButtonBase;
 		public static TextureRegion2D[] TexHUDButtonPause;
-		public static TextureRegion2D TexHUDButtonSpeedBase;
-		public static TextureRegion2D TexHUDButtonSpeedOpen;
 		public static TextureRegion2D TexHUDButtonSpeedHand;
 		public static TextureRegion2D TexHUDButtonSpeedSet0;
 		public static TextureRegion2D TexHUDButtonSpeedSet1;
@@ -155,9 +154,8 @@ namespace GridDominance.Shared.Resources
 			TexPixel = AtlasTextures["pixel"];
 			TexPixel = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1);
 
+			TexHUDButtonBase = AtlasTextures["hud_button_base"];
 			TexHUDButtonPause = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();
-			TexHUDButtonSpeedBase  = AtlasTextures["hud_time_base"];
-			TexHUDButtonSpeedOpen  = AtlasTextures["hud_time_opened"];
 			TexHUDButtonSpeedHand  = AtlasTextures["hud_time_hand"];
 			TexHUDButtonSpeedSet0  = AtlasTextures["hud_time_0"];
 			TexHUDButtonSpeedSet1  = AtlasTextures["hud_time_1"];
