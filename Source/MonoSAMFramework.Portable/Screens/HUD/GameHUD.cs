@@ -1,10 +1,5 @@
-﻿#if DEBUG
-#define DEBUG_GAMEHUD
-#endif
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +8,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 {
 	public abstract class GameHUD : ISAMDrawable, ISAMUpdateable
 	{
-		protected readonly GameScreen Owner;
+		public readonly GameScreen Owner;
 
 		private readonly List<GameHUDElement> elements = new List<GameHUDElement>();
 
@@ -48,14 +43,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			{
 				element.Draw(sbatch);
 			}
-
-#if DEBUG_GAMEHUD
-			foreach (var element in elements)
-			{
-				sbatch.DrawRectangle(element.BoundingRectangle, Color.Magenta, 2f);
-				element.Draw(sbatch);
-			}
-#endif
 		}
 
 		public void AddElement(GameHUDElement e)

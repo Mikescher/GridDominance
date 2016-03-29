@@ -298,7 +298,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 			{
 				for (int y = 0; y <= TILE_COUNT_Y; y++)
 				{
-					if (blockedGridPoints[x, y].Any(p => FloatMath.FloatEquals(p.CannonHealth.TargetValue, 1f)))
+					if (blockedGridPoints[x, y].Any(p => FloatMath.IsOne(p.CannonHealth.TargetValue)))
 					{
 						var f = blockedGridPoints[x, y].First().Fraction;
 						if (f.IsNeutral) f = null;

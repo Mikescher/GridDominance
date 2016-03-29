@@ -88,6 +88,7 @@ namespace GridDominance.Shared.Resources
 		#region Textures
 
 		public static int ANIMATION_CANNONCOG_SIZE = 128;
+		public static int ANIMATION_HUDBUTTONPAUSE_SIZE = 16;
 
 		public static TextureRegion2D TexTileBorder;
 
@@ -102,6 +103,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexBulletSplitter;
 
 		public static TextureRegion2D TexPixel;
+
+		public static TextureRegion2D[] HUDButtonPause;
 
 		#endregion
 
@@ -142,6 +145,8 @@ namespace GridDominance.Shared.Resources
 			// Anti-Antialising
 			TexPixel = AtlasTextures["pixel"];
 			TexPixel = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1);
+
+			HUDButtonPause = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();
 
 #if DEBUG
 			DebugFont = content.Load<SpriteFont>("fonts/debugFont");

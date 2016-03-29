@@ -218,6 +218,23 @@ namespace MonoSAMFramework.Portable.MathHelper
 			return value != 0;
 		}
 
+		public static bool IsOne(float value, float tolerance)
+		{
+			return Abs(value - 1) <= tolerance;
+		}
+
+		public static bool IsOne(float value)
+		{
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			return value == 1;
+		}
+
+		public static bool IsNotOne(float value)
+		{
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			return value != 1;
+		}
+
 		public static float ToDegree(float radians)
 		{
 			return radians * RadiansToDegrees;

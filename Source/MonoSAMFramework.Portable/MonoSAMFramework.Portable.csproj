@@ -64,7 +64,6 @@
     <Compile Include="Screens\HUD\GameHUD.cs" />
     <Compile Include="External\Screen.cs" />
     <Compile Include="External\ScreenManager.cs" />
-    <Compile Include="Screens\HUD\GameHUDButton.cs" />
     <Compile Include="Screens\HUD\GameHUDElement.cs" />
     <Compile Include="Screens\HUD\HUDAlignment.cs" />
     <Compile Include="Screens\TolerantBoxingViewportAdapter.cs" />

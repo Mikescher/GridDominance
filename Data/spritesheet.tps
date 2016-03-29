@@ -413,6 +413,7 @@
             <key type="filename">cannoncog_animated/cannoncog_127.png</key>
             <key type="filename">cannoncrosshair.png</key>
             <key type="filename">grid.png</key>
+            <key type="filename">hud_pause_animated/hud_pause_00.png</key>
             <key type="filename">hud_pause_animated/hud_pause_01.png</key>
             <key type="filename">hud_pause_animated/hud_pause_02.png</key>
             <key type="filename">hud_pause_animated/hud_pause_03.png</key>
@@ -428,7 +429,6 @@
             <key type="filename">hud_pause_animated/hud_pause_13.png</key>
             <key type="filename">hud_pause_animated/hud_pause_14.png</key>
             <key type="filename">hud_pause_animated/hud_pause_15.png</key>
-            <key type="filename">hud_pause_animated/hud_pause_16.png</key>
             <key type="filename">pixel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

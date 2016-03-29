@@ -37,8 +37,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		private readonly float rotationSpeed = 0f;
 		private readonly Vector2 velocity;
-		private readonly Vector2 velocityAngular;
-		private readonly Direction8 direction;
 
 		public override Vector2 Position => ShapePosition;
 
@@ -48,10 +46,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			ShapePosition = b.BulletPosition;
 			ShapeAlpha = 1f;
 			Fraction = b.Fraction;
-			direction = d;
 			velocity = VELOCITIES[(int)d] * FloatMath.GetRangedRandom(0.5f, 2f) + ConvertUnits.ToDisplayUnits(b.PhysicsBody.LinearVelocity)/10f;
 			maxLifetime = FloatMath.GetRangedRandom(SPLITTER_LIFETIME_MIN, SPLITTER_LIFETIME_MAX);
-			ShapeRotation = FloatMath.ToRadians((int) direction * 45f);
+			ShapeRotation = FloatMath.ToRadians((int) d * 45f);
 			rotationSpeed = FloatMath.GetRangedRandom(-FloatMath.TAU, FloatMath.TAU);
 		}
 

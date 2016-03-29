@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.ScreenGame.HUD;
+using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.Screens.HUD;
 
@@ -16,19 +18,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.hud
 
 		public GDGameHUD(GDGameScreen scrn) : base(scrn)
 		{
-			AddElement(new GameHUDButton
-			{
-				RelativePosition = new Point(16, 16),
-				Size = new Size(48, 48),
-				Alignment = HUDAlignment.TOPRIGHT,
-			});
+			AddElement(new HUDPauseButton());
 
-			AddElement(new GameHUDButton
-			{
-				RelativePosition = new Point(16, 16),
-				Size = new Size(64, 64),
-				Alignment = HUDAlignment.BOTTOMLEFT,
-			});
+			//AddElement(new GameHUDButton
+			//{
+			//	RelativePosition = new Point(16, 16),
+			//	Size = new Size(64, 64),
+			//	Alignment = HUDAlignment.BOTTOMLEFT,
+			//});
 		}
 	}
 }

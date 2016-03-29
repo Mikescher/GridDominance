@@ -1,6 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿#if DEBUG
+#define DEBUG_HUDBOUNDS
+#endif
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
 using System;
 
@@ -35,6 +40,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public Point Position { get; private set; } = Point.Zero;
 		public Rectangle BoundingRectangle { get; private set; } = Rectangle.Empty;
 
+		private bool IsPointerDownOnElement = false;
+
+		protected GameHUDElement()
+		{
+			//
+		}
+
 		public void Remove()
 		{
 			Alive = false;
@@ -47,12 +59,32 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public void Draw(SpriteBatch sbatch)
 		{
-			
+			DoDraw(sbatch, BoundingRectangle);
+
+#if DEBUG_HUDBOUNDS
+			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 2f);
+#endif
 		}
+
 
 		public void Update(GameTime gameTime, InputState istate)
 		{
+			if (istate.IsJustDown && BoundingRectangle.Contains(istate.PointerPosition))
+			{
+				OnPointerDown(istate.PointerPosition - Position, istate);
+				IsPointerDownOnElement = true;
+			}
+			else if (istate.IsJustUp && BoundingRectangle.Contains(istate.PointerPosition))
+			{
+				OnPointerUp(istate.PointerPosition - Position, istate);
 
+				if (IsPointerDownOnElement)
+					OnPointerClick(istate.PointerPosition - Position, istate);
+			}
+
+			if (!istate.IsDown) IsPointerDownOnElement = false;
+
+			DoUpdate(gameTime, istate);
 		}
 
 		public void RecalculatePosition()
@@ -82,5 +114,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public abstract void OnInitialize();
 		public abstract void OnRemove();
+
+		protected abstract void DoDraw(SpriteBatch sbatch, Rectangle bounds);
+		protected abstract void DoUpdate(GameTime gameTime, InputState istate);
+
+		protected virtual void OnPointerUp(Point relPositionPoint, InputState istate) { /* OVERRIDE ME */ }
+		protected virtual void OnPointerDown(Point relPositionPoint, InputState istate) { /* OVERRIDE ME */ }
+		protected virtual void OnPointerClick(Point relPositionPoint, InputState istate) { /* OVERRIDE ME */ }
 	}
 }

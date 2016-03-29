@@ -33,6 +33,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\GDGameHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\GDGameHUDElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDPauseButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
