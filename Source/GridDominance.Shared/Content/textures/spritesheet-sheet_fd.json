@@ -2,7 +2,7 @@
 
 {
 	"filename": "cannonball.png",
-	"frame": {"x":45,"y":40,"w":3,"h":3},
+	"frame": {"x":52,"y":40,"w":3,"h":3},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":3},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "cannonball_piece.png",
-	"frame": {"x":51,"y":40,"w":3,"h":3},
+	"frame": {"x":58,"y":40,"w":3,"h":3},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":3},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "cannonbarrel.png",
-	"frame": {"x":482,"y":35,"w":8,"h":4},
+	"frame": {"x":471,"y":24,"w":8,"h":4},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":4},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "cannonbarrel_shadow.png",
-	"frame": {"x":449,"y":2,"w":10,"h":6},
+	"frame": {"x":438,"y":2,"w":10,"h":6},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":6},
@@ -1289,7 +1289,7 @@
 },
 {
 	"filename": "hud_pause_07.png",
-	"frame": {"x":438,"y":2,"w":8,"h":8},
+	"frame": {"x":451,"y":2,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1298,7 +1298,7 @@
 },
 {
 	"filename": "hud_pause_08.png",
-	"frame": {"x":438,"y":13,"w":8,"h":8},
+	"frame": {"x":438,"y":11,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1307,24 +1307,6 @@
 },
 {
 	"filename": "hud_pause_09.png",
-	"frame": {"x":438,"y":24,"w":8,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "hud_pause_10.png",
-	"frame": {"x":438,"y":35,"w":8,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "hud_pause_11.png",
 	"frame": {"x":462,"y":2,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1333,8 +1315,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "hud_pause_10.png",
+	"frame": {"x":438,"y":22,"w":8,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
+	"sourceSize": {"w":8,"h":8},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hud_pause_11.png",
+	"frame": {"x":438,"y":33,"w":8,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
+	"sourceSize": {"w":8,"h":8},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "hud_pause_12.png",
-	"frame": {"x":449,"y":11,"w":8,"h":8},
+	"frame": {"x":449,"y":13,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1343,7 +1343,7 @@
 },
 {
 	"filename": "hud_pause_13.png",
-	"frame": {"x":473,"y":2,"w":8,"h":8},
+	"frame": {"x":449,"y":24,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1352,7 +1352,7 @@
 },
 {
 	"filename": "hud_pause_14.png",
-	"frame": {"x":449,"y":22,"w":8,"h":8},
+	"frame": {"x":449,"y":35,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1361,15 +1361,6 @@
 },
 {
 	"filename": "hud_pause_15.png",
-	"frame": {"x":449,"y":33,"w":8,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "hud_time_0.png",
 	"frame": {"x":460,"y":13,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1378,25 +1369,52 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "hud_time_1.png",
-	"frame": {"x":460,"y":24,"w":8,"h":8},
+	"filename": "hud_time_0.png",
+	"frame": {"x":473,"y":9,"w":5,"h":1},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
+	"spriteSourceSize": {"x":0,"y":0,"w":5,"h":1},
+	"sourceSize": {"w":5,"h":1},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hud_time_1.png",
+	"frame": {"x":467,"y":39,"w":3,"h":1},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":1},
+	"sourceSize": {"w":3,"h":1},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_2.png",
-	"frame": {"x":460,"y":35,"w":8,"h":8},
+	"frame": {"x":45,"y":40,"w":4,"h":3},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
+	"spriteSourceSize": {"x":0,"y":0,"w":4,"h":3},
+	"sourceSize": {"w":4,"h":3},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_3.png",
+	"frame": {"x":471,"y":31,"w":3,"h":3},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":3},
+	"sourceSize": {"w":3,"h":3},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hud_time_4.png",
+	"frame": {"x":473,"y":2,"w":5,"h":4},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":5,"h":4},
+	"sourceSize": {"w":5,"h":4},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hud_time_base.png",
 	"frame": {"x":471,"y":13,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1405,35 +1423,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "hud_time_4.png",
-	"frame": {"x":482,"y":13,"w":8,"h":8},
+	"filename": "hud_time_clock.png",
+	"frame": {"x":460,"y":35,"w":4,"h":5},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "hud_time_base.png",
-	"frame": {"x":471,"y":24,"w":8,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
+	"spriteSourceSize": {"x":0,"y":0,"w":4,"h":5},
+	"sourceSize": {"w":4,"h":5},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_hand.png",
-	"frame": {"x":471,"y":35,"w":8,"h":8},
+	"frame": {"x":477,"y":31,"w":2,"h":2},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
+	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":2},
+	"sourceSize": {"w":2,"h":2},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_opened.png",
-	"frame": {"x":482,"y":24,"w":8,"h":8},
+	"frame": {"x":460,"y":24,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1442,7 +1451,7 @@
 },
 {
 	"filename": "pixel.png",
-	"frame": {"x":57,"y":40,"w":1,"h":1},
+	"frame": {"x":467,"y":35,"w":1,"h":1},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
@@ -1454,8 +1463,8 @@
 	"version": "1.0",
 	"image": "spritesheet_fd.png",
 	"format": "RGBA8888",
-	"size": {"w":492,"h":45},
+	"size": {"w":481,"h":45},
 	"scale": "0.0625",
-	"smartupdate": "$TexturePacker:SmartUpdate:845c4a7246840e4922e35d97a001cf0b:42e7191cdd8bc229f1aa6ecfa7226b77:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7c4cd80531f4473c51803ca896d232b2:d6450a3d94bce7a00b1f622f7c4fa71d:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

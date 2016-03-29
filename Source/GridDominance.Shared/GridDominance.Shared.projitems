@@ -29,7 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\NeutralKIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\PlayerController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\StandardKIController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GameSpeed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GameSpeedModes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntityManager.cs" />

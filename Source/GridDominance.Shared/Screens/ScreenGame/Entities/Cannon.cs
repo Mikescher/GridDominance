@@ -18,6 +18,7 @@ using GridDominance.Shared.Screens.ScreenGame.FractionController;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 
@@ -265,7 +266,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 					Textures.TexCannonCrosshair.Bounds,
 					Color.White * (CROSSHAIR_TRANSPARENCY * CrosshairSize.ActualValue),
 					Rotation.TargetValue,
-					new Vector2(Textures.TexCannonCrosshair.Width/2f, Textures.TexCannonCrosshair.Height/2f),
+					Textures.TexCannonCrosshair.Center(),
 					Scale * Textures.DEFAULT_TEXTURE_SCALE * CrosshairSize.ActualValue,
 					SpriteEffects.None,
 					0);
@@ -284,7 +285,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				Textures.TexCannonBarrelShadow.Bounds,
 				Color.White,
 				Rotation.ActualValue,
-				new Vector2(Textures.TexCannonBarrelShadow.Width/2f, Textures.TexCannonBarrelShadow.Height/2f),
+				Textures.TexCannonBarrelShadow.Center(),
 				Scale *Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
@@ -295,7 +296,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				Textures.TexCannonBodyShadow.Bounds,
 				Color.White,
 				Rotation.ActualValue,
-				new Vector2(Textures.TexCannonBodyShadow.Width/2f, Textures.TexCannonBodyShadow.Height/2f),
+				Textures.TexCannonBodyShadow.Center(),
 				Scale*Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
@@ -306,7 +307,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				Textures.TexCannonBarrel.Bounds,
 				Color.White,
 				Rotation.ActualValue,
-				new Vector2(Textures.TexCannonBarrel.Width/2f, Textures.TexCannonBarrel.Height/2f),
+				Textures.TexCannonBarrel.Center(),
 				Scale *Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
@@ -317,7 +318,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				Textures.TexCannonBody.Bounds,
 				Color.White,
 				Rotation.ActualValue,
-				new Vector2(Textures.TexCannonBody.Width/2f, Textures.TexCannonBody.Height/2f),
+				Textures.TexCannonBody.Center(),
 				Scale*Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
@@ -334,7 +335,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				texBack.Bounds,
 				FlatColors.Clouds,
 				cannonCogRotation + 3 * (FloatMath.PI / 2),
-				new Vector2(0.5f * texBack.Width, 0.5f * texBack.Height),
+				texBack.Center(),
 				Scale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
@@ -345,7 +346,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				texProg.Bounds,
 				Fraction.Color,
 				cannonCogRotation + 3 * (FloatMath.PI / 2),
-				new Vector2(0.5f * texProg.Width, 0.5f * texProg.Height),
+				texProg.Center(),
 				Scale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);

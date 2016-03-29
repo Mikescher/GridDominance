@@ -6,6 +6,7 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.EntityOperations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 
@@ -147,8 +148,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				BulletPosition,
 				Textures.TexBullet.Bounds, 
 				Fraction.Color * BulletAlpha,
-				BulletRotation, 
-				new Vector2(Textures.TexBullet.Width/2f, Textures.TexBullet.Height/2f), 
+				BulletRotation,
+				Textures.TexBullet.Center(), 
 				Scale * Textures.DEFAULT_TEXTURE_SCALE * BulletExtraScale, 
 				SpriteEffects.None, 
 				0);

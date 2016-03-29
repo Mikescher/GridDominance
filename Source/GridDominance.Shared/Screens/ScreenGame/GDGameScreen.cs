@@ -3,6 +3,7 @@
 #define DEBUG_SHORTCUTS
 #endif
 
+using System;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Resources;
@@ -47,8 +48,29 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		//-----------------------------------------------------------------
 
-		public float GameSpeed = 1f;
-		public float RealGameSpeed => GameSpeed;
+		private bool _isPaused = false;
+		public bool IsPaused
+		{
+			get { return _isPaused; }
+			set
+			{
+				if (value == _isPaused) return;
+				_isPaused = value;
+				UpdateGameSpeed();
+			}			
+		}
+
+		private GameSpeedModes _gameSpeedMode = GameSpeedModes.NORMAL;
+		public GameSpeedModes GameSpeedMode
+		{
+			get { return _gameSpeedMode; }
+			set
+			{
+				if (value == _gameSpeedMode) return;
+				_gameSpeedMode = value;
+				UpdateGameSpeed();
+			}
+		}
 
 		private Fraction fractionNeutral;
 		private Fraction fractionPlayer;
@@ -58,8 +80,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		private readonly LevelFile blueprint;
 
-		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp) 
-			: base(game, gdm)
+		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp) : base(game, gdm)
 		{
 			blueprint = bp;
 
@@ -69,21 +90,21 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private void Initialize()
 		{
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
-			
+
 #if DEBUG_GAMESCREEN
 			FPSCounter = new RealtimeAPSCounter();
 			UPSCounter = new RealtimeAPSCounter();
 
 			DebugDisp = new DebugTextDisplay(Graphics.GraphicsDevice, Textures.DebugFont);
 			{
-				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta*1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} | total = {FPSCounter.TotalActions:000000})");
-				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta*1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} | total = {UPSCounter.TotalActions:000000})");
-				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f/Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Owner.GraphicsDevice):#.00} | Viewport=[{Owner.GraphicsDevice.Viewport.Width}|{Owner.GraphicsDevice.Viewport.Height}]");
+				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} | total = {FPSCounter.TotalActions:000000})");
+				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} | total = {UPSCounter.TotalActions:000000})");
+				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Owner.GraphicsDevice):#.00} | Viewport=[{Owner.GraphicsDevice.Viewport.Width}|{Owner.GraphicsDevice.Viewport.Height}]");
 				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {GDBackground.Particles.Count,3} | Bodies = {GDEntities.PhysicsWorld.BodyList.Count,3}");
 				DebugDisp.AddLine(() => $"");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 			}
-			
+
 			//InputStateMan.PointerDown += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnDown({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);
 			//InputStateMan.PointerUp += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnUp({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);
 #else
@@ -93,15 +114,15 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			//--------------------
 
-			fractionNeutral   = Fraction.CreateNeutralFraction();
-			fractionPlayer    = Fraction.CreatePlayerFraction(fractionNeutral);
+			fractionNeutral = Fraction.CreateNeutralFraction();
+			fractionPlayer = Fraction.CreatePlayerFraction(fractionNeutral);
 			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
 			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
 			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
 
 			LoadLevelFromBlueprint();
 		}
-		
+
 
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
@@ -110,13 +131,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		private void LoadLevelFromBlueprint()
 		{
-			Fraction[] fracList = 
+			Fraction[] fracList =
 			{
-				fractionNeutral,
-				fractionPlayer,
-				fractionComputer1,
-				fractionComputer2,
-				fractionComputer3,
+				fractionNeutral, fractionPlayer, fractionComputer1, fractionComputer2, fractionComputer3,
 			};
 
 			foreach (var bPrint in blueprint.BlueprintCannons)
@@ -170,5 +187,33 @@ namespace GridDominance.Shared.Screens.ScreenGame
 #endif
 		}
 
+		private void UpdateGameSpeed()
+		{
+			if (IsPaused)
+			{
+				GameSpeed = 0f;
+			}
+			else
+			{
+				switch (GameSpeedMode)
+				{
+					case GameSpeedModes.SUPERSLOW:
+						GameSpeed = GAMESPEED_SUPERSLOW;
+						break;
+					case GameSpeedModes.SLOW:
+						GameSpeed = GAMESPEED_SLOW;
+						break;
+					case GameSpeedModes.NORMAL:
+						GameSpeed = GAMESPEED_NORMAL;
+						break;
+					case GameSpeedModes.FAST:
+						GameSpeed = GAMESPEED_FAST;
+						break;
+					case GameSpeedModes.SUPERFAST:
+						GameSpeed = GAMESPEED_SUPERFAST;
+						break;
+				}
+			}
+		}
 	}
 }

@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.Screens.HUD;
@@ -11,22 +13,27 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 	class HUDSpeedBaseButton : GDGameHUDElement
 	{
 		private const float HAND_ANIMATION_SPEED = 1f;
+
 		private const float OPENING_ANIMATION_TOTALSPEED = 1f;
 		private const float OPENING_ANIMATION_CLOSINGSPEED = 3f;
 		private const float OPENING_ANIMATION_DELAY = 0.05f;
 		private const float OPENING_ANIMATION_SINGLESPEED = 1 - OPENING_ANIMATION_DELAY*5;
+
 		private const float OPENING_DISTANCE = 128;
+
+		private const float DRAG_MINIMUMDISTANCE = 94;
 
 		private static readonly Vector2[] OPENING_VECTORS =
 		{
-			new Vector2(OPENING_DISTANCE, 0).Rotate(FloatMath.ToRadians(00.0f)),
-			new Vector2(OPENING_DISTANCE, 0).Rotate(FloatMath.ToRadians(22.5f)),
-			new Vector2(OPENING_DISTANCE, 0).Rotate(FloatMath.ToRadians(45.0f)),
-			new Vector2(OPENING_DISTANCE, 0).Rotate(FloatMath.ToRadians(67.5f)),
-			new Vector2(OPENING_DISTANCE, 0).Rotate(FloatMath.ToRadians(90.0f)),
+			new Vector2(0, OPENING_DISTANCE).Rotate(-FloatMath.ToRadians(00.0f)),
+			new Vector2(0, OPENING_DISTANCE).Rotate(-FloatMath.ToRadians(22.5f)),
+			new Vector2(0, OPENING_DISTANCE).Rotate(-FloatMath.ToRadians(45.0f)),
+			new Vector2(0, OPENING_DISTANCE).Rotate(-FloatMath.ToRadians(67.5f)),
+			new Vector2(0, OPENING_DISTANCE).Rotate(-FloatMath.ToRadians(90.0f)),
 		};
 
 		private bool isOpened = false;
+		private bool isDragging = false;
 		private float openingProgress = 0f;
 
 		private float rotation = 0f;
@@ -46,11 +53,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			speedButtons = new[]
 			{
-				new HUDSpeedSetButton(this, GameSpeed.SUPERSLOW),
-				new HUDSpeedSetButton(this, GameSpeed.SLOW),
-				new HUDSpeedSetButton(this, GameSpeed.NORMAL),
-				new HUDSpeedSetButton(this, GameSpeed.FAST),
-				new HUDSpeedSetButton(this, GameSpeed.SUPERFAST),
+				new HUDSpeedSetButton(this, GameSpeedModes.SUPERSLOW),
+				new HUDSpeedSetButton(this, GameSpeedModes.SLOW),
+				new HUDSpeedSetButton(this, GameSpeedModes.NORMAL),
+				new HUDSpeedSetButton(this, GameSpeedModes.FAST),
+				new HUDSpeedSetButton(this, GameSpeedModes.SUPERFAST),
 			};
 
 			Owner.AddElement(speedButtons[0]);
@@ -67,43 +74,37 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
 		{
-			var origin = new Vector2(Textures.TexHUDButtonSpeedHand.Width / 2f, Textures.TexHUDButtonSpeedHand.Height / 2f);
 			var center = new Vector2(Position.X + bounds.Width / 2f, Position.Y + bounds.Height / 2f);
 
-			if (isOpened)
-			{
-				sbatch.Draw(
-					Textures.TexHUDButtonSpeedOpen.Texture,
-					center,
-					Textures.TexHUDButtonSpeedOpen.Bounds,
-					Color.White,
-					0f,
-					origin,
-					Textures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None,
-					0);
-			}
-			else
-			{
-				sbatch.Draw(
-					Textures.TexHUDButtonSpeedBase.Texture,
-					center,
-					Textures.TexHUDButtonSpeedBase.Bounds,
-					Color.White,
-					0f,
-					origin,
-					Textures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None,
-					0);
-			}
+			sbatch.Draw(
+				Textures.TexHUDButtonSpeedBase.Texture,
+				center,
+				Textures.TexHUDButtonSpeedBase.Bounds,
+				ColorMath.Blend(FlatColors.Flamingo, FlatColors.Asbestos, openingProgress),
+				0f,
+				Textures.TexHUDButtonSpeedBase.Center(),
+				Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
+			
+			sbatch.Draw(
+				Textures.TexHUDButtonSpeedClock.Texture,
+				center,
+				Textures.TexHUDButtonSpeedClock.Bounds,
+				FlatColors.Clouds,
+				0f,
+				Textures.TexHUDButtonSpeedClock.Center(),
+				Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
 
 			sbatch.Draw(
 				Textures.TexHUDButtonSpeedHand.Texture,
 				center,
 				Textures.TexHUDButtonSpeedHand.Bounds,
-				Color.White,
+				FlatColors.Clouds,
 				rotation,
-				origin,
+				Textures.TexHUDButtonSpeedHand.Center(),
 				Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
@@ -111,22 +112,69 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)
 		{
-			rotation = FloatMath.IncModulo(rotation, gameTime.GetElapsedSeconds() * HAND_ANIMATION_SPEED * GDOwner.GDOwner.RealGameSpeed, FloatMath.TAU);
+			rotation = FloatMath.IncModulo(rotation, gameTime.GetElapsedSeconds() * HAND_ANIMATION_SPEED * GDOwner.GDOwner.GameSpeed, FloatMath.TAU);
+
+			int choosen = -1;
+
+			if (isOpened && isDragging)
+			{
+				var center = new Vector2(Position.X + Size.Width / 2f, Position.Y + Size.Height / 2f);
+				
+				var delta = istate.PointerPosition.ToVector2() - center;
+				if (delta.LengthSquared() >= DRAG_MINIMUMDISTANCE * DRAG_MINIMUMDISTANCE)
+				{
+					var angle = delta.ToAngle();
+
+					if (angle > -FloatMath.PI && angle < FloatMath.PI / 16f)
+						choosen = 0;
+					else if (angle > FloatMath.PI / 16f && angle < 3 * FloatMath.PI / 16f)
+						choosen = 1;
+					else if (angle > 3 * FloatMath.PI / 16f && angle < 5 * FloatMath.PI / 16f)
+						choosen = 2;
+					else if (angle > 5 * FloatMath.PI / 16f && angle < 7 * FloatMath.PI / 16f)
+						choosen = 3;
+					else if (angle > 7 * FloatMath.PI / 16f && angle < FloatMath.PI)
+						choosen = 4;
+				}
+
+				if (istate.IsDown)
+				{
+					for (int i = 0; i < 5; i++)
+					{
+						speedButtons[i].Highlighted = (i == choosen);
+					}
+				}
+				else
+				{
+					if (choosen != -1)
+					{
+						speedButtons[choosen].Click();
+					}
+
+					isDragging = false;
+				}
+			}
 
 			if (isOpened && FloatMath.IsNotOne(openingProgress))
 			{
-				UpdateClosing(gameTime);
+				UpdateOpening(gameTime, choosen != -1);
 			}
 			else if (!isOpened && FloatMath.IsNotZero(openingProgress))
 			{
-				UpdateOpening(gameTime);
+				UpdateClosing(gameTime);
 			}
 		}
 
-		private void UpdateClosing(GameTime gameTime)
+		private void UpdateOpening(GameTime gameTime, bool force)
 		{
 			bool finished;
 			openingProgress = FloatMath.LimitedInc(openingProgress, gameTime.GetElapsedSeconds() * OPENING_ANIMATION_TOTALSPEED, 1f, out finished);
+
+			if (force)
+			{
+				openingProgress = 1f;
+				finished = true;
+			}
 
 			for (int i = 0; i < 5; i++)
 			{
@@ -145,7 +193,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			}
 		}
 
-		private void UpdateOpening(GameTime gameTime)
+		private void UpdateClosing(GameTime gameTime)
 		{
 			bool finished;
 			openingProgress = FloatMath.LimitedDec(openingProgress, gameTime.GetElapsedSeconds() * OPENING_ANIMATION_CLOSINGSPEED, 0f, out finished);
@@ -186,6 +234,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private void Open()
 		{
 			isOpened = true;
+			isDragging = true;
 
 			foreach (var btn in speedButtons)
 			{

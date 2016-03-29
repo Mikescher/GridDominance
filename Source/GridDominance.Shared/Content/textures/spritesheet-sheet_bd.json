@@ -2,7 +2,7 @@
 
 {
 	"filename": "cannonball.png",
-	"frame": {"x":570,"y":2,"w":6,"h":6},
+	"frame": {"x":551,"y":2,"w":6,"h":6},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":6},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "cannonball_piece.png",
-	"frame": {"x":560,"y":2,"w":6,"h":6},
+	"frame": {"x":547,"y":85,"w":6,"h":6},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":6},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "cannonbarrel.png",
-	"frame": {"x":560,"y":49,"w":16,"h":8},
+	"frame": {"x":541,"y":54,"w":16,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":8},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "cannoncog_005.png",
-	"frame": {"x":91,"y":78,"w":16,"h":16},
+	"frame": {"x":91,"y":82,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "cannoncog_006.png",
-	"frame": {"x":95,"y":97,"w":16,"h":16},
+	"frame": {"x":95,"y":101,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1370,70 +1370,79 @@
 },
 {
 	"filename": "hud_time_0.png",
-	"frame": {"x":541,"y":2,"w":16,"h":16},
+	"frame": {"x":85,"y":78,"w":10,"h":1},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":1},
+	"sourceSize": {"w":10,"h":1},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_1.png",
-	"frame": {"x":541,"y":21,"w":16,"h":16},
+	"frame": {"x":98,"y":78,"w":6,"h":1},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":1},
+	"sourceSize": {"w":6,"h":1},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_2.png",
-	"frame": {"x":541,"y":40,"w":16,"h":16},
+	"frame": {"x":547,"y":76,"w":8,"h":6},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":6},
+	"sourceSize": {"w":8,"h":6},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_3.png",
-	"frame": {"x":541,"y":59,"w":16,"h":16},
+	"frame": {"x":551,"y":94,"w":6,"h":6},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":6},
+	"sourceSize": {"w":6,"h":6},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_4.png",
-	"frame": {"x":547,"y":78,"w":16,"h":16},
+	"frame": {"x":541,"y":65,"w":10,"h":8},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":8},
+	"sourceSize": {"w":10,"h":8},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_base.png",
-	"frame": {"x":551,"y":97,"w":16,"h":16},
+	"frame": {"x":541,"y":16,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
 	"sourceSize": {"w":16,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hud_time_clock.png",
+	"frame": {"x":541,"y":2,"w":7,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":7,"h":11},
+	"sourceSize": {"w":7,"h":11},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_hand.png",
-	"frame": {"x":560,"y":11,"w":16,"h":16},
+	"frame": {"x":551,"y":103,"w":4,"h":4},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":4,"h":4},
+	"sourceSize": {"w":4,"h":4},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hud_time_opened.png",
-	"frame": {"x":560,"y":30,"w":16,"h":16},
+	"frame": {"x":541,"y":35,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1442,7 +1451,7 @@
 },
 {
 	"filename": "pixel.png",
-	"frame": {"x":85,"y":78,"w":2,"h":2},
+	"frame": {"x":551,"y":11,"w":2,"h":2},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":2},
@@ -1454,8 +1463,8 @@
 	"version": "1.0",
 	"image": "spritesheet_bd.png",
 	"format": "RGBA8888",
-	"size": {"w":578,"h":119},
+	"size": {"w":559,"h":119},
 	"scale": "0.125",
-	"smartupdate": "$TexturePacker:SmartUpdate:845c4a7246840e4922e35d97a001cf0b:42e7191cdd8bc229f1aa6ecfa7226b77:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7c4cd80531f4473c51803ca896d232b2:d6450a3d94bce7a00b1f622f7c4fa71d:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

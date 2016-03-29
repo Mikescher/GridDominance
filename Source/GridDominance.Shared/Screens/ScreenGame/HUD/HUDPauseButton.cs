@@ -73,10 +73,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			if (isClicked)
 			{
+				GDOwner.GDOwner.IsPaused = true;
+
 				Owner.Owner.PushNotification("HUDPauseButton :: Game paused");
 			}
 			else
 			{
+				GDOwner.GDOwner.IsPaused = false;
+
 				Owner.Owner.PushNotification("HUDPauseButton :: Game resumed");
 			}
 		}

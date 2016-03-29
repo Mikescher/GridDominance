@@ -1,4 +1,4 @@
-﻿namespace MonoSAMFramework.Portable.MathHelper
+﻿namespace MonoSAMFramework.Portable.ColorHelper
 {
 	public static class ColorMath
 	{

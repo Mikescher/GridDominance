@@ -4,9 +4,11 @@ using MonoGame.Extended.ViewportAdapters;
 using MonoSAMFramework.Portable.DebugDisplay;
 using MonoSAMFramework.Portable.External;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,6 +34,8 @@ namespace MonoSAMFramework.Portable.Screens
 		protected EntityManager Entities;
 		protected GameBackground Background;
 
+		public float GameSpeed = 1f;
+
 		protected GameScreen(MonoSAMGame game, GraphicsDeviceManager gdm)
 		{
 			Graphics = gdm;
@@ -54,24 +58,67 @@ namespace MonoSAMFramework.Portable.Screens
 		
 		public override void Update(GameTime gameTime)
 		{
-#if DEBUG
-			UPSCounter.Update(gameTime);
-#endif
-
 			var state = InputStateMan.GetNewState();
-			InputStateMan.TriggerListener();
 
 			if (state.IsExit()) Owner.Exit();
 
 			GameHUD.Update(gameTime, state);
+			DebugDisp.Update(gameTime, state);
+
+			if (FloatMath.IsZero(GameSpeed))
+			{
+				return;
+			}
+			else if (FloatMath.IsOne(GameSpeed))
+			{
+				InternalUpdate(gameTime, state);
+			}
+			else if (GameSpeed < 1f)
+			{
+				var internalTime = new GameTime(gameTime.TotalGameTime, new TimeSpan((long) (gameTime.ElapsedGameTime.Ticks * GameSpeed)));
+
+				InternalUpdate(internalTime, state);
+			}
+			else if (GameSpeed > 1f)
+			{
+				var totalTicks = gameTime.ElapsedGameTime.Ticks * GameSpeed;
+
+				int runCount = (int) GameSpeed;
+
+				long ticksPerRun = (long) (totalTicks / runCount);
+				ticksPerRun += (long)((totalTicks - ticksPerRun * runCount) / runCount);
+
+				var time = gameTime.TotalGameTime;
+
+				for (int i = 0; i < runCount; i++)
+				{
+					var span = new TimeSpan(ticksPerRun);
+
+					InternalUpdate(new GameTime(time, span), state);
+
+					time += span;
+				}
+			}
+			else
+			{
+				throw new ArgumentException("GameSpeed");
+			}
+		}
+
+		private void InternalUpdate(GameTime gameTime, InputState state)
+		{
+#if DEBUG
+			UPSCounter.Update(gameTime);
+#endif
+
+			InputStateMan.TriggerListener();
+
+
 			Background.Update(gameTime, state);
 			Entities.Update(gameTime, state);
 
-			DebugDisp.Update(gameTime, state);
-
 			OnUpdate(gameTime, state);
 		}
-
 
 		public override void Draw(GameTime gameTime)
 		{

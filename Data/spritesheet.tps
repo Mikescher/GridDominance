@@ -435,6 +435,7 @@
             <key type="filename">hud_time_3.png</key>
             <key type="filename">hud_time_4.png</key>
             <key type="filename">hud_time_base.png</key>
+            <key type="filename">hud_time_clock.png</key>
             <key type="filename">hud_time_hand.png</key>
             <key type="filename">hud_time_opened.png</key>
             <key type="filename">pixel.png</key>
@@ -464,6 +465,7 @@
             <filename>hud_time_4.png</filename>
             <filename>hud_time_hand.png</filename>
             <filename>hud_time_opened.png</filename>
+            <filename>hud_time_clock.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -113,6 +113,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonSpeedSet2;
 		public static TextureRegion2D TexHUDButtonSpeedSet3;
 		public static TextureRegion2D TexHUDButtonSpeedSet4;
+		public static TextureRegion2D TexHUDButtonSpeedClock;
 
 		#endregion
 
@@ -155,14 +156,15 @@ namespace GridDominance.Shared.Resources
 			TexPixel = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1);
 
 			TexHUDButtonPause = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();
-			TexHUDButtonSpeedBase = AtlasTextures["hud_time_base"];
-			TexHUDButtonSpeedOpen = AtlasTextures["hud_time_opened"];
-			TexHUDButtonSpeedHand = AtlasTextures["hud_time_hand"];
-			TexHUDButtonSpeedSet0 = AtlasTextures["hud_time_0"];
-			TexHUDButtonSpeedSet1 = AtlasTextures["hud_time_1"];
-			TexHUDButtonSpeedSet2 = AtlasTextures["hud_time_2"];
-			TexHUDButtonSpeedSet3 = AtlasTextures["hud_time_3"];
-			TexHUDButtonSpeedSet4 = AtlasTextures["hud_time_4"];
+			TexHUDButtonSpeedBase  = AtlasTextures["hud_time_base"];
+			TexHUDButtonSpeedOpen  = AtlasTextures["hud_time_opened"];
+			TexHUDButtonSpeedHand  = AtlasTextures["hud_time_hand"];
+			TexHUDButtonSpeedSet0  = AtlasTextures["hud_time_0"];
+			TexHUDButtonSpeedSet1  = AtlasTextures["hud_time_1"];
+			TexHUDButtonSpeedSet2  = AtlasTextures["hud_time_2"];
+			TexHUDButtonSpeedSet3  = AtlasTextures["hud_time_3"];
+			TexHUDButtonSpeedSet4  = AtlasTextures["hud_time_4"];
+			TexHUDButtonSpeedClock = AtlasTextures["hud_time_clock"];
 
 #if DEBUG
 			DebugFont = content.Load<SpriteFont>("fonts/debugFont");

@@ -3,21 +3,24 @@ using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
 	class HUDSpeedSetButton : GDGameHUDElement
 	{
-		private readonly GameSpeed speed;
+		private readonly GameSpeedModes speed;
 		private readonly HUDSpeedBaseButton BaseButton;
 
 		public bool IsOpened = false;
 		public bool IsTranspositioning = false;
 
 		public override int Depth => 0;
+		public bool Highlighted = false;
 
-		public HUDSpeedSetButton(HUDSpeedBaseButton baseButton, GameSpeed buttonSpeed)
+		public HUDSpeedSetButton(HUDSpeedBaseButton baseButton, GameSpeedModes buttonSpeed)
 		{
 			speed = buttonSpeed;
 			BaseButton = baseButton;
@@ -42,17 +45,27 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			if (IsOpened || IsTranspositioning)
 			{
 				var texture = GetTexture();
-
-				var origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
+				
 				var center = new Vector2(Position.X + bounds.Width / 2f, Position.Y + bounds.Height / 2f);
+
+				sbatch.Draw(
+					Textures.TexHUDButtonSpeedBase.Texture,
+					center,
+					Textures.TexHUDButtonSpeedBase.Bounds,
+					Highlighted ? FlatColors.Emerald : FlatColors.Flamingo,
+					0f,
+					Textures.TexHUDButtonSpeedBase.Center(),
+					Textures.DEFAULT_TEXTURE_SCALE,
+					SpriteEffects.None,
+					0);
 
 				sbatch.Draw(
 					texture.Texture,
 					center,
 					texture.Bounds,
-					Color.LightBlue,
+					(GDOwner.GDOwner.GameSpeedMode == speed) ? FlatColors.MidnightBlue : FlatColors.Clouds,
 					0f,
-					origin,
+					texture.Center(),
 					Textures.DEFAULT_TEXTURE_SCALE,
 					SpriteEffects.None,
 					0);
@@ -63,15 +76,15 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			switch (speed)
 			{
-				case GameSpeed.SUPERSLOW:
+				case GameSpeedModes.SUPERSLOW:
 					return Textures.TexHUDButtonSpeedSet0;
-				case GameSpeed.SLOW:
+				case GameSpeedModes.SLOW:
 					return Textures.TexHUDButtonSpeedSet1;
-				case GameSpeed.NORMAL:
+				case GameSpeedModes.NORMAL:
 					return Textures.TexHUDButtonSpeedSet2;
-				case GameSpeed.FAST:
+				case GameSpeedModes.FAST:
 					return Textures.TexHUDButtonSpeedSet3;
-				case GameSpeed.SUPERFAST:
+				case GameSpeedModes.SUPERFAST:
 					return Textures.TexHUDButtonSpeedSet4;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -87,8 +100,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			if (!IsOpened || IsTranspositioning) return;
 
-			Owner.Owner.PushNotification("HUDSpeedSetButton :: Set Speed := " + speed);
+			Click();
+		}
 
+		public void Click()
+		{
+			Owner.Owner.PushNotification("HUDSpeedSetButton :: Set Speed := " + speed);
+			GDOwner.GDOwner.GameSpeedMode = speed;
+			
 			BaseButton.Close();
 		}
 	}

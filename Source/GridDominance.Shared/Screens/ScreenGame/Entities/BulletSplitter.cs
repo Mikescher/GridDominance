@@ -3,6 +3,7 @@ using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 
@@ -80,7 +81,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				Textures.TexBulletSplitter.Bounds,
 				Fraction.Color * ShapeAlpha,
 				ShapeRotation,
-				new Vector2(Textures.TexBullet.Width / 2f, Textures.TexBullet.Height / 2f),
+				Textures.TexBullet.Center(),
 				scale * Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
