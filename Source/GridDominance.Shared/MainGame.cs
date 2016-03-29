@@ -1,7 +1,6 @@
 ﻿using System;
-using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.GameScreen;
+using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 
@@ -10,49 +9,41 @@ namespace GridDominance.Shared
 	/// <summary>
 	/// This is the main type for your game.
 	/// </summary>
-	public class MainGame : Game
+	public class MainGame : MonoSAMGame
 	{
-		private ScreenManager screens;
-
-		private readonly GraphicsDeviceManager graphics;
-
 		public MainGame()
 		{
-			graphics = new GraphicsDeviceManager(this);
-			Content.RootDirectory = "Content";
 		}
 
-		protected override void Initialize()
+		protected override void OnInitialize()
 		{
-			base.Initialize();
-
 #if __DESKTOP__
 			IsMouseVisible = true;
-			graphics.IsFullScreen = false;
+			Graphics.IsFullScreen = false;
 
-			graphics.PreferredBackBufferWidth = 1200;
-			graphics.PreferredBackBufferHeight = 900;
+			Graphics.PreferredBackBufferWidth = 1200;
+			Graphics.PreferredBackBufferHeight = 900;
 			Window.AllowUserResizing = true;
 
 #if DEBUG
-			graphics.SynchronizeWithVerticalRetrace = false;
+			Graphics.SynchronizeWithVerticalRetrace = false;
 			IsFixedTimeStep = false;
 			TargetElapsedTime = TimeSpan.FromMilliseconds(1);
 #endif
 
-			graphics.ApplyChanges();
-			Window.Position = new Point((1920 - graphics.PreferredBackBufferWidth) / 2, (1080 - graphics.PreferredBackBufferHeight) / 2);
+			Graphics.ApplyChanges();
+			Window.Position = new Point((1920 - Graphics.PreferredBackBufferWidth) / 2, (1080 - Graphics.PreferredBackBufferHeight) / 2);
 
 #else
-			graphics.IsFullScreen = true;
-			graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
-			graphics.ApplyChanges();
+			Graphics.IsFullScreen = true;
+			Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
+			Graphics.ApplyChanges();
 #endif
+		}
 
-			screens = new ScreenManager(this)
-			{
-				CurrentScreen = new GameScreen(this, graphics, Levels.LEVEL_003)
-			};
+		protected override void OnAfterInitialize()
+		{
+			SetCurrentScreen(new GDGameScreen(this, Graphics, Levels.LEVEL_003));
 		}
 
 		protected override void LoadContent()
@@ -64,20 +55,6 @@ namespace GridDominance.Shared
 		protected override void UnloadContent()
 		{
 			// NOP
-		}
-
-		protected override void Update(GameTime gameTime)
-		{
-			screens.Update(gameTime);
-
-			base.Update(gameTime);
-		}
-
-		protected override void Draw(GameTime gameTime)
-		{
-			screens.Draw(gameTime);
-
-			base.Draw(gameTime);
 		}
 	}
 }

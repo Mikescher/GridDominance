@@ -1,15 +1,15 @@
-﻿using System;
-using GridDominance.Shared;
+﻿using GridDominance.Shared;
+using System;
 
 namespace GridDominance.OpenGL
 {
-    public static class Program
-    {
-        [STAThread]
-        static void Main()
-        {
-            using (var game = new MainGame())
-                game.Run();
-        }
-    }
+	public static class Program
+	{
+		[STAThread]
+		static void Main()
+		{
+			using (var game = new MainGame())
+				game.Run();
+		}
+	}
 }

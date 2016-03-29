@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using GridDominance.Shared.Screens.GameScreen;
+using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -173,8 +173,8 @@ namespace GridDominance.Shared.Resources
 			var screenHeight = device.Viewport.Height;
 			var screenRatio = screenWidth * 1f / screenHeight;
 
-			var worldWidth = GameScreen.VIEW_WIDTH;
-			var worldHeight = GameScreen.VIEW_HEIGHT;
+			var worldWidth = GDGameScreen.VIEW_WIDTH;
+			var worldHeight = GDGameScreen.VIEW_HEIGHT;
 			var worldRatio = worldWidth * 1f / worldHeight;
 			
 			if (screenRatio < worldRatio)

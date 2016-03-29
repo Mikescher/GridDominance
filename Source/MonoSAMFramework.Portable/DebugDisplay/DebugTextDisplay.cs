@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.MathHelper;
 
 namespace MonoSAMFramework.Portable.DebugDisplay
 {

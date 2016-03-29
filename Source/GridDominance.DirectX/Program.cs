@@ -14,7 +14,7 @@ using MonoTouch.UIKit;
 #endif
 #endregion
 
-namespace GridDominance.DirectX
+namespace GridDominance.Shared
 {
 	static class Program
 	{
