@@ -52,6 +52,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public abstract int Depth { get; }
 
+		public bool IsPressed => isPointerDownOnElement;
+
 		protected GameHUDElement()
 		{
 			//

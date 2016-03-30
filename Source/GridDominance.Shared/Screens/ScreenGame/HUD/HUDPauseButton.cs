@@ -107,7 +107,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			}
 		}
 
-		public void Close()
+		private void Close()
 		{
 			isOpened = false;
 
@@ -115,7 +115,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			foreach (var button in subMenu)
 			{
-				button.isClosing = true;
+				button.IsClosing = true;
 			}
 			subMenu = null;
 
@@ -132,12 +132,29 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			subMenu = new[]
 			{
-				new HUDPauseMenuButton(this, "RESUME", -1, 0, 3),
-				new HUDPauseMenuButton(this, "RESTART", -2, 1, 3),
-				new HUDPauseMenuButton(this, "EXIT", -3, 2, 3),
+				new HUDPauseMenuButton(this, "RESUME", -1, 0, 3, OnResume),
+				new HUDPauseMenuButton(this, "RESTART", -2, 1, 3, OnRestart),
+				new HUDPauseMenuButton(this, "EXIT", -3, 2, 3, OnExit),
 			};
 
 			Owner.AddElements(subMenu);
+		}
+
+		private void OnResume()
+		{
+			Close();
+		}
+
+		private void OnRestart()
+		{
+			GDOwner.GDOwner.PushErrorNotification("NotImplemented");//TODO NOT IMPLEMENTED
+			//throw new NotImplementedException();
+		}
+
+		private void OnExit()
+		{
+			GDOwner.GDOwner.PushErrorNotification("NotImplemented");//TODO NOT IMPLEMENTED
+			//throw new NotImplementedException();
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System;
+using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -7,15 +8,19 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
-using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
 	class HUDPauseMenuButton : GDGameHUDElement
 	{
+		public const int MARKER_WIDTH = 33;
+		public const int MARKER_HEIGHT = 17;
+
 		private const int WIDTH = 222;
 		private const int HEIGHT = HUDPauseButton.DIAMETER;
 		private const int GAP = 10;
+
+		private const float CLOSING_DELAY = 0.2f;
 
 		private static readonly Vector2 RELATIVE_SPAWNPOSITION = new Vector2(WIDTH/2 - HUDPauseButton.DIAMETER/2, 64);
 
@@ -23,28 +28,32 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private readonly int btnIndex;
 		private readonly int btnCount;
 		private readonly int btnDepth;
+		private readonly string btnText;
+		private readonly Action btnAction;
 
-		public float openingProgress = 0f;
-		public bool isOpening = true;
-		public bool isClosing = false;
+		private float openingProgress = 0f;
+		public bool IsOpening = true;
+		public bool IsClosing = false;
 
 		public override int Depth => btnDepth;
 
-		public HUDPauseMenuButton(HUDPauseButton owner, string buttonText, int buttonDepth, int buttonIndex, int totalButtonCount)
+		public HUDPauseMenuButton(HUDPauseButton owner, string buttonText, int buttonDepth, int buttonIndex, int totalButtonCount, Action buttonAction)
 		{
 			baseButton = owner;
 			btnIndex = buttonIndex;
 			btnCount = totalButtonCount;
 			btnDepth = buttonDepth;
+			btnText = buttonText;
+			btnAction = buttonAction;
 
 			RelativePosition = new Point(12, 12);
-			Size = new Size(WIDTH, HEIGHT);
+			Size = new Size(0, 0);
 			Alignment = owner.Alignment;
 		}
 
 		public override void OnInitialize()
 		{
-			UpdatePosition();
+
 		}
 
 		public override void OnRemove()
@@ -54,38 +63,26 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)
 		{
-			if (isOpening && FloatMath.IsNotOne(openingProgress))
+			if (IsOpening && FloatMath.IsNotOne(openingProgress))
 			{
 				bool hasOpened;
 				openingProgress = FloatMath.LimitedInc(openingProgress, gameTime.GetElapsedSeconds() * HUDPauseButton.ANIMATION_SPEED, 1f, out hasOpened);
 				if (hasOpened)
 				{
-					isOpening = false;
+					IsOpening = false;
 				}
 
-				UpdatePosition();
+				UpdateOpeningPosition();
 			}
-			else if (isClosing)
+			else if (IsClosing)
 			{
 				bool hasClosed;
-				openingProgress = FloatMath.LimitedDec(openingProgress, gameTime.GetElapsedSeconds() * HUDPauseButton.ANIMATION_SPEED, 1f, out hasClosed);
+				openingProgress = FloatMath.LimitedDec(openingProgress, gameTime.GetElapsedSeconds() * HUDPauseButton.ANIMATION_SPEED, 0f, out hasClosed);
 				if (hasClosed)
 				{
 					Remove();
 				}
 
-				UpdatePosition();
-			}
-		}
-
-		private void UpdatePosition()
-		{
-			if (isOpening)
-			{
-				UpdateOpeningPosition();
-			}
-			else
-			{
 				UpdateClosingPosition();
 			}
 		}
@@ -124,12 +121,17 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private void UpdateClosingPosition()
 		{
-			
+			var prog = 1 - openingProgress;
+			prog -= (btnCount-btnIndex-1) * CLOSING_DELAY;
+			if (prog <= 0) prog = 0;
+			prog /= 1 - ((btnCount - 1) * CLOSING_DELAY);
+
+			RelativeCenter = baseButton.RelativeCenter + RELATIVE_SPAWNPOSITION + new Vector2(-prog * WIDTH*2, btnIndex * (HEIGHT + GAP));
 		}
 
 		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
 		{
-			var scale = (Size.Width * 1f / WIDTH);
+			var scale = Size.Width * 1f / WIDTH;
 
 			sbatch.Draw(
 				Textures.TexHUDButtonPauseMenuBackground.Texture,
@@ -146,9 +148,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				sbatch.Draw(
 					Textures.TexHUDButtonPauseMenuMarkerBackground.Texture,
-					Center + new Vector2(87, -32) * scale,
+					Center + new Vector2(WIDTH/2f - HUDPauseButton.DIAMETER/2f, -(HEIGHT/2f + MARKER_HEIGHT/2f)) * scale,
 					Textures.TexHUDButtonPauseMenuMarkerBackground.Bounds,
-					Color.Silver,
+					Color.White,
 					0f,
 					Textures.TexHUDButtonPauseMenuMarkerBackground.Center(),
 					scale * Textures.DEFAULT_TEXTURE_SCALE,
@@ -157,9 +159,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 				sbatch.Draw(
 					Textures.TexHUDButtonPauseMenuMarker.Texture,
-					Center + new Vector2(87, -32) * scale,
+					Center + new Vector2(WIDTH / 2f - HUDPauseButton.DIAMETER / 2f, -(HEIGHT / 2f + MARKER_HEIGHT / 2f)) * scale,
 					Textures.TexHUDButtonPauseMenuMarker.Bounds,
-					Color.Silver,
+					IsPressed ? FlatColors.Concrete : FlatColors.Silver,
 					0f,
 					Textures.TexHUDButtonPauseMenuMarker.Center(),
 					scale * Textures.DEFAULT_TEXTURE_SCALE,
@@ -167,14 +169,25 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					0);
 			}
 
-			sbatch.Draw(Textures.TexPixel, bounds, FlatColors.Silver);
+			sbatch.Draw(Textures.TexPixel, bounds, IsPressed ? FlatColors.Concrete : FlatColors.Silver);
+
+			var fontBounds = Textures.HUDFont.MeasureString(btnText);
+			sbatch.DrawString(
+				Textures.HUDFont, 
+				btnText, 
+				Center + new Vector2(-WIDTH/2f + 12 + fontBounds.X/2f, 0f)*scale, 
+				FlatColors.Foreground, 
+				0f,
+				fontBounds/2f,
+				scale, 
+				SpriteEffects.None, 0f);
 		}
 
 		protected override void OnPointerClick(Point relPositionPoint, InputState istate)
 		{
-			if (isOpening) return;
+			if (IsOpening) return;
 
-			baseButton.Close();
+			btnAction();
 		}
 	}
 }

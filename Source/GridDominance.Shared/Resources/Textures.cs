@@ -117,6 +117,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonPauseMenuMarker;
 		public static TextureRegion2D TexHUDButtonPauseMenuMarkerBackground;
 
+		public static SpriteFont HUDFont;
+
 		#endregion
 
 #if DEBUG
@@ -170,6 +172,7 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonPauseMenuMarker = AtlasTextures["pausemenu_marker"];
 			TexHUDButtonPauseMenuMarkerBackground = AtlasTextures["pausemenu_marker_background"];
 
+			HUDFont = content.Load<SpriteFont>("fonts/hudFont");
 
 #if DEBUG
 			DebugFont = content.Load<SpriteFont>("fonts/debugFont");

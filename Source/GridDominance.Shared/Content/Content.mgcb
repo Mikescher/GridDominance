@@ -112,3 +112,9 @@
 /processor:TexturePackerProcessor
 /build:textures/spritesheet-sheet_fd.json
 
+#begin fonts/hudFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:fonts/hudFont.spritefont
+

@@ -38,6 +38,7 @@
 		//###########################################################################
 
 		public static readonly Microsoft.Xna.Framework.Color Background = new Microsoft.Xna.Framework.Color(61, 61, 61);
+		public static readonly Microsoft.Xna.Framework.Color Foreground = new Microsoft.Xna.Framework.Color(33, 33, 33);
 
 		public static readonly Microsoft.Xna.Framework.Color Flamingo = new Microsoft.Xna.Framework.Color(231, 87, 72);
 	}
