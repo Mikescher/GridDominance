@@ -15,7 +15,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private readonly HUDSpeedBaseButton BaseButton;
 
 		public bool IsOpened = false;
-		public bool IsTranspositioning = false;
 
 		public override int Depth => 0;
 		public bool Highlighted = false;
@@ -42,34 +41,29 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
 		{
-			if (IsOpened || IsTranspositioning)
-			{
-				var texture = GetTexture();
+			var texture = GetTexture();
 				
-				var center = new Vector2(Position.X + bounds.Width / 2f, Position.Y + bounds.Height / 2f);
+			sbatch.Draw(
+				Textures.TexHUDButtonBase.Texture,
+				Center,
+				Textures.TexHUDButtonBase.Bounds,
+				Highlighted ? FlatColors.Emerald : FlatColors.Flamingo,
+				0f,
+				Textures.TexHUDButtonBase.Center(),
+				Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
 
-				sbatch.Draw(
-					Textures.TexHUDButtonBase.Texture,
-					center,
-					Textures.TexHUDButtonBase.Bounds,
-					Highlighted ? FlatColors.Emerald : FlatColors.Flamingo,
-					0f,
-					Textures.TexHUDButtonBase.Center(),
-					Textures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None,
-					0);
-
-				sbatch.Draw(
-					texture.Texture,
-					center,
-					texture.Bounds,
-					(GDOwner.GDOwner.GameSpeedMode == speed) ? FlatColors.MidnightBlue : FlatColors.Clouds,
-					0f,
-					texture.Center(),
-					Textures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None,
-					0);
-			}
+			sbatch.Draw(
+				texture.Texture,
+				Center,
+				texture.Bounds,
+				(GDOwner.GDOwner.GameSpeedMode == speed) ? FlatColors.MidnightBlue : FlatColors.Clouds,
+				0f,
+				texture.Center(),
+				Textures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None,
+				0);
 		}
 
 		private TextureRegion2D GetTexture()
@@ -98,9 +92,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void OnPointerClick(Point relPositionPoint, InputState istate)
 		{
-			if (!IsOpened || IsTranspositioning) return;
-
-			Click();
+			if (IsOpened) Click();
 		}
 
 		public void Click()

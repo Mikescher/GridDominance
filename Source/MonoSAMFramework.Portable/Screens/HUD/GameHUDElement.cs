@@ -19,27 +19,36 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public Point RelativePosition
 		{
 			get { return _relativePosition;}
-			set { _relativePosition = value; RecalculatePosition(); }
+			set { _relativePosition = value; RecalculatePositionLater(); }
 		}
 
 		private Size _size = Size.Empty;
 		public Size Size
 		{
 			get { return _size; }
-			set { _size = value; RecalculatePosition(); }
+			set { _size = value; RecalculatePositionLater(); }
 		}
 
 		private HUDAlignment _alignment = HUDAlignment.TOPLEFT;
 		public HUDAlignment Alignment
 		{
 			get { return _alignment; }
-			set { _alignment = value; RecalculatePosition(); }
+			set { _alignment = value; RecalculatePositionLater(); }
 		}
 
 		public Point Position { get; private set; } = Point.Zero;
 		public Rectangle BoundingRectangle { get; private set; } = Rectangle.Empty;
 
+		public Vector2 RelativeCenter
+		{
+			get { return new Vector2(RelativePosition.X + Size.Width / 2f, RelativePosition.Y + Size.Height / 2f);}
+			set { RelativePosition = new Point((int) (value.X - Size.Width / 2f), (int) (value.Y - Size.Height / 2f));}
+		}
+
+		public Vector2 Center => new Vector2(Position.X + Size.Width / 2f, Position.Y + Size.Height / 2f);
+
 		private bool isPointerDownOnElement = false;
+		private bool positionInvalidated = false;
 
 		public abstract int Depth { get; }
 
@@ -55,7 +64,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public void Initialize()
 		{
-			RecalculatePosition();
+			RecalculatePositionLater();
 
 			OnInitialize();
 		}
@@ -72,6 +81,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public void Update(GameTime gameTime, InputState istate)
 		{
+			if (positionInvalidated) RecalculatePosition();
+
+
 			if (istate.IsJustDown && BoundingRectangle.Contains(istate.PointerPosition))
 			{
 				OnPointerDown(istate.PointerPosition - Position, istate);
@@ -90,7 +102,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			DoUpdate(gameTime, istate);
 		}
 
-		public void RecalculatePosition()
+		public void RecalculatePositionLater()
+		{
+			positionInvalidated = true;
+		}
+
+		private void RecalculatePosition()
 		{
 			if (Owner == null) return;
 
@@ -113,6 +130,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			}
 
 			BoundingRectangle = new Rectangle(Position, Size);
+
+			positionInvalidated = false;
 		}
 
 		public abstract void OnInitialize();

@@ -51,20 +51,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public override void OnInitialize()
 		{
-			speedButtons = new[]
-			{
-				new HUDSpeedSetButton(this, GameSpeedModes.SUPERSLOW),
-				new HUDSpeedSetButton(this, GameSpeedModes.SLOW),
-				new HUDSpeedSetButton(this, GameSpeedModes.NORMAL),
-				new HUDSpeedSetButton(this, GameSpeedModes.FAST),
-				new HUDSpeedSetButton(this, GameSpeedModes.SUPERFAST),
-			};
-
-			Owner.AddElement(speedButtons[0]);
-			Owner.AddElement(speedButtons[1]);
-			Owner.AddElement(speedButtons[2]);
-			Owner.AddElement(speedButtons[3]);
-			Owner.AddElement(speedButtons[4]);
+			speedButtons = null;
 		}
 
 		public override void OnRemove()
@@ -74,11 +61,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
 		{
-			var center = new Vector2(Position.X + bounds.Width / 2f, Position.Y + bounds.Height / 2f);
-
 			sbatch.Draw(
 				Textures.TexHUDButtonBase.Texture,
-				center,
+				Center,
 				Textures.TexHUDButtonBase.Bounds,
 				ColorMath.Blend(FlatColors.Flamingo, FlatColors.Asbestos, openingProgress),
 				0f,
@@ -89,7 +74,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			
 			sbatch.Draw(
 				Textures.TexHUDButtonSpeedClock.Texture,
-				center,
+				Center,
 				Textures.TexHUDButtonSpeedClock.Bounds,
 				FlatColors.Clouds,
 				0f,
@@ -100,7 +85,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			sbatch.Draw(
 				Textures.TexHUDButtonSpeedHand.Texture,
-				center,
+				Center,
 				Textures.TexHUDButtonSpeedHand.Bounds,
 				FlatColors.Clouds,
 				rotation,
@@ -187,7 +172,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				foreach (var btn in speedButtons)
 				{
-					btn.IsTranspositioning = false;
 					btn.IsOpened = true;
 				}
 			}
@@ -207,9 +191,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				foreach (var btn in speedButtons)
 				{
-					btn.IsTranspositioning = false;
+					btn.Remove();
+
 					btn.IsOpened = false;
 				}
+				speedButtons = null;
 			}
 		}
 
@@ -233,14 +219,21 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private void Open()
 		{
+			if (isOpened) return;
+
 			isOpened = true;
 			isDragging = true;
 
-			foreach (var btn in speedButtons)
+			speedButtons = new[]
 			{
-				btn.IsTranspositioning = true;
-				btn.IsOpened = false;
-			}
+				new HUDSpeedSetButton(this, GameSpeedModes.SUPERSLOW),
+				new HUDSpeedSetButton(this, GameSpeedModes.SLOW),
+				new HUDSpeedSetButton(this, GameSpeedModes.NORMAL),
+				new HUDSpeedSetButton(this, GameSpeedModes.FAST),
+				new HUDSpeedSetButton(this, GameSpeedModes.SUPERFAST),
+			};
+
+			Owner.AddElements(speedButtons);
 		}
 
 		public void Close()
@@ -249,7 +242,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			foreach (var btn in speedButtons)
 			{
-				btn.IsTranspositioning = true;
 				btn.IsOpened = false;
 			}
 		}
