@@ -1,10 +1,11 @@
 TODO NEXT
 
- - diff Gamespeed implement
  - Less cannoncog frames in spritesheet (mirror on axis) (does not work with less than hd ??)
- - HUD
- - Bullet animations, break fade, etc
-
+ - winning HUD
+ - menu
+ - levels
+ - score
+ - sound
 
 --------------------------------------------------------------------------
 
