@@ -10,8 +10,6 @@ namespace MonoSAMFramework.Portable.Screens
 		private readonly GraphicsDeviceManager _graphicsDeviceManager;
 		private readonly GameWindow _window;
 
-		protected GraphicsDevice GraphicsDevice { get; }
-
 		public override int VirtualWidth { get; }
 		public override int VirtualHeight { get; }
 
@@ -39,8 +37,8 @@ namespace MonoSAMFramework.Portable.Screens
 		/// https://github.com/mono/MonoGame/issues/4018
 		/// </summary>
 		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDevice graphicsDevice, int virtualWidth, int virtualHeight)
+			:base(graphicsDevice)
 		{
-			GraphicsDevice = graphicsDevice;
 			VirtualWidth = virtualWidth;
 			VirtualHeight = virtualHeight;
 

@@ -33,22 +33,24 @@
     <DefineConstants>__WINDOWS__;__DESKTOP__</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.5.1.1679\lib\net40\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="MonoGame.Framework">
-      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.4.0.459\lib\net40\MonoGame.Framework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
-    <None Include="packages.config" />
     <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" Condition="Exists('..\GridDominance.Shared\GridDominance.Shared.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
