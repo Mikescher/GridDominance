@@ -1,4 +1,5 @@
 ﻿using System;
+using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
@@ -39,7 +40,12 @@ namespace GridDominance.Shared
 
 		protected override void OnAfterInitialize()
 		{
-			SetCurrentScreen(new GDGameScreen(this, Graphics, Levels.LEVEL_003));
+			SetLevelScreen(Levels.LEVEL_003);
+		}
+
+		public void SetLevelScreen(LevelFile blueprint)
+		{
+			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint));
 		}
 
 		protected override void LoadContent()

@@ -41,6 +41,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public const float GAMESPEED_SUPERFAST = 4f;
 
 		//-----------------------------------------------------------------
+		public MainGame GDOwner => (MainGame)Owner;
 
 		public GDGridBackground GDBackground => (GDGridBackground) Background;
 		public GDEntityManager GDEntities => (GDEntityManager) Entities;
@@ -214,6 +215,11 @@ namespace GridDominance.Shared.Screens.ScreenGame
 						break;
 				}
 			}
+		}
+
+		public void RestartLevel()
+		{
+			GDOwner.SetLevelScreen(this.blueprint);
 		}
 	}
 }

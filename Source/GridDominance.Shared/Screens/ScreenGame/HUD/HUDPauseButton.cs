@@ -147,14 +147,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private void OnRestart()
 		{
-			GDOwner.GDOwner.PushErrorNotification("NotImplemented");//TODO NOT IMPLEMENTED
-			//throw new NotImplementedException();
+			GDOwner.GDOwner.RestartLevel();
 		}
 
 		private void OnExit()
 		{
-			GDOwner.GDOwner.PushErrorNotification("NotImplemented");//TODO NOT IMPLEMENTED
-			//throw new NotImplementedException();
+			Owner.Owner.Owner.Exit();
 		}
 	}
 }
