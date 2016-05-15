@@ -47,6 +47,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			foreach (var element in elements)
 			{
+				element.DrawBackground(sbatch);
+			}
+
+			foreach (var element in elements)
+			{
 				element.Draw(sbatch);
 			}
 		}

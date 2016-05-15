@@ -39,10 +39,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			// NOP
 		}
 
-		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
+		protected override void DoDrawBackground(SpriteBatch sbatch, Rectangle bounds)
 		{
-			var texture = GetTexture();
-				
 			sbatch.Draw(
 				Textures.TexHUDButtonBase.Texture,
 				Center,
@@ -53,7 +51,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
+		}
 
+		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
+		{
+			var texture = GetTexture();
+				
 			sbatch.Draw(
 				texture.Texture,
 				Center,

@@ -71,6 +71,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			OnInitialize();
 		}
 
+		public void DrawBackground(SpriteBatch sbatch)
+		{
+			DoDrawBackground(sbatch, BoundingRectangle);
+		}
+
 		public void Draw(SpriteBatch sbatch)
 		{
 			DoDraw(sbatch, BoundingRectangle);
@@ -140,6 +145,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public abstract void OnRemove();
 
 		protected abstract void DoDraw(SpriteBatch sbatch, Rectangle bounds);
+		protected virtual void DoDrawBackground(SpriteBatch sbatch, Rectangle bounds) { }
 		protected abstract void DoUpdate(GameTime gameTime, InputState istate);
 
 		protected virtual void OnPointerUp(Point relPositionPoint, InputState istate) { /* OVERRIDE ME */ }
