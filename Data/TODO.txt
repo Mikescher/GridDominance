@@ -2,6 +2,13 @@ TODO NEXT
 
  - Less cannoncog frames in spritesheet (mirror on axis) (does not work with less than hd ??)
  - winning HUD
+    -> HUD COntainer
+    -> Dyn create blur background from 9 pieces (use for pauseButtons)
+    -> Dyn create rounded border panels (use for pauseButtons)
+    -> see sample win hud
+        - Diff levels clickable
+        - On new diff achieve icon pop-grows (swiggle function) and +score indicator is visible (and animated ?)
+
  - menu
  - levels
  - score
