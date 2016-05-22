@@ -24,11 +24,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public bool IsPressed => IsPointerDownOnElement;
 
 		public HUDButtonClickMode ClickMode = HUDButtonClickMode.Single;
-		public bool IsSingleClickMode      => (ClickMode & HUDButtonClickMode.Single) == HUDButtonClickMode.Single;
-		public bool IsDoubleClickMode      => (ClickMode & HUDButtonClickMode.Double) == HUDButtonClickMode.Double;
-		public bool IsTripleClickMode      => (ClickMode & HUDButtonClickMode.Triple) == HUDButtonClickMode.Triple;
-		public bool IsHoldClickMode        => ((ClickMode & HUDButtonClickMode.Hold) == HUDButtonClickMode.Hold) || ((ClickMode & HUDButtonClickMode.InstantHold) == HUDButtonClickMode.InstantHold);
-		public bool IsInstantHoldClickMode => (ClickMode & HUDButtonClickMode.InstantHold) == HUDButtonClickMode.InstantHold;
+
+		private bool IsSingleClickMode      => (ClickMode & HUDButtonClickMode.Single) == HUDButtonClickMode.Single;
+		private bool IsDoubleClickMode      => (ClickMode & HUDButtonClickMode.Double) == HUDButtonClickMode.Double;
+		private bool IsTripleClickMode      => (ClickMode & HUDButtonClickMode.Triple) == HUDButtonClickMode.Triple;
+		private bool IsHoldClickMode        => ((ClickMode & HUDButtonClickMode.Hold) == HUDButtonClickMode.Hold) || ((ClickMode & HUDButtonClickMode.InstantHold) == HUDButtonClickMode.InstantHold);
+		private bool IsInstantHoldClickMode => (ClickMode & HUDButtonClickMode.InstantHold) == HUDButtonClickMode.InstantHold;
 
 		private bool suppressClick;
 		private float pointerDownTime;

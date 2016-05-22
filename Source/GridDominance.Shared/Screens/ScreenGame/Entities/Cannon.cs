@@ -44,6 +44,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		private const float BOOSTER_POWER = 0.5f;
 		private const float BOOSTER_LIFETIME_MULTIPLIER = 0.9f;
+		private const float MAX_BOOST = BOOSTER_POWER * 6;
 
 		private const float HEALTH_HIT_DROP = 0.20f; // on Hit
 		private const float HEALTH_HIT_GEN  = 0.20f; // on Hit from own fraction
@@ -51,9 +52,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		private const float CROSSHAIR_TRANSPARENCY = 0.5f;
 		private const float CROSSHAIR_GROW_SPEED = 3f;
 
+
 		public Fraction Fraction { get; private set; }
 		private AbstractFractionController controller;
 		public float TotalBoost = 0f;
+
+		public float RealBoost => 1 + Math.Min(TotalBoost, MAX_BOOST);
 
 		private float barrelCharge = 0f;
 		private float barrelRecoil = 0f;
@@ -166,7 +170,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			if (CannonHealth.ActualValue >= 1 || (CannonHealth.ActualValue <= 0 && Fraction.IsNeutral))
 			{
-				var rotInc = BASE_COG_ROTATION_SPEED * Fraction.Multiplicator * (1 + TotalBoost) * gameTime.GetElapsedSeconds();
+				var rotInc = BASE_COG_ROTATION_SPEED * Fraction.Multiplicator * RealBoost * gameTime.GetElapsedSeconds();
 
 				cannonCogRotation = (cannonCogRotation + rotInc) % (FloatMath.PI / 2);
 			}
@@ -174,7 +178,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			{
 				if (FloatMath.FloatInequals(cannonCogRotation, FloatMath.PI / 2))
 				{
-					var rotInc = BASE_COG_ROTATION_SPEED * Fraction.GetNeutral().Multiplicator * (1 + TotalBoost) * gameTime.GetElapsedSeconds();
+					var rotInc = BASE_COG_ROTATION_SPEED * Fraction.GetNeutral().Multiplicator * RealBoost * gameTime.GetElapsedSeconds();
 
 					bool isLimited;
 					cannonCogRotation = FloatMath.LimitedInc(cannonCogRotation, rotInc, FloatMath.PI/2, out isLimited);
@@ -187,7 +191,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral) && controller.DoBarrelRecharge())
 			{
-				barrelCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * (1 + TotalBoost) * gameTime.GetElapsedSeconds();
+				barrelCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.GetElapsedSeconds();
 
 				if (barrelCharge >= 1f)
 				{
@@ -199,7 +203,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			if (barrelRecoil < 1)
 			{
-				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.Multiplicator * (1 + TotalBoost) * gameTime.GetElapsedSeconds(), 1f);
+				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.Multiplicator * RealBoost * gameTime.GetElapsedSeconds(), 1f);
 			}
 		}
 
@@ -419,7 +423,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			CannonHealth.Inc(HEALTH_HIT_GEN);
 			if (CannonHealth.Limit(0f, 1f) == 1)
 			{
-				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1/(BOOSTER_LIFETIME_MULTIPLIER * Fraction.Multiplicator))); //TODO This means the length goes up for lesser multiplicators? wtf
+				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1/(BOOSTER_LIFETIME_MULTIPLIER * Fraction.Multiplicator)));
 			}
 		}
 
