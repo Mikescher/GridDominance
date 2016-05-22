@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Resources
 {
@@ -117,6 +118,11 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonPauseMenuMarker;
 		public static TextureRegion2D TexHUDButtonPauseMenuMarkerBackground;
 
+		public static TextureRegion2D TexPanelBlurEdge;
+		public static TextureRegion2D TexPanelBlurCorner;
+		public static TextureRegion2D TexPanelCorner;
+
+
 		public static SpriteFont HUDFont;
 
 		#endregion
@@ -144,20 +150,19 @@ namespace GridDominance.Shared.Resources
 
 			TexTileBorder = AtlasTextures["grid"];
 
-			TexCannonBody = AtlasTextures["cannonbody"];
-			TexCannonBodyShadow = AtlasTextures["cannonbody_shadow"];
-			TexCannonBarrel = AtlasTextures["cannonbarrel"];
+			TexCannonBody         = AtlasTextures["cannonbody"];
+			TexCannonBodyShadow   = AtlasTextures["cannonbody_shadow"];
+			TexCannonBarrel       = AtlasTextures["cannonbarrel"];
 			TexCannonBarrelShadow = AtlasTextures["cannonbarrel_shadow"];
-			TexCannonCrosshair = AtlasTextures["cannoncrosshair"];
+			TexCannonCrosshair    = AtlasTextures["cannoncrosshair"];
 
 			AnimCannonCog = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
 
-			TexBullet = AtlasTextures["cannonball"];
+			TexBullet         = AtlasTextures["cannonball"];
 			TexBulletSplitter = AtlasTextures["cannonball_piece"];
-
-			// Anti-Antialising
+			
 			TexPixel = AtlasTextures["pixel"];
-			TexPixel = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1);
+			TexPixel = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
 
 			TexHUDButtonBase = AtlasTextures["hud_button_base"];
 			TexHUDButtonPause = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();
@@ -168,16 +173,27 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonSpeedSet3  = AtlasTextures["hud_time_3"];
 			TexHUDButtonSpeedSet4  = AtlasTextures["hud_time_4"];
 			TexHUDButtonSpeedClock = AtlasTextures["hud_time_clock"];
-			TexHUDButtonPauseMenuBackground = AtlasTextures["pausemenu_background"];
-			TexHUDButtonPauseMenuMarker = AtlasTextures["pausemenu_marker"];
+			TexHUDButtonPauseMenuBackground       = AtlasTextures["pausemenu_background"];
+			TexHUDButtonPauseMenuMarker           = AtlasTextures["pausemenu_marker"];
 			TexHUDButtonPauseMenuMarkerBackground = AtlasTextures["pausemenu_marker_background"];
+
+			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
+			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];
+			TexPanelCorner     = AtlasTextures["panel_corner"];
 
 			HUDFont = content.Load<SpriteFont>("fonts/hudFont");
 
 #if DEBUG
-			DebugFont = content.Load<SpriteFont>("fonts/debugFont");
+			DebugFont      = content.Load<SpriteFont>("fonts/debugFont");
 			DebugFontSmall = content.Load<SpriteFont>("fonts/debugFontSmall");
 #endif
+			
+			StaticTextures.DEFAULT_TEXTURE_SCALE = DEFAULT_TEXTURE_SCALE;
+
+			StaticTextures.SinglePixel     = TexPixel;
+			StaticTextures.PanelBlurCorner = TexPanelBlurCorner;
+			StaticTextures.PanelBlurEdge   = TexPanelBlurEdge;
+			StaticTextures.PanelCorner     = TexPanelCorner;
 		}
 
 		public static void ChangeQuality(ContentManager content, TextureQuality q)

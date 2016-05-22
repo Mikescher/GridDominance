@@ -29,6 +29,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public virtual int Bottom => Owner.Viewport.VirtualHeight;
 		public virtual int Right => Owner.Viewport.VirtualWidth;
 
+		public int Width => Right - Left;
+		public int Height => Bottom - Top;
+
+		public int CenterX => Left + Width/2;
+		public int CenterY => Top + Height / 2;
+
 		public void Update(GameTime gameTime, InputState istate)
 		{
 			foreach (var element in elements.ToList())

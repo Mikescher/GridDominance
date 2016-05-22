@@ -2,9 +2,9 @@
 <data version="1.0">
     <struct type="Settings">
         <key>fileFormatVersion</key>
-        <int>3</int>
+        <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.1.0</string>
+        <string>4.2.0</string>
         <key>fileName</key>
         <string>F:/Symlinks/GridDominance/Data/spritesheet.tps</string>
         <key>autoSDSettings</key>
@@ -97,8 +97,6 @@
         </array>
         <key>allowRotation</key>
         <false/>
-        <key>premultiplyAlpha</key>
-        <false/>
         <key>shapeDebug</key>
         <false/>
         <key>dpi</key>
@@ -167,8 +165,6 @@
             <key>height</key>
             <int>-1</int>
         </QSize>
-        <key>reduceBorderArtifacts</key>
-        <true/>
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
             <key>algorithm</key>
@@ -178,8 +174,6 @@
             <key>sizeConstraints</key>
             <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
             <key>forceSquared</key>
-            <false/>
-            <key>forceWordAligned</key>
             <false/>
             <key>maxRects</key>
             <struct type="AlgorithmMaxRectsSettings">
@@ -239,6 +233,8 @@
         <false/>
         <key>outputFormat</key>
         <enum type="SettingsBase::OutputFormat">RGBA8888</enum>
+        <key>alphaHandling</key>
+        <enum type="SettingsBase::AlphaHandling">ReduceBorderArtifacts</enum>
         <key>contentProtection</key>
         <struct type="ContentProtection">
             <key>key</key>
@@ -250,8 +246,6 @@
         <false/>
         <key>prependSmartFolderName</key>
         <false/>
-        <key>cleanTransparentPixels</key>
-        <true/>
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
@@ -437,6 +431,9 @@
             <key type="filename">hud_time_4.png</key>
             <key type="filename">hud_time_clock.png</key>
             <key type="filename">hud_time_hand.png</key>
+            <key type="filename">panel_blur_corner.png</key>
+            <key type="filename">panel_blur_edge.png</key>
+            <key type="filename">panel_corner.png</key>
             <key type="filename">pausemenu_background.png</key>
             <key type="filename">pausemenu_marker.png</key>
             <key type="filename">pausemenu_marker_background.png</key>
@@ -470,6 +467,9 @@
             <filename>pausemenu_background.png</filename>
             <filename>pausemenu_marker.png</filename>
             <filename>pausemenu_marker_background.png</filename>
+            <filename>panel_blur_edge.png</filename>
+            <filename>panel_corner.png</filename>
+            <filename>panel_blur_corner.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

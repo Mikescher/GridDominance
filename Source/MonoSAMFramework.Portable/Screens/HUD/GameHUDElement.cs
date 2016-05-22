@@ -132,6 +132,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				case HUDAlignment.BOTTOMRIGHT:
 					Position = new Point(Owner.Right - Size.Width - RelativePosition.X, Owner.Bottom - Size.Height - RelativePosition.Y);
 					break;
+				case HUDAlignment.CENTER:
+					Position = new Point(Owner.CenterX - Size.Width/2 + RelativePosition.X, Owner.CenterY - Size.Height / 2 + RelativePosition.Y);
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Extensions\RectangleExtensions.cs" />
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
     <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="ISAMDrawable.cs" />
@@ -57,6 +58,9 @@
     <Compile Include="MonoSAMGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DebugDisplay\RealtimeAPSCounter.cs" />
+    <Compile Include="RenderHelper\FlatRenderHelper.cs" />
+    <Compile Include="RenderHelper\StaticTextures.cs" />
+    <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
     <Compile Include="Screens\Entities\GameEntityOperation.cs" />
     <Compile Include="Screens\Entities\IGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\EntityManager.cs" />
@@ -68,6 +72,7 @@
     <Compile Include="External\ScreenManager.cs" />
     <Compile Include="Screens\HUD\GameHUDElement.cs" />
     <Compile Include="Screens\HUD\HUDAlignment.cs" />
+    <Compile Include="Screens\HUD\HUDPanel.cs" />
     <Compile Include="Screens\TolerantBoxingViewportAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
