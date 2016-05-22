@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoGame.Extended;
 
 namespace MonoSAMFramework.Portable.Extensions
 {
@@ -31,5 +32,14 @@ namespace MonoSAMFramework.Portable.Extensions
 		public static Vector2 VectorTopRight(this Rectangle rect) => new Vector2(rect.Right, rect.Top);
 		public static Vector2 VectorBottomLeft(this Rectangle rect) => new Vector2(rect.Left, rect.Bottom);
 		public static Vector2 VectorBottomRight(this Rectangle rect) => new Vector2(rect.Right, rect.Bottom);
+
+		public static Rectangle Resize(this Rectangle rect, Size size)
+		{
+			return new Rectangle(
+				rect.X + rect.Width/2 - size.Width/2,
+				rect.Y + rect.Height / 2 - size.Height / 2,
+				size.Width,
+				size.Height);
+		}
 	}
 }

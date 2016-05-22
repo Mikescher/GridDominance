@@ -12,7 +12,7 @@ using System;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
-	public abstract class GameHUDElement : ISAMDrawable, ISAMUpdateable
+	public abstract class HUDElement : ISAMDrawable, ISAMUpdateable
 	{
 		public GameHUD Owner = null; // Only set on add to HUD (the OnInitialize is called)
 		public bool Alive = true;
@@ -54,7 +54,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public abstract int Depth { get; }
 
-		protected GameHUDElement()
+		protected HUDElement()
 		{
 			//
 		}
@@ -83,12 +83,17 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 #if DEBUG
 			if (DebugSettings.Get("DebugHUDBorders"))
 			{
-				sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 2f);
+				DrawDebugHUDBorders(sbatch);
 			}
 #endif
 
 		}
-		
+
+		protected virtual void DrawDebugHUDBorders(SpriteBatch sbatch)
+		{
+			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 2f);
+		}
+
 		public virtual void Update(GameTime gameTime, InputState istate)
 		{
 			if (PositionInvalidated) RecalculatePosition();

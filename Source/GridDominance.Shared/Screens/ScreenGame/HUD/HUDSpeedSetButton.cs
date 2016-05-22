@@ -2,6 +2,7 @@
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
@@ -10,8 +11,10 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	class HUDSpeedSetButton : GameHUDElement
+	class HUDSpeedSetButton : HUDEllipseButton
 	{
+		private const int REAL_DIAMETER = 48;
+
 		private readonly GameSpeedModes speed;
 		private readonly HUDSpeedBaseButton BaseButton;
 
@@ -28,6 +31,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			RelativePosition = baseButton.RelativePosition;
 			Size = baseButton.Size;
 			Alignment = baseButton.Alignment;
+
+			OverrideEllipseSize = new Size(REAL_DIAMETER, REAL_DIAMETER);
 		}
 
 		public override void OnInitialize()
@@ -91,20 +96,35 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)
 		{
-			//
-		}
-
-		protected override void OnPointerClick(Point relPositionPoint, InputState istate)
-		{
-			if (IsOpened) Click();
+			// NOP
 		}
 
 		public void Click()
 		{
 			Owner.Owner.PushNotification("HUDSpeedSetButton :: Set Speed := " + speed);
 			this.GDOwner().GDOwner.GameSpeedMode = speed;
-			
+
 			BaseButton.Close();
+		}
+
+		protected override void OnPress(InputState istate)
+		{
+			if (IsOpened) Click();
+		}
+
+		protected override void OnDoublePress(InputState istate)
+		{
+			// NOP
+		}
+
+		protected override void OnTriplePress(InputState istate)
+		{
+			// NOP
+		}
+
+		protected override void OnHold(InputState istate, float holdTime)
+		{
+			// NOP
 		}
 	}
 }

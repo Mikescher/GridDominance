@@ -5,6 +5,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
 	static class GDHudExtension
 	{
-		public static GDGameHUD GDOwner(this GameHUDElement e) => (GDGameHUD) e.Owner;
+		public static GDGameHUD GDOwner(this HUDElement e) => (GDGameHUD) e.Owner;
 	}
 }

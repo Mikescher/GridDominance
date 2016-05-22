@@ -5,7 +5,7 @@ using System;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
-	public abstract class HUDButton : GameHUDElement
+	public abstract class HUDButton : HUDElement
 	{
 		[Flags]
 		public enum HUDButtonClickMode
@@ -40,7 +40,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		protected override void OnPointerClick(Point relPositionPoint, InputState istate)
 		{
 			if (suppressClick) return;
-			
+			if (!IsCursorOnButton(istate)) return;
+
 			lastClickTime = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds();
 
 			if (IsTripleClickMode)
@@ -102,6 +103,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			if (!IsInstantHoldClickMode) return;
 			if (!isHoldingDown) return;
+			if (!IsCursorOnButton(istate)) return;
 
 			var delta = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - pointerDownTime;
 
@@ -117,6 +119,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		protected override void OnPointerDown(Point relPositionPoint, InputState istate)
 		{
+			if (!IsCursorOnButton(istate)) return;
+
 			pointerDownTime = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds();
 			isHoldingDown = true;
 		}
@@ -125,6 +129,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			if (!IsPointerDownOnElement) return;
 			if (!isHoldingDown) return;
+			if (!IsCursorOnButton(istate)) return;
 
 			var delta = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - pointerDownTime;
 
@@ -138,6 +143,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 			isHoldingDown = false;
 		}
+
+		protected virtual bool IsCursorOnButton(InputState istate) => true;
 
 		protected abstract void OnPress(InputState istate);
 		protected abstract void OnDoublePress(InputState istate);

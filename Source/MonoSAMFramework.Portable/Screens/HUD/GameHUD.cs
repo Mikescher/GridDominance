@@ -9,14 +9,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 {
 	public abstract class GameHUD : ISAMDrawable, ISAMUpdateable
 	{
-		private class GameHUDElementComparer : Comparer<GameHUDElement>
+		private class GameHUDElementComparer : Comparer<HUDElement>
 		{
-			public override int Compare(GameHUDElement x, GameHUDElement y) =>(x==null||y==null) ? 0 : x.Depth.CompareTo(y.Depth);
+			public override int Compare(HUDElement x, HUDElement y) =>(x==null||y==null) ? 0 : x.Depth.CompareTo(y.Depth);
 		}
 
 		public readonly GameScreen Owner;
 
-		private readonly AlwaysSortList<GameHUDElement> elements = new AlwaysSortList<GameHUDElement>(new GameHUDElementComparer());
+		private readonly AlwaysSortList<HUDElement> elements = new AlwaysSortList<HUDElement>(new GameHUDElementComparer());
 
 		protected GameHUD(GameScreen scrn)
 		{
@@ -62,14 +62,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			}
 		}
 
-		public void AddElement(GameHUDElement e)
+		public void AddElement(HUDElement e)
 		{
 			e.Owner = this;
 			elements.Add(e);
 			e.Initialize();
 		}
 
-		public void AddElements(IEnumerable<GameHUDElement> es)
+		public void AddElements(IEnumerable<HUDElement> es)
 		{
 			foreach (var e in es)
 				AddElement(e);

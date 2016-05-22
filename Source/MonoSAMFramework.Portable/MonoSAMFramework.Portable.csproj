@@ -36,8 +36,10 @@
   <ItemGroup>
     <Compile Include="DebugTools\DebugListener.cs" />
     <Compile Include="DebugTools\DebugSettings.cs" />
+    <Compile Include="Extensions\PointExtension.cs" />
     <Compile Include="Extensions\RectangleExtensions.cs" />
     <Compile Include="Extensions\SAMGameTimeExtensions.cs" />
+    <Compile Include="Extensions\SAMSpriteBatchExtensions.cs" />
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
     <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="Interfaces\ILifetimeObject.cs" />
@@ -72,9 +74,10 @@
     <Compile Include="Screens\Background\GameBackground.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\GameHUD.cs" />
+    <Compile Include="Screens\HUD\HUDEllipseButton.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
-    <Compile Include="Screens\HUD\GameHUDElement.cs" />
+    <Compile Include="Screens\HUD\HUDElement.cs" />
     <Compile Include="Screens\HUD\HUDAlignment.cs" />
     <Compile Include="Screens\HUD\HUDButton.cs" />
     <Compile Include="Screens\HUD\HUDPanel.cs" />

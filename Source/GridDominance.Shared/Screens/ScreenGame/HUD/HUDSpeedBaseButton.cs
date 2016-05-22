@@ -10,7 +10,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	class HUDSpeedBaseButton : GameHUDElement
+	class HUDSpeedBaseButton : HUDElement
 	{
 		private const float HAND_ANIMATION_SPEED = 1f;
 

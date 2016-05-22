@@ -11,7 +11,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	class HUDPauseButton : HUDButton
+	class HUDPauseButton : HUDEllipseButton
 	{
 		public const int DIAMETER = 48;
 
