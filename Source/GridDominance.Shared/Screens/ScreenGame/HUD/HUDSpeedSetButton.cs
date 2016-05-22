@@ -6,10 +6,11 @@ using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	class HUDSpeedSetButton : GDGameHUDElement
+	class HUDSpeedSetButton : GameHUDElement
 	{
 		private readonly GameSpeedModes speed;
 		private readonly HUDSpeedBaseButton BaseButton;
@@ -61,7 +62,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				texture.Texture,
 				Center,
 				texture.Bounds,
-				(GDOwner.GDOwner.GameSpeedMode == speed) ? FlatColors.MidnightBlue : FlatColors.Clouds,
+				(this.GDOwner().GDOwner.GameSpeedMode == speed) ? FlatColors.MidnightBlue : FlatColors.Clouds,
 				0f,
 				texture.Center(),
 				Textures.DEFAULT_TEXTURE_SCALE,
@@ -101,7 +102,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		public void Click()
 		{
 			Owner.Owner.PushNotification("HUDSpeedSetButton :: Set Speed := " + speed);
-			GDOwner.GDOwner.GameSpeedMode = speed;
+			this.GDOwner().GDOwner.GameSpeedMode = speed;
 			
 			BaseButton.Close();
 		}

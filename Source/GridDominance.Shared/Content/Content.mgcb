@@ -118,3 +118,8 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/hudFont.spritefont
 
+#begin levels/lvl_debug.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl_debug.gslevel
+

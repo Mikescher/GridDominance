@@ -47,12 +47,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public Vector2 Center => new Vector2(Position.X + Size.Width / 2f, Position.Y + Size.Height / 2f);
 
-		private bool isPointerDownOnElement = false;
-		private bool positionInvalidated = false;
+		protected bool IsPointerDownOnElement = false;
+		protected bool PositionInvalidated = false;
 
 		public abstract int Depth { get; }
-
-		public bool IsPressed => isPointerDownOnElement;
 
 		protected GameHUDElement()
 		{
@@ -86,32 +84,32 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		}
 
 
-		public void Update(GameTime gameTime, InputState istate)
+		public virtual void Update(GameTime gameTime, InputState istate)
 		{
-			if (positionInvalidated) RecalculatePosition();
+			if (PositionInvalidated) RecalculatePosition();
 
 
 			if (istate.IsJustDown && BoundingRectangle.Contains(istate.PointerPosition))
 			{
 				OnPointerDown(istate.PointerPosition - Position, istate);
-				isPointerDownOnElement = true;
+				IsPointerDownOnElement = true;
 			}
 			else if (istate.IsJustUp && BoundingRectangle.Contains(istate.PointerPosition))
 			{
 				OnPointerUp(istate.PointerPosition - Position, istate);
 
-				if (isPointerDownOnElement)
+				if (IsPointerDownOnElement)
 					OnPointerClick(istate.PointerPosition - Position, istate);
 			}
 
-			if (!istate.IsDown) isPointerDownOnElement = false;
+			if (!istate.IsDown) IsPointerDownOnElement = false;
 
 			DoUpdate(gameTime, istate);
 		}
 
 		public void RecalculatePositionLater()
 		{
-			positionInvalidated = true;
+			PositionInvalidated = true;
 		}
 
 		private void RecalculatePosition()
@@ -141,7 +139,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 			BoundingRectangle = new Rectangle(Position, Size);
 
-			positionInvalidated = false;
+			PositionInvalidated = false;
 		}
 
 		public abstract void OnInitialize();

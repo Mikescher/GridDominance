@@ -3,16 +3,16 @@ using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	class HUDPauseMenuButton : GDGameHUDElement
+	class HUDPauseMenuButton : HUDButton
 	{
 		public const int MARKER_WIDTH = 33;
 		public const int MARKER_HEIGHT = 17;
@@ -176,12 +176,27 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				scale, 
 				SpriteEffects.None, 0f);
 		}
-
-		protected override void OnPointerClick(Point relPositionPoint, InputState istate)
+		
+		protected override void OnPress(InputState istate)
 		{
 			if (IsOpening) return;
 
 			btnAction();
+		}
+
+		protected override void OnDoublePress(InputState istate)
+		{
+			// Not Available
+		}
+
+		protected override void OnTriplePress(InputState istate)
+		{
+			// Not Available
+		}
+
+		protected override void OnHold(InputState istate, float holdTime)
+		{
+			// Not Available
 		}
 	}
 }

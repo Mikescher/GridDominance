@@ -1,0 +1,38 @@
+﻿# Level 00 - DEBUG     #
+########################
+
+include("stdvalues")
+
+Cannon(SIZE_SMALL, P1,  2 * CELL_W,  5 * CELL_H, ROT_N)
+
+Cannon(SIZE_SMALL, A3, 14 * CELL_W,  5 * CELL_H, ROT_S)
+
+Cannon(SIZE_SMALL,  N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
+Cannon(SIZE_NORMAL, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)
+Cannon(SIZE_SMALL,  N0,  8 * CELL_W,  9 * CELL_H, ROT_NE)
+
+Cannon(SIZE_TINY, N0,  1  * CELL_W,  1 * CELL_H, ROT_N)
+Cannon(SIZE_TINY, N0,  15 * CELL_W,  9 * CELL_H, ROT_N)
+Cannon(SIZE_TINY, N0,  1  * CELL_W,  9 * CELL_H, ROT_N)
+Cannon(SIZE_TINY, N0,  15 * CELL_W,  1 * CELL_H, ROT_N)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#        0 # / \           / \           / \ #
+#        1 # \ /           \ /           \ / #
+#        2 #                                 #
+#        3 #                                 #
+#        4 #   / \         / \         / \   #
+#        5 #   \ /         \ /         \ /   #
+#        6 #                                 #
+#        7 #                                 #
+#        8 # / \           / \           / \ #
+#        9 # \ /           \ /           \ / #
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

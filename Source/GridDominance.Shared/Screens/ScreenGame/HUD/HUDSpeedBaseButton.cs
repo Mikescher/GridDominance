@@ -10,7 +10,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	class HUDSpeedBaseButton : GDGameHUDElement
+	class HUDSpeedBaseButton : GameHUDElement
 	{
 		private const float HAND_ANIMATION_SPEED = 1f;
 
@@ -97,7 +97,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)
 		{
-			rotation = FloatMath.IncModulo(rotation, gameTime.GetElapsedSeconds() * HAND_ANIMATION_SPEED * GDOwner.GDOwner.GameSpeed, FloatMath.TAU);
+			rotation = FloatMath.IncModulo(rotation, gameTime.GetElapsedSeconds() * HAND_ANIMATION_SPEED * this.GDOwner().GDOwner.GameSpeed, FloatMath.TAU);
 
 			int choosen = -1;
 

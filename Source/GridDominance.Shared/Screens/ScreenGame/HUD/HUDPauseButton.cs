@@ -11,7 +11,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	class HUDPauseButton : GDGameHUDElement
+	class HUDPauseButton : HUDButton
 	{
 		public const int DIAMETER = 48;
 
@@ -29,6 +29,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			RelativePosition = new Point(12, 12);
 			Size = new Size(DIAMETER, DIAMETER);
 			Alignment = HUDAlignment.TOPRIGHT;
+#if DEBUG
+			ClickMode = HUDButtonClickMode.Single | HUDButtonClickMode.InstantHold;
+#else
+			ClickMode = HUDButtonClickMode.Single;
+#endif
+
 		}
 
 		public override void OnInitialize()
@@ -95,23 +101,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			}
 		}
 
-		protected override void OnPointerClick(Point relPositionPoint, InputState istate)
-		{
-			if (! isOpened)
-			{
-				Open();
-			}
-			else
-			{
-				Close();
-			}
-		}
-
 		private void Close()
 		{
 			isOpened = false;
 
-			GDOwner.GDOwner.IsPaused = false;
+			this.GDOwner().GDOwner.IsPaused = false;
 
 			foreach (var button in subMenu)
 			{
@@ -126,7 +120,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			isOpened = true;
 
-			GDOwner.GDOwner.IsPaused = true;
+			this.GDOwner().GDOwner.IsPaused = true;
 
 			Owner.Owner.PushNotification("HUDPauseButton :: Game paused");
 
@@ -147,12 +141,41 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private void OnRestart()
 		{
-			GDOwner.GDOwner.RestartLevel();
+			this.GDOwner().GDOwner.RestartLevel();
 		}
 
 		private void OnExit()
 		{
 			Owner.Owner.Owner.Exit();
+		}
+
+		protected override void OnPress(InputState istate)
+		{
+			this.GDOwner().GDOwner.PushNotification("Single Press");
+
+			if (!isOpened)
+			{
+				Open();
+			}
+			else
+			{
+				Close();
+			}
+		}
+
+		protected override void OnDoublePress(InputState istate)
+		{
+			// Not Available
+		}
+
+		protected override void OnTriplePress(InputState istate)
+		{
+			// Not Available
+		}
+
+		protected override void OnHold(InputState istate, float holdTime)
+		{
+			this.GDOwner().GDOwner.GDOwner.SetLevelScreen(Levels.LEVEL_DBG);
 		}
 	}
 }

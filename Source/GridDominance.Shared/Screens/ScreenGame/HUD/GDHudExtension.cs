@@ -3,8 +3,8 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	abstract class GDGameHUDElement : GameHUDElement
+	static class GDHudExtension
 	{
-		public GDGameHUD GDOwner => (GDGameHUD) Owner;
+		public static GDGameHUD GDOwner(this GameHUDElement e) => (GDGameHUD) e.Owner;
 	}
 }

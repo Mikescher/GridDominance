@@ -10,6 +10,9 @@ namespace MonoSAMFramework.Portable
 
 		protected readonly GraphicsDeviceManager Graphics;
 
+		public static ulong GameCycleCounter { get; private set; }
+		public static GameTime CurrentTime { get; private set; }
+
 		protected MonoSAMGame()
 		{
 			Graphics = new GraphicsDeviceManager(this);
@@ -41,6 +44,9 @@ namespace MonoSAMFramework.Portable
 
 		protected override void Draw(GameTime gameTime)
 		{
+			GameCycleCounter++;
+			CurrentTime = gameTime;
+
 			screens.Draw(gameTime);
 
 			base.Draw(gameTime);

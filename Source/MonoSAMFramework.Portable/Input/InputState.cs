@@ -55,18 +55,28 @@ namespace MonoSAMFramework.Portable.Input
 			currentKeyState = lastKeyState.ToDictionary(p => p.Key, p => ks.IsKeyDown(p.Key));
 		}
 
-		public InputState(KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs)
+		public InputState(ViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs)
 		{
 			Mouse = ms;
 			Keyboard = ks;
 			TouchPanel = ts;
 			GamePad = gs;
 
-			PointerPosition = Point.Zero;
-
-			IsDown = false;
-			IsJustDown = false;
-			IsJustUp = false;
+			if (Mouse.LeftButton == ButtonState.Pressed)
+			{
+				IsDown = true;
+				PointerPosition = adapter.PointToScreen(Mouse.Position);
+			}
+			else if (TouchPanel.Count > 0)
+			{
+				IsDown = true;
+				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint());
+			}
+			else
+			{
+				IsDown = false;
+				PointerPosition = Point.Zero;
+			}
 
 			currentKeyState = new Dictionary<Keys, bool>(0);
 		}
@@ -81,14 +91,14 @@ namespace MonoSAMFramework.Portable.Input
 			return new InputState(adapter, ks, ms, ts, gs, previous);
 		}
 
-		public static InputState GetInitialState()
+		public static InputState GetInitialState(ViewportAdapter adapter)
 		{
 			var ks = Microsoft.Xna.Framework.Input.Keyboard.GetState();
 			var ms = Microsoft.Xna.Framework.Input.Mouse.GetState();
 			var ts = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();
 			var gs = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
 
-			return new InputState(ks, ms, ts, gs);
+			return new InputState(adapter, ks, ms, ts, gs);
 		}
 
 		public bool IsExit()

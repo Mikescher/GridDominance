@@ -172,7 +172,6 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonSpeedSet3  = AtlasTextures["hud_time_3"];
 			TexHUDButtonSpeedSet4  = AtlasTextures["hud_time_4"];
 			TexHUDButtonSpeedClock = AtlasTextures["hud_time_clock"];
-			TexHUDButtonPauseMenuBackground       = AtlasTextures["pausemenu_background"];
 			TexHUDButtonPauseMenuMarker           = AtlasTextures["pausemenu_marker"];
 			TexHUDButtonPauseMenuMarkerBackground = AtlasTextures["pausemenu_marker_background"];
 

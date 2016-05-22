@@ -16,7 +16,7 @@ namespace MonoSAMFramework.Portable.Input
 		{
 			adapter = vadap;
 
-			stateCache = InputState.GetInitialState();
+			stateCache = InputState.GetInitialState(vadap);
 		}
 
 		public InputState GetNewState()
