@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MonoSAMFramework.Portable.DebugDisplay
+namespace MonoSAMFramework.Portable.DebugTools
 {
 	public class RealtimeAPSCounter
 	{

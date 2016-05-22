@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.ViewportAdapters;
-using MonoSAMFramework.Portable.DebugDisplay;
-using MonoSAMFramework.Portable.External;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.Screens.Background;
@@ -61,6 +60,10 @@ namespace MonoSAMFramework.Portable.Screens
 			var state = InputStateMan.GetNewState();
 
 			if (state.IsExit()) Owner.Exit();
+
+#if DEBUG
+			DebugSettings.Update(state);
+#endif
 
 			GameHUD.Update(gameTime, state);
 			DebugDisp.Update(gameTime, state);

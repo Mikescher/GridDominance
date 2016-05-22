@@ -34,19 +34,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DebugTools\DebugListener.cs" />
+    <Compile Include="DebugTools\DebugSettings.cs" />
     <Compile Include="Extensions\RectangleExtensions.cs" />
     <Compile Include="Extensions\SAMGameTimeExtensions.cs" />
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
     <Compile Include="Input\PointerEventArgs.cs" />
+    <Compile Include="Interfaces\ILifetimeObject.cs" />
     <Compile Include="ISAMDrawable.cs" />
     <Compile Include="ISAMUpdateable.cs" />
     <Compile Include="Language\AlwaysSortedList.cs" />
     <Compile Include="ColorHelper\ColorMath.cs" />
     <Compile Include="MathHelper\ConstantRandom.cs" />
-    <Compile Include="DebugDisplay\DebugTextDisplay.cs" />
-    <Compile Include="DebugDisplay\DebugTextDisplayLine.cs" />
-    <Compile Include="DebugDisplay\DummyDebugTextDisplay.cs" />
-    <Compile Include="DebugDisplay\IDebugTextDisplay.cs" />
+    <Compile Include="DebugTools\DebugTextDisplay.cs" />
+    <Compile Include="DebugTools\DebugTextDisplayLine.cs" />
+    <Compile Include="DebugTools\DummyDebugTextDisplay.cs" />
+    <Compile Include="DebugTools\IDebugTextDisplay.cs" />
     <Compile Include="MathHelper\DeltaLimitedFloat.cs" />
     <Compile Include="MathHelper\DeltaLimitedModuloFloat.cs" />
     <Compile Include="MathHelper\Direction4.cs" />
@@ -58,7 +61,7 @@
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="MonoSAMGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DebugDisplay\RealtimeAPSCounter.cs" />
+    <Compile Include="DebugTools\RealtimeAPSCounter.cs" />
     <Compile Include="RenderHelper\FlatRenderHelper.cs" />
     <Compile Include="RenderHelper\StaticTextures.cs" />
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
@@ -69,8 +72,8 @@
     <Compile Include="Screens\Background\GameBackground.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\GameHUD.cs" />
-    <Compile Include="External\Screen.cs" />
-    <Compile Include="External\ScreenManager.cs" />
+    <Compile Include="Screens\Screen.cs" />
+    <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\HUD\GameHUDElement.cs" />
     <Compile Include="Screens\HUD\HUDAlignment.cs" />
     <Compile Include="Screens\HUD\HUDButton.cs" />

@@ -4,7 +4,7 @@ using MonoGame.Extended;
 using MonoSAMFramework.Portable.MathHelper;
 using System;
 
-namespace MonoSAMFramework.Portable.DebugDisplay
+namespace MonoSAMFramework.Portable.DebugTools
 {
 	public class DebugTextDisplayLine
 	{

@@ -1,8 +1,4 @@
-﻿#if DEBUG
-#define DEBUG_FARSEER
-#endif
-
-using FarseerPhysics;
+﻿using FarseerPhysics;
 using FarseerPhysics.DebugView;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
@@ -12,6 +8,7 @@ using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.Entities;
 using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable.DebugTools;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -28,7 +25,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		{
 			PhysicsWorld = new World(Vector2.Zero);
 
-#if DEBUG_FARSEER
+#if DEBUG
 			debugView = new DebugViewXNA(PhysicsWorld);
 			debugView.LoadContent(GDOwner.Graphics.GraphicsDevice, GDOwner.Owner.Content, Textures.DebugFont);
 			debugView.AppendFlags(DebugViewFlags.Shape);
@@ -58,12 +55,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			debugView.DebugPanelPosition = new Vector2(55, Owner.Viewport.ViewportHeight - 180);
 			debugView.PerformancePanelBounds = new Rectangle(450, Owner.Viewport.ViewportHeight - 180, 200, 100);
 
-			if (state.IsKeyJustDown(Keys.F1))
-			{
-				debugView.Enabled = !debugView.Enabled;
-			}
+			debugView.Enabled = DebugSettings.Get("PhysicsDebugView");
 #endif
-			
+
 			PhysicsWorld.Step(gameTime.GetElapsedSeconds());
 		}
 

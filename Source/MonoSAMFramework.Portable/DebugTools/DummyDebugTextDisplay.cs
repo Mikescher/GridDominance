@@ -2,11 +2,13 @@
 using MonoSAMFramework.Portable.Input;
 using System;
 
-namespace MonoSAMFramework.Portable.DebugDisplay
+namespace MonoSAMFramework.Portable.DebugTools
 {
 	public class DummyDebugTextDisplay : IDebugTextDisplay
 	{
 		private readonly DebugTextDisplayLine dummy = new DebugTextDisplayLine(() => string.Empty);
+
+		public bool IsEnabled { get { return false; } set { } }
 
 		public DummyDebugTextDisplay()
 		{

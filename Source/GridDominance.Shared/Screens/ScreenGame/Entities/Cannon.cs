@@ -1,8 +1,4 @@
-﻿#if DEBUG
-#define DEBUG_CANNON
-#endif
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
@@ -18,6 +14,7 @@ using GridDominance.Shared.Screens.ScreenGame.FractionController;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
@@ -252,11 +249,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			DrawBodyAndBarrel(sbatch);
 			DrawCog(sbatch);
 
-#if DEBUG_CANNON
-			DrawDebugView(sbatch);
+#if DEBUG
+			if (DebugSettings.Get("DebugCannonView"))
+			{
+				DrawDebugView(sbatch);
+			}
 
 			// ASSERTION
-			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBoost/BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
+			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
 		}
 

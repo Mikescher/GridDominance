@@ -1,10 +1,4 @@
-﻿#if DEBUG
-#define DEBUG_GAMESCREEN
-#define DEBUG_SHORTCUTS
-#endif
-
-using System;
-using FarseerPhysics;
+﻿using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Background;
@@ -15,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.InputListeners;
 using MonoGame.Extended.ViewportAdapters;
-using MonoSAMFramework.Portable.DebugDisplay;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
@@ -86,13 +80,29 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			blueprint = bp;
 
 			Initialize();
+
+#if DEBUG
+			DebugSettings.AddTrigger("SetQuality_1", this, Keys.D1, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.FD));
+			DebugSettings.AddTrigger("SetQuality_2", this, Keys.D2, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.BD));
+			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.LD));
+			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.MD));
+			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.HD));
+
+			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyboardModifiers.None, true);
+			DebugSettings.AddSwitch("DebugBackground", this,  Keys.F3, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("DebugHUDBorders", this,  Keys.F4, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("DebugCannonView", this,  Keys.F5, KeyboardModifiers.None, true);
+
+			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
+#endif
 		}
 
 		private void Initialize()
 		{
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
 
-#if DEBUG_GAMESCREEN
+#if DEBUG
 			FPSCounter = new RealtimeAPSCounter();
 			UPSCounter = new RealtimeAPSCounter();
 
@@ -104,6 +114,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {GDBackground.Particles.Count,3} | Bodies = {GDEntities.PhysicsWorld.BodyList.Count,3}");
 				DebugDisp.AddLine(() => $"HUD.Size=(T:{GameHUD.Top}|L:{GameHUD.Left}|R:{GameHUD.Right}|B:{GameHUD.Bottom}) | HUD.Elements={GameHUD.Count()}");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
+				
+				DebugDisp.AddLine(new DebugTextDisplayLine(DebugSettings.GetSummary, () => DebugSettings.Get("ShowDebugShortcuts")));
 			}
 
 			//InputStateMan.PointerDown += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnDown({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);
@@ -145,30 +157,11 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
-#if DEBUG_SHORTCUTS
-			UpdateDebugShortcuts(istate);
-#endif
-		}
-
 #if DEBUG
-		private void UpdateDebugShortcuts(InputState state)
-		{
-			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D1))
-				Textures.ChangeQuality(Owner.Content, TextureQuality.FD);
-
-			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D2))
-				Textures.ChangeQuality(Owner.Content, TextureQuality.BD);
-
-			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D3))
-				Textures.ChangeQuality(Owner.Content, TextureQuality.LD);
-
-			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D4))
-				Textures.ChangeQuality(Owner.Content, TextureQuality.MD);
-
-			if (state.IsShortcutJustPressed(KeyboardModifiers.Control, Keys.D5))
-				Textures.ChangeQuality(Owner.Content, TextureQuality.HD);
-		}
+			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 #endif
+			// NOP
+		}
 
 		public World GetPhysicsWorld()
 		{
@@ -219,7 +212,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public void RestartLevel()
 		{
-			GDOwner.SetLevelScreen(this.blueprint);
+			GDOwner.SetLevelScreen(blueprint);
 		}
 	}
 }

@@ -1,16 +1,14 @@
-﻿#if DEBUG
-//#define DEBUG_GAME_GRID_BACKGROUND
-#endif
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.Screens;
@@ -86,40 +84,45 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 					sbatch.Draw(Textures.TexPixel, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), color);
 					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), Color.White);
 
-#if DEBUG_GAME_GRID_BACKGROUND
-					if (x < -1) continue;
-					if (y < -1) continue;
-					if (x > TILE_COUNT_X) continue;
-					if (y > TILE_COUNT_Y) continue;
+#if DEBUG
+					if (DebugSettings.Get("DebugBackground"))
+					{
+						if (x < -1) continue;
+						if (y < -1) continue;
+						if (x > TILE_COUNT_X) continue;
+						if (y > TILE_COUNT_Y) continue;
 
-					var tx = x * TILE_WIDTH + 8;
-					var ty = y * TILE_WIDTH + 8;
+						var tx = x * TILE_WIDTH + 8;
+						var ty = y * TILE_WIDTH + 8;
 
-					sbatch.DrawString(
-						Textures.DebugFontSmall, 
-						string.Format("{0,2}: {1:000}", gridColor[x + 1, y + 1].Fraction?.ToString() ?? "##", gridColor[x + 1, y + 1].Strength * 100), 
-						new Vector2(tx, ty),
-						gridColor[x + 1, y + 1].Fraction?.Color ?? Color.Black);
+						sbatch.DrawString(
+							Textures.DebugFontSmall,
+							string.Format("{0,2}: {1:000}", gridColor[x + 1, y + 1].Fraction?.ToString() ?? "##", gridColor[x + 1, y + 1].Strength * 100),
+							new Vector2(tx, ty),
+							gridColor[x + 1, y + 1].Fraction?.Color ?? Color.Black);
+					}
 #endif
 				}
 			}
 
-#if DEBUG_GAME_GRID_BACKGROUND
-
-			foreach (var particle in Particles)
+#if DEBUG
+			if (DebugSettings.Get("DebugBackground"))
 			{
-				sbatch.Draw(
-					Textures.TexPixel.Texture, 
-					new Vector2(particle.X, particle.Y),
-					Textures.TexPixel.Bounds,
-					particle.Fraction.Color * 0.6f * particle.PowerPercentage,
-					0,
-					new Vector2(0.5f, 0.5f),
-					8, 
-					SpriteEffects.None, 1);
-			}
+				foreach (var particle in Particles)
+				{
+					sbatch.Draw(
+						Textures.TexPixel.Texture,
+						new Vector2(particle.X, particle.Y),
+						Textures.TexPixel.Bounds,
+						particle.Fraction.Color * 0.6f * particle.PowerPercentage,
+						0,
+						new Vector2(0.5f, 0.5f),
+						8,
+						SpriteEffects.None, 1);
+				}
 
-			sbatch.DrawRectangle(new Rectangle(0, 0, TILE_COUNT_X * TILE_WIDTH, TILE_COUNT_Y * TILE_WIDTH), Color.Magenta);
+				sbatch.DrawRectangle(new Rectangle(0, 0, TILE_COUNT_X * TILE_WIDTH, TILE_COUNT_Y * TILE_WIDTH), Color.Magenta);
+			}
 #endif
 		}
 

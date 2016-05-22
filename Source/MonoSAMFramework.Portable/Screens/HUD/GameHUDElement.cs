@@ -5,6 +5,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoGame.Extended.Shapes;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using System;
 
@@ -78,12 +80,15 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			DoDraw(sbatch, BoundingRectangle);
 
-#if DEBUG_HUDBOUNDS
-			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 2f);
+#if DEBUG
+			if (DebugSettings.Get("DebugHUDBorders"))
+			{
+				sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 2f);
+			}
 #endif
+
 		}
-
-
+		
 		public virtual void Update(GameTime gameTime, InputState istate)
 		{
 			if (PositionInvalidated) RecalculatePosition();

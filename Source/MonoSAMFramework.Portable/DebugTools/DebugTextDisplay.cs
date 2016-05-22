@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MonoSAMFramework.Portable.DebugDisplay
+namespace MonoSAMFramework.Portable.DebugTools
 {
 	public class DebugTextDisplay : IDebugTextDisplay, ISAMUpdateable
 	{
@@ -29,6 +29,8 @@ namespace MonoSAMFramework.Portable.DebugDisplay
 			debugBatch = new SpriteBatch(graphics);
 			font = renderFont;
 		}
+
+		public bool IsEnabled { get; set; }
 
 		public DebugTextDisplayLine AddLine(DebugTextDisplayLine l)
 		{
@@ -102,6 +104,8 @@ namespace MonoSAMFramework.Portable.DebugDisplay
 
 		public void Draw()
 		{
+			if (!IsEnabled) return;
+
 			debugBatch.Begin(blendState: BlendState.NonPremultiplied);
 			
 			foreach (var line in lines.Where(p => p.Active()))

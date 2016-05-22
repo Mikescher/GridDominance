@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.Extended.InputListeners;
 using MonoGame.Extended.ViewportAdapters;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -105,11 +104,16 @@ namespace MonoSAMFramework.Portable.Input
 		{
 
 #if !__IOS__
-			return GamePad.Buttons.Back == ButtonState.Pressed || Keyboard.IsKeyDown(Keys.Escape);
+			return GamePad.Buttons.Back == ButtonState.Pressed || IsKeyDown(Keys.Escape);
 #else
 			return false;
 #endif
 
+		}
+
+		public bool IsKeyDown(Keys key)
+		{
+			return Keyboard.IsKeyDown(key);
 		}
 
 		public bool IsKeyJustDown(Keys key)
@@ -122,7 +126,7 @@ namespace MonoSAMFramework.Portable.Input
 			}
 			else
 			{
-				v = Keyboard.IsKeyDown(key);
+				v = IsKeyDown(key);
 				currentKeyState.Add(key, v);
 				return v;
 			}
@@ -130,28 +134,27 @@ namespace MonoSAMFramework.Portable.Input
 
 		public bool IsModifierDown(KeyboardModifiers mod)
 		{
-			switch (mod)
-			{
-				case KeyboardModifiers.Control:
-					return Keyboard.IsKeyDown(Keys.LeftControl) || Keyboard.IsKeyDown(Keys.RightControl);
+			bool needsCtrl  = (mod & KeyboardModifiers.Control) == KeyboardModifiers.Control;
+			bool needsShift = (mod & KeyboardModifiers.Shift)   == KeyboardModifiers.Shift;
+			bool needsAlt   = (mod & KeyboardModifiers.Alt)     == KeyboardModifiers.Alt;
 
-				case KeyboardModifiers.Shift:
-					return Keyboard.IsKeyDown(Keys.LeftShift) || Keyboard.IsKeyDown(Keys.RightShift);
+			bool down = true;
 
-				case KeyboardModifiers.Alt:
-					return Keyboard.IsKeyDown(Keys.LeftAlt) || Keyboard.IsKeyDown(Keys.RightAlt);
-
-				case KeyboardModifiers.None:
-					return true;
-
-				default:
-					throw new ArgumentOutOfRangeException(nameof(mod), mod.ToString());
-			}
+			down &= ! needsCtrl  || IsKeyDown(Keys.LeftControl) || IsKeyDown(Keys.RightControl);
+			down &= ! needsShift || IsKeyDown(Keys.LeftShift)   || IsKeyDown(Keys.RightShift);
+			down &= ! needsAlt   || IsKeyDown(Keys.LeftAlt)     || IsKeyDown(Keys.RightAlt);
+			
+			return down;
 		}
 
 		public bool IsShortcutJustPressed(KeyboardModifiers mod, Keys key)
 		{
 			return IsModifierDown(mod) && IsKeyJustDown(key);
+		}
+
+		public bool IsShortcutPressed(KeyboardModifiers mod, Keys key)
+		{
+			return IsModifierDown(mod) && IsKeyDown(key);
 		}
 	}
 }

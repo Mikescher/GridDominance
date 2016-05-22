@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
+using MonoSAMFramework.Portable.Screens;
 using System;
 
 namespace MonoSAMFramework.Portable.External
@@ -36,7 +37,7 @@ namespace MonoSAMFramework.Portable.External
 			get { return _currentScreen; }
 			set
 			{
-				_currentScreen?.Hide();
+				_currentScreen?.Remove();
 
 				_currentScreen = value;
 
