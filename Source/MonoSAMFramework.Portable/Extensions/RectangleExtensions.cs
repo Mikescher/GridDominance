@@ -13,6 +13,15 @@ namespace MonoSAMFramework.Portable.Extensions
 				rect.Height - verticalAmount * 2);
 		}
 
+		public static Rectangle AsInflated(this Rectangle rect, float horizontalAmount, float verticalAmount)
+		{
+			return new Rectangle(
+				(int)(rect.X + horizontalAmount),
+				(int)(rect.Y + verticalAmount),
+				(int)(rect.Width - horizontalAmount * 2),
+				(int)(rect.Height - verticalAmount * 2));
+		}
+
 		public static Point TopLeft(this Rectangle rect) => new Point(rect.Left, rect.Top);
 		public static Point TopRight(this Rectangle rect) => new Point(rect.Right, rect.Top);
 		public static Point BottomLeft(this Rectangle rect) => new Point(rect.Left, rect.Bottom);

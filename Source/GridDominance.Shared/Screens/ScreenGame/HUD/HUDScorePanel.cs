@@ -6,8 +6,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
 	class HUDScorePanel : HUDPanel
 	{
-		public const int WIDTH = 12 * GDGameScreen.TILE_WIDTH;
-		public const int HEIGHT = 8 * GDGameScreen.TILE_WIDTH;
+		public const int WIDTH = 11 * GDGameScreen.TILE_WIDTH;
+		public const int HEIGHT = 7 * GDGameScreen.TILE_WIDTH;
 
 		public override int Depth => 0;
 

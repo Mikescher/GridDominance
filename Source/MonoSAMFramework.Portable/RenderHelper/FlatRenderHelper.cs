@@ -14,118 +14,29 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		public static readonly Vector2 CORNER_VECTOR_BL = new Vector2(-CORNER_SIZE, +CORNER_SIZE);
 		public static readonly Vector2 CORNER_VECTOR_BR = new Vector2(+CORNER_SIZE, +CORNER_SIZE);
 
-		public static void DrawRoundedBlurPanel(SpriteBatch sbatch, Rectangle bounds, Color color)
+		public static void DrawRoundedBlurPanel(SpriteBatch sbatch, Rectangle bounds, Color color, float scale = 1f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
-			#region Blur Edges
+			DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, scale);
+			DrawRoundedBlurPanelSolidPart(sbatch, bounds, color, scale);
+		}
 
-			sbatch.Draw(
-				StaticTextures.PanelBlurEdge.Texture,
-				new Rectangle(
-					bounds.Left + CORNER_SIZE,
-					bounds.Top - CORNER_SIZE,
-					bounds.Width - 2 * CORNER_SIZE,
-					2 * CORNER_SIZE),
-				StaticTextures.PanelBlurEdge.Bounds,
-				Color.White,
-				0 * FloatMath.DegreesToRadians,
-				Vector2.Zero, SpriteEffects.None, 0);
-
-			sbatch.Draw(
-				StaticTextures.PanelBlurEdge.Texture,
-				new Rectangle(
-					bounds.Right - CORNER_SIZE + (2 * CORNER_SIZE),
-					bounds.Top + CORNER_SIZE,
-					bounds.Height - 2 * CORNER_SIZE,
-					2 * CORNER_SIZE
-					),
-				StaticTextures.PanelBlurEdge.Bounds,
-				Color.White,
-				90 * FloatMath.DegreesToRadians,
-				Vector2.Zero, SpriteEffects.None, 0);
-
-			sbatch.Draw(
-				StaticTextures.PanelBlurEdge.Texture,
-				new Rectangle(
-					bounds.Left + CORNER_SIZE + (bounds.Width - 2 * CORNER_SIZE), 
-					bounds.Bottom - CORNER_SIZE + (2 * CORNER_SIZE), 
-					bounds.Width - 2 * CORNER_SIZE, 
-					2 * CORNER_SIZE),
-				StaticTextures.PanelBlurEdge.Bounds,
-				Color.White,
-				180 * FloatMath.DegreesToRadians,
-				Vector2.Zero, SpriteEffects.None, 0);
-
-			sbatch.Draw(
-				StaticTextures.PanelBlurEdge.Texture,
-				new Rectangle(
-					bounds.Left - CORNER_SIZE,
-					bounds.Top + CORNER_SIZE + (bounds.Height - 2 * CORNER_SIZE),
-					bounds.Height - 2 * CORNER_SIZE,
-					2 * CORNER_SIZE),
-				StaticTextures.PanelBlurEdge.Bounds,
-				Color.White,
-				270 * FloatMath.DegreesToRadians,
-				Vector2.Zero, SpriteEffects.None, 0);
-
-			#endregion
-
-			#region Blur Corners
-
-			sbatch.Draw(
-				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorTopLeft() + CORNER_VECTOR_TL,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				0 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
-
-			sbatch.Draw(
-				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorTopRight() + CORNER_VECTOR_TR,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				90 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
-
-			sbatch.Draw(
-				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorBottomRight() + CORNER_VECTOR_BR,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				180 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
-
-			sbatch.Draw(
-				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorBottomLeft() + CORNER_VECTOR_BL,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				270 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
-
-			#endregion
+		public static void DrawRoundedBlurPanelSolidPart(SpriteBatch sbatch, Rectangle bounds, Color color, float scale = 1f)
+		{
+			StaticTextures.ThrowIfNotInitialized();
 
 			#region Fill Center
 
 			sbatch.Draw(
-				StaticTextures.SinglePixel.Texture, 
-				bounds.AsInflated(CORNER_SIZE, 0), 
-				StaticTextures.SinglePixel.Bounds, 
+				StaticTextures.SinglePixel.Texture,
+				bounds.AsInflated(CORNER_SIZE * scale, 0),
+				StaticTextures.SinglePixel.Bounds,
 				color);
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds.AsInflated(0, CORNER_SIZE),
+				bounds.AsInflated(0, CORNER_SIZE * scale),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 
@@ -140,7 +51,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				color,
 				0 * FloatMath.DegreesToRadians,
 				Vector2.Zero,
-				StaticTextures.DEFAULT_TEXTURE_SCALE,
+				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None, 0);
 
 			sbatch.Draw(
@@ -150,7 +61,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				color,
 				90 * FloatMath.DegreesToRadians,
 				Vector2.Zero,
-				StaticTextures.DEFAULT_TEXTURE_SCALE,
+				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None, 0);
 
 			sbatch.Draw(
@@ -160,7 +71,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				color,
 				180 * FloatMath.DegreesToRadians,
 				Vector2.Zero,
-				StaticTextures.DEFAULT_TEXTURE_SCALE,
+				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None, 0);
 
 			sbatch.Draw(
@@ -170,7 +81,111 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				color,
 				270 * FloatMath.DegreesToRadians,
 				Vector2.Zero,
-				StaticTextures.DEFAULT_TEXTURE_SCALE,
+				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None, 0);
+
+			#endregion
+		}
+
+		public static void DrawRoundedBlurPanelBackgroundPart(SpriteBatch sbatch, Rectangle bounds, float scale = 1f)
+		{
+			StaticTextures.ThrowIfNotInitialized();
+
+			var cornerSize = (int)(scale * CORNER_SIZE);
+
+			#region Blur Edges
+
+			sbatch.Draw(
+				StaticTextures.PanelBlurEdge.Texture,
+				new Rectangle(
+					bounds.Left + cornerSize,
+					bounds.Top - cornerSize,
+					bounds.Width - 2 * cornerSize,
+					2 * cornerSize),
+				StaticTextures.PanelBlurEdge.Bounds,
+				Color.White,
+				0 * FloatMath.DegreesToRadians,
+				Vector2.Zero, SpriteEffects.None, 0);
+
+			sbatch.Draw(
+				StaticTextures.PanelBlurEdge.Texture,
+				new Rectangle(
+					bounds.Right - cornerSize + (2 * cornerSize),
+					bounds.Top + cornerSize,
+					bounds.Height - 2 * cornerSize,
+					2 * cornerSize
+					),
+				StaticTextures.PanelBlurEdge.Bounds,
+				Color.White,
+				90 * FloatMath.DegreesToRadians,
+				Vector2.Zero, SpriteEffects.None, 0);
+
+			sbatch.Draw(
+				StaticTextures.PanelBlurEdge.Texture,
+				new Rectangle(
+					bounds.Left + cornerSize + (bounds.Width - 2 * cornerSize),
+					bounds.Bottom - cornerSize + (2 * cornerSize),
+					bounds.Width - 2 * cornerSize,
+					2 * cornerSize),
+				StaticTextures.PanelBlurEdge.Bounds,
+				Color.White,
+				180 * FloatMath.DegreesToRadians,
+				Vector2.Zero, SpriteEffects.None, 0);
+
+			sbatch.Draw(
+				StaticTextures.PanelBlurEdge.Texture,
+				new Rectangle(
+					bounds.Left - cornerSize,
+					bounds.Top + cornerSize + (bounds.Height - 2 * cornerSize),
+					bounds.Height - 2 * cornerSize,
+					2 * cornerSize),
+				StaticTextures.PanelBlurEdge.Bounds,
+				Color.White,
+				270 * FloatMath.DegreesToRadians,
+				Vector2.Zero, SpriteEffects.None, 0);
+
+			#endregion
+
+			#region Blur Corners
+
+			sbatch.Draw(
+				StaticTextures.PanelBlurCorner.Texture,
+				bounds.VectorTopLeft() + scale * CORNER_VECTOR_TL,
+				StaticTextures.PanelBlurCorner.Bounds,
+				Color.White,
+				0 * FloatMath.DegreesToRadians,
+				Vector2.Zero,
+				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None, 0);
+
+			sbatch.Draw(
+				StaticTextures.PanelBlurCorner.Texture,
+				bounds.VectorTopRight() + scale * CORNER_VECTOR_TR,
+				StaticTextures.PanelBlurCorner.Bounds,
+				Color.White,
+				90 * FloatMath.DegreesToRadians,
+				Vector2.Zero,
+				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None, 0);
+
+			sbatch.Draw(
+				StaticTextures.PanelBlurCorner.Texture,
+				bounds.VectorBottomRight() + scale * CORNER_VECTOR_BR,
+				StaticTextures.PanelBlurCorner.Bounds,
+				Color.White,
+				180 * FloatMath.DegreesToRadians,
+				Vector2.Zero,
+				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
+				SpriteEffects.None, 0);
+
+			sbatch.Draw(
+				StaticTextures.PanelBlurCorner.Texture,
+				bounds.VectorBottomLeft() + scale * CORNER_VECTOR_BL,
+				StaticTextures.PanelBlurCorner.Bounds,
+				Color.White,
+				270 * FloatMath.DegreesToRadians,
+				Vector2.Zero,
+				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None, 0);
 
 			#endregion

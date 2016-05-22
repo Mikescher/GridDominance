@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
@@ -21,6 +22,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private const int GAP = 10;
 
 		private const float CLOSING_DELAY = 0.2f;
+
+		public const float ROUNDNESS_FACTOR = 0.25f;
 
 		private static readonly Vector2 RELATIVE_SPAWNPOSITION = new Vector2(WIDTH/2 - HUDPauseButton.DIAMETER/2, 64);
 
@@ -133,16 +136,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			var scale = Size.Width * 1f / WIDTH;
 
-			sbatch.Draw(
-				Textures.TexHUDButtonPauseMenuBackground.Texture,
-				Center,
-				Textures.TexHUDButtonPauseMenuBackground.Bounds,
-				Color.White,
-				0f,
-				Textures.TexHUDButtonPauseMenuBackground.Center(),
-				scale * Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+			FlatRenderHelper.DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, ROUNDNESS_FACTOR);
 
 			if (btnIndex == 0)
 			{
@@ -169,7 +163,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					0);
 			}
 
-			sbatch.Draw(Textures.TexPixel, bounds, IsPressed ? FlatColors.Concrete : FlatColors.Silver);
+			FlatRenderHelper.DrawRoundedBlurPanelSolidPart(sbatch, bounds, IsPressed ? FlatColors.Concrete : FlatColors.Silver, ROUNDNESS_FACTOR);
 
 			var fontBounds = Textures.HUDFont.MeasureString(btnText);
 			sbatch.DrawString(

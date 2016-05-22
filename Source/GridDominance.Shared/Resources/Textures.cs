@@ -114,7 +114,6 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonSpeedSet3;
 		public static TextureRegion2D TexHUDButtonSpeedSet4;
 		public static TextureRegion2D TexHUDButtonSpeedClock;
-		public static TextureRegion2D TexHUDButtonPauseMenuBackground;
 		public static TextureRegion2D TexHUDButtonPauseMenuMarker;
 		public static TextureRegion2D TexHUDButtonPauseMenuMarkerBackground;
 

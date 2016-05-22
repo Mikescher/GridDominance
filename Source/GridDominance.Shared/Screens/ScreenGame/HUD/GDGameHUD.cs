@@ -17,7 +17,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.hud
 		{
 			AddElement(new HUDPauseButton());
 			AddElement(new HUDSpeedBaseButton());
-			AddElement(new HUDScorePanel());
+//			AddElement(new HUDScorePanel());
 		}
 	}
 }

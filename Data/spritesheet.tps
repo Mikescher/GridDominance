@@ -434,7 +434,6 @@
             <key type="filename">panel_blur_corner.png</key>
             <key type="filename">panel_blur_edge.png</key>
             <key type="filename">panel_corner.png</key>
-            <key type="filename">pausemenu_background.png</key>
             <key type="filename">pausemenu_marker.png</key>
             <key type="filename">pausemenu_marker_background.png</key>
             <key type="filename">pixel.png</key>
@@ -464,7 +463,6 @@
             <filename>hud_time_hand.png</filename>
             <filename>hud_time_clock.png</filename>
             <filename>hud_button_base.png</filename>
-            <filename>pausemenu_background.png</filename>
             <filename>pausemenu_marker.png</filename>
             <filename>pausemenu_marker_background.png</filename>
             <filename>panel_blur_edge.png</filename>
