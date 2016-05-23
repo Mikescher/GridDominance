@@ -9,10 +9,10 @@ namespace MonoSAMFramework.Portable.Extensions
 	{
 		public static void DrawEllipse(this SpriteBatch spriteBatch, RectangleF rectangle, int sides, Color color, float thickness = 1f)
 		{
-			spriteBatch.DrawPolygon(rectangle.Center, CreateCircle(rectangle.Width, rectangle.Height, sides), color, thickness);
+			spriteBatch.DrawPolygon(rectangle.Center, CreateEllipse(rectangle.Width, rectangle.Height, sides), color, thickness);
 		}
 		
-		private static Vector2[] CreateCircle(float width, float height, int sides)
+		private static Vector2[] CreateEllipse(float width, float height, int sides)
 		{
 			const double max = 2.0 * Math.PI;
 			var points = new Vector2[sides];
