@@ -20,7 +20,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 		public PlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction) 
 			: base(0f, owner, cannon, fraction)
 		{
-			innerBoundings = new CircleF(Cannon.Center, Cannon.Scale * Cannon.CANNON_DIAMETER / 2);
+			innerBoundings = new CircleF(Cannon.Center, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
 		}
 
 		protected override void Calculate(InputState istate)

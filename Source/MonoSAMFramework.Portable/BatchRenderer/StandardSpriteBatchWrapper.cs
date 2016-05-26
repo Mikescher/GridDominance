@@ -58,8 +58,10 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		public void End()
 		{
+#if DEBUG
 			LastRenderSpriteCount = RenderSpriteCount;
 			LastRenderTextCount = RenderTextCount;
+#endif
 
 			internalBatch.End();
 		}

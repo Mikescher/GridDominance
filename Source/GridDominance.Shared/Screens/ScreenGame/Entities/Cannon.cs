@@ -31,7 +31,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		private const float BARREL_RECOIL_LENGTH = 32;
 
 		private const float BARREL_CHARGE_SPEED = 0.9f;
-		public  const float CANNON_DIAMETER = 96;
+		public  const float CANNON_DIAMETER = 96;		 // only diameter of base circle
+		public  const float CANNON_OUTER_DIAMETER = 160; // includes fully extended barrel
 		public  const float BARREL_HEIGHT = 32;
 		public  const float BARREL_WIDTH = 64;
 		private const float BULLET_ANGLE_VARIANCE = 0.035f; // ~ 2 degree
