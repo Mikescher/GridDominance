@@ -13,6 +13,7 @@ using MonoGame.Extended;
 using GridDominance.Shared.Screens.ScreenGame.FractionController;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
@@ -243,7 +244,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		#region Draw
 
-		public override void Draw(SpriteBatch sbatch)
+		public override void Draw(IBatchRenderer sbatch)
 		{
 			DrawCrosshair(sbatch);
 			DrawBodyAndBarrel(sbatch);
@@ -260,7 +261,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 #endif
 		}
 
-		private void DrawCrosshair(SpriteBatch sbatch)
+		private void DrawCrosshair(IBatchRenderer sbatch)
 		{
 			if (FloatMath.IsNotZero(CrosshairSize.ActualValue))
 			{
@@ -277,7 +278,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			}
 		}
 
-		private void DrawBodyAndBarrel(SpriteBatch sbatch)
+		private void DrawBodyAndBarrel(IBatchRenderer sbatch)
 		{
 			var recoil = (1-barrelRecoil) * BARREL_RECOIL_LENGTH;
 
@@ -328,7 +329,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				0);
 		}
 
-		private void DrawCog(SpriteBatch sbatch)
+		private void DrawCog(IBatchRenderer sbatch)
 		{
 			TextureRegion2D texBack = Textures.AnimCannonCog[Textures.ANIMATION_CANNONCOG_SIZE - 1];
 			TextureRegion2D texProg = Textures.AnimCannonCog[(int)(CannonHealth.ActualValue * (Textures.ANIMATION_CANNONCOG_SIZE - 1))];
@@ -357,7 +358,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		}
 
 #if DEBUG
-		private void DrawDebugView(SpriteBatch sbatch)
+		private void DrawDebugView(IBatchRenderer sbatch)
 		{
 			var innerRadius = Scale*CANNON_DIAMETER/2;
 

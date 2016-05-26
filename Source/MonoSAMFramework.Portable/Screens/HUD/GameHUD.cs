@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Language;
 using System.Collections.Generic;
@@ -49,7 +49,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			}
 		}
 
-		public void Draw(SpriteBatch sbatch)
+		public void Draw(IBatchRenderer sbatch)
 		{
 			foreach (var element in elements)
 			{

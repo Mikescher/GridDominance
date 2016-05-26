@@ -3,6 +3,7 @@ using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
@@ -73,7 +74,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			if (Lifetime > maxLifetime) Alive = false;
 		}
 
-		public override void Draw(SpriteBatch sbatch)
+		public override void Draw(IBatchRenderer sbatch)
 		{
 			sbatch.Draw(
 				Textures.TexBulletSplitter.Texture,

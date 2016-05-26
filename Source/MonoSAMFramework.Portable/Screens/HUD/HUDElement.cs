@@ -3,9 +3,8 @@
 #endif
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using MonoGame.Extended.Shapes;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using System;
@@ -71,12 +70,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			OnInitialize();
 		}
 
-		public void DrawBackground(SpriteBatch sbatch)
+		public void DrawBackground(IBatchRenderer sbatch)
 		{
 			DoDrawBackground(sbatch, BoundingRectangle);
 		}
 
-		public void Draw(SpriteBatch sbatch)
+		public void Draw(IBatchRenderer sbatch)
 		{
 			DoDraw(sbatch, BoundingRectangle);
 
@@ -89,7 +88,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		}
 
-		protected virtual void DrawDebugHUDBorders(SpriteBatch sbatch)
+		protected virtual void DrawDebugHUDBorders(IBatchRenderer sbatch)
 		{
 			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 2f);
 		}
@@ -155,8 +154,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public abstract void OnInitialize();
 		public abstract void OnRemove();
 
-		protected abstract void DoDraw(SpriteBatch sbatch, Rectangle bounds);
-		protected virtual void DoDrawBackground(SpriteBatch sbatch, Rectangle bounds) { }
+		protected abstract void DoDraw(IBatchRenderer sbatch, Rectangle bounds);
+		protected virtual void DoDrawBackground(IBatchRenderer sbatch, Rectangle bounds) { }
 		protected abstract void DoUpdate(GameTime gameTime, InputState istate);
 
 		protected virtual void OnPointerUp(Point relPositionPoint, InputState istate) { /* OVERRIDE ME */ }

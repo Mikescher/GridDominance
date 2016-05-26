@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 
@@ -17,7 +17,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			//
 		}
 
-		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
 		{
 			FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, Color.Magenta);
 		}

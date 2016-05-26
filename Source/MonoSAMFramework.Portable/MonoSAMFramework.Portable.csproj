@@ -34,12 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BatchRenderer\IDebugBatchRenderer.cs" />
+    <Compile Include="BatchRenderer\IBatchRenderer.cs" />
+    <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\DebugListener.cs" />
     <Compile Include="DebugTools\DebugSettings.cs" />
     <Compile Include="Extensions\PointExtension.cs" />
     <Compile Include="Extensions\RectangleExtensions.cs" />
     <Compile Include="Extensions\SAMGameTimeExtensions.cs" />
-    <Compile Include="Extensions\SAMSpriteBatchExtensions.cs" />
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
     <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="Interfaces\ILifetimeObject.cs" />

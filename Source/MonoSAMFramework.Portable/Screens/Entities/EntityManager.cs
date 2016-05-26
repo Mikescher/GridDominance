@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +45,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			OnAfterUpdate(gameTime, state);
 		}
 
-		public void Draw(SpriteBatch sbatch)
+		public void Draw(IBatchRenderer sbatch)
 		{
 			foreach (var gdEntity in entities)
 			{

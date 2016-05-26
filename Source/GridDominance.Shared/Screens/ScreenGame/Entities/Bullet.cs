@@ -6,6 +6,7 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.EntityOperations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
@@ -141,7 +142,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			if (!Manager.BoundingBox.Contains(BulletPosition)) Remove();
 		}
 
-		public override void Draw(SpriteBatch sbatch)
+		public override void Draw(IBatchRenderer sbatch)
 		{
 			sbatch.Draw(
 				Textures.TexBullet.Texture, 

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
@@ -70,7 +71,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		#region Draw
 
-		public override void Draw(SpriteBatch sbatch)
+		public override void Draw(IBatchRenderer sbatch)
 		{
 			int extensionX = FloatMath.Ceiling((Graphics.Viewport.Width  - Adapter.RealWidth)  / (TILE_WIDTH * 2f * Adapter.Scale));
 			int extensionY = FloatMath.Ceiling((Graphics.Viewport.Height - Adapter.RealHeight) / (TILE_WIDTH * 2f * Adapter.Scale));

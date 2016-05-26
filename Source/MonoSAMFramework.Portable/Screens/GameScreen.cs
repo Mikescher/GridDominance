@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.ViewportAdapters;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
@@ -29,7 +29,7 @@ namespace MonoSAMFramework.Portable.Screens
 		protected InputStateManager InputStateMan;
 
 		protected GameHUD GameHUD;
-		protected SpriteBatch MainBatch;
+		protected IBatchRenderer MainBatch;
 		protected EntityManager Entities;
 		protected GameBackground Background;
 
@@ -45,7 +45,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 		private void Initialize()
 		{
-			MainBatch = new SpriteBatch(Graphics.GraphicsDevice);
+			MainBatch = new StandardSpriteBatchWrapper(Graphics.GraphicsDevice);
 			Viewport = CreateViewport();
 
 			InputStateMan = new InputStateManager(Viewport);
@@ -54,7 +54,14 @@ namespace MonoSAMFramework.Portable.Screens
 
 			Entities = CreateEntityManager();
 		}
-		
+
+		protected override void OnRemove()
+		{
+			base.OnRemove();
+
+			MainBatch.Dispose();
+		}
+
 		public override void Update(GameTime gameTime)
 		{
 			var state = InputStateMan.GetNewState();

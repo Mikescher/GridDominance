@@ -3,6 +3,7 @@ using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
@@ -132,7 +133,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			RelativeCenter = baseButton.RelativeCenter + RELATIVE_SPAWNPOSITION + new Vector2(-prog * WIDTH*2, btnIndex * (HEIGHT + GAP));
 		}
 
-		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
 		{
 			var scale = Size.Width * 1f / WIDTH;
 

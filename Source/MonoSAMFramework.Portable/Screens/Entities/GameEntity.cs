@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using System;
 using System.Collections.Generic;
@@ -66,6 +66,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public abstract void OnInitialize();
 		public abstract void OnRemove();
 		protected abstract void OnUpdate(GameTime gameTime, InputState istate);
-		public abstract void Draw(SpriteBatch sbatch);
+		public abstract void Draw(IBatchRenderer sbatch);
 	}
 }

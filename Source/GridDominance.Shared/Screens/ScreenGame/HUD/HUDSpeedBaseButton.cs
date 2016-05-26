@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
@@ -59,7 +60,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			// NOP
 		}
 
-		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
 		{
 			sbatch.Draw(
 				Textures.TexHUDButtonBase.Texture,

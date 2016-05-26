@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.MathHelper;
 
@@ -14,7 +15,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		public static readonly Vector2 CORNER_VECTOR_BL = new Vector2(-CORNER_SIZE, +CORNER_SIZE);
 		public static readonly Vector2 CORNER_VECTOR_BR = new Vector2(+CORNER_SIZE, +CORNER_SIZE);
 
-		public static void DrawRoundedBlurPanel(SpriteBatch sbatch, Rectangle bounds, Color color, float scale = 1f)
+		public static void DrawRoundedBlurPanel(IBatchRenderer sbatch, Rectangle bounds, Color color, float scale = 1f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
@@ -22,7 +23,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			DrawRoundedBlurPanelSolidPart(sbatch, bounds, color, scale);
 		}
 
-		public static void DrawRoundedBlurPanelSolidPart(SpriteBatch sbatch, Rectangle bounds, Color color, float scale = 1f)
+		public static void DrawRoundedBlurPanelSolidPart(IBatchRenderer sbatch, Rectangle bounds, Color color, float scale = 1f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
@@ -87,7 +88,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			#endregion
 		}
 
-		public static void DrawRoundedBlurPanelBackgroundPart(SpriteBatch sbatch, Rectangle bounds, float scale = 1f)
+		public static void DrawRoundedBlurPanelBackgroundPart(IBatchRenderer sbatch, Rectangle bounds, float scale = 1f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
 

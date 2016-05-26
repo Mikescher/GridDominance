@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
@@ -45,7 +46,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			// NOP
 		}
 
-		protected override void DoDrawBackground(SpriteBatch sbatch, Rectangle bounds)
+		protected override void DoDrawBackground(IBatchRenderer sbatch, Rectangle bounds)
 		{
 			sbatch.Draw(
 				Textures.TexHUDButtonBase.Texture,
@@ -59,7 +60,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				0);
 		}
 
-		protected override void DoDraw(SpriteBatch sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
 		{
 			var texture = GetTexture();
 				

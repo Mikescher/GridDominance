@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using MonoGame.Extended.Shapes;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 
@@ -35,7 +34,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			}
 		}
 		
-		protected override void DrawDebugHUDBorders(SpriteBatch sbatch)
+		protected override void DrawDebugHUDBorders(IBatchRenderer sbatch)
 		{
 			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta);
 

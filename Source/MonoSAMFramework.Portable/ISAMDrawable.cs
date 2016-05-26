@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using MonoSAMFramework.Portable.BatchRenderer;
 
 namespace MonoSAMFramework.Portable
 {
 	interface ISAMDrawable
 	{
-		void Draw(SpriteBatch sbatch);
+		void Draw(IBatchRenderer sbatch);
 	}
 }

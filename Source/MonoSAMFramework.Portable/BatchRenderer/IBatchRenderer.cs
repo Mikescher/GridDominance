@@ -1,0 +1,60 @@
+﻿
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Shapes;
+using MonoGame.Extended.TextureAtlases;
+using System;
+using System.Text;
+
+namespace MonoSAMFramework.Portable.BatchRenderer
+{
+	public interface IBatchRenderer : IDisposable
+	{
+		// ######## MONOGAME METHODS ########
+
+		void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
+		void End();
+		void Draw(Texture2D texture, Vector2? position = null, Rectangle? destinationRectangle = null, Rectangle? sourceRectangle = null, Vector2? origin = null, float rotation = 0, Vector2? scale = null, Color? color = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0);
+		void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth);
+		void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
+		void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
+		void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color);
+		void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
+		void Draw(Texture2D texture, Vector2 position, Color color);
+		void Draw(Texture2D texture, Rectangle destinationRectangle, Color color);
+		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color);
+		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
+		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth);
+		void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color);
+		void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
+		void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth);
+
+		// ######## MONOGAME.EXTENDED PRIMITIVE METHODS ########
+
+		void DrawPolygon(Vector2 position, PolygonF polygon, Color color, float thickness = 1f);
+		void DrawPolygon(Vector2 offset, Vector2[] points, Color color, float thickness = 1f);
+		void FillRectangle(RectangleF rectangle, Color color);
+		void FillRectangle(Vector2 location, Vector2 size, Color color);
+		void FillRectangle(float x, float y, float width, float height, Color color);
+		void DrawRectangle(RectangleF rectangle, Color color, float thickness = 1f);
+		void DrawRectangle(Vector2 location, Vector2 size, Color color, float thickness = 1f);
+		void DrawLine(float x1, float y1, float x2, float y2, Color color, float thickness = 1f);
+		void DrawLine(Vector2 point1, Vector2 point2, Color color, float thickness = 1f);
+		void DrawLine(Vector2 point, float length, float angle, Color color, float thickness = 1f);
+		void DrawPoint(float x, float y, Color color, float size = 1f);
+		void DrawPoint(Vector2 position, Color color, float size = 1f);
+		void DrawCircle(CircleF circle, int sides, Color color, float thickness = 1f);
+		void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1f);
+		void DrawCircle(float x, float y, float radius, int sides, Color color, float thickness = 1f);
+
+		// ######## MONOGAME.EXTENDED EXTENSION METHODS ########
+
+		void Draw(TextureRegion2D textureRegion, Vector2 position, Color color);
+		void Draw(TextureRegion2D textureRegion, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth);
+		void Draw(TextureRegion2D textureRegion, Rectangle destinationRectangle, Color color);
+
+		// ######## MONOSAMFRAMEWORK METHODS ########
+
+		void DrawEllipse(RectangleF rectangle, int sides, Color color, float thickness = 1f);
+	}
+}
