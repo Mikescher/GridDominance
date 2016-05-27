@@ -124,7 +124,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexPanelCorner;
 
 
-		public static SpriteFont HUDFont;
+		public static SpriteFont HUDFontRegular;
+		public static SpriteFont HUDFontBold;
 
 		#endregion
 
@@ -183,7 +184,8 @@ namespace GridDominance.Shared.Resources
 			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];
 			TexPanelCorner     = AtlasTextures["panel_corner"];
 
-			HUDFont = content.Load<SpriteFont>("fonts/hudFont");
+			HUDFontRegular = content.Load<SpriteFont>("fonts/hudFontRegular");
+			HUDFontBold = content.Load<SpriteFont>("fonts/hudFontBold");
 
 #if DEBUG
 			DebugFont      = content.Load<SpriteFont>("fonts/debugFont");

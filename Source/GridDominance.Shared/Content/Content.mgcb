@@ -112,14 +112,20 @@
 /processor:TexturePackerProcessor
 /build:textures/spritesheet-sheet_fd.json
 
-#begin fonts/hudFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:fonts/hudFont.spritefont
-
 #begin levels/lvl_debug.gslevel
 /importer:GDLevelImporter
 /processor:GDLevelProcessor
 /build:levels/lvl_debug.gslevel
+
+#begin fonts/hudFontBold.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:fonts/hudFontBold.spritefont
+
+#begin fonts/hudFontRegular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:fonts/hudFontRegular.spritefont
 

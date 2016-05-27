@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GridDominance.Shared.Resources;
+using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Screens.HUD;
@@ -14,6 +15,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		public const int FOOTER_COLBAR_HEIGHT = GDGameScreen.TILE_WIDTH / 4;
 
 		public override int Depth => 0;
+
+		private HUDLabel lblPoints;
 
 		public HUDScorePanel()
 		{
@@ -78,6 +81,29 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new Point(WIDTH / 3, 0),
 				Size = new Size(1, FOOTER_HEIGHT),
+			});
+
+			AddElement(new HUDLabel(2)
+			{
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				Text = "Points",
+				TextColor = Color.White,
+				Font = Textures.HUDFontRegular,
+				FontSize = 35,
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new Point(0, 77),
+				Size = new Size(WIDTH / 3, 35),
+			});
+
+			AddElement(lblPoints = new HUDIncrementIndicatorLabel("236", "+20", 2)
+			{
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				TextColor = Color.White,
+				Font = Textures.HUDFontBold,
+				FontSize = 56,
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new Point(0, 15),
+				Size = new Size(WIDTH / 3, 55),
 			});
 		}
 	}

@@ -39,7 +39,8 @@
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\DebugListener.cs" />
     <Compile Include="DebugTools\DebugSettings.cs" />
-    <Compile Include="Extensions\PointExtension.cs" />
+    <Compile Include="Extensions\Vector2Extensions.cs" />
+    <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\RectangleExtensions.cs" />
     <Compile Include="Extensions\SAMGameTimeExtensions.cs" />
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
@@ -68,6 +69,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DebugTools\RealtimeAPSCounter.cs" />
     <Compile Include="RenderHelper\FlatRenderHelper.cs" />
+    <Compile Include="RenderHelper\FontRenderHelper.cs" />
+    <Compile Include="RenderHelper\SAMRenderHelper.cs" />
     <Compile Include="RenderHelper\StaticTextures.cs" />
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
     <Compile Include="Screens\Entities\GameEntityOperation.cs" />
@@ -79,7 +82,9 @@
     <Compile Include="Screens\HUD\GameHUD.cs" />
     <Compile Include="Screens\HUD\HUDContainer.cs" />
     <Compile Include="Screens\HUD\HUDEllipseButton.cs" />
+    <Compile Include="Screens\HUD\HUDLabel.cs" />
     <Compile Include="Screens\HUD\HUDOrientation.cs" />
+    <Compile Include="Screens\HUD\HUDRawText.cs" />
     <Compile Include="Screens\HUD\HUDRootContainer.cs" />
     <Compile Include="Screens\HUD\HUDRectangle.cs" />
     <Compile Include="Screens\HUD\HUDRoundedRectangle.cs" />

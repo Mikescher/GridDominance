@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Screens.ScreenGame.HUD;
+﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.ScreenGame.HUD;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.hud
@@ -13,7 +14,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.hud
 		public override int Bottom => (int)(GDOwner.GDViewport.VirtualHeight + GDOwner.GDViewport.VirtualOffsetY);
 		public override int Right => (int)(GDOwner.GDViewport.VirtualWidth + GDOwner.GDViewport.VirtualOffsetX);
 
-		public GDGameHUD(GDGameScreen scrn) : base(scrn)
+		public GDGameHUD(GDGameScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(new HUDPauseButton());
 			AddElement(new HUDSpeedBaseButton());

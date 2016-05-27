@@ -18,9 +18,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		public const int MARKER_WIDTH = 33;
 		public const int MARKER_HEIGHT = 17;
 
-		private const int WIDTH = 222;
+		private const int WIDTH = 170;
 		private const int HEIGHT = HUDPauseButton.DIAMETER;
 		private const int GAP = 10;
+
+		private static float fontScaleFactor = FontRenderHelper.GetFontScale(Textures.HUDFontRegular, 40);
 
 		private const float CLOSING_DELAY = 0.2f;
 
@@ -31,7 +33,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private readonly HUDPauseButton baseButton;
 		private readonly int btnIndex;
 		private readonly int btnCount;
-		private readonly int btnDepth;
 		private readonly string btnText;
 		private readonly Action btnAction;
 
@@ -39,16 +40,17 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		public bool IsOpening = true;
 		public bool IsClosing = false;
 
-		public override int Depth => btnDepth;
+		public override int Depth { get; }
 
 		public HUDPauseMenuButton(HUDPauseButton owner, string buttonText, int buttonDepth, int buttonIndex, int totalButtonCount, Action buttonAction)
 		{
 			baseButton = owner;
 			btnIndex = buttonIndex;
 			btnCount = totalButtonCount;
-			btnDepth = buttonDepth;
 			btnText = buttonText;
 			btnAction = buttonAction;
+
+			Depth = buttonDepth;
 
 			RelativePosition = new Point(12, 12);
 			Size = new Size(0, 0);
@@ -166,15 +168,15 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			FlatRenderHelper.DrawRoundedBlurPanelSolidPart(sbatch, bounds, IsPressed ? FlatColors.Concrete : FlatColors.Silver, ROUNDNESS_FACTOR);
 
-			var fontBounds = Textures.HUDFont.MeasureString(btnText);
+			var fontBounds = Textures.HUDFontBold.MeasureString(btnText) * fontScaleFactor;
 			sbatch.DrawString(
-				Textures.HUDFont, 
+				Textures.HUDFontBold, 
 				btnText, 
 				Center + new Vector2(-WIDTH/2f + 12 + fontBounds.X/2f, 0f)*scale, 
 				FlatColors.Foreground, 
 				0f,
 				fontBounds/2f,
-				scale, 
+				scale * fontScaleFactor, 
 				SpriteEffects.None, 0f);
 		}
 		

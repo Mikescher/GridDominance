@@ -172,6 +172,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				case HUDAlignment.CENTER:
 					px = Owner.CenterX - Size.Width / 2 + RelativePosition.X;
 					break;
+				case HUDAlignment.ABSOLUTE:
+					px = RelativePosition.X;
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
@@ -193,6 +196,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				case HUDAlignment.CENTER:
 					py = Owner.CenterY - Size.Height / 2 + RelativePosition.Y;
 					break;
+				case HUDAlignment.ABSOLUTE:
+					py = RelativePosition.Y;
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
@@ -202,6 +208,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			BoundingRectangle = new Rectangle(Position, Size);
 
 			PositionInvalidated = false;
+
+			OnAfterRecalculatePosition();
 		}
 
 		public abstract void OnInitialize();
@@ -210,6 +218,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		protected abstract void DoUpdate(GameTime gameTime, InputState istate);
 
 		protected virtual void OnBeforeRecalculatePosition()
+		{
+			/* OVERRIDE ME */
+		}
+
+		protected virtual void OnAfterRecalculatePosition()
 		{
 			/* OVERRIDE ME */
 		}

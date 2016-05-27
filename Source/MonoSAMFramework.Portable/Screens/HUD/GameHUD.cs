@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
@@ -10,10 +11,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 	{
 		public readonly GameScreen Screen;
 		private readonly HUDRootContainer root;
+		public readonly SpriteFont DefaultFont;
 
-		protected GameHUD(GameScreen scrn)
+		protected GameHUD(GameScreen scrn, SpriteFont font)
 		{
 			Screen = scrn;
+			DefaultFont = font;
 
 			root = new HUDRootContainer { HUD = this };
 			root.Initialize();

@@ -20,7 +20,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			if (Color == Color.Transparent) return;
 
-			FlatRenderHelper.DrawSimpleRect(sbatch, bounds, Color);
+			SAMRenderHelper.DrawSimpleRect(sbatch, bounds, Color);
 		}
 
 		public override void OnInitialize()

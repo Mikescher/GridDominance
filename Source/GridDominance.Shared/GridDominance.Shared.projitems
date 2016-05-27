@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\GDGameHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\GDHudExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDIncrementIndicatorLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDPauseMenuButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDScorePanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDSpeedSetButton.cs" />
