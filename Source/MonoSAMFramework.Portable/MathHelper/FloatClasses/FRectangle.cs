@@ -196,9 +196,9 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 		public FSize Size => new FSize(Width, Height);
 		public FPoint Center => new FPoint(X + Width / 2, Y + Height / 2);
 
-		public static implicit operator Rectangle(FRectangle rect)
+		public Rectangle Truncate()
 		{
-			return new Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
+			return new Rectangle((int)X, (int)Y, (int)Width, (int)Height);
 		}
 	}
 }
