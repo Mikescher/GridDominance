@@ -32,13 +32,13 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 				{
 					Cannon.RotateTo(target);
 
-					//Owner.PushNotification("Cannon :: KIController --> " + sf.Method.Name);
+					//Screen.PushNotification("Cannon :: KIController --> " + sf.Method.Name);
 					return true;
 				}
 			}
 
 			if (idleRotate) Cannon.Rotation.Set(FloatMath.GetRangedRandom(0, FloatMath.TAU));
-			//Owner.PushNotification("Cannon :: KIController --> Idle");
+			//Screen.PushNotification("Cannon :: KIController --> Idle");
 
 			return false;
 		}

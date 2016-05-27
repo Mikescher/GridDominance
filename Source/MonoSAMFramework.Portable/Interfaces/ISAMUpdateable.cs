@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
 
-namespace MonoSAMFramework.Portable
+namespace MonoSAMFramework.Portable.Interfaces
 {
 	interface ISAMUpdateable
 	{

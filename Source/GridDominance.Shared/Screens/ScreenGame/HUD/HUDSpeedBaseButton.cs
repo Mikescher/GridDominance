@@ -98,7 +98,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)
 		{
-			rotation = FloatMath.IncModulo(rotation, gameTime.GetElapsedSeconds() * HAND_ANIMATION_SPEED * this.GDOwner().GDOwner.GameSpeed, FloatMath.TAU);
+			rotation = FloatMath.IncModulo(rotation, gameTime.GetElapsedSeconds() * HAND_ANIMATION_SPEED * this.GDHUD().GDOwner.GameSpeed, FloatMath.TAU);
 
 			int choosen = -1;
 
@@ -202,17 +202,17 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void OnPointerDown(Point relPositionPoint, InputState istate)
 		{
-			Owner.Owner.PushNotification("HUDSpeedBaseButton :: Click");
+			HUD.Screen.PushNotification("HUDSpeedBaseButton :: Click");
 			
 			if (!isOpened)
 			{
-				Owner.Owner.PushNotification("HUDSpeedBaseButton :: opening menu");
+				HUD.Screen.PushNotification("HUDSpeedBaseButton :: opening menu");
 
 				Open();
 			}
 			else
 			{
-				Owner.Owner.PushNotification("HUDSpeedBaseButton :: closing menu");
+				HUD.Screen.PushNotification("HUDSpeedBaseButton :: closing menu");
 
 				Close();
 			}

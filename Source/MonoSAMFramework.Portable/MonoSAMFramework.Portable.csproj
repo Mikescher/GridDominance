@@ -45,8 +45,9 @@
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
     <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="Interfaces\ILifetimeObject.cs" />
-    <Compile Include="ISAMDrawable.cs" />
-    <Compile Include="ISAMUpdateable.cs" />
+    <Compile Include="Interfaces\ISAMLayeredDrawable.cs" />
+    <Compile Include="Interfaces\ISAMDrawable.cs" />
+    <Compile Include="Interfaces\ISAMUpdateable.cs" />
     <Compile Include="Language\AlwaysSortedList.cs" />
     <Compile Include="ColorHelper\ColorMath.cs" />
     <Compile Include="MathHelper\ConstantRandom.cs" />
@@ -76,7 +77,9 @@
     <Compile Include="Screens\Background\GameBackground.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\GameHUD.cs" />
+    <Compile Include="Screens\HUD\HUDContainer.cs" />
     <Compile Include="Screens\HUD\HUDEllipseButton.cs" />
+    <Compile Include="Screens\HUD\HUDRootContainer.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\HUD\HUDElement.cs" />

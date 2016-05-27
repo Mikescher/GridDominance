@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {
@@ -19,7 +20,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			Owner = screen;
 
-			Owner.Owner.Window.ClientSizeChanged += (s, e) => DoRecalcBoundingBox();
+			Owner.Game.Window.ClientSizeChanged += (s, e) => DoRecalcBoundingBox();
 			DoRecalcBoundingBox();
 		}
 

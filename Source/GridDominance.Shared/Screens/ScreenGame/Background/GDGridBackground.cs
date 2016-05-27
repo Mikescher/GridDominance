@@ -44,7 +44,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		public GDGridBackground(GDGameScreen scrn) : base(scrn)
 		{
-			Graphics = scrn.Owner.GraphicsDevice;
+			Graphics = scrn.Game.GraphicsDevice;
 			Adapter = scrn.GDViewport;
 			
 			Initialize();

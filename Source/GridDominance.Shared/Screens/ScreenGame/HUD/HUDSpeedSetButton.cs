@@ -68,7 +68,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				texture.Texture,
 				Center,
 				texture.Bounds,
-				(this.GDOwner().GDOwner.GameSpeedMode == speed) ? FlatColors.MidnightBlue : FlatColors.Clouds,
+				(this.GDHUD().GDOwner.GameSpeedMode == speed) ? FlatColors.MidnightBlue : FlatColors.Clouds,
 				0f,
 				texture.Center(),
 				Textures.DEFAULT_TEXTURE_SCALE,
@@ -102,8 +102,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public void Click()
 		{
-			Owner.Owner.PushNotification("HUDSpeedSetButton :: Set Speed := " + speed);
-			this.GDOwner().GDOwner.GameSpeedMode = speed;
+			HUD.Screen.PushNotification("HUDSpeedSetButton :: Set Speed := " + speed);
+			this.GDHUD().GDOwner.GameSpeedMode = speed;
 
 			BaseButton.Close();
 		}

@@ -211,7 +211,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			var position = GetBulletSpawnPoint();
 			var velocity = GetBulletVelocity();
 
-			//Owner.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
+			//Screen.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
 
 			barrelRecoil = 0f;
 
@@ -468,7 +468,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		public void RotateTo(GDEntity target)
 		{
 			Rotation.Set(FloatMath.PositiveAtan2(target.Position.Y - Center.Y, target.Position.X - Center.X));
-			//Owner.PushNotification($"Cannon :: target({FloatMath.ToDegree(Rotation.TargetValue):000}°)");
+			//Screen.PushNotification($"Cannon :: target({FloatMath.ToDegree(Rotation.TargetValue):000}°)");
 		}
 
 		#endregion

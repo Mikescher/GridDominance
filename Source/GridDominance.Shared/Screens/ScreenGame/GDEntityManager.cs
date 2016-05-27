@@ -27,7 +27,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 #if DEBUG
 			debugView = new DebugViewXNA(PhysicsWorld);
-			debugView.LoadContent(GDOwner.Graphics.GraphicsDevice, GDOwner.Owner.Content, Textures.DebugFont);
+			debugView.LoadContent(GDOwner.Graphics.GraphicsDevice, GDOwner.Game.Content, Textures.DebugFont);
 			debugView.AppendFlags(DebugViewFlags.Shape);
 			debugView.AppendFlags(DebugViewFlags.DebugPanel);
 			debugView.AppendFlags(DebugViewFlags.PerformanceGraph);

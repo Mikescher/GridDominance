@@ -36,7 +36,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public const float GAMESPEED_SUPERFAST = 4f;
 
 		//-----------------------------------------------------------------
-		public MainGame GDOwner => (MainGame)Owner;
+		public MainGame GDOwner => (MainGame)Game;
 
 		public GDGridBackground GDBackground => (GDGridBackground) Background;
 		public GDEntityManager GDEntities => (GDEntityManager) Entities;
@@ -83,17 +83,17 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			Initialize();
 
 #if DEBUG
-			DebugSettings.AddTrigger("SetQuality_1", this, Keys.D1, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.FD));
-			DebugSettings.AddTrigger("SetQuality_2", this, Keys.D2, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.BD));
-			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.LD));
-			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.MD));
-			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyboardModifiers.Control, x => Textures.ChangeQuality(Owner.Content, TextureQuality.HD));
+			DebugSettings.AddTrigger("SetQuality_1", this, Keys.D1, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.FD));
+			DebugSettings.AddTrigger("SetQuality_2", this, Keys.D2, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.BD));
+			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
+			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
+			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
 
 			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyboardModifiers.None, false);
 			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyboardModifiers.None, true);
-			DebugSettings.AddSwitch("DebugBackground", this,  Keys.F3, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugHUDBorders", this,  Keys.F4, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugCannonView", this,  Keys.F5, KeyboardModifiers.None, true);
+			DebugSettings.AddSwitch("DebugBackground",  this, Keys.F3, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("DebugHUDBorders",  this, Keys.F4, KeyboardModifiers.None, true);
+			DebugSettings.AddSwitch("DebugCannonView",  this, Keys.F5, KeyboardModifiers.None, true);
 
 			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
 #endif
@@ -111,9 +111,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			{
 				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} | total = {FPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} | total = {UPSCounter.TotalActions:000000})");
-				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Owner.GraphicsDevice):#.00} | Viewport=[{Owner.GraphicsDevice.Viewport.Width}|{Owner.GraphicsDevice.Viewport.Height}]");
+				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00} | Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
 				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {GDBackground.Particles.Count,3} | Bodies = {GDEntities.PhysicsWorld.BodyList.Count,3}");
-				DebugDisp.AddLine(() => $"HUD.Size=(T:{GameHUD.Top}|L:{GameHUD.Left}|R:{GameHUD.Right}|B:{GameHUD.Bottom}) | HUD.Elements={GameHUD.Count()}");
+				DebugDisp.AddLine(() => $"HUD.Size=(T:{GameHUD.Top}|L:{GameHUD.Left}|R:{GameHUD.Right}|B:{GameHUD.Bottom}) | HUD.AllElements={GameHUD.DeepCount()} | HUD.RootElements={GameHUD.FlatCount()}");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {((IDebugBatchRenderer)MainBatch).LastRenderSpriteCount:0000}; OGL Text = {((IDebugBatchRenderer)MainBatch).LastRenderTextCount:0000}");
 				
@@ -142,7 +142,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
 		protected override GameBackground CreateBackground() => new GDGridBackground(this);
-		protected override ViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Owner.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+		protected override ViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 
 		private void LoadLevelFromBlueprint()
 		{
@@ -175,10 +175,10 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			GameHUD.RecalculateAllElementPositions();
 
 #if DEBUG
-			var newQuality = Textures.GetPreferredQuality(Owner.GraphicsDevice);
+			var newQuality = Textures.GetPreferredQuality(Game.GraphicsDevice);
 			if (newQuality != Textures.TEXTURE_QUALITY)
 			{
-				Textures.ChangeQuality(Owner.Content, newQuality);
+				Textures.ChangeQuality(Game.Content, newQuality);
 			}
 #endif
 		}

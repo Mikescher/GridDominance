@@ -7,38 +7,42 @@ using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Interfaces;
 using System;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
-	public abstract class HUDElement : ISAMDrawable, ISAMUpdateable
+	public abstract class HUDElement : ISAMLayeredDrawable, ISAMUpdateable
 	{
-		public GameHUD Owner = null; // Only set on add to HUD (the OnInitialize is called)
+		public HUDContainer Owner = null; // Only set on add to HUD (the OnInitialize is called)
+		public GameHUD HUD = null; // Only set on add to HUD (the OnInitialize is called)
 		public bool Alive = true;
+
+		public virtual int DeepInclusiveCount => 1;
 
 		private Point _relativePosition = Point.Zero;
 		public Point RelativePosition
 		{
 			get { return _relativePosition;}
-			set { _relativePosition = value; RecalculatePositionLater(); }
+			set { _relativePosition = value; InvalidatePosition(); }
 		}
 
 		private Size _size = Size.Empty;
 		public Size Size
 		{
 			get { return _size; }
-			set { _size = value; RecalculatePositionLater(); }
+			set { _size = value; InvalidatePosition(); }
 		}
 
 		private HUDAlignment _alignment = HUDAlignment.TOPLEFT;
 		public HUDAlignment Alignment
 		{
 			get { return _alignment; }
-			set { _alignment = value; RecalculatePositionLater(); }
+			set { _alignment = value; InvalidatePosition(); }
 		}
 
-		public Point Position { get; private set; } = Point.Zero;
-		public Rectangle BoundingRectangle { get; private set; } = Rectangle.Empty;
+		public Point Position { get; protected set; } = Point.Zero;
+		public Rectangle BoundingRectangle { get; protected set; } = Rectangle.Empty;
 
 		public Vector2 RelativeCenter
 		{
@@ -46,7 +50,19 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			set { RelativePosition = new Point((int) (value.X - Size.Width / 2f), (int) (value.Y - Size.Height / 2f));}
 		}
 
-		public Vector2 Center => new Vector2(Position.X + Size.Width / 2f, Position.Y + Size.Height / 2f);
+		public int Top => BoundingRectangle.Top;
+		public int Left => BoundingRectangle.Left;
+
+		public int Bottom => BoundingRectangle.Bottom;
+		public int Right => BoundingRectangle.Right;
+
+		public int Width => BoundingRectangle.Width;
+		public int Height => BoundingRectangle.Height;
+
+		public int CenterX => (int) (Position.X + Size.Width / 2f);
+		public int CenterY => (int) (Position.Y + Size.Height / 2f);
+
+		public Vector2 Center => new Vector2(CenterX, CenterY);
 
 		protected bool IsPointerDownOnElement = false;
 		protected bool PositionInvalidated = false;
@@ -65,17 +81,17 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public void Initialize()
 		{
-			RecalculatePositionLater();
+			InvalidatePosition();
 
 			OnInitialize();
 		}
 
-		public void DrawBackground(IBatchRenderer sbatch)
+		public virtual void DrawBackground(IBatchRenderer sbatch)
 		{
 			DoDrawBackground(sbatch, BoundingRectangle);
 		}
 
-		public void Draw(IBatchRenderer sbatch)
+		public virtual void DrawForeground(IBatchRenderer sbatch)
 		{
 			DoDraw(sbatch, BoundingRectangle);
 
@@ -85,7 +101,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				DrawDebugHUDBorders(sbatch);
 			}
 #endif
-
 		}
 
 		protected virtual void DrawDebugHUDBorders(IBatchRenderer sbatch)
@@ -116,12 +131,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			DoUpdate(gameTime, istate);
 		}
 
-		public void RecalculatePositionLater()
+		public virtual void InvalidatePosition()
 		{
 			PositionInvalidated = true;
 		}
 
-		private void RecalculatePosition()
+		protected virtual void RecalculatePosition()
 		{
 			if (Owner == null) return;
 

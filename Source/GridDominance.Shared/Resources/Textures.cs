@@ -93,6 +93,8 @@ namespace GridDominance.Shared.Resources
 
 		public static TextureRegion2D TexTileBorder;
 
+		public static TextureRegion2D TexCircle;
+
 		public static TextureRegion2D TexCannonBody;
 		public static TextureRegion2D TexCannonBodyShadow;
 		public static TextureRegion2D TexCannonBarrel;
@@ -149,19 +151,21 @@ namespace GridDominance.Shared.Resources
 
 			TexTileBorder = AtlasTextures["grid"];
 
-			TexCannonBody         = AtlasTextures["cannonbody"];
+			TexCannonBody         = AtlasTextures["simple_circle"];
 			TexCannonBodyShadow   = AtlasTextures["cannonbody_shadow"];
 			TexCannonBarrel       = AtlasTextures["cannonbarrel"];
 			TexCannonBarrelShadow = AtlasTextures["cannonbarrel_shadow"];
 			TexCannonCrosshair    = AtlasTextures["cannoncrosshair"];
 
+
 			AnimCannonCog = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
 
 			TexBullet         = AtlasTextures["cannonball"];
 			TexBulletSplitter = AtlasTextures["cannonball_piece"];
-			
-			TexPixel = AtlasTextures["pixel"];
-			TexPixel = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
+
+			TexCircle = AtlasTextures["simple_circle"];
+			TexPixel  = AtlasTextures["simple_pixel"];
+			TexPixel  = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
 
 			TexHUDButtonBase = AtlasTextures["hud_button_base"];
 			TexHUDButtonPause = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();

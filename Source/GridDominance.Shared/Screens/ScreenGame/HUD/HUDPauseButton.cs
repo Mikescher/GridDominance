@@ -106,7 +106,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			isOpened = false;
 
-			this.GDOwner().GDOwner.IsPaused = false;
+			this.GDHUD().GDOwner.IsPaused = false;
 
 			foreach (var button in subMenu)
 			{
@@ -114,16 +114,16 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			}
 			subMenu = null;
 
-			Owner.Owner.PushNotification("HUDPauseButton :: Game resumed");
+			HUD.Screen.PushNotification("HUDPauseButton :: Game resumed");
 		}
 
 		private void Open()
 		{
 			isOpened = true;
 
-			this.GDOwner().GDOwner.IsPaused = true;
+			this.GDHUD().GDOwner.IsPaused = true;
 
-			Owner.Owner.PushNotification("HUDPauseButton :: Game paused");
+			HUD.Screen.PushNotification("HUDPauseButton :: Game paused");
 
 			subMenu = new[]
 			{
@@ -142,17 +142,17 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private void OnRestart()
 		{
-			this.GDOwner().GDOwner.RestartLevel();
+			this.GDHUD().GDOwner.RestartLevel();
 		}
 
 		private void OnExit()
 		{
-			Owner.Owner.Owner.Exit();
+			HUD.Screen.Game.Exit();
 		}
 
 		protected override void OnPress(InputState istate)
 		{
-			this.GDOwner().GDOwner.PushNotification("Single Press");
+			this.GDHUD().GDOwner.PushNotification("Single Press");
 
 			if (!isOpened)
 			{
@@ -176,7 +176,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void OnHold(InputState istate, float holdTime)
 		{
-			this.GDOwner().GDOwner.GDOwner.SetLevelScreen(Levels.LEVEL_DBG);
+			this.GDHUD().GDOwner.GDOwner.SetLevelScreen(Levels.LEVEL_DBG);
 		}
 	}
 }

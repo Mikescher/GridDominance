@@ -5,6 +5,7 @@ using MonoSAMFramework.Portable.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {

@@ -37,15 +37,6 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "cannonbody.png",
-	"frame": {"x":116,"y":2,"w":24,"h":24},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
-	"sourceSize": {"w":24,"h":24},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "cannonbody_shadow.png",
 	"frame": {"x":85,"y":2,"w":28,"h":28},
 	"rotated": false,
@@ -1486,7 +1477,16 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "pixel.png",
+	"filename": "simple_circle.png",
+	"frame": {"x":116,"y":2,"w":24,"h":24},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
+	"sourceSize": {"w":24,"h":24},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "simple_pixel.png",
 	"frame": {"x":485,"y":35,"w":2,"h":2},
 	"rotated": false,
 	"trimmed": false,
@@ -1501,6 +1501,6 @@
 	"format": "RGBA8888",
 	"size": {"w":491,"h":127},
 	"scale": "0.125",
-	"smartupdate": "$TexturePacker:SmartUpdate:b8e32731af97f5848cab0e96eef0c86e:7c81cdc8390b139f4b1df105ebdd75ca:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:45454061ce4e1df47868086a8b0f2ebb:00c1f0c372983bfd1885d8f96d1436d9:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

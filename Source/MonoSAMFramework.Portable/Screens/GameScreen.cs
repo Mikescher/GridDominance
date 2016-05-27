@@ -16,7 +16,7 @@ namespace MonoSAMFramework.Portable.Screens
 	public abstract class GameScreen : Screen
 	{
 		public readonly GraphicsDeviceManager Graphics;
-		public readonly MonoSAMGame Owner;
+		public readonly MonoSAMGame Game;
 
 #if DEBUG
 		protected RealtimeAPSCounter FPSCounter;
@@ -38,7 +38,7 @@ namespace MonoSAMFramework.Portable.Screens
 		protected GameScreen(MonoSAMGame game, GraphicsDeviceManager gdm)
 		{
 			Graphics = gdm;
-			Owner = game;
+			Game = game;
 
 			Initialize();
 		}
@@ -66,7 +66,7 @@ namespace MonoSAMFramework.Portable.Screens
 		{
 			var state = InputStateMan.GetNewState();
 
-			if (state.IsExit()) Owner.Exit();
+			if (state.IsExit()) Game.Exit();
 
 #if DEBUG
 			DebugSettings.Update(state);

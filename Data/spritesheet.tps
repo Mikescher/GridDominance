@@ -275,7 +275,6 @@
             <key type="filename">cannonball_piece.png</key>
             <key type="filename">cannonbarrel.png</key>
             <key type="filename">cannonbarrel_shadow.png</key>
-            <key type="filename">cannonbody.png</key>
             <key type="filename">cannonbody_shadow.png</key>
             <key type="filename">cannoncog_animated/cannoncog_000.png</key>
             <key type="filename">cannoncog_animated/cannoncog_001.png</key>
@@ -436,7 +435,8 @@
             <key type="filename">panel_corner.png</key>
             <key type="filename">pausemenu_marker.png</key>
             <key type="filename">pausemenu_marker_background.png</key>
-            <key type="filename">pixel.png</key>
+            <key type="filename">simple_circle.png</key>
+            <key type="filename">simple_pixel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -447,9 +447,7 @@
             <filename>cannonball.png</filename>
             <filename>cannonbody_shadow.png</filename>
             <filename>cannonbarrel.png</filename>
-            <filename>cannonbody.png</filename>
             <filename>grid.png</filename>
-            <filename>pixel.png</filename>
             <filename>cannonbarrel_shadow.png</filename>
             <filename>cannoncog_animated</filename>
             <filename>cannoncrosshair.png</filename>
@@ -468,6 +466,8 @@
             <filename>panel_blur_edge.png</filename>
             <filename>panel_corner.png</filename>
             <filename>panel_blur_corner.png</filename>
+            <filename>simple_circle.png</filename>
+            <filename>simple_pixel.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

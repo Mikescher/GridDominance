@@ -1,6 +1,6 @@
 ﻿using MonoSAMFramework.Portable.BatchRenderer;
 
-namespace MonoSAMFramework.Portable
+namespace MonoSAMFramework.Portable.Interfaces
 {
 	interface ISAMDrawable
 	{
