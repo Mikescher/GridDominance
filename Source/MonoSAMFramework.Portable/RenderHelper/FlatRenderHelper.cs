@@ -8,7 +8,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 {
 	public static class FlatRenderHelper
 	{
-		public const int CORNER_SIZE = SAMRenderHelper.CORNER_SIZE;
+		public const int CORNER_SIZE = SimpleRenderHelper.CORNER_SIZE;
 
 		public static readonly Vector2 CORNER_VECTOR_TL = new Vector2(-CORNER_SIZE, -CORNER_SIZE);
 		public static readonly Vector2 CORNER_VECTOR_TR = new Vector2(+CORNER_SIZE, -CORNER_SIZE);

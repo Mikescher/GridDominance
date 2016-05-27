@@ -6,7 +6,7 @@ using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
-	public static class SAMRenderHelper
+	public static class SimpleRenderHelper
 	{
 		public const int CORNER_SIZE = 16;
 
@@ -25,13 +25,13 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds.AsInflated(CORNER_SIZE * cornerScale, 0),
+				bounds.AsInflated(CORNER_SIZE * cornerScale, 0).Round(),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds.AsInflated(0, CORNER_SIZE * cornerScale),
+				bounds.AsInflated(0, CORNER_SIZE * cornerScale).Round(),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 
@@ -146,7 +146,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds,
+				bounds.Round(),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 		}

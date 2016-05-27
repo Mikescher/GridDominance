@@ -46,7 +46,9 @@ namespace MonoSAMFramework.Portable.ColorHelper
 		public static readonly Color Foreground     = new Color(0x21, 0x21, 0x21); // #212121 = ( 33,  33,  33)
 		public static readonly Color ForegroundHUD  = new Color(0x52, 0x58, 0x64); // #525864 = ( 82,  88, 100)
 
-		public static readonly Color SeperatorHUD   = new Color(0x18, 0x19, 0x1E); // #212121 = ( 33,  33,  33)
+		public static readonly Color SeperatorHUD   = new Color(0x18, 0x19, 0x1E); // #18191E = ( 24,  25,  30)
+
+		public static readonly Color TextHUD        = new Color(0xF7, 0xF6, 0xF2); // #F7F6F2 = (247, 246, 242)
 
 		public static readonly Color Flamingo       = new Color(0xE7, 0x57, 0x48); // #E75748 = (231,  87,  72)
 	}

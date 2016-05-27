@@ -57,7 +57,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				Color = FlatColors.PeterRiver,
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
-				Size = new FSize(WIDTH / 2, FOOTER_COLBAR_HEIGHT),
+				Size = new FSize(WIDTH / 2f, FOOTER_COLBAR_HEIGHT),
 			});
 
 			AddElement(new HUDRectangle(2)
@@ -88,8 +88,32 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			AddElement(new HUDLabel(2)
 			{
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				Text = "Level",
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontRegular,
+				FontSize = 35,
+				Alignment = HUDAlignment.BOTTOMLEFT,
+				RelativePosition = new FPoint(0, 77),
+				Size = new FSize(WIDTH / 3f, 40),
+			});
+
+			AddElement(lblPoints = new HUDLabel(2)
+			{
+				Text = "4 - 4",
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontBold,
+				FontSize = 57,
+				Alignment = HUDAlignment.BOTTOMLEFT,
+				RelativePosition = new FPoint(0, 15),
+				Size = new FSize(WIDTH / 3f, 60),
+			});
+
+			AddElement(new HUDLabel(2)
+			{
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				Text = "Points",
-				TextColor = Color.White,
+				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
 				Alignment = HUDAlignment.BOTTOMCENTER,
@@ -100,10 +124,34 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			AddElement(lblPoints = new HUDIncrementIndicatorLabel("236", "+20", 2)
 			{
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				TextColor = Color.White,
+				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,
 				FontSize = 57,
 				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(0, 15),
+				Size = new FSize(WIDTH / 3f, 60),
+			});
+
+			AddElement(new HUDLabel(2)
+			{
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				Text = "Progress",
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontRegular,
+				FontSize = 35,
+				Alignment = HUDAlignment.BOTTOMRIGHT,
+				RelativePosition = new FPoint(0, 77),
+				Size = new FSize(WIDTH / 3f, 40),
+			});
+
+			AddElement(lblPoints = new HUDLabel(2)
+			{
+				Text = "2 / 4",
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontBold,
+				FontSize = 57,
+				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
 			});

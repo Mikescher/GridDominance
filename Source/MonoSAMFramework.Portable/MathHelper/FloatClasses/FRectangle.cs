@@ -200,5 +200,10 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 		{
 			return new Rectangle((int)X, (int)Y, (int)Width, (int)Height);
 		}
+
+		public Rectangle Round()
+		{
+			return new Rectangle(FloatMath.Round(X), FloatMath.Round(Y), FloatMath.Round(Width), FloatMath.Round(Height));
+		}
 	}
 }

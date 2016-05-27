@@ -33,7 +33,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public int CenterX => Left + Width/2;
 		public int CenterY => Top + Height / 2;
-		
+
+		public float PixelWidth => Width * 1f / Screen.Viewport.ViewportWidth;
+
 		public void Update(GameTime gameTime, InputState istate)
 		{
 			root.Update(gameTime, istate);

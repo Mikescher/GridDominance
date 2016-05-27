@@ -72,7 +72,7 @@
     <Compile Include="DebugTools\RealtimeAPSCounter.cs" />
     <Compile Include="RenderHelper\FlatRenderHelper.cs" />
     <Compile Include="RenderHelper\FontRenderHelper.cs" />
-    <Compile Include="RenderHelper\SAMRenderHelper.cs" />
+    <Compile Include="RenderHelper\SimpleRenderHelper.cs" />
     <Compile Include="RenderHelper\StaticTextures.cs" />
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
     <Compile Include="Screens\Entities\GameEntityOperation.cs" />

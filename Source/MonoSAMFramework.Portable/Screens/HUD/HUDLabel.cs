@@ -59,7 +59,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			if (BackgroundColor != Color.Transparent)
 			{
-				SAMRenderHelper.DrawSimpleRect(sbatch, bounds, BackgroundColor);
+				SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, BackgroundColor);
 			}
 		}
 

@@ -12,7 +12,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			set { _orientation = value; InvalidatePosition(); }
 		}
 
-		public int SeperatorWidth = 1;
+		public int? SeperatorWidth = null;
 
 		public HUDSeperator(HUDOrientation orientation, int depth = 0)
 			: base(depth)
@@ -25,10 +25,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			switch (Orientation)
 			{
 				case HUDOrientation.Horizontal:
-					Size = new FSize(Size.Width, SeperatorWidth);
+					Size = new FSize(Size.Width, SeperatorWidth ?? HUD.PixelWidth);
 					break;
 				case HUDOrientation.Vertical:
-					Size = new FSize(SeperatorWidth, Size.Height);
+					Size = new FSize(SeperatorWidth ?? HUD.PixelWidth, Size.Height);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

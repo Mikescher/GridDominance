@@ -22,7 +22,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			if (Color == Color.Transparent) return;
 
-			SAMRenderHelper.DrawSimpleRect(sbatch, bounds, Color);
+			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, Color);
 		}
 
 		public override void OnInitialize()
