@@ -23,6 +23,24 @@ namespace MonoSAMFramework.Portable.Extensions
 				(int)(rect.Height - verticalAmount * 2));
 		}
 
+		public static Rectangle AsOffseted(this Rectangle rect, float offsetX, float offsetY)
+		{
+			return new Rectangle(
+				(int)(rect.X + offsetX),
+				(int)(rect.Y + offsetY),
+				rect.Width,
+				rect.Height);
+		}
+
+		public static Rectangle AsOffseted(this Rectangle rect, Vector2 offset)
+		{
+			return new Rectangle(
+				(int)(rect.X + offset.X),
+				(int)(rect.Y + offset.Y),
+				rect.Width,
+				rect.Height);
+		}
+
 		public static Point TopLeft(this Rectangle rect) => new Point(rect.Left, rect.Top);
 		public static Point TopRight(this Rectangle rect) => new Point(rect.Right, rect.Top);
 		public static Point BottomLeft(this Rectangle rect) => new Point(rect.Left, rect.Bottom);

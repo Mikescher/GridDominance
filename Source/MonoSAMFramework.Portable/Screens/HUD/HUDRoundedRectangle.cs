@@ -1,0 +1,45 @@
+﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.RenderHelper;
+
+namespace MonoSAMFramework.Portable.Screens.HUD
+{
+	public class HUDRoundedRectangle : HUDElement
+	{
+		public override int Depth { get; }
+
+		public Color Color = Color.Transparent;
+		public bool RoundCornerTL = true;
+		public bool RoundCornerTR = true;
+		public bool RoundCornerBL = true;
+		public bool RoundCornerBR = true;
+
+		public HUDRoundedRectangle(int depth = 0)
+		{
+			Depth = depth;
+		}
+
+		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
+		{
+			if (Color == Color.Transparent) return;
+
+			FlatRenderHelper.DrawRoundedRect(sbatch, bounds, Color, RoundCornerTL, RoundCornerTR, RoundCornerBL, RoundCornerBR);
+		}
+
+		public override void OnInitialize()
+		{
+			//
+		}
+
+		public override void OnRemove()
+		{
+			//
+		}
+
+		protected override void DoUpdate(GameTime gameTime, InputState istate)
+		{
+			//
+		}
+	}
+}

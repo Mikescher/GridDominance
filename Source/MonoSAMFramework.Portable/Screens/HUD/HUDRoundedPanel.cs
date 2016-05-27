@@ -5,7 +5,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
-	public abstract class HUDPanel : HUDContainer
+	public abstract class HUDRoundedPanel : HUDContainer
 	{
 		public Color Background = Color.White;
 

@@ -79,13 +79,17 @@
     <Compile Include="Screens\HUD\GameHUD.cs" />
     <Compile Include="Screens\HUD\HUDContainer.cs" />
     <Compile Include="Screens\HUD\HUDEllipseButton.cs" />
+    <Compile Include="Screens\HUD\HUDOrientation.cs" />
     <Compile Include="Screens\HUD\HUDRootContainer.cs" />
+    <Compile Include="Screens\HUD\HUDRectangle.cs" />
+    <Compile Include="Screens\HUD\HUDRoundedRectangle.cs" />
+    <Compile Include="Screens\HUD\HUDSeperator.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\HUD\HUDElement.cs" />
     <Compile Include="Screens\HUD\HUDAlignment.cs" />
     <Compile Include="Screens\HUD\HUDButton.cs" />
-    <Compile Include="Screens\HUD\HUDPanel.cs" />
+    <Compile Include="Screens\HUD\HUDRoundedPanel.cs" />
     <Compile Include="Screens\TolerantBoxingViewportAdapter.cs" />
   </ItemGroup>
   <ItemGroup>

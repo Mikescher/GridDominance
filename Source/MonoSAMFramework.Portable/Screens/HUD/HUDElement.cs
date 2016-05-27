@@ -17,6 +17,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public HUDContainer Owner = null; // Only set on add to HUD (the OnInitialize is called)
 		public GameHUD HUD = null; // Only set on add to HUD (the OnInitialize is called)
 		public bool Alive = true;
+		public bool Initialized { get; private set; } = false;
 
 		public virtual int DeepInclusiveCount => 1;
 
@@ -81,6 +82,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public void Initialize()
 		{
+			Initialized = true;
+
 			InvalidatePosition();
 
 			OnInitialize();
@@ -101,6 +104,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				DrawDebugHUDBorders(sbatch);
 			}
 #endif
+		}
+
+		protected abstract void DoDraw(IBatchRenderer sbatch, Rectangle bounds);
+
+		protected virtual void DoDrawBackground(IBatchRenderer sbatch, Rectangle bounds)
+		{
+			/* OVERRIDE ME */
 		}
 
 		protected virtual void DrawDebugHUDBorders(IBatchRenderer sbatch)
@@ -140,26 +150,54 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			if (Owner == null) return;
 
+			OnBeforeRecalculatePosition();
+
+			int px;
+			int py;
+
 			switch (Alignment)
 			{
 				case HUDAlignment.TOPLEFT:
-					Position = new Point(Owner.Left + RelativePosition.X, Owner.Top + RelativePosition.Y);
+				case HUDAlignment.BOTTOMLEFT:
+				case HUDAlignment.CENTERLEFT:
+					px = Owner.Left + RelativePosition.X;
 					break;
 				case HUDAlignment.TOPRIGHT:
-					Position = new Point(Owner.Right - Size.Width - RelativePosition.X, Owner.Top + RelativePosition.Y);
-					break;
-				case HUDAlignment.BOTTOMLEFT:
-					Position = new Point(Owner.Left + RelativePosition.X, Owner.Bottom - Size.Height - RelativePosition.Y);
-					break;
 				case HUDAlignment.BOTTOMRIGHT:
-					Position = new Point(Owner.Right - Size.Width - RelativePosition.X, Owner.Bottom - Size.Height - RelativePosition.Y);
+				case HUDAlignment.CENTERRIGHT:
+					px = Owner.Right - Size.Width - RelativePosition.X;
 					break;
+				case HUDAlignment.TOPCENTER:
+				case HUDAlignment.BOTTOMCENTER:
 				case HUDAlignment.CENTER:
-					Position = new Point(Owner.CenterX - Size.Width/2 + RelativePosition.X, Owner.CenterY - Size.Height / 2 + RelativePosition.Y);
+					px = Owner.CenterX - Size.Width / 2 + RelativePosition.X;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+
+			switch (Alignment)
+			{
+				case HUDAlignment.TOPLEFT:
+				case HUDAlignment.TOPRIGHT:
+				case HUDAlignment.TOPCENTER:
+					py = Owner.Top + RelativePosition.Y;
+					break;
+				case HUDAlignment.BOTTOMLEFT:
+				case HUDAlignment.BOTTOMRIGHT:
+				case HUDAlignment.BOTTOMCENTER:
+					py = Owner.Bottom - Size.Height - RelativePosition.Y;
+					break;
+				case HUDAlignment.CENTERLEFT:
+				case HUDAlignment.CENTERRIGHT:
+				case HUDAlignment.CENTER:
+					py = Owner.CenterY - Size.Height / 2 + RelativePosition.Y;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+
+			Position = new Point(px, py);
 
 			BoundingRectangle = new Rectangle(Position, Size);
 
@@ -167,14 +205,28 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		}
 
 		public abstract void OnInitialize();
-		public abstract void OnRemove();
+		public abstract void OnRemove();     // Only called on manual remove - not on HUD/Screen remove
 
-		protected abstract void DoDraw(IBatchRenderer sbatch, Rectangle bounds);
-		protected virtual void DoDrawBackground(IBatchRenderer sbatch, Rectangle bounds) { }
 		protected abstract void DoUpdate(GameTime gameTime, InputState istate);
 
-		protected virtual void OnPointerUp(Point relPositionPoint, InputState istate) { /* OVERRIDE ME */ }
-		protected virtual void OnPointerDown(Point relPositionPoint, InputState istate) { /* OVERRIDE ME */ }
-		protected virtual void OnPointerClick(Point relPositionPoint, InputState istate) { /* OVERRIDE ME */ }
+		protected virtual void OnBeforeRecalculatePosition()
+		{
+			/* OVERRIDE ME */
+		}
+
+		protected virtual void OnPointerUp(Point relPositionPoint, InputState istate)
+		{
+			/* OVERRIDE ME */
+		}
+
+		protected virtual void OnPointerDown(Point relPositionPoint, InputState istate)
+		{
+			/* OVERRIDE ME */
+		}
+
+		protected virtual void OnPointerClick(Point relPositionPoint, InputState istate)
+		{
+			/* OVERRIDE ME */
+		}
 	}
 }

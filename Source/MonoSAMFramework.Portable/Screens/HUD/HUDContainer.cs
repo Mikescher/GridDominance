@@ -2,6 +2,7 @@
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Language;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -52,6 +53,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public void AddElement(HUDElement e)
 		{
+#if DEBUG
+			if (!Initialized) throw new Exception("Cannot add elements before initialization");
+#endif
+
 			e.Owner = this;
 			e.HUD = HUD;
 			children.Add(e);

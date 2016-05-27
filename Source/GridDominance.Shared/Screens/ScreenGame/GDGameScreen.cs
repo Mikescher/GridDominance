@@ -92,7 +92,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyboardModifiers.None, false);
 			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyboardModifiers.None, true);
 			DebugSettings.AddSwitch("DebugBackground",  this, Keys.F3, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugHUDBorders",  this, Keys.F4, KeyboardModifiers.None, true);
+			DebugSettings.AddSwitch("DebugHUDBorders",  this, Keys.F4, KeyboardModifiers.None, false);
 			DebugSettings.AddSwitch("DebugCannonView",  this, Keys.F5, KeyboardModifiers.None, true);
 
 			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
