@@ -8,6 +8,8 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
@@ -33,7 +35,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			Size = baseButton.Size;
 			Alignment = baseButton.Alignment;
 
-			OverrideEllipseSize = new Size(REAL_DIAMETER, REAL_DIAMETER);
+			OverrideEllipseSize = new FSize(REAL_DIAMETER, REAL_DIAMETER);
 		}
 
 		public override void OnInitialize()
@@ -46,7 +48,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			// NOP
 		}
 
-		protected override void DoDrawBackground(IBatchRenderer sbatch, Rectangle bounds)
+		protected override void DoDrawBackground(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			sbatch.Draw(
 				Textures.TexHUDButtonBase.Texture,
@@ -60,7 +62,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				0);
 		}
 
-		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			var texture = GetTexture();
 				

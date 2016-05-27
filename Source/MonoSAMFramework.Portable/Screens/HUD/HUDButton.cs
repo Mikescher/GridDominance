@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using System;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
@@ -37,7 +38,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		private int multiClickCounter;
 		private bool isHoldingDown;
 
-		protected override void OnPointerClick(Point relPositionPoint, InputState istate)
+		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
 			if (suppressClick) return;
 			if (!IsCursorOnButton(istate)) return;
@@ -117,7 +118,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			}
 		}
 
-		protected override void OnPointerDown(Point relPositionPoint, InputState istate)
+		protected override void OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
 			if (!IsCursorOnButton(istate)) return;
 
@@ -125,7 +126,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			isHoldingDown = true;
 		}
 
-		protected override void OnPointerUp(Point relPositionPoint, InputState istate)
+		protected override void OnPointerUp(FPoint relPositionPoint, InputState istate)
 		{
 			if (!IsPointerDownOnElement) return;
 			if (!isHoldingDown) return;

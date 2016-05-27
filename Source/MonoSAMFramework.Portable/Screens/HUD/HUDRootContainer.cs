@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -19,7 +19,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			// NOP
 		}
 
-		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			// NOP
 		}
@@ -33,9 +33,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			if (HUD == null) return;
 
-			Size = new Size(HUD.Width, HUD.Height);
-			Position = new Point(HUD.Left, HUD.Top);
-			BoundingRectangle = new Rectangle(Position, Size);
+			Size = new FSize(HUD.Width, HUD.Height);
+			Position = new FPoint(HUD.Left, HUD.Top);
+			BoundingRectangle = new FRectangle(Position, Size);
 			
 			PositionInvalidated = false;
 		}

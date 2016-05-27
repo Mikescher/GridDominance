@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
 	public abstract class HUDEllipseButton : HUDButton
 	{
-		protected Size OverrideEllipseSize = Size.Empty;
+		protected FSize OverrideEllipseSize = FSize.Empty;
 
 		protected override bool IsCursorOnButton(InputState istate)
 		{
@@ -19,7 +19,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			var relativePoint = BoundingRectangle.Center - istate.PointerPosition;
 
 
-			if (ellipseSize.Width == ellipseSize.Height)
+			if (ellipseSize.IsQuadratic)
 			{
 				return relativePoint.LengthSquared() <= (ellipseSize.Width / 2) * (ellipseSize.Width / 2);
 			}
@@ -44,7 +44,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			}
 			else
 			{
-				sbatch.DrawEllipse(BoundingRectangle.Resize(OverrideEllipseSize), 90, Color.Magenta, 2f);
+				sbatch.DrawEllipse(BoundingRectangle.AsResized(OverrideEllipseSize), 90, Color.Magenta, 2f);
 			}
 		}
 	}

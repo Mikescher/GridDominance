@@ -41,7 +41,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 			{
 				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.PointerPosition.Y - Cannon.Center.Y, istate.PointerPosition.X - Cannon.Center.X));
 
-				var dist = (istate.PointerPosition.ToVector2() - Cannon.Center).Length();
+				var dist = (istate.PointerPosition - Cannon.Center).Length();
 				if (dist > 0)
 				{
 					var crosshairScale = FloatMath.Min(dist / CROSSHAIR_CENTER_DISTANCE, 1f);

@@ -1,9 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using MonoGame.Extended;
-using MonoSAMFramework.Portable.Screens;
-using System;
 
-namespace MonoSAMFramework.Portable.External
+namespace MonoSAMFramework.Portable.Screens
 {
 	public class ScreenManager : IDraw, IUpdate
 	{

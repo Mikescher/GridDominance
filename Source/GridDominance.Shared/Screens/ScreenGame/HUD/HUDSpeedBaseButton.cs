@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
@@ -45,8 +46,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public HUDSpeedBaseButton()
 		{
-			RelativePosition = new Point(8, 8);
-			Size = new Size(62, 62);
+			RelativePosition = new FPoint(8, 8);
+			Size = new FSize(62, 62);
 			Alignment = HUDAlignment.BOTTOMLEFT;
 		}
 
@@ -60,7 +61,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			// NOP
 		}
 
-		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			sbatch.Draw(
 				Textures.TexHUDButtonBase.Texture,
@@ -106,7 +107,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				var center = new Vector2(Position.X + Size.Width / 2f, Position.Y + Size.Height / 2f);
 				
-				var delta = istate.PointerPosition.ToVector2() - center;
+				var delta = istate.PointerPosition - center;
 				if (delta.LengthSquared() >= DRAG_MINIMUMDISTANCE * DRAG_MINIMUMDISTANCE)
 				{
 					var angle = delta.ToAngle();
@@ -166,7 +167,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				var progress = FloatMath.LimitedDec(openingProgress, i * OPENING_ANIMATION_DELAY, 0f) / OPENING_ANIMATION_SINGLESPEED;
 
-				speedButtons[i].RelativePosition = (RelativePosition.ToVector2() + OPENING_VECTORS[i] * FloatMath.FunctionEaseOutElastic(progress)).ToPoint();
+				speedButtons[i].RelativePosition = (RelativePosition + OPENING_VECTORS[i] * FloatMath.FunctionEaseOutElastic(progress)).ToFPoint();
 			}
 
 			if (finished)
@@ -185,7 +186,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			for (int i = 0; i < 5; i++)
 			{
-				speedButtons[i].RelativePosition = (RelativePosition.ToVector2() + OPENING_VECTORS[i] * openingProgress).ToPoint();
+				speedButtons[i].RelativePosition = (RelativePosition + OPENING_VECTORS[i] * openingProgress).ToFPoint();
 			}
 
 			if (finished)
@@ -200,7 +201,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			}
 		}
 
-		protected override void OnPointerDown(Point relPositionPoint, InputState istate)
+		protected override void OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
 			HUD.Screen.PushNotification("HUDSpeedBaseButton :: Click");
 			

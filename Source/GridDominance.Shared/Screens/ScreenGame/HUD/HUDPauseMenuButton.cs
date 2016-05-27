@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD;
 
@@ -52,8 +53,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			Depth = buttonDepth;
 
-			RelativePosition = new Point(12, 12);
-			Size = new Size(0, 0);
+			RelativePosition = new FPoint(12, 12);
+			Size = new FSize(0, 0);
 			Alignment = owner.Alignment;
 		}
 
@@ -100,12 +101,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				var stepProgress = openingProgress / 0.5f;
 
 				RelativeCenter = baseButton.RelativeCenter + RELATIVE_SPAWNPOSITION * stepProgress;
-				Size = new Size((int) (WIDTH * stepProgress), (int) (HEIGHT * stepProgress));
+				Size = new FSize(WIDTH * stepProgress, HEIGHT * stepProgress);
 			}
 			else if (openingProgress < 0.55f)
 			{
 				RelativeCenter = baseButton.RelativeCenter + RELATIVE_SPAWNPOSITION;
-				Size = new Size(WIDTH, HEIGHT);
+				Size = new FSize(WIDTH, HEIGHT);
 			}
 			else if (openingProgress < 1f)
 			{
@@ -116,12 +117,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 				RelativeCenter = new Vector2(posX, posY);
 
-				Size = new Size(WIDTH, HEIGHT);
+				Size = new FSize(WIDTH, HEIGHT);
 			}
 			else
 			{
 				RelativeCenter = baseButton.RelativeCenter + RELATIVE_SPAWNPOSITION + new Vector2(0, btnIndex * (HEIGHT + GAP));
-				Size = new Size(WIDTH, HEIGHT);
+				Size = new FSize(WIDTH, HEIGHT);
 			}
 		}
 
@@ -135,7 +136,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			RelativeCenter = baseButton.RelativeCenter + RELATIVE_SPAWNPOSITION + new Vector2(-prog * WIDTH*2, btnIndex * (HEIGHT + GAP));
 		}
 
-		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			var scale = Size.Width * 1f / WIDTH;
 

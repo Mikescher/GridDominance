@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.External;
 using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable

@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.RenderHelper;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
@@ -45,7 +46,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			set { internalText.FontSize = value; }
 		}
 
-		public Size InnerLabelSize => internalText.Size;
+		public FSize InnerLabelSize => internalText.Size;
 
 		public HUDLabel(int depth = 0)
 		{
@@ -54,7 +55,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			internalText = new HUDRawText{ Alignment = HUDAlignment.BOTTOMLEFT };
 		}
 
-		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			if (BackgroundColor != Color.Transparent)
 			{

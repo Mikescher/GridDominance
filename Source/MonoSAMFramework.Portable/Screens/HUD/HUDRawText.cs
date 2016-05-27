@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -37,9 +38,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			Depth = depth;
 		}
 
-		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			sbatch.DrawString(Font, _textCache, bounds.VectorTopLeft(), TextColor, 0, Vector2.Zero, _fontScale, SpriteEffects.None, 0);
+			sbatch.DrawString(Font, _textCache, bounds.VectorTopLeft, TextColor, 0, Vector2.Zero, _fontScale, SpriteEffects.None, 0);
 		}
 
 		public override void OnInitialize()

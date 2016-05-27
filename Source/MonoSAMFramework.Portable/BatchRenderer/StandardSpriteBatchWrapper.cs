@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using System;
 using System.Text;
 
@@ -228,7 +229,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			internalBatch.Draw(texture, point1, color: color, rotation: angle, scale: scale);
 		}
 
-		public void FillRectangle(RectangleF rectangle, Color color)
+		public void FillRectangle(FRectangle rectangle, Color color)
 		{
 			FillRectangle(rectangle.Location, rectangle.Size, color);
 		}
@@ -247,7 +248,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			FillRectangle(new Vector2(x, y), new Vector2(width, height), color);
 		}
 
-		public void DrawRectangle(RectangleF rectangle, Color color, float thickness = 1f)
+		public void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f)
 		{
 #if DEBUG
 			RenderSpriteCount+=4;
@@ -268,7 +269,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		public void DrawRectangle(Vector2 location, Vector2 size, Color color, float thickness = 1f)
 		{
-			DrawRectangle(new RectangleF(location.X, location.Y, size.X, size.Y), color, thickness);
+			DrawRectangle(new FRectangle(location.X, location.Y, size.X, size.Y), color, thickness);
 		}
 
 		public void DrawLine(float x1, float y1, float x2, float y2, Color color, float thickness = 1f)
@@ -342,7 +343,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			return points;
 		}
 
-		public void DrawEllipse(RectangleF rectangle, int sides, Color color, float thickness = 1f)
+		public void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f)
 		{
 			DrawPolygon(rectangle.Center, CreateEllipse(rectangle.Width, rectangle.Height, sides), color, thickness);
 		}

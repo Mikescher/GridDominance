@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
@@ -20,8 +22,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public HUDScorePanel()
 		{
-			RelativePosition = Point.Zero;
-			Size = new Size(WIDTH, HEIGHT);
+			RelativePosition = FPoint.Zero;
+			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 		}
@@ -34,7 +36,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				Color = FlatColors.BackgroundHUD2,
 				Alignment = HUDAlignment.BOTTOMRIGHT,
-				Size = new Size(WIDTH, FOOTER_HEIGHT - 10),
+				Size = new FSize(WIDTH, FOOTER_HEIGHT - 10),
 				RoundCornerTL = false,
 				RoundCornerTR = false,
 				RoundCornerBL = true,
@@ -46,24 +48,24 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				Color = FlatColors.Nephritis,
 				Alignment = HUDAlignment.BOTTOMLEFT,
-				RelativePosition = new Point(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
-				Size = new Size(WIDTH / 3, FOOTER_COLBAR_HEIGHT),
+				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
+				Size = new FSize(WIDTH / 3f, FOOTER_COLBAR_HEIGHT),
 			});
 
 			AddElement(new HUDRectangle(1)
 			{
 				Color = FlatColors.PeterRiver,
 				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new Point(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
-				Size = new Size(WIDTH / 2, FOOTER_COLBAR_HEIGHT),
+				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
+				Size = new FSize(WIDTH / 2, FOOTER_COLBAR_HEIGHT),
 			});
 
 			AddElement(new HUDRectangle(2)
 			{
 				Color = FlatColors.Pomegranate,
 				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new Point(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
-				Size = new Size(WIDTH / 3, FOOTER_COLBAR_HEIGHT),
+				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
+				Size = new FSize(WIDTH / 3f, FOOTER_COLBAR_HEIGHT),
 			});
 
 
@@ -71,16 +73,16 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				Color = FlatColors.SeperatorHUD,
 				Alignment = HUDAlignment.BOTTOMLEFT,
-				RelativePosition = new Point(WIDTH / 3, 0),
-				Size = new Size(1, FOOTER_HEIGHT),
+				RelativePosition = new FPoint(WIDTH / 3f, 0),
+				Size = new FSize(1, FOOTER_HEIGHT),
 			});
 
 			AddElement(new HUDSeperator(HUDOrientation.Vertical, 3)
 			{
 				Color = FlatColors.SeperatorHUD,
 				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new Point(WIDTH / 3, 0),
-				Size = new Size(1, FOOTER_HEIGHT),
+				RelativePosition = new FPoint(WIDTH / 3f, 0),
+				Size = new FSize(1, FOOTER_HEIGHT),
 			});
 
 			AddElement(new HUDLabel(2)
@@ -91,8 +93,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
 				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new Point(0, 77),
-				Size = new Size(WIDTH / 3, 35),
+				RelativePosition = new FPoint(0, 77),
+				Size = new FSize(WIDTH / 3f, 35),
 			});
 
 			AddElement(lblPoints = new HUDIncrementIndicatorLabel("236", "+20", 2)
@@ -102,8 +104,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 56,
 				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new Point(0, 15),
-				Size = new Size(WIDTH / 3, 55),
+				RelativePosition = new FPoint(0, 15),
+				Size = new FSize(WIDTH / 3f, 55),
 			});
 		}
 	}

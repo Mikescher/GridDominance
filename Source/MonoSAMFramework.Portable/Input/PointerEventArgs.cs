@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using System;
 
 namespace MonoSAMFramework.Portable.Input
@@ -14,7 +14,7 @@ namespace MonoSAMFramework.Portable.Input
 			Y = py;
 		}
 
-		public PointerEventArgs(Point p)
+		public PointerEventArgs(FPoint p)
 		{
 			X = p.X;
 			Y = p.Y;

@@ -1,4 +1,4 @@
-﻿using MonoGame.Extended;
+﻿using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using System;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
@@ -25,10 +25,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			switch (Orientation)
 			{
 				case HUDOrientation.Horizontal:
-					Size = new Size(Size.Width, SeperatorWidth);
+					Size = new FSize(Size.Width, SeperatorWidth);
 					break;
 				case HUDOrientation.Vertical:
-					Size = new Size(SeperatorWidth, Size.Height);
+					Size = new FSize(SeperatorWidth, Size.Height);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

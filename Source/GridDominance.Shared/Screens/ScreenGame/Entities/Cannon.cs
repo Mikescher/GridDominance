@@ -19,6 +19,7 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {
@@ -363,16 +364,16 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			var innerRadius = Scale*CANNON_DIAMETER/2;
 
-			var rectChargeFull = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
-			var rectChargeProg = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * barrelCharge, 8);
+			var rectChargeFull = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
+			var rectChargeProg = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * barrelCharge, 8);
 
 			sbatch.FillRectangle(rectChargeFull, Color.White);
 			sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
 			sbatch.DrawRectangle(rectChargeFull, Color.Black);
 
-			var rectHealthFull = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2, 8);
-			var rectHealthProgT = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.TargetValue, 8);
-			var rectHealthProgA = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.ActualValue, 8);
+			var rectHealthFull = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2, 8);
+			var rectHealthProgT = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.TargetValue, 8);
+			var rectHealthProgA = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.ActualValue, 8);
 
 			if (CannonHealth.IsDecreasing())
 			{
@@ -397,8 +398,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			for (int i = 0; i < ActiveOperations.Count; i++)
 			{
-				var rectFull = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2, 8);
-				var rectProg = new RectangleF(Center.X - innerRadius, Center.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2 * (1- ActiveOperations[i].Progress), 8);
+				var rectFull = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2, 8);
+				var rectProg = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2 * (1- ActiveOperations[i].Progress), 8);
 
 				sbatch.FillRectangle(rectFull, Color.White);
 				sbatch.FillRectangle(rectProg, Color.Chocolate);

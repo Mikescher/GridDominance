@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
@@ -27,8 +28,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public HUDPauseButton()
 		{
-			RelativePosition = new Point(12, 12);
-			Size = new Size(DIAMETER, DIAMETER);
+			RelativePosition = new FPoint(12, 12);
+			Size = new FSize(DIAMETER, DIAMETER);
 			Alignment = HUDAlignment.TOPRIGHT;
 #if DEBUG
 			ClickMode = HUDButtonClickMode.Single | HUDButtonClickMode.InstantHold;
@@ -48,7 +49,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			// NOP
 		}
 
-		protected override void DoDraw(IBatchRenderer sbatch, Rectangle bounds)
+		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			var texScale = bounds.Width / (Textures.TexHUDButtonBase.Width * Textures.DEFAULT_TEXTURE_SCALE.X);
 

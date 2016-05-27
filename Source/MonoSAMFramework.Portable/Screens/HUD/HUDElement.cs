@@ -3,12 +3,13 @@
 #endif
 
 using Microsoft.Xna.Framework;
-using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.MathHelper;
 using System;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -21,15 +22,15 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public virtual int DeepInclusiveCount => 1;
 
-		private Point _relativePosition = Point.Zero;
-		public Point RelativePosition
+		private FPoint _relativePosition = FPoint.Zero;
+		public FPoint RelativePosition
 		{
 			get { return _relativePosition;}
 			set { _relativePosition = value; InvalidatePosition(); }
 		}
 
-		private Size _size = Size.Empty;
-		public Size Size
+		private FSize _size = FSize.Empty;
+		public FSize Size
 		{
 			get { return _size; }
 			set { _size = value; InvalidatePosition(); }
@@ -42,26 +43,26 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			set { _alignment = value; InvalidatePosition(); }
 		}
 
-		public Point Position { get; protected set; } = Point.Zero;
-		public Rectangle BoundingRectangle { get; protected set; } = Rectangle.Empty;
+		public FPoint Position { get; protected set; } = FPoint.Zero;
+		public FRectangle BoundingRectangle { get; protected set; } = FRectangle.Empty;
 
 		public Vector2 RelativeCenter
 		{
 			get { return new Vector2(RelativePosition.X + Size.Width / 2f, RelativePosition.Y + Size.Height / 2f);}
-			set { RelativePosition = new Point((int) (value.X - Size.Width / 2f), (int) (value.Y - Size.Height / 2f));}
+			set { RelativePosition = new FPoint(value.X - Size.Width / 2f, value.Y - Size.Height / 2f);}
 		}
 
-		public int Top => BoundingRectangle.Top;
-		public int Left => BoundingRectangle.Left;
+		public float Top => BoundingRectangle.Top;
+		public float Left => BoundingRectangle.Left;
 
-		public int Bottom => BoundingRectangle.Bottom;
-		public int Right => BoundingRectangle.Right;
+		public float Bottom => BoundingRectangle.Bottom;
+		public float Right => BoundingRectangle.Right;
 
-		public int Width => BoundingRectangle.Width;
-		public int Height => BoundingRectangle.Height;
+		public float Width => BoundingRectangle.Width;
+		public float Height => BoundingRectangle.Height;
 
-		public int CenterX => (int) (Position.X + Size.Width / 2f);
-		public int CenterY => (int) (Position.Y + Size.Height / 2f);
+		public float CenterX => Position.X + Size.Width / 2f;
+		public float CenterY => Position.Y + Size.Height / 2f;
 
 		public Vector2 Center => new Vector2(CenterX, CenterY);
 
@@ -106,9 +107,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 #endif
 		}
 
-		protected abstract void DoDraw(IBatchRenderer sbatch, Rectangle bounds);
+		protected abstract void DoDraw(IBatchRenderer sbatch, FRectangle bounds);
 
-		protected virtual void DoDrawBackground(IBatchRenderer sbatch, Rectangle bounds)
+		protected virtual void DoDrawBackground(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			/* OVERRIDE ME */
 		}
@@ -152,8 +153,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 			OnBeforeRecalculatePosition();
 
-			int px;
-			int py;
+			float px;
+			float py;
 
 			switch (Alignment)
 			{
@@ -203,9 +204,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 					throw new ArgumentOutOfRangeException();
 			}
 
-			Position = new Point(px, py);
+			Position = new FPoint(px, py);
 
-			BoundingRectangle = new Rectangle(Position, Size);
+			BoundingRectangle = new FRectangle(Position, Size);
 
 			PositionInvalidated = false;
 
@@ -227,17 +228,17 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			/* OVERRIDE ME */
 		}
 
-		protected virtual void OnPointerUp(Point relPositionPoint, InputState istate)
+		protected virtual void OnPointerUp(FPoint relPositionPoint, InputState istate)
 		{
 			/* OVERRIDE ME */
 		}
 
-		protected virtual void OnPointerDown(Point relPositionPoint, InputState istate)
+		protected virtual void OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
 			/* OVERRIDE ME */
 		}
 
-		protected virtual void OnPointerClick(Point relPositionPoint, InputState istate)
+		protected virtual void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
 			/* OVERRIDE ME */
 		}

@@ -1,13 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended;
+using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Extensions
 {
 	public static class Vector2Extensions
 	{
-		public static Size ToSize(this Vector2 p)
+		public static FSize ToSize(this Vector2 p)
 		{
-			return new Size((int) p.X, (int) p.Y);
+			return new FSize(p.X, p.Y);
+		}
+
+		public static FPoint ToFPoint(this Vector2 p)
+		{
+			return new FPoint(p.X, p.Y);
 		}
 	}
 }

@@ -3,8 +3,11 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.Extended.InputListeners;
 using MonoGame.Extended.ViewportAdapters;
+using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.MathHelper;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
 namespace MonoSAMFramework.Portable.Input
@@ -19,7 +22,7 @@ namespace MonoSAMFramework.Portable.Input
 		public readonly bool IsDown;
 		public readonly bool IsJustDown;
 		public readonly bool IsJustUp;
-		public readonly Point PointerPosition;
+		public readonly FPoint PointerPosition;
 
 		private readonly Dictionary<Keys, bool> lastKeyState;
 		private readonly Dictionary<Keys, bool> currentKeyState;
@@ -34,12 +37,12 @@ namespace MonoSAMFramework.Portable.Input
 			if (Mouse.LeftButton == ButtonState.Pressed)
 			{
 				IsDown = true;
-				PointerPosition = adapter.PointToScreen(Mouse.Position);
+				PointerPosition = adapter.PointToScreen(Mouse.Position).ToFPoint();
 			}
 			else if (TouchPanel.Count > 0)
 			{
 				IsDown = true;
-				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint());
+				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint()).ToFPoint();
 			}
 			else
 			{
@@ -64,17 +67,17 @@ namespace MonoSAMFramework.Portable.Input
 			if (Mouse.LeftButton == ButtonState.Pressed)
 			{
 				IsDown = true;
-				PointerPosition = adapter.PointToScreen(Mouse.Position);
+				PointerPosition = adapter.PointToScreen(Mouse.Position).ToFPoint();
 			}
 			else if (TouchPanel.Count > 0)
 			{
 				IsDown = true;
-				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint());
+				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint()).ToFPoint();
 			}
 			else
 			{
 				IsDown = false;
-				PointerPosition = Point.Zero;
+				PointerPosition = FPoint.Zero;
 			}
 
 			currentKeyState = new Dictionary<Keys, bool>(0);

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
@@ -15,7 +15,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		public static readonly Vector2 CORNER_VECTOR_BL = new Vector2(-CORNER_SIZE, +CORNER_SIZE);
 		public static readonly Vector2 CORNER_VECTOR_BR = new Vector2(+CORNER_SIZE, +CORNER_SIZE);
 
-		public static void DrawRoundedBlurPanel(IBatchRenderer sbatch, Rectangle bounds, Color color, float scale = 1f)
+		public static void DrawRoundedBlurPanel(IBatchRenderer sbatch, FRectangle bounds, Color color, float scale = 1f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
@@ -23,7 +23,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			DrawRoundedBlurPanelSolidPart(sbatch, bounds, color, scale);
 		}
 
-		public static void DrawRoundedBlurPanelSolidPart(IBatchRenderer sbatch, Rectangle bounds, Color color, float scale = 1f)
+		public static void DrawRoundedBlurPanelSolidPart(IBatchRenderer sbatch, FRectangle bounds, Color color, float scale = 1f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
@@ -47,7 +47,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelCorner.Texture,
-				bounds.VectorTopLeft(),
+				bounds.VectorTopLeft,
 				StaticTextures.PanelCorner.Bounds,
 				color,
 				0 * FloatMath.DegreesToRadians,
@@ -57,7 +57,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelCorner.Texture,
-				bounds.VectorTopRight(),
+				bounds.VectorTopRight,
 				StaticTextures.PanelCorner.Bounds,
 				color,
 				90 * FloatMath.DegreesToRadians,
@@ -67,7 +67,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelCorner.Texture,
-				bounds.VectorBottomRight(),
+				bounds.VectorBottomRight,
 				StaticTextures.PanelCorner.Bounds,
 				color,
 				180 * FloatMath.DegreesToRadians,
@@ -77,7 +77,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelCorner.Texture,
-				bounds.VectorBottomLeft(),
+				bounds.VectorBottomLeft,
 				StaticTextures.PanelCorner.Bounds,
 				color,
 				270 * FloatMath.DegreesToRadians,
@@ -88,7 +88,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			#endregion
 		}
 
-		public static void DrawRoundedBlurPanelBackgroundPart(IBatchRenderer sbatch, Rectangle bounds, float scale = 1f)
+		public static void DrawRoundedBlurPanelBackgroundPart(IBatchRenderer sbatch, FRectangle bounds, float scale = 1f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
@@ -98,7 +98,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelBlurEdge.Texture,
-				new Rectangle(
+				new FRectangle(
 					bounds.Left + cornerSize,
 					bounds.Top - cornerSize,
 					bounds.Width - 2 * cornerSize,
@@ -110,7 +110,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelBlurEdge.Texture,
-				new Rectangle(
+				new FRectangle(
 					bounds.Right - cornerSize + (2 * cornerSize),
 					bounds.Top + cornerSize,
 					bounds.Height - 2 * cornerSize,
@@ -123,7 +123,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelBlurEdge.Texture,
-				new Rectangle(
+				new FRectangle(
 					bounds.Left + cornerSize + (bounds.Width - 2 * cornerSize),
 					bounds.Bottom - cornerSize + (2 * cornerSize),
 					bounds.Width - 2 * cornerSize,
@@ -135,7 +135,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelBlurEdge.Texture,
-				new Rectangle(
+				new FRectangle(
 					bounds.Left - cornerSize,
 					bounds.Top + cornerSize + (bounds.Height - 2 * cornerSize),
 					bounds.Height - 2 * cornerSize,
@@ -151,7 +151,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorTopLeft() + scale * CORNER_VECTOR_TL,
+				bounds.VectorTopLeft + scale * CORNER_VECTOR_TL,
 				StaticTextures.PanelBlurCorner.Bounds,
 				Color.White,
 				0 * FloatMath.DegreesToRadians,
@@ -161,7 +161,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorTopRight() + scale * CORNER_VECTOR_TR,
+				bounds.VectorTopRight + scale * CORNER_VECTOR_TR,
 				StaticTextures.PanelBlurCorner.Bounds,
 				Color.White,
 				90 * FloatMath.DegreesToRadians,
@@ -171,7 +171,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorBottomRight() + scale * CORNER_VECTOR_BR,
+				bounds.VectorBottomRight + scale * CORNER_VECTOR_BR,
 				StaticTextures.PanelBlurCorner.Bounds,
 				Color.White,
 				180 * FloatMath.DegreesToRadians,
@@ -181,7 +181,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorBottomLeft() + scale * CORNER_VECTOR_BL,
+				bounds.VectorBottomLeft + scale * CORNER_VECTOR_BL,
 				StaticTextures.PanelBlurCorner.Bounds,
 				Color.White,
 				270 * FloatMath.DegreesToRadians,

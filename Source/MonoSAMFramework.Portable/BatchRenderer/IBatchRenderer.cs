@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using System;
 using System.Text;
 
@@ -28,15 +29,15 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color);
 		void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
 		void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth);
-
+		
 		// ######## MONOGAME.EXTENDED PRIMITIVE METHODS ########
 
 		void DrawPolygon(Vector2 position, PolygonF polygon, Color color, float thickness = 1f);
 		void DrawPolygon(Vector2 offset, Vector2[] points, Color color, float thickness = 1f);
-		void FillRectangle(RectangleF rectangle, Color color);
+		void FillRectangle(FRectangle rectangle, Color color);
 		void FillRectangle(Vector2 location, Vector2 size, Color color);
 		void FillRectangle(float x, float y, float width, float height, Color color);
-		void DrawRectangle(RectangleF rectangle, Color color, float thickness = 1f);
+		void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f);
 		void DrawRectangle(Vector2 location, Vector2 size, Color color, float thickness = 1f);
 		void DrawLine(float x1, float y1, float x2, float y2, Color color, float thickness = 1f);
 		void DrawLine(Vector2 point1, Vector2 point2, Color color, float thickness = 1f);
@@ -55,6 +56,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		// ######## MONOSAMFRAMEWORK METHODS ########
 
-		void DrawEllipse(RectangleF rectangle, int sides, Color color, float thickness = 1f);
+		void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f);
 	}
 }

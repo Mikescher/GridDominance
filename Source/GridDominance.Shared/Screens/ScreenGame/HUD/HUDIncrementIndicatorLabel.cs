@@ -2,6 +2,7 @@
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
@@ -43,7 +44,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			currentWiggleProgress += gameTime.GetElapsedSeconds() * WIGGLE_SPEED;
 
 			var offset = WIGGLE_OFFSET * FloatMath.Sin(currentWiggleProgress * FloatMath.PI);
-			var innerRel = internalText.Position + new Point(InnerLabelSize.Width + 5, (int)(offset - incrementLabel.Height / 4));
+			var innerRel = internalText.Position + new FPoint(InnerLabelSize.Width + 5, offset - incrementLabel.Height / 4);
 
 			incrementLabel.RelativePosition = innerRel;
 		}
