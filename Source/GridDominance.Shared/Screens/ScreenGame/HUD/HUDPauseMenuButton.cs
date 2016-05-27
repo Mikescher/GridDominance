@@ -23,7 +23,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private const int HEIGHT = HUDPauseButton.DIAMETER;
 		private const int GAP = 10;
 
-		private static float fontScaleFactor = FontRenderHelper.GetFontScale(Textures.HUDFontRegular, 40);
+		private static readonly float fontScaleFactor = FontRenderHelper.GetFontScale(Textures.HUDFontBold, 40);
 
 		private const float CLOSING_DELAY = 0.2f;
 
@@ -169,11 +169,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			FlatRenderHelper.DrawRoundedBlurPanelSolidPart(sbatch, bounds, IsPressed ? FlatColors.Concrete : FlatColors.Silver, ROUNDNESS_FACTOR);
 
-			var fontBounds = Textures.HUDFontBold.MeasureString(btnText) * fontScaleFactor;
+			var fontBounds = Textures.HUDFontBold.MeasureString(btnText);
+
 			sbatch.DrawString(
 				Textures.HUDFontBold, 
 				btnText, 
-				Center + new Vector2(-WIDTH/2f + 12 + fontBounds.X/2f, 0f)*scale, 
+				Center + new Vector2(-WIDTH/2f + 12 + fontScaleFactor * fontBounds.X/2f, 0f)*scale, 
 				FlatColors.Foreground, 
 				0f,
 				fontBounds/2f,

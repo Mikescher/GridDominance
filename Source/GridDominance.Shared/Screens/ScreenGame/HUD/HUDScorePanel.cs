@@ -94,7 +94,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				FontSize = 35,
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 77),
-				Size = new FSize(WIDTH / 3f, 35),
+				Size = new FSize(WIDTH / 3f, 40),
 			});
 
 			AddElement(lblPoints = new HUDIncrementIndicatorLabel("236", "+20", 2)
@@ -102,10 +102,10 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				TextColor = Color.White,
 				Font = Textures.HUDFontBold,
-				FontSize = 56,
+				FontSize = 57,
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 15),
-				Size = new FSize(WIDTH / 3f, 55),
+				Size = new FSize(WIDTH / 3f, 60),
 			});
 		}
 	}
