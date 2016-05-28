@@ -126,6 +126,10 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconBack;
 		public static TextureRegion2D TexIconNext;
 
+		public static TextureRegion2D TexDifficulty0;
+		public static TextureRegion2D TexDifficulty1;
+		public static TextureRegion2D TexDifficulty2;
+		public static TextureRegion2D TexDifficulty3;
 
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
@@ -189,6 +193,11 @@ namespace GridDominance.Shared.Resources
 
 			TexIconBack = AtlasTextures["icon_back"];
 			TexIconNext = AtlasTextures["icon_next"];
+
+			TexDifficulty0 = AtlasTextures["difficulty_0"];
+			TexDifficulty1 = AtlasTextures["difficulty_1"];
+			TexDifficulty2 = AtlasTextures["difficulty_2"];
+			TexDifficulty3 = AtlasTextures["difficulty_3"];
 
 			HUDFontRegular = content.Load<SpriteFont>("fonts/hudFontRegular");
 			HUDFontBold = content.Load<SpriteFont>("fonts/hudFontBold");

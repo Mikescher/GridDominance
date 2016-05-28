@@ -405,6 +405,10 @@
             <key type="filename">cannoncog_animated/cannoncog_126.png</key>
             <key type="filename">cannoncog_animated/cannoncog_127.png</key>
             <key type="filename">cannoncrosshair.png</key>
+            <key type="filename">difficulty_0.png</key>
+            <key type="filename">difficulty_1.png</key>
+            <key type="filename">difficulty_2.png</key>
+            <key type="filename">difficulty_3.png</key>
             <key type="filename">grid.png</key>
             <key type="filename">hud_button_base.png</key>
             <key type="filename">hud_pause_animated/hud_pause_00.png</key>
@@ -472,6 +476,10 @@
             <filename>icon_back.png</filename>
             <filename>icon_next.png</filename>
             <filename>simple_pixel.png</filename>
+            <filename>difficulty_0.png</filename>
+            <filename>difficulty_3.png</filename>
+            <filename>difficulty_1.png</filename>
+            <filename>difficulty_2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

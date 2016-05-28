@@ -16,6 +16,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
+using GridDominance.Shared.Screens.ScreenGame.Fractions;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -131,9 +132,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			fractionNeutral = Fraction.CreateNeutralFraction();
 			fractionPlayer = Fraction.CreatePlayerFraction(fractionNeutral);
-			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
-			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
-			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, Fraction.MULTIPLICATOR_COMPUTER_0);
+			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, FractionDifficulty.KI_EASY);
+			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, FractionDifficulty.KI_EASY);
+			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, FractionDifficulty.KI_EASY);
 
 			LoadLevelFromBlueprint();
 		}

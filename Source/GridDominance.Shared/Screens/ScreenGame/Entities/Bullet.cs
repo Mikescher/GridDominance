@@ -10,6 +10,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using GridDominance.Shared.Screens.ScreenGame.Fractions;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {

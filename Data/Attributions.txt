@@ -1,6 +1,17 @@
 icon_back:
 icon_next:
-
 http://www.flaticon.com/packs/android-app
+
+difficulty trophy:
+http://www.flaticon.com/packs/play-football
+
+difficulty teddy:
+http://www.flaticon.com/packs/amusement-park
+
+difficulty medal:
+http://www.flaticon.com/packs/business-seo-elements
+
+
+
 
 

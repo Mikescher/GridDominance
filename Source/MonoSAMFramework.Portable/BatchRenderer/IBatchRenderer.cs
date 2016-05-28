@@ -63,6 +63,10 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void Draw(TextureRegion2D textureRegion, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth);
 		void Draw(TextureRegion2D textureRegion, Rectangle destinationRectangle, Color color);
 
+		// ######## MONOGAME.EXTENDED EXTENSION METHODS WITH FLOAT TYPES ########
+
+		void Draw(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color);
+
 		// ######## MONOSAMFRAMEWORK METHODS ########
 
 		void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f);

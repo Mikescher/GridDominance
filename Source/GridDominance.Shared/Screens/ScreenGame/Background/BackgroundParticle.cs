@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MonoSAMFramework.Portable.MathHelper;
+using GridDominance.Shared.Screens.ScreenGame.Fractions;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Background
 {

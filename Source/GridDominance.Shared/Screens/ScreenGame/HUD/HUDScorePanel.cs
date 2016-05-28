@@ -1,10 +1,8 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
-using MonoGame.Extended;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
-using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
@@ -14,11 +12,13 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
 	class HUDScorePanel : HUDRoundedPanel
 	{
-		public const int WIDTH = 11 * GDGameScreen.TILE_WIDTH;
-		public const int HEIGHT = 7 * GDGameScreen.TILE_WIDTH;
+		public const float WIDTH = 11 * GDGameScreen.TILE_WIDTH;
+		public const float HEIGHT = 7 * GDGameScreen.TILE_WIDTH;
 
-		public const int FOOTER_HEIGHT = 2 * GDGameScreen.TILE_WIDTH;
-		public const int FOOTER_COLBAR_HEIGHT = GDGameScreen.TILE_WIDTH / 4;
+		public const float FOOTER_HEIGHT = 2 * GDGameScreen.TILE_WIDTH;
+		public const float FOOTER_COLBAR_HEIGHT = GDGameScreen.TILE_WIDTH / 4f;
+		public const float ICON_MARGIN = GDGameScreen.TILE_WIDTH * (3/8f);
+		public const float ICON_SIZE = GDGameScreen.TILE_WIDTH * 2;
 
 		public override int Depth => 0;
 
@@ -37,6 +37,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		public override void OnInitialize()
 		{
 			base.OnInitialize();
+
+			#region Footer
 
 			AddElement(new HUDRoundedRectangle(0)
 			{
@@ -174,6 +176,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				FontSize = 57,
 			});
 
+			#endregion
+
+			#region Buttons
 
 			AddElement(btnMenu = new HUDIconTextButton(2)
 			{
@@ -213,6 +218,41 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				ColorPressed = FlatColors.Emerald,
 			});
 			btnNext.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Next<<");
+
+			#endregion
+
+			#region Icons
+
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_EASY, HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED)
+			{
+				Alignment = HUDAlignment.TOPLEFT,
+				Size = new FSize(ICON_SIZE, ICON_SIZE),
+				RelativePosition = new FPoint(1 * ICON_MARGIN + 0 * ICON_SIZE, ICON_MARGIN)
+			});
+
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_NORMAL, HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED)
+			{
+				Alignment = HUDAlignment.TOPLEFT,
+				Size = new FSize(ICON_SIZE, ICON_SIZE),
+				RelativePosition = new FPoint(3 * ICON_MARGIN + 1 * ICON_SIZE, ICON_MARGIN)
+			});
+
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_HARD, HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION)
+			{
+				Alignment = HUDAlignment.TOPLEFT,
+				Size = new FSize(ICON_SIZE, ICON_SIZE),
+				RelativePosition = new FPoint(5 * ICON_MARGIN + 2 * ICON_SIZE, ICON_MARGIN)
+			});
+
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_IMPOSSIBLE, HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED)
+			{
+				Alignment = HUDAlignment.TOPLEFT,
+				Size = new FSize(ICON_SIZE, ICON_SIZE),
+				RelativePosition = new FPoint(7 * ICON_MARGIN + 3 * ICON_SIZE, ICON_MARGIN)
+			});
+
+			#endregion
+
 		}
 	}
 }

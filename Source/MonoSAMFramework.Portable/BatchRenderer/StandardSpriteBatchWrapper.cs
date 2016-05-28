@@ -432,5 +432,14 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			internalBatch.Draw(textureRegion.Texture, destinationRectangle, textureRegion.Bounds, color);
 		}
+
+		public void Draw(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color)
+		{
+#if DEBUG
+			RenderSpriteCount++;
+#endif
+
+			internalBatch.Draw(textureRegion.Texture, destinationRectangle.Truncate(), textureRegion.Bounds, color);
+		}
 	}
 }
