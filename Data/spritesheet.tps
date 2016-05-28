@@ -438,7 +438,6 @@
             <key type="filename">pausemenu_marker.png</key>
             <key type="filename">pausemenu_marker_background.png</key>
             <key type="filename">simple_circle.png</key>
-            <key type="filename">simple_pixel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -469,7 +468,6 @@
             <filename>panel_corner.png</filename>
             <filename>panel_blur_corner.png</filename>
             <filename>simple_circle.png</filename>
-            <filename>simple_pixel.png</filename>
             <filename>icon_back.png</filename>
             <filename>icon_next.png</filename>
         </array>

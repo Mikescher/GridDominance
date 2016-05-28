@@ -4,7 +4,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Text;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD

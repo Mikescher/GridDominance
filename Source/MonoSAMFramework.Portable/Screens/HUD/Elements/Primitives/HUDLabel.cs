@@ -7,7 +7,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Text
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
 	public class HUDLabel : HUDContainer
 	{

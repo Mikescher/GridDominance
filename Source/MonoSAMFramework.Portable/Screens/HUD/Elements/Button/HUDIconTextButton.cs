@@ -5,9 +5,9 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.RenderHelper;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Text;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 {
@@ -31,8 +31,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		public HUDAlignment TextAlignment
 		{
-			get { return internalLabel.Alignment; }
-			set { internalLabel.Alignment = value; }
+			get { return internalLabel.TextAlignment; }
+			set { internalLabel.TextAlignment = value; }
 		}
 
 		public Color TextColor
@@ -50,7 +50,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		public float FontSize
 		{
 			get { return internalLabel.FontSize; }
-			set { internalLabel.FontSize = value; }
+			set { internalLabel.FontSize = value; InvalidatePosition(); }
 		}
 
 		private int _iconPadding = 8;
@@ -94,7 +94,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			internalIcon = new HUDImage
 			{
 				Alignment = HUDAlignment.TOPLEFT,
-				ImageAlignment = HUDImageAlignment.UNDERSCALE,
+				ImageAlignment = HUDImageAlignment.SCALE_Y,
 			};
 
 			internalLabel = new HUDLabel
@@ -114,7 +114,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		{
 			base.OnAfterRecalculatePosition();
 			
-			var isize = internalIcon.CalculateImageBounds(new FRectangle(0, 0, Width - 2 * IconPadding - TextPadding, Height - 2 * IconPadding)).Size;
+			var isize = internalIcon.CalculateRealBounds(new FRectangle(0, 0, Width - 2 * IconPadding - TextPadding, Height - 2 * IconPadding)).Size;
 
 			internalIcon.RelativePosition = new FPoint(IconPadding, IconPadding);
 			internalIcon.Size = new FSize(isize.Width, Height - 2 * IconPadding);

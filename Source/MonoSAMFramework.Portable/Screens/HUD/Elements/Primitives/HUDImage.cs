@@ -7,14 +7,27 @@ using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
 
-namespace MonoSAMFramework.Portable.Screens.HUD.Elements
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
 	public class HUDImage : HUDElement
 	{
 		public override int Depth { get; }
 
-		public HUDImageAlignment ImageAlignment = HUDImageAlignment.UNDERSCALE;
-		public TextureRegion2D Image;
+		private HUDImageAlignment _imageAligment = HUDImageAlignment.UNDERSCALE;
+		public HUDImageAlignment ImageAlignment
+		{
+			get { return _imageAligment; }
+			set { _imageAligment = value; InvalidatePosition(); }
+		}
+
+		private TextureRegion2D _image;
+		public TextureRegion2D Image
+		{
+			get { return _image; }
+			set { _image = value; InvalidatePosition(); }
+		}
+
+		private FRectangle imageBounds = FRectangle.Empty;
 
 		public HUDImage(int depth = 0)
 		{
@@ -24,15 +37,38 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			if (Image == null) return;
-
-			FRectangle destination;
+			if (imageBounds.IsEmpty) return;
 			
-			destination = CalculateImageBounds(bounds).AsOffseted(bounds.TopLeft);
-
-			sbatch.Draw(Image.Texture, destination, Image.Bounds, Color.White);
+			sbatch.Draw(Image.Texture, imageBounds, Image.Bounds, Color.White);
 		}
-		
-		public FRectangle CalculateImageBounds(FRectangle bounds)
+
+		protected override void OnAfterRecalculatePosition()
+		{
+			base.OnAfterRecalculatePosition();
+
+			imageBounds = CalculateImageRenderBounds(BoundingRectangle);
+		}
+
+		protected override void DrawDebugHUDBorders(IBatchRenderer sbatch)
+		{
+			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 2f);
+
+			sbatch.DrawRectangle(imageBounds, Color.Magenta, 1f);
+			sbatch.DrawLine(imageBounds.VectorTopLeft, imageBounds.VectorBottomRight, Color.Magenta, 1f);
+			sbatch.DrawLine(imageBounds.VectorTopRight, imageBounds.VectorBottomLeft, Color.Magenta, 1f);
+		}
+
+		public FRectangle GetRealBounds()
+		{
+			return imageBounds;
+		}
+
+		public FRectangle CalculateRealBounds(FRectangle tmpBounds)
+		{
+			return CalculateImageRenderBounds(tmpBounds);
+		}
+
+		private FRectangle CalculateImageRenderBounds(FRectangle bounds)
 		{
 			if (Image == null) return FRectangle.Empty;
 
@@ -71,14 +107,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements
 				}
 				case HUDImageAlignment.SCALE_X:
 				{
-					var height = (Image.Width * 1f / Image.Height) * bounds.Height;
-					destination = new FRectangle(0, (bounds.Height - height) / 2, bounds.Width, height);
+					var height = (Image.Height * 1f / Image.Width) * bounds.Width;
+					destination = new FRectangle(bounds.X, bounds.Y + (bounds.Height - height) / 2, bounds.Width, height);
 					break;
 				}
 				case HUDImageAlignment.SCALE_Y:
 				{
-					var width = (Image.Height * 1f / Image.Width) * bounds.Width;
-					destination = new FRectangle((bounds.Width - width) / 2, 0, width, bounds.Height);
+					var width = (Image.Width * 1f / Image.Height) * bounds.Height;
+					destination = new FRectangle(bounds.X + (bounds.Width - width) / 2, bounds.Y, width, bounds.Height);
 					break;
 				}
 				case HUDImageAlignment.UNDERSCALE:
@@ -86,12 +122,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements
 					if (bounds.Height / bounds.Width > Image.Height * 1f / Image.Width)
 					{
 						var height = (Image.Height * 1f / Image.Width) * bounds.Width;
-						destination = new FRectangle(0, (bounds.Height - height) / 2, bounds.Width, height);
+						destination = new FRectangle(bounds.X, bounds.Y + (bounds.Height - height) / 2, bounds.Width, height);
 					}
 					else
 					{
 						var width = (Image.Width * 1f / Image.Height) * bounds.Height;
-						destination = new FRectangle((bounds.Width - width) / 2, 0, width, bounds.Height);
+						destination = new FRectangle(bounds.X + (bounds.Width - width) / 2, bounds.Y, width, bounds.Height);
 					}
 					break;
 				}
@@ -100,12 +136,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements
 					if (bounds.Height / bounds.Width < Image.Height * 1f / Image.Width)
 					{
 						var height = (Image.Height * 1f / Image.Width) * bounds.Width;
-						destination = new FRectangle(0, (bounds.Height - height) / 2, bounds.Width, height);
+						destination = new FRectangle(bounds.X, bounds.Y + (bounds.Height - height) / 2, bounds.Width, height);
 					}
 					else
 					{
 						var width = (Image.Width * 1f / Image.Height) * bounds.Height;
-						destination = new FRectangle((bounds.Width - width) / 2, 0, width, bounds.Height);
+						destination = new FRectangle(bounds.X + (bounds.Width - width) / 2, bounds.Y, width, bounds.Height);
 					}
 					break;
 				}

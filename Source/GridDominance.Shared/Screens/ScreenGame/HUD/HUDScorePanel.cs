@@ -8,7 +8,6 @@ using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Text;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
@@ -180,12 +179,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
 				RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-				Size = new FSize(4.5f * GDGameScreen.TILE_WIDTH, 70),
+				Size = new FSize(3.5f * GDGameScreen.TILE_WIDTH, 60),
 
 				Text = "Back",
 				TextColor = Color.White,
-				Font = Textures.HUDFontBold,
-				FontSize = 65,
+				Font = Textures.HUDFontRegular,
+				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
 				Icon = Textures.TexIconBack,
@@ -200,12 +199,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-				Size = new FSize(4.5f * GDGameScreen.TILE_WIDTH, 70),
+				Size = new FSize(3.5f * GDGameScreen.TILE_WIDTH, 60),
 
 				Text = "Next",
 				TextColor = Color.White,
-				Font = Textures.HUDFontBold,
-				FontSize = 65,
+				Font = Textures.HUDFontRegular,
+				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
 				Icon = Textures.TexIconNext,
