@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
-namespace MonoSAMFramework.Portable.Screens.HUD
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 {
 	public abstract class HUDEllipseButton : HUDButton
 	{

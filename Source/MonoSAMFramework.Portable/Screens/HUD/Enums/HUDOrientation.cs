@@ -1,4 +1,4 @@
-﻿namespace MonoSAMFramework.Portable.Screens.HUD
+﻿namespace MonoSAMFramework.Portable.Screens.HUD.Enums
 {
 	public enum HUDOrientation
 	{

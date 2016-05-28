@@ -1,7 +1,8 @@
-﻿using MonoSAMFramework.Portable.MathHelper.FloatClasses;
-using System;
+﻿using System;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace MonoSAMFramework.Portable.Screens.HUD
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
 	public class HUDSeperator : HUDRectangle
 	{

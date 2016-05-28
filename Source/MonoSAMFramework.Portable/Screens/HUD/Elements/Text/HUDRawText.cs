@@ -5,7 +5,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
-namespace MonoSAMFramework.Portable.Screens.HUD
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Text
 {
 	public class HUDRawText : HUDElement
 	{

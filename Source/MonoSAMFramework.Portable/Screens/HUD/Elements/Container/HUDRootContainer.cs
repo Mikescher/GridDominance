@@ -3,7 +3,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
-namespace MonoSAMFramework.Portable.Screens.HUD
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 {
 	public class HUDRootContainer : HUDContainer
 	{

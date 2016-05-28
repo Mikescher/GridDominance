@@ -2,11 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace MonoSAMFramework.Portable.Screens.HUD
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Text
 {
 	public class HUDLabel : HUDContainer
 	{
@@ -14,7 +15,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		protected readonly HUDRawText internalText;
 
-		public HUDAlignment TextAlignment
+		public HUDAlignment TextAlignment // TODO vertically the text is not correctly aligned - cause MeasureString includes strange whitespaces
 		{
 			get { return internalText.Alignment; }
 			set { internalText.Alignment = value; }

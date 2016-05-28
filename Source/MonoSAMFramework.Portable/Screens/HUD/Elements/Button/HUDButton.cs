@@ -1,12 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
-using System;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 
-namespace MonoSAMFramework.Portable.Screens.HUD
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 {
-	public abstract class HUDButton : HUDElement
+	public abstract class HUDButton : HUDContainer
 	{
 		[Flags]
 		public enum HUDButtonClickMode
@@ -30,6 +31,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		private bool IsDoubleClickMode      => (ClickMode & HUDButtonClickMode.Double)      == HUDButtonClickMode.Double;
 		private bool IsTripleClickMode      => (ClickMode & HUDButtonClickMode.Triple)      == HUDButtonClickMode.Triple;
 		private bool IsInstantHoldClickMode => (ClickMode & HUDButtonClickMode.InstantHold) == HUDButtonClickMode.InstantHold;
+
 		private bool IsHoldClickMode        => ((ClickMode & HUDButtonClickMode.Hold) == HUDButtonClickMode.Hold) || ((ClickMode & HUDButtonClickMode.InstantHold) == HUDButtonClickMode.InstantHold);
 
 		private bool suppressClick;

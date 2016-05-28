@@ -123,6 +123,9 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexPanelBlurCorner;
 		public static TextureRegion2D TexPanelCorner;
 
+		public static TextureRegion2D TexIconBack;
+		public static TextureRegion2D TexIconNext;
+
 
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
@@ -183,6 +186,9 @@ namespace GridDominance.Shared.Resources
 			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];
 			TexPanelCorner     = AtlasTextures["panel_corner"];
+
+			TexIconBack = AtlasTextures["icon_back"];
+			TexIconNext = AtlasTextures["icon_next"];
 
 			HUDFontRegular = content.Load<SpriteFont>("fonts/hudFontRegular");
 			HUDFontBold = content.Load<SpriteFont>("fonts/hudFontBold");

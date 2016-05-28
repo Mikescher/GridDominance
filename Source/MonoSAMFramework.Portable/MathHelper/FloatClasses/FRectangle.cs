@@ -46,6 +46,14 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 			Height = size.Height;
 		}
 
+		public FRectangle(Rectangle r)
+		{
+			X = r.X;
+			Y = r.Y;
+			Width = r.Width;
+			Height = r.Height;
+		}
+
 		public static bool operator ==(FRectangle a, FRectangle b)
 		{
 			return
@@ -173,6 +181,15 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 				Y + Height / 2 - size.Height / 2,
 				size.Width,
 				size.Height);
+		}
+
+		public FRectangle AsCenteredTo(FPoint center)
+		{
+			return new FRectangle(
+				center.X - Width / 2,
+				center.Y - Height / 2,
+				Width,
+				Height);
 		}
 
 		public float Left   => X;

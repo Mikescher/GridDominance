@@ -11,6 +11,7 @@ using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {

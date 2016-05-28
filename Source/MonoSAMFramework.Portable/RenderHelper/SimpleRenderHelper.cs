@@ -10,6 +10,11 @@ namespace MonoSAMFramework.Portable.RenderHelper
 	{
 		public const int CORNER_SIZE = 16;
 
+		public static void DrawRoundedRect(IBatchRenderer sbatch, FRectangle bounds, Color color, float cornerScale = 1)
+		{
+			DrawRoundedRect(sbatch, bounds, color, true, true, true, true, cornerScale);
+		}
+		
 		public static void DrawRoundedRect(IBatchRenderer sbatch, FRectangle bounds, Color color, bool tl, bool tr, bool bl, bool br, float cornerScale = 1)
 		{
 			StaticTextures.ThrowIfNotInitialized();

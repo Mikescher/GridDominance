@@ -7,9 +7,10 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
-using MonoSAMFramework.Portable.MathHelper;
-using System;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using System;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -122,8 +123,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public virtual void Update(GameTime gameTime, InputState istate)
 		{
 			if (PositionInvalidated) RecalculatePosition();
-
-
+			
 			if (istate.IsJustDown && BoundingRectangle.Contains(istate.PointerPosition))
 			{
 				OnPointerDown(istate.PointerPosition - Position, istate);

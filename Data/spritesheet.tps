@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.2.0</string>
         <key>fileName</key>
-        <string>F:/Symlinks/GridDominance/Data/spritesheet.tps</string>
+        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -430,6 +430,8 @@
             <key type="filename">hud_time_4.png</key>
             <key type="filename">hud_time_clock.png</key>
             <key type="filename">hud_time_hand.png</key>
+            <key type="filename">icon_back.png</key>
+            <key type="filename">icon_next.png</key>
             <key type="filename">panel_blur_corner.png</key>
             <key type="filename">panel_blur_edge.png</key>
             <key type="filename">panel_corner.png</key>
@@ -468,6 +470,8 @@
             <filename>panel_blur_corner.png</filename>
             <filename>simple_circle.png</filename>
             <filename>simple_pixel.png</filename>
+            <filename>icon_back.png</filename>
+            <filename>icon_next.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

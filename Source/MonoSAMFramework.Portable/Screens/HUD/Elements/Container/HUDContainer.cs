@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Language;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace MonoSAMFramework.Portable.Screens.HUD
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 {
 	public abstract class HUDContainer : HUDElement
 	{
