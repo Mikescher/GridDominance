@@ -1370,7 +1370,7 @@
 },
 {
 	"filename": "hud_time_0.png",
-	"frame": {"x":352,"y":385,"w":40,"h":6},
+	"frame": {"x":333,"y":385,"w":40,"h":6},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":6},
@@ -1397,7 +1397,7 @@
 },
 {
 	"filename": "hud_time_3.png",
-	"frame": {"x":1851,"y":293,"w":23,"h":23},
+	"frame": {"x":1851,"y":320,"w":23,"h":23},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":23},
@@ -1469,11 +1469,11 @@
 },
 {
 	"filename": "panel_corner.png",
-	"frame": {"x":333,"y":385,"w":16,"h":16},
+	"frame": {"x":1851,"y":293,"w":24,"h":24},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
+	"sourceSize": {"w":24,"h":24},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -1519,6 +1519,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1880,"h":403},
 	"scale": "0.5",
-	"smartupdate": "$TexturePacker:SmartUpdate:8f3346c84f9b63d132d30f2ca315827d:e044756870fb8a4fb1e2131b17226cc0:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ee6a5eedbbf3237051d111ae8d7955c7:357fbee31ae1e403981e2121b6ed0e2d:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

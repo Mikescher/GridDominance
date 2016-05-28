@@ -1343,7 +1343,7 @@
 },
 {
 	"filename": "hud_pause_13.png",
-	"frame": {"x":1967,"y":1036,"w":46,"h":54},
+	"frame": {"x":1967,"y":1087,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":54},
@@ -1352,7 +1352,7 @@
 },
 {
 	"filename": "hud_pause_14.png",
-	"frame": {"x":1967,"y":1093,"w":46,"h":54},
+	"frame": {"x":1967,"y":1144,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":54},
@@ -1361,7 +1361,7 @@
 },
 {
 	"filename": "hud_pause_15.png",
-	"frame": {"x":1967,"y":1150,"w":46,"h":54},
+	"frame": {"x":1967,"y":1201,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":54},
@@ -1397,7 +1397,7 @@
 },
 {
 	"filename": "hud_time_3.png",
-	"frame": {"x":1967,"y":1207,"w":46,"h":46},
+	"frame": {"x":1967,"y":1258,"w":46,"h":46},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":46},
@@ -1424,7 +1424,7 @@
 },
 {
 	"filename": "hud_time_hand.png",
-	"frame": {"x":1967,"y":1256,"w":30,"h":30},
+	"frame": {"x":1967,"y":1307,"w":30,"h":30},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
@@ -1469,11 +1469,11 @@
 },
 {
 	"filename": "panel_corner.png",
-	"frame": {"x":226,"y":907,"w":32,"h":32},
+	"frame": {"x":1967,"y":1036,"w":48,"h":48},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32},
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -1517,8 +1517,8 @@
 	"version": "1.0",
 	"image": "spritesheet_hd.png",
 	"format": "RGBA8888",
-	"size": {"w":2016,"h":1442},
+	"size": {"w":2017,"h":1442},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8f3346c84f9b63d132d30f2ca315827d:e044756870fb8a4fb1e2131b17226cc0:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ee6a5eedbbf3237051d111ae8d7955c7:357fbee31ae1e403981e2121b6ed0e2d:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

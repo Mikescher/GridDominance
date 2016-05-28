@@ -1469,11 +1469,11 @@
 },
 {
 	"filename": "panel_corner.png",
-	"frame": {"x":90,"y":41,"w":2,"h":2},
+	"frame": {"x":449,"y":34,"w":3,"h":3},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":2},
-	"sourceSize": {"w":2,"h":2},
+	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":3},
+	"sourceSize": {"w":3,"h":3},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -1519,6 +1519,6 @@
 	"format": "RGBA8888",
 	"size": {"w":455,"h":45},
 	"scale": "0.0625",
-	"smartupdate": "$TexturePacker:SmartUpdate:8f3346c84f9b63d132d30f2ca315827d:e044756870fb8a4fb1e2131b17226cc0:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ee6a5eedbbf3237051d111ae8d7955c7:357fbee31ae1e403981e2121b6ed0e2d:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

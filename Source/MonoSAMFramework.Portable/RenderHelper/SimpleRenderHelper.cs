@@ -8,7 +8,8 @@ namespace MonoSAMFramework.Portable.RenderHelper
 {
 	public static class SimpleRenderHelper
 	{
-		public const int CORNER_SIZE = 16;
+		public const int CROP_CORNER_SIZE = 16;
+		public const int TEX_CORNER_SIZE = 24;
 
 		public static void DrawRoundedRect(IBatchRenderer sbatch, FRectangle bounds, Color color, float cornerScale = 1)
 		{
@@ -30,19 +31,19 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds.AsInflated(CORNER_SIZE * cornerScale, 0).Round(),
+				bounds.AsInflated(CROP_CORNER_SIZE * cornerScale, 0).Round(),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds.AsInflated(0, CORNER_SIZE * cornerScale).Round(),
+				bounds.AsInflated(0, CROP_CORNER_SIZE * cornerScale).Round(),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 
 			#endregion
 
-			var cornerBounds = new FRectangle(0, 0, CORNER_SIZE * cornerScale + 2, CORNER_SIZE * cornerScale + 2);
+			var cornerBounds = new FRectangle(0, 0, TEX_CORNER_SIZE * cornerScale, TEX_CORNER_SIZE * cornerScale);
 
 			#region Corners
 

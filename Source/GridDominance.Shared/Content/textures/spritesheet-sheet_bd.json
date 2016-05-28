@@ -1469,11 +1469,11 @@
 },
 {
 	"filename": "panel_corner.png",
-	"frame": {"x":485,"y":28,"w":4,"h":4},
+	"frame": {"x":404,"y":116,"w":6,"h":6},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":4,"h":4},
-	"sourceSize": {"w":4,"h":4},
+	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":6},
+	"sourceSize": {"w":6,"h":6},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -1505,7 +1505,7 @@
 },
 {
 	"filename": "simple_pixel.png",
-	"frame": {"x":485,"y":35,"w":2,"h":2},
+	"frame": {"x":485,"y":28,"w":2,"h":2},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":2},
@@ -1519,6 +1519,6 @@
 	"format": "RGBA8888",
 	"size": {"w":491,"h":127},
 	"scale": "0.125",
-	"smartupdate": "$TexturePacker:SmartUpdate:8f3346c84f9b63d132d30f2ca315827d:e044756870fb8a4fb1e2131b17226cc0:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ee6a5eedbbf3237051d111ae8d7955c7:357fbee31ae1e403981e2121b6ed0e2d:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

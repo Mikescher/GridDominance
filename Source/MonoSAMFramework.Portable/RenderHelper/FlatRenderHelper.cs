@@ -8,12 +8,13 @@ namespace MonoSAMFramework.Portable.RenderHelper
 {
 	public static class FlatRenderHelper
 	{
-		public const int CORNER_SIZE = SimpleRenderHelper.CORNER_SIZE;
+		public const int CROP_CORNER_SIZE = SimpleRenderHelper.CROP_CORNER_SIZE;
+		public const int TEX_CORNER_SIZE = SimpleRenderHelper.TEX_CORNER_SIZE;
 
-		public static readonly Vector2 CORNER_VECTOR_TL = new Vector2(-CORNER_SIZE, -CORNER_SIZE);
-		public static readonly Vector2 CORNER_VECTOR_TR = new Vector2(+CORNER_SIZE, -CORNER_SIZE);
-		public static readonly Vector2 CORNER_VECTOR_BL = new Vector2(-CORNER_SIZE, +CORNER_SIZE);
-		public static readonly Vector2 CORNER_VECTOR_BR = new Vector2(+CORNER_SIZE, +CORNER_SIZE);
+		public static readonly Vector2 CORNER_VECTOR_TL = new Vector2(-CROP_CORNER_SIZE, -CROP_CORNER_SIZE);
+		public static readonly Vector2 CORNER_VECTOR_TR = new Vector2(+CROP_CORNER_SIZE, -CROP_CORNER_SIZE);
+		public static readonly Vector2 CORNER_VECTOR_BL = new Vector2(-CROP_CORNER_SIZE, +CROP_CORNER_SIZE);
+		public static readonly Vector2 CORNER_VECTOR_BR = new Vector2(+CROP_CORNER_SIZE, +CROP_CORNER_SIZE);
 
 		public static void DrawRoundedBlurPanel(IBatchRenderer sbatch, FRectangle bounds, Color color, float scale = 1f)
 		{
@@ -31,13 +32,13 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds.AsInflated(CORNER_SIZE * scale, 0),
+				bounds.AsInflated(CROP_CORNER_SIZE * scale, 0),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds.AsInflated(0, CORNER_SIZE * scale),
+				bounds.AsInflated(0, CROP_CORNER_SIZE * scale),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 
@@ -92,7 +93,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
-			var cornerSize = (int) (scale * CORNER_SIZE);
+			var cornerSize = (int) (scale * CROP_CORNER_SIZE);
 
 			#region Blur Edges
 
