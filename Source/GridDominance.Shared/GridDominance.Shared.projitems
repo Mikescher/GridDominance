@@ -35,6 +35,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntityManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUDOperations\HUDBlinkingDifficultyButtonIconOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUDOperations\HUDDifficultyButtonGainOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUDOperations\HUDIncrementIndicatorLabelWiggleOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDDifficultyButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\GDGameHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\GDHudExtension.cs" />

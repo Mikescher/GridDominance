@@ -1,6 +1,7 @@
 ﻿using System;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using GridDominance.Shared.Screens.ScreenGame.HUDOperations;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -22,6 +23,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public Color BackgroundColor;
 		public Color ForegroundColor;
+		public float IconScale = 1f;
 
 		public HUDDifficultyButton(int depth, FractionDifficulty diff, HUDDifficultyButtonMode mode)
 		{
@@ -33,21 +35,35 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			switch (mode)
 			{
 				case HUDDifficultyButtonMode.DEACTIVATED:
-				case HUDDifficultyButtonMode.UNLOCKANIMATION:
 					BackgroundColor = FlatColors.ButtonHUD;
 					ForegroundColor = FlatColors.BackgroundHUD;
+					break;
+				case HUDDifficultyButtonMode.UNLOCKANIMATION:
+					BackgroundColor = FlatColors.ButtonHUD;
+					ForegroundColor = FlatColors.SunFlower;
+					AddHUDOperation(new HUDDifficultyButtonGainOperation());
+					AddHUDOperation(new HUDBlinkingDifficultyButtonIconOperation());
 					break;
 				case HUDDifficultyButtonMode.ACTIVATED:
 					BackgroundColor = FlatColors.BackgroundHUD2;
 					ForegroundColor = FlatColors.SunFlower;
+					AddHUDOperation(new HUDBlinkingDifficultyButtonIconOperation());
 					break;
 			}
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			sbatch.Draw(Textures.TexCircle, bounds, BackgroundColor);
-			sbatch.Draw(icon, bounds.AsInflated(24, 24), ForegroundColor);
+			if (IsPointerDownOnElement)
+			{
+				sbatch.Draw(Textures.TexCircle, bounds, BackgroundColor.Darken());
+			}
+			else
+			{
+				sbatch.Draw(Textures.TexCircle, bounds, BackgroundColor);
+			}
+
+			sbatch.Draw(icon, bounds.AsDeflated(24, 24).AsScaled(IconScale), ForegroundColor);
 		}
 
 		public override void OnInitialize()

@@ -10,14 +10,17 @@ using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Screens.HUD.Operations;
 using System;
+using System.Collections.Generic;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
 	public abstract class HUDElement : ISAMLayeredDrawable, ISAMUpdateable
 	{
 		public HUDContainer Owner = null; // Only set on add to HUD (the OnInitialize is called)
-		public GameHUD HUD = null; // Only set on add to HUD (the OnInitialize is called)
+		public GameHUD HUD = null;        // Only set on add to HUD (the OnInitialize is called)
+
 		public bool Alive = true;
 		public bool Initialized { get; private set; } = false;
 
@@ -66,6 +69,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public float CenterY => Position.Y + Size.Height / 2f;
 
 		public Vector2 Center => new Vector2(CenterX, CenterY);
+
+		protected readonly List<IHUDElementOperation> ActiveOperations = new List<IHUDElementOperation>();
 
 		protected bool IsPointerDownOnElement = false;
 		protected bool PositionInvalidated = false;
@@ -123,7 +128,16 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public virtual void Update(GameTime gameTime, InputState istate)
 		{
 			if (PositionInvalidated) RecalculatePosition();
-			
+
+			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
+			{
+				if (!ActiveOperations[i].Update(this, gameTime, istate))
+				{
+					ActiveOperations[i].OnEnd(this);
+					ActiveOperations.RemoveAt(i);
+				}
+			}
+
 			if (istate.IsJustDown && BoundingRectangle.Contains(istate.PointerPosition))
 			{
 				OnPointerDown(istate.PointerPosition - Position, istate);
@@ -211,6 +225,24 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			PositionInvalidated = false;
 
 			OnAfterRecalculatePosition();
+		}
+
+		public void AddHUDOperation(IHUDElementOperation op)
+		{
+			ActiveOperations.Add(op);
+			op.OnStart(this);
+		}
+
+		public void RemoveAllOperations(Func<IHUDElementOperation, bool> condition)
+		{
+			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
+			{
+				if (condition(ActiveOperations[i]))
+				{
+					ActiveOperations[i].OnEnd(this);
+					ActiveOperations.RemoveAt(i);
+				}
+			}
 		}
 
 		public abstract void OnInitialize();

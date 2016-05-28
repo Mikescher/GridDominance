@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GridDominance.Shared.Screens.ScreenGame.HUDOperations;
+using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
@@ -13,10 +14,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 	{
 		private readonly HUDRawText incrementLabel;
 
-		private const float WIGGLE_SPEED = 2f;
-		private const float WIGGLE_OFFSET = 2.5f;
-
-		private float currentWiggleProgress = 0;
+		public float AnimationOffset = 0f;
 
 		public HUDIncrementIndicatorLabel(string value, string increment, int depth = 0)
 			: base(depth)
@@ -27,6 +25,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				Text = increment,
 			};
+
+			AddHUDOperation(new HUDIncrementIndicatorLabelWiggleOperation());
 		}
 		
 		public override void OnInitialize()
@@ -43,10 +43,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)
 		{
-			currentWiggleProgress += gameTime.GetElapsedSeconds() * WIGGLE_SPEED;
-
-			var offset = WIGGLE_OFFSET * FloatMath.Sin(currentWiggleProgress * FloatMath.PI);
-			var innerRel = internalText.Position + new FPoint(InnerLabelSize.Width + 5, offset - incrementLabel.Height / 4);
+			var innerRel = internalText.Position + new FPoint(InnerLabelSize.Width + 5, AnimationOffset - incrementLabel.Height / 4);
 
 			incrementLabel.RelativePosition = innerRel;
 		}

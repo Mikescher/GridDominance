@@ -31,13 +31,13 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds.AsInflated(CROP_CORNER_SIZE * cornerScale, 0).Round(),
+				bounds.AsDeflated(CROP_CORNER_SIZE * cornerScale, 0).Round(),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 
 			sbatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				bounds.AsInflated(0, CROP_CORNER_SIZE * cornerScale).Round(),
+				bounds.AsDeflated(0, CROP_CORNER_SIZE * cornerScale).Round(),
 				StaticTextures.SinglePixel.Bounds,
 				color);
 

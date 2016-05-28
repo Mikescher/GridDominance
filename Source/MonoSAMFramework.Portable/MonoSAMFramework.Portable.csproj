@@ -98,6 +98,11 @@
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRectangle.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRoundedRectangle.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDSeperator.cs" />
+    <Compile Include="Screens\HUD\Operations\HUDElementOperation.cs" />
+    <Compile Include="Screens\HUD\Operations\HUDInfiniteElementOperation.cs" />
+    <Compile Include="Screens\HUD\Operations\HUDModuloElementOperation.cs" />
+    <Compile Include="Screens\HUD\Operations\HUDTimedElementOperation.cs" />
+    <Compile Include="Screens\HUD\Operations\IHUDElementOperation.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\HUD\HUDElement.cs" />

@@ -138,7 +138,7 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 			return new FRectangle(num, num2, System.Math.Max(Right, value2.Right) - num, System.Math.Max(Bottom, value2.Bottom) - num2);
 		}
 
-		public FRectangle AsInflated(int horizontalAmount, int verticalAmount)
+		public FRectangle AsDeflated(int horizontalAmount, int verticalAmount)
 		{
 			return new FRectangle(
 				X + horizontalAmount,
@@ -147,13 +147,31 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 				Height - verticalAmount * 2);
 		}
 
-		public FRectangle AsInflated(float horizontalAmount, float verticalAmount)
+		public FRectangle AsDeflated(float horizontalAmount, float verticalAmount)
 		{
 			return new FRectangle(
 				X + horizontalAmount,
 				Y + verticalAmount,
 				Width - horizontalAmount * 2,
 				Height - verticalAmount * 2);
+		}
+
+		public FRectangle _AsInflated(int horizontalAmount, int verticalAmount)
+		{
+			return new FRectangle(
+				X - horizontalAmount,
+				Y - verticalAmount,
+				Width + horizontalAmount * 2,
+				Height + verticalAmount * 2);
+		}
+
+		public FRectangle _AsInflated(float horizontalAmount, float verticalAmount)
+		{
+			return new FRectangle(
+				X - horizontalAmount,
+				Y - verticalAmount,
+				Width + horizontalAmount * 2,
+				Height + verticalAmount * 2);
 		}
 
 		public FRectangle AsOffseted(float offsetX, float offsetY)
@@ -181,6 +199,14 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 				Y + Height / 2 - size.Height / 2,
 				size.Width,
 				size.Height);
+		}
+
+		public FRectangle AsScaled(float scale)
+		{
+			float w = Width * scale;
+			float h = Height * scale;
+
+			return new FRectangle(X + Width / 2 - w / 2, Y + Height / 2 - h / 2, w, h);
 		}
 
 		public FRectangle AsCenteredTo(FPoint center)
