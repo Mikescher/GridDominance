@@ -88,17 +88,6 @@ namespace MonoSAMFramework.Portable.Screens
 			offsetY = (viewport.Height - VirtualHeight * scaleXY) / 2;
 
 			GraphicsDevice.Viewport = new Viewport(0, 0, viewport.Width, viewport.Height);
-
-			// Needed for a DirectX bug in MonoGame 3.4. Hopefully it will be fixed in future versions
-			// see http://gamedev.stackexchange.com/questions/68914/issue-with-monogame-resizing
-			if (_graphicsDeviceManager != null &&
-				(_graphicsDeviceManager.PreferredBackBufferWidth != _window.ClientBounds.Width ||
-				 _graphicsDeviceManager.PreferredBackBufferHeight != _window.ClientBounds.Height))
-			{
-				_graphicsDeviceManager.PreferredBackBufferWidth = _window.ClientBounds.Width;
-				_graphicsDeviceManager.PreferredBackBufferHeight = _window.ClientBounds.Height;
-				_graphicsDeviceManager.ApplyChanges();
-			}
 		}
 
 		public override Point PointToScreen(int x, int y)
