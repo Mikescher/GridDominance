@@ -56,6 +56,23 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			set { RelativePosition = new FPoint(value.X - Size.Width / 2f, value.Y - Size.Height / 2f);}
 		}
 
+		private bool _isEnabled = true;
+		public bool IsEnabled
+		{
+			get
+			{
+				return _isEnabled;
+			}
+			set
+			{
+				if (_isEnabled ^ value)
+				{
+					_isEnabled = value;
+					OnEnabledChanged(value);
+				}
+			}
+		}
+
 		public float Top => BoundingRectangle.Top;
 		public float Left => BoundingRectangle.Left;
 
@@ -271,6 +288,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		}
 
 		protected virtual void OnPointerClick(FPoint relPositionPoint, InputState istate)
+		{
+			/* OVERRIDE ME */
+		}
+
+		protected virtual void OnEnabledChanged(bool newValue)
 		{
 			/* OVERRIDE ME */
 		}

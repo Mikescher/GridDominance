@@ -1334,7 +1334,7 @@
 },
 {
 	"filename": "hud_pause_08.png",
-	"frame": {"x":1406,"y":922,"w":46,"h":54},
+	"frame": {"x":1406,"y":989,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":54},
@@ -1343,15 +1343,6 @@
 },
 {
 	"filename": "hud_pause_09.png",
-	"frame": {"x":1406,"y":979,"w":46,"h":54},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":54},
-	"sourceSize": {"w":46,"h":54},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "hud_pause_10.png",
 	"frame": {"x":905,"y":1967,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
@@ -1360,7 +1351,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "hud_pause_11.png",
+	"filename": "hud_pause_10.png",
 	"frame": {"x":954,"y":1967,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
@@ -1369,7 +1360,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "hud_pause_12.png",
+	"filename": "hud_pause_11.png",
 	"frame": {"x":1003,"y":1967,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
@@ -1378,7 +1369,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "hud_pause_13.png",
+	"filename": "hud_pause_12.png",
 	"frame": {"x":1052,"y":1967,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
@@ -1387,7 +1378,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "hud_pause_14.png",
+	"filename": "hud_pause_13.png",
 	"frame": {"x":1101,"y":1967,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
@@ -1396,8 +1387,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "hud_pause_15.png",
+	"filename": "hud_pause_14.png",
 	"frame": {"x":1150,"y":1967,"w":46,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":54},
+	"sourceSize": {"w":46,"h":54},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hud_pause_15.png",
+	"frame": {"x":1199,"y":1967,"w":46,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":54},
@@ -1415,7 +1415,7 @@
 },
 {
 	"filename": "hud_time_1.png",
-	"frame": {"x":1406,"y":1036,"w":46,"h":11},
+	"frame": {"x":85,"y":2017,"w":46,"h":11},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":11},
@@ -1433,7 +1433,7 @@
 },
 {
 	"filename": "hud_time_3.png",
-	"frame": {"x":1199,"y":1967,"w":46,"h":46},
+	"frame": {"x":1248,"y":1967,"w":46,"h":46},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":46},
@@ -1486,7 +1486,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "panel_blur_corner.png",
+	"filename": "icon_redo.png",
 	"frame": {"x":1406,"y":788,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -1495,8 +1495,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "panel_blur_edge.png",
+	"filename": "panel_blur_corner.png",
 	"frame": {"x":1406,"y":855,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "panel_blur_edge.png",
+	"frame": {"x":1406,"y":922,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1555,6 +1564,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1496,"h":2032},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:ac1a2d1477fd5924c82babc5327e4063:4c2db8d1b76b4b56c7f92e5ea2a9478c:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:59c038c36bcc364ee184b05a2938ce4f:22dac27e857218a3c7ab9921e3efbb9f:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

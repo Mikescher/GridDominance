@@ -223,6 +223,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private void Open()
 		{
 			if (isOpened) return;
+			if (!IsEnabled) return;
 
 			isOpened = true;
 			isDragging = true;
@@ -241,11 +242,23 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public void Close()
 		{
+			if (!isOpened) return;
+
 			isOpened = false;
 
 			foreach (var btn in speedButtons)
 			{
 				btn.IsOpened = false;
+			}
+		}
+
+		protected override void OnEnabledChanged(bool newValue)
+		{
+			base.OnEnabledChanged(newValue);
+
+			if (!newValue)
+			{
+				Close();
 			}
 		}
 	}

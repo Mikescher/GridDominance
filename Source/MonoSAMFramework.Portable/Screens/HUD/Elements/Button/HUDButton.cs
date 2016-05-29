@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using System;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 {
@@ -42,6 +42,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
+			if (!IsEnabled) return;
 			if (suppressClick) return;
 			if (!IsCursorOnButton(istate)) return;
 

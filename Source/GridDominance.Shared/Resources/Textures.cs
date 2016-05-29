@@ -125,6 +125,7 @@ namespace GridDominance.Shared.Resources
 
 		public static TextureRegion2D TexIconBack;
 		public static TextureRegion2D TexIconNext;
+		public static TextureRegion2D TexIconRedo;
 
 		public static TextureRegion2D TexDifficulty0;
 		public static TextureRegion2D TexDifficulty1;
@@ -193,6 +194,7 @@ namespace GridDominance.Shared.Resources
 
 			TexIconBack = AtlasTextures["icon_back"];
 			TexIconNext = AtlasTextures["icon_next"];
+			TexIconRedo = AtlasTextures["icon_redo"];
 
 			TexDifficulty0 = AtlasTextures["difficulty_0"];
 			TexDifficulty1 = AtlasTextures["difficulty_1"];

@@ -2,9 +2,9 @@
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Interfaces;
 using System;
 using System.Collections.Generic;
-using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {

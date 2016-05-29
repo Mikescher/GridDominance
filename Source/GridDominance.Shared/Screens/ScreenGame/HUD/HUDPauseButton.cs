@@ -181,5 +181,16 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			this.GDHUD().GDOwner.GDOwner.SetLevelScreen(Levels.LEVEL_DBG);
 		}
+
+		protected override void OnEnabledChanged(bool newValue)
+		{
+			base.OnEnabledChanged(newValue);
+
+			if (!newValue)
+			{
+				isOpened = false;
+				animationProgress = 0;
+			}
+		}
 	}
 }

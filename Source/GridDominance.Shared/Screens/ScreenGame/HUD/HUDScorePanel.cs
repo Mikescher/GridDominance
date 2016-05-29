@@ -22,12 +22,18 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public override int Depth => 0;
 
+		private FractionDifficulty? gainLevel;
+		private bool successScreen;
+
 		private HUDLabel lblPoints;
 		private HUDIconTextButton btnMenu;
 		private HUDIconTextButton btnNext;
 
-		public HUDScorePanel()
+		public HUDScorePanel(FractionDifficulty? newDifficulty, bool playerHasWon)
 		{
+			gainLevel = newDifficulty;
+			successScreen = playerHasWon;
+
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
@@ -199,25 +205,48 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			});
 			btnMenu.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Prev<<");
 
-
-			AddElement(btnNext = new HUDIconTextButton(2)
+			if (successScreen)
 			{
-				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-				Size = new FSize(3.5f * GDGameScreen.TILE_WIDTH, 60),
+				AddElement(btnNext = new HUDIconTextButton(2)
+				{
+					Alignment = HUDAlignment.BOTTOMRIGHT,
+					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
+					Size = new FSize(3.5f * GDGameScreen.TILE_WIDTH, 60),
 
-				Text = "Next",
-				TextColor = Color.White,
-				Font = Textures.HUDFontRegular,
-				FontSize = 55,
-				TextAlignment = HUDAlignment.CENTER,
-				TextPadding = 8,
-				Icon = Textures.TexIconNext,
-				BackgoundType = HUDButtonBackground.Rounded,
-				Color = FlatColors.Nephritis,
-				ColorPressed = FlatColors.Emerald,
-			});
-			btnNext.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Next<<");
+					Text = "Next",
+					TextColor = Color.White,
+					Font = Textures.HUDFontRegular,
+					FontSize = 55,
+					TextAlignment = HUDAlignment.CENTER,
+					TextPadding = 8,
+					Icon = Textures.TexIconNext,
+					BackgoundType = HUDButtonBackground.Rounded,
+					Color = FlatColors.Nephritis,
+					ColorPressed = FlatColors.Emerald,
+				});
+				btnNext.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Next<<"); // TODO
+			}
+			else
+			{
+				AddElement(btnNext = new HUDIconTextButton(2)
+				{
+					Alignment = HUDAlignment.BOTTOMRIGHT,
+					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
+					Size = new FSize(3.5f * GDGameScreen.TILE_WIDTH, 60),
+
+					Text = "Again",
+					TextColor = Color.White,
+					Font = Textures.HUDFontRegular,
+					FontSize = 55,
+					TextAlignment = HUDAlignment.CENTER,
+					TextPadding = 8,
+					Icon = Textures.TexIconRedo,
+					BackgoundType = HUDButtonBackground.Rounded,
+					Color = FlatColors.Nephritis,
+					ColorPressed = FlatColors.Emerald,
+				});
+				btnNext.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Again<<"); // TODO
+			}
 
 			#endregion
 

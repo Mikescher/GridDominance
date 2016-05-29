@@ -11,7 +11,8 @@ http://www.flaticon.com/packs/amusement-park
 difficulty medal:
 http://www.flaticon.com/packs/business-seo-elements
 
-
+icon_redo:
+http://www.flaticon.com/packs/camera-interface
 
 
 

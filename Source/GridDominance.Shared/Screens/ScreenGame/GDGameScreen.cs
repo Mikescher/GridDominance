@@ -1,4 +1,5 @@
-﻿using FarseerPhysics;
+﻿using System.Linq;
+using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Background;
@@ -42,6 +43,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public GDGridBackground GDBackground => (GDGridBackground) Background;
 		public GDEntityManager GDEntities => (GDEntityManager) Entities;
 		public TolerantBoxingViewportAdapter GDViewport => (TolerantBoxingViewportAdapter) Viewport;
+		public GDGameHUD GDGameHUD => (GDGameHUD) GameHUD;
 
 		//-----------------------------------------------------------------
 
@@ -76,10 +78,14 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private Fraction fractionComputer3;
 
 		private readonly LevelFile blueprint;
+		private readonly FractionDifficulty difficulty;
 
-		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp) : base(game, gdm)
+		public bool HasFinished = false;
+
+		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp, FractionDifficulty diff) : base(game, gdm)
 		{
 			blueprint = bp;
+			difficulty = diff;
 
 			Initialize();
 
@@ -97,8 +103,18 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			DebugSettings.AddSwitch("DebugCannonView",  this, Keys.F5, KeyboardModifiers.None, true);
 
 			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
+
+			DebugSettings.AddPush("AssimilateCannon", this, Keys.A, KeyboardModifiers.None);
+			DebugSettings.AddPush("AbandonCannon",    this, Keys.S, KeyboardModifiers.None);
 #endif
 		}
+
+#if DEBUG
+		public Fraction GetPlayerFraction() // Only DEBUG - later there can be games w/o PlayerFraction
+		{
+			return fractionPlayer;
+		}
+#endif
 
 		private void Initialize()
 		{
@@ -132,9 +148,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			fractionNeutral = Fraction.CreateNeutralFraction();
 			fractionPlayer = Fraction.CreatePlayerFraction(fractionNeutral);
-			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, FractionDifficulty.KI_EASY);
-			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, FractionDifficulty.KI_EASY);
-			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, FractionDifficulty.KI_EASY);
+			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, difficulty);
+			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, difficulty);
+			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, difficulty);
 
 			LoadLevelFromBlueprint();
 		}
@@ -163,7 +179,51 @@ namespace GridDominance.Shared.Screens.ScreenGame
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 #endif
-			// NOP
+
+			TestForGameEndingCondition();
+		}
+
+		private void TestForGameEndingCondition()
+		{
+			if (HasFinished) return;
+
+			Fraction winningFraction = null;
+
+			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
+			{
+				if (cannon.Fraction.IsNeutral) continue;
+
+				if (winningFraction == null)
+				{
+					winningFraction = cannon.Fraction;
+				}
+				else if (winningFraction != cannon.Fraction)
+				{
+					return;
+				}
+			}
+
+			EndGame(winningFraction);
+		}
+
+		private void EndGame(Fraction winner)
+		{
+			HasFinished = true;
+
+			if (winner.IsPlayer)
+			{
+				GDGameHUD.ShowScorePanel(difficulty, true);
+			}
+			else
+			{
+				GDGameHUD.ShowScorePanel(null, false);
+			}
+
+			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
+			{
+				cannon.ForceUpdateController();
+			}
+
 		}
 
 		public World GetPhysicsWorld()

@@ -436,6 +436,7 @@
             <key type="filename">hud_time_hand.png</key>
             <key type="filename">icon_back.png</key>
             <key type="filename">icon_next.png</key>
+            <key type="filename">icon_redo.png</key>
             <key type="filename">panel_blur_corner.png</key>
             <key type="filename">panel_blur_edge.png</key>
             <key type="filename">panel_corner.png</key>
@@ -480,6 +481,7 @@
             <filename>difficulty_3.png</filename>
             <filename>difficulty_1.png</filename>
             <filename>difficulty_2.png</filename>
+            <filename>icon_redo.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -155,6 +155,26 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			UpdatePhysicBodies();
 			UpdateHealth(gameTime);
 			UpdateBarrel(gameTime);
+
+#if DEBUG
+			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
+			{
+				while (Fraction.Type != FractionType.PlayerFraction)
+					TakeDamage(GDOwner.GetPlayerFraction());
+
+				CannonHealth.SetForce(1f);
+			}
+			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AbandonCannon"))
+			{
+				CannonHealth.SetForce(0f);
+				SetFraction(Fraction.GetNeutral());
+			}
+#endif
+		}
+
+		private bool IsMouseDownOnThis(InputState istate)
+		{
+			return istate.IsDown && (istate.PointerPosition - Center).Length() < CANNON_DIAMETER;
 		}
 
 		private void UpdateHealth(GameTime gameTime)
@@ -471,6 +491,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			Rotation.Set(FloatMath.PositiveAtan2(target.Position.Y - Center.Y, target.Position.X - Center.X));
 			//Screen.PushNotification($"Cannon :: target({FloatMath.ToDegree(Rotation.TargetValue):000}°)");
+		}
+
+		public void ForceUpdateController()
+		{
+			controller = Fraction.CreateController(GDOwner, this);
 		}
 
 		#endregion

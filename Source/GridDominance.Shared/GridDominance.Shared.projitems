@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\EmptyController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\NeutralKIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\PlayerController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\EndGameAutoPlayerController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\StandardKIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Fractions\Fraction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Fractions\FractionType.cs" />

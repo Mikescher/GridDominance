@@ -26,7 +26,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 
 		public readonly FractionDifficulty Difficulty;
 
-		public bool IsNeutral => (Type == FractionType.NeutralFraction);
+		public bool IsNeutral  => (Type == FractionType.NeutralFraction);
+		public bool IsPlayer   => (Type == FractionType.PlayerFraction);
+		public bool IsComputer => (Type == FractionType.ComputerFraction);
 
 		private Fraction(Color c, Fraction nfrac, FractionType type, float mult, FractionDifficulty diff)
 		{
@@ -68,11 +70,17 @@ namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 			switch (Type)
 			{
 				case FractionType.PlayerFraction:
-					return new PlayerController(owner, cannon, this);
+					if (owner.HasFinished)
+						return new EndGameAutoPlayerController(owner, cannon, this);
+					else
+						return new PlayerController(owner, cannon, this);
+
 				case FractionType.ComputerFraction:
 					return new StandardKIController(owner, cannon, this);
+
 				case FractionType.NeutralFraction:
 					return new NeutralKIController(owner, cannon, this);
+
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

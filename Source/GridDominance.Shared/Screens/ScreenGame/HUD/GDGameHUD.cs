@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.ScreenGame.HUD;
 using MonoSAMFramework.Portable.Screens.HUD;
 
@@ -14,11 +15,23 @@ namespace GridDominance.Shared.Screens.ScreenGame.hud
 		public override int Bottom => (int)(GDOwner.GDViewport.VirtualHeight + GDOwner.GDViewport.VirtualOffsetY);
 		public override int Right => (int)(GDOwner.GDViewport.VirtualWidth + GDOwner.GDViewport.VirtualOffsetX);
 
+		private readonly HUDPauseButton btnPause;
+		private readonly HUDSpeedBaseButton btnSpeed;
+
 		public GDGameHUD(GDGameScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
-			AddElement(new HUDPauseButton());
-			AddElement(new HUDSpeedBaseButton());
-			AddElement(new HUDScorePanel());
+			AddElement(btnPause = new HUDPauseButton());
+			AddElement(btnSpeed = new HUDSpeedBaseButton());
 		}
+
+		public void ShowScorePanel(FractionDifficulty? newDifficulty, bool playerHasWon)
+		{
+			btnPause.IsEnabled = false;
+			btnSpeed.IsEnabled = false;
+
+			GDOwner.GameSpeedMode = GameSpeedModes.NORMAL;
+
+			AddElement(new HUDScorePanel(newDifficulty, playerHasWon));
+		} 
 	}
 }
