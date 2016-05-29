@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.PlayerProfile;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -22,17 +23,19 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public override int Depth => 0;
 
-		private FractionDifficulty? gainLevel;
-		private bool successScreen;
+		private readonly FractionDifficulty? gainLevel;
+		private readonly bool successScreen;
+		private readonly PlayerProfileData profile;
 
 		private HUDLabel lblPoints;
 		private HUDIconTextButton btnMenu;
 		private HUDIconTextButton btnNext;
 
-		public HUDScorePanel(FractionDifficulty? newDifficulty, bool playerHasWon)
+		public HUDScorePanel(PlayerProfileData playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon)
 		{
 			gainLevel = newDifficulty;
 			successScreen = playerHasWon;
+			profile = playerprofile;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -124,7 +127,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
 
-				Text = "4 - 4",
+				Text = "4 - 4", // TODO
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,
@@ -144,7 +147,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				FontSize = 35,
 			});
 
-			AddElement(lblPoints = new HUDIncrementIndicatorLabel("236", "+20", 2)
+			AddElement(lblPoints = new HUDIncrementIndicatorLabel("236", "+20", 2) // TODO
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 15),
@@ -175,7 +178,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
 
-				Text = "2 / 4",
+				Text = "2 / 4", // TODO
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,
@@ -203,7 +206,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 			});
-			btnMenu.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Prev<<");
+			btnMenu.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Prev<<"); // TODO
 
 			if (successScreen)
 			{
@@ -252,28 +255,64 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			#region Icons
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_EASY, HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED)
+			var finDiff0 = profile.GetLevelData(this.GDHUD().GDOwner.LevelName).HasCompleted(FractionDifficulty.KI_EASY);
+			var finDiff1 = profile.GetLevelData(this.GDHUD().GDOwner.LevelName).HasCompleted(FractionDifficulty.KI_NORMAL);
+			var finDiff2 = profile.GetLevelData(this.GDHUD().GDOwner.LevelName).HasCompleted(FractionDifficulty.KI_HARD);
+			var finDiff3 = profile.GetLevelData(this.GDHUD().GDOwner.LevelName).HasCompleted(FractionDifficulty.KI_IMPOSSIBLE);
+
+
+			var modeDiff0 =
+				finDiff0 ?
+					(gainLevel == FractionDifficulty.KI_EASY ?
+						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
+						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
+					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
+
+			var modeDiff1 =
+				finDiff1 ?
+					(gainLevel == FractionDifficulty.KI_NORMAL ?
+						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
+						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
+					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
+
+			var modeDiff2 =
+				finDiff2 ?
+					(gainLevel == FractionDifficulty.KI_HARD ?
+						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
+						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
+					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
+
+			var modeDiff3 =
+				finDiff3 ?
+					(gainLevel == FractionDifficulty.KI_IMPOSSIBLE ?
+						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
+						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
+					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
+
+
+
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_EASY, modeDiff0)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(1 * ICON_MARGIN + 0 * ICON_SIZE, ICON_MARGIN)
 			});
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_NORMAL, HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED)
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_NORMAL, modeDiff1)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(3 * ICON_MARGIN + 1 * ICON_SIZE, ICON_MARGIN)
 			});
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_HARD, HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION)
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_HARD, modeDiff2)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(5 * ICON_MARGIN + 2 * ICON_SIZE, ICON_MARGIN)
 			});
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_IMPOSSIBLE, HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED)
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_IMPOSSIBLE, modeDiff3)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),

@@ -1,5 +1,6 @@
 ﻿using System;
 using GridDominance.Levelformat.Parser;
+using GridDominance.Shared.PlayerProfile;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
@@ -13,6 +14,13 @@ namespace GridDominance.Shared
 	/// </summary>
 	public class MainGame : MonoSAMGame
 	{
+		public PlayerProfileData Profile;
+
+		public MainGame()
+		{
+			Profile = new PlayerProfileData(); //TODO Serialize, Deserialize, Online
+		}
+
 		protected override void OnInitialize()
 		{
 #if __DESKTOP__

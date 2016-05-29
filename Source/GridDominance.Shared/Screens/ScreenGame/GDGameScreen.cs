@@ -79,6 +79,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		private readonly LevelFile blueprint;
 		private readonly FractionDifficulty difficulty;
+		public readonly string LevelName = "NaN"; //TODO Better smth guid in levelfile (somehow force unique, by compiler ??)
 
 		public bool HasFinished = false;
 
@@ -212,11 +213,20 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			if (winner.IsPlayer)
 			{
-				GDGameHUD.ShowScorePanel(difficulty, true);
+				if (GDOwner.Profile.GetLevelData(LevelName).HasCompleted(difficulty))
+				{
+					GDGameHUD.ShowScorePanel(GDOwner.Profile, null, true);
+				}
+				else
+				{
+					GDOwner.Profile.GetLevelData(LevelName).SetCompleted(difficulty);
+					GDGameHUD.ShowScorePanel(GDOwner.Profile, difficulty, true);
+				}
+
 			}
 			else
 			{
-				GDGameHUD.ShowScorePanel(null, false);
+				GDGameHUD.ShowScorePanel(GDOwner.Profile, null, false);
 			}
 
 			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
