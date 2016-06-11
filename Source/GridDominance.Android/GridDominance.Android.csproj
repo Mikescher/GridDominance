@@ -53,6 +53,7 @@
     <Reference Include="OpenTK" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndroidFileHelper.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="MainActivity.cs" />
   </ItemGroup>

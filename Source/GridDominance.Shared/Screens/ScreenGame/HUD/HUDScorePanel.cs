@@ -320,7 +320,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			});
 
 			#endregion
-
 		}
 	}
 }

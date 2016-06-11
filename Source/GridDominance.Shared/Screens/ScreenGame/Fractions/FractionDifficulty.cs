@@ -6,13 +6,13 @@ namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 {
 	public enum FractionDifficulty
 	{
-		PLAYER,
-		NEUTRAL,
+		NEUTRAL       = 0x00,
+		PLAYER        = 0x01,
 
-		KI_EASY,
-		KI_NORMAL,
-		KI_HARD,
-		KI_IMPOSSIBLE,
+		KI_EASY       = 0x10,
+		KI_NORMAL     = 0x11,
+		KI_HARD       = 0x12,
+		KI_IMPOSSIBLE = 0x13,
 	}
 
 	public static class FractionDifficultyHelper

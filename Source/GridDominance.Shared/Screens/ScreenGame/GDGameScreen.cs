@@ -220,6 +220,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				else
 				{
 					GDOwner.Profile.GetLevelData(LevelName).SetCompleted(difficulty);
+					GDOwner.SaveProfile();
 					GDGameHUD.ShowScorePanel(GDOwner.Profile, difficulty, true);
 				}
 

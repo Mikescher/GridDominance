@@ -37,6 +37,18 @@
     <Compile Include="BatchRenderer\IDebugBatchRenderer.cs" />
     <Compile Include="BatchRenderer\IBatchRenderer.cs" />
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
+    <Compile Include="FileHelper\DataFile\BaseDataFile.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileGUIDWrapper.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileDoubleWrapper.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileFloatWrapper.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileIntWrapper.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileIntSetWrapper.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileSDictWrapper.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileListWrapper.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileStringWrapper.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileTypeInfo.cs" />
+    <Compile Include="FileHelper\DataFile\DataFileTypeInfoProperty.cs" />
+    <Compile Include="FileHelper\DataFile\DeserializationException.cs" />
     <Compile Include="DebugTools\DebugListener.cs" />
     <Compile Include="DebugTools\DebugSettings.cs" />
     <Compile Include="Extensions\RectangleExtensions.cs" />
@@ -44,6 +56,7 @@
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\SAMGameTimeExtensions.cs" />
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
+    <Compile Include="FileHelper\FileHelper.cs" />
     <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="Interfaces\ILifetimeObject.cs" />
     <Compile Include="Interfaces\ISAMLayeredDrawable.cs" />

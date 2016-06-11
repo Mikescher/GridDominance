@@ -6,6 +6,7 @@ using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.FileHelper;
 
 namespace GridDominance.Shared
 {
@@ -14,11 +15,32 @@ namespace GridDominance.Shared
 	/// </summary>
 	public class MainGame : MonoSAMGame
 	{
+		public const string PROFILE_FILENAME = "USERPROFILE";
+
 		public PlayerProfileData Profile;
 
 		public MainGame()
 		{
-			Profile = new PlayerProfileData(); //TODO Serialize, Deserialize, Online
+			Profile = new PlayerProfileData();
+
+			var sdata = FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);
+			if (sdata != null)
+			{
+				try
+				{
+					Profile.Deserialize(sdata);
+				}
+				catch (Exception e)
+				{
+					//TODO Log Error
+
+					Profile = new PlayerProfileData();
+				}
+			}
+			else
+			{
+				SaveProfile();
+			}
 		}
 
 		protected override void OnInitialize()
@@ -66,6 +88,12 @@ namespace GridDominance.Shared
 		protected override void UnloadContent()
 		{
 			// NOP
+		}
+
+
+		public void SaveProfile()
+		{
+			FileHelper.Inst.WriteData(PROFILE_FILENAME, Profile.Serialize());
 		}
 	}
 }

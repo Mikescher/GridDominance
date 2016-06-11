@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="WindowsFileHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
