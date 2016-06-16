@@ -57,6 +57,11 @@
     <Compile Include="Extensions\SAMGameTimeExtensions.cs" />
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
     <Compile Include="FileHelper\FileHelper.cs" />
+    <Compile Include="FileHelper\Writer\DataWriterException.cs" />
+    <Compile Include="FileHelper\Writer\IDataReader.cs" />
+    <Compile Include="FileHelper\Writer\UTFBinReader.cs" />
+    <Compile Include="FileHelper\Writer\UTFBinWriter.cs" />
+    <Compile Include="FileHelper\Writer\IDataWriter.cs" />
     <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="Interfaces\ILifetimeObject.cs" />
     <Compile Include="Interfaces\ISAMLayeredDrawable.cs" />

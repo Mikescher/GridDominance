@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MonoSAMFramework.Portable.FileHelper.Writer;
 
 namespace MonoSAMFramework.Portable.FileHelper.DataFile
 {
@@ -10,7 +11,7 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 		private List<DataFileTypeInfoProperty> registerPropertyCollector;
 		private Func<BaseDataFile> registerConstructorCollector;
 
-		public virtual string Serialize()
+		public virtual void Serialize(IDataWriter)
 		{
 			var ownTypeInfo = GetTypeInfo();
 
@@ -26,7 +27,7 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 			return builder.ToString();
 		}
 
-		public virtual void Deserialize(string data)
+		public virtual void Deserialize(IDataReader reader)
 		{
 			var ownTypeInfo = GetTypeInfo();
 
