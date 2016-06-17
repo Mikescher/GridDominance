@@ -1,9 +1,12 @@
-﻿using System.Text;
+﻿using MonoSAMFramework.Portable.MathHelper.Cryptography;
+using System.Text;
 
 namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 {
-	public static class StringEscapeHelper
+	public static class PersistanceHelper
 	{
+		public const int INTEGRITY_HASH_LEN = 8;
+
 		public static string UnescapeString(string raw)
 		{
 			StringBuilder unesc = new StringBuilder(raw.Length);
@@ -59,27 +62,6 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			return unesc.ToString();
 		}
 
-		private static char GetCharFromNibbles(char n0, char n1, char n2, char n3)
-		{
-			int v = 
-				(GetNibbleValue(n0) << 0xC) |
-				(GetNibbleValue(n1) << 0x8) |
-				(GetNibbleValue(n2) << 0x4) |
-				(GetNibbleValue(n3) << 0x0);
-
-			return (char) v;
-		}
-
-		private static int GetNibbleValue(char nibble)
-		{
-			if (nibble >= '0' && nibble <= '9')
-				return nibble - '0';
-			else if (nibble >= 'A' && nibble <= 'F')
-				return 10 + nibble - 'A';
-			else
-				throw new DataWriterException("the nibble chr(" + (int)nibble + ") is not valid");
-		}
-
 		public static string EscapeString(string str)
 		{
 			StringBuilder esc = new StringBuilder();
@@ -109,6 +91,32 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			}
 
 			return esc.ToString();
+		}
+
+		public static string CreateFileIntegrityHash(string data)
+		{
+			return MD5.GetHashString(data).Substring(0, INTEGRITY_HASH_LEN);
+		}
+
+		private static char GetCharFromNibbles(char n0, char n1, char n2, char n3)
+		{
+			int v = 
+				(GetNibbleValue(n0) << 0xC) |
+				(GetNibbleValue(n1) << 0x8) |
+				(GetNibbleValue(n2) << 0x4) |
+				(GetNibbleValue(n3) << 0x0);
+
+			return (char) v;
+		}
+
+		private static int GetNibbleValue(char nibble)
+		{
+			if (nibble >= '0' && nibble <= '9')
+				return nibble - '0';
+			else if (nibble >= 'A' && nibble <= 'F')
+				return 10 + nibble - 'A';
+			else
+				throw new DataWriterException("the nibble chr(" + (int)nibble + ") is not valid");
 		}
 	}
 }

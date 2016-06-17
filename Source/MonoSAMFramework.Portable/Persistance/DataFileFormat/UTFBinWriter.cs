@@ -27,7 +27,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 		public void WriteString(string v)
 		{
-			var proc = StringEscapeHelper.EscapeString(v);
+			var proc = PersistanceHelper.EscapeString(v);
 
 			WriteInteger(proc.Length);
 			builder.Append(proc);
@@ -75,9 +75,11 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			builder.Append(data);
 		}
 
-		public string ToFormattedOutput(int columnLength)
+		public string ToFormattedOutput(string header, int columnLength)
 		{
-			int lines = 1 + builder.Length / columnLength;
+			var rawData = header + builder;
+
+			int lines = 1 + rawData.Length / columnLength;
 
 			StringBuilder result = new StringBuilder(lines * columnLength);
 
@@ -85,16 +87,21 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			{
 				if (i + 1 < lines)
 				{
-					result.Append(builder.ToString(i * columnLength, columnLength));
+					result.Append(rawData.Substring(i * columnLength, columnLength));
 					result.Append('\n');
 				}
 				else
 				{
-					result.Append(builder.ToString(i * columnLength, builder.Length - i * columnLength));
+					result.Append(rawData.Substring(i * columnLength, rawData.Length - i * columnLength));
 				}
 			}
 
 			return result.ToString();
+		}
+
+		public string GetHashOfCurrentState()
+		{
+			return PersistanceHelper.CreateFileIntegrityHash(builder.ToString());
 		}
 	}
 }

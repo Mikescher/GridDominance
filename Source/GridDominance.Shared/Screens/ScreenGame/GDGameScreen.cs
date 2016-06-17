@@ -79,7 +79,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		private readonly LevelFile blueprint;
 		private readonly FractionDifficulty difficulty;
-		public readonly string LevelName = "NaN"; //TODO Better smth guid in levelfile (somehow force unique, by compiler ??)
+		public readonly string LevelName = "NAL"; //TODO Better smth guid in levelfile (somehow force unique, by compiler ??)
 
 		public bool HasFinished = false;
 

@@ -37,7 +37,8 @@
     <Compile Include="BatchRenderer\IDebugBatchRenderer.cs" />
     <Compile Include="BatchRenderer\IBatchRenderer.cs" />
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
-    <Compile Include="Persistance\DataFileFormat\StringEscapeHelper.cs" />
+    <Compile Include="MathHelper\Cryptography\MD5.cs" />
+    <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />
     <Compile Include="Persistance\DataFile\BaseDataFile.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGUIDWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileDoubleWrapper.cs" />

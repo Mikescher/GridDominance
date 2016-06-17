@@ -1,15 +1,3 @@
-TODO
-
-Pseudo binary serialize
-
-linear data
-char by char
-utf8
-perhaps pretty format linebrak after 80
-int = len + number
-most everything = len + data
-add version number to start and to every property for old loafd (juwopu style)
-
 TODO NEXT
 
  - Less cannoncog frames in spritesheet (mirror on axis) (does not work with less than hd ??)

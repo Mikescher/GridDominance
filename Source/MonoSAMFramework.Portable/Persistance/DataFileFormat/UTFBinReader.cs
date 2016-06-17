@@ -9,10 +9,10 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 		private readonly string data;
 		private int position; // next char
 
-		public UTFBinReader(string input)
+		public UTFBinReader(string input, int headerLength)
 		{
-			data = input;
-			datalength = input.Length;
+			data = input.Substring(headerLength).Replace("\r", "").Replace("\n", "");
+			datalength = data.Length;
 			position = 0;
 		}
 
@@ -52,7 +52,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 			string raw = ReadRawString(len);
 
-			return StringEscapeHelper.UnescapeString(raw);
+			return PersistanceHelper.UnescapeString(raw);
 		}
 
 		public double ReadDouble()
@@ -121,6 +121,11 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			position += len;
 
 			return r;
+		}
+
+		public string GetHashOfInput()
+		{
+			return PersistanceHelper.CreateFileIntegrityHash(data);
 		}
 	}
 }
