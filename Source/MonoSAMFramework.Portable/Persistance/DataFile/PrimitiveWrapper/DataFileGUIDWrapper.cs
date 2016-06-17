@@ -1,6 +1,7 @@
-﻿using System;
+﻿using MonoSAMFramework.Portable.Persistance.DataFileFormat;
+using System;
 
-namespace MonoSAMFramework.Portable.FileHelper.DataFile
+namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 {
 	public class DataFileGUIDWrapper : BaseDataFile
 	{
@@ -9,20 +10,20 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 		public Guid Value;
 
-		public override string Serialize()
+		public override void Serialize(IDataWriter writer, SemVersion currentVersion)
 		{
-			return Value.ToString("D");
+			writer.WriteFixedLengthNonEscapedASCII(Value.ToString("D"), 36);
 		}
 
-		public override void Deserialize(string data)
+		public override void Deserialize(IDataReader reader, SemVersion archiveVersion)
 		{
 			try
 			{
-				Value = Guid.ParseExact(data, "D");
+				Value = Guid.ParseExact(reader.ReadFixedLengthNonEscapedASCII(36), "D");
 			}
 			catch (Exception e)
 			{
-				throw new DeserializationException(e);
+				throw new SAMPersistanceException(e);
 			}
 		}
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonoSAMFramework.Portable.FileHelper.Writer
+namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 {
 	public class DataWriterException : Exception
 	{

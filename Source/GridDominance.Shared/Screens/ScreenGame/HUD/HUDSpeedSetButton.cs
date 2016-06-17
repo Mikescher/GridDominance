@@ -2,15 +2,12 @@
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
-using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
@@ -20,17 +17,17 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private const int REAL_DIAMETER = 48;
 
 		private readonly GameSpeedModes speed;
-		private readonly HUDSpeedBaseButton BaseButton;
+		private readonly HUDSpeedBaseButton baseButton;
 
 		public bool IsOpened = false;
 
 		public override int Depth => 0;
 		public bool Highlighted = false;
 
-		public HUDSpeedSetButton(HUDSpeedBaseButton baseButton, GameSpeedModes buttonSpeed)
+		public HUDSpeedSetButton(HUDSpeedBaseButton baseBtn, GameSpeedModes buttonSpeed)
 		{
 			speed = buttonSpeed;
-			BaseButton = baseButton;
+			baseButton = baseBtn;
 
 			RelativePosition = baseButton.RelativePosition;
 			Size = baseButton.Size;
@@ -108,7 +105,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			HUD.Screen.PushNotification("HUDSpeedSetButton :: Set Speed := " + speed);
 			this.GDHUD().GDOwner.GameSpeedMode = speed;
 
-			BaseButton.Close();
+			baseButton.Close();
 		}
 
 		protected override void OnPress(InputState istate)

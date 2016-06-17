@@ -1,75 +1,45 @@
-﻿using System;
+﻿using MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper;
+using MonoSAMFramework.Portable.Persistance.DataFileFormat;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MonoSAMFramework.Portable.FileHelper.Writer;
 
-namespace MonoSAMFramework.Portable.FileHelper.DataFile
+namespace MonoSAMFramework.Portable.Persistance.DataFile
 {
 	public abstract class BaseDataFile
 	{
 		private List<DataFileTypeInfoProperty> registerPropertyCollector;
 		private Func<BaseDataFile> registerConstructorCollector;
 
-		public virtual void Serialize(IDataWriter)
+		public virtual void Serialize(IDataWriter writer, SemVersion currentVersion)
 		{
 			var ownTypeInfo = GetTypeInfo();
-
-			StringBuilder builder = new StringBuilder();
-
-			builder.Append("{\n");
+			
 			foreach (var property in ownTypeInfo.Properties)
 			{
-				builder.Append($"{property.PropertyName}:{property.Getter(this).Serialize()}\n");
-			}
-			builder.Append("}");
+				if (property.MinimalVersion.IsLaterThan(currentVersion))
+					throw new SAMPersistanceException("Cannot serialize property from the future: " + property.PropertyName + " v"+property.MinimalVersion);
 
-			return builder.ToString();
+				property.Getter(this).Serialize(writer, currentVersion);
+			}
 		}
 
-		public virtual void Deserialize(IDataReader reader)
+		public virtual void Deserialize(IDataReader reader, SemVersion archiveVersion)
 		{
 			var ownTypeInfo = GetTypeInfo();
 
-			var lines = data.Split('\n');
-			if (lines.Length < 2 || lines.First() != "{" || lines.Last() != "}")
-				throw new DeserializationException("Syntax error in propertyfield");
-
-			for (int i = 1; i < lines.Length - 1; i++)
+			foreach (var property in ownTypeInfo.Properties)
 			{
-				var parts = lines[i].Split(':');
-				if (parts.Length != 2)
-					throw new DeserializationException("Syntax error in propertyline");
-
-				var prop = ownTypeInfo.FindProperty(parts[0]);
-
-				if (prop == null)
-					throw new DeserializationException("Invalid propertyname in propertyfield: '" + parts[0] + "'");
-
-				if (parts[1].StartsWith("{"))
+				if (property.MinimalVersion.IsLaterThan(archiveVersion))
 				{
-					int braceDepth = 1;
-					StringBuilder collector = new StringBuilder();
-					collector.Append("{");
-					while (braceDepth > 0)
-					{
-						i++;
-						if (i == lines.Length - 1)
-							throw new DeserializationException("Non matching dyck language");
-
-						if (lines[i].Contains("{"))
-							braceDepth++;
-						else if (lines[i].Contains("}"))
-							braceDepth--;
-
-						collector.Append("\n" + lines[i]);
-					}
-
-					prop.Setter(this, prop.CreateDeserialized(collector.ToString()));
+					// Skip deserialization - property did not exist in that time
 				}
 				else
 				{
-					prop.Setter(this, prop.CreateDeserialized(parts[1]));
+					var inst = property.Create();
+
+					inst.Deserialize(reader, archiveVersion);
+
+					property.Setter(this, inst);
 				}
 			}
 		}
@@ -109,7 +79,7 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 			registerConstructorCollector = ctr;
 		}
 
-		protected void RegisterProperty<TThis, TProp>(string name, Func<TProp> ctr, Func<TThis, TProp> get, Action<TThis, TProp> set)
+		protected void RegisterProperty<TThis, TProp>(SemVersion version, string name, Func<TProp> ctr, Func<TThis, TProp> get, Action<TThis, TProp> set)
 			where TThis : BaseDataFile
 			where TProp : BaseDataFile
 		{
@@ -118,10 +88,10 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 			
 			var gen = ctr().GetTypeInfo();
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(name, gen.TypeName, g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, gen.TypeName, g, s));
 		}
 
-		protected void RegisterProperty<TThis>(string name, Func<TThis, string> get, Action<TThis, string> set) 
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, string> get, Action<TThis, string> set) 
 			where TThis : BaseDataFile
 		{
 			Func<BaseDataFile, BaseDataFile> g = o => DataFileStringWrapper.Create(get((TThis)o));
@@ -129,10 +99,10 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 			DataFileStringWrapper.RegisterIfNeeded();
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(name, DataFileStringWrapper.TYPENAME, g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileStringWrapper.TYPENAME, g, s));
 		}
 
-		protected void RegisterProperty<TThis>(string name, Func<TThis, int> get, Action<TThis, int> set) 
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, int> get, Action<TThis, int> set) 
 			where TThis : BaseDataFile
 		{
 			Func<BaseDataFile, BaseDataFile> g = o => DataFileIntWrapper.Create(get((TThis)o));
@@ -140,10 +110,10 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 			DataFileIntWrapper.RegisterIfNeeded();
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(name, DataFileIntWrapper.TYPENAME, g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileIntWrapper.TYPENAME, g, s));
 		}
 
-		protected void RegisterProperty<TThis>(string name, Func<TThis, float> get, Action<TThis, float> set) 
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, float> get, Action<TThis, float> set) 
 			where TThis : BaseDataFile
 		{
 			Func<BaseDataFile, BaseDataFile> g = o => DataFileFloatWrapper.Create(get((TThis)o));
@@ -151,10 +121,10 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 			DataFileFloatWrapper.RegisterIfNeeded();
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(name, DataFileFloatWrapper.TYPENAME, g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileFloatWrapper.TYPENAME, g, s));
 		}
 
-		protected void RegisterProperty<TThis>(string name, Func<TThis, double> get, Action<TThis, double> set) 
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, double> get, Action<TThis, double> set) 
 			where TThis : BaseDataFile
 		{
 			Func<BaseDataFile, BaseDataFile> g = o => DataFileDoubleWrapper.Create(get((TThis)o));
@@ -162,10 +132,10 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 			DataFileDoubleWrapper.RegisterIfNeeded();
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(name, DataFileDoubleWrapper.TYPENAME, g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileDoubleWrapper.TYPENAME, g, s));
 		}
 
-		protected void RegisterProperty<TThis>(string name, Func<TThis, Guid> get, Action<TThis, Guid> set) 
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, Guid> get, Action<TThis, Guid> set) 
 			where TThis : BaseDataFile
 		{
 			Func<BaseDataFile, BaseDataFile> g = o => DataFileGUIDWrapper.Create(get((TThis)o));
@@ -173,10 +143,10 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 			DataFileGUIDWrapper.RegisterIfNeeded();
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(name, DataFileGUIDWrapper.TYPENAME, g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileGUIDWrapper.TYPENAME, g, s));
 		}
 
-		protected void RegisterPropertyList<TThis, TElem>(string name, Func<TElem> ctr, Func<TThis, List<TElem>> get, Action<TThis, List<TElem>> set)
+		protected void RegisterPropertyList<TThis, TElem>(SemVersion version, string name, Func<TElem> ctr, Func<TThis, List<TElem>> get, Action<TThis, List<TElem>> set)
 			where TThis : BaseDataFile
 			where TElem : BaseDataFile
 		{
@@ -187,10 +157,10 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 			DataFileListWrapper<TElem>.RegisterIfNeeded(gen);
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(name, DataFileListWrapper<TElem>.GetTypeName(gen), g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileListWrapper<TElem>.GetTypeName(gen), g, s));
 		}
 
-		protected void RegisterPropertyStringDictionary<TThis, TElem>(string name, Func<TElem> ctr, Func<TThis, Dictionary<string, TElem>> get, Action<TThis, Dictionary<string, TElem>> set)
+		protected void RegisterPropertyStringDictionary<TThis, TElem>(SemVersion version, string name, Func<TElem> ctr, Func<TThis, Dictionary<string, TElem>> get, Action<TThis, Dictionary<string, TElem>> set)
 			where TThis : BaseDataFile
 			where TElem : BaseDataFile
 		{
@@ -201,10 +171,10 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 			DataFileSDictWrapper<TElem>.RegisterIfNeeded(gen);
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(name, DataFileSDictWrapper<TElem>.GetTypeName(gen), g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileSDictWrapper<TElem>.GetTypeName(gen), g, s));
 		}
 			
-		protected void RegisterPropertyEnumSet<TThis, TEnum>(string name, Func<TThis, HashSet<TEnum>> get, Action<TThis, HashSet<TEnum>> set)
+		protected void RegisterPropertyEnumSet<TThis, TEnum>(SemVersion version, string name, Func<TThis, HashSet<TEnum>> get, Action<TThis, HashSet<TEnum>> set)
 			where TThis : BaseDataFile
 			where TEnum : struct
 		{
@@ -213,7 +183,7 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 			DataFileIntSetWrapper.RegisterIfNeeded();
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(name, DataFileIntSetWrapper.TYPENAME, g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileIntSetWrapper.TYPENAME, g, s));
 		}
 
 		#endregion

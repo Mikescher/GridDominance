@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using MonoSAMFramework.Portable.Persistance.DataFileFormat;
 
-namespace MonoSAMFramework.Portable.FileHelper.DataFile
+namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 {
 	public class DataFileStringWrapper : BaseDataFile
 	{
@@ -10,23 +9,14 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 		public string Value = "";
 
-		public override string Serialize()
+		public override void Serialize(IDataWriter writer, SemVersion currentVersion)
 		{
-			return Convert.ToBase64String(Encoding.UTF8.GetBytes(Value));
+			writer.WriteString(Value);
 		}
 
-		public override void Deserialize(string data)
+		public override void Deserialize(IDataReader reader, SemVersion archiveVersion)
 		{
-			try
-			{
-				var enc = Convert.FromBase64String(data);
-
-				Value = Encoding.UTF8.GetString(enc, 0, enc.Length);
-			}
-			catch (Exception e)
-			{
-				throw new DeserializationException(e);
-			}
+			Value = reader.ReadString();
 		}
 
 		public static BaseDataFile Create(string value)

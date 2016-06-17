@@ -1,5 +1,4 @@
-﻿using System;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.ScreenGame.HUDOperations;
 using Microsoft.Xna.Framework;

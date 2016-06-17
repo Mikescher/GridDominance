@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MonoSAMFramework.Portable.Persistance.DataFileFormat;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MonoSAMFramework.Portable.FileHelper.DataFile
+namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 {
 	public class DataFileIntSetWrapper : BaseDataFile
 	{
@@ -11,29 +11,26 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 
 		public HashSet<int> Value = new HashSet<int>();
 
-		public override string Serialize()
+		public override void Serialize(IDataWriter writer, SemVersion currentVersion)
 		{
-			return string.Join("|", Value);
-		}
-
-		public override void Deserialize(string data)
-		{
-			var split = data.Split('|');
-
-			foreach (var number in split)
+			writer.WriteInteger(Value.Count);
+			foreach (var v in Value)
 			{
-				try
-				{
-					Value.Add(int.Parse(number));
-				}
-				catch (Exception e)
-				{
-					throw new DeserializationException(e);
-				}
+				writer.WriteInteger(v);
 			}
 		}
 
-		public static BaseDataFile Create<T>(HashSet<int> value) where T : struct
+		public override void Deserialize(IDataReader reader, SemVersion archiveVersion)
+		{
+			int count = reader.ReadInteger();
+
+			for (int i = 0; i < count; i++)
+			{
+				Value.Add(reader.ReadInteger());
+			}
+		}
+
+		public static BaseDataFile Create(HashSet<int> value)
 		{
 			return new DataFileIntSetWrapper { Value = new HashSet<int>(value)};
 		}

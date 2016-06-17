@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
-using MonoSAMFramework.Portable.FileHelper.DataFile;
+using MonoSAMFramework.Portable.Persistance;
+using MonoSAMFramework.Portable.Persistance.DataFile;
 
 namespace GridDominance.Shared.PlayerProfile
 {
@@ -27,7 +28,7 @@ namespace GridDominance.Shared.PlayerProfile
 		{
 			RegisterConstructor(() => new PlayerProfileLevelData());
 
-			RegisterPropertyEnumSet<PlayerProfileLevelData, FractionDifficulty>("cdata", o => o.completedDifficulties, (o, v) => o.completedDifficulties = v);
+			RegisterPropertyEnumSet<PlayerProfileLevelData, FractionDifficulty>(SemVersion.VERSION_1_0_0, "cdata", o => o.completedDifficulties, (o, v) => o.completedDifficulties = v);
 		}
 
 		protected override string GetTypeName()

@@ -2,7 +2,6 @@
 using FarseerPhysics.DebugView;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;

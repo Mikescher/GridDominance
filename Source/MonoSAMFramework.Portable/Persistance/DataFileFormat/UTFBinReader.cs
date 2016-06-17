@@ -1,7 +1,7 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System;
+using System.Globalization;
 
-namespace MonoSAMFramework.Portable.FileHelper.Writer
+namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 {
 	public class UTFBinReader : IDataReader
 	{
@@ -19,6 +19,8 @@ namespace MonoSAMFramework.Portable.FileHelper.Writer
 		public int ReadInteger()
 		{
 			var length = ReadSimpleInteger(2);
+
+			if (length == 0) return 0;
 
 			return ReadSimpleInteger(length);
 		}
@@ -44,13 +46,13 @@ namespace MonoSAMFramework.Portable.FileHelper.Writer
 			return r;
 		}
 
-		public string ReadASCII()
+		public string ReadString()
 		{
 			int len = ReadInteger();
 
 			string raw = ReadRawString(len);
 
-			return UnescapeASCII(raw);
+			return StringEscapeHelper.UnescapeString(raw);
 		}
 
 		public double ReadDouble()
@@ -82,6 +84,31 @@ namespace MonoSAMFramework.Portable.FileHelper.Writer
 			throw new DataWriterException("the character chr(" + (int)chr + ") is not a valid value for Boolean deserialization");
 		}
 
+		public SemVersion ReadVersion()
+		{
+			var mayor = (UInt16)ReadSimpleInteger(5);
+			var minor = (UInt16)ReadSimpleInteger(5);
+			var patch = (UInt16)ReadSimpleInteger(5);
+
+			return new SemVersion(mayor, minor, patch);
+		}
+
+		public byte ReadRawPrintableByte()
+		{
+			if (position >= datalength)
+				throw new DataWriterException("Unexpected EOF found");
+
+			char chr = data[position];
+			position++;
+
+			return (byte) chr;
+		}
+
+		public string ReadFixedLengthNonEscapedASCII(int length)
+		{
+			return ReadRawString(length);
+		}
+
 		private string ReadRawString(int len)
 		{
 			if (position >= datalength)
@@ -94,50 +121,6 @@ namespace MonoSAMFramework.Portable.FileHelper.Writer
 			position += len;
 
 			return r;
-		}
-
-		private string UnescapeASCII(string raw)
-		{
-			StringBuilder unesc = new StringBuilder(raw.Length);
-
-			for (int i = 0; i < raw.Length; i++)
-			{
-				if (raw[i] == '\\')
-				{
-					if (i + 2 >= raw.Length)
-						throw new DataWriterException("Unexpected EOF found");
-
-					char msn = raw[i + 1];
-					char lsn = raw[i + 1];
-
-					int msv;
-					int lsv;
-
-					if (msn >= '0' && msn <= '9')
-						msv = msn - '0';
-					else if (msn >= 'A' && msn <= 'F')
-						msv = 10 + msn - 'A';
-					else
-						throw new DataWriterException("the character chr(" + (int)msn + ") is not a valid value for ASCII Unescape most-significant-nibble");
-
-					if (lsn >= '0' && lsn <= '9')
-						lsv = lsn - '0';
-					else if (lsn >= 'A' && lsn <= 'F')
-						lsv = 10 + lsn - 'A';
-					else
-						throw new DataWriterException("the character chr(" + (int)lsn + ") is not a valid value for ASCII Unescape lease-significant-nibble");
-
-					unesc.Append((char) ((msv << 4) | lsv));
-
-					i += 2;
-				}
-				else
-				{
-					unesc.Append(raw[i]);
-				}
-			}
-
-			return unesc.ToString();
 		}
 	}
 }

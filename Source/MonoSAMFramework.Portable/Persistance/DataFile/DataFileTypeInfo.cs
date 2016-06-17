@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MonoSAMFramework.Portable.FileHelper.DataFile
+namespace MonoSAMFramework.Portable.Persistance.DataFile
 {
 	public class DataFileTypeInfo
 	{
@@ -39,13 +39,9 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 			return Properties.FirstOrDefault(p => p.PropertyName == pname);
 		}
 
-		public BaseDataFile CreateDeserialized(string data)
+		public BaseDataFile Create()
 		{
-			var obj = Constructor();
-
-			obj.Deserialize(data);
-
-			return obj;
+			return Constructor();
 		}
 	}
 }

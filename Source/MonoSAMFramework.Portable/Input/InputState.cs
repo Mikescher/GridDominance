@@ -4,10 +4,9 @@ using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.Extended.InputListeners;
 using MonoGame.Extended.ViewportAdapters;
 using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
 namespace MonoSAMFramework.Portable.Input

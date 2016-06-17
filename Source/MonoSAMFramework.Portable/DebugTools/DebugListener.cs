@@ -93,7 +93,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public string GetSummary()
 		{
-			string keycombination = "";
+			string keycombination;
 
 			if (modifiers == KeyboardModifiers.None)
 			{

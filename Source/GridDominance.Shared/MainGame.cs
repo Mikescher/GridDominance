@@ -1,12 +1,11 @@
 ﻿using System;
 using GridDominance.Levelformat.Parser;
-using GridDominance.Shared.PlayerProfile;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
-using MonoSAMFramework.Portable.FileHelper;
+using MonoSAMFramework.Portable.Persistance;
 
 namespace GridDominance.Shared
 {
@@ -17,24 +16,24 @@ namespace GridDominance.Shared
 	{
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
-		public PlayerProfileData Profile;
+		public PlayerProfile.PlayerProfile Profile;
 
 		public MainGame()
 		{
-			Profile = new PlayerProfileData();
+			Profile = new PlayerProfile.PlayerProfile();
 
 			var sdata = FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);
 			if (sdata != null)
 			{
 				try
 				{
-					Profile.Deserialize(sdata);
+					Profile.DeserializeFromString(sdata);
 				}
 				catch (Exception e)
 				{
 					//TODO Log Error
 
-					Profile = new PlayerProfileData();
+					Profile = new PlayerProfile.PlayerProfile();
 				}
 			}
 			else
@@ -93,7 +92,7 @@ namespace GridDominance.Shared
 
 		public void SaveProfile()
 		{
-			FileHelper.Inst.WriteData(PROFILE_FILENAME, Profile.Serialize());
+			FileHelper.Inst.WriteData(PROFILE_FILENAME, Profile.SerializeToString());
 		}
 	}
 }

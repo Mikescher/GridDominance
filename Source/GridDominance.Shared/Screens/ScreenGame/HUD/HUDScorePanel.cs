@@ -1,5 +1,4 @@
-﻿using GridDominance.Shared.PlayerProfile;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -25,13 +24,13 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private readonly FractionDifficulty? gainLevel;
 		private readonly bool successScreen;
-		private readonly PlayerProfileData profile;
+		private readonly PlayerProfile.PlayerProfile profile;
 
 		private HUDLabel lblPoints;
 		private HUDIconTextButton btnMenu;
 		private HUDIconTextButton btnNext;
 
-		public HUDScorePanel(PlayerProfileData playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon)
+		public HUDScorePanel(PlayerProfile.PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon)
 		{
 			gainLevel = newDifficulty;
 			successScreen = playerHasWon;

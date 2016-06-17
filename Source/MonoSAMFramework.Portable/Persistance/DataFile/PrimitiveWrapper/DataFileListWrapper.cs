@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MonoSAMFramework.Portable.Persistance.DataFileFormat;
+using System.Collections.Generic;
 
-namespace MonoSAMFramework.Portable.FileHelper.DataFile
+namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 {
 	public class DataFileListWrapper<T> : BaseDataFile where T : BaseDataFile
 	{
@@ -18,46 +17,26 @@ namespace MonoSAMFramework.Portable.FileHelper.DataFile
 			_elemTypeInfo = elemTypeInfo;
 		}
 
-		public override string Serialize()
+		public override void Serialize(IDataWriter writer, SemVersion currentVersion)
 		{
-			StringBuilder builder = new StringBuilder();
-
-			builder.Append("{\n");
+			writer.WriteInteger(Value.Count);
 			foreach (var v in Value)
 			{
-				builder.Append(v.Serialize() + "\n");
+				v.Serialize(writer, currentVersion);
 			}
-			builder.Append("}");
-
-			return builder.ToString();
 		}
 
-		public override void Deserialize(string data)
+		public override void Deserialize(IDataReader reader, SemVersion archiveVersion)
 		{
-			var lines = data.Split('\n');
-			if (lines.Length < 2 || lines.First() != "{" || lines.Last() != "}")
-				throw new DeserializationException("Syntax error in list");
+			int count = reader.ReadInteger();
 
-			for (int i = 1; i < lines.Length - 1; i++)
+			for (int i = 0; i < count; i++)
 			{
-				int braceDepth = 1;
-				StringBuilder collector = new StringBuilder();
-				collector.Append("{");
-				while (braceDepth > 0)
-				{
-					i++;
-					if (i == lines.Length - 1)
-						throw new DeserializationException("Non matching dyck language");
+				var inst = _elemTypeInfo.Create();
 
-					if (lines[i].Contains("{"))
-						braceDepth++;
-					else if (lines[i].Contains("}"))
-						braceDepth--;
+				inst.Deserialize(reader, archiveVersion);
 
-					collector.Append("\n" + lines[i]);
-				}
-
-				Value.Add((T)_elemTypeInfo.CreateDeserialized(collector.ToString()));
+				Value.Add((T)inst);
 			}
 		}
 

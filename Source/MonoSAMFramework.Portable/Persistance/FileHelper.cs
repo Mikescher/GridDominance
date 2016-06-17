@@ -1,4 +1,4 @@
-﻿namespace MonoSAMFramework.Portable.FileHelper
+﻿namespace MonoSAMFramework.Portable.Persistance
 {
 	//see https://github.com/SupSuper/MonoGame-SaveManager 
 	public abstract class FileHelper
