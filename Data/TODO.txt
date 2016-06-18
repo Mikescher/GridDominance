@@ -1,3 +1,26 @@
+WORLD MAP
+---------
+
+ - Level are nodes on grid
+ - draggable
+ - ring around level button, 4 segments, one for each difficulty
+ - show diff buttons on click -> extend rectangular segments outwards
+ - smooth overdrag (autom push back into bounds)
+ - spell game name with particles on base view
+    - Particle system
+    - draw leetters by having their path stored nin game
+    - text appears like written by delaying path draw
+ - connect level round buttons with pipes
+ - pipe becomes active when levl cleared on at least one diff
+ - whole map not forcible rectangulare (but 90° edges)
+ - background like in level, cleared levels convert background (diff = different color or higher intensity or higher reach)
+ - only draw what is visible
+
+=> needs topic: particles
+=> needs topic: screen with offset
+=> needs topic: drag events
+
+
 TODO NEXT
 
  - Less cannoncog frames in spritesheet (mirror on axis) (does not work with less than hd ??)

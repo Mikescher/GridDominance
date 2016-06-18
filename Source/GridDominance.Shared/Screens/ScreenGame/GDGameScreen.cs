@@ -89,25 +89,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			difficulty = diff;
 
 			Initialize();
-
-#if DEBUG
-			DebugSettings.AddTrigger("SetQuality_1", this, Keys.D1, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.FD));
-			DebugSettings.AddTrigger("SetQuality_2", this, Keys.D2, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.BD));
-			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
-			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
-			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
-
-			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyboardModifiers.None, true);
-			DebugSettings.AddSwitch("DebugBackground",  this, Keys.F3, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugHUDBorders",  this, Keys.F4, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugCannonView",  this, Keys.F5, KeyboardModifiers.None, true);
-
-			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
-
-			DebugSettings.AddPush("AssimilateCannon", this, Keys.A, KeyboardModifiers.None);
-			DebugSettings.AddPush("AbandonCannon",    this, Keys.S, KeyboardModifiers.None);
-#endif
 		}
 
 #if DEBUG
@@ -122,9 +103,25 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
 
 #if DEBUG
-			FPSCounter = new RealtimeAPSCounter();
-			UPSCounter = new RealtimeAPSCounter();
+			DebugSettings.AddTrigger("SetQuality_1", this, Keys.D1, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.FD));
+			DebugSettings.AddTrigger("SetQuality_2", this, Keys.D2, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.BD));
+			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
+			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
+			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
 
+			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyboardModifiers.None, true);
+			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("DebugHUDBorders", this, Keys.F4, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("DebugCannonView", this, Keys.F5, KeyboardModifiers.None, true);
+
+			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
+
+			DebugSettings.AddPush("AssimilateCannon", this, Keys.A, KeyboardModifiers.None);
+			DebugSettings.AddPush("AbandonCannon", this, Keys.S, KeyboardModifiers.None);
+#endif
+
+#if DEBUG
 			DebugDisp = new DebugTextDisplay(Graphics.GraphicsDevice, Textures.DebugFont);
 			{
 				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} | total = {FPSCounter.TotalActions:000000})");
@@ -140,8 +137,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			//InputStateMan.PointerDown += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnDown({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);
 			//InputStateMan.PointerUp += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnUp({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);
-#else
-			DebugDisp = new DummyDebugTextDisplay();
 #endif
 
 
@@ -244,7 +239,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public override void Resize(int width, int height)
 		{
-			GameHUD.RecalculateAllElementPositions();
+			base.Resize(width, height);
 
 #if DEBUG
 			var newQuality = Textures.GetPreferredQuality(Game.GraphicsDevice);

@@ -39,7 +39,7 @@ namespace MonoSAMFramework.Portable.Screens
 		{
 			Graphics = gdm;
 			Game = game;
-
+			
 			Initialize();
 		}
 
@@ -53,6 +53,13 @@ namespace MonoSAMFramework.Portable.Screens
 			Background = CreateBackground();
 
 			Entities = CreateEntityManager();
+
+			DebugDisp = new DummyDebugTextDisplay();
+
+#if DEBUG
+			FPSCounter = new RealtimeAPSCounter();
+			UPSCounter = new RealtimeAPSCounter();
+#endif
 		}
 
 		protected override void OnRemove()
@@ -153,6 +160,13 @@ namespace MonoSAMFramework.Portable.Screens
 
 			DebugDisp.Draw();
 #endif
+		}
+
+		public override void Resize(int width, int height)
+		{
+			base.Resize(width, height);
+
+			GameHUD.RecalculateAllElementPositions();
 		}
 
 		public void PushNotification(string text)

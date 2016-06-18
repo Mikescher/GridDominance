@@ -98,6 +98,7 @@
     <Compile Include="RenderHelper\SimpleRenderHelper.cs" />
     <Compile Include="RenderHelper\StaticTextures.cs" />
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
+    <Compile Include="Screens\Background\SolidColorBackground.cs" />
     <Compile Include="Screens\Entities\GameEntityOperation.cs" />
     <Compile Include="Screens\Entities\IGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\EntityManager.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonBackground.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDImage.cs" />
+    <Compile Include="Screens\HUD\EmptyGameHUD.cs" />
     <Compile Include="Screens\HUD\Enums\HUDImageAlignment.cs" />
     <Compile Include="Screens\HUD\GameHUD.cs" />
     <Compile Include="Screens\HUD\Elements\Container\HUDContainer.cs" />

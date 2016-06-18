@@ -77,7 +77,11 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			ident = ident.ToUpper();
 
-			return listeners[ident].Active;
+			DebugListener l;
+			if (listeners.TryGetValue(ident, out l))
+				return l.Active;
+
+			return false;
 		}
 
 		public static string GetSummary()

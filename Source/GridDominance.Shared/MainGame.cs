@@ -3,6 +3,7 @@ using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Persistance;
@@ -70,12 +71,18 @@ namespace GridDominance.Shared
 
 		protected override void OnAfterInitialize()
 		{
-			SetLevelScreen(Levels.LEVEL_003);
+			//SetLevelScreen(Levels.LEVEL_003);
+			SetWorldMapScreen();
 		}
 
 		public void SetLevelScreen(LevelFile blueprint)
 		{
 			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint, FractionDifficulty.KI_EASY));
+		}
+
+		public void SetWorldMapScreen()
+		{
+			SetCurrentScreen(new GDWorldMapScreen(this, Graphics));
 		}
 
 		protected override void LoadContent()
