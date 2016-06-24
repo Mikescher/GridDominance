@@ -4,7 +4,6 @@ using System.Text;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.ViewportAdapters;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -14,6 +13,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 using MonoGame.Extended.InputListeners;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen
 {
@@ -30,7 +30,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		protected override EntityManager CreateEntityManager() => new GDWorldMapEntityManager(this);
 		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular);
 		protected override GameBackground CreateBackground() => new SolidColorBackground(this, Color.DarkGray);
-		protected override ViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
@@ -66,12 +66,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine(() => $"OGL Sprites = {((IDebugBatchRenderer)MainBatch).LastRenderSpriteCount:0000}; OGL Text = {((IDebugBatchRenderer)MainBatch).LastRenderTextCount:0000}");
 
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealSize=[{((TolerantBoxingViewportAdapter)Viewport).RealWidth}|{((TolerantBoxingViewportAdapter)Viewport).RealHeight}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Offset=[{((TolerantBoxingViewportAdapter)Viewport).RealOffsetX}|{((TolerantBoxingViewportAdapter)Viewport).RealOffsetY}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualOffset=[{((TolerantBoxingViewportAdapter)Viewport).VirtualOffsetX}|{((TolerantBoxingViewportAdapter)Viewport).VirtualOffsetY}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={((TolerantBoxingViewportAdapter)Viewport).Scale}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualSize=[{Viewport.VirtualWidth}|{Viewport.VirtualHeight}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.ViewportSize=[{Viewport.ViewportWidth}|{Viewport.ViewportHeight}]");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualGuaranteedSize={VAdapter.VirtualGuaranteedSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealGuaranteedSize={VAdapter.RealGuaranteedSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualTotalSize={VAdapter.VirtualTotalSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealTotalSize={VAdapter.RealTotalSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualOffset={VAdapter.VirtualGuaranteedBoundingsOffset}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealOffset={VAdapter.RealGuaranteedBoundingsOffset}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.ViewportSize=[{VAdapter.ViewportSize}]");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={VAdapter.Scale}");
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}

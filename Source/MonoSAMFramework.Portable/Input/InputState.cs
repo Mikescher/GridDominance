@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.Extended.InputListeners;
-using MonoGame.Extended.ViewportAdapters;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,7 +25,7 @@ namespace MonoSAMFramework.Portable.Input
 		private readonly Dictionary<Keys, bool> lastKeyState;
 		private readonly Dictionary<Keys, bool> currentKeyState;
 
-		private InputState(ViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, InputState prev)
+		private InputState(SAMViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, InputState prev)
 		{
 			Mouse = ms;
 			Keyboard = ks;
@@ -36,12 +35,12 @@ namespace MonoSAMFramework.Portable.Input
 			if (Mouse.LeftButton == ButtonState.Pressed)
 			{
 				IsDown = true;
-				PointerPosition = adapter.PointToScreen(Mouse.Position).ToFPoint();
+				PointerPosition = adapter.PointToScreen(Mouse.Position);
 			}
 			else if (TouchPanel.Count > 0)
 			{
 				IsDown = true;
-				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint()).ToFPoint();
+				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint());
 			}
 			else
 			{
@@ -56,7 +55,7 @@ namespace MonoSAMFramework.Portable.Input
 			currentKeyState = lastKeyState.ToDictionary(p => p.Key, p => ks.IsKeyDown(p.Key));
 		}
 
-		public InputState(ViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs)
+		public InputState(SAMViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs)
 		{
 			Mouse = ms;
 			Keyboard = ks;
@@ -66,12 +65,12 @@ namespace MonoSAMFramework.Portable.Input
 			if (Mouse.LeftButton == ButtonState.Pressed)
 			{
 				IsDown = true;
-				PointerPosition = adapter.PointToScreen(Mouse.Position).ToFPoint();
+				PointerPosition = adapter.PointToScreen(Mouse.Position);
 			}
 			else if (TouchPanel.Count > 0)
 			{
 				IsDown = true;
-				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint()).ToFPoint();
+				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint());
 			}
 			else
 			{
@@ -82,7 +81,7 @@ namespace MonoSAMFramework.Portable.Input
 			currentKeyState = new Dictionary<Keys, bool>(0);
 		}
 
-		public static InputState GetState(ViewportAdapter adapter, InputState previous)
+		public static InputState GetState(SAMViewportAdapter adapter, InputState previous)
 		{
 			var ks = Microsoft.Xna.Framework.Input.Keyboard.GetState();
 			var ms = Microsoft.Xna.Framework.Input.Mouse.GetState();
@@ -92,7 +91,7 @@ namespace MonoSAMFramework.Portable.Input
 			return new InputState(adapter, ks, ms, ts, gs, previous);
 		}
 
-		public static InputState GetInitialState(ViewportAdapter adapter)
+		public static InputState GetInitialState(SAMViewportAdapter adapter)
 		{
 			var ks = Microsoft.Xna.Framework.Input.Keyboard.GetState();
 			var ms = Microsoft.Xna.Framework.Input.Mouse.GetState();

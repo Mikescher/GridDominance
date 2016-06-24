@@ -18,6 +18,7 @@ using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -42,7 +43,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public GDGridBackground GDBackground => (GDGridBackground) Background;
 		public GDEntityManager GDEntities => (GDEntityManager) Entities;
-		public TolerantBoxingViewportAdapter GDViewport => (TolerantBoxingViewportAdapter) Viewport;
 		public GDGameHUD GDGameHUD => (GDGameHUD) GameHUD;
 
 		//-----------------------------------------------------------------
@@ -134,12 +134,14 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				DebugDisp.AddLine(() => $"OGL Sprites = {((IDebugBatchRenderer)MainBatch).LastRenderSpriteCount:0000}; OGL Text = {((IDebugBatchRenderer)MainBatch).LastRenderTextCount:0000}");
 
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealSize=[{((TolerantBoxingViewportAdapter)Viewport).RealWidth}|{((TolerantBoxingViewportAdapter)Viewport).RealHeight}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Offset=[{((TolerantBoxingViewportAdapter)Viewport).RealOffsetX}|{((TolerantBoxingViewportAdapter)Viewport).RealOffsetY}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualOffset=[{((TolerantBoxingViewportAdapter)Viewport).VirtualOffsetX}|{((TolerantBoxingViewportAdapter)Viewport).VirtualOffsetY}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={((TolerantBoxingViewportAdapter)Viewport).Scale}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualSize=[{Viewport.VirtualWidth}|{Viewport.VirtualHeight}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.ViewportSize=[{Viewport.ViewportWidth}|{Viewport.ViewportHeight}]");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualGuaranteedSize={VAdapter.VirtualGuaranteedSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealGuaranteedSize={VAdapter.RealGuaranteedSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualTotalSize={VAdapter.VirtualTotalSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealTotalSize={VAdapter.RealTotalSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualOffset={VAdapter.VirtualGuaranteedBoundingsOffset}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealOffset={VAdapter.RealGuaranteedBoundingsOffset}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.ViewportSize=[{VAdapter.ViewportSize}]");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={VAdapter.Scale}");
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}
@@ -164,7 +166,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
 		protected override GameBackground CreateBackground() => new GDGridBackground(this);
-		protected override ViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 
 		private void LoadLevelFromBlueprint()
 		{

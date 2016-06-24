@@ -8,6 +8,8 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.Entities;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -38,21 +40,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 #endif
 		}
 
-		protected override RectangleF RecalculateBoundingBox()
+		protected override FRectangle RecalculateBoundingBox()
 		{
-			var ox = GDOwner.GDViewport.RealOffsetX;
-			var oy = GDOwner.GDViewport.RealOffsetY;
-
-			var tolerance = GDGameScreen.TILE_WIDTH;
-
-			return new RectangleF(-(ox + tolerance), -(oy + tolerance), GDGameScreen.VIEW_WIDTH + 2* (oy + tolerance), GDGameScreen.VIEW_HEIGHT + 2 * (ox + tolerance));
+			return Owner.VAdapter.VirtualTotalBoundingBox.AsInflated(GDGameScreen.TILE_WIDTH, GDGameScreen.TILE_WIDTH);
 		}
 
 		protected override void OnBeforeUpdate(GameTime gameTime, InputState state)
 		{
 #if DEBUG
-			debugView.DebugPanelPosition = new Vector2(55, Owner.Viewport.ViewportHeight - 180);
-			debugView.PerformancePanelBounds = new Rectangle(450, Owner.Viewport.ViewportHeight - 180, 200, 100);
+			debugView.DebugPanelPosition = new Vector2(55, Owner.VAdapter.ViewportHeight - 180);
+			debugView.PerformancePanelBounds = new Rectangle(450, Owner.VAdapter.ViewportHeight - 180, 200, 100);
 
 			debugView.Enabled = DebugSettings.Get("PhysicsDebugView");
 #endif
@@ -68,7 +65,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public override void DrawOuterDebug()
 		{
 #if DEBUG
-			var pMatrix = GDOwner.GDViewport.GetFarseerDebugProjectionMatrix();
+			var pMatrix = ((TolerantBoxingViewportAdapter)GDOwner.VAdapter).GetFarseerDebugProjectionMatrix();
 			var vMatrix = Matrix.CreateScale(GDSettings.PHYSICS_CONVERSION_FACTOR);
 			debugView.RenderDebugData(ref pMatrix, ref vMatrix);
 #endif

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended.ViewportAdapters;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
@@ -7,6 +6,7 @@ using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
+using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace MonoSAMFramework.Portable.Screens
 		protected RealtimeAPSCounter UPSCounter;
 #endif
 
-		public ViewportAdapter Viewport;
+		public SAMViewportAdapter VAdapter;
 		protected IDebugTextDisplay DebugDisp;
 
 		protected InputStateManager InputStateMan;
@@ -46,9 +46,9 @@ namespace MonoSAMFramework.Portable.Screens
 		private void Initialize()
 		{
 			MainBatch = new StandardSpriteBatchWrapper(Graphics.GraphicsDevice);
-			Viewport = CreateViewport();
+			VAdapter = CreateViewport();
 
-			InputStateMan = new InputStateManager(Viewport);
+			InputStateMan = new InputStateManager(VAdapter);
 			GameHUD = CreateHUD();
 			Background = CreateBackground();
 
@@ -145,7 +145,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 			Graphics.GraphicsDevice.Clear(Color.Magenta);
 
-			MainBatch.Begin(transformMatrix: Viewport.GetScaleMatrix());
+			MainBatch.Begin(transformMatrix: VAdapter.GetScaleMatrix());
 			{
 				Background.Draw(MainBatch);
 
@@ -189,6 +189,6 @@ namespace MonoSAMFramework.Portable.Screens
 		protected abstract EntityManager CreateEntityManager();
 		protected abstract GameHUD CreateHUD();
 		protected abstract GameBackground CreateBackground();
-		protected abstract ViewportAdapter CreateViewport();
+		protected abstract SAMViewportAdapter CreateViewport();
 	}
 }

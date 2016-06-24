@@ -156,7 +156,7 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 				Height - verticalAmount * 2);
 		}
 
-		public FRectangle _AsInflated(int horizontalAmount, int verticalAmount)
+		public FRectangle AsInflated(int horizontalAmount, int verticalAmount)
 		{
 			return new FRectangle(
 				X - horizontalAmount,
@@ -165,7 +165,7 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 				Height + verticalAmount * 2);
 		}
 
-		public FRectangle _AsInflated(float horizontalAmount, float verticalAmount)
+		public FRectangle AsInflated(float horizontalAmount, float verticalAmount)
 		{
 			return new FRectangle(
 				X - horizontalAmount,

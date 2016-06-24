@@ -8,13 +8,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.hud
 	class GDGameHUD : GameHUD
 	{
 		public GDGameScreen GDOwner => (GDGameScreen)Screen;
-
-		public override int Top  => -(int)GDOwner.GDViewport.VirtualOffsetY;
-		public override int Left => -(int)GDOwner.GDViewport.VirtualOffsetX;
-
-		public override int Bottom => (int)(GDOwner.GDViewport.VirtualHeight + GDOwner.GDViewport.VirtualOffsetY);
-		public override int Right => (int)(GDOwner.GDViewport.VirtualWidth + GDOwner.GDViewport.VirtualOffsetX);
-
+		
 		private readonly HUDPauseButton btnPause;
 		private readonly HUDSpeedBaseButton btnSpeed;
 

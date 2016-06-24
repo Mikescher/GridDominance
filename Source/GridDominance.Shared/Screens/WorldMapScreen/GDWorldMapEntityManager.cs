@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
@@ -20,9 +21,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			// NOP
 		}
 
-		protected override RectangleF RecalculateBoundingBox()
+		protected override FRectangle RecalculateBoundingBox()
 		{
-			return new RectangleF(0, 0, GDWorldMapScreen.VIEW_WIDTH, GDWorldMapScreen.VIEW_HEIGHT);
+			return Owner.VAdapter.VirtualTotalBoundingBox;
 		}
 
 		protected override void OnAfterUpdate(GameTime gameTime, InputState state)

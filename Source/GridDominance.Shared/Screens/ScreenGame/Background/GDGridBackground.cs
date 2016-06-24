@@ -14,6 +14,7 @@ using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Background
 {
@@ -34,7 +35,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 		private const float GRID_ADAPTION_SPEED_DIRECT = 2f;
 
 		protected readonly GraphicsDevice Graphics;
-		protected readonly TolerantBoxingViewportAdapter Adapter;
+		protected readonly SAMViewportAdapter Adapter;
 
 		public readonly List<BackgroundParticle> Particles = new List<BackgroundParticle>();
 		private readonly List<BackgroundParticle>[,] particlesHorizontal = new List<BackgroundParticle>[TILE_COUNT_X, TILE_COUNT_Y + 1];
@@ -45,7 +46,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 		public GDGridBackground(GDGameScreen scrn) : base(scrn)
 		{
 			Graphics = scrn.Game.GraphicsDevice;
-			Adapter = scrn.GDViewport;
+			Adapter = scrn.VAdapter;
 			
 			Initialize();
 		}
@@ -73,8 +74,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		public override void Draw(IBatchRenderer sbatch)
 		{
-			int extensionX = FloatMath.Ceiling(Adapter.VirtualOffsetX / TILE_WIDTH);
-			int extensionY = FloatMath.Ceiling(Adapter.VirtualOffsetY / TILE_WIDTH);
+			int extensionX = FloatMath.Ceiling(Adapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH);
+			int extensionY = FloatMath.Ceiling(Adapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH);
 
 			for (int x = -extensionX; x < TILE_COUNT_X + extensionX; x++)
 			{

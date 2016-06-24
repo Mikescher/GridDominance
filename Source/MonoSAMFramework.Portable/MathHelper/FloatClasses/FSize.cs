@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 using System.Runtime.Serialization;
 
 namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 {
 	[DataContract]
-	[DebuggerDisplay("{DebugDisplayString,nq}")]
 	public struct FSize : IEquatable<FSize>
 	{
 		public const float EPSILON = 1E-10f;
@@ -71,11 +69,6 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 			return obj is FSize && Equals((FSize)obj);
 		}
 
-		public override string ToString()
-		{
-			return $"Width: {Width}, Height: {Height}";
-		}
-
-		internal string DebugDisplayString => $"({Width}|{Height})";
+		public override string ToString() => $"[{Width}|{Height}]";
 	}
 }

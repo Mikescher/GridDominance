@@ -1,18 +1,18 @@
-﻿using MonoGame.Extended.ViewportAdapters;
+﻿using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System;
 
 namespace MonoSAMFramework.Portable.Input
 {
 	public class InputStateManager
 	{
-		private readonly ViewportAdapter adapter;
+		private readonly SAMViewportAdapter adapter;
 
 		private InputState stateCache;
 
 		public EventHandler<PointerEventArgs> PointerDown = (o, e) => { };
 		public EventHandler<PointerEventArgs> PointerUp = (o, e) => { };
 
-		public InputStateManager(ViewportAdapter vadap)
+		public InputStateManager(SAMViewportAdapter vadap)
 		{
 			adapter = vadap;
 

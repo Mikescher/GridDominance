@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
-using System.Collections.Generic;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using System.Collections.Generic;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -23,19 +23,19 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			root.Initialize();
 		}
 
-		public virtual int Top => 0;
-		public virtual int Left => 0;
+		public float Left => -Screen.VAdapter.VirtualGuaranteedBoundingsOffsetX;
+		public float Top => -Screen.VAdapter.VirtualGuaranteedBoundingsOffsetY;
 
-		public virtual int Bottom => Screen.Viewport.VirtualHeight;
-		public virtual int Right => Screen.Viewport.VirtualWidth;
+		public float Right => Screen.VAdapter.VirtualTotalWidth - Screen.VAdapter.VirtualGuaranteedBoundingsOffsetX;
+		public float Bottom => Screen.VAdapter.VirtualTotalHeight - Screen.VAdapter.VirtualGuaranteedBoundingsOffsetY;
 
-		public int Width => Right - Left;
-		public int Height => Bottom - Top;
+		public float Width => Right - Left;
+		public float Height => Bottom - Top;
 
-		public int CenterX => Left + Width/2;
-		public int CenterY => Top + Height / 2;
+		public float CenterX => Left + Width/2;
+		public float CenterY => Top + Height / 2;
 
-		public float PixelWidth => Width * 1f / Screen.Viewport.ViewportWidth;
+		public float PixelWidth => Width * 1f / Screen.VAdapter.ViewportWidth;
 
 		public void Update(GameTime gameTime, InputState istate)
 		{

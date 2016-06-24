@@ -133,7 +133,8 @@
     <Compile Include="Screens\HUD\Enums\HUDAlignment.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButton.cs" />
     <Compile Include="Screens\HUD\Elements\Container\HUDRoundedPanel.cs" />
-    <Compile Include="Screens\TolerantBoxingViewportAdapter.cs" />
+    <Compile Include="Screens\ViewportAdapters\SAMViewportAdapter.cs" />
+    <Compile Include="Screens\ViewportAdapters\TolerantBoxingViewportAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\External\MonoGame.Extended\Source\MonoGame.Extended\MonoGame.Extended.csproj">

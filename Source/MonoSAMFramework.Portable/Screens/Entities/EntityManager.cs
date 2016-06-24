@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {
@@ -14,7 +14,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 
 		public readonly GameScreen Owner;
 
-		public RectangleF BoundingBox;
+		public FRectangle BoundingBox;
 
 		protected EntityManager(GameScreen screen)
 		{
@@ -72,7 +72,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		}
 
 		public abstract void DrawOuterDebug();
-		protected abstract RectangleF RecalculateBoundingBox();
+		protected abstract FRectangle RecalculateBoundingBox();
 		protected abstract void OnBeforeUpdate(GameTime gameTime, InputState state);
 		protected abstract void OnAfterUpdate(GameTime gameTime, InputState state);
 	}
