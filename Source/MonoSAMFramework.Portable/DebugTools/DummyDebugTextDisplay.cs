@@ -10,44 +10,16 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public bool IsEnabled { get { return false; } set { } }
 
-		public DummyDebugTextDisplay()
-		{
-			// DUMMY
-		}
+		public DummyDebugTextDisplay() { /* DUMMY */ }
+		
+		public DebugTextDisplayLine AddLine(DebugTextDisplayLine l) => dummy;
+		public DebugTextDisplayLine AddLine(Func<string> text) => dummy;
+		public DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text) => dummy;
+		public DebugTextDisplayLine AddLine(string text) => dummy;
+		public DebugTextDisplayLine AddDecayLine(string text, float lifetime = 2, float decaytime = 0.75f, float spawntime = 0.25f) => dummy;
+		public DebugTextDisplayLine AddErrorDecayLine(string text, float lifetime = 2, float decaytime = 0.75f, float spawntime = 0.25f) => dummy;
 
-		public DebugTextDisplayLine AddLine(DebugTextDisplayLine l)
-		{
-			return dummy;
-		}
-
-		public DebugTextDisplayLine AddLine(Func<string> text)
-		{
-			return dummy;
-		}
-
-		public DebugTextDisplayLine AddLine(string text)
-		{
-			return dummy;
-		}
-
-		public DebugTextDisplayLine AddDecayLine(string text, float lifetime = 2, float decaytime = 0.75f, float spawntime = 0.25f)
-		{
-			return dummy;
-		}
-
-		public DebugTextDisplayLine AddErrorDecayLine(string text, float lifetime = 2, float decaytime = 0.75f, float spawntime = 0.25f)
-		{
-			return dummy;
-		}
-
-		public void Update(GameTime gameTime, InputState istate)
-		{
-			// DUMMY
-		}
-
-		public void Draw()
-		{
-			// DUMMY
-		}
+		public void Update(GameTime gameTime, InputState istate) { /* DUMMY */ }
+		public void Draw() { /* DUMMY */ }
 	}
 }

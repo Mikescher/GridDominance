@@ -40,8 +40,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		protected override RectangleF RecalculateBoundingBox()
 		{
-			var ox = GDOwner.GDViewport.OffsetX;
-			var oy = GDOwner.GDViewport.OffsetY;
+			var ox = GDOwner.GDViewport.RealOffsetX;
+			var oy = GDOwner.GDViewport.RealOffsetY;
 
 			var tolerance = GDGameScreen.TILE_WIDTH;
 

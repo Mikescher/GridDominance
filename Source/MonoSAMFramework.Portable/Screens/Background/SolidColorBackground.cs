@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.ViewportAdapters;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 
@@ -9,11 +9,11 @@ namespace MonoSAMFramework.Portable.Screens.Background
 	{
 		private readonly Color color;
 
-		protected readonly GraphicsDevice Graphics;
+		protected readonly ViewportAdapter VAdapter;
 
 		public SolidColorBackground(GameScreen scrn, Color clr) : base(scrn)
 		{
-			Graphics = scrn.Game.GraphicsDevice;
+			VAdapter = scrn.Viewport;
 			color = clr;
 		}
 
@@ -24,9 +24,8 @@ namespace MonoSAMFramework.Portable.Screens.Background
 
 		public override void Draw(IBatchRenderer sbatch)
 		{
-			var size = new Vector2(Graphics.Viewport.Width, Graphics.Viewport.Height);
-
-			sbatch.DrawRectangle(Vector2.Zero, size, color);
+			var size = new Vector2(VAdapter.VirtualWidth, VAdapter.VirtualHeight);
+			sbatch.FillRectangle(Vector2.Zero, size, color);
 		}
 	}
 }

@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.ViewportAdapters;
 using System;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Screens
 {
 	public class TolerantBoxingViewportAdapter : ViewportAdapter
 	{
-		private readonly GraphicsDeviceManager _graphicsDeviceManager;
-		private readonly GameWindow _window;
-
 		public override int VirtualWidth { get; }
 		public override int VirtualHeight { get; }
 
@@ -20,44 +18,33 @@ namespace MonoSAMFramework.Portable.Screens
 		public float RealWidth => VirtualWidth * scaleXY;
 		public float RealHeight => VirtualHeight * scaleXY;
 
+		public FSize RealSize => new FSize(RealWidth, RealHeight);
+
 		private float offsetX = 0.0f;
 		private float offsetY = 0.0f;
 
 		private float scaleXY = 1.0f;
-
 		public float Scale => scaleXY;
-		public float OffsetX => offsetX;
-		public float OffsetY => offsetY;
+
+		public float RealOffsetX => offsetX;
+		public float RealOffsetY => offsetY;
 		public float VirtualOffsetX => offsetX / scaleXY;
 		public float VirtualOffsetY => offsetY / scaleXY;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TolerantBoxingViewportAdapter"/>. 
-		/// Note: If you're using DirectX please use the other constructor due to a bug in MonoGame.
-		/// https://github.com/mono/MonoGame/issues/4018
-		/// </summary>
+		
 		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDevice graphicsDevice, int virtualWidth, int virtualHeight)
 			:base(graphicsDevice)
 		{
 			VirtualWidth = virtualWidth;
 			VirtualHeight = virtualHeight;
 
-			_window = window;
 			window.ClientSizeChanged += OnClientSizeChanged;
 
 			UpdateMatrix();
 		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TolerantBoxingViewportAdapter"/>. 
-		/// Use this constructor only if you're using DirectX due to a bug in MonoGame.
-		/// https://github.com/mono/MonoGame/issues/4018
-		/// This constructor will be made obsolete and eventually removed once the bug has been fixed.
-		/// </summary>
+		
 		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDeviceManager graphicsDeviceManager, int virtualWidth, int virtualHeight)
 			: this(window, graphicsDeviceManager.GraphicsDevice, virtualWidth, virtualHeight)
 		{
-			_graphicsDeviceManager = graphicsDeviceManager;
 		}
 
 		private void OnClientSizeChanged(object sender, EventArgs eventArgs)
@@ -101,12 +88,12 @@ namespace MonoSAMFramework.Portable.Screens
 			/*
 			 * result matrix := 
 			 *
-			 * | scaleX  0      0       offsetX |
+			 * | scaleX  0      0       RealOffsetX |
 			 * | 0       scaleY 0       offsetY |
 			 * | 0       0      1       0       |
 			 * | 0       0      0       1       |
 			 *
-			 *  = Scale(scaleX, scaleY) * translate(offsetX, offsetY)
+			 *  = Scale(scaleX, scaleY) * translate(RealOffsetX, offsetY)
 			*/
 
 			return new Matrix(scaleXY, 0f, 0f, 0, 0, scaleXY, 0, 0, 0, 0, 1, 0, offsetX, offsetY, 0, 1);

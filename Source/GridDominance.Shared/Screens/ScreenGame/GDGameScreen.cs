@@ -114,6 +114,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyboardModifiers.None, false);
 			DebugSettings.AddSwitch("DebugHUDBorders", this, Keys.F4, KeyboardModifiers.None, false);
 			DebugSettings.AddSwitch("DebugCannonView", this, Keys.F5, KeyboardModifiers.None, true);
+			DebugSettings.AddSwitch("ShowMatrixTextInfos", this, Keys.F6, KeyboardModifiers.None, false);
 
 			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
 
@@ -131,8 +132,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				DebugDisp.AddLine(() => $"HUD.Size=(T:{GameHUD.Top}|L:{GameHUD.Left}|R:{GameHUD.Right}|B:{GameHUD.Bottom}) | HUD.AllElements={GameHUD.DeepCount()} | HUD.RootElements={GameHUD.FlatCount()}");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {((IDebugBatchRenderer)MainBatch).LastRenderSpriteCount:0000}; OGL Text = {((IDebugBatchRenderer)MainBatch).LastRenderTextCount:0000}");
-				
-				DebugDisp.AddLine(new DebugTextDisplayLine(DebugSettings.GetSummary, () => DebugSettings.Get("ShowDebugShortcuts")));
+
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealSize=[{((TolerantBoxingViewportAdapter)Viewport).RealWidth}|{((TolerantBoxingViewportAdapter)Viewport).RealHeight}]");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Offset=[{((TolerantBoxingViewportAdapter)Viewport).RealOffsetX}|{((TolerantBoxingViewportAdapter)Viewport).RealOffsetY}]");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualOffset=[{((TolerantBoxingViewportAdapter)Viewport).VirtualOffsetX}|{((TolerantBoxingViewportAdapter)Viewport).VirtualOffsetY}]");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={((TolerantBoxingViewportAdapter)Viewport).Scale}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualSize=[{Viewport.VirtualWidth}|{Viewport.VirtualHeight}]");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.ViewportSize=[{Viewport.ViewportWidth}|{Viewport.ViewportHeight}]");
+
+				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}
 
 			//InputStateMan.PointerDown += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnDown({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);

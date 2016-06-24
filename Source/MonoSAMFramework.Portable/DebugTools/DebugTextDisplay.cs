@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {
@@ -43,6 +43,11 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public DebugTextDisplayLine AddLine(Func<string> text)
 		{
 			return AddLine(new DebugTextDisplayLine(text));
+		}
+
+		public DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text)
+		{
+			return AddLine(new DebugTextDisplayLine(text, () => DebugSettings.Get(debugSettingsKey)));
 		}
 
 		public DebugTextDisplayLine AddLine(string text)
