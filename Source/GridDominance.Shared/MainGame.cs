@@ -71,8 +71,8 @@ namespace GridDominance.Shared
 
 		protected override void OnAfterInitialize()
 		{
-			SetLevelScreen(Levels.LEVEL_003);
-			//SetWorldMapScreen();
+			//SetLevelScreen(Levels.LEVEL_003);
+			SetWorldMapScreen();
 		}
 
 		public void SetLevelScreen(LevelFile blueprint)

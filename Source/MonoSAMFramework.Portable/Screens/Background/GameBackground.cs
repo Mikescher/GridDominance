@@ -2,16 +2,19 @@
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace MonoSAMFramework.Portable.Screens.Background
 {
 	public abstract class GameBackground : ISAMDrawable, ISAMUpdateable
 	{
-		protected readonly Screen Owner;
+		protected readonly GameScreen Owner;
+		protected readonly SAMViewportAdapter VAdapter;
 
-		protected GameBackground(Screen scrn)
+		protected GameBackground(GameScreen scrn)
 		{
 			Owner = scrn;
+			VAdapter = Owner.VAdapter;
 		}
 		
 		public abstract void Update(GameTime gameTime, InputState istate);

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoSAMFramework.Portable;
@@ -19,8 +18,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 {
 	public class GDWorldMapScreen : GameScreen
 	{
-		public const int VIEW_WIDTH  = 1024;
-		public const int VIEW_HEIGHT = 640;
+		public const int VIEW_WIDTH  = GDGameScreen.VIEW_WIDTH;
+		public const int VIEW_HEIGHT = GDGameScreen.VIEW_HEIGHT;
 
 		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{
@@ -29,7 +28,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 		protected override EntityManager CreateEntityManager() => new GDWorldMapEntityManager(this);
 		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular);
-		protected override GameBackground CreateBackground() => new SolidColorBackground(this, Color.DarkGray);
+		protected override GameBackground CreateBackground() => new WorldMapBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)

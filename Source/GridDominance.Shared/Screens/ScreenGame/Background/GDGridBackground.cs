@@ -11,10 +11,9 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
-using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
-using MonoSAMFramework.Portable.Screens.ViewportAdapters;
+using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Background
 {
@@ -34,20 +33,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 		private const float GRID_ADAPTION_SPEED = 0.2f;
 		private const float GRID_ADAPTION_SPEED_DIRECT = 2f;
 
-		protected readonly GraphicsDevice Graphics;
-		protected readonly SAMViewportAdapter Adapter;
-
 		public readonly List<BackgroundParticle> Particles = new List<BackgroundParticle>();
 		private readonly List<BackgroundParticle>[,] particlesHorizontal = new List<BackgroundParticle>[TILE_COUNT_X, TILE_COUNT_Y + 1];
 		private readonly List<BackgroundParticle>[,] particlesVertical = new List<BackgroundParticle>[TILE_COUNT_X + 1, TILE_COUNT_Y];
 		private readonly List<Cannon>[,] blockedGridPoints = new List<Cannon>[TILE_COUNT_X + 1, TILE_COUNT_Y + 1];
 		private readonly GridCellMembership[,] gridColor = new GridCellMembership[TILE_COUNT_X + 2, TILE_COUNT_Y + 2]; 
 
-		public GDGridBackground(GDGameScreen scrn) : base(scrn)
+		public GDGridBackground(GameScreen scrn) : base(scrn)
 		{
-			Graphics = scrn.Game.GraphicsDevice;
-			Adapter = scrn.VAdapter;
-			
 			Initialize();
 		}
 
@@ -74,8 +67,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		public override void Draw(IBatchRenderer sbatch)
 		{
-			int extensionX = FloatMath.Ceiling(Adapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH);
-			int extensionY = FloatMath.Ceiling(Adapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH);
+			int extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH);
+			int extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH);
 
 			for (int x = -extensionX; x < TILE_COUNT_X + extensionX; x++)
 			{
