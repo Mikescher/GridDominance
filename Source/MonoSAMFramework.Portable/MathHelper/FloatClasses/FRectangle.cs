@@ -67,7 +67,17 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 		{
 			return !(a == b);
 		}
-		
+
+		public static FRectangle operator +(FRectangle value1, FPoint value2)
+		{
+			return new FRectangle(value1.X + value2.X, value1.Y + value2.Y, value1.Width, value1.Height);
+		}
+
+		public static FRectangle operator +(FRectangle value1, Vector2 value2)
+		{
+			return new FRectangle(value1.X + value2.X, value1.Y + value2.Y, value1.Width, value1.Height);
+		}
+
 		public bool Contains(float x, float y)
 		{
 			return 

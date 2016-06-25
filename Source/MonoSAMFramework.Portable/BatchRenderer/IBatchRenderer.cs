@@ -13,6 +13,11 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 	// ReSharper disable UnusedMember.Global
 	public interface IBatchRenderer : IDisposable
 	{
+		// ######## OTHER ########
+
+		void OnBegin();
+		void OnEnd();
+
 		// ######## MONOGAME METHODS ########
 
 		void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);

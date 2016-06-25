@@ -130,7 +130,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {GDBackground.Particles.Count,3} | Bodies = {GDEntities.PhysicsWorld.BodyList.Count,3}");
 				DebugDisp.AddLine(() => $"HUD.Size=(T:{GameHUD.Top}|L:{GameHUD.Left}|R:{GameHUD.Right}|B:{GameHUD.Bottom}) | HUD.AllElements={GameHUD.DeepCount()} | HUD.RootElements={GameHUD.FlatCount()}");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
-				DebugDisp.AddLine(() => $"OGL Sprites = {((IDebugBatchRenderer)MainBatch).LastRenderSpriteCount:0000}; OGL Text = {((IDebugBatchRenderer)MainBatch).LastRenderTextCount:0000}");
+				DebugDisp.AddLine(() => $"OGL Sprites = {((IDebugBatchRenderer)FixedBatch).LastRenderSpriteCount:0000}; OGL Text = {((IDebugBatchRenderer)FixedBatch).LastRenderTextCount:0000}");
 
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualGuaranteedSize={VAdapter.VirtualGuaranteedSize}");

@@ -9,5 +9,10 @@ namespace MonoSAMFramework.Portable.Extensions
 		{
 			return new FRectangle(p);
 		}
+
+		public static Rectangle TranslateTruncated(this Rectangle p, Vector2 v)
+		{
+			return new Rectangle((int) (p.X + v.X), (int) (p.Y + v.Y), p.Width, p.Height);
+		}
 	}
 }

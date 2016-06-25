@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
@@ -15,6 +16,9 @@ namespace MonoSAMFramework.Portable.Screens
 {
 	public abstract class GameScreen : Screen
 	{
+		private float _mapOffsetX = 0f;
+		private float _mapOffsetY = 0f;
+
 		public readonly GraphicsDeviceManager Graphics;
 		public readonly MonoSAMGame Game;
 
@@ -26,12 +30,20 @@ namespace MonoSAMFramework.Portable.Screens
 		public SAMViewportAdapter VAdapter;
 		protected IDebugTextDisplay DebugDisp;
 
+		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; TranslatedBatch.VirtualOffsetX = value; } }
+		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; TranslatedBatch.VirtualOffsetY = value; } }
+		public Vector2 MapOffset => new Vector2(_mapOffsetX, _mapOffsetY);
+
 		protected InputStateManager InputStateMan;
 
 		protected GameHUD GameHUD;
-		protected IBatchRenderer MainBatch;
 		protected EntityManager Entities;
 		protected GameBackground Background;
+
+		protected SpriteBatch InternalBatch;
+
+		protected IBatchRenderer FixedBatch;		          // no translation          (for HUD)
+		protected ITranslateBatchRenderer TranslatedBatch;	  // translated by MapOffset (for everything else)
 
 		public float GameSpeed = 1f;
 
@@ -45,8 +57,11 @@ namespace MonoSAMFramework.Portable.Screens
 
 		private void Initialize()
 		{
-			MainBatch = new StandardSpriteBatchWrapper(Graphics.GraphicsDevice);
 			VAdapter = CreateViewport();
+
+			InternalBatch   = new SpriteBatch(Graphics.GraphicsDevice);
+			FixedBatch      = new StandardSpriteBatchWrapper(InternalBatch);
+			TranslatedBatch = new TranslatingSpriteBatchWrapper(InternalBatch);
 
 			InputStateMan = new InputStateManager(VAdapter);
 			GameHUD = CreateHUD();
@@ -66,7 +81,8 @@ namespace MonoSAMFramework.Portable.Screens
 		{
 			base.OnRemove();
 
-			MainBatch.Dispose();
+			FixedBatch.Dispose();
+			TranslatedBatch.Dispose();
 		}
 
 		public override void Update(GameTime gameTime)
@@ -103,7 +119,7 @@ namespace MonoSAMFramework.Portable.Screens
 				int runCount = (int) GameSpeed;
 
 				long ticksPerRun = (long) (totalTicks / runCount);
-				ticksPerRun += (long)((totalTicks - ticksPerRun * runCount) / runCount);
+				ticksPerRun += (long) ((totalTicks - ticksPerRun * runCount) / runCount);
 
 				var time = gameTime.TotalGameTime;
 
@@ -118,8 +134,10 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 			else
 			{
-				throw new ArgumentException("GameSpeed");
+				// okay - dafuq
+				throw new ArgumentException(nameof(GameSpeed));
 			}
+
 		}
 
 		private void InternalUpdate(GameTime gameTime, InputState state)
@@ -145,15 +163,19 @@ namespace MonoSAMFramework.Portable.Screens
 
 			Graphics.GraphicsDevice.Clear(Color.Magenta);
 
-			MainBatch.Begin(transformMatrix: VAdapter.GetScaleMatrix());
+			FixedBatch.OnBegin();
+			TranslatedBatch.OnBegin();
+			InternalBatch.Begin(transformMatrix: VAdapter.GetScaleMatrix());
 			{
-				Background.Draw(MainBatch);
+				Background.Draw(TranslatedBatch);
 
-				Entities.Draw(MainBatch);
+				Entities.Draw(TranslatedBatch);
 
-				GameHUD.Draw(MainBatch);
+				GameHUD.Draw(FixedBatch);
 			}
-			MainBatch.End();
+			InternalBatch.End();
+			TranslatedBatch.OnEnd();
+			FixedBatch.OnEnd();
 
 #if DEBUG
 			Entities.DrawOuterDebug();
