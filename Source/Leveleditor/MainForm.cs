@@ -15,9 +15,9 @@ namespace Leveleditor
 	public partial class MainForm : Form
 	{
 		private const int TIMER_COOLDOWN = 33;
-		private readonly Color[] CANNON_COLORS = new Color[] { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
+		private static readonly Color[] CANNON_COLORS = new Color[] { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
 
-		private TextEditor edCode;
+		private readonly TextEditor edCode;
 
 		readonly Bitmap graphicsBuffer = new Bitmap(1024, 640);
 

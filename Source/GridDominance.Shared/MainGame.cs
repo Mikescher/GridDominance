@@ -30,7 +30,7 @@ namespace GridDominance.Shared
 				{
 					Profile.DeserializeFromString(sdata);
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
 					//TODO Log Error
 

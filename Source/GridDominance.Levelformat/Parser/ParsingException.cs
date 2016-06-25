@@ -32,7 +32,7 @@ namespace GridDominance.Levelformat.Parser
 
 		public string ToOutput()
 		{
-			return $"Parsing Error in {Filename}:{LineNumber}:\r\n{base.Message}";
+			return $"Parsing Error in {Filename}:{LineNumber}:\r\n{Message}";
 		}
 	}
 }

@@ -103,19 +103,17 @@ namespace GridDominance.Levelformat.Parser
 					if (start < 0) return string.Empty;
 					return line.Substring(start, end - start);
 				}
-				else if (line[i] == ' ')
+				if (line[i] == ' ')
 				{
 					continue;
 				}
-				else if (line[i] == '\t')
+				if (line[i] == '\t')
 				{
 					continue;
 				}
-				else
-				{
-					if (start == -1) start = i;
-					end = i+1;
-				}
+				
+				if (start == -1) start = i;
+				end = i+1;
 			}
 
 			if (start == end) return string.Empty;

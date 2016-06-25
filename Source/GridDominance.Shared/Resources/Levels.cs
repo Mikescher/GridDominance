@@ -1,6 +1,7 @@
 ﻿using GridDominance.Levelformat.Parser;
 using Microsoft.Xna.Framework.Content;
 
+// ReSharper disable NotAccessedField.Global
 namespace GridDominance.Shared.Resources
 {
 	public static class Levels
