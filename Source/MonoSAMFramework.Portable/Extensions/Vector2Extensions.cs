@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Extensions
@@ -13,6 +14,11 @@ namespace MonoSAMFramework.Portable.Extensions
 		public static FPoint ToFPoint(this Vector2 p)
 		{
 			return new FPoint(p.X, p.Y);
+		}
+
+		public static bool IsZero(this Vector2 p)
+		{
+			return FloatMath.IsZero(p.X) && FloatMath.IsZero(p.Y);
 		}
 	}
 }

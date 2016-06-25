@@ -36,9 +36,9 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 			return new FPoint(value1.X + value2.X, value1.Y + value2.Y);
 		}
 		
-		public static FPoint operator -(FPoint value1, FPoint value2)
+		public static Vector2 operator -(FPoint value1, FPoint value2)
 		{
-			return new FPoint(value1.X - value2.X, value1.Y - value2.Y);
+			return new Vector2(value1.X - value2.X, value1.Y - value2.Y);
 		}
 		
 		public static FPoint operator *(FPoint value1, FPoint value2)
@@ -60,7 +60,12 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 		{
 			return !a.Equals(b);
 		}
-		
+
+		public FPoint RelativeTo(FPoint value2)
+		{
+			return new FPoint(X - value2.X, Y - value2.Y);
+		}
+
 		public override bool Equals(object obj)
 		{
 			return obj is FPoint && Equals((FPoint)obj);

@@ -1,6 +1,10 @@
 WORLD MAP
 ---------
 
+ (!) WorldBackground correct Render
+ (!) Only draw visible entities
+ (!) World Map Node Entities
+
  - Level are nodes on grid => bigger than cannons - should be easily clickable by touch !!!
  - draggable
  - ring around level button, 4 segments, one for each difficulty

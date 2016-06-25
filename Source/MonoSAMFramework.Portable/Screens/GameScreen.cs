@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
@@ -39,6 +40,7 @@ namespace MonoSAMFramework.Portable.Screens
 		protected GameHUD GameHUD;
 		protected EntityManager Entities;
 		protected GameBackground Background;
+		private List<GameScreenAgent> Agents; 
 
 		protected SpriteBatch InternalBatch;
 
@@ -68,6 +70,7 @@ namespace MonoSAMFramework.Portable.Screens
 			Background = CreateBackground();
 
 			Entities = CreateEntityManager();
+			Agents = new List<GameScreenAgent>();
 
 			DebugDisp = new DummyDebugTextDisplay();
 
@@ -137,7 +140,6 @@ namespace MonoSAMFramework.Portable.Screens
 				// okay - dafuq
 				throw new ArgumentException(nameof(GameSpeed));
 			}
-
 		}
 
 		private void InternalUpdate(GameTime gameTime, InputState state)
@@ -147,10 +149,11 @@ namespace MonoSAMFramework.Portable.Screens
 #endif
 
 			InputStateMan.TriggerListener();
-
-
+			
 			Background.Update(gameTime, state);
 			Entities.Update(gameTime, state);
+
+			foreach (var agent in Agents) agent.Update(gameTime, state);
 
 			OnUpdate(gameTime, state);
 		}
@@ -199,6 +202,16 @@ namespace MonoSAMFramework.Portable.Screens
 		public void PushErrorNotification(string text)
 		{
 			DebugDisp.AddErrorDecayLine(text);
+		}
+
+		public void AddAgent(GameScreenAgent a)
+		{
+			Agents.Add(a);
+		}
+
+		public bool RemoveAgent(GameScreenAgent a)
+		{
+			return Agents.Remove(a);
 		}
 
 		public IEnumerable<T> GetEntities<T>()

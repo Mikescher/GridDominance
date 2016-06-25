@@ -157,15 +157,15 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 			if (istate.IsJustDown && BoundingRectangle.Contains(istate.PointerPosition))
 			{
-				OnPointerDown(istate.PointerPosition - Position, istate);
+				OnPointerDown(istate.PointerPosition.RelativeTo(Position), istate);
 				IsPointerDownOnElement = true;
 			}
 			else if (istate.IsJustUp && BoundingRectangle.Contains(istate.PointerPosition))
 			{
-				OnPointerUp(istate.PointerPosition - Position, istate);
+				OnPointerUp(istate.PointerPosition.RelativeTo(Position), istate);
 
 				if (IsPointerDownOnElement)
-					OnPointerClick(istate.PointerPosition - Position, istate);
+					OnPointerClick(istate.PointerPosition.RelativeTo(Position), istate);
 			}
 
 			if (!istate.IsDown) IsPointerDownOnElement = false;

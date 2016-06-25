@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -36,7 +37,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 #endif
-			//
 		}
 
 		private void Initialize()
@@ -78,6 +78,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}
 #endif
+
+			AddAgent(new WorldMapDragAgent(this));
 		}
 
 		public override void Resize(int width, int height)

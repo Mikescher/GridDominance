@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDSpeedSetButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDSpeedBaseButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDPauseButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\WorldMapDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Background\WorldMapBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapScreen.cs" />

@@ -100,6 +100,7 @@
     <Compile Include="RenderHelper\SimpleRenderHelper.cs" />
     <Compile Include="RenderHelper\StaticTextures.cs" />
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
+    <Compile Include="Screens\Agents\GameScreenAgent.cs" />
     <Compile Include="Screens\Background\SolidColorBackground.cs" />
     <Compile Include="Screens\Entities\GameEntityOperation.cs" />
     <Compile Include="Screens\Entities\IGameEntityOperation.cs" />
