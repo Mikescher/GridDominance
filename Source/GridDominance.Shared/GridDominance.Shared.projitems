@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfileLevelData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\GDColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Levels.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />

@@ -39,13 +39,13 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					break;
 				case HUDDifficultyButtonMode.UNLOCKANIMATION:
 					BackgroundColor = FlatColors.ButtonHUD;
-					ForegroundColor = FlatColors.SunFlower;
+					ForegroundColor = GDColors.GetColorForDifficulty(diff);
 					AddHUDOperation(new HUDDifficultyButtonGainOperation());
 					AddHUDOperation(new HUDBlinkingDifficultyButtonIconOperation());
 					break;
 				case HUDDifficultyButtonMode.ACTIVATED:
 					BackgroundColor = FlatColors.BackgroundHUD2;
-					ForegroundColor = FlatColors.SunFlower;
+					ForegroundColor = GDColors.GetColorForDifficulty(diff);
 					AddHUDOperation(new HUDBlinkingDifficultyButtonIconOperation());
 					break;
 			}
