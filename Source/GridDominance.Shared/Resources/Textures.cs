@@ -94,6 +94,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexTileBorder;
 
 		public static TextureRegion2D TexCircle;
+		public static TextureRegion2D TexCircleEmpty; 
 
 		public static TextureRegion2D TexCannonBody;
 		public static TextureRegion2D TexCannonBodyShadow;
@@ -101,6 +102,9 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexCannonBarrelShadow;
 		public static TextureRegion2D TexCannonCrosshair;
 		public static TextureRegion2D[] AnimCannonCog;
+
+		public static TextureRegion2D TexLevelNodeStructure;
+		public static TextureRegion2D TexLevelNodeSegment;
 
 		public static TextureRegion2D TexBullet;
 		public static TextureRegion2D TexBulletSplitter;
@@ -166,15 +170,18 @@ namespace GridDominance.Shared.Resources
 			TexCannonBarrelShadow = AtlasTextures["cannonbarrel_shadow"];
 			TexCannonCrosshair    = AtlasTextures["cannoncrosshair"];
 
+			TexLevelNodeStructure = AtlasTextures["levelnode_structure"];
+			TexLevelNodeSegment   = AtlasTextures["levelnode_segment"];
 
 			AnimCannonCog = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
 
 			TexBullet         = AtlasTextures["cannonball"];
 			TexBulletSplitter = AtlasTextures["cannonball_piece"];
 
-			TexCircle = AtlasTextures["simple_circle"];
-			TexPixel  = AtlasTextures["simple_pixel"];
-			TexPixel  = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
+			TexCircle      = AtlasTextures["simple_circle"];
+			TexCircleEmpty = AtlasTextures["simple_circle_empty"];
+			TexPixel       = AtlasTextures["simple_pixel"];
+			TexPixel       = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
 
 			TexHUDButtonBase = AtlasTextures["hud_button_base"];
 			TexHUDButtonPause = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();

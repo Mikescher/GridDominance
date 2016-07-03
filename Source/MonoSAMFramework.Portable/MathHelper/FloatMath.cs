@@ -15,6 +15,14 @@ namespace MonoSAMFramework.Portable.MathHelper
 		public const float DegreesToRadians = PI / 180;
 		public const float DegRad = DegreesToRadians;
 
+		public const float RAD_000 = 0   * DegRad;
+		public const float RAD_090 = 90  * DegRad;
+		public const float RAD_120 = 120 * DegRad;
+		public const float RAD_180 = 180 * DegRad;
+		public const float RAD_240 = 240 * DegRad;
+		public const float RAD_270 = 270 * DegRad;
+		public const float RAD_360 = 360 * DegRad;
+
 		public static readonly Random Random = new Random();
 
 		public static float Asin(float value)

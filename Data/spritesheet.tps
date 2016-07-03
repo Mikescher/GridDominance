@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.2.0</string>
+        <string>4.2.2</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/spritesheet.tps</string>
+        <string>F:/Symlinks/GridDominance/Data/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -437,12 +437,15 @@
             <key type="filename">icon_back.png</key>
             <key type="filename">icon_next.png</key>
             <key type="filename">icon_redo.png</key>
+            <key type="filename">levelnode_segment.png</key>
+            <key type="filename">levelnode_structure.png</key>
             <key type="filename">panel_blur_corner.png</key>
             <key type="filename">panel_blur_edge.png</key>
             <key type="filename">panel_corner.png</key>
             <key type="filename">pausemenu_marker.png</key>
             <key type="filename">pausemenu_marker_background.png</key>
             <key type="filename">simple_circle.png</key>
+            <key type="filename">simple_circle_empty.png</key>
             <key type="filename">simple_pixel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -482,6 +485,9 @@
             <filename>difficulty_1.png</filename>
             <filename>difficulty_2.png</filename>
             <filename>icon_redo.png</filename>
+            <filename>simple_circle_empty.png</filename>
+            <filename>levelnode_segment.png</filename>
+            <filename>levelnode_structure.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

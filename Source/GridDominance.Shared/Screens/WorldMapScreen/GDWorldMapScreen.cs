@@ -2,6 +2,7 @@
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
+using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoSAMFramework.Portable;
@@ -78,6 +79,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}
 #endif
+
+			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 8.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
 
 			AddAgent(new WorldMapDragAgent(this));
 		}
