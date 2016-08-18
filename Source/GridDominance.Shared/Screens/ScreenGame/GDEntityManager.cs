@@ -47,8 +47,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		protected override void OnBeforeUpdate(GameTime gameTime, InputState state)
 		{
 #if DEBUG
-			debugView.DebugPanelPosition = new Vector2(55, Owner.VAdapter.ViewportHeight - 180);
-			debugView.PerformancePanelBounds = new Rectangle(450, Owner.VAdapter.ViewportHeight - 180, 200, 100);
+			debugView.DebugPanelPosition = new Vector2(55, Owner.VAdapter.RealTotalHeight - 180);
+			debugView.PerformancePanelBounds = new Rectangle(450, (int) (Owner.VAdapter.RealTotalHeight - 180), 200, 100);
 
 			debugView.Enabled = DebugSettings.Get("PhysicsDebugView");
 #endif

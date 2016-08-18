@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -34,6 +35,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; TranslatedBatch.VirtualOffsetX = value; } }
 		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; TranslatedBatch.VirtualOffsetY = value; } }
 		public Vector2 MapOffset => new Vector2(_mapOffsetX, _mapOffsetY);
+		public FRectangle MapViewport => new FRectangle(-_mapOffsetX, -_mapOffsetY, VAdapter.RealTotalWidth, VAdapter.RealTotalHeight);
 
 		protected InputStateManager InputStateMan;
 

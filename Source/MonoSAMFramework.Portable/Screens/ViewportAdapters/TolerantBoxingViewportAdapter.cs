@@ -91,7 +91,7 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 
 		public Matrix GetFarseerDebugProjectionMatrix()
 		{
-			return Matrix.CreateScale(new Vector3(scaleXY, scaleXY, 1)) * Matrix.CreateTranslation(offsetX, offsetY, 0) * Matrix.CreateOrthographicOffCenter(0f, ViewportWidth, ViewportHeight, 0f, 0f, 1f);
+			return Matrix.CreateScale(new Vector3(scaleXY, scaleXY, 1)) * Matrix.CreateTranslation(offsetX, offsetY, 0) * Matrix.CreateOrthographicOffCenter(0f, RealTotalWidth, RealTotalHeight, 0f, 0f, 1f);
 		}
 	}
 }

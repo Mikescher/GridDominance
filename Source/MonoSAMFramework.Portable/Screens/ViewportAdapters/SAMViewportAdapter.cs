@@ -45,9 +45,9 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		public abstract float RealTotalHeight { get; }
 		public FSize RealTotalSize => new FSize(RealTotalWidth, RealTotalHeight);
 
-		public int ViewportWidth => Viewport.Width;
-		public int ViewportHeight => Viewport.Height;
-		public FSize ViewportSize => new FSize(ViewportWidth, ViewportHeight);
+		//public int ViewportWidth => Viewport.Width; // Real units !
+		//public int ViewportHeight => Viewport.Height;
+		//public FSize ViewportSize => new FSize(ViewportWidth, ViewportHeight);
 
 		public abstract float VirtualGuaranteedBoundingsOffsetX { get; }
 		public abstract float VirtualGuaranteedBoundingsOffsetY { get; }

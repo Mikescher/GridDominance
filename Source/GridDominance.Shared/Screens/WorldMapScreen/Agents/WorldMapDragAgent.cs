@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.Extensions;
@@ -16,10 +16,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private const float SPEED_MIN = 24;
 		private const float SPEED_MAX = 128;
 
+		private const int OUT_OF_BOUNDS_FORCE_BASE = 64;
+		private const int OUT_OF_BOUNDS_FORCE_MULT = 32;
+
 		private const float FRICTION = 10;
 
+		public static readonly FRectangle BOUNDING = new FRectangle(-8 * GDGameScreen.TILE_WIDTH, -8 * GDGameScreen.TILE_WIDTH, 32 * GDGameScreen.TILE_WIDTH, 26 * GDGameScreen.TILE_WIDTH);
 
 		private bool isDragging = false;
+		private Vector2 outOfBoundsForce = Vector2.Zero;
 
 		private FPoint mouseStartPos;
 		private Vector2 startOffset;
@@ -52,7 +57,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 				{
 					StartDrag(istate);
 				}
-				else if (!dragSpeed.IsZero())
+				else if (!dragSpeed.IsZero() || !outOfBoundsForce.IsZero())
 				{
 					UpdateRestDrag(gameTime);
 				}
@@ -78,6 +83,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			Screen.MapOffsetX = startOffset.X + delta.X;
 			Screen.MapOffsetY = startOffset.Y + delta.Y;
 
+			CalculateOOB();
+
 			lastMousePosTimer += gameTime.GetElapsedSeconds();
 			if (lastMousePosTimer > DRAGSPEED_RESOLUTION)
 			{
@@ -90,10 +97,46 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			}
 		}
 
+		private void CalculateOOB()
+		{
+			outOfBoundsForce = Vector2.Zero;
+
+			if (Screen.MapViewport.Left < BOUNDING.Left)
+			{
+				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (BOUNDING.Left - Screen.MapViewport.Left);
+
+				outOfBoundsForce.X -= force;
+			}
+			else if (Screen.MapViewport.Right > BOUNDING.Right)
+			{
+				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (BOUNDING.Right - Screen.MapViewport.Right);
+
+				outOfBoundsForce.X -= force;
+			}
+
+			if (Screen.MapViewport.Top < BOUNDING.Top)
+			{
+				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (BOUNDING.Top - Screen.MapViewport.Top);
+
+				outOfBoundsForce.Y -= force;
+			}
+			else if (Screen.MapViewport.Bottom > BOUNDING.Bottom)
+			{
+				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (BOUNDING.Bottom - Screen.MapViewport.Bottom);
+
+				outOfBoundsForce.Y -= force;
+			}
+		}
+
 		private void UpdateRestDrag(GameTime gameTime)
 		{
-			Screen.MapOffsetX = Screen.MapOffsetX + dragSpeed.X * gameTime.GetElapsedSeconds();
-			Screen.MapOffsetY = Screen.MapOffsetY + dragSpeed.Y * gameTime.GetElapsedSeconds();
+			float dragX = dragSpeed.X + outOfBoundsForce.X;
+			float dragY = dragSpeed.Y + outOfBoundsForce.Y;
+			
+			Screen.MapOffsetX = Screen.MapOffsetX + dragX * gameTime.GetElapsedSeconds();
+			Screen.MapOffsetY = Screen.MapOffsetY + dragY * gameTime.GetElapsedSeconds();
+
+			CalculateOOB();
 
 			dragSpeed -= dragSpeed * FRICTION * gameTime.GetElapsedSeconds();
 
