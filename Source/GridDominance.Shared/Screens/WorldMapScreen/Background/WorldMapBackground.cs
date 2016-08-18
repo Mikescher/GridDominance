@@ -25,20 +25,29 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 
 		public override void Draw(IBatchRenderer sbatch)
 		{
-			int extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH);
-			int extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH);
+			int offX = TILE_WIDTH * (int)(Owner.MapOffsetX / TILE_WIDTH);
+			int offY = TILE_WIDTH * (int)(Owner.MapOffsetY / TILE_WIDTH);
+
+			int extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH) + 2;
+			int extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH) + 2;
 
 			int countX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedWidth / TILE_WIDTH);
 			int countY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedHeight / TILE_WIDTH);
+
+			sbatch.Draw(
+				Textures.TexPixel, 
+				new Rectangle(
+					-extensionX * TILE_WIDTH - offX, 
+					-extensionY * TILE_WIDTH - offY, 
+					(countX + 2*extensionX) * TILE_WIDTH, 
+					(countY + 2 * extensionY) * TILE_WIDTH), 
+				FlatColors.Background);
 
 			for (int x = -extensionX; x < countX + extensionX; x++)
 			{
 				for (int y = -extensionY; y < countY + extensionY; y++)
 				{
-					var color = FlatColors.Background;
-
-					sbatch.Draw(Textures.TexPixel, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), color);
-					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), Color.White);
+					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * TILE_WIDTH - offX, y * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH), Color.White);
 				}
 			}
 		}

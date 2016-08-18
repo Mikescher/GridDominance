@@ -16,7 +16,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private const float SPEED_MIN = 24;
 		private const float SPEED_MAX = 128;
 
-		private const float FRICTION = 4;
+		private const float FRICTION = 10;
 
 
 		private bool isDragging = false;

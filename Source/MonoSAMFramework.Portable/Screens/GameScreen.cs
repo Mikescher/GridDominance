@@ -45,7 +45,12 @@ namespace MonoSAMFramework.Portable.Screens
 		protected SpriteBatch InternalBatch;
 
 		protected IBatchRenderer FixedBatch;		          // no translation          (for HUD)
-		protected ITranslateBatchRenderer TranslatedBatch;	  // translated by MapOffset (for everything else)
+		protected ITranslateBatchRenderer TranslatedBatch;    // translated by MapOffset (for everything else)
+
+#if DEBUG
+		public int LastRenderSpriteCount => ((IDebugBatchRenderer)FixedBatch).LastRenderSpriteCount + ((IDebugBatchRenderer)TranslatedBatch).LastRenderSpriteCount;
+		public int LastRenderTextCount => ((IDebugBatchRenderer)FixedBatch).LastRenderTextCount + ((IDebugBatchRenderer)TranslatedBatch).LastRenderTextCount;
+#endif
 
 		public float GameSpeed = 1f;
 
@@ -138,7 +143,7 @@ namespace MonoSAMFramework.Portable.Screens
 			else
 			{
 				// okay - dafuq
-				throw new ArgumentException(nameof(GameSpeed));
+				throw new ArgumentException(nameof(GameSpeed) + " = " + GameSpeed, nameof(GameSpeed));
 			}
 		}
 

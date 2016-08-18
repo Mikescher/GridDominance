@@ -25,8 +25,8 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public int LastRenderSpriteCount { get; private set; }
 		public int LastRenderTextCount { get; private set; }
 
-		public int RenderSpriteCount { get; private set; }
-		public int RenderTextCount   { get; private set; }
+		private int renderSpriteCount;
+		private int renderTextCount;
 #endif
 
 		public float VirtualOffsetX { get { return offset.X; } set { offset.X = value; } }
@@ -51,8 +51,8 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void OnBegin()
 		{
 #if DEBUG
-			RenderSpriteCount = 0;
-			RenderTextCount = 0;
+			renderSpriteCount = 0;
+			renderTextCount = 0;
 #endif
 		}
 
@@ -66,8 +66,8 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void OnEnd()
 		{
 #if DEBUG
-			LastRenderSpriteCount = RenderSpriteCount;
-			LastRenderTextCount = RenderTextCount;
+			LastRenderSpriteCount = renderSpriteCount;
+			LastRenderTextCount = renderTextCount;
 #endif
 		}
 
@@ -81,7 +81,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, Vector2? position = null, Rectangle? destinationRectangle = null, Rectangle? sourceRectangle = null, Vector2? origin = null, float rotation = 0, Vector2? scale = null, Color? color = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, position + offset, destinationRectangle, sourceRectangle, origin, rotation, scale, color, effects, layerDepth);
@@ -90,7 +90,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, position + offset, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
@@ -99,7 +99,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, position + offset, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
@@ -108,7 +108,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, destinationRectangle.TranslateTruncated(offset), sourceRectangle, color, rotation, origin, effects, layerDepth);
@@ -117,7 +117,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, position + offset, sourceRectangle, color);
@@ -126,7 +126,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, destinationRectangle.TranslateTruncated(offset), sourceRectangle, color);
@@ -135,7 +135,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, Vector2 position, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, position + offset, color);
@@ -144,7 +144,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, destinationRectangle.TranslateTruncated(offset), color);
@@ -153,7 +153,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, Vector2? position = null, FRectangle? destinationRectangle = null, Rectangle? sourceRectangle = null, Vector2? origin = null, float rotation = 0, Vector2? scale = null, Color? color = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 			if (destinationRectangle != null)
 			{
@@ -168,7 +168,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, (destinationRectangle + offset).Truncate(), sourceRectangle, color, rotation, origin, effects, layerDepth);
@@ -177,7 +177,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, (destinationRectangle + offset).Truncate(), sourceRectangle, color);
@@ -186,7 +186,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(Texture2D texture, FRectangle destinationRectangle, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(texture, (destinationRectangle + offset).Truncate(), color);
@@ -196,7 +196,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color)
 		{
 #if DEBUG
-			RenderTextCount += text.Length;
+			renderTextCount += text.Length;
 #endif
 
 			internalBatch.DrawString(spriteFont, text, position + offset, color);
@@ -205,7 +205,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
-			RenderTextCount += text.Length;
+			renderTextCount += text.Length;
 #endif
 
 			internalBatch.DrawString(spriteFont, text, position + offset, color, rotation, origin, scale, effects, layerDepth);
@@ -214,7 +214,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
-			RenderTextCount += text.Length;
+			renderTextCount += text.Length;
 #endif
 
 			internalBatch.DrawString(spriteFont, text, position + offset, color, rotation, origin, scale, effects, layerDepth);
@@ -223,7 +223,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color)
 		{
 #if DEBUG
-			RenderTextCount += text.Length;
+			renderTextCount += text.Length;
 #endif
 
 			internalBatch.DrawString(spriteFont, text, position + offset, color);
@@ -232,7 +232,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
-			RenderTextCount += text.Length;
+			renderTextCount += text.Length;
 #endif
 
 			internalBatch.DrawString(spriteFont, text, position + offset, color, rotation, origin, scale, effects, layerDepth);
@@ -241,7 +241,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
-			RenderTextCount += text.Length;
+			renderTextCount += text.Length;
 #endif
 
 			internalBatch.DrawString(spriteFont, text, position + offset, color, rotation, origin, scale, effects, layerDepth);
@@ -274,7 +274,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		private void DrawPolygonEdge(TextureRegion2D texture, Vector2 point1, Vector2 point2, Color color, float thickness)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			var length = Vector2.Distance(point1, point2);
@@ -298,7 +298,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void FillRectangle(Vector2 location, Vector2 size, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(
@@ -321,7 +321,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f)
 		{
 #if DEBUG
-			RenderSpriteCount+=4;
+			renderSpriteCount+=4;
 #endif
 
 			var pixel = StaticTextures.SinglePixel;
@@ -358,7 +358,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawLine(Vector2 point, float length, float angle, Color color, float thickness = 1f)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			var origin = new Vector2(0f, 0.5f);
@@ -374,7 +374,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawPoint(Vector2 position, Color color, float size = 1f)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			var scale = Vector2.One * size;
@@ -437,7 +437,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(TextureRegion2D textureRegion, Vector2 position, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(textureRegion.Texture, position + offset, textureRegion.Bounds, color, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
@@ -446,7 +446,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(TextureRegion2D textureRegion, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(textureRegion.Texture, position + offset, textureRegion.Bounds, color, rotation, origin, scale, effects, layerDepth);
@@ -455,7 +455,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(TextureRegion2D textureRegion, Rectangle destinationRectangle, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(textureRegion.Texture, destinationRectangle.TranslateTruncated(offset), textureRegion.Bounds, color);
@@ -464,7 +464,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void Draw(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color)
 		{
 #if DEBUG
-			RenderSpriteCount++;
+			renderSpriteCount++;
 #endif
 
 			internalBatch.Draw(textureRegion.Texture, (destinationRectangle + offset).Truncate(), textureRegion.Bounds, color);
