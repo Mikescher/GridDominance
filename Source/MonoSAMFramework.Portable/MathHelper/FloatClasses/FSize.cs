@@ -63,6 +63,16 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 			return new Vector2(size.Width, size.Height);
 		}
 
+		public static FSize operator *(FSize value1, float value2)
+		{
+			return new FSize(value1.Width * value2, value1.Height * value2);
+		}
+
+		public static FSize operator *(FSize value1, int value2)
+		{
+			return new FSize(value1.Width * value2, value1.Height * value2);
+		}
+
 		public override bool Equals(object obj)
 		{
 			if (ReferenceEquals(null, obj)) return false;

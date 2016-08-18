@@ -11,6 +11,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {
@@ -35,6 +36,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		private readonly Vector2 initialVelocity;
 
 		public override Vector2 Position => BulletPosition;
+		public override FSize DrawingBoundingBox { get; }
+		public override Color DebugIdentColor => Fraction.Color;
 
 		public Bullet(GDGameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale)
 			: base(scrn)
@@ -44,6 +47,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			Source = shooter;
 			Fraction = Source.Fraction;
 			Scale = entityScale;
+
+			DrawingBoundingBox = new FSize(BULLET_DIAMETER, BULLET_DIAMETER);
 		}
 
 		public override void OnInitialize()
@@ -57,7 +62,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			PhysicsBody.Friction = 0.2f;
 			PhysicsBody.LinearDamping = 0f;
 			PhysicsBody.OnCollision += OnCollision;
-			PhysicsBody.AngularVelocity = FloatMath.GetRangedRandom(-FloatMath.PI, +FloatMath.PI);
+			PhysicsBody.AngularVelocity = FloatMath.GetRangedRandom(-FloatMath.PI, +FloatMath.PI); //TODO Remove all angular calculations? (-> more consistency and faster calc?)
 			//Body.Mass = Scale * Scale; // Weight dependent on size
 		}
 
@@ -143,7 +148,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			if (!Manager.BoundingBox.Contains(BulletPosition)) Remove();
 		}
 
-		public override void Draw(IBatchRenderer sbatch)
+		protected override void OnDraw(IBatchRenderer sbatch)
 		{
 			sbatch.Draw(
 				Textures.TexBullet.Texture, 

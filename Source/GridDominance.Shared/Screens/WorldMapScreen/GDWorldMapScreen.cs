@@ -31,6 +31,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular);
 		protected override GameBackground CreateBackground() => new WorldMapBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+		protected override DebugMinimap CreateDebugMinimap() => new GDWorldMapDebugMinimap(this);
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
@@ -52,6 +53,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyboardModifiers.None, true);
 			DebugSettings.AddSwitch("ShowMatrixTextInfos", this, Keys.F3, KeyboardModifiers.None, true);
 			DebugSettings.AddSwitch("ShowDebugMiniMap", this, Keys.F4, KeyboardModifiers.None, true);
+			DebugSettings.AddSwitch("DebugEntityBoundaries", this, Keys.F5, KeyboardModifiers.None, false);
 
 			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
 #endif
@@ -79,7 +81,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			}
 #endif
 
+			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 0.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
 			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 8.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
+			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 8.5f, GDGameScreen.TILE_WIDTH * -4.5f)));
+			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
+			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 12.5f)));
 
 			AddAgent(new WorldMapDragAgent(this));
 		}

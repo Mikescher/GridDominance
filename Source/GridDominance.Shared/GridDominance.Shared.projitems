@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntityManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDScreenDebugMinimap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUDOperations\HUDBlinkingDifficultyButtonIconOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUDOperations\HUDDifficultyButtonGainOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUDOperations\HUDIncrementIndicatorLabelWiggleOperation.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\WorldMapDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Background\WorldMapBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\LevelNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapDebugMinimap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapScreen.cs" />
   </ItemGroup>

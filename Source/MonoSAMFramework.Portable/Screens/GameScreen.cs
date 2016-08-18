@@ -35,14 +35,19 @@ namespace MonoSAMFramework.Portable.Screens
 		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; TranslatedBatch.VirtualOffsetX = value; } }
 		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; TranslatedBatch.VirtualOffsetY = value; } }
 		public Vector2 MapOffset => new Vector2(_mapOffsetX, _mapOffsetY);
-		public FRectangle MapViewport => new FRectangle(-_mapOffsetX, -_mapOffsetY, VAdapter.RealTotalWidth, VAdapter.RealTotalHeight);
+		public FRectangle GuaranteedMapViewport => new FRectangle(-MapOffsetX, -MapOffsetY, VAdapter.VirtualGuaranteedWidth, VAdapter.VirtualGuaranteedHeight);
+		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapter.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapter.VirtualGuaranteedBoundingsOffsetY, VAdapter.VirtualTotalWidth, VAdapter.VirtualTotalHeight);
 
 		protected InputStateManager InputStateMan;
 
 		protected GameHUD GameHUD;
 		protected EntityManager Entities;
 		protected GameBackground Background;
-		private List<GameScreenAgent> Agents; 
+		private List<GameScreenAgent> Agents;
+
+#if DEBUG
+		protected DebugMinimap DebugMap;
+#endif
 
 		protected SpriteBatch InternalBatch;
 
@@ -84,6 +89,8 @@ namespace MonoSAMFramework.Portable.Screens
 #if DEBUG
 			FPSCounter = new RealtimeAPSCounter();
 			UPSCounter = new RealtimeAPSCounter();
+
+			DebugMap = CreateDebugMinimap();
 #endif
 		}
 
@@ -182,6 +189,10 @@ namespace MonoSAMFramework.Portable.Screens
 				Entities.Draw(TranslatedBatch);
 
 				GameHUD.Draw(FixedBatch);
+
+#if DEBUG
+				DebugMap.Draw(FixedBatch);
+#endif
 			}
 			InternalBatch.End();
 			TranslatedBatch.OnEnd();
@@ -225,12 +236,18 @@ namespace MonoSAMFramework.Portable.Screens
 		{
 			return Entities.Enumerate().OfType<T>();
 		}
-		
+
+		public IEnumerable<GameEntity> GetAllEntities()
+		{
+			return Entities.Enumerate();
+		}
+
 		protected abstract void OnUpdate(GameTime gameTime, InputState istate);
 
 		protected abstract EntityManager CreateEntityManager();
 		protected abstract GameHUD CreateHUD();
 		protected abstract GameBackground CreateBackground();
 		protected abstract SAMViewportAdapter CreateViewport();
+		protected abstract DebugMinimap CreateDebugMinimap();
 	}
 }

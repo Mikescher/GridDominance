@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {
@@ -42,6 +43,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		private readonly Vector2 velocity;
 
 		public override Vector2 Position => ShapePosition;
+		public override FSize DrawingBoundingBox { get; }
+		public override Color DebugIdentColor => Fraction.Color;
 
 		public BulletSplitter(GDGameScreen scrn, Bullet b, Direction8 d) : base(scrn)
 		{
@@ -53,6 +56,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			maxLifetime = FloatMath.GetRangedRandom(SPLITTER_LIFETIME_MIN, SPLITTER_LIFETIME_MAX);
 			ShapeRotation = FloatMath.ToRadians((int) d * 45f);
 			rotationSpeed = FloatMath.GetRangedRandom(-FloatMath.TAU, FloatMath.TAU);
+
+			DrawingBoundingBox = new FSize(Bullet.BULLET_DIAMETER, Bullet.BULLET_DIAMETER) * scale;
 		}
 
 		public override void OnInitialize()
@@ -75,7 +80,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			if (Lifetime > maxLifetime) Alive = false;
 		}
 
-		public override void Draw(IBatchRenderer sbatch)
+		protected override void OnDraw(IBatchRenderer sbatch)
 		{
 			sbatch.Draw(
 				Textures.TexBulletSplitter.Texture,

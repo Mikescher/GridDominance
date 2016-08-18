@@ -61,6 +61,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void DrawCircle(CircleF circle, int sides, Color color, float thickness = 1f);
 		void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1f);
 		void DrawCircle(float x, float y, float radius, int sides, Color color, float thickness = 1f);
+		void FillCircle(Vector2 center, float radius, int sides, Color color);
 
 		// ######## MONOGAME.EXTENDED EXTENSION METHODS ########
 

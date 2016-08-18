@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -22,10 +23,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private static readonly Color COLOR_DEACTIVATED = FlatColors.Silver;
 
 		public override Vector2 Position { get; }
+		public override FSize DrawingBoundingBox { get; }
+		public override Color DebugIdentColor => Color.SandyBrown;
 
 		public LevelNode(GameScreen scrn, Vector2 pos) : base(scrn)
 		{
 			Position = pos;
+			DrawingBoundingBox = new FSize(DIAMETER, DIAMETER);
 		}
 
 		public override void OnInitialize()
@@ -43,7 +47,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			//
 		}
 
-		public override void Draw(IBatchRenderer sbatch)
+		protected override void OnDraw(IBatchRenderer sbatch)
 		{
 			// Ground
 

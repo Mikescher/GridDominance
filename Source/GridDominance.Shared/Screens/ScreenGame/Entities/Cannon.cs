@@ -68,6 +68,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		public readonly Vector2 Center;
 		public readonly float Scale;
 		public override Vector2 Position => Center;
+		public override FSize DrawingBoundingBox { get; }
+		public override Color DebugIdentColor => Fraction.Color;
 		private float cannonCogRotation;
 		private List<Vector2> particleSpawns;
 
@@ -81,7 +83,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			Center = new Vector2(blueprint.X, blueprint.Y);
 			Scale = blueprint.Scale;
-			
+			DrawingBoundingBox = new FSize(CANNON_OUTER_DIAMETER, CANNON_OUTER_DIAMETER) * Scale;
+
 			Rotation = new DeltaLimitedModuloFloat(FloatMath.ToRadians(blueprint.Rotation), ROTATION_SPEED, FloatMath.TAU);
 			
 			CannonHealth.SetForce(Fraction.IsNeutral ? 0f : 1f);
@@ -266,7 +269,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		#region Draw
 
-		public override void Draw(IBatchRenderer sbatch)
+		protected override void OnDraw(IBatchRenderer sbatch)
 		{
 			DrawCrosshair(sbatch);
 			DrawBodyAndBarrel(sbatch);
@@ -313,7 +316,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				Color.White,
 				Rotation.ActualValue,
 				Textures.TexCannonBarrelShadow.Center(),
-				Scale *Textures.DEFAULT_TEXTURE_SCALE,
+				Scale*Textures.DEFAULT_TEXTURE_SCALE,
 				SpriteEffects.None,
 				0);
 

@@ -9,7 +9,6 @@ using GridDominance.Levelformat.Parser;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.InputListeners;
-using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -114,6 +113,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			DebugSettings.AddSwitch("DebugHUDBorders", this, Keys.F4, KeyboardModifiers.None, false);
 			DebugSettings.AddSwitch("DebugCannonView", this, Keys.F5, KeyboardModifiers.None, true);
 			DebugSettings.AddSwitch("ShowMatrixTextInfos", this, Keys.F6, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("ShowDebugMiniMap", this, Keys.F7, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("DebugEntityBoundaries", this, Keys.F8, KeyboardModifiers.None, false);
 
 			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
 
@@ -165,6 +166,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
 		protected override GameBackground CreateBackground() => new GDGridBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+		protected override DebugMinimap CreateDebugMinimap() => new GDScreenDebugMinimap(this);
 
 		private void LoadLevelFromBlueprint()
 		{

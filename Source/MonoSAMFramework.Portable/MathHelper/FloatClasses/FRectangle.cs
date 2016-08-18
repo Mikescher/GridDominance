@@ -78,6 +78,15 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 			return new FRectangle(value1.X + value2.X, value1.Y + value2.Y, value1.Width, value1.Height);
 		}
 
+		internal bool Contains(Vector2 center, FSize size)
+		{
+			return
+				Contains(center.X - size.Width / 2, center.Y - size.Height / 2) || // TL
+				Contains(center.X + size.Width / 2, center.Y - size.Height / 2) || // TR
+				Contains(center.X - size.Width / 2, center.Y + size.Height / 2) || // BL
+				Contains(center.X + size.Width / 2, center.Y + size.Height / 2);   // BR
+		}
+
 		public bool Contains(float x, float y)
 		{
 			return 

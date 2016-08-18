@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.RenderHelper;
 using System;
@@ -382,6 +384,29 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public void DrawCircle(float x, float y, float radius, int sides, Color color, float thickness = 1f)
 		{
 			DrawPolygon(new Vector2(x, y), CreateCircle(radius, sides), color, thickness);
+		}
+
+		public void FillCircle(Vector2 center, float radius, int sides, Color color)
+		{
+#if DEBUG
+			renderSpriteCount += sides;
+#endif
+
+			float width = FloatMath.Sqrt(radius * radius * 2);
+
+			for (int i = 0; i < sides; i++)
+			{
+				internalBatch.Draw(
+					StaticTextures.SinglePixel.Texture,
+					center,
+					StaticTextures.SinglePixel.Bounds,
+					color,
+					(FloatMath.TAU * i) / (4f * sides),
+					StaticTextures.SinglePixel.Center(),
+					new Vector2(width, width), 
+					SpriteEffects.None,
+					0);
+			}
 		}
 
 		private Vector2[] CreateCircle(double radius, int sides)

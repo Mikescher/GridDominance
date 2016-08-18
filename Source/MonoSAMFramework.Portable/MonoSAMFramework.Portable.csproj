@@ -39,6 +39,7 @@
     <Compile Include="BatchRenderer\ITranslateBatchRenderer.cs" />
     <Compile Include="BatchRenderer\TranslatingSpriteBatchWrapper.cs" />
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
+    <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="MathHelper\Cryptography\MD5.cs" />
     <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />
     <Compile Include="Persistance\DataFile\BaseDataFile.cs" />

@@ -52,24 +52,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * TILE_WIDTH - offX, y * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH), Color.White);
 				}
 			}
-
-
-#if DEBUG
-			if (DebugSettings.Get("ShowDebugMiniMap"))
-			{
-				var rectAll = WorldMapDragAgent.BOUNDING.AsScaled(1/12f);
-				var offsetX = VAdapter.VirtualGuaranteedWidth - 16 - rectAll.Width;
-				var offsetY = 16;
-
-				sbatch.DrawRectangle(new Vector2(offsetX, offsetY) - Owner.MapOffset, rectAll.Size, Color.Red, 4);
-
-				var rectView = Owner.MapViewport.AsScaled(1 / 12f);
-
-				var off = (Owner.MapViewport.VectorTopLeft - WorldMapDragAgent.BOUNDING.VectorTopLeft) / 12;
-
-				sbatch.DrawRectangle(off + new Vector2(offsetX, offsetY) - Owner.MapOffset, rectView.Size, Color.Black, 4);
-			}
-#endif
 		}
 	}
 }

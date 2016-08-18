@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using System;
 using System.Collections.Generic;
 
@@ -15,8 +17,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 
 		protected readonly List<IGameEntityOperation> ActiveOperations = new List<IGameEntityOperation>();
 
-		public abstract Vector2 Position { get; }
+		public abstract Vector2 Position { get; } // Center
+		public abstract FSize DrawingBoundingBox { get; }
+		public abstract Color DebugIdentColor { get; }
 
+		public bool IsInViewport = true; // is in viewport and is therefore rendered
 		public bool Alive = true;
 		public float Lifetime = 0;
 
@@ -64,9 +69,22 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			}
 		}
 
+		public void Draw(IBatchRenderer sbatch)
+		{
+			OnDraw(sbatch);
+
+#if DEBUG
+			if (DebugSettings.Get("DebugEntityBoundaries"))
+			{
+				sbatch.DrawRectangle(Position - DrawingBoundingBox*0.5f, DrawingBoundingBox, Color.LightGreen, 1);
+			}
+#endif
+		}
+
 		public abstract void OnInitialize();
 		public abstract void OnRemove();
+
 		protected abstract void OnUpdate(GameTime gameTime, InputState istate);
-		public abstract void Draw(IBatchRenderer sbatch);
+		protected abstract void OnDraw(IBatchRenderer sbatch);
 	}
 }

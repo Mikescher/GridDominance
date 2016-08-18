@@ -10,6 +10,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 {
 	public abstract class EntityManager : ISAMDrawable, ISAMUpdateable
 	{
+		private const int VIEWPORT_TOLERANCE = 32;
+
 		private readonly List<GameEntity> entities = new List<GameEntity>();
 
 		public readonly GameScreen Owner;
@@ -48,9 +50,19 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 
 		public void Draw(IBatchRenderer sbatch)
 		{
+			var viewportBox = Owner.CompleteMapViewport.AsInflated(VIEWPORT_TOLERANCE, VIEWPORT_TOLERANCE);
+
 			foreach (var gdEntity in entities)
 			{
-				gdEntity.Draw(sbatch);
+				if (viewportBox.Contains(gdEntity.Position, gdEntity.DrawingBoundingBox))
+				{
+					gdEntity.IsInViewport = true;
+					gdEntity.Draw(sbatch);
+				}
+				else
+				{
+					gdEntity.IsInViewport = false;
+				}
 			}
 		}
 
