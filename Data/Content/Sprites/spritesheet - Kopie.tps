@@ -276,7 +276,6 @@
             <key type="filename">cannonbarrel.png</key>
             <key type="filename">cannonbarrel_shadow.png</key>
             <key type="filename">cannonbody_shadow.png</key>
-            <key type="filename">cannoncog.png</key>
             <key type="filename">cannoncog_animated/cannoncog_000.png</key>
             <key type="filename">cannoncog_animated/cannoncog_001.png</key>
             <key type="filename">cannoncog_animated/cannoncog_002.png</key>
@@ -428,7 +427,6 @@
             <key type="filename">hud_pause_animated/hud_pause_13.png</key>
             <key type="filename">hud_pause_animated/hud_pause_14.png</key>
             <key type="filename">hud_pause_animated/hud_pause_15.png</key>
-            <key type="filename">hud_pause_background.png</key>
             <key type="filename">hud_time_0.png</key>
             <key type="filename">hud_time_1.png</key>
             <key type="filename">hud_time_2.png</key>
@@ -444,28 +442,27 @@
             <key type="filename">panel_blur_corner.png</key>
             <key type="filename">panel_blur_edge.png</key>
             <key type="filename">panel_corner.png</key>
-            <key type="filename">particles/particle_01.png</key>
-            <key type="filename">particles/particle_02.png</key>
-            <key type="filename">particles/particle_03.png</key>
-            <key type="filename">particles/particle_04.png</key>
-            <key type="filename">particles/particle_05.png</key>
-            <key type="filename">particles/particle_06.png</key>
-            <key type="filename">particles/particle_07.png</key>
-            <key type="filename">particles/particle_08.png</key>
-            <key type="filename">particles/particle_09.png</key>
-            <key type="filename">particles/particle_10.png</key>
-            <key type="filename">particles/particle_11.png</key>
-            <key type="filename">particles/particle_12.png</key>
-            <key type="filename">particles/particle_13.png</key>
-            <key type="filename">particles/particle_14.png</key>
-            <key type="filename">particles/particle_15.png</key>
-            <key type="filename">particles/particle_16.png</key>
             <key type="filename">pausemenu_marker.png</key>
             <key type="filename">pausemenu_marker_background.png</key>
             <key type="filename">simple_circle.png</key>
             <key type="filename">simple_circle_empty.png</key>
             <key type="filename">simple_pixel.png</key>
-            <key type="filename">tile_debug.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_01.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_02.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_03.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_04.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_05.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_06.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_07.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_08.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_09.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_10.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_11.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_12.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_13.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_14.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_15.png</key>
+            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles/particle_16.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -473,7 +470,41 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>.</filename>
+            <filename>cannonball.png</filename>
+            <filename>cannonbody_shadow.png</filename>
+            <filename>cannonbarrel.png</filename>
+            <filename>grid.png</filename>
+            <filename>cannonbarrel_shadow.png</filename>
+            <filename>cannoncog_animated</filename>
+            <filename>cannoncrosshair.png</filename>
+            <filename>cannonball_piece.png</filename>
+            <filename>hud_pause_animated</filename>
+            <filename>hud_time_0.png</filename>
+            <filename>hud_time_1.png</filename>
+            <filename>hud_time_2.png</filename>
+            <filename>hud_time_3.png</filename>
+            <filename>hud_time_4.png</filename>
+            <filename>hud_time_hand.png</filename>
+            <filename>hud_time_clock.png</filename>
+            <filename>hud_button_base.png</filename>
+            <filename>pausemenu_marker.png</filename>
+            <filename>pausemenu_marker_background.png</filename>
+            <filename>panel_blur_edge.png</filename>
+            <filename>panel_corner.png</filename>
+            <filename>panel_blur_corner.png</filename>
+            <filename>simple_circle.png</filename>
+            <filename>icon_back.png</filename>
+            <filename>icon_next.png</filename>
+            <filename>simple_pixel.png</filename>
+            <filename>difficulty_0.png</filename>
+            <filename>difficulty_3.png</filename>
+            <filename>difficulty_1.png</filename>
+            <filename>difficulty_2.png</filename>
+            <filename>icon_redo.png</filename>
+            <filename>simple_circle_empty.png</filename>
+            <filename>levelnode_segment.png</filename>
+            <filename>levelnode_structure.png</filename>
+            <filename>../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/particles</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
