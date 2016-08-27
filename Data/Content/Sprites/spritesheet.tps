@@ -104,7 +104,7 @@
         <key>dataFormat</key>
         <string>json-array</string>
         <key>textureFileName</key>
-        <filename>../Source/GridDominance.Shared/Content/textures/spritesheet_{v}.png</filename>
+        <filename>../../../Source/GridDominance.Shared/Content/textures/spritesheet_{v}.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -209,17 +209,17 @@
             <key>classfile</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../GridDominance.DirectX/Content/textures/textures.cs</filename>
+                <filename>../../../GridDominance.DirectX/Content/textures/textures.cs</filename>
             </struct>
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Source/GridDominance.Shared/Content/textures/spritesheet-sheet_{v}.json</filename>
+                <filename>../../../Source/GridDominance.Shared/Content/textures/spritesheet-sheet_{v}.json</filename>
             </struct>
             <key>datafile</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../GridDominance.DirectX/Content/textures/textures.txt</filename>
+                <filename>../../../GridDominance.DirectX/Content/textures/textures.txt</filename>
             </struct>
             <key>pandajson</key>
             <struct type="DataFile">

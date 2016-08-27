@@ -82,6 +82,6 @@
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
-    <PreBuildEvent>texturepacker $(SolutionDir)..\Data\spritesheet.tps</PreBuildEvent>
+    <PreBuildEvent>texturepacker $(SolutionDir)..\Data\Content\Sprites\spritesheet.tps</PreBuildEvent>
   </PropertyGroup>
 </Project>
