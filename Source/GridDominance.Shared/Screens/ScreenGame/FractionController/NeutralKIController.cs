@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
 	class NeutralKIController : KIController
 	{
-		private readonly List<Func<GDEntity>> intelligence;
+		private readonly List<Func<GameEntity>> intelligence;
 
 		private bool doBarrelRecharge = false;
 
@@ -17,7 +18,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 		public NeutralKIController(GDGameScreen owner, Cannon cannon, Fraction fraction)
 			: base(NEUTRAL_UPDATE_TIME, owner, cannon, fraction)
 		{
-			intelligence = new List<Func<GDEntity>>
+			intelligence = new List<Func<GameEntity>>
 			{
 				FindTargetAttackingBullet
 			};

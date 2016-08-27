@@ -9,10 +9,12 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {
-	class BulletSplitter : GDEntity
+	class BulletSplitter : GameEntity
 	{
 		private const float SPLITTER_SPEED = 30f;
 		private const float SPLITTER_LIFETIME_MIN = 0.15f;
@@ -46,7 +48,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 
-		public BulletSplitter(GDGameScreen scrn, Bullet b, Direction8 d) : base(scrn)
+		public BulletSplitter(GameScreen scrn, Bullet b, Direction8 d) : base(scrn)
 		{
 			scale = b.Scale;
 			ShapePosition = b.BulletPosition;

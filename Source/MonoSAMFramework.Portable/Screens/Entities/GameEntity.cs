@@ -12,7 +12,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 {
 	public abstract class GameEntity : ISAMDrawable, ISAMUpdateable
 	{
-		protected readonly GameScreen Owner;
+		public readonly GameScreen Owner;
 		public EntityManager Manager = null; // only set after Add - use only in Update() and Render()
 
 		protected readonly List<IGameEntityOperation> ActiveOperations = new List<IGameEntityOperation>();

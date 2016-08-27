@@ -36,7 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Fractions\FractionType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Fractions\FractionDifficulty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GameSpeedModes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\EntityHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDScreenDebugMinimap.cs" />

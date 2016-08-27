@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.MathHelper;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
@@ -24,7 +25,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 			crng = new ConstantRandom(cannon);
 		}
 
-		protected bool CalculateKI(List<Func<GDEntity>> searchFunctions, bool idleRotate)
+		protected bool CalculateKI(List<Func<GameEntity>> searchFunctions, bool idleRotate)
 		{
 			foreach (var sf in searchFunctions)
 			{
@@ -142,7 +143,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 			// would be faster (?) - optimization opportunity for later
 			// i should measure how expensive ray tracing is
 
-			GDEntity result = null;
+			GameEntity result = null;
 
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
@@ -151,7 +152,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 					return -1; // ignore
 				}
 
-				result = (GDEntity)f.UserData;
+				result = (GameEntity)f.UserData;
 				return frac; // limit to this length
 			};
 
@@ -166,7 +167,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 		// ignore own bullets
 		private bool IsReachable(Cannon c)
 		{
-			GDEntity result = null;
+			GameEntity result = null;
 
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
@@ -180,7 +181,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 					return -1; // ignore
 				}
 
-				result = (GDEntity) f.UserData;
+				result = (GameEntity) f.UserData;
 
 				return 0; // terminate
 			};
@@ -196,7 +197,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 		// ignore all bullets
 		private bool IsBulletBlockedReachable(Cannon c)
 		{
-			GDEntity result = null;
+			GameEntity result = null;
 
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
@@ -209,7 +210,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 					return -1; // ignore
 				}
 
-				result = (GDEntity)f.UserData;
+				result = (GameEntity)f.UserData;
 
 				return 0; // terminate
 			};

@@ -12,10 +12,12 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {
-	class Bullet : GDEntity
+	class Bullet : GameEntity
 	{
 		public  const float BULLET_DIAMETER = 25;
 		private const float MAXIMUM_LIEFTIME = 25;
@@ -39,7 +41,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 
-		public Bullet(GDGameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale)
+		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale)
 			: base(scrn)
 		{
 			BulletPosition = pos;
@@ -53,7 +55,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		public override void OnInitialize()
 		{
-			PhysicsBody = BodyFactory.CreateCircle(GDManager.PhysicsWorld, ConvertUnits.ToSimUnits(Scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(BulletPosition), BodyType.Dynamic, this);
+			PhysicsBody = BodyFactory.CreateCircle(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(BulletPosition), BodyType.Dynamic, this);
 			PhysicsBody.LinearVelocity = ConvertUnits.ToSimUnits(initialVelocity);
 			PhysicsBody.CollidesWith = Category.All;
 			PhysicsBody.IsBullet = true;
@@ -112,7 +114,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			// After Bullet-Bulllet Collision
 			
 			for (int i = 0; i < 8; i++)
-				Manager.AddEntity(new BulletSplitter(GDOwner, this, (Direction8) i));
+				Manager.AddEntity(new BulletSplitter(Owner, this, (Direction8) i));
 			
 			Alive = false;
 		}
@@ -135,7 +137,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		public override void OnRemove()
 		{
-			GDManager.PhysicsWorld.RemoveBody(PhysicsBody);
+			this.GDManager().PhysicsWorld.RemoveBody(PhysicsBody);
 		}
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)

@@ -20,10 +20,11 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {
-	class Cannon : GDEntity
+	class Cannon : GameEntity
 	{
 		private const float ROTATION_SPEED = FloatMath.TAU / 2; // 3.141 rad/sec
 		private const float HEALTH_PROGRESS_SPEED = 1f; // min 1sec for 360°
@@ -96,9 +97,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		public override void OnInitialize()
 		{
-			controller = Fraction.CreateController(GDOwner, this);
+			controller = Fraction.CreateController(this.GDOwner(), this);
 
-			PhysicsBody = BodyFactory.CreateBody(GDManager.PhysicsWorld, ConvertUnits.ToSimUnits(Center), 0, BodyType.Static);
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Center), 0, BodyType.Static);
 
 			PhysicsFixtureBase = FixtureFactory.AttachCircle(
 				ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1,
@@ -113,11 +114,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		public override void OnRemove()
 		{
-			GDManager.PhysicsWorld.RemoveBody(PhysicsBody);
+			this.GDManager().PhysicsWorld.RemoveBody(PhysicsBody);
 
 			foreach (var spawn in particleSpawns)
 			{
-				GDOwner.GDBackground.DeregisterBlockedSpawn(this, (int)spawn.X, (int)spawn.Y);
+				this.GDOwner().GDBackground.DeregisterBlockedSpawn(this, (int)spawn.X, (int)spawn.Y);
 			}
 		}
 
@@ -137,7 +138,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 					if (d <= cr*cr)
 					{
 						particleSpawns.Add(new Vector2(x, y));
-						GDOwner.GDBackground.RegisterBlockedSpawn(this, x, y);
+						this.GDOwner().GDBackground.RegisterBlockedSpawn(this, x, y);
 					}
 				}
 			}
@@ -162,7 +163,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
 			{
 				while (Fraction.Type != FractionType.PlayerFraction)
-					TakeDamage(GDOwner.GetPlayerFraction());
+					TakeDamage(this.GDOwner().GetPlayerFraction());
 
 				CannonHealth.SetForce(1f);
 			}
@@ -241,10 +242,10 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			foreach (var spawn in particleSpawns)
 			{
-				GDOwner.GDBackground.SpawnParticles(Fraction, (int)spawn.X, (int)spawn.Y);
+				this.GDOwner().GDBackground.SpawnParticles(Fraction, (int)spawn.X, (int)spawn.Y);
 			}
 
-			Manager.AddEntity(new Bullet(GDOwner, this, position, velocity, Scale));
+			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
 		}
 
 		private void UpdatePhysicBodies()
@@ -486,10 +487,10 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			Fraction = f;
 			ResetChargeAndBooster();
-			controller = Fraction.CreateController(GDOwner, this);
+			controller = Fraction.CreateController(this.GDOwner(), this);
 		}
 
-		public void RotateTo(GDEntity target)
+		public void RotateTo(GameEntity target)
 		{
 			Rotation.Set(FloatMath.PositiveAtan2(target.Position.Y - Center.Y, target.Position.X - Center.X));
 			//Screen.PushNotification($"Cannon :: target({FloatMath.ToDegree(Rotation.TargetValue):000}°)");
@@ -497,7 +498,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		public void ForceUpdateController()
 		{
-			controller = Fraction.CreateController(GDOwner, this);
+			controller = Fraction.CreateController(this.GDOwner(), this);
 		}
 
 		#endregion
