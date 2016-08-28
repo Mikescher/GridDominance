@@ -42,6 +42,10 @@
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="MathHelper\Cryptography\MD5.cs" />
+    <Compile Include="MathHelper\VectorPath\CirclePieceSegment.cs" />
+    <Compile Include="MathHelper\VectorPath\LineSegment.cs" />
+    <Compile Include="MathHelper\VectorPath\VectorPath.cs" />
+    <Compile Include="MathHelper\VectorPath\VectorPathSegment.cs" />
     <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />
     <Compile Include="Persistance\DataFile\BaseDataFile.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGUIDWrapper.cs" />
@@ -112,6 +116,8 @@
     <Compile Include="Screens\Entities\Particles\Particle.cs" />
     <Compile Include="Screens\Entities\Particles\ParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\ParticleEmitterConfig.cs" />
+    <Compile Include="Screens\Entities\Particles\PathParticleEmitter.cs" />
+    <Compile Include="Screens\Entities\Particles\PointParticleEmitter.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventArgs.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonBackground.cs" />

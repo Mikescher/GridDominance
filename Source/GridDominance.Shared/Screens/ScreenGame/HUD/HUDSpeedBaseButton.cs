@@ -168,7 +168,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				var progress = FloatMath.LimitedDec(openingProgress, i * OPENING_ANIMATION_DELAY, 0f) / OPENING_ANIMATION_SINGLESPEED;
 
-				speedButtons[i].RelativePosition = (RelativePosition + OPENING_VECTORS[i] * FloatMath.FunctionEaseOutElastic(progress)).ToFPoint();
+				speedButtons[i].RelativePosition = RelativePosition + OPENING_VECTORS[i] * FloatMath.FunctionEaseOutElastic(progress);
 			}
 
 			if (finished)
@@ -187,7 +187,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			for (int i = 0; i < 5; i++)
 			{
-				speedButtons[i].RelativePosition = (RelativePosition + OPENING_VECTORS[i] * openingProgress).ToFPoint();
+				speedButtons[i].RelativePosition = RelativePosition + OPENING_VECTORS[i] * openingProgress;
 			}
 
 			if (finished)

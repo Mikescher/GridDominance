@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.MathHelper.VectorPath;
 using System;
 using System.Text;
 
@@ -77,5 +78,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f);
 		void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);
+		void DrawPath(Vector2 posVector2, VectorPath path, int segments, Color color, float thickness = 1f);
 	}
 }

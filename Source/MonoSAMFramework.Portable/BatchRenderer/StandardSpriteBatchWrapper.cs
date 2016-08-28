@@ -5,6 +5,7 @@ using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.MathHelper.VectorPath;
 using MonoSAMFramework.Portable.RenderHelper;
 using System;
 using System.Linq;
@@ -389,6 +390,19 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			DrawPolygon(center, poly, color, false, thickness);
 			DrawLine(center, center + poly.First(), color, thickness);
 			DrawLine(center, center + poly.Last(), color, thickness);
+		}
+
+		public void DrawPath(Vector2 pos, VectorPath path, int segments, Color color, float thickness = 1)
+		{
+			var last = pos + path.Get(0);
+			for (int i = 1; i <= segments; i++)
+			{
+				var next = pos + path.Get((path.Length * i) / (segments+1));
+
+				DrawPolygonEdge(StaticTextures.SinglePixel, last, next, color, thickness);
+
+				last = next;
+			}
 		}
 
 		public void DrawCircle(float x, float y, float radius, int sides, Color color, float thickness = 1f)

@@ -8,15 +8,11 @@ using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
-	public class ParticleEmitter : GameEntity
+	public abstract class ParticleEmitter : GameEntity
 	{
 		private const int PARTICLE_POOL_SAFETY = 4; // always add X elements more to pool than calculated
 
-		public override Vector2 Position { get; }
 		public override Color DebugIdentColor => Color.Gold * 0.1f;
-
-		private FSize _boundingbox;
-		public override FSize DrawingBoundingBox => _boundingbox;
 
 		private float timeSinceLastSpawn = 0f;
 		private float spawnDelay = 0f;
@@ -28,21 +24,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		public int ParticleCount { get; private set; } = 0;
 
-
-		public ParticleEmitter(GameScreen scrn, Vector2 pos, ParticleEmitterConfig cfg) : base(scrn)
+		protected ParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg) : base(scrn)
 		{
-			Position = pos;
 			_config = cfg;
-
-			RecalculateState();
 		}
 
-		private void RecalculateState()
+		protected virtual void RecalculateState()
 		{
-			float maxDistance = _config.ParticleLifetimeMax * _config.ParticleVelocityMax;
 			int maxParticleCount = FloatMath.Ceiling(_config.SpawnRateMax * _config.ParticleLifetimeMax) + PARTICLE_POOL_SAFETY;
-
-			_boundingbox = new FSize(maxDistance*2 + _config.ParticleSizeFinalMax, maxDistance* 2 + _config.ParticleSizeFinalMax);
 
 			particlePool = new Particle[maxParticleCount];
 			for (int i = 0; i < maxParticleCount; i++) particlePool[i] = new Particle();
@@ -54,7 +43,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		public override void OnInitialize()
 		{
-			// NOP
+			RecalculateState();
 		}
 
 		public override void OnRemove()
@@ -102,8 +91,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			particlePool[ParticleCount].MaxLifetime = _config.GetParticleLifetime();
 
-			particlePool[ParticleCount].Position.X = Position.X;
-			particlePool[ParticleCount].Position.Y = Position.Y;
+			SetParticleSpawnPosition(ref particlePool[ParticleCount].Position);
 
 			_config.SetParticleVelocity(ref particlePool[ParticleCount].Velocity);
 
@@ -113,6 +101,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			ParticleCount++;
 		}
+
+		protected abstract void SetParticleSpawnPosition(ref Vector2 vec);
 
 		private void RemoveParticle(int idx)
 		{
@@ -160,21 +150,17 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			base.DrawDebugBorders(sbatch);
 
 			if (_config.ParticleSpawnAngleIsTotal)
-				sbatch.DrawCircle(Position, _boundingbox.Width / 2, 32, Color.LightGreen, 1);
+				sbatch.DrawCircle(Position, DrawingBoundingBox.Width / 2, 32, Color.LightGreen, 1);
 			else if (_config.ParticleSpawnAngleIsRandom)
-				sbatch.DrawCirclePiece(Position, _boundingbox.Width/2, _config.ParticleSpawnAngleMin, _config.ParticleSpawnAngleMax, 32, Color.LightGreen, 1);
+				sbatch.DrawCirclePiece(Position, DrawingBoundingBox.Width/2, _config.ParticleSpawnAngleMin, _config.ParticleSpawnAngleMax, 32, Color.LightGreen, 1);
 
 			sbatch.DrawRectangle(Position - new FSize(8,8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
 
 			for (int i = 0; i < ParticleCount; i++)
 			{
 				var p = particlePool[i];
-				var progress = p.CurrentLifetime / p.MaxLifetime;
-
-				var size = FloatMath.Lerp(p.SizeInitial, p.SizeFinal, progress);
 
 				sbatch.DrawLine(Position, p.Position, Color.GreenYellow);
-				//sbatch.DrawCircle(p.Position, size/2, 16, Color.GreenYellow);
 			}
 		}
 	}

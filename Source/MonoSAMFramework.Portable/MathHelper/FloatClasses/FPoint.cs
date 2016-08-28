@@ -33,7 +33,12 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 		{
 			return new FPoint(value1.X + value2.X, value1.Y + value2.Y);
 		}
-		
+
+		public static FPoint operator +(FPoint value1, Vector2 value2)
+		{
+			return new FPoint(value1.X + value2.X, value1.Y + value2.Y);
+		}
+
 		public static Vector2 operator -(FPoint value1, FPoint value2)
 		{
 			return new Vector2(value1.X - value2.X, value1.Y - value2.Y);

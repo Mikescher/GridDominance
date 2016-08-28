@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
@@ -15,6 +16,8 @@ using MonoSAMFramework.Portable.Screens.HUD;
 using MonoGame.Extended.InputListeners;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.MathHelper.VectorPath;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
@@ -92,7 +95,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
 			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 12.5f)));
 
-			Entities.AddEntity(new ParticleEmitter(this, 
+			Entities.AddEntity(new PointParticleEmitter(this, 
 				new Vector2(GDGameScreen.TILE_WIDTH * 1.5f, GDGameScreen.TILE_WIDTH * 8.5f), 
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
@@ -104,7 +107,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					Color = Color.CornflowerBlue,
 				}.Build()));
 
-			Entities.AddEntity(new ParticleEmitter(this,
+			Entities.AddEntity(new PathParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 5.5f, GDGameScreen.TILE_WIDTH * 8.5f),
+				new VectorPath(new List<VectorPathSegment> { new CirclePieceSegment(FPoint.Zero, 64f) }),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 380f,
+					ParticleLifetime = 0.5f,
+					ParticleVelocity = 15f,
+					ParticleSize = 16,
+					Color = Color.Black,
+				}.Build()));
+
+			Entities.AddEntity(new PointParticleEmitter(this,
 				new Vector2(GDGameScreen.TILE_WIDTH * 5.5f, GDGameScreen.TILE_WIDTH * 8.5f),
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
@@ -116,7 +132,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					Color = Color.Black,
 				}.Build()));
 
-			Entities.AddEntity(new ParticleEmitter(this,
+			Entities.AddEntity(new PointParticleEmitter(this,
 				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 5.5f),
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
@@ -138,7 +154,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					Color = Color.Red,
 				}.Build()));
 
-			Entities.AddEntity(new ParticleEmitter(this,
+			Entities.AddEntity(new PointParticleEmitter(this,
 				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 5.5f),
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
