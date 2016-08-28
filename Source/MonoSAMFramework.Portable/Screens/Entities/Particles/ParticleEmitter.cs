@@ -159,7 +159,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		{
 			base.DrawDebugBorders(sbatch);
 
-			sbatch.DrawCircle(Position, _boundingbox.Width/2, 32, Color.LightGreen, 1);
+			if (_config.ParticleSpawnAngleIsTotal)
+				sbatch.DrawCircle(Position, _boundingbox.Width / 2, 32, Color.LightGreen, 1);
+			else if (_config.ParticleSpawnAngleIsRandom)
+				sbatch.DrawCirclePiece(Position, _boundingbox.Width/2, _config.ParticleSpawnAngleMin, _config.ParticleSpawnAngleMax, 32, Color.LightGreen, 1);
+
 			sbatch.DrawRectangle(Position - new FSize(8,8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
 
 			for (int i = 0; i < ParticleCount; i++)

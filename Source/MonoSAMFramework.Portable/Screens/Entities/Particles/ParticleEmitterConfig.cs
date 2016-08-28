@@ -102,6 +102,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		public readonly float ParticleSpawnAngleMin;
 		public readonly float ParticleSpawnAngleMax;
 		public readonly bool ParticleSpawnAngleIsRandom;
+		public readonly bool ParticleSpawnAngleIsTotal;
 		public readonly Vector2 FixedParticleSpawnAngle;
 
 		public readonly float ParticleVelocityMin;
@@ -142,6 +143,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			ParticleSpawnAngleMin = b.ParticleSpawnAngleMin;
 			ParticleSpawnAngleMax = b.ParticleSpawnAngleMax;
 			ParticleSpawnAngleIsRandom = FloatMath.FloatInequals(ParticleSpawnAngleMin, ParticleSpawnAngleMax);
+			ParticleSpawnAngleIsTotal = FloatMath.FloatInequals(ParticleSpawnAngleMin, ParticleSpawnAngleMax) && FloatMath.EpsilonEquals(FloatMath.PositiveModulo(ParticleSpawnAngleMin, FloatMath.TAU), FloatMath.PositiveModulo(ParticleSpawnAngleMax, FloatMath.TAU));
 			if (!ParticleSpawnAngleIsRandom) FixedParticleSpawnAngle = vectorOne.Rotate(ParticleSpawnAngleMin);
 
 			ParticleVelocityMin = b.ParticleVelocityMin;

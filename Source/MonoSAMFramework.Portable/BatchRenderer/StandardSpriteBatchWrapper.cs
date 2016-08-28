@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.MathHelper;
 using MonoSAMFramework.Portable.MathHelper.FloatClasses;
 using MonoSAMFramework.Portable.RenderHelper;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace MonoSAMFramework.Portable.BatchRenderer
@@ -238,10 +239,10 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		public void DrawPolygon(Vector2 position, PolygonF polygon, Color color, float thickness = 1f)
 		{
-			DrawPolygon(position, polygon.Vertices, color, thickness);
+			DrawPolygon(position, polygon.Vertices, color, true, thickness);
 		}
 
-		public void DrawPolygon(Vector2 offset, Vector2[] points, Color color, float thickness = 1f)
+		public void DrawPolygon(Vector2 offset, Vector2[] points, Color color, bool closed, float thickness)
 		{
 			if (points.Length == 0)
 				return;
@@ -257,7 +258,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			for (var i = 0; i < points.Length - 1; i++)
 				DrawPolygonEdge(texture, points[i] + offset, points[i + 1] + offset, color, thickness);
 
-			DrawPolygonEdge(texture, points[points.Length - 1] + offset, points[0] + offset, color, thickness);
+			if (closed) DrawPolygonEdge(texture, points[points.Length - 1] + offset, points[0] + offset, color, thickness);
 		}
 
 		private void DrawPolygonEdge(TextureRegion2D texture, Vector2 point1, Vector2 point2, Color color, float thickness)
@@ -375,15 +376,24 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		{
 			DrawCircle(circle.Center, circle.Radius, sides, color, thickness);
 		}
-		
+
 		public void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1f)
 		{
-			DrawPolygon(center, CreateCircle(radius, sides), color, thickness);
+			DrawPolygon(center, CreateCircle(radius, sides), color, true, thickness);
 		}
-		
+
+		public void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f)
+		{
+			Vector2[] poly = CreateCirclePiece(radius, angleMin, angleMax, sides);
+
+			DrawPolygon(center, poly, color, false, thickness);
+			DrawLine(center, center + poly.First(), color, thickness);
+			DrawLine(center, center + poly.Last(), color, thickness);
+		}
+
 		public void DrawCircle(float x, float y, float radius, int sides, Color color, float thickness = 1f)
 		{
-			DrawPolygon(new Vector2(x, y), CreateCircle(radius, sides), color, thickness);
+			DrawPolygon(new Vector2(x, y), CreateCircle(radius, sides), color, true, thickness);
 		}
 
 		public void FillCircle(Vector2 center, float radius, int sides, Color color)
@@ -425,9 +435,24 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			return points;
 		}
 
+		private Vector2[] CreateCirclePiece(double radius, float aMin, float aMax, int sides)
+		{
+			var points = new Vector2[sides];
+			var step = (aMax - aMin) / sides;
+			var theta = aMin;
+
+			for (var i = 0; i < sides; i++)
+			{
+				points[i] = new Vector2((float)(radius * Math.Cos(theta)), (float)(radius * Math.Sin(theta)));
+				theta += step;
+			}
+
+			return points;
+		}
+
 		public void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f)
 		{
-			DrawPolygon(rectangle.Center, CreateEllipse(rectangle.Width, rectangle.Height, sides), color, thickness);
+			DrawPolygon(rectangle.Center, CreateEllipse(rectangle.Width, rectangle.Height, sides), color, true, thickness);
 		}
 
 		private Vector2[] CreateEllipse(float width, float height, int sides)

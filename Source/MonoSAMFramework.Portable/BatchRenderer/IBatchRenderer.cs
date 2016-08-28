@@ -47,7 +47,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		// ######## MONOGAME.EXTENDED PRIMITIVE METHODS ########
 
 		void DrawPolygon(Vector2 position, PolygonF polygon, Color color, float thickness = 1f);
-		void DrawPolygon(Vector2 offset, Vector2[] points, Color color, float thickness = 1f);
+		void DrawPolygon(Vector2 offset, Vector2[] points, Color color, bool closed, float thickness);
 		void FillRectangle(FRectangle rectangle, Color color);
 		void FillRectangle(Vector2 location, Vector2 size, Color color);
 		void FillRectangle(float x, float y, float width, float height, Color color);
@@ -76,5 +76,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		// ######## MONOSAMFRAMEWORK METHODS ########
 
 		void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f);
+		void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);
 	}
 }

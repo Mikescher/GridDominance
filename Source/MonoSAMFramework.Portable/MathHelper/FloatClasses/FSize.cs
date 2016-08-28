@@ -7,8 +7,6 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 	[DataContract]
 	public struct FSize : IEquatable<FSize>
 	{
-		public const float EPSILON = 1E-10f;
-
 		[DataMember]
 		public readonly float Width;
 
@@ -26,9 +24,9 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 			Height = height;
 		}
 
-		public bool IsEmpty => Math.Abs(Width) < EPSILON && Math.Abs(Height) < EPSILON;
+		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON && Math.Abs(Height) < FloatMath.EPSILON;
 
-		public bool IsQuadratic => Math.Abs(Width - Height) < EPSILON;
+		public bool IsQuadratic => FloatMath.EpsilonEquals(Width, Height);
 
 		public override int GetHashCode()
 		{
@@ -40,7 +38,7 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 
 		public static bool operator ==(FSize a, FSize b)
 		{
-			return Math.Abs(a.Width - b.Width) < EPSILON && Math.Abs(a.Height - b.Height) < EPSILON;
+			return FloatMath.EpsilonEquals(a.Width, b.Width) && FloatMath.EpsilonEquals(a.Height, b.Height);
 		}
 
 		public static bool operator !=(FSize a, FSize b)
@@ -50,7 +48,7 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 
 		public bool Equals(FSize other)
 		{
-			return Math.Abs(Width - other.Width) < EPSILON && Math.Abs(Height - other.Height) < EPSILON;
+			return FloatMath.EpsilonEquals(Width, other.Width) && FloatMath.EpsilonEquals(Height, other.Height);
 		}
 
 		public static implicit operator FPoint(FSize size)

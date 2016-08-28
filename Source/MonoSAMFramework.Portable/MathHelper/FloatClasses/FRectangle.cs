@@ -9,8 +9,6 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 	[DebuggerDisplay("{DebugDisplayString,nq}")]
 	public struct FRectangle : IEquatable<FRectangle>
 	{
-		public const float EPSILON = 1E-10f;
-
 		public static readonly FRectangle Empty = new FRectangle(0, 0, 0, 0);
 
 		[DataMember]
@@ -57,10 +55,10 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 		public static bool operator ==(FRectangle a, FRectangle b)
 		{
 			return
-				(Math.Abs(a.X - b.X) < EPSILON) &&
-				(Math.Abs(a.Y - b.Y) < EPSILON) &&
-				(Math.Abs(a.Width - b.Width) < EPSILON) &&
-				(Math.Abs(a.Height - b.Height) < EPSILON);
+				FloatMath.EpsilonEquals(a.X, b.X) &&
+				FloatMath.EpsilonEquals(a.Y, b.Y) &&
+				FloatMath.EpsilonEquals(a.Width, b.Width) &&
+				FloatMath.EpsilonEquals(a.Height, b.Height);
 		}
 
 		public static bool operator !=(FRectangle a, FRectangle b)
@@ -242,7 +240,7 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 		public float Top    => Y;
 		public float Bottom => Y + Height;
 
-		public bool IsEmpty => Math.Abs(Width) < EPSILON && Math.Abs(Height) < EPSILON && Math.Abs(X) < EPSILON && Math.Abs(Y) < EPSILON;
+		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON && Math.Abs(Height) < FloatMath.EPSILON && Math.Abs(X) < FloatMath.EPSILON && Math.Abs(Y) < FloatMath.EPSILON;
 
 		public FPoint TopLeft            => new FPoint(Left, Top);
 		public FPoint TopRight           => new FPoint(Right, Top);

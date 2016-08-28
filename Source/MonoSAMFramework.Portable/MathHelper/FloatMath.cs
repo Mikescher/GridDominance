@@ -9,6 +9,8 @@ namespace MonoSAMFramework.Portable.MathHelper
 		public const float TAU = PI * 2;
 		public const float E = 2.7182818f;
 
+		public const float EPSILON = 1E-10f;
+
 		public const float RadiansToDegrees = 180f / PI;
 		public const float RadDeg = RadiansToDegrees;
 
@@ -363,6 +365,11 @@ namespace MonoSAMFramework.Portable.MathHelper
 		public static int GetRandomSign()
 		{
 			return (Random.Next()%2)*2 - 1; // returns -1 or +1
+		}
+
+		public static bool EpsilonEquals(float a, float b)
+		{
+			return Math.Abs(a - b) < EPSILON;
 		}
 
 		public static bool FloatEquals(float a, float b)

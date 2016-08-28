@@ -9,8 +9,6 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 	[DebuggerDisplay("{DebugDisplayString,nq}")]
 	public struct FPoint : IEquatable<FPoint>
 	{
-		public const float EPSILON = 1E-10f;
-
 		public static readonly FPoint Zero = new FPoint(0, 0);
 
 		[DataMember]
@@ -73,7 +71,7 @@ namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
 		
 		public bool Equals(FPoint other)
 		{
-			return Math.Abs(X - other.X) < EPSILON && Math.Abs(Y - other.Y) < EPSILON;
+			return FloatMath.EpsilonEquals(X, other.X) && FloatMath.EpsilonEquals(Y, other.Y);
 		}
 		
 		public override int GetHashCode()
