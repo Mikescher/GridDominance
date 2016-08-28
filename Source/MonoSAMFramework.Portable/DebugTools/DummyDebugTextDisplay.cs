@@ -9,6 +9,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		private readonly DebugTextDisplayLine dummy = new DebugTextDisplayLine(() => string.Empty);
 
 		public bool IsEnabled { get { return false; } set { } }
+		public float Scale { get { return 1f; } set { } }
 
 		public DummyDebugTextDisplay() { /* DUMMY */ }
 		

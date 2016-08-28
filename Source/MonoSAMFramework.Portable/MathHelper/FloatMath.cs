@@ -14,14 +14,20 @@ namespace MonoSAMFramework.Portable.MathHelper
 
 		public const float DegreesToRadians = PI / 180;
 		public const float DegRad = DegreesToRadians;
-
-		public const float RAD_000 = 0   * DegRad;
-		public const float RAD_090 = 90  * DegRad;
-		public const float RAD_120 = 120 * DegRad;
-		public const float RAD_180 = 180 * DegRad;
-		public const float RAD_240 = 240 * DegRad;
-		public const float RAD_270 = 270 * DegRad;
-		public const float RAD_360 = 360 * DegRad;
+		
+		public const float RAD_NEG_360 = -360 * DegRad;
+		public const float RAD_NEG_270 = -270 * DegRad;
+		public const float RAD_NEG_180 = -180 * DegRad;
+		public const float RAD_NEG_090 = -90  * DegRad;
+		public const float RAD_NEG_045 = -45  * DegRad;
+		public const float RAD_000     =  0   * DegRad;
+		public const float RAD_POS_045 = +45  * DegRad;
+		public const float RAD_POS_090 = +90  * DegRad;
+		public const float RAD_POS_120 = +120 * DegRad;
+		public const float RAD_POS_180 = +180 * DegRad;
+		public const float RAD_POS_240 = +240 * DegRad;
+		public const float RAD_POS_270 = +270 * DegRad;
+		public const float RAD_POS_360 = +360 * DegRad;
 
 		public static readonly Random Random = new Random();
 
@@ -361,8 +367,23 @@ namespace MonoSAMFramework.Portable.MathHelper
 
 		public static bool FloatEquals(float a, float b)
 		{
-			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			// ReSharper disable CompareOfFloatsByEqualityOperator
 			return (a == b);
+			// ReSharper restore CompareOfFloatsByEqualityOperator
+		}
+
+		public static bool FloatEquals(float a, float b, float c)
+		{
+			// ReSharper disable CompareOfFloatsByEqualityOperator
+			return (a == b) && (b == c);
+			// ReSharper restore CompareOfFloatsByEqualityOperator
+		}
+
+		public static bool FloatEquals(float a, float b, float c, float d)
+		{
+			// ReSharper disable CompareOfFloatsByEqualityOperator
+			return (a == b) && (b == c) && (c == d);
+			// ReSharper restore CompareOfFloatsByEqualityOperator
 		}
 
 		public static bool FloatInequals(float a, float b)
@@ -384,6 +405,27 @@ namespace MonoSAMFramework.Portable.MathHelper
 		{
 			t *= 0.175f * bounces + 0.0875f;
 			return Pow(2, -10 * t) * Sin((t - power / 4) * (2 * PI) / power) + 1;
+		}
+
+		/// <summary>
+		/// 
+		///         ^
+		///         |
+		///         |
+		///         |
+		///    /|  /|  /|  /|  /|  /|  /
+		///   / | / | / | / | / | / | /
+		///  /  |/  |/  |/  |/  |/  |/
+		/// --------+----------------------->
+		/// 
+		/// </summary>
+		public static float PositiveModulo(float value, float mod)
+		{
+			value %= mod;
+			if (value < 0)
+				return mod + value;
+			else
+				return value;
 		}
 	}
 }

@@ -108,7 +108,9 @@
     <Compile Include="Screens\Entities\EntityManager.cs" />
     <Compile Include="Screens\Entities\GameEntity.cs" />
     <Compile Include="Screens\Background\GameBackground.cs" />
+    <Compile Include="Screens\Entities\Particles\Particle.cs" />
     <Compile Include="Screens\Entities\Particles\ParticleEmitter.cs" />
+    <Compile Include="Screens\Entities\Particles\ParticleEmitterConfig.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventArgs.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonBackground.cs" />

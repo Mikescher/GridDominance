@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System.Linq;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
@@ -13,6 +14,8 @@ using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoGame.Extended.InputListeners;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen
@@ -37,6 +40,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		{
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
+			DebugDisp.Scale = 0.75f;
 #endif
 		}
 
@@ -64,6 +68,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} | total = {FPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} | total = {UPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00}");
+				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<ParticleEmitter>().Sum(p => p.ParticleCount),3}");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastRenderSpriteCount:0000}; OGL Text = {LastRenderTextCount:0000}");
 				DebugDisp.AddLine(() => $"Map Offset = {MapOffset}");
@@ -86,6 +91,74 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 8.5f, GDGameScreen.TILE_WIDTH * -4.5f)));
 			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
 			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 12.5f)));
+
+			Entities.AddEntity(new ParticleEmitter(this, 
+				new Vector2(GDGameScreen.TILE_WIDTH * 1.5f, GDGameScreen.TILE_WIDTH * 8.5f), 
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 40f,
+					ParticleLifetime = 1f,
+					ParticleVelocity = 45f,
+					ParticleSize = 48,
+					Color = Color.CornflowerBlue,
+				}.Build()));
+
+			Entities.AddEntity(new ParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 5.5f, GDGameScreen.TILE_WIDTH * 8.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 80f,
+					ParticleLifetime = 0.5f,
+					ParticleVelocity = 45f,
+					ParticleSize = 16,
+					Color = Color.Black,
+				}.Build()));
+
+			Entities.AddEntity(new ParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 8.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[12],
+					SpawnRateMin = 45f,
+					SpawnRateMax = 60f,
+					ParticleLifetimeMin = 1.8f,
+					ParticleLifetimeMax = 3.2f,
+					ParticleVelocityMin = 45f,
+					ParticleVelocityMax = 70f,
+					ParticleSizeInitialMin = 8,
+					ParticleSizeInitialMax = 24,
+					ParticleSizeFinalMin = 32,
+					ParticleSizeFinalMax = 64,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0f,
+					ParticleSpawnAngleMin = FloatMath.ToRadians(-35),
+					ParticleSpawnAngleMax = FloatMath.ToRadians(+35),
+					Color = Color.Red,
+				}.Build()));
+
+			Entities.AddEntity(new ParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 8.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[12],
+					SpawnRateMin = 45f,
+					SpawnRateMax = 60f,
+					ParticleLifetimeMin = 1.8f,
+					ParticleLifetimeMax = 3.2f,
+					ParticleVelocityMin = 45f,
+					ParticleVelocityMax = 70f,
+					ParticleSizeInitialMin = 8,
+					ParticleSizeInitialMax = 24,
+					ParticleSizeFinalMin = 32,
+					ParticleSizeFinalMax = 64,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0f,
+					ParticleSpawnAngleMin = FloatMath.ToRadians(145),
+					ParticleSpawnAngleMax = FloatMath.ToRadians(215),
+					Color = Color.Red,
+				}.Build()));
 
 			AddAgent(new WorldMapDragAgent(this));
 		}

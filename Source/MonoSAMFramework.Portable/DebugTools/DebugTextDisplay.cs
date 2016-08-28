@@ -32,6 +32,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		}
 
 		public bool IsEnabled { get; set; }
+		public float Scale { get; set; } = 1f;
 
 		public DebugTextDisplayLine AddLine(DebugTextDisplayLine l)
 		{
@@ -118,11 +119,23 @@ namespace MonoSAMFramework.Portable.DebugTools
 			{
 				var text = line.DisplayText();
 
-				var pos = new Vector2(TEXT_OFFSET, line.PositionY);
-				var size = font.MeasureString(text);
+				var pos = new Vector2(TEXT_OFFSET * Scale, line.PositionY * Scale);
+				var size = font.MeasureString(text) * Scale;
 
-				debugBatch.FillRectangle(new RectangleF(pos, size), BlendColor(line.Background, line.Decay * backgroundAlpha));
-				debugBatch.DrawString(font, text, new Vector2(5, pos.Y), BlendColor(line.Color, line.Decay));
+				debugBatch.FillRectangle(
+					new RectangleF(pos.X - TEXT_OFFSET * Scale, pos.Y, size.X + 2 * TEXT_OFFSET * Scale, size.Y), 
+					BlendColor(line.Background, line.Decay * backgroundAlpha));
+
+				debugBatch.DrawString(
+					font, 
+					text, 
+					new Vector2(5, pos.Y), 
+					BlendColor(line.Color, line.Decay), 
+					0, 
+					Vector2.Zero, 
+					Scale, 
+					SpriteEffects.None, 
+					0);
 			}
 
 			debugBatch.End();

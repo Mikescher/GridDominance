@@ -76,9 +76,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 #if DEBUG
 			if (DebugSettings.Get("DebugEntityBoundaries"))
 			{
-				sbatch.DrawRectangle(Position - DrawingBoundingBox*0.5f, DrawingBoundingBox, Color.LightGreen, 1);
+				DrawDebugBorders(sbatch);
 			}
 #endif
+		}
+
+		protected virtual void DrawDebugBorders(IBatchRenderer sbatch)
+		{
+			sbatch.DrawRectangle(Position - DrawingBoundingBox * 0.5f, DrawingBoundingBox, Color.LightGreen, 1);
 		}
 
 		public abstract void OnInitialize();

@@ -12,6 +12,9 @@ namespace MonoSAMFramework.Portable.MathHelper
 
 		public DeltaLimitedFloat(float initialValue, float maxDelta)
 		{
+			ActualValue = initialValue;
+			TargetValue = initialValue;
+
 			deltaSpeed = maxDelta;
 		}
 		

@@ -110,6 +110,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexBulletSplitter;
 
 		public static TextureRegion2D TexPixel;
+		public static TextureRegion2D[] TexParticle;
 
 		public static TextureRegion2D TexHUDButtonBase;
 		public static TextureRegion2D[] TexHUDButtonPause;
@@ -182,6 +183,7 @@ namespace GridDominance.Shared.Resources
 			TexCircleEmpty = AtlasTextures["simple_circle_empty"];
 			TexPixel       = AtlasTextures["simple_pixel"];
 			TexPixel       = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
+			TexParticle    = Enumerable.Range(0, 16).Select(p => AtlasTextures[$"particle_{p:00}"]).ToArray();
 
 			TexHUDButtonBase = AtlasTextures["hud_button_base"];
 			TexHUDButtonPause = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();

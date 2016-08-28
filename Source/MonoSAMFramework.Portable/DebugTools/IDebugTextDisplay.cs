@@ -7,6 +7,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 	public interface IDebugTextDisplay
 	{
 		bool IsEnabled { get; set; }
+		float Scale { get; set; }
 
 		DebugTextDisplayLine AddLine(DebugTextDisplayLine l);
 		DebugTextDisplayLine AddLine(Func<string> text);
