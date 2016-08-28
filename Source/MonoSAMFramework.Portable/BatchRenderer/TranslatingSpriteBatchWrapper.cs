@@ -391,52 +391,21 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		
 		public void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1f)
 		{
-			DrawPolygon(center, CreateCircle(radius, sides), color, true, thickness);
+			DrawPolygon(center, SpriteBatchCommon.CreateCircle(radius, sides), color, true, thickness);
 		}
 		
 		public void DrawCircle(float x, float y, float radius, int sides, Color color, float thickness = 1f)
 		{
-			DrawPolygon(new Vector2(x, y), CreateCircle(radius, sides), color, true, thickness);
+			DrawPolygon(new Vector2(x, y), SpriteBatchCommon.CreateCircle(radius, sides), color, true, thickness);
 		}
 
 		public void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f)
 		{
-			Vector2[] poly = CreateCirclePiece(radius, angleMin, angleMax, sides);
+			Vector2[] poly = SpriteBatchCommon.CreateCirclePiece(radius, angleMin, angleMax, sides);
 
 			DrawPolygon(center, poly, color, false, thickness);
 			DrawLine(center, center + poly.First(), color, thickness);
 			DrawLine(center, center + poly.Last(), color, thickness);
-		}
-
-		private Vector2[] CreateCircle(double radius, int sides)
-		{
-			const double max = 2.0 * Math.PI;
-			var points = new Vector2[sides];
-			var step = max / sides;
-			var theta = 0.0;
-
-			for (var i = 0; i < sides; i++)
-			{
-				points[i] = new Vector2((float)(radius * Math.Cos(theta)), (float)(radius * Math.Sin(theta)));
-				theta += step;
-			}
-
-			return points;
-		}
-
-		private Vector2[] CreateCirclePiece(double radius, float aMin, float aMax, int sides)
-		{
-			var points = new Vector2[sides];
-			var step = (aMax - aMin) / sides;
-			var theta = aMin;
-
-			for (var i = 0; i < sides; i++)
-			{
-				points[i] = new Vector2((float)(radius * Math.Cos(theta)), (float)(radius * Math.Sin(theta)));
-				theta += step;
-			}
-
-			return points;
 		}
 
 		public void FillCircle(Vector2 center, float radius, int sides, Color color)
@@ -464,23 +433,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		public void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f)
 		{
-			DrawPolygon(rectangle.Center, CreateEllipse(rectangle.Width, rectangle.Height, sides), color, true, thickness);
-		}
-
-		private Vector2[] CreateEllipse(float width, float height, int sides)
-		{
-			const double max = 2.0 * Math.PI;
-			var points = new Vector2[sides];
-			var step = max / sides;
-			var theta = 0.0;
-
-			for (var i = 0; i < sides; i++)
-			{
-				points[i] = new Vector2((float)(width * Math.Cos(theta) / 2), (float)(height * Math.Sin(theta) / 2));
-				theta += step;
-			}
-
-			return points;
+			DrawPolygon(rectangle.Center, SpriteBatchCommon.CreateEllipse(rectangle.Width, rectangle.Height, sides), color, true, thickness);
 		}
 
 		public void Draw(TextureRegion2D textureRegion, Vector2 position, Color color)
