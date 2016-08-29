@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
 <svg width="1772pt" height="474pt" transform="scale(3 3)" version="1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFF">
 
 <g id="alphabet_A" transform="translate(10 10)">
@@ -7,29 +8,130 @@
 	<path d="M 0 40   L 15 0   L 30 40   M 5.625 25   L 24.375 25 " stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
 </g>
 
-<g id="alphabet_B" transform="translate(50 10)">
+<g id="alphabet_B" transform="translate(60 10)">
 	<rect width="27" height="40" style="fill:#AAA;" />
 	<path d="M 0 0   L 0 40   M 0 0   L 15 0   A 9 9 0 0 1 15 18   L 0 18   M 16 18   A 11 11 0 0 1 16 40   L 0 40 " stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
 </g>
 
-<g id="alphabet_C" transform="translate(90 10)">
+<g id="alphabet_C" transform="translate(110 10)">
 	<rect width="28" height="40" style="fill:#AAA;" />
 	<path d="M 28 8  A 15 20 0 1 0 28 32" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
 </g>
 
-<g id="alphabet_D" transform="translate(130 10)">
+<g id="alphabet_D" transform="translate(160 10)">
 	<rect width="29" height="40" style="fill:#AAA;" />
 	<path d="M 0 0  L 0 40   M 0 0   L 15 0   A 14 20 0 0 1 14 40  L 0 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
 </g>
 
-<g id="alphabet_E" transform="translate(170 10)">
+<g id="alphabet_E" transform="translate(210 10)">
 	<rect width="22" height="40" style="fill:#AAA;" />
 	<path d="M 0 0  L 0 40   M 0 0   L 22 0   M 0 20   L 18 20   M 0 40   L 22 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
 </g>
 
-<g id="alphabet_E" transform="translate(200 10)">
+<g id="alphabet_F" transform="translate(260 10)">
 	<rect width="22" height="40" style="fill:#AAA;" />
 	<path d="M 0 0  L 0 40   M 0 0   L 22 0   M 0 20   L 18 20" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
 </g>
+
+<g id="alphabet_G" transform="translate(310 10)">
+	<rect width="30" height="40" style="fill:#AAA;" />
+	<path d="M 30 8  A 16 20 0 1 0 30 32   L 18 32" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_H" transform="translate(360 10)">
+	<rect width="24" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 0 40   M 24 0   L 24 40   M 0 20   L 24 20" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_I" transform="translate(410 10)">
+	<rect width="8" height="40" style="fill:#AAA;" />
+	<path d="M 4 0   L 4 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_J" transform="translate(10 60)">
+	<rect width="22" height="40" style="fill:#AAA;" />
+	<path d="M 22 0   L 22 29   A 11 11 0 0 1 0 29" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_K" transform="translate(60 60)">
+	<rect width="22" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 0 40   M 0 17   L 20 0   M 0 17   L 22 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_L" transform="translate(110 60)">
+	<rect width="22" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 0 40   L 22 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_M" transform="translate(160 60)">
+	<rect width="32" height="40" style="fill:#AAA;" />
+	<path d="M0 40   L 0 0   L 16 40   L 32 0   L 32 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_N" transform="translate(210 60)">
+	<rect width="26" height="40" style="fill:#AAA;" />
+	<path d="M0 40   L 0 0   L 26 40   L 26 0" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_O" transform="translate(260 60)">
+	<rect width="30" height="40" style="fill:#AAA;" />
+	<path d="M 14.999 0   A 15 20 0 1 0 15.001 0" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_P" transform="translate(310 60)">
+	<rect width="24" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 0 40   M 0 0   L 15 0   A 9 9 0 0 1 15 18   L 0 18" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_Q" transform="translate(360 60)">
+	<rect width="30" height="40" style="fill:#AAA;" />
+	<path d="M 14.999 0   A 15 20 0 1 0 15.001 0   M 20 30   L 30 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_R" transform="translate(410 60)">
+	<rect width="24" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 0 40   M 0 0   L 15 0   A 9 9 0 0 1 15 18   L 0 18   M 15 18   L 24 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_S" transform="translate(10 110)">
+	<rect width="24" height="40" style="fill:#AAA;" />
+	<path d="M 24 10   A 12 10 0 0 0 12 0   A 12 10 0 0 0 12 20   A 12 10 0 0 1 12 40   A 12 10 0 0 1 0 30" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_T" transform="translate(60 110)">
+	<rect width="24" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 24 0   M 12 0   L 12 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_U" transform="translate(110 110)">
+	<rect width="30" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 0 25   A 15 15 0 0 0 30 25   L 30 0" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_V" transform="translate(160 110)">
+	<rect width="24" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 12 40   L 24 0" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_W" transform="translate(210 110)">
+	<rect width="48" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 12 40   L 24 0   L 36 40   L 48 0" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_X" transform="translate(310 110)">
+	<rect width="31" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 31 40   M 0 40   L 31 0" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_Y" transform="translate(360 110)">
+	<rect width="26" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 13 14   L 26 0   M 13 14   L 13 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
+<g id="alphabet_Z" transform="translate(410 110)">
+	<rect width="31" height="40" style="fill:#AAA;" />
+	<path d="M 0 0   L 31 0   L 0 40   L 31 40" stroke="black" stroke-linejoin="bevel" stroke-width="3" fill="none" />
+</g>
+
 
 </svg>
