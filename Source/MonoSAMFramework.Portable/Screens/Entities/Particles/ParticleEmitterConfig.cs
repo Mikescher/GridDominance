@@ -2,7 +2,7 @@
 using MonoGame.Extended;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.Screens.Agents;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents

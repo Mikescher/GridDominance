@@ -1,4 +1,4 @@
-﻿using MonoSAMFramework.Portable.MathHelper.Cryptography;
+﻿using MonoSAMFramework.Portable.GameMath.Cryptography;
 using System.Text;
 
 namespace MonoSAMFramework.Portable.Persistance.DataFileFormat

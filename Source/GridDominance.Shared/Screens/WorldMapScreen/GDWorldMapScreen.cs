@@ -15,9 +15,9 @@ using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoGame.Extended.InputListeners;
 using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.MathHelper;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
-using MonoSAMFramework.Portable.MathHelper.VectorPath;
+using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 

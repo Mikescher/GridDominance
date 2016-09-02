@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace MonoSAMFramework.Portable.Extensions
 {

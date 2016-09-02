@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.MathHelper;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
-using MonoSAMFramework.Portable.MathHelper.VectorPath;
+using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.VectorPath;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {

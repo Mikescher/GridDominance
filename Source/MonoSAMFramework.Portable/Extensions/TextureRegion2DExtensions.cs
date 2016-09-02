@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended.TextureAtlases;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Extensions
 {

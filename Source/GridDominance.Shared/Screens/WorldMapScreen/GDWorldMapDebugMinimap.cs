@@ -1,6 +1,6 @@
 ﻿using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen

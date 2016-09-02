@@ -1,8 +1,8 @@
-﻿using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+﻿using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MonoSAMFramework.Portable.MathHelper.VectorPath
+namespace MonoSAMFramework.Portable.GameMath.VectorPath
 {
 	public class VectorPath
 	{

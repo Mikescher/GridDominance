@@ -1,7 +1,7 @@
 ﻿using GridDominance.Shared.Screens.ScreenGame.HUDOperations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 

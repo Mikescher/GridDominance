@@ -6,7 +6,7 @@ using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.Screens.Entities;
 

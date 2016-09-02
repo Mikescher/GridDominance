@@ -1,5 +1,5 @@
 ﻿using System;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives

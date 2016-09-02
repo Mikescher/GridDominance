@@ -1,7 +1,7 @@
 ﻿using GridDominance.Shared.Screens.ScreenGame.Entities;
 using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 
 namespace GridDominance.Shared.Screens.ScreenGame.FractionController

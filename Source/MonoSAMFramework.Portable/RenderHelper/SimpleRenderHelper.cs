@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.MathHelper;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {

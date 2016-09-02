@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
+namespace MonoSAMFramework.Portable.GameMath.FloatClasses
 {
 	[DataContract]
 	public struct FSize : IEquatable<FSize>

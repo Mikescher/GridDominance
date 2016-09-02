@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
-using MonoSAMFramework.Portable.MathHelper.VectorPath;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.VectorPath;
 using System;
 using System.Text;
 

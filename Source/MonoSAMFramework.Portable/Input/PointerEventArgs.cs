@@ -1,4 +1,4 @@
-﻿using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+﻿using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using System;
 
 namespace MonoSAMFramework.Portable.Input

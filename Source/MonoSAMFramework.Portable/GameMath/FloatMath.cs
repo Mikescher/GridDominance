@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace MonoSAMFramework.Portable.MathHelper
+namespace MonoSAMFramework.Portable.GameMath
 {
 	public static class FloatMath
 	{

@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.MathHelper;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {

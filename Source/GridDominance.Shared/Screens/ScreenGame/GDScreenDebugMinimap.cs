@@ -1,5 +1,5 @@
 ﻿using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {

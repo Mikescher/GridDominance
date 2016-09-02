@@ -1,6 +1,6 @@
 ﻿using GridDominance.Shared.Screens.ScreenGame.HUD;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.MathHelper;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.HUD.Operations;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUDOperations

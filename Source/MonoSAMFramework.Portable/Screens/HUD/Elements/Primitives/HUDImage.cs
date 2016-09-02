@@ -3,7 +3,7 @@ using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
 

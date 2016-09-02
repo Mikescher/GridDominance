@@ -1,4 +1,4 @@
-﻿namespace MonoSAMFramework.Portable.MathHelper
+﻿namespace MonoSAMFramework.Portable.GameMath
 {
 	public enum Direction8
 	{

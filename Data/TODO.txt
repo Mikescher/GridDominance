@@ -19,10 +19,24 @@ WORLD MAP
  - whole map not forcible rectangulare (but 90° edges)
  - background like in level, cleared levels convert background (diff = different color or higher intensity or higher reach)
  - only draw what is visible
+ - when level node is clicked center it on scren and move bar on top and bottom into screen where you can see (levelname | difficulty | what you have solved | percentage solved worldwide | etc)
+ -  -> normal draging removes bars again (slide in slide out)
+ -  -> clicking on otehr node in range opens that one and centers taht one and show that ones info
+ - For first few levels (all ?) only unlock diff 3-4 when one is done
+ - Add floating button to find next free level - auto drag following tree to next unsolved level node (aka fastest path)
+ - If multiple leafs each click moves view and focus to the next
+ - Worldmap starts with logo view - but animation is non-blocking you can always start dragging
+    -> animation is letter drawing with particles
+    -> and after animation if not dragged autom move to next free level
+
 
 => needs topic: particles
 => needs topic: screen with offset
 => needs topic: drag events
+
+
+
+
 
 
 TODO NEXT

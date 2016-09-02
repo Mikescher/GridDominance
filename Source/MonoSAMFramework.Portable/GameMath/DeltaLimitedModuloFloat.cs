@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 
-namespace MonoSAMFramework.Portable.MathHelper
+namespace MonoSAMFramework.Portable.GameMath
 {
 	public class DeltaLimitedModuloFloat
 	{

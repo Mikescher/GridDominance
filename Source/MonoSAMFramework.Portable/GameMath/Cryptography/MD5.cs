@@ -11,7 +11,7 @@ using System.Text;
 // **************************************************************
 
 //https://github.com/xamarin/xamarin-forms-samples/blob/master/EmployeeDirectory/EmployeeDirectory.WinPhone/Dependencies/MD5.cs
-namespace MonoSAMFramework.Portable.MathHelper.Cryptography
+namespace MonoSAMFramework.Portable.GameMath.Cryptography
 {
 
 	// Simple struct for the (a,b,c,d) which is used to compute the mesage digest.  

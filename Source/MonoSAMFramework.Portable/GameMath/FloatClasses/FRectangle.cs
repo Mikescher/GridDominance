@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 
-namespace MonoSAMFramework.Portable.MathHelper.FloatClasses
+namespace MonoSAMFramework.Portable.GameMath.FloatClasses
 {
 	[DataContract]
 	[DebuggerDisplay("{DebugDisplayString,nq}")]

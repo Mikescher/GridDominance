@@ -1,6 +1,6 @@
-﻿using MonoSAMFramework.Portable.MathHelper.FloatClasses;
+﻿using MonoSAMFramework.Portable.GameMath.FloatClasses;
 
-namespace MonoSAMFramework.Portable.MathHelper.VectorPath
+namespace MonoSAMFramework.Portable.GameMath.VectorPath
 {
 	public abstract class VectorPathSegment
 	{
