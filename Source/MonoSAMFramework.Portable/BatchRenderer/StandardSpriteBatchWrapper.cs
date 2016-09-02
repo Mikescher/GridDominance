@@ -394,10 +394,25 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		public void DrawPath(Vector2 pos, VectorPath path, int segments, Color color, float thickness = 1)
 		{
+			foreach (var segment in path.Segments)
+			{
+				if (segment is LineSegment)
+				{
+					DrawPathSegment(pos, segment, 1, color, thickness);
+				}
+				else
+				{
+					DrawPathSegment(pos, segment, segments, color, thickness);
+				}
+			}
+		}
+
+		public void DrawPathSegment(Vector2 pos, VectorPathSegment path, int segments, Color color, float thickness = 1)
+		{
 			var last = pos + path.Get(0);
 			for (int i = 1; i <= segments; i++)
 			{
-				var next = pos + path.Get((path.Length * i) / (segments+1));
+				var next = pos + path.Get((path.Length * i) / segments);
 
 				DrawPolygonEdge(StaticTextures.SinglePixel, last, next, color, thickness);
 

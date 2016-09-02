@@ -2,9 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
@@ -92,6 +93,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			particlePool[ParticleCount].MaxLifetime = _config.GetParticleLifetime();
 
 			SetParticleSpawnPosition(ref particlePool[ParticleCount].Position);
+			particlePool[ParticleCount].StartPosition.X = particlePool[ParticleCount].Position.X;
+			particlePool[ParticleCount].StartPosition.Y = particlePool[ParticleCount].Position.Y;
 
 			_config.SetParticleVelocity(ref particlePool[ParticleCount].Velocity);
 
@@ -128,6 +131,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 				var size = FloatMath.Lerp(p.SizeInitial, p.SizeFinal, progress);
 				var alpha = FloatMath.Lerp(_config.ParticleAlphaInitial, _config.ParticleAlphaFinal, progress);
+				var color = _config.ColorInitial;
+				if (_config.ColorIsChanging)
+					color = ColorMath.Blend(_config.ColorInitial, _config.ColorFinal, progress);
 
 				if (size > 0)
 				{
@@ -135,7 +141,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 						_config.Texture.Texture,
 						p.Position,
 						_config.TextureBounds,
-						_config.Color * alpha,
+						color * alpha,
 						0f,
 						_config.TextureCenter,
 						size / _config.TextureSize,
@@ -149,18 +155,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		{
 			base.DrawDebugBorders(sbatch);
 
-			if (_config.ParticleSpawnAngleIsTotal)
-				sbatch.DrawCircle(Position, DrawingBoundingBox.Width / 2, 32, Color.LightGreen, 1);
-			else if (_config.ParticleSpawnAngleIsRandom)
-				sbatch.DrawCirclePiece(Position, DrawingBoundingBox.Width/2, _config.ParticleSpawnAngleMin, _config.ParticleSpawnAngleMax, 32, Color.LightGreen, 1);
-
 			sbatch.DrawRectangle(Position - new FSize(8,8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
 
 			for (int i = 0; i < ParticleCount; i++)
 			{
 				var p = particlePool[i];
 
-				sbatch.DrawLine(Position, p.Position, Color.GreenYellow);
+				sbatch.DrawLine(p.StartPosition, p.Position, Color.GreenYellow * 0.5f);
 			}
 		}
 	}

@@ -40,7 +40,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			float maxDistance = Config.ParticleLifetimeMax * Config.ParticleVelocityMax;
 			_boundingbox = vectorPath.Boundings.AsInflated(maxDistance + Config.ParticleSizeFinalMax, maxDistance + Config.ParticleSizeFinalMax).Size;
 		}
-
+		
 		protected override void DrawDebugBorders(IBatchRenderer sbatch)
 		{
 			base.DrawDebugBorders(sbatch);
@@ -48,6 +48,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			sbatch.DrawRectangle(Position - new FSize(8, 8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
 
 			sbatch.DrawPath(Position - vectorPathCenter, vectorPath, 48, Color.LightGreen, 1);
+			
 		}
 	}
 }

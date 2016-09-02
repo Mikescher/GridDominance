@@ -108,8 +108,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				}.Build()));
 
 			Entities.AddEntity(new PathParticleEmitter(this,
-				new Vector2(GDGameScreen.TILE_WIDTH * 5.5f, GDGameScreen.TILE_WIDTH * 8.5f),
-				new VectorPath(new List<VectorPathSegment> { new CirclePieceSegment(FPoint.Zero, 64f) }),
+				new Vector2(GDGameScreen.TILE_WIDTH * 5.5f, GDGameScreen.TILE_WIDTH * 4.0f),
+				new VectorPath(new List<VectorPathSegment> { new EllipsePieceSegment(FPoint.Zero, 128f, 64f, FloatMath.RAD_NEG_225, FloatMath.RAD_POS_045) }),
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
 					Texture = Textures.TexParticle[0],
@@ -117,6 +117,42 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					ParticleLifetime = 0.5f,
 					ParticleVelocity = 15f,
 					ParticleSize = 16,
+					Color = Color.Black,
+				}.Build()));
+
+			Entities.AddEntity(new PathParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 5.5f, GDGameScreen.TILE_WIDTH * 5.5f),
+				PathPresets.PATH_LETTER_A.AsScaled(150f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 500,
+					ParticleLifetimeMin = 0.8f,
+					ParticleLifetimeMax = 1.2f,
+					ParticleVelocityMax = 15f,
+					ParticleVelocityMin = 7f,
+					ParticleSizeInitial = 16,
+					ParticleSizeFinal = 12,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0.25f,
+					Color = Color.Black,
+				}.Build()));
+
+			Entities.AddEntity(new PathParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 13.5f, GDGameScreen.TILE_WIDTH * 5.5f),
+				PathPresets.PATH_LETTER_B.AsScaled(150f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 500,
+					ParticleLifetimeMin = 0.8f,
+					ParticleLifetimeMax = 1.2f,
+					ParticleVelocityMax = 15f,
+					ParticleVelocityMin = 7f,
+					ParticleSizeInitial = 16,
+					ParticleSizeFinal = 12,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0.25f,
 					Color = Color.Black,
 				}.Build()));
 
@@ -129,7 +165,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					ParticleLifetime = 0.5f,
 					ParticleVelocity = 45f,
 					ParticleSize = 16,
-					Color = Color.Black,
+					ColorInitial = Color.Yellow,
+					ColorFinal = Color.Red,
 				}.Build()));
 
 			Entities.AddEntity(new PointParticleEmitter(this,

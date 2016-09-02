@@ -31,5 +31,10 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 			return startPoint + direction * len;
 		}
+
+		public override VectorPathSegment AsScaled(float scale)
+		{
+			return new LineSegment(new FPoint(startPoint.X * scale, startPoint.Y * scale), new FPoint(endPoint.X * scale, endPoint.Y * scale));
+		}
 	}
 }

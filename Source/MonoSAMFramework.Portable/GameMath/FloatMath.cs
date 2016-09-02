@@ -19,7 +19,10 @@ namespace MonoSAMFramework.Portable.GameMath
 		
 		public const float RAD_NEG_360 = -360 * DegRad;
 		public const float RAD_NEG_270 = -270 * DegRad;
+		public const float RAD_NEG_240 = -240 * DegRad;
+		public const float RAD_NEG_225 = -225 * DegRad;
 		public const float RAD_NEG_180 = -180 * DegRad;
+		public const float RAD_NEG_120 = -120 * DegRad;
 		public const float RAD_NEG_090 = -90  * DegRad;
 		public const float RAD_NEG_045 = -45  * DegRad;
 		public const float RAD_000     =  0   * DegRad;
@@ -27,6 +30,7 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float RAD_POS_090 = +90  * DegRad;
 		public const float RAD_POS_120 = +120 * DegRad;
 		public const float RAD_POS_180 = +180 * DegRad;
+		public const float RAD_POS_225 = +225 * DegRad;
 		public const float RAD_POS_240 = +240 * DegRad;
 		public const float RAD_POS_270 = +270 * DegRad;
 		public const float RAD_POS_360 = +360 * DegRad;

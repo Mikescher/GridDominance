@@ -26,17 +26,22 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			angleStart = aStart;
 			angleEnd = aEnd;
 
-			Length = (FloatMath.PI * radius * radius) * (angleEnd - angleStart)/FloatMath.TAU;
-			directionZero = new Vector2(0, radius);
+			Length = (2 * FloatMath.PI * radius) * (angleEnd - angleStart) / FloatMath.TAU;
+			directionZero = new Vector2(radius, 0);
 
-			Boundings = new FRectangle(center.X - radius, center.Y - radius, 2*radius, 2*radius); // TODO This is wrong - use correct calculations: http://mathoverflow.net/questions/93659
+			Boundings = new FRectangle(center.X - radius, center.Y - radius, 2 * radius, 2 * radius); // TODO This is wrong - use correct calculations: http://mathoverflow.net/questions/93659
 		}
 
 		public override FPoint Get(float len)
 		{
 			len = FloatMath.Clamp(len, 0, Length);
 
-			return directionZero.Rotate(angleStart + (angleEnd - angleStart) * (len / Length)).ToFPoint();
+			return (directionZero.Rotate(angleStart + (angleEnd - angleStart) * (len / Length)) + center).ToFPoint();
+		}
+
+		public override VectorPathSegment AsScaled(float scale)
+		{
+			return new CirclePieceSegment(new FPoint(center.X * scale, center.Y * scale), radius * scale, angleStart, angleEnd);
 		}
 	}
 }

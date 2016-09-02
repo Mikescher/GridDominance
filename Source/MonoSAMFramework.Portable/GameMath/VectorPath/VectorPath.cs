@@ -23,7 +23,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			float lef = segments.Min(p => p.Boundings.Left);
 			float rig = segments.Max(p => p.Boundings.Right);
 
-			Boundings = new FRectangle(top, lef, rig-lef, bot-top);
+			Boundings = new FRectangle(lef, top, rig-lef, bot-top);
 		}
 
 		public FPoint Get(float len)
@@ -45,6 +45,11 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			var last = segments.Last();
 
 			return last.Get(last.Length);
+		}
+
+		public VectorPath AsScaled(float scale)
+		{
+			return new VectorPath(segments.Select(p => p.AsScaled(scale)).ToList());
 		}
 	}
 }

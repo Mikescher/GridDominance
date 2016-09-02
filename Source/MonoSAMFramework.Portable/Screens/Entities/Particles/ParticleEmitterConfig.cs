@@ -74,7 +74,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				set { if (value != null) { ParticleSizeInitialMin = value.Value; ParticleSizeInitialMax = value.Value; ParticleSizeFinalMin = value.Value; ParticleSizeFinalMax = value.Value; } }
 			}
 
-			public Color Color = Color.White;
+			public Color ColorInitial = Microsoft.Xna.Framework.Color.White;
+			public Color ColorFinal = Microsoft.Xna.Framework.Color.White;
+			public Color? Color
+			{
+				get { return (ColorInitial == ColorFinal) ? ColorInitial : (Color?)null; }
+				set { if (value != null) { ColorInitial = value.Value; ColorFinal = value.Value; } }
+			}
 
 			public ParticleEmitterConfig Build() => new ParticleEmitterConfig(this);
 		}
@@ -120,7 +126,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		public readonly float ParticleSizeFinalMax;
 		public readonly bool ParticleSizeFinalIsRandom;
 
-		public Color Color;
+		public readonly Color ColorInitial;
+		public readonly Color ColorFinal;
+		public readonly bool ColorIsChanging;
 
 		internal ParticleEmitterConfig(ParticleEmitterConfigBuilder b)
 		{
@@ -161,7 +169,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			ParticleSizeFinalMax = b.ParticleSizeFinalMax;
 			ParticleSizeFinalIsRandom = FloatMath.FloatInequals(ParticleSizeFinalMin, ParticleSizeFinalMax);
 
-			Color = b.Color;
+			ColorInitial = b.ColorInitial;
+			ColorFinal = b.ColorFinal;
+			ColorIsChanging = (ColorInitial != ColorFinal);
 
 			Active = (Texture != null) && (SpawnRateMin > 0) && (ParticleLifetimeMin > 0);
 		}

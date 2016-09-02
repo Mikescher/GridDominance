@@ -43,8 +43,11 @@
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
     <Compile Include="GameMath\VectorPath\CirclePieceSegment.cs" />
+    <Compile Include="GameMath\VectorPath\EllipsePieceSegment.cs" />
     <Compile Include="GameMath\VectorPath\LineSegment.cs" />
+    <Compile Include="GameMath\VectorPath\PathPresets.cs" />
     <Compile Include="GameMath\VectorPath\VectorPath.cs" />
+    <Compile Include="GameMath\VectorPath\VectorPathBuilder.cs" />
     <Compile Include="GameMath\VectorPath\VectorPathSegment.cs" />
     <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />
     <Compile Include="Persistance\DataFile\BaseDataFile.cs" />
