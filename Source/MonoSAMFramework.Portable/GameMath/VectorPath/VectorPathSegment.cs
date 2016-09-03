@@ -10,5 +10,17 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 		public abstract FPoint Get(float len);
 		public abstract VectorPathSegment AsScaled(float scale);
+
+
+		public FPoint GetStart()
+		{
+			return Get(0);
+		}
+
+
+		public FPoint GetEnd()
+		{
+			return Get(Length);
+		}
 	}
 }

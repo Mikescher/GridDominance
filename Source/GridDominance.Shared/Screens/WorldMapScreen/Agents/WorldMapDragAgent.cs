@@ -21,7 +21,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private const float FRICTION = 10;
 
-		public static readonly FRectangle BOUNDING = new FRectangle(-8 * GDGameScreen.TILE_WIDTH, -8 * GDGameScreen.TILE_WIDTH, 32 * GDGameScreen.TILE_WIDTH, 26 * GDGameScreen.TILE_WIDTH);
+		public static readonly FRectangle BOUNDING = new FRectangle(-16 * GDGameScreen.TILE_WIDTH, -8 * GDGameScreen.TILE_WIDTH, 128 * GDGameScreen.TILE_WIDTH, 32 * GDGameScreen.TILE_WIDTH);
 
 		private bool isDragging = false;
 		private Vector2 outOfBoundsForce = Vector2.Zero;

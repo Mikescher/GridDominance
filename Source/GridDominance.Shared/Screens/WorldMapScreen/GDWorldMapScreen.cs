@@ -213,6 +213,28 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					Color = Color.Red,
 				}.Build()));
 
+			for (char chr = 'A'; chr <= 'Z'; chr++)
+			{
+				Entities.AddEntity(new PathParticleEmitter(this,
+					new Vector2(GDGameScreen.TILE_WIDTH * 3.5f * (1 + chr-'A'), GDGameScreen.TILE_WIDTH * 17.5f),
+					PathPresets.LETTERS[chr].AsScaled(150f),
+					new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						Texture = Textures.TexParticle[0],
+						SpawnRate = 500,
+						ParticleLifetimeMin = 0.8f,
+						ParticleLifetimeMax = 1.2f,
+						ParticleVelocityMax = 15f,
+						ParticleVelocityMin = 7f,
+						ParticleSizeInitial = 16,
+						ParticleSizeFinal = 12,
+						ParticleAlphaInitial = 1f,
+						ParticleAlphaFinal = 0.25f,
+						Color = Color.Magenta,
+					}.Build()));
+			}
+
+
 			AddAgent(new WorldMapDragAgent(this));
 		}
 

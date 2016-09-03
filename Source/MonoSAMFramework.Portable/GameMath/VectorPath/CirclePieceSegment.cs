@@ -18,13 +18,27 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 		public override float Length { get; }
 		public override FRectangle Boundings { get; }
 
+		public readonly bool IsClockwise;
+
 		public CirclePieceSegment(FPoint center, float radius, float aStart = 0, float aEnd = FloatMath.TAU)
 		{
 			this.center = center;
 			this.radius = radius;
 
-			angleStart = aStart;
-			angleEnd = aEnd;
+			if (aStart < aEnd)
+			{
+				IsClockwise = true;
+
+				angleStart = aStart;
+				angleEnd = aEnd;
+			}
+			else
+			{
+				IsClockwise = false;
+
+				angleStart = aEnd;
+				angleEnd = aStart;
+			}
 
 			Length = (2 * FloatMath.PI * radius) * (angleEnd - angleStart) / FloatMath.TAU;
 			directionZero = new Vector2(radius, 0);
@@ -36,12 +50,17 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 		{
 			len = FloatMath.Clamp(len, 0, Length);
 
+			if (!IsClockwise) len = Length - len;
+
 			return (directionZero.Rotate(angleStart + (angleEnd - angleStart) * (len / Length)) + center).ToFPoint();
 		}
 
 		public override VectorPathSegment AsScaled(float scale)
 		{
-			return new CirclePieceSegment(new FPoint(center.X * scale, center.Y * scale), radius * scale, angleStart, angleEnd);
+			if (IsClockwise)
+				return new CirclePieceSegment(new FPoint(center.X * scale, center.Y * scale), radius * scale, angleStart, angleEnd);
+			else
+				return new CirclePieceSegment(new FPoint(center.X * scale, center.Y * scale), radius * scale, angleEnd, angleStart);
 		}
 	}
 }

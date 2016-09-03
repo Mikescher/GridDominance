@@ -43,7 +43,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 		public override VectorPathSegment AsScaled(float scale)
 		{
-			return new EllipsePieceSegment(new FPoint(center.X * scale, center.Y * scale), radiusY * scale, radiusY * scale, angleStart, angleEnd);
+			return new EllipsePieceSegment(new FPoint(center.X * scale, center.Y * scale), radiusX * scale, radiusY * scale, angleStart, angleEnd);
 		}
 
 		private float GetOmega(float angle)
