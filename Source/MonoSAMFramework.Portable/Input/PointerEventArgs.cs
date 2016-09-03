@@ -1,5 +1,5 @@
-﻿using MonoSAMFramework.Portable.GameMath.FloatClasses;
-using System;
+﻿using System;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Input
 {

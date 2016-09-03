@@ -7,7 +7,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.Entities;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.ScreenGame

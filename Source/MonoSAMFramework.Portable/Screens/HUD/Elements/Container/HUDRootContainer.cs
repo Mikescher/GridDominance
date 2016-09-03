@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 {

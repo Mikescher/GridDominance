@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.GameMath.VectorPath
 {
@@ -42,8 +42,8 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 			Length = (2 * FloatMath.PI * radius) * (angleEnd - angleStart) / FloatMath.TAU;
 			directionZero = new Vector2(radius, 0);
-
-			Boundings = new FRectangle(center.X - radius, center.Y - radius, 2 * radius, 2 * radius); // TODO This is wrong - use correct calculations: http://mathoverflow.net/questions/93659
+			
+			Boundings = GeometryHelper.CalculateEllipseSegmentsBoundingBox(center.X, center.Y, radius, radius, angleStart, angleEnd);
 		}
 
 		public override FPoint Get(float len)

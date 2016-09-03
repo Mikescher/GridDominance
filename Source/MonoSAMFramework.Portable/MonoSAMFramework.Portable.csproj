@@ -42,6 +42,7 @@
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
+    <Compile Include="GameMath\Geometry\GeometryHelper.cs" />
     <Compile Include="GameMath\VectorPath\CirclePieceSegment.cs" />
     <Compile Include="GameMath\VectorPath\EllipsePieceSegment.cs" />
     <Compile Include="GameMath\VectorPath\LineSegment.cs" />
@@ -97,9 +98,9 @@
     <Compile Include="Input\InputState.cs" />
     <Compile Include="Input\InputStateManager.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
-    <Compile Include="GameMath\FloatClasses\FPoint.cs" />
-    <Compile Include="GameMath\FloatClasses\FRectangle.cs" />
-    <Compile Include="GameMath\FloatClasses\FSize.cs" />
+    <Compile Include="GameMath\Geometry\FPoint.cs" />
+    <Compile Include="GameMath\Geometry\FRectangle.cs" />
+    <Compile Include="GameMath\Geometry\FSize.cs" />
     <Compile Include="MonoSAMGame.cs" />
     <Compile Include="Persistance\SemVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,7 +9,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;

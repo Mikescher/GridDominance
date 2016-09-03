@@ -4,7 +4,7 @@ using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles

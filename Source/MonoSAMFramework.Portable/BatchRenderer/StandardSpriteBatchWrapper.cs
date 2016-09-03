@@ -4,12 +4,12 @@ using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.RenderHelper;
 using System;
 using System.Linq;
 using System.Text;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.BatchRenderer
 {

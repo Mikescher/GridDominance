@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
@@ -46,6 +46,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			base.DrawDebugBorders(sbatch);
 			
 			sbatch.DrawRectangle(Position - new FSize(8, 8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
+			sbatch.DrawRectangle(vectorPath.Boundings.AsOffseted(Position - vectorPathCenter), Color.LightBlue, 1);
 
 			sbatch.DrawPath(Position - vectorPathCenter, vectorPath, 48, Color.LightGreen, 1);
 			

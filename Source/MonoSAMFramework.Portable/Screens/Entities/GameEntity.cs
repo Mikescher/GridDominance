@@ -4,9 +4,9 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using System;
 using System.Collections.Generic;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {

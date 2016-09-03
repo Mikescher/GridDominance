@@ -1,4 +1,4 @@
-﻿using MonoSAMFramework.Portable.GameMath.FloatClasses;
+﻿using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.GameMath.VectorPath
 {
@@ -25,7 +25,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			
 			Length = FloatMath.TAU * FloatMath.Sqrt((radiusX * radiusX + radiusY * radiusY)/2f) * (angleEnd - angleStart)/FloatMath.TAU;
 
-			Boundings = new FRectangle(center.X - radiusX, center.Y - radiusY, 2*radiusX, 2*radiusY); // TODO This is wrong - use correct calculations: http://mathoverflow.net/questions/93659
+			Boundings = GeometryHelper.CalculateEllipseSegmentsBoundingBox(center.X, center.Y, radiusX, radiusY, angleStart, angleEnd);
 		}
 
 		public override FPoint Get(float len)
@@ -33,29 +33,13 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			len = FloatMath.Clamp(len, 0, Length);
 
 			var angle = angleStart + (angleEnd - angleStart) * (len / Length);
-			var omega = GetOmega(angle);
 
-			var x = FloatMath.Cos(omega) * radiusX;
-			var y = FloatMath.Sin(omega) * radiusY;
-
-			return new FPoint(x + center.X, y + center.Y);
+			return GeometryHelper.GetPointOnEllipse(center.X, center.Y, radiusX, radiusY, angle);
 		}
 
 		public override VectorPathSegment AsScaled(float scale)
 		{
 			return new EllipsePieceSegment(new FPoint(center.X * scale, center.Y * scale), radiusX * scale, radiusY * scale, angleStart, angleEnd);
-		}
-
-		private float GetOmega(float angle)
-		{
-			angle = FloatMath.PositiveModulo(angle, FloatMath.TAU);
-			
-			if (angle < FloatMath.RAD_POS_090)
-				return FloatMath.Atan(radiusX * FloatMath.Tan(angle) / radiusY);
-			else if (angle < FloatMath.RAD_POS_270)
-				return FloatMath.Atan(radiusX * FloatMath.Tan(angle) / radiusY) - FloatMath.PI;
-			else
-				return FloatMath.Atan(radiusX * FloatMath.Tan(angle) / radiusY);
 		}
 	}
 }

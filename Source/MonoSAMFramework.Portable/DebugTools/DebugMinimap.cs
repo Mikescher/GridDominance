@@ -2,7 +2,7 @@
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.DebugTools

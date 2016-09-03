@@ -3,9 +3,9 @@ using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {

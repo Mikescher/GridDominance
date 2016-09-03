@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.GameMath.VectorPath
 {

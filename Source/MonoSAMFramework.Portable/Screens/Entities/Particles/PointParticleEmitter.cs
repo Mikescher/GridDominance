@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
@@ -27,6 +27,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			base.RecalculateState();
 
 			float maxDistance = Config.ParticleLifetimeMax * Config.ParticleVelocityMax;
+
 			_boundingbox = new FSize(maxDistance * 2 + Config.ParticleSizeFinalMax, maxDistance * 2 + Config.ParticleSizeFinalMax);
 		}
 

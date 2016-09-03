@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button

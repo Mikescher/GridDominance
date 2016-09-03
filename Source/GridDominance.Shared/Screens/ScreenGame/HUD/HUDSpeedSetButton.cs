@@ -6,8 +6,8 @@ using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD

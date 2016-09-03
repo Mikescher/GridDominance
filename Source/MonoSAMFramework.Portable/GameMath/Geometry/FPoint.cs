@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using Microsoft.Xna.Framework;
 
-namespace MonoSAMFramework.Portable.GameMath.FloatClasses
+namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
 	[DataContract]
 	[DebuggerDisplay("{DebugDisplayString,nq}")]

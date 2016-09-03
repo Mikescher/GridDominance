@@ -438,5 +438,30 @@ namespace MonoSAMFramework.Portable.GameMath
 			else
 				return value;
 		}
+
+		public static float NormalizeAngle(float radians)
+		{
+			radians %= TAU;
+			if (radians < 0)
+				return TAU + radians;
+			else
+				return radians;
+		}
+
+		public static void Swap(ref float a, ref float b)
+		{
+			float tmp = a;
+			a = b;
+			b = tmp;
+		}
+
+		public static bool ArcContainsAngle(float aStart, float aEnd, float angle)
+		{
+			angle = NormalizeAngle(angle - aStart);
+			aEnd = NormalizeAngle(aEnd - aStart);
+			aStart = 0;
+
+			return angle >= aStart && angle <= aEnd;
+		}
 	}
 }

@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
+using Microsoft.Xna.Framework;
 
-namespace MonoSAMFramework.Portable.GameMath.FloatClasses
+namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
 	[DataContract]
 	public struct FSize : IEquatable<FSize>

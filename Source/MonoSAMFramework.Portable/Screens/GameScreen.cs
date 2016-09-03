@@ -4,7 +4,6 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.FloatClasses;
 using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -13,6 +12,7 @@ using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens
 {
