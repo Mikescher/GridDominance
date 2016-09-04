@@ -7,6 +7,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -38,14 +39,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		protected override GameBackground CreateBackground() => new WorldMapBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new GDWorldMapDebugMinimap(this);
-
-		protected override void OnUpdate(GameTime gameTime, InputState istate)
-		{
-#if DEBUG
-			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
-			DebugDisp.Scale = 0.75f;
-#endif
-		}
 
 		private void Initialize()
 		{
@@ -93,7 +86,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			//Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 8.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
 			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 8.5f, GDGameScreen.TILE_WIDTH * -4.5f)));
 			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
-			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 12.5f)));
+//			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 12.5f)));
 
 			Entities.AddEntity(new PointParticleEmitter(this, 
 				new Vector2(GDGameScreen.TILE_WIDTH * 1.5f, GDGameScreen.TILE_WIDTH * 8.5f), 
@@ -170,7 +163,33 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				}.Build()));
 
 			Entities.AddEntity(new PointParticleEmitter(this,
-				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 5.5f),
+				new Vector2(GDGameScreen.TILE_WIDTH * 6.5f, GDGameScreen.TILE_WIDTH * 8.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 80f,
+					ParticleLifetime = 0.5f,
+					ParticleVelocity = 45f,
+					ParticleSize = 16,
+					ColorInitial = Color.Yellow,
+					ColorFinal = Color.Red,
+				}.Build()));
+
+			Entities.AddEntity(new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 7.5f, GDGameScreen.TILE_WIDTH * 8.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 80f,
+					ParticleLifetime = 0.5f,
+					ParticleVelocity = 45f,
+					ParticleSize = 16,
+					ColorInitial = Color.Yellow,
+					ColorFinal = Color.Red,
+				}.Build()));
+
+			Entities.AddEntity(new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 1.5f),
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
 					Texture = Textures.TexParticle[12],
@@ -192,7 +211,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				}.Build()));
 
 			Entities.AddEntity(new PointParticleEmitter(this,
-				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 5.5f),
+				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 1.5f),
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
 					Texture = Textures.TexParticle[12],
@@ -215,12 +234,16 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			for (char chr = 'A'; chr <= 'Z'; chr++)
 			{
+				var i = chr - 'A';
+				var x = GDGameScreen.TILE_WIDTH * 3.5f + GDGameScreen.TILE_WIDTH * 3.5f * (i % 5);
+				var y = GDGameScreen.TILE_WIDTH * 13.5f + GDGameScreen.TILE_WIDTH * 3.5f * (int)(i / 5);
+
 				Entities.AddEntity(new PathParticleEmitter(this,
-					new Vector2(GDGameScreen.TILE_WIDTH * 3.5f * (1 + chr-'A'), GDGameScreen.TILE_WIDTH * 17.5f),
+					new Vector2(x, y),
 					PathPresets.LETTERS[chr].AsScaled(150f),
 					new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 					{
-						Texture = Textures.TexParticle[0],
+						Texture = Textures.TexParticle[10],
 						SpawnRate = 500,
 						ParticleLifetimeMin = 0.8f,
 						ParticleLifetimeMax = 1.2f,
@@ -230,12 +253,46 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 						ParticleSizeFinal = 12,
 						ParticleAlphaInitial = 1f,
 						ParticleAlphaFinal = 0.25f,
-						Color = Color.Magenta,
+						ColorInitial = Color.Beige,
+						ColorFinal = Color.Orange,
 					}.Build()));
 			}
 
 
+
+			Entities.AddEntity(PPE1 = new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 1.5f, GDGameScreen.TILE_WIDTH * 1.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[10],
+					SpawnRate = 150f,
+					ParticleLifetime = 1.5f,
+					ParticleVelocity = 25f,
+					ParticleSizeInitialMin = 16,
+					ParticleSizeInitialMax = 32,
+					ParticleSizeFinalMin = 6,
+					ParticleSizeFinalMax = 8,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0f,
+					ColorInitial = Color.White,
+					ColorFinal = Color.CornflowerBlue,
+				}.Build()));
+
 			AddAgent(new WorldMapDragAgent(this));
+		}
+
+		private PointParticleEmitter PPE1;
+
+		protected override void OnUpdate(GameTime gameTime, InputState istate)
+		{
+#if DEBUG
+			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
+			DebugDisp.Scale = 0.75f;
+#endif
+
+			var p = new Vector2(GDGameScreen.TILE_WIDTH * 13.5f, GDGameScreen.TILE_WIDTH * 5.5f) + new Vector2(GDGameScreen.TILE_WIDTH * 2.0f, 0).Rotate(FloatMath.NormalizeAngle((float)gameTime.TotalGameTime.TotalSeconds));
+
+			PPE1.SetPosition(p);
 		}
 
 		public override void Resize(int width, int height)
