@@ -9,6 +9,9 @@ using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
+	/// <summary>
+	/// https://github.com/CartBlanche/MonoGame-Samples/blob/master/Particle3DSample
+	/// </summary>
 	public abstract class ParticleEmitter : GameEntity
 	{
 		private const int PARTICLE_POOL_SAFETY = 4; // always add X elements more to pool than calculated
@@ -21,7 +24,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		private ParticleEmitterConfig _config;
 		public ParticleEmitterConfig Config { get { return _config; } set { _config = value; RecalculateState(); } }
 
+		private Effect particleEffect;
+
 		private Particle[] particlePool;
+		private DynamicVertexBuffer vertexBuffer;
+		private IndexBuffer indexBuffer;
 
 		public int ParticleCount { get; private set; } = 0;
 
@@ -40,6 +47,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			spawnDelay = _config.GetSpawnDelay();
 			timeSinceLastSpawn = 0f;
 			ParticleCount = 0;
+
+			//-------
+
+			particleEffect = Owner.Game.Content.Load<Effect>("SAMParticleEffect");
+			particleEffect.Parameters["TextureSampler"].SetValue(_config.Texture.Texture);
 		}
 
 		public override void OnInitialize()

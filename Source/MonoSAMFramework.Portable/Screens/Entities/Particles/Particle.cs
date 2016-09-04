@@ -2,7 +2,7 @@
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
-	public sealed class Particle
+	public struct Particle
 	{
 		public Vector2 StartPosition;
 
