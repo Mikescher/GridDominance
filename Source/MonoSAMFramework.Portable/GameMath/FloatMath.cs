@@ -24,9 +24,11 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float RAD_NEG_180 = -180 * DegRad;
 		public const float RAD_NEG_120 = -120 * DegRad;
 		public const float RAD_NEG_090 = -90  * DegRad;
+		public const float RAD_NEG_060 = -60  * DegRad;
 		public const float RAD_NEG_045 = -45  * DegRad;
 		public const float RAD_000     =  0   * DegRad;
 		public const float RAD_POS_045 = +45  * DegRad;
+		public const float RAD_POS_060 = +60  * DegRad;
 		public const float RAD_POS_090 = +90  * DegRad;
 		public const float RAD_POS_120 = +120 * DegRad;
 		public const float RAD_POS_180 = +180 * DegRad;
@@ -447,7 +449,7 @@ namespace MonoSAMFramework.Portable.GameMath
 			else
 				return radians;
 		}
-
+		
 		public static void Swap(ref float a, ref float b)
 		{
 			float tmp = a;
@@ -455,13 +457,16 @@ namespace MonoSAMFramework.Portable.GameMath
 			b = tmp;
 		}
 
-		public static bool ArcContainsAngle(float aStart, float aEnd, float angle)
+		public static bool ArcContainsAngle(float aStart, float aEnd, float angle) // [aStart -> AEnd] is Clockwise
 		{
-			angle = NormalizeAngle(angle - aStart);
-			aEnd = NormalizeAngle(aEnd - aStart);
-			aStart = 0;
+			angle -= aStart;
+			aEnd -= aStart;
 
-			return angle >= aStart && angle <= aEnd;
+			angle = NormalizeAngle(angle);
+
+			if (aEnd >= TAU) return true; // Full Circle
+			
+			return angle >= 0 && angle <= aEnd;
 		}
 	}
 }
