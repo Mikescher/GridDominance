@@ -129,9 +129,9 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/hudFontRegular.spritefont
 
-#begin shader/SAMParticleEffecft.fx
+#begin shaders/SAMParticleEffect.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:shader/SAMParticleEffecft.fx
+/build:shaders/SAMParticleEffect.fx
 

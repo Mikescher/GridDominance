@@ -85,12 +85,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 
 			Entities.AddEntity(new PointParticleEmitter(this, 
-				new Vector2(GDGameScreen.TILE_WIDTH * 8f, GDGameScreen.TILE_WIDTH * 5f), 
+				new Vector2(GDGameScreen.TILE_WIDTH * 2f, GDGameScreen.TILE_WIDTH * 2f), 
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
 					Texture = Textures.TexParticle[0],
-					SpawnRate = 2f,
-					ParticleLifetime = 4f,
+					SpawnRate = 20f,
+					ParticleLifetime = 120f,
 					ParticleVelocity = 45f,
 					ParticleSize = 48,
 					Color = Color.CornflowerBlue,
@@ -100,19 +100,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			AddAgent(new WorldMapDragAgent(this));
 		}
-
-		private PointParticleEmitter PPE1;
-
+		
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
 #endif
-
-			var p = new Vector2(GDGameScreen.TILE_WIDTH * 13.5f, GDGameScreen.TILE_WIDTH * 5.5f) + new Vector2(GDGameScreen.TILE_WIDTH * 2.0f, 0).Rotate(FloatMath.NormalizeAngle((float)gameTime.TotalGameTime.TotalSeconds));
-
-			PPE1.SetPosition(p);
 		}
 
 		public override void Resize(int width, int height)

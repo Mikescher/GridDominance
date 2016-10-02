@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
@@ -27,6 +27,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		private Effect particleEffect;
 
 		private Particle[] particlePool;
+
 		private DynamicVertexBuffer vertexBuffer;
 		private IndexBuffer indexBuffer;
 
@@ -41,8 +42,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		{
 			int maxParticleCount = FloatMath.Ceiling(_config.SpawnRateMax * _config.ParticleLifetimeMax) + PARTICLE_POOL_SAFETY;
 
-			particlePool = new Particle[maxParticleCount];
-			for (int i = 0; i < maxParticleCount; i++) particlePool[i] = new Particle();
 
 			spawnDelay = _config.GetSpawnDelay();
 			timeSinceLastSpawn = 0f;
@@ -50,8 +49,30 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			//-------
 
-			particleEffect = Owner.Game.Content.Load<Effect>("SAMParticleEffect");
-			particleEffect.Parameters["TextureSampler"].SetValue(_config.Texture.Texture);
+			particlePool = new Particle[maxParticleCount];
+			for (int i = 0; i < maxParticleCount; i++) particlePool[i] = new Particle();
+
+			vertexBuffer = new DynamicVertexBuffer(Owner.Graphics.GraphicsDevice, ParticleVBO.VertexDeclaration, maxParticleCount*4, BufferUsage.WriteOnly);
+			vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
+
+			short[] indices = new short[maxParticleCount * 6];
+			for (short i = 0; i < maxParticleCount; i++)
+			{
+				// TR triangle
+				indices[i * 6 + 0] = (short)(i * 4 + 0);
+				indices[i * 6 + 1] = (short)(i * 4 + 2);
+				indices[i * 6 + 2] = (short)(i * 4 + 1);
+
+				// BL triangle
+				indices[i * 6 + 3] = (short)(i * 4 + 0);
+				indices[i * 6 + 4] = (short)(i * 4 + 3);
+				indices[i * 6 + 5] = (short)(i * 4 + 2);
+			}
+			indexBuffer = new IndexBuffer(Owner.Graphics.GraphicsDevice, typeof(short), maxParticleCount * 6, BufferUsage.WriteOnly);
+			indexBuffer.SetData(indices);
+
+			particleEffect = Owner.Game.Content.Load<Effect>("shaders/SAMParticleEffect");
+			//particleEffect.Parameters["TextureSampler"].SetValue(_config.Texture.Texture);
 		}
 
 		public override void OnInitialize()
@@ -70,15 +91,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			for (int i = ParticleCount-1; i >= 0; i--)
 			{
-				particlePool[i].CurrentLifetime += gameTime.GetElapsedSeconds();
-				if (particlePool[i].CurrentLifetime >= particlePool[i].MaxLifetime)
+				if (!particlePool[i].Update(gameTime))
 				{
 					RemoveParticle(i);
-				}
-				else
-				{
-					particlePool[i].Position.X += particlePool[i].Velocity.X * gameTime.GetElapsedSeconds();
-					particlePool[i].Position.Y += particlePool[i].Velocity.Y * gameTime.GetElapsedSeconds();
 				}
 			}
 
@@ -136,6 +151,26 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
+			if (ParticleCount > 0)
+			{
+				Owner.Graphics.GraphicsDevice.SetVertexBuffer(vertexBuffer);
+				Owner.Graphics.GraphicsDevice.Indices = indexBuffer;
+
+				var oldRaster = Owner.Graphics.GraphicsDevice.RasterizerState;
+				Owner.Graphics.GraphicsDevice.RasterizerState = new RasterizerState {CullMode = CullMode.None};
+
+				foreach (EffectPass pass in particleEffect.CurrentTechnique.Passes)
+				{
+					pass.Apply();
+					Owner.Graphics.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleStrip, 0, 0, ParticleCount);
+				}
+
+				Owner.Graphics.GraphicsDevice.RasterizerState = oldRaster;
+			}
+
+			//--------------------------------------------------
+
+			/*
 			for (int i = 0; i < ParticleCount; i++)
 			{
 				var p = particlePool[i];
@@ -161,6 +196,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 						0);
 				}
 			}
+			*/
 		}
 
 		protected override void DrawDebugBorders(IBatchRenderer sbatch)
