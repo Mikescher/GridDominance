@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -12,7 +13,6 @@ using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens
 {
@@ -184,7 +184,7 @@ namespace MonoSAMFramework.Portable.Screens
 			TranslatedBatch.OnBegin();
 			InternalBatch.Begin(transformMatrix: VAdapter.GetScaleMatrix());
 			{
-				Background.Draw(TranslatedBatch);
+				//Background.Draw(TranslatedBatch);
 
 				Entities.Draw(TranslatedBatch);
 
@@ -203,6 +203,10 @@ namespace MonoSAMFramework.Portable.Screens
 
 			DebugDisp.Draw();
 #endif
+
+
+
+			Entities.Draw(null);
 		}
 
 		public override void Resize(int width, int height)

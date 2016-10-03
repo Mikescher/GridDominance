@@ -28,7 +28,22 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			VertexBuffer[2] = new ParticleVBO(); // BR
 			VertexBuffer[3] = new ParticleVBO(); // BL
 		}
-		
+
+		public void Init()
+		{
+			VertexBuffer[0].Position.X = Position.X - (SizeInitial / 2);
+			VertexBuffer[0].Position.Y = Position.Y + (SizeInitial / 2);
+
+			VertexBuffer[1].Position.X = Position.X + (SizeInitial / 2);
+			VertexBuffer[1].Position.Y = Position.Y + (SizeInitial / 2);
+
+			VertexBuffer[2].Position.X = Position.X + (SizeInitial / 2);
+			VertexBuffer[2].Position.Y = Position.Y - (SizeInitial / 2);
+
+			VertexBuffer[3].Position.X = Position.X - (SizeInitial / 2);
+			VertexBuffer[3].Position.Y = Position.Y - (SizeInitial / 2);
+		}
+
 		public bool Update(GameTime gameTime)
 		{
 			CurrentLifetime += gameTime.GetElapsedSeconds();

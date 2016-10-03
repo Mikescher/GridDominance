@@ -54,7 +54,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 
 			foreach (var gdEntity in entities)
 			{
-				if (viewportBox.Contains(gdEntity.Position, gdEntity.DrawingBoundingBox))
+				if (true || viewportBox.Contains(gdEntity.Position, gdEntity.DrawingBoundingBox))
 				{
 					gdEntity.IsInViewport = true;
 					gdEntity.Draw(sbatch);

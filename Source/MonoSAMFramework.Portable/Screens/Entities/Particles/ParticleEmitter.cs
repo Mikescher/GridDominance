@@ -52,6 +52,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			particlePool = new Particle[maxParticleCount];
 			for (int i = 0; i < maxParticleCount; i++) particlePool[i] = new Particle();
 
+			SpawnParticle();
+			SpawnParticle();
+			SpawnParticle();
+			SpawnParticle();
+			SpawnParticle();
+			SpawnParticle();
+
 			vertexBuffer = new DynamicVertexBuffer(Owner.Graphics.GraphicsDevice, ParticleVBO.VertexDeclaration, maxParticleCount*4, BufferUsage.WriteOnly);
 			vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
 
@@ -87,7 +94,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
-			if (!IsInViewport) return; // No drawing - no updating (state is frozen)
+			//if (!IsInViewport) return; // No drawing - no updating (state is frozen)
 
 			for (int i = ParticleCount-1; i >= 0; i--)
 			{
@@ -129,6 +136,10 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			particlePool[ParticleCount].SizeFinal = _config.GetParticleSizeFinal();
 
+			particlePool[ParticleCount].Init();
+
+			//vertexBuffer.SetData(particlePool[ParticleCount].VertexBuffer, ParticleCount * 4, 4);
+
 			ParticleCount++;
 		}
 
@@ -153,16 +164,31 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		{
 			if (ParticleCount > 0)
 			{
+				if (sbatch != null)
+				{
+					sbatch.FillRectangle(new FRectangle(220,220,100,100), Color.Beige);
+					return;
+				}
+
+				//if (vertexBuffer.IsContentLost)
+				{
+					vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
+				}
+
+				particleEffect.Parameters["World"].SetValue(Matrix.CreateTranslation(0, 0, +5));
+				particleEffect.Parameters["View"].SetValue(Matrix.CreateLookAt(new Vector3(0, 0, -10), Vector3.Zero, Vector3.UnitX));
+				particleEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(1024, 640, -100f, 100f));
+
 				Owner.Graphics.GraphicsDevice.SetVertexBuffer(vertexBuffer);
 				Owner.Graphics.GraphicsDevice.Indices = indexBuffer;
 
 				var oldRaster = Owner.Graphics.GraphicsDevice.RasterizerState;
 				Owner.Graphics.GraphicsDevice.RasterizerState = new RasterizerState {CullMode = CullMode.None};
-
+				
 				foreach (EffectPass pass in particleEffect.CurrentTechnique.Passes)
 				{
 					pass.Apply();
-					Owner.Graphics.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleStrip, 0, 0, ParticleCount);
+					Owner.Graphics.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, ParticleCount * 2);
 				}
 
 				Owner.Graphics.GraphicsDevice.RasterizerState = oldRaster;
