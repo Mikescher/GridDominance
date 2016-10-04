@@ -1,18 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {
-	public abstract class EntityManager : ISAMDrawable, ISAMUpdateable
+	public abstract class EntityManager : ISAMDrawable, ISAMPostDrawable, ISAMUpdateable
 	{
 		private const int VIEWPORT_TOLERANCE = 32;
 
 		private readonly List<GameEntity> entities = new List<GameEntity>();
+		private readonly List<ISAMPostDrawable> postDrawEntities = new List<ISAMPostDrawable>();
 
 		public readonly GameScreen Owner;
 
@@ -42,6 +43,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 				{
 					entities.Remove(entity);
 					entity.OnRemove();
+
+					var pde = entity as ISAMPostDrawable;
+					if (pde != null) postDrawEntities.Remove(pde);
 				}
 			}
 
@@ -52,16 +56,33 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			var viewportBox = Owner.CompleteMapViewport.AsInflated(VIEWPORT_TOLERANCE, VIEWPORT_TOLERANCE);
 
-			foreach (var gdEntity in entities)
+			foreach (var entity in entities)
 			{
-				if (true || viewportBox.Contains(gdEntity.Position, gdEntity.DrawingBoundingBox))
+				if (viewportBox.Contains(entity.Position, entity.DrawingBoundingBox))
 				{
-					gdEntity.IsInViewport = true;
-					gdEntity.Draw(sbatch);
+					entity.IsInViewport = true;
+					entity.Draw(sbatch);
 				}
 				else
 				{
-					gdEntity.IsInViewport = false;
+					entity.IsInViewport = false;
+				}
+			}
+		}
+
+		public void PostDraw()
+		{
+			foreach (var entity in postDrawEntities)
+			{
+				var ent = entity as GameEntity;
+				if (ent != null)
+				{
+					//if (ent.IsInViewport)
+						entity.PostDraw();
+				}
+				else
+				{
+					entity.PostDraw();
 				}
 			}
 		}
@@ -70,7 +91,12 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			e.Manager = this;
 			entities.Add(e);
-			e.OnInitialize();
+			e.OnInitialize(this);
+		}
+
+		public void RegisterPostDraw(ISAMPostDrawable e)
+		{
+			postDrawEntities.Add(e);
 		}
 
 		public int Count()

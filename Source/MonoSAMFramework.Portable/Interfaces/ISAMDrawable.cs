@@ -2,7 +2,7 @@
 
 namespace MonoSAMFramework.Portable.Interfaces
 {
-	interface ISAMDrawable
+	public interface ISAMDrawable
 	{
 		void Draw(IBatchRenderer sbatch);
 	}

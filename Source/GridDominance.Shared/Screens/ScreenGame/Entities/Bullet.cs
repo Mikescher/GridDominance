@@ -53,7 +53,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			DrawingBoundingBox = new FSize(BULLET_DIAMETER, BULLET_DIAMETER);
 		}
 
-		public override void OnInitialize()
+		public override void OnInitialize(EntityManager manager)
 		{
 			PhysicsBody = BodyFactory.CreateCircle(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(BulletPosition), BodyType.Dynamic, this);
 			PhysicsBody.LinearVelocity = ConvertUnits.ToSimUnits(initialVelocity);

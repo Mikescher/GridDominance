@@ -52,7 +52,7 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			UpdateMatrix();
 		}
 
-		private void UpdateMatrix()
+		private void UpdateMatrix() //TODO does not wotk under DirectX
 		{
 			var viewport = GraphicsDevice.Viewport;
 			var aspectRatio = VirtualGuaranteedWidth * 1f / VirtualGuaranteedHeight;

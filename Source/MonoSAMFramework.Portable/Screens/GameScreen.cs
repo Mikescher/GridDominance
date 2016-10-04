@@ -22,6 +22,7 @@ namespace MonoSAMFramework.Portable.Screens
 		private float _mapOffsetY = 0f;
 
 		public readonly GraphicsDeviceManager Graphics;
+		public GraphicsDevice GraphicsDevice => Graphics.GraphicsDevice;
 		public readonly MonoSAMGame Game;
 
 #if DEBUG
@@ -184,7 +185,7 @@ namespace MonoSAMFramework.Portable.Screens
 			TranslatedBatch.OnBegin();
 			InternalBatch.Begin(transformMatrix: VAdapter.GetScaleMatrix());
 			{
-				//Background.Draw(TranslatedBatch);
+				Background.Draw(TranslatedBatch);
 
 				Entities.Draw(TranslatedBatch);
 
@@ -198,15 +199,13 @@ namespace MonoSAMFramework.Portable.Screens
 			TranslatedBatch.OnEnd();
 			FixedBatch.OnEnd();
 
+			Entities.PostDraw();
+
 #if DEBUG
 			Entities.DrawOuterDebug();
 
 			DebugDisp.Draw();
 #endif
-
-
-
-			Entities.Draw(null);
 		}
 
 		public override void Resize(int width, int height)

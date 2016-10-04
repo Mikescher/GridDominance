@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Interfaces;
 using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
@@ -12,7 +14,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 	/// <summary>
 	/// https://github.com/CartBlanche/MonoGame-Samples/blob/master/Particle3DSample
 	/// </summary>
-	public abstract class ParticleEmitter : GameEntity
+	public abstract class ParticleEmitter : GameEntity, ISAMPostDrawable
 	{
 		private const int PARTICLE_POOL_SAFETY = 4; // always add X elements more to pool than calculated
 
@@ -52,14 +54,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			particlePool = new Particle[maxParticleCount];
 			for (int i = 0; i < maxParticleCount; i++) particlePool[i] = new Particle();
 
-			SpawnParticle();
-			SpawnParticle();
-			SpawnParticle();
-			SpawnParticle();
-			SpawnParticle();
-			SpawnParticle();
-
-			vertexBuffer = new DynamicVertexBuffer(Owner.Graphics.GraphicsDevice, ParticleVBO.VertexDeclaration, maxParticleCount*4, BufferUsage.WriteOnly);
+			vertexBuffer = new DynamicVertexBuffer(Owner.GraphicsDevice, ParticleVBO.VertexDeclaration, maxParticleCount*4, BufferUsage.WriteOnly);
 			vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
 
 			short[] indices = new short[maxParticleCount * 6];
@@ -75,16 +70,18 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				indices[i * 6 + 4] = (short)(i * 4 + 3);
 				indices[i * 6 + 5] = (short)(i * 4 + 2);
 			}
-			indexBuffer = new IndexBuffer(Owner.Graphics.GraphicsDevice, typeof(short), maxParticleCount * 6, BufferUsage.WriteOnly);
+			indexBuffer = new IndexBuffer(Owner.GraphicsDevice, typeof(short), maxParticleCount * 6, BufferUsage.WriteOnly);
 			indexBuffer.SetData(indices);
 
 			particleEffect = Owner.Game.Content.Load<Effect>("shaders/SAMParticleEffect");
 			//particleEffect.Parameters["TextureSampler"].SetValue(_config.Texture.Texture);
 		}
 
-		public override void OnInitialize()
+		public override void OnInitialize(EntityManager manager)
 		{
 			RecalculateState();
+
+			manager.RegisterPostDraw(this);
 		}
 
 		public override void OnRemove()
@@ -94,7 +91,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
-			//if (!IsInViewport) return; // No drawing - no updating (state is frozen)
+			if (!IsInViewport) return; // No drawing - no updating (state is frozen)
 
 			for (int i = ParticleCount-1; i >= 0; i--)
 			{
@@ -116,6 +113,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 					spawnDelay = _config.GetSpawnDelay();
 				}
 			}
+
+			vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray()); //TODO not cool
 		}
 
 		private void SpawnParticle()
@@ -162,41 +161,10 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			if (ParticleCount > 0)
-			{
-				if (sbatch != null)
-				{
-					sbatch.FillRectangle(new FRectangle(220,220,100,100), Color.Beige);
-					return;
-				}
-
-				//if (vertexBuffer.IsContentLost)
-				{
-					vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
-				}
-
-				particleEffect.Parameters["World"].SetValue(Matrix.CreateTranslation(0, 0, +5));
-				particleEffect.Parameters["View"].SetValue(Matrix.CreateLookAt(new Vector3(0, 0, -10), Vector3.Zero, Vector3.UnitX));
-				particleEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(1024, 640, -100f, 100f));
-
-				Owner.Graphics.GraphicsDevice.SetVertexBuffer(vertexBuffer);
-				Owner.Graphics.GraphicsDevice.Indices = indexBuffer;
-
-				var oldRaster = Owner.Graphics.GraphicsDevice.RasterizerState;
-				Owner.Graphics.GraphicsDevice.RasterizerState = new RasterizerState {CullMode = CullMode.None};
-				
-				foreach (EffectPass pass in particleEffect.CurrentTechnique.Passes)
-				{
-					pass.Apply();
-					Owner.Graphics.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, ParticleCount * 2);
-				}
-
-				Owner.Graphics.GraphicsDevice.RasterizerState = oldRaster;
-			}
 
 			//--------------------------------------------------
 
-			/*
+			
 			for (int i = 0; i < ParticleCount; i++)
 			{
 				var p = particlePool[i];
@@ -222,7 +190,43 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 						0);
 				}
 			}
-			*/
+			
+		}
+
+		public void PostDraw()
+		{
+			var g = Owner.GraphicsDevice;
+
+			if (ParticleCount > 0)
+			{
+				if (vertexBuffer.IsContentLost)
+				{
+					vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
+				}
+
+				//particleEffect.Parameters["World"].SetValue(Matrix.CreateTranslation(0, 0, 0));
+				//particleEffect.Parameters["View"].SetValue(Matrix.CreateLookAt(new Vector3(0, 0, -10), Vector3.Zero, Vector3.UnitX));
+				//particleEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(1024, 640, -100f, 100f));
+
+				particleEffect.Parameters["Offset"].SetValue(Matrix.CreateTranslation(Owner.MapOffsetX, Owner.MapOffsetY, 0));
+				particleEffect.Parameters["VirtualViewport"].SetValue(Matrix.CreateOrthographicOffCenter(Owner.VAdapter.VirtualTotalBoundingBoxLeft, Owner.VAdapter.VirtualTotalBoundingBoxRight, Owner.VAdapter.VirtualTotalBoundingBoxBottom, Owner.VAdapter.VirtualTotalBoundingBoxTop, -100, 100));
+				//particleEffect.Parameters["ScaleMatrix"].SetValue(Owner.VAdapter.GetScaleMatrix());
+
+
+				g.SetVertexBuffer(vertexBuffer);
+				g.Indices = indexBuffer;
+
+				var oldRaster = g.RasterizerState;
+				g.RasterizerState = new RasterizerState { CullMode = CullMode.None };
+
+				foreach (EffectPass pass in particleEffect.CurrentTechnique.Passes)
+				{
+					pass.Apply();
+					g.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, ParticleCount * 2);
+				}
+
+				g.RasterizerState = oldRaster;
+			}
 		}
 
 		protected override void DrawDebugBorders(IBatchRenderer sbatch)

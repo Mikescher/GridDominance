@@ -81,18 +81,21 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}
 #endif
-			
+			 
 
 
 			Entities.AddEntity(new PointParticleEmitter(this, 
-				new Vector2(GDGameScreen.TILE_WIDTH * 2f, GDGameScreen.TILE_WIDTH * 2f), 
+				new Vector2(GDGameScreen.TILE_WIDTH * 1f, GDGameScreen.TILE_WIDTH * 1f), 
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
 					Texture = Textures.TexParticle[0],
-					SpawnRate = 20f,
-					ParticleLifetime = 120f,
+					SpawnRate = 8f,
+					ParticleLifetime = 16f,
 					ParticleVelocity = 45f,
-					ParticleSize = 48,
+					ParticleSizeInitialMin = 16,
+					ParticleSizeInitialMax = 64,
+					ParticleSizeFinalMin = 16,
+					ParticleSizeFinalMax = 64,
 					Color = Color.CornflowerBlue,
 				}.Build()));
 

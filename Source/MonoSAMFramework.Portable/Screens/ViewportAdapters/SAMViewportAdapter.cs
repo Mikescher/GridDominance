@@ -57,7 +57,12 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		public abstract float RealGuaranteedBoundingsOffsetY { get; }
 		public Vector2 RealGuaranteedBoundingsOffset => new Vector2(RealGuaranteedBoundingsOffsetX, RealGuaranteedBoundingsOffsetY);
 
-		public FRectangle VirtualTotalBoundingBox => new FRectangle(-VirtualGuaranteedBoundingsOffsetX, -VirtualGuaranteedBoundingsOffsetY, VirtualTotalWidth, VirtualTotalHeight);
+		public float VirtualTotalBoundingBoxLeft => -VirtualGuaranteedBoundingsOffsetX;
+		public float VirtualTotalBoundingBoxRight => VirtualTotalWidth - VirtualGuaranteedBoundingsOffsetX;
+		public float VirtualTotalBoundingBoxTop => -VirtualGuaranteedBoundingsOffsetY;
+		public float VirtualTotalBoundingBoxBottom =>  VirtualTotalHeight - VirtualGuaranteedBoundingsOffsetY;
+
+		public FRectangle VirtualTotalBoundingBox => new FRectangle(VirtualTotalBoundingBoxLeft, VirtualTotalBoundingBoxRight, VirtualTotalWidth, VirtualTotalHeight);
 		public FRectangle VirtualGuaranteedBoundingBox => new FRectangle(0, 0, VirtualGuaranteedWidth, VirtualGuaranteedHeight);
 
 		public abstract Matrix GetScaleMatrix();
