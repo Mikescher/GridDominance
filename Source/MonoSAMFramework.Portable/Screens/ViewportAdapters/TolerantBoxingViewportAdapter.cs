@@ -10,7 +10,10 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		private float offsetY = 0.0f; // in device ("real") units
 
 		private float scaleXY = 1.0f;
-		
+
+		private readonly GameWindow _window;
+		private readonly GraphicsDeviceManager _graphicsDeviceManager;
+
 		public override float VirtualGuaranteedWidth { get; }
 		public override float VirtualGuaranteedHeight { get; }
 
@@ -30,10 +33,13 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		public override float RealGuaranteedBoundingsOffsetY => offsetY;
 
 		public override float Scale => scaleXY;
-		
-		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDevice graphicsDevice, int virtualWidth, int virtualHeight)
-			:base(graphicsDevice)
+
+		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDeviceManager graphicsDeviceManager, int virtualWidth, int virtualHeight)
+			: base(graphicsDeviceManager.GraphicsDevice)
 		{
+			_window = window;
+			_graphicsDeviceManager = graphicsDeviceManager;
+
 			VirtualGuaranteedWidth = virtualWidth;
 			VirtualGuaranteedHeight = virtualHeight;
 
@@ -41,18 +47,23 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 
 			UpdateMatrix();
 		}
-		
-		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDeviceManager graphicsDeviceManager, int virtualWidth, int virtualHeight)
-			: this(window, graphicsDeviceManager.GraphicsDevice, virtualWidth, virtualHeight)
-		{
-		}
 
 		private void OnClientSizeChanged(object sender, EventArgs eventArgs)
 		{
+			// Needed for DirectX rendering
+			// see http://gamedev.stackexchange.com/questions/68914/issue-with-monogame-resizing
+
+			if (_graphicsDeviceManager.PreferredBackBufferWidth != _window.ClientBounds.Width || _graphicsDeviceManager.PreferredBackBufferHeight != _window.ClientBounds.Height)
+			{
+				_graphicsDeviceManager.PreferredBackBufferWidth = _window.ClientBounds.Width;
+				_graphicsDeviceManager.PreferredBackBufferHeight = _window.ClientBounds.Height;
+				_graphicsDeviceManager.ApplyChanges();
+			}
+
 			UpdateMatrix();
 		}
 
-		private void UpdateMatrix() //TODO does not wotk under DirectX
+		private void UpdateMatrix()
 		{
 			var viewport = GraphicsDevice.Viewport;
 			var aspectRatio = VirtualGuaranteedWidth * 1f / VirtualGuaranteedHeight;
