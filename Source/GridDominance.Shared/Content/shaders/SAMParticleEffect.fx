@@ -11,9 +11,6 @@
 float4x4 Offset;
 float4x4 VirtualViewport;
 
-float4 AmbientColor = float4(1, 0, 0, 1);
-float AmbientIntensity = 0.5;
-
 struct VertexShaderInput
 {
 	float4 Position : SV_POSITION;
@@ -36,7 +33,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-	return AmbientColor * AmbientIntensity;
+	return float4(1, 0, 0, 1) * 0.5;
 }
 
 technique Ambient
