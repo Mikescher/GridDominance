@@ -15,5 +15,19 @@ namespace MonoSAMFramework.Portable.Extensions
 		{
 			return new FSize(source.Width, source.Height);
 		}
+
+		public static Matrix GetShaderProjectionMatrix(this TextureRegion2D source)
+		{
+			var bounds = source.Bounds;
+
+			float sx = bounds.Width * 1f / source.Texture.Width;
+			float sy = bounds.Height * 1f / source.Texture.Height;
+
+			float px = bounds.X * 1f / source.Texture.Width;
+			float py = bounds.Y * 1f / source.Texture.Height;
+
+			return Matrix.Identity;
+			//return MatrixExtensions.CreateScaleTranslation(px, py, sx, sy);
+		}
 	}
 }

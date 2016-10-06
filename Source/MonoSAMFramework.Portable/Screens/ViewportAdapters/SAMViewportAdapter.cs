@@ -66,6 +66,7 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		public FRectangle VirtualGuaranteedBoundingBox => new FRectangle(0, 0, VirtualGuaranteedWidth, VirtualGuaranteedHeight);
 
 		public abstract Matrix GetScaleMatrix();
+		public abstract Matrix GetShaderMatrix();
 
 		//public Rectangle BoundingRectangle => new Rectangle(0, 0, VirtualWidth, VirtualHeight);
 		//public Point Center => BoundingRectangle.Center;

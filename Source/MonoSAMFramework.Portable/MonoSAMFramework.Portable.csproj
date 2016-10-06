@@ -41,6 +41,7 @@
     <Compile Include="BatchRenderer\TranslatingSpriteBatchWrapper.cs" />
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
+    <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
     <Compile Include="GameMath\Geometry\GeometryHelper.cs" />
     <Compile Include="GameMath\VectorPath\CirclePieceSegment.cs" />

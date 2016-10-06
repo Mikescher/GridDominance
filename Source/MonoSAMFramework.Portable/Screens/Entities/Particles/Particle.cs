@@ -1,21 +1,23 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Extensions;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
 	public class Particle
 	{
+		public static readonly Vector2 CORNER_TL = new Vector2(-1, +1);
+		public static readonly Vector2 CORNER_TR = new Vector2(+1, +1);
+		public static readonly Vector2 CORNER_BR = new Vector2(+1, -1);
+		public static readonly Vector2 CORNER_BL = new Vector2(-1, -1);
+
 		public readonly ParticleVBO[] VertexBuffer = new ParticleVBO[4];
 
 		public Vector2 StartPosition;
 
-		public Vector2 Position;
-
 		public Vector2 Velocity;
 		
-		public float CurrentLifetime;
+		public float StartLifetime;
 		public float MaxLifetime;
 
 		public float SizeInitial;
@@ -29,57 +31,66 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			VertexBuffer[3] = new ParticleVBO(); // BL
 		}
 
-		public void Init()
+		public void Init(GameTime gameTime)
 		{
-			VertexBuffer[0].Position.X = Position.X - (SizeInitial / 2);
-			VertexBuffer[0].Position.Y = Position.Y + (SizeInitial / 2);
+			StartLifetime = gameTime.GetTotalElapsedSeconds();
 
-			VertexBuffer[1].Position.X = Position.X + (SizeInitial / 2);
-			VertexBuffer[1].Position.Y = Position.Y + (SizeInitial / 2);
+			VertexBuffer[0].Corner = CORNER_TL;
+			VertexBuffer[0].StartPosition = StartPosition;
+			VertexBuffer[0].Velocity = Velocity;
+			VertexBuffer[0].StartTime = StartLifetime;
+			VertexBuffer[0].LifeTime = MaxLifetime;
+			VertexBuffer[0].StartSize = SizeInitial;
+			VertexBuffer[0].FinalSize = SizeFinal;
 
-			VertexBuffer[2].Position.X = Position.X + (SizeInitial / 2);
-			VertexBuffer[2].Position.Y = Position.Y - (SizeInitial / 2);
+			VertexBuffer[1].Corner = CORNER_TR;
+			VertexBuffer[1].StartPosition = StartPosition;
+			VertexBuffer[1].Velocity = Velocity;
+			VertexBuffer[1].StartTime = StartLifetime;
+			VertexBuffer[1].LifeTime = MaxLifetime;
+			VertexBuffer[1].StartSize = SizeInitial;
+			VertexBuffer[1].FinalSize = SizeFinal;
 
-			VertexBuffer[3].Position.X = Position.X - (SizeInitial / 2);
-			VertexBuffer[3].Position.Y = Position.Y - (SizeInitial / 2);
-		}
+			VertexBuffer[2].Corner = CORNER_BR;
+			VertexBuffer[2].StartPosition = StartPosition;
+			VertexBuffer[2].Velocity = Velocity;
+			VertexBuffer[2].StartTime = StartLifetime;
+			VertexBuffer[2].LifeTime = MaxLifetime;
+			VertexBuffer[2].StartSize = SizeInitial;
+			VertexBuffer[2].FinalSize = SizeFinal;
 
-		public bool Update(GameTime gameTime)
-		{
-			CurrentLifetime += gameTime.GetElapsedSeconds();
-			if (CurrentLifetime >= MaxLifetime) return false;
-
-			var progress = CurrentLifetime / MaxLifetime;
-
-			Position.X += Velocity.X * gameTime.GetElapsedSeconds();
-			Position.Y += Velocity.Y * gameTime.GetElapsedSeconds();
-
-			var size = FloatMath.Lerp(SizeInitial, SizeFinal, progress);
-
-			VertexBuffer[0].Position.X = Position.X - (size / 2);
-			VertexBuffer[0].Position.Y = Position.Y + (size / 2);
-
-			VertexBuffer[1].Position.X = Position.X + (size / 2);
-			VertexBuffer[1].Position.Y = Position.Y + (size / 2);
-
-			VertexBuffer[2].Position.X = Position.X + (size / 2);
-			VertexBuffer[2].Position.Y = Position.Y - (size / 2);
-
-			VertexBuffer[3].Position.X = Position.X - (size / 2);
-			VertexBuffer[3].Position.Y = Position.Y - (size / 2);
-
-
-			return true;
+			VertexBuffer[3].Corner = CORNER_BL;
+			VertexBuffer[3].StartPosition = StartPosition;
+			VertexBuffer[3].Velocity = Velocity;
+			VertexBuffer[3].StartTime = StartLifetime;
+			VertexBuffer[3].LifeTime = MaxLifetime;
+			VertexBuffer[3].StartSize = SizeInitial;
+			VertexBuffer[3].FinalSize = SizeFinal;
 		}
 	}
 
 	public struct ParticleVBO
 	{
-		public Vector3 Position;
+		public Vector2 Corner;
+
+		public Vector2 StartPosition;
+		public Vector2 Velocity;
+
+		public float StartTime;
+		public float LifeTime;
+
+		public float StartSize;
+		public float FinalSize;
 
 		public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration
 		(
-			new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0)
+			new VertexElement(0, VertexElementFormat.Vector2, VertexElementUsage.Position, 0),
+			new VertexElement(8, VertexElementFormat.Vector2, VertexElementUsage.Position, 1),
+			new VertexElement(16, VertexElementFormat.Vector2, VertexElementUsage.Normal, 0),
+			new VertexElement(24, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 0),
+			new VertexElement(28, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 1),
+			new VertexElement(32, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 2),
+			new VertexElement(36, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 3)
 		);
 	}
 }

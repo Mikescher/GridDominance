@@ -85,7 +85,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 
 			Entities.AddEntity(new PointParticleEmitter(this, 
-				new Vector2(GDGameScreen.TILE_WIDTH * 1f, GDGameScreen.TILE_WIDTH * 1f), 
+				new Vector2(GDGameScreen.TILE_WIDTH * 8f, GDGameScreen.TILE_WIDTH * 5f), 
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
 					Texture = Textures.TexParticle[0],

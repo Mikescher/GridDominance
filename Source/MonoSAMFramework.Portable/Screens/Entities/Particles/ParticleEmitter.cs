@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -27,6 +28,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		public ParticleEmitterConfig Config { get { return _config; } set { _config = value; RecalculateState(); } }
 
 		private Effect particleEffect;
+		private EffectParameter parameterOffset;
+		private EffectParameter parameterVirtualViewport;
+		private EffectParameter parameterCurrentTime;
 
 		private Particle[] particlePool;
 
@@ -42,19 +46,25 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		protected virtual void RecalculateState()
 		{
-			int maxParticleCount = FloatMath.Ceiling(_config.SpawnRateMax * _config.ParticleLifetimeMax) + PARTICLE_POOL_SAFETY;
-
-
 			spawnDelay = _config.GetSpawnDelay();
 			timeSinceLastSpawn = 0f;
 			ParticleCount = 0;
 
-			//-------
+			LoadShader();
+		}
+
+		private void LoadShader()
+		{
+			int maxParticleCount = FloatMath.Ceiling(_config.SpawnRateMax * _config.ParticleLifetimeMax) + PARTICLE_POOL_SAFETY;
+
+			// Create Particle Pool
 
 			particlePool = new Particle[maxParticleCount];
 			for (int i = 0; i < maxParticleCount; i++) particlePool[i] = new Particle();
 
-			vertexBuffer = new DynamicVertexBuffer(Owner.GraphicsDevice, ParticleVBO.VertexDeclaration, maxParticleCount*4, BufferUsage.WriteOnly);
+			// Create VertexBuffer and IndexBuffer
+
+			vertexBuffer = new DynamicVertexBuffer(Owner.GraphicsDevice, ParticleVBO.VertexDeclaration, maxParticleCount * 4, BufferUsage.WriteOnly);
 			vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
 
 			short[] indices = new short[maxParticleCount * 6];
@@ -73,8 +83,17 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			indexBuffer = new IndexBuffer(Owner.GraphicsDevice, typeof(short), maxParticleCount * 6, BufferUsage.WriteOnly);
 			indexBuffer.SetData(indices);
 
+			// Load effect
+
 			particleEffect = Owner.Game.Content.Load<Effect>("shaders/SAMParticleEffect");
-			//particleEffect.Parameters["TextureSampler"].SetValue(_config.Texture.Texture);
+			parameterOffset = particleEffect.Parameters["Offset"]; 
+			parameterVirtualViewport = particleEffect.Parameters["VirtualViewport"];
+			parameterCurrentTime = particleEffect.Parameters["CurrentTime"];
+
+			particleEffect.Parameters["ColorInitial"].SetValue(new Vector4(Config.ColorInitial.R, Config.ColorInitial.G, Config.ColorInitial.B, Config.ColorInitial.A * Config.ParticleAlphaInitial));
+			particleEffect.Parameters["ColorFinal"].SetValue(new Vector4(Config.ColorFinal.R, Config.ColorFinal.G, Config.ColorFinal.B, Config.ColorFinal.A * Config.ParticleAlphaFinal));
+			particleEffect.Parameters["Texture"].SetValue(Config.Texture.Texture);
+			particleEffect.Parameters["TextureProjection"].SetValue(Config.Texture.GetShaderProjectionMatrix());
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -95,7 +114,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			for (int i = ParticleCount-1; i >= 0; i--)
 			{
-				if (!particlePool[i].Update(gameTime))
+				if (gameTime.GetTotalElapsedSeconds() - particlePool[i].StartLifetime > particlePool[i].MaxLifetime)
 				{
 					RemoveParticle(i);
 				}
@@ -107,7 +126,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 				while (timeSinceLastSpawn >= spawnDelay)
 				{
-					SpawnParticle();
+					SpawnParticle(gameTime);
 					timeSinceLastSpawn -= spawnDelay;
 
 					spawnDelay = _config.GetSpawnDelay();
@@ -117,25 +136,16 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray()); //TODO not cool
 		}
 
-		private void SpawnParticle()
+		private void SpawnParticle(GameTime gameTime)
 		{
 			if (ParticleCount >= particlePool.Length) return; // Could happen if we lag big time
 
-			particlePool[ParticleCount].CurrentLifetime = 0;
-
 			particlePool[ParticleCount].MaxLifetime = _config.GetParticleLifetime();
-
-			SetParticleSpawnPosition(ref particlePool[ParticleCount].Position);
-			particlePool[ParticleCount].StartPosition.X = particlePool[ParticleCount].Position.X;
-			particlePool[ParticleCount].StartPosition.Y = particlePool[ParticleCount].Position.Y;
-
+			SetParticleSpawnPosition(ref particlePool[ParticleCount].StartPosition);
 			_config.SetParticleVelocity(ref particlePool[ParticleCount].Velocity);
-
 			particlePool[ParticleCount].SizeInitial = _config.GetParticleSizeInitial();
-
 			particlePool[ParticleCount].SizeFinal = _config.GetParticleSizeFinal();
-
-			particlePool[ParticleCount].Init();
+			particlePool[ParticleCount].Init(gameTime);
 
 			//vertexBuffer.SetData(particlePool[ParticleCount].VertexBuffer, ParticleCount * 4, 4);
 
@@ -161,35 +171,32 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-
-			//--------------------------------------------------
-
-			
-			for (int i = 0; i < ParticleCount; i++)
-			{
-				var p = particlePool[i];
-				var progress = p.CurrentLifetime / p.MaxLifetime;
-
-				var size = FloatMath.Lerp(p.SizeInitial, p.SizeFinal, progress);
-				var alpha = FloatMath.Lerp(_config.ParticleAlphaInitial, _config.ParticleAlphaFinal, progress);
-				var color = _config.ColorInitial;
-				if (_config.ColorIsChanging)
-					color = ColorMath.Blend(_config.ColorInitial, _config.ColorFinal, progress);
-
-				if (size > 0)
-				{
-					sbatch.Draw(
-						_config.Texture.Texture,
-						p.Position,
-						_config.TextureBounds,
-						color * alpha,
-						0f,
-						_config.TextureCenter,
-						size / _config.TextureSize,
-						SpriteEffects.None,
-						0);
-				}
-			}
+			//for (int i = 0; i < ParticleCount; i++)
+			//{
+			//	var p = particlePool[i];
+			//	var progress = (MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - particlePool[i].StartLifetime) / p.MaxLifetime;
+			//
+			//	var size = FloatMath.Lerp(p.SizeInitial, p.SizeFinal, progress);
+			//	var alpha = FloatMath.Lerp(_config.ParticleAlphaInitial, _config.ParticleAlphaFinal, progress);
+			//	var color = _config.ColorInitial;
+			//	if (_config.ColorIsChanging)
+			//		color = ColorMath.Blend(_config.ColorInitial, _config.ColorFinal, progress);
+			//	var position = p.StartPosition + p.Velocity * (MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - particlePool[i].StartLifetime);
+			//
+			//	if (size > 0)
+			//	{
+			//		sbatch.Draw(
+			//			_config.Texture.Texture,
+			//			position,
+			//			_config.TextureBounds,
+			//			color * alpha,
+			//			0f,
+			//			_config.TextureCenter,
+			//			size / _config.TextureSize,
+			//			SpriteEffects.None,
+			//			0);
+			//	}
+			//}
 			
 		}
 
@@ -203,15 +210,10 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				{
 					vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
 				}
-
-				//particleEffect.Parameters["World"].SetValue(Matrix.CreateTranslation(0, 0, 0));
-				//particleEffect.Parameters["View"].SetValue(Matrix.CreateLookAt(new Vector3(0, 0, -10), Vector3.Zero, Vector3.UnitX));
-				//particleEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(1024, 640, -100f, 100f));
-
-				particleEffect.Parameters["Offset"].SetValue(Matrix.CreateTranslation(Owner.MapOffsetX, Owner.MapOffsetY, 0));
-				particleEffect.Parameters["VirtualViewport"].SetValue(Matrix.CreateOrthographicOffCenter(Owner.VAdapter.VirtualTotalBoundingBoxLeft, Owner.VAdapter.VirtualTotalBoundingBoxRight, Owner.VAdapter.VirtualTotalBoundingBoxBottom, Owner.VAdapter.VirtualTotalBoundingBoxTop, -100, 100));
-				//particleEffect.Parameters["ScaleMatrix"].SetValue(Owner.VAdapter.GetScaleMatrix());
-
+				
+				parameterOffset.SetValue(Owner.MapOffset);
+				parameterVirtualViewport.SetValue(Owner.VAdapter.GetShaderMatrix());
+				parameterCurrentTime.SetValue(MonoSAMGame.CurrentTime.GetTotalElapsedSeconds());
 
 				g.SetVertexBuffer(vertexBuffer);
 				g.Indices = indexBuffer;
@@ -239,7 +241,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			{
 				var p = particlePool[i];
 
-				sbatch.DrawLine(p.StartPosition, p.Position, Color.GreenYellow * 0.5f);
+				var position = p.StartPosition + p.Velocity * (MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - particlePool[i].StartLifetime);
+
+				sbatch.DrawLine(p.StartPosition, position, Color.GreenYellow * 0.5f);
 			}
 		}
 	}

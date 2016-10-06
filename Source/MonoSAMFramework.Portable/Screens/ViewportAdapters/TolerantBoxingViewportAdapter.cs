@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.Extensions;
 using System;
 
 namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
@@ -33,6 +34,12 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		public override float RealGuaranteedBoundingsOffsetY => offsetY;
 
 		public override float Scale => scaleXY;
+
+		private Matrix cachedScaleMatrix;
+		private Matrix cachedShaderMatrix;
+
+		public override Matrix GetScaleMatrix() => cachedScaleMatrix;
+		public override Matrix GetShaderMatrix() => cachedShaderMatrix;
 
 		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDeviceManager graphicsDeviceManager, int virtualWidth, int virtualHeight)
 			: base(graphicsDeviceManager.GraphicsDevice)
@@ -82,22 +89,19 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			offsetY = (viewport.Height - VirtualGuaranteedHeight * scaleXY) / 2;
 
 			GraphicsDevice.Viewport = new Viewport(0, 0, viewport.Width, viewport.Height);
+
+			cachedScaleMatrix = CalculateScaleMatrix();
+			cachedShaderMatrix = CalculateShaderMatrix();
 		}
 
-		public override Matrix GetScaleMatrix()
+		private Matrix CalculateScaleMatrix()
 		{
-			/*
-			 * result matrix := 
-			 *
-			 * | scaleX  0      0       offsetx |
-			 * | 0       scaleY 0       offsety |
-			 * | 0       0      1       0       |
-			 * | 0       0      0       1       |
-			 *
-			 *  = Scale(scaleX, scaleY) * translate(RealOffsetX, offsetY)
-			*/
+			return MatrixExtensions.CreateScaleTranslation(offsetX, offsetY, scaleXY, scaleXY);
+		}
 
-			return new Matrix(scaleXY, 0f, 0f, 0, 0, scaleXY, 0, 0, 0, 0, 1, 0, offsetX, offsetY, 0, 1);
+		private Matrix CalculateShaderMatrix()
+		{
+			return Matrix.CreateOrthographicOffCenter(VirtualTotalBoundingBoxLeft, VirtualTotalBoundingBoxRight, VirtualTotalBoundingBoxBottom, VirtualTotalBoundingBoxTop, -1024, +1024);
 		}
 
 		public Matrix GetFarseerDebugProjectionMatrix()
