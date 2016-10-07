@@ -81,9 +81,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}
 #endif
-			 
-
-
+			
 			Entities.AddEntity(new PointParticleEmitter(this, 
 				new Vector2(GDGameScreen.TILE_WIDTH * 8f, GDGameScreen.TILE_WIDTH * 5f), 
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
@@ -96,11 +94,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					ParticleSizeInitialMax = 64,
 					ParticleSizeFinalMin = 16,
 					ParticleSizeFinalMax = 64,
-					Color = Color.CornflowerBlue,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0f,
+					ColorInitial = Color.CornflowerBlue,
+					ColorFinal = Color.DeepPink,
 				}.Build()));
-
-
-
+			
 			AddAgent(new WorldMapDragAgent(this));
 		}
 		

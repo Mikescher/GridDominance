@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -36,6 +35,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		private DynamicVertexBuffer vertexBuffer;
 		private IndexBuffer indexBuffer;
+		private BlendState shaderBlendState ;
 
 		public int ParticleCount { get; private set; } = 0;
 
@@ -90,10 +90,10 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			parameterVirtualViewport = particleEffect.Parameters["VirtualViewport"];
 			parameterCurrentTime = particleEffect.Parameters["CurrentTime"];
 
-			particleEffect.Parameters["ColorInitial"].SetValue(new Vector4(Config.ColorInitial.R, Config.ColorInitial.G, Config.ColorInitial.B, Config.ColorInitial.A * Config.ParticleAlphaInitial));
-			particleEffect.Parameters["ColorFinal"].SetValue(new Vector4(Config.ColorFinal.R, Config.ColorFinal.G, Config.ColorFinal.B, Config.ColorFinal.A * Config.ParticleAlphaFinal));
+			particleEffect.Parameters["ColorInitial"].SetValue(Config.ColorInitial.ToVector4(Config.ParticleAlphaInitial));
+			particleEffect.Parameters["ColorFinal"].SetValue(Config.ColorFinal.ToVector4(Config.ParticleAlphaInitial));
 			particleEffect.Parameters["Texture"].SetValue(Config.Texture.Texture);
-			particleEffect.Parameters["TextureProjection"].SetValue(Config.Texture.GetShaderProjectionMatrix());
+			particleEffect.Parameters["TextureProjection"].SetValue(Config.Texture.GetShaderProjectionMatrix().ToMatrix());
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -210,7 +210,10 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				{
 					vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
 				}
-				
+
+				var oldBlendState = g.BlendState;
+				g.BlendState = BlendState.AlphaBlend;
+
 				parameterOffset.SetValue(Owner.MapOffset);
 				parameterVirtualViewport.SetValue(Owner.VAdapter.GetShaderMatrix());
 				parameterCurrentTime.SetValue(MonoSAMGame.CurrentTime.GetTotalElapsedSeconds());
@@ -228,6 +231,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				}
 
 				g.RasterizerState = oldRaster;
+				g.BlendState = oldBlendState;
 			}
 		}
 

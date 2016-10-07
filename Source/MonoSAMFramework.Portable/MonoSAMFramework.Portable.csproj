@@ -42,8 +42,10 @@
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
     <Compile Include="GameMath\Geometry\GeometryHelper.cs" />
+    <Compile Include="GameMath\Geometry\Matrix3x3.cs" />
     <Compile Include="GameMath\VectorPath\CirclePieceSegment.cs" />
     <Compile Include="GameMath\VectorPath\EllipsePieceSegment.cs" />
     <Compile Include="GameMath\VectorPath\LineSegment.cs" />

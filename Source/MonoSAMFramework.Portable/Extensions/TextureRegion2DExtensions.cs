@@ -16,7 +16,7 @@ namespace MonoSAMFramework.Portable.Extensions
 			return new FSize(source.Width, source.Height);
 		}
 
-		public static Matrix GetShaderProjectionMatrix(this TextureRegion2D source)
+		public static Matrix3x3 GetShaderProjectionMatrix(this TextureRegion2D source)
 		{
 			var bounds = source.Bounds;
 
@@ -26,8 +26,7 @@ namespace MonoSAMFramework.Portable.Extensions
 			float px = bounds.X * 1f / source.Texture.Width;
 			float py = bounds.Y * 1f / source.Texture.Height;
 
-			return Matrix.Identity;
-			//return MatrixExtensions.CreateScaleTranslation(px, py, sx, sy);
+			return Matrix3x3.CreateScaleTranslation(px, py, sx, sy);
 		}
 	}
 }

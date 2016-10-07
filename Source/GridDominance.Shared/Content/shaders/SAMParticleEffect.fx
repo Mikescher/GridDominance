@@ -16,7 +16,7 @@ float4 ColorInitial;
 float4 ColorFinal;
 
 texture Texture;
-float2x2 TextureProjection;
+float3x3 TextureProjection;
 
 sampler Sampler = sampler_state
 {
@@ -71,21 +71,17 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 	output.Color = float4(colorR, colorG, colorB, 1) * colorA;
 
-	//output.TextureCoordinate = mul((input.Corner + 1) / 2, TextureProjection);
-	output.TextureCoordinate = (input.Corner + 1) / 2;
-	
-	output.TextureCoordinate.x *= 0.0182025023;
-	output.TextureCoordinate.y *= 0.0182025023;
-	
-	output.TextureCoordinate.x += 0.443117172;
-	output.TextureCoordinate.y += 0.315425545;
+	float3 texcoords = float3((input.Corner.x + 1) / 2, (input.Corner.y + 1) / 2, 1);
+	output.TextureCoordinate = mul(texcoords, TextureProjection);
+
+	if (progress > 1) output.Color = float4(1,1,1,1);
 
 	return output;
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-	return tex2D(Sampler, input.TextureCoordinate);// *input.Color;
+	return tex2D(Sampler, input.TextureCoordinate) * input.Color;
 }
 
 technique Ambient
