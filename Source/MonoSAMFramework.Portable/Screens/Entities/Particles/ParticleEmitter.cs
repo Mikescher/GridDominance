@@ -7,7 +7,6 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
-using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
@@ -32,10 +31,10 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		private EffectParameter parameterCurrentTime;
 
 		private Particle[] particlePool;
+		private ParticleVBA vboArray;
 
 		private DynamicVertexBuffer vertexBuffer;
 		private IndexBuffer indexBuffer;
-		private BlendState shaderBlendState ;
 
 		public int ParticleCount { get; private set; } = 0;
 
@@ -60,12 +59,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			// Create Particle Pool
 
 			particlePool = new Particle[maxParticleCount];
-			for (int i = 0; i < maxParticleCount; i++) particlePool[i] = new Particle();
+			vboArray = new ParticleVBA(maxParticleCount);
+			for (int i = 0; i < maxParticleCount; i++) particlePool[i] = new Particle(vboArray, i);
+
 
 			// Create VertexBuffer and IndexBuffer
 
 			vertexBuffer = new DynamicVertexBuffer(Owner.GraphicsDevice, ParticleVBO.VertexDeclaration, maxParticleCount * 4, BufferUsage.WriteOnly);
-			vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
+			vertexBuffer.SetData(vboArray.Data);
 
 			short[] indices = new short[maxParticleCount * 6];
 			for (short i = 0; i < maxParticleCount; i++)
@@ -132,8 +133,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 					spawnDelay = _config.GetSpawnDelay();
 				}
 			}
-
-			vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray()); //TODO not cool
 		}
 
 		private void SpawnParticle(GameTime gameTime)
@@ -145,9 +144,10 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			_config.SetParticleVelocity(ref particlePool[ParticleCount].Velocity);
 			particlePool[ParticleCount].SizeInitial = _config.GetParticleSizeInitial();
 			particlePool[ParticleCount].SizeFinal = _config.GetParticleSizeFinal();
-			particlePool[ParticleCount].Init(gameTime);
 
-			//vertexBuffer.SetData(particlePool[ParticleCount].VertexBuffer, ParticleCount * 4, 4);
+			particlePool[ParticleCount].Init(gameTime);
+			
+			vertexBuffer.SetData(vboArray.Data, 0, (ParticleCount + 1) * 4); //TODO there should be a way to only send the four new VBOs instead of all at once
 
 			ParticleCount++;
 		}
@@ -162,42 +162,21 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				return;
 			}
 
-			var tmp = particlePool[idx];
-			particlePool[idx] = particlePool[ParticleCount - 1];
-			particlePool[ParticleCount - 1] = tmp;
+			particlePool[idx].MaxLifetime = particlePool[ParticleCount - 1].MaxLifetime;
+			particlePool[idx].SizeInitial = particlePool[ParticleCount - 1].SizeInitial;
+			particlePool[idx].SizeFinal = particlePool[ParticleCount - 1].SizeFinal;
+			particlePool[idx].StartLifetime = particlePool[ParticleCount - 1].StartLifetime;
+			particlePool[idx].StartPosition = particlePool[ParticleCount - 1].StartPosition;
+			particlePool[idx].Velocity = particlePool[ParticleCount - 1].Velocity;
 
+			particlePool[idx].UpdateVBO();
+			
 			ParticleCount--;
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			//for (int i = 0; i < ParticleCount; i++)
-			//{
-			//	var p = particlePool[i];
-			//	var progress = (MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - particlePool[i].StartLifetime) / p.MaxLifetime;
-			//
-			//	var size = FloatMath.Lerp(p.SizeInitial, p.SizeFinal, progress);
-			//	var alpha = FloatMath.Lerp(_config.ParticleAlphaInitial, _config.ParticleAlphaFinal, progress);
-			//	var color = _config.ColorInitial;
-			//	if (_config.ColorIsChanging)
-			//		color = ColorMath.Blend(_config.ColorInitial, _config.ColorFinal, progress);
-			//	var position = p.StartPosition + p.Velocity * (MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - particlePool[i].StartLifetime);
-			//
-			//	if (size > 0)
-			//	{
-			//		sbatch.Draw(
-			//			_config.Texture.Texture,
-			//			position,
-			//			_config.TextureBounds,
-			//			color * alpha,
-			//			0f,
-			//			_config.TextureCenter,
-			//			size / _config.TextureSize,
-			//			SpriteEffects.None,
-			//			0);
-			//	}
-			//}
-			
+			// all drawing happens in PostDraw
 		}
 
 		public void PostDraw()
@@ -208,7 +187,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			{
 				if (vertexBuffer.IsContentLost)
 				{
-					vertexBuffer.SetData(particlePool.SelectMany(p => p.VertexBuffer).ToArray());
+					vertexBuffer.SetData(vboArray.Data);
 				}
 
 				var oldBlendState = g.BlendState;

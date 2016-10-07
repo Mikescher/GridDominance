@@ -11,7 +11,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		public static readonly Vector2 CORNER_BR = new Vector2(+1, -1);
 		public static readonly Vector2 CORNER_BL = new Vector2(-1, -1);
 
-		public readonly ParticleVBO[] VertexBuffer = new ParticleVBO[4];
+		private readonly ParticleVBA _vba;
+		private readonly int _vbaIndex;
 
 		public Vector2 StartPosition;
 
@@ -23,49 +24,52 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		public float SizeInitial;
 		public float SizeFinal;
 
-		public Particle()
+		public Particle(ParticleVBA vba, int index)
 		{
-			VertexBuffer[0] = new ParticleVBO(); // TL
-			VertexBuffer[1] = new ParticleVBO(); // TR
-			VertexBuffer[2] = new ParticleVBO(); // BR
-			VertexBuffer[3] = new ParticleVBO(); // BL
+			_vba = vba;
+			_vbaIndex = index;
 		}
 
 		public void Init(GameTime gameTime)
 		{
 			StartLifetime = gameTime.GetTotalElapsedSeconds();
 
-			VertexBuffer[0].Corner = CORNER_TL;
-			VertexBuffer[0].StartPosition = StartPosition;
-			VertexBuffer[0].Velocity = Velocity;
-			VertexBuffer[0].StartTime = StartLifetime;
-			VertexBuffer[0].LifeTime = MaxLifetime;
-			VertexBuffer[0].StartSize = SizeInitial;
-			VertexBuffer[0].FinalSize = SizeFinal;
+			UpdateVBO();
+		}
 
-			VertexBuffer[1].Corner = CORNER_TR;
-			VertexBuffer[1].StartPosition = StartPosition;
-			VertexBuffer[1].Velocity = Velocity;
-			VertexBuffer[1].StartTime = StartLifetime;
-			VertexBuffer[1].LifeTime = MaxLifetime;
-			VertexBuffer[1].StartSize = SizeInitial;
-			VertexBuffer[1].FinalSize = SizeFinal;
+		public void UpdateVBO()
+		{
+			_vba.Data[_vbaIndex * 4 + 0].Corner = CORNER_TL;
+			_vba.Data[_vbaIndex * 4 + 0].StartPosition = StartPosition;
+			_vba.Data[_vbaIndex * 4 + 0].Velocity = Velocity;
+			_vba.Data[_vbaIndex * 4 + 0].StartTime = StartLifetime;
+			_vba.Data[_vbaIndex * 4 + 0].LifeTime = MaxLifetime;
+			_vba.Data[_vbaIndex * 4 + 0].StartSize = SizeInitial;
+			_vba.Data[_vbaIndex * 4 + 0].FinalSize = SizeFinal;
 
-			VertexBuffer[2].Corner = CORNER_BR;
-			VertexBuffer[2].StartPosition = StartPosition;
-			VertexBuffer[2].Velocity = Velocity;
-			VertexBuffer[2].StartTime = StartLifetime;
-			VertexBuffer[2].LifeTime = MaxLifetime;
-			VertexBuffer[2].StartSize = SizeInitial;
-			VertexBuffer[2].FinalSize = SizeFinal;
+			_vba.Data[_vbaIndex * 4 + 1].Corner = CORNER_TR;
+			_vba.Data[_vbaIndex * 4 + 1].StartPosition = StartPosition;
+			_vba.Data[_vbaIndex * 4 + 1].Velocity = Velocity;
+			_vba.Data[_vbaIndex * 4 + 1].StartTime = StartLifetime;
+			_vba.Data[_vbaIndex * 4 + 1].LifeTime = MaxLifetime;
+			_vba.Data[_vbaIndex * 4 + 1].StartSize = SizeInitial;
+			_vba.Data[_vbaIndex * 4 + 1].FinalSize = SizeFinal;
 
-			VertexBuffer[3].Corner = CORNER_BL;
-			VertexBuffer[3].StartPosition = StartPosition;
-			VertexBuffer[3].Velocity = Velocity;
-			VertexBuffer[3].StartTime = StartLifetime;
-			VertexBuffer[3].LifeTime = MaxLifetime;
-			VertexBuffer[3].StartSize = SizeInitial;
-			VertexBuffer[3].FinalSize = SizeFinal;
+			_vba.Data[_vbaIndex * 4 + 2].Corner = CORNER_BR;
+			_vba.Data[_vbaIndex * 4 + 2].StartPosition = StartPosition;
+			_vba.Data[_vbaIndex * 4 + 2].Velocity = Velocity;
+			_vba.Data[_vbaIndex * 4 + 2].StartTime = StartLifetime;
+			_vba.Data[_vbaIndex * 4 + 2].LifeTime = MaxLifetime;
+			_vba.Data[_vbaIndex * 4 + 2].StartSize = SizeInitial;
+			_vba.Data[_vbaIndex * 4 + 2].FinalSize = SizeFinal;
+
+			_vba.Data[_vbaIndex * 4 + 3].Corner = CORNER_BL;
+			_vba.Data[_vbaIndex * 4 + 3].StartPosition = StartPosition;
+			_vba.Data[_vbaIndex * 4 + 3].Velocity = Velocity;
+			_vba.Data[_vbaIndex * 4 + 3].StartTime = StartLifetime;
+			_vba.Data[_vbaIndex * 4 + 3].LifeTime = MaxLifetime;
+			_vba.Data[_vbaIndex * 4 + 3].StartSize = SizeInitial;
+			_vba.Data[_vbaIndex * 4 + 3].FinalSize = SizeFinal;
 		}
 	}
 

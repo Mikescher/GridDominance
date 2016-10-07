@@ -124,6 +124,7 @@
     <Compile Include="Screens\Entities\Particles\Particle.cs" />
     <Compile Include="Screens\Entities\Particles\ParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\ParticleEmitterConfig.cs" />
+    <Compile Include="Screens\Entities\Particles\ParticleVBA.cs" />
     <Compile Include="Screens\Entities\Particles\PathParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\PointParticleEmitter.cs" />
     <Compile Include="Screens\GameScreen.cs" />
