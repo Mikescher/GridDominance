@@ -2,7 +2,7 @@
 
 namespace MonoSAMFramework.Portable.Interfaces
 {
-	interface ISAMLayeredDrawable
+	public interface ISAMLayeredDrawable
 	{
 		void DrawBackground(IBatchRenderer sbatch);
 		void DrawForeground(IBatchRenderer sbatch);

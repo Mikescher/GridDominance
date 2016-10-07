@@ -3,7 +3,7 @@ using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Interfaces
 {
-	interface ISAMUpdateable
+	public interface ISAMUpdateable
 	{
 		void Update(GameTime gameTime, InputState istate);
 	}

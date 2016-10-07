@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.Extensions;
 using System;
 
 namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
@@ -10,7 +11,10 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		private float offsetY = 0.0f; // in device ("real") units
 
 		private float scaleXY = 1.0f;
-		
+
+		private readonly GameWindow _window;
+		private readonly GraphicsDeviceManager _graphicsDeviceManager;
+
 		public override float VirtualGuaranteedWidth { get; }
 		public override float VirtualGuaranteedHeight { get; }
 
@@ -30,10 +34,19 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		public override float RealGuaranteedBoundingsOffsetY => offsetY;
 
 		public override float Scale => scaleXY;
-		
-		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDevice graphicsDevice, int virtualWidth, int virtualHeight)
-			:base(graphicsDevice)
+
+		private Matrix cachedScaleMatrix;
+		private Matrix cachedShaderMatrix;
+
+		public override Matrix GetScaleMatrix() => cachedScaleMatrix;
+		public override Matrix GetShaderMatrix() => cachedShaderMatrix;
+
+		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDeviceManager graphicsDeviceManager, int virtualWidth, int virtualHeight)
+			: base(graphicsDeviceManager.GraphicsDevice)
 		{
+			_window = window;
+			_graphicsDeviceManager = graphicsDeviceManager;
+
 			VirtualGuaranteedWidth = virtualWidth;
 			VirtualGuaranteedHeight = virtualHeight;
 
@@ -41,14 +54,19 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 
 			UpdateMatrix();
 		}
-		
-		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDeviceManager graphicsDeviceManager, int virtualWidth, int virtualHeight)
-			: this(window, graphicsDeviceManager.GraphicsDevice, virtualWidth, virtualHeight)
-		{
-		}
 
 		private void OnClientSizeChanged(object sender, EventArgs eventArgs)
 		{
+			// Needed for DirectX rendering
+			// see http://gamedev.stackexchange.com/questions/68914/issue-with-monogame-resizing
+
+			if (_graphicsDeviceManager.PreferredBackBufferWidth != _window.ClientBounds.Width || _graphicsDeviceManager.PreferredBackBufferHeight != _window.ClientBounds.Height)
+			{
+				_graphicsDeviceManager.PreferredBackBufferWidth = _window.ClientBounds.Width;
+				_graphicsDeviceManager.PreferredBackBufferHeight = _window.ClientBounds.Height;
+				_graphicsDeviceManager.ApplyChanges();
+			}
+
 			UpdateMatrix();
 		}
 
@@ -71,22 +89,19 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			offsetY = (viewport.Height - VirtualGuaranteedHeight * scaleXY) / 2;
 
 			GraphicsDevice.Viewport = new Viewport(0, 0, viewport.Width, viewport.Height);
+
+			cachedScaleMatrix = CalculateScaleMatrix();
+			cachedShaderMatrix = CalculateShaderMatrix();
 		}
 
-		public override Matrix GetScaleMatrix()
+		private Matrix CalculateScaleMatrix()
 		{
-			/*
-			 * result matrix := 
-			 *
-			 * | scaleX  0      0       offsetx |
-			 * | 0       scaleY 0       offsety |
-			 * | 0       0      1       0       |
-			 * | 0       0      0       1       |
-			 *
-			 *  = Scale(scaleX, scaleY) * translate(RealOffsetX, offsetY)
-			*/
+			return MatrixExtensions.CreateScaleTranslation(offsetX, offsetY, scaleXY, scaleXY);
+		}
 
-			return new Matrix(scaleXY, 0f, 0f, 0, 0, scaleXY, 0, 0, 0, 0, 1, 0, offsetX, offsetY, 0, 1);
+		private Matrix CalculateShaderMatrix()
+		{
+			return Matrix.CreateOrthographicOffCenter(VirtualTotalBoundingBoxLeft, VirtualTotalBoundingBoxRight, VirtualTotalBoundingBoxBottom, VirtualTotalBoundingBoxTop, -1024, +1024);
 		}
 
 		public Matrix GetFarseerDebugProjectionMatrix()

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using Microsoft.Xna.Framework;
 
 namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
@@ -76,13 +76,14 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FRectangle(value1.X + value2.X, value1.Y + value2.Y, value1.Width, value1.Height);
 		}
 
+		// http://stackoverflow.com/a/306332/1761622
 		internal bool Contains(Vector2 center, FSize size)
 		{
 			return
-				Contains(center.X - size.Width / 2, center.Y - size.Height / 2) || // TL
-				Contains(center.X + size.Width / 2, center.Y - size.Height / 2) || // TR
-				Contains(center.X - size.Width / 2, center.Y + size.Height / 2) || // BL
-				Contains(center.X + size.Width / 2, center.Y + size.Height / 2);   // BR
+				X <= (center.X + size.Width  / 2) &&
+				Y <= (center.Y + size.Height / 2) &&
+				(X + Width)  >= (center.X - size.Width / 2) &&
+				(Y + Height) >= (center.Y - size.Height / 2);
 		}
 
 		public bool Contains(float x, float y)
@@ -102,7 +103,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 				p.X < (X + Width) && 
 				p.Y < (Y + Height);
 		}
-		
+
+		// http://stackoverflow.com/a/306332/1761622
 		public bool Contains(Vector2 v)
 		{
 			return 
@@ -115,10 +117,10 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public bool Contains(Rectangle value)
 		{
 			return 
-				X <= value.X && 
-				Y <= value.Y && 
-				value.X + value.Width <= X + Width && 
-				value.Y + value.Height <= Y + Height;
+				Left   <= value.Right  && 
+				Top    <= value.Bottom && 
+				Right  >= value.Left   && 
+				Bottom >= value.Top;
 		}
 
 		public override bool Equals(object obj)

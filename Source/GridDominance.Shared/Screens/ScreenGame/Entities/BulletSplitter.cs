@@ -62,7 +62,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			DrawingBoundingBox = new FSize(Bullet.BULLET_DIAMETER, Bullet.BULLET_DIAMETER) * scale;
 		}
 
-		public override void OnInitialize()
+		public override void OnInitialize(EntityManager manager)
 		{
 			//
 		}

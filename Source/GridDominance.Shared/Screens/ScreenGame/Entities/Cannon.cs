@@ -95,7 +95,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		#region Manage
 
-		public override void OnInitialize()
+		public override void OnInitialize(EntityManager manager)
 		{
 			controller = Fraction.CreateController(this.GDOwner(), this);
 

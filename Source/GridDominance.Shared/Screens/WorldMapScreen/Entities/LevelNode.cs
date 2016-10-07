@@ -32,7 +32,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			DrawingBoundingBox = new FSize(DIAMETER, DIAMETER);
 		}
 
-		public override void OnInitialize()
+		public override void OnInitialize(EntityManager manager)
 		{
 			//
 		}

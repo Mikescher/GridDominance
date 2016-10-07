@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -12,7 +13,6 @@ using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens
 {
@@ -22,6 +22,7 @@ namespace MonoSAMFramework.Portable.Screens
 		private float _mapOffsetY = 0f;
 
 		public readonly GraphicsDeviceManager Graphics;
+		public GraphicsDevice GraphicsDevice => Graphics.GraphicsDevice;
 		public readonly MonoSAMGame Game;
 
 #if DEBUG
@@ -197,6 +198,8 @@ namespace MonoSAMFramework.Portable.Screens
 			InternalBatch.End();
 			TranslatedBatch.OnEnd();
 			FixedBatch.OnEnd();
+
+			Entities.PostDraw();
 
 #if DEBUG
 			Entities.DrawOuterDebug();

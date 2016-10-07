@@ -90,7 +90,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			{
 				dragSpeed = (istate.PointerPosition - lastMousePos) / lastMousePosTimer;
 
-				Debug.WriteLine(dragSpeed);
+				//Debug.WriteLine(dragSpeed);
 
 				lastMousePosTimer = 0f;
 				lastMousePos = istate.PointerPosition;

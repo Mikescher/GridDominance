@@ -60,6 +60,26 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapScreen.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\fonts\debugFont.spritefont" />
+    <None Include="$(MSBuildThisFileDirectory)Content\fonts\debugFontSmall.spritefont" />
+    <None Include="$(MSBuildThisFileDirectory)Content\fonts\hudFontBold.spritefont" />
+    <None Include="$(MSBuildThisFileDirectory)Content\fonts\hudFontRegular.spritefont" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl003.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl_debug.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\stdvalues.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\shaders\SAMParticleEffect.fx" />
     <None Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_bd.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_fd.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_hd.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_ld.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_md.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_bd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_fd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_hd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_ld.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_md.png" />
   </ItemGroup>
 </Project>

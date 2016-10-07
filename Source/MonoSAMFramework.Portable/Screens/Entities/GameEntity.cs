@@ -2,11 +2,11 @@
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using System;
 using System.Collections.Generic;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {
@@ -86,7 +86,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			sbatch.DrawRectangle(Position - DrawingBoundingBox * 0.5f, DrawingBoundingBox, Color.LightGreen, 1);
 		}
 
-		public abstract void OnInitialize();
+		public abstract void OnInitialize(EntityManager manager);
 		public abstract void OnRemove();
 
 		protected abstract void OnUpdate(GameTime gameTime, InputState istate);
