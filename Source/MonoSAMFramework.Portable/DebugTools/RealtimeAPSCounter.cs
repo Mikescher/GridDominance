@@ -19,6 +19,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public double AverageDelta { get; private set; }
 
 		public double MinimumAPS { get; private set; }
+		public double MaximumDelta { get; private set; }
 
 		public RealtimeAPSCounter(float updateInterval = 2.5f)
 		{
@@ -26,6 +27,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 			lastUpdate = new GameTime().TotalGameTime.TotalSeconds;
 			MinimumAPS = 0;
+			MaximumDelta = 0;
 		}
 
 		public void Reset()
@@ -44,6 +46,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			CurrentDelta = delta;
 			CurrentAPS = 1.0 / delta;
 			MinimumAPS = System.Math.Min(CurrentAPS, MinimumAPS);
+			MaximumDelta = System.Math.Max(CurrentDelta, MaximumDelta);
 
 			bufferSum += delta;
 			bufferCount++;
@@ -57,6 +60,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 				bufferCount = 0;
 
 				MinimumAPS = CurrentAPS;
+				MaximumDelta = CurrentDelta;
 			}
 
 			TotalActions++;

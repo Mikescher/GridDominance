@@ -26,7 +26,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 {
 	public class GDWorldMapScreen : GameScreen
 	{
-		public const int VIEW_WIDTH  = GDGameScreen.VIEW_WIDTH;
+		public const int VIEW_WIDTH = GDGameScreen.VIEW_WIDTH;
 		public const int VIEW_HEIGHT = GDGameScreen.VIEW_HEIGHT;
 
 		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
@@ -61,10 +61,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 #if DEBUG
 			DebugDisp = new DebugTextDisplay(Graphics.GraphicsDevice, Textures.DebugFont);
 			{
-				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} | total = {FPSCounter.TotalActions:000000})");
-				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} | total = {UPSCounter.TotalActions:000000})");
+				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} (d = {FPSCounter.MaximumDelta * 1000:0000.0} ) | total = {FPSCounter.TotalActions:000000})");
+				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} (d = {UPSCounter.MaximumDelta * 1000:0000.0} ) | total = {UPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00}");
-				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<ParticleEmitter>().Sum(p => p.ParticleCount),3}");
+				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<ParticleEmitter>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().OfType<ParticleEmitter>().Where(p=>p.IsInViewport).Sum(p => p.ParticleCount),3})");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastRenderSpriteCount:0000}; OGL Text = {LastRenderTextCount:0000}");
 				DebugDisp.AddLine(() => $"Map Offset = {MapOffset}");
@@ -81,34 +81,218 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}
 #endif
-			
-			Entities.AddEntity(new PointParticleEmitter(this, 
-				new Vector2(GDGameScreen.TILE_WIDTH * 8f, GDGameScreen.TILE_WIDTH * 5f), 
+
+			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 0.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
+			//Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 8.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
+			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 8.5f, GDGameScreen.TILE_WIDTH * -4.5f)));
+			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 4.5f)));
+			//			Entities.AddEntity(new LevelNode(this, new Vector2(GDGameScreen.TILE_WIDTH * 16.5f, GDGameScreen.TILE_WIDTH * 12.5f)));
+
+			Entities.AddEntity(new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 1.5f, GDGameScreen.TILE_WIDTH * 8.5f),
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
 					Texture = Textures.TexParticle[0],
-					SpawnRate = 8f,
-					ParticleLifetime = 16f,
+					SpawnRate = 40f,
+					ParticleLifetime = 1f,
 					ParticleVelocity = 45f,
-					ParticleSizeInitialMin = 16,
-					ParticleSizeInitialMax = 64,
-					ParticleSizeFinalMin = 16,
+					ParticleSize = 48,
+					Color = Color.CornflowerBlue,
+				}.Build()));
+
+			Entities.AddEntity(new PathParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 5.5f, GDGameScreen.TILE_WIDTH * 4.0f),
+				new VectorPath(new List<VectorPathSegment> { new EllipsePieceSegment(FPoint.Zero, 128f, 64f, FloatMath.RAD_NEG_225, FloatMath.RAD_POS_045) }),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 380f,
+					ParticleLifetime = 0.5f,
+					ParticleVelocity = 15f,
+					ParticleSize = 16,
+					Color = Color.Black,
+				}.Build()));
+
+			Entities.AddEntity(new PathParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 5.5f, GDGameScreen.TILE_WIDTH * 5.5f),
+				PathPresets.PATH_LETTER_A.AsScaled(150f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 500,
+					ParticleLifetimeMin = 0.8f,
+					ParticleLifetimeMax = 1.2f,
+					ParticleVelocityMax = 15f,
+					ParticleVelocityMin = 7f,
+					ParticleSizeInitial = 16,
+					ParticleSizeFinal = 12,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0.25f,
+					Color = Color.Black,
+				}.Build()));
+
+			Entities.AddEntity(new PathParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 13.5f, GDGameScreen.TILE_WIDTH * 5.5f),
+				PathPresets.PATH_LETTER_B.AsScaled(150f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 500,
+					ParticleLifetimeMin = 0.8f,
+					ParticleLifetimeMax = 1.2f,
+					ParticleVelocityMax = 15f,
+					ParticleVelocityMin = 7f,
+					ParticleSizeInitial = 16,
+					ParticleSizeFinal = 12,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0.25f,
+					Color = Color.Black,
+				}.Build()));
+
+			Entities.AddEntity(new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 5.5f, GDGameScreen.TILE_WIDTH * 8.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 80f,
+					ParticleLifetime = 0.5f,
+					ParticleVelocity = 45f,
+					ParticleSize = 16,
+					ColorInitial = Color.Yellow,
+					ColorFinal = Color.Red,
+				}.Build()));
+
+			Entities.AddEntity(new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 6.5f, GDGameScreen.TILE_WIDTH * 8.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 80f,
+					ParticleLifetime = 0.5f,
+					ParticleVelocity = 45f,
+					ParticleSize = 16,
+					ColorInitial = Color.Yellow,
+					ColorFinal = Color.Red,
+				}.Build()));
+
+			Entities.AddEntity(new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 7.5f, GDGameScreen.TILE_WIDTH * 8.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[0],
+					SpawnRate = 80f,
+					ParticleLifetime = 0.5f,
+					ParticleVelocity = 45f,
+					ParticleSize = 16,
+					ColorInitial = Color.Yellow,
+					ColorFinal = Color.Red,
+				}.Build()));
+
+			Entities.AddEntity(new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 1.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[12],
+					SpawnRateMin = 45f,
+					SpawnRateMax = 60f,
+					ParticleLifetimeMin = 1.8f,
+					ParticleLifetimeMax = 3.2f,
+					ParticleVelocityMin = 45f,
+					ParticleVelocityMax = 70f,
+					ParticleSizeInitialMin = 8,
+					ParticleSizeInitialMax = 24,
+					ParticleSizeFinalMin = 32,
 					ParticleSizeFinalMax = 64,
 					ParticleAlphaInitial = 1f,
 					ParticleAlphaFinal = 0f,
-					ColorInitial = Color.CornflowerBlue,
-					ColorFinal = Color.DeepPink,
+					ParticleSpawnAngleMin = FloatMath.ToRadians(-35),
+					ParticleSpawnAngleMax = FloatMath.ToRadians(+35),
+					Color = Color.Red,
 				}.Build()));
-			
+
+			Entities.AddEntity(new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 9.5f, GDGameScreen.TILE_WIDTH * 1.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[12],
+					SpawnRateMin = 45f,
+					SpawnRateMax = 60f,
+					ParticleLifetimeMin = 1.8f,
+					ParticleLifetimeMax = 3.2f,
+					ParticleVelocityMin = 45f,
+					ParticleVelocityMax = 70f,
+					ParticleSizeInitialMin = 8,
+					ParticleSizeInitialMax = 24,
+					ParticleSizeFinalMin = 32,
+					ParticleSizeFinalMax = 64,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0f,
+					ParticleSpawnAngleMin = FloatMath.ToRadians(145),
+					ParticleSpawnAngleMax = FloatMath.ToRadians(215),
+					Color = Color.Red,
+				}.Build()));
+
+			for (char chr = 'A'; chr <= 'Z'; chr++)
+			{
+				var i = chr - 'A';
+				var x = GDGameScreen.TILE_WIDTH * 3.5f + GDGameScreen.TILE_WIDTH * 3.5f * (i % 5);
+				var y = GDGameScreen.TILE_WIDTH * 13.5f + GDGameScreen.TILE_WIDTH * 3.5f * (int)(i / 5);
+
+				Entities.AddEntity(new PathParticleEmitter(this,
+					new Vector2(x, y),
+					PathPresets.LETTERS[chr].AsScaled(150f),
+					new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						Texture = Textures.TexParticle[10],
+						SpawnRate = 500,
+						ParticleLifetimeMin = 0.8f,
+						ParticleLifetimeMax = 1.2f,
+						ParticleVelocityMax = 15f,
+						ParticleVelocityMin = 7f,
+						ParticleSizeInitial = 16,
+						ParticleSizeFinal = 12,
+						ParticleAlphaInitial = 1f,
+						ParticleAlphaFinal = 0.25f,
+						ColorInitial = Color.Beige,
+						ColorFinal = Color.Orange,
+					}.Build()));
+			}
+
+
+
+			Entities.AddEntity(PPE1 = new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * 1.5f, GDGameScreen.TILE_WIDTH * 1.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[10],
+					SpawnRate = 150f,
+					ParticleLifetime = 1.5f,
+					ParticleVelocity = 25f,
+					ParticleSizeInitialMin = 16,
+					ParticleSizeInitialMax = 32,
+					ParticleSizeFinalMin = 6,
+					ParticleSizeFinalMax = 8,
+					ParticleAlphaInitial = 1f,
+					ParticleAlphaFinal = 0f,
+					ColorInitial = Color.White,
+					ColorFinal = Color.CornflowerBlue,
+				}.Build()));
+
 			AddAgent(new WorldMapDragAgent(this));
 		}
-		
+
+		private PointParticleEmitter PPE1;
+
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
 #endif
+
+			var p = new Vector2(GDGameScreen.TILE_WIDTH * 13.5f, GDGameScreen.TILE_WIDTH * 5.5f) + new Vector2(GDGameScreen.TILE_WIDTH * 2.0f, 0).Rotate(FloatMath.NormalizeAngle((float)gameTime.TotalGameTime.TotalSeconds));
+
+			PPE1.SetPosition(p);
 		}
 
 		public override void Resize(int width, int height)

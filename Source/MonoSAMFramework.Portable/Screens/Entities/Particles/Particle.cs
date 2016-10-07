@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoSAMFramework.Portable.Extensions;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
@@ -30,9 +29,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			_vbaIndex = index;
 		}
 
-		public void Init(GameTime gameTime)
+		public void Init(float time)
 		{
-			StartLifetime = gameTime.GetTotalElapsedSeconds();
+			StartLifetime = time;
 
 			UpdateVBO();
 		}

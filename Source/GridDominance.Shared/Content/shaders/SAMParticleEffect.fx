@@ -73,8 +73,6 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float3 texcoords = float3((input.Corner.x + 1) / 2, (input.Corner.y + 1) / 2, 1);
 	output.TextureCoordinate = mul(texcoords, TextureProjection);
 
-	if (progress > 1) output.Color = float4(1,1,1,1);
-
 	return output;
 }
 

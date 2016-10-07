@@ -32,6 +32,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		private Particle[] particlePool;
 		private ParticleVBA vboArray;
+		private float internalTime;
 
 		private DynamicVertexBuffer vertexBuffer;
 		private IndexBuffer indexBuffer;
@@ -86,7 +87,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			// Load effect
 
-			particleEffect = Owner.Game.Content.Load<Effect>("shaders/SAMParticleEffect");
+			particleEffect = Owner.Game.Content.Load<Effect>("shaders/SAMParticleEffect").Clone();
 			parameterOffset = particleEffect.Parameters["Offset"]; 
 			parameterVirtualViewport = particleEffect.Parameters["VirtualViewport"];
 			parameterCurrentTime = particleEffect.Parameters["CurrentTime"];
@@ -95,6 +96,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			particleEffect.Parameters["ColorFinal"].SetValue(Config.ColorFinal.ToVector4(Config.ParticleAlphaInitial));
 			particleEffect.Parameters["Texture"].SetValue(Config.Texture.Texture);
 			particleEffect.Parameters["TextureProjection"].SetValue(Config.Texture.GetShaderProjectionMatrix().ToMatrix());
+
+			internalTime = 0;
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -113,9 +116,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		{
 			if (!IsInViewport) return; // No drawing - no updating (state is frozen)
 
+			internalTime += gameTime.GetElapsedSeconds();
+
 			for (int i = ParticleCount-1; i >= 0; i--)
 			{
-				if (gameTime.GetTotalElapsedSeconds() - particlePool[i].StartLifetime > particlePool[i].MaxLifetime)
+				if (internalTime - particlePool[i].StartLifetime > particlePool[i].MaxLifetime)
 				{
 					RemoveParticle(i);
 				}
@@ -127,7 +132,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 				while (timeSinceLastSpawn >= spawnDelay)
 				{
-					SpawnParticle(gameTime);
+					SpawnParticle(internalTime);
 					timeSinceLastSpawn -= spawnDelay;
 
 					spawnDelay = _config.GetSpawnDelay();
@@ -135,7 +140,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			}
 		}
 
-		private void SpawnParticle(GameTime gameTime)
+		private void SpawnParticle(float time)
 		{
 			if (ParticleCount >= particlePool.Length) return; // Could happen if we lag big time
 
@@ -145,7 +150,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			particlePool[ParticleCount].SizeInitial = _config.GetParticleSizeInitial();
 			particlePool[ParticleCount].SizeFinal = _config.GetParticleSizeFinal();
 
-			particlePool[ParticleCount].Init(gameTime);
+			particlePool[ParticleCount].Init(time);
 			
 			vertexBuffer.SetData(vboArray.Data, 0, (ParticleCount + 1) * 4); //TODO there should be a way to only send the four new VBOs instead of all at once
 
@@ -181,6 +186,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		public void PostDraw()
 		{
+			if (!IsInViewport) return;
+
 			var g = Owner.GraphicsDevice;
 
 			if (ParticleCount > 0)
@@ -195,7 +202,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 				parameterOffset.SetValue(Owner.MapOffset);
 				parameterVirtualViewport.SetValue(Owner.VAdapter.GetShaderMatrix());
-				parameterCurrentTime.SetValue(MonoSAMGame.CurrentTime.GetTotalElapsedSeconds());
+				parameterCurrentTime.SetValue(internalTime);
 
 				g.SetVertexBuffer(vertexBuffer);
 				g.Indices = indexBuffer;
@@ -224,7 +231,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			{
 				var p = particlePool[i];
 
-				var position = p.StartPosition + p.Velocity * (MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - particlePool[i].StartLifetime);
+				var position = p.StartPosition + p.Velocity * (internalTime - particlePool[i].StartLifetime);
 
 				sbatch.DrawLine(p.StartPosition, position, Color.GreenYellow * 0.5f);
 			}
