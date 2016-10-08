@@ -276,6 +276,27 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					ColorFinal = Color.CornflowerBlue,
 				}.Build()));
 
+
+
+			Entities.AddEntity(new PointParticleEmitter(this,
+				new Vector2(GDGameScreen.TILE_WIDTH * -12.5f, GDGameScreen.TILE_WIDTH * 16.5f),
+				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+				{
+					Texture = Textures.TexParticle[13],
+					SpawnRate = 15000f,
+					ParticleLifetime = 7.5f,
+					ParticleVelocityMin = 5f,
+					ParticleVelocityMax = 100f,
+					ParticleSizeInitialMin = 0,
+					ParticleSizeInitialMax = 16,
+					ParticleSizeFinalMin = 16,
+					ParticleSizeFinalMax = 94,
+					ParticleAlphaInitial = 0.66f,
+					ParticleAlphaFinal = 0f,
+					ColorInitial = Color.DarkRed,
+					ColorFinal = Color.LightSlateGray,
+				}.Build()));
+
 			AddAgent(new WorldMapDragAgent(this));
 		}
 

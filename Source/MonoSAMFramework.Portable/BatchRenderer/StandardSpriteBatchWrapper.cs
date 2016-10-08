@@ -2,14 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.RenderHelper;
 using System;
 using System.Linq;
 using System.Text;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.BatchRenderer
 {
@@ -431,20 +430,24 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			renderSpriteCount += sides;
 #endif
 
-			float width = FloatMath.Sqrt(radius * radius * 2);
+			float angle = FloatMath.TAU / sides;
+			float sideWidth = FloatMath.Asin(angle / 2) * 2 * radius;
+			float rectHeight = FloatMath.Sin(FloatMath.RAD_POS_090 - angle / 2) * radius;
 
+			
+			var r = new FRectangle(center.X - sideWidth/2, center.Y, sideWidth, rectHeight);
+			
 			for (int i = 0; i < sides; i++)
 			{
 				internalBatch.Draw(
 					StaticTextures.SinglePixel.Texture,
-					center,
+					null,
+					r.Round(),
 					StaticTextures.SinglePixel.Bounds,
-					color,
-					(FloatMath.TAU * i) / (4f * sides),
-					StaticTextures.SinglePixel.Center(),
-					new Vector2(width, width), 
-					SpriteEffects.None,
-					0);
+					new Vector2(0.5f, 0),
+					angle * i,
+					Vector2.One, 
+					color);
 			}
 		}
 

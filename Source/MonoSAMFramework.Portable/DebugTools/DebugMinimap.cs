@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.DebugTools
@@ -51,11 +51,11 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 				if (entity.IsInViewport)
 				{
-					sbatch.FillCircle(offsetZero + entity.Position * scale, radius, 4, entity.DebugIdentColor * 0.75f);
+					sbatch.FillCircle(offsetZero + entity.Position * scale, radius, 8, entity.DebugIdentColor * 0.85f);
 				}
 				else
 				{
-					sbatch.FillCircle(offsetZero + entity.Position * scale, radius, 4, entity.DebugIdentColor * 0.15f);
+					sbatch.FillCircle(offsetZero + entity.Position * scale, radius, 8, entity.DebugIdentColor * 0.25f);
 				}
 			}
 		}

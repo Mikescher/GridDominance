@@ -6,7 +6,6 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
-using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
@@ -76,21 +75,43 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			vertexBuffer = new VertexBuffer(Owner.GraphicsDevice, ParticleVBO.VertexDeclaration, geometryCount * 4, BufferUsage.WriteOnly);
 			vertexBuffer.SetData(vboArray.Data);
 
-			short[] indices = new short[geometryCount * 6];
-			for (short i = 0; i < geometryCount; i++)
+			if (geometryCount * 6 < short.MaxValue)
 			{
-				// TR triangle
-				indices[i * 6 + 0] = (short)(i * 4 + 0);
-				indices[i * 6 + 1] = (short)(i * 4 + 2);
-				indices[i * 6 + 2] = (short)(i * 4 + 1);
+				short[] indices = new short[geometryCount * 6];
+				for (short i = 0; i < geometryCount; i++)
+				{
+					// TR triangle
+					indices[i * 6 + 0] = (short)(i * 4 + 0);
+					indices[i * 6 + 1] = (short)(i * 4 + 2);
+					indices[i * 6 + 2] = (short)(i * 4 + 1);
 
-				// BL triangle
-				indices[i * 6 + 3] = (short)(i * 4 + 0);
-				indices[i * 6 + 4] = (short)(i * 4 + 3);
-				indices[i * 6 + 5] = (short)(i * 4 + 2);
+					// BL triangle
+					indices[i * 6 + 3] = (short)(i * 4 + 0);
+					indices[i * 6 + 4] = (short)(i * 4 + 3);
+					indices[i * 6 + 5] = (short)(i * 4 + 2);
+				}
+				indexBuffer = new IndexBuffer(Owner.GraphicsDevice, typeof(short), geometryCount * 6, BufferUsage.WriteOnly);
+				indexBuffer.SetData(indices);
 			}
-			indexBuffer = new IndexBuffer(Owner.GraphicsDevice, typeof(short), geometryCount * 6, BufferUsage.WriteOnly);
-			indexBuffer.SetData(indices);
+			else
+			{
+				int[] indices = new int[geometryCount * 6];
+				for (int i = 0; i < geometryCount; i++)
+				{
+					// TR triangle
+					indices[i * 6 + 0] = (i * 4 + 0);
+					indices[i * 6 + 1] = (i * 4 + 2);
+					indices[i * 6 + 2] = (i * 4 + 1);
+
+					// BL triangle
+					indices[i * 6 + 3] = (i * 4 + 0);
+					indices[i * 6 + 4] = (i * 4 + 3);
+					indices[i * 6 + 5] = (i * 4 + 2);
+				}
+				indexBuffer = new IndexBuffer(Owner.GraphicsDevice, typeof(int), geometryCount * 6, BufferUsage.WriteOnly);
+				indexBuffer.SetData(indices);
+			}
+
 
 			// Load effect
 
