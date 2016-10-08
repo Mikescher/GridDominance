@@ -25,7 +25,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		protected override void InitializeParticle(Particle p, int index, int count)
 		{
-			p.StartPosition = vectorPath.Get(index * vectorPath.Length / count);
+			var pos = vectorPath.Get(index * vectorPath.Length / count);
+
+			p.StartPosition = (pos - vectorPathCenter);
 		}
 
 		protected override void RecalculateState()

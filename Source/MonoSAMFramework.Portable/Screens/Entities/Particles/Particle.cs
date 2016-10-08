@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoSAMFramework.Portable.GameMath;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
@@ -49,16 +48,17 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		public bool IsCurrentlyRendered(float time, ParticleEmitterConfig cfg)
 		{
-			if (cfg == null) return false;
-
-			int iteration = (int)((time + StartTimeOffset) / cfg.ParticleLifetimeMax);
-			float age = (time + StartTimeOffset) % cfg.ParticleLifetimeMax;
-
-			var rand = new System.Random(Random.GetHashCode() * iteration); // not correct - shader uses different rand method
-
-			float maxLifetime = FloatMath.Lerp(cfg.ParticleLifetimeMin, cfg.ParticleLifetimeMax, rand.Next());
-
-			return (age < maxLifetime);
+			return false;
+			//if (cfg == null) return false;
+			//
+			//int iteration = (int)((time + StartTimeOffset) / cfg.ParticleLifetimeMax);
+			//float age = (time + StartTimeOffset) % cfg.ParticleLifetimeMax;
+			//
+			//var rand = new System.Random(Random.GetHashCode() * iteration); // not correct - shader uses different rand method
+			//
+			//float maxLifetime = FloatMath.Lerp(cfg.ParticleLifetimeMin, cfg.ParticleLifetimeMax, rand.Next());
+			//
+			//return (age < maxLifetime);
 		}
 	}
 

@@ -165,7 +165,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			var oldBlendState = g.BlendState;
 			g.BlendState = BlendState.AlphaBlend;
 
-			parameterOffset.SetValue(Owner.MapOffset);
+			parameterOffset.SetValue(Owner.MapOffset + Position);
 			parameterVirtualViewport.SetValue(Owner.VAdapter.GetShaderMatrix());
 			parameterCurrentTime.SetValue(MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - initializeTime);
 

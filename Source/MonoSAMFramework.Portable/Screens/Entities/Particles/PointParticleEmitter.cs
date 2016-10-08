@@ -24,7 +24,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		protected override void InitializeParticle(Particle p, int index, int count)
 		{
-			p.StartPosition = Position;
+			p.StartPosition = Vector2.Zero;
 		}
 
 		protected override void RecalculateState()

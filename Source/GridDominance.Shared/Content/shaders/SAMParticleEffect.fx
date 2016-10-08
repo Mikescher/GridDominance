@@ -79,73 +79,13 @@ struct VertexShaderOutput
 };
 
 //---------------------------------------------------------------------------------------------------------
-//  ================================================ NOISE ================================================
-//  https://github.com/ashima/webgl-noise/blob/bfd18615a9662aa329c80998d9fdcbc7d605dd5f/src/noise2D.glsl
-//---------------------------------------------------------------------------------------------------------
-
-float3 mod289(float3 x) {
-	return x - floor(x * (1.0 / 289.0)) * 289.0;
-}
-
-float2 mod289(float2 x) {
-	return x - floor(x * (1.0 / 289.0)) * 289.0;
-}
-
-float3 permute(float3 x) {
-	return mod289(((x*34.0)+1.0)*x);
-}
-
-float snoise(float2 v)
-{
-	const float4 C = float4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
-	                        0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)
-	                       -0.577350269189626,  // -1.0 + 2.0 * C.x
-	                        0.024390243902439); // 1.0 / 41.0
-	// First corner
-	float2 i	= floor(v + dot(v, C.yy) );
-	float2 x0 = v -	 i + dot(i, C.xx);
-
-	// Other corners
-	float2 i1;
-	//i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
-	//i1.y = 1.0 - i1.x;
-	i1 = (x0.x > x0.y) ? float2(1.0, 0.0) : float2(0.0, 1.0);
-	// x0 = x0 - 0.0 + 0.0 * C.xx ;
-	// x1 = x0 - i1 + 1.0 * C.xx ;
-	// x2 = x0 - 1.0 + 2.0 * C.xx ;
-	float4 x12 = x0.xyxy + C.xxzz;
-	x12.xy -= i1;
-
-	// Permutations
-	i = mod289(i); // Avoid truncation effects in permutation
-	float3 p = permute( permute( i.y + float3(0.0, i1.y, 1.0 )) + i.x + float3(0.0, i1.x, 1.0 ));
-
-	float3 m = max(0.5 - float3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-	m = m*m;
-	m = m*m;
-
-	// Gradients: 41 points uniformly over a line, mapped onto a diamond.
-	// The ring size 17*17 = 289 is close to a multiple of 41 (41*7 = 287)
-
-	float3 x = 2.0 * frac(p * C.www) - 1.0;
-	float3 h = abs(x) - 0.5;
-	float3 ox = floor(x + 0.5);
-	float3 a0 = x - ox;
-
-	// Normalise gradients implicitly by scaling m
-	// Approximation of: m *= inversesqrt( a0*a0 + h*h );
-	m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
-
-// Compute final noise value at P
-	float3 g;
-	g.x  = a0.x  * x0.x   + h.x  * x0.y;
-	g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-	return 130.0 * dot(m, g);
-}
-
-//---------------------------------------------------------------------------------------------------------
 //  ============================================== FUNCTIONS ==============================================
 //---------------------------------------------------------------------------------------------------------
+
+float rand(float2 co) 
+{
+	return frac(sin(dot(co.xy, float2(12.9898, 78.233))) * 43758.5453);
+}
 
 float2 rot2(float2 vec, float rad)
 {
@@ -154,14 +94,7 @@ float2 rot2(float2 vec, float rad)
 
 float randLerp(float min, float max, float2 seed, int seedModifier1, int seedModifier2)
 {
-	float rng = snoise(float2(seed.x * (seedModifier1 + 1), seed.y * (seedModifier2 + 1)));
-
-	return lerp(min, max, rng);
-}
-
-float randNoise(float2 seed, int seedModifier1, int seedModifier2)
-{
-	return snoise(float2(seed.x * (seedModifier1 + 1), seed.y * (seedModifier2 + 1)));
+	return lerp(min, max, rand(float2(seed.x + seedModifier1, seed.y + seedModifier2))); //TODO better RAND
 }
 
 //---------------------------------------------------------------------------------------------------------
@@ -172,36 +105,34 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 {
 	VertexShaderOutput output;
 
-	int iteration = int((CurrentTime + input.StartTimeOffset) / ParticleRespawnTime);
-	float age = (CurrentTime + input.StartTimeOffset) % ParticleRespawnTime;
+	int iteration = int((CurrentTime + input.Random.x * ParticleRespawnTime) / ParticleRespawnTime);
+	float age = (CurrentTime + input.Random.x * ParticleRespawnTime) % ParticleRespawnTime;
 
-	float r1 = randNoise(input.Random, iteration, 1);
+	float MaxLifetime = randLerp(ParticleLifetimeMin, ParticleLifetimeMax, input.Random, iteration, 1);
+	float StartLifetime = randLerp(0, ParticleRespawnTime - MaxLifetime, input.Random, iteration, 2);
+	float EndLifetime = (StartLifetime + MaxLifetime);
 
-	float MaxLifetime = lerp(ParticleLifetimeMin, ParticleLifetimeMax, r1);
 
-	if (age > MaxLifetime)
+	if (age<StartLifetime || age>EndLifetime)
 	{
 		output.Position = float4(0, 0, 0, 0);
 		output.Color = float4(0, 0, 0, 0);
 		output.TextureCoord = float2(0, 0);
 		return output;
 	}
+	float progress = (age - StartLifetime) / MaxLifetime;
 
+	float StartSize = randLerp(ParticleSizeInitialMin, ParticleSizeInitialMax, input.Random, iteration, 3);
+	float FinalSize = randLerp(ParticleSizeFinalMin, ParticleSizeFinalMax, input.Random, iteration, 4);
 
-	float r2 = randNoise(input.Random, iteration, 1);
+	float2 Velocity = FixedParticleSpawnAngle;
+	if (ParticleSpawnAngleIsRandom)
+	{
+		float angle = randLerp(ParticleSpawnAngleMin, ParticleSpawnAngleMax, input.Random, iteration, 5);
+		float absVel = randLerp(ParticleVelocityMin, ParticleVelocityMax, input.Random, iteration, 6);
+		Velocity = rot2(float2(absVel, 0), angle);
+	}
 
-	float StartSize = lerp(ParticleSizeInitialMin, ParticleSizeInitialMax, r1);
-	float FinalSize = lerp(ParticleSizeFinalMin, ParticleSizeFinalMax, r2);
-
-	//float2 Velocity = FixedParticleSpawnAngle;
-	//if (ParticleSpawnAngleIsRandom)
-	//{
-		float angle = lerp(ParticleSpawnAngleMin, ParticleSpawnAngleMax, r2);
-		float absVel = lerp(ParticleVelocityMin, ParticleVelocityMax, r1);
-		float2 Velocity = rot2(float2(absVel, 0), angle);
-	//}
-
-	float progress = age / MaxLifetime;
 	float size = lerp(StartSize, FinalSize, progress) / 2;
 
 	float colorR = lerp(ColorInitial.r, ColorFinal.r, progress);
