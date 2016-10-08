@@ -15,7 +15,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		public Vector2 StartPosition;
 		public float StartTimeOffset;
-		public Vector2 Random;
+		public Vector4 Random;
 
 		public Particle(ParticleVBA vba, int index)
 		{
@@ -67,14 +67,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		public Vector2 Corner;
 		public Vector2 StartPosition;
 		public float StartTimeOffset;
-		public Vector2 Random;
+		public Vector4 Random;
 
 		public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration
 		(
 			new VertexElement(0, VertexElementFormat.Vector2, VertexElementUsage.Position, 0),
 			new VertexElement(8, VertexElementFormat.Vector2, VertexElementUsage.Position, 1),
 			new VertexElement(16, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 0),
-			new VertexElement(20, VertexElementFormat.Vector2, VertexElementUsage.Position, 2)
+			new VertexElement(20, VertexElementFormat.Vector4, VertexElementUsage.Position, 2)
 		);
 	}
 }

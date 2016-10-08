@@ -61,7 +61,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				particlePool[i] = new Particle(vboArray, i)
 				{
 					StartPosition = Position,
-					Random = new Vector2(FloatMath.GetRandom(), FloatMath.GetRandom()),
+					Random = new Vector4(FloatMath.GetRandom(), FloatMath.GetRandom(), FloatMath.GetRandom(), FloatMath.GetRandom()),
 					StartTimeOffset = Config.SpawnDelay * i
 				};
 				

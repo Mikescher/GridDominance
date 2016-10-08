@@ -68,7 +68,7 @@ struct VertexShaderInput
 	float2 Corner          : POSITION0;
 	float2 StartPosition   : POSITION1;
 	float  StartTimeOffset : TEXCOORD0;
-	float2 Random          : POSITION2;
+	float4 Random          : POSITION2;
 };
 
 struct VertexShaderOutput
@@ -92,9 +92,9 @@ float2 rot2(float2 vec, float rad)
 	return float2(vec.x * cos(rad) - vec.y * sin(rad), vec.x * sin(rad) + vec.y * cos(rad));
 }
 
-float randLerp(float min, float max, float2 seed, int seedModifier1, int seedModifier2)
+float randLerp(float min, float max, float4 seed, int iteration, int modifier)
 {
-	return lerp(min, max, rand(float2(seed.x + seedModifier1, seed.y + seedModifier2))); //TODO better RAND
+	return lerp(min, max, rand(float2(iteration + seed[modifier % 4], iteration + seed[int(modifier / 4) % 4])));
 }
 
 //---------------------------------------------------------------------------------------------------------
@@ -128,8 +128,8 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float2 Velocity = FixedParticleSpawnAngle;
 	if (ParticleSpawnAngleIsRandom == true)
 	{
-		float angle = randLerp(ParticleSpawnAngleMin, ParticleSpawnAngleMax, input.Random, iteration, 5);
-		float absVel = randLerp(ParticleVelocityMin, ParticleVelocityMax, input.Random, iteration, 6);
+		float angle = randLerp(ParticleSpawnAngleMin, ParticleSpawnAngleMax, input.Random, iteration, 6);
+		float absVel = randLerp(ParticleVelocityMin, ParticleVelocityMax, input.Random, iteration, 7);
 		Velocity = rot2(float2(absVel, 0), angle);
 	}
 
