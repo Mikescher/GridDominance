@@ -22,10 +22,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			_position = pos;
 		}
 
-		protected override void SetParticleSpawnPosition(ref Vector2 vec)
+		protected override void InitializeParticle(Particle p, int index, int count)
 		{
-			vec.X = Position.X;
-			vec.Y = Position.Y;
+			p.StartPosition = Position;
 		}
 
 		protected override void RecalculateState()

@@ -12,13 +12,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		{
 			public TextureRegion2D Texture;
 
-			public float SpawnRateMin = 0f; // particles per second
-			public float SpawnRateMax = 0f; // particles per second
-			public float? SpawnRate
-			{
-				get { return FloatMath.FloatEquals(SpawnRateMin, SpawnRateMax) ? SpawnRateMin : (float?)null; }
-				set { if (value != null) { SpawnRateMin = value.Value; SpawnRateMax = value.Value; } }
-			}
+			public float SpawnRate = 0f; // particles per second
 
 			public float ParticleLifetimeMin = 0;
 			public float ParticleLifetimeMax = 0;
@@ -87,19 +81,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		private static readonly Vector2 vectorOne = Vector2.UnitX;
 
-		public readonly bool Active;
-
 		public readonly TextureRegion2D Texture;
 		public readonly Rectangle TextureBounds;
 		public readonly Vector2 TextureCenter;
 		public readonly float TextureSize;
 
-		public readonly float SpawnRateMin;
-		public readonly float SpawnRateMax;
-
-		public readonly float SpawnDelayMin;
-		public readonly float SpawnDelayMax;
-		public readonly bool SpawnDelayIsRandom;
+		public readonly float SpawnRate;
+		public readonly float SpawnDelay;
 
 		public readonly float ParticleLifetimeMin;
 		public readonly float ParticleLifetimeMax;
@@ -137,12 +125,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			TextureCenter = Texture.Center();
 			TextureSize = TextureBounds.Width;
 
-			SpawnRateMin = b.SpawnRateMin;
-			SpawnRateMax = b.SpawnRateMax;
+			SpawnRate = b.SpawnRate;
 
-			SpawnDelayMin = 1f / b.SpawnRateMin;
-			SpawnDelayMax= 1f / b.SpawnRateMax;
-			SpawnDelayIsRandom = FloatMath.FloatInequals(SpawnRateMin, SpawnRateMax);
+			SpawnDelay = 1f / b.SpawnRate;
 
 			ParticleLifetimeMin = b.ParticleLifetimeMin;
 			ParticleLifetimeMax = b.ParticleLifetimeMax;
@@ -172,8 +157,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			ColorInitial = b.ColorInitial;
 			ColorFinal = b.ColorFinal;
 			ColorIsChanging = (ColorInitial != ColorFinal);
-
-			Active = (Texture != null) && (SpawnRateMin > 0) && (ParticleLifetimeMin > 0);
 		}
 
 		public float GetParticleLifetime()
@@ -232,14 +215,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				return FloatMath.GetRangedRandom(ParticleSizeFinalMin, ParticleSizeFinalMax);
 			else
 				return ParticleSizeFinalMin;
-		}
-
-		public float GetSpawnDelay()
-		{
-			if (SpawnDelayIsRandom)
-				return FloatMath.GetRangedRandom(SpawnDelayMin, SpawnDelayMax);
-			else
-				return SpawnDelayMin;
 		}
 	}
 }

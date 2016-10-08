@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 
@@ -24,13 +23,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			Position = pos;
 		}
 
-		protected override void SetParticleSpawnPosition(ref Vector2 vec)
+		protected override void InitializeParticle(Particle p, int index, int count)
 		{
-			var len = FloatMath.GetRangedRandom(0, vectorPath.Length);
-			var pos = vectorPath.Get(len);
-
-			vec.X = Position.X + (pos.X - vectorPathCenter.X);
-			vec.Y = Position.Y + (pos.Y - vectorPathCenter.Y);
+			p.StartPosition = vectorPath.Get(index * vectorPath.Length / count);
 		}
 
 		protected override void RecalculateState()
@@ -40,7 +35,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			float maxDistance = Config.ParticleLifetimeMax * Config.ParticleVelocityMax;
 			_boundingbox = vectorPath.Boundings.AsInflated(maxDistance + Config.ParticleSizeFinalMax, maxDistance + Config.ParticleSizeFinalMax).Size;
 		}
-		
+
 		protected override void DrawDebugBorders(IBatchRenderer sbatch)
 		{
 			base.DrawDebugBorders(sbatch);

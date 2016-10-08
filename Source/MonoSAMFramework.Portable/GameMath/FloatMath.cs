@@ -370,7 +370,12 @@ namespace MonoSAMFramework.Portable.GameMath
 
 		public static int GetRandomSign()
 		{
-			return (Random.Next()%2)*2 - 1; // returns -1 or +1
+			return (Random.Next() % 2) * 2 - 1; // returns -1 or +1
+		}
+
+		public static int GetRandom()
+		{
+			return Random.Next();
 		}
 
 		public static bool EpsilonEquals(float a, float b)

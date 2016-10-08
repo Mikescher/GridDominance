@@ -64,7 +64,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} (d = {FPSCounter.MaximumDelta * 1000:0000.0} ) | total = {FPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} (d = {UPSCounter.MaximumDelta * 1000:0000.0} ) | total = {UPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00}");
-				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<ParticleEmitter>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().OfType<ParticleEmitter>().Where(p=>p.IsInViewport).Sum(p => p.ParticleCount),3})");
+				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<ParticleEmitter>().Sum(p => p.ParticleDataCount),3}/{Entities.Enumerate().OfType<ParticleEmitter>().Sum(p => p.ParticleRenderCount),3} (Visible: {Entities.Enumerate().OfType<ParticleEmitter>().Where(p=>p.IsInViewport).Sum(p => p.ParticleDataCount),3}/{Entities.Enumerate().OfType<ParticleEmitter>().Where(p => p.IsInViewport).Sum(p => p.ParticleRenderCount),3})");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastRenderSpriteCount:0000}; OGL Text = {LastRenderTextCount:0000}");
 				DebugDisp.AddLine(() => $"Map Offset = {MapOffset}");
@@ -193,8 +193,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
 					Texture = Textures.TexParticle[12],
-					SpawnRateMin = 45f,
-					SpawnRateMax = 60f,
+					SpawnRate = 55f,
 					ParticleLifetimeMin = 1.8f,
 					ParticleLifetimeMax = 3.2f,
 					ParticleVelocityMin = 45f,
@@ -215,8 +214,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 				{
 					Texture = Textures.TexParticle[12],
-					SpawnRateMin = 45f,
-					SpawnRateMax = 60f,
+					SpawnRate = 55f,
 					ParticleLifetimeMin = 1.8f,
 					ParticleLifetimeMax = 3.2f,
 					ParticleVelocityMin = 45f,

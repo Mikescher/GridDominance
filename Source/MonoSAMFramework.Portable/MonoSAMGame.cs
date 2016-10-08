@@ -14,6 +14,8 @@ namespace MonoSAMFramework.Portable
 
 		protected MonoSAMGame()
 		{
+			CurrentTime = new GameTime();
+
 			Graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 		}
