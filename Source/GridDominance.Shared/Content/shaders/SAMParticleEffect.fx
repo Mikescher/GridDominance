@@ -126,7 +126,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float FinalSize = randLerp(ParticleSizeFinalMin, ParticleSizeFinalMax, input.Random, iteration, 4);
 
 	float2 Velocity = FixedParticleSpawnAngle;
-	if (ParticleSpawnAngleIsRandom)
+	if (ParticleSpawnAngleIsRandom == true)
 	{
 		float angle = randLerp(ParticleSpawnAngleMin, ParticleSpawnAngleMax, input.Random, iteration, 5);
 		float absVel = randLerp(ParticleVelocityMin, ParticleVelocityMax, input.Random, iteration, 6);

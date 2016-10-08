@@ -35,7 +35,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		private int geometryCount;
 
 		public int ParticleDataCount => geometryCount;
-		public int ParticleRenderCount => particlePool?.Count(p => p.IsCurrentlyRendered(MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - initializeTime, Config)) ?? 0;
+		public int ParticleRenderCount => 0;//particlePool?.Count(p => p.IsCurrentlyRendered(MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - initializeTime, Config)) ?? 0;
 
 		protected ParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg) : base(scrn)
 		{

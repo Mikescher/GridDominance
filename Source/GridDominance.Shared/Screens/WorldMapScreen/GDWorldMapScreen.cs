@@ -242,16 +242,16 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 					{
 						Texture = Textures.TexParticle[10],
-						SpawnRate = 500,
+						SpawnRate = 3000,
 						ParticleLifetimeMin = 0.8f,
-						ParticleLifetimeMax = 1.2f,
+						ParticleLifetimeMax = 1.5f,
 						ParticleVelocityMax = 15f,
 						ParticleVelocityMin = 7f,
 						ParticleSizeInitial = 16,
-						ParticleSizeFinal = 12,
+						ParticleSizeFinal = 1,
 						ParticleAlphaInitial = 1f,
-						ParticleAlphaFinal = 0.25f,
-						ColorInitial = Color.Beige,
+						ParticleAlphaFinal = 0f,
+						ColorInitial = Color.Azure,
 						ColorFinal = Color.Orange,
 					}.Build()));
 			}
