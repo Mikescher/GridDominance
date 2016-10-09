@@ -43,6 +43,7 @@
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
+    <Compile Include="GameMath\CircularDirection.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
     <Compile Include="GameMath\Geometry\GeometryHelper.cs" />
     <Compile Include="GameMath\Geometry\Matrix3x3.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Screens\Entities\Particles\ParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\ParticleEmitterConfig.cs" />
     <Compile Include="Screens\Entities\Particles\ParticleVBA.cs" />
+    <Compile Include="Screens\Entities\Particles\AnimatedPathParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\PathParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\PointParticleEmitter.cs" />
     <Compile Include="Screens\GameScreen.cs" />

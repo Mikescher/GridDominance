@@ -33,7 +33,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 		public static readonly VectorPath PATH_LETTER_C = VectorPathBuilder
 																	.Start(LETTER_SCALE)
-																	.Ellipse(14, 20, 14, 20, 45, 315)
+																	.EllipseCCW(14, 20, 14, 20, 315, 45)
 																	.Build();
 
 		public static readonly VectorPath PATH_LETTER_D = VectorPathBuilder

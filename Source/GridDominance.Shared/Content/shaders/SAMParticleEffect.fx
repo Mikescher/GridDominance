@@ -113,7 +113,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float EndLifetime = (StartLifetime + MaxLifetime);
 
 
-	if (age<StartLifetime || age>EndLifetime)
+	if (age<StartLifetime || age>EndLifetime || CurrentTime < input.StartTimeOffset)
 	{
 		output.Position = float4(0, 0, 0, 0);
 		output.Color = float4(0, 0, 0, 0);

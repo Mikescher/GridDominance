@@ -93,6 +93,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		public readonly float ParticleLifetimeMax;
 		public readonly bool ParticleLifetimeIsRandom;
 
+		public readonly float ParticleRespawnTime;
+
 		public readonly float ParticleSpawnAngleMin;
 		public readonly float ParticleSpawnAngleMax;
 		public readonly bool ParticleSpawnAngleIsRandom;
@@ -131,6 +133,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			ParticleLifetimeMin = b.ParticleLifetimeMin;
 			ParticleLifetimeMax = b.ParticleLifetimeMax;
+			ParticleRespawnTime = b.ParticleLifetimeMax;
 			ParticleLifetimeIsRandom = FloatMath.FloatInequals(ParticleLifetimeMin, ParticleLifetimeMax);
 
 			ParticleSpawnAngleMin = b.ParticleSpawnAngleMin;

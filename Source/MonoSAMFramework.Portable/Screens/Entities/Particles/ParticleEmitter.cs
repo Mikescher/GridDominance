@@ -16,7 +16,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 	{
 		public override Color DebugIdentColor => Color.Gold * 0.1f;
 
-		private float initializeTime;
+		protected float initializeTime;
 
 		private ParticleEmitterConfig _config;
 		public ParticleEmitterConfig Config { get { return _config; } set { _config = value; RecalculateState(); } }
@@ -50,6 +50,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		private void LoadShader()
 		{
+			UnloadShader();
+
 			geometryCount = FloatMath.Ceiling(_config.SpawnRate * _config.ParticleLifetimeMax);
 
 			// Create Particle Pool
@@ -130,7 +132,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			particleEffect.Parameters["ParticleLifetimeMin"].SetValue(Config.ParticleLifetimeMin);
 			particleEffect.Parameters["ParticleLifetimeMax"].SetValue(Config.ParticleLifetimeMax);
-			particleEffect.Parameters["ParticleRespawnTime"].SetValue(Config.ParticleLifetimeMax);
+			particleEffect.Parameters["ParticleRespawnTime"].SetValue(Config.ParticleRespawnTime);
 
 			particleEffect.Parameters["ParticleSpawnAngleMin"].SetValue(Config.ParticleSpawnAngleMin);
 			particleEffect.Parameters["ParticleSpawnAngleMax"].SetValue(Config.ParticleSpawnAngleMax);
@@ -153,6 +155,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			particleEffect.Parameters["ColorFinal"].SetValue(Config.ColorFinal.ToVector4(Config.ParticleAlphaInitial));
 		}
 
+		private void UnloadShader()
+		{
+			vertexBuffer?.Dispose();
+			indexBuffer?.Dispose();
+			particlePool = null;
+			vboArray = null;
+		}
+
 		public override void OnInitialize(EntityManager manager)
 		{
 			RecalculateState();
@@ -162,7 +172,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		public override void OnRemove()
 		{
-			// NOP
+			UnloadShader();
 		}
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)

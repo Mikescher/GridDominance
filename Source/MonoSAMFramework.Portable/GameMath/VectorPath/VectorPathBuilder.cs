@@ -89,6 +89,17 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			return this;
 		}
 
+		public VectorPathBuilder EllipseCCW(float rx, float ry, float cx, float cy, float degStart, float deggEnd)
+		{
+			var ell = new EllipsePieceSegment(new FPoint(cx * scale, cy * scale), rx * scale, ry * scale, degStart * FloatMath.DegRad, deggEnd * FloatMath.DegRad, CircularDirection.CCW);
+
+			segments.Add(ell);
+
+			current = ell.GetEnd();
+
+			return this;
+		}
+
 		public VectorPathBuilder FullEllipse(float rx, float ry, float cx, float cy)
 		{
 			var ell = new EllipsePieceSegment(new FPoint(cx * scale, cy * scale), rx * scale, ry * scale);
