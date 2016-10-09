@@ -85,114 +85,220 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}
 #endif
+			AddLetter('B', 1.0f, 100 + 20, 256, 1);
+			AddLetter('L', 0.5f, 100 + 120, 256, 2);
+			AddLetter('A', 0.5f, 100 + 190, 256, 3);
+			AddLetter('C', 0.5f, 100 + 260, 256, 4);
+			AddLetter('K', 0.5f, 100 + 330, 256, 5);
+
+			AddLetter('F', 1.0f, 100 + 500, 256, 6);
+			AddLetter('O', 0.5f, 100 + 570, 256, 7);
+			AddLetter('R', 0.5f, 100 + 640, 256, 8);
+			AddLetter('E', 0.5f, 100 + 710, 256, 9);
+			AddLetter('S', 0.5f, 100 + 780, 256, 10);
+			AddLetter('T', 0.5f, 100 + 850, 256, 11);
+
+			AddLetter('B', 1.0f, 100 + 260 + 20, 512, 12);
+			AddLetter('Y', 0.5f, 100 + 260 + 120, 512, 13);
+			AddLetter('T', 0.5f, 100 + 260 + 190, 512, 14);
+			AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
+			AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
 		}
-
-		private static readonly Dictionary<string, Color> dictionary =
-	typeof(Color).GetProperties(BindingFlags.Public |
-								BindingFlags.Static)
-				 .Where(prop => prop.PropertyType == typeof(Color))
-				 .ToDictionary(prop => prop.Name,
-							   prop => (Color)prop.GetValue(null, null));
-
+		
 		private int currentConfig = 0;
 
-		private void AddLetterFromConfig(char chr, float size, float x, float y, int index)
+		private void AddLetter(char chr, float size, float x, float y, int index)
 		{
 			ParticleEmitterConfig cfg = null;
 
-			var file = filecfgcache.Split('\r', '\n').Where(p => p != "").Take(11).Select(p => float.Parse(string.Join("", p.Split('=')[1].Split('*')[0].Trim().Replace("Textures.TexParticle", "").ToCharArray().Where(c => c == '.' || char.IsDigit(c))), NumberStyles.Float, CultureInfo.InvariantCulture)).ToList();
-			var col = filecfgcache.Split('\r', '\n').Where(p => p != "").Skip(11).Take(2).Select(p => p.Split('=')[1].Replace("Color.", "").TrimEnd(',').Trim()).ToList();
-			try
+			switch (currentConfig % 8)
 			{
-				cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
-				{
-					Texture = Textures.TexParticle[(int)file[0]],
-					SpawnRate = file[1] * PathPresets.LETTERS[chr].Length,
-					ParticleLifetimeMin = file[2],
-					ParticleLifetimeMax = file[3],
-					ParticleVelocityMin = file[4] * size,
-					ParticleVelocityMax = file[5] * size,
-					ParticleSizeInitial = file[6] * size,
-					ParticleSizeFinalMin = file[7] * size,
-					ParticleSizeFinalMax = file[8] * size,
-					ParticleAlphaInitial = file[9],
-					ParticleAlphaFinal = file[10],
-					ColorInitial = dictionary[col[0]],
-					ColorFinal = dictionary[col[1]],
-				}.Build();
-
-
-				var em = new AnimatedPathParticleEmitter(this, new Vector2(x, y - (size * 150) / 2), PathPresets.LETTERS[chr].AsScaled(size * 150), cfg, index * 0.3f, 0.3f);
-				Entities.AddEntity(em);
-			}
-			catch (Exception)
-			{
-				cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
-				{
-					Texture = Textures.TexParticle[12],
-					SpawnRate = 100 * PathPresets.LETTERS['E'].Length,
-					ParticleLifetimeMin = 0.5f,
-					ParticleLifetimeMax = 1.8f,
-					ParticleVelocityMin = 4f * size,
-					ParticleVelocityMax = 24f * size,
-					ParticleSizeInitial = 24 * size,
-					ParticleSizeFinalMin = 0 * size,
-					ParticleSizeFinalMax = 24 * size,
-					ParticleAlphaInitial = 1f,
-					ParticleAlphaFinal = 0f,
-					ColorInitial = Color.DarkOrange,
-					ColorFinal = Color.DarkRed,
-				}.Build();
-
-
-				var em = new AnimatedPathParticleEmitter(this, new Vector2(x, y - (size * 150) / 2), PathPresets.LETTERS[chr].AsScaled(size * 150), cfg, index * 0.3f, 0.3f);
-				Entities.AddEntity(em);
+				case 0:
+					cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						// red fire
+						Texture = Textures.TexParticle[12],
+						SpawnRate = 100 * PathPresets.LETTERS[chr].Length,
+						ParticleLifetimeMin = 0.5f,
+						ParticleLifetimeMax = 1.8f,
+						ParticleVelocityMin = 4f * size,
+						ParticleVelocityMax = 24f * size,
+						ParticleSizeInitial = 24 * size,
+						ParticleSizeFinalMin = 0 * size,
+						ParticleSizeFinalMax = 24 * size,
+						ParticleAlphaInitial = 1f,
+						ParticleAlphaFinal = 0f,
+						ColorInitial = Color.DarkOrange,
+						ColorFinal = Color.DarkRed,
+					}.Build();
+					break;
+				case 1:
+					cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						//blue lines
+						Texture = Textures.TexParticle[7],
+						SpawnRate = 75 * PathPresets.LETTERS[chr].Length,
+						ParticleLifetimeMin = 0.5f,
+						ParticleLifetimeMax = 1.8f,
+						ParticleVelocityMin = 4f * size,
+						ParticleVelocityMax = 8f * size,
+						ParticleSizeInitial = 24 * size,
+						ParticleSizeFinalMin = 0 * size,
+						ParticleSizeFinalMax = 24 * size,
+						ParticleAlphaInitial = 1f,
+						ParticleAlphaFinal = 0.5f,
+						ColorInitial = Color.DeepSkyBlue,
+						ColorFinal = Color.Turquoise,
+					}.Build();
+					break;
+				case 2:
+					cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						// gray letters
+						Texture = Textures.TexParticle[14],
+						SpawnRate = 175 * PathPresets.LETTERS[chr].Length,
+						ParticleLifetimeMin = 0.5f,
+						ParticleLifetimeMax = 1.8f,
+						ParticleVelocityMin = 0f * size,
+						ParticleVelocityMax = 8f * size,
+						ParticleSizeInitial = 0 * size,
+						ParticleSizeFinalMin = 24 * size,
+						ParticleSizeFinalMax = 24 * size,
+						ParticleAlphaInitial = 0.2f,
+						ParticleAlphaFinal = 1f,
+						ColorInitial = Color.DarkGray,
+						ColorFinal = Color.DarkSlateGray,
+					}.Build();
+					break;
+				case 3:
+					cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						// golden bubbles 
+						Texture = Textures.TexParticle[11],
+						SpawnRate = 25 * PathPresets.LETTERS[chr].Length,
+						ParticleLifetimeMin = 2f,
+						ParticleLifetimeMax = 4f,
+						ParticleVelocityMin = 4f * size,
+						ParticleVelocityMax = 8f * size,
+						ParticleSizeInitial = 24 * size,
+						ParticleSizeFinalMin = 4 * size,
+						ParticleSizeFinalMax = 16 * size,
+						ParticleAlphaInitial = 1f,
+						ParticleAlphaFinal = 0f,
+						ColorInitial = Color.DimGray,
+						ColorFinal = Color.Gold,
+					}.Build();
+					break;
+				case 4:
+					cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						// star stuff
+						Texture = Textures.TexParticle[3],
+						SpawnRate = 25 * PathPresets.LETTERS[chr].Length,
+						ParticleLifetimeMin = 8f,
+						ParticleLifetimeMax = 10f,
+						ParticleVelocityMin = 1f * size,
+						ParticleVelocityMax = 2f * size,
+						ParticleSizeInitial = 24 * size,
+						ParticleSizeFinalMin = 4 * size,
+						ParticleSizeFinalMax = 16 * size,
+						ParticleAlphaInitial = 1f,
+						ParticleAlphaFinal = 1f,
+						ColorInitial = Color.Black,
+						ColorFinal = Color.Gold,
+					}.Build();
+					break;
+				case 5:
+					cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						// green stars
+						Texture = Textures.TexParticle[5],
+						SpawnRate = 125 * PathPresets.LETTERS[chr].Length,
+						ParticleLifetimeMin = 0.8f,
+						ParticleLifetimeMax = 1.4f,
+						ParticleVelocityMin = 0f * size,
+						ParticleVelocityMax = 24f * size,
+						ParticleSizeInitial = 24 * size,
+						ParticleSizeFinalMin = 24 * size,
+						ParticleSizeFinalMax = 24 * size,
+						ParticleAlphaInitial = 1f,
+						ParticleAlphaFinal = 0f,
+						ColorInitial = Color.DarkGreen,
+						ColorFinal = Color.GreenYellow,
+					}.Build();
+					break;
+				case 6:
+					cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						// smokey fire
+						Texture = Textures.TexParticle[12],
+						SpawnRate = 125 * PathPresets.LETTERS[chr].Length,
+						ParticleLifetimeMin = 1.0f,
+						ParticleLifetimeMax = 1.5f,
+						ParticleVelocityMin = 0f * size,
+						ParticleVelocityMax = 32f * size,
+						ParticleSizeInitial = 8 * size,
+						ParticleSizeFinalMin = 24 * size,
+						ParticleSizeFinalMax = 32 * size,
+						ParticleAlphaInitial = 1f,
+						ParticleAlphaFinal = 0f,
+						ColorInitial = Color.DarkRed,
+						ColorFinal = Color.SlateGray,
+					}.Build();
+					break;
+				case 7:
+					cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+					{
+						// fine lines
+						Texture = Textures.TexParticle[7],
+						SpawnRate = 25 * PathPresets.LETTERS[chr].Length,
+						ParticleLifetimeMin = 4f,
+						ParticleLifetimeMax = 4f,
+						ParticleVelocityMin = 0f * size,
+						ParticleVelocityMax = 0f * size,
+						ParticleSizeInitial = 64 * size,
+						ParticleSizeFinalMin = 0 * size,
+						ParticleSizeFinalMax = 0 * size,
+						ParticleAlphaInitial = 0f,
+						ParticleAlphaFinal = 1f,
+						ColorInitial = Color.DimGray,
+						ColorFinal = Color.Goldenrod,
+					}.Build();
+					break;
 			}
 			
+			var em = new AnimatedPathParticleEmitter(this, new Vector2(x, y - (size * 150) / 2), PathPresets.LETTERS[chr].AsScaled(size * 150), cfg, 0.5f + index * 0.3f, 0.3f);
+			Entities.AddEntity(em);
 		}
-
-		private string filecfgcache = "";
-
+		
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
 #endif
-			string newt = filecfgcache;
-			try
+			if (istate.IsJustDown)
 			{
-				newt = File.ReadAllText(@"C:\Users\Mike\Desktop\config.txt");
-			}
-			catch (Exception)
-			{
-			}
-
-			//if (istate.IsJustDown)
-			if (newt != filecfgcache)
-			{
-				filecfgcache = newt;
-
 				foreach (var e in Entities.Enumerate()) e.Alive = false;
 				
-				AddLetterFromConfig('B', 1.0f, 100 + 20, 256, 1);
-				AddLetterFromConfig('L', 0.5f, 100 + 120, 256, 2);
-				AddLetterFromConfig('A', 0.5f, 100 + 190, 256, 3);
-				AddLetterFromConfig('C', 0.5f, 100 + 260, 256, 4);
-				AddLetterFromConfig('K', 0.5f, 100 + 330, 256, 5);
+				AddLetter('B', 1.0f, 100 + 20, 256, 1);
+				AddLetter('L', 0.5f, 100 + 120, 256, 2);
+				AddLetter('A', 0.5f, 100 + 190, 256, 3);
+				AddLetter('C', 0.5f, 100 + 260, 256, 4);
+				AddLetter('K', 0.5f, 100 + 330, 256, 5);
 
-				AddLetterFromConfig('F', 1.0f, 100 + 500, 256, 6);
-				AddLetterFromConfig('O', 0.5f, 100 + 570, 256, 7);
-				AddLetterFromConfig('R', 0.5f, 100 + 640, 256, 8);
-				AddLetterFromConfig('E', 0.5f, 100 + 710, 256, 9);
-				AddLetterFromConfig('S', 0.5f, 100 + 780, 256, 10);
-				AddLetterFromConfig('T', 0.5f, 100 + 850, 256, 11);
+				AddLetter('F', 1.0f, 100 + 500, 256, 6);
+				AddLetter('O', 0.5f, 100 + 570, 256, 7);
+				AddLetter('R', 0.5f, 100 + 640, 256, 8);
+				AddLetter('E', 0.5f, 100 + 710, 256, 9);
+				AddLetter('S', 0.5f, 100 + 780, 256, 10);
+				AddLetter('T', 0.5f, 100 + 850, 256, 11);
 
-				AddLetterFromConfig('B', 1.0f, 100 + 260 + 20, 512, 12);
-				AddLetterFromConfig('Y', 0.5f, 100 + 260 + 120, 512, 13);
-				AddLetterFromConfig('T', 0.5f, 100 + 260 + 190, 512, 14);
-				AddLetterFromConfig('E', 0.5f, 100 + 260 + 260, 512, 15);
-				AddLetterFromConfig('S', 0.5f, 100 + 260 + 330, 512, 16);
+				AddLetter('B', 1.0f, 100 + 260 + 20, 512, 12);
+				AddLetter('Y', 0.5f, 100 + 260 + 120, 512, 13);
+				AddLetter('T', 0.5f, 100 + 260 + 190, 512, 14);
+				AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
+				AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
 
 				currentConfig++;
 			}
