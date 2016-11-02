@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		protected override GameBackground CreateBackground() => new WorldMapBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new GDWorldMapDebugMinimap(this);
-
+		
 		private void Initialize()
 		{
 
@@ -67,6 +67,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			{
 				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} (d = {FPSCounter.MaximumDelta * 1000:0000.0} ) | total = {FPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} (d = {UPSCounter.MaximumDelta * 1000:0000.0} ) | total = {UPSCounter.TotalActions:000000})");
+				DebugDisp.AddLine(() => $"GC = Time since GC:{GCMonitor.TimeSinceLastGC:00.00}s ({GCMonitor.TimeSinceLastGC0:000.00}s | {GCMonitor.TimeSinceLastGC1:000.00}s | {GCMonitor.TimeSinceLastGC2:000.00}s) Memory = {GCMonitor.TotalMemory:000.0}MB Frequency = {GCMonitor.GCFrequency:0.000}");
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00}");
 				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<ParticleEmitter>().Sum(p => p.ParticleDataCount),3}/{Entities.Enumerate().OfType<ParticleEmitter>().Sum(p => p.ParticleRenderCount),3} (Visible: {Entities.Enumerate().OfType<ParticleEmitter>().Where(p=>p.IsInViewport).Sum(p => p.ParticleDataCount),3}/{Entities.Enumerate().OfType<ParticleEmitter>().Where(p => p.IsInViewport).Sum(p => p.ParticleRenderCount),3})");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
@@ -286,20 +287,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				AddLetter('A', 0.5f, 100 + 190, 256, 3);
 				AddLetter('C', 0.5f, 100 + 260, 256, 4);
 				AddLetter('K', 0.5f, 100 + 330, 256, 5);
-
+			
 				AddLetter('F', 1.0f, 100 + 500, 256, 6);
 				AddLetter('O', 0.5f, 100 + 570, 256, 7);
 				AddLetter('R', 0.5f, 100 + 640, 256, 8);
 				AddLetter('E', 0.5f, 100 + 710, 256, 9);
 				AddLetter('S', 0.5f, 100 + 780, 256, 10);
 				AddLetter('T', 0.5f, 100 + 850, 256, 11);
-
+			
 				AddLetter('B', 1.0f, 100 + 260 + 20, 512, 12);
 				AddLetter('Y', 0.5f, 100 + 260 + 120, 512, 13);
 				AddLetter('T', 0.5f, 100 + 260 + 190, 512, 14);
 				AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
 				AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
-
+			
 				currentConfig++;
 			}
 		}

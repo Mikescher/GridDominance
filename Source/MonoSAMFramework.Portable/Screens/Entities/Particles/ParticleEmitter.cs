@@ -203,8 +203,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			g.SetVertexBuffer(vertexBuffer);
 			g.Indices = indexBuffer;
 
-			var oldRaster = g.RasterizerState;
-			g.RasterizerState = new RasterizerState { CullMode = CullMode.None };
+			// Rasterizer takes a shitton of time
+			//var oldRaster = g.RasterizerState;
+			//g.RasterizerState = new RasterizerState { CullMode = CullMode.None };
 
 			foreach (EffectPass pass in particleEffect.CurrentTechnique.Passes)
 			{
@@ -212,7 +213,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				g.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, geometryCount * 2);
 			}
 
-			g.RasterizerState = oldRaster;
+			//g.RasterizerState = oldRaster;
 			g.BlendState = oldBlendState;
 		}
 

@@ -41,6 +41,8 @@
     <Compile Include="BatchRenderer\TranslatingSpriteBatchWrapper.cs" />
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
+    <Compile Include="DebugTools\FrequencyCounter.cs" />
+    <Compile Include="DebugTools\GCMonitor.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />

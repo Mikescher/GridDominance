@@ -1,3 +1,9 @@
+TODO GD: why lag on debug
+TODO GD: why lag on GC
+TODO GD: why shader wrong on droid
+TODO GD: remove current vis particel ctr
+
+
 WORLD MAP
 ---------
 

@@ -28,6 +28,7 @@ namespace MonoSAMFramework.Portable.Screens
 #if DEBUG
 		protected RealtimeAPSCounter FPSCounter;
 		protected RealtimeAPSCounter UPSCounter;
+		protected GCMonitor GCMonitor;
 #endif
 
 		public SAMViewportAdapter VAdapter;
@@ -90,6 +91,7 @@ namespace MonoSAMFramework.Portable.Screens
 #if DEBUG
 			FPSCounter = new RealtimeAPSCounter();
 			UPSCounter = new RealtimeAPSCounter();
+			GCMonitor = new GCMonitor();
 
 			DebugMap = CreateDebugMinimap();
 #endif
@@ -111,6 +113,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 #if DEBUG
 			DebugSettings.Update(state);
+			GCMonitor.Update(gameTime, state);
 #endif
 
 			GameHUD.Update(gameTime, state);
