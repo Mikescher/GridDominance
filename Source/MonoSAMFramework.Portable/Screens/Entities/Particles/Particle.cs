@@ -45,21 +45,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			_vba.Data[_vbaIndex * 4 + 3].StartTimeOffset = StartTimeOffset;
 			_vba.Data[_vbaIndex * 4 + 3].Random = Random;
 		}
-
-		public bool IsCurrentlyRendered(float time, ParticleEmitterConfig cfg)
-		{
-			return false;
-			//if (cfg == null) return false;
-			//
-			//int iteration = (int)((time + StartTimeOffset) / cfg.ParticleLifetimeMax);
-			//float age = (time + StartTimeOffset) % cfg.ParticleLifetimeMax;
-			//
-			//var rand = new System.Random(Random.GetHashCode() * iteration); // not correct - shader uses different rand method
-			//
-			//float maxLifetime = FloatMath.Lerp(cfg.ParticleLifetimeMin, cfg.ParticleLifetimeMax, rand.Next());
-			//
-			//return (age < maxLifetime);
-		}
 	}
 
 	public struct ParticleVBO

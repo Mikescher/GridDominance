@@ -112,14 +112,6 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float StartLifetime = randLerp(0, ParticleRespawnTime - MaxLifetime, input.Random, iteration, 2);
 	float EndLifetime = (StartLifetime + MaxLifetime);
 
-
-	if (age<StartLifetime || age>EndLifetime || CurrentTime < input.StartTimeOffset)
-	{
-		output.Position = float4(0, 0, 0, 0);
-		output.Color = float4(0, 0, 0, 0);
-		output.TextureCoord = float2(0, 0);
-		return output;
-	}
 	float progress = (age - StartLifetime) / MaxLifetime;
 
 	float StartSize = randLerp(ParticleSizeInitialMin, ParticleSizeInitialMax, input.Random, iteration, 3);
@@ -150,11 +142,27 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float3 texcoords = float3((input.Corner.x + 1) / 2, (input.Corner.y + 1) / 2, 1);
 	output.TextureCoord = mul(texcoords, TextureProjection);
 
+
+	if (age<StartLifetime || age>EndLifetime || CurrentTime < input.StartTimeOffset)
+	{
+		// in theory this could be done a lot earlier
+		// and the function could be early terminated
+		// but then android does strange things (ignores the return ??)
+		// so ... wtf
+		output.Position = float4(0, 0, 0, 0);
+		output.Color = float4(0, 0, 0, 0);
+		output.TextureCoord = float2(0, 0);
+		return output;
+	}
+
+
 	return output;
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
+	if (input.Color.a == 0.0) discard;
+
 	return tex2D(Sampler, input.TextureCoord) * input.Color;
 }
 

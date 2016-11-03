@@ -34,7 +34,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		private int geometryCount;
 
 		public int ParticleDataCount => geometryCount;
-		public int ParticleRenderCount => 0;//particlePool?.Count(p => p.IsCurrentlyRendered(MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - initializeTime, Config)) ?? 0;
 
 		protected ParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg) : base(scrn)
 		{
@@ -127,32 +126,32 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			// Particle Config
 
-			particleEffect.Parameters["Texture"].SetValue(Config.Texture.Texture);
-			particleEffect.Parameters["TextureProjection"].SetValue(Config.Texture.GetShaderProjectionMatrix().ToMatrix());
+			particleEffect.Parameters["Texture"]?.SetValue(Config.Texture.Texture);
+			particleEffect.Parameters["TextureProjection"]?.SetValue(Config.Texture.GetShaderProjectionMatrix().ToMatrix());
 
-			particleEffect.Parameters["ParticleLifetimeMin"].SetValue(Config.ParticleLifetimeMin);
-			particleEffect.Parameters["ParticleLifetimeMax"].SetValue(Config.ParticleLifetimeMax);
-			particleEffect.Parameters["ParticleRespawnTime"].SetValue(Config.ParticleRespawnTime);
+			particleEffect.Parameters["ParticleLifetimeMin"]?.SetValue(Config.ParticleLifetimeMin);
+			particleEffect.Parameters["ParticleLifetimeMax"]?.SetValue(Config.ParticleLifetimeMax);
+			particleEffect.Parameters["ParticleRespawnTime"]?.SetValue(Config.ParticleRespawnTime);
 
-			particleEffect.Parameters["ParticleSpawnAngleMin"].SetValue(Config.ParticleSpawnAngleMin);
-			particleEffect.Parameters["ParticleSpawnAngleMax"].SetValue(Config.ParticleSpawnAngleMax);
-			particleEffect.Parameters["ParticleSpawnAngleIsRandom"].SetValue(Config.ParticleSpawnAngleIsRandom);
-			particleEffect.Parameters["FixedParticleSpawnAngle"].SetValue(Config.FixedParticleSpawnAngle);
+			particleEffect.Parameters["ParticleSpawnAngleMin"]?.SetValue(Config.ParticleSpawnAngleMin);
+			particleEffect.Parameters["ParticleSpawnAngleMax"]?.SetValue(Config.ParticleSpawnAngleMax);
+			particleEffect.Parameters["ParticleSpawnAngleIsRandom"]?.SetValue(Config.ParticleSpawnAngleIsRandom);
+			particleEffect.Parameters["FixedParticleSpawnAngle"]?.SetValue(Config.FixedParticleSpawnAngle);
 
-			particleEffect.Parameters["ParticleVelocityMin"].SetValue(Config.ParticleVelocityMin);
-			particleEffect.Parameters["ParticleVelocityMax"].SetValue(Config.ParticleVelocityMax);
+			particleEffect.Parameters["ParticleVelocityMin"]?.SetValue(Config.ParticleVelocityMin);
+			particleEffect.Parameters["ParticleVelocityMax"]?.SetValue(Config.ParticleVelocityMax);
 
-			particleEffect.Parameters["ParticleAlphaInitial"].SetValue(Config.ParticleAlphaInitial);
-			particleEffect.Parameters["ParticleAlphaFinal"].SetValue(Config.ParticleAlphaFinal);
+			particleEffect.Parameters["ParticleAlphaInitial"]?.SetValue(Config.ParticleAlphaInitial);
+			particleEffect.Parameters["ParticleAlphaFinal"]?.SetValue(Config.ParticleAlphaFinal);
 
-			particleEffect.Parameters["ParticleSizeInitialMin"].SetValue(Config.ParticleSizeInitialMin);
-			particleEffect.Parameters["ParticleSizeInitialMax"].SetValue(Config.ParticleSizeInitialMax);
+			particleEffect.Parameters["ParticleSizeInitialMin"]?.SetValue(Config.ParticleSizeInitialMin);
+			particleEffect.Parameters["ParticleSizeInitialMax"]?.SetValue(Config.ParticleSizeInitialMax);
 
-			particleEffect.Parameters["ParticleSizeFinalMin"].SetValue(Config.ParticleSizeFinalMin);
-			particleEffect.Parameters["ParticleSizeFinalMax"].SetValue(Config.ParticleSizeFinalMax);
+			particleEffect.Parameters["ParticleSizeFinalMin"]?.SetValue(Config.ParticleSizeFinalMin);
+			particleEffect.Parameters["ParticleSizeFinalMax"]?.SetValue(Config.ParticleSizeFinalMax);
 
-			particleEffect.Parameters["ColorInitial"].SetValue(Config.ColorInitial.ToVector4(Config.ParticleAlphaInitial));
-			particleEffect.Parameters["ColorFinal"].SetValue(Config.ColorFinal.ToVector4(Config.ParticleAlphaInitial));
+			particleEffect.Parameters["ColorInitial"]?.SetValue(Config.ColorInitial.ToVector4(Config.ParticleAlphaInitial));
+			particleEffect.Parameters["ColorFinal"]?.SetValue(Config.ColorFinal.ToVector4(Config.ParticleAlphaInitial));
 		}
 
 		private void UnloadShader()
@@ -199,6 +198,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			parameterOffset.SetValue(Owner.MapOffset + Position);
 			parameterVirtualViewport.SetValue(Owner.VAdapter.GetShaderMatrix());
 			parameterCurrentTime.SetValue(MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - initializeTime);
+//			parameterCurrentTime.SetValue(100f);
 
 			g.SetVertexBuffer(vertexBuffer);
 			g.Indices = indexBuffer;
