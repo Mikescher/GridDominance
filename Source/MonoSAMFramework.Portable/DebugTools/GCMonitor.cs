@@ -31,8 +31,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			float sec = gameTime.GetTotalElapsedSeconds();
 			if (collCount0 != GC.CollectionCount(0)) { collCount0 = GC.CollectionCount(0); LastGC0 = sec; freq.Inc(sec); }
-			if (collCount1 != GC.CollectionCount(1)) { collCount1 = GC.CollectionCount(1); LastGC0 = sec; freq.Inc(sec); }
-			if (collCount2 != GC.CollectionCount(2)) { collCount2 = GC.CollectionCount(2); LastGC0 = sec; freq.Inc(sec); }
+			if (collCount1 != GC.CollectionCount(1)) { collCount1 = GC.CollectionCount(1); LastGC1 = sec; freq.Inc(sec); }
+			if (collCount2 != GC.CollectionCount(2)) { collCount2 = GC.CollectionCount(2); LastGC2 = sec; freq.Inc(sec); }
 
 			TotalMemory = GC.GetTotalMemory(false) / (1024f * 1024f);
 		}
