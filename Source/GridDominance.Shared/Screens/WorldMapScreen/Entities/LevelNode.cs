@@ -18,7 +18,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
 	class LevelNode : GameEntity
 	{
-		private const float DIAMETER = 2.75f * GDGameScreen.TILE_WIDTH;
+		private const float DIAMETER = 2.75f * GDConstants.TILE_WIDTH;
 		private const float FONTSIZE = 70;
 		private static readonly Color COLOR_DEACTIVATED = FlatColors.Silver;
 

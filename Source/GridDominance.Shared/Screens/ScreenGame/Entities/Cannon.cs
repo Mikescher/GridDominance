@@ -126,9 +126,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			particleSpawns = new List<Vector2>();
 
-			var cx = Center.X/GDGameScreen.TILE_WIDTH;
-			var cy = Center.Y/GDGameScreen.TILE_WIDTH;
-			var cr = (CANNON_DIAMETER * Scale * 0.5f)/GDGameScreen.TILE_WIDTH;
+			var cx = Center.X / GDConstants.TILE_WIDTH;
+			var cy = Center.Y / GDConstants.TILE_WIDTH;
+			var cr = (CANNON_DIAMETER * Scale * 0.5f) / GDConstants.TILE_WIDTH;
 
 			for (int x = FloatMath.Ceiling(cx - cr); x <= FloatMath.Floor(cx + cr); x++)
 			{

@@ -41,7 +41,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		protected override FRectangle RecalculateBoundingBox()
 		{
-			return Owner.VAdapter.VirtualTotalBoundingBox.AsInflated(GDGameScreen.TILE_WIDTH, GDGameScreen.TILE_WIDTH);
+			return Owner.VAdapter.VirtualTotalBoundingBox.AsInflated(GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH);
 		}
 
 		protected override void OnBeforeUpdate(GameTime gameTime, InputState state)

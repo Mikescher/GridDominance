@@ -76,6 +76,11 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FRectangle(value1.X + value2.X, value1.Y + value2.Y, value1.Width, value1.Height);
 		}
 
+		public static FRectangle operator *(FRectangle value1, float value2)
+		{
+			return new FRectangle(value1.X * value2, value1.Y * value2, value1.Width * value2, value1.Height * value2);
+		}
+
 		// http://stackoverflow.com/a/306332/1761622
 		internal bool Contains(Vector2 center, FSize size)
 		{

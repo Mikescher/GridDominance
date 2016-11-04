@@ -250,8 +250,8 @@ namespace GridDominance.Shared.Resources
 			var screenHeight = device.Viewport.Height;
 			var screenRatio = screenWidth * 1f / screenHeight;
 
-			var worldWidth = GDGameScreen.VIEW_WIDTH;
-			var worldHeight = GDGameScreen.VIEW_HEIGHT;
+			var worldWidth = GDConstants.VIEW_WIDTH;
+			var worldHeight = GDConstants.VIEW_HEIGHT;
 			var worldRatio = worldWidth * 1f / worldHeight;
 			
 			if (screenRatio < worldRatio)

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens;
 
@@ -11,7 +10,6 @@ namespace MonoSAMFramework.Portable.DebugTools
 	{
 		protected readonly GameScreen Owner;
 
-		protected abstract FRectangle Boundings { get; }
 		protected abstract float MaxSize { get; }
 		protected abstract float Padding { get; }
 
@@ -24,17 +22,17 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			if (!DebugSettings.Get("ShowDebugMiniMap")) return;
 
-			var rectBoundings = Boundings;
+			var rectBoundings = Owner.MapFullBounds;
 			var scale = FloatMath.Min(MaxSize / rectBoundings.Width, MaxSize / rectBoundings.Height);
 
 			var sizeOuter = rectBoundings.AsScaled(scale).Size;
 			var sizeView = Owner.GuaranteedMapViewport.AsScaled(scale).Size;
 			var sizeView2 = Owner.CompleteMapViewport.AsScaled(scale).Size;
-			var posView = (Owner.GuaranteedMapViewport.VectorTopLeft - Boundings.VectorTopLeft) * scale;
-			var posView2 = (Owner.CompleteMapViewport.VectorTopLeft - Boundings.VectorTopLeft) * scale;
+			var posView = (Owner.GuaranteedMapViewport.VectorTopLeft - rectBoundings.VectorTopLeft) * scale;
+			var posView2 = (Owner.CompleteMapViewport.VectorTopLeft - rectBoundings.VectorTopLeft) * scale;
 
 			var offset = new Vector2(Owner.VAdapter.VirtualTotalWidth - Padding - sizeOuter.Width, Padding) - Owner.VAdapter.VirtualGuaranteedBoundingsOffset;
-			var offsetZero = offset - Boundings.VectorTopLeft *scale;
+			var offsetZero = offset - rectBoundings.VectorTopLeft *scale;
 
 			sbatch.FillRectangle(offset, sizeOuter, Color.Red * 0.25f);
 			sbatch.DrawRectangle(offset, sizeOuter, Color.Red);

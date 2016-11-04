@@ -12,7 +12,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		{
 		}
 
-		protected override FRectangle Boundings => new FRectangle(0, 0, GDWorldMapScreen.VIEW_WIDTH, GDWorldMapScreen.VIEW_HEIGHT);
 		protected override float MaxSize => 192;
 		protected override float Padding => 32;
 	}

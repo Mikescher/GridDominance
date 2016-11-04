@@ -14,7 +14,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 {
 	public class WorldMapBackground : GameBackground
 	{
-		private const int TILE_WIDTH = GDGameScreen.TILE_WIDTH;
+		private const int TILE_WIDTH = GDConstants.TILE_WIDTH;
 
 		public WorldMapBackground(GameScreen scrn) : base(scrn)
 		{

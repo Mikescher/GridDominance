@@ -39,6 +39,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public Vector2 MapOffset => new Vector2(_mapOffsetX, _mapOffsetY);
 		public FRectangle GuaranteedMapViewport => new FRectangle(-MapOffsetX, -MapOffsetY, VAdapter.VirtualGuaranteedWidth, VAdapter.VirtualGuaranteedHeight);
 		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapter.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapter.VirtualGuaranteedBoundingsOffsetY, VAdapter.VirtualTotalWidth, VAdapter.VirtualTotalHeight);
+		public FRectangle MapFullBounds { get; private set; }
 
 		protected InputStateManager InputStateMan;
 
@@ -73,6 +74,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 		private void Initialize()
 		{
+			MapFullBounds = CreateMapFullBounds();
 			VAdapter = CreateViewport();
 
 			InternalBatch   = new SpriteBatch(Graphics.GraphicsDevice);
@@ -255,5 +257,6 @@ namespace MonoSAMFramework.Portable.Screens
 		protected abstract GameBackground CreateBackground();
 		protected abstract SAMViewportAdapter CreateViewport();
 		protected abstract DebugMinimap CreateDebugMinimap();
+		protected abstract FRectangle CreateMapFullBounds();
 	}
 }

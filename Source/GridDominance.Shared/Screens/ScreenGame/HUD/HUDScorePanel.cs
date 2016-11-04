@@ -12,13 +12,13 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
 	class HUDScorePanel : HUDRoundedPanel
 	{
-		public const float WIDTH = 11 * GDGameScreen.TILE_WIDTH;
-		public const float HEIGHT = 7 * GDGameScreen.TILE_WIDTH;
+		public const float WIDTH = 11 * GDConstants.TILE_WIDTH;
+		public const float HEIGHT = 7 * GDConstants.TILE_WIDTH;
 
-		public const float FOOTER_HEIGHT = 2 * GDGameScreen.TILE_WIDTH;
-		public const float FOOTER_COLBAR_HEIGHT = GDGameScreen.TILE_WIDTH / 4f;
-		public const float ICON_MARGIN = GDGameScreen.TILE_WIDTH * (3/8f);
-		public const float ICON_SIZE = GDGameScreen.TILE_WIDTH * 2;
+		public const float FOOTER_HEIGHT = 2 * GDConstants.TILE_WIDTH;
+		public const float FOOTER_COLBAR_HEIGHT = GDConstants.TILE_WIDTH / 4f;
+		public const float ICON_MARGIN = GDConstants.TILE_WIDTH * (3/8f);
+		public const float ICON_SIZE = GDConstants.TILE_WIDTH * 2;
 
 		public override int Depth => 0;
 
@@ -192,7 +192,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
 				RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-				Size = new FSize(3.5f * GDGameScreen.TILE_WIDTH, 60),
+				Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
 
 				Text = "Back",
 				TextColor = Color.White,
@@ -213,7 +213,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				{
 					Alignment = HUDAlignment.BOTTOMRIGHT,
 					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-					Size = new FSize(3.5f * GDGameScreen.TILE_WIDTH, 60),
+					Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
 
 					Text = "Next",
 					TextColor = Color.White,
@@ -234,7 +234,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				{
 					Alignment = HUDAlignment.BOTTOMRIGHT,
 					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-					Size = new FSize(3.5f * GDGameScreen.TILE_WIDTH, 60),
+					Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
 
 					Text = "Again",
 					TextColor = Color.White,

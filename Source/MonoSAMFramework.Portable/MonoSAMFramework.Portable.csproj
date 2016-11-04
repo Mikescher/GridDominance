@@ -57,6 +57,7 @@
     <Compile Include="GameMath\VectorPath\VectorPathBuilder.cs" />
     <Compile Include="GameMath\VectorPath\VectorPathSegment.cs" />
     <Compile Include="Interfaces\ISAMPostDrawable.cs" />
+    <Compile Include="Language\LazyProp.cs" />
     <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />
     <Compile Include="Persistance\DataFile\BaseDataFile.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGUIDWrapper.cs" />

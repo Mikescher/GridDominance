@@ -25,10 +25,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 	class GDGridBackground : GameBackground
 	{
-		private const int TILE_WIDTH = GDGameScreen.TILE_WIDTH;
-
-		private const int TILE_COUNT_X = GDGameScreen.GRID_WIDTH;
-		private const int TILE_COUNT_Y = GDGameScreen.GRID_HEIGHT;
+		private const int TILE_COUNT_X = GDConstants.GRID_WIDTH;
+		private const int TILE_COUNT_Y = GDConstants.GRID_HEIGHT;
 
 		private const float GRID_ADAPTION_SPEED = 0.2f;
 		private const float GRID_ADAPTION_SPEED_DIRECT = 2f;
@@ -67,8 +65,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		public override void Draw(IBatchRenderer sbatch)
 		{
-			int extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH);
-			int extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH);
+			int extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / GDConstants.TILE_WIDTH);
+			int extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / GDConstants.TILE_WIDTH);
 
 			for (int x = -extensionX; x < TILE_COUNT_X + extensionX; x++)
 			{
@@ -76,8 +74,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 				{
 					var color = GetGridColor(x, y);
 
-					sbatch.Draw(Textures.TexPixel, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), color);
-					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH), Color.White);
+					sbatch.Draw(Textures.TexPixel, new Rectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), color);
+					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), Color.White);
 
 #if DEBUG
 					if (DebugSettings.Get("DebugBackground"))
@@ -87,8 +85,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 						if (x > TILE_COUNT_X) continue;
 						if (y > TILE_COUNT_Y) continue;
 
-						var tx = x * TILE_WIDTH + 8;
-						var ty = y * TILE_WIDTH + 8;
+						var tx = x * GDConstants.TILE_WIDTH + 8;
+						var ty = y * GDConstants.TILE_WIDTH + 8;
 
 						sbatch.DrawString(
 							Textures.DebugFontSmall,
@@ -116,7 +114,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 						SpriteEffects.None, 1);
 				}
 
-				sbatch.DrawRectangle(new FRectangle(0, 0, TILE_COUNT_X * TILE_WIDTH, TILE_COUNT_Y * TILE_WIDTH), Color.Magenta);
+				sbatch.DrawRectangle(new FRectangle(0, 0, TILE_COUNT_X * GDConstants.TILE_WIDTH, TILE_COUNT_Y * GDConstants.TILE_WIDTH), Color.Magenta);
 			}
 #endif
 		}
@@ -143,8 +141,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 							var coll = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == Direction4.South && p.Y >= after && p.Y <= before);
 							var merge = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == Direction4.North && p.Y >= after && p.Y <= before);
 
-							int x = (int)particle.X / TILE_WIDTH;
-							int y = (int)(before / TILE_WIDTH);
+							int x = (int)particle.X / GDConstants.TILE_WIDTH;
+							int y = (int)(before / GDConstants.TILE_WIDTH);
 
 							if (merge != null)
 							{
@@ -154,14 +152,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 							{
 								RemoveParticles(coll, particle);
 							}
-							else if (FloatMath.Floor(before / TILE_WIDTH) != FloatMath.Floor(after / TILE_WIDTH))
+							else if (FloatMath.Floor(before / GDConstants.TILE_WIDTH) != FloatMath.Floor(after / GDConstants.TILE_WIDTH))
 							{
 								RemoveParticle(particle);
 
-								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH, y * TILE_WIDTH - 0.01f, Direction4.North), x, y);
-								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH + 0.01f, y * TILE_WIDTH, Direction4.East), x, y);
-								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH, y * TILE_WIDTH + 0.01f, Direction4.South), x, y);
-								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH - 0.01f, y * TILE_WIDTH, Direction4.West), x, y);
+								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, Direction4.North), x, y);
+								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, Direction4.East), x, y);
+								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, Direction4.South), x, y);
+								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, Direction4.West), x, y);
 							}
 							else
 							{
@@ -182,8 +180,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 							var coll = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == Direction4.West && p.X >= before && p.X <= after);
 							var merge = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == Direction4.East && p.X >= before && p.X <= after);
 
-							int x = (int)(after / TILE_WIDTH);
-							int y = (int)particle.Y / TILE_WIDTH;
+							int x = (int)(after / GDConstants.TILE_WIDTH);
+							int y = (int)particle.Y / GDConstants.TILE_WIDTH;
 
 							if (merge != null)
 							{
@@ -193,14 +191,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 							{
 								RemoveParticles(coll, particle);
 							}
-							else if (FloatMath.Floor(before / TILE_WIDTH) != FloatMath.Floor(after / TILE_WIDTH))
+							else if (FloatMath.Floor(before / GDConstants.TILE_WIDTH) != FloatMath.Floor(after / GDConstants.TILE_WIDTH))
 							{
 								RemoveParticle(particle);
 
-								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH, y * TILE_WIDTH - 0.01f, Direction4.North), x, y);
-								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH + 0.01f, y * TILE_WIDTH, Direction4.East), x, y);
-								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH, y * TILE_WIDTH + 0.01f, Direction4.South), x, y);
-								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH - 0.01f, y * TILE_WIDTH, Direction4.West), x, y);
+								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, Direction4.North), x, y);
+								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, Direction4.East), x, y);
+								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, Direction4.South), x, y);
+								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, Direction4.West), x, y);
 							}
 							else
 							{
@@ -221,8 +219,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 							var coll = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == Direction4.North && p.Y >= before && p.Y <= after);
 							var merge = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == Direction4.South && p.Y >= before && p.Y <= after);
 
-							int x = (int)particle.X / TILE_WIDTH;
-							int y = (int)(after / TILE_WIDTH);
+							int x = (int)particle.X / GDConstants.TILE_WIDTH;
+							int y = (int)(after / GDConstants.TILE_WIDTH);
 
 							if (merge != null)
 							{
@@ -232,14 +230,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 							{
 								RemoveParticles(coll, particle);
 							}
-							else if (FloatMath.Floor(before / TILE_WIDTH) != FloatMath.Floor(after / TILE_WIDTH))
+							else if (FloatMath.Floor(before / GDConstants.TILE_WIDTH) != FloatMath.Floor(after / GDConstants.TILE_WIDTH))
 							{
 								RemoveParticle(particle);
 
-								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH, y * TILE_WIDTH - 0.01f, Direction4.North), x, y);
-								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH + 0.01f, y * TILE_WIDTH, Direction4.East), x, y);
-								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH, y * TILE_WIDTH + 0.01f, Direction4.South), x, y);
-								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x * TILE_WIDTH - 0.01f, y * TILE_WIDTH, Direction4.West), x, y);
+								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, Direction4.North), x, y);
+								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, Direction4.East), x, y);
+								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, Direction4.South), x, y);
+								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, Direction4.West), x, y);
 							}
 							else
 							{
@@ -260,8 +258,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 							var coll = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == Direction4.East && p.X >= after && p.X <= before);
 							var merge = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == Direction4.West && p.X >= after && p.X <= before);
 
-							int x = (int)(before / TILE_WIDTH);
-							int y = (int)particle.Y / TILE_WIDTH;
+							int x = (int)(before / GDConstants.TILE_WIDTH);
+							int y = (int)particle.Y / GDConstants.TILE_WIDTH;
 
 							if (merge != null)
 							{
@@ -271,14 +269,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 							{
 								RemoveParticles(coll, particle);
 							}
-							else if (FloatMath.Floor(before/TILE_WIDTH) != FloatMath.Floor(after/TILE_WIDTH))
+							else if (FloatMath.Floor(before/GDConstants.TILE_WIDTH) != FloatMath.Floor(after/GDConstants.TILE_WIDTH))
 							{
 								RemoveParticle(particle);
 
-								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x*TILE_WIDTH, y*TILE_WIDTH - 0.01f, Direction4.North), x, y);
-								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x*TILE_WIDTH + 0.01f, y*TILE_WIDTH, Direction4.East), x, y);
-								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x*TILE_WIDTH, y*TILE_WIDTH + 0.01f, Direction4.South), x, y);
-								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x*TILE_WIDTH - 0.01f, y*TILE_WIDTH, Direction4.West), x, y);
+								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH, y*GDConstants.TILE_WIDTH - 0.01f, Direction4.North), x, y);
+								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH + 0.01f, y*GDConstants.TILE_WIDTH, Direction4.East), x, y);
+								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH, y*GDConstants.TILE_WIDTH + 0.01f, Direction4.South), x, y);
+								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH - 0.01f, y*GDConstants.TILE_WIDTH, Direction4.West), x, y);
 							}
 							else
 							{
@@ -446,10 +444,10 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		public void SpawnParticles(Fraction fraction, int x, int y)
 		{
-			AddParticle(new BackgroundParticle(x, y, fraction, x * TILE_WIDTH, y * TILE_WIDTH - 0.01f, Direction4.North), x, y, true);
-			AddParticle(new BackgroundParticle(x, y, fraction, x * TILE_WIDTH + 0.01f, y * TILE_WIDTH, Direction4.East), x, y, true);
-			AddParticle(new BackgroundParticle(x, y, fraction, x * TILE_WIDTH, y * TILE_WIDTH + 0.01f, Direction4.South), x, y, true);
-			AddParticle(new BackgroundParticle(x, y, fraction, x * TILE_WIDTH - 0.01f, y * TILE_WIDTH, Direction4.West), x, y, true);
+			AddParticle(new BackgroundParticle(x, y, fraction, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, Direction4.North), x, y, true);
+			AddParticle(new BackgroundParticle(x, y, fraction, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, Direction4.East), x, y, true);
+			AddParticle(new BackgroundParticle(x, y, fraction, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, Direction4.South), x, y, true);
+			AddParticle(new BackgroundParticle(x, y, fraction, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, Direction4.West), x, y, true);
 		}
 
 		public void RegisterBlockedSpawn(Cannon cannon, int x, int y)

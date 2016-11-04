@@ -54,7 +54,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 				.Where(p => p.Fraction != Fraction)
 				.Where(p => ! p.IsDying)
 				.Where(IsHoming)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDGameScreen.TILE_WIDTH / 2f)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH / 2f)
 				.RandomOrDefault(crng);
 		}
 
@@ -66,7 +66,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 				.Where(p => p != Cannon)
 				.Where(p => p.CannonHealth.TargetValue < 0.5f)
 				.Where(IsReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDGameScreen.TILE_WIDTH)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -76,7 +76,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 				.GetEntities<Cannon>()
 				.Where(p => p.Fraction.IsNeutral)
 				.Where(IsReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), 2 * GDGameScreen.TILE_WIDTH)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), 2 * GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -87,7 +87,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 				.Where(p => !p.Fraction.IsNeutral)
 				.Where(p => p.Fraction != Fraction)
 				.Where(IsReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDGameScreen.TILE_WIDTH)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -98,7 +98,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
 				.Where(IsReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDGameScreen.TILE_WIDTH)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -109,7 +109,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 				.Where(p => !p.Fraction.IsNeutral)
 				.Where(p => p.Fraction != Fraction)
 				.Where(IsBulletBlockedReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDGameScreen.TILE_WIDTH)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -120,7 +120,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
 				.Where(IsBulletBlockedReachable)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDGameScreen.TILE_WIDTH)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -130,7 +130,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 				.GetEntities<Cannon>()
 				.Where(p => !p.Fraction.IsNeutral)
 				.Where(p => p.Fraction != Fraction)
-				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDGameScreen.TILE_WIDTH)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
 
@@ -157,7 +157,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 			};
 
 			var rayStart = b.PhysicsBody.Position;
-			var rayEnd = rayStart + b.PhysicsBody.LinearVelocity * ConvertUnits.ToSimUnits(GDGameScreen.VIEW_WIDTH) / b.PhysicsBody.LinearVelocity.Length();
+			var rayEnd = rayStart + b.PhysicsBody.LinearVelocity * ConvertUnits.ToSimUnits(GDConstants.VIEW_WIDTH) / b.PhysicsBody.LinearVelocity.Length();
 
 			Owner.GetPhysicsWorld().RayCast(callback, rayStart, rayEnd);
 

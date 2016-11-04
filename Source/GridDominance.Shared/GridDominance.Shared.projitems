@@ -9,6 +9,7 @@
     <Import_RootNamespace>GridDominance.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)GDConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfileLevelData.cs" />
@@ -16,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Levels.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ParticlePresets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Background\BackgroundParticle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Background\GDGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\Bullet.cs" />

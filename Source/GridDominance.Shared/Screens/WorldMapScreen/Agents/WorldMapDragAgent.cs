@@ -21,7 +21,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private const float FRICTION = 10;
 
-		public static readonly FRectangle BOUNDING = new FRectangle(-24 * GDGameScreen.TILE_WIDTH, -8 * GDGameScreen.TILE_WIDTH, 48 * GDGameScreen.TILE_WIDTH, 48 * GDGameScreen.TILE_WIDTH);
+		private readonly FRectangle bounding;
 
 		private bool isDragging = false;
 		private Vector2 outOfBoundsForce = Vector2.Zero;
@@ -35,7 +35,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		public WorldMapDragAgent(GDWorldMapScreen scrn) : base(scrn)
 		{
-
+			bounding = scrn.MapFullBounds;
 		}
 
 		public override void Update(GameTime gameTime, InputState istate)
@@ -101,28 +101,28 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		{
 			outOfBoundsForce = Vector2.Zero;
 
-			if (Screen.CompleteMapViewport.Left < BOUNDING.Left)
+			if (Screen.CompleteMapViewport.Left < bounding.Left)
 			{
-				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (BOUNDING.Left - Screen.CompleteMapViewport.Left);
+				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (bounding.Left - Screen.CompleteMapViewport.Left);
 
 				outOfBoundsForce.X -= force;
 			}
-			else if (Screen.CompleteMapViewport.Right > BOUNDING.Right)
+			else if (Screen.CompleteMapViewport.Right > bounding.Right)
 			{
-				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (BOUNDING.Right - Screen.CompleteMapViewport.Right);
+				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (bounding.Right - Screen.CompleteMapViewport.Right);
 
 				outOfBoundsForce.X -= force;
 			}
 
-			if (Screen.CompleteMapViewport.Top < BOUNDING.Top)
+			if (Screen.CompleteMapViewport.Top < bounding.Top)
 			{
-				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (BOUNDING.Top - Screen.CompleteMapViewport.Top);
+				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (bounding.Top - Screen.CompleteMapViewport.Top);
 
 				outOfBoundsForce.Y -= force;
 			}
-			else if (Screen.CompleteMapViewport.Bottom > BOUNDING.Bottom)
+			else if (Screen.CompleteMapViewport.Bottom > bounding.Bottom)
 			{
-				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (BOUNDING.Bottom - Screen.CompleteMapViewport.Bottom);
+				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (bounding.Bottom - Screen.CompleteMapViewport.Bottom);
 
 				outOfBoundsForce.Y -= force;
 			}

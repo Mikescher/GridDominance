@@ -16,6 +16,7 @@ using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
@@ -23,13 +24,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 {
 	class GDGameScreen : GameScreen
 	{
-		public const int TILE_WIDTH = 64;
-
-		public const int GRID_WIDTH = 16;
-		public const int GRID_HEIGHT = 10;
-
-		public const int VIEW_WIDTH  = GRID_WIDTH * TILE_WIDTH; // 1024
-		public const int VIEW_HEIGHT = GRID_HEIGHT * TILE_WIDTH; // 640
 
 		public const float GAMESPEED_SUPERSLOW = 0.25f;
 		public const float GAMESPEED_SLOW      = 0.5f;
@@ -166,8 +160,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
 		protected override GameBackground CreateBackground() => new GDGridBackground(this);
-		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
+		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new GDScreenDebugMinimap(this);
+		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 
 		private void LoadLevelFromBlueprint()
 		{
