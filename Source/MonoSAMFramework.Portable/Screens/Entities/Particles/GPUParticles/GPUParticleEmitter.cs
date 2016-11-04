@@ -7,12 +7,12 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 
-namespace MonoSAMFramework.Portable.Screens.Entities.Particles
+namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 {
 	/// <summary>
 	/// https://github.com/CartBlanche/MonoGame-Samples/blob/master/Particle3DSample
 	/// </summary>
-	public abstract class ParticleEmitter : GameEntity, ISAMPostDrawable
+	public abstract class GPUParticleEmitter : GameEntity, ISAMPostDrawable
 	{
 		public override Color DebugIdentColor => Color.Gold * 0.1f;
 
@@ -26,16 +26,16 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		private EffectParameter parameterVirtualViewport;
 		private EffectParameter parameterCurrentTime;
 
-		private Particle[] particlePool;
-		private ParticleVBA vboArray;
+		private GPUParticle[] particlePool;
+		private GPUParticleVBA vboArray;
 
 		private VertexBuffer vertexBuffer;
 		private IndexBuffer indexBuffer;
 		private int geometryCount;
 
-		public int ParticleDataCount => geometryCount;
+		public int ParticleCount => geometryCount;
 
-		protected ParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg) : base(scrn)
+		protected GPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg) : base(scrn)
 		{
 			_config = cfg;
 		}
@@ -55,11 +55,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 			// Create Particle Pool
 
-			particlePool = new Particle[geometryCount];
-			vboArray = new ParticleVBA(geometryCount);
+			particlePool = new GPUParticle[geometryCount];
+			vboArray = new GPUParticleVBA(geometryCount);
 			for (int i = 0; i < geometryCount; i++)
 			{
-				particlePool[i] = new Particle(vboArray, i)
+				particlePool[i] = new GPUParticle(vboArray, i)
 				{
 					StartPosition = Position,
 					Random = new Vector4(FloatMath.GetRandom(), FloatMath.GetRandom(), FloatMath.GetRandom(), FloatMath.GetRandom()),
@@ -73,7 +73,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			
 			// Create VertexBuffer and IndexBuffer
 
-			vertexBuffer = new VertexBuffer(Owner.GraphicsDevice, ParticleVBO.VertexDeclaration, geometryCount * 4, BufferUsage.WriteOnly);
+			vertexBuffer = new VertexBuffer(Owner.GraphicsDevice, GPUParticleVBO.VertexDeclaration, geometryCount * 4, BufferUsage.WriteOnly);
 			vertexBuffer.SetData(vboArray.Data);
 
 			if (geometryCount * 6 < short.MaxValue)
@@ -179,7 +179,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		}
 		
-		protected abstract void InitializeParticle(Particle p, int index, int count);
+		protected abstract void InitializeParticle(GPUParticle p, int index, int count);
 		
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{

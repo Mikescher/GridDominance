@@ -1,23 +1,23 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonoSAMFramework.Portable.Screens.Entities.Particles
+namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 {
-	public class Particle
+	public class GPUParticle
 	{
 		public static readonly Vector2 CORNER_TL = new Vector2(-1, +1);
 		public static readonly Vector2 CORNER_TR = new Vector2(+1, +1);
 		public static readonly Vector2 CORNER_BR = new Vector2(+1, -1);
 		public static readonly Vector2 CORNER_BL = new Vector2(-1, -1);
 
-		private readonly ParticleVBA _vba;
+		private readonly GPUParticleVBA _vba;
 		private readonly int _vbaIndex;
 
 		public Vector2 StartPosition;
 		public float StartTimeOffset;
 		public Vector4 Random;
 
-		public Particle(ParticleVBA vba, int index)
+		public GPUParticle(GPUParticleVBA vba, int index)
 		{
 			_vba = vba;
 			_vbaIndex = index;
@@ -47,7 +47,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		}
 	}
 
-	public struct ParticleVBO
+	public struct GPUParticleVBO
 	{
 		public Vector2 Corner;
 		public Vector2 StartPosition;

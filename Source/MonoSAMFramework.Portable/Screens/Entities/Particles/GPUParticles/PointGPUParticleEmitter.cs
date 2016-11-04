@@ -2,9 +2,9 @@
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
-namespace MonoSAMFramework.Portable.Screens.Entities.Particles
+namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 {
-	public class PointParticleEmitter : ParticleEmitter
+	public class PointGPUParticleEmitter : GPUParticleEmitter
 	{
 		private Vector2 _position;
 		public override Vector2 Position => _position;
@@ -12,7 +12,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		private FSize _boundingbox;
 		public override FSize DrawingBoundingBox => _boundingbox;
 
-		public PointParticleEmitter(GameScreen scrn, Vector2 pos, ParticleEmitterConfig cfg) : base(scrn, cfg)
+		public PointGPUParticleEmitter(GameScreen scrn, Vector2 pos, ParticleEmitterConfig cfg) : base(scrn, cfg)
 		{
 			_position = pos;
 		}
@@ -22,7 +22,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			_position = pos;
 		}
 
-		protected override void InitializeParticle(Particle p, int index, int count)
+		protected override void InitializeParticle(GPUParticle p, int index, int count)
 		{
 			p.StartPosition = Vector2.Zero;
 		}

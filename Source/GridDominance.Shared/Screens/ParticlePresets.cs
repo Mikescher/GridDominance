@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
+using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 
 namespace GridDominance.Shared.Screens
 {

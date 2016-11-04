@@ -2,20 +2,20 @@
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 
-namespace MonoSAMFramework.Portable.Screens.Entities.Particles
+namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 {
-	public class AnimatedPathParticleEmitter : PathParticleEmitter
+	public class AnimatedPathGPUParticleEmitter : PathGPUParticleEmitter, IParticleOwner
 	{
 		private readonly float animationLength;
 		private readonly float animationInitialDelay;
 
-		public AnimatedPathParticleEmitter(GameScreen scrn, Vector2 pos, VectorPath path, ParticleEmitterConfig cfg, float delay, float length) : base(scrn, pos, path, cfg)
+		public AnimatedPathGPUParticleEmitter(GameScreen scrn, Vector2 pos, VectorPath path, ParticleEmitterConfig cfg, float delay, float length) : base(scrn, pos, path, cfg)
 		{
 			animationLength = length;
 			animationInitialDelay = delay;
 		}
 
-		protected override void InitializeParticle(Particle p, int index, int count)
+		protected override void InitializeParticle(GPUParticle p, int index, int count)
 		{
 			base.InitializeParticle(p, index, count);
 

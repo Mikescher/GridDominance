@@ -17,6 +17,8 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
+using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
+using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen
@@ -63,7 +65,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} (d = {UPSCounter.MaximumDelta * 1000:0000.0} ) | total = {UPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"GC = Time since GC:{GCMonitor.TimeSinceLastGC:00.00}s ({GCMonitor.TimeSinceLastGC0:000.00}s | {GCMonitor.TimeSinceLastGC1:000.00}s | {GCMonitor.TimeSinceLastGC2:000.00}s) Memory = {GCMonitor.TotalMemory:000.0}MB Frequency = {GCMonitor.GCFrequency:0.000}");
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00}");
-				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<ParticleEmitter>().Sum(p => p.ParticleDataCount),3} (Visible: {Entities.Enumerate().OfType<ParticleEmitter>().Where(p=>p.IsInViewport).Sum(p => p.ParticleDataCount),3})");
+				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastRenderSpriteCount:0000}; OGL Text = {LastRenderTextCount:0000}");
 				DebugDisp.AddLine(() => $"Map Offset = {MapOffset}");
@@ -106,12 +108,22 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 		private void AddLetter(char chr, float size, float x, float y, int index)
 		{
-			var em = new AnimatedPathParticleEmitter(
+			/*
+			var em = new AnimatedPathGPUParticleEmitter(
 				this, 
 				new Vector2(x, y - (size * 150) / 2), 
 				PathPresets.LETTERS[chr].AsScaled(size * 150), 
 				ParticlePresets.GetConfigLetterFireRed(size, chr), 
 				0.5f + index * 0.3f, 
+				0.3f);
+			*/
+
+			var em = new AnimatedPathCPUParticleEmitter(
+				this,
+				new Vector2(x, y - (size * 150) / 2),
+				PathPresets.LETTERS[chr].AsScaled(size * 150),
+				ParticlePresets.GetConfigLetterFireRed(size, chr),
+				0.5f + index * 0.3f,
 				0.3f);
 
 			Entities.AddEntity(em);
