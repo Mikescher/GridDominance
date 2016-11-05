@@ -11,6 +11,9 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public bool IsEnabled { get { return false; } set { } }
 		public float Scale { get { return 1f; } set { } }
 
+		public int LastRenderSpriteCount => 0;
+		public int LastRenderTextCount => 0;
+
 		public DummyDebugTextDisplay() { /* DUMMY */ }
 		
 		public DebugTextDisplayLine AddLine(DebugTextDisplayLine l) => dummy;

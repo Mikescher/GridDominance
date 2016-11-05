@@ -12,6 +12,68 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 {
 	public abstract class SpriteBatchCommon : IBatchRenderer
 	{
+		private class DebugDrawDisposable : IDisposable
+		{
+			private readonly SpriteBatchCommon sbatch;
+			public DebugDrawDisposable(SpriteBatchCommon sbc) { sbatch = sbc; sbatch.isDebugDrawCounter++;}
+			public void Dispose() { sbatch.isDebugDrawCounter--; }
+		}
+
+		private int isDebugDrawCounter = 0;
+		public bool IsDebugDraw => isDebugDrawCounter > 0;
+
+#if DEBUG
+		public int LastReleaseRenderSpriteCount { get; private set; }
+		public int LastReleaseRenderTextCount { get; private set; }
+		public int LastDebugRenderSpriteCount { get; private set; }
+		public int LastDebugRenderTextCount { get; private set; }
+
+		private int renderSpriteCountRelease;
+		private int renderTextCountRelease;
+		private int renderSpriteCountDebug;
+		private int renderTextCountDebug;
+#endif
+
+		public void OnBegin()
+		{
+#if DEBUG
+			renderSpriteCountRelease = 0;
+			renderTextCountRelease = 0;
+			renderSpriteCountDebug = 0;
+			renderTextCountDebug = 0;
+#endif
+		}
+
+		public void OnEnd()
+		{
+#if DEBUG
+			LastReleaseRenderSpriteCount = renderSpriteCountRelease;
+			LastReleaseRenderTextCount = renderTextCountRelease;
+			LastDebugRenderSpriteCount = renderSpriteCountDebug;
+			LastDebugRenderTextCount = renderTextCountDebug;
+#endif
+		}
+
+		public IDisposable BeginDebugDraw()
+		{
+			return new DebugDrawDisposable(this);
+		}
+
+#if DEBUG
+		protected void IncRenderSpriteCount(int v = 1)
+		{
+			if (IsDebugDraw) renderSpriteCountDebug += v;
+			else renderSpriteCountRelease += v;
+		}
+		protected void IncRenderTextCount(int v = 1)
+		{
+			if (IsDebugDraw) renderTextCountDebug += v;
+			else renderTextCountRelease += v;
+		}
+#endif
+
+		#region CreatePrimitive
+
 		protected Vector2[] CreateCircle(double radius, int sides)
 		{
 			const double max = 2.0 * Math.PI;
@@ -58,6 +120,10 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			return points;
 		}
+
+		#endregion
+
+		#region DrawRot
 
 		public void DrawRot000(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth)
 		{
@@ -115,10 +181,10 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				layerDepth);
 		}
 
-		#region abstracts
+		#endregion
 
-		public abstract void OnBegin();
-		public abstract void OnEnd();
+		#region abstracts
+		
 		public abstract void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
 		public abstract void End();
 		public abstract void Draw(Texture2D texture, Vector2? position = null, Rectangle? destinationRectangle = null, Rectangle? sourceRectangle = null, Vector2? origin = null, float rotation = 0, Vector2? scale = null, Color? color = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0);

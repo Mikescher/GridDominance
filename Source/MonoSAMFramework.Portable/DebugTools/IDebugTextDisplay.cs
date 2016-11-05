@@ -9,6 +9,9 @@ namespace MonoSAMFramework.Portable.DebugTools
 		bool IsEnabled { get; set; }
 		float Scale { get; set; }
 
+		int LastRenderSpriteCount { get; }
+		int LastRenderTextCount { get; }
+
 		DebugTextDisplayLine AddLine(DebugTextDisplayLine l);
 		DebugTextDisplayLine AddLine(Func<string> text);
 		DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text);

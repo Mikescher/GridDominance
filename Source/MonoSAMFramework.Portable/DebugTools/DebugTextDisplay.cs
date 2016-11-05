@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Shapes;
+using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using System;
@@ -19,7 +20,10 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		private readonly List<DebugTextDisplayLine> lines = new List<DebugTextDisplayLine>();
 
-		private readonly SpriteBatch debugBatch;
+		private readonly IBatchRenderer debugBatch;
+
+		public int LastRenderSpriteCount => debugBatch.LastDebugRenderSpriteCount + debugBatch.LastReleaseRenderSpriteCount;
+		public int LastRenderTextCount => debugBatch.LastDebugRenderTextCount + debugBatch.LastReleaseRenderTextCount;
 
 		private float backgroundAlpha = 0.666f;
 
@@ -27,7 +31,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public DebugTextDisplay(GraphicsDevice graphics, SpriteFont renderFont)
 		{
-			debugBatch = new SpriteBatch(graphics);
+			debugBatch = new StandardSpriteBatchWrapper(new SpriteBatch(graphics));
 			font = renderFont;
 		}
 
@@ -123,7 +127,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 				var size = font.MeasureString(text) * Scale;
 
 				debugBatch.FillRectangle(
-					new RectangleF(pos.X - TEXT_OFFSET * Scale, pos.Y, size.X + 2 * TEXT_OFFSET * Scale, size.Y), 
+					new FRectangle(pos.X - TEXT_OFFSET * Scale, pos.Y, size.X + 2 * TEXT_OFFSET * Scale, size.Y), 
 					BlendColor(line.Background, line.Decay * backgroundAlpha));
 
 				debugBatch.DrawString(

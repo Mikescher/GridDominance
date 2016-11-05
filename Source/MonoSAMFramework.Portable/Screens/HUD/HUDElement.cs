@@ -1,10 +1,7 @@
-﻿#if DEBUG
-//#define DEBUG_HUDBOUNDS
-#endif
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -12,7 +9,6 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Screens.HUD.Operations;
 using System;
 using System.Collections.Generic;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -125,7 +121,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 #if DEBUG
 			if (DebugSettings.Get("DebugHUDBorders"))
 			{
-				DrawDebugHUDBorders(sbatch);
+				using (sbatch.BeginDebugDraw()) DrawDebugHUDBorders(sbatch);
 			}
 #endif
 		}

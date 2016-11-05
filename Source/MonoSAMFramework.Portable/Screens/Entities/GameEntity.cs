@@ -76,7 +76,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 #if DEBUG
 			if (DebugSettings.Get("DebugEntityBoundaries"))
 			{
-				DrawDebugBorders(sbatch);
+				using (sbatch.BeginDebugDraw()) DrawDebugBorders(sbatch);
 			}
 #endif
 		}

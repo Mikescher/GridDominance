@@ -25,7 +25,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 			//
 		}
 
-		public override void Draw(IBatchRenderer sbatch)
+		public override void Draw(IBatchRenderer sbatch) //TODO this renders ~ 300 sprites which is ... suboptimal
 		{
 			int offX = TILE_WIDTH * (int)(Owner.MapOffsetX / TILE_WIDTH);
 			int offY = TILE_WIDTH * (int)(Owner.MapOffsetY / TILE_WIDTH);

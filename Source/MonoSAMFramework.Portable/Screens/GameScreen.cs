@@ -58,8 +58,10 @@ namespace MonoSAMFramework.Portable.Screens
 		protected ITranslateBatchRenderer TranslatedBatch;    // translated by MapOffset (for everything else)
 
 #if DEBUG
-		public int LastRenderSpriteCount => ((IDebugBatchRenderer)FixedBatch).LastRenderSpriteCount + ((IDebugBatchRenderer)TranslatedBatch).LastRenderSpriteCount;
-		public int LastRenderTextCount => ((IDebugBatchRenderer)FixedBatch).LastRenderTextCount + ((IDebugBatchRenderer)TranslatedBatch).LastRenderTextCount;
+		public int LastDebugRenderSpriteCount   => FixedBatch.LastDebugRenderSpriteCount   + TranslatedBatch.LastDebugRenderSpriteCount + DebugDisp.LastRenderSpriteCount;
+		public int LastReleaseRenderSpriteCount => FixedBatch.LastReleaseRenderSpriteCount + TranslatedBatch.LastReleaseRenderSpriteCount;
+		public int LastDebugRenderTextCount     => FixedBatch.LastDebugRenderTextCount     + TranslatedBatch.LastDebugRenderTextCount + DebugDisp.LastRenderTextCount;
+		public int LastReleaseRenderTextCount   => FixedBatch.LastReleaseRenderTextCount   + TranslatedBatch.LastReleaseRenderTextCount;
 #endif
 
 		public float GameSpeed = 1f;
@@ -197,7 +199,7 @@ namespace MonoSAMFramework.Portable.Screens
 				GameHUD.Draw(FixedBatch);
 
 #if DEBUG
-				DebugMap.Draw(FixedBatch);
+				using (FixedBatch.BeginDebugDraw()) DebugMap.Draw(FixedBatch);
 #endif
 			}
 			InternalBatch.End();
@@ -207,9 +209,12 @@ namespace MonoSAMFramework.Portable.Screens
 			Entities.PostDraw();
 
 #if DEBUG
-			Entities.DrawOuterDebug();
-
-			DebugDisp.Draw();
+			using (FixedBatch.BeginDebugDraw())
+			using (TranslatedBatch.BeginDebugDraw())
+			{
+				Entities.DrawOuterDebug();
+				DebugDisp.Draw();
+			}
 #endif
 		}
 

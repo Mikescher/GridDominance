@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
@@ -193,8 +192,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			#endregion
 		}
-
-		private static float iii = 0;
+		
 		public static void DrawDropShadow(IBatchRenderer sbatch, FRectangle bounds, float sOutset, float sInset)
 		{
 			StaticTextures.ThrowIfNotInitialized();
@@ -230,9 +228,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			var r_r = new Rectangle(r_tr.Left, r_tr.Bottom, r_tr.Width, r_br.Top - r_tr.Bottom);
 
 			var r_b = new Rectangle(r_bl.Right, r_bl.Top, r_br.Left - r_bl.Right, r_bl.Height);
-
-			#region Blur Edges
-
+			
 			// Top
 			sbatch.DrawRot000(StaticTextures.PanelBlurEdge.Texture, r_t, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
 
@@ -244,48 +240,18 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			// Left
 			sbatch.DrawRot270(StaticTextures.PanelBlurEdge.Texture, r_l, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
-
-			#endregion
-
-			#region Blur Corners
-
+			
 			// TL
-			sbatch.Draw(
-				StaticTextures.PanelBlurCorner.Texture,
-				r_tl,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				0,
-				Vector2.Zero, SpriteEffects.None, 0);
+			sbatch.DrawRot000(StaticTextures.PanelBlurCorner.Texture, r_tl, StaticTextures.PanelBlurCorner.Bounds, Color.White, 0);
 
 			// TR
-			sbatch.Draw(
-				StaticTextures.PanelBlurCorner.Texture,
-				r_tr,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				0,
-				Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
+			sbatch.DrawRot090(StaticTextures.PanelBlurCorner.Texture, r_tr, StaticTextures.PanelBlurCorner.Bounds, Color.White, 0);
 
 			// BR
-			sbatch.Draw(
-				StaticTextures.PanelBlurCorner.Texture,
-				r_br,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				0,
-				Vector2.Zero, SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically, 0);
+			sbatch.DrawRot180(StaticTextures.PanelBlurCorner.Texture, r_br, StaticTextures.PanelBlurCorner.Bounds, Color.White, 0);
 
 			// BL
-			sbatch.Draw(
-				StaticTextures.PanelBlurCorner.Texture,
-				r_bl,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				0,
-				Vector2.Zero, SpriteEffects.FlipVertically, 0);
-
-			#endregion
+			sbatch.DrawRot270(StaticTextures.PanelBlurCorner.Texture, r_bl, StaticTextures.PanelBlurCorner.Bounds, Color.White, 0);
 		}
 
 		public static void DrawOutlinesBlurRectangle(IBatchRenderer sbatch, FRectangle bounds, float borderWidth, Color cInner, Color cBorder, float blurOuterWidth, float blurInset)

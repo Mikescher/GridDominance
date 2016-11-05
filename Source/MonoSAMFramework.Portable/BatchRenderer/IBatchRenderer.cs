@@ -84,5 +84,16 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void DrawRot090(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth);
 		void DrawRot180(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth);
 		void DrawRot270(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth);
+
+		// ######## OTHER ########
+
+#if DEBUG
+		IDisposable BeginDebugDraw();
+
+		int LastReleaseRenderSpriteCount { get; }
+		int LastReleaseRenderTextCount { get; }
+		int LastDebugRenderSpriteCount { get; }
+		int LastDebugRenderTextCount { get; }
+#endif
 	}
 }
