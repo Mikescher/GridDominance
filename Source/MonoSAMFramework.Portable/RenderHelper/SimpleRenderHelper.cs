@@ -156,5 +156,40 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				StaticTextures.SinglePixel.Bounds,
 				color);
 		}
+
+		public static void DrawSimpleRectOutline(IBatchRenderer sbatch, FRectangle bounds, float bsize, Color color)
+		{
+			StaticTextures.ThrowIfNotInitialized();
+
+			int borderSize = FloatMath.Round(bsize);
+
+			// LEFT
+			sbatch.Draw(
+				StaticTextures.SinglePixel.Texture,
+				new Rectangle(FloatMath.Round(bounds.Left), FloatMath.Ceiling(bounds.Top), borderSize, FloatMath.Floor(bounds.Height)),
+				StaticTextures.SinglePixel.Bounds,
+				color);
+
+			// TOP
+			sbatch.Draw(
+				StaticTextures.SinglePixel.Texture,
+				new Rectangle(FloatMath.Ceiling(bounds.Left), FloatMath.Round(bounds.Top), FloatMath.Floor(bounds.Width), borderSize),
+				StaticTextures.SinglePixel.Bounds,
+				color);
+
+			// RIGHT
+			sbatch.Draw(
+				StaticTextures.SinglePixel.Texture,
+				new Rectangle(FloatMath.Round(bounds.Right) - borderSize, FloatMath.Ceiling(bounds.Top), borderSize, FloatMath.Floor(bounds.Height)),
+				StaticTextures.SinglePixel.Bounds,
+				color);
+
+			// BOTTOM
+			sbatch.Draw(
+				StaticTextures.SinglePixel.Texture,
+				new Rectangle(FloatMath.Ceiling(bounds.Left), FloatMath.Round(bounds.Bottom) - borderSize, FloatMath.Floor(bounds.Width), borderSize),
+				StaticTextures.SinglePixel.Bounds,
+				color);
+		}
 	}
 }

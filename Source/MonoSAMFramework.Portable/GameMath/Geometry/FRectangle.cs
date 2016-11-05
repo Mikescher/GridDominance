@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.Extensions;
 using System;
 using System.Diagnostics;
 using System.Runtime.Serialization;
@@ -50,6 +51,11 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			Y = r.Y;
 			Width = r.Width;
 			Height = r.Height;
+		}
+
+		public static FRectangle CreateByCenter(Vector2 origin, float cx, float cy, float width, float height)
+		{
+			return new FRectangle(origin.X + cx - width/2, origin.Y + cy - height/2, width, height);
 		}
 
 		public static bool operator ==(FRectangle a, FRectangle b)
@@ -164,6 +170,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FRectangle AsDeflated(int horizontalAmount, int verticalAmount)
 		{
+			if (FloatMath.IsZero(horizontalAmount) && FloatMath.IsZero(verticalAmount)) return this;
+
 			return new FRectangle(
 				X + horizontalAmount,
 				Y + verticalAmount,
@@ -173,6 +181,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FRectangle AsDeflated(float horizontalAmount, float verticalAmount)
 		{
+			if (FloatMath.IsZero(horizontalAmount) && FloatMath.IsZero(verticalAmount)) return this;
+
 			return new FRectangle(
 				X + horizontalAmount,
 				Y + verticalAmount,
@@ -182,6 +192,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FRectangle AsInflated(int horizontalAmount, int verticalAmount)
 		{
+			if (FloatMath.IsZero(horizontalAmount) && FloatMath.IsZero(verticalAmount)) return this;
+
 			return new FRectangle(
 				X - horizontalAmount,
 				Y - verticalAmount,
@@ -191,6 +203,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FRectangle AsInflated(float horizontalAmount, float verticalAmount)
 		{
+			if (FloatMath.IsZero(horizontalAmount) && FloatMath.IsZero(verticalAmount)) return this;
+
 			return new FRectangle(
 				X - horizontalAmount,
 				Y - verticalAmount,
@@ -200,6 +214,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FRectangle AsOffseted(float offsetX, float offsetY)
 		{
+			if (FloatMath.IsZero(offsetX) && FloatMath.IsZero(offsetY)) return this;
+
 			return new FRectangle(
 				X + offsetX,
 				Y + offsetY,
@@ -209,6 +225,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FRectangle AsOffseted(Vector2 offset)
 		{
+			if (offset.IsZero()) return this;
+
 			return new FRectangle(
 				X + offset.X,
 				Y + offset.Y,

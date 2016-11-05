@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GridDominance.Shared
+﻿namespace GridDominance.Shared.Resources
 {
 	public static class GDConstants
 	{

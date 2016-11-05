@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
-using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Background;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
 using GridDominance.Shared.Screens.ScreenGame.hud;
@@ -20,6 +19,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
+using GridDominance.Shared.Resources;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {

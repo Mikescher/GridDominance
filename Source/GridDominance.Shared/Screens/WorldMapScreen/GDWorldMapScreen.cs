@@ -101,14 +101,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
 			AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
 
-			Entities.AddEntity(new LevelNode(this, new Vector2(GDConstants.TILE_WIDTH * 8f, GDConstants.TILE_WIDTH * 10.5f)));
+			Entities.AddEntity(new LevelNode(this, new Vector2(GDConstants.TILE_WIDTH * 8.5f, GDConstants.TILE_WIDTH * 10.5f)));
 			
 			AddAgent(new WorldMapDragAgent(this));
+			MapOffsetY = VIEW_HEIGHT / -2f;
 		}
 
 		private void AddLetter(char chr, float size, float x, float y, int index)
 		{
-			/*
+			//*
 			var em = new AnimatedPathGPUParticleEmitter(
 				this, 
 				new Vector2(x, y - (size * 150) / 2), 
@@ -116,7 +117,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				ParticlePresets.GetConfigLetterFireRed(size, chr), 
 				0.5f + index * 0.3f, 
 				0.3f);
-			*/
+			/*/
 
 			var em = new AnimatedPathCPUParticleEmitter(
 				this,
@@ -125,6 +126,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				ParticlePresets.GetConfigLetterFireRed(size, chr),
 				0.5f + index * 0.3f,
 				0.3f);
+			//*/
 
 			Entities.AddEntity(em);
 		}

@@ -1,5 +1,4 @@
-﻿
-namespace GridDominance.Shared.Resources
+﻿namespace GridDominance.Shared.Resources
 {
 	public static class GDSettings
 	{

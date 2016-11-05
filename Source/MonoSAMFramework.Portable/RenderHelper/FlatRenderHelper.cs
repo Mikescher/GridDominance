@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
@@ -191,6 +192,111 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				SpriteEffects.None, 0);
 
 			#endregion
+		}
+
+		private static float iii = 0;
+		public static void DrawDropShadow(IBatchRenderer sbatch, FRectangle bounds, float sOutset, float sInset)
+		{
+			StaticTextures.ThrowIfNotInitialized();
+
+			var r_tl = new FRectangle(
+				bounds.Left - sOutset,
+				bounds.Top - sOutset,
+				sOutset + sInset,
+				sOutset + sInset).Round();
+
+			var r_tr = new FRectangle(
+				bounds.Right - sInset,
+				bounds.Top - sOutset,
+				sOutset + sInset,
+				sOutset + sInset).Round();
+
+			var r_br = new FRectangle(
+				bounds.Right - sInset,
+				bounds.Bottom - sInset,
+				sOutset + sInset,
+				sOutset + sInset).Round();
+
+			var r_bl = new FRectangle(
+				bounds.Left - sOutset,
+				bounds.Bottom - sInset,
+				sOutset + sInset,
+				sOutset + sInset).Round();
+
+			var r_l = new Rectangle(r_tl.Left, r_tl.Bottom, r_tl.Width, r_bl.Top - r_tl.Bottom);
+
+			var r_t = new Rectangle(r_tl.Right, r_tl.Top, r_tr.Left - r_tl.Right, r_tl.Height);
+
+			var r_r = new Rectangle(r_tr.Left, r_tr.Bottom, r_tr.Width, r_br.Top - r_tr.Bottom);
+
+			var r_b = new Rectangle(r_bl.Right, r_bl.Top, r_br.Left - r_bl.Right, r_bl.Height);
+
+			#region Blur Edges
+
+			// Top
+			sbatch.DrawRot000(StaticTextures.PanelBlurEdge.Texture, r_t, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
+
+			// Right
+			sbatch.DrawRot090(StaticTextures.PanelBlurEdge.Texture, r_r, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
+
+			// Bottom
+			sbatch.DrawRot180(StaticTextures.PanelBlurEdge.Texture, r_b, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
+
+			// Left
+			sbatch.DrawRot270(StaticTextures.PanelBlurEdge.Texture, r_l, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
+
+			#endregion
+
+			#region Blur Corners
+
+			// TL
+			sbatch.Draw(
+				StaticTextures.PanelBlurCorner.Texture,
+				r_tl,
+				StaticTextures.PanelBlurCorner.Bounds,
+				Color.White,
+				0,
+				Vector2.Zero, SpriteEffects.None, 0);
+
+			// TR
+			sbatch.Draw(
+				StaticTextures.PanelBlurCorner.Texture,
+				r_tr,
+				StaticTextures.PanelBlurCorner.Bounds,
+				Color.White,
+				0,
+				Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
+
+			// BR
+			sbatch.Draw(
+				StaticTextures.PanelBlurCorner.Texture,
+				r_br,
+				StaticTextures.PanelBlurCorner.Bounds,
+				Color.White,
+				0,
+				Vector2.Zero, SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically, 0);
+
+			// BL
+			sbatch.Draw(
+				StaticTextures.PanelBlurCorner.Texture,
+				r_bl,
+				StaticTextures.PanelBlurCorner.Bounds,
+				Color.White,
+				0,
+				Vector2.Zero, SpriteEffects.FlipVertically, 0);
+
+			#endregion
+		}
+
+		public static void DrawOutlinesBlurRectangle(IBatchRenderer sbatch, FRectangle bounds, float borderWidth, Color cInner, Color cBorder, float blurOuterWidth, float blurInset)
+		{
+			StaticTextures.ThrowIfNotInitialized();
+
+			DrawDropShadow(sbatch, bounds, blurOuterWidth, blurInset);
+
+			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds.AsDeflated(borderWidth / 2f, borderWidth / 2f), cInner);
+			
+			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, borderWidth, cBorder);
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
