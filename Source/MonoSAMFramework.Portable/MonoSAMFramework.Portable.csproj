@@ -46,6 +46,10 @@
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
+    <Compile Include="GameMath\Geometry\Alignment\FlatAlign9.cs" />
+    <Compile Include="GameMath\Geometry\Alignment\FlatAlign8.cs" />
+    <Compile Include="GameMath\Geometry\Alignment\FlatAlign5.cs" />
+    <Compile Include="GameMath\Geometry\Alignment\FlatAlign4.cs" />
     <Compile Include="GameMath\Geometry\GeometryHelper.cs" />
     <Compile Include="GameMath\Geometry\Matrix3x3.cs" />
     <Compile Include="GameMath\VectorPath\CirclePieceSegment.cs" />
@@ -98,8 +102,6 @@
     <Compile Include="DebugTools\IDebugTextDisplay.cs" />
     <Compile Include="GameMath\DeltaLimitedFloat.cs" />
     <Compile Include="GameMath\DeltaLimitedModuloFloat.cs" />
-    <Compile Include="GameMath\Direction4.cs" />
-    <Compile Include="GameMath\Direction8.cs" />
     <Compile Include="ColorHelper\FlatColors.cs" />
     <Compile Include="GameMath\FloatMath.cs" />
     <Compile Include="Input\InputState.cs" />

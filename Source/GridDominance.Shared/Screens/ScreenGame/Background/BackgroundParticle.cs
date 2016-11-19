@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Background
 {
@@ -17,7 +18,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		public float PowerPercentage => RemainingPower*1f/INITIAL_POWER;
 
-		public readonly Direction4 Direction;
+		public readonly FlatAlign4 Direction;
 
 		public readonly int OriginX;
 		public readonly int OriginY;
@@ -27,7 +28,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		public List<BackgroundParticle> TravelSection;
 
-		public BackgroundParticle(int ox, int oy, Fraction f, float px, float py, Direction4 dir)
+		public BackgroundParticle(int ox, int oy, Fraction f, float px, float py, FlatAlign4 dir)
 		{
 			OriginX = ox;
 			OriginY = oy;
@@ -40,7 +41,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 			Direction = dir;
 		}
 
-		public BackgroundParticle(BackgroundParticle source, float px, float py, Direction4 dir)
+		public BackgroundParticle(BackgroundParticle source, float px, float py, FlatAlign4 dir)
 		{
 			OriginX = source.OriginX;
 			OriginY = source.OriginY;

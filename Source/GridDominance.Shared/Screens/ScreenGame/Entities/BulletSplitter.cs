@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
@@ -22,14 +23,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		private static readonly Vector2[] VELOCITIES =
 		{
-			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)Direction8.NN * 45f)),
-			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)Direction8.NE * 45f)),
-			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)Direction8.EE * 45f)),
-			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)Direction8.SE * 45f)),
-			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)Direction8.SS * 45f)),
-			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)Direction8.SW * 45f)),
-			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)Direction8.WW * 45f)),
-			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)Direction8.NW * 45f)),
+			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)FlatAlign8.NN * 45f)),
+			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)FlatAlign8.NE * 45f)),
+			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)FlatAlign8.EE * 45f)),
+			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)FlatAlign8.SE * 45f)),
+			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)FlatAlign8.SS * 45f)),
+			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)FlatAlign8.SW * 45f)),
+			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)FlatAlign8.WW * 45f)),
+			new Vector2(0, -SPLITTER_SPEED).Rotate(FloatMath.ToRadians(22.5f + (int)FlatAlign8.NW * 45f)),
 		};
 
 		public readonly Fraction Fraction;
@@ -48,7 +49,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 
-		public BulletSplitter(GameScreen scrn, Bullet b, Direction8 d) : base(scrn)
+		public BulletSplitter(GameScreen scrn, Bullet b, FlatAlign8 d) : base(scrn)
 		{
 			scale = b.Scale;
 			ShapePosition = b.BulletPosition;

@@ -82,24 +82,24 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 			}
 #endif
-			AddLetter('B', 1.0f, 100 + 20, 256, 1);
-			AddLetter('L', 0.5f, 100 + 120, 256, 2);
-			AddLetter('A', 0.5f, 100 + 190, 256, 3);
-			AddLetter('C', 0.5f, 100 + 260, 256, 4);
-			AddLetter('K', 0.5f, 100 + 330, 256, 5);
-
-			AddLetter('F', 1.0f, 100 + 500, 256, 6);
-			AddLetter('O', 0.5f, 100 + 570, 256, 7);
-			AddLetter('R', 0.5f, 100 + 640, 256, 8);
-			AddLetter('E', 0.5f, 100 + 710, 256, 9);
-			AddLetter('S', 0.5f, 100 + 780, 256, 10);
-			AddLetter('T', 0.5f, 100 + 850, 256, 11);
-
-			AddLetter('B', 1.0f, 100 + 260 + 20, 512, 12);
-			AddLetter('Y', 0.5f, 100 + 260 + 120, 512, 13);
-			AddLetter('T', 0.5f, 100 + 260 + 190, 512, 14);
-			AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
-			AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
+			//AddLetter('B', 1.0f, 100 + 20, 256, 1);
+			//AddLetter('L', 0.5f, 100 + 120, 256, 2);
+			//AddLetter('A', 0.5f, 100 + 190, 256, 3);
+			//AddLetter('C', 0.5f, 100 + 260, 256, 4);
+			//AddLetter('K', 0.5f, 100 + 330, 256, 5);
+			//
+			//AddLetter('F', 1.0f, 100 + 500, 256, 6);
+			//AddLetter('O', 0.5f, 100 + 570, 256, 7);
+			//AddLetter('R', 0.5f, 100 + 640, 256, 8);
+			//AddLetter('E', 0.5f, 100 + 710, 256, 9);
+			//AddLetter('S', 0.5f, 100 + 780, 256, 10);
+			//AddLetter('T', 0.5f, 100 + 850, 256, 11);
+			//
+			//AddLetter('B', 1.0f, 100 + 260 + 20, 512, 12);
+			//AddLetter('Y', 0.5f, 100 + 260 + 120, 512, 13);
+			//AddLetter('T', 0.5f, 100 + 260 + 190, 512, 14);
+			//AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
+			//AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
 
 			Entities.AddEntity(new LevelNode(this, new Vector2(GDConstants.TILE_WIDTH * 8.5f, GDConstants.TILE_WIDTH * 10.5f)));
 			

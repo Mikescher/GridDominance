@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
@@ -114,7 +115,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			// After Bullet-Bulllet Collision
 			
 			for (int i = 0; i < 8; i++)
-				Manager.AddEntity(new BulletSplitter(Owner, this, (Direction8) i));
+				Manager.AddEntity(new BulletSplitter(Owner, this, (FlatAlign8) i));
 			
 			Alive = false;
 		}

@@ -1,7 +1,4 @@
-﻿using System;
-using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame;
-using GridDominance.Shared.Screens.ScreenGame.Fractions;
+﻿using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -10,6 +7,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -22,6 +20,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private const float WIDTH_EXTENDER  = (1496f / 768f) * GDConstants.TILE_WIDTH;
 		private const float HEIGHT_EXTENDER = (1756f / 768f) * GDConstants.TILE_WIDTH;
 		private const float INSET_EXTENDER  = ( 450f / 768f) * GDConstants.TILE_WIDTH;
+		private const float ICON_SIZE       = 1.375f         * GDConstants.TILE_WIDTH;
+		private const float ICON_OFFSET     = 0.2f           * GDConstants.TILE_WIDTH;
 		private const float EXTENDER_OFFSET = DIAMETER/ 2 - INSET_EXTENDER + HEIGHT_EXTENDER / 2;
 		private const float FONTSIZE = 70;
 
@@ -32,10 +32,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.SandyBrown;
 
+		private readonly FRectangle rectExpanderNorth;
+		private readonly FRectangle rectExpanderEast;
+		private readonly FRectangle rectExpanderSouth;
+		private readonly FRectangle rectExpanderWest;
+
 		public LevelNode(GameScreen scrn, Vector2 pos) : base(scrn)
 		{
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));
+
+			rectExpanderNorth = FRectangle.CreateByCenter(pos, 0, -EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER);
+			rectExpanderEast  = FRectangle.CreateByCenter(pos, EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER);
+			rectExpanderSouth = FRectangle.CreateByCenter(pos, 0, EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER);
+			rectExpanderWest  = FRectangle.CreateByCenter(pos, -EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER);
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -59,7 +69,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			FlatRenderHelper.DrawOutlinesBlurRectangle(
 				sbatch,
-				FRectangle.CreateByCenter(Position, 0, -EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER),
+				rectExpanderNorth,
 				2,
 				GDColors.COLOR_DIFFICULTY_0,
 				COLOR_BORDER,
@@ -68,7 +78,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			FlatRenderHelper.DrawOutlinesBlurRectangle(
 				sbatch,
-				FRectangle.CreateByCenter(Position, EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER),
+				rectExpanderEast,
 				2,
 				GDColors.COLOR_DIFFICULTY_1,
 				COLOR_BORDER,
@@ -76,8 +86,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				10);
 
 			FlatRenderHelper.DrawOutlinesBlurRectangle(
-				sbatch, 
-				FRectangle.CreateByCenter(Position, 0, EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER), 
+				sbatch,
+				rectExpanderSouth, 
 				2, 
 				GDColors.COLOR_DIFFICULTY_2, 
 				COLOR_BORDER, 
@@ -86,7 +96,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			FlatRenderHelper.DrawOutlinesBlurRectangle(
 				sbatch,
-				FRectangle.CreateByCenter(Position, -EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER),
+				rectExpanderWest,
 				2,
 				COLOR_DEACTIVATED,
 				COLOR_BORDER,
@@ -170,6 +180,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				DIAMETER / Textures.TexLevelNodeStructure.Width,
 				SpriteEffects.None,
 				0);
+
+			#endregion
+
+			#region Icons
+			
+			sbatch.Draw(Textures.TexDifficulty0, rectExpanderNorth.ToSquare(ICON_SIZE, FlatAlign9.NORTH).AsOffseted(0, +ICON_OFFSET), Color.White);
+
+			sbatch.Draw(Textures.TexDifficulty1, rectExpanderEast.ToSquare(ICON_SIZE, FlatAlign9.EAST).AsOffseted(-ICON_OFFSET, 0), Color.White);
+
+			sbatch.Draw(Textures.TexDifficulty2, rectExpanderSouth.ToSquare(ICON_SIZE, FlatAlign9.SOUTH).AsOffseted(0, -ICON_OFFSET), Color.White);
+
+			sbatch.Draw(Textures.TexDifficulty3, rectExpanderWest.ToSquare(ICON_SIZE, FlatAlign9.WEST).AsOffseted(+ICON_OFFSET, 0), Color.White);
 
 			#endregion
 
