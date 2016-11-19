@@ -6,7 +6,6 @@ using GridDominance.Shared.Screens.ScreenGame.Fractions;
 
 namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
-	// ReSharper disable ImpureMethodCallOnReadonlyValueField
 	class PlayerController : AbstractFractionController
 	{
 		private const float CROSSHAIR_CENTER_DISTANCE = 85;

@@ -50,7 +50,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			//
+			this.AddClickMouseArea(new FCircle(0, 0, DIAMETER / 2f), (owner, gameTime, istate) => Owner.PushNotification("CLICK CENTER"));
+
+			this.AddClickMouseArea(rectExpanderNorth.AsTranslated(-Position).AsDeflated(0, 0, INSET_EXTENDER, 0), (owner, gameTime, istate) => Owner.PushNotification("CLICK DIFF 0"));
+			this.AddClickMouseArea(rectExpanderEast.AsTranslated(-Position).AsDeflated(0, 0, 0, INSET_EXTENDER),  (owner, gameTime, istate) => Owner.PushNotification("CLICK DIFF 1"));
+			this.AddClickMouseArea(rectExpanderSouth.AsTranslated(-Position).AsDeflated(INSET_EXTENDER, 0, 0, 0), (owner, gameTime, istate) => Owner.PushNotification("CLICK DIFF 2"));
+			this.AddClickMouseArea(rectExpanderWest.AsTranslated(-Position).AsDeflated(0, INSET_EXTENDER, 0, 0),  (owner, gameTime, istate) => Owner.PushNotification("CLICK DIFF 3"));
 		}
 
 		public override void OnRemove()
@@ -185,13 +190,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Icons
 			
-			sbatch.Draw(Textures.TexDifficulty0, rectExpanderNorth.ToSquare(ICON_SIZE, FlatAlign9.NORTH).AsOffseted(0, +ICON_OFFSET), Color.White);
+			sbatch.Draw(Textures.TexDifficulty0, rectExpanderNorth.ToSquare(ICON_SIZE, FlatAlign9.NORTH).AsTranslated(0, +ICON_OFFSET), Color.White);
 
-			sbatch.Draw(Textures.TexDifficulty1, rectExpanderEast.ToSquare(ICON_SIZE, FlatAlign9.EAST).AsOffseted(-ICON_OFFSET, 0), Color.White);
+			sbatch.Draw(Textures.TexDifficulty1, rectExpanderEast.ToSquare(ICON_SIZE, FlatAlign9.EAST).AsTranslated(-ICON_OFFSET, 0), Color.White);
 
-			sbatch.Draw(Textures.TexDifficulty2, rectExpanderSouth.ToSquare(ICON_SIZE, FlatAlign9.SOUTH).AsOffseted(0, -ICON_OFFSET), Color.White);
+			sbatch.Draw(Textures.TexDifficulty2, rectExpanderSouth.ToSquare(ICON_SIZE, FlatAlign9.SOUTH).AsTranslated(0, -ICON_OFFSET), Color.White);
 
-			sbatch.Draw(Textures.TexDifficulty3, rectExpanderWest.ToSquare(ICON_SIZE, FlatAlign9.WEST).AsOffseted(+ICON_OFFSET, 0), Color.White);
+			sbatch.Draw(Textures.TexDifficulty3, rectExpanderWest.ToSquare(ICON_SIZE, FlatAlign9.WEST).AsTranslated(+ICON_OFFSET, 0), Color.White);
 
 			#endregion
 

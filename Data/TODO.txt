@@ -1,7 +1,6 @@
-TODO GD: why lag on debug
-TODO GD: why lag on GC
-TODO GD: why shader wrong on droid
-TODO GD: remove current vis particel ctr
+TODO GD: When click on button dont bubble mouse event to background agent
+TODO GD: Optimize background rendering
+TODO GD: LevelNode
 
 
 WORLD MAP

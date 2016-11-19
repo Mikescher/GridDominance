@@ -2,7 +2,7 @@
 using MonoGame.Extended;
 using MonoSAMFramework.Portable.Input;
 
-namespace MonoSAMFramework.Portable.Screens.Entities
+namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 {
 	public abstract class GameEntityOperation<TEntity> : IGameEntityOperation where TEntity : GameEntity
 	{

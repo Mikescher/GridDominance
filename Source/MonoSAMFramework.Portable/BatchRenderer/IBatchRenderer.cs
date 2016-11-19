@@ -44,7 +44,9 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void Draw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
 		void Draw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
 		void Draw(Texture2D texture, FRectangle destinationRectangle, Color color);
-		
+
+		void DrawCircle(FCircle circle, int sides, Color color, float thickness = 1);
+
 		// ######## MONOGAME.EXTENDED PRIMITIVE METHODS ########
 
 		void DrawPolygon(Vector2 position, PolygonF polygon, Color color, float thickness = 1f);
@@ -79,6 +81,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f);
 		void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);
 		void DrawPath(Vector2 posVector2, VectorPath path, int segments, Color color, float thickness = 1f);
+		void Draw(IFShape shape, Color color, float thickness = 1f);
 
 		void DrawRot000(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth);
 		void DrawRot090(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth);

@@ -5,6 +5,8 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
+using MonoSAMFramework.Portable.Screens.Entities.Operation;
 using System;
 using System.Collections.Generic;
 
@@ -16,6 +18,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public EntityManager Manager = null; // only set after Add - use only in Update() and Render()
 
 		protected readonly List<IGameEntityOperation> ActiveOperations = new List<IGameEntityOperation>();
+		protected readonly List<GameEntityMouseArea> MouseAreas = new List<GameEntityMouseArea>();
 
 		public abstract Vector2 Position { get; } // Center
 		public abstract FSize DrawingBoundingBox { get; }
@@ -39,6 +42,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			Lifetime += gameTime.GetElapsedSeconds();
 
+			UpdateOperations(gameTime, istate);
+			UpdateMouseAreas(gameTime, istate);
+
+			OnUpdate(gameTime, istate);
+		}
+
+		private void UpdateOperations(GameTime gameTime, InputState istate)
+		{
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
 			{
 				if (!ActiveOperations[i].Update(this, gameTime, istate))
@@ -47,8 +58,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 					ActiveOperations.RemoveAt(i);
 				}
 			}
+		}
 
-			OnUpdate(gameTime, istate);
+		private void UpdateMouseAreas(GameTime gameTime, InputState istate)
+		{
+			foreach (var area in MouseAreas)
+			{
+				area.Update(gameTime, istate);
+			}
 		}
 
 		public void AddEntityOperation(IGameEntityOperation op)
@@ -69,6 +86,20 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			}
 		}
 
+		public void AddMouseArea(IFShape shape, IGameEntityMouseAreaListener listener)
+		{
+			var area = new GameEntityMouseArea(this, shape);
+			area.AddListener(listener);
+			MouseAreas.Add(area);
+		}
+
+		public void AddClickMouseArea(IFShape shape, Action<GameEntityMouseArea, GameTime, InputState> clickListener)
+		{
+			var area = new GameEntityMouseArea(this, shape);
+			area.AddListener(new GameEntityMouseAreaLambdaAdapter{ MouseClick = clickListener });
+			MouseAreas.Add(area);
+		}
+
 		public void Draw(IBatchRenderer sbatch)
 		{
 			OnDraw(sbatch);
@@ -78,12 +109,24 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			{
 				using (sbatch.BeginDebugDraw()) DrawDebugBorders(sbatch);
 			}
+			if (DebugSettings.Get("DebugEntityMouseAreas"))
+			{
+				using (sbatch.BeginDebugDraw()) DrawDebugAreas(sbatch);
+			}
 #endif
 		}
 
 		protected virtual void DrawDebugBorders(IBatchRenderer sbatch)
 		{
 			sbatch.DrawRectangle(Position - DrawingBoundingBox * 0.5f, DrawingBoundingBox, Color.LightGreen, 1);
+		}
+
+		protected virtual void DrawDebugAreas(IBatchRenderer sbatch)
+		{
+			foreach (var area in MouseAreas)
+			{
+				sbatch.Draw(area.AbsoluteShape, Color.DarkOrange, 1);
+			}
 		}
 
 		public abstract void OnInitialize(EntityManager manager);

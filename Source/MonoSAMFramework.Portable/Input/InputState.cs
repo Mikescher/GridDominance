@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.Extended.InputListeners;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
 namespace MonoSAMFramework.Portable.Input
@@ -21,11 +21,12 @@ namespace MonoSAMFramework.Portable.Input
 		public readonly bool IsJustDown;
 		public readonly bool IsJustUp;
 		public readonly FPoint PointerPosition;
+		public readonly FPoint PointerPositionOnMap;
 
 		private readonly Dictionary<Keys, bool> lastKeyState;
 		private readonly Dictionary<Keys, bool> currentKeyState;
 
-		private InputState(SAMViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, InputState prev)
+		private InputState(SAMViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, InputState prev, float mox, float moy)
 		{
 			Mouse = ms;
 			Keyboard = ks;
@@ -48,6 +49,8 @@ namespace MonoSAMFramework.Portable.Input
 				PointerPosition = prev.PointerPosition;
 			}
 
+			PointerPositionOnMap = PointerPosition.RelativeTo(mox, moy);
+
 			IsJustDown = IsDown && !prev.IsDown;
 			IsJustUp = !IsDown && prev.IsDown;
 
@@ -55,7 +58,7 @@ namespace MonoSAMFramework.Portable.Input
 			currentKeyState = lastKeyState.ToDictionary(p => p.Key, p => ks.IsKeyDown(p.Key));
 		}
 
-		public InputState(SAMViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs)
+		public InputState(SAMViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, float mox, float moy)
 		{
 			Mouse = ms;
 			Keyboard = ks;
@@ -78,27 +81,29 @@ namespace MonoSAMFramework.Portable.Input
 				PointerPosition = FPoint.Zero;
 			}
 
+			PointerPositionOnMap = PointerPosition.RelativeTo(mox, moy);
+
 			currentKeyState = new Dictionary<Keys, bool>(0);
 		}
 
-		public static InputState GetState(SAMViewportAdapter adapter, InputState previous)
+		public static InputState GetState(SAMViewportAdapter adapter, InputState previous, float mox, float moy)
 		{
 			var ks = Microsoft.Xna.Framework.Input.Keyboard.GetState();
 			var ms = Microsoft.Xna.Framework.Input.Mouse.GetState();
 			var ts = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();
 			var gs = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
 
-			return new InputState(adapter, ks, ms, ts, gs, previous);
+			return new InputState(adapter, ks, ms, ts, gs, previous, mox, moy);
 		}
 
-		public static InputState GetInitialState(SAMViewportAdapter adapter)
+		public static InputState GetInitialState(SAMViewportAdapter adapter, float mox, float moy)
 		{
 			var ks = Microsoft.Xna.Framework.Input.Keyboard.GetState();
 			var ms = Microsoft.Xna.Framework.Input.Mouse.GetState();
 			var ts = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();
 			var gs = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
 
-			return new InputState(adapter, ks, ms, ts, gs);
+			return new InputState(adapter, ks, ms, ts, gs, mox, moy);
 		}
 
 		public bool IsExit()

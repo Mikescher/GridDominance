@@ -83,7 +83,7 @@ namespace MonoSAMFramework.Portable.Screens
 			FixedBatch      = new StandardSpriteBatchWrapper(InternalBatch);
 			TranslatedBatch = new TranslatingSpriteBatchWrapper(InternalBatch);
 
-			InputStateMan = new InputStateManager(VAdapter);
+			InputStateMan = new InputStateManager(VAdapter, MapOffsetX, MapOffsetY);
 			GameHUD = CreateHUD();
 			Background = CreateBackground();
 
@@ -111,7 +111,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public override void Update(GameTime gameTime)
 		{
-			var state = InputStateMan.GetNewState();
+			var state = InputStateMan.GetNewState(MapOffsetX, MapOffsetY);
 
 			if (state.IsExit()) Game.Exit();
 

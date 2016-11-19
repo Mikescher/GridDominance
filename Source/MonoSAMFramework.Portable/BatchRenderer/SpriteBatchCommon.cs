@@ -183,8 +183,34 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		#endregion
 
+
+		public void Draw(IFShape shape, Color color, float thickness = 1)
+		{
+			if (shape is FRectangle)
+			{
+				DrawRectangle((FRectangle)shape, color, thickness);
+				return;
+			}
+
+			if (shape is FCircle)
+			{
+				DrawCircle((FCircle)shape, 32, color, thickness);
+				return;
+			}
+		}
+
+		public void DrawCircle(CircleF circle, int sides, Color color, float thickness = 1f)
+		{
+			DrawCircle(circle.Center, circle.Radius, sides, color, thickness);
+		}
+
+		public void DrawCircle(FCircle circle, int sides, Color color, float thickness = 1f)
+		{
+			DrawCircle(circle.Center, circle.Radius, sides, color, thickness);
+		}
+
 		#region abstracts
-		
+
 		public abstract void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
 		public abstract void End();
 		public abstract void Draw(Texture2D texture, Vector2? position = null, Rectangle? destinationRectangle = null, Rectangle? sourceRectangle = null, Vector2? origin = null, float rotation = 0, Vector2? scale = null, Color? color = null, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0);
@@ -217,7 +243,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public abstract void DrawLine(Vector2 point, float length, float angle, Color color, float thickness = 1);
 		public abstract void DrawPoint(float x, float y, Color color, float size = 1);
 		public abstract void DrawPoint(Vector2 position, Color color, float size = 1);
-		public abstract void DrawCircle(CircleF circle, int sides, Color color, float thickness = 1);
 		public abstract void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1);
 		public abstract void DrawCircle(float x, float y, float radius, int sides, Color color, float thickness = 1);
 		public abstract void FillCircle(Vector2 center, float radius, int sides, Color color);

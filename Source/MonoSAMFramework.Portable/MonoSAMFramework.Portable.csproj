@@ -50,6 +50,8 @@
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign8.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign5.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign4.cs" />
+    <Compile Include="GameMath\Geometry\FCircle.cs" />
+    <Compile Include="GameMath\Geometry\IFShape.cs" />
     <Compile Include="GameMath\Geometry\GeometryHelper.cs" />
     <Compile Include="GameMath\Geometry\Matrix3x3.cs" />
     <Compile Include="GameMath\VectorPath\CirclePieceSegment.cs" />
@@ -121,8 +123,11 @@
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
     <Compile Include="Screens\Agents\GameScreenAgent.cs" />
     <Compile Include="Screens\Background\SolidColorBackground.cs" />
-    <Compile Include="Screens\Entities\GameEntityOperation.cs" />
-    <Compile Include="Screens\Entities\IGameEntityOperation.cs" />
+    <Compile Include="Screens\Entities\MouseArea\GameEntityMouseArea.cs" />
+    <Compile Include="Screens\Entities\MouseArea\GameEntityMouseAreaLambdaAdapter.cs" />
+    <Compile Include="Screens\Entities\Operation\GameEntityOperation.cs" />
+    <Compile Include="Screens\Entities\MouseArea\IGameEntityMouseAreaListener.cs" />
+    <Compile Include="Screens\Entities\Operation\IGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\EntityManager.cs" />
     <Compile Include="Screens\Entities\GameEntity.cs" />
     <Compile Include="Screens\Background\GameBackground.cs" />

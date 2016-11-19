@@ -63,7 +63,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			{
 				sbatch.Draw(
 					StaticTextures.SinglePixel.Texture,
-					cornerBounds.AsOffseted(bounds.VectorTopLeft),
+					cornerBounds.AsTranslated(bounds.VectorTopLeft),
 					StaticTextures.SinglePixel.Bounds,
 					color,
 					0 * FloatMath.DegreesToRadians,
@@ -87,7 +87,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			{
 				sbatch.Draw(
 					StaticTextures.SinglePixel.Texture,
-					cornerBounds.AsOffseted(bounds.VectorTopRight),
+					cornerBounds.AsTranslated(bounds.VectorTopRight),
 					StaticTextures.SinglePixel.Bounds,
 					color,
 					90 * FloatMath.DegreesToRadians,
@@ -111,7 +111,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			{
 				sbatch.Draw(
 					StaticTextures.SinglePixel.Texture,
-					cornerBounds.AsOffseted(bounds.VectorBottomRight),
+					cornerBounds.AsTranslated(bounds.VectorBottomRight),
 					StaticTextures.SinglePixel.Bounds,
 					color,
 					180 * FloatMath.DegreesToRadians,
@@ -135,7 +135,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			{
 				sbatch.Draw(
 					StaticTextures.SinglePixel.Texture,
-					cornerBounds.AsOffseted(bounds.VectorBottomLeft),
+					cornerBounds.AsTranslated(bounds.VectorBottomLeft),
 					StaticTextures.SinglePixel.Bounds,
 					color,
 					270 * FloatMath.DegreesToRadians,

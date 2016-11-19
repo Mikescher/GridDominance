@@ -12,16 +12,16 @@ namespace MonoSAMFramework.Portable.Input
 		public EventHandler<PointerEventArgs> PointerDown = (o, e) => { };
 		public EventHandler<PointerEventArgs> PointerUp = (o, e) => { };
 
-		public InputStateManager(SAMViewportAdapter vadap)
+		public InputStateManager(SAMViewportAdapter vadap, float mapOffsetX, float mapOffsetY)
 		{
 			adapter = vadap;
 
-			stateCache = InputState.GetInitialState(vadap);
+			stateCache = InputState.GetInitialState(vadap, mapOffsetX, mapOffsetY);
 		}
 
-		public InputState GetNewState()
+		public InputState GetNewState(float mapOffsetX, float mapOffsetY)
 		{
-			return stateCache = InputState.GetState(adapter, stateCache);
+			return stateCache = InputState.GetState(adapter, stateCache, mapOffsetX, mapOffsetY);
 		}
 
 		public InputState GetCurrentState()

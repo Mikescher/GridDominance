@@ -10,7 +10,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
 	[DataContract]
 	[DebuggerDisplay("{DebugDisplayString,nq}")]
-	public struct FRectangle : IEquatable<FRectangle>
+	public struct FRectangle : IEquatable<FRectangle>, IFShape
 	{
 		public static readonly FRectangle Empty = new FRectangle(0, 0, 0, 0);
 
@@ -90,6 +90,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
+		public static FRectangle operator -(FRectangle value1, Vector2 value2)
+		{
+			return new FRectangle(value1.X - value2.X, value1.Y - value2.Y, value1.Width, value1.Height);
+		}
+
+		[Pure]
 		public static FRectangle operator *(FRectangle value1, float value2)
 		{
 			return new FRectangle(value1.X * value2, value1.Y * value2, value1.Width * value2, value1.Height * value2);
@@ -162,7 +168,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		[Pure]
 		public override int GetHashCode()
 		{
-			return X.GetHashCode() ^ Y.GetHashCode() ^ Width.GetHashCode() ^ Height.GetHashCode();
+			return X.GetHashCode() ^ 7841 * Y.GetHashCode() ^ 7853 * Width.GetHashCode() ^ 7867 * Height.GetHashCode();
 		}
 
 		[Pure]
@@ -209,6 +215,16 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 				Y + verticalAmount,
 				Width - horizontalAmount * 2,
 				Height - verticalAmount * 2);
+		}
+
+		[Pure]
+		public FRectangle AsDeflated(float vNorth, float vEast, float vSouth, float vWest)
+		{
+			return new FRectangle(
+				X + vWest,
+				Y + vNorth,
+				Width - (vEast + vWest),
+				Height - (vNorth + vSouth));
 		}
 
 		[Pure]
@@ -264,20 +280,24 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
-		public FRectangle AsOffseted(float offsetX, float offsetY)
+		public FRectangle AsTranslated(float offsetX, float offsetY)
 		{
 			if (FloatMath.IsZero(offsetX) && FloatMath.IsZero(offsetY)) return this;
 
 			return new FRectangle(X + offsetX, Y + offsetY, Width, Height);
 		}
 
+		IFShape IFShape.AsTranslated(float offsetX, float offsetY) => AsTranslated(offsetX, offsetY);
+
 		[Pure]
-		public FRectangle AsOffseted(Vector2 offset)
+		public FRectangle AsTranslated(Vector2 offset)
 		{
 			if (offset.IsZero()) return this;
 
 			return new FRectangle(X + offset.X, Y + offset.Y, Width, Height);
 		}
+
+		IFShape IFShape.AsTranslated(Vector2 offset) => AsTranslated(offset);
 
 		[Pure]
 		public FRectangle AsResized(FSize size)

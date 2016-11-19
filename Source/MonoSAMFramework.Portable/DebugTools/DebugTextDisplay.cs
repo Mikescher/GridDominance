@@ -22,8 +22,10 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		private readonly IBatchRenderer debugBatch;
 
+#if DEBUG
 		public int LastRenderSpriteCount => debugBatch.LastDebugRenderSpriteCount + debugBatch.LastReleaseRenderSpriteCount;
 		public int LastRenderTextCount => debugBatch.LastDebugRenderTextCount + debugBatch.LastReleaseRenderTextCount;
+#endif
 
 		private float backgroundAlpha = 0.666f;
 

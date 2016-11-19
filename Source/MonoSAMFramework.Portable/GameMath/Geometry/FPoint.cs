@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using Microsoft.Xna.Framework;
 
 namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
@@ -67,6 +67,16 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public FPoint RelativeTo(FPoint value2)
 		{
 			return new FPoint(X - value2.X, Y - value2.Y);
+		}
+
+		public FPoint RelativeTo(float px, float py)
+		{
+			return new FPoint(X - px, Y - py);
+		}
+
+		public FPoint AsTranslated(float offx, float offy)
+		{
+			return new FPoint(X + offx, Y + offy);
 		}
 
 		public override bool Equals(object obj)

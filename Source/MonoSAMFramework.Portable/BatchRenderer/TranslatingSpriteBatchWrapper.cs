@@ -361,11 +361,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			internalBatch.Draw(StaticTextures.SinglePixel.Texture, position + pointOffset + offset, sourceRectangle: StaticTextures.SinglePixel.Bounds, color: color, scale: scale);
 		}
 		
-		public override void DrawCircle(CircleF circle, int sides, Color color, float thickness = 1f)
-		{
-			DrawCircle(circle.Center, circle.Radius, sides, color, thickness);
-		}
-		
 		public override void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1f)
 		{
 			DrawPolygon(center, CreateCircle(radius, sides), color, true, thickness);

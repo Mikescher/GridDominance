@@ -43,7 +43,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 			base.DrawDebugBorders(sbatch);
 			
 			sbatch.DrawRectangle(Position - new FSize(8, 8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
-			sbatch.DrawRectangle(vectorPath.Boundings.AsOffseted(Position - vectorPathCenter), Color.LightBlue, 1);
+			sbatch.DrawRectangle(vectorPath.Boundings.AsTranslated(Position - vectorPathCenter), Color.LightBlue, 1);
 
 			sbatch.DrawPath(Position - vectorPathCenter, vectorPath, 48, Color.LightGreen, 1);
 			
