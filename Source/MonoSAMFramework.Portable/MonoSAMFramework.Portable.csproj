@@ -37,11 +37,15 @@
     <Compile Include="BatchRenderer\IBatchRenderer.cs" />
     <Compile Include="BatchRenderer\ITranslateBatchRenderer.cs" />
     <Compile Include="BatchRenderer\SpriteBatchCommon.cs" />
+    <Compile Include="BatchRenderer\TextureAtlases\TextureAtlas.cs" />
+    <Compile Include="BatchRenderer\TextureAtlases\TextureAtlasReader.cs" />
+    <Compile Include="BatchRenderer\TextureAtlases\TextureRegion2D.cs" />
     <Compile Include="BatchRenderer\TranslatingSpriteBatchWrapper.cs" />
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="DebugTools\FrequencyCounter.cs" />
     <Compile Include="DebugTools\GCMonitor.cs" />
+    <Compile Include="Extensions\GameTimeExtensions.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
@@ -61,6 +65,7 @@
     <Compile Include="GameMath\VectorPath\VectorPath.cs" />
     <Compile Include="GameMath\VectorPath\VectorPathBuilder.cs" />
     <Compile Include="GameMath\VectorPath\VectorPathSegment.cs" />
+    <Compile Include="Input\KeyModifier.cs" />
     <Compile Include="Interfaces\ISAMPostDrawable.cs" />
     <Compile Include="Language\LazyProp.cs" />
     <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />
@@ -175,12 +180,6 @@
     <Compile Include="Screens\HUD\Elements\Container\HUDRoundedPanel.cs" />
     <Compile Include="Screens\ViewportAdapters\SAMViewportAdapter.cs" />
     <Compile Include="Screens\ViewportAdapters\TolerantBoxingViewportAdapter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\External\MonoGame.Extended\Source\MonoGame.Extended\MonoGame.Extended.csproj">
-      <Project>{41724c52-3d50-45bb-81eb-3c8a247eafd1}</Project>
-      <Name>MonoGame.Extended</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

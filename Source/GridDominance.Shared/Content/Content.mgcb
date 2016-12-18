@@ -10,7 +10,6 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\dependencies\MonoGame.Extended.0.4.64\lib\MonoGame.Extended.Content.Pipeline.dll
 /reference:..\..\..\Bin\GridDominance.Content.Pipeline\GridDominance.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#

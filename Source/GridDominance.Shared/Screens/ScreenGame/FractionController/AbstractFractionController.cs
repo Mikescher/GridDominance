@@ -1,8 +1,8 @@
 ﻿using GridDominance.Shared.Screens.ScreenGame.Entities;
 using Microsoft.Xna.Framework;
-using MonoGame.Extended;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.Extensions;
 
 namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {

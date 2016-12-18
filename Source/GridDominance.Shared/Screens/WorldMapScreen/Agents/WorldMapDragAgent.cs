@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using GridDominance.Shared.Screens.ScreenGame;
-using Microsoft.Xna.Framework;
-using MonoGame.Extended;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;

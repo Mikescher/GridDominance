@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended.TextureAtlases;
+using MonoSAMFramework.Portable.BatchRenderer;
 using System.Diagnostics;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {

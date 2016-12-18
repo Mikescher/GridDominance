@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using MonoGame.Extended;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace MonoSAMFramework.Portable.Screens
 {
-	public class ScreenManager : IDraw, IUpdate
+	public class ScreenManager
 	{
 		private readonly Game _game;
 

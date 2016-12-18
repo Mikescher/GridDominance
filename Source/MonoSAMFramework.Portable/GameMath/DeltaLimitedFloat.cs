@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended;
+using MonoSAMFramework.Portable.Extensions;
 
 namespace MonoSAMFramework.Portable.GameMath
 {

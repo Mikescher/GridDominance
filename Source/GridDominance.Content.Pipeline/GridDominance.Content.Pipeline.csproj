@@ -42,6 +42,10 @@
       <HintPath>..\packages\MonoGame.Framework.Content.Pipeline.Portable.3.2.99.1-Beta\lib\portable-net45+win+wpa81+Xamarin.iOS10+MonoAndroid10+MonoTouch10\MonoGame.Framework.Content.Pipeline.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,11 +56,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GDLevelImporter.cs" />
-    <Compile Include="GDLevelProcessor.cs" />
-    <Compile Include="GDLevelWriter.cs" />
-    <Compile Include="LevelPackage.cs" />
+    <Compile Include="ContentImporterResult.cs" />
+    <Compile Include="ContentWriterExtensions.cs" />
+    <Compile Include="GDLevel\GDLevelImporter.cs" />
+    <Compile Include="GDLevel\GDLevelProcessor.cs" />
+    <Compile Include="GDLevel\GDLevelWriter.cs" />
+    <Compile Include="GDLevel\LevelPackage.cs" />
+    <Compile Include="PathExtensions.cs" />
+    <Compile Include="PathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextureAtlases\TexturePackerFile.cs" />
+    <Compile Include="TextureAtlases\TexturePackerJsonImporter.cs" />
+    <Compile Include="TextureAtlases\TexturePackerMeta.cs" />
+    <Compile Include="TextureAtlases\TexturePackerPoint.cs" />
+    <Compile Include="TextureAtlases\TexturePackerProcessor.cs" />
+    <Compile Include="TextureAtlases\TexturePackerProcessorResult.cs" />
+    <Compile Include="TextureAtlases\TexturePackerRectangle.cs" />
+    <Compile Include="TextureAtlases\TexturePackerRegion.cs" />
+    <Compile Include="TextureAtlases\TexturePackerSize.cs" />
+    <Compile Include="TextureAtlases\TexturePackerWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -68,7 +86,12 @@
       <Project>{fd075788-85e3-488e-bad4-d3ea72b1d851}</Project>
       <Name>GridDominance.Levelformat</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
+      <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
+      <Name>MonoSAMFramework.Portable</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

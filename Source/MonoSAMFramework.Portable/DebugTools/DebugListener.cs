@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.InputListeners;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using System;
@@ -19,14 +18,14 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public readonly ILifetimeObject Owner;
 
 		private readonly Keys key;
-		private readonly KeyboardModifiers modifiers;
+		private readonly KeyModifier modifiers;
 		private readonly DebugListenerType type;
 
 		private Action<DebugListener> triggerEvent;
 
 		public bool Active { get; private set; }
 
-		public DebugListener(string ident, ILifetimeObject owner,  Keys actionkey, KeyboardModifiers mod, DebugListenerType debugtype)
+		public DebugListener(string ident, ILifetimeObject owner,  Keys actionkey, KeyModifier mod, DebugListenerType debugtype)
 		{
 			Identifier = ident;
 			key = actionkey;
@@ -95,11 +94,11 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			string keycombination;
 
-			if (modifiers == KeyboardModifiers.None)
+			if (modifiers == KeyModifier.None)
 			{
 				keycombination = key.ToString();
 			}
-			else if (modifiers == KeyboardModifiers.Alt || modifiers == KeyboardModifiers.Control || modifiers == KeyboardModifiers.Shift)
+			else if (modifiers == KeyModifier.Alt || modifiers == KeyModifier.Control || modifiers == KeyModifier.Shift)
 			{
 				keycombination = string.Format("{0} + {1}", modifiers, key);
 			}

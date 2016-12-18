@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using MonoGame.Extended;
+﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using System.Collections.Generic;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 {
@@ -53,7 +53,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 			pointerPosition = istate.PointerPositionOnMap;
 			isInShape = AbsoluteShape.Contains(pointerPosition);
 
-			var hasMoved = !pointerPosition.EqualsWithTolerance(prevPointerPos, 0.5f);
+			var hasMoved = !pointerPosition.EpsilonEquals(prevPointerPos, 0.5f);
 
 
 			if (isInShape && !prevInShape) foreach (var lst in listener) lst.OnMouseEnter(this, gameTime, istate);

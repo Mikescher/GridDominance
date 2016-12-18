@@ -7,7 +7,6 @@ using GridDominance.Shared.Screens.ScreenGame.hud;
 using GridDominance.Levelformat.Parser;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.InputListeners;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -97,25 +96,25 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
 
 #if DEBUG
-			DebugSettings.AddTrigger("SetQuality_1", this, Keys.D1, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.FD));
-			DebugSettings.AddTrigger("SetQuality_2", this, Keys.D2, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.BD));
-			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
-			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
-			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyboardModifiers.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
+			DebugSettings.AddTrigger("SetQuality_1", this, Keys.D1, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.FD));
+			DebugSettings.AddTrigger("SetQuality_2", this, Keys.D2, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.BD));
+			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
+			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
+			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
 
-			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyboardModifiers.None, true);
-			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugHUDBorders", this, Keys.F4, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugCannonView", this, Keys.F5, KeyboardModifiers.None, true);
-			DebugSettings.AddSwitch("ShowMatrixTextInfos", this, Keys.F6, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("ShowDebugMiniMap", this, Keys.F7, KeyboardModifiers.None, false);
-			DebugSettings.AddSwitch("DebugEntityBoundaries", this, Keys.F8, KeyboardModifiers.None, false);
+			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyModifier.None, true);
+			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DebugHUDBorders", this, Keys.F4, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DebugCannonView", this, Keys.F5, KeyModifier.None, true);
+			DebugSettings.AddSwitch("ShowMatrixTextInfos", this, Keys.F6, KeyModifier.None, false);
+			DebugSettings.AddSwitch("ShowDebugMiniMap", this, Keys.F7, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DebugEntityBoundaries", this, Keys.F8, KeyModifier.None, false);
 
-			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyboardModifiers.None);
+			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyModifier.None);
 
-			DebugSettings.AddPush("AssimilateCannon", this, Keys.A, KeyboardModifiers.None);
-			DebugSettings.AddPush("AbandonCannon", this, Keys.S, KeyboardModifiers.None);
+			DebugSettings.AddPush("AssimilateCannon", this, Keys.A, KeyModifier.None);
+			DebugSettings.AddPush("AbandonCannon", this, Keys.S, KeyModifier.None);
 #endif
 
 #if DEBUG

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
-using MonoGame.Extended.InputListeners;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System.Collections.Generic;
@@ -138,11 +137,11 @@ namespace MonoSAMFramework.Portable.Input
 			}
 		}
 
-		public bool IsModifierDown(KeyboardModifiers mod)
+		public bool IsModifierDown(KeyModifier mod)
 		{
-			bool needsCtrl  = (mod & KeyboardModifiers.Control) == KeyboardModifiers.Control;
-			bool needsShift = (mod & KeyboardModifiers.Shift)   == KeyboardModifiers.Shift;
-			bool needsAlt   = (mod & KeyboardModifiers.Alt)     == KeyboardModifiers.Alt;
+			bool needsCtrl  = (mod & KeyModifier.Control) == KeyModifier.Control;
+			bool needsShift = (mod & KeyModifier.Shift)   == KeyModifier.Shift;
+			bool needsAlt   = (mod & KeyModifier.Alt)     == KeyModifier.Alt;
 
 			bool down = true;
 
@@ -153,12 +152,12 @@ namespace MonoSAMFramework.Portable.Input
 			return down;
 		}
 
-		public bool IsShortcutJustPressed(KeyboardModifiers mod, Keys key)
+		public bool IsShortcutJustPressed(KeyModifier mod, Keys key)
 		{
 			return IsModifierDown(mod) && IsKeyJustDown(key);
 		}
 
-		public bool IsShortcutPressed(KeyboardModifiers mod, Keys key)
+		public bool IsShortcutPressed(KeyModifier mod, Keys key)
 		{
 			return IsModifierDown(mod) && IsKeyDown(key);
 		}

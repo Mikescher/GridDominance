@@ -1,8 +1,8 @@
 ﻿using GridDominance.Shared.Screens.ScreenGame.Entities;
-using MonoGame.Extended.Shapes;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
@@ -13,14 +13,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 
 		private bool isMouseDragging = false;
 
-		private readonly CircleF innerBoundings;
+		private readonly FCircle innerBoundings;
 
 		public override bool DoBarrelRecharge() => true;
 
 		public PlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction) 
 			: base(0f, owner, cannon, fraction)
 		{
-			innerBoundings = new CircleF(Cannon.Center, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
+			innerBoundings = new FCircle(Cannon.Center, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
 		}
 
 		protected override void Calculate(InputState istate)

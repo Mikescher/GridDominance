@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
-using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;

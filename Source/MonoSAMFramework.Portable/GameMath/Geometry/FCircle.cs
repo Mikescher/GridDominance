@@ -47,6 +47,14 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			Radius = r.Radius;
 		}
 
+		public FCircle(Vector2 location, float radius)
+		{
+			_center = null;
+			X = location.X;
+			Y = location.Y;
+			Radius = radius;
+		}
+
 		[Pure]
 		public static bool operator ==(FCircle a, FCircle b)
 		{

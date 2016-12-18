@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.InputListeners;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using System;
@@ -26,7 +25,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		}
 
 		[Conditional("DEBUG")]
-		public static void AddSwitch(string ident, ILifetimeObject owner, Keys actionkey, KeyboardModifiers mod, bool initial)
+		public static void AddSwitch(string ident, ILifetimeObject owner, Keys actionkey, KeyModifier mod, bool initial)
 		{
 			var upperIdent = ident.ToUpper();
 
@@ -39,7 +38,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		}
 
 		[Conditional("DEBUG")]
-		public static void AddTrigger(string ident, ILifetimeObject owner, Keys actionkey, KeyboardModifiers mod, Action<DebugListener> listenerEvent = null)
+		public static void AddTrigger(string ident, ILifetimeObject owner, Keys actionkey, KeyModifier mod, Action<DebugListener> listenerEvent = null)
 		{
 			var upperIdent = ident.ToUpper();
 
@@ -52,7 +51,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		}
 
 		[Conditional("DEBUG")]
-		public static void AddPush(string ident, ILifetimeObject owner, Keys actionkey, KeyboardModifiers mod, Action<DebugListener> listenerEvent = null)
+		public static void AddPush(string ident, ILifetimeObject owner, Keys actionkey, KeyModifier mod, Action<DebugListener> listenerEvent = null)
 		{
 			var upperIdent = ident.ToUpper();
 

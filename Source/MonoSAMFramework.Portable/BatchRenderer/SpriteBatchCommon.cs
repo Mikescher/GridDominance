@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Shapes;
-using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using System;
 using System.Text;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.BatchRenderer
 {
@@ -199,11 +198,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			}
 		}
 
-		public void DrawCircle(CircleF circle, int sides, Color color, float thickness = 1f)
-		{
-			DrawCircle(circle.Center, circle.Radius, sides, color, thickness);
-		}
-
 		public void DrawCircle(FCircle circle, int sides, Color color, float thickness = 1f)
 		{
 			DrawCircle(circle.Center, circle.Radius, sides, color, thickness);
@@ -231,7 +225,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public abstract void Draw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
 		public abstract void Draw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
 		public abstract void Draw(Texture2D texture, FRectangle destinationRectangle, Color color);
-		public abstract void DrawPolygon(Vector2 position, PolygonF polygon, Color color, float thickness = 1);
 		public abstract void DrawPolygon(Vector2 offset, Vector2[] points, Color color, bool closed, float thickness);
 		public abstract void FillRectangle(FRectangle rectangle, Color color);
 		public abstract void FillRectangle(Vector2 location, Vector2 size, Color color);

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Shapes;
-using MonoGame.Extended.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
@@ -9,6 +7,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using System;
 using System.Linq;
 using System.Text;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.BatchRenderer
 {
@@ -211,11 +210,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 #endif
 
 			internalBatch.DrawString(spriteFont, text, position, color, rotation, origin, scale, effects, layerDepth);
-		}
-
-		public override void DrawPolygon(Vector2 position, PolygonF polygon, Color color, float thickness = 1f)
-		{
-			DrawPolygon(position, polygon.Vertices, color, true, thickness);
 		}
 
 		public override void DrawPolygon(Vector2 offset, Vector2[] points, Color color, bool closed, float thickness)

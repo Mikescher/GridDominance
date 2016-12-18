@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.GameMath.VectorPath
@@ -19,7 +19,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			startPoint = start;
 			endPoint = end;
 
-			direction = (end - start).NormalizedCopy();
+			direction = (end - start).Normalized();
 
 			Length = (end - start).Length();
 			Boundings = new FRectangle(FloatMath.Min(startPoint.X, endPoint.X), FloatMath.Min(startPoint.Y, endPoint.Y), FloatMath.Abs(startPoint.X - endPoint.X), FloatMath.Abs(startPoint.Y - endPoint.Y));
