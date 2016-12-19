@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace MonoGame.Extended.Content.Pipeline
+namespace GridDominance.Content.Pipeline
 {
 	/// <summary>
 	/// 

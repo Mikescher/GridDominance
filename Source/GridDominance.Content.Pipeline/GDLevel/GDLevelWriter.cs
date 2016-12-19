@@ -1,10 +1,10 @@
-﻿using GridDominance.Levelformat.Parser;
+﻿using System;
+using GridDominance.Levelformat.Parser;
 using GridDominance.Levelformat.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
-using System;
 
-namespace GridDominance.Content.Pipeline
+namespace GridDominance.Content.Pipeline.GDLevel
 {
 	[ContentTypeWriter]
 	public class GDLevelWriter : ContentTypeWriter<LevelFile>

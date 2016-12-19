@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using System.Diagnostics;
+using System.IO;
+using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
-using System.Diagnostics;
-using System.IO;
 
-namespace MonoGame.Extended.Content.Pipeline.TextureAtlases
+namespace GridDominance.Content.Pipeline.TextureAtlases
 {
 	/// <summary>
 	/// 

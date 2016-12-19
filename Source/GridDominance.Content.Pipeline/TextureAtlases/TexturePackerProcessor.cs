@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework.Content.Pipeline;
 
-namespace MonoGame.Extended.Content.Pipeline.TextureAtlases
+namespace GridDominance.Content.Pipeline.TextureAtlases
 {
 	/// <summary>
 	/// 

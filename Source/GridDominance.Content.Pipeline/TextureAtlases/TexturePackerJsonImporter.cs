@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using System.IO;
+using Microsoft.Xna.Framework.Content.Pipeline;
 using Newtonsoft.Json;
-using System.IO;
 
-namespace MonoGame.Extended.Content.Pipeline.TextureAtlases
+namespace GridDominance.Content.Pipeline.TextureAtlases
 {
 	/// <summary>
 	/// 

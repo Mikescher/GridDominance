@@ -1,9 +1,9 @@
-﻿using GridDominance.Levelformat.Parser;
-using Microsoft.Xna.Framework.Content.Pipeline;
-using System;
+﻿using System;
 using System.Linq;
+using GridDominance.Levelformat.Parser;
+using Microsoft.Xna.Framework.Content.Pipeline;
 
-namespace GridDominance.Content.Pipeline
+namespace GridDominance.Content.Pipeline.GDLevel
 {
 	[ContentProcessor(DisplayName = "GridDominance Level Processor")]
 	public class GDLevelProcessor : ContentProcessor<LevelPackage, LevelFile>

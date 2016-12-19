@@ -1,4 +1,4 @@
-﻿namespace MonoGame.Extended.Content.Pipeline.TextureAtlases
+﻿namespace GridDominance.Content.Pipeline.TextureAtlases
 {
 	/// <summary>
 	/// 

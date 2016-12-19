@@ -1,4 +1,4 @@
-﻿namespace MonoGame.Extended.Content.Pipeline
+﻿namespace GridDominance.Content.Pipeline
 {
 	internal static class PathHelper
 	{

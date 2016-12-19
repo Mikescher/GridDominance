@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 
-namespace MonoGame.Extended.Content.Pipeline
+namespace GridDominance.Content.Pipeline
 {
 	/// <summary>
 	/// 

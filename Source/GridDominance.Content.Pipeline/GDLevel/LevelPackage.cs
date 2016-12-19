@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GridDominance.Content.Pipeline
+namespace GridDominance.Content.Pipeline.GDLevel
 {
 	public class LevelPackage
 	{

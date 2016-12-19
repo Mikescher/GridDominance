@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content.Pipeline;
 
-namespace GridDominance.Content.Pipeline
+namespace GridDominance.Content.Pipeline.GDLevel
 {
 	[ContentImporter(".gslevel", DefaultProcessor = "GDLevelProcessor", DisplayName = "GridDominance Level Importer")]
 	public class GDLevelImporter : ContentImporter<LevelPackage>
