@@ -10,6 +10,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 	{
 		public override int Depth { get; }
 
+		protected override bool isClickable() => false;
+
 		public Color Color = Color.Transparent;
 
 		public HUDRectangle(int depth = 0)

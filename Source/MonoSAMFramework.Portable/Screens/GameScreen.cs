@@ -120,11 +120,12 @@ namespace MonoSAMFramework.Portable.Screens
 			GCMonitor.Update(gameTime, state);
 #endif
 
-			GameHUD.Update(gameTime, state);
-			DebugDisp.Update(gameTime, state);
 
 			if (FloatMath.IsZero(GameSpeed))
 			{
+				// render these two always
+				DebugDisp.Update(gameTime, state);
+				GameHUD.Update(gameTime, state);
 				return;
 			}
 			else if (FloatMath.IsOne(GameSpeed))
@@ -169,11 +170,16 @@ namespace MonoSAMFramework.Portable.Screens
 #if DEBUG
 			UPSCounter.Update(gameTime);
 #endif
+			// Update Top Down  (Debug -> HUD -> Entities -> BG)
+			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
 
-			InputStateMan.TriggerListener();
-			
-			Background.Update(gameTime, state);
+			DebugDisp.Update(gameTime, state);
+
+			GameHUD.Update(gameTime, state);
+
 			Entities.Update(gameTime, state);
+
+			Background.Update(gameTime, state);
 
 			foreach (var agent in Agents) agent.Update(gameTime, state);
 
@@ -185,6 +191,8 @@ namespace MonoSAMFramework.Portable.Screens
 #if DEBUG
 			FPSCounter.Update(gameTime);
 #endif
+			// Update Top Down  (Debug -> HUD -> Entities -> BG)
+			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
 
 			Graphics.GraphicsDevice.Clear(Color.Magenta);
 

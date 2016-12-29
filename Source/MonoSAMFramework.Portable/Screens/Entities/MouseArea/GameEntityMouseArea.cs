@@ -12,7 +12,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 		public readonly IFShape RelativeShape;
 		public readonly GameEntity Owner;
 
-		private readonly List<IGameEntityMouseAreaListener> listener = new List<IGameEntityMouseAreaListener>(); 
+		private readonly List<IGameEntityMouseAreaListener> listener = new List<IGameEntityMouseAreaListener>();
+		private readonly bool doSwallowEvents;
 
 		private Vector2 ownerPositionCache = Vector2.Zero;
 		private IFShape absoluteShapeCache = null;
@@ -20,6 +21,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 		private bool isInShape = false;
 		private Vector2 pointerPosition = Vector2.Zero;
 		private bool isClickDown = false;
+
+		public bool IsEnabled = true;
 
 		public IFShape AbsoluteShape
 		{
@@ -34,10 +37,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 			}
 		}
 
-		public GameEntityMouseArea(GameEntity owner, IFShape shape)
+		public GameEntityMouseArea(GameEntity owner, IFShape shape, bool swallowEvents)
 		{
 			RelativeShape = shape;
 			Owner = owner;
+			doSwallowEvents = swallowEvents;
 		}
 
 		public void AddListener(IGameEntityMouseAreaListener l)
@@ -47,32 +51,62 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 
 		public void Update(GameTime gameTime, InputState istate)
 		{
-			var prevPointerPos = pointerPosition;
-			var prevInShape = isInShape;
+			if (IsEnabled)
+			{
+				var prevPointerPos = pointerPosition;
+				var prevInShape = isInShape;
 
-			pointerPosition = istate.PointerPositionOnMap;
-			isInShape = AbsoluteShape.Contains(pointerPosition);
+				pointerPosition = istate.PointerPositionOnMap;
+				isInShape = AbsoluteShape.Contains(pointerPosition);
 
-			var hasMoved = !pointerPosition.EpsilonEquals(prevPointerPos, 0.5f);
+				var hasMoved = !pointerPosition.EpsilonEquals(prevPointerPos, 0.5f);
 
+				var iju = istate.IsExclusiveJustUp;
+				var ijd = istate.IsExclusiveJustDown;
 
-			if (isInShape && !prevInShape) foreach (var lst in listener) lst.OnMouseEnter(this, gameTime, istate);
+				if (isInShape && doSwallowEvents) istate.Swallow();
 
-			if (! isInShape && prevInShape) foreach (var lst in listener) lst.OnMouseEnter(this, gameTime, istate);
+				if (isInShape && !prevInShape)
+				{
+					foreach (var lst in listener) lst.OnMouseEnter(this, gameTime, istate);
+				}
 
-			if (isInShape && hasMoved) foreach (var lst in listener) lst.OnMouseMove(this, gameTime, istate);
+				if (!isInShape && prevInShape)
+				{
+					foreach (var lst in listener) lst.OnMouseEnter(this, gameTime, istate);
+				}
 
-			if (isInShape && istate.IsJustDown) foreach (var lst in listener) lst.OnMouseDown(this, gameTime, istate);
+				if (isInShape && hasMoved)
+				{
+					foreach (var lst in listener) lst.OnMouseMove(this, gameTime, istate);
+				}
 
-			if (isInShape && istate.IsJustUp) foreach (var lst in listener) lst.OnMouseUp(this, gameTime, istate);
+				if (isInShape && ijd)
+				{
+					foreach (var lst in listener) lst.OnMouseDown(this, gameTime, istate);
+				}
 
-			if (isClickDown && isInShape && istate.IsJustUp) foreach (var lst in listener) lst.OnMouseClick(this, gameTime, istate);
+				if (isInShape && iju)
+				{
+					foreach (var lst in listener) lst.OnMouseUp(this, gameTime, istate);
+				}
 
+				if (isClickDown && isInShape && iju)
+				{
+					foreach (var lst in listener) lst.OnMouseClick(this, gameTime, istate);
+				}
 
-			if (!isInShape) isClickDown = false;
-			if (hasMoved) isClickDown = false;
-			if (!istate.IsDown) isClickDown = false;
-			if (isInShape && istate.IsJustDown) isClickDown = true;
+				if (!isInShape) isClickDown = false;
+				if (hasMoved) isClickDown = false;
+				if (!istate.IsRealDown) isClickDown = false;
+				if (isInShape && istate.IsRealJustDown) isClickDown = true;
+			}
+			else
+			{
+				isClickDown = false;
+			}
 		}
+
+		public bool IsMouseDown() => isClickDown;
 	}
 }

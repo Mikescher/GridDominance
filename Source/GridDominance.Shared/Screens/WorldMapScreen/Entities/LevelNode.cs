@@ -41,6 +41,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private readonly FRectangle rectExpanderSouth;
 		private readonly FRectangle rectExpanderWest;
 
+		private GameEntityMouseArea clickAreaD0;
+		private GameEntityMouseArea clickAreaD1;
+		private GameEntityMouseArea clickAreaD2;
+		private GameEntityMouseArea clickAreaD3;
+
 		private float expansionProgress = 0;
 
 		public LevelNode(GameScreen scrn, Vector2 pos) : base(scrn)
@@ -58,50 +63,44 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			this.AddClickMouseArea(new FCircle(0, 0, DIAMETER / 2f), OnClickCenter);
 
-			this.AddClickMouseArea(rectExpanderNorth.AsTranslated(-Position).AsDeflated(0, 0, INSET_EXTENDER, 0), OnClickDiff1);
-			this.AddClickMouseArea(rectExpanderEast.AsTranslated(-Position).AsDeflated(0, 0, 0, INSET_EXTENDER),  OnClickDiff2);
-			this.AddClickMouseArea(rectExpanderSouth.AsTranslated(-Position).AsDeflated(INSET_EXTENDER, 0, 0, 0), OnClickDiff3);
-			this.AddClickMouseArea(rectExpanderWest.AsTranslated(-Position).AsDeflated(0, INSET_EXTENDER, 0, 0),  OnClickDiff4);
+			clickAreaD0 = this.AddClickMouseArea(rectExpanderNorth.AsTranslated(-Position).AsDeflated(0, 0, INSET_EXTENDER, 0), OnClickDiff1);
+			clickAreaD1 = this.AddClickMouseArea(rectExpanderEast.AsTranslated(-Position).AsDeflated(0, 0, 0, INSET_EXTENDER),  OnClickDiff2);
+			clickAreaD2 = this.AddClickMouseArea(rectExpanderSouth.AsTranslated(-Position).AsDeflated(INSET_EXTENDER, 0, 0, 0), OnClickDiff3);
+			clickAreaD3 = this.AddClickMouseArea(rectExpanderWest.AsTranslated(-Position).AsDeflated(0, INSET_EXTENDER, 0, 0),  OnClickDiff4);
 		}
 
 		private void OnClickCenter(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
 			if (FloatMath.IsZero(expansionProgress))
+			{
 				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(EXPANSION_TIME, (n, p) => n.expansionProgress = p));
+				
+			}
 			else if (FloatMath.IsOne(expansionProgress))
+			{
 				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(EXPANSION_TIME, (n, p) => n.expansionProgress = 1-p));
+				
+			}
 		}
 
 		private void OnClickDiff1(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
-			if (FloatMath.IsOne(expansionProgress))
-			{
-				Owner.PushNotification("CLICK DIFF 0");
-			}
+			Owner.PushNotification("CLICK DIFF 0");
 		}
 
 		private void OnClickDiff2(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
-			if (FloatMath.IsOne(expansionProgress))
-			{
-				Owner.PushNotification("CLICK DIFF 1");
-			}
+			Owner.PushNotification("CLICK DIFF 1");
 		}
 
 		private void OnClickDiff3(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
-			if (FloatMath.IsOne(expansionProgress))
-			{
-				Owner.PushNotification("CLICK DIFF 2");
-			}
+			Owner.PushNotification("CLICK DIFF 2");
 		}
 
 		private void OnClickDiff4(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
-			if (FloatMath.IsOne(expansionProgress))
-			{
-				Owner.PushNotification("CLICK DIFF 3");
-			}
+			Owner.PushNotification("CLICK DIFF 3");
 		}
 
 		public override void OnRemove()
@@ -111,7 +110,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
-			//
+			clickAreaD0.IsEnabled = (expansionProgress > 0.5f);
+			clickAreaD1.IsEnabled = (expansionProgress > 0.5f);
+			clickAreaD2.IsEnabled = (expansionProgress > 0.5f);
+			clickAreaD3.IsEnabled = (expansionProgress > 0.5f);
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
@@ -166,7 +168,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					.ToSquare(ICON_SIZE, FlatAlign9.NORTH)
 					.AsTranslated(0, +ICON_OFFSET)
 					.AsTranslated(0, HEIGHT_EXTENDER * iep),
-				Color.White);
+				clickAreaD0.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			sbatch.Draw(
 				Textures.TexDifficulty1,
@@ -174,7 +176,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					.ToSquare(ICON_SIZE, FlatAlign9.EAST)
 					.AsTranslated(-ICON_OFFSET, 0)
 					.AsTranslated(-HEIGHT_EXTENDER * iep, 0),
-				Color.White);
+				clickAreaD1.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			sbatch.Draw(
 				Textures.TexDifficulty2,
@@ -182,7 +184,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					.ToSquare(ICON_SIZE, FlatAlign9.SOUTH)
 					.AsTranslated(0, -ICON_OFFSET)
 					.AsTranslated(0, -HEIGHT_EXTENDER * iep),
-				Color.White);
+				clickAreaD2.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			sbatch.Draw(
 				Textures.TexDifficulty3,
@@ -190,7 +192,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					.ToSquare(ICON_SIZE, FlatAlign9.WEST)
 					.AsTranslated(+ICON_OFFSET, 0)
 					.AsTranslated(HEIGHT_EXTENDER * iep, 0),
-				Color.White);
+				clickAreaD3.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			#endregion
 
@@ -274,7 +276,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Text
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, "1-2", FlatColors.Clouds, Position);
+			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, "1-2", ColorMath.Blend(FlatColors.Clouds, FlatColors.MidnightBlue, expansionProgress), Position);
 
 			#endregion
 		}

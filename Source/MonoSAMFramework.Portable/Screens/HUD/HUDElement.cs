@@ -150,21 +150,32 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 					ActiveOperations.RemoveAt(i);
 				}
 			}
-
-			if (istate.IsJustDown && BoundingRectangle.Contains(istate.PointerPosition))
+			if (isClickable())
 			{
-				OnPointerDown(istate.PointerPosition.RelativeTo(Position), istate);
-				IsPointerDownOnElement = true;
+				if (istate.IsExclusiveJustDown && BoundingRectangle.Contains(istate.PointerPosition))
+				{
+					istate.Swallow();
+
+					OnPointerDown(istate.PointerPosition.RelativeTo(Position), istate);
+					IsPointerDownOnElement = true;
+				}
+				else if (istate.IsExclusiveJustUp && BoundingRectangle.Contains(istate.PointerPosition))
+				{
+					istate.Swallow();
+
+					OnPointerUp(istate.PointerPosition.RelativeTo(Position), istate);
+
+					if (IsPointerDownOnElement)
+						OnPointerClick(istate.PointerPosition.RelativeTo(Position), istate);
+				}
+
+				if (!istate.IsExclusiveDown) IsPointerDownOnElement = false;
 			}
-			else if (istate.IsJustUp && BoundingRectangle.Contains(istate.PointerPosition))
+			else
 			{
-				OnPointerUp(istate.PointerPosition.RelativeTo(Position), istate);
-
-				if (IsPointerDownOnElement)
-					OnPointerClick(istate.PointerPosition.RelativeTo(Position), istate);
+				IsPointerDownOnElement = false;
 			}
 
-			if (!istate.IsDown) IsPointerDownOnElement = false;
 
 			DoUpdate(gameTime, istate);
 		}
@@ -262,6 +273,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public abstract void OnRemove();     // Only called on manual remove - not on HUD/Screen remove
 
 		protected abstract void DoUpdate(GameTime gameTime, InputState istate);
+
+		protected abstract bool isClickable();
 
 		protected virtual void OnBeforeRecalculatePosition()
 		{

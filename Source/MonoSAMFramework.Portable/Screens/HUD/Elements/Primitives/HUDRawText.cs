@@ -13,6 +13,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 	{
 		public override int Depth { get; }
 
+		protected override bool isClickable() => false;
+
 		private string _textCache = "";
 		private float _fsizeCache = -1;
 

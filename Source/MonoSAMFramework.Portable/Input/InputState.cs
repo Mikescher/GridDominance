@@ -16,14 +16,27 @@ namespace MonoSAMFramework.Portable.Input
 		public readonly TouchCollection TouchPanel;
 		public readonly GamePadState GamePad;
 
-		public readonly bool IsDown;
-		public readonly bool IsJustDown;
-		public readonly bool IsJustUp;
+		private readonly bool isDown;
+		private readonly bool isJustDown;
+		private readonly bool isJustUp;
+		private bool isUpDownSwallowed = false;
+
+		public bool IsExclusiveDown => isDown && !isUpDownSwallowed;
+		public bool IsExclusiveUp => !isDown && !isUpDownSwallowed;
+		public bool IsExclusiveJustDown => isJustDown && !isUpDownSwallowed;
+		public bool IsExclusiveJustUp => isJustUp && !isUpDownSwallowed;
+		public bool IsRealDown => isDown;
+		public bool IsRealUp => !isDown;
+		public bool IsRealJustDown => isJustDown;
+		public bool IsRealJustUp => isJustUp;
+		public void Swallow() => isUpDownSwallowed = true;
+		
 		public readonly FPoint PointerPosition;
 		public readonly FPoint PointerPositionOnMap;
 
 		private readonly Dictionary<Keys, bool> lastKeyState;
 		private readonly Dictionary<Keys, bool> currentKeyState;
+
 
 		private InputState(SAMViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, InputState prev, float mox, float moy)
 		{
@@ -34,24 +47,24 @@ namespace MonoSAMFramework.Portable.Input
 
 			if (Mouse.LeftButton == ButtonState.Pressed)
 			{
-				IsDown = true;
+				isDown = true;
 				PointerPosition = adapter.PointToScreen(Mouse.Position);
 			}
 			else if (TouchPanel.Count > 0)
 			{
-				IsDown = true;
+				isDown = true;
 				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint());
 			}
 			else
 			{
-				IsDown = false;
+				isDown = false;
 				PointerPosition = prev.PointerPosition;
 			}
 
 			PointerPositionOnMap = PointerPosition.RelativeTo(mox, moy);
 
-			IsJustDown = IsDown && !prev.IsDown;
-			IsJustUp = !IsDown && prev.IsDown;
+			isJustDown = isDown && !prev.isDown;
+			isJustUp = !isDown && prev.isDown;
 
 			lastKeyState = prev.currentKeyState;
 			currentKeyState = lastKeyState.ToDictionary(p => p.Key, p => ks.IsKeyDown(p.Key));
@@ -66,17 +79,17 @@ namespace MonoSAMFramework.Portable.Input
 
 			if (Mouse.LeftButton == ButtonState.Pressed)
 			{
-				IsDown = true;
+				isDown = true;
 				PointerPosition = adapter.PointToScreen(Mouse.Position);
 			}
 			else if (TouchPanel.Count > 0)
 			{
-				IsDown = true;
+				isDown = true;
 				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint());
 			}
 			else
 			{
-				IsDown = false;
+				isDown = false;
 				PointerPosition = FPoint.Zero;
 			}
 

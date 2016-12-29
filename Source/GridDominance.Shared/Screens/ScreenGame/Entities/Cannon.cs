@@ -176,7 +176,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		private bool IsMouseDownOnThis(InputState istate)
 		{
-			return istate.IsDown && (istate.PointerPosition - Center).Length() < CANNON_DIAMETER;
+			return istate.IsRealDown && (istate.PointerPosition - Center).Length() < CANNON_DIAMETER;
 		}
 
 		private void UpdateHealth(GameTime gameTime)

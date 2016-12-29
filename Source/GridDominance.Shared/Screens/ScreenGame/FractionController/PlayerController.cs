@@ -25,19 +25,21 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 
 		protected override void Calculate(InputState istate)
 		{
-			if (istate.IsJustDown && innerBoundings.Contains(istate.PointerPosition))
+			if (istate.IsExclusiveJustDown && innerBoundings.Contains(istate.PointerPosition))
 			{
+				istate.Swallow();
+
 				isMouseDragging = true;
 				Cannon.CrosshairSize.SetForce(CROSSHAIR_START_SCALE);
 			}
-			else if (!istate.IsDown && isMouseDragging)
+			else if (!istate.IsRealDown && isMouseDragging)
 			{
 				isMouseDragging = false;
 				Cannon.CrosshairSize.Set(0f);
 
 				//Screen.PushNotification($"Cannon :: target({FloatMath.ToDegree(Cannon.Rotation.TargetValue):000}°)");
 			}
-			else if (isMouseDragging && istate.IsDown && !innerBoundings.Contains(istate.PointerPosition))
+			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.PointerPosition))
 			{
 				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.PointerPosition.Y - Cannon.Center.Y, istate.PointerPosition.X - Cannon.Center.X));
 

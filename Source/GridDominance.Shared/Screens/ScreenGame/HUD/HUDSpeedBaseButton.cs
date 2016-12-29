@@ -51,6 +51,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			Alignment = HUDAlignment.BOTTOMLEFT;
 		}
 
+		protected override bool isClickable() => true;
+
 		public override void OnInitialize()
 		{
 			speedButtons = null;
@@ -124,7 +126,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 						choosen = 4;
 				}
 
-				if (istate.IsDown)
+				if (istate.IsRealDown)
 				{
 					for (int i = 0; i < 5; i++)
 					{

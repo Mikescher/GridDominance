@@ -39,7 +39,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		{
 			if (isDragging)
 			{
-				if (istate.IsDown)
+				if (istate.IsRealDown)
 				{
 					UpdateDrag(gameTime, istate);
 				}
@@ -50,8 +50,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			}
 			else
 			{
-				if (istate.IsDown)
+				if (istate.IsExclusiveJustDown)
 				{
+					istate.Swallow();
 					StartDrag(istate);
 				}
 				else if (!dragSpeed.IsZero() || !outOfBoundsForce.IsZero())

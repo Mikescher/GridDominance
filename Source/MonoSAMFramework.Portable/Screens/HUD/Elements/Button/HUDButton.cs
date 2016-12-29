@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using System;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 {
@@ -147,6 +147,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 			isHoldingDown = false;
 		}
+
+		protected override bool isClickable() => true;
 
 		protected virtual bool IsCursorOnButton(InputState istate) => true;
 

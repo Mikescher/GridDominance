@@ -42,6 +42,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			Background = FlatColors.BackgroundHUD;
 		}
 
+		protected override bool isClickable() => false;
+
 		public override void OnInitialize()
 		{
 			base.OnInitialize();

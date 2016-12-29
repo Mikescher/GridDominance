@@ -1,17 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
-using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
 	public class HUDImage : HUDElement
 	{
 		public override int Depth { get; }
+
+		protected override bool isClickable() => false;
 
 		private HUDImageAlignment _imageAligment = HUDImageAlignment.UNDERSCALE;
 		public HUDImageAlignment ImageAlignment

@@ -9,6 +9,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 	{
 		public override int Depth => int.MinValue;
 
+		protected override bool isClickable() => false;
+
 		public override void OnInitialize()
 		{
 			// NOP

@@ -86,18 +86,20 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			}
 		}
 
-		public void AddMouseArea(IFShape shape, IGameEntityMouseAreaListener listener)
+		public GameEntityMouseArea AddMouseArea(IFShape shape, IGameEntityMouseAreaListener listener, bool swallowEvents = true)
 		{
-			var area = new GameEntityMouseArea(this, shape);
+			var area = new GameEntityMouseArea(this, shape, swallowEvents);
 			area.AddListener(listener);
 			MouseAreas.Add(area);
+			return area;
 		}
 
-		public void AddClickMouseArea(IFShape shape, Action<GameEntityMouseArea, GameTime, InputState> clickListener)
+		public GameEntityMouseArea AddClickMouseArea(IFShape shape, Action<GameEntityMouseArea, GameTime, InputState> clickListener, bool swallowEvents = true)
 		{
-			var area = new GameEntityMouseArea(this, shape);
+			var area = new GameEntityMouseArea(this, shape, swallowEvents);
 			area.AddListener(new GameEntityMouseAreaLambdaAdapter{ MouseClick = clickListener });
 			MouseAreas.Add(area);
+			return area;
 		}
 
 		public void Draw(IBatchRenderer sbatch)
@@ -125,7 +127,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			foreach (var area in MouseAreas)
 			{
-				sbatch.Draw(area.AbsoluteShape, Color.DarkOrange, 1);
+				sbatch.Draw(area.AbsoluteShape, area.IsEnabled ? Color.DarkOrange : Color.PeachPuff, 1);
 			}
 		}
 
