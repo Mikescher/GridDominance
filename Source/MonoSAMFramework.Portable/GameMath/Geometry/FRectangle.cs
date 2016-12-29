@@ -352,5 +352,41 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			return new Rectangle(FloatMath.Round(X), FloatMath.Round(Y), FloatMath.Round(Width), FloatMath.Round(Height));
 		}
+
+		[Pure]
+		public FRectangle LimitSingleCoordNorth(float coordY)
+		{
+			if (Top >= coordY && Bottom >= coordY) return this;
+			if (Top <= coordY && Bottom <= coordY) return Empty;
+
+			return new FRectangle(X, coordY, Width, Bottom - coordY);
+		}
+
+		[Pure]
+		public FRectangle LimitSingleCoordEast(float coordX)
+		{
+			if (Left <= coordX && Right <= coordX) return this;
+			if (Left >= coordX && Right >= coordX) return Empty;
+
+			return new FRectangle(X, Y, coordX - X, Height);
+		}
+
+		[Pure]
+		public FRectangle LimitSingleCoordSouth(float coordY)
+		{
+			if (Top <= coordY && Bottom <= coordY) return this;
+			if (Top >= coordY && Bottom >= coordY) return Empty;
+
+			return new FRectangle(X, Y, Width, coordY - Y);
+		}
+
+		[Pure]
+		public FRectangle LimitSingleCoordWest(float coordX)
+		{
+			if (Left >= coordX && Right >= coordX) return this;
+			if (Left <= coordX && Right <= coordX) return Empty;
+
+			return new FRectangle(coordX, Y, Right - coordX, Height);
+		}
 	}
 }

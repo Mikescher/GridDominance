@@ -419,6 +419,58 @@ namespace MonoSAMFramework.Portable.GameMath
 			return value%max;
 		}
 
+		/// no easing, no acceleration
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseLinear(float t) => t;
+
+		/// accelerating from zero velocity
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseInQuad(float t) => t * t;
+
+		/// decelerating to zero velocity
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseOutQuad(float t) => t * (2 - t);
+
+		/// acceleration until halfway, then deceleration
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseInOutQuad(float t) => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+		/// accelerating from zero velocity 
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseInCubic(float t) => t * t * t;
+
+		/// decelerating to zero velocity 
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseOutCubic(float t) => (--t) * t * t + 1;
+
+		/// acceleration until halfway, then deceleration 
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseInOutCubic(float t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+
+		/// accelerating from zero velocity 
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseInQuart(float t) => t * t * t * t;
+
+		/// decelerating to zero velocity 
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseOutQuart(float t) => 1 - (--t) * t * t * t;
+
+		/// acceleration until halfway, then deceleration
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseInOutQuart(float t) => t < .5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t;
+
+		/// accelerating from zero velocity
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseInQuint(float t) => t * t * t * t * t;
+
+		/// decelerating to zero velocity
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseOutQuint(float t) => 1 + (--t) * t * t * t * t;
+
+		/// acceleration until halfway, then deceleration 
+		/// https://gist.github.com/gre/1650294
+		public static float FunctionEaseInOutQuint(float t) => t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t;
+
 		public static float FunctionEaseOutElastic(float t, float power = 0.3f, float bounces = 2)
 		{
 			t *= 0.175f * bounces + 0.0875f;
