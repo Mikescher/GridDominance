@@ -19,7 +19,7 @@ WORLD MAP
     - Particle system
     - draw leetters by having their path stored nin game
     - text appears like written by delaying path draw
- - connect level round buttons with pipes
+ - connect level round buttons with pipes (or with CPU grid particles ?)
  - pipe becomes active when levl cleared on at least one diff
  - whole map not forcible rectangulare (but 90° edges)
  - background like in level, cleared levels convert background (diff = different color or higher intensity or higher reach)

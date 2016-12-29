@@ -14,6 +14,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 		KI_NORMAL     = 0x11,
 		KI_HARD       = 0x12,
 		KI_IMPOSSIBLE = 0x13,
+
+		DIFF_0        = KI_EASY,
+		DIFF_1        = KI_NORMAL,
+		DIFF_2        = KI_HARD,
+		DIFF_3        = KI_IMPOSSIBLE,
 	}
 
 	public static class FractionDifficultyHelper

@@ -1,4 +1,6 @@
-﻿using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.PlayerProfile;
+using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -33,6 +35,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private const float EXPANSION_TIME = 0.7f;
 		private const float CENTERING_TIME = 0.55f;
 
+		private readonly string levelID;
+		private readonly PlayerProfileLevelData levelData;
+
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.SandyBrown;
@@ -51,10 +56,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private float expansionProgress = 0;
 
-		public LevelNode(GameScreen scrn, Vector2 pos) : base(scrn)
+		public LevelNode(GameScreen scrn, Vector2 pos, string lid, PlayerProfileLevelData lvldat) : base(scrn)
 		{
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));
+
+			levelID = lid;
+			levelData = lvldat;
 
 			rectExpanderNorth = FRectangle.CreateByCenter(pos, 0, -EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER);
 			rectExpanderEast  = FRectangle.CreateByCenter(pos, EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER);
@@ -139,7 +147,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				sbatch,
 				rectExpanderNorth.AsTranslated(0, HEIGHT_EXTENDER * iep).LimitSingleCoordSouth(Position.Y),
 				2,
-				GDColors.COLOR_DIFFICULTY_0,
+				levelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
 				COLOR_BORDER,
 				8,
 				10);
@@ -148,7 +156,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				sbatch,
 				rectExpanderEast.AsTranslated(-HEIGHT_EXTENDER * iep, 0).LimitSingleCoordWest(Position.X),
 				2,
-				GDColors.COLOR_DIFFICULTY_1,
+				levelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
 				COLOR_BORDER,
 				8,
 				10);
@@ -156,8 +164,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			FlatRenderHelper.DrawOutlinesBlurRectangle(
 				sbatch,
 				rectExpanderSouth.AsTranslated(0, -HEIGHT_EXTENDER * iep).LimitSingleCoordNorth(Position.Y), 
-				2, 
-				GDColors.COLOR_DIFFICULTY_2, 
+				2,
+				levelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED, 
 				COLOR_BORDER, 
 				8, 
 				10);
@@ -166,7 +174,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				sbatch,
 				rectExpanderWest.AsTranslated(HEIGHT_EXTENDER * iep, 0).LimitSingleCoordEast(Position.X),
 				2,
-				COLOR_DEACTIVATED,
+				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
 				COLOR_BORDER,
 				8,
 				10);
@@ -230,7 +238,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
-				GDColors.COLOR_DIFFICULTY_0,
+				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
 				FloatMath.RAD_000 + FloatMath.TAU * expansionProgress,
 				Textures.TexLevelNodeSegment.Center(),
 				DIAMETER / Textures.TexLevelNodeSegment.Width,
@@ -241,7 +249,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
-				GDColors.COLOR_DIFFICULTY_1,
+				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_090 + FloatMath.TAU * expansionProgress,
 				Textures.TexLevelNodeSegment.Center(),
 				DIAMETER / Textures.TexLevelNodeSegment.Width,
@@ -252,7 +260,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
-				GDColors.COLOR_DIFFICULTY_2,
+				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_180 + FloatMath.TAU * expansionProgress,
 				Textures.TexLevelNodeSegment.Center(),
 				DIAMETER / Textures.TexLevelNodeSegment.Width,
@@ -263,7 +271,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
-				COLOR_DEACTIVATED, //GDColors.COLOR_DIFFICULTY_3,
+				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_270 + FloatMath.TAU * expansionProgress,
 				Textures.TexLevelNodeSegment.Center(),
 				DIAMETER / Textures.TexLevelNodeSegment.Width,
