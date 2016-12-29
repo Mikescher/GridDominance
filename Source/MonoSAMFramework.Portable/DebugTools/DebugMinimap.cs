@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens;
 
@@ -40,6 +41,10 @@ namespace MonoSAMFramework.Portable.DebugTools
 			sbatch.FillRectangle(offset + posView, sizeView, Color.Black * 0.1f);
 			sbatch.DrawRectangle(offset + posView, sizeView, Color.Black, 2);
 			sbatch.DrawRectangle(offset + posView2, sizeView2, Color.Black * 0.666f, 1);
+
+			sbatch.DrawLine(offsetZero.X, offset.Y, offsetZero.X, offset.Y + sizeOuter.Height, Color.Black * 0.5f);
+			sbatch.DrawLine(offset.X, offsetZero.Y, offset.X + sizeOuter.Width, offsetZero.Y, Color.Black * 0.5f);
+			sbatch.FillRectangle(FRectangle.CreateByCenter(offsetZero, 0, 0, 5, 5), Color.Black * 0.5f);
 
 			foreach (var entity in Owner.GetAllEntities())
 			{

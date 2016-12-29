@@ -37,6 +37,9 @@ namespace MonoSAMFramework.Portable.Screens
 		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; TranslatedBatch.VirtualOffsetX = value; } }
 		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; TranslatedBatch.VirtualOffsetY = value; } }
 		public Vector2 MapOffset => new Vector2(_mapOffsetX, _mapOffsetY);
+		public float MapViewportCenterX { get { return VAdapter.VirtualTotalWidth  / 2 - MapOffsetX - VAdapter.VirtualGuaranteedBoundingsOffsetX; } set { MapOffsetX = VAdapter.VirtualTotalWidth / 2 - VAdapter.VirtualGuaranteedBoundingsOffsetX - value; } }
+		public float MapViewportCenterY { get { return VAdapter.VirtualTotalHeight / 2 - MapOffsetY - VAdapter.VirtualGuaranteedBoundingsOffsetY; } set { MapOffsetY = VAdapter.VirtualTotalHeight / 2 - VAdapter.VirtualGuaranteedBoundingsOffsetY - value; } }
+		public Vector2 MapViewportCenter => new Vector2(MapViewportCenterX, MapViewportCenterY);
 		public FRectangle GuaranteedMapViewport => new FRectangle(-MapOffsetX, -MapOffsetY, VAdapter.VirtualGuaranteedWidth, VAdapter.VirtualGuaranteedHeight);
 		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapter.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapter.VirtualGuaranteedBoundingsOffsetY, VAdapter.VirtualTotalWidth, VAdapter.VirtualTotalHeight);
 		public FRectangle MapFullBounds { get; private set; }

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Runtime.Serialization;
-using Microsoft.Xna.Framework;
 
 namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
@@ -69,6 +69,16 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public static FSize operator *(FSize value1, int value2)
 		{
 			return new FSize(value1.Width * value2, value1.Height * value2);
+		}
+
+		public static FSize operator /(FSize value1, float value2)
+		{
+			return new FSize(value1.Width / value2, value1.Height / value2);
+		}
+
+		public static FSize operator /(FSize value1, int value2)
+		{
+			return new FSize(value1.Width / value2, value1.Height / value2);
 		}
 
 		public override bool Equals(object obj)

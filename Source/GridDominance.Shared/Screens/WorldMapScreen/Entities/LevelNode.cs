@@ -31,10 +31,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private static readonly Color COLOR_BORDER = FlatColors.MidnightBlue;
 
 		private const float EXPANSION_TIME = 0.7f;
+		private const float CENTERING_TIME = 0.55f;
 
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.SandyBrown;
+
+		private Vector2 centeringStartOffset;
 
 		private readonly FRectangle rectExpanderNorth;
 		private readonly FRectangle rectExpanderEast;
@@ -73,14 +76,24 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			if (FloatMath.IsZero(expansionProgress))
 			{
+				centeringStartOffset = new Vector2(Owner.MapViewportCenterX, Owner.MapViewportCenterY);
+
 				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(EXPANSION_TIME, (n, p) => n.expansionProgress = p));
-				
+				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(CENTERING_TIME, UpdateScreenCentering));
+
 			}
 			else if (FloatMath.IsOne(expansionProgress))
 			{
 				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(EXPANSION_TIME, (n, p) => n.expansionProgress = 1-p));
-				
 			}
+		}
+
+		private void UpdateScreenCentering(LevelNode n, float progress)
+		{
+			var p = FloatMath.FunctionEaseInOutQuad(progress);
+
+			Owner.MapViewportCenterX = centeringStartOffset.X + p * (Position.X - centeringStartOffset.X);
+			Owner.MapViewportCenterY = centeringStartOffset.Y + p * (Position.Y - centeringStartOffset.Y);
 		}
 
 		private void OnClickDiff1(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
