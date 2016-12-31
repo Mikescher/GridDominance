@@ -122,6 +122,14 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonSpeedClock;
 		public static TextureRegion2D TexHUDButtonPauseMenuMarker;
 		public static TextureRegion2D TexHUDButtonPauseMenuMarkerBackground;
+		public static TextureRegion2D TexHUDButtonIconHighscore;
+		public static TextureRegion2D TexHUDButtonIconEffectsOn;
+		public static TextureRegion2D TexHUDButtonIconEffectsOff;
+		public static TextureRegion2D TexHUDButtonIconVolumeOn;
+		public static TextureRegion2D TexHUDButtonIconVolumeOff;
+		public static TextureRegion2D TexHUDButtonIconAbout;
+		public static TextureRegion2D TexHUDButtonIconSettings;
+		public static TextureRegion2D TexHUDButtonIconAccount;
 
 		public static TextureRegion2D TexPanelBlurEdge;
 		public static TextureRegion2D TexPanelBlurCorner;
@@ -162,7 +170,7 @@ namespace GridDominance.Shared.Resources
 		{
 			AtlasTextures = content.Load<TextureAtlas>(TEXTURE_ASSETNAME);
 
-			TexTileBorder = AtlasTextures["grid"];
+			TexTileBorder         = AtlasTextures["grid"];
 
 			TexCannonBody         = AtlasTextures["simple_circle"];
 			TexCannonBodyShadow   = AtlasTextures["cannonbody_shadow"];
@@ -173,48 +181,58 @@ namespace GridDominance.Shared.Resources
 			TexLevelNodeStructure = AtlasTextures["levelnode_structure"];
 			TexLevelNodeSegment   = AtlasTextures["levelnode_segment"];
 
-			AnimCannonCog = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
+			AnimCannonCog         = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
 
-			TexBullet         = AtlasTextures["cannonball"];
-			TexBulletSplitter = AtlasTextures["cannonball_piece"];
+			TexBullet             = AtlasTextures["cannonball"];
+			TexBulletSplitter     = AtlasTextures["cannonball_piece"];
 
-			TexCircle      = AtlasTextures["simple_circle"];
-			TexCircleEmpty = AtlasTextures["simple_circle_empty"];
-			TexPixel       = AtlasTextures["simple_pixel"];
-			TexPixel       = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
-			TexParticle    = Enumerable.Range(0, 16).Select(p => AtlasTextures[$"particle_{p:00}"]).ToArray();
+			TexCircle             = AtlasTextures["simple_circle"];
+			TexCircleEmpty        = AtlasTextures["simple_circle_empty"];
+			TexPixel              = AtlasTextures["simple_pixel"];
+			TexPixel              = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
+			TexParticle           = Enumerable.Range(0, 16).Select(p => AtlasTextures[$"particle_{p:00}"]).ToArray();
 
-			TexHUDButtonBase = AtlasTextures["hud_button_base"];
-			TexHUDButtonPause = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();
-			TexHUDButtonSpeedHand  = AtlasTextures["hud_time_hand"];
-			TexHUDButtonSpeedSet0  = AtlasTextures["hud_time_0"];
-			TexHUDButtonSpeedSet1  = AtlasTextures["hud_time_1"];
-			TexHUDButtonSpeedSet2  = AtlasTextures["hud_time_2"];
-			TexHUDButtonSpeedSet3  = AtlasTextures["hud_time_3"];
-			TexHUDButtonSpeedSet4  = AtlasTextures["hud_time_4"];
-			TexHUDButtonSpeedClock = AtlasTextures["hud_time_clock"];
+			TexHUDButtonBase                      = AtlasTextures["hud_button_base"];
+			TexHUDButtonPause                     = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();
+			TexHUDButtonSpeedHand                 = AtlasTextures["hud_time_hand"];
+			TexHUDButtonSpeedSet0                 = AtlasTextures["hud_time_0"];
+			TexHUDButtonSpeedSet1                 = AtlasTextures["hud_time_1"];
+			TexHUDButtonSpeedSet2                 = AtlasTextures["hud_time_2"];
+			TexHUDButtonSpeedSet3                 = AtlasTextures["hud_time_3"];
+			TexHUDButtonSpeedSet4                 = AtlasTextures["hud_time_4"];
+			TexHUDButtonSpeedClock                = AtlasTextures["hud_time_clock"];
 			TexHUDButtonPauseMenuMarker           = AtlasTextures["pausemenu_marker"];
 			TexHUDButtonPauseMenuMarkerBackground = AtlasTextures["pausemenu_marker_background"];
+
+
+			TexHUDButtonIconHighscore	  = AtlasTextures["ic_cloud"];
+			TexHUDButtonIconEffectsOn	  = AtlasTextures["ic_blur_on"];
+			TexHUDButtonIconEffectsOff	  = AtlasTextures["ic_blur_off"];
+			TexHUDButtonIconVolumeOn	  = AtlasTextures["ic_volume_up"];
+			TexHUDButtonIconVolumeOff	  = AtlasTextures["ic_volume_off"];
+			TexHUDButtonIconAbout		  = AtlasTextures["ic_info_outline"];
+			TexHUDButtonIconSettings	  = AtlasTextures["ic_settings"];
+			TexHUDButtonIconAccount		  = AtlasTextures["ic_fingerprint"];
 
 			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];
 			TexPanelCorner     = AtlasTextures["panel_corner"];
 
-			TexIconBack = AtlasTextures["icon_back"];
-			TexIconNext = AtlasTextures["icon_next"];
-			TexIconRedo = AtlasTextures["icon_redo"];
+			TexIconBack        = AtlasTextures["icon_back"];
+			TexIconNext        = AtlasTextures["icon_next"];
+			TexIconRedo        = AtlasTextures["icon_redo"];
 
-			TexDifficulty0 = AtlasTextures["difficulty_0"];
-			TexDifficulty1 = AtlasTextures["difficulty_1"];
-			TexDifficulty2 = AtlasTextures["difficulty_2"];
-			TexDifficulty3 = AtlasTextures["difficulty_3"];
+			TexDifficulty0     = AtlasTextures["difficulty_0"];
+			TexDifficulty1     = AtlasTextures["difficulty_1"];
+			TexDifficulty2     = AtlasTextures["difficulty_2"];
+			TexDifficulty3     = AtlasTextures["difficulty_3"];
 
-			HUDFontRegular = content.Load<SpriteFont>("fonts/hudFontRegular");
-			HUDFontBold = content.Load<SpriteFont>("fonts/hudFontBold");
+			HUDFontRegular     = content.Load<SpriteFont>("fonts/hudFontRegular");
+			HUDFontBold        = content.Load<SpriteFont>("fonts/hudFontBold");
 
 #if DEBUG
-			DebugFont      = content.Load<SpriteFont>("fonts/debugFont");
-			DebugFontSmall = content.Load<SpriteFont>("fonts/debugFontSmall");
+			DebugFont          = content.Load<SpriteFont>("fonts/debugFont");
+			DebugFontSmall     = content.Load<SpriteFont>("fonts/debugFontSmall");
 #endif
 			
 			StaticTextures.DEFAULT_TEXTURE_SCALE = DEFAULT_TEXTURE_SCALE;

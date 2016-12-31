@@ -110,6 +110,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			DebugSettings.AddSwitch("ShowMatrixTextInfos", this, Keys.F6, KeyModifier.None, false);
 			DebugSettings.AddSwitch("ShowDebugMiniMap", this, Keys.F7, KeyModifier.None, false);
 			DebugSettings.AddSwitch("DebugEntityBoundaries", this, Keys.F8, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DebugEntityMouseAreas", this, Keys.F9, KeyModifier.None, false);
 
 			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyModifier.None);
 

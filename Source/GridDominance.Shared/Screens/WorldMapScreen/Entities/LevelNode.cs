@@ -106,21 +106,33 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClickDiff1(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
+			levelData.SetCompleted(FractionDifficulty.DIFF_0, !levelData.HasCompleted(FractionDifficulty.DIFF_0));
+			((MainGame)Owner.Game).SaveProfile();
+
 			Owner.PushNotification("CLICK DIFF 0");
 		}
 
 		private void OnClickDiff2(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
+			levelData.SetCompleted(FractionDifficulty.DIFF_1, !levelData.HasCompleted(FractionDifficulty.DIFF_1));
+			((MainGame)Owner.Game).SaveProfile();
+
 			Owner.PushNotification("CLICK DIFF 1");
 		}
 
 		private void OnClickDiff3(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
+			levelData.SetCompleted(FractionDifficulty.DIFF_2, !levelData.HasCompleted(FractionDifficulty.DIFF_2));
+			((MainGame)Owner.Game).SaveProfile();
+
 			Owner.PushNotification("CLICK DIFF 2");
 		}
 
 		private void OnClickDiff4(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
+			levelData.SetCompleted(FractionDifficulty.DIFF_3, !levelData.HasCompleted(FractionDifficulty.DIFF_3));
+			((MainGame)Owner.Game).SaveProfile();
+
 			Owner.PushNotification("CLICK DIFF 3");
 		}
 
@@ -238,7 +250,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
-				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
+				levelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
 				FloatMath.RAD_000 + FloatMath.TAU * expansionProgress,
 				Textures.TexLevelNodeSegment.Center(),
 				DIAMETER / Textures.TexLevelNodeSegment.Width,
@@ -249,7 +261,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
-				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
+				levelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_090 + FloatMath.TAU * expansionProgress,
 				Textures.TexLevelNodeSegment.Center(),
 				DIAMETER / Textures.TexLevelNodeSegment.Width,
@@ -260,7 +272,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
-				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED,
+				levelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_180 + FloatMath.TAU * expansionProgress,
 				Textures.TexLevelNodeSegment.Center(),
 				DIAMETER / Textures.TexLevelNodeSegment.Width,

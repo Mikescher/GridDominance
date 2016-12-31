@@ -19,9 +19,12 @@ namespace GridDominance.Shared.PlayerProfile
 			return completedDifficulties.Contains(d);
 		}
 
-		public void SetCompleted(FractionDifficulty d)
+		public void SetCompleted(FractionDifficulty d, bool c = true)
 		{
-			completedDifficulties.Add(d);
+			if (c)
+				completedDifficulties.Add(d);
+			else
+				completedDifficulties.Remove(d);
 		}
 
 		protected override void Configure()

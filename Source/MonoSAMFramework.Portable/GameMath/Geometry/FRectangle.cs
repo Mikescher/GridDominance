@@ -306,6 +306,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
+		public FRectangle AsResized(float newWidth, float newHeight)
+		{
+			return new FRectangle(X + Width / 2 - newWidth / 2, Y + Height / 2 - newHeight / 2, newWidth, newHeight);
+		}
+
+		[Pure]
 		public FRectangle AsScaled(float scale)
 		{
 			float w = Width * scale;
@@ -340,6 +346,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public FPoint Location => new FPoint(X, Y);
 		public FSize Size => new FSize(Width, Height);
 		public FPoint Center => new FPoint(X + Width / 2, Y + Height / 2);
+		public Vector2 VecCenter => new Vector2(X + Width / 2, Y + Height / 2);
 
 		[Pure]
 		public Rectangle Truncate()

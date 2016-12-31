@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using System;
 using System.Text;
-using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.BatchRenderer
 {
@@ -246,6 +246,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public abstract void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1);
 		public abstract void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1);
 		public abstract void DrawPath(Vector2 posVector2, VectorPath path, int segments, Color color, float thickness = 1);
+		public abstract void DrawSimple(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation);
 		public abstract void Dispose();
 
 		#endregion

@@ -1,11 +1,11 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using System;
 using System.Text;
-using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.BatchRenderer
 {
@@ -72,6 +72,8 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		// ######## MONOGAME.EXTENDED EXTENSION METHODS WITH FLOAT TYPES ########
 
 		void Draw(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color);
+
+		void DrawSimple(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation);
 
 		// ######## MONOSAMFRAMEWORK METHODS ########
 

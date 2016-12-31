@@ -3,6 +3,7 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
+using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoSAMFramework.Portable;
@@ -32,7 +33,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		}
 
 		protected override EntityManager CreateEntityManager() => new GDWorldMapEntityManager(this);
-		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular);
+		protected override GameHUD CreateHUD() => new GDWorldHUD(this);
 		protected override GameBackground CreateBackground() => new WorldMapBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new GDWorldMapDebugMinimap(this);
@@ -47,14 +48,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
 			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
 			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
-
+			
 			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyModifier.None, true);
-			DebugSettings.AddSwitch("ShowMatrixTextInfos", this, Keys.F3, KeyModifier.None, false);
-			DebugSettings.AddSwitch("ShowDebugMiniMap", this, Keys.F4, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DebugEntityBoundaries", this, Keys.F5, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DebugEntityMouseAreas", this, Keys.F6, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DebugHUDBorders", this, Keys.F4, KeyModifier.None, false);
+			DebugSettings.AddSwitch("ShowMatrixTextInfos", this, Keys.F6, KeyModifier.None, false);
+			DebugSettings.AddSwitch("ShowDebugMiniMap", this, Keys.F7, KeyModifier.None, true);
+			DebugSettings.AddSwitch("DebugEntityBoundaries", this, Keys.F8, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DebugEntityMouseAreas", this, Keys.F9, KeyModifier.None, false);
 
 			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyModifier.None);
+			DebugSettings.AddPush("ShowSerializedProfile", this, Keys.O, KeyModifier.None);
 #endif
 
 #if DEBUG
@@ -79,6 +83,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={VAdapter.Scale}");
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
+
+				DebugDisp.AddLine("ShowSerializedProfile", () => ((MainGame)Game).Profile.SerializeToString(256));
 			}
 #endif
 			//AddLetter('B', 1.0f, 100 + 20, 256, 1);

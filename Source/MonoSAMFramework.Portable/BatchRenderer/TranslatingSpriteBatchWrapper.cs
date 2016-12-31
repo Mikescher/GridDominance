@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -8,7 +9,6 @@ using MonoSAMFramework.Portable.RenderHelper;
 using System;
 using System.Linq;
 using System.Text;
-using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.BatchRenderer
 {
@@ -468,6 +468,26 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 #endif
 
 			internalBatch.Draw(textureRegion.Texture, (destinationRectangle + offset).Truncate(), textureRegion.Bounds, color);
+		}
+
+		public override void DrawSimple(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation)
+		{
+#if DEBUG
+			IncRenderSpriteCount();
+#endif
+
+			var scale = new Vector2(width / texture.Bounds.Width, height / texture.Bounds.Height);
+
+			internalBatch.Draw(
+				texture.Texture,
+				offset + centerTarget,
+				texture.Bounds,
+				color,
+				rotation,
+				texture.Center(),
+				scale,
+				SpriteEffects.None,
+				0);
 		}
 	}
 }

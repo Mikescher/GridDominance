@@ -10,7 +10,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 
 		protected abstract SemVersion ArchiveVersion { get; }
 
-		public string SerializeToString()
+		public string SerializeToString(int maxLen = 80)
 		{
 			var writer = new UTFBinWriter();
 
@@ -20,7 +20,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 
 			var hash = writer.GetHashOfCurrentState();
 
-			return writer.ToFormattedOutput(HEADER + hash, 80);
+			return writer.ToFormattedOutput(HEADER + hash, maxLen);
 		}
 
 		public void DeserializeFromString(string ar)

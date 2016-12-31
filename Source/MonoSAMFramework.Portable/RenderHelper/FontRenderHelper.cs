@@ -51,5 +51,27 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				SpriteEffects.None,
 				0);
 		}
+
+		public static void DrawTextVerticallyCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, Vector2 position)
+		{
+			//TODO How expensive is this calculation each draw call ?
+			//     perhaps move everything in some kind of fontrendererCache
+			//     which remembers all calculated values until text/size/... changes (like with the HUD)
+
+			var scale = GetFontScale(font, size);
+
+			var bounds = font.MeasureString(text);
+
+			sbatch.DrawString(
+				font,
+				text,
+				position,
+				color,
+				0,
+				new Vector2(0, bounds.Y / 2f - GetFontVCenterOffset(font)),
+				scale,
+				SpriteEffects.None,
+				0);
+		}
 	}
 }

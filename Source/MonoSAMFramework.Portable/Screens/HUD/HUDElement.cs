@@ -43,7 +43,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			set { _alignment = value; InvalidatePosition(); }
 		}
 
-		public FPoint Position { get; protected set; } = FPoint.Zero;
+		public FPoint Position { get; protected set; } = FPoint.Zero; // _Not_ Center
 		public FRectangle BoundingRectangle { get; protected set; } = FRectangle.Empty;
 
 		public Vector2 RelativeCenter
@@ -161,15 +161,22 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				}
 				else if (istate.IsExclusiveJustUp && BoundingRectangle.Contains(istate.PointerPosition))
 				{
+					bool pointerWasDown = IsPointerDownOnElement;
+
+					IsPointerDownOnElement = false;
+
 					istate.Swallow();
 
 					OnPointerUp(istate.PointerPosition.RelativeTo(Position), istate);
 
-					if (IsPointerDownOnElement)
+					if (pointerWasDown)
 						OnPointerClick(istate.PointerPosition.RelativeTo(Position), istate);
 				}
 
-				if (!istate.IsExclusiveDown) IsPointerDownOnElement = false;
+				if (IsPointerDownOnElement && (! istate.IsRealDown || !BoundingRectangle.Contains(istate.PointerPosition)))
+				{
+					IsPointerDownOnElement = false;
+				}
 			}
 			else
 			{
@@ -255,6 +262,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			ActiveOperations.Add(op);
 			op.OnStart(this);
+		}
+
+		public void AddHUDOperationSequence<TElement>(IHUDElementOperation op1, params IHUDElementOperation[] ops) where TElement : HUDElement
+		{
+			var seqop = new HUDSequenceElementOperation<TElement>(op1, ops);
+			ActiveOperations.Add(seqop);
+			seqop.OnStart(this);
 		}
 
 		public void RemoveAllOperations(Func<IHUDElementOperation, bool> condition)

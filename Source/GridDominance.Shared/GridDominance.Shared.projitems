@@ -23,10 +23,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\Bullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\BulletSplitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\Cannon.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\EntityOperations\BulletDamageAndDieOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\EntityOperations\CannonBooster.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\EntityOperations\BulletConsumeAndDieOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\EntityOperations\BulletFadeAndDieOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\EntityOperations\BulletConsumeAndDieOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\EntityOperations\BulletDamageAndDieOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\EntityOperations\BulletFadeAndDieOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\EntityOperations\CannonBooster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\AbstractFractionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\KIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\EmptyController.cs" />
@@ -42,13 +42,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\GDScreenDebugMinimap.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUDOperations\HUDBlinkingDifficultyButtonIconOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUDOperations\HUDDifficultyButtonGainOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUDOperations\HUDIncrementIndicatorLabelWiggleOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDDifficultyButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\GDGameHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\GDHudExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDIncrementIndicatorLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDOperations\HUDBlinkingDifficultyButtonIconOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDOperations\HUDDifficultyButtonGainOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDOperations\HUDIncrementIndicatorLabelWiggleOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDPauseMenuButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDScorePanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDSpeedSetButton.cs" />
@@ -60,6 +60,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapDebugMinimap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\GDWorldHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonHighscore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonEffects.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonVolume.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonAccount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsCloseOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsFontAppearOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsOpenOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDWorldSettingsButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDWorldSubSettingButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonAbout.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\debugFont.spritefont" />
