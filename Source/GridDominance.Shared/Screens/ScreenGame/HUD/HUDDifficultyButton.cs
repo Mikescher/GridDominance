@@ -79,7 +79,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			//TODO Start with diff
+			((GDGameScreen)HUD.Screen).ReplayLevel(FractionDifficulty.KI_EASY);
 		}
 
 		protected override void OnDoublePress(InputState istate)

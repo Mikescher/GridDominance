@@ -1,8 +1,10 @@
-﻿using GridDominance.Shared.PlayerProfile;
+﻿using GridDominance.Levelformat.Parser;
+using GridDominance.Shared.PlayerProfile;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
@@ -35,7 +37,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private const float EXPANSION_TIME = 0.7f;
 		private const float CENTERING_TIME = 0.55f;
 
-		private readonly string levelID;
+		private readonly LevelFile level;
 		private readonly PlayerProfileLevelData levelData;
 
 		public override Vector2 Position { get; }
@@ -56,12 +58,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private float expansionProgress = 0;
 
-		public LevelNode(GameScreen scrn, Vector2 pos, string lid, PlayerProfileLevelData lvldat) : base(scrn)
+		public LevelNode(GameScreen scrn, Vector2 pos, LevelFile lvlf, PlayerProfileLevelData lvldat) : base(scrn)
 		{
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));
 
-			levelID = lid;
+			level = lvlf;
 			levelData = lvldat;
 
 			rectExpanderNorth = FRectangle.CreateByCenter(pos, 0, -EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER);
@@ -106,34 +108,70 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClickDiff1(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
-			levelData.SetCompleted(FractionDifficulty.DIFF_0, !levelData.HasCompleted(FractionDifficulty.DIFF_0));
-			((MainGame)Owner.Game).SaveProfile();
-
+#if DEBUG
 			Owner.PushNotification("CLICK DIFF 0");
+
+			if (istate.IsKeyDown(Keys.LeftShift) || istate.IsKeyDown(Keys.RightShift))
+			{
+				levelData.SetCompleted(FractionDifficulty.DIFF_0, !levelData.HasCompleted(FractionDifficulty.DIFF_0));
+				MainGame.Inst.SaveProfile();
+
+				return;
+			}
+#endif
+
+			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_0);
 		}
 
 		private void OnClickDiff2(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
-			levelData.SetCompleted(FractionDifficulty.DIFF_1, !levelData.HasCompleted(FractionDifficulty.DIFF_1));
-			((MainGame)Owner.Game).SaveProfile();
-
+#if DEBUG
 			Owner.PushNotification("CLICK DIFF 1");
+
+			if (istate.IsKeyDown(Keys.LeftShift) || istate.IsKeyDown(Keys.RightShift))
+			{
+				levelData.SetCompleted(FractionDifficulty.DIFF_1, !levelData.HasCompleted(FractionDifficulty.DIFF_1));
+				MainGame.Inst.SaveProfile();
+
+				return;
+			}
+#endif
+
+			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_1);
 		}
 
 		private void OnClickDiff3(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
-			levelData.SetCompleted(FractionDifficulty.DIFF_2, !levelData.HasCompleted(FractionDifficulty.DIFF_2));
-			((MainGame)Owner.Game).SaveProfile();
-
+#if DEBUG
 			Owner.PushNotification("CLICK DIFF 2");
+
+			if (istate.IsKeyDown(Keys.LeftShift) || istate.IsKeyDown(Keys.RightShift))
+			{
+				levelData.SetCompleted(FractionDifficulty.DIFF_2, !levelData.HasCompleted(FractionDifficulty.DIFF_2));
+				MainGame.Inst.SaveProfile();
+
+				return;
+			}
+#endif
+
+			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_2);
 		}
 
 		private void OnClickDiff4(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
-			levelData.SetCompleted(FractionDifficulty.DIFF_3, !levelData.HasCompleted(FractionDifficulty.DIFF_3));
-			((MainGame)Owner.Game).SaveProfile();
-
+#if DEBUG
 			Owner.PushNotification("CLICK DIFF 3");
+
+			if (istate.IsKeyDown(Keys.LeftShift) || istate.IsKeyDown(Keys.RightShift))
+			{
+				levelData.SetCompleted(FractionDifficulty.DIFF_3, !levelData.HasCompleted(FractionDifficulty.DIFF_3));
+				MainGame.Inst.SaveProfile();
+
+				return;
+			}
+#endif
+
+			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_3);
 		}
 
 		public override void OnRemove()

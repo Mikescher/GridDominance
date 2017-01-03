@@ -19,6 +19,8 @@ namespace GridDominance.Shared
 
 		public PlayerProfile.PlayerProfile Profile;
 
+		public static MainGame Inst;
+
 		public MainGame()
 		{
 			Profile = new PlayerProfile.PlayerProfile();
@@ -41,6 +43,8 @@ namespace GridDominance.Shared
 			{
 				SaveProfile();
 			}
+
+			Inst = this;
 		}
 
 		protected override void OnInitialize()
@@ -71,13 +75,13 @@ namespace GridDominance.Shared
 
 		protected override void OnAfterInitialize()
 		{
-			//SetLevelScreen(Levels.LEVEL_003);
+			//SetLevelScreen(Levels.LEVEL_003, FractionDifficulty.KI_EASY);
 			SetWorldMapScreen();
 		}
 
-		public void SetLevelScreen(LevelFile blueprint)
+		public void SetLevelScreen(LevelFile blueprint, FractionDifficulty d)
 		{
-			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint, FractionDifficulty.KI_EASY));
+			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint, d));
 		}
 
 		public void SetWorldMapScreen()

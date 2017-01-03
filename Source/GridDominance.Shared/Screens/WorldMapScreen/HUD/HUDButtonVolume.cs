@@ -9,20 +9,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
 	class HUDButtonVolume : HUDWorldSubSettingButton
 	{
-		private MainGame mainGame;
-
 		public HUDButtonVolume(HUDWorldSettingsButton master) : base(master, 3)
 		{
-			mainGame = (MainGame) master.HUD.Screen.Game;
+			//
 		}
 
-		protected override TextureRegion2D GetIcon() => mainGame.Profile.SoundsEnabled ? Textures.TexHUDButtonIconVolumeOn : Textures.TexHUDButtonIconVolumeOff;
+		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.SoundsEnabled ? Textures.TexHUDButtonIconVolumeOn : Textures.TexHUDButtonIconVolumeOff;
 		protected override string GetText() => "Mute";
 
 		protected override void OnPress(InputState istate)
 		{
-			mainGame.Profile.SoundsEnabled = !mainGame.Profile.SoundsEnabled;
-			mainGame.SaveProfile();
+			MainGame.Inst.Profile.SoundsEnabled = !MainGame.Inst.Profile.SoundsEnabled;
+			MainGame.Inst.SaveProfile();
 		}
 	}
 }

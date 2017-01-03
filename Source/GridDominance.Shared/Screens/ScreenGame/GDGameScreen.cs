@@ -288,7 +288,12 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public void RestartLevel()
 		{
-			GDOwner.SetLevelScreen(blueprint);
+			GDOwner.SetLevelScreen(blueprint, difficulty);
+		}
+
+		public void ReplayLevel(FractionDifficulty diff)
+		{
+			GDOwner.SetLevelScreen(blueprint, diff);
 		}
 	}
 }

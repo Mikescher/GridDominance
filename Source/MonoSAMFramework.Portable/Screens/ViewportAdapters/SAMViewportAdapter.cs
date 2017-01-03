@@ -62,7 +62,7 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		public float VirtualTotalBoundingBoxTop => -VirtualGuaranteedBoundingsOffsetY;
 		public float VirtualTotalBoundingBoxBottom =>  VirtualTotalHeight - VirtualGuaranteedBoundingsOffsetY;
 
-		public FRectangle VirtualTotalBoundingBox => new FRectangle(VirtualTotalBoundingBoxLeft, VirtualTotalBoundingBoxRight, VirtualTotalWidth, VirtualTotalHeight);
+		public FRectangle VirtualTotalBoundingBox => new FRectangle(VirtualTotalBoundingBoxLeft, VirtualTotalBoundingBoxTop, VirtualTotalWidth, VirtualTotalHeight);
 		public FRectangle VirtualGuaranteedBoundingBox => new FRectangle(0, 0, VirtualGuaranteedWidth, VirtualGuaranteedHeight);
 
 		public abstract Matrix GetScaleMatrix();

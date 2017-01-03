@@ -207,7 +207,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 			});
-			btnMenu.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Prev<<"); // TODO
+			btnMenu.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreen(); // TODO
 
 			if (successScreen)
 			{
@@ -249,7 +249,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					Color = FlatColors.Nephritis,
 					ColorPressed = FlatColors.Emerald,
 				});
-				btnNext.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Again<<"); // TODO
+				btnNext.ButtonClick += (s, a) => ((GDGameScreen) HUD.Screen).RestartLevel(); // TODO
 			}
 
 			#endregion
@@ -289,8 +289,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
-
-
 
 			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_EASY, modeDiff0)
 			{

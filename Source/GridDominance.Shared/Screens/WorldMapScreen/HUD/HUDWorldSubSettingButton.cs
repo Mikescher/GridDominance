@@ -17,8 +17,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
 	abstract class HUDWorldSubSettingButton : HUDEllipseButton
 	{
-		private const float DIAMETER = 48;
-		private const float SIZE_ICON = 28;
+		private const float DIAMETER = 96;
+		private const float SIZE_ICON = 56;
+		private const float MARGIN_X = 0;
+		private const float MARGIN_Y = 6;
 
 		public override int Depth => 1;
 
@@ -48,7 +50,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			sbatch.DrawSimple(GetIcon(), Center, SIZE_ICON * scaleProgress, SIZE_ICON * scaleProgress, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds, 0f);
 
-			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, 28, GetText(), FlatColors.Clouds * fontProgress, new Vector2(CenterX + 26, CenterY));
+			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, SIZE_ICON, GetText(), FlatColors.Clouds * fontProgress, new Vector2(CenterX + SIZE_ICON, CenterY));
 		}
 
 		public override void OnInitialize()
@@ -63,7 +65,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)
 		{
-			RelativePosition = new FPoint(15, 20 + (position+1) * 52 * offsetProgress);
+			var px = master.RelativeCenter.X - DIAMETER / 2;
+			var py = master.RelativeCenter.Y + HUDWorldSettingsButton.DIAMETER / 2 - DIAMETER;
+
+			py += MARGIN_Y;
+			py += (position + 1) * (DIAMETER + MARGIN_X / 2) * offsetProgress;
+
+			RelativePosition = new FPoint(px, py);
 		}
 
 		protected override void OnDoublePress(InputState istate)

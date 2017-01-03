@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -177,7 +178,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void OnHold(InputState istate, float holdTime)
 		{
-			this.GDHUD().GDOwner.GDOwner.SetLevelScreen(Levels.LEVEL_DBG);
+			this.GDHUD().GDOwner.GDOwner.SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY);
 		}
 
 		protected override void OnEnabledChanged(bool newValue)

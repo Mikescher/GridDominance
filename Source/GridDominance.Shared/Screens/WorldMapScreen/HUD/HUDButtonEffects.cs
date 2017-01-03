@@ -9,20 +9,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
 	class HUDButtonEffects : HUDWorldSubSettingButton
 	{
-		private MainGame mainGame;
-
 		public HUDButtonEffects(HUDWorldSettingsButton master) : base(master, 4)
 		{
-			mainGame = (MainGame)master.HUD.Screen.Game;
+			//
 		}
 
-		protected override TextureRegion2D GetIcon() => mainGame.Profile.EffectsEnabled ? Textures.TexHUDButtonIconEffectsOn : Textures.TexHUDButtonIconEffectsOff;
+		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.EffectsEnabled ? Textures.TexHUDButtonIconEffectsOn : Textures.TexHUDButtonIconEffectsOff;
 		protected override string GetText() => "Effects";
 
 		protected override void OnPress(InputState istate)
 		{
-			mainGame.Profile.EffectsEnabled = !mainGame.Profile.EffectsEnabled;
-			mainGame.SaveProfile();
+			MainGame.Inst.Profile.EffectsEnabled = !MainGame.Inst.Profile.EffectsEnabled;
+			MainGame.Inst.SaveProfile();
 		}
 	}
 }

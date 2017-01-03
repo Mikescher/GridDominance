@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
@@ -84,7 +85,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 
-				DebugDisp.AddLine("ShowSerializedProfile", () => ((MainGame)Game).Profile.SerializeToString(256));
+				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(256));
 			}
 #endif
 			//AddLetter('B', 1.0f, 100 + 20, 256, 1);
@@ -106,18 +107,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			//AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
 			//AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
 
-			AddLevelNode(8, 10, "level_0_0");
+			AddLevelNode(8, 10, "level_0_0", Levels.LEVEL_003); //TODO encode level_id in levelfile --> in LevelFile-class
 
 			AddAgent(new WorldMapDragAgent(this));
 			MapOffsetY = VIEW_HEIGHT / -2f;
 		}
 
-		private void AddLevelNode(float x, float y, string id)
+		private void AddLevelNode(float x, float y, string lid, LevelFile f)
 		{
-			var data = ((MainGame) Game).Profile.GetLevelData(id);
+			var data = MainGame.Inst.Profile.GetLevelData(lid);
 			var pos = new Vector2(GDConstants.TILE_WIDTH * (x + 0.5f), GDConstants.TILE_WIDTH * (y + 0.5f));
 
-			var node = new LevelNode(this, pos, id, data);
+			var node = new LevelNode(this, pos, f, data);
 
 			Entities.AddEntity(node);
 		}
