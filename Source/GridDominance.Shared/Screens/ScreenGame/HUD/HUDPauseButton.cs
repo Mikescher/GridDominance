@@ -149,7 +149,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private void OnExit()
 		{
-			HUD.Screen.Game.Exit();
+			MainGame.Inst.SetWorldMapScreen();
 		}
 
 		protected override void OnPress(InputState istate)

@@ -197,6 +197,20 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileIntSetWrapper.TYPENAME, g, s));
 		}
 
+		protected void RegisterPropertyGuidictionary<TThis, TElem>(SemVersion version, string name, Func<TElem> ctr, Func<TThis, Dictionary<Guid, TElem>> get, Action<TThis, Dictionary<Guid, TElem>> set)
+			where TThis : BaseDataFile
+			where TElem : BaseDataFile
+		{
+			var gen = ctr().GetTypeInfo();
+
+			Func<BaseDataFile, BaseDataFile> g = o => DataFileGDictWrapper<TElem>.Create(gen, get((TThis)o));
+			Action<BaseDataFile, BaseDataFile> s = (o, v) => set((TThis)o, ((DataFileGDictWrapper<TElem>)v).Value);
+
+			DataFileGDictWrapper<TElem>.RegisterIfNeeded(gen);
+
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileGDictWrapper<TElem>.GetTypeName(gen), g, s));
+		}
+
 		#endregion
 	}
 }

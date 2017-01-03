@@ -11,7 +11,7 @@ namespace GridDominance.Shared.PlayerProfile
 
 		private Guid identifier;
 
-		private Dictionary<string, PlayerProfileLevelData> levelData;
+		private Dictionary<Guid, PlayerProfileLevelData> levelData;
 
 		private string onlineUsername;
 		private string onlinePasswordHash;
@@ -22,7 +22,7 @@ namespace GridDominance.Shared.PlayerProfile
 		public PlayerProfile()
 		{
 			identifier = Guid.NewGuid();
-			levelData = new Dictionary<string, PlayerProfileLevelData>();
+			levelData = new Dictionary<Guid, PlayerProfileLevelData>();
 
 			onlineUsername     = string.Empty;
 			onlinePasswordHash = string.Empty;
@@ -31,7 +31,7 @@ namespace GridDominance.Shared.PlayerProfile
 			EffectsEnabled = true;
 		}
 
-		public PlayerProfileLevelData GetLevelData(string levelid)
+		public PlayerProfileLevelData GetLevelData(Guid levelid)
 		{
 			if (!levelData.ContainsKey(levelid))
 				levelData[levelid] = new PlayerProfileLevelData();
@@ -50,7 +50,7 @@ namespace GridDominance.Shared.PlayerProfile
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "sounds", o => o.SoundsEnabled, (o, v) => o.SoundsEnabled = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "effect", o => o.EffectsEnabled, (o, v) => o.EffectsEnabled = v);
 
-			RegisterPropertyStringDictionary<PlayerProfile, PlayerProfileLevelData>(SemVersion.VERSION_1_0_0, "progress", () => new PlayerProfileLevelData(),  o => o.levelData, (o, v) => o.levelData = v);
+			RegisterPropertyGuidictionary<PlayerProfile, PlayerProfileLevelData>(SemVersion.VERSION_1_0_0, "progress", () => new PlayerProfileLevelData(),  o => o.levelData, (o, v) => o.levelData = v);
 		}
 
 		protected override string GetTypeName()

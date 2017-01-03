@@ -439,7 +439,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			barrelCharge = 0f;
 
-			RemoveAllOperations(o => o is CannonBooster);
+			FinishAllOperations(o => o is CannonBooster);
 		}
 
 		public void ApplyBoost()

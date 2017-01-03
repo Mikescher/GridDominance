@@ -1,0 +1,31 @@
+﻿# Level 01 - Standoff   #
+#########################
+
+init("0-1", 7018E8A16B04447C8972C2C2E118FC49)
+
+include("stdvalues")
+
+Cannon(SIZE_SMALL, P1,  3 * CELL_W,  5 * CELL_H, ROT_N)
+
+Cannon(SIZE_SMALL, A3, 13 * CELL_W,  5 * CELL_H, ROT_S)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#        0 #                                 #
+#        1 #                                 #
+#        2 #                                 #
+#        3 #                                 #
+#        4 #     / \                 / \     #
+#        5 #     \ /                 \ /     #
+#        6 #                                 #
+#        7 #                                 #
+#        8 #                                 #
+#        9 #                                 #
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

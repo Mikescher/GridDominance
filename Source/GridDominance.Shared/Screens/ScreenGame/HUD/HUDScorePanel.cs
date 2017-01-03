@@ -207,7 +207,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 			});
-			btnMenu.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreen(); // TODO
+			btnMenu.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreen();
 
 			if (successScreen)
 			{
@@ -249,17 +249,17 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					Color = FlatColors.Nephritis,
 					ColorPressed = FlatColors.Emerald,
 				});
-				btnNext.ButtonClick += (s, a) => ((GDGameScreen) HUD.Screen).RestartLevel(); // TODO
+				btnNext.ButtonClick += (s, a) => ((GDGameScreen) HUD.Screen).RestartLevel();
 			}
 
 			#endregion
 
 			#region Icons
 
-			var finDiff0 = profile.GetLevelData(this.GDHUD().GDOwner.LevelName).HasCompleted(FractionDifficulty.KI_EASY);
-			var finDiff1 = profile.GetLevelData(this.GDHUD().GDOwner.LevelName).HasCompleted(FractionDifficulty.KI_NORMAL);
-			var finDiff2 = profile.GetLevelData(this.GDHUD().GDOwner.LevelName).HasCompleted(FractionDifficulty.KI_HARD);
-			var finDiff3 = profile.GetLevelData(this.GDHUD().GDOwner.LevelName).HasCompleted(FractionDifficulty.KI_IMPOSSIBLE);
+			var finDiff0 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompleted(FractionDifficulty.KI_EASY);
+			var finDiff1 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompleted(FractionDifficulty.KI_NORMAL);
+			var finDiff2 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompleted(FractionDifficulty.KI_HARD);
+			var finDiff3 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompleted(FractionDifficulty.KI_IMPOSSIBLE);
 
 
 			var modeDiff0 =

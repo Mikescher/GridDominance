@@ -1,5 +1,7 @@
-﻿# Level 03 - Example   #
-########################
+﻿# Level 03 - Division   #
+#########################
+
+init("0-3", F9F79506F15A47D4ABCCAFDC116B7B3C)
 
 include("stdvalues")
 

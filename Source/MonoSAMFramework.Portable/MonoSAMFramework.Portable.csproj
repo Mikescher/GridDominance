@@ -76,6 +76,7 @@
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileBoolWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIntWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIntSetWrapper.cs" />
+    <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGDictWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileSDictWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileListWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileStringWrapper.cs" />

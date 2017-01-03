@@ -7,7 +7,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.EntityOperations
 {
 	class BulletConsumeAndDieOperation : GameEntityOperation<Bullet>
 	{
-		public BulletConsumeAndDieOperation() : base(0.15f)
+		public BulletConsumeAndDieOperation() : base("BulletConsumeAndDieOperation", 0.15f)
 		{
 		}
 
@@ -26,7 +26,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.EntityOperations
 		{
 			entity.BulletExtraScale = 0;
 			entity.Alive = false;
+		}
 
+		protected override void OnAbort(Bullet entity)
+		{
+			//
 		}
 	}
 }

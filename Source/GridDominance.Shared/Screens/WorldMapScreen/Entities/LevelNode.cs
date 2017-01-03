@@ -51,12 +51,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private readonly FRectangle rectExpanderSouth;
 		private readonly FRectangle rectExpanderWest;
 
+		private GameEntityMouseArea clickAreaThis;
 		private GameEntityMouseArea clickAreaD0;
 		private GameEntityMouseArea clickAreaD1;
 		private GameEntityMouseArea clickAreaD2;
 		private GameEntityMouseArea clickAreaD3;
 
 		private float expansionProgress = 0;
+
+		public bool IsOpening = false;
+		public bool IsClosing = false;
+		public bool IsOpened => FloatMath.IsOne(expansionProgress);
+		public bool IsClosed => FloatMath.IsZero(expansionProgress);
 
 		public LevelNode(GameScreen scrn, Vector2 pos, LevelFile lvlf, PlayerProfileLevelData lvldat) : base(scrn)
 		{
@@ -74,7 +80,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			this.AddClickMouseArea(new FCircle(0, 0, DIAMETER / 2f), OnClickCenter);
+			clickAreaThis = this.AddClickMouseArea(new FCircle(0, 0, DIAMETER / 2f), OnClickCenter);
 
 			clickAreaD0 = this.AddClickMouseArea(rectExpanderNorth.AsTranslated(-Position).AsDeflated(0, 0, INSET_EXTENDER, 0), OnClickDiff1);
 			clickAreaD1 = this.AddClickMouseArea(rectExpanderEast.AsTranslated(-Position).AsDeflated(0, 0, 0, INSET_EXTENDER),  OnClickDiff2);
@@ -84,17 +90,61 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClickCenter(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
 		{
-			if (FloatMath.IsZero(expansionProgress))
+			if (IsClosed)
 			{
-				centeringStartOffset = new Vector2(Owner.MapViewportCenterX, Owner.MapViewportCenterY);
-
-				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(EXPANSION_TIME, (n, p) => n.expansionProgress = p));
-				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(CENTERING_TIME, UpdateScreenCentering));
-
+				OpenNode();
 			}
-			else if (FloatMath.IsOne(expansionProgress))
+			else if (IsOpened)
 			{
-				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(EXPANSION_TIME, (n, p) => n.expansionProgress = 1-p));
+				CloseNode();
+			}
+		}
+
+		private void CloseNode()
+		{
+			if (IsClosing) return;
+
+			float initProgress = 0f;
+			if (IsOpening)
+			{
+				var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Open::0");
+				AbortAllOperations(p => p.Name == "LevelNode::Open::0");
+				AbortAllOperations(p => p.Name == "LevelNode::Open::1");
+				if (progress != null) initProgress = 1 - progress.Value;
+
+				IsOpening = false;
+			}
+
+			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Close::0", EXPANSION_TIME, (n, p) => n.expansionProgress = 1 - p, n => n.IsClosing = true, n => n.IsClosing = false));
+
+			if (initProgress > 0f)
+			{
+				o.ForceSetProgress(initProgress);
+			}
+		}
+
+		private void OpenNode()
+		{
+			if (IsOpening) return;
+
+			float initProgress = 0f;
+			if (IsClosing)
+			{
+				var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Close::0");
+				AbortAllOperations(p => p.Name == "LevelNode::Close::0");
+				if (progress != null) initProgress = 1 - progress.Value;
+
+				IsClosing = false;
+			}
+
+			centeringStartOffset = new Vector2(Owner.MapViewportCenterX, Owner.MapViewportCenterY);
+
+			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::0", EXPANSION_TIME, (n, p) => n.expansionProgress = p, n => n.IsOpening = true, n => n.IsOpening = false));
+			AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::1", CENTERING_TIME, UpdateScreenCentering));
+
+			if (initProgress > 0f)
+			{
+				o.ForceSetProgress(initProgress);
 			}
 		}
 
@@ -185,6 +235,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			clickAreaD1.IsEnabled = (expansionProgress > 0.5f);
 			clickAreaD2.IsEnabled = (expansionProgress > 0.5f);
 			clickAreaD3.IsEnabled = (expansionProgress > 0.5f);
+
+			if (IsOpened || IsOpening)
+			{
+				var clickOutside =
+					istate.IsRealDown &&
+					!clickAreaD0.IsMouseDown() &&
+					!clickAreaD1.IsMouseDown() &&
+					!clickAreaD2.IsMouseDown() &&
+					!clickAreaD3.IsMouseDown() &&
+					!clickAreaThis.IsMouseDown();
+
+				if (clickOutside) CloseNode();
+			}
+
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
@@ -347,7 +411,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Text
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, "1-2", ColorMath.Blend(FlatColors.Clouds, FlatColors.MidnightBlue, expansionProgress), Position);
+			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, level.Name, ColorMath.Blend(FlatColors.Clouds, FlatColors.MidnightBlue, expansionProgress), Position);
 
 			#endregion
 		}

@@ -1,20 +1,23 @@
 ﻿# Level 00 - DEBUG     #
 ########################
 
+init("0-dbg", 30143B96701E47029A2CA58E8CA3C40E)
+
+
 include("stdvalues")
 
 Cannon(SIZE_SMALL, P1,  2 * CELL_W,  5 * CELL_H, ROT_N)
 
-Cannon(SIZE_SMALL, A3, 14 * CELL_W,  5 * CELL_H, ROT_S)
+Cannon(SIZE_SMALL, N0, 14 * CELL_W,  5 * CELL_H, ROT_S)
 
 Cannon(SIZE_SMALL,  N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
 Cannon(SIZE_NORMAL, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)
 Cannon(SIZE_SMALL,  N0,  8 * CELL_W,  9 * CELL_H, ROT_NE)
 
 Cannon(SIZE_TINY, N0,  1  * CELL_W,  1 * CELL_H, ROT_N)
-Cannon(SIZE_TINY, N0,  15 * CELL_W,  9 * CELL_H, ROT_N)
+Cannon(SIZE_TINY, A2,  15 * CELL_W,  9 * CELL_H, ROT_N)
 Cannon(SIZE_TINY, N0,  1  * CELL_W,  9 * CELL_H, ROT_N)
-Cannon(SIZE_TINY, N0,  15 * CELL_W,  1 * CELL_H, ROT_N)
+Cannon(SIZE_TINY, A3,  15 * CELL_W,  1 * CELL_H, ROT_N)
 
 
 

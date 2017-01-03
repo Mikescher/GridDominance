@@ -134,3 +134,13 @@
 /processorParam:DebugMode=Auto
 /build:shaders/SAMParticleEffect.fx
 
+#begin levels/lvl001.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl001.gslevel
+
+#begin levels/lvl002.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl002.gslevel
+

@@ -107,15 +107,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			//AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
 			//AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
 
-			AddLevelNode(8, 10, "level_0_0", Levels.LEVEL_003); //TODO encode level_id in levelfile --> in LevelFile-class
+			AddLevelNode(4,  10, Levels.LEVEL_001);
+			AddLevelNode(10,  10, Levels.LEVEL_002);
+			AddLevelNode(16, 10, Levels.LEVEL_003);
 
 			AddAgent(new WorldMapDragAgent(this));
 			MapOffsetY = VIEW_HEIGHT / -2f;
 		}
 
-		private void AddLevelNode(float x, float y, string lid, LevelFile f)
+		private void AddLevelNode(float x, float y, LevelFile f)
 		{
-			var data = MainGame.Inst.Profile.GetLevelData(lid);
+			var data = MainGame.Inst.Profile.GetLevelData(f.UniqueID);
 			var pos = new Vector2(GDConstants.TILE_WIDTH * (x + 0.5f), GDConstants.TILE_WIDTH * (y + 0.5f));
 
 			var node = new LevelNode(this, pos, f, data);

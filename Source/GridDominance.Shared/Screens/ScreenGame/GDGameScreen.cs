@@ -70,15 +70,14 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private Fraction fractionComputer2;
 		private Fraction fractionComputer3;
 
-		private readonly LevelFile blueprint;
+		public readonly LevelFile Blueprint;
 		private readonly FractionDifficulty difficulty;
-		public readonly string LevelName = "NAL"; //TODO Better smth guid in levelfile (somehow force unique, by compiler ??)
 
 		public bool HasFinished = false;
 
 		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp, FractionDifficulty diff) : base(game, gdm)
 		{
-			blueprint = bp;
+			Blueprint = bp;
 			difficulty = diff;
 
 			Initialize();
@@ -171,7 +170,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				fractionNeutral, fractionPlayer, fractionComputer1, fractionComputer2, fractionComputer3,
 			};
 
-			foreach (var bPrint in blueprint.BlueprintCannons)
+			foreach (var bPrint in Blueprint.BlueprintCannons)
 			{
 				Entities.AddEntity(new Cannon(this, bPrint, fracList));
 			}
@@ -181,6 +180,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		{
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
+			DebugDisp.Scale = 0.75f;
 #endif
 
 			TestForGameEndingCondition();
@@ -215,13 +215,13 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			if (winner.IsPlayer)
 			{
-				if (GDOwner.Profile.GetLevelData(LevelName).HasCompleted(difficulty))
+				if (GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(difficulty))
 				{
 					GDGameHUD.ShowScorePanel(GDOwner.Profile, null, true);
 				}
 				else
 				{
-					GDOwner.Profile.GetLevelData(LevelName).SetCompleted(difficulty);
+					GDOwner.Profile.GetLevelData(Blueprint.UniqueID).SetCompleted(difficulty);
 					GDOwner.SaveProfile();
 					GDGameHUD.ShowScorePanel(GDOwner.Profile, difficulty, true);
 				}
@@ -288,12 +288,12 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public void RestartLevel()
 		{
-			GDOwner.SetLevelScreen(blueprint, difficulty);
+			GDOwner.SetLevelScreen(Blueprint, difficulty);
 		}
 
 		public void ReplayLevel(FractionDifficulty diff)
 		{
-			GDOwner.SetLevelScreen(blueprint, diff);
+			GDOwner.SetLevelScreen(Blueprint, diff);
 		}
 	}
 }

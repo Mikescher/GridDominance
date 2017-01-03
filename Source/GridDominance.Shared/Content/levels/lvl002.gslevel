@@ -1,0 +1,33 @@
+﻿# Level 03 - King of the Hill   #
+#################################
+
+init("0-2", 9887F46BB27E4DBAB9F392A8D6EC26E6)
+
+include("stdvalues")
+
+Cannon(SIZE_SMALL, P1,  2 * CELL_W,  5 * CELL_H, ROT_N)
+
+Cannon(SIZE_SMALL, A3, 14 * CELL_W,  5 * CELL_H, ROT_S)
+
+Cannon(SIZE_SMALL, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#        0 #                                 #
+#        1 #                                 #
+#        2 #                                 #
+#        3 #                                 #
+#        4 #   / \         / \         / \   #
+#        5 #   \ /         \ /         \ /   #
+#        6 #                                 #
+#        7 #                                 #
+#        8 #                                 #
+#        9 #                                 #
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

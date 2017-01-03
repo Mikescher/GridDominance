@@ -13,15 +13,19 @@ namespace GridDominance.Levelformat.Parser
 		private static readonly Regex REX_COMMAND = new Regex(@"^(?<ident>[A-Za-z_]+)\s*\((((?<param>[^,\(\)]+)\s*,\s*)*(?<param>[^,\(\)]+))?\)$");
 		private static readonly Regex REX_EXPRESSION = new Regex(@"(\d*\.\d+)|(\d+)|([A-Za-z_]+)|[\+\-\*/]");
 
-		private const byte SERIALIZE_ID_CANNON = 0x01;
+		private const byte SERIALIZE_ID_CANNON = 0x01; 
+		private const byte SERIALIZE_ID_NAME   = 0x02;
+		private const byte SERIALIZE_ID_GUID   = 0x03;
 		private const byte SERIALIZE_ID_EOF    = 0xFF;
 
 		private readonly string content;
 		private readonly Dictionary<string, float> constants = new Dictionary<string, float>();
 		private Dictionary<string, Action<List<string>>> actions;
-		private readonly Func<string, string> includeFinderFunction; 
+		private readonly Func<string, string> includeFinderFunction;
 
 		public readonly List<LPCannon> BlueprintCannons = new List<LPCannon>();
+		public Guid UniqueID { get; private set; } = Guid.Empty;
+		public string Name { get; private set; } = "";
 
 		public LevelFile()
 		{
@@ -46,6 +50,7 @@ namespace GridDominance.Levelformat.Parser
 				{"define", DefineConstant},
 				{"cannon", AddCannon},
 				{"include", IncludeSource},
+				{"init", InitLevel},
 			};
 		}
 
@@ -78,6 +83,12 @@ namespace GridDominance.Levelformat.Parser
 					}
 				}
 			}
+
+			if (string.IsNullOrWhiteSpace(Name))
+				throw new Exception("Level needs a valid name");
+
+			if (UniqueID == Guid.Empty)
+				throw new Exception("Level needs a valid UUID");
 		}
 
 		private void ParseLine(string cntLine)
@@ -218,6 +229,19 @@ namespace GridDominance.Levelformat.Parser
 			return float.Parse(rep, NumberStyles.Float, CultureInfo.InvariantCulture);
 		}
 
+		private Guid ExtractGuidParameter(List<string> methodParameter, int idx)
+		{
+			if (idx >= methodParameter.Count)
+				throw new Exception($"Not enough parameter (missing param {idx})");
+
+			var x = methodParameter[idx];
+
+			Guid g;
+			if (Guid.TryParse(x, out g)) return g;
+
+			throw new Exception($"GUID parameter {idx} has invalid syntax: '{x}'");
+		}
+
 		#endregion
 
 		#region LevelMethods
@@ -251,12 +275,27 @@ namespace GridDominance.Levelformat.Parser
 			Parse(fileName, fileContent);
 		}
 
+		private void InitLevel(List<string> methodParameter)
+		{
+			var levelname = ExtractStringParameter(methodParameter, 0);
+			var levelguid = ExtractGuidParameter(methodParameter, 1);
+
+			Name = levelname;
+			UniqueID = levelguid;
+		}
+
 		#endregion
 
 		#region Pipeline Serialize
 
 		public void BinarySerialize(BinaryWriter bw)
 		{
+			bw.Write(SERIALIZE_ID_NAME);
+			bw.Write(Name);
+
+			bw.Write(SERIALIZE_ID_GUID);
+			bw.Write(UniqueID.ToByteArray());
+
 			foreach (var cannon in BlueprintCannons)
 			{
 				bw.Write(SERIALIZE_ID_CANNON);
@@ -289,8 +328,23 @@ namespace GridDominance.Levelformat.Parser
 
 						break;
 					}
+					case SERIALIZE_ID_NAME:
+					{
+						Name = br.ReadString();
+
+						break;
+					}
+					case SERIALIZE_ID_GUID:
+					{ 
+						UniqueID = new Guid(br.ReadBytes(16));
+
+						break;
+					}
 					case SERIALIZE_ID_EOF:
 					{
+						if (string.IsNullOrWhiteSpace(Name)) throw new Exception("Level needs a valid name");
+						if (UniqueID == Guid.Empty) throw new Exception("Level needs a valid UUID");
+
 						return;
 					}
 

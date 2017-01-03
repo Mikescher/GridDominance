@@ -68,13 +68,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			}
 		}
 
-		public void AddEntityOperation(IGameEntityOperation op)
+		public IGameEntityOperation AddEntityOperation(IGameEntityOperation op)
 		{
 			ActiveOperations.Add(op);
 			op.OnStart(this);
+			return op;
 		}
 
-		public void RemoveAllOperations(Func<IGameEntityOperation, bool> condition)
+		public void FinishAllOperations(Func<IGameEntityOperation, bool> condition)
 		{
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
 			{
@@ -84,6 +85,30 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 					ActiveOperations.RemoveAt(i);
 				}
 			}
+		}
+
+		public void AbortAllOperations(Func<IGameEntityOperation, bool> condition)
+		{
+			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
+			{
+				if (condition(ActiveOperations[i]))
+				{
+					ActiveOperations[i].OnAbort(this);
+					ActiveOperations.RemoveAt(i);
+				}
+			}
+		}
+
+		public float? FindFirstOperationProgress(Func<IGameEntityOperation, bool> condition)
+		{
+			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
+			{
+				if (condition(ActiveOperations[i]))
+				{
+					return ActiveOperations[i].Progress;
+				}
+			}
+			return null;
 		}
 
 		public GameEntityMouseArea AddMouseArea(IFShape shape, IGameEntityMouseAreaListener listener, bool swallowEvents = true)

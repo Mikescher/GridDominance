@@ -149,10 +149,30 @@ namespace Leveleditor
 
 				RecreateBuffer(null);
 			}
+			catch (Exception pe)
+			{
+				edError.Text = pe.ToString();
+				Console.Out.WriteLine(pe.ToString());
+
+				RecreateBuffer(null);
+			}
+		}
+
+		private string ReplaceMagicConstants(string s)
+		{
+			while (s.Contains("::UUID::"))
+			{
+				s = new Regex(Regex.Escape("::UUID::")).Replace(s, Guid.NewGuid().ToString("N").ToUpper(), 1);
+			}
+
+			return s;
 		}
 
 		private LevelFile ParseLevelFile()
 		{
+			var input = edCode.Text;
+			input = ReplaceMagicConstants(input);
+
 			Func<string, string> includesFunc = x => null;
 			if (File.Exists(edPath.Text))
 			{
@@ -164,7 +184,7 @@ namespace Leveleditor
 				includesFunc = x => includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value;
 			}
 
-			var lp = new LevelFile(edCode.Text, includesFunc);
+			var lp = new LevelFile(input, includesFunc);
 			lp.Parse();
 
 			return lp;
@@ -238,6 +258,9 @@ namespace Leveleditor
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
+			string iold = edCode.Text;
+			string inew = ReplaceMagicConstants(iold);
+			if (iold != inew) edCode.Text = inew;
 			File.WriteAllText(edPath.Text, edCode.Text, Encoding.UTF8);
 		}
 

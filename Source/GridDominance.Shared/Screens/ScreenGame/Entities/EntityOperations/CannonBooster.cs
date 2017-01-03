@@ -9,7 +9,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.EntityOperations
 	{
 		private readonly float boostPower;
 
-		public CannonBooster(float boost, float lifetime) : base(lifetime)
+		public CannonBooster(float boost, float lifetime) : base("CannonBooster", lifetime)
 		{
 			boostPower = boost;
 		}
@@ -24,7 +24,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.EntityOperations
 		protected override void OnEnd(Cannon entity)
 		{
 			entity.TotalBoost -= boostPower;
+		}
 
+		protected override void OnAbort(Cannon entity)
+		{
+			entity.TotalBoost -= boostPower;
 		}
 	}
 }

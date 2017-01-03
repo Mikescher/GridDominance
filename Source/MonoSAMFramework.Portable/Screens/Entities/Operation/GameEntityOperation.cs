@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Operation
@@ -11,10 +12,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 
 		public float Progress => time / length;
 
-		public GameEntityOperation(float operationlength)
+		public string Name { get; }
+
+		public GameEntityOperation(string name, float operationlength)
 		{
 			length = operationlength;
 			time = 0;
+			Name = name;
 		}
 
 		public bool Update(GameEntity entity, GameTime gameTime, InputState istate)
@@ -32,6 +36,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 			OnEnd((TEntity)entity);
 		}
 
+		public void OnAbort(GameEntity entity)
+		{
+			OnAbort((TEntity)entity);
+		}
+
 		public bool Update(TEntity entity, GameTime gameTime, InputState istate)
 		{
 			time += gameTime.GetElapsedSeconds();
@@ -42,9 +51,15 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 			return true;
 		}
 
+		public void ForceSetProgress(float p)
+		{
+			time = FloatMath.Clamp(p, 0f, 1f) * length;
+		}
+
 		protected abstract void OnStart(TEntity entity);
 		protected abstract void OnProgress(TEntity entity, float progress, InputState istate);
 		protected abstract void OnEnd(TEntity entity);
+		protected abstract void OnAbort(TEntity entity);
 
 	}
 }
