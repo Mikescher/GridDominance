@@ -150,6 +150,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 					ActiveOperations.RemoveAt(i);
 				}
 			}
+
 			if (isClickable())
 			{
 				if (istate.IsExclusiveJustDown && BoundingRectangle.Contains(istate.PointerPosition))
