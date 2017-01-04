@@ -141,7 +141,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 				if (size > 0)
 				{
-					sbatch.Draw(
+					sbatch.DrawRaw(
 						_config.Texture.Texture,
 						p.Position,
 						_config.TextureBounds,

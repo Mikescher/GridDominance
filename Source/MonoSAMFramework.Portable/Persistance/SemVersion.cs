@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace MonoSAMFramework.Portable.Persistance
 {
@@ -105,6 +106,7 @@ namespace MonoSAMFramework.Portable.Persistance
 			return $"{Mayor}.{Minor}.{Patch}";
 		}
 
+		[Pure]
 		public bool IsLaterThan(SemVersion other)
 		{
 			return other > this;

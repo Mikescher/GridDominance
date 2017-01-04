@@ -290,7 +290,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			if (FloatMath.IsNotZero(CrosshairSize.ActualValue))
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					Textures.TexCannonCrosshair.Texture,
 					Center,
 					Textures.TexCannonCrosshair.Bounds,
@@ -309,7 +309,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			var barrelCenter = Center + new Vector2(Scale * (CANNON_DIAMETER/2f - recoil), 0).Rotate(Rotation.ActualValue);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexCannonBarrelShadow.Texture,
 				barrelCenter,
 				Textures.TexCannonBarrelShadow.Bounds,
@@ -320,7 +320,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				SpriteEffects.None,
 				0);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexCannonBodyShadow.Texture,
 				Center,
 				Textures.TexCannonBodyShadow.Bounds,
@@ -331,7 +331,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				SpriteEffects.None,
 				0);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexCannonBarrel.Texture,
 				barrelCenter,
 				Textures.TexCannonBarrel.Bounds,
@@ -342,7 +342,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				SpriteEffects.None,
 				0);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexCannonBody.Texture,
 				Center,
 				Textures.TexCannonBody.Bounds,
@@ -359,7 +359,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			TextureRegion2D texBack = Textures.AnimCannonCog[Textures.ANIMATION_CANNONCOG_SIZE - 1];
 			TextureRegion2D texProg = Textures.AnimCannonCog[(int)(CannonHealth.ActualValue * (Textures.ANIMATION_CANNONCOG_SIZE - 1))];
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				texBack.Texture,
 				Center,
 				texBack.Bounds,
@@ -370,7 +370,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				SpriteEffects.None,
 				0);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				texProg.Texture,
 				Center,
 				texProg.Bounds,

@@ -48,7 +48,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoDrawBackground(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexHUDButtonBase.Texture,
 				Center,
 				Textures.TexHUDButtonBase.Bounds,
@@ -64,7 +64,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			var texture = GetTexture();
 				
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				texture.Texture,
 				Center,
 				texture.Bounds,

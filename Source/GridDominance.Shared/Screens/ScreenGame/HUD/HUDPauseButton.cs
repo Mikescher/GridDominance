@@ -69,7 +69,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				texIcon = Textures.TexHUDButtonPause[(int)(Textures.ANIMATION_HUDBUTTONPAUSE_SIZE * animationProgress)];
 			}
 			
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexHUDButtonBase.Texture,
 				Center,
 				Textures.TexHUDButtonBase.Bounds,
@@ -80,7 +80,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				SpriteEffects.None,
 				0);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				texIcon.Texture,
 				Center,
 				texIcon.Bounds,

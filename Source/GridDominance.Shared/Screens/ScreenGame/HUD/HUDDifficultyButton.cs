@@ -55,14 +55,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			if (IsPointerDownOnElement)
 			{
-				sbatch.Draw(Textures.TexCircle, bounds, BackgroundColor.Darken());
+				sbatch.DrawStretched(Textures.TexCircle, bounds, BackgroundColor.Darken());
 			}
 			else
 			{
-				sbatch.Draw(Textures.TexCircle, bounds, BackgroundColor);
+				sbatch.DrawStretched(Textures.TexCircle, bounds, BackgroundColor);
 			}
 
-			sbatch.Draw(icon, bounds.AsDeflated(24, 24).AsScaled(IconScale), ForegroundColor);
+			sbatch.DrawStretched(icon, bounds.AsDeflated(24, 24).AsScaled(IconScale), ForegroundColor);
 		}
 
 		public override void OnInitialize()

@@ -40,7 +40,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 			var fileVersion = reader.ReadVersion();
 
 			if (fileVersion.IsLaterThan(ArchiveVersion))
-				throw new SAMPersistanceException($"Cannot deserialize newer archive version: {fileVersion} > {ArchiveVersion}");
+				throw new SAMPersistanceException($"Cannot deserialize archive from the future: {fileVersion} > {ArchiveVersion}");
 
 			Deserialize(reader, fileVersion);
 		}

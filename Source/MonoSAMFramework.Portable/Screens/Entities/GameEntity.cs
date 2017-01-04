@@ -152,7 +152,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			foreach (var area in MouseAreas)
 			{
-				sbatch.Draw(area.AbsoluteShape, area.IsEnabled ? Color.DarkOrange : Color.PeachPuff, 1);
+				sbatch.DrawShape(area.AbsoluteShape, area.IsEnabled ? Color.DarkOrange : Color.PeachPuff, 1);
 			}
 		}
 

@@ -41,7 +41,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			if (Image == null) return;
 			if (imageBounds.IsEmpty) return;
 			
-			sbatch.Draw(Image.Texture, imageBounds, Image.Bounds, Color.White);
+			sbatch.DrawStretched(Image, imageBounds, Color.White);
 		}
 
 		protected override void OnAfterRecalculatePosition()

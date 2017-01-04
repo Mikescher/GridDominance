@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 
@@ -36,9 +37,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 			int countX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedWidth / TILE_WIDTH);
 			int countY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedHeight / TILE_WIDTH);
 
-			sbatch.Draw(
+			sbatch.DrawStretched(
 				Textures.TexPixel, 
-				new Rectangle(
+				new FRectangle(
 					-extensionX * TILE_WIDTH - offX, 
 					-extensionY * TILE_WIDTH - offY, 
 					(countX + 2*extensionX) * TILE_WIDTH, 
@@ -49,7 +50,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 			{
 				for (int y = -extensionY; y < countY + extensionY; y++)
 				{
-					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * TILE_WIDTH - offX, y * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH), Color.White);
+					sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * TILE_WIDTH - offX, y * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH), Color.White);
 				}
 			}
 		}

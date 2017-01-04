@@ -29,16 +29,14 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			#region Fill Center
 
-			sbatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				bounds.AsDeflated(CROP_CORNER_SIZE * cornerScale, 0).Round(),
-				StaticTextures.SinglePixel.Bounds,
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				bounds.AsDeflated(CROP_CORNER_SIZE * cornerScale, 0),
 				color);
 
-			sbatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				bounds.AsDeflated(0, CROP_CORNER_SIZE * cornerScale).Round(),
-				StaticTextures.SinglePixel.Bounds,
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				bounds.AsDeflated(0, CROP_CORNER_SIZE * cornerScale),
 				color);
 
 			#endregion
@@ -49,7 +47,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			if (tl)
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					StaticTextures.PanelCorner.Texture,
 					bounds.VectorTopLeft,
 					StaticTextures.PanelCorner.Bounds,
@@ -61,7 +59,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 			else
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					StaticTextures.SinglePixel.Texture,
 					cornerBounds.AsTranslated(bounds.VectorTopLeft),
 					StaticTextures.SinglePixel.Bounds,
@@ -73,7 +71,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			if (tr)
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					StaticTextures.PanelCorner.Texture,
 					bounds.VectorTopRight,
 					StaticTextures.PanelCorner.Bounds,
@@ -85,7 +83,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 			else
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					StaticTextures.SinglePixel.Texture,
 					cornerBounds.AsTranslated(bounds.VectorTopRight),
 					StaticTextures.SinglePixel.Bounds,
@@ -97,7 +95,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			if (br)
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					StaticTextures.PanelCorner.Texture,
 					bounds.VectorBottomRight,
 					StaticTextures.PanelCorner.Bounds,
@@ -109,7 +107,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 			else
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					StaticTextures.SinglePixel.Texture,
 					cornerBounds.AsTranslated(bounds.VectorBottomRight),
 					StaticTextures.SinglePixel.Bounds,
@@ -121,7 +119,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			if (bl)
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					StaticTextures.PanelCorner.Texture,
 					bounds.VectorBottomLeft,
 					StaticTextures.PanelCorner.Bounds,
@@ -133,7 +131,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 			else
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					StaticTextures.SinglePixel.Texture,
 					cornerBounds.AsTranslated(bounds.VectorBottomLeft),
 					StaticTextures.SinglePixel.Bounds,
@@ -150,10 +148,9 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
-			sbatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				bounds.Round(),
-				StaticTextures.SinglePixel.Bounds,
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				bounds,
 				color);
 		}
 
@@ -164,31 +161,27 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			int borderSize = FloatMath.Round(bsize);
 
 			// LEFT
-			sbatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				new Rectangle(FloatMath.Round(bounds.Left), FloatMath.Ceiling(bounds.Top), borderSize, FloatMath.Floor(bounds.Height)),
-				StaticTextures.SinglePixel.Bounds,
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				new FRectangle(bounds.Left, bounds.Top, borderSize, bounds.Height),
 				color);
 
 			// TOP
-			sbatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				new Rectangle(FloatMath.Ceiling(bounds.Left), FloatMath.Round(bounds.Top), FloatMath.Floor(bounds.Width), borderSize),
-				StaticTextures.SinglePixel.Bounds,
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				new FRectangle(bounds.Left, FloatMath.Round(bounds.Top), bounds.Width, borderSize),
 				color);
 
 			// RIGHT
-			sbatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				new Rectangle(FloatMath.Round(bounds.Right) - borderSize, FloatMath.Ceiling(bounds.Top), borderSize, FloatMath.Floor(bounds.Height)),
-				StaticTextures.SinglePixel.Bounds,
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				new FRectangle(bounds.Right - borderSize, bounds.Top, borderSize, bounds.Height),
 				color);
 
 			// BOTTOM
-			sbatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				new Rectangle(FloatMath.Ceiling(bounds.Left), FloatMath.Round(bounds.Bottom) - borderSize, FloatMath.Floor(bounds.Width), borderSize),
-				StaticTextures.SinglePixel.Bounds,
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				new FRectangle(bounds.Left, bounds.Bottom - borderSize, bounds.Width, borderSize),
 				color);
 		}
 	}

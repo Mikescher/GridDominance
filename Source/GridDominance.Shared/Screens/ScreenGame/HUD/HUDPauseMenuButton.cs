@@ -139,11 +139,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			var scale = Size.Width * 1f / WIDTH;
 
-			FlatRenderHelper.DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, ROUNDNESS_FACTOR);
+			//FlatRenderHelper.DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, ROUNDNESS_FACTOR);
 
 			if (btnIndex == 0)
 			{
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					Textures.TexHUDButtonPauseMenuMarkerBackground.Texture,
 					Center + new Vector2(WIDTH/2f - HUDPauseButton.DIAMETER/2f, -(HEIGHT/2f + MARKER_HEIGHT/2f)) * scale,
 					Textures.TexHUDButtonPauseMenuMarkerBackground.Bounds,
@@ -154,7 +154,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					SpriteEffects.None,
 					0);
 
-				sbatch.Draw(
+				sbatch.DrawRaw(
 					Textures.TexHUDButtonPauseMenuMarker.Texture,
 					Center + new Vector2(WIDTH / 2f - HUDPauseButton.DIAMETER / 2f, -(HEIGHT / 2f + MARKER_HEIGHT / 2f)) * scale,
 					Textures.TexHUDButtonPauseMenuMarker.Bounds,

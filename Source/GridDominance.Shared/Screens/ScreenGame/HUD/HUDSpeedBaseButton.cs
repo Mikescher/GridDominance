@@ -65,7 +65,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexHUDButtonBase.Texture,
 				Center,
 				Textures.TexHUDButtonBase.Bounds,
@@ -76,7 +76,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				SpriteEffects.None,
 				0);
 			
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexHUDButtonSpeedClock.Texture,
 				Center,
 				Textures.TexHUDButtonSpeedClock.Bounds,
@@ -87,7 +87,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				SpriteEffects.None,
 				0);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexHUDButtonSpeedHand.Texture,
 				Center,
 				Textures.TexHUDButtonSpeedHand.Bounds,

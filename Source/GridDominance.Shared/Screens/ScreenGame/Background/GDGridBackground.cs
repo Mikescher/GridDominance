@@ -75,8 +75,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 				{
 					var color = GetGridColor(x, y);
 
-					sbatch.Draw(Textures.TexPixel, new Rectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), color);
-					sbatch.Draw(Textures.TexTileBorder, new Rectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), Color.White);
+					sbatch.DrawStretched(Textures.TexPixel, new FRectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), color);
+					sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), Color.White);
 
 #if DEBUG
 					if (DebugSettings.Get("DebugBackground"))
@@ -104,15 +104,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 			{
 				foreach (var particle in Particles)
 				{
-					sbatch.Draw(
-						Textures.TexPixel.Texture,
-						new Vector2(particle.X, particle.Y),
-						Textures.TexPixel.Bounds,
-						particle.Fraction.Color * 0.6f * particle.PowerPercentage,
-						0,
-						new Vector2(0.5f, 0.5f),
-						8,
-						SpriteEffects.None, 1);
+					sbatch.DrawSimple(Textures.TexPixel, new Vector2(particle.X, particle.Y), 8, 8, particle.Fraction.Color * 0.6f * particle.PowerPercentage, 0, 1);
 				}
 
 				sbatch.DrawRectangle(new FRectangle(0, 0, TILE_COUNT_X * GDConstants.TILE_WIDTH, TILE_COUNT_Y * GDConstants.TILE_WIDTH), Color.Magenta);

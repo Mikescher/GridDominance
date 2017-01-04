@@ -297,7 +297,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Icons
 
-			sbatch.Draw(
+			sbatch.DrawStretched(
 				Textures.TexDifficulty0,
 				rectExpanderNorth
 					.ToSquare(ICON_SIZE, FlatAlign9.NORTH)
@@ -305,7 +305,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					.AsTranslated(0, HEIGHT_EXTENDER * iep),
 				clickAreaD0.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
-			sbatch.Draw(
+			sbatch.DrawStretched(
 				Textures.TexDifficulty1,
 				rectExpanderEast
 					.ToSquare(ICON_SIZE, FlatAlign9.EAST)
@@ -313,7 +313,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					.AsTranslated(-HEIGHT_EXTENDER * iep, 0),
 				clickAreaD1.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
-			sbatch.Draw(
+			sbatch.DrawStretched(
 				Textures.TexDifficulty2,
 				rectExpanderSouth
 					.ToSquare(ICON_SIZE, FlatAlign9.SOUTH)
@@ -321,7 +321,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					.AsTranslated(0, -HEIGHT_EXTENDER * iep),
 				clickAreaD2.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
-			sbatch.Draw(
+			sbatch.DrawStretched(
 				Textures.TexDifficulty3,
 				rectExpanderWest
 					.ToSquare(ICON_SIZE, FlatAlign9.WEST)
@@ -333,7 +333,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Ground
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexCircle.Texture,
 				Position,
 				Textures.TexCircle.Bounds,
@@ -348,7 +348,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Segments
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
@@ -359,7 +359,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				SpriteEffects.None,
 				0);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
@@ -370,7 +370,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				SpriteEffects.None,
 				0);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
@@ -381,7 +381,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				SpriteEffects.None,
 				0);
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexLevelNodeSegment.Texture,
 				Position,
 				Textures.TexLevelNodeSegment.Bounds,
@@ -396,7 +396,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			
 			#region Structure
 
-			sbatch.Draw(
+			sbatch.DrawRaw(
 				Textures.TexLevelNodeStructure.Texture,
 				Position,
 				Textures.TexLevelNodeStructure.Bounds,
