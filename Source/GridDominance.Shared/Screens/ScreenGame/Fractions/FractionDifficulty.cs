@@ -29,7 +29,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 
 		public const float MULTIPLICATOR_COMPUTER_0 = 0.800f;  // Easy
 		public const float MULTIPLICATOR_COMPUTER_1 = 0.875f;  // Normal
-		public const float MULTIPLICATOR_COMPUTER_2 = 0.095f;  // Hard
+		public const float MULTIPLICATOR_COMPUTER_2 = 0.950f;  // Hard
 		public const float MULTIPLICATOR_COMPUTER_3 = 1.000f;  // Impossible
 
 		public static float GetMultiplicator(FractionDifficulty d)
@@ -38,16 +38,22 @@ namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 			{
 				case FractionDifficulty.PLAYER:
 					return MULTIPLICATOR_PLAYER;
+
 				case FractionDifficulty.NEUTRAL:
 					return MULTIPLICATOR_NEUTRAL;
+
 				case FractionDifficulty.KI_EASY:
 					return MULTIPLICATOR_COMPUTER_0;
+
 				case FractionDifficulty.KI_NORMAL:
 					return MULTIPLICATOR_COMPUTER_1;
+
 				case FractionDifficulty.KI_HARD:
 					return MULTIPLICATOR_COMPUTER_2;
+
 				case FractionDifficulty.KI_IMPOSSIBLE:
 					return MULTIPLICATOR_COMPUTER_3;
+
 				default:
 					throw new ArgumentOutOfRangeException(nameof(d), d, null);
 			}

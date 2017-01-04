@@ -18,8 +18,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
 	class HUDWorldSettingsButton : HUDEllipseButton
 	{
-		public const float DIAMETER = 124;
-		private const float SIZE_ICON = 72;
+		public const float DIAMETER   = 124 * 0.8f;
+		private const float SIZE_ICON = 72  * 0.8f;
 
 		public override int Depth => 1;
 
