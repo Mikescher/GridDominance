@@ -26,13 +26,13 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 
 		protected override void Configure()
 		{
-			RegisterConstructor(() => new DataFileIntWrapper());
+			RegisterConstructor(() => new DataFileBoolWrapper());
 		}
 
 		public static void RegisterIfNeeded()
 		{
 			if (!DataFileTypeInfo.ContainsType(TYPENAME))
-				new DataFileIntWrapper().RegisterTypeInfo(TYPENAME);
+				new DataFileBoolWrapper().RegisterTypeInfo(TYPENAME);
 		}
 	}
 }

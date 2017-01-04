@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
@@ -18,6 +19,7 @@ namespace GridDominance.Shared
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
 		public PlayerProfile.PlayerProfile Profile;
+		public List<string> DebugErrors = new List<string>();
 
 		public static MainGame Inst;
 
@@ -32,11 +34,13 @@ namespace GridDominance.Shared
 				{
 					Profile.DeserializeFromString(sdata);
 				}
-				catch (Exception)
+				catch (Exception e)
 				{
 					//TODO Log Error
 
+					DebugErrors.Add("[DESERIALIZATION EXCEPTION]:" + e.Message);
 					Profile = new PlayerProfile.PlayerProfile();
+					SaveProfile();
 				}
 			}
 			else
@@ -103,7 +107,26 @@ namespace GridDominance.Shared
 
 		public void SaveProfile()
 		{
-			FileHelper.Inst.WriteData(PROFILE_FILENAME, Profile.SerializeToString());
+			var sdata = Profile.SerializeToString();
+			FileHelper.Inst.WriteData(PROFILE_FILENAME, sdata);
+
+#if DEBUG
+			try
+			{
+				var p = new PlayerProfile.PlayerProfile();
+				p.DeserializeFromString(sdata);
+				var sdata2 = p.SerializeToString();
+
+				if (sdata2 != sdata)
+				{
+					DebugErrors.Add("[SERIALIZATION TEST MISMATCH]:\n" + sdata + "\n\n" + sdata);
+				}
+			}
+			catch (Exception e)
+			{
+				DebugErrors.Add("[SERIALIZATION TEST EXCEPTION]:" + e.Message);
+			}
+#endif
 		}
 	}
 }

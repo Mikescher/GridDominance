@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Screens.ScreenGame.Background;
@@ -101,6 +102,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
 			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
 
+			DebugSettings.AddTrigger("ClearErrors", this, Keys.C, KeyModifier.Control, x => MainGame.Inst.DebugErrors.Clear());
+
 			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyModifier.None, false);
 			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyModifier.None, true);
 			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyModifier.None, false);
@@ -112,6 +115,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			DebugSettings.AddSwitch("DebugEntityMouseAreas", this, Keys.F9, KeyModifier.None, false);
 
 			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyModifier.None);
+			DebugSettings.AddPush("ShowSerializedProfile", this, Keys.O, KeyModifier.None);
 
 			DebugSettings.AddPush("AssimilateCannon", this, Keys.A, KeyModifier.None);
 			DebugSettings.AddPush("AbandonCannon", this, Keys.S, KeyModifier.None);
@@ -137,6 +141,10 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={VAdapter.Scale}");
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
+
+				DebugDisp.AddLine(() => string.Join(Environment.NewLine, MainGame.Inst.DebugErrors), Color.Red * 0.75f, Color.Black);
+
+				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
 			}
 
 			//InputStateMan.PointerDown += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnDown({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);

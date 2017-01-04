@@ -23,7 +23,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 			writer.WriteInteger(Value.Count);
 			foreach (var v in Value)
 			{
-				writer.WriteFixedLengthNonEscapedASCII(v.Key.ToString("D"), 36);
+				writer.WriteFixedLengthNonEscapedASCII(v.Key.ToString("N").ToUpper(), 32);
 				v.Value.Serialize(writer, currentVersion);
 			}
 		}
@@ -34,7 +34,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 
 			for (int i = 0; i < count; i++)
 			{
-				var key = Guid.ParseExact(reader.ReadFixedLengthNonEscapedASCII(36), "D");
+				var key = Guid.ParseExact(reader.ReadFixedLengthNonEscapedASCII(32), "N");
 
 				var inst = _elemTypeInfo.Create();
 
@@ -51,13 +51,13 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 
 		protected override void Configure()
 		{
-			RegisterConstructor(() => new DataFileSDictWrapper<T>(_elemTypeInfo));
+			RegisterConstructor(() => new DataFileGDictWrapper<T>(_elemTypeInfo));
 		}
 
 		public static void RegisterIfNeeded(DataFileTypeInfo elemTypeInfo)
 		{
 			if (!DataFileTypeInfo.ContainsType(GetTypeName(elemTypeInfo)))
-				new DataFileSDictWrapper<T>(elemTypeInfo).RegisterTypeInfo(GetTypeName(elemTypeInfo));
+				new DataFileGDictWrapper<T>(elemTypeInfo).RegisterTypeInfo(GetTypeName(elemTypeInfo));
 		}
 
 		public static string GetTypeName(DataFileTypeInfo elemTypeInfo)

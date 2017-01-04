@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
@@ -49,7 +50,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
 			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
 			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
-			
+
+			DebugSettings.AddTrigger("ClearErrors", this, Keys.C, KeyModifier.Control, x => MainGame.Inst.DebugErrors.Clear());
+
 			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyModifier.None, true);
 			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyModifier.None, false);
 			DebugSettings.AddSwitch("DebugHUDBorders", this, Keys.F4, KeyModifier.None, false);
@@ -85,7 +88,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 
-				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(256));
+				DebugDisp.AddLine(() => string.Join(Environment.NewLine, MainGame.Inst.DebugErrors), Color.Red * 0.75f, Color.Black);
+
+				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
 			}
 #endif
 			//AddLetter('B', 1.0f, 100 + 20, 256, 1);
@@ -108,7 +113,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			//AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
 
 			AddLevelNode(4,  10, Levels.LEVEL_001);
-			AddLevelNode(10,  10, Levels.LEVEL_002);
+			AddLevelNode(10, 10, Levels.LEVEL_002);
 			AddLevelNode(16, 10, Levels.LEVEL_003);
 
 			AddAgent(new WorldMapDragAgent(this));

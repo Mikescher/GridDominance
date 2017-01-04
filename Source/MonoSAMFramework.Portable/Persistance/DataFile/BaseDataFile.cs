@@ -154,7 +154,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 
 			DataFileBoolWrapper.RegisterIfNeeded();
 
-			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileStringWrapper.TYPENAME, g, s));
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileBoolWrapper.TYPENAME, g, s));
 		}
 
 		protected void RegisterPropertyList<TThis, TElem>(SemVersion version, string name, Func<TElem> ctr, Func<TThis, List<TElem>> get, Action<TThis, List<TElem>> set)

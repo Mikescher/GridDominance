@@ -52,6 +52,14 @@ namespace MonoSAMFramework.Portable.DebugTools
 			return AddLine(new DebugTextDisplayLine(text));
 		}
 
+		public DebugTextDisplayLine AddLine(Func<string> text, Color background, Color foreground)
+		{
+			var l = new DebugTextDisplayLine(text);
+			l.SetColor(foreground);
+			l.SetBackground(background);
+			return AddLine(l);
+		}
+
 		public DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text)
 		{
 			return AddLine(new DebugTextDisplayLine(text, () => DebugSettings.Get(debugSettingsKey)));

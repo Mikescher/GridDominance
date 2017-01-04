@@ -18,6 +18,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		
 		public DebugTextDisplayLine AddLine(DebugTextDisplayLine l) => dummy;
 		public DebugTextDisplayLine AddLine(Func<string> text) => dummy;
+		public DebugTextDisplayLine AddLine(Func<string> text, Color b, Color f) => dummy;
 		public DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text) => dummy;
 		public DebugTextDisplayLine AddLine(string text) => dummy;
 		public DebugTextDisplayLine AddDecayLine(string text, float lifetime = 2, float decaytime = 0.75f, float spawntime = 0.25f) => dummy;
