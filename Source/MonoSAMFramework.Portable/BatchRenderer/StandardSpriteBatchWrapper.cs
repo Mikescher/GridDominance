@@ -34,9 +34,9 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			internalBatch.Dispose();
 		}
 
-		public override void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null)
+		public override void Begin(float defTexScale, SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null)
 		{
-			OnBegin();
+			OnBegin(defTexScale);
 
 			internalBatch.Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect, transformMatrix);
 		}
@@ -46,24 +46,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			internalBatch.End();
 
 			OnEnd();
-		}
-
-		public override void DrawRaw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth)
-		{
-#if DEBUG
-			IncRenderSpriteCount();
-#endif
-
-			internalBatch.Draw(texture, position, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
-		}
-
-		public override void DrawRaw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
-		{
-#if DEBUG
-			IncRenderSpriteCount();
-#endif
-
-			internalBatch.Draw(texture, position, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
 		}
 		
 		public override void DrawRaw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
@@ -287,7 +269,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			DrawPolygon(rectangle.Center, CreateEllipse(rectangle.Width, rectangle.Height, sides), color, true, thickness);
 		}
 		
-		public override void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color)
+		public override void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color, float rotation = 0f, float layerDepth = 0f)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -297,15 +279,15 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				textureRegion.Texture, 
 				destinationRectangle.Center, 
 				textureRegion.Bounds, 
-				color, 
-				0f, 
+				color,
+				rotation, 
 				textureRegion.Center(), 
 				new Vector2(destinationRectangle.Width / textureRegion.Width, destinationRectangle.Height / textureRegion.Height), 
-				SpriteEffects.None, 
-				0f);
+				SpriteEffects.None,
+				layerDepth);
 		}
 
-		public override void DrawSimple(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation, float layerDepth = 0)
+		public override void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation, float layerDepth = 0)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -323,6 +305,24 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				scale,
 				SpriteEffects.None,
 				layerDepth);
+		}
+
+		public override void DrawScaled(TextureRegion2D texture, Vector2 centerTarget, float scale, Color color, float rotation, float layerDepth = 0)
+		{
+#if DEBUG
+			IncRenderSpriteCount();
+#endif
+
+			internalBatch.Draw(
+				texture.Texture,
+				centerTarget,
+				texture.Bounds,
+				color,
+				rotation,
+				texture.Center(),
+				defScale * scale,
+				SpriteEffects.None,
+				0);
 		}
 	}
 }

@@ -37,6 +37,8 @@ namespace GridDominance.Shared.Resources
 		public const string TEXTURE_ASSETNAME_BD = "textures/spritesheet-sheet_bd";
 		public const string TEXTURE_ASSETNAME_FD = "textures/spritesheet-sheet_fd";
 
+		public static float DEFAULT_TEXTURE_SCALE_F => DEFAULT_TEXTURE_SCALE.X;
+
 		public static Vector2 DEFAULT_TEXTURE_SCALE
 		{
 			get
@@ -246,6 +248,7 @@ namespace GridDominance.Shared.Resources
 		public static void ChangeQuality(ContentManager content, TextureQuality q)
 		{
 			TEXTURE_QUALITY = q;
+			StaticTextures.DEFAULT_TEXTURE_SCALE = DEFAULT_TEXTURE_SCALE;
 
 			LoadContent(content);
 		}

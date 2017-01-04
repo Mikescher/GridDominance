@@ -290,16 +290,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			if (FloatMath.IsNotZero(CrosshairSize.ActualValue))
 			{
-				sbatch.DrawRaw(
-					Textures.TexCannonCrosshair.Texture,
-					Center,
-					Textures.TexCannonCrosshair.Bounds,
+				sbatch.DrawScaled(
+					Textures.TexCannonCrosshair, 
+					Center, 
+					Scale * CrosshairSize.ActualValue, 
 					Color.White * (CROSSHAIR_TRANSPARENCY * CrosshairSize.ActualValue),
-					Rotation.TargetValue,
-					Textures.TexCannonCrosshair.Center(),
-					Scale * Textures.DEFAULT_TEXTURE_SCALE * CrosshairSize.ActualValue,
-					SpriteEffects.None,
-					0);
+					Rotation.TargetValue);
 			}
 		}
 
@@ -309,77 +305,50 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			var barrelCenter = Center + new Vector2(Scale * (CANNON_DIAMETER/2f - recoil), 0).Rotate(Rotation.ActualValue);
 
-			sbatch.DrawRaw(
-				Textures.TexCannonBarrelShadow.Texture,
+			sbatch.DrawScaled(
+				Textures.TexCannonBarrelShadow,
 				barrelCenter,
-				Textures.TexCannonBarrelShadow.Bounds,
+				Scale,
 				Color.White,
-				Rotation.ActualValue,
-				Textures.TexCannonBarrelShadow.Center(),
-				Scale*Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+				Rotation.ActualValue);
 
-			sbatch.DrawRaw(
-				Textures.TexCannonBodyShadow.Texture,
+			sbatch.DrawScaled(
+				Textures.TexCannonBodyShadow,
 				Center,
-				Textures.TexCannonBodyShadow.Bounds,
+				Scale,
 				Color.White,
-				Rotation.ActualValue,
-				Textures.TexCannonBodyShadow.Center(),
-				Scale*Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+				Rotation.ActualValue);
 
-			sbatch.DrawRaw(
-				Textures.TexCannonBarrel.Texture,
+			sbatch.DrawScaled(
+				Textures.TexCannonBarrel,
 				barrelCenter,
-				Textures.TexCannonBarrel.Bounds,
+				Scale,
 				Color.White,
-				Rotation.ActualValue,
-				Textures.TexCannonBarrel.Center(),
-				Scale *Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+				Rotation.ActualValue);
 
-			sbatch.DrawRaw(
-				Textures.TexCannonBody.Texture,
+			sbatch.DrawScaled(
+				Textures.TexCannonBody,
 				Center,
-				Textures.TexCannonBody.Bounds,
+				Scale,
 				Color.White,
-				Rotation.ActualValue,
-				Textures.TexCannonBody.Center(),
-				Scale*Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+				Rotation.ActualValue);
 		}
 
 		private void DrawCog(IBatchRenderer sbatch)
 		{
-			TextureRegion2D texBack = Textures.AnimCannonCog[Textures.ANIMATION_CANNONCOG_SIZE - 1];
-			TextureRegion2D texProg = Textures.AnimCannonCog[(int)(CannonHealth.ActualValue * (Textures.ANIMATION_CANNONCOG_SIZE - 1))];
-
-			sbatch.DrawRaw(
-				texBack.Texture,
+			sbatch.DrawScaled(
+				Textures.AnimCannonCog[Textures.ANIMATION_CANNONCOG_SIZE - 1],
 				Center,
-				texBack.Bounds,
+				Scale,
 				FlatColors.Clouds,
-				cannonCogRotation + 3 * (FloatMath.PI / 2),
-				texBack.Center(),
-				Scale * Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+				cannonCogRotation + 3 * (FloatMath.PI / 2));
 
-			sbatch.DrawRaw(
-				texProg.Texture,
+			sbatch.DrawScaled(
+				Textures.AnimCannonCog[(int)(CannonHealth.ActualValue * (Textures.ANIMATION_CANNONCOG_SIZE - 1))],
 				Center,
-				texProg.Bounds,
+				Scale,
 				Fraction.Color,
-				cannonCogRotation + 3 * (FloatMath.PI / 2),
-				texProg.Center(),
-				Scale * Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+				cannonCogRotation + 3 * (FloatMath.PI / 2));
 		}
 
 #if DEBUG

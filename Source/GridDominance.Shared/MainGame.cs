@@ -79,7 +79,7 @@ namespace GridDominance.Shared
 
 		protected override void OnAfterInitialize()
 		{
-			//SetLevelScreen(Levels.LEVEL_003, FractionDifficulty.KI_EASY);
+			//SetLevelScreen(Levels.LEVEL_001, FractionDifficulty.KI_EASY);
 			SetWorldMapScreen();
 		}
 

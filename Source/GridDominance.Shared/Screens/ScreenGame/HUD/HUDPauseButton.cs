@@ -69,27 +69,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				texIcon = Textures.TexHUDButtonPause[(int)(Textures.ANIMATION_HUDBUTTONPAUSE_SIZE * animationProgress)];
 			}
 			
-			sbatch.DrawRaw(
-				Textures.TexHUDButtonBase.Texture,
-				Center,
-				Textures.TexHUDButtonBase.Bounds,
-				FlatColors.Asbestos,
-				0f,
-				Textures.TexHUDButtonBase.Center(),
-				texScale * Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
-
-			sbatch.DrawRaw(
-				texIcon.Texture,
-				Center,
-				texIcon.Bounds,
-				FlatColors.Clouds,
-				0f,
-				texIcon.Center(),
-				texScale * Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+			sbatch.DrawScaled(Textures.TexHUDButtonBase, Center, texScale, FlatColors.Asbestos, 0f);
+			sbatch.DrawScaled(texIcon, Center, texScale, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds, 0f);
 		}
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)

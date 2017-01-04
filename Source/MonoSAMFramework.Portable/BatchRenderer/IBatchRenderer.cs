@@ -12,18 +12,12 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 	// ReSharper disable UnusedMember.Global
 	public interface IBatchRenderer : IDisposable
 	{
-		// ######## OTHER ########
-
-		void OnBegin();
-		void OnEnd();
-
-		// ######## MONOGAME METHODS ########
-
-		void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
+		void Begin(float defTexScale, SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
 		void End();
 
-		void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color);
-		void DrawSimple(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation, float layerDepth = 0);
+		void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color, float rotation = 0f, float layerDepth = 0f);
+		void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation = 0f, float layerDepth = 0f);
+		void DrawScaled(TextureRegion2D texture, Vector2 centerTarget, float scale, Color color, float rotation = 0f, float layerDepth = 0f);
 
 		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color);
 		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
@@ -41,15 +35,14 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void DrawPath(Vector2 posVector2, VectorPath path, int segments, Color color, float thickness = 1f);
 		void DrawShape(IFShape shape, Color color, float thickness = 1f);
 
-		void DrawRot000(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth);
-		void DrawRot090(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth);
-		void DrawRot180(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth);
-		void DrawRot270(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth);
+		void DrawRot000(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth);
+		void DrawRot090(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth);
+		void DrawRot180(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth);
+		void DrawRot270(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth);
 
-		void DrawRaw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth);
-		void DrawRaw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
-		void DrawRaw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
-
+		//void DrawRaw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth);
+		//void DrawRaw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
+		
 #if DEBUG
 		IDisposable BeginDebugDraw();
 
@@ -58,5 +51,8 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		int LastDebugRenderSpriteCount { get; }
 		int LastDebugRenderTextCount { get; }
 #endif
+
+		void OnBegin(float defaultTexScale);
+		void OnEnd();
 	}
 }

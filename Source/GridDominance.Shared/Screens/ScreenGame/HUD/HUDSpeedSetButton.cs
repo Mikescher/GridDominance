@@ -48,32 +48,18 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoDrawBackground(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			sbatch.DrawRaw(
-				Textures.TexHUDButtonBase.Texture,
-				Center,
-				Textures.TexHUDButtonBase.Bounds,
-				Highlighted ? FlatColors.Emerald : FlatColors.Flamingo,
-				0f,
-				Textures.TexHUDButtonBase.Center(),
-				Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+			sbatch.DrawScaled(Textures.TexHUDButtonBase, Center, 1f, Highlighted ? FlatColors.Emerald : FlatColors.Flamingo, 0f);
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			var texture = GetTexture();
-				
-			sbatch.DrawRaw(
-				texture.Texture,
-				Center,
-				texture.Bounds,
-				(this.GDHUD().GDOwner.GameSpeedMode == speed) ? FlatColors.MidnightBlue : FlatColors.Clouds,
-				0f,
-				texture.Center(),
-				Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+			var c = FlatColors.Clouds;
+			if (this.GDHUD().GDOwner.GameSpeedMode == speed)
+				c = FlatColors.MidnightBlue;
+			else if (IsPressed)
+				c = FlatColors.WetAsphalt;
+
+			sbatch.DrawScaled(GetTexture(), Center, 1f, c, 0f);
 		}
 
 		private TextureRegion2D GetTexture()

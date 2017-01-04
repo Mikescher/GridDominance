@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -41,104 +40,49 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			#endregion
 
-			var cornerBounds = new FRectangle(0, 0, TEX_CORNER_SIZE * cornerScale, TEX_CORNER_SIZE * cornerScale);
-
 			#region Corners
+
+			var tcornerSize = TEX_CORNER_SIZE * cornerScale;
+
+			var r_tl = new FRectangle(0.2f + bounds.Left, bounds.Top, tcornerSize, TEX_CORNER_SIZE * cornerScale);
+			var r_tr = new FRectangle(0.0f + bounds.Right - tcornerSize, bounds.Top, tcornerSize, tcornerSize);
+			var r_br = new FRectangle(0.0f + bounds.Right - tcornerSize, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
+			var r_bl = new FRectangle(0.2f + bounds.Left, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
 
 			if (tl)
 			{
-				sbatch.DrawRaw(
-					StaticTextures.PanelCorner.Texture,
-					bounds.VectorTopLeft,
-					StaticTextures.PanelCorner.Bounds,
-					color,
-					0 * FloatMath.DegreesToRadians,
-					Vector2.Zero,
-					cornerScale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None, 0);
+				sbatch.DrawRot000(StaticTextures.PanelCorner, r_tl, color, 0);
 			}
 			else
 			{
-				sbatch.DrawRaw(
-					StaticTextures.SinglePixel.Texture,
-					cornerBounds.AsTranslated(bounds.VectorTopLeft),
-					StaticTextures.SinglePixel.Bounds,
-					color,
-					0 * FloatMath.DegreesToRadians,
-					Vector2.Zero,
-					SpriteEffects.None, 0);
+				sbatch.DrawRot000(StaticTextures.SinglePixel, r_tl, color, 0);
 			}
 
 			if (tr)
 			{
-				sbatch.DrawRaw(
-					StaticTextures.PanelCorner.Texture,
-					bounds.VectorTopRight,
-					StaticTextures.PanelCorner.Bounds,
-					color,
-					90 * FloatMath.DegreesToRadians,
-					Vector2.Zero,
-					cornerScale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None, 0);
+				sbatch.DrawRot090(StaticTextures.PanelCorner, r_tr, color, 0);
 			}
 			else
 			{
-				sbatch.DrawRaw(
-					StaticTextures.SinglePixel.Texture,
-					cornerBounds.AsTranslated(bounds.VectorTopRight),
-					StaticTextures.SinglePixel.Bounds,
-					color,
-					90 * FloatMath.DegreesToRadians,
-					Vector2.Zero,
-					SpriteEffects.None, 0);
+				sbatch.DrawRot090(StaticTextures.SinglePixel, r_tr, color, 0);
 			}
 
 			if (br)
 			{
-				sbatch.DrawRaw(
-					StaticTextures.PanelCorner.Texture,
-					bounds.VectorBottomRight,
-					StaticTextures.PanelCorner.Bounds,
-					color,
-					180 * FloatMath.DegreesToRadians,
-					Vector2.Zero,
-					cornerScale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None, 0);
+				sbatch.DrawRot180(StaticTextures.PanelCorner, r_br, color, 0);
 			}
 			else
 			{
-				sbatch.DrawRaw(
-					StaticTextures.SinglePixel.Texture,
-					cornerBounds.AsTranslated(bounds.VectorBottomRight),
-					StaticTextures.SinglePixel.Bounds,
-					color,
-					180 * FloatMath.DegreesToRadians,
-					Vector2.Zero,
-					SpriteEffects.None, 0);
+				sbatch.DrawRot180(StaticTextures.SinglePixel, r_br, color, 0);
 			}
 
 			if (bl)
 			{
-				sbatch.DrawRaw(
-					StaticTextures.PanelCorner.Texture,
-					bounds.VectorBottomLeft,
-					StaticTextures.PanelCorner.Bounds,
-					color,
-					270 * FloatMath.DegreesToRadians,
-					Vector2.Zero,
-					cornerScale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None, 0);
+				sbatch.DrawRot270(StaticTextures.PanelCorner, r_bl, color, 0);
 			}
 			else
 			{
-				sbatch.DrawRaw(
-					StaticTextures.SinglePixel.Texture,
-					cornerBounds.AsTranslated(bounds.VectorBottomLeft),
-					StaticTextures.SinglePixel.Bounds,
-					color,
-					270 * FloatMath.DegreesToRadians,
-					Vector2.Zero,
-					SpriteEffects.None, 0);
+				sbatch.DrawRot270(StaticTextures.SinglePixel, r_bl, color, 0);
 			}
 
 			#endregion

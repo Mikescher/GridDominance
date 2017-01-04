@@ -333,79 +333,49 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Ground
 
-			sbatch.DrawRaw(
-				Textures.TexCircle.Texture,
-				Position,
-				Textures.TexCircle.Bounds,
-				FlatColors.Asbestos,
-				0f,
-				Textures.TexCircle.Center(),
-				DIAMETER / Textures.TexCircle.Width,
-				SpriteEffects.None,
-				0);
+			sbatch.DrawCentered(Textures.TexCircle, Position, DIAMETER, DIAMETER, FlatColors.Asbestos);
 
 			#endregion
 
 			#region Segments
 
-			sbatch.DrawRaw(
-				Textures.TexLevelNodeSegment.Texture,
-				Position,
-				Textures.TexLevelNodeSegment.Bounds,
-				levelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
-				FloatMath.RAD_000 + FloatMath.TAU * expansionProgress,
-				Textures.TexLevelNodeSegment.Center(),
-				DIAMETER / Textures.TexLevelNodeSegment.Width,
-				SpriteEffects.None,
-				0);
+			sbatch.DrawCentered(
+				Textures.TexLevelNodeSegment, 
+				Position, 
+				DIAMETER, 
+				DIAMETER, 
+				levelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED, 
+				FloatMath.RAD_POS_000 + FloatMath.TAU * expansionProgress);
 
-			sbatch.DrawRaw(
-				Textures.TexLevelNodeSegment.Texture,
+			sbatch.DrawCentered(
+				Textures.TexLevelNodeSegment,
 				Position,
-				Textures.TexLevelNodeSegment.Bounds,
+				DIAMETER,
+				DIAMETER,
 				levelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
-				FloatMath.RAD_POS_090 + FloatMath.TAU * expansionProgress,
-				Textures.TexLevelNodeSegment.Center(),
-				DIAMETER / Textures.TexLevelNodeSegment.Width,
-				SpriteEffects.None,
-				0);
+				FloatMath.RAD_POS_090 + FloatMath.TAU * expansionProgress);
 
-			sbatch.DrawRaw(
-				Textures.TexLevelNodeSegment.Texture,
+			sbatch.DrawCentered(
+				Textures.TexLevelNodeSegment,
 				Position,
-				Textures.TexLevelNodeSegment.Bounds,
+				DIAMETER,
+				DIAMETER,
 				levelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED,
-				FloatMath.RAD_POS_180 + FloatMath.TAU * expansionProgress,
-				Textures.TexLevelNodeSegment.Center(),
-				DIAMETER / Textures.TexLevelNodeSegment.Width,
-				SpriteEffects.None,
-				0);
+				FloatMath.RAD_POS_180 + FloatMath.TAU * expansionProgress);
 
-			sbatch.DrawRaw(
-				Textures.TexLevelNodeSegment.Texture,
+			sbatch.DrawCentered(
+				Textures.TexLevelNodeSegment,
 				Position,
-				Textures.TexLevelNodeSegment.Bounds,
+				DIAMETER,
+				DIAMETER,
 				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
-				FloatMath.RAD_POS_270 + FloatMath.TAU * expansionProgress,
-				Textures.TexLevelNodeSegment.Center(),
-				DIAMETER / Textures.TexLevelNodeSegment.Width,
-				SpriteEffects.None,
-				0);
-
-			#endregion
+				FloatMath.RAD_POS_270 + FloatMath.TAU * expansionProgress);
 			
+			#endregion
+
 			#region Structure
 
-			sbatch.DrawRaw(
-				Textures.TexLevelNodeStructure.Texture,
-				Position,
-				Textures.TexLevelNodeStructure.Bounds,
-				FlatColors.MidnightBlue,
-				0 + FloatMath.TAU * expansionProgress,
-				Textures.TexLevelNodeStructure.Center(),
-				DIAMETER / Textures.TexLevelNodeStructure.Width,
-				SpriteEffects.None,
-				0);
+			sbatch.DrawCentered(Textures.TexLevelNodeStructure, Position, DIAMETER, DIAMETER, FlatColors.MidnightBlue, FloatMath.TAU * expansionProgress);
 
 			#endregion
 

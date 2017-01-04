@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.RenderHelper
@@ -28,61 +26,35 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
+			var ccornerSize = scale * CROP_CORNER_SIZE;
+			var tcornerSize = scale * TEX_CORNER_SIZE;
+
 			#region Fill Center
 
 			sbatch.DrawStretched(
 				StaticTextures.SinglePixel,
-				bounds.AsDeflated(CROP_CORNER_SIZE * scale, 0),
+				bounds.AsDeflated(ccornerSize, 0),
 				color);
 
 			sbatch.DrawStretched(
 				StaticTextures.SinglePixel,
-				bounds.AsDeflated(0, CROP_CORNER_SIZE * scale),
+				bounds.AsDeflated(0, ccornerSize),
 				color);
 
 			#endregion
 
 			#region Corners
 
-			sbatch.DrawRaw(
-				StaticTextures.PanelCorner.Texture,
-				bounds.VectorTopLeft,
-				StaticTextures.PanelCorner.Bounds,
-				color,
-				0 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
+			// Don't ask my why I need the +0.2f
+			var r_tl = new FRectangle(0.2f + bounds.Left,                bounds.Top                 , tcornerSize, tcornerSize);
+			var r_tr = new FRectangle(0.0f + bounds.Right - tcornerSize, bounds.Top                 , tcornerSize, tcornerSize);
+			var r_br = new FRectangle(0.0f + bounds.Right - tcornerSize, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
+			var r_bl = new FRectangle(0.2f + bounds.Left,                bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
 
-			sbatch.DrawRaw(
-				StaticTextures.PanelCorner.Texture,
-				bounds.VectorTopRight,
-				StaticTextures.PanelCorner.Bounds,
-				color,
-				90 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
-
-			sbatch.DrawRaw(
-				StaticTextures.PanelCorner.Texture,
-				bounds.VectorBottomRight,
-				StaticTextures.PanelCorner.Bounds,
-				color,
-				180 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
-
-			sbatch.DrawRaw(
-				StaticTextures.PanelCorner.Texture,
-				bounds.VectorBottomLeft,
-				StaticTextures.PanelCorner.Bounds,
-				color,
-				270 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
+			sbatch.DrawRot000(StaticTextures.PanelCorner, r_tl, color, 0);
+			sbatch.DrawRot090(StaticTextures.PanelCorner, r_tr, color, 0);
+			sbatch.DrawRot180(StaticTextures.PanelCorner, r_br, color, 0);
+			sbatch.DrawRot270(StaticTextures.PanelCorner, r_bl, color, 0);
 
 			#endregion
 		}
@@ -93,102 +65,39 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			var cornerSize = scale * CROP_CORNER_SIZE;
 
-			#region Blur Edges
+			var r_tl = new FRectangle(bounds.Left  - cornerSize, bounds.Top    - cornerSize, 2 * cornerSize, 2 * cornerSize);
+			var r_tr = new FRectangle(bounds.Right - cornerSize, bounds.Top    - cornerSize, 2 * cornerSize, 2 * cornerSize);
+			var r_br = new FRectangle(bounds.Right - cornerSize, bounds.Bottom - cornerSize, 2 * cornerSize, 2 * cornerSize);
+			var r_bl = new FRectangle(bounds.Left  - cornerSize, bounds.Bottom - cornerSize, 2 * cornerSize, 2 * cornerSize);
 
-			sbatch.DrawRaw(
-				StaticTextures.PanelBlurEdge.Texture,
-				new FRectangle(
-					bounds.Left + cornerSize,
-					bounds.Top - cornerSize,
-					bounds.Width - 2 * cornerSize,
-					2 * cornerSize),
-				StaticTextures.PanelBlurEdge.Bounds,
-				Color.White,
-				0 * FloatMath.DegreesToRadians,
-				Vector2.Zero, SpriteEffects.None, 0);
+			var r_l = new FRectangle(r_tl.Left,  r_tl.Bottom, r_tl.Width,             r_bl.Top - r_tl.Bottom);
+			var r_t = new FRectangle(r_tl.Right, r_tl.Top,    r_tr.Left - r_tl.Right, r_tl.Height);
+			var r_r = new FRectangle(r_tr.Left,  r_tr.Bottom, r_tr.Width,             r_br.Top - r_tr.Bottom);
+			var r_b = new FRectangle(r_bl.Right, r_bl.Top,    r_br.Left - r_bl.Right, r_bl.Height);
 
-			sbatch.DrawRaw(
-				StaticTextures.PanelBlurEdge.Texture,
-				new FRectangle(
-					bounds.Right - cornerSize + (2 * cornerSize),
-					bounds.Top + cornerSize,
-					bounds.Height - 2 * cornerSize,
-					2 * cornerSize
-					),
-				StaticTextures.PanelBlurEdge.Bounds,
-				Color.White,
-				90 * FloatMath.DegreesToRadians,
-				Vector2.Zero, SpriteEffects.None, 0);
+			// Top
+			sbatch.DrawRot000(StaticTextures.PanelBlurEdge, r_t, Color.White, 0);
 
-			sbatch.DrawRaw(
-				StaticTextures.PanelBlurEdge.Texture,
-				new FRectangle(
-					bounds.Left + cornerSize + (bounds.Width - 2 * cornerSize),
-					bounds.Bottom - cornerSize + (2 * cornerSize),
-					bounds.Width - 2 * cornerSize,
-					2 * cornerSize),
-				StaticTextures.PanelBlurEdge.Bounds,
-				Color.White,
-				180 * FloatMath.DegreesToRadians,
-				Vector2.Zero, SpriteEffects.None, 0);
+			// Right
+			sbatch.DrawRot090(StaticTextures.PanelBlurEdge, r_r, Color.White, 0);
 
-			sbatch.DrawRaw(
-				StaticTextures.PanelBlurEdge.Texture,
-				new FRectangle(
-					bounds.Left - cornerSize,
-					bounds.Top + cornerSize + (bounds.Height - 2 * cornerSize),
-					bounds.Height - 2 * cornerSize,
-					2 * cornerSize),
-				StaticTextures.PanelBlurEdge.Bounds,
-				Color.White,
-				270 * FloatMath.DegreesToRadians,
-				Vector2.Zero, SpriteEffects.None, 0);
+			// Bottom
+			sbatch.DrawRot180(StaticTextures.PanelBlurEdge, r_b, Color.White, 0);
 
-			#endregion
+			// Left
+			sbatch.DrawRot270(StaticTextures.PanelBlurEdge, r_l, Color.White, 0);
 
-			#region Blur Corners
+			// TL
+			sbatch.DrawRot000(StaticTextures.PanelBlurCorner, r_tl, Color.White, 0);
 
-			sbatch.DrawRaw(
-				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorTopLeft + scale * CORNER_VECTOR_TL,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				0 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
+			// TR
+			sbatch.DrawRot090(StaticTextures.PanelBlurCorner, r_tr, Color.White, 0);
 
-			sbatch.DrawRaw(
-				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorTopRight + scale * CORNER_VECTOR_TR,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				90 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
+			// BR
+			sbatch.DrawRot180(StaticTextures.PanelBlurCorner, r_br, Color.White, 0);
 
-			sbatch.DrawRaw(
-				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorBottomRight + scale * CORNER_VECTOR_BR,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				180 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
-
-			sbatch.DrawRaw(
-				StaticTextures.PanelBlurCorner.Texture,
-				bounds.VectorBottomLeft + scale * CORNER_VECTOR_BL,
-				StaticTextures.PanelBlurCorner.Bounds,
-				Color.White,
-				270 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				scale * StaticTextures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None, 0);
-
-			#endregion
+			// BL
+			sbatch.DrawRot270(StaticTextures.PanelBlurCorner, r_bl, Color.White, 0);
 		}
 		
 		public static void DrawDropShadow(IBatchRenderer sbatch, FRectangle bounds, float sOutset, float sInset)
@@ -228,28 +137,28 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			var r_b = new FRectangle(r_bl.Right, r_bl.Top, r_br.Left - r_bl.Right, r_bl.Height);
 			
 			// Top
-			sbatch.DrawRot000(StaticTextures.PanelBlurEdge.Texture, r_t, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
+			sbatch.DrawRot000(StaticTextures.PanelBlurEdge, r_t, Color.White, 0);
 
 			// Right
-			sbatch.DrawRot090(StaticTextures.PanelBlurEdge.Texture, r_r, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
+			sbatch.DrawRot090(StaticTextures.PanelBlurEdge, r_r, Color.White, 0);
 
 			// Bottom
-			sbatch.DrawRot180(StaticTextures.PanelBlurEdge.Texture, r_b, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
+			sbatch.DrawRot180(StaticTextures.PanelBlurEdge, r_b, Color.White, 0);
 
 			// Left
-			sbatch.DrawRot270(StaticTextures.PanelBlurEdge.Texture, r_l, StaticTextures.PanelBlurEdge.Bounds, Color.White, 0);
+			sbatch.DrawRot270(StaticTextures.PanelBlurEdge, r_l, Color.White, 0);
 			
 			// TL
-			sbatch.DrawRot000(StaticTextures.PanelBlurCorner.Texture, r_tl, StaticTextures.PanelBlurCorner.Bounds, Color.White, 0);
+			sbatch.DrawRot000(StaticTextures.PanelBlurCorner, r_tl, Color.White, 0);
 
 			// TR
-			sbatch.DrawRot090(StaticTextures.PanelBlurCorner.Texture, r_tr, StaticTextures.PanelBlurCorner.Bounds, Color.White, 0);
+			sbatch.DrawRot090(StaticTextures.PanelBlurCorner, r_tr, Color.White, 0);
 
 			// BR
-			sbatch.DrawRot180(StaticTextures.PanelBlurCorner.Texture, r_br, StaticTextures.PanelBlurCorner.Bounds, Color.White, 0);
+			sbatch.DrawRot180(StaticTextures.PanelBlurCorner, r_br, Color.White, 0);
 
 			// BL
-			sbatch.DrawRot270(StaticTextures.PanelBlurCorner.Texture, r_bl, StaticTextures.PanelBlurCorner.Bounds, Color.White, 0);
+			sbatch.DrawRot270(StaticTextures.PanelBlurCorner, r_bl, Color.White, 0);
 		}
 
 		public static void DrawOutlinesBlurRectangle(IBatchRenderer sbatch, FRectangle bounds, float borderWidth, Color cInner, Color cBorder, float blurOuterWidth, float blurInset)

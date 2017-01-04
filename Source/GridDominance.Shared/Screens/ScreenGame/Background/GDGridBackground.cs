@@ -104,7 +104,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 			{
 				foreach (var particle in Particles)
 				{
-					sbatch.DrawSimple(Textures.TexPixel, new Vector2(particle.X, particle.Y), 8, 8, particle.Fraction.Color * 0.6f * particle.PowerPercentage, 0, 1);
+					sbatch.DrawCentered(Textures.TexPixel, new Vector2(particle.X, particle.Y), 8, 8, particle.Fraction.Color * 0.6f * particle.PowerPercentage, 0, 1);
 				}
 
 				sbatch.DrawRectangle(new FRectangle(0, 0, TILE_COUNT_X * GDConstants.TILE_WIDTH, TILE_COUNT_Y * GDConstants.TILE_WIDTH), Color.Magenta);

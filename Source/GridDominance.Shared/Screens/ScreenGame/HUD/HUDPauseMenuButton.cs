@@ -143,27 +143,19 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 			if (btnIndex == 0)
 			{
-				sbatch.DrawRaw(
-					Textures.TexHUDButtonPauseMenuMarkerBackground.Texture,
-					Center + new Vector2(WIDTH/2f - HUDPauseButton.DIAMETER/2f, -(HEIGHT/2f + MARKER_HEIGHT/2f)) * scale,
-					Textures.TexHUDButtonPauseMenuMarkerBackground.Bounds,
-					Color.White,
-					0f,
-					Textures.TexHUDButtonPauseMenuMarkerBackground.Center(),
-					scale * Textures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None,
-					0);
-
-				sbatch.DrawRaw(
-					Textures.TexHUDButtonPauseMenuMarker.Texture,
+				sbatch.DrawScaled(
+					Textures.TexHUDButtonPauseMenuMarkerBackground,
 					Center + new Vector2(WIDTH / 2f - HUDPauseButton.DIAMETER / 2f, -(HEIGHT / 2f + MARKER_HEIGHT / 2f)) * scale,
-					Textures.TexHUDButtonPauseMenuMarker.Bounds,
+					scale,
+					Color.White,
+					0f);
+
+				sbatch.DrawScaled(
+					Textures.TexHUDButtonPauseMenuMarker,
+					Center + new Vector2(WIDTH / 2f - HUDPauseButton.DIAMETER / 2f, -(HEIGHT / 2f + MARKER_HEIGHT / 2f)) * scale,
+					scale,
 					IsPressed ? FlatColors.Concrete : FlatColors.Silver,
-					0f,
-					Textures.TexHUDButtonPauseMenuMarker.Center(),
-					scale * Textures.DEFAULT_TEXTURE_SCALE,
-					SpriteEffects.None,
-					0);
+					0f);
 			}
 
 			FlatRenderHelper.DrawRoundedBlurPanelSolidPart(sbatch, bounds, IsPressed ? FlatColors.Concrete : FlatColors.Silver, ROUNDNESS_FACTOR);

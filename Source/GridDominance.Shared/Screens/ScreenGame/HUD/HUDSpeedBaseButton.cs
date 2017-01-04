@@ -65,38 +65,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			sbatch.DrawRaw(
-				Textures.TexHUDButtonBase.Texture,
-				Center,
-				Textures.TexHUDButtonBase.Bounds,
-				ColorMath.Blend(FlatColors.Flamingo, FlatColors.Asbestos, openingProgress),
-				0f,
-				Textures.TexHUDButtonBase.Center(),
-				Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
-			
-			sbatch.DrawRaw(
-				Textures.TexHUDButtonSpeedClock.Texture,
-				Center,
-				Textures.TexHUDButtonSpeedClock.Bounds,
-				FlatColors.Clouds,
-				0f,
-				Textures.TexHUDButtonSpeedClock.Center(),
-				Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
-
-			sbatch.DrawRaw(
-				Textures.TexHUDButtonSpeedHand.Texture,
-				Center,
-				Textures.TexHUDButtonSpeedHand.Bounds,
-				FlatColors.Clouds,
-				rotation,
-				Textures.TexHUDButtonSpeedHand.Center(),
-				Textures.DEFAULT_TEXTURE_SCALE,
-				SpriteEffects.None,
-				0);
+			sbatch.DrawScaled(Textures.TexHUDButtonBase,       Center, 1f, ColorMath.Blend(FlatColors.Flamingo, FlatColors.Asbestos, openingProgress), 0f);
+			sbatch.DrawScaled(Textures.TexHUDButtonSpeedClock, Center, 1f, FlatColors.Clouds,                                                          0f);
+			sbatch.DrawScaled(Textures.TexHUDButtonSpeedHand,  Center, 1f, FlatColors.Clouds,                                                          rotation);
 		}
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)

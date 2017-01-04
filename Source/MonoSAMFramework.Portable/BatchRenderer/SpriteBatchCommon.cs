@@ -32,8 +32,12 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		private int renderTextCountDebug;
 #endif
 
-		public void OnBegin()
+		protected float defScale;
+
+		public void OnBegin(float defaultTexScale)
 		{
+			defScale = defaultTexScale;
+
 #if DEBUG
 			renderSpriteCountRelease = 0;
 			renderTextCountRelease = 0;
@@ -123,21 +127,29 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		#region DrawRot
 
-		public void DrawRot000(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth)
-		{
-			DrawRaw(texture, destinationRectangle, sourceRectangle, color, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
-		}
-		
-		public void DrawRot090(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth)
+		public void DrawRot000(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth)
 		{
 			DrawRaw(
-				texture, 
+				texture.Texture, 
+				destinationRectangle,
+				texture.Bounds, 
+				color, 
+				0, 
+				Vector2.Zero, 
+				SpriteEffects.None, 
+				layerDepth);
+		}
+		
+		public void DrawRot090(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth)
+		{
+			DrawRaw(
+				texture.Texture, 
 				new FRectangle(
 					destinationRectangle.X + destinationRectangle.Width, 
 					destinationRectangle.Y, 
 					destinationRectangle.Height, 
-					destinationRectangle.Width), 
-				sourceRectangle, 
+					destinationRectangle.Width),
+				texture.Bounds, 
 				color,
 				90 * FloatMath.DegreesToRadians, 
 				Vector2.Zero, 
@@ -145,16 +157,16 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				layerDepth);
 		}
 
-		public void DrawRot180(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth)
+		public void DrawRot180(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth)
 		{
 			DrawRaw(
-				texture,
+				texture.Texture,
 				new FRectangle(
 					destinationRectangle.X + destinationRectangle.Width,
 					destinationRectangle.Y + destinationRectangle.Height,
 					destinationRectangle.Width, 
 					destinationRectangle.Height),
-				sourceRectangle,
+				texture.Bounds,
 				color,
 				180 * FloatMath.DegreesToRadians,
 				Vector2.Zero,
@@ -162,16 +174,16 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				layerDepth);
 		}
 
-		public void DrawRot270(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float layerDepth)
+		public void DrawRot270(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth)
 		{
 			DrawRaw(
-				texture,
+				texture.Texture,
 				new FRectangle(
 					destinationRectangle.X,
 					destinationRectangle.Y + destinationRectangle.Height,
 					destinationRectangle.Height,
 					destinationRectangle.Width),
-				sourceRectangle,
+				texture.Bounds,
 				color,
 				270 * FloatMath.DegreesToRadians,
 				Vector2.Zero,
@@ -204,13 +216,18 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		#region abstracts
 
-		public abstract void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
+		public abstract void DrawRaw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
+
+		public abstract void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color, float rotation = 0f, float layerDepth = 0f);
+		public abstract void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation = 0f, float layerDepth = 0f);
+		public abstract void DrawScaled(TextureRegion2D texture, Vector2 centerTarget, float scale, Color color, float rotation = 0f, float layerDepth = 0f);
+
+		public abstract void Begin(float defTexScale, SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
 		public abstract void End();
-		public abstract void DrawRaw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth);
-		public abstract void DrawRaw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
+
 		public abstract void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color);
 		public abstract void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
-		public abstract void DrawRaw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
+
 		public abstract void FillRectangle(FRectangle rectangle, Color color);
 		public abstract void FillRectangle(Vector2 location, Vector2 size, Color color);
 		public abstract void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1);
@@ -219,11 +236,10 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public abstract void DrawLine(Vector2 point1, Vector2 point2, Color color, float thickness = 1);
 		public abstract void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1);
 		public abstract void FillCircle(Vector2 center, float radius, int sides, Color color);
-		public abstract void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color);
 		public abstract void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1);
 		public abstract void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1);
 		public abstract void DrawPath(Vector2 posVector2, VectorPath path, int segments, Color color, float thickness = 1);
-		public abstract void DrawSimple(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation, float layerDepth = 0);
+
 		public abstract void Dispose();
 
 		#endregion

@@ -133,13 +133,13 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 			else if (FloatMath.IsOne(GameSpeed))
 			{
-				InternalUpdate(gameTime, state);
+				InternalUpdate(gameTime, state, gameTime);
 			}
 			else if (GameSpeed < 1f)
 			{
 				var internalTime = new GameTime(gameTime.TotalGameTime, new TimeSpan((long) (gameTime.ElapsedGameTime.Ticks * GameSpeed)));
 
-				InternalUpdate(internalTime, state);
+				InternalUpdate(internalTime, state, gameTime);
 			}
 			else if (GameSpeed > 1f)
 			{
@@ -150,15 +150,21 @@ namespace MonoSAMFramework.Portable.Screens
 				long ticksPerRun = (long) (totalTicks / runCount);
 				ticksPerRun += (long) ((totalTicks - ticksPerRun * runCount) / runCount);
 
+				long ticksPerRunReal = (long)(gameTime.ElapsedGameTime.Ticks / runCount);
+				ticksPerRunReal += (long)((gameTime.ElapsedGameTime.Ticks - ticksPerRunReal * runCount) / runCount);
+
 				var time = gameTime.TotalGameTime;
+				var timeReal = gameTime.TotalGameTime;
 
 				for (int i = 0; i < runCount; i++)
 				{
 					var span = new TimeSpan(ticksPerRun);
+					var spanReal = new TimeSpan(ticksPerRunReal);
 
-					InternalUpdate(new GameTime(time, span), state);
+					InternalUpdate(new GameTime(time, span), state, new GameTime(timeReal, spanReal));
 
 					time += span;
+					timeReal += spanReal;
 				}
 			}
 			else
@@ -168,17 +174,17 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 		}
 
-		private void InternalUpdate(GameTime gameTime, InputState state)
+		private void InternalUpdate(GameTime gameTime, InputState state, GameTime gameTimeReal)
 		{
 #if DEBUG
-			UPSCounter.Update(gameTime);
+			UPSCounter.Update(gameTimeReal);
 #endif
 			// Update Top Down  (Debug -> HUD -> Entities -> BG)
 			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
 
-			DebugDisp.Update(gameTime, state);
+			DebugDisp.Update(gameTimeReal, state);
 
-			GameHUD.Update(gameTime, state);
+			GameHUD.Update(gameTimeReal, state);
 
 			Entities.Update(gameTime, state);
 
@@ -197,10 +203,12 @@ namespace MonoSAMFramework.Portable.Screens
 			// Update Top Down  (Debug -> HUD -> Entities -> BG)
 			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
 
+			var bts = GetBaseTextureScale();
+
 			Graphics.GraphicsDevice.Clear(Color.Magenta);
 
-			FixedBatch.OnBegin();
-			TranslatedBatch.OnBegin();
+			FixedBatch.OnBegin(bts);
+			TranslatedBatch.OnBegin(bts);
 			InternalBatch.Begin(transformMatrix: VAdapter.GetScaleMatrix());
 			{
 				Background.Draw(TranslatedBatch);
@@ -274,5 +282,6 @@ namespace MonoSAMFramework.Portable.Screens
 		protected abstract SAMViewportAdapter CreateViewport();
 		protected abstract DebugMinimap CreateDebugMinimap();
 		protected abstract FRectangle CreateMapFullBounds();
+		protected abstract float GetBaseTextureScale();
 	}
 }

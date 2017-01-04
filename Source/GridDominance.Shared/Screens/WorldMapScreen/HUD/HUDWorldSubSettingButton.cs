@@ -46,9 +46,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			sbatch.DrawSimple(Textures.TexHUDButtonBase, Center, DIAMETER * scaleProgress, DIAMETER * scaleProgress, ColorMath.Blend(FlatColors.Asbestos, FlatColors.Alizarin, offsetProgress*scaleProgress), 0f);
+			sbatch.DrawCentered(Textures.TexHUDButtonBase, Center, DIAMETER * scaleProgress, DIAMETER * scaleProgress, ColorMath.Blend(FlatColors.Asbestos, FlatColors.Alizarin, offsetProgress*scaleProgress));
 
-			sbatch.DrawSimple(GetIcon(), Center, SIZE_ICON * scaleProgress, SIZE_ICON * scaleProgress, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds, 0f);
+			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * scaleProgress, SIZE_ICON * scaleProgress, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds);
 
 			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, SIZE_ICON, GetText(), FlatColors.Clouds * fontProgress, new Vector2(CenterX + SIZE_ICON, CenterY));
 		}

@@ -127,7 +127,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			if (!IsEnabled) return;
 
-			debugBatch.Begin(blendState: BlendState.NonPremultiplied);
+			debugBatch.Begin(1f, blendState: BlendState.NonPremultiplied); //scale=1f is ok because we use no textures
 			
 			foreach (var line in lines.Where(p => p.Active()))
 			{

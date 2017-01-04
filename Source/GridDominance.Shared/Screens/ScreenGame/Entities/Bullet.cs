@@ -153,7 +153,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			sbatch.DrawSimple(
+			sbatch.DrawCentered(
 				Textures.TexBullet, 
 				BulletPosition, 
 				Scale * BulletExtraScale * BULLET_DIAMETER, 

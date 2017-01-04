@@ -38,7 +38,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public GDGridBackground GDBackground => (GDGridBackground) Background;
 		public GDEntityManager GDEntities => (GDEntityManager) Entities;
 		public GDGameHUD GDGameHUD => (GDGameHUD) GameHUD;
-
 		//-----------------------------------------------------------------
 
 		private bool _isPaused = false;
@@ -170,6 +169,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new GDScreenDebugMinimap(this);
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
+		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
 		private void LoadLevelFromBlueprint()
 		{

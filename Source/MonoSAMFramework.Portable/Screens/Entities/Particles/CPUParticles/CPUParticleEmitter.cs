@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
@@ -141,16 +140,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 				if (size > 0)
 				{
-					sbatch.DrawRaw(
-						_config.Texture.Texture,
-						p.Position,
-						_config.TextureBounds,
-						color * alpha,
-						0f,
-						_config.TextureCenter,
-						size / _config.TextureSize,
-						SpriteEffects.None,
-						0);
+					sbatch.DrawScaled(_config.Texture, p.Position, size / _config.TextureSize, color * alpha, 0f);
 				}
 			}
 		}
