@@ -139,7 +139,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			var scale = Size.Width * 1f / WIDTH;
 
-			//FlatRenderHelper.DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, ROUNDNESS_FACTOR);
+			FlatRenderHelper.DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, ROUNDNESS_FACTOR);
 
 			if (btnIndex == 0)
 			{

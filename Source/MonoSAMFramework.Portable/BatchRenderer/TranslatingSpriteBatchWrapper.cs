@@ -309,7 +309,16 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			IncRenderSpriteCount();
 #endif
 
-			internalBatch.Draw(textureRegion.Texture, (destinationRectangle + offset).Truncate(), textureRegion.Bounds, color);
+			internalBatch.Draw(
+				textureRegion.Texture,
+				destinationRectangle.Center + offset,
+				textureRegion.Bounds,
+				color,
+				0f,
+				textureRegion.Center(),
+				new Vector2(destinationRectangle.Width / textureRegion.Width, destinationRectangle.Height / textureRegion.Height),
+				SpriteEffects.None,
+				0f);
 		}
 
 		public override void DrawSimple(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation, float layerDepth = 0)

@@ -6,7 +6,6 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.RenderHelper;
-using System;
 using System.Linq;
 
 namespace MonoSAMFramework.Portable.BatchRenderer
@@ -120,7 +119,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 #endif
 
 			var length = Vector2.Distance(point1, point2);
-			var angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
+			var angle = FloatMath.Atan2(point2.Y - point1.Y, point2.X - point1.X);
 			var scale = new Vector2(length, thickness);
 
 			internalBatch.Draw(
@@ -162,11 +161,11 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 #endif
 
 			var pixel = StaticTextures.SinglePixel;
-			var topLeft = new Vector2(rectangle.X, rectangle.Y);
-			var topRight = new Vector2(rectangle.Right - thickness, rectangle.Y);
-			var bottomLeft = new Vector2(rectangle.X, rectangle.Bottom - thickness);
+			var topLeft         = new Vector2(rectangle.X, rectangle.Y);
+			var topRight        = new Vector2(rectangle.Right - thickness, rectangle.Y);
+			var bottomLeft      = new Vector2(rectangle.X, rectangle.Bottom - thickness);
 			var horizontalScale = new Vector2(rectangle.Width, thickness);
-			var verticalScale = new Vector2(thickness, rectangle.Height);
+			var verticalScale   = new Vector2(thickness, rectangle.Height);
 
 			internalBatch.Draw(pixel.Texture, topLeft,    sourceRectangle: pixel.Bounds, scale: horizontalScale, color: color);
 			internalBatch.Draw(pixel.Texture, topLeft,    sourceRectangle: pixel.Bounds, scale: verticalScale,   color: color);
@@ -187,7 +186,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		public override void DrawLine(Vector2 point1, Vector2 point2, Color color, float thickness = 1f)
 		{
 			var distance = Vector2.Distance(point1, point2);
-			var angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
+			var angle = FloatMath.Atan2(point2.Y - point1.Y, point2.X - point1.X);
 
 			DrawLine(point1, distance, angle, color, thickness);
 		}
@@ -294,7 +293,16 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			IncRenderSpriteCount();
 #endif
 
-			internalBatch.Draw(textureRegion.Texture, destinationRectangle.Truncate(), textureRegion.Bounds, color);
+			internalBatch.Draw(
+				textureRegion.Texture, 
+				destinationRectangle.Center, 
+				textureRegion.Bounds, 
+				color, 
+				0f, 
+				textureRegion.Center(), 
+				new Vector2(destinationRectangle.Width / textureRegion.Width, destinationRectangle.Height / textureRegion.Height), 
+				SpriteEffects.None, 
+				0f);
 		}
 
 		public override void DrawSimple(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation, float layerDepth = 0)
