@@ -46,10 +46,10 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			#region Corners
 
 			// Don't ask my why I need the +0.2f
-			var r_tl = new FRectangle(0.2f + bounds.Left,                bounds.Top                 , tcornerSize, tcornerSize);
-			var r_tr = new FRectangle(0.0f + bounds.Right - tcornerSize, bounds.Top                 , tcornerSize, tcornerSize);
-			var r_br = new FRectangle(0.0f + bounds.Right - tcornerSize, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
-			var r_bl = new FRectangle(0.2f + bounds.Left,                bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
+			var r_tl = new FRectangle(+0.2f + bounds.Left,                bounds.Top                 , tcornerSize, tcornerSize);
+			var r_tr = new FRectangle(+0.0f + bounds.Right - tcornerSize, bounds.Top                 , tcornerSize, tcornerSize);
+			var r_br = new FRectangle(+0.0f + bounds.Right - tcornerSize, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
+			var r_bl = new FRectangle(+0.2f + bounds.Left,                bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
 
 			sbatch.DrawRot000(StaticTextures.PanelCorner, r_tl, color, 0);
 			sbatch.DrawRot090(StaticTextures.PanelCorner, r_tr, color, 0);
@@ -104,37 +104,15 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
-			var r_tl = new FRectangle(
-				bounds.Left - sOutset,
-				bounds.Top - sOutset,
-				sOutset + sInset,
-				sOutset + sInset);
+			var r_tl = new FRectangle(bounds.Left  - sOutset, bounds.Top    - sOutset, sOutset + sInset, sOutset + sInset);
+			var r_tr = new FRectangle(bounds.Right - sInset,  bounds.Top    - sOutset, sOutset + sInset, sOutset + sInset);
+			var r_br = new FRectangle(bounds.Right - sInset,  bounds.Bottom - sInset,  sOutset + sInset, sOutset + sInset);
+			var r_bl = new FRectangle(bounds.Left  - sOutset, bounds.Bottom - sInset,  sOutset + sInset, sOutset + sInset);
 
-			var r_tr = new FRectangle(
-				bounds.Right - sInset,
-				bounds.Top - sOutset,
-				sOutset + sInset,
-				sOutset + sInset);
-
-			var r_br = new FRectangle(
-				bounds.Right - sInset,
-				bounds.Bottom - sInset,
-				sOutset + sInset,
-				sOutset + sInset);
-
-			var r_bl = new FRectangle(
-				bounds.Left - sOutset,
-				bounds.Bottom - sInset,
-				sOutset + sInset,
-				sOutset + sInset);
-
-			var r_l = new FRectangle(r_tl.Left, r_tl.Bottom, r_tl.Width, r_bl.Top - r_tl.Bottom);
-
-			var r_t = new FRectangle(r_tl.Right, r_tl.Top, r_tr.Left - r_tl.Right, r_tl.Height);
-
-			var r_r = new FRectangle(r_tr.Left, r_tr.Bottom, r_tr.Width, r_br.Top - r_tr.Bottom);
-
-			var r_b = new FRectangle(r_bl.Right, r_bl.Top, r_br.Left - r_bl.Right, r_bl.Height);
+			var r_l = new FRectangle(r_tl.Left,  r_tl.Bottom, r_tl.Width,             r_bl.Top - r_tl.Bottom);
+			var r_t = new FRectangle(r_tl.Right, r_tl.Top,    r_tr.Left - r_tl.Right, r_tl.Height);
+			var r_r = new FRectangle(r_tr.Left,  r_tr.Bottom, r_tr.Width,             r_br.Top - r_tr.Bottom);
+			var r_b = new FRectangle(r_bl.Right, r_bl.Top,    r_br.Left - r_bl.Right, r_bl.Height);
 			
 			// Top
 			sbatch.DrawRot000(StaticTextures.PanelBlurEdge, r_t, Color.White, 0);

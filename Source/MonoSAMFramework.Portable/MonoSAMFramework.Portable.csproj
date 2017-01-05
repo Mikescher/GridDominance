@@ -43,8 +43,10 @@
     <Compile Include="BatchRenderer\TranslatingSpriteBatchWrapper.cs" />
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
+    <Compile Include="DebugTools\DebugTextLogLine.cs" />
     <Compile Include="DebugTools\FrequencyCounter.cs" />
     <Compile Include="DebugTools\GCMonitor.cs" />
+    <Compile Include="DebugTools\IDebugTextDisplayLineProvider.cs" />
     <Compile Include="Extensions\GameTimeExtensions.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
@@ -68,6 +70,9 @@
     <Compile Include="Input\KeyModifier.cs" />
     <Compile Include="Interfaces\ISAMPostDrawable.cs" />
     <Compile Include="Language\LazyProp.cs" />
+    <Compile Include="LogProtocol\SAMLog.cs" />
+    <Compile Include="LogProtocol\SAMLogEntry.cs" />
+    <Compile Include="LogProtocol\SAMLogLevel.cs" />
     <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />
     <Compile Include="Persistance\DataFile\BaseDataFile.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGUIDWrapper.cs" />
@@ -156,6 +161,7 @@
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventArgs.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonBackground.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDModalDialog.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDImage.cs" />
     <Compile Include="Screens\HUD\EmptyGameHUD.cs" />
     <Compile Include="Screens\HUD\Enums\HUDImageAlignment.cs" />
@@ -190,6 +196,7 @@
       <HintPath>Dependencies\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

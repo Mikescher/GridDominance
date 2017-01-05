@@ -13,8 +13,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 	{
 		public override int Depth { get; }
 
-		protected override bool isClickable() => false;
-
 		private HUDImageAlignment _imageAligment = HUDImageAlignment.UNDERSCALE;
 		public HUDImageAlignment ImageAlignment
 		{

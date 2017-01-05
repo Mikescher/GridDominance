@@ -17,7 +17,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			Double      = 0x2,
 			Triple      = 0x4,
 			Hold        = 0x8,			 // Event on PointerUp
-			InstantHold = 0x16,			 // Event on HoldDownTime
+			InstantHold = 0x10,			 // Event on HoldDownTime
 		}
 
 		private const float LONG_PRESS_TIME = 0.75f;
@@ -121,19 +121,21 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			}
 		}
 
-		protected override void OnPointerDown(FPoint relPositionPoint, InputState istate)
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
-			if (!IsCursorOnButton(istate)) return;
+			if (!IsCursorOnButton(istate)) return false;
 
 			pointerDownTime = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds();
 			isHoldingDown = true;
+
+			return true;
 		}
 
-		protected override void OnPointerUp(FPoint relPositionPoint, InputState istate)
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)
 		{
-			if (!IsPointerDownOnElement) return;
-			if (!isHoldingDown) return;
-			if (!IsCursorOnButton(istate)) return;
+			if (!IsPointerDownOnElement) return true;
+			if (!isHoldingDown) return true;
+			if (!IsCursorOnButton(istate)) return false;
 
 			var delta = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - pointerDownTime;
 
@@ -146,10 +148,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			}
 
 			isHoldingDown = false;
+
+			return true;
 		}
-
-		protected override bool isClickable() => true;
-
+		
 		protected virtual bool IsCursorOnButton(InputState istate) => true;
 
 		protected abstract void OnPress(InputState istate);

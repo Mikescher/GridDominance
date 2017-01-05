@@ -7,6 +7,7 @@ using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Persistance;
 
 namespace GridDominance.Shared
@@ -19,7 +20,6 @@ namespace GridDominance.Shared
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
 		public PlayerProfile.PlayerProfile Profile;
-		public List<string> DebugErrors = new List<string>();
 
 		public static MainGame Inst;
 
@@ -36,9 +36,8 @@ namespace GridDominance.Shared
 				}
 				catch (Exception e)
 				{
-					//TODO Log Error
+					SAMLog.Error("Deserialization", e);
 
-					DebugErrors.Add("[DESERIALIZATION EXCEPTION]:" + e.Message);
 					Profile = new PlayerProfile.PlayerProfile();
 					SaveProfile();
 				}
@@ -119,12 +118,12 @@ namespace GridDominance.Shared
 
 				if (sdata2 != sdata)
 				{
-					DebugErrors.Add("[SERIALIZATION TEST MISMATCH]:\n" + sdata + "\n\n" + sdata);
+					SAMLog.Warning("Serialization", "Serialization test mismatch", $"Data_1:\n{sdata}\n\n----------------\n\nData_2:\n{sdata2}");
 				}
 			}
 			catch (Exception e)
 			{
-				DebugErrors.Add("[SERIALIZATION TEST EXCEPTION]:" + e.Message);
+				SAMLog.Warning("Serialization", "Serialization test mismatch", e.ToString());
 			}
 #endif
 		}

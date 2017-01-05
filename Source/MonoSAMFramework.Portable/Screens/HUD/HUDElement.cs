@@ -151,39 +151,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				}
 			}
 
-			if (isClickable())
-			{
-				if (istate.IsExclusiveJustDown && BoundingRectangle.Contains(istate.PointerPosition))
-				{
-					istate.Swallow();
-
-					OnPointerDown(istate.PointerPosition.RelativeTo(Position), istate);
-					IsPointerDownOnElement = true;
-				}
-				else if (istate.IsExclusiveJustUp && BoundingRectangle.Contains(istate.PointerPosition))
-				{
-					bool pointerWasDown = IsPointerDownOnElement;
-
-					IsPointerDownOnElement = false;
-
-					istate.Swallow();
-
-					OnPointerUp(istate.PointerPosition.RelativeTo(Position), istate);
-
-					if (pointerWasDown)
-						OnPointerClick(istate.PointerPosition.RelativeTo(Position), istate);
-				}
-
-				if (IsPointerDownOnElement && (! istate.IsRealDown || !BoundingRectangle.Contains(istate.PointerPosition)))
-				{
-					IsPointerDownOnElement = false;
-				}
-			}
-			else
+			if (IsPointerDownOnElement && (!istate.IsRealDown || !BoundingRectangle.Contains(istate.PointerPosition)))
 			{
 				IsPointerDownOnElement = false;
 			}
-
 
 			DoUpdate(gameTime, istate);
 		}
@@ -289,7 +260,41 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		protected abstract void DoUpdate(GameTime gameTime, InputState istate);
 
-		protected abstract bool isClickable();
+		public virtual bool InternalPointerDown(InputState istate)
+		{
+			if (!BoundingRectangle.Contains(istate.PointerPosition)) return false;
+
+			var swallow = OnPointerDown(istate.PointerPosition.RelativeTo(Position), istate);
+
+			if (swallow)
+			{
+				IsPointerDownOnElement = true;
+				return true;
+			}
+
+			return false;
+		}
+
+		public virtual bool InternalPointerUp(InputState istate)
+		{
+			if (!BoundingRectangle.Contains(istate.PointerPosition)) return false;
+
+			IsPointerDownOnElement = false;
+
+			var mpos = istate.PointerPosition.RelativeTo(Position);
+
+			var swallow = OnPointerUp(mpos, istate);
+
+
+			if (swallow)
+			{
+				OnPointerClick(mpos, istate);
+
+				return true;
+			}
+
+			return false;
+		}
 
 		protected virtual void OnBeforeRecalculatePosition()
 		{
@@ -301,14 +306,16 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			/* OVERRIDE ME */
 		}
 
-		protected virtual void OnPointerUp(FPoint relPositionPoint, InputState istate)
+		protected virtual bool OnPointerUp(FPoint relPositionPoint, InputState istate)
 		{
 			/* OVERRIDE ME */
+			return false;
 		}
 
-		protected virtual void OnPointerDown(FPoint relPositionPoint, InputState istate)
+		protected virtual bool OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
 			/* OVERRIDE ME */
+			return false;
 		}
 
 		protected virtual void OnPointerClick(FPoint relPositionPoint, InputState istate)

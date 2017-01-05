@@ -20,6 +20,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -101,8 +102,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
 			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
 
-			DebugSettings.AddTrigger("ClearErrors", this, Keys.C, KeyModifier.Control, x => MainGame.Inst.DebugErrors.Clear());
-
 			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyModifier.None, false);
 			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyModifier.None, true);
 			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyModifier.None, false);
@@ -141,7 +140,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 
-				DebugDisp.AddLine(() => string.Join(Environment.NewLine, MainGame.Inst.DebugErrors), Color.Red * 0.75f, Color.Black);
+				DebugDisp.AddLogLine(SAMLogLevel.DEBUG);
 
 				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
 			}

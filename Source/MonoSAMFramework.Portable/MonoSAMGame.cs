@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
+using System;
 
 namespace MonoSAMFramework.Portable
 {
@@ -14,21 +16,35 @@ namespace MonoSAMFramework.Portable
 
 		protected MonoSAMGame()
 		{
-			CurrentTime = new GameTime();
+			try
+			{
+				CurrentTime = new GameTime();
 
-			Graphics = new GraphicsDeviceManager(this);
-			Content.RootDirectory = "Content";
+				Graphics = new GraphicsDeviceManager(this);
+				Content.RootDirectory = "Content";
+			}
+			catch (Exception e)
+			{
+				SAMLog.FatalError("Game::Constructor", e);
+			}
 		}
 
 		protected override void Initialize()
 		{
-			base.Initialize();
+			try
+			{
+				base.Initialize();
 
-			OnInitialize();
+				OnInitialize();
 
-			screens = new ScreenManager(this);
+				screens = new ScreenManager(this);
 
-			OnAfterInitialize();
+				OnAfterInitialize();
+			}
+			catch (Exception e)
+			{
+				SAMLog.FatalError("Game::Initialize", e);
+			}
 		}
 
 		protected void SetCurrentScreen(GameScreen gdGameScreen)
@@ -38,19 +54,33 @@ namespace MonoSAMFramework.Portable
 
 		protected override void Update(GameTime gameTime)
 		{
-			screens.Update(gameTime);
+			try
+			{
+				screens.Update(gameTime);
 
-			base.Update(gameTime);
+				base.Update(gameTime);
+			}
+			catch (Exception e)
+			{
+				SAMLog.FatalError("Game::Update", e);
+			}
 		}
 
 		protected override void Draw(GameTime gameTime)
 		{
-			GameCycleCounter++;
-			CurrentTime = gameTime;
+			try
+			{
+				GameCycleCounter++;
+				CurrentTime = gameTime;
 
-			screens.Draw(gameTime);
+				screens.Draw(gameTime);
 
-			base.Draw(gameTime);
+				base.Draw(gameTime);
+			}
+			catch (Exception e)
+			{
+				SAMLog.FatalError("Game::Draw", e);
+			}
 		}
 
 		protected abstract void OnAfterInitialize();

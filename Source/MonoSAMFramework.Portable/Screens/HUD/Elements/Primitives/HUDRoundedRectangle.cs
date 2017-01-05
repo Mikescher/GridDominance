@@ -10,8 +10,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 	{
 		public override int Depth { get; }
 
-		protected override bool isClickable() => false;
-
 		public Color Color = Color.Transparent;
 		public bool RoundCornerTL = true;
 		public bool RoundCornerTR = true;

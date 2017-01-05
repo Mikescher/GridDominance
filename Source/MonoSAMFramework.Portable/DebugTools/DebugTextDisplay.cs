@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.LogProtocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public const float TEXT_OFFSET = 5;
 		public const float TEXT_SPACING = 1.15f;
 
-		private readonly List<DebugTextDisplayLine> lines = new List<DebugTextDisplayLine>();
+		private readonly List<IDebugTextDisplayLineProvider> lines = new List<IDebugTextDisplayLineProvider>();
 
 		private readonly IBatchRenderer debugBatch;
 
@@ -86,38 +87,46 @@ namespace MonoSAMFramework.Portable.DebugTools
 			return AddLine(new DebugTextDisplayLine(() => text).SetLifetime(lifetime).SetDecaytime(decaytime).SetSpawntime(spawntime).SetBackground(Color.Red));
 		}
 
+		public void AddLogLine(SAMLogLevel minLevel)
+		{
+			lines.Add(new DebugTextLogLine(minLevel));
+		}
+
 		public void Update(GameTime gameTime, InputState istate)
 		{
+			foreach (var line in lines)
+			{
+				line.Update();
+			}
+
 			bool hasFirst = false;
-			for (int i = 0; i < lines.Count; i++)
+			foreach (var line in lines.SelectMany(p => p.GetLines()))
 			{
 				if (hasFirst)
 				{
-					lines[i].UpdateDecay(gameTime, false);
+					line.UpdateDecay(gameTime, false);
 				}
 				else
 				{
-					if (lines[i].IsDecaying)
+					if (line.IsDecaying)
 					{
-						lines[i].UpdateDecay(gameTime, true);
+						line.UpdateDecay(gameTime, true);
 						hasFirst = true;
 					}
 					else
 					{
-						lines[i].UpdateDecay(gameTime, false);
+						line.UpdateDecay(gameTime, false);
 					}
 				}
-
-				if (!lines[i].IsAlive) lines.RemoveAt(i);
 			}
-
+			
 			for (int i = lines.Count - 1; i >= 0; i--)
 			{
-				if (!lines[i].IsAlive) lines.RemoveAt(i);
+				if (!lines[i].RemoveZombies()) lines.RemoveAt(i);
 			}
 
 			float posY = TEXT_OFFSET;
-			foreach (var line in lines.Where(p => p.Active()))
+			foreach (var line in lines.SelectMany(p => p.GetLines()).Where(p => p.Active()))
 			{
 				line.UpdatePosition(gameTime, font, lines.Count, ref posY);
 			}
@@ -129,16 +138,19 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 			debugBatch.Begin(1f, blendState: BlendState.NonPremultiplied); //scale=1f is ok because we use no textures
 			
-			foreach (var line in lines.Where(p => p.Active()))
+			foreach (var line in lines.SelectMany(p => p.GetLines()).Where(p => p.Active()))
 			{
 				var text = line.DisplayText();
 
 				var pos = new Vector2(TEXT_OFFSET * Scale, line.PositionY * Scale);
 				var size = font.MeasureString(text) * Scale;
 
+				var bg = line.Background;
+				if (bg.A == 255) bg = BlendColor(line.Background, line.Decay * backgroundAlpha);
+
 				debugBatch.FillRectangle(
 					new FRectangle(pos.X - TEXT_OFFSET * Scale, pos.Y, size.X + 2 * TEXT_OFFSET * Scale, size.Y), 
-					BlendColor(line.Background, line.Decay * backgroundAlpha));
+					bg);
 
 				debugBatch.DrawString(
 					font, 

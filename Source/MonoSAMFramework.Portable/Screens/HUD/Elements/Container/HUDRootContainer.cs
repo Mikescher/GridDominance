@@ -8,9 +8,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 	public class HUDRootContainer : HUDContainer
 	{
 		public override int Depth => int.MinValue;
-
-		protected override bool isClickable() => false;
-
+		
 		public override void OnInitialize()
 		{
 			// NOP
@@ -28,7 +26,19 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)
 		{
-			// NOP
+			if (istate.IsExclusiveJustDown)
+			{
+				var swallow = InternalPointerDown(istate);
+
+				if (swallow) istate.Swallow();
+			}
+
+			if (istate.IsExclusiveJustUp)
+			{
+				var swallow = InternalPointerUp(istate);
+
+				if (swallow) istate.Swallow();
+			}
 		}
 
 		protected override void RecalculatePosition()

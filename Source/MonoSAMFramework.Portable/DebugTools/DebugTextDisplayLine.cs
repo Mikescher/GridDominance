@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using System;
+using System.Collections.Generic;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {
-	public class DebugTextDisplayLine
+	public class DebugTextDisplayLine : IDebugTextDisplayLineProvider
 	{
 		private static readonly Func<bool> ActionTrue = () => true;
 
@@ -40,6 +41,21 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			DisplayText = text;
 			Active = active;
+		}
+
+		public IEnumerable<DebugTextDisplayLine> GetLines()
+		{
+			yield return this;
+		}
+
+		public bool RemoveZombies()
+		{
+			return IsAlive;
+		}
+
+		public void Update()
+		{
+			// NOP
 		}
 
 		public void UpdateDecay(GameTime gameTime, bool first)

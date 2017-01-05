@@ -13,8 +13,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 	{
 		public override int Depth { get; }
 
-		protected override bool isClickable() => false;
-
 		protected readonly HUDRawText internalText;
 
 		public HUDAlignment TextAlignment // TODO vertically the text is not correctly aligned - cause MeasureString includes strange whitespaces

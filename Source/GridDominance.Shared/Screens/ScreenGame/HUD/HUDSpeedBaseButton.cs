@@ -51,8 +51,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			Alignment = HUDAlignment.BOTTOMLEFT;
 		}
 
-		protected override bool isClickable() => true;
-
 		public override void OnInitialize()
 		{
 			speedButtons = null;
@@ -174,7 +172,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			}
 		}
 
-		protected override void OnPointerDown(FPoint relPositionPoint, InputState istate)
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
 			HUD.Screen.PushNotification("HUDSpeedBaseButton :: Click");
 			
@@ -190,7 +188,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 				Close();
 			}
+
+			return true;
 		}
+
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
 
 		private void Open()
 		{

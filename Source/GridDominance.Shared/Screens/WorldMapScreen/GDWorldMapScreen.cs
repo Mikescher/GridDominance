@@ -17,6 +17,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
@@ -51,8 +52,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
 			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
 			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
-
-			DebugSettings.AddTrigger("ClearErrors", this, Keys.C, KeyModifier.Control, x => MainGame.Inst.DebugErrors.Clear());
 
 			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyModifier.None, true);
 			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyModifier.None, false);
@@ -89,7 +88,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 
-				DebugDisp.AddLine(() => string.Join(Environment.NewLine, MainGame.Inst.DebugErrors), Color.Red * 0.75f, Color.Black);
+				DebugDisp.AddLogLine(SAMLogLevel.DEBUG);
 
 				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
 			}

@@ -2,6 +2,7 @@
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.ScreenGame.HUD;
 using MonoSAMFramework.Portable.Screens.HUD;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
 namespace GridDominance.Shared.Screens.ScreenGame.hud
 {
@@ -25,7 +26,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.hud
 
 			GDOwner.GameSpeedMode = GameSpeedModes.NORMAL;
 
-			AddElement(new HUDScorePanel(profile, newDifficulty, playerHasWon));
+			AddElement(new HUDModalDialog(new HUDScorePanel(profile, newDifficulty, playerHasWon)));
 		} 
 	}
 }

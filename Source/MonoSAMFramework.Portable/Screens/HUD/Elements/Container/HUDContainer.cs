@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Language;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 {
@@ -51,7 +51,27 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			}
 		}
 
-		public void AddElement(HUDElement e)
+		public override bool InternalPointerDown(InputState istate)
+		{
+			foreach (var child in children)
+			{
+				if (child.InternalPointerDown(istate)) return true;
+			}
+
+			return base.InternalPointerDown(istate);
+		}
+
+		public override bool InternalPointerUp(InputState istate)
+		{
+			foreach (var child in children)
+			{
+				if (child.InternalPointerUp(istate)) return true;
+			}
+
+			return base.InternalPointerUp(istate);
+		}
+
+		public virtual void AddElement(HUDElement e)
 		{
 #if DEBUG
 			if (!Initialized) throw new Exception("Cannot add elements before initialization");
