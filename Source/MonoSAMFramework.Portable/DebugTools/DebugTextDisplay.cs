@@ -79,15 +79,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			return AddLine(new DebugTextDisplayLine(() => text).SetLifetime(lifetime).SetDecaytime(decaytime).SetSpawntime(spawntime));
 		}
 
-		public DebugTextDisplayLine AddErrorDecayLine(string text, float lifetime = 2f, float decaytime = 0.75f, float spawntime = 0.25f)
-		{
-			if (lines.Count > OVERFLOW_MAX) decaytime = 0;
-			if (lines.Count > OVERFLOW_MAX) spawntime = 0;
-
-			return AddLine(new DebugTextDisplayLine(() => text).SetLifetime(lifetime).SetDecaytime(decaytime).SetSpawntime(spawntime).SetBackground(Color.Red));
-		}
-
-		public void AddLogLine(SAMLogLevel minLevel)
+		public void AddLogLines(SAMLogLevel minLevel)
 		{
 			lines.Add(new DebugTextLogLine(minLevel));
 		}

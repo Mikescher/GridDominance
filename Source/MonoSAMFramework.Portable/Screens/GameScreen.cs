@@ -249,11 +249,6 @@ namespace MonoSAMFramework.Portable.Screens
 			DebugDisp.AddDecayLine(text);
 		}
 
-		public void PushErrorNotification(string text)
-		{
-			DebugDisp.AddErrorDecayLine(text);
-		}
-
 		public void AddAgent(GameScreenAgent a)
 		{
 			Agents.Add(a);

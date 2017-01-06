@@ -13,6 +13,7 @@ using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
@@ -106,17 +107,20 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			}
 			
 			// wud ???
-			Owner.PushErrorNotification(string.Format("Bullet collided with unkown fixture: {0}", fixtureB.UserData ?? "<NULL>"));
+			SAMLog.Error("Collision", string.Format("Bullet collided with unkown fixture: {0}", fixtureB.UserData ?? "<NULL>"));
 			return false;
 		}
 
 		private void MutualDestruct()
 		{
 			// After Bullet-Bulllet Collision
-			
-			for (int i = 0; i < 8; i++)
-				Manager.AddEntity(new BulletSplitter(Owner, this, (FlatAlign8) i));
-			
+
+			if (MainGame.Inst.Profile.EffectsEnabled)
+			{
+				for (int i = 0; i < 8; i++)
+					Manager.AddEntity(new BulletSplitter(Owner, this, (FlatAlign8) i));
+			}
+
 			Alive = false;
 		}
 

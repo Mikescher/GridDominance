@@ -88,7 +88,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 
-				DebugDisp.AddLogLine(SAMLogLevel.DEBUG);
+				DebugDisp.AddLogLines(SAMLogLevel.DEBUG);
 
 				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
 			}
