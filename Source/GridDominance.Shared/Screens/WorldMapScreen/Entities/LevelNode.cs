@@ -161,7 +161,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 #if DEBUG
 			Owner.PushNotification("CLICK DIFF 0");
 
-			if (istate.IsKeyDown(Keys.LeftShift) || istate.IsKeyDown(Keys.RightShift))
+			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
 				levelData.SetCompleted(FractionDifficulty.DIFF_0, !levelData.HasCompleted(FractionDifficulty.DIFF_0));
 				MainGame.Inst.SaveProfile();
@@ -178,7 +178,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 #if DEBUG
 			Owner.PushNotification("CLICK DIFF 1");
 
-			if (istate.IsKeyDown(Keys.LeftShift) || istate.IsKeyDown(Keys.RightShift))
+			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
 				levelData.SetCompleted(FractionDifficulty.DIFF_1, !levelData.HasCompleted(FractionDifficulty.DIFF_1));
 				MainGame.Inst.SaveProfile();
@@ -195,7 +195,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 #if DEBUG
 			Owner.PushNotification("CLICK DIFF 2");
 
-			if (istate.IsKeyDown(Keys.LeftShift) || istate.IsKeyDown(Keys.RightShift))
+			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
 				levelData.SetCompleted(FractionDifficulty.DIFF_2, !levelData.HasCompleted(FractionDifficulty.DIFF_2));
 				MainGame.Inst.SaveProfile();
@@ -212,7 +212,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 #if DEBUG
 			Owner.PushNotification("CLICK DIFF 3");
 
-			if (istate.IsKeyDown(Keys.LeftShift) || istate.IsKeyDown(Keys.RightShift))
+			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
 				levelData.SetCompleted(FractionDifficulty.DIFF_3, !levelData.HasCompleted(FractionDifficulty.DIFF_3));
 				MainGame.Inst.SaveProfile();

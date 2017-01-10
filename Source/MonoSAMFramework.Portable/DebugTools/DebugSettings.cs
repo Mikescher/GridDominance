@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework.Input;
-using MonoSAMFramework.Portable.Input;
+﻿using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,12 @@ namespace MonoSAMFramework.Portable.DebugTools
 	{
 		private static readonly Dictionary<string, DebugListener> listeners = new Dictionary<string, DebugListener>();
 
+		static DebugSettings()
+		{
+			AddStatic("TRUE",  MonoSAMGame.CurrentInst, true);
+			AddStatic("FALSE", MonoSAMGame.CurrentInst, false);
+		}
+
 		public static void Update(InputState istate)
 		{
 			foreach (var listener in listeners.ToList())
@@ -25,41 +30,67 @@ namespace MonoSAMFramework.Portable.DebugTools
 		}
 
 		[Conditional("DEBUG")]
-		public static void AddSwitch(string ident, ILifetimeObject owner, Keys actionkey, KeyModifier mod, bool initial)
+		public static void AddSwitch(string parentIdent, string ident, ILifetimeObject owner, SKeys actionkey, KeyModifier mod, bool initial)
 		{
 			var upperIdent = ident.ToUpper();
 
 			if (listeners.ContainsKey(upperIdent))
 				listeners.Remove(upperIdent);
 
-			var result = new DebugListener(ident, owner, actionkey, mod, DebugListener.DebugListenerType.Switch);
+			var result = new DebugListener(parentIdent, ident, owner, actionkey, mod, DebugListener.DebugListenerType.Switch);
 			result.Set(initial);
 			listeners.Add(upperIdent, result);
 		}
 
 		[Conditional("DEBUG")]
-		public static void AddTrigger(string ident, ILifetimeObject owner, Keys actionkey, KeyModifier mod, Action<DebugListener> listenerEvent = null)
+		public static void AddSwitch(string parentIdent, string ident, ILifetimeObject owner, KeyCombinationList sources, bool initial)
 		{
 			var upperIdent = ident.ToUpper();
 
 			if (listeners.ContainsKey(upperIdent))
 				listeners.Remove(upperIdent);
 
-			var result = new DebugListener(ident, owner, actionkey, mod, DebugListener.DebugListenerType.Trigger);
+			var result = new DebugListener(parentIdent, ident, owner, sources, DebugListener.DebugListenerType.Switch);
+			result.Set(initial);
+			listeners.Add(upperIdent, result);
+		}
+
+		[Conditional("DEBUG")]
+		public static void AddTrigger(string parentIdent, string ident, ILifetimeObject owner, SKeys actionkey, KeyModifier mod, Action<DebugListener> listenerEvent = null)
+		{
+			var upperIdent = ident.ToUpper();
+
+			if (listeners.ContainsKey(upperIdent))
+				listeners.Remove(upperIdent);
+
+			var result = new DebugListener(parentIdent, ident, owner, actionkey, mod, DebugListener.DebugListenerType.Trigger);
 			if (listenerEvent != null) result.SetEvent(listenerEvent);
 			listeners.Add(upperIdent, result);
 		}
 
 		[Conditional("DEBUG")]
-		public static void AddPush(string ident, ILifetimeObject owner, Keys actionkey, KeyModifier mod, Action<DebugListener> listenerEvent = null)
+		public static void AddPush(string parentIdent, string ident, ILifetimeObject owner, SKeys actionkey, KeyModifier mod, Action<DebugListener> listenerEvent = null)
 		{
 			var upperIdent = ident.ToUpper();
 
 			if (listeners.ContainsKey(upperIdent))
 				listeners.Remove(upperIdent);
 
-			var result = new DebugListener(ident, owner, actionkey, mod, DebugListener.DebugListenerType.Push);
+			var result = new DebugListener(parentIdent, ident, owner, actionkey, mod, DebugListener.DebugListenerType.Push);
 			if (listenerEvent != null) result.SetEvent(listenerEvent);
+			listeners.Add(upperIdent, result);
+		}
+
+		[Conditional("DEBUG")]
+		public static void AddStatic(string ident, ILifetimeObject owner, bool value)
+		{
+			var upperIdent = ident.ToUpper();
+
+			if (listeners.ContainsKey(upperIdent))
+				listeners.Remove(upperIdent);
+
+			var result = new DebugListener(null, ident, owner, KCL.C(SKeys.X), DebugListener.DebugListenerType.Constant);
+			result.Set(value);
 			listeners.Add(upperIdent, result);
 		}
 
@@ -87,7 +118,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			StringBuilder builder = new StringBuilder();
 
-			foreach (var listener in listeners)
+			foreach (var listener in listeners.Where(p => p.Value.Type != DebugListener.DebugListenerType.Constant))
 			{
 				builder.AppendLine(listener.Value.GetSummary());
 			}

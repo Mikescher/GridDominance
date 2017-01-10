@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using System;
 
 namespace MonoSAMFramework.Portable
 {
-	public abstract class MonoSAMGame : Game
+	public abstract class MonoSAMGame : Game, ILifetimeObject
 	{
 		private ScreenManager screens;
 
@@ -14,10 +15,16 @@ namespace MonoSAMFramework.Portable
 		public static ulong GameCycleCounter { get; private set; }
 		public static GameTime CurrentTime { get; private set; }
 
+		public static MonoSAMGame CurrentInst { get; private set; }
+
+		public bool Alive { get; private set; } = true;
+
 		protected MonoSAMGame()
 		{
 			try
 			{
+				CurrentInst = this;
+
 				CurrentTime = new GameTime();
 
 				Graphics = new GraphicsDeviceManager(this);
@@ -45,6 +52,13 @@ namespace MonoSAMFramework.Portable
 			{
 				SAMLog.FatalError("Game::Initialize", e);
 			}
+		}
+
+		protected override void OnExiting(object sender, EventArgs args)
+		{
+			base.OnExiting(sender, args);
+
+			Alive = false;
 		}
 
 		protected void SetCurrentScreen(GameScreen gdGameScreen)

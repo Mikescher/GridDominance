@@ -67,7 +67,11 @@
     <Compile Include="GameMath\VectorPath\VectorPath.cs" />
     <Compile Include="GameMath\VectorPath\VectorPathBuilder.cs" />
     <Compile Include="GameMath\VectorPath\VectorPathSegment.cs" />
+    <Compile Include="Input\KCL.cs" />
+    <Compile Include="Input\KeyCombination.cs" />
+    <Compile Include="Input\KeyCombinationList.cs" />
     <Compile Include="Input\KeyModifier.cs" />
+    <Compile Include="Input\SKeys.cs" />
     <Compile Include="Interfaces\ISAMPostDrawable.cs" />
     <Compile Include="Language\LazyProp.cs" />
     <Compile Include="LogProtocol\SAMLog.cs" />

@@ -96,27 +96,29 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
 
 #if DEBUG
-			DebugSettings.AddTrigger("SetQuality_1", this, Keys.D1, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.FD));
-			DebugSettings.AddTrigger("SetQuality_2", this, Keys.D2, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.BD));
-			DebugSettings.AddTrigger("SetQuality_3", this, Keys.D3, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
-			DebugSettings.AddTrigger("SetQuality_4", this, Keys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
-			DebugSettings.AddTrigger("SetQuality_5", this, Keys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
+			DebugSettings.AddSwitch(null, "DBG", this, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
 
-			DebugSettings.AddSwitch("PhysicsDebugView", this, Keys.F1, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DebugTextDisplay", this, Keys.F2, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DebugBackground", this, Keys.F3, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DebugHUDBorders", this, Keys.F4, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DebugCannonView", this, Keys.F5, KeyModifier.None, true);
-			DebugSettings.AddSwitch("ShowMatrixTextInfos", this, Keys.F6, KeyModifier.None, false);
-			DebugSettings.AddSwitch("ShowDebugMiniMap", this, Keys.F7, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DebugEntityBoundaries", this, Keys.F8, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DebugEntityMouseAreas", this, Keys.F9, KeyModifier.None, false);
+			DebugSettings.AddTrigger("DBG", "SetQuality_1", this, SKeys.D1, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.FD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_2", this, SKeys.D2, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.BD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_3", this, SKeys.D3, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_4", this, SKeys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_5", this, SKeys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
 
-			DebugSettings.AddPush("ShowDebugShortcuts", this, Keys.Tab, KeyModifier.None);
-			DebugSettings.AddPush("ShowSerializedProfile", this, Keys.O, KeyModifier.None);
+			DebugSettings.AddSwitch("DBG", "PhysicsDebugView",      this, SKeys.F1, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      this, SKeys.F2, KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugBackground",       this, SKeys.F3, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       this, SKeys.F4, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "DebugCannonView",       this, SKeys.F5, KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   this, SKeys.F6, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      this, SKeys.F7, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", this, SKeys.F8, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", this, SKeys.F9, KeyModifier.None, false);
 
-			DebugSettings.AddPush("AssimilateCannon", this, Keys.A, KeyModifier.None);
-			DebugSettings.AddPush("AbandonCannon", this, Keys.S, KeyModifier.None);
+			DebugSettings.AddPush("DBG", "ShowDebugShortcuts",      this, SKeys.Tab, KeyModifier.None);
+			DebugSettings.AddPush("DBG", "ShowSerializedProfile",   this, SKeys.O, KeyModifier.None);
+
+			DebugSettings.AddPush("DBG", "AssimilateCannon",        this, SKeys.A, KeyModifier.None);
+			DebugSettings.AddPush("DBG", "AbandonCannon",           this, SKeys.S, KeyModifier.None);
 #endif
 
 #if DEBUG
@@ -143,6 +145,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				DebugDisp.AddLogLines(SAMLogLevel.DEBUG);
 
 				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
+
+				DebugDisp.AddLine("FALSE", () => InputStateMan.GetCurrentState().GetFullDebugSummary());
 			}
 
 			//InputStateMan.PointerDown += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnDown({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);

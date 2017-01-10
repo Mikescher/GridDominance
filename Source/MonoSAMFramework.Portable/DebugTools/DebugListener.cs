@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework.Input;
-using MonoSAMFramework.Portable.Input;
+﻿using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using System;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {
@@ -12,35 +12,46 @@ namespace MonoSAMFramework.Portable.DebugTools
 			Trigger,
 			Switch,
 			Push,
+			Constant,
 		}
 
 		public readonly string Identifier;
+		public readonly string ParentIdentifier;
 		public readonly ILifetimeObject Owner;
+		public readonly DebugListenerType Type;
 
-		private readonly Keys key;
-		private readonly KeyModifier modifiers;
-		private readonly DebugListenerType type;
+		private readonly KeyCombinationList keys;
 
 		private Action<DebugListener> triggerEvent;
 
-		public bool Active { get; private set; }
+		private bool _active;
+		public bool Active => _active && (ParentIdentifier == null || DebugSettings.Get(ParentIdentifier));
 
-		public DebugListener(string ident, ILifetimeObject owner,  Keys actionkey, KeyModifier mod, DebugListenerType debugtype)
+		public DebugListener(string parentIdent, string ident, ILifetimeObject owner, SKeys actionkey, KeyModifier mod, DebugListenerType debugtype)
 		{
+			ParentIdentifier = parentIdent;
 			Identifier = ident;
-			key = actionkey;
-			modifiers = mod;
-			type = debugtype;
+			keys = new KeyCombinationList(new KeyCombination(actionkey, mod));
+			Type = debugtype;
+			Owner = owner;
+		}
+
+		public DebugListener(string parentIdent, string ident, ILifetimeObject owner, KeyCombinationList src, DebugListenerType debugtype)
+		{
+			ParentIdentifier = parentIdent;
+			Identifier = ident;
+			keys = src;
+			Type = debugtype;
 			Owner = owner;
 		}
 
 		public void SetEvent(Action<DebugListener> e) => triggerEvent = e;
 
-		public void Set(bool value) => Active = value;
+		public void Set(bool value) => _active = value;
 
 		public void Update(InputState istate)
 		{
-			switch (type)
+			switch (Type)
 			{
 				case DebugListenerType.Trigger:
 					UpdateTrigger(istate);
@@ -51,6 +62,9 @@ namespace MonoSAMFramework.Portable.DebugTools
 				case DebugListenerType.Push:
 					UpdatePush(istate);
 					break;
+				case DebugListenerType.Constant:
+					// Do nothing
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
@@ -58,54 +72,50 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		private void UpdateSwitch(InputState istate)
 		{
-			if (istate.IsShortcutJustPressed(modifiers, key))
+			foreach (var key in keys)
 			{
-				Active = !Active;
+				if (istate.IsShortcutJustPressed(key))
+				{
+					_active = !Active;
 
-				triggerEvent?.Invoke(this);
+					triggerEvent?.Invoke(this);
+				}
 			}
 		}
 
 		private void UpdatePush(InputState istate)
 		{
-			Active = istate.IsShortcutPressed(modifiers, key);
-
-			if (Active)
+			foreach (var key in keys)
 			{
-				triggerEvent?.Invoke(this);
+				_active = istate.IsShortcutPressed(key);
+
+				if (Active)
+				{
+					triggerEvent?.Invoke(this);
+				}
 			}
 		}
 
 		private void UpdateTrigger(InputState istate)
 		{
-			if (istate.IsShortcutJustPressed(modifiers, key))
+			foreach (var key in keys)
 			{
-				Active = true;
+				if (istate.IsShortcutJustPressed(key))
+				{
+					_active = true;
 
-				triggerEvent?.Invoke(this);
-			}
-			else
-			{
-				Active = false;
+					triggerEvent?.Invoke(this);
+				}
+				else
+				{
+					_active = false;
+				}
 			}
 		}
 
 		public string GetSummary()
 		{
-			string keycombination;
-
-			if (modifiers == KeyModifier.None)
-			{
-				keycombination = key.ToString();
-			}
-			else if (modifiers == KeyModifier.Alt || modifiers == KeyModifier.Control || modifiers == KeyModifier.Shift)
-			{
-				keycombination = string.Format("{0} + {1}", modifiers, key);
-			}
-			else
-			{
-				keycombination = string.Format("[{0}] + {1}", modifiers, key);
-			}
+			string keycombination = string.Join(" || ", keys.Select(p => p.GetMmemonic()));
 
 			return string.Format("[{0}] {1} => {2}", Active ? "X" : " ", keycombination.PadRight(12), Identifier);
 		}
