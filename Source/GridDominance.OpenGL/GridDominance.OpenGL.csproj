@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Bin\WindowsGL\Debug\</OutputPath>
+    <OutputPath>..\..\Bin\Debug\WindowsGL\</OutputPath>
     <DefineConstants>TRACE;DEBUG;__WINDOWS__;__DESKTOP__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,7 +32,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Bin\WindowsGL\Release\</OutputPath>
+    <OutputPath>..\..\Bin\Release\WindowsGL\</OutputPath>
     <DefineConstants>TRACE;__WINDOWS__;__DESKTOP__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

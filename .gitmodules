@@ -4,3 +4,6 @@
 [submodule "Source/External/DebugView.Portable"]
 	path = Source/External/DebugView.Portable
 	url = https://github.com/Mikescher/FarseerPhysics.DebugView.Portable.git
+[submodule "Source/External/CSharpUtils"]
+	path = Source/External/CSharpUtils
+	url = https://github.com/Mikescher/CSharpUtils
