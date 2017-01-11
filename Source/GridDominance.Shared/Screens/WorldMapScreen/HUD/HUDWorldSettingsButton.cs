@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
@@ -25,9 +21,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		private float rotation = 0f;
 
-		public float rotationSpeed = 1f;
-		public float openingProgress = 0f;
-		public HUDWorldSubSettingButton[] subButtons;
+		public float RotationSpeed = 1f;
+		public float OpeningProgress = 0f;
+		public HUDWorldSubSettingButton[] SubButtons;
 
 		public HUDWorldSettingsButton()
 		{
@@ -39,7 +35,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			sbatch.DrawCentered(Textures.TexHUDButtonBase, Center, DIAMETER, DIAMETER, ColorMath.Blend(FlatColors.Alizarin, FlatColors.Asbestos, openingProgress));
+			sbatch.DrawCentered(Textures.TexHUDButtonBase, Center, DIAMETER, DIAMETER, ColorMath.Blend(FlatColors.Alizarin, FlatColors.Asbestos, OpeningProgress));
 
 			sbatch.DrawCentered(Textures.TexHUDButtonIconSettings, Center, SIZE_ICON, SIZE_ICON, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds, rotation);
 		}
@@ -56,9 +52,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoUpdate(GameTime gameTime, InputState istate)
 		{
-			rotation += gameTime.GetElapsedSeconds() * rotationSpeed;
+			rotation += gameTime.GetElapsedSeconds() * RotationSpeed;
 
-			if (istate.IsRealJustDown && FloatMath.IsOne(openingProgress) && !IsPressed && subButtons != null && !subButtons.Any(p => p.IsPressed))
+			if (istate.IsRealJustDown && FloatMath.IsOne(OpeningProgress) && !IsPressed && SubButtons != null && !SubButtons.Any(p => p.IsPressed))
 			{
 				// Close when clicked somewhere else
 				AddHUDOperation(new HUDSettingsCloseOperation());
@@ -67,7 +63,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			if (FloatMath.IsZero(openingProgress))
+			if (FloatMath.IsZero(OpeningProgress))
 			{
 				AddHUDOperationSequence<HUDWorldSettingsButton>(
 					new HUDSettingsOpenOperation(), 
@@ -78,7 +74,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					new HUDSettingsFontAppearOperation(4)
 					);
 			}
-			else if (FloatMath.IsOne(openingProgress))
+			else if (FloatMath.IsOne(OpeningProgress))
 			{
 				AddHUDOperation(new HUDSettingsCloseOperation());
 			}

@@ -237,8 +237,6 @@ namespace GridDominance.Shared.Resources
 			DebugFontSmall     = content.Load<SpriteFont>("fonts/debugFontSmall");
 #endif
 			
-			StaticTextures.DEFAULT_TEXTURE_SCALE = DEFAULT_TEXTURE_SCALE;
-
 			StaticTextures.SinglePixel     = TexPixel;
 			StaticTextures.PanelBlurCorner = TexPanelBlurCorner;
 			StaticTextures.PanelBlurEdge   = TexPanelBlurEdge;
@@ -248,7 +246,6 @@ namespace GridDominance.Shared.Resources
 		public static void ChangeQuality(ContentManager content, TextureQuality q)
 		{
 			TEXTURE_QUALITY = q;
-			StaticTextures.DEFAULT_TEXTURE_SCALE = DEFAULT_TEXTURE_SCALE;
 
 			LoadContent(content);
 		}

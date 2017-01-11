@@ -3,20 +3,20 @@ using System.Linq;
 
 namespace MonoSAMFramework.Portable.GameMath
 {
-	public class ConstantRandom
+	public sealed class ConstantRandom
 	{
 		private readonly int backupInext;
 		private readonly int backupInextp;
 		private readonly int[] backupSeedArray;
+		private readonly int[] seedArray;
 
 		private int inext;
 		private int inextp;
-		private int[] seedArray;
 
 		public ConstantRandom(object o)
 		{
 			seedArray = new int[0x38];
-			int num2 = 0x9a4ec86 - System.Math.Abs(Environment.TickCount ^ o.GetHashCode());
+			int num2 = 0x9a4ec86 - Math.Abs(Environment.TickCount ^ o.GetHashCode());
 			seedArray[0x37] = num2;
 			int num3 = 0x1;
 			for (int i = 0x1; i < 0x37; i++)
@@ -61,19 +61,19 @@ namespace MonoSAMFramework.Portable.GameMath
 				seedArray[i] = backupSeedArray[i];
 		}
 
-		public virtual int Next()
+		public int Next()
 		{
 			return (int)(Sample() * 2147483647.0);
 		}
 
-		public virtual int Next(int maxValue)
+		public int Next(int maxValue)
 		{
 			if (maxValue < 0x0) throw new ArgumentOutOfRangeException(nameof(maxValue));
 
 			return (int)(Sample() * maxValue);
 		}
 
-		public virtual int Next(int minValue, int maxValue)
+		public int Next(int minValue, int maxValue)
 		{
 			if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue));
 
@@ -86,12 +86,12 @@ namespace MonoSAMFramework.Portable.GameMath
 			return (int)(Sample() * num) + minValue;
 		}
 
-		public virtual double NextDouble()
+		public double NextDouble()
 		{
 			return Sample();
 		}
 
-		protected virtual double Sample()
+		private double Sample()
 		{
 			int inextLocal = inext;
 			int inextpLocal = inextp;

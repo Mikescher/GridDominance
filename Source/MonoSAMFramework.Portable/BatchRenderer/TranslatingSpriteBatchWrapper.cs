@@ -303,7 +303,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				layerDepth);
 		}
 
-		public override void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation, float layerDepth = 0)
+		public override void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation = 0, float layerDepth = 0)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -323,7 +323,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				layerDepth);
 		}
 
-		public override void DrawScaled(TextureRegion2D texture, Vector2 centerTarget, float scale, Color color, float rotation, float layerDepth = 0)
+		public override void DrawScaled(TextureRegion2D texture, Vector2 centerTarget, float scale, Color color, float rotation = 0, float layerDepth = 0)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -336,7 +336,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				color,
 				rotation,
 				texture.Center(),
-				defScale * scale,
+				TexScale * scale,
 				SpriteEffects.None,
 				0);
 		}

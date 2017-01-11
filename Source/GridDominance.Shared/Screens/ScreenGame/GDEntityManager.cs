@@ -18,7 +18,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public GDGameScreen GDOwner => (GDGameScreen) Owner;
 
 #if DEBUG
-		private DebugViewXNA debugView;
+		private readonly DebugViewXNA debugView;
 #endif
 
 		public GDEntityManager(GDGameScreen scrn) : base(scrn)

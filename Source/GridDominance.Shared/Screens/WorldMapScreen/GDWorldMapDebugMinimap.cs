@@ -1,8 +1,4 @@
-﻿using GridDominance.Shared.Screens.ScreenGame;
-using GridDominance.Shared.Screens.WorldMapScreen.Agents;
-using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Screens;
+﻿using MonoSAMFramework.Portable.DebugTools;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen
 {

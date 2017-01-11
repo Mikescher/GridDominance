@@ -13,34 +13,34 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnStart(HUDWorldSettingsButton button)
 		{
-			button.openingProgress = 1f;
-			button.rotationSpeed = 0.5f;
+			button.OpeningProgress = 1f;
+			button.RotationSpeed = 0.5f;
 		}
 
 		protected override void OnProgress(HUDWorldSettingsButton button, float progress, InputState istate)
 		{
-			button.openingProgress = 1 - progress;
+			button.OpeningProgress = 1 - progress;
 
-			foreach (var sub in button.subButtons)
+			foreach (var sub in button.SubButtons)
 			{
-				sub.scaleProgress = 1 - progress;
+				sub.ScaleProgress = 1 - progress;
 				
-				sub.fontProgress = 2*FloatMath.Max(0, 0.5f - progress);
+				sub.FontProgress = 2*FloatMath.Max(0, 0.5f - progress);
 			}
 
-			button.rotationSpeed = 0.5f + progress * 0.5f;
+			button.RotationSpeed = 0.5f + progress * 0.5f;
 		}
 
 		protected override void OnEnd(HUDWorldSettingsButton button)
 		{
-			foreach (var sub in button.subButtons)
+			foreach (var sub in button.SubButtons)
 			{
 				sub.Alive = false;
 			}
 
-			button.subButtons = null;
-			button.openingProgress = 0f;
-			button.rotationSpeed = 1f;
+			button.SubButtons = null;
+			button.OpeningProgress = 0f;
+			button.RotationSpeed = 1f;
 		}
 	}
 }

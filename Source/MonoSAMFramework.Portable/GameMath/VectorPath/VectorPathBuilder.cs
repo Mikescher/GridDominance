@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using MonoSAMFramework.Portable.GameMath.Geometry;
+﻿using MonoSAMFramework.Portable.GameMath.Geometry;
+using System.Collections.Generic;
 
 namespace MonoSAMFramework.Portable.GameMath.VectorPath
 {
 	public class VectorPathBuilder
 	{
-		private List<VectorPathSegment> segments = new List<VectorPathSegment>();
+		private readonly List<VectorPathSegment> segments = new List<VectorPathSegment>();
+		private readonly float scale;
+
 		private FPoint current;
-		private float scale;
 
 		private VectorPathBuilder(float builderScale)
 		{

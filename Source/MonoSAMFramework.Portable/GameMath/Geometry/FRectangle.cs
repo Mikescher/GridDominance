@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
 	[DataContract]
-	[DebuggerDisplay("{DebugDisplayString,nq}")]
+	[DebuggerDisplay("{" + nameof(DebugDisplayString) + ",nq}")]
 	public struct FRectangle : IEquatable<FRectangle>, IFShape
 	{
 		public static readonly FRectangle Empty = new FRectangle(0, 0, 0, 0);
@@ -190,7 +190,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			float num = FloatMath.Min(X, value2.X);
 			float num2 = FloatMath.Min(Y, value2.Y);
-			return new FRectangle(num, num2, System.Math.Max(Right, value2.Right) - num, System.Math.Max(Bottom, value2.Bottom) - num2);
+			return new FRectangle(num, num2, Math.Max(Right, value2.Right) - num, Math.Max(Bottom, value2.Bottom) - num2);
 		}
 
 		[Pure]

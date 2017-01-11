@@ -8,13 +8,13 @@ WORLD MAP
 
  (X) WorldBackground correct Render
  (X) Only draw visible entities
- (!) World Map Node Entities
+ (X) World Map Node Entities
 
- - Level are nodes on grid => bigger than cannons - should be easily clickable by touch !!!
- - draggable
- - ring around level button, 4 segments, one for each difficulty
- - show diff buttons on click -> extend rectangular segments outwards
- - smooth overdrag (autom push back into bounds)
+ X Level are nodes on grid => bigger than cannons - should be easily clickable by touch !!!
+ X draggable
+ X ring around level button, 4 segments, one for each difficulty
+ X show diff buttons on click -> extend rectangular segments outwards
+ X smooth overdrag (autom push back into bounds)
  - spell game name with particles on base view
     - Particle system
     - draw leetters by having their path stored nin game
@@ -23,7 +23,7 @@ WORLD MAP
  - pipe becomes active when levl cleared on at least one diff
  - whole map not forcible rectangulare (but 90° edges)
  - background like in level, cleared levels convert background (diff = different color or higher intensity or higher reach)
- - only draw what is visible
+ X only draw what is visible
  - when level node is clicked center it on scren and move bar on top and bottom into screen where you can see (levelname | difficulty | what you have solved | percentage solved worldwide | etc)
  -  -> normal draging removes bars again (slide in slide out)
  -  -> clicking on otehr node in range opens that one and centers taht one and show that ones info

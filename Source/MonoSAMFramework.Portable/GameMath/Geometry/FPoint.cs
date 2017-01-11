@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
 	[DataContract]
-	[DebuggerDisplay("{DebugDisplayString,nq}")]
+	[DebuggerDisplay("{" + nameof(DebugDisplayString) + ",nq}")]
 	public struct FPoint : IEquatable<FPoint>
 	{
 		public static readonly FPoint Zero = new FPoint(0, 0);

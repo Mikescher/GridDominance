@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 

@@ -8,7 +8,6 @@ using GridDominance.Shared.Resources;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Screens.ScreenGame.EntityOperations;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using GridDominance.Shared.Screens.ScreenGame.FractionController;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -17,7 +16,6 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
-using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.Entities;
 

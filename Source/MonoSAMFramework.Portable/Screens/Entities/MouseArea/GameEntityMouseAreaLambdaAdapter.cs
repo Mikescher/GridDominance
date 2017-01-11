@@ -1,9 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
+using System;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 {
+	// ReSharper disable FieldCanBeMadeReadOnly.Global
 	public class GameEntityMouseAreaLambdaAdapter : IGameEntityMouseAreaListener
 	{
 		public Action<GameEntityMouseArea, GameTime, InputState> MouseEnter = null;

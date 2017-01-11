@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
@@ -19,7 +18,7 @@ namespace GridDominance.Shared
 	{
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
-		public PlayerProfile.PlayerProfile Profile;
+		public readonly PlayerProfile.PlayerProfile Profile;
 
 		public static MainGame Inst;
 

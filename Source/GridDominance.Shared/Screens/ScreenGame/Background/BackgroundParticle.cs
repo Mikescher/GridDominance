@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 

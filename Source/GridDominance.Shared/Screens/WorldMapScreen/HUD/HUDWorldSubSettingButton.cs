@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
@@ -27,11 +23,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		private readonly HUDWorldSettingsButton master;
 		private readonly int position;
 
-		public float offsetProgress = 0;
-		public float scaleProgress = 1;
-		public float fontProgress = 0;
+		public float OffsetProgress = 0;
+		public float ScaleProgress = 1;
+		public float FontProgress = 0;
 
-		public HUDWorldSubSettingButton(HUDWorldSettingsButton master, int position)
+		protected HUDWorldSubSettingButton(HUDWorldSettingsButton master, int position)
 		{
 			this.master = master;
 			this.position = position;
@@ -46,11 +42,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			sbatch.DrawCentered(Textures.TexHUDButtonBase, Center, DIAMETER * scaleProgress, DIAMETER * scaleProgress, ColorMath.Blend(FlatColors.Asbestos, FlatColors.Alizarin, offsetProgress*scaleProgress));
+			sbatch.DrawCentered(Textures.TexHUDButtonBase, Center, DIAMETER * ScaleProgress, DIAMETER * ScaleProgress, ColorMath.Blend(FlatColors.Asbestos, FlatColors.Alizarin, OffsetProgress*ScaleProgress));
 
-			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * scaleProgress, SIZE_ICON * scaleProgress, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds);
+			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * ScaleProgress, SIZE_ICON * ScaleProgress, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds);
 
-			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, SIZE_ICON, GetText(), FlatColors.Clouds * fontProgress, new Vector2(CenterX + SIZE_ICON, CenterY));
+			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, SIZE_ICON, GetText(), FlatColors.Clouds * FontProgress, new Vector2(CenterX + SIZE_ICON, CenterY));
 		}
 
 		public override void OnInitialize()
@@ -69,7 +65,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			var py = master.RelativeCenter.Y + HUDWorldSettingsButton.DIAMETER / 2 - DIAMETER;
 
 			py += MARGIN_Y;
-			py += (position + 1) * (DIAMETER + MARGIN_X / 2) * offsetProgress;
+			py += (position + 1) * (DIAMETER + MARGIN_X / 2) * OffsetProgress;
 
 			RelativePosition = new FPoint(px, py);
 		}

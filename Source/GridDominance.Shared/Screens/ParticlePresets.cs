@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
-using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 
 namespace GridDominance.Shared.Screens
 {

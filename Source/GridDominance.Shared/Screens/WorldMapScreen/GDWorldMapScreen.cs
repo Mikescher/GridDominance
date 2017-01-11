@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
@@ -7,7 +6,6 @@ using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -19,7 +17,6 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
-using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
@@ -157,10 +154,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			Entities.AddEntity(em);
 		}
 
-		private static InputState iss = null;
 		protected override void OnUpdate(GameTime gameTime, InputState istate)
 		{
-			iss = istate;
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;

@@ -8,7 +8,7 @@ namespace MonoSAMFramework.Portable.Screens.Agents
 	{
 		protected readonly GameScreen Screen;
 
-		public GameScreenAgent(GameScreen scrn)
+		protected GameScreenAgent(GameScreen scrn)
 		{
 			Screen = scrn;
 		}

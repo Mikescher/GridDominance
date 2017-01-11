@@ -1,5 +1,4 @@
 ﻿using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {

@@ -1,6 +1,5 @@
 ﻿using System;
 using GridDominance.Shared.Resources;
-using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Fractions

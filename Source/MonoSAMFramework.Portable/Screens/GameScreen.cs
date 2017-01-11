@@ -21,18 +21,31 @@ namespace MonoSAMFramework.Portable.Screens
 		private float _mapOffsetX = 0f;
 		private float _mapOffsetY = 0f;
 
-		public readonly GraphicsDeviceManager Graphics;
 		public GraphicsDevice GraphicsDevice => Graphics.GraphicsDevice;
+
+		public readonly GraphicsDeviceManager Graphics;
 		public readonly MonoSAMGame Game;
+		public SAMViewportAdapter VAdapter;
+
+		protected InputStateManager InputStateMan;
+
+		protected GameHUD GameHUD;
+		protected EntityManager Entities;
+		protected GameBackground Background;
+		protected IDebugTextDisplay DebugDisp;
+
+		protected SpriteBatch InternalBatch;
+		protected IBatchRenderer FixedBatch;                  // no translation          (for HUD)
+		protected ITranslateBatchRenderer TranslatedBatch;    // translated by MapOffset (for everything else)
 
 #if DEBUG
 		protected RealtimeAPSCounter FPSCounter;
 		protected RealtimeAPSCounter UPSCounter;
 		protected GCMonitor GCMonitor;
+		protected DebugMinimap DebugMap;
 #endif
 
-		public SAMViewportAdapter VAdapter;
-		protected IDebugTextDisplay DebugDisp;
+		public float GameSpeed = 1f;
 
 		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; TranslatedBatch.VirtualOffsetX = value; } }
 		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; TranslatedBatch.VirtualOffsetY = value; } }
@@ -44,21 +57,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapter.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapter.VirtualGuaranteedBoundingsOffsetY, VAdapter.VirtualTotalWidth, VAdapter.VirtualTotalHeight);
 		public FRectangle MapFullBounds { get; private set; }
 
-		protected InputStateManager InputStateMan;
-
-		protected GameHUD GameHUD;
-		protected EntityManager Entities;
-		protected GameBackground Background;
-		private List<GameScreenAgent> Agents;
-
-#if DEBUG
-		protected DebugMinimap DebugMap;
-#endif
-
-		protected SpriteBatch InternalBatch;
-
-		protected IBatchRenderer FixedBatch;		          // no translation          (for HUD)
-		protected ITranslateBatchRenderer TranslatedBatch;    // translated by MapOffset (for everything else)
+		private List<GameScreenAgent> agents;
 
 #if DEBUG
 		public int LastDebugRenderSpriteCount   => FixedBatch.LastDebugRenderSpriteCount   + TranslatedBatch.LastDebugRenderSpriteCount + DebugDisp.LastRenderSpriteCount;
@@ -66,8 +65,6 @@ namespace MonoSAMFramework.Portable.Screens
 		public int LastDebugRenderTextCount     => FixedBatch.LastDebugRenderTextCount     + TranslatedBatch.LastDebugRenderTextCount + DebugDisp.LastRenderTextCount;
 		public int LastReleaseRenderTextCount   => FixedBatch.LastReleaseRenderTextCount   + TranslatedBatch.LastReleaseRenderTextCount;
 #endif
-
-		public float GameSpeed = 1f;
 
 		protected GameScreen(MonoSAMGame game, GraphicsDeviceManager gdm)
 		{
@@ -91,7 +88,7 @@ namespace MonoSAMFramework.Portable.Screens
 			Background = CreateBackground();
 
 			Entities = CreateEntityManager();
-			Agents = new List<GameScreenAgent>();
+			agents = new List<GameScreenAgent>();
 
 			DebugDisp = new DummyDebugTextDisplay();
 
@@ -150,8 +147,8 @@ namespace MonoSAMFramework.Portable.Screens
 				long ticksPerRun = (long) (totalTicks / runCount);
 				ticksPerRun += (long) ((totalTicks - ticksPerRun * runCount) / runCount);
 
-				long ticksPerRunReal = (long)(gameTime.ElapsedGameTime.Ticks / runCount);
-				ticksPerRunReal += (long)((gameTime.ElapsedGameTime.Ticks - ticksPerRunReal * runCount) / runCount);
+				long ticksPerRunReal = (gameTime.ElapsedGameTime.Ticks / runCount);
+				ticksPerRunReal += ((gameTime.ElapsedGameTime.Ticks - ticksPerRunReal * runCount) / runCount);
 
 				var time = gameTime.TotalGameTime;
 				var timeReal = gameTime.TotalGameTime;
@@ -190,7 +187,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 			Background.Update(gameTime, state);
 
-			foreach (var agent in Agents) agent.Update(gameTime, state);
+			foreach (var agent in agents) agent.Update(gameTime, state);
 
 			OnUpdate(gameTime, state);
 		}
@@ -251,12 +248,12 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public void AddAgent(GameScreenAgent a)
 		{
-			Agents.Add(a);
+			agents.Add(a);
 		}
 
 		public bool RemoveAgent(GameScreenAgent a)
 		{
-			return Agents.Remove(a);
+			return agents.Remove(a);
 		}
 
 		public IEnumerable<T> GetEntities<T>()

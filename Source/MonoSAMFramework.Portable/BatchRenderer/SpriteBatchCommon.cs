@@ -32,11 +32,11 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		private int renderTextCountDebug;
 #endif
 
-		protected float defScale;
+		protected float TexScale; // SpriteBatch Default texturescale
 
 		public void OnBegin(float defaultTexScale)
 		{
-			defScale = defaultTexScale;
+			TexScale = defaultTexScale;
 
 #if DEBUG
 			renderSpriteCountRelease = 0;

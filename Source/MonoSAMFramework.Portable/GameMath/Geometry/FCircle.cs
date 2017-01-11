@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
 	[DataContract]
-	[DebuggerDisplay("{DebugDisplayString,nq}")]
+	[DebuggerDisplay("{" + nameof(DebugDisplayString) + ",nq}")]
 	public struct FCircle : IEquatable<FCircle>, IFShape
 	{
 		public static readonly FCircle Empty = new FCircle(0, 0, 0);

@@ -14,7 +14,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 
 		public string Name { get; }
 
-		public GameEntityOperation(string name, float operationlength)
+		protected GameEntityOperation(string name, float operationlength)
 		{
 			length = operationlength;
 			time = 0;

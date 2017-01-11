@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;

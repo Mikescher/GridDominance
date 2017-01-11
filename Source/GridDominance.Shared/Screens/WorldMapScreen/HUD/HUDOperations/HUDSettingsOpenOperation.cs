@@ -1,8 +1,4 @@
 ﻿using MonoSAMFramework.Portable.Screens.HUD.Operations;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 
@@ -17,37 +13,37 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnStart(HUDWorldSettingsButton button)
 		{
-			button.subButtons = new HUDWorldSubSettingButton[5];
+			button.SubButtons = new HUDWorldSubSettingButton[5];
 
-			button.subButtons[0] = new HUDButtonAbout(button);
-			button.subButtons[1] = new HUDButtonAccount(button);
-			button.subButtons[2] = new HUDButtonHighscore(button);
-			button.subButtons[3] = new HUDButtonVolume(button);
-			button.subButtons[4] = new HUDButtonEffects(button);
+			button.SubButtons[0] = new HUDButtonAbout(button);
+			button.SubButtons[1] = new HUDButtonAccount(button);
+			button.SubButtons[2] = new HUDButtonHighscore(button);
+			button.SubButtons[3] = new HUDButtonVolume(button);
+			button.SubButtons[4] = new HUDButtonEffects(button);
 
-			button.HUD.AddElements(button.subButtons);
+			button.HUD.AddElements(button.SubButtons);
 
-			button.openingProgress = 0f;
+			button.OpeningProgress = 0f;
 
-			button.rotationSpeed = 1f;
+			button.RotationSpeed = 1f;
 		}
 
 		protected override void OnProgress(HUDWorldSettingsButton button, float progress, InputState istate)
 		{
-			button.openingProgress = progress;
+			button.OpeningProgress = progress;
 
-			foreach (var sub in button.subButtons)
+			foreach (var sub in button.SubButtons)
 			{
-				sub.offsetProgress = FloatMath.FunctionEaseInOutCubic(progress);
+				sub.OffsetProgress = FloatMath.FunctionEaseInOutCubic(progress);
 			}
 
-			button.rotationSpeed = 1f - progress*0.5f;
+			button.RotationSpeed = 1f - progress*0.5f;
 		}
 
 		protected override void OnEnd(HUDWorldSettingsButton button)
 		{
-			button.openingProgress = 1f;
-			button.rotationSpeed = 0.5f;
+			button.OpeningProgress = 1f;
+			button.RotationSpeed = 0.5f;
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 		private readonly float angleStart;
 		private readonly float angleEnd;
 
-		private CircularDirection direction = CircularDirection.CW;
+		private readonly CircularDirection direction;
 
 		public override float Length { get; }
 		public override FRectangle Boundings { get; }

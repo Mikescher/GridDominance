@@ -1,14 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.BatchRenderer;
+﻿using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using System.Diagnostics;
-using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
 	public static class StaticTextures
 	{
-		public static Vector2 DEFAULT_TEXTURE_SCALE;
-
 		public static TextureRegion2D SinglePixel;
 		public static TextureRegion2D PanelBlurEdge;
 		public static TextureRegion2D PanelBlurCorner;

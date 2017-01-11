@@ -3,11 +3,8 @@ using GridDominance.Shared.PlayerProfile;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -80,12 +77,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			clickAreaThis = this.AddClickMouseArea(new FCircle(0, 0, DIAMETER / 2f), OnClickCenter);
+			clickAreaThis = AddClickMouseArea(new FCircle(0, 0, DIAMETER / 2f), OnClickCenter);
 
-			clickAreaD0 = this.AddClickMouseArea(rectExpanderNorth.AsTranslated(-Position).AsDeflated(0, 0, INSET_EXTENDER, 0), OnClickDiff1);
-			clickAreaD1 = this.AddClickMouseArea(rectExpanderEast.AsTranslated(-Position).AsDeflated(0, 0, 0, INSET_EXTENDER),  OnClickDiff2);
-			clickAreaD2 = this.AddClickMouseArea(rectExpanderSouth.AsTranslated(-Position).AsDeflated(INSET_EXTENDER, 0, 0, 0), OnClickDiff3);
-			clickAreaD3 = this.AddClickMouseArea(rectExpanderWest.AsTranslated(-Position).AsDeflated(0, INSET_EXTENDER, 0, 0),  OnClickDiff4);
+			clickAreaD0   = AddClickMouseArea(rectExpanderNorth.AsTranslated(-Position).AsDeflated(0, 0, INSET_EXTENDER, 0), OnClickDiff1);
+			clickAreaD1   = AddClickMouseArea(rectExpanderEast.AsTranslated(-Position).AsDeflated(0, 0, 0, INSET_EXTENDER),  OnClickDiff2);
+			clickAreaD2   = AddClickMouseArea(rectExpanderSouth.AsTranslated(-Position).AsDeflated(INSET_EXTENDER, 0, 0, 0), OnClickDiff3);
+			clickAreaD3   = AddClickMouseArea(rectExpanderWest.AsTranslated(-Position).AsDeflated(0, INSET_EXTENDER, 0, 0),  OnClickDiff4);
 		}
 
 		private void OnClickCenter(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
