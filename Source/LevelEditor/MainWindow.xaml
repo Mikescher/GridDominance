@@ -6,14 +6,18 @@
 		xmlns:local="clr-namespace:LevelEditor"
 		xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
 		xmlns:mext="clr-namespace:MSHC.MVVM.MarkupExtensions;assembly=CSharpUtils"
+		xmlns:mvvm="clr-namespace:MSHC.MVVM;assembly=CSharpUtils"
+		xmlns:bindingProxies="clr-namespace:MSHC.MVVM.BindingProxies;assembly=CSharpUtils"
 		mc:Ignorable="d" 
 		d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
+		Closing="{mext:EventBinding ClosingCommand, CommandParameter=$e}"
 		WindowStartupLocation="CenterScreen"
 		Title="GridDominance LevelEditor" Height="900" Width="1050">
-	<Grid>
+	<Grid AllowDrop="True" Drop="{mext:EventBinding DropCommand, CommandParameter=$e}" DragEnter="{mext:EventBinding DragCommand, CommandParameter=$e}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="auto"/>
 			<RowDefinition Height="1*"/>
+			<RowDefinition Height="5"/>
 			<RowDefinition Height="1*"/>
 		</Grid.RowDefinitions>
 
@@ -31,11 +35,14 @@
 			<Button Grid.Column="3" Margin="4" MinWidth="80" MinHeight="26" Content="Compile"  Click="{mext:EventBinding CompileCommand}" />
 		</Grid>
 
-		<WindowsFormsHost Grid.Row="1" HorizontalAlignment="Left">
-			<local:GDICanvas/>
-		</WindowsFormsHost>
+		<Border Grid.Row="1" Margin="2" Background="#222" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased">
+			<Image  Source="{Binding PreviewImage}"/>
+		</Border>
 
-		<Grid Grid.Row="2">
+		<GridSplitter Grid.Row="2" Grid.Column="0" Height="5" HorizontalAlignment="Stretch" />
+
+		
+		<Grid Grid.Row="3">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="1*"/>
 				<RowDefinition Height="100"/>
@@ -44,23 +51,30 @@
 				<ColumnDefinition Width="1*"/>
 				<ColumnDefinition Width="200"/>
 			</Grid.ColumnDefinitions>
-			
-			<avalonEdit:TextEditor Grid.Row="0" Grid.Column="0"
-				HorizontalScrollBarVisibility="Hidden"
-				VerticalScrollBarVisibility="Auto"
-				ShowLineNumbers="True"
-				
-				SyntaxHighlighting="C#"
-				FontFamily="Consolas"
-				FontSize="10pt"/>
 
-			<StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical">
+			<Border Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="2">
+				<avalonEdit:TextEditor x:Name="Editor"
+					HorizontalScrollBarVisibility="Hidden"
+					VerticalScrollBarVisibility="Auto"
+					ShowLineNumbers="True"
+					TextChanged="{mext:EventBinding EditorChangedCommand}"
+						   
+					SyntaxHighlighting="C#"
+					FontFamily="Consolas"
+					FontSize="10pt"/>
+			</Border>
+
+			<bindingProxies:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionStart"  ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionStart}" />
+			<bindingProxies:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionLength" ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionLength}" />
+			<bindingProxies:LegacyStringBinding  Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="Text"            ChangedEventPath="TextChanged"               TargetBinding="{Binding Code}" />
+
+			<StackPanel Grid.Row="0" Grid.Column="1" Margin="2" Orientation="Vertical">
 				<Button Content="Repaint" Margin="5,5,5,0" Click="{mext:EventBinding RepaintCommand}" />
-				<ProgressBar MinHeight="20" Margin="5,0,5,5" />
+				<ProgressBar MinHeight="20" Margin="5,0,5,5" Value="{Binding ProgressValue}" Maximum="{Binding ProgressMaximum}" />
 				<Button Content="Insert UUID" Margin="5" Click="{mext:EventBinding UUIDCommand}"  />
 			</StackPanel>
 
-			<ScrollViewer Grid.Column="0" Grid.Row="1" VerticalScrollBarVisibility="Visible" >
+			<ScrollViewer Grid.Column="0" Grid.Row="1" Margin="2" VerticalScrollBarVisibility="Visible" >
 				<ListBox ItemsSource="{Binding Log}" />
 			</ScrollViewer>
 			

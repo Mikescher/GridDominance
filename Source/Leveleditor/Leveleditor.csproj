@@ -71,12 +71,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ExtendedBinaryWriter.cs" />
-    <Compile Include="GDICanvas.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GDICanvas.Designer.cs">
-      <DependentUpon>GDICanvas.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ImageHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
