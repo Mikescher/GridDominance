@@ -8,10 +8,10 @@ namespace GridDominance.Shared.Resources
 	static class GDColors
 	{
 		public static readonly Color COLOR_DIFFICULTY_0 = FlatColors.PeterRiver;
-		public static readonly Color COLOR_DIFFICULTY_1 = FlatColors.Wisteria;
-		public static readonly Color COLOR_DIFFICULTY_2 = FlatColors.GreenSea;
-		public static readonly Color COLOR_DIFFICULTY_3 = FlatColors.SunFlower;
-		
+		public static readonly Color COLOR_DIFFICULTY_1 = FlatColors.Nephritis;
+		public static readonly Color COLOR_DIFFICULTY_2 = FlatColors.SunFlower;
+		public static readonly Color COLOR_DIFFICULTY_3 = FlatColors.Pomegranate;
+
 		public static Color GetColorForDifficulty(FractionDifficulty d)
 		{
 			switch (d)
