@@ -443,7 +443,7 @@ namespace MonoSAMFramework.Portable.GameMath
 
 		/// decelerating to zero velocity 
 		/// https://gist.github.com/gre/1650294
-		public static float FunctionEaseOutCubic(float t) => (--t) * t * t + 1;
+		public static float FunctionEaseOutCubic(float t) => (t - 1) * (t - 1) * (t - 1) + 1;
 
 		/// acceleration until halfway, then deceleration 
 		/// https://gist.github.com/gre/1650294
@@ -455,11 +455,11 @@ namespace MonoSAMFramework.Portable.GameMath
 
 		/// decelerating to zero velocity 
 		/// https://gist.github.com/gre/1650294
-		public static float FunctionEaseOutQuart(float t) => 1 - (--t) * t * t * t;
+		public static float FunctionEaseOutQuart(float t) => 1 - (t - 1) * (t - 1) * (t - 1) * (t - 1);
 
 		/// acceleration until halfway, then deceleration
 		/// https://gist.github.com/gre/1650294
-		public static float FunctionEaseInOutQuart(float t) => t < .5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t;
+		public static float FunctionEaseInOutQuart(float t) => t < .5 ? 8 * t * t * t * t : 1 - 8 * (t - 1) * (t - 1) * (t - 1) * (t - 1);
 
 		/// accelerating from zero velocity
 		/// https://gist.github.com/gre/1650294
@@ -467,11 +467,11 @@ namespace MonoSAMFramework.Portable.GameMath
 
 		/// decelerating to zero velocity
 		/// https://gist.github.com/gre/1650294
-		public static float FunctionEaseOutQuint(float t) => 1 + (--t) * t * t * t * t;
+		public static float FunctionEaseOutQuint(float t) => 1 + (t - 1) * (t - 1) * (t - 1) * (t - 1) * (t - 1);
 
 		/// acceleration until halfway, then deceleration 
 		/// https://gist.github.com/gre/1650294
-		public static float FunctionEaseInOutQuint(float t) => t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t;
+		public static float FunctionEaseInOutQuint(float t) => t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (t - 1) * (t - 1) * (t - 1) * (t - 1) * (t - 1);
 
 		public static float FunctionEaseOutElastic(float t, float power = 0.3f, float bounces = 2)
 		{
