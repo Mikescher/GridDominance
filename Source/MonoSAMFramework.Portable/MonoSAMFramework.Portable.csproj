@@ -47,7 +47,6 @@
     <Compile Include="DebugTools\FrequencyCounter.cs" />
     <Compile Include="DebugTools\GCMonitor.cs" />
     <Compile Include="DebugTools\IDebugTextDisplayLineProvider.cs" />
-    <Compile Include="Extensions\GameTimeExtensions.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
@@ -86,6 +85,7 @@
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIntWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIntSetWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGDictWrapper.cs" />
+    <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIDictWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileSDictWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileListWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileStringWrapper.cs" />
@@ -97,7 +97,6 @@
     <Compile Include="Extensions\RectangleExtensions.cs" />
     <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
-    <Compile Include="Extensions\SAMGameTimeExtensions.cs" />
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
     <Compile Include="Persistance\DataFile\RootDataFile.cs" />
     <Compile Include="Persistance\FileHelper.cs" />
@@ -186,6 +185,7 @@
     <Compile Include="Screens\HUD\Operations\HUDSequenceElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\HUDTimedElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\IHUDElementOperation.cs" />
+    <Compile Include="Screens\SAMTime.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\HUD\HUDElement.cs" />

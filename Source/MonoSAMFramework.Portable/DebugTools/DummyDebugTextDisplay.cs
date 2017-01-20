@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Screens;
 using System;
 
 namespace MonoSAMFramework.Portable.DebugTools
@@ -26,7 +27,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public void AddLogLines(SAMLogLevel minLevel) { /* DUMMY */ }
 
-		public void Update(GameTime gameTime, InputState istate) { /* DUMMY */ }
+		public void Update(SAMTime gameTime, InputState istate) { /* DUMMY */ }
 		public void Draw() { /* DUMMY */ }
 	}
 }

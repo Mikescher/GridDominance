@@ -52,27 +52,27 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 			// NOP
 		}
 
-		protected override void OnUpdate(GameTime gameTime, InputState istate)
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 			if (!IsInViewport) return; // No drawing - no updating (state is frozen)
 
-			internalTime += gameTime.GetElapsedSeconds();
+			internalTime += gameTime.ElapsedSeconds;
 
 			for (int i = ParticleCount - 1; i >= 0; i--)
 			{
-				particlePool[i].CurrentLifetime += gameTime.GetElapsedSeconds();
+				particlePool[i].CurrentLifetime += gameTime.ElapsedSeconds;
 				if (particlePool[i].CurrentLifetime >= particlePool[i].MaxLifetime)
 				{
 					RemoveParticle(i);
 				}
 				else
 				{
-					particlePool[i].Position.X += particlePool[i].Velocity.X * gameTime.GetElapsedSeconds();
-					particlePool[i].Position.Y += particlePool[i].Velocity.Y * gameTime.GetElapsedSeconds();
+					particlePool[i].Position.X += particlePool[i].Velocity.X * gameTime.ElapsedSeconds;
+					particlePool[i].Position.Y += particlePool[i].Velocity.Y * gameTime.ElapsedSeconds;
 				}
 			}
 
-			timeSinceLastSpawn += gameTime.GetElapsedSeconds();
+			timeSinceLastSpawn += gameTime.ElapsedSeconds;
 			while (timeSinceLastSpawn >= spawnDelay)
 			{
 				SpawnParticle();

@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Extensions;
+﻿using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.GameMath
 {
@@ -18,17 +17,17 @@ namespace MonoSAMFramework.Portable.GameMath
 			deltaSpeed = maxDelta;
 		}
 		
-		public void Update(GameTime gameTime)
+		public void Update(SAMTime gameTime)
 		{
 			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			if (ActualValue < TargetValue)
 			{
-				ActualValue += deltaSpeed * gameTime.GetElapsedSeconds();
+				ActualValue += deltaSpeed * gameTime.ElapsedSeconds;
 				if (ActualValue > TargetValue) ActualValue = TargetValue;
 			}
 			else if (ActualValue > TargetValue)
 			{
-				ActualValue -= deltaSpeed * gameTime.GetElapsedSeconds();
+				ActualValue -= deltaSpeed * gameTime.ElapsedSeconds;
 				if (ActualValue < TargetValue) ActualValue = TargetValue;
 			}
 		}

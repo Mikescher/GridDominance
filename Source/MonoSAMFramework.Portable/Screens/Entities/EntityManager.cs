@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.BatchRenderer;
+﻿using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
@@ -32,7 +31,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			BoundingBox = RecalculateBoundingBox();
 		}
 
-		public void Update(GameTime gameTime, InputState state)
+		public void Update(SAMTime gameTime, InputState state)
 		{
 			OnBeforeUpdate(gameTime, state);
 
@@ -111,7 +110,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 
 		public abstract void DrawOuterDebug();
 		protected abstract FRectangle RecalculateBoundingBox();
-		protected abstract void OnBeforeUpdate(GameTime gameTime, InputState state);
-		protected abstract void OnAfterUpdate(GameTime gameTime, InputState state);
+		protected abstract void OnBeforeUpdate(SAMTime gameTime, InputState state);
+		protected abstract void OnAfterUpdate(SAMTime gameTime, InputState state);
 	}
 }

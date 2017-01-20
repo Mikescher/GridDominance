@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
 
@@ -8,6 +9,8 @@ namespace GridDominance.Shared.PlayerProfile
 	public class PlayerProfile : RootDataFile
 	{
 		protected override SemVersion ArchiveVersion => new SemVersion(1, 0, 0);
+
+		public int TotalPoints => levelData.Sum(p => p.Value.TotalPoints);
 
 		private Guid identifier;
 

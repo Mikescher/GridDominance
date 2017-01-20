@@ -13,7 +13,7 @@ namespace MonoSAMFramework.Portable.Screens.Background
 			color = clr;
 		}
 
-		public override void Update(GameTime gameTime, InputState istate)
+		public override void Update(SAMTime gameTime, InputState istate)
 		{
 			//
 		}

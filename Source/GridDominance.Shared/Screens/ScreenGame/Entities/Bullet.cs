@@ -143,7 +143,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			this.GDManager().PhysicsWorld.RemoveBody(PhysicsBody);
 		}
 
-		protected override void OnUpdate(GameTime gameTime, InputState istate)
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 			BulletPosition = ConvertUnits.ToDisplayUnits(PhysicsBody.Position);
 			BulletRotation = PhysicsBody.Rotation;

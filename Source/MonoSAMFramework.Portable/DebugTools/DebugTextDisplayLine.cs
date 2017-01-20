@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Screens;
 using System;
 using System.Collections.Generic;
 
@@ -58,12 +58,12 @@ namespace MonoSAMFramework.Portable.DebugTools
 			// NOP
 		}
 
-		public void UpdateDecay(GameTime gameTime, bool first)
+		public void UpdateDecay(SAMTime gameTime, bool first)
 		{
 			if (age < spawntime && spawntime > 0)
 			{
-				lifetime -= gameTime.GetElapsedSeconds();
-				age += gameTime.GetElapsedSeconds();
+				lifetime -= gameTime.ElapsedSeconds;
+				age += gameTime.ElapsedSeconds;
 
 				Decay = (float) (age / spawntime);
 			}
@@ -71,8 +71,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 			{
 				if (first)
 				{
-					lifetime -= gameTime.GetElapsedSeconds();
-					age += gameTime.GetElapsedSeconds();
+					lifetime -= gameTime.ElapsedSeconds;
+					age += gameTime.ElapsedSeconds;
 
 					Decay = (float) (lifetime / decaytime);
 				}
@@ -83,8 +83,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 			}
 			else
 			{
-				lifetime -= gameTime.GetElapsedSeconds();
-				age += gameTime.GetElapsedSeconds();
+				lifetime -= gameTime.ElapsedSeconds;
+				age += gameTime.ElapsedSeconds;
 
 				Decay = 1;
 			}
@@ -93,7 +93,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		}
 
-		public void UpdatePosition(GameTime gameTime, SpriteFont font, int lineCount, ref float posY)
+		public void UpdatePosition(SAMTime gameTime, SpriteFont font, int lineCount, ref float posY)
 		{
 			if (InertiaPosition < 0)
 			{
@@ -101,7 +101,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			}
 			else if (posY < InertiaPosition)
 			{
-				var speed = gameTime.GetElapsedSeconds() * DebugTextDisplay.INERTIA_SPEED * FloatMath.Max(1, FloatMath.Round((InertiaPosition - posY) / font.LineSpacing));
+				var speed = gameTime.ElapsedSeconds * DebugTextDisplay.INERTIA_SPEED * FloatMath.Max(1, FloatMath.Round((InertiaPosition - posY) / font.LineSpacing));
 
 				if (lineCount > DebugTextDisplay.OVERFLOW_MAX) speed = 99999;
 

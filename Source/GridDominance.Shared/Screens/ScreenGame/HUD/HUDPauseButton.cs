@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
@@ -72,15 +73,15 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			sbatch.DrawScaled(texIcon, Center, texScale, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds, 0f);
 		}
 
-		protected override void DoUpdate(GameTime gameTime, InputState istate)
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			if (isOpened && FloatMath.IsNotOne(animationProgress))
 			{
-				animationProgress = FloatMath.LimitedInc(animationProgress, gameTime.GetElapsedSeconds() * ANIMATION_SPEED, 1f);
+				animationProgress = FloatMath.LimitedInc(animationProgress, gameTime.ElapsedSeconds * ANIMATION_SPEED, 1f);
 			}
 			else if (!isOpened && FloatMath.IsNotZero(animationProgress))
 			{
-				animationProgress = FloatMath.LimitedDec(animationProgress, gameTime.GetElapsedSeconds() * ANIMATION_SPEED, 0f);
+				animationProgress = FloatMath.LimitedDec(animationProgress, gameTime.ElapsedSeconds * ANIMATION_SPEED, 0f);
 			}
 		}
 

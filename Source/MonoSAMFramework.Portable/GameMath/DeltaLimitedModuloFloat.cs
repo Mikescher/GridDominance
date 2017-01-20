@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Extensions;
+﻿using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.GameMath
 {
@@ -20,12 +19,12 @@ namespace MonoSAMFramework.Portable.GameMath
 			TargetValue = initialValue;
 		}
 		
-		public void Update(GameTime gameTime)
+		public void Update(SAMTime gameTime)
 		{
 			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			if (ActualValue != TargetValue)
 			{
-				var radSpeed = deltaSpeed * gameTime.GetElapsedSeconds();
+				var radSpeed = deltaSpeed * gameTime.ElapsedSeconds;
 				var diff = FloatMath.DiffModulo(ActualValue, TargetValue, modulo);
 
 				ActualValue = FloatMath.Abs(diff) <= radSpeed ? TargetValue : FloatMath.AddRads(ActualValue, -FloatMath.Sign(diff) * radSpeed);

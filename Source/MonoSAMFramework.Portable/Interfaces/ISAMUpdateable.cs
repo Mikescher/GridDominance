@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Input;
+﻿using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.Interfaces
 {
 	public interface ISAMUpdateable
 	{
-		void Update(GameTime gameTime, InputState istate);
+		void Update(SAMTime gameTime, InputState istate);
 	}
 }

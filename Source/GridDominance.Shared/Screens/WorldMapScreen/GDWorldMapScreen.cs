@@ -154,7 +154,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			Entities.AddEntity(em);
 		}
 
-		protected override void OnUpdate(GameTime gameTime, InputState istate)
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");

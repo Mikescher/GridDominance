@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
@@ -38,7 +39,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			AddElement(incrementLabel);
 		}
 
-		protected override void DoUpdate(GameTime gameTime, InputState istate)
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			var innerRel = internalText.Position + new FPoint(InnerLabelSize.Width + 5, AnimationOffset - incrementLabel.Height / 4);
 

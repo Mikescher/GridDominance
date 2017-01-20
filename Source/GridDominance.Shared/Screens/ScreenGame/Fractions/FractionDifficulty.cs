@@ -1,6 +1,7 @@
 ﻿using System;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 {
@@ -30,6 +31,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 		public const float MULTIPLICATOR_COMPUTER_1 = 0.875f;  // Normal
 		public const float MULTIPLICATOR_COMPUTER_2 = 0.950f;  // Hard
 		public const float MULTIPLICATOR_COMPUTER_3 = 1.000f;  // Impossible
+
+		private const int SCORE_DIFF_0 = 11;
+		private const int SCORE_DIFF_1 = 13;
+		private const int SCORE_DIFF_2 = 17;
+		private const int SCORE_DIFF_3 = 23;
 
 		public static float GetMultiplicator(FractionDifficulty d)
 		{
@@ -94,6 +100,24 @@ namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 			}
 
 			return null;
+		}
+
+		public static int GetScore(FractionDifficulty d)
+		{
+			switch (d)
+			{
+				case FractionDifficulty.KI_EASY:
+					return SCORE_DIFF_0;
+				case FractionDifficulty.KI_NORMAL:
+					return SCORE_DIFF_1;
+				case FractionDifficulty.KI_HARD:
+					return SCORE_DIFF_2;
+				case FractionDifficulty.KI_IMPOSSIBLE:
+					return SCORE_DIFF_3;
+			}
+
+			SAMLog.Error("EnumSwitch", "GetScore()", "FractionDifficultyHelper.GetScore -> " + d);
+			return 0;
 		}
 	}
 }

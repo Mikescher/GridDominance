@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
@@ -50,9 +51,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			//
 		}
 
-		protected override void DoUpdate(GameTime gameTime, InputState istate)
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			rotation += gameTime.GetElapsedSeconds() * RotationSpeed;
+			rotation += gameTime.ElapsedSeconds * RotationSpeed;
 
 			if (istate.IsRealJustDown && FloatMath.IsOne(OpeningProgress) && !IsPressed && SubButtons != null && !SubButtons.Any(p => p.IsPressed))
 			{

@@ -109,7 +109,7 @@ namespace MonoSAMFramework.Portable.Screens
 			TranslatedBatch.Dispose();
 		}
 
-		public override void Update(GameTime gameTime)
+		public override void Update(SAMTime gameTime)
 		{
 			var state = InputStateMan.GetNewState(MapOffsetX, MapOffsetY);
 
@@ -134,34 +134,20 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 			else if (GameSpeed < 1f)
 			{
-				var internalTime = new GameTime(gameTime.TotalGameTime, new TimeSpan((long) (gameTime.ElapsedGameTime.Ticks * GameSpeed)));
+				var internalTime = gameTime.Stretch(GameSpeed, 1);
 
 				InternalUpdate(internalTime, state, gameTime);
 			}
 			else if (GameSpeed > 1f)
 			{
-				var totalTicks = gameTime.ElapsedGameTime.Ticks * GameSpeed;
-
 				int runCount = (int) GameSpeed;
 
-				long ticksPerRun = (long) (totalTicks / runCount);
-				ticksPerRun += (long) ((totalTicks - ticksPerRun * runCount) / runCount);
-
-				long ticksPerRunReal = (gameTime.ElapsedGameTime.Ticks / runCount);
-				ticksPerRunReal += ((gameTime.ElapsedGameTime.Ticks - ticksPerRunReal * runCount) / runCount);
-
-				var time = gameTime.TotalGameTime;
-				var timeReal = gameTime.TotalGameTime;
-
+				var timeVirtual = gameTime.Stretch(GameSpeed / runCount, 1f / runCount);
+				var timeReal    = gameTime.Stretch(1f / runCount, 1f / runCount);
+				
 				for (int i = 0; i < runCount; i++)
 				{
-					var span = new TimeSpan(ticksPerRun);
-					var spanReal = new TimeSpan(ticksPerRunReal);
-
-					InternalUpdate(new GameTime(time, span), state, new GameTime(timeReal, spanReal));
-
-					time += span;
-					timeReal += spanReal;
+					InternalUpdate(timeVirtual, state, timeReal);
 				}
 			}
 			else
@@ -171,28 +157,28 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 		}
 
-		private void InternalUpdate(GameTime gameTime, InputState state, GameTime gameTimeReal)
+		private void InternalUpdate(SAMTime timeVirtual, InputState state, SAMTime timeReal)
 		{
 #if DEBUG
-			UPSCounter.Update(gameTimeReal);
+			UPSCounter.Update(timeReal);
 #endif
 			// Update Top Down  (Debug -> HUD -> Entities -> BG)
 			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
 
-			DebugDisp.Update(gameTimeReal, state);
+			DebugDisp.Update(timeReal, state);
 
-			GameHUD.Update(gameTimeReal, state);
+			GameHUD.Update(timeReal, state);
 
-			Entities.Update(gameTime, state);
+			Entities.Update(timeVirtual, state);
 
-			Background.Update(gameTime, state);
+			Background.Update(timeVirtual, state);
 
-			foreach (var agent in agents) agent.Update(gameTime, state);
+			foreach (var agent in agents) agent.Update(timeVirtual, state);
 
-			OnUpdate(gameTime, state);
+			OnUpdate(timeVirtual, state);
 		}
 
-		public override void Draw(GameTime gameTime)
+		public override void Draw(SAMTime gameTime)
 		{
 #if DEBUG
 			FPSCounter.Update(gameTime);
@@ -266,7 +252,7 @@ namespace MonoSAMFramework.Portable.Screens
 			return Entities.Enumerate();
 		}
 
-		protected abstract void OnUpdate(GameTime gameTime, InputState istate);
+		protected abstract void OnUpdate(SAMTime gameTime, InputState istate);
 
 		protected abstract EntityManager CreateEntityManager();
 		protected abstract GameHUD CreateHUD();

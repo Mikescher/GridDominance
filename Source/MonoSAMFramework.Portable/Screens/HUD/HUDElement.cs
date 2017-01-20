@@ -138,7 +138,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 2f);
 		}
 
-		public virtual void Update(GameTime gameTime, InputState istate)
+		public virtual void Update(SAMTime gameTime, InputState istate)
 		{
 			if (PositionInvalidated) RecalculatePosition();
 
@@ -258,7 +258,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public abstract void OnInitialize();
 		public abstract void OnRemove();     // Only called on manual remove - not on HUD/Screen remove
 
-		protected abstract void DoUpdate(GameTime gameTime, InputState istate);
+		protected abstract void DoUpdate(SAMTime gameTime, InputState istate);
 
 		public virtual bool InternalPointerDown(InputState istate)
 		{

@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
@@ -37,9 +36,16 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public float PixelWidth => Width * 1f / Screen.VAdapter.RealTotalWidth;
 
-		public void Update(GameTime gameTime, InputState istate)
+		public void Update(SAMTime gameTime, InputState istate)
 		{
 			root.Update(gameTime, istate);
+
+			OnUpdate(gameTime, istate);
+		}
+
+		protected virtual void OnUpdate(SAMTime gameTime, InputState istate)
+		{
+			// override me
 		}
 
 		public void Draw(IBatchRenderer sbatch)

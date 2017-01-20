@@ -184,7 +184,22 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 
 			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileSDictWrapper<TElem>.GetTypeName(gen), g, s));
 		}
-			
+
+		protected void RegisterPropertyEnumDictionary<TThis, TEnum, TElem>(SemVersion version, string name, Func<TElem> ctr, Func<TThis, Dictionary<TEnum, TElem>> get, Action<TThis, Dictionary<TEnum, TElem>> set)
+			where TThis : BaseDataFile
+			where TElem : BaseDataFile
+			where TEnum : struct
+		{
+			var gen = ctr().GetTypeInfo();
+
+			Func<BaseDataFile, BaseDataFile> g = o => DataFileIDictWrapper<TElem>.CreateFromEnumDict(gen, get((TThis)o));
+			Action<BaseDataFile, BaseDataFile> s = (o, v) => set((TThis)o, ((DataFileIDictWrapper<TElem>)v).CastToEnumDict<TEnum>());
+
+			DataFileIDictWrapper<TElem>.RegisterIfNeeded(gen);
+
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileIDictWrapper<TElem>.GetTypeName(gen), g, s));
+		}
+		
 		protected void RegisterPropertyEnumSet<TThis, TEnum>(SemVersion version, string name, Func<TThis, HashSet<TEnum>> get, Action<TThis, HashSet<TEnum>> set)
 			where TThis : BaseDataFile
 			where TEnum : struct

@@ -18,7 +18,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 		{
 		}
 
-		public override void Update(GameTime gameTime, InputState istate)
+		public override void Update(SAMTime gameTime, InputState istate)
 		{
 			//
 		}

@@ -55,8 +55,10 @@ namespace GridDominance.Shared
 			IsMouseVisible = true;
 			Graphics.IsFullScreen = false;
 
-			Graphics.PreferredBackBufferWidth = 1200;
-			Graphics.PreferredBackBufferHeight = 675;
+			Graphics.PreferredBackBufferWidth  = (int)(1920 * 0.625);
+			Graphics.PreferredBackBufferHeight = (int)(1080 * 0.625);
+			//Graphics.PreferredBackBufferWidth  = (int)(1920 * 0.325);
+			//Graphics.PreferredBackBufferHeight = (int)(1080 * 0.325);
 			Window.AllowUserResizing = true;
 
 #if DEBUG

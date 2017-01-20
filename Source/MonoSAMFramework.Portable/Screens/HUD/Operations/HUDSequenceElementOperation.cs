@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Input;
+﻿using MonoSAMFramework.Portable.Input;
 using System.Collections.Generic;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Operations
@@ -17,7 +16,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 				opQueue.Enqueue(op);
 		}
 
-		public override bool Update(TElement entity, GameTime gameTime, InputState istate)
+		public override bool Update(TElement entity, SAMTime gameTime, InputState istate)
 		{
 			if (current == null)
 			{

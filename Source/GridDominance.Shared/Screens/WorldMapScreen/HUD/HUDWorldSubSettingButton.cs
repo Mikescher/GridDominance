@@ -6,6 +6,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
@@ -59,7 +60,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			//
 		}
 
-		protected override void DoUpdate(GameTime gameTime, InputState istate)
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			var px = master.RelativeCenter.X - DIAMETER / 2;
 			var py = master.RelativeCenter.Y + HUDWorldSettingsButton.DIAMETER / 2 - DIAMETER;

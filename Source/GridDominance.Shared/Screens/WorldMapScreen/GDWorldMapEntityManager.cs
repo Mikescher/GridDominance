@@ -22,12 +22,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			return Owner.VAdapter.VirtualTotalBoundingBox;
 		}
 
-		protected override void OnAfterUpdate(GameTime gameTime, InputState state)
+		protected override void OnAfterUpdate(SAMTime gameTime, InputState state)
 		{
 			// NOP
 		}
 
-		protected override void OnBeforeUpdate(GameTime gameTime, InputState state)
+		protected override void OnBeforeUpdate(SAMTime gameTime, InputState state)
 		{
 			// NOP
 		}

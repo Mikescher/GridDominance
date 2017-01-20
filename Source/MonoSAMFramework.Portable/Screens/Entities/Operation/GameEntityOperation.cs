@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameMath;
+﻿using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Operation
@@ -21,7 +19,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 			Name = name;
 		}
 
-		public bool Update(GameEntity entity, GameTime gameTime, InputState istate)
+		public bool Update(GameEntity entity, SAMTime gameTime, InputState istate)
 		{
 			return Update((TEntity)entity, gameTime, istate);
 		}
@@ -41,9 +39,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 			OnAbort((TEntity)entity);
 		}
 
-		public bool Update(TEntity entity, GameTime gameTime, InputState istate)
+		public bool Update(TEntity entity, SAMTime gameTime, InputState istate)
 		{
-			time += gameTime.GetElapsedSeconds();
+			time += gameTime.ElapsedSeconds;
 
 			if (time >= length) return false;
 

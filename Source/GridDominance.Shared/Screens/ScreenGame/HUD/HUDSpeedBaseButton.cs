@@ -6,6 +6,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
@@ -67,9 +68,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			sbatch.DrawScaled(Textures.TexHUDButtonSpeedHand,  Center, 1f, FlatColors.Clouds,                                                          rotation);
 		}
 
-		protected override void DoUpdate(GameTime gameTime, InputState istate)
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			rotation = FloatMath.IncModulo(rotation, gameTime.GetElapsedSeconds() * HAND_ANIMATION_SPEED * this.GDHUD().GDOwner.GameSpeed, FloatMath.TAU);
+			rotation = FloatMath.IncModulo(rotation, gameTime.ElapsedSeconds * HAND_ANIMATION_SPEED * this.GDHUD().GDOwner.GameSpeed, FloatMath.TAU);
 
 			int choosen = -1;
 
@@ -122,10 +123,10 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			}
 		}
 
-		private void UpdateOpening(GameTime gameTime, bool force)
+		private void UpdateOpening(SAMTime gameTime, bool force)
 		{
 			bool finished;
-			openingProgress = FloatMath.LimitedInc(openingProgress, gameTime.GetElapsedSeconds() * OPENING_ANIMATION_TOTALSPEED, 1f, out finished);
+			openingProgress = FloatMath.LimitedInc(openingProgress, gameTime.ElapsedSeconds * OPENING_ANIMATION_TOTALSPEED, 1f, out finished);
 
 			if (force)
 			{
@@ -149,10 +150,10 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			}
 		}
 
-		private void UpdateClosing(GameTime gameTime)
+		private void UpdateClosing(SAMTime gameTime)
 		{
 			bool finished;
-			openingProgress = FloatMath.LimitedDec(openingProgress, gameTime.GetElapsedSeconds() * OPENING_ANIMATION_CLOSINGSPEED, 0f, out finished);
+			openingProgress = FloatMath.LimitedDec(openingProgress, gameTime.ElapsedSeconds * OPENING_ANIMATION_CLOSINGSPEED, 0f, out finished);
 
 			for (int i = 0; i < 5; i++)
 			{

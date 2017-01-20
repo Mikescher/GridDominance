@@ -17,6 +17,8 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.ScreenGame
@@ -72,6 +74,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private readonly FractionDifficulty difficulty;
 
 		public bool HasFinished = false;
+		private float levelTime = 0f;
 
 		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp, FractionDifficulty diff) : base(game, gdm)
 		{
@@ -127,6 +130,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})"); DebugDisp.AddLine(() => $"HUD.Size=(T:{GameHUD.Top}|L:{GameHUD.Left}|R:{GameHUD.Right}|B:{GameHUD.Bottom}) | HUD.AllElements={GameHUD.DeepCount()} | HUD.RootElements={GameHUD.FlatCount()} | Background.Particles={GDBackground.Particles.Count,3}");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0}) | PointerOnMap = ({InputStateMan.GetCurrentState().PointerPositionOnMap.X:000.0}|{InputStateMan.GetCurrentState().PointerPositionOnMap.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastReleaseRenderSpriteCount:0000} (+ {LastDebugRenderSpriteCount:0000}); OGL Text = {LastReleaseRenderTextCount:0000} (+ {LastDebugRenderTextCount:0000})");
+				DebugDisp.AddLine(() => $"LevelTime = {levelTime:000.000} (finished={HasFinished})");
 
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualGuaranteedSize={VAdapter.VirtualGuaranteedSize}");
@@ -184,12 +188,13 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			}
 		}
 
-		protected override void OnUpdate(GameTime gameTime, InputState istate)
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
 #endif
+			if (!IsPaused && !HasFinished) levelTime += MonoSAMGame.CurrentTime.ElapsedSeconds;
 
 			TestForGameEndingCondition();
 		}
@@ -229,7 +234,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				}
 				else
 				{
-					GDOwner.Profile.GetLevelData(Blueprint.UniqueID).SetCompleted(difficulty);
+					GDOwner.Profile.GetLevelData(Blueprint.UniqueID).SetCompletedTrue(difficulty, levelTime);
 					GDOwner.SaveProfile();
 					GDGameHUD.ShowScorePanel(GDOwner.Profile, difficulty, true);
 				}

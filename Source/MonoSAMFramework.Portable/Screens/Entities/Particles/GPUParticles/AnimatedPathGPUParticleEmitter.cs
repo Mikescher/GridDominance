@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
@@ -24,7 +23,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 		public void ResetAnimation()
 		{
-			initializeTime = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds();
+			initializeTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 		}
 	}
 }

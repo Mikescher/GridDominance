@@ -42,7 +42,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 		protected virtual void RecalculateState()
 		{
-			initializeTime = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds();
+			initializeTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
 			LoadShader();
 		}
@@ -174,7 +174,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 			UnloadShader();
 		}
 
-		protected override void OnUpdate(GameTime gameTime, InputState istate)
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 
 		}
@@ -197,7 +197,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 			parameterOffset.SetValue(Owner.MapOffset + Position);
 			parameterVirtualViewport.SetValue(Owner.VAdapter.GetShaderMatrix());
-			parameterCurrentTime.SetValue(MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - initializeTime);
+			parameterCurrentTime.SetValue(MonoSAMGame.CurrentTime.TotalElapsedSeconds - initializeTime);
 //			parameterCurrentTime.SetValue(100f);
 
 			g.SetVertexBuffer(vertexBuffer);

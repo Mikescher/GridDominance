@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
@@ -38,9 +37,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			Alive = false;
 		}
 
-		public void Update(GameTime gameTime, InputState istate)
+		public void Update(SAMTime gameTime, InputState istate)
 		{
-			Lifetime += gameTime.GetElapsedSeconds();
+			Lifetime += gameTime.ElapsedSeconds;
 
 			UpdateOperations(gameTime, istate);
 			UpdateMouseAreas(gameTime, istate);
@@ -48,7 +47,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			OnUpdate(gameTime, istate);
 		}
 
-		private void UpdateOperations(GameTime gameTime, InputState istate)
+		private void UpdateOperations(SAMTime gameTime, InputState istate)
 		{
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
 			{
@@ -60,7 +59,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			}
 		}
 
-		private void UpdateMouseAreas(GameTime gameTime, InputState istate)
+		private void UpdateMouseAreas(SAMTime gameTime, InputState istate)
 		{
 			foreach (var area in MouseAreas)
 			{
@@ -119,7 +118,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			return area;
 		}
 
-		public GameEntityMouseArea AddClickMouseArea(IFShape shape, Action<GameEntityMouseArea, GameTime, InputState> clickListener, bool swallowEvents = true)
+		public GameEntityMouseArea AddClickMouseArea(IFShape shape, Action<GameEntityMouseArea, SAMTime, InputState> clickListener, bool swallowEvents = true)
 		{
 			var area = new GameEntityMouseArea(this, shape, swallowEvents);
 			area.AddListener(new GameEntityMouseAreaLambdaAdapter{ MouseClick = clickListener });
@@ -159,7 +158,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public abstract void OnInitialize(EntityManager manager);
 		public abstract void OnRemove();
 
-		protected abstract void OnUpdate(GameTime gameTime, InputState istate);
+		protected abstract void OnUpdate(SAMTime gameTime, InputState istate);
 		protected abstract void OnDraw(IBatchRenderer sbatch);
 	}
 }

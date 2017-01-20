@@ -5,6 +5,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,7 +85,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			lines.Add(new DebugTextLogLine(minLevel));
 		}
 
-		public void Update(GameTime gameTime, InputState istate)
+		public void Update(SAMTime gameTime, InputState istate)
 		{
 			foreach (var line in lines)
 			{

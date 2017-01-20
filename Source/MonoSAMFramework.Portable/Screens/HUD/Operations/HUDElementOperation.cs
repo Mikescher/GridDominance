@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.Input;
+﻿using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 {
@@ -13,9 +11,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 			Lifetime = 0;
 		}
 
-		public bool Update(HUDElement element, GameTime gameTime, InputState istate)
+		public bool Update(HUDElement element, SAMTime gameTime, InputState istate)
 		{
-			Lifetime += gameTime.GetElapsedSeconds();
+			Lifetime += gameTime.ElapsedSeconds;
 
 			return Update((TElement)element, gameTime, istate);
 		}
@@ -30,7 +28,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 			OnEnd((TElement)element);
 		}
 
-		public abstract bool Update(TElement entity, GameTime gameTime, InputState istate);
+		public abstract bool Update(TElement entity, SAMTime gameTime, InputState istate);
 
 		protected abstract void OnStart(TElement element);
 		protected abstract void OnEnd(TElement element);

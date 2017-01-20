@@ -6,6 +6,7 @@ using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
@@ -79,7 +80,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			}
 		}
 
-		protected override void DoUpdate(GameTime gameTime, InputState istate)
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			// NOP
 		}

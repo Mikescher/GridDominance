@@ -17,6 +17,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Entities
@@ -145,7 +146,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		#region Update
 
-		protected override void OnUpdate(GameTime gameTime, InputState istate)
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 			controller.Update(gameTime, istate);
 
@@ -177,7 +178,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			return istate.IsRealDown && (istate.PointerPosition - Center).Length() < CANNON_DIAMETER;
 		}
 
-		private void UpdateHealth(GameTime gameTime)
+		private void UpdateHealth(SAMTime gameTime)
 		{
 			CannonHealth.Update(gameTime);
 
@@ -185,13 +186,13 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			{
 				var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
 
-				CannonHealth.Inc(bonus * gameTime.GetElapsedSeconds());
+				CannonHealth.Inc(bonus * gameTime.ElapsedSeconds);
 				CannonHealth.Limit(0f, 1f);
 			}
 
 			if (CannonHealth.ActualValue >= 1 || (CannonHealth.ActualValue <= 0 && Fraction.IsNeutral))
 			{
-				var rotInc = BASE_COG_ROTATION_SPEED * Fraction.Multiplicator * RealBoost * gameTime.GetElapsedSeconds();
+				var rotInc = BASE_COG_ROTATION_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds;
 
 				cannonCogRotation = (cannonCogRotation + rotInc) % (FloatMath.PI / 2);
 			}
@@ -199,7 +200,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			{
 				if (FloatMath.FloatInequals(cannonCogRotation, FloatMath.PI / 2))
 				{
-					var rotInc = BASE_COG_ROTATION_SPEED * Fraction.GetNeutral().Multiplicator * RealBoost * gameTime.GetElapsedSeconds();
+					var rotInc = BASE_COG_ROTATION_SPEED * Fraction.GetNeutral().Multiplicator * RealBoost * gameTime.ElapsedSeconds;
 
 					bool isLimited;
 					cannonCogRotation = FloatMath.LimitedInc(cannonCogRotation, rotInc, FloatMath.PI/2, out isLimited);
@@ -208,11 +209,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			}
 		}
 
-		private void UpdateBarrel(GameTime gameTime)
+		private void UpdateBarrel(SAMTime gameTime)
 		{
 			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral) && controller.DoBarrelRecharge())
 			{
-				barrelCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.GetElapsedSeconds();
+				barrelCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds;
 
 				if (barrelCharge >= 1f)
 				{
@@ -224,7 +225,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			if (barrelRecoil < 1)
 			{
-				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.Multiplicator * RealBoost * gameTime.GetElapsedSeconds(), 1f);
+				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds, 1f);
 			}
 		}
 

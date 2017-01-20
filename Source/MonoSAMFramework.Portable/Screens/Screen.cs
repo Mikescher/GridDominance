@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Interfaces;
+﻿using MonoSAMFramework.Portable.Interfaces;
 using System;
 
 namespace MonoSAMFramework.Portable.Screens
@@ -38,7 +37,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public virtual void Pause() { }
 		public virtual void Resume() { }
 
-		public abstract void Update(GameTime gameTime);
-		public abstract void Draw(GameTime gameTime);
+		public abstract void Update(SAMTime gameTime);
+		public abstract void Draw(SAMTime gameTime);
 	}
 }

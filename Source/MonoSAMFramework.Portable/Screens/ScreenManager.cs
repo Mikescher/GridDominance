@@ -63,12 +63,12 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 		}
 
-		public void Draw(GameTime gameTime)
+		public void Draw(SAMTime gameTime)
 		{
 			_currentScreen?.Draw(gameTime);
 		}
 
-		public void Update(GameTime gameTime)
+		public void Update(SAMTime gameTime)
 		{
 			_currentScreen?.Update(gameTime);
 		}

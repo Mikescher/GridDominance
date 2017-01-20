@@ -49,7 +49,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 			listener.Add(l);
 		}
 
-		public void Update(GameTime gameTime, InputState istate)
+		public void Update(SAMTime gameTime, InputState istate)
 		{
 			if (IsEnabled)
 			{

@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameMath;
+﻿using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.Screens;
 using System;
 
 namespace MonoSAMFramework.Portable.DebugTools
@@ -20,16 +19,16 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public float LastGC2 = 0;
 
 		public float TimeSinceLastGC  => FloatMath.Min(TimeSinceLastGC0, TimeSinceLastGC1, TimeSinceLastGC2);
-		public float TimeSinceLastGC0 => MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - LastGC0;
-		public float TimeSinceLastGC1 => MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - LastGC1;
-		public float TimeSinceLastGC2 => MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - LastGC2;
+		public float TimeSinceLastGC0 => MonoSAMGame.CurrentTime.TotalElapsedSeconds - LastGC0;
+		public float TimeSinceLastGC1 => MonoSAMGame.CurrentTime.TotalElapsedSeconds - LastGC1;
+		public float TimeSinceLastGC2 => MonoSAMGame.CurrentTime.TotalElapsedSeconds - LastGC2;
 
 		public float TotalMemory = 0; // Megabytes
 		public float GCFrequency => freq.Frequency;
 
-		public void Update(GameTime gameTime, InputState istate)
+		public void Update(SAMTime gameTime, InputState istate)
 		{
-			float sec = gameTime.GetTotalElapsedSeconds();
+			float sec = gameTime.TotalElapsedSeconds;
 			if (collCount0 != GC.CollectionCount(0)) { collCount0 = GC.CollectionCount(0); LastGC0 = sec; freq.Inc(sec); }
 			if (collCount1 != GC.CollectionCount(1)) { collCount1 = GC.CollectionCount(1); LastGC1 = sec; freq.Inc(sec); }
 			if (collCount2 != GC.CollectionCount(2)) { collCount2 = GC.CollectionCount(2); LastGC2 = sec; freq.Inc(sec); }

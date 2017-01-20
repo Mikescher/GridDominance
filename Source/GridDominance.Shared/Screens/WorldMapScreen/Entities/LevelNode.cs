@@ -85,7 +85,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			clickAreaD3   = AddClickMouseArea(rectExpanderWest.AsTranslated(-Position).AsDeflated(0, INSET_EXTENDER, 0, 0),  OnClickDiff4);
 		}
 
-		private void OnClickCenter(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
+		private void OnClickCenter(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
 			if (IsClosed)
 			{
@@ -153,14 +153,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			Owner.MapViewportCenterY = centeringStartOffset.Y + p * (Position.Y - centeringStartOffset.Y);
 		}
 
-		private void OnClickDiff1(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
+		private void OnClickDiff1(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
 #if DEBUG
 			Owner.PushNotification("CLICK DIFF 0");
 
 			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
-				levelData.SetCompleted(FractionDifficulty.DIFF_0, !levelData.HasCompleted(FractionDifficulty.DIFF_0));
+				if (levelData.HasCompleted(FractionDifficulty.DIFF_0))
+					levelData.SetCompletedFalse(FractionDifficulty.DIFF_0);
+				else
+					levelData.SetCompletedTrue(FractionDifficulty.DIFF_0, 9999);
+
 				MainGame.Inst.SaveProfile();
 
 				return;
@@ -170,14 +174,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_0);
 		}
 
-		private void OnClickDiff2(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
+		private void OnClickDiff2(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
 #if DEBUG
 			Owner.PushNotification("CLICK DIFF 1");
 
 			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
-				levelData.SetCompleted(FractionDifficulty.DIFF_1, !levelData.HasCompleted(FractionDifficulty.DIFF_1));
+				if (levelData.HasCompleted(FractionDifficulty.DIFF_1))
+					levelData.SetCompletedFalse(FractionDifficulty.DIFF_1);
+				else
+					levelData.SetCompletedTrue(FractionDifficulty.DIFF_1, 9999);
+
 				MainGame.Inst.SaveProfile();
 
 				return;
@@ -187,14 +195,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_1);
 		}
 
-		private void OnClickDiff3(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
+		private void OnClickDiff3(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
 #if DEBUG
 			Owner.PushNotification("CLICK DIFF 2");
 
 			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
-				levelData.SetCompleted(FractionDifficulty.DIFF_2, !levelData.HasCompleted(FractionDifficulty.DIFF_2));
+				if (levelData.HasCompleted(FractionDifficulty.DIFF_2))
+					levelData.SetCompletedFalse(FractionDifficulty.DIFF_2);
+				else
+					levelData.SetCompletedTrue(FractionDifficulty.DIFF_2, 9999);
+
 				MainGame.Inst.SaveProfile();
 
 				return;
@@ -204,14 +216,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_2);
 		}
 
-		private void OnClickDiff4(GameEntityMouseArea owner, GameTime dateTime, InputState istate)
+		private void OnClickDiff4(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
 #if DEBUG
 			Owner.PushNotification("CLICK DIFF 3");
 
 			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
-				levelData.SetCompleted(FractionDifficulty.DIFF_3, !levelData.HasCompleted(FractionDifficulty.DIFF_3));
+				if (levelData.HasCompleted(FractionDifficulty.DIFF_3))
+					levelData.SetCompletedFalse(FractionDifficulty.DIFF_3);
+				else
+					levelData.SetCompletedTrue(FractionDifficulty.DIFF_3, 9999);
+
 				MainGame.Inst.SaveProfile();
 
 				return;
@@ -226,7 +242,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			//
 		}
 
-		protected override void OnUpdate(GameTime gameTime, InputState istate)
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 			clickAreaD0.IsEnabled = (expansionProgress > 0.5f);
 			clickAreaD1.IsEnabled = (expansionProgress > 0.5f);

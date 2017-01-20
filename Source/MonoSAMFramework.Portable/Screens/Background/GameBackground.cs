@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.BatchRenderer;
+﻿using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
@@ -17,7 +16,7 @@ namespace MonoSAMFramework.Portable.Screens.Background
 			VAdapter = Owner.VAdapter;
 		}
 		
-		public abstract void Update(GameTime gameTime, InputState istate);
+		public abstract void Update(SAMTime gameTime, InputState istate);
 		public abstract void Draw(IBatchRenderer sbatch);
 	}
 }

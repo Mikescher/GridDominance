@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.BatchRenderer;
+﻿using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Language;
 using System;
@@ -35,7 +34,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			}
 		}
 
-		public override void Update(GameTime gameTime, InputState istate)
+		public override void Update(SAMTime gameTime, InputState istate)
 		{
 			base.Update(gameTime, istate);
 

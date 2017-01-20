@@ -8,6 +8,7 @@ using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.ScreenGame
@@ -44,7 +45,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			return Owner.VAdapter.VirtualTotalBoundingBox.AsInflated(GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH);
 		}
 
-		protected override void OnBeforeUpdate(GameTime gameTime, InputState state)
+		protected override void OnBeforeUpdate(SAMTime gameTime, InputState state)
 		{
 #if DEBUG
 			debugView.DebugPanelPosition = new Vector2(55, Owner.VAdapter.RealTotalHeight - 180);
@@ -53,10 +54,10 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			debugView.Enabled = DebugSettings.Get("PhysicsDebugView");
 #endif
 
-			PhysicsWorld.Step(gameTime.GetElapsedSeconds());
+			PhysicsWorld.Step(gameTime.ElapsedSeconds);
 		}
 
-		protected override void OnAfterUpdate(GameTime gameTime, InputState state)
+		protected override void OnAfterUpdate(SAMTime gameTime, InputState state)
 		{
 			// NOP
 		}

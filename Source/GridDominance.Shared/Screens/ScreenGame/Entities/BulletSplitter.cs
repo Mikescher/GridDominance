@@ -71,11 +71,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			//
 		}
 		
-		protected override void OnUpdate(GameTime gameTime, InputState istate)
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
-			ShapePosition += velocity * gameTime.GetElapsedSeconds();
+			ShapePosition += velocity * gameTime.ElapsedSeconds;
 
-			ShapeRotation = FloatMath.IncModulo(ShapeRotation, rotationSpeed * gameTime.GetElapsedSeconds(), FloatMath.TAU);
+			ShapeRotation = FloatMath.IncModulo(ShapeRotation, rotationSpeed * gameTime.ElapsedSeconds, FloatMath.TAU);
 
 			if (Lifetime < maxLifetime) ShapeAlpha = 1 - Lifetime / maxLifetime;
 			if (Lifetime > maxLifetime) Alive = false;

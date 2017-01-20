@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {
@@ -25,7 +25,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			interval = updateInterval;
 
-			lastUpdate = new GameTime().TotalGameTime.TotalSeconds;
+			lastUpdate = 0;
 			MinimumAPS = 0;
 			MaximumDelta = 0;
 		}
@@ -38,10 +38,10 @@ namespace MonoSAMFramework.Portable.DebugTools
 			bufferSum = 0;
 		}
 
-		public void Update(GameTime gt)
+		public void Update(SAMTime gt)
 		{
-			double delta = gt.TotalGameTime.TotalSeconds - lastUpdate;
-			lastUpdate = gt.TotalGameTime.TotalSeconds;
+			double delta = gt.TotalElapsedSecondsDouble - lastUpdate;
+			lastUpdate = gt.TotalElapsedSecondsDouble;
 
 			CurrentDelta = delta;
 			CurrentAPS = 1.0 / delta;

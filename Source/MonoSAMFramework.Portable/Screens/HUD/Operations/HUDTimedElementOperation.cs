@@ -15,7 +15,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 
 		}
 
-		public override bool Update(TElement entity, GameTime gameTime, InputState istate)
+		public override bool Update(TElement entity, SAMTime gameTime, InputState istate)
 		{
 			if (Lifetime >= length) return false;
 

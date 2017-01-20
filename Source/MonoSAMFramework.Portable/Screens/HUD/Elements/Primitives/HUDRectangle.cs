@@ -34,7 +34,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			//
 		}
 
-		protected override void DoUpdate(GameTime gameTime, InputState istate)
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			//
 		}

@@ -2,6 +2,7 @@
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Agents;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
@@ -35,7 +36,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			bounding = scrn.MapFullBounds;
 		}
 
-		public override void Update(GameTime gameTime, InputState istate)
+		public override void Update(SAMTime gameTime, InputState istate)
 		{
 			if (isDragging)
 			{
@@ -74,7 +75,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			isDragging = true;
 		}
 
-		private void UpdateDrag(GameTime gameTime, InputState istate)
+		private void UpdateDrag(SAMTime gameTime, InputState istate)
 		{
 			var delta = istate.PointerPosition - mouseStartPos;
 
@@ -83,7 +84,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 			CalculateOOB();
 
-			lastMousePosTimer += gameTime.GetElapsedSeconds();
+			lastMousePosTimer += gameTime.ElapsedSeconds;
 			if (lastMousePosTimer > DRAGSPEED_RESOLUTION)
 			{
 				dragSpeed = (istate.PointerPosition - lastMousePos) / lastMousePosTimer;
@@ -126,17 +127,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			}
 		}
 
-		private void UpdateRestDrag(GameTime gameTime)
+		private void UpdateRestDrag(SAMTime gameTime)
 		{
 			float dragX = dragSpeed.X + outOfBoundsForce.X;
 			float dragY = dragSpeed.Y + outOfBoundsForce.Y;
 			
-			Screen.MapOffsetX = Screen.MapOffsetX + dragX * gameTime.GetElapsedSeconds();
-			Screen.MapOffsetY = Screen.MapOffsetY + dragY * gameTime.GetElapsedSeconds();
+			Screen.MapOffsetX = Screen.MapOffsetX + dragX * gameTime.ElapsedSeconds;
+			Screen.MapOffsetY = Screen.MapOffsetY + dragY * gameTime.ElapsedSeconds;
 
 			CalculateOOB();
 
-			dragSpeed -= dragSpeed * FRICTION * gameTime.GetElapsedSeconds();
+			dragSpeed -= dragSpeed * FRICTION * gameTime.ElapsedSeconds;
 
 			if (dragSpeed.LengthSquared() < SPEED_MIN * SPEED_MIN)
 			{

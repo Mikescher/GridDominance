@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Input;
+﻿using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.Screens.Agents
@@ -13,6 +12,6 @@ namespace MonoSAMFramework.Portable.Screens.Agents
 			Screen = scrn;
 		}
 
-		public abstract void Update(GameTime gameTime, InputState istate);
+		public abstract void Update(SAMTime gameTime, InputState istate);
 	}
 }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
@@ -24,9 +25,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 			Owner = owner;
 		}
 
-		public void Update(GameTime gameTime, InputState istate)
+		public void Update(SAMTime gameTime, InputState istate)
 		{
-			timeSinceLastUpdate -= gameTime.GetElapsedSeconds();
+			timeSinceLastUpdate -= gameTime.ElapsedSeconds;
 			if (timeSinceLastUpdate <= 0)
 			{
 				timeSinceLastUpdate = updateInterval;

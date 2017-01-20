@@ -115,7 +115,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 
 		#region Update
 
-		public override void Update(GameTime gameTime, InputState state)
+		public override void Update(SAMTime gameTime, InputState state)
 		{
 			foreach (var particle in Particles.ToList())
 			{
@@ -127,7 +127,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 						#region North
 						{
 							var before = particle.Y;
-							particle.Y -= BackgroundParticle.PARTICLE_SPEED * gameTime.GetElapsedSeconds();
+							particle.Y -= BackgroundParticle.PARTICLE_SPEED * gameTime.ElapsedSeconds;
 							var after = particle.Y;
 
 							var coll = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == FlatAlign4.SOUTH && p.Y >= after && p.Y <= before);
@@ -166,7 +166,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 						#region East
 						{
 							var before = particle.X;
-							particle.X += BackgroundParticle.PARTICLE_SPEED * gameTime.GetElapsedSeconds();
+							particle.X += BackgroundParticle.PARTICLE_SPEED * gameTime.ElapsedSeconds;
 							var after = particle.X;
 
 							var coll = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == FlatAlign4.WEST && p.X >= before && p.X <= after);
@@ -205,7 +205,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 						#region South
 						{
 							var before = particle.Y;
-							particle.Y += BackgroundParticle.PARTICLE_SPEED * gameTime.GetElapsedSeconds();
+							particle.Y += BackgroundParticle.PARTICLE_SPEED * gameTime.ElapsedSeconds;
 							var after = particle.Y;
 
 							var coll = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == FlatAlign4.NORTH && p.Y >= before && p.Y <= after);
@@ -244,7 +244,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 						#region West
 						{
 							var before = particle.X;
-							particle.X -= BackgroundParticle.PARTICLE_SPEED * gameTime.GetElapsedSeconds();
+							particle.X -= BackgroundParticle.PARTICLE_SPEED * gameTime.ElapsedSeconds;
 							var after = particle.X;
 
 							var coll = particle.TravelSection.FirstOrDefault(p => p != particle && p.Direction == FlatAlign4.EAST && p.X >= after && p.X <= before);
@@ -291,23 +291,23 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 						var f = blockedGridPoints[x, y].First().Fraction;
 						if (f.IsNeutral) f = null;
 
-						ColorGridCellDirect(f, x - 0, y - 0, gameTime.GetElapsedSeconds() * GRID_ADAPTION_SPEED_DIRECT);
-						ColorGridCellDirect(f, x - 1, y - 0, gameTime.GetElapsedSeconds() * GRID_ADAPTION_SPEED_DIRECT);
-						ColorGridCellDirect(f, x - 0, y - 1, gameTime.GetElapsedSeconds() * GRID_ADAPTION_SPEED_DIRECT);
-						ColorGridCellDirect(f, x - 1, y - 1, gameTime.GetElapsedSeconds() * GRID_ADAPTION_SPEED_DIRECT);
+						ColorGridCellDirect(f, x - 0, y - 0, gameTime.ElapsedSeconds * GRID_ADAPTION_SPEED_DIRECT);
+						ColorGridCellDirect(f, x - 1, y - 0, gameTime.ElapsedSeconds * GRID_ADAPTION_SPEED_DIRECT);
+						ColorGridCellDirect(f, x - 0, y - 1, gameTime.ElapsedSeconds * GRID_ADAPTION_SPEED_DIRECT);
+						ColorGridCellDirect(f, x - 1, y - 1, gameTime.ElapsedSeconds * GRID_ADAPTION_SPEED_DIRECT);
 					}
 				}
 			}
 		}
 
-		private void ColorGridCell(GameTime gameTime, BackgroundParticle p, int x, int y)
+		private void ColorGridCell(SAMTime gameTime, BackgroundParticle p, int x, int y)
 		{
 			if (x < -1) return;
 			if (y < -1) return;
 			if (x > TILE_COUNT_X) return;
 			if (y > TILE_COUNT_Y) return;
 
-			var power = gameTime.GetElapsedSeconds() * GRID_ADAPTION_SPEED * p.PowerPercentage;
+			var power = gameTime.ElapsedSeconds * GRID_ADAPTION_SPEED * p.PowerPercentage;
 
 			ColorGridCellDirect(p.Fraction, x, y, power);
 		}

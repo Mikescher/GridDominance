@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
@@ -67,12 +68,12 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			// NOP
 		}
 
-		protected override void DoUpdate(GameTime gameTime, InputState istate)
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			if (IsOpening && FloatMath.IsNotOne(openingProgress))
 			{
 				bool hasOpened;
-				openingProgress = FloatMath.LimitedInc(openingProgress, gameTime.GetElapsedSeconds() * HUDPauseButton.ANIMATION_SPEED, 1f, out hasOpened);
+				openingProgress = FloatMath.LimitedInc(openingProgress, gameTime.ElapsedSeconds * HUDPauseButton.ANIMATION_SPEED, 1f, out hasOpened);
 				if (hasOpened)
 				{
 					IsOpening = false;
@@ -83,7 +84,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			else if (IsClosing)
 			{
 				bool hasClosed;
-				openingProgress = FloatMath.LimitedDec(openingProgress, gameTime.GetElapsedSeconds() * HUDPauseButton.ANIMATION_SPEED, 0f, out hasClosed);
+				openingProgress = FloatMath.LimitedDec(openingProgress, gameTime.ElapsedSeconds * HUDPauseButton.ANIMATION_SPEED, 0f, out hasClosed);
 				if (hasClosed)
 				{
 					Remove();

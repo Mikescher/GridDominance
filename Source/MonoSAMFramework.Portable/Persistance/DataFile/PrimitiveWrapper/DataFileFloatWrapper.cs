@@ -19,10 +19,12 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 			Value = (float) reader.ReadDouble();
 		}
 
-		public static BaseDataFile Create(float value)
+		public static DataFileFloatWrapper Create(float value)
 		{
-			return new DataFileFloatWrapper { Value = value};
+			return new DataFileFloatWrapper { Value = value };
 		}
+
+		public static DataFileFloatWrapper Create() => Create(0);
 
 		protected override void Configure()
 		{

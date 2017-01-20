@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameMath.Geometry;
+﻿using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using System;
@@ -46,7 +44,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			if (suppressClick) return;
 			if (!IsCursorOnButton(istate)) return;
 
-			lastClickTime = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds();
+			lastClickTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
 			if (IsTripleClickMode)
 			{
@@ -92,13 +90,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			}
 		}
 
-		public override void Update(GameTime gameTime, InputState istate)
+		public override void Update(SAMTime gameTime, InputState istate)
 		{
 			base.Update(gameTime, istate);
 
 			if (suppressClick && !IsPointerDownOnElement) suppressClick = false;
 
-			if (multiClickCounter > 0) UpdateMultiClick(istate, gameTime.GetTotalElapsedSeconds() - lastClickTime);
+			if (multiClickCounter > 0) UpdateMultiClick(istate, gameTime.TotalElapsedSeconds - lastClickTime);
 
 			if (IsPointerDownOnElement && IsInstantHoldClickMode) UpdateInstantHold(istate);
 		}
@@ -109,7 +107,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			if (!isHoldingDown) return;
 			if (!IsCursorOnButton(istate)) return;
 
-			var delta = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - pointerDownTime;
+			var delta = MonoSAMGame.CurrentTime.TotalElapsedSeconds - pointerDownTime;
 
 			if (delta > LONG_PRESS_TIME && IsHoldClickMode)
 			{
@@ -125,7 +123,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		{
 			if (!IsCursorOnButton(istate)) return false;
 
-			pointerDownTime = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds();
+			pointerDownTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 			isHoldingDown = true;
 
 			return true;
@@ -137,7 +135,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			if (!isHoldingDown) return true;
 			if (!IsCursorOnButton(istate)) return false;
 
-			var delta = MonoSAMGame.CurrentTime.GetTotalElapsedSeconds() - pointerDownTime;
+			var delta = MonoSAMGame.CurrentTime.TotalElapsedSeconds - pointerDownTime;
 
 			if (delta > LONG_PRESS_TIME && IsHoldClickMode)
 			{

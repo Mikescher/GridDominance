@@ -13,7 +13,7 @@ namespace MonoSAMFramework.Portable
 		protected readonly GraphicsDeviceManager Graphics;
 
 		public static ulong GameCycleCounter { get; private set; }
-		public static GameTime CurrentTime { get; private set; }
+		public static SAMTime CurrentTime { get; private set; }
 
 		public static MonoSAMGame CurrentInst { get; private set; }
 
@@ -25,7 +25,7 @@ namespace MonoSAMFramework.Portable
 			{
 				CurrentInst = this;
 
-				CurrentTime = new GameTime();
+				CurrentTime = new SAMTime();
 
 				Graphics = new GraphicsDeviceManager(this);
 				Content.RootDirectory = "Content";
@@ -70,7 +70,9 @@ namespace MonoSAMFramework.Portable
 		{
 			try
 			{
-				screens.Update(gameTime);
+				var time = new SAMTime(gameTime);
+
+				screens.Update(time);
 
 				base.Update(gameTime);
 			}
@@ -84,10 +86,12 @@ namespace MonoSAMFramework.Portable
 		{
 			try
 			{
-				GameCycleCounter++;
-				CurrentTime = gameTime;
+				var time = new SAMTime(gameTime);
 
-				screens.Draw(gameTime);
+				GameCycleCounter++;
+				CurrentTime = time;
+
+				screens.Draw(time);
 
 				base.Draw(gameTime);
 			}

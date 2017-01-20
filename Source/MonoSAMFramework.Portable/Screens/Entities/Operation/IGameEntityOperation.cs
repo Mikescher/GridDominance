@@ -8,7 +8,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 		float Progress { get; }
 		string Name { get; }
 
-		bool Update(GameEntity entity, GameTime gameTime, InputState istate);
+		bool Update(GameEntity entity, SAMTime gameTime, InputState istate);
 
 		void OnStart(GameEntity gameEntity);
 		void OnEnd(GameEntity gameEntity);
