@@ -251,6 +251,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
 			float iep = 1 - FloatMath.FunctionEaseOutCubic(expansionProgress);
+			float lep = 1 - expansionProgress;
 
 			#region Expander
 
@@ -341,7 +342,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position, 
 				DIAMETER, 
 				DIAMETER, 
-				levelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED, 
+				levelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, 
 				FloatMath.RAD_POS_000 + FloatMath.TAU * expansionProgress);
 
 			sbatch.DrawCentered(
@@ -349,7 +350,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position,
 				DIAMETER,
 				DIAMETER,
-				levelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
+				levelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_090 + FloatMath.TAU * expansionProgress);
 
 			sbatch.DrawCentered(
@@ -357,7 +358,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position,
 				DIAMETER,
 				DIAMETER,
-				levelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED,
+				levelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_180 + FloatMath.TAU * expansionProgress);
 
 			sbatch.DrawCentered(
@@ -365,7 +366,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position,
 				DIAMETER,
 				DIAMETER,
-				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
+				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_270 + FloatMath.TAU * expansionProgress);
 			
 			#endregion

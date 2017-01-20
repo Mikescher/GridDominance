@@ -20,6 +20,11 @@
 				c.A);
 		}
 
+		public static Microsoft.Xna.Framework.Color BlendTo(this Microsoft.Xna.Framework.Color c, Microsoft.Xna.Framework.Color other, float perc = 0.5F)
+		{
+			return Blend(c, other, perc);
+		}
+
 		public static Microsoft.Xna.Framework.Color Blend(Microsoft.Xna.Framework.Color a, Microsoft.Xna.Framework.Color b, float perc)
 		{
 			var cr = (1 - perc)*a.R + perc*b.R;
