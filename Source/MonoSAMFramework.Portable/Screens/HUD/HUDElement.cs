@@ -167,6 +167,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		protected virtual void RecalculatePosition()
 		{
 			if (Owner == null) return;
+			if (Owner.PositionInvalidated) return;
 
 			OnBeforeRecalculatePosition();
 
