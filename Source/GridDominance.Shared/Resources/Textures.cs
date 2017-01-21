@@ -140,6 +140,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconBack;
 		public static TextureRegion2D TexIconNext;
 		public static TextureRegion2D TexIconRedo;
+		public static TextureRegion2D TexIconScore;
 
 		public static TextureRegion2D TexDifficulty0;
 		public static TextureRegion2D TexDifficulty1;
@@ -207,22 +208,23 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonPauseMenuMarkerBackground = AtlasTextures["pausemenu_marker_background"];
 
 
-			TexHUDButtonIconHighscore	  = AtlasTextures["ic_cloud"];
-			TexHUDButtonIconEffectsOn	  = AtlasTextures["ic_blur_on"];
-			TexHUDButtonIconEffectsOff	  = AtlasTextures["ic_blur_off"];
-			TexHUDButtonIconVolumeOn	  = AtlasTextures["ic_volume_up"];
-			TexHUDButtonIconVolumeOff	  = AtlasTextures["ic_volume_off"];
-			TexHUDButtonIconAbout		  = AtlasTextures["ic_info_outline"];
-			TexHUDButtonIconSettings	  = AtlasTextures["ic_settings"];
-			TexHUDButtonIconAccount		  = AtlasTextures["ic_fingerprint"];
+			TexHUDButtonIconHighscore	  = AtlasTextures["cloud"];
+			TexHUDButtonIconEffectsOn	  = AtlasTextures["blur_on"];
+			TexHUDButtonIconEffectsOff	  = AtlasTextures["blur_off"];
+			TexHUDButtonIconVolumeOn	  = AtlasTextures["volume_up"];
+			TexHUDButtonIconVolumeOff	  = AtlasTextures["volume_off"];
+			TexHUDButtonIconAbout		  = AtlasTextures["info"];
+			TexHUDButtonIconSettings	  = AtlasTextures["settings"];
+			TexHUDButtonIconAccount		  = AtlasTextures["fingerprint"];
 
 			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];
 			TexPanelCorner     = AtlasTextures["panel_corner"];
 
-			TexIconBack        = AtlasTextures["icon_back"];
-			TexIconNext        = AtlasTextures["icon_next"];
-			TexIconRedo        = AtlasTextures["icon_redo"];
+			TexIconBack        = AtlasTextures["back"];
+			TexIconNext        = AtlasTextures["next"];
+			TexIconRedo        = AtlasTextures["redo"];
+			TexIconScore       = AtlasTextures["jewels"];
 
 			TexDifficulty0     = AtlasTextures["difficulty_0"];
 			TexDifficulty1     = AtlasTextures["difficulty_1"];

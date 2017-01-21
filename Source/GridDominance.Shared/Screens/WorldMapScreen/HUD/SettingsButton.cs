@@ -2,6 +2,7 @@
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
@@ -13,7 +14,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class HUDWorldSettingsButton : HUDEllipseButton
+	class SettingsButton : HUDEllipseButton
 	{
 		public const float DIAMETER   = 124 * 0.8f;
 		private const float SIZE_ICON = 72  * 0.8f;
@@ -24,9 +25,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public float RotationSpeed = 1f;
 		public float OpeningProgress = 0f;
-		public HUDWorldSubSettingButton[] SubButtons;
+		public SubSettingButton[] SubButtons;
 
-		public HUDWorldSettingsButton()
+		public SettingsButton()
 		{
 			RelativePosition = new FPoint(8, 8);
 			Size = new FSize(DIAMETER, DIAMETER);
@@ -66,7 +67,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			if (FloatMath.IsZero(OpeningProgress))
 			{
-				AddHUDOperationSequence<HUDWorldSettingsButton>(
+				AddHUDOperationSequence<SettingsButton>(
 					new HUDSettingsOpenOperation(), 
 					new HUDSettingsFontAppearOperation(0),
 					new HUDSettingsFontAppearOperation(1),

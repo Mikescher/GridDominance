@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.3.1</string>
+        <string>4.3.3</string>
         <key>fileName</key>
         <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
@@ -462,11 +462,12 @@
             <key type="filename">cannoncog_animated/cannoncog_125.png</key>
             <key type="filename">cannoncog_animated/cannoncog_126.png</key>
             <key type="filename">cannoncog_animated/cannoncog_127.png</key>
-            <key type="filename">difficulty_0.png</key>
-            <key type="filename">difficulty_1.png</key>
-            <key type="filename">difficulty_2.png</key>
-            <key type="filename">difficulty_3.png</key>
             <key type="filename">grid.png</key>
+            <key type="filename">icons/difficulty_0.png</key>
+            <key type="filename">icons/difficulty_1.png</key>
+            <key type="filename">icons/difficulty_2.png</key>
+            <key type="filename">icons/difficulty_3.png</key>
+            <key type="filename">icons/jewels.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -625,41 +626,9 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">ic_blur_off.png</key>
-            <key type="filename">ic_blur_on.png</key>
-            <key type="filename">ic_cloud.png</key>
-            <key type="filename">ic_fingerprint.png</key>
-            <key type="filename">ic_info_outline.png</key>
-            <key type="filename">ic_settings.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>18,18,36,36</rect>
-                <key>scale9Paddings</key>
-                <rect>18,18,36,36</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ic_volume_off.png</key>
-            <key type="filename">ic_volume_up.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,48,96,96</rect>
-                <key>scale9Paddings</key>
-                <rect>48,48,96,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">icon_back.png</key>
-            <key type="filename">icon_next.png</key>
-            <key type="filename">icon_redo.png</key>
+            <key type="filename">icons/back.png</key>
+            <key type="filename">icons/next.png</key>
+            <key type="filename">icons/redo.png</key>
             <key type="filename">panel_blur_corner.png</key>
             <key type="filename">panel_blur_edge.png</key>
             <struct type="IndividualSpriteSettings">
@@ -671,6 +640,26 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">icons/blur_off.png</key>
+            <key type="filename">icons/blur_on.png</key>
+            <key type="filename">icons/cloud.png</key>
+            <key type="filename">icons/fingerprint.png</key>
+            <key type="filename">icons/info.png</key>
+            <key type="filename">icons/settings.png</key>
+            <key type="filename">icons/volume_off.png</key>
+            <key type="filename">icons/volume_up.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>18,18,36,36</rect>
+                <key>scale9Paddings</key>
+                <rect>18,18,36,36</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

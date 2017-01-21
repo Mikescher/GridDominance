@@ -4,22 +4,22 @@ using MonoSAMFramework.Portable.Input;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class HUDSettingsOpenOperation : HUDTimedElementOperation<HUDWorldSettingsButton>
+	class HUDSettingsOpenOperation : HUDTimedElementOperation<SettingsButton>
 	{
 		public HUDSettingsOpenOperation() : base(0.5f)
 		{
 
 		}
 
-		protected override void OnStart(HUDWorldSettingsButton button)
+		protected override void OnStart(SettingsButton button)
 		{
-			button.SubButtons = new HUDWorldSubSettingButton[5];
+			button.SubButtons = new SubSettingButton[5];
 
 			button.SubButtons[0] = new HUDButtonAbout(button);
-			button.SubButtons[1] = new HUDButtonAccount(button);
-			button.SubButtons[2] = new HUDButtonHighscore(button);
-			button.SubButtons[3] = new HUDButtonVolume(button);
-			button.SubButtons[4] = new HUDButtonEffects(button);
+			button.SubButtons[1] = new ButtonAccount(button);
+			button.SubButtons[2] = new ButtonHighscore(button);
+			button.SubButtons[3] = new ButtonVolume(button);
+			button.SubButtons[4] = new ButtonEffects(button);
 
 			button.HUD.AddElements(button.SubButtons);
 
@@ -28,7 +28,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			button.RotationSpeed = 1f;
 		}
 
-		protected override void OnProgress(HUDWorldSettingsButton button, float progress, InputState istate)
+		protected override void OnProgress(SettingsButton button, float progress, InputState istate)
 		{
 			button.OpeningProgress = progress;
 
@@ -40,7 +40,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			button.RotationSpeed = 1f - progress*0.5f;
 		}
 
-		protected override void OnEnd(HUDWorldSettingsButton button)
+		protected override void OnEnd(SettingsButton button)
 		{
 			button.OpeningProgress = 1f;
 			button.RotationSpeed = 0.5f;

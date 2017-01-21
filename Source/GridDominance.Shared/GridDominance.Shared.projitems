@@ -61,16 +61,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\GDWorldHUD.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonHighscore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonEffects.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonVolume.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsCloseOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsFontAppearOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsOpenOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDWorldSettingsButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDWorldSubSettingButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDButtonAbout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\SettingsButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\SubSettingButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\ScoreDisplay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\TopLevelDisplay.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\debugFont.spritefont" />
