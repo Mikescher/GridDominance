@@ -254,26 +254,32 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		[Pure]
 		public FRectangle ToSquare(float squaresize, FlatAlign9 align)
 		{
+			return ToSubRectangle(squaresize, squaresize, align);
+		}
+
+		[Pure]
+		public FRectangle ToSubRectangle(float newwidth, float newheight, FlatAlign9 align)
+		{
 			switch (align)
 			{
 				case FlatAlign9.TOP:
-					return new FRectangle(X + (Width - squaresize) / 2f, Y,                              squaresize, squaresize);
+					return new FRectangle(X + (Width - newwidth) / 2f, Y, newwidth, newheight);
 				case FlatAlign9.TOPRIGHT:
-					return new FRectangle(X + (Width - squaresize),      Y,                              squaresize, squaresize);
+					return new FRectangle(X + (Width - newwidth), Y, newwidth, newheight);
 				case FlatAlign9.RIGHT:
-					return new FRectangle(X + (Width - squaresize),      Y + (Height - squaresize) / 2f, squaresize, squaresize);
+					return new FRectangle(X + (Width - newwidth), Y + (Height - newheight) / 2f, newwidth, newheight);
 				case FlatAlign9.BOTTOMRIGHT:
-					return new FRectangle(X + (Width - squaresize),      Y + (Height - squaresize),      squaresize, squaresize);
+					return new FRectangle(X + (Width - newwidth), Y + (Height - newheight), newwidth, newheight);
 				case FlatAlign9.BOTTOM:
-					return new FRectangle(X + (Width - squaresize) / 2f, Y + (Height - squaresize),      squaresize, squaresize);
+					return new FRectangle(X + (Width - newwidth) / 2f, Y + (Height - newheight), newwidth, newheight);
 				case FlatAlign9.BOTTOMLEFT:
-					return new FRectangle(X,                             Y + (Height - squaresize),      squaresize, squaresize);
+					return new FRectangle(X, Y + (Height - newheight), newwidth, newheight);
 				case FlatAlign9.LEFT:
-					return new FRectangle(X,                             Y + (Height - squaresize) / 2f, squaresize, squaresize);
+					return new FRectangle(X, Y + (Height - newheight) / 2f, newwidth, newheight);
 				case FlatAlign9.TOPLEFT:
-					return new FRectangle(X,                             Y,                              squaresize, squaresize);
+					return new FRectangle(X, Y, newwidth, newheight);
 				case FlatAlign9.CENTER:
-					return new FRectangle(X + (Width - squaresize) / 2f, Y + (Height - squaresize) / 2f, squaresize, squaresize);
+					return new FRectangle(X + (Width - newwidth) / 2f, Y + (Height - newheight) / 2f, newwidth, newheight);
 				default:
 					throw new ArgumentOutOfRangeException(nameof(align), align, null);
 			}

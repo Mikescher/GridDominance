@@ -49,9 +49,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, Color.Black * 0.6f);
+			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color.Black * 0.6f, 8);
 			sbatch.DrawCentered(Textures.TexCircle, icon.Center, 50, 50, FlatColors.WetAsphalt * 0.4f);
-//			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color.Black * 0.6f, 1);
 		}
 
 		public override void OnInitialize()

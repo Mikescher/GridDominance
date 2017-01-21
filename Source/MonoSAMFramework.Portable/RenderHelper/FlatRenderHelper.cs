@@ -6,64 +6,18 @@ namespace MonoSAMFramework.Portable.RenderHelper
 {
 	public static class FlatRenderHelper
 	{
-		public const int CROP_CORNER_SIZE = SimpleRenderHelper.CROP_CORNER_SIZE;
-		public const int TEX_CORNER_SIZE = SimpleRenderHelper.TEX_CORNER_SIZE;
-
-		public static readonly Vector2 CORNER_VECTOR_TL = new Vector2(-CROP_CORNER_SIZE, -CROP_CORNER_SIZE);
-		public static readonly Vector2 CORNER_VECTOR_TR = new Vector2(+CROP_CORNER_SIZE, -CROP_CORNER_SIZE);
-		public static readonly Vector2 CORNER_VECTOR_BL = new Vector2(-CROP_CORNER_SIZE, +CROP_CORNER_SIZE);
-		public static readonly Vector2 CORNER_VECTOR_BR = new Vector2(+CROP_CORNER_SIZE, +CROP_CORNER_SIZE);
-
-		public static void DrawRoundedBlurPanel(IBatchRenderer sbatch, FRectangle bounds, Color color, float scale = 1f)
+		public static void DrawRoundedBlurPanel(IBatchRenderer sbatch, FRectangle bounds, Color color, float cornerSize = 16f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
-			DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, scale);
-			DrawRoundedBlurPanelSolidPart(sbatch, bounds, color, scale);
+			DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, cornerSize);
+			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, color, cornerSize);
 		}
 
-		public static void DrawRoundedBlurPanelSolidPart(IBatchRenderer sbatch, FRectangle bounds, Color color, float scale = 1f)
+		public static void DrawRoundedBlurPanelBackgroundPart(IBatchRenderer sbatch, FRectangle bounds, float cornerSize = 16f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
-
-			var ccornerSize = scale * CROP_CORNER_SIZE;
-			var tcornerSize = scale * TEX_CORNER_SIZE;
-
-			#region Fill Center
-
-			sbatch.DrawStretched(
-				StaticTextures.SinglePixel,
-				bounds.AsDeflated(ccornerSize, 0),
-				color);
-
-			sbatch.DrawStretched(
-				StaticTextures.SinglePixel,
-				bounds.AsDeflated(0, ccornerSize),
-				color);
-
-			#endregion
-
-			#region Corners
 			
-			var r_tl = new FRectangle(bounds.Left,                bounds.Top                 , tcornerSize, tcornerSize);
-			var r_tr = new FRectangle(bounds.Right - tcornerSize, bounds.Top                 , tcornerSize, tcornerSize);
-			var r_br = new FRectangle(bounds.Right - tcornerSize, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
-			var r_bl = new FRectangle(bounds.Left,                bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
-
-			sbatch.DrawRot000(StaticTextures.PanelCorner, r_tl, color, 0);
-			sbatch.DrawRot090(StaticTextures.PanelCorner, r_tr, color, 0);
-			sbatch.DrawRot180(StaticTextures.PanelCorner, r_br, color, 0);
-			sbatch.DrawRot270(StaticTextures.PanelCorner, r_bl, color, 0);
-
-			#endregion
-		}
-
-		public static void DrawRoundedBlurPanelBackgroundPart(IBatchRenderer sbatch, FRectangle bounds, float scale = 1f)
-		{
-			StaticTextures.ThrowIfNotInitialized();
-
-			var cornerSize = scale * CROP_CORNER_SIZE;
-
 			var r_tl = new FRectangle(bounds.Left  - cornerSize, bounds.Top    - cornerSize, 2 * cornerSize, 2 * cornerSize);
 			var r_tr = new FRectangle(bounds.Right - cornerSize, bounds.Top    - cornerSize, 2 * cornerSize, 2 * cornerSize);
 			var r_br = new FRectangle(bounds.Right - cornerSize, bounds.Bottom - cornerSize, 2 * cornerSize, 2 * cornerSize);

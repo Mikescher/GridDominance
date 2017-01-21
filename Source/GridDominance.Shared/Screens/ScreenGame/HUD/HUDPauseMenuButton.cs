@@ -27,7 +27,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private const float CLOSING_DELAY = 0.2f;
 
-		public const float ROUNDNESS_FACTOR = 0.25f;
+		public const float ROUNDNESS = 4f;
 
 		private static readonly Vector2 RELATIVE_SPAWNPOSITION = new Vector2(WIDTH/2 - HUDPauseButton.DIAMETER/2, 64);
 
@@ -140,7 +140,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		{
 			var scale = Size.Width * 1f / WIDTH;
 
-			FlatRenderHelper.DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, ROUNDNESS_FACTOR);
+			FlatRenderHelper.DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, ROUNDNESS);
 
 			if (btnIndex == 0)
 			{
@@ -159,7 +159,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					0f);
 			}
 
-			FlatRenderHelper.DrawRoundedBlurPanelSolidPart(sbatch, bounds, IsPressed ? FlatColors.Concrete : FlatColors.Silver, ROUNDNESS_FACTOR);
+			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, IsPressed ? FlatColors.Concrete : FlatColors.Silver, ROUNDNESS);
 
 			var fontBounds = Textures.HUDFontBold.MeasureString(btnText);
 

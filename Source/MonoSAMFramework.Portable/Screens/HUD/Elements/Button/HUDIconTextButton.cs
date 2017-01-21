@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
-using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 {
@@ -73,7 +73,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		public HUDButtonBackground BackgoundType = HUDButtonBackground.Simple;
 
-		public float BackgoundCornerScale = 1f;
+		public float BackgoundCornerSize = 16f;
 
 		#endregion
 
@@ -139,10 +139,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 					SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, btnColor);
 					break;
 				case HUDButtonBackground.Rounded:
-					SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, btnColor, BackgoundCornerScale);
+					SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, btnColor, BackgoundCornerSize);
 					break;
 				case HUDButtonBackground.RoundedBlur:
-					FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, btnColor, BackgoundCornerScale);
+					FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, btnColor, BackgoundCornerSize);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

@@ -51,8 +51,8 @@ namespace GridDominance.Shared
 
 		protected override void OnInitialize()
 		{
-			const double ZOOM = 0.925;
-//			const double ZOOM = 0.625;
+//			const double ZOOM = 0.925;
+			const double ZOOM = 0.625;
 //			const double ZOOM = 0.325;
 
 #if __DESKTOP__

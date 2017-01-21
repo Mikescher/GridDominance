@@ -12,7 +12,13 @@
 		TOPLEFT,
 		CENTER,
 
-		
+
+		TL = TOPLEFT,
+		TR = TOPRIGHT,
+		BL = BOTTOMLEFT,
+		BR = BOTTOMRIGHT,
+
+
 		NORTH     = TOP,
 		NORTHEAST = TOPRIGHT,
 		EAST      = RIGHT,

@@ -2,20 +2,18 @@
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
 	public static class SimpleRenderHelper
 	{
-		public const int CROP_CORNER_SIZE = 16;
-		public const int TEX_CORNER_SIZE = 24;
-
-		public static void DrawRoundedRect(IBatchRenderer sbatch, FRectangle bounds, Color color, float cornerScale = 1)
+		public static void DrawRoundedRect(IBatchRenderer sbatch, FRectangle bounds, Color color, float cornerSize = 16f)
 		{
-			DrawRoundedRect(sbatch, bounds, color, true, true, true, true, cornerScale);
+			DrawRoundedRect(sbatch, bounds, color, true, true, true, true, cornerSize);
 		}
 		
-		public static void DrawRoundedRect(IBatchRenderer sbatch, FRectangle bounds, Color color, bool tl, bool tr, bool bl, bool br, float cornerScale = 1)
+		public static void DrawRoundedRect(IBatchRenderer sbatch, FRectangle bounds, Color color, bool tl, bool tr, bool bl, bool br, float cornerSize = 16f)
 		{
 			StaticTextures.ThrowIfNotInitialized();
 
@@ -25,29 +23,48 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 				return;
 			}
-
+			
 			#region Fill Center
 
-			sbatch.DrawStretched(
-				StaticTextures.SinglePixel,
-				bounds.AsDeflated(CROP_CORNER_SIZE * cornerScale, 0),
-				color);
+			if (color.A == 255)
+			{
+				sbatch.DrawStretched(
+					StaticTextures.SinglePixel,
+					bounds.AsDeflated(cornerSize, 0),
+					color);
 
-			sbatch.DrawStretched(
-				StaticTextures.SinglePixel,
-				bounds.AsDeflated(0, CROP_CORNER_SIZE * cornerScale),
-				color);
+				sbatch.DrawStretched(
+					StaticTextures.SinglePixel,
+					bounds.AsDeflated(0, cornerSize),
+					color);
+			}
+			else
+			{
+				sbatch.DrawStretched(
+					StaticTextures.SinglePixel,
+					bounds.AsDeflated(cornerSize, 0),
+					color);
+
+				sbatch.DrawStretched(
+					StaticTextures.SinglePixel,
+					bounds.ToSubRectangle(cornerSize, bounds.Height - 2 * cornerSize, FlatAlign9.WEST),
+					color);
+
+				sbatch.DrawStretched(
+					StaticTextures.SinglePixel,
+					bounds.ToSubRectangle(cornerSize, bounds.Height - 2 * cornerSize, FlatAlign9.EAST),
+					color);
+			}
+
 
 			#endregion
 
 			#region Corners
-
-			var tcornerSize = TEX_CORNER_SIZE * cornerScale;
-
-			var r_tl = new FRectangle(bounds.Left, bounds.Top, tcornerSize, TEX_CORNER_SIZE * cornerScale);
-			var r_tr = new FRectangle(bounds.Right - tcornerSize, bounds.Top, tcornerSize, tcornerSize);
-			var r_br = new FRectangle(bounds.Right - tcornerSize, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
-			var r_bl = new FRectangle(bounds.Left, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
+			
+			var r_tl = bounds.ToSquare(cornerSize, FlatAlign9.TL);
+			var r_tr = bounds.ToSquare(cornerSize, FlatAlign9.TR);
+			var r_br = bounds.ToSquare(cornerSize, FlatAlign9.BR);
+			var r_bl = bounds.ToSquare(cornerSize, FlatAlign9.BL);
 
 			if (tl)
 			{
