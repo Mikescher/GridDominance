@@ -51,14 +51,16 @@ namespace GridDominance.Shared
 
 		protected override void OnInitialize()
 		{
+//			const double ZOOM = 0.925;
+//			const double ZOOM = 0.625;
+			const double ZOOM = 0.325;
+
 #if __DESKTOP__
 			IsMouseVisible = true;
 			Graphics.IsFullScreen = false;
 
-			Graphics.PreferredBackBufferWidth  = (int)(1920 * 0.625);
-			Graphics.PreferredBackBufferHeight = (int)(1080 * 0.625);
-			//Graphics.PreferredBackBufferWidth  = (int)(1920 * 0.325);
-			//Graphics.PreferredBackBufferHeight = (int)(1080 * 0.325);
+			Graphics.PreferredBackBufferWidth  = (int)(1920 * ZOOM);
+			Graphics.PreferredBackBufferHeight = (int)(1080 * ZOOM);
 			Window.AllowUserResizing = true;
 
 #if DEBUG

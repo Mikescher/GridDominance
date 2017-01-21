@@ -55,24 +55,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			OnEnd();
 		}
 		
-		public override void DrawRaw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
-		{
-#if DEBUG
-			IncRenderSpriteCount();
-#endif
-
-			internalBatch.Draw(texture, (destinationRectangle + offset).Truncate(), sourceRectangle, color, rotation, origin, effects, layerDepth);
-		}
-
-		public void Draw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color)
-		{
-#if DEBUG
-			IncRenderSpriteCount();
-#endif
-
-			internalBatch.Draw(texture, (destinationRectangle + offset).Truncate(), sourceRectangle, color);
-		}
-		
 		public override void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color)
 		{
 #if DEBUG

@@ -59,6 +59,7 @@
     <Compile Include="GameMath\Geometry\IFShape.cs" />
     <Compile Include="GameMath\Geometry\GeometryHelper.cs" />
     <Compile Include="GameMath\Geometry\Matrix3x3.cs" />
+    <Compile Include="GameMath\Geometry\PerpendicularRotation.cs" />
     <Compile Include="GameMath\VectorPath\CirclePieceSegment.cs" />
     <Compile Include="GameMath\VectorPath\EllipsePieceSegment.cs" />
     <Compile Include="GameMath\VectorPath\LineSegment.cs" />

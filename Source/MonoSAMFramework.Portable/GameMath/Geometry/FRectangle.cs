@@ -326,6 +326,28 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FRectangle(center.X - Width / 2, center.Y - Height / 2, Width, Height);
 		}
 
+		[Pure]
+		public FRectangle AsRotated(PerpendicularRotation rot)
+		{
+			switch (rot)
+			{
+				case PerpendicularRotation.DEGREE_CW_000:
+				case PerpendicularRotation.DEGREE_CW_180:
+					return this;
+
+				case PerpendicularRotation.DEGREE_CW_090:
+				case PerpendicularRotation.DEGREE_CW_270:
+					return new FRectangle(
+						X + Width/2 - Height/2,
+						Y - Width/2 + Height/2,
+						Height,
+						Width);
+
+				default:
+					throw new ArgumentOutOfRangeException(nameof(rot), rot, null);
+			}
+		}
+
 		public float Left => X;
 		public float Right => X + Width;
 		public float Top => Y;

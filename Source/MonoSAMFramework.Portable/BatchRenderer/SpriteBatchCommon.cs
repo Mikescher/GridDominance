@@ -127,68 +127,32 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		#region DrawRot
 
-		public void DrawRot000(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth)
+		public void DrawRot000(TextureRegion2D texture, FRectangle destRect, Color color, float layerDepth = 0f)
 		{
-			DrawRaw(
-				texture.Texture, 
-				destinationRectangle,
-				texture.Bounds, 
-				color, 
-				0, 
-				Vector2.Zero, 
-				SpriteEffects.None, 
-				layerDepth);
+			var rect = destRect.AsRotated(PerpendicularRotation.DEGREE_CW_000);
+
+			DrawStretched(texture, rect, color, FloatMath.RAD_POS_000, layerDepth);
 		}
 		
-		public void DrawRot090(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth)
+		public void DrawRot090(TextureRegion2D texture, FRectangle destRect, Color color, float layerDepth = 0f)
 		{
-			DrawRaw(
-				texture.Texture, 
-				new FRectangle(
-					destinationRectangle.X + destinationRectangle.Width, 
-					destinationRectangle.Y, 
-					destinationRectangle.Height, 
-					destinationRectangle.Width),
-				texture.Bounds, 
-				color,
-				90 * FloatMath.DegreesToRadians, 
-				Vector2.Zero, 
-				SpriteEffects.None, 
-				layerDepth);
+			var rect = destRect.AsRotated(PerpendicularRotation.DEGREE_CW_090);
+
+			DrawStretched(texture, rect, color, FloatMath.RAD_POS_090, layerDepth);
 		}
 
-		public void DrawRot180(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth)
+		public void DrawRot180(TextureRegion2D texture, FRectangle destRect, Color color, float layerDepth = 0f)
 		{
-			DrawRaw(
-				texture.Texture,
-				new FRectangle(
-					destinationRectangle.X + destinationRectangle.Width,
-					destinationRectangle.Y + destinationRectangle.Height,
-					destinationRectangle.Width, 
-					destinationRectangle.Height),
-				texture.Bounds,
-				color,
-				180 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				SpriteEffects.None,
-				layerDepth);
+			var rect = destRect.AsRotated(PerpendicularRotation.DEGREE_CW_180);
+
+			DrawStretched(texture, rect, color, FloatMath.RAD_POS_180, layerDepth);
 		}
 
-		public void DrawRot270(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth)
+		public void DrawRot270(TextureRegion2D texture, FRectangle destRect, Color color, float layerDepth = 0f)
 		{
-			DrawRaw(
-				texture.Texture,
-				new FRectangle(
-					destinationRectangle.X,
-					destinationRectangle.Y + destinationRectangle.Height,
-					destinationRectangle.Height,
-					destinationRectangle.Width),
-				texture.Bounds,
-				color,
-				270 * FloatMath.DegreesToRadians,
-				Vector2.Zero,
-				SpriteEffects.None,
-				layerDepth);
+			var rect = destRect.AsRotated(PerpendicularRotation.DEGREE_CW_270);
+
+			DrawStretched(texture, rect, color, FloatMath.RAD_POS_270, layerDepth);
 		}
 
 		#endregion
@@ -215,8 +179,6 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		}
 
 		#region abstracts
-
-		public abstract void DrawRaw(Texture2D texture, FRectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
 
 		public abstract void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color, float rotation = 0f, float layerDepth = 0f);
 		public abstract void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation = 0f, float layerDepth = 0f);

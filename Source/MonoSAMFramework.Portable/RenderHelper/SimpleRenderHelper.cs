@@ -44,10 +44,10 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			var tcornerSize = TEX_CORNER_SIZE * cornerScale;
 
-			var r_tl = new FRectangle(0.2f + bounds.Left, bounds.Top, tcornerSize, TEX_CORNER_SIZE * cornerScale);
-			var r_tr = new FRectangle(0.0f + bounds.Right - tcornerSize, bounds.Top, tcornerSize, tcornerSize);
-			var r_br = new FRectangle(0.0f + bounds.Right - tcornerSize, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
-			var r_bl = new FRectangle(0.2f + bounds.Left, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
+			var r_tl = new FRectangle(bounds.Left, bounds.Top, tcornerSize, TEX_CORNER_SIZE * cornerScale);
+			var r_tr = new FRectangle(bounds.Right - tcornerSize, bounds.Top, tcornerSize, tcornerSize);
+			var r_br = new FRectangle(bounds.Right - tcornerSize, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
+			var r_bl = new FRectangle(bounds.Left, bounds.Bottom - tcornerSize, tcornerSize, tcornerSize);
 
 			if (tl)
 			{
@@ -113,7 +113,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			// TOP
 			sbatch.DrawStretched(
 				StaticTextures.SinglePixel,
-				new FRectangle(bounds.Left, FloatMath.Round(bounds.Top), bounds.Width, borderSize),
+				new FRectangle(bounds.Left, bounds.Top, bounds.Width, borderSize),
 				color);
 
 			// RIGHT
