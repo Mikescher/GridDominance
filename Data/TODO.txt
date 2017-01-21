@@ -22,7 +22,7 @@ WORLD MAP
  - connect level round buttons with pipes (or with CPU grid particles ?)
  - pipe becomes active when levl cleared on at least one diff
  - whole map not forcible rectangulare (but 90° edges)
- - background like in level, cleared levels convert background (diff = different color or higher intensity or higher reach)
+ - background like in level, cleared levels convert background (diff = different color or higher intensity or higher reach) -> or diff=lighter color (?)
  X only draw what is visible
  - when level node is clicked center it on scren and move bar on top and bottom into screen where you can see (levelname | difficulty | what you have solved | percentage solved worldwide | etc)
  -  -> normal draging removes bars again (slide in slide out)

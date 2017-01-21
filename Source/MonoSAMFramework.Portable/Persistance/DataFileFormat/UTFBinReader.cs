@@ -62,7 +62,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			var raw = ReadRawString(len);
 
 			double r;
-			if (double.TryParse(raw, NumberStyles.None, CultureInfo.InvariantCulture, out r))
+			if (double.TryParse(raw, NumberStyles.Number, CultureInfo.InvariantCulture, out r))
 				return r;
 
 			throw new DataWriterException("the string '" + raw + "' is not a valid value for Double deserialization");
