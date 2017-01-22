@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using GridDominance.Levelformat.Parser;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -28,16 +29,20 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private readonly FractionDifficulty? gainLevel;
 		private readonly bool successScreen;
 		private readonly PlayerProfile.PlayerProfile profile;
+		private readonly LevelFile Level;
+		private readonly int increasePoints;
 
 		private HUDLabel lblPoints;
 		private HUDIconTextButton btnMenu;
 		private HUDIconTextButton btnNext;
 
-		public HUDScorePanel(PlayerProfile.PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon)
+		public HUDScorePanel(LevelFile lvl, PlayerProfile.PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon, int pointInc)
 		{
 			gainLevel = newDifficulty;
 			successScreen = playerHasWon;
 			profile = playerprofile;
+			increasePoints = pointInc;
+			Level = lvl;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -129,7 +134,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
 
-				Text = "4 - 4", // TODO
+				Text = Level.Name,
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,
@@ -149,7 +154,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				FontSize = 35,
 			});
 
-			AddElement(lblPoints = new HUDIncrementIndicatorLabel("236", "+20", 2) // TODO
+			AddElement(lblPoints = new HUDIncrementIndicatorLabel(profile.TotalPoints.ToString(), increasePoints==0 ? "" : "+"+increasePoints, 2)
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 15),
@@ -180,7 +185,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
 
-				Text = "2 / 4", // TODO
+				Text = profile.GetLevelData(Level.UniqueID).CompletionCount + " / 4",
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,

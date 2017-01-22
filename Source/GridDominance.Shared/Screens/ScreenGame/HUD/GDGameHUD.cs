@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using GridDominance.Levelformat.Parser;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.ScreenGame.HUD;
 using MonoSAMFramework.Portable.Screens.HUD;
@@ -19,14 +20,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.hud
 			AddElement(btnSpeed = new HUDSpeedBaseButton());
 		}
 
-		public void ShowScorePanel(PlayerProfile.PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon)
+		public void ShowScorePanel(LevelFile lvl, PlayerProfile.PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
 		{
 			btnPause.IsEnabled = false;
 			btnSpeed.IsEnabled = false;
 
 			GDOwner.GameSpeedMode = GameSpeedModes.NORMAL;
 
-			AddElement(new HUDModalDialog(new HUDScorePanel(profile, newDifficulty, playerHasWon)));
+			AddElement(new HUDModalDialog(new HUDScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints)));
 		} 
 	}
 }

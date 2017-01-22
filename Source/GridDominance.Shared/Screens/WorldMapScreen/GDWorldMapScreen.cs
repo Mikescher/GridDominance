@@ -52,12 +52,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugSettings.AddTrigger("DBG", "SetQuality_5", this, SKeys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
 
 			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      this, SKeys.F2, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugBackground",       this, SKeys.F3, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       this, SKeys.F4, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "DebugBackground",       this, SKeys.F3, KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       this, SKeys.F4, KeyModifier.None, true);
 			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   this, SKeys.F6, KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      this, SKeys.F7, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", this, SKeys.F8, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", this, SKeys.F9, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", this, SKeys.F8, KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", this, SKeys.F9, KeyModifier.None, true);
 
 			DebugSettings.AddPush("DBG", "ShowDebugShortcuts",      this, SKeys.Tab, KeyModifier.None);
 			DebugSettings.AddPush("DBG", "ShowSerializedProfile",   this, SKeys.O, KeyModifier.None);

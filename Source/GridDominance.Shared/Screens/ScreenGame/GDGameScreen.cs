@@ -230,19 +230,20 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			{
 				if (GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(difficulty))
 				{
-					GDGameHUD.ShowScorePanel(GDOwner.Profile, null, true);
+					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, null, true, 0);
 				}
 				else
 				{
+					int p = FractionDifficultyHelper.GetScore(difficulty);
 					GDOwner.Profile.GetLevelData(Blueprint.UniqueID).SetCompletedTrue(difficulty, levelTime);
 					GDOwner.SaveProfile();
-					GDGameHUD.ShowScorePanel(GDOwner.Profile, difficulty, true);
+					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, difficulty, true, p);
 				}
 
 			}
 			else
 			{
-				GDGameHUD.ShowScorePanel(GDOwner.Profile, null, false);
+				GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, null, false, 0);
 			}
 
 			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())

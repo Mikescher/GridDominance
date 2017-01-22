@@ -20,6 +20,7 @@ namespace GridDominance.Shared.PlayerProfile
 		}
 
 		public int TotalPoints => completedDifficulties.Sum(FractionDifficultyHelper.GetScore);
+		public int CompletionCount => completedDifficulties.Count;
 
 		public bool HasCompleted(FractionDifficulty d)
 		{
