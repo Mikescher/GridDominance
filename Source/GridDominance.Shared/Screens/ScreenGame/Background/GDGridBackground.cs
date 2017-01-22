@@ -23,7 +23,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 		public float Strength = 0;
 	}
 
-	class GDGridBackground : GameBackground
+	class GDGridBackground : GameBackground, IGDGridBackground
 	{
 		private const int TILE_COUNT_X = GDConstants.GRID_WIDTH;
 		private const int TILE_COUNT_Y = GDConstants.GRID_HEIGHT;
@@ -35,7 +35,10 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 		private readonly List<BackgroundParticle>[,] particlesHorizontal = new List<BackgroundParticle>[TILE_COUNT_X, TILE_COUNT_Y + 1];
 		private readonly List<BackgroundParticle>[,] particlesVertical = new List<BackgroundParticle>[TILE_COUNT_X + 1, TILE_COUNT_Y];
 		private readonly List<Cannon>[,] blockedGridPoints = new List<Cannon>[TILE_COUNT_X + 1, TILE_COUNT_Y + 1];
-		private readonly GridCellMembership[,] gridColor = new GridCellMembership[TILE_COUNT_X + 2, TILE_COUNT_Y + 2]; 
+		private readonly GridCellMembership[,] gridColor = new GridCellMembership[TILE_COUNT_X + 2, TILE_COUNT_Y + 2];
+
+
+		public int ParticleCount => Particles.Count;
 
 		public GDGridBackground(GameScreen scrn) : base(scrn)
 		{

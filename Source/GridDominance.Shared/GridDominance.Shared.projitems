@@ -19,7 +19,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ParticlePresets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Background\BackgroundParticle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Background\GDStaticGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Background\GDGridBackground.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Background\IGDGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\Bullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\BulletSplitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\Cannon.cs" />
