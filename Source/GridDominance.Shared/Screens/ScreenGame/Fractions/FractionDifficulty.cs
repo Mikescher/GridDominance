@@ -1,5 +1,6 @@
 ﻿using System;
 using GridDominance.Shared.Resources;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.LogProtocol;
 
@@ -97,6 +98,40 @@ namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 					return Textures.TexDifficulty2;
 				case FractionDifficulty.KI_IMPOSSIBLE:
 					return Textures.TexDifficulty3;
+			}
+
+			return null;
+		}
+
+		public static Color GetColor(FractionDifficulty d)
+		{
+			switch (d)
+			{
+				case FractionDifficulty.KI_EASY:
+					return GDColors.COLOR_DIFFICULTY_0;
+				case FractionDifficulty.KI_NORMAL:
+					return GDColors.COLOR_DIFFICULTY_1;
+				case FractionDifficulty.KI_HARD:
+					return GDColors.COLOR_DIFFICULTY_2;
+				case FractionDifficulty.KI_IMPOSSIBLE:
+					return GDColors.COLOR_DIFFICULTY_3;
+			}
+
+			return Color.Magenta;
+		}
+
+		public static string GetDescription(FractionDifficulty d)
+		{
+			switch (d)
+			{
+				case FractionDifficulty.KI_EASY:
+					return "Easy";
+				case FractionDifficulty.KI_NORMAL:
+					return "Normal";
+				case FractionDifficulty.KI_HARD:
+					return "Hard";
+				case FractionDifficulty.KI_IMPOSSIBLE:
+					return "Realistic";
 			}
 
 			return null;

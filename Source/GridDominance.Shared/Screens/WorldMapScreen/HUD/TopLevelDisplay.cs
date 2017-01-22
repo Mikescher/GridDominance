@@ -67,8 +67,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				// DISAPPEAR
 
-				FloatMath.ProgressDec(ref progressMove, gameTime.ElapsedSeconds * SPEED_MOVE);
-				FloatMath.ProgressInc(ref progressBlend, gameTime.ElapsedSeconds * SPEED_BLEND);
+				if (! (FloatMath.IsOne(progressMove) && istate.IsRealDown))
+				{
+					FloatMath.ProgressDec(ref progressMove, gameTime.ElapsedSeconds * SPEED_MOVE);
+					FloatMath.ProgressInc(ref progressBlend, gameTime.ElapsedSeconds * SPEED_BLEND);
+				}
 
 				if (FloatMath.IsZero(progressMove))
 				{

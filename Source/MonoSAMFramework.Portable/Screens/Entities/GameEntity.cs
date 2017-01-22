@@ -123,7 +123,15 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public GameEntityMouseArea AddClickMouseArea(IFShape shape, Action<GameEntityMouseArea, SAMTime, InputState> clickListener, bool swallowEvents = true)
 		{
 			var area = new GameEntityMouseArea(this, shape, swallowEvents);
-			area.AddListener(new GameEntityMouseAreaLambdaAdapter{ MouseClick = clickListener });
+			area.AddListener(new GameEntityMouseAreaLambdaAdapter { MouseClick = clickListener });
+			MouseAreas.Add(area);
+			return area;
+		}
+
+		public GameEntityMouseArea AddMouseDownMouseArea(IFShape shape, Action<GameEntityMouseArea, SAMTime, InputState> clickListener, bool swallowEvents = true)
+		{
+			var area = new GameEntityMouseArea(this, shape, swallowEvents);
+			area.AddListener(new GameEntityMouseAreaLambdaAdapter { MouseDown = clickListener });
 			MouseAreas.Add(area);
 			return area;
 		}

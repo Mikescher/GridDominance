@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -19,7 +20,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public override int Depth => 0;
 
+		private LevelNode node;
 		private float progressDisplay = 0f;
+
+		private float tabTimer = 0;
+		private int tab = 0;
 
 		public InformationDisplay()
 		{
@@ -30,32 +35,61 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
+			if (node == null) return;
+
 			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color.Black * 0.8f * progressDisplay, true, false, false, false, 16);
 
 			sbatch.DrawLine(Position + new Vector2(0, 32), Position + new Vector2(Width, 32), FlatColors.MidnightBlue * progressDisplay, 2);
+
 			sbatch.DrawLine(Position + new Vector2(1 * (Width/3f), 0), Position + new Vector2(1 * (Width / 3f), 32), FlatColors.MidnightBlue * progressDisplay, 2);
 			sbatch.DrawLine(Position + new Vector2(2 * (Width/3f), 0), Position + new Vector2(2 * (Width / 3f), 32), FlatColors.MidnightBlue * progressDisplay, 2);
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontRegular, 32, "You", FlatColors.TextHUD * progressDisplay, Position + new Vector2(1 * (Width / 6f), 16));
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontRegular, 32, "Global", FlatColors.TextHUD * progressDisplay, Position + new Vector2(3 * (Width / 6f), 16));
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontRegular, 32, "???", FlatColors.TextHUD * progressDisplay, Position + new Vector2(5 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 0 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, "Points", (tab == 0 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(1 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 1 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, "You",    (tab == 1 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(3 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 2 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, "Global", (tab == 2 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(5 * (Width / 6f), 16));
 
+			if (tab == 0)
+			{
+				// Points
 
-			sbatch.DrawCentered(Textures.TexCircle,      Position + new Vector2(32, 72 + 56 * 0), 48, 48, FlatColors.WetAsphalt * progressDisplay);
-			sbatch.DrawCentered(Textures.TexDifficulty0, Position + new Vector2(32, 72 + 56 * 0), 32, 32, GDColors.COLOR_DIFFICULTY_0 * progressDisplay);
-			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, 32, "Easy", FlatColors.TextHUD * progressDisplay, Position + new Vector2(32 + 32, 72 + 56 * 0));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, node.LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? "+" + FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_0) : "");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, node.LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? "+" + FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_1) : "");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, node.LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? "+" + FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_2) : "");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, node.LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? "+" + FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_3) : "");
+			}
+			else if (tab == 1)
+			{
+				// You
 
-			sbatch.DrawCentered(Textures.TexCircle,      Position + new Vector2(32, 72 + 56 * 1), 48, 48, FlatColors.WetAsphalt * progressDisplay);
-			sbatch.DrawCentered(Textures.TexDifficulty1, Position + new Vector2(32, 72 + 56 * 1), 32, 32, GDColors.COLOR_DIFFICULTY_1 * progressDisplay);
-			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, 32, "Normal", FlatColors.TextHUD * progressDisplay, Position + new Vector2(32 + 32, 72 + 56 * 1));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, node.LevelData.GetTimeString(FractionDifficulty.DIFF_0));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_1));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, node.LevelData.GetTimeString(FractionDifficulty.DIFF_2));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, node.LevelData.GetTimeString(FractionDifficulty.DIFF_3));
+			}
+			else if (tab == 2)
+			{
+				// Global
 
-			sbatch.DrawCentered(Textures.TexCircle,      Position + new Vector2(32, 72 + 56 * 2), 48, 48, FlatColors.WetAsphalt * progressDisplay);
-			sbatch.DrawCentered(Textures.TexDifficulty2, Position + new Vector2(32, 72 + 56 * 2), 32, 32, GDColors.COLOR_DIFFICULTY_2 * progressDisplay);
-			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, 32, "Hard", FlatColors.TextHUD * progressDisplay, Position + new Vector2(32 + 32, 72 + 56 * 2));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, "???");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, "???");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, "???");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, "???");
+			}
+		}
 
-			sbatch.DrawCentered(Textures.TexCircle,      Position + new Vector2(32, 72 + 56 * 3), 48, 48, FlatColors.WetAsphalt * progressDisplay);
-			sbatch.DrawCentered(Textures.TexDifficulty3, Position + new Vector2(32, 72 + 56 * 3), 32, 32, GDColors.COLOR_DIFFICULTY_3 * progressDisplay);
-			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, 32, "Realistic", FlatColors.TextHUD * progressDisplay, Position + new Vector2(32 + 32, 72 + 56 * 3));
+		private void DrawInfoLine(IBatchRenderer sbatch, FractionDifficulty d, int idx, string strTime)
+		{
+			var p1 = Position + new Vector2(32,  72 + 56 * idx);
+			var p2 = Position + new Vector2(64,  72 + 56 * idx);
+			var p3 = Position + new Vector2(224, 72 + 56 * idx);
+
+			var ic = (node.LevelData.HasCompleted(d) ? FractionDifficultyHelper.GetColor(d) : FlatColors.Concrete) * progressDisplay;
+			var tc = (node.LevelData.HasCompleted(d) ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay;
+
+			sbatch.DrawCentered(Textures.TexCircle, p1, 48, 48, FlatColors.WetAsphalt * progressDisplay);
+			sbatch.DrawCentered(FractionDifficultyHelper.GetIcon(d), p1, 32, 32, ic);
+			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, 32, FractionDifficultyHelper.GetDescription(d), tc, p2);
+			FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontRegular, 32, strTime, tc, p3);
 		}
 
 		public override void OnInitialize()
@@ -72,9 +106,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			var sel = ((GDWorldHUD)HUD).SelectedNode;
 
+			tabTimer += gameTime.ElapsedSeconds;
+			tab = (int) (tabTimer / 2f) % 3;
+
 			if (sel != null && progressDisplay < 1)
 			{
+				tabTimer = 0;
+				tab = 0;
 				FloatMath.ProgressInc(ref progressDisplay, gameTime.ElapsedSeconds * SPEED_BLEND);
+				node = sel;
 			}
 			else if (sel == null && progressDisplay > 0)
 			{

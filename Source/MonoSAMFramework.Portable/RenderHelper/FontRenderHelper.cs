@@ -54,6 +54,8 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 		public static void DrawTextVerticallyCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, Vector2 position)
 		{
+			if (text == "") return;
+
 			//TODO How expensive is this calculation each draw call ?
 			//     perhaps move everything in some kind of fontrendererCache
 			//     which remembers all calculated values until text/size/... changes (like with the HUD)

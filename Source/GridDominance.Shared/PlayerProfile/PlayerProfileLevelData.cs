@@ -50,5 +50,13 @@ namespace GridDominance.Shared.PlayerProfile
 		{
 			return "PLAYER_PROFILE_LEVEL_DATA";
 		}
+
+		public string GetTimeString(FractionDifficulty d)
+		{
+			DataFileFloatWrapper time;
+			if (!bestTimes.TryGetValue(d, out time)) return "";
+
+			return string.Format("{0:00}:{1:00}.{2:000}", (int) (time.Value / 60f), ((int) time.Value) % 60f, (int) (time.Value * 1000) % 1000);
+		}
 	}
 }
