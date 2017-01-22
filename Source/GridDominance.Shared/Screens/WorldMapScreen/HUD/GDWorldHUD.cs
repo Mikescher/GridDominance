@@ -1,25 +1,28 @@
 ﻿using GridDominance.Shared.Resources;
-using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens;
+using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
-using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
 	class GDWorldHUD : GameHUD
 	{
 		public GDWorldMapScreen GDOwner => (GDWorldMapScreen)Screen;
-		
+
+		public LevelNode SelectedNode = null;
+
+		public readonly TopLevelDisplay TopLevelDisplay;
 
 		public GDWorldHUD(GDWorldMapScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(new SettingsButton());
 			AddElement(new ScoreDisplay());
-			AddElement(new TopLevelDisplay());
+			AddElement(TopLevelDisplay = new TopLevelDisplay());
+			AddElement(new InformationDisplay());
+		}
+
+		public void SelectNode(LevelNode n)
+		{
+			SelectedNode = n;
 		}
 	}
 }

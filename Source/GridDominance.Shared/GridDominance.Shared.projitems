@@ -64,6 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsCloseOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsFontAppearOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsOpenOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\InformationDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\SettingsButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\SubSettingButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\ScoreDisplay.cs" />

@@ -280,6 +280,62 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">blocks/hud_button_base.png</key>
+            <key type="filename">blocks/hud_pause_background.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>31,31,62,62</rect>
+                <key>scale9Paddings</key>
+                <rect>31,31,62,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">blocks/panel_corner.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,12,24,24</rect>
+                <key>scale9Paddings</key>
+                <rect>12,12,24,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">blocks/simple_circle.png</key>
+            <key type="filename">blocks/simple_circle_empty.png</key>
+            <key type="filename">levelnode_segment.png</key>
+            <key type="filename">levelnode_structure.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>49,49,97,97</rect>
+                <key>scale9Paddings</key>
+                <rect>49,49,97,97</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">blocks/simple_pixel.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,8,8</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,8,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">cannonball.png</key>
             <key type="filename">cannonball_piece.png</key>
             <struct type="IndividualSpriteSettings">
@@ -493,20 +549,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">hud_button_base.png</key>
-            <key type="filename">hud_pause_background.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>31,31,62,62</rect>
-                <key>scale9Paddings</key>
-                <rect>31,31,62,62</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">hud_pause_animated/hud_pause_00.png</key>
             <key type="filename">hud_pause_animated/hud_pause_01.png</key>
             <key type="filename">hud_pause_animated/hud_pause_02.png</key>
@@ -663,35 +705,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">levelnode_segment.png</key>
-            <key type="filename">levelnode_structure.png</key>
-            <key type="filename">simple_circle.png</key>
-            <key type="filename">simple_circle_empty.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>49,49,97,97</rect>
-                <key>scale9Paddings</key>
-                <rect>49,49,97,97</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">panel_corner.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>12,12,24,24</rect>
-                <key>scale9Paddings</key>
-                <rect>12,12,24,24</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">particles/particle_00.png</key>
             <key type="filename">particles/particle_01.png</key>
             <key type="filename">particles/particle_02.png</key>
@@ -743,19 +756,6 @@
                 <rect>22,16,44,31</rect>
                 <key>scale9Paddings</key>
                 <rect>22,16,44,31</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">simple_pixel.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>4,4,8,8</rect>
-                <key>scale9Paddings</key>
-                <rect>4,4,8,8</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

@@ -50,8 +50,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public void Draw(IBatchRenderer sbatch)
 		{
-			root.DrawBackground(sbatch);
-			root.DrawForeground(sbatch);
+			if (root.IsVisible)
+			{
+				root.DrawBackground(sbatch);
+				root.DrawForeground(sbatch);
+			}
 		}
 
 		public void AddElement(HUDElement e)

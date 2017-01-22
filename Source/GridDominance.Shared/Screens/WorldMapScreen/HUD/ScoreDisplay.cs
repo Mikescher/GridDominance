@@ -23,6 +23,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		private readonly HUDImage icon;
 		private readonly HUDRawText text;
 
+		private readonly DeltaLimitedFloat offset = new DeltaLimitedFloat(0, 40f);
+
 		public ScoreDisplay()
 		{
 			text = new HUDRawText
@@ -43,7 +45,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			};
 
 			Alignment = HUDAlignment.TOPRIGHT;
-			RelativePosition = new FPoint(10, 10 + 70);
+			RelativePosition = new FPoint(10, 10);
 			Size = new FSize(250, 60);
 		}
 
@@ -67,6 +69,19 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			text.Text = MainGame.Inst.Profile.TotalPoints.ToString();
+
+			icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
+
+			offset.Set(((GDWorldHUD)HUD).TopLevelDisplay.Bottom);
+			offset.Update(gameTime);
+			if (offset.ActualValue < offset.TargetValue) offset.SetForce(offset.TargetValue);
+
+			var rp = new FPoint(10, offset.ActualValue + 10);
+			if (rp != RelativePosition)
+			{
+				RelativePosition = rp;
+				Revalidate();
+			}
 		}
 	}
 }

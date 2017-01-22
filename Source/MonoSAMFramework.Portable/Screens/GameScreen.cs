@@ -26,6 +26,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public readonly GraphicsDeviceManager Graphics;
 		public readonly MonoSAMGame Game;
 		public SAMViewportAdapter VAdapter;
+		public GameHUD HUD => GameHUD;
 
 		protected InputStateManager InputStateMan;
 

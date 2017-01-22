@@ -360,6 +360,24 @@ namespace MonoSAMFramework.Portable.GameMath
 			return value;
 		}
 
+		public static bool ProgressDec(ref float value, float dec)
+		{
+			if (dec < 0) { ProgressInc(ref value, -dec); return false; }
+
+			value -= dec;
+			if (value < 0) { value = 0; return true; }
+			return false;
+		}
+
+		public static bool ProgressInc(ref float value, float dec)
+		{
+			if (dec < 0) { ProgressDec(ref value, -dec); return false; }
+
+			value += dec;
+			if (value > 1) { value = 1; return true; }
+			return false;
+		}
+
 		public static float GetRangedRandom(float min, float max)
 		{
 			return (float)(Random.NextDouble() * (max - min) + min);

@@ -19,6 +19,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		protected readonly List<IGameEntityOperation> ActiveOperations = new List<IGameEntityOperation>();
 		protected readonly List<GameEntityMouseArea> MouseAreas = new List<GameEntityMouseArea>();
 
+		public IEnumerable<IGameEntityOperation> ActiveEntityOperations => ActiveOperations;
+
 		public abstract Vector2 Position { get; } // Center
 		public abstract FSize DrawingBoundingBox { get; }
 		public abstract Color DebugIdentColor { get; }

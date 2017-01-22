@@ -25,12 +25,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 
 			foreach (var child in children)
 			{
-				child.DrawBackground(sbatch);
+				if (child.IsVisible) child.DrawBackground(sbatch);
 			}
 
 			foreach (var child in children)
 			{
-				child.DrawForeground(sbatch);
+				if (child.IsVisible) child.DrawForeground(sbatch);
 			}
 		}
 
@@ -94,6 +94,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 
 			foreach (var child in children)
 				child.InvalidatePosition();
+		}
+
+		public override void Revalidate()
+		{
+			base.Revalidate();
+
+			foreach (var child in children)
+				child.Revalidate();
 		}
 	}
 }

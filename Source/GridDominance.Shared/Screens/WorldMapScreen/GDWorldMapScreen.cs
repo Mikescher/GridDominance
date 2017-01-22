@@ -70,10 +70,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} (d = {UPSCounter.MaximumDelta * 1000:0000.0} ) | total = {UPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"GC = Time since GC:{GCMonitor.TimeSinceLastGC:00.00}s ({GCMonitor.TimeSinceLastGC0:000.00}s | {GCMonitor.TimeSinceLastGC1:000.00}s | {GCMonitor.TimeSinceLastGC2:000.00}s) Memory = {GCMonitor.TotalMemory:000.0}MB Frequency = {GCMonitor.GCFrequency:0.000}");
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00}");
-				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})");
+				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | EntityOps = {Entities.Enumerate().Sum(p => p.ActiveEntityOperations.Count()):00} | Particles = {Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})");
 				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0}) | PointerOnMap = ({InputStateMan.GetCurrentState().PointerPositionOnMap.X:000.0}|{InputStateMan.GetCurrentState().PointerPositionOnMap.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastReleaseRenderSpriteCount:0000} (+ {LastDebugRenderSpriteCount:0000}); OGL Text = {LastReleaseRenderTextCount:0000} (+ {LastDebugRenderTextCount:0000})");
 				DebugDisp.AddLine(() => $"Map Offset = {MapOffset} (Map Center = {MapViewportCenter})");
+				DebugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD) HUD).SelectedNode?.Level?.Name ?? "NULL"}");
 
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualGuaranteedSize={VAdapter.VirtualGuaranteedSize}");

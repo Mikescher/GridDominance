@@ -2,6 +2,7 @@
 using GridDominance.Shared.PlayerProfile;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -34,8 +35,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private const float EXPANSION_TIME = 0.7f;
 		private const float CENTERING_TIME = 0.55f;
 
-		private readonly LevelFile level;
-		private readonly PlayerProfileLevelData levelData;
+		public readonly LevelFile Level;
+		public readonly PlayerProfileLevelData LevelData;
 
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
@@ -66,8 +67,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));
 
-			level = lvlf;
-			levelData = lvldat;
+			Level = lvlf;
+			LevelData = lvldat;
 
 			rectExpanderNorth = FRectangle.CreateByCenter(pos, 0, -EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER);
 			rectExpanderEast  = FRectangle.CreateByCenter(pos, EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER);
@@ -101,6 +102,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			if (IsClosing) return;
 
+			if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
+
 			float initProgress = 0f;
 			if (IsOpening)
 			{
@@ -123,6 +126,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private void OpenNode()
 		{
 			if (IsOpening) return;
+
+			((GDWorldHUD)Owner.HUD).SelectNode(this);
 
 			float initProgress = 0f;
 			if (IsClosing)
@@ -160,10 +165,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
-				if (levelData.HasCompleted(FractionDifficulty.DIFF_0))
-					levelData.SetCompletedFalse(FractionDifficulty.DIFF_0);
+				if (LevelData.HasCompleted(FractionDifficulty.DIFF_0))
+					LevelData.SetCompletedFalse(FractionDifficulty.DIFF_0);
 				else
-					levelData.SetCompletedTrue(FractionDifficulty.DIFF_0, 9999);
+					LevelData.SetCompletedTrue(FractionDifficulty.DIFF_0, 9999);
 
 				MainGame.Inst.SaveProfile();
 
@@ -171,7 +176,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 #endif
 
-			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_0);
+			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_0);
 		}
 
 		private void OnClickDiff2(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
@@ -181,10 +186,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
-				if (levelData.HasCompleted(FractionDifficulty.DIFF_1))
-					levelData.SetCompletedFalse(FractionDifficulty.DIFF_1);
+				if (LevelData.HasCompleted(FractionDifficulty.DIFF_1))
+					LevelData.SetCompletedFalse(FractionDifficulty.DIFF_1);
 				else
-					levelData.SetCompletedTrue(FractionDifficulty.DIFF_1, 9999);
+					LevelData.SetCompletedTrue(FractionDifficulty.DIFF_1, 9999);
 
 				MainGame.Inst.SaveProfile();
 
@@ -192,7 +197,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 #endif
 
-			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_1);
+			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_1);
 		}
 
 		private void OnClickDiff3(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
@@ -202,10 +207,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
-				if (levelData.HasCompleted(FractionDifficulty.DIFF_2))
-					levelData.SetCompletedFalse(FractionDifficulty.DIFF_2);
+				if (LevelData.HasCompleted(FractionDifficulty.DIFF_2))
+					LevelData.SetCompletedFalse(FractionDifficulty.DIFF_2);
 				else
-					levelData.SetCompletedTrue(FractionDifficulty.DIFF_2, 9999);
+					LevelData.SetCompletedTrue(FractionDifficulty.DIFF_2, 9999);
 
 				MainGame.Inst.SaveProfile();
 
@@ -213,7 +218,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 #endif
 
-			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_2);
+			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_2);
 		}
 
 		private void OnClickDiff4(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
@@ -223,10 +228,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			if (istate.IsKeyDown(SKeys.ShiftAny))
 			{
-				if (levelData.HasCompleted(FractionDifficulty.DIFF_3))
-					levelData.SetCompletedFalse(FractionDifficulty.DIFF_3);
+				if (LevelData.HasCompleted(FractionDifficulty.DIFF_3))
+					LevelData.SetCompletedFalse(FractionDifficulty.DIFF_3);
 				else
-					levelData.SetCompletedTrue(FractionDifficulty.DIFF_3, 9999);
+					LevelData.SetCompletedTrue(FractionDifficulty.DIFF_3, 9999);
 
 				MainGame.Inst.SaveProfile();
 
@@ -234,7 +239,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 #endif
 
-			MainGame.Inst.SetLevelScreen(level, FractionDifficulty.DIFF_3);
+			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_3);
 		}
 
 		public override void OnRemove()
@@ -275,7 +280,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				sbatch,
 				rectExpanderNorth.AsTranslated(0, HEIGHT_EXTENDER * iep).LimitSingleCoordSouth(Position.Y),
 				2,
-				levelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
+				LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
 				COLOR_BORDER,
 				8,
 				10);
@@ -284,7 +289,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				sbatch,
 				rectExpanderEast.AsTranslated(-HEIGHT_EXTENDER * iep, 0).LimitSingleCoordWest(Position.X),
 				2,
-				levelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
+				LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
 				COLOR_BORDER,
 				8,
 				10);
@@ -293,7 +298,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				sbatch,
 				rectExpanderSouth.AsTranslated(0, -HEIGHT_EXTENDER * iep).LimitSingleCoordNorth(Position.Y), 
 				2,
-				levelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED, 
+				LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED, 
 				COLOR_BORDER, 
 				8, 
 				10);
@@ -302,7 +307,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				sbatch,
 				rectExpanderWest.AsTranslated(HEIGHT_EXTENDER * iep, 0).LimitSingleCoordEast(Position.X),
 				2,
-				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
+				LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
 				COLOR_BORDER,
 				8,
 				10);
@@ -358,7 +363,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position, 
 				DIAMETER, 
 				DIAMETER, 
-				levelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, 
+				LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, 
 				FloatMath.RAD_POS_000 + FloatMath.TAU * expansionProgress);
 
 			sbatch.DrawCentered(
@@ -366,7 +371,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position,
 				DIAMETER,
 				DIAMETER,
-				levelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
+				LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_090 + FloatMath.TAU * expansionProgress);
 
 			sbatch.DrawCentered(
@@ -374,7 +379,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position,
 				DIAMETER,
 				DIAMETER,
-				levelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
+				LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_180 + FloatMath.TAU * expansionProgress);
 
 			sbatch.DrawCentered(
@@ -382,7 +387,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position,
 				DIAMETER,
 				DIAMETER,
-				levelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
+				LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
 				FloatMath.RAD_POS_270 + FloatMath.TAU * expansionProgress);
 			
 			#endregion
@@ -395,7 +400,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Text
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, level.Name, ColorMath.Blend(FlatColors.Clouds, FlatColors.MidnightBlue, expansionProgress), Position);
+			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, Level.Name, ColorMath.Blend(FlatColors.Clouds, FlatColors.MidnightBlue, expansionProgress), Position);
 
 			#endregion
 		}

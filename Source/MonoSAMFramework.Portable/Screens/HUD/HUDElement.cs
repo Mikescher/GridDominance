@@ -19,6 +19,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public bool Alive = true;
 		public bool Initialized { get; private set; } = false;
+		public bool IsVisible = true;
 
 		public virtual int DeepInclusiveCount => 1;
 
@@ -162,6 +163,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public virtual void InvalidatePosition()
 		{
 			PositionInvalidated = true;
+		}
+
+		public virtual void Revalidate() // Manual RecalculatePosition
+		{
+			RecalculatePosition();
 		}
 
 		protected virtual void RecalculatePosition()

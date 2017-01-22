@@ -27,6 +27,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { _image = value; InvalidatePosition(); }
 		}
 
+		public float RenderScaleOverride { get; set; } = 1f;
+
 		private FRectangle imageBounds = FRectangle.Empty;
 
 		public HUDImage(int depth = 0)
@@ -39,7 +41,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			if (Image == null) return;
 			if (imageBounds.IsEmpty) return;
 			
-			sbatch.DrawStretched(Image, imageBounds, Color.White);
+			sbatch.DrawCentered(Image, imageBounds.Center, imageBounds.Width * RenderScaleOverride, imageBounds.Height * RenderScaleOverride, Color.White);
 		}
 
 		protected override void OnAfterRecalculatePosition()

@@ -14,5 +14,8 @@ http://www.flaticon.com/packs/business-seo-elements
 icon_redo:
 http://www.flaticon.com/packs/camera-interface
 
+Diamond icon:
+http://www.flaticon.com/packs/gaming-5
+
 more icon:
 https://material.io/icons/
