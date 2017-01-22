@@ -77,6 +77,8 @@
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\debugFontSmall.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\hudFontBold.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\hudFontRegular.spritefont" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl001.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl002.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl003.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl_debug.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\stdvalues.gslevel" />

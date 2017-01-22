@@ -125,5 +125,16 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 			return builder.ToString().TrimEnd();
 		}
+
+		public static void SetManual(string ident, bool value)
+		{
+			ident = ident.ToUpper();
+
+			DebugListener l;
+			if (listeners.TryGetValue(ident, out l))
+			{
+				l.Set(value);
+			}
+		}
 	}
 }

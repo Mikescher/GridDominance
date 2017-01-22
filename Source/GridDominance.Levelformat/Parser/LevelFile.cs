@@ -13,10 +13,11 @@ namespace GridDominance.Levelformat.Parser
 		private static readonly Regex REX_COMMAND = new Regex(@"^(?<ident>[A-Za-z_]+)\s*\((((?<param>[^,\(\)]+)\s*,\s*)*(?<param>[^,\(\)]+))?\)$");
 		private static readonly Regex REX_EXPRESSION = new Regex(@"(\d*\.\d+)|(\d+)|([A-Za-z_]+)|[\+\-\*/]");
 
-		private const byte SERIALIZE_ID_CANNON = 0x01; 
-		private const byte SERIALIZE_ID_NAME   = 0x02;
-		private const byte SERIALIZE_ID_GUID   = 0x03;
-		private const byte SERIALIZE_ID_EOF    = 0xFF;
+		private const byte SERIALIZE_ID_CANNON      = 0x01; 
+		private const byte SERIALIZE_ID_NAME        = 0x02; 
+		private const byte SERIALIZE_ID_DESCRIPTION = 0x03; 
+		private const byte SERIALIZE_ID_GUID        = 0x04;
+		private const byte SERIALIZE_ID_EOF         = 0xFF;
 
 		private readonly string content;
 		private readonly Dictionary<string, float> constants = new Dictionary<string, float>();
@@ -26,6 +27,7 @@ namespace GridDominance.Levelformat.Parser
 		public readonly List<LPCannon> BlueprintCannons = new List<LPCannon>();
 		public Guid UniqueID { get; private set; } = Guid.Empty;
 		public string Name { get; private set; } = "";
+		public string FullName { get; private set; } = "";
 
 		public LevelFile()
 		{
@@ -278,9 +280,11 @@ namespace GridDominance.Levelformat.Parser
 		private void InitLevel(List<string> methodParameter)
 		{
 			var levelname = ExtractStringParameter(methodParameter, 0);
-			var levelguid = ExtractGuidParameter(methodParameter, 1);
+			var leveldesc = ExtractStringParameter(methodParameter, 1);
+			var levelguid = ExtractGuidParameter(methodParameter, 2);
 
 			Name = levelname;
+			FullName = leveldesc;
 			UniqueID = levelguid;
 		}
 
@@ -292,6 +296,9 @@ namespace GridDominance.Levelformat.Parser
 		{
 			bw.Write(SERIALIZE_ID_NAME);
 			bw.Write(Name);
+
+			bw.Write(SERIALIZE_ID_DESCRIPTION);
+			bw.Write(FullName);
 
 			bw.Write(SERIALIZE_ID_GUID);
 			bw.Write(UniqueID.ToByteArray());
@@ -334,6 +341,12 @@ namespace GridDominance.Levelformat.Parser
 
 						break;
 					}
+					case SERIALIZE_ID_DESCRIPTION:
+					{
+						FullName = br.ReadString();
+
+						break;
+					}
 					case SERIALIZE_ID_GUID:
 					{ 
 						UniqueID = new Guid(br.ReadBytes(16));
@@ -350,7 +363,7 @@ namespace GridDominance.Levelformat.Parser
 
 					default:
 					{
-						throw new Exception("Unkwown binary ID:" + id[0]);
+						throw new Exception("Unknown binary ID:" + id[0]);
 					}
 				}
 			}

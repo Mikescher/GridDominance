@@ -193,6 +193,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
+
+			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
 			if (!IsPaused && !HasFinished) levelTime += MonoSAMGame.CurrentTime.ElapsedSeconds;
 

@@ -1,7 +1,7 @@
 ﻿# Level 00 - DEBUG     #
 ########################
 
-init("0-dbg", 30143B96701E47029A2CA58E8CA3C40E)
+init("0-dbg", "DEBUG", 30143B96701E47029A2CA58E8CA3C40E)
 
 
 include("stdvalues")

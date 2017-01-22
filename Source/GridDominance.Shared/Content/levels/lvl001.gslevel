@@ -1,7 +1,7 @@
 ﻿# Level 01 - Standoff   #
 #########################
 
-init("0-1", 7018E8A16B04447C8972C2C2E118FC49)
+init("0-1", "Introduction", 7018E8A16B04447C8972C2C2E118FC49)
 
 include("stdvalues")
 
