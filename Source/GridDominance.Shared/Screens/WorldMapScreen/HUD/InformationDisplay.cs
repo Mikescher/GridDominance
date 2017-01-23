@@ -44,36 +44,36 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			sbatch.DrawLine(Position + new Vector2(1 * (Width/3f), 0), Position + new Vector2(1 * (Width / 3f), 32), FlatColors.MidnightBlue * progressDisplay, 2);
 			sbatch.DrawLine(Position + new Vector2(2 * (Width/3f), 0), Position + new Vector2(2 * (Width / 3f), 32), FlatColors.MidnightBlue * progressDisplay, 2);
 
-			FontRenderHelper.DrawTextCentered(sbatch, (tab == 0 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, "Points", (tab == 0 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(1 * (Width / 6f), 16));
-			FontRenderHelper.DrawTextCentered(sbatch, (tab == 1 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, "You",    (tab == 1 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(3 * (Width / 6f), 16));
-			FontRenderHelper.DrawTextCentered(sbatch, (tab == 2 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, "Global", (tab == 2 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(5 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 0 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, "You",       (tab == 0 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(1 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 1 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, "Highscore", (tab == 1 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(3 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 2 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, "Global",    (tab == 2 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(5 * (Width / 6f), 16));
 
 			if (tab == 0)
 			{
-				// Points
-
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, node.LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? "+" + FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_0) : "");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, node.LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? "+" + FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_1) : "");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, node.LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? "+" + FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_2) : "");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, node.LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? "+" + FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_3) : "");
-			}
-			else if (tab == 1)
-			{
-				// You
+				// Best time local
 
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, node.LevelData.GetTimeString(FractionDifficulty.DIFF_0));
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_1));
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, node.LevelData.GetTimeString(FractionDifficulty.DIFF_2));
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, node.LevelData.GetTimeString(FractionDifficulty.DIFF_3));
 			}
+			else if (tab == 1)
+			{
+				// Best time global //TODO
+
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, "00:00.000");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, "00:00.000");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, "00:00.000");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, "00:00.000");
+			}
 			else if (tab == 2)
 			{
-				// Global
+				// Amount of players online that solved this //TODO
 
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, "???");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, "???");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, "???");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, "???");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, "0");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, "0");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, "0");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, "0");
 			}
 		}
 

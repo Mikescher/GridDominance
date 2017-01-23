@@ -1,6 +1,4 @@
-TODO GD: When click on button dont bubble mouse event to background agent
 TODO GD: Optimize background rendering
-TODO GD: LevelNode
 
 
 WORLD MAP
@@ -24,9 +22,9 @@ WORLD MAP
  - whole map not forcible rectangulare (but 90° edges)
  - background like in level, cleared levels convert background (diff = different color or higher intensity or higher reach) -> or diff=lighter color (?)
  X only draw what is visible
- - when level node is clicked center it on scren and move bar on top and bottom into screen where you can see (levelname | difficulty | what you have solved | percentage solved worldwide | etc)
- -  -> normal draging removes bars again (slide in slide out)
- -  -> clicking on otehr node in range opens that one and centers taht one and show that ones info
+ X when level node is clicked center it on scren and move bar on top and bottom into screen where you can see (levelname | difficulty | what you have solved | percentage solved worldwide | etc)
+ X  -> normal draging removes bars again (slide in slide out)
+ X  -> clicking on otehr node in range opens that one and centers taht one and show that ones info
  - For first few levels (all ?) only unlock diff 3-4 when one is done
  - Add floating button to find next free level - auto drag following tree to next unsolved level node (aka fastest path)
  - If multiple leafs each click moves view and focus to the next
@@ -39,9 +37,27 @@ WORLD MAP
 => needs topic: screen with offset
 => needs topic: drag events
 
+=> No dim+energysaving while active
+
+Possible Names:
+  - Grid Dominance
+  - Bullet Swipe
+  - Cannon Conquest   <--
+  - Shoot and Conquer
 
 
+Online account
+ -> automatic create initial
+ -> by device id
+ -> later add username + pw for reuse
+ -> save levels solved, points, times online
+ -> daily (/hourly?) cronjob to calc stats
+ -> php backend
+ -> log into other acc with pw
 
+Online crash log 
+ -> by php send mail (always or daily report ??)
+ -> username, log, device, resolution, android version, etc
 
 
 TODO NEXT
