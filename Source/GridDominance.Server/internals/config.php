@@ -6,5 +6,7 @@ return [
 	'database_user' =>  'root',
 	'database_pass' =>  '',
 
+	'app_secret' => 'CryThuDozNachFisGhosPhazSechKipGep',
+
 	'debug' => true,
 ];
