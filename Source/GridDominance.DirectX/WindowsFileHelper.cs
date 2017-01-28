@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.IO.IsolatedStorage;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Persistance;
 
 namespace GridDominance.DirectX

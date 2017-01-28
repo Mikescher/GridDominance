@@ -47,6 +47,7 @@
     <Compile Include="DebugTools\FrequencyCounter.cs" />
     <Compile Include="DebugTools\GCMonitor.cs" />
     <Compile Include="DebugTools\IDebugTextDisplayLineProvider.cs" />
+    <Compile Include="DeviceBridge\OperatingSystemBridge.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
@@ -100,7 +101,7 @@
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\TextureRegion2DExtensions.cs" />
     <Compile Include="Persistance\DataFile\RootDataFile.cs" />
-    <Compile Include="Persistance\FileHelper.cs" />
+    <Compile Include="DeviceBridge\FileHelper.cs" />
     <Compile Include="Persistance\DataFileFormat\DataWriterException.cs" />
     <Compile Include="Persistance\DataFileFormat\IDataReader.cs" />
     <Compile Include="Persistance\DataFileFormat\UTFBinReader.cs" />

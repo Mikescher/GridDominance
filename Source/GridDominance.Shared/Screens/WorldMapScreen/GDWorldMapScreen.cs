@@ -66,6 +66,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 #if DEBUG
 			DebugDisp = new DebugTextDisplay(Graphics.GraphicsDevice, Textures.DebugFont);
 			{
+				DebugDisp.AddLine(() => $"Device = {Game.Bridge.DeviceName} | Version = {Game.Bridge.DeviceVersion}");
 				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} (d = {FPSCounter.MaximumDelta * 1000:0000.0} ) | total = {FPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} (d = {UPSCounter.MaximumDelta * 1000:0000.0} ) | total = {UPSCounter.TotalActions:000000})");
 				DebugDisp.AddLine(() => $"GC = Time since GC:{GCMonitor.TimeSinceLastGC:00.00}s ({GCMonitor.TimeSinceLastGC0:000.00}s | {GCMonitor.TimeSinceLastGC1:000.00}s | {GCMonitor.TimeSinceLastGC2:000.00}s) Memory = {GCMonitor.TotalMemory:000.0}MB Frequency = {GCMonitor.GCFrequency:0.000}");
@@ -75,7 +76,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastReleaseRenderSpriteCount:0000} (+ {LastDebugRenderSpriteCount:0000}); OGL Text = {LastReleaseRenderTextCount:0000} (+ {LastDebugRenderTextCount:0000})");
 				DebugDisp.AddLine(() => $"Map Offset = {MapOffset} (Map Center = {MapViewportCenter})");
 				DebugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD) HUD).SelectedNode?.Level?.Name ?? "NULL"}");
-
+				
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualGuaranteedSize={VAdapter.VirtualGuaranteedSize}");
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealGuaranteedSize={VAdapter.RealGuaranteedSize}");
@@ -84,14 +85,16 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualOffset={VAdapter.VirtualGuaranteedBoundingsOffset}");
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealOffset={VAdapter.RealGuaranteedBoundingsOffset}");
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={VAdapter.Scale}");
-
+				
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
-
+				
 				DebugDisp.AddLogLines(SAMLogLevel.DEBUG);
-
+				
 				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
+				
+				DebugDisp.AddLine("FALSE", () => InputStateMan.GetCurrentState().GetFullDebugSummary());
 
-				DebugDisp.AddLine("FALSE", () =>  InputStateMan.GetCurrentState().GetFullDebugSummary());
+				DebugDisp.AddLine("FALSE", () => Game.Bridge.FullDeviceInfoString);
 			}
 #endif
 			//AddLetter('B', 1.0f, 100 + 20, 256, 1);

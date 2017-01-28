@@ -10,7 +10,6 @@ using Ouya.Console.Api;
 #endif
 
 using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Persistance;
 
 namespace GridDominance.Android
 {
@@ -29,10 +28,8 @@ namespace GridDominance.Android
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-
-			FileHelper.RegisterSytsemSecificHandler(new AndroidFileHelper());
-
-			var g = new MainGame();
+			
+			var g = new MainGame(new AndroidImpl());
 			SetContentView(g.Services.GetService<View>());
 			g.Run();
 		}

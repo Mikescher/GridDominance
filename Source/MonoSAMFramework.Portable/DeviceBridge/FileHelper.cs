@@ -1,4 +1,4 @@
-﻿namespace MonoSAMFramework.Portable.Persistance
+﻿namespace MonoSAMFramework.Portable.DeviceBridge
 {
 	//see https://github.com/SupSuper/MonoGame-SaveManager 
 	public abstract class FileHelper
@@ -8,7 +8,7 @@
 
 		public static FileHelper Inst { get; private set; }
 
-		public static void RegisterSytsemSecificHandler(FileHelper h)
+		public static void RegisterSystemSecificHandler(FileHelper h)
 		{
 			Inst = h;
 		}

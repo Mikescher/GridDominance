@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
@@ -19,10 +20,15 @@ namespace MonoSAMFramework.Portable
 
 		public bool Alive { get; private set; } = true;
 
-		protected MonoSAMGame()
+		public readonly IOperatingSystemBridge Bridge;
+
+		protected MonoSAMGame(IOperatingSystemBridge bridge)
 		{
 			try
 			{
+				FileHelper.RegisterSystemSecificHandler(bridge.FileHelper);
+
+				Bridge = bridge;
 				CurrentInst = this;
 
 				CurrentTime = new SAMTime();

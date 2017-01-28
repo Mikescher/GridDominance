@@ -1,6 +1,5 @@
 ﻿using GridDominance.Shared;
 using System;
-using MonoSAMFramework.Portable.Persistance;
 
 namespace GridDominance.OpenGL
 {
@@ -9,10 +8,7 @@ namespace GridDominance.OpenGL
 		[STAThread]
 		static void Main()
 		{
-			FileHelper.RegisterSytsemSecificHandler(new WindowsFileHelper());
-
-			using (var game = new MainGame())
-				game.Run();
+			using (var game = new MainGame(new WindowsImpl())) game.Run();
 		}
 	}
 }

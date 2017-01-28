@@ -6,6 +6,7 @@ using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Persistance;
 
@@ -22,7 +23,7 @@ namespace GridDominance.Shared
 
 		public static MainGame Inst;
 
-		public MainGame()
+		public MainGame(IOperatingSystemBridge b) : base(b)
 		{
 			Profile = new PlayerProfile.PlayerProfile();
 
