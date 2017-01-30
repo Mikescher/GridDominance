@@ -1,0 +1,7 @@
+{
+    "name": "Grid-Dominance.server",
+    "description": "Grid Dominance PHP backend",
+    "require": {
+        "paragonie/easyrsa": "^0.5.0"
+    }
+}

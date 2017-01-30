@@ -9,9 +9,9 @@ function run() {
 	$devicename    = getParamStrOrError('device_name');
 	$deviceversion = getParamStrOrError('device_version');
 
-	$commit_hash   = getParamStrOrError('hash');
+	$signature     = getParamStrOrError('msgk');
 
-	check_commit_hash($commit_hash, [$username, $password]);
+	check_commit_signature($signature, [$username, $password]);
 
 	$user = createAutoUser($username, $password, $devicename, $deviceversion);
 
