@@ -16,6 +16,7 @@ function run() {
 	$user = createAutoUser($username, $password, $devicename, $deviceversion);
 
 	outputResultSuccess(['userid' => $user->ID]);
+	logMessage("New user registered ($user->ID) $username");
 }
 
 
@@ -23,5 +24,6 @@ function run() {
 try {
 	run();
 } catch (Exception $e) {
+	logError("InternalError: " . $e->getMessage() . "\n" . $e);
 	outputError(Errors::INTERNAL_EXCEPTION, $e->getMessage());
 }

@@ -1,5 +1,4 @@
 <?php
-require_once 'backend.php';
 
 use \ParagonIE\EasyRSA\EasyRSA;
 
