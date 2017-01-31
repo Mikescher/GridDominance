@@ -11,6 +11,11 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 });
 
+/**
+ * @var $pdo PDO
+ */
+$pdo = null;
+
 try {
 	init();
 } catch (Exception $e) {
@@ -32,34 +37,4 @@ function init() {
 		PDO::ATTR_EMULATE_PREPARES   => false,
 	];
 	$pdo = new PDO($dsn, $config['database_user'], $config['database_pass'], $opt);
-}
-
-// =====================================================================================================================
-
-function createAutoUser(string $username, string $password, string $devicename, string $deviceversion): GDUser {
-	global $pdo;
-
-	$stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username=:usr");
-	$stmt->bindValue(':usr', $username, PDO::PARAM_STR);
-	$stmt->execute();
-
-	if ($stmt->fetchColumn() > 0) outputError(ERRORS::CREATE_USER_DUPLICATE_USERNAME, "username $username already exists", LOGLEVEL::DEBUG);
-
-	$hash = password_hash($password, PASSWORD_BCRYPT);
-	if (!$hash) throw new Exception('password_hash failure');
-
-	$stmt = $pdo->prepare("INSERT INTO users(username, password_hash, is_auto_generated, score, creation_device_name, creation_device_version) VALUES (:un, :pw, 1, 0, :dn, :dv)");
-	$stmt->bindValue(':usr', $username, PDO::PARAM_STR);
-	$stmt->bindValue(':pw', $hash, PDO::PARAM_STR);
-	$stmt->bindValue(':dn', $devicename, PDO::PARAM_STR);
-	$stmt->bindValue(':dv', $deviceversion, PDO::PARAM_STR);
-	$succ = $stmt->execute();
-	if (!$succ) throw new Exception('SQL for insert user failed');
-
-
-	$result = new GDUser();
-	$result->Username = $username;
-	$result->ID = $pdo->lastInsertId();
-
-	return $result;
 }
