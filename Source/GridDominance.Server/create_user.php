@@ -1,6 +1,6 @@
 <?php
 
-require_once 'internals/backend.php';
+require 'internals/backend.php';
 
 
 function run() {
@@ -21,7 +21,7 @@ function run() {
 	if (!$hash) throw new Exception('password_hash failure');
 
 	$stmt = $pdo->prepare("INSERT INTO users(username, password_hash, is_auto_generated, score, creation_device_name, creation_device_version) VALUES (:un, :pw, 1, 0, :dn, :dv)");
-	$stmt->bindValue(':usr', $username, PDO::PARAM_STR);
+	$stmt->bindValue(':un', $username, PDO::PARAM_STR);
 	$stmt->bindValue(':pw', $hash, PDO::PARAM_STR);
 	$stmt->bindValue(':dn', $devicename, PDO::PARAM_STR);
 	$stmt->bindValue(':dv', $deviceversion, PDO::PARAM_STR);

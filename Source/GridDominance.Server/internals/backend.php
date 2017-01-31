@@ -1,15 +1,18 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once 'SFServer.php';
-
-$config = require 'config.php';
-
-set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontext) {
-	// error was suppressed with the @-operator
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
 	if (0 === error_reporting()) return false;
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 });
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once 'SFServer.php';
+require_once 'GDUser.php';
+
+/**
+ * @var $config array
+ */
+$config = require 'config.php';
 
 /**
  * @var $pdo PDO

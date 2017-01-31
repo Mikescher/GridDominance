@@ -1,6 +1,6 @@
 <?php
 
-require_once 'internals/backend.php';
+require 'internals/backend.php';
 
 
 function run() {

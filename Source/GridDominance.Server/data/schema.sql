@@ -20,8 +20,7 @@ CREATE TABLE IF NOT EXISTS users
   creation_device_name    varchar(128) NOT NULL,
   creation_device_version varchar(128) NOT NULL,
 
-  PRIMARY KEY (userid),
-  UNIQUE KEY username (username)
+  PRIMARY KEY (userid)
 );
 
 

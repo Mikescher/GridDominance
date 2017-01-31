@@ -15,5 +15,6 @@ class GDUser
 		$r = new GDUser();
 		$r->ID = $_id;
 		$r->Username = $_username;
+		return $r;
 	}
 }
