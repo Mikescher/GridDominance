@@ -32,13 +32,14 @@ function run() {
 
 	//---------
 
-	outputResultSuccess(['userid' => $user->ID, 'username' => $username]);
 	logMessage("New user registered $user->ID");
+	outputResultSuccess(['userid' => $user->ID, 'username' => $username]);
 }
 
 
 
 try {
+	init("create-user");
 	run();
 } catch (Exception $e) {
 	logError("InternalError: " . $e->getMessage() . "\n" . $e);

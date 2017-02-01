@@ -9,27 +9,22 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once 'SFServer.php';
 require_once 'GDUser.php';
 
-/**
- * @var $config array
- */
+/** @var $config array */
 $config = require 'config.php';
 
-/**
- * @var $pdo PDO
- */
+/** @var $pdo PDO */
 $pdo = null;
 
-try {
-	init();
-} catch (Exception $e) {
-	logError("InternalError: " . $e->getMessage() . "\n" . $e);
-	outputError(Errors::INTERNAL_EXCEPTION, $e->getMessage());
-}
+/** @var $action_name String */
+$action_name = "UNDEF";
 
 
-function init() {
+function init(string $action) {
 	global $config;
 	global $pdo;
+	global $action_name;
+
+	$action_name = $action;
 
 	if (!$config['debug']) error_reporting(E_STRICT);
 

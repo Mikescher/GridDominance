@@ -53,13 +53,14 @@ function run() {
 
 	//----------
 
-	outputResultSuccess([]);
 	logMessage("user upgraded to account ($userid -> $username_new)");
+	outputResultSuccess([]);
 }
 
 
 
 try {
+	init("upgrade-user");
 	run();
 } catch (Exception $e) {
 	logError("InternalError: " . $e->getMessage() . "\n" . $e);

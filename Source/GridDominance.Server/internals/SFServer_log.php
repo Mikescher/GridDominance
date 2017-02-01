@@ -10,26 +10,7 @@ abstract class LOGLEVEL {
 function logMessage($msg, $id='LOG') {
 	global $config;
 
-	$fn1 = $config['logfile-normal'];
-	$fn2 = $fn1 . '.old';
-
-	$fs = @filesize($fn1);
-
-	if ($fs && $fs > $config['maxsize-logfile-normal']) {
-		if (file_exists($fn2))@unlink($fn2);
-		copy($fn1, $fn2);
-		@unlink($fn1);
-	}
-
-	$fd = fopen($fn1, "a");
-
-	$pd = date('Y-m-d h:i:s');
-	$ra = str_pad(ParamServerOrUndef('REMOTE_ADDR'), 16);
-	$str = "$id [$pd]-$ra $msg";
-
-	fwrite($fd, $str . "n");
-
-	fclose($fd);
+	logToFile($config['logfile-normal'], $config['maxsize-logfile-normal'], $msg, $id);
 
 	logDebug($msg, $id);
 }
@@ -37,32 +18,15 @@ function logMessage($msg, $id='LOG') {
 function logDebug($msg, $id='DBG') {
 	global $config;
 
-	$fn1 = $config['logfile-debug'];
-	$fn2 = $fn1 . '.old';
-
-	$fs = @filesize($fn1);
-
-	if ($fs && $fs > $config['maxsize-logfile-debug']) {
-		if (file_exists($fn2))@unlink($fn2);
-		copy($fn1, $fn2);
-		@unlink($fn1);
-	}
-
-	$fd = fopen($fn1, "a");
-
-	$pd = date('Y-m-d h:i:s');
-	$ra = str_pad(ParamServerOrUndef('REMOTE_ADDR'), 16);
-	$str = "$id [$pd]-$ra $msg";
-
-	fwrite($fd, $str . "\n");
-
-	fclose($fd);
+	logToFile($config['logfile-debug'], $config['maxsize-logfile-debug'], $msg, $id);
 }
 
 function logError($msg) {
 	global $config;
 
 	logMessage($msg, 'ERR');
+
+	logToFile($config['logfile-error'], $config['maxsize-logfile-error'], $msg, 'ERR');
 
 	$subject = "SFServer has encountered an Error at " . date("Y-m-d h:i:s") . "] ";
 
@@ -81,6 +45,32 @@ function logError($msg) {
 	} catch (Exception $e) {
 		logMessage("Cannot send mail: " . $e->getMessage(), 'ERR');
 	}
+}
+
+function logToFile(string $filename, int $maxsize, string $msg, string $id) {
+	global $action_name;
+
+	$filename = str_replace("{action}", $action_name, $filename);
+
+	$fn1 = $filename;
+	$fn2 = $fn1 . '.old';
+
+	$fs = @filesize($fn1);
+
+	if ($fs && $fs > $maxsize) {
+		if (file_exists($fn2)) @unlink($fn2);
+		copy($fn1, $fn2);
+		@unlink($fn1);
+	}
+
+
+	$pd = date('Y-m-d h:i:s');
+	$ra = str_pad(ParamServerOrUndef('REMOTE_ADDR'), 16);
+	$str = "$id [$pd]-$ra $msg";
+
+	$fd = fopen($fn1, "a");
+	fwrite($fd, $str . "\n");
+	fclose($fd);
 }
 
 function ParamServerOrUndef(string $idx) {
