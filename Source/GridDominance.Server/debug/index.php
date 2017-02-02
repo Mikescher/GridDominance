@@ -59,7 +59,7 @@
 
     <div class="flowbox">
         <form class="form" data-apitarget="create-user">
-            <h3>Create_User</h3>
+            <h3>Create User</h3>
 
             Password:<br>             <input type="text" data-apiparam="password">
             Device Name:<br>          <input type="text" data-apiparam="device_name">
@@ -70,7 +70,7 @@
         </form>
 
         <form class="form" data-apitarget="upgrade-user">
-            <h3>Upgrade_User</h3>
+            <h3>Upgrade User</h3>
 
             UserID:<br>              <input type="text" data-apiparam="userid">
             Password (Old):<br>      <input type="text" data-apiparam="password_old">
@@ -86,6 +86,17 @@
 
             UserID:<br>              <input type="text" data-apiparam="userid">
             Password:<br>            <input type="text" data-apiparam="password">
+            App Version:<br>         <input type="text" data-apiparam="app_version">
+
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
+
+        <form class="form" data-apitarget="change-password">
+            <h3>Change Password</h3>
+
+            UserID:<br>              <input type="text" data-apiparam="userid">
+            Password (Old):<br>      <input type="text" data-apiparam="password_old">
+            Password (New):<br>      <input type="text" data-apiparam="password_new">
             App Version:<br>         <input type="text" data-apiparam="app_version">
 
             <button type="button" onclick="apicall(this);">Query</button>

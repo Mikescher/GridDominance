@@ -7,9 +7,9 @@ abstract class ERRORS {
 	const PARAMETER_HASH_MISMATCH = 99002;
 	const INVALID_PARAMETER       = 99003;
 
-	/* ======== 10 CREATE_USER ========= */
+	/* ======== 10 CREATE-USER ========= */
 
-	/* ======== 11 UPGRADE_USER ========= */
+	/* ======== 11 UPGRADE-USER ========= */
 	const UPGRADE_USER_INVALID_USERID      = 11001;
 	const UPGRADE_USER_WRONG_PASSWORD      = 11002;
 	const UPGRADE_USER_DUPLICATE_USERNAME  = 10003;
@@ -18,6 +18,10 @@ abstract class ERRORS {
 	/* ======== 12 PING ========= */
 	const PING_INVALID_USERID              = 12001;
 	const PING_WRONG_PASSWORD              = 12002;
+
+	/* ======== 13 CHANGE-PASSWORD ========= */
+	const CHANGEPW_INVALID_USERID          = 13001;
+	const CHANGEPW_WRONG_PASSWORD          = 13002;
 }
 
 function is_int_str(string $value): bool {
