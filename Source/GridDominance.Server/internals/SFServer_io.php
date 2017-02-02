@@ -2,26 +2,22 @@
 
 abstract class ERRORS {
 	/* ======== 99 INTERNAL ========= */
-	const INTERNAL_EXCEPTION      = 99000;
+	const INTERNAL_EXCEPTION      = 99099;
 	const MISSING_PARAMETER       = 99001;
 	const PARAMETER_HASH_MISMATCH = 99002;
 	const INVALID_PARAMETER       = 99003;
+	const USER_BY_ID_NOT_FOUND    = 99004;
+	const WRONG_PASSWORD          = 99005;
 
 	/* ======== 10 CREATE-USER ========= */
 
 	/* ======== 11 UPGRADE-USER ========= */
-	const UPGRADE_USER_INVALID_USERID      = 11001;
-	const UPGRADE_USER_WRONG_PASSWORD      = 11002;
-	const UPGRADE_USER_DUPLICATE_USERNAME  = 10003;
-	const UPGRADE_USER_ACCOUNT_ALREADY_SET = 11004;
+	const UPGRADE_USER_DUPLICATE_USERNAME  = 10001;
+	const UPGRADE_USER_ACCOUNT_ALREADY_SET = 11002;
 
 	/* ======== 12 PING ========= */
-	const PING_INVALID_USERID              = 12001;
-	const PING_WRONG_PASSWORD              = 12002;
 
 	/* ======== 13 CHANGE-PASSWORD ========= */
-	const CHANGEPW_INVALID_USERID          = 13001;
-	const CHANGEPW_WRONG_PASSWORD          = 13002;
 }
 
 function is_int_str(string $value): bool {

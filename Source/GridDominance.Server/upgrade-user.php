@@ -29,26 +29,16 @@ function run() {
 
 	//----------
 
-	$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score FROM users WHERE userid=:id");
-	$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
-	$stmt->execute();
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-	if ($row === FALSE) outputError(ERRORS::UPGRADE_USER_INVALID_USERID, "No user with id $userid found", LOGLEVEL::DEBUG);
-
-	$user = GDUser::CreateFromSQL($row);
-
-	if (! $user->verify_password($password_old)) outputError(ERRORS::UPGRADE_USER_WRONG_PASSWORD, "Wrong password supplied", LOGLEVEL::DEBUG);
+	$user = GDUser::QueryOrFail($pdo, $password_old, $userid);
 
 	if (! $user->AutoUser) outputError(ERRORS::UPGRADE_USER_ACCOUNT_ALREADY_SET, "Only auto-accounts can be upgraded to full accounts", LOGLEVEL::DEBUG);
-
 
 	//----------
 
 	$hash = password_hash($password_new, PASSWORD_BCRYPT);
 	if (!$hash) throw new Exception('password_hash failure');
 
-	$stmt = $pdo->prepare("UPDATE users SET username=:usr, password_hash=:pw, is_auto_generated=0, last_online=CURRENT_TIMESTAMP(), last_online_version=:av WHERE userid=:id");
+	$stmt = $pdo->prepare("UPDATE users SET username=:usr, password_hash=:pw, is_auto_generated=0, last_online=CURRENT_TIMESTAMP(), last_online_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
 	$stmt->bindValue(':usr', $username_new, PDO::PARAM_STR);
 	$stmt->bindValue(':pw', $hash, PDO::PARAM_STR);
 	$stmt->bindValue(':id', $userid, PDO::PARAM_INT);

@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS users
   is_auto_generated       bit(1)       NOT NULL,
 
   score                   int(11)      NOT NULL,
+  revision_id             int(11)      NOT NULL DEFAULT 0,
 
   creation_time           timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   creation_device_name    varchar(128) NOT NULL,

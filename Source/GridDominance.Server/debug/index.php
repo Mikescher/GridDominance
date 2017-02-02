@@ -101,6 +101,20 @@
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
+
+        <form class="form" data-apitarget="update-score">
+            <h3>Update Score</h3>
+
+            UserID:<br>              <input type="text" data-apiparam="userid">
+            Password:<br>            <input type="text" data-apiparam="password">
+            App Version:<br>         <input type="text" data-apiparam="app_version">
+            Level ID:<br>            <input type="text" data-apiparam="levelid">
+            Difficulty:<br>          <input type="text" data-apiparam="difficulty">
+            Level Time:<br>          <input type="text" data-apiparam="leveltime">
+            Total Score:<br>         <input type="text" data-apiparam="totalscore">
+
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
     </div>
 
 
