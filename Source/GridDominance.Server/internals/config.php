@@ -16,9 +16,9 @@ return [
 	'email-error-target' => 'mailport@mikescher.de',
 	'email-error-sender' => 'gdserver-error@mikescher.com',
 
-	'maxsize-logfile-normal' =>  512 * 1024 * 1024, // 512MB
-	'maxsize-logfile-debug'  =>  128 * 1024 * 1024, // 128MB
-	'maxsize-logfile-error'  =>  512 * 1024 * 1024, // 512MB
+	'maxsize-logfile-normal' =>  128 * 1024 * 1024, // 512MB
+	'maxsize-logfile-debug'  =>   16 * 1024 * 1024, // 128MB
+	'maxsize-logfile-error'  =>  128 * 1024 * 1024, // 512MB
 
 	'debug' => true,
 ];

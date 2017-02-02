@@ -14,11 +14,15 @@ CREATE TABLE IF NOT EXISTS users
   username                varchar(64)  NOT NULL,
   password_hash           char(128)    NOT NULL,
   is_auto_generated       bit(1)       NOT NULL,
+
   score                   int(11)      NOT NULL,
+
   creation_time           timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  last_online             timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   creation_device_name    varchar(128) NOT NULL,
   creation_device_version varchar(128) NOT NULL,
+
+  last_online             timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_online_version     varchar(24)  NOT NULL,
 
   PRIMARY KEY (userid)
 );

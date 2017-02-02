@@ -53,30 +53,42 @@
 
 <body>
 
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+<script src="jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
 
 <div id="rootbox">
 
     <div class="flowbox">
-        <form class="form" data-apitarget="create_user">
+        <form class="form" data-apitarget="create-user">
             <h3>Create_User</h3>
 
-            Password:<br>      <input type="text" data-apiparam="password">
-            Device Name:<br>   <input type="text" data-apiparam="device_name">
-            Device Version:<br><input type="text" data-apiparam="device_version">
+            Password:<br>             <input type="text" data-apiparam="password">
+            Device Name:<br>          <input type="text" data-apiparam="device_name">
+            Device Version:<br>       <input type="text" data-apiparam="device_version">
+            App Version:<br>          <input type="text" data-apiparam="app_version">
 
-            <button type="button" id="btnCreate" onclick="apicall(this);">Query</button>
+            <button type="button" onclick="apicall(this);">Query</button>
         </form>
 
-        <form class="form" data-apitarget="upgrade_user">
+        <form class="form" data-apitarget="upgrade-user">
             <h3>Upgrade_User</h3>
 
             UserID:<br>              <input type="text" data-apiparam="userid">
             Password (Old):<br>      <input type="text" data-apiparam="password_old">
             Password (New):<br>      <input type="text" data-apiparam="password_new">
             Username:<br>            <input type="text" data-apiparam="username_new">
+            App Version:<br>         <input type="text" data-apiparam="app_version">
 
-            <button type="button" id="btnCreate" onclick="apicall(this);">Query</button>
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
+
+        <form class="form" data-apitarget="ping">
+            <h3>Ping</h3>
+
+            UserID:<br>              <input type="text" data-apiparam="userid">
+            Password:<br>            <input type="text" data-apiparam="password">
+            App Version:<br>         <input type="text" data-apiparam="app_version">
+
+            <button type="button" onclick="apicall(this);">Query</button>
         </form>
     </div>
 
@@ -89,8 +101,8 @@
 <script type="text/javascript">
 
     function apicall(sender) {
-        form = $(sender).closest('.form');
-        url = form.attr('data-apitarget') + ".php?msgk=DEBUG";
+        let form = $(sender).closest('.form');
+        let url = "../" + form.attr('data-apitarget') + ".php?msgk=DEBUG";
 
         form.children('input').each(function() {
             url = url + "&" + $(this).attr('data-apiparam') + "=" + $(this).val();

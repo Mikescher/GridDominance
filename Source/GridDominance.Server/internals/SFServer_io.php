@@ -9,11 +9,15 @@ abstract class ERRORS {
 
 	/* ======== 10 CREATE_USER ========= */
 
-	/* ======== 1 UPGRADE_USER ========= */
+	/* ======== 11 UPGRADE_USER ========= */
 	const UPGRADE_USER_INVALID_USERID      = 11001;
 	const UPGRADE_USER_WRONG_PASSWORD      = 11002;
 	const UPGRADE_USER_DUPLICATE_USERNAME  = 10003;
 	const UPGRADE_USER_ACCOUNT_ALREADY_SET = 11004;
+
+	/* ======== 12 PING ========= */
+	const PING_INVALID_USERID              = 12001;
+	const PING_WRONG_PASSWORD              = 12002;
 }
 
 function is_int_str(string $value): bool {
