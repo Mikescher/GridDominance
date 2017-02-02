@@ -8,6 +8,7 @@ abstract class ERRORS {
 	const INVALID_PARAMETER       = 99003;
 	const USER_BY_ID_NOT_FOUND    = 99004;
 	const WRONG_PASSWORD          = 99005;
+	const SQL_FAILED              = 99006;
 
 	/* ======== 10 CREATE-USER ========= */
 
@@ -18,6 +19,12 @@ abstract class ERRORS {
 	/* ======== 12 PING ========= */
 
 	/* ======== 13 CHANGE-PASSWORD ========= */
+
+	/* ======== 14 SET-SCORE ========= */
+	const SET_SCORE_INVALID_TIME  = 11001;
+	const SET_SCORE_INVALID_SCORE = 11002;
+	const SET_SCORE_INVALID_LVLID = 11003;
+	const SET_SCORE_INVALID_DIFF  = 11004;
 }
 
 function is_int_str(string $value): bool {

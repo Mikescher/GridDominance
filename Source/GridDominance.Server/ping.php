@@ -16,23 +16,14 @@ function run() {
 
 	//----------
 
-	$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score FROM users WHERE userid=:id");
-	$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
-	$stmt->execute();
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-	if ($row === FALSE) outputError(ERRORS::PING_INVALID_USERID, "No user with id $userid found", LOGLEVEL::DEBUG);
-
-	$user = GDUser::CreateFromSQL($row);
-
-	if (! $user->verify_password($password)) outputError(ERRORS::PING_WRONG_PASSWORD, "Wrong password supplied", LOGLEVEL::DEBUG);
+	$user = GDUser::QueryOrFail($pdo, $password, $userid);
 
 	//----------
 
 	$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), last_online_version=:av WHERE userid=:uid");
 	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 	$stmt->bindValue(':av', $appversion, PDO::PARAM_STR);
-	$stmt->execute();
+	executeOrFail($stmt);
 
 	//----------
 

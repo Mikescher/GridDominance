@@ -28,7 +28,7 @@ function run() {
 	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 	$stmt->bindValue(':av', $appversion, PDO::PARAM_STR);
 	$stmt->bindValue(':pw', $hash, PDO::PARAM_STR);
-	$stmt->execute();
+	executeOrFail($stmt);
 
 	//----------
 

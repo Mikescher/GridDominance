@@ -102,8 +102,8 @@
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
 
-        <form class="form" data-apitarget="update-score">
-            <h3>Update Score</h3>
+        <form class="form" data-apitarget="set-score">
+            <h3>Set Score</h3>
 
             UserID:<br>              <input type="text" data-apiparam="userid">
             Password:<br>            <input type="text" data-apiparam="password">

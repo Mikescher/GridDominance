@@ -27,8 +27,7 @@ function run() {
 	$stmt->bindValue(':dn', $devicename, PDO::PARAM_STR);
 	$stmt->bindValue(':dv', $deviceversion, PDO::PARAM_STR);
 	$stmt->bindValue(':av', $appversion, PDO::PARAM_STR);
-	$succ = $stmt->execute();
-	if (!$succ) throw new Exception('SQL for insert user failed');
+	executeOrFail($stmt);
 
 	$user = GDUser::CreateNew($pdo->lastInsertId(), $username, 0);
 

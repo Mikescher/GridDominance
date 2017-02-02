@@ -22,7 +22,7 @@ function run() {
 
 	$stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username=:usr");
 	$stmt->bindValue(':usr', $username_new, PDO::PARAM_STR);
-	$stmt->execute();
+	executeOrFail($stmt);
 
 	if ($stmt->fetchColumn() > 0) outputError(ERRORS::UPGRADE_USER_DUPLICATE_USERNAME, "username $username_new already exists", LOGLEVEL::DEBUG);
 	if ($username_new == 'anonymous') outputError(ERRORS::UPGRADE_USER_DUPLICATE_USERNAME, "username $username_new already exists", LOGLEVEL::DEBUG);
@@ -43,8 +43,7 @@ function run() {
 	$stmt->bindValue(':pw', $hash, PDO::PARAM_STR);
 	$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 	$stmt->bindValue(':av', $appversion, PDO::PARAM_INT);
-	$succ = $stmt->execute();
-	if (!$succ) throw new Exception('SQL for insert user failed');
+	executeOrFail($stmt);
 
 	$user->Upgrade($username_new, $hash);
 

@@ -18,7 +18,9 @@ function run() {
 
 	check_commit_signature($signature, [$userid, $password, $levelid, $difficulty, $leveltime, $totalscore, $appversion]);
 
-	if ($leveltime <= 0)
+	if ($leveltime <= 0) outputError(ERRORS::SET_SCORE_INVALID_TIME, "The time $leveltime is not possible", LogLevel::MESSAGE);
+	if (in_array($difficulty, [0,1,2,3], TRUE)) outputError(ERRORS::SET_SCORE_INVALID_DIFF, "The difficulty $difficulty is not possible", LogLevel::MESSAGE);
+	if ($totalscore < 0) outputError(ERRORS::SET_SCORE_INVALID_SCORE, "The score $totalscore is not possible", LogLevel::MESSAGE);
 
 	//----------
 
@@ -29,7 +31,7 @@ function run() {
 	$stmt = $pdo->prepare("SELECT best_time FROM level_highscores WHERE userid=:uid AND levelid=:lid");
 	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 	$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
-	$stmt->execute();
+	executeOrFail($stmt);
 	$dbtime = $stmt->fetchColumn();
 
 	if ($dbtime !== FALSE) {
@@ -45,7 +47,7 @@ function run() {
 		$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
 		$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
 		$stmt->bindValue(':time', $leveltime, PDO::PARAM_INT);
-		$stmt->execute();
+		executeOrFail($stmt);
 	} else {
 
 		// no row in db
@@ -54,7 +56,7 @@ function run() {
 		$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
 		$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
 		$stmt->bindValue(':time', $leveltime, PDO::PARAM_INT);
-		$stmt->execute();
+		executeOrFail($stmt);
 	}
 
 	//----------
@@ -63,7 +65,7 @@ function run() {
 	$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 	$stmt->bindValue(':av', $appversion, PDO::PARAM_INT);
 	$stmt->bindValue(':scr', $totalscore, PDO::PARAM_INT);
-	$stmt->execute();
+	executeOrFail($stmt);
 
 	$user->Score = $totalscore;
 	$user->RevID++;
