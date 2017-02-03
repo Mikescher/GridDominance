@@ -21,7 +21,7 @@ function run() {
 	$hash = password_hash($password, PASSWORD_BCRYPT);
 	if (!$hash) throw new Exception('password_hash failure');
 
-	$stmt = $pdo->prepare("INSERT INTO users(username, password_hash, is_auto_generated, score, creation_device_name, creation_device_version, last_online_version) VALUES (:un, :pw, 1, 0, :dn, :dv, :av)");
+	$stmt = $pdo->prepare("INSERT INTO users(username, password_hash, is_auto_generated, score, creation_device_name, creation_device_version, last_online_app_version) VALUES (:un, :pw, 1, 0, :dn, :dv, :av)");
 	$stmt->bindValue(':un', $username, PDO::PARAM_STR);
 	$stmt->bindValue(':pw', $hash, PDO::PARAM_STR);
 	$stmt->bindValue(':dn', $devicename, PDO::PARAM_STR);
@@ -43,6 +43,5 @@ try {
 	init("create-user");
 	run();
 } catch (Exception $e) {
-	logError("InternalError: " . $e->getMessage() . "\n" . $e);
-	outputError(Errors::INTERNAL_EXCEPTION, $e->getMessage());
+	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);
 }

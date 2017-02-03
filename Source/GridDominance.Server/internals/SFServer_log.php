@@ -24,26 +24,41 @@ function logDebug($msg, $id='DBG') {
 function logError($msg) {
 	global $config;
 
-	logMessage($msg, 'ERR');
-
-	logToFile($config['logfile-error'], $config['maxsize-logfile-error'], $msg, 'ERR');
-
-	$subject = "SFServer has encountered an Error at " . date("Y-m-d h:i:s") . "] ";
-
-	$content = "";
-
-	$content .= 'HTTP_HOST: '            . ParamServerOrUndef('HTTP_HOST')            . "\n";
-	$content .= 'REQUEST_URI: '          . ParamServerOrUndef('REQUEST_URI')          . "\n";
-	$content .= 'TIME: '                 . date('Y-m-d h:i:s')                        . "\n";
-	$content .= 'REMOTE_ADDR: '          . ParamServerOrUndef('REMOTE_ADDR')          . "\n";
-	$content .= 'HTTP_X_FORWARDED_FOR: ' . ParamServerOrUndef('HTTP_X_FORWARDED_FOR') . "\n";
-	$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')      . "\n";
-	$content .= 'MESSAGE:'               . "\n" . $msg                                . "\n";
+	$exc = NULL;
 
 	try	{
-		mail($config['email-error-target'], $subject, $content, 'From: ' . $config['email-error-sender']);
+		logMessage($msg, 'ERR');
 	} catch (Exception $e) {
-		logMessage("Cannot send mail: " . $e->getMessage(), 'ERR');
+		$exc = $e;
+	}
+
+	try	{
+		logToFile($config['logfile-error'], $config['maxsize-logfile-error'], $msg, 'ERR');
+	} catch (Exception $e) {
+		$exc = $e;
+	}
+
+
+	try	{
+		$subject = "SFServer has encountered an Error at " . date("Y-m-d h:i:s") . "] ";
+
+		$content = "";
+
+		$content .= 'HTTP_HOST: '            . ParamServerOrUndef('HTTP_HOST')            . "\n";
+		$content .= 'REQUEST_URI: '          . ParamServerOrUndef('REQUEST_URI')          . "\n";
+		$content .= 'TIME: '                 . date('Y-m-d h:i:s')                        . "\n";
+		$content .= 'REMOTE_ADDR: '          . ParamServerOrUndef('REMOTE_ADDR')          . "\n";
+		$content .= 'HTTP_X_FORWARDED_FOR: ' . ParamServerOrUndef('HTTP_X_FORWARDED_FOR') . "\n";
+		$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')      . "\n";
+		$content .= 'MESSAGE:'               . "\n" . $msg                                . "\n";
+
+		sendMail($subject, $content, $config['email-error-target'], $config['email-error-sender']);
+	} catch (Exception $e) {
+		$exc = $e;
+	}
+
+	if ($exc !== NULL) {
+		logMessage("log error failed hard: " . $exc->getMessage() . "\n" . $exc->getTraceAsString(), 'ERR');
 	}
 }
 

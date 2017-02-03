@@ -53,6 +53,22 @@ class GDUser
 		return $user;
 	}
 
+	public static function QueryOrNull(PDO $pdo, string $pw, int $userid) // : ?GDUser
+	{
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, revision_id FROM users WHERE userid=:id");
+		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
+		$stmt->execute();
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if ($row === FALSE) return NULL;
+
+		$user = self::CreateFromSQL($row);
+
+		if (! $user->verify_password($pw)) return NULL;
+
+		return $user;
+	}
+
 	public static function CreateFromSQL(array $row) : GDUser
 	{
 		$r = new GDUser();

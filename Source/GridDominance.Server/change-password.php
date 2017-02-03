@@ -24,7 +24,7 @@ function run() {
 	$hash = password_hash($password_new, PASSWORD_BCRYPT);
 	if (!$hash) throw new Exception('password_hash failure');
 
-	$stmt = $pdo->prepare("UPDATE users SET password_hash=:pw, last_online=CURRENT_TIMESTAMP(), last_online_version=:av WHERE userid=:uid");
+	$stmt = $pdo->prepare("UPDATE users SET password_hash=:pw, last_online=CURRENT_TIMESTAMP(), last_online_app_version=:av WHERE userid=:uid");
 	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 	$stmt->bindValue(':av', $appversion, PDO::PARAM_STR);
 	$stmt->bindValue(':pw', $hash, PDO::PARAM_STR);
@@ -42,6 +42,5 @@ try {
 	init("change-password");
 	run();
 } catch (Exception $e) {
-	logError("InternalError: " . $e->getMessage() . "\n" . $e);
-	outputError(Errors::INTERNAL_EXCEPTION, $e->getMessage());
+	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);
 }

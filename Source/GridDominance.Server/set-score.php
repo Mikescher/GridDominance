@@ -61,7 +61,7 @@ function run() {
 
 	//----------
 
-	$stmt = $pdo->prepare("UPDATE users SET score=:scr, last_online=CURRENT_TIMESTAMP(), last_online_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
+	$stmt = $pdo->prepare("UPDATE users SET score=:scr, last_online=CURRENT_TIMESTAMP(), last_online_app_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
 	$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 	$stmt->bindValue(':av', $appversion, PDO::PARAM_INT);
 	$stmt->bindValue(':scr', $totalscore, PDO::PARAM_INT);
@@ -82,6 +82,5 @@ try {
 	init("update-score");
 	run();
 } catch (Exception $e) {
-	logError("InternalError: " . $e->getMessage() . "\n" . $e);
-	outputError(Errors::INTERNAL_EXCEPTION, $e->getMessage());
+	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);
 }

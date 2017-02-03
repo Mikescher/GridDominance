@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users
   creation_device_version varchar(128) NOT NULL,
 
   last_online             timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  last_online_version     varchar(24)  NOT NULL,
+  last_online_app_version varchar(24)  NOT NULL,
 
   PRIMARY KEY (userid)
 );
@@ -63,8 +63,9 @@ CREATE TABLE IF NOT EXISTS error_log
 (
   error_id              int(11)       NOT NULL AUTO_INCREMENT,
   userid                int(11)       NOT NULL,
+  password_verified     bit(1)        NOT NULL,
   screen_resolution     varchar(256)  NOT NULL,
-  game_version          varchar(256)  NOT NULL,
+  app_version           varchar(24)   NOT NULL,
   exception_id          varchar(256)  NOT NULL,
   exception_message     varchar(4096) NOT NULL,
   exception_stacktrace  varchar(4096) NOT NULL,

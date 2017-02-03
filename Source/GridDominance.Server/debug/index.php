@@ -63,8 +63,8 @@
         }
 
         .sqltab td {
-            max-width: 100px;
-            word-break: break-all;
+            max-width: 128px;
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -72,6 +72,7 @@
 <body>
 
 <script src="jquery-3.1.0.min.js"></script>
+<script src="webtoolkit.base64.js"></script>
 
 <div id="rootbox">
 
@@ -133,6 +134,21 @@
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
+
+        <form class="form" data-apitarget="log-client">
+            <h3>Log Client</h3>
+
+            UserID:<br>              <input type="text" data-apiparam="userid">
+            Password:<br>            <input type="text" data-apiparam="password">
+            Screen Resolution:<br>   <input type="text" data-apiparam="screen_resolution">
+            App Version:<br>         <input type="text" data-apiparam="app_version">
+            Identifier:<br>          <input type="text" data-apiparam="exception_id">
+            Message:<br>             <input type="text" data-apiparam="exception_message"    data-apiformat="b64">
+            Stacktrace:<br>          <input type="text" data-apiparam="exception_stacktrace" data-apiformat="b64">
+            Additional:<br>          <input type="text" data-apiparam="additional_info"      data-apiformat="b64">
+
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
     </div>
 
 
@@ -151,7 +167,13 @@
         let url = "../" + form.attr('data-apitarget') + ".php?msgk=DEBUG";
 
         form.children('input').each(function() {
-            url = url + "&" + $(this).attr('data-apiparam') + "=" + $(this).val();
+            let v = $(this).val();
+
+            if ($(this).attr('data-apiformat') === 'b64') {
+                v = Base64.encode_urlsafe(v);
+            }
+
+            url = url + "&" + $(this).attr('data-apiparam') + "=" + v;
         });
 
         jQuery.get(url, undefined, function(data)

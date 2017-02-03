@@ -18,7 +18,7 @@ foreach ($pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_NUM) as $tabarr)
 
 	print "<thead>\n";
 	foreach ($cols as $col) {
-		print "<th>" . $col[0] . "</th>\n";
+		print "<th>" . str_replace("_", " ", $col[0]). "</th>\n";
 	}
 	print "</thead>\n";
 
