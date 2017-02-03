@@ -3,7 +3,11 @@
 use \ParagonIE\EasyRSA\EasyRSA;
 
 
-function check_commit_signature(string $sig, array $data) {
+/**
+ * @param string $sig
+ * @param array $data
+ */
+function check_commit_signature($sig, $data) {
 	global $config;
 
 	if ($config['debug']) return; // no checking while debug

@@ -7,6 +7,10 @@ abstract class LOGLEVEL {
 	const ERROR      = 2;    // fatal - send mail 2 me
 }
 
+/**
+ * @param string $msg
+ * @param string $id
+ */
 function logMessage($msg, $id='LOG') {
 	global $config;
 
@@ -15,12 +19,19 @@ function logMessage($msg, $id='LOG') {
 	logDebug($msg, $id);
 }
 
+/**
+ * @param string $msg
+ * @param string $id
+ */
 function logDebug($msg, $id='DBG') {
 	global $config;
 
 	logToFile($config['logfile-debug'], $config['maxsize-logfile-debug'], $msg, $id);
 }
 
+/**
+ * @param string $msg
+ */
 function logError($msg) {
 	global $config;
 
@@ -62,7 +73,13 @@ function logError($msg) {
 	}
 }
 
-function logToFile(string $filename, int $maxsize, string $msg, string $id) {
+/**
+ * @param string $filename
+ * @param int $maxsize
+ * @param string $msg
+ * @param string $id
+ */
+function logToFile($filename, $maxsize, $msg, $id) {
 	global $action_name;
 
 	$filename = str_replace("{action}", $action_name, $filename);
@@ -88,14 +105,19 @@ function logToFile(string $filename, int $maxsize, string $msg, string $id) {
 	fclose($fd);
 }
 
-function ParamServerOrUndef(string $idx) {
-	if (isset($_SERVER[$idx]))
-		return $_SERVER[$idx];
-	else
-		return 'NOT_SET';
+/**
+ * @param string $idx
+ * @return string
+ */
+function ParamServerOrUndef($idx) {
+	return isset($_SERVER[$idx]) ? $_SERVER[$idx] : 'NOT_SET';
 }
 
-function logDynamic(int $logLevel, string $message) {
+/**
+ * @param $logLevel
+ * @param $message
+ */
+function logDynamic($logLevel, $message) {
 	if ($logLevel == LOGLEVEL::DEBUG)   logDebug($message);
 	if ($logLevel == LOGLEVEL::MESSAGE) logMessage($message);
 	if ($logLevel == LOGLEVEL::ERROR)   logError($message);

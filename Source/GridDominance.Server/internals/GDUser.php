@@ -28,7 +28,13 @@ class GDUser
 	/** @var $PasswordHash string */
 	private $PasswordHash = "";
 
-	public static function CreateNew(int $_id, string $_username, int $_score) : GDUser
+	/**
+	 * @param int $_id
+	 * @param string $_username
+	 * @param int $_score
+	 * @return GDUser
+	 */
+	public static function CreateNew($_id, $_username, $_score)
 	{
 		$r = new GDUser();
 		$r->ID = $_id;
@@ -37,7 +43,13 @@ class GDUser
 		return $r;
 	}
 
-	public static function QueryOrFail(PDO $pdo, string $pw, int $userid) : GDUser
+	/**
+	 * @param PDO $pdo
+	 * @param string $pw
+	 * @param int $userid
+	 * @return GDUser
+	 */
+	public static function QueryOrFail($pdo, $pw, $userid)
 	{
 		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, revision_id FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
@@ -53,7 +65,13 @@ class GDUser
 		return $user;
 	}
 
-	public static function QueryOrNull(PDO $pdo, string $pw, int $userid) // : ?GDUser
+	/**
+	 * @param PDO $pdo
+	 * @param string $pw
+	 * @param int $userid
+	 * @return GDUser|null
+	 */
+	public static function QueryOrNull($pdo, $pw, $userid)
 	{
 		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, revision_id FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
@@ -69,7 +87,11 @@ class GDUser
 		return $user;
 	}
 
-	public static function CreateFromSQL(array $row) : GDUser
+	/**
+	 * @param array $row
+	 * @return GDUser
+	 */
+	public static function CreateFromSQL($row)
 	{
 		$r = new GDUser();
 		$r->ID            = $row['userid'];
@@ -81,11 +103,19 @@ class GDUser
 		return $r;
 	}
 
-	public function verify_password(string $pw) : bool
+	/**
+	 * @param string $pw
+	 * @return bool
+	 */
+	public function verify_password($pw)
 	{
 		return password_verify($pw, $this->PasswordHash);
 	}
 
+	/**
+	 * @param $username
+	 * @param $hash
+	 */
 	public function Upgrade(string $username, string $hash)
 	{
 		$this->AutoUser = false;

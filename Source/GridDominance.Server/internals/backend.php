@@ -19,7 +19,10 @@ $pdo = null;
 $action_name = "UNDEF";
 
 
-function init(string $action) {
+/**
+ * @param string $action
+ */
+function init($action) {
 	global $config;
 	global $pdo;
 	global $action_name;

@@ -27,11 +27,19 @@ abstract class ERRORS {
 	const SET_SCORE_INVALID_DIFF  = 11004;
 }
 
-function is_int_str(string $value): bool {
+/**
+ * @param string $value
+ * @return bool
+ */
+function is_int_str($value) {
 	return ((is_int($value) || ctype_digit($value)) && (int)$value > 0 );
 }
 
-function getParamStrOrError(string $name): string {
+/**
+ * @param string $name
+ * @return string
+ */
+function getParamStrOrError($name) {
 	if(! isset($_GET[$name]))   outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
 
 	$v = $_GET[$name];
@@ -43,7 +51,11 @@ function getParamStrOrError(string $name): string {
 	return $v;
 }
 
-function getParamB64OrError(string $name): string {
+/**
+ * @param string $name
+ * @return string
+ */
+function getParamB64OrError($name) {
 	$v = getParamStrOrError($name);
 
 	// modified Base64  @see https://en.wikipedia.org/wiki/Base64#URL_applications
@@ -58,7 +70,11 @@ function getParamB64OrError(string $name): string {
 	return $rv;
 }
 
-function getParamIntOrError(string $name): string {
+/**
+ * @param string $name
+ * @return string
+ */
+function getParamIntOrError($name) {
 	$v = getParamStrOrError($name);
 
 	if (!is_int_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::DEBUG);
@@ -66,7 +82,12 @@ function getParamIntOrError(string $name): string {
 	return $v;
 }
 
-function outputError(int $errorid, string $message, int $logLevel = LOGLEVEL::NO_LOGGING) {
+/**
+ * @param int $errorid
+ * @param string $message
+ * @param int $logLevel
+ */
+function outputError($errorid, $message, $logLevel = LOGLEVEL::NO_LOGGING) {
 	echo json_encode(['result'=>'error', 'id'=>$errorid, 'message'=>$message]);
 
 	logDynamic($logLevel, $message);
@@ -74,7 +95,13 @@ function outputError(int $errorid, string $message, int $logLevel = LOGLEVEL::NO
 	exit (-1);
 }
 
-function outputErrorException(int $errorid, string $message, Exception $e, int $logLevel = LOGLEVEL::NO_LOGGING) {
+/**
+ * @param int $errorid
+ * @param string $message
+ * @param Exception $e
+ * @param int $logLevel
+ */
+function outputErrorException($errorid, $message, $e, $logLevel = LOGLEVEL::NO_LOGGING) {
 	echo json_encode(['result'=>'error', 'id'=>$errorid, 'message'=>$message . ': ' . $e->getMessage()]);
 
 	logDynamic($logLevel, $message . ': ' . $e->getMessage() . "\n" . $e->getTraceAsString());
@@ -82,12 +109,21 @@ function outputErrorException(int $errorid, string $message, Exception $e, int $
 	exit (-1);
 }
 
-function outputResultSuccess(array $data) {
+/**
+ * @param $data
+ */
+function outputResultSuccess($data) {
 	echo json_encode(['result'=>'success', 'data'=>$data]);
 	exit (0);
 }
 
-function sendMail(string $subject, string $content, string $to, string $from) {
+/**
+ * @param string $subject
+ * @param string $content
+ * @param string $to
+ * @param string $from
+ */
+function sendMail($subject, $content, $to, $from) {
 	global $config;
 
 	if ($config['debug']) return;

@@ -1,6 +1,9 @@
 <?php
 
-function executeOrFail(PDOStatement $stmt) {
+/**
+ * @param PDOStatement $stmt
+ */
+function executeOrFail($stmt) {
 	try {
 		$stmt->execute();
 	} catch (PDOException $e) {
@@ -9,7 +12,14 @@ function executeOrFail(PDOStatement $stmt) {
 	}
 }
 
-function connectOrFail(string $host, string $dbname, string $user, string $password) {
+/**
+ * @param string $host
+ * @param string $dbname
+ * @param string $user
+ * @param string $password
+ * @return PDO
+ */
+function connectOrFail($host, $dbname, $user, $password) {
 	try {
 		$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
 		$opt = [
