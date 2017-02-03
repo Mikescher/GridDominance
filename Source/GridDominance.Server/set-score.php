@@ -36,8 +36,8 @@ function run() {
 
 	if ($dbtime !== FALSE) {
 
-		if ($dbtime < $leveltime) {
-			// better value in db
+		if ($dbtime <= $leveltime) {
+			// better or same value in db
 			outputResultSuccess(['update' => false, 'value_db' => $dbtime, 'user' => $user]);
 		}
 

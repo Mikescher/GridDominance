@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
 
+    <link rel="stylesheet" href="pure-min.css"/>
+
     <style>
         #rootbox {
             text-align: left;
@@ -48,12 +50,28 @@
             background: black none repeat scroll 0% 0%;
             color: lime;
         }
+
+        .sqltab {
+            align-self: center;
+        }
+
+        #querypreview {
+            display:flex;
+            flex-direction: column;
+            justify-content:center;
+            margin-bottom: 10em;
+        }
+
+        .sqltab td {
+            max-width: 100px;
+            word-break: break-all;
+        }
     </style>
 </head>
 
 <body>
 
-<script src="jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+<script src="jquery-3.1.0.min.js"></script>
 
 <div id="rootbox">
 
@@ -120,7 +138,10 @@
 
     <textarea id="result"></textarea>
 
+</div>
 
+<div id="querypreview">
+	<?php require('query.php'); ?>
 </div>
 
 <script type="text/javascript">
@@ -133,7 +154,18 @@
             url = url + "&" + $(this).attr('data-apiparam') + "=" + $(this).val();
         });
 
-        jQuery.get(url, undefined, function(data) { $("#result").val(url + "\n\n" + data); }, "text");
+        jQuery.get(url, undefined, function(data)
+        {
+            $("#result").val(url + "\n\n" + data);
+
+            jQuery.get("query.php", undefined, function(data)
+            {
+
+                $("#querypreview").html(data);
+
+            }, "text");
+
+        }, "text");
     }
 
 </script>

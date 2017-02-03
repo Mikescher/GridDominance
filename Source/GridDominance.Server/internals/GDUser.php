@@ -61,7 +61,7 @@ class GDUser
 		$r->Score         = $row['score'];
 		$r->AutoUser      = (bool)$row['is_auto_generated'];
 		$r->PasswordHash  = $row['password_hash'];
-		$r->RevID         = $row['reviosion_id'];
+		$r->RevID         = $row['revision_id'];
 		return $r;
 	}
 
