@@ -7,7 +7,7 @@ function run() {
 	global $pdo;
 
 	$username      = GDUser::DEFAULT_USERNAME;
-	$password      = getParamStrOrError('password');
+	$password      = getParamPPKOrError('password');
 	$devicename    = getParamStrOrError('device_name');
 	$deviceversion = getParamStrOrError('device_version');
 	$appversion    = getParamStrOrError('app_version');

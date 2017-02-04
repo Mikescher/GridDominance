@@ -8,7 +8,7 @@ function run() {
 	global $config;
 
 	$userid        = getParamUIntOrError('userid');
-	$password      = getParamStrOrError('password');
+	$password      = getParamPPKOrError('password');
 	$levelid       = getParamStrOrError('levelid');
 	$difficulty    = getParamUIntOrError('difficulty');
 	$leveltime     = getParamUIntOrError('leveltime');

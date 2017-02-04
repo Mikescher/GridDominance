@@ -10,6 +10,7 @@ require_once 'SFServer.php';
 require_once 'GDUser.php';
 
 use \ParagonIE\EasyRSA\PublicKey;
+use \ParagonIE\EasyRSA\PrivateKey;
 
 /** @var $config array */
 $config = require 'config.php';
@@ -39,7 +40,8 @@ function init($action) {
 		ini_set('log_errors', 1);
 	}
 
-	$config['public_key'] = new PublicKey(file_get_contents($config['public_key']));
+	$config['masterkey'] = new PublicKey(file_get_contents($config['masterkey']));
+	$config['parameterkey'] = new PrivateKey(file_get_contents($config['parameterkey']));
 
 	$pdo = connectOrFail($config['database_host'], $config['database_name'], $config['database_user'], $config['database_pass']);
 }

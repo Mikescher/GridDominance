@@ -52,6 +52,24 @@ function getParamStrOrError($name) {
  * @param string $name
  * @return string
  */
+function getParamPPKOrError($name) {
+	$v = getParamStrOrError($name);
+
+	$rv = str_replace("-", "+", $v);
+	$rv = str_replace("_", "/", $rv);
+	$rv = str_replace(".", "=", $rv);
+
+	$rv = decrypt_rsa($rv);
+
+	if ($rv === false) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name is not correctly encrypted", LOGLEVEL::DEBUG);
+
+	return $rv;
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
 function getParamB64OrError($name) {
 	$v = getParamStrOrError($name);
 
@@ -62,7 +80,7 @@ function getParamB64OrError($name) {
 
 	$rv = base64_decode($rv, TRUE);
 
-	if ($rv === false) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not base64 encoded", LOGLEVEL::DEBUG);
+	if ($rv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not base64 encoded", LOGLEVEL::DEBUG);
 
 	return $rv;
 }

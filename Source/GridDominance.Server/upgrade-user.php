@@ -7,8 +7,8 @@ function run() {
 	global $pdo;
 
 	$userid        = getParamUIntOrError('userid');
-	$password_old  = getParamStrOrError('password_old');
-	$password_new  = getParamStrOrError('password_new');
+	$password_old  = getParamPPKOrError('password_old');
+	$password_new  = getParamPPKOrError('password_new');
 	$username_new  = getParamStrOrError('username_new');
 	$appversion    = getParamStrOrError('app_version');
 
