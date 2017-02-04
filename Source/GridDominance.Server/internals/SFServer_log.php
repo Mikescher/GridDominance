@@ -69,7 +69,15 @@ function logError($msg) {
 	}
 
 	if ($exc !== NULL) {
-		logMessage("log error failed hard: " . $exc->getMessage() . "\n" . $exc->getTraceAsString(), 'ERR');
+		try	{
+			logMessage("log error failed hard: " . $exc->getMessage() . "\n" . $exc->getTraceAsString(), 'ERR');
+		} catch (Exception $e2) {
+			try	{
+				sendMail('FATAL log error', "Cannot log error, and can't even log the log error\n".$exc->getMessage()."\n".$e2->getMessage(), $config['email-error-target'], $config['email-error-sender']);
+			} catch (Exception $e3) {
+				// ok - i give up
+			}
+		}
 	}
 }
 
@@ -83,6 +91,8 @@ function logToFile($filename, $maxsize, $msg, $id) {
 	global $action_name;
 
 	$filename = str_replace("{action}", $action_name, $filename);
+	@mkdir(dirname($filename), 0777, true);
+
 
 	$fn1 = $filename;
 	$fn2 = $fn1 . '.old';

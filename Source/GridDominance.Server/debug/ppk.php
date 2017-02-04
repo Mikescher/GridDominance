@@ -1,13 +1,21 @@
 <?php
 
-require_once '../internals/backend.php';
+$config =
+	[
+		'config' => 'C:\TOOLS\XAMPP\php\extras\openssl\openssl.cnf',
+		'private_key_bits' => 512
+	];
 
-use \ParagonIE\EasyRSA\KeyPair;
 
-$keyPair = KeyPair::generateKeyPair(2048);
+$res=openssl_pkey_new($config);
 
-echo nl2br($keyPair->getPrivateKey()->getKey());
+openssl_pkey_export($res, $privkey, null, $config);
+echo nl2br($privkey);
+echo "\n<hr>\n";
 
-echo "<hr>";
+$pubkey=openssl_pkey_get_details($res);
+echo nl2br($pubkey["key"]);
+echo "\n<hr>\n";
 
-echo nl2br($keyPair->getPublicKey()->getKey());
+
+

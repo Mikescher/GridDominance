@@ -73,8 +73,12 @@
 <body>
 
 <script src="jquery-3.1.0.min.js"></script>
-<script src="jsencrypt.min.js"></script>
+
 <script src="webtoolkit.base64.js"></script>
+
+<script type="text/javascript" src="jsbn.js"></script>
+<script type="text/javascript" src="jsbn2.js"></script>
+<script type="text/javascript" src="rsa.js"></script>
 
 <div id="rootbox">
 
@@ -188,6 +192,14 @@
 
 <script type="text/javascript">
 
+    function escapeRegExp(str) {
+        return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    }
+
+    function replaceAll(str, find, replace) {
+        return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+    }
+
     function getURL(url){
         return $.ajax({
             type: "GET",
@@ -207,13 +219,13 @@
             if ($(this).attr('data-apiformat') === 'b64') {
                 v = WTKBase64.encode_urlsafe(v);
             } else if ($(this).attr('data-apiformat') === 'ppk') {
-                let crypt = new JSEncrypt();
-                crypt.setKey(getURL('parameterkey.public'));
-                v = crypt
-                    .encrypt(v)
-                    .replace(/(\\+)/g, '-')
-                    .replace(/(\/)/g, '_')
-                    .replace(/(=)/g, '.');
+                let keystr = getURL('parameterkey.public');
+                let key = RSA.getPublicKey(keystr)
+                v = RSA.encrypt(v, key);
+
+                v = replaceAll(v, '+', '-');
+                v = replaceAll(v, '\\', '_');
+                v = replaceAll(v, '=', '.');
             }
 
             url = url + "&" + $(this).attr('data-apiparam') + "=" + v;

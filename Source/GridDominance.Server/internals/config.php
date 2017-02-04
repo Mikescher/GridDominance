@@ -7,13 +7,13 @@ return [
 	'database_user' =>  'root',
 	'database_pass' =>  '',
 
-	'masterkey' => __DIR__  . '/masterkey.public',         //TODO change me for prod
-	'parameterkey' => __DIR__  . '/parameterkey.private',  //TODO change me for prod
-	'cron-secret' => '/* TODO */',                         //TODO change me for prod
+	'masterkey'    => file_get_contents(__DIR__  . '/masterkey.public'),      //TODO change me for prod
+	'parameterkey' => file_get_contents(__DIR__  . '/parameterkey.private'),  //TODO change me for prod
+	'cron-secret' => '/* TODO */',                                            //TODO change me for prod
 
-	'logfile-normal' => __DIR__ . '/../server.log',
-	'logfile-debug'  => __DIR__ . '/../server_[{action}]_debug.log',
-	'logfile-error'  => __DIR__ . '/../server_error.log',
+	'logfile-normal' => __DIR__ . '/../log/server.log',
+	'logfile-debug'  => __DIR__ . '/../log/server_[{action}]_debug.log',
+	'logfile-error'  => __DIR__ . '/../log/server_error.log',
 	'email-error-target' => 'mailport@mikescher.de',
 	'email-error-sender' => 'gdserver-error@mikescher.com',
 
