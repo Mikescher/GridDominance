@@ -1,3 +1,4 @@
+<?php $c=require('../internals/config.php'); if (!$c['debug']) exit('Think of how stupid the average person is, and realize half of them are stupider than that.'); ?>
 <!doctype html>
 
 <html lang="en">
@@ -81,9 +82,9 @@
             <h3>Create User</h3>
 
             Password:<br>             <input type="text" data-apiparam="password">
+            App Version:<br>          <input type="text" data-apiparam="app_version">
             Device Name:<br>          <input type="text" data-apiparam="device_name">
             Device Version:<br>       <input type="text" data-apiparam="device_version">
-            App Version:<br>          <input type="text" data-apiparam="app_version">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -93,9 +94,9 @@
 
             UserID:<br>              <input type="text" data-apiparam="userid">
             Password (Old):<br>      <input type="text" data-apiparam="password_old">
+            App Version:<br>         <input type="text" data-apiparam="app_version">
             Password (New):<br>      <input type="text" data-apiparam="password_new">
             Username:<br>            <input type="text" data-apiparam="username_new">
-            App Version:<br>         <input type="text" data-apiparam="app_version">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -125,8 +126,8 @@
 
             UserID:<br>              <input type="text" data-apiparam="userid">
             Password (Old):<br>      <input type="text" data-apiparam="password_old">
-            Password (New):<br>      <input type="text" data-apiparam="password_new">
             App Version:<br>         <input type="text" data-apiparam="app_version">
+            Password (New):<br>      <input type="text" data-apiparam="password_new">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -150,12 +151,20 @@
 
             UserID:<br>              <input type="text" data-apiparam="userid">
             Password:<br>            <input type="text" data-apiparam="password">
-            Screen Resolution:<br>   <input type="text" data-apiparam="screen_resolution">
             App Version:<br>         <input type="text" data-apiparam="app_version">
+            Screen Resolution:<br>   <input type="text" data-apiparam="screen_resolution">
             Identifier:<br>          <input type="text" data-apiparam="exception_id">
             Message:<br>             <input type="text" data-apiparam="exception_message"    data-apiformat="b64">
             Stacktrace:<br>          <input type="text" data-apiparam="exception_stacktrace" data-apiformat="b64">
             Additional:<br>          <input type="text" data-apiparam="additional_info"      data-apiformat="b64">
+
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
+
+        <form class="form" data-apitarget="cron">
+            <h3>Cron</h3>
+
+            Secret:<br>              <input type="text" data-apiparam="cronsecret">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>

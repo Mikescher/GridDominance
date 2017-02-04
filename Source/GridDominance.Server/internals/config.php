@@ -1,14 +1,14 @@
 <?php
 
-use \ParagonIE\EasyRSA\PublicKey;
-
+//TODO make prod version
 return [
 	'database_host' =>  'localhost',
 	'database_name' =>  'grid_dominance',
 	'database_user' =>  'root',
 	'database_pass' =>  '',
 
-	'public_key' => new PublicKey(file_get_contents(__DIR__  . '/masterkey.public')),
+	'public_key' => __DIR__  . '/masterkey.public',      //TODO change me for prod
+	'cron-secret' => '/* TODO */',                       //TODO change me for prod
 
 	'logfile-normal' => __DIR__ . '/../server.log',
 	'logfile-debug'  => __DIR__ . '/../server_[{action}]_debug.log',
@@ -22,6 +22,9 @@ return [
 	'maxsize-logfile-normal' =>  128 * 1024 * 1024, // 512MB
 	'maxsize-logfile-debug'  =>   16 * 1024 * 1024, // 128MB
 	'maxsize-logfile-error'  =>  128 * 1024 * 1024, // 512MB
+
+	'levelids' => ['0', '1', '2', '3', '11', '12'],  //TODO insert real IDs
+	'difficulties' => [0x10, 0x11, 0x12, 0x13],
 
 	'debug' => true,
 ];

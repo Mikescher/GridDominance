@@ -9,6 +9,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once 'SFServer.php';
 require_once 'GDUser.php';
 
+use \ParagonIE\EasyRSA\PublicKey;
+
 /** @var $config array */
 $config = require 'config.php';
 
@@ -36,6 +38,8 @@ function init($action) {
 		ini_set('display_errors', 0);
 		ini_set('log_errors', 1);
 	}
+
+	$config['public_key'] = new PublicKey(file_get_contents($config['public_key']));
 
 	$pdo = connectOrFail($config['database_host'], $config['database_name'], $config['database_user'], $config['database_pass']);
 }

@@ -1,5 +1,5 @@
 <?php
-
+{$c=require('../internals/config.php'); if (!$c['debug']) exit('Nope.');}
 
 require '../internals/backend.php';
 
@@ -17,9 +17,11 @@ foreach ($pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_NUM) as $tabarr)
 	print "<table class=\"sqltab pure-table pure-table-bordered\">\n";
 
 	print "<thead>\n";
+	print "<tr>\n";
 	foreach ($cols as $col) {
 		print "<th>" . str_replace("_", " ", $col[0]). "</th>\n";
 	}
+	print "</tr>\n";
 	print "</thead>\n";
 
 	foreach ($data as $datum) {

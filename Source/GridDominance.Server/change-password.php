@@ -6,7 +6,7 @@ require 'internals/backend.php';
 function run() {
 	global $pdo;
 
-	$userid        = getParamIntOrError('userid');
+	$userid        = getParamUIntOrError('userid');
 	$password_old  = getParamStrOrError('password_old'); //TODO encrypt password - don't send plain
 	$password_new  = getParamStrOrError('password_new');
 	$appversion    = getParamStrOrError('app_version');

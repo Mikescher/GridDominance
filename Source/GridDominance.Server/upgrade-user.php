@@ -6,7 +6,7 @@ require 'internals/backend.php';
 function run() {
 	global $pdo;
 
-	$userid        = getParamIntOrError('userid');
+	$userid        = getParamUIntOrError('userid');
 	$password_old  = getParamStrOrError('password_old');
 	$password_new  = getParamStrOrError('password_new');
 	$username_new  = getParamStrOrError('username_new');

@@ -10,21 +10,18 @@ abstract class ERRORS {
 	const WRONG_PASSWORD          = 99005;
 	const SQL_FAILED              = 99006;
 
-	/* ======== 10 CREATE-USER ========= */
-
 	/* ======== 11 UPGRADE-USER ========= */
 	const UPGRADE_USER_DUPLICATE_USERNAME  = 10001;
 	const UPGRADE_USER_ACCOUNT_ALREADY_SET = 11002;
 
-	/* ======== 12 PING ========= */
+	/* ======== 12 SET-SCORE ========= */
+	const SET_SCORE_INVALID_TIME  = 12001;
+	const SET_SCORE_INVALID_SCORE = 12002;
+	const SET_SCORE_INVALID_LVLID = 12003;
+	const SET_SCORE_INVALID_DIFF  = 12004;
 
-	/* ======== 13 CHANGE-PASSWORD ========= */
-
-	/* ======== 14 SET-SCORE ========= */
-	const SET_SCORE_INVALID_TIME  = 11001;
-	const SET_SCORE_INVALID_SCORE = 11002;
-	const SET_SCORE_INVALID_LVLID = 11003;
-	const SET_SCORE_INVALID_DIFF  = 11004;
+	/* ======== 13 SET-SCORE ========= */
+	const CRON_INTERNAL_ERR  = 13001;
 }
 
 /**
@@ -74,12 +71,12 @@ function getParamB64OrError($name) {
  * @param string $name
  * @return string
  */
-function getParamIntOrError($name) {
+function getParamUIntOrError($name) {
 	$v = getParamStrOrError($name);
 
 	if (!is_int_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::DEBUG);
 
-	return $v;
+	return (int)$v;
 }
 
 /**

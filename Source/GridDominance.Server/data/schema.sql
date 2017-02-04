@@ -52,7 +52,11 @@ CREATE TABLE IF NOT EXISTS cache_levels
   levelid           char(36)   NOT NULL,
   difficulty        tinyint(4) NOT NULL,
   best_time         int(11)    NOT NULL,
-  completion_count  int(11)    NOT NULL
+  best_userid       int(11)    NOT NULL,
+  best_last_changed timestamp  NOT NULL,
+  completion_count  int(11)    NOT NULL,
+
+  PRIMARY KEY (levelid,difficulty)
 );
 
 

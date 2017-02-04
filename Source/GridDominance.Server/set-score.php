@@ -5,13 +5,14 @@ require 'internals/backend.php';
 
 function run() {
 	global $pdo;
+	global $config;
 
-	$userid        = getParamIntOrError('userid');
+	$userid        = getParamUIntOrError('userid');
 	$password      = getParamStrOrError('password');
 	$levelid       = getParamStrOrError('levelid');
-	$difficulty    = getParamIntOrError('difficulty');
-	$leveltime     = getParamIntOrError('leveltime');
-	$totalscore    = getParamIntOrError('totalscore');
+	$difficulty    = getParamUIntOrError('difficulty');
+	$leveltime     = getParamUIntOrError('leveltime');
+	$totalscore    = getParamUIntOrError('totalscore');
 	$appversion    = getParamStrOrError('app_version');
 
 	$signature     = getParamStrOrError('msgk');
@@ -19,7 +20,8 @@ function run() {
 	check_commit_signature($signature, [$userid, $password, $levelid, $difficulty, $leveltime, $totalscore, $appversion]);
 
 	if ($leveltime <= 0) outputError(ERRORS::SET_SCORE_INVALID_TIME, "The time $leveltime is not possible", LogLevel::MESSAGE);
-	if (in_array($difficulty, [0,1,2,3], TRUE)) outputError(ERRORS::SET_SCORE_INVALID_DIFF, "The difficulty $difficulty is not possible", LogLevel::MESSAGE);
+	if (!in_array($difficulty, $config['difficulties'], TRUE)) outputError(ERRORS::SET_SCORE_INVALID_DIFF, "The difficulty $difficulty is not possible", LogLevel::MESSAGE);
+	if (!in_array($levelid, $config['levelids'], TRUE)) outputError(ERRORS::SET_SCORE_INVALID_DIFF, "The levelID $levelid is not possible", LogLevel::MESSAGE);
 	if ($totalscore < 0) outputError(ERRORS::SET_SCORE_INVALID_SCORE, "The score $totalscore is not possible", LogLevel::MESSAGE);
 
 	//----------
