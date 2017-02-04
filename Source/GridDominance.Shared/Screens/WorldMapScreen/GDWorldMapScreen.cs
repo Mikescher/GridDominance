@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using GridDominance.Levelformat.Parser;
+using GridDominance.Shared.Network;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
@@ -16,6 +17,7 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Network.REST;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
@@ -166,6 +168,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
+
+
+			//== TODO TEST TODO ==
+			var ps = new RestParameterSet();
+			ps.AddParameterInt("userid", 7);
+			ps.AddParameterEncrypted("password", "123");
+			ps.AddParameterString("app_version", "1.99.7763");
+			new GDServerAPI().QuerySynchron("ping", ps);
+			//====================
 		}
 
 		public override void Resize(int width, int height)

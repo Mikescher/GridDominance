@@ -74,10 +74,13 @@
     <Compile Include="Input\KeyModifier.cs" />
     <Compile Include="Input\SKeys.cs" />
     <Compile Include="Interfaces\ISAMPostDrawable.cs" />
+    <Compile Include="Language\ByteUtils.cs" />
     <Compile Include="Language\LazyProp.cs" />
     <Compile Include="LogProtocol\SAMLog.cs" />
     <Compile Include="LogProtocol\SAMLogEntry.cs" />
     <Compile Include="LogProtocol\SAMLogLevel.cs" />
+    <Compile Include="Network\REST\RestParameterSet.cs" />
+    <Compile Include="Network\REST\SAMRestAPI.cs" />
     <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />
     <Compile Include="Persistance\DataFile\BaseDataFile.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGUIDWrapper.cs" />

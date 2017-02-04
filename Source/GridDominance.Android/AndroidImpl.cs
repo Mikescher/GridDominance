@@ -1,5 +1,9 @@
 using Android.OS;
+using ArpanTECH;
 using MonoSAMFramework.Portable.DeviceBridge;
+using MonoSAMFramework.Portable.Language;
+using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace GridDominance.Android
@@ -11,6 +15,8 @@ namespace GridDominance.Android
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);
 		public string DeviceVersion { get; } = string.Format("Android {0} sdk-{1}", Build.VERSION.Release, Build.VERSION.Sdk);
+
+		private readonly SHA256 sha256 = SHA256.Create();
 
 		private static string GenerateInfoStr()
 		{
@@ -44,6 +50,18 @@ namespace GridDominance.Android
 			b.AppendFormat("User                := '{0}'\n", Build.User);
 
 			return b.ToString();
+		}
+
+		public string DoSHA256(string input)
+		{
+			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+		}
+
+		public string DoRSAEncrypt(string input, string pubkey, int size)
+		{
+			RSAx rsax = new RSAx(pubkey, size);
+			byte[] ctx = rsax.Encrypt(Encoding.UTF8.GetBytes(input), false);
+			return Convert.ToBase64String(ctx);
 		}
 	}
 }

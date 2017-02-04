@@ -7,5 +7,8 @@
 		string DeviceVersion { get; }
 
 		FileHelper FileHelper { get; }
+
+		string DoSHA256(string input);
+		string DoRSAEncrypt(string input, string pubkey, int size);
 	}
 }

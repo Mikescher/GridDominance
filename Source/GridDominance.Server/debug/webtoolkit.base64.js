@@ -10,14 +10,6 @@ var WTKBase64 = {
     // private property
     _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
-    encode_urlsafe : function(input) {
-        return this
-            .encode(input)
-            .replace(/(\\+)/g, '-')
-            .replace(/(\/)/g, '_')
-            .replace(/(=)/g, '.');
-    },
-
     // public method for encoding
     encode : function (input) {
         var output = "";

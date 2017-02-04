@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared;
+using GridDominance.Windows;
 using System;
 
 namespace GridDominance.OpenGL

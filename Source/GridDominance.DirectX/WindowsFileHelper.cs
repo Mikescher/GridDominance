@@ -1,9 +1,8 @@
-﻿using System.IO;
+﻿using MonoSAMFramework.Portable.DeviceBridge;
+using System.IO;
 using System.IO.IsolatedStorage;
-using MonoSAMFramework.Portable.DeviceBridge;
-using MonoSAMFramework.Portable.Persistance;
 
-namespace GridDominance.DirectX
+namespace GridDominance.Windows
 {
 	class WindowsFileHelper : FileHelper
 	{

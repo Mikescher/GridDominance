@@ -225,7 +225,11 @@
             }
 
             if ($(this).attr('data-apiformat') === 'b64') {
-                v = WTKBase64.encode_urlsafe(v);
+                v = WTKBase64.encode(v);
+
+                v = replaceAll(v, '+', '-');
+                v = replaceAll(v, '\\', '_');
+                v = replaceAll(v, '=', '.');
             } else if ($(this).attr('data-apiformat') === 'ppk') {
                 let keystr = getURL('parameterkey_debug.public');
                 let key = RSA.getPublicKey(keystr);

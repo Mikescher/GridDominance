@@ -8,7 +8,7 @@
 function check_commit_signature($sig_in, $data) {
 	global $config;
 
-	$sigbuilder = $config['signature_key'] . "\n" . join("\n", $data);
+	$sigbuilder = $config['signature_key'] . join("", array_map(function ($a){return "\n$a";}, $data));
 
 	$sig_real = hash('sha256', $sigbuilder);
 
