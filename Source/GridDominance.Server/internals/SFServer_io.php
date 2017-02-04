@@ -113,7 +113,7 @@ function outputErrorException($errorid, $message, $e, $logLevel = LOGLEVEL::NO_L
  * @param $data
  */
 function outputResultSuccess($data) {
-	echo json_encode(['result'=>'success', 'data'=>$data]);
+	echo json_encode(array_merge(['result'=>'success'], $data));
 	exit (0);
 }
 

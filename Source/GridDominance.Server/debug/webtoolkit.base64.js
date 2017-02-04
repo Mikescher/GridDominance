@@ -13,9 +13,9 @@ var Base64 = {
     encode_urlsafe : function(input) {
         return this
             .encode(input)
-            .replace('+', '-')
-            .replace('/', '_')
-            .replace('=', '.');
+            .replace(/(\\+)/g, '-')
+            .replace(/(\/)/g, '_')
+            .replace(/(=)/g, '.');
     },
 
     // public method for encoding

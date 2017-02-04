@@ -28,9 +28,10 @@ function run() {
 
 	//----------
 
-	$stmt = $pdo->prepare("SELECT best_time FROM level_highscores WHERE userid=:uid AND levelid=:lid");
+	$stmt = $pdo->prepare("SELECT best_time FROM level_highscores WHERE userid=:uid AND levelid=:lid AND difficulty=:diff");
 	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 	$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
+	$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
 	executeOrFail($stmt);
 	$dbtime = $stmt->fetchColumn();
 
@@ -42,7 +43,7 @@ function run() {
 		}
 
 		// existing row in db
-		$stmt = $pdo->prepare("UPDATE level_highscores SET userid=:uid, levelid=:lid, difficulty=:diff, best_time=:time, last_changed=CURRENT_TIMESTAMP()");
+		$stmt = $pdo->prepare("UPDATE level_highscores SET best_time=:time, last_changed=CURRENT_TIMESTAMP() WHERE userid=:uid AND levelid=:lid AND difficulty=:diff");
 		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 		$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
 		$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
@@ -79,7 +80,7 @@ function run() {
 
 
 try {
-	init("update-score");
+	init("set-score");
 	run();
 } catch (Exception $e) {
 	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);

@@ -9,7 +9,7 @@
     <style>
         #rootbox {
             text-align: left;
-            max-width: 1200px;
+            //max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -22,7 +22,7 @@
             background: rgb(238, 238, 238) none repeat scroll 0% 0%;
             padding: 5px;
             margin: 10px;
-            min-width: 170px;
+            min-width: 150px;
         }
 
         .form > * {
@@ -110,6 +110,16 @@
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
 
+        <form class="form" data-apitarget="download-data">
+            <h3>Download Data</h3>
+
+            UserID:<br>              <input type="text" data-apiparam="userid">
+            Password:<br>            <input type="text" data-apiparam="password">
+            App Version:<br>         <input type="text" data-apiparam="app_version">
+
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
+
         <form class="form" data-apitarget="change-password">
             <h3>Change Password</h3>
 
@@ -178,7 +188,7 @@
 
         jQuery.get(url, undefined, function(data)
         {
-            $("#result").val(url + "\n\n" + data);
+            $("#result").val(url + "\n\n" + JSON.stringify(JSON.parse(data), null, 4));
 
             jQuery.get("query.php", undefined, function(data)
             {
