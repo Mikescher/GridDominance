@@ -19,6 +19,9 @@ $pdo = null;
 /** @var $action_name String */
 $action_name = "UNDEF";
 
+/** @var $start_time float */
+$start_time = 0;
+
 
 /**
  * @param string $action
@@ -27,8 +30,10 @@ function init($action) {
 	global $config;
 	global $pdo;
 	global $action_name;
+	global $start_time;
 
 	$action_name = $action;
+	$start_time = microtime(true);
 
 	if ($config['debug']) {
 		error_reporting(E_STRICT);

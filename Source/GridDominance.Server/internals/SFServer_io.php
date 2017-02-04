@@ -103,7 +103,12 @@ function getParamUIntOrError($name) {
  * @param int $logLevel
  */
 function outputError($errorid, $message, $logLevel = LOGLEVEL::NO_LOGGING) {
-	echo json_encode(['result'=>'error', 'id'=>$errorid, 'message'=>$message]);
+	global $config;
+	global $start_time;
+
+	$d = ['result'=>'error', 'id'=>$errorid, 'message'=>$message];
+	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time)/1000, 0);
+	echo json_encode($d);
 
 	logDynamic($logLevel, $message);
 
@@ -117,7 +122,12 @@ function outputError($errorid, $message, $logLevel = LOGLEVEL::NO_LOGGING) {
  * @param int $logLevel
  */
 function outputErrorException($errorid, $message, $e, $logLevel = LOGLEVEL::NO_LOGGING) {
-	echo json_encode(['result'=>'error', 'id'=>$errorid, 'message'=>$message . ': ' . $e->getMessage()]);
+	global $config;
+	global $start_time;
+
+	$d = ['result'=>'error', 'id'=>$errorid, 'message'=>$message . ': ' . $e->getMessage()];
+	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time)/1000, 0);
+	echo json_encode($d);
 
 	logDynamic($logLevel, $message . ': ' . $e->getMessage() . "\n" . $e->getTraceAsString());
 
@@ -128,7 +138,13 @@ function outputErrorException($errorid, $message, $e, $logLevel = LOGLEVEL::NO_L
  * @param $data
  */
 function outputResultSuccess($data) {
-	echo json_encode(array_merge(['result'=>'success'], $data));
+	global $config;
+	global $start_time;
+
+	$d = array_merge(['result'=>'success'], $data);
+	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time)/1000, 0);
+	echo json_encode($d);
+
 	exit (0);
 }
 
