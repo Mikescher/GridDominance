@@ -46,7 +46,7 @@
 
         #result {
             margin: 10px;
-            width: calc(100% - 20px);
+            width: calc(100% - 50px);
             height: 400px;
             background: black none repeat scroll 0% 0%;
             color: lime;
@@ -79,6 +79,7 @@
 <script type="text/javascript" src="jsbn.js"></script>
 <script type="text/javascript" src="jsbn2.js"></script>
 <script type="text/javascript" src="rsa.js"></script>
+<script type="text/javascript" src="sha256.js"></script>
 
 <div id="rootbox">
 
@@ -86,10 +87,10 @@
         <form class="form" data-apitarget="create-user">
             <h3>Create User</h3>
 
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk">
-            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str">
-            Device Name:<br>         <input type="text" data-apiparam="device_name"          data-apiformat="str">
-            Device Version:<br>      <input type="text" data-apiparam="device_version"       data-apiformat="str">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
+            Device Name:<br>         <input type="text" data-apiparam="device_name"          data-apiformat="str" data-apisig="true">
+            Device Version:<br>      <input type="text" data-apiparam="device_version"       data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -97,11 +98,11 @@
         <form class="form" data-apitarget="upgrade-user">
             <h3>Upgrade User</h3>
 
-            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int">
-            Password (Old):<br>      <input type="text" data-apiparam="password_old"         data-apiformat="ppk">
-            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str">
-            Password (New):<br>      <input type="text" data-apiparam="password_new"         data-apiformat="ppk">
-            Username:<br>            <input type="text" data-apiparam="username_new"         data-apiformat="str">
+            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
+            Password (Old):<br>      <input type="text" data-apiparam="password_old"         data-apiformat="ppk" data-apisig="true">
+            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
+            Password (New):<br>      <input type="text" data-apiparam="password_new"         data-apiformat="ppk" data-apisig="true">
+            Username:<br>            <input type="text" data-apiparam="username_new"         data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -109,9 +110,9 @@
         <form class="form" data-apitarget="ping">
             <h3>Ping</h3>
 
-            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int">
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk">
-            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str">
+            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -119,9 +120,9 @@
         <form class="form" data-apitarget="download-data">
             <h3>Download Data</h3>
 
-            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int">
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk">
-            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str">
+            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -129,10 +130,10 @@
         <form class="form" data-apitarget="change-password">
             <h3>Change Password</h3>
 
-            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int">
-            Password (Old):<br>      <input type="text" data-apiparam="password_old"         data-apiformat="ppk">
-            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str">
-            Password (New):<br>      <input type="text" data-apiparam="password_new"         data-apiformat="ppk">
+            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
+            Password (Old):<br>      <input type="text" data-apiparam="password_old"         data-apiformat="ppk" data-apisig="true">
+            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
+            Password (New):<br>      <input type="text" data-apiparam="password_new"         data-apiformat="ppk" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -140,13 +141,13 @@
         <form class="form" data-apitarget="set-score">
             <h3>Set Score</h3>
 
-            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int">
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk">
-            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str">
-            Level ID:<br>            <input type="text" data-apiparam="levelid"              data-apiformat="str">
-            Difficulty:<br>          <input type="text" data-apiparam="difficulty"           data-apiformat="int">
-            Level Time:<br>          <input type="text" data-apiparam="leveltime"            data-apiformat="int">
-            Total Score:<br>         <input type="text" data-apiparam="totalscore"           data-apiformat="int">
+            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
+            Level ID:<br>            <input type="text" data-apiparam="levelid"              data-apiformat="str" data-apisig="true">
+            Difficulty:<br>          <input type="text" data-apiparam="difficulty"           data-apiformat="int" data-apisig="true">
+            Level Time:<br>          <input type="text" data-apiparam="leveltime"            data-apiformat="int" data-apisig="true">
+            Total Score:<br>         <input type="text" data-apiparam="totalscore"           data-apiformat="int" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -154,14 +155,14 @@
         <form class="form" data-apitarget="log-client">
             <h3>Log Client</h3>
 
-            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int">
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk">
-            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str">
-            Screen Resolution:<br>   <input type="text" data-apiparam="screen_resolution"    data-apiformat="str">
-            Identifier:<br>          <input type="text" data-apiparam="exception_id"         data-apiformat="str">
-            Message:<br>             <input type="text" data-apiparam="exception_message"    data-apiformat="b64">
-            Stacktrace:<br>          <input type="text" data-apiparam="exception_stacktrace" data-apiformat="b64">
-            Additional:<br>          <input type="text" data-apiparam="additional_info"      data-apiformat="b64">
+            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
+            Screen Resolution:<br>   <input type="text" data-apiparam="screen_resolution"    data-apiformat="str" data-apisig="true">
+            Identifier:<br>          <input type="text" data-apiparam="exception_id"         data-apiformat="str" data-apisig="true">
+            Message:<br>             <input type="text" data-apiparam="exception_message"    data-apiformat="b64" data-apisig="true">
+            Stacktrace:<br>          <input type="text" data-apiparam="exception_stacktrace" data-apiformat="b64" data-apisig="true">
+            Additional:<br>          <input type="text" data-apiparam="additional_info"      data-apiformat="b64" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -169,7 +170,7 @@
         <form class="form" data-apitarget="cron">
             <h3>Cron</h3>
 
-            Secret:<br>              <input type="text" data-apiparam="cronsecret"           data-apiformat="str">
+            Secret:<br>              <input type="text" data-apiparam="cronsecret" value="cron" data-apiformat="str">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -211,16 +212,23 @@
 
     function apicall(sender) {
         let form = $(sender).closest('.form');
-        let url = "../" + form.attr('data-apitarget') + ".php?msgk=TODO";
+        let url = "../" + form.attr('data-apitarget') + ".php";
+        let urlparams = '';
+
+        let sigBuilder = 'OZothFoshCiHyPhebMyGheVushNopTyg';
 
         form.children('input').each(function() {
             let v = $(this).val();
 
+            if ($(this).attr('data-apisig')) {
+                sigBuilder = sigBuilder + "\n" + v;
+            }
+
             if ($(this).attr('data-apiformat') === 'b64') {
                 v = WTKBase64.encode_urlsafe(v);
             } else if ($(this).attr('data-apiformat') === 'ppk') {
-                let keystr = getURL('parameterkey.public');
-                let key = RSA.getPublicKey(keystr)
+                let keystr = getURL('parameterkey_debug.public');
+                let key = RSA.getPublicKey(keystr);
                 v = RSA.encrypt(v, key);
 
                 v = replaceAll(v, '+', '-');
@@ -228,8 +236,14 @@
                 v = replaceAll(v, '=', '.');
             }
 
-            url = url + "&" + $(this).attr('data-apiparam') + "=" + v;
+            urlparams = urlparams + "&" + $(this).attr('data-apiparam') + "=" + v;
         });
+
+        let shaObj = new jsSHA("SHA-256", "TEXT");
+        shaObj.update(sigBuilder);
+        let sig = shaObj.getHash("HEX");
+
+        url = url + "?msgk=" + sig + urlparams;
 
         jQuery.get(url, undefined, function(data)
         {

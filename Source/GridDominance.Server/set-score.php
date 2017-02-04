@@ -17,7 +17,7 @@ function run() {
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$userid, $password, $levelid, $difficulty, $leveltime, $totalscore, $appversion]);
+	check_commit_signature($signature, [$userid, $password, $appversion, $levelid, $difficulty, $leveltime, $totalscore]);
 
 	if ($leveltime <= 0) outputError(ERRORS::SET_SCORE_INVALID_TIME, "The time $leveltime is not possible", LogLevel::MESSAGE);
 	if (!in_array($difficulty, $config['difficulties'], TRUE)) outputError(ERRORS::SET_SCORE_INVALID_DIFF, "The difficulty $difficulty is not possible", LogLevel::MESSAGE);

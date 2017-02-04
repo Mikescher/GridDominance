@@ -12,7 +12,7 @@ function run() {
 
 	$secret      = getParamStrOrError('cronsecret');
 
-	if (!$config['debug'] && $secret !== $config['cron-secret']) outputError(ERRORS::CRON_INTERNAL_ERR, "", LOGLEVEL::ERROR);
+	if ($secret !== $config['cron-secret']) outputError(ERRORS::CRON_INTERNAL_ERR, "", LOGLEVEL::ERROR);
 
 	foreach ($config['levelids'] as $lid) {
 

@@ -13,11 +13,11 @@ function run() {
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$userid, $password_old, $password_new, $appversion]);
+	check_commit_signature($signature, [$userid, $password_old, $appversion, $password_new]);
 
 	//----------
 
-	$user = GDUser::QueryOrFail($pdo, $password_old, $userid);
+	$user = GDUser::QueryOrFail($pdo, $password_old, $userid, $password_new);
 
 	//----------
 

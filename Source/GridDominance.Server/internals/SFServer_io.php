@@ -37,9 +37,15 @@ function is_int_str($value) {
  * @return string
  */
 function getParamStrOrError($name) {
-	if(! isset($_GET[$name]))   outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
+	$v = null;
 
-	$v = $_GET[$name];
+	if( isset($_GET[$name])) $v = $_GET[$name];
+
+	if ($v === null) {
+		$opt = getopt('', $name . '::');
+		if (isset($opt[$name])) $v = $opt[$name];
+	}
+
 
 	if ($v === null)  outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
 	if ($v === false) outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
@@ -107,7 +113,7 @@ function outputError($errorid, $message, $logLevel = LOGLEVEL::NO_LOGGING) {
 	global $start_time;
 
 	$d = ['result'=>'error', 'id'=>$errorid, 'message'=>$message];
-	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time)/1000, 0);
+	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time), 6);
 	echo json_encode($d);
 
 	logDynamic($logLevel, $message);
@@ -126,7 +132,7 @@ function outputErrorException($errorid, $message, $e, $logLevel = LOGLEVEL::NO_L
 	global $start_time;
 
 	$d = ['result'=>'error', 'id'=>$errorid, 'message'=>$message . ': ' . $e->getMessage()];
-	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time)/1000, 0);
+	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time), 6);
 	echo json_encode($d);
 
 	logDynamic($logLevel, $message . ': ' . $e->getMessage() . "\n" . $e->getTraceAsString());
@@ -142,7 +148,7 @@ function outputResultSuccess($data) {
 	global $start_time;
 
 	$d = array_merge(['result'=>'success'], $data);
-	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time)/1000, 0);
+	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time), 6);
 	echo json_encode($d);
 
 	exit (0);

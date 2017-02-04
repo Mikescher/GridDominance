@@ -1,4 +1,5 @@
 <?php
+{$c=require('../internals/config.php'); if (!$c['debug']) exit('Nope.');}
 
 $config =
 	[

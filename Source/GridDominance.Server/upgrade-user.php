@@ -14,9 +14,15 @@ function run() {
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$userid, $password_old, $password_new, $username_new, $appversion]);
+	check_commit_signature($signature, [$userid, $password_old, $appversion, $password_new, $username_new]);
 
 	$username_new = trim($username_new);
+
+	//----------
+
+	$user = GDUser::QueryOrFail($pdo, $password_old, $userid);
+
+	if (! $user->AutoUser) outputError(ERRORS::UPGRADE_USER_ACCOUNT_ALREADY_SET, "Only auto-accounts can be upgraded to full accounts", LOGLEVEL::DEBUG);
 
 	//----------
 
@@ -26,12 +32,6 @@ function run() {
 
 	if ($stmt->fetchColumn() > 0) outputError(ERRORS::UPGRADE_USER_DUPLICATE_USERNAME, "username $username_new already exists", LOGLEVEL::DEBUG);
 	if ($username_new == 'anonymous') outputError(ERRORS::UPGRADE_USER_DUPLICATE_USERNAME, "username $username_new already exists", LOGLEVEL::DEBUG);
-
-	//----------
-
-	$user = GDUser::QueryOrFail($pdo, $password_old, $userid);
-
-	if (! $user->AutoUser) outputError(ERRORS::UPGRADE_USER_ACCOUNT_ALREADY_SET, "Only auto-accounts can be upgraded to full accounts", LOGLEVEL::DEBUG);
 
 	//----------
 

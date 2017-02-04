@@ -1,15 +1,20 @@
 <?php
 
 /**
- * @param string $sig
+ * @param string $sig_in
  * @param array $data
+ * @return true
  */
-function check_commit_signature($sig, $data) {
+function check_commit_signature($sig_in, $data) {
 	global $config;
 
-	$dat = hash('sha256', join("\n", $data));
+	$sigbuilder = $config['signature_key'] . "\n" . join("\n", $data);
 
-	return true;
+	$sig_real = hash('sha256', $sigbuilder);
+
+	if (strcasecmp($sig_real, $sig_in) !== 0) {
+		outputError(ERRORS::PARAMETER_HASH_MISMATCH, "The signature '$sig_in' is invalid.");
+	};
 }
 
 /**
