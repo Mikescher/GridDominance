@@ -42,7 +42,7 @@ function run() {
 
 
 try {
-	init("ping");
+	init("download-data");
 	run();
 } catch (Exception $e) {
 	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);

@@ -47,10 +47,10 @@ function run() {
 		}
 	}
 
-	$delta = (microtime(true) - $time_start);
-	logMessage("Cronjob succesful runned in $delta µs at" . date("Y-m-d h:i:s"));
+	$delta = (int)((microtime(true) - $time_start)*1000);
+	logMessage("Cronjob succesful executed in $delta ms.");
 
-	outputResultSuccess([]);
+	outputResultSuccess(['time' => $delta]);
 }
 
 

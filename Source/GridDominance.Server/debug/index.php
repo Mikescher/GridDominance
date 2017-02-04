@@ -168,6 +168,12 @@
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
+
+        <form class="form" data-apitarget="get-highscores">
+            <h3>Get Highscores</h3>
+
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
     </div>
 
 
