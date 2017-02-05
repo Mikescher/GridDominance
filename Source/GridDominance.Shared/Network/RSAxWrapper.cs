@@ -1,23 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using MonoSAMFramework.Portable.DeviceBridge;
 using RSAxPlus.ArpanTECH;
-using System;
-using System.Text;
 
-namespace GridDominance.Windows
+namespace GridDominance.Shared.Network
 {
 	class RSAxWrapper : IRSAProvider
 	{
 		private RSAx rsa;
 
-		public IRSAProvider SetPublicKey(string key, int keysize)
+		public IRSAProvider SetPublicKey(string key)
 		{
-			rsa = new RSAx(key, keysize) { RSAxHashAlgorithm = RSAxParameters.RSAxHashAlgorithm.SHA1 };
+			rsa = RSAx.CreateFromPEM(key);
 			return this;
 		}
 
-		public IRSAProvider SetPrivateKey(string key, int keysize)
+		public IRSAProvider SetPrivateKey(string key)
 		{
-			rsa = new RSAx(key, keysize) { RSAxHashAlgorithm = RSAxParameters.RSAxHashAlgorithm.SHA1 };
+			rsa = RSAx.CreateFromPEM(key);
 			return this;
 		}
 

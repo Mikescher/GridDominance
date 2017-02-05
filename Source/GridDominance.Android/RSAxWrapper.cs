@@ -9,15 +9,15 @@ namespace GridDominance.Android
 	{
 		private RSAx rsa;
 
-		public IRSAProvider SetPublicKey(string key, int keysize)
+		public IRSAProvider SetPublicKey(string key)
 		{
-			rsa = new RSAx(key, keysize) { RSAxHashAlgorithm = RSAxParameters.RSAxHashAlgorithm.SHA1 };
+			rsa = RSAx.CreateFromPEM(key);
 			return this;
 		}
 
-		public IRSAProvider SetPrivateKey(string key, int keysize)
+		public IRSAProvider SetPrivateKey(string key)
 		{
-			rsa = new RSAx(key, keysize) { RSAxHashAlgorithm = RSAxParameters.RSAxHashAlgorithm.SHA1 };
+			rsa = RSAx.CreateFromPEM(key);
 			return this;
 		}
 

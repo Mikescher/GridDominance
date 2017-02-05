@@ -1,23 +1,22 @@
-﻿using System;
+﻿using MonoSAMFramework.Portable.DeviceBridge;
+using System;
 using System.Net.Http;
 
 namespace MonoSAMFramework.Portable.Network.REST
 {
-	public class SAMRestAPI
+	public abstract class SAMRestAPI
 	{
 		private readonly string serverbasepath;
 		private readonly string secret;
-		private readonly string publicParameterkey;
-		private readonly int publicParameterkeySize;
+		private readonly IRSAProvider parameterKey;
 
 		private readonly HttpClient http;
 
-		public SAMRestAPI(string url, string signaturesecret, string pubkey, int pubsize)
+		protected SAMRestAPI(string url, string signaturesecret, string pubkey)
 		{
 			serverbasepath = url;
 			secret = signaturesecret;
-			publicParameterkey = pubkey;
-			publicParameterkeySize = pubsize;
+			parameterKey = MonoSAMGame.CurrentInst.Bridge.CreateNewRSA().SetPublicKey(pubkey);
 
 			http = new HttpClient();
 			http.MaxResponseContentBufferSize = 256000; // 265 kB
@@ -26,13 +25,9 @@ namespace MonoSAMFramework.Portable.Network.REST
 
 		public void QuerySynchron(string apiEndPoint, RestParameterSet parameter)
 		{
-			string url = serverbasepath + "/" + apiEndPoint + ".php" + parameter.CreateParamString(secret, publicParameterkey, publicParameterkeySize);
+			string url = serverbasepath + "/" + apiEndPoint + ".php" + parameter.CreateParamString(secret, parameterKey);
 
-
-			var x = url;
-			var y = x;
-			var z = y;
-
+			//TODO continue here
 		}
 	}
 }

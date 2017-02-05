@@ -1,4 +1,5 @@
-﻿using MonoSAMFramework.Portable.DeviceBridge;
+﻿using GridDominance.Shared.Network;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Language;
 using System;
 using System.Security.Cryptography;

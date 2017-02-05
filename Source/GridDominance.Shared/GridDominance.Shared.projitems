@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\GDServerAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\RSAxWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfileLevelData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDColors.cs" />

@@ -13,7 +13,9 @@
 		//TODO prod
 		public const string SERVER_URL = "localhost:666";
 		public const string SERVER_SECRET = "OZothFoshCiHyPhebMyGheVushNopTyg";
-		public const string SERVER_PUBKEY = "<RSAKeyValue><Modulus>z9t6M0Bco5wRtqlSXxahayA1TWPt50Hh7yInq72RXZ/a+wpkbZMgqzEg8DYXNcX2jcIwUGztZWQXHjaLUlLmbQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
-		public const int SERVER_PUBKEYSIZE = 512;
+		public const string SERVER_PUBKEY = "-----BEGIN PUBLIC KEY-----" + "\n" +
+											"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAM/bejNAXKOcEbapUl8WoWsgNU1j7edB" + "\n" +
+											"4e8iJ6u9kV2f2vsKZG2TIKsxIPA2FzXF9o3CMFBs7WVkFx42i1JS5m0CAwEAAQ==" + "\n" +
+											"-----END PUBLIC KEY-----";
 	}
 }

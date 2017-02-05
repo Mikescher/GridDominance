@@ -9,7 +9,7 @@ namespace GridDominance.Shared.Network
 	class GDServerAPI : SAMRestAPI
 	{
 
-		public GDServerAPI() : base(GDConstants.SERVER_URL, GDConstants.SERVER_SECRET, GDConstants.SERVER_PUBKEY, GDConstants.SERVER_PUBKEYSIZE)
+		public GDServerAPI() : base(GDConstants.SERVER_URL, GDConstants.SERVER_SECRET, GDConstants.SERVER_PUBKEY)
 		{
 
 		}
