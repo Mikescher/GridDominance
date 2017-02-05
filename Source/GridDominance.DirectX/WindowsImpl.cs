@@ -1,5 +1,4 @@
-﻿using ArpanTECH;
-using MonoSAMFramework.Portable.DeviceBridge;
+﻿using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Language;
 using System;
 using System.Security.Cryptography;
@@ -23,11 +22,9 @@ namespace GridDominance.Windows
 			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
 		}
 
-		public string DoRSAEncrypt(string input, string pubkey, int size)
+		public IRSAProvider CreateNewRSA()
 		{
-			RSAx rsax = new RSAx(pubkey, size);
-			byte[] ctx = rsax.Encrypt(Encoding.UTF8.GetBytes(input), false);
-			return Convert.ToBase64String(ctx);
+			return new RSAxWrapper();
 		}
 	}
 }

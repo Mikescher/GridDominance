@@ -47,7 +47,8 @@
     <Compile Include="DebugTools\FrequencyCounter.cs" />
     <Compile Include="DebugTools\GCMonitor.cs" />
     <Compile Include="DebugTools\IDebugTextDisplayLineProvider.cs" />
-    <Compile Include="DeviceBridge\OperatingSystemBridge.cs" />
+    <Compile Include="DeviceBridge\IOperatingSystemBridge.cs" />
+    <Compile Include="DeviceBridge\IRSAProvider.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />

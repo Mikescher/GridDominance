@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MonoSAMFramework.Portable.DeviceBridge;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +32,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 			dict[name] = Tuple.Create(value, RestParameterSetType.Base64, signed);
 		}
 
-		public string CreateParamString(string secret, string publicParameterkey, int publickeysize)
+		public string CreateParamString(string secret, IRSAProvider rsa)
 		{
 			var sigbuilder = string.Join("\n", new[]{secret}.Concat(dict.Where(p => p.Value.Item3).Select(p => p.Value.Item1)));
 			var sig = MonoSAMGame.CurrentInst.Bridge.DoSHA256(sigbuilder);
@@ -56,7 +57,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 						result += "&" + elem.Key + "=" + data64;
 						break;
 					case RestParameterSetType.Encrypted:
-						var dataPPK = MonoSAMGame.CurrentInst.Bridge.DoRSAEncrypt(elem.Value.Item1, publicParameterkey, publickeysize)
+						var dataPPK = rsa.Encrypt(elem.Value.Item1)
 							.Replace('+', '-')
 							.Replace('\\', '_')
 							.Replace('=', '.');

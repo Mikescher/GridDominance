@@ -7,3 +7,6 @@
 [submodule "Source/External/CSharpUtils"]
 	path = Source/External/CSharpUtils
 	url = https://github.com/Mikescher/CSharpUtils
+[submodule "Source/External/RSAx-plus"]
+	path = Source/External/RSAx-plus
+	url = https://github.com/Mikescher/RSAx-plus

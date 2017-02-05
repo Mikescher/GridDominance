@@ -85,10 +85,6 @@
       <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
       <Name>FarseerPhysics.Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\External\RSAx\RSAx.csproj">
-      <Project>{5dee8380-3cf6-454d-84af-93b521175f44}</Project>
-      <Name>RSAx</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GridDominance.Levelformat\GridDominance.Levelformat.csproj">
       <Project>{fd075788-85e3-488e-bad4-d3ea72b1d851}</Project>
       <Name>GridDominance.Levelformat</Name>
