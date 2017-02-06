@@ -57,7 +57,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 						result += "&" + elem.Key + "=" + data64;
 						break;
 					case RestParameterSetType.Encrypted:
-						var dataPPK = rsa.Encrypt(elem.Value.Item1)
+						var dataPPK = rsa.Encrypt(elem.Value.Item1) //TODO What happens with long texts (long passwords) - this should fail, right?
 							.Replace('+', '-')
 							.Replace('\\', '_')
 							.Replace('=', '.');
