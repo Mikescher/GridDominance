@@ -112,7 +112,7 @@ function outputError($errorid, $message, $logLevel = LOGLEVEL::NO_LOGGING) {
 	global $config;
 	global $start_time;
 
-	$d = ['result'=>'error', 'id'=>$errorid, 'message'=>$message];
+	$d = ['result'=>'error', 'errorid'=>$errorid, 'errormessage'=>$message];
 	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time), 6);
 	echo json_encode($d);
 
@@ -131,7 +131,7 @@ function outputErrorException($errorid, $message, $e, $logLevel = LOGLEVEL::NO_L
 	global $config;
 	global $start_time;
 
-	$d = ['result'=>'error', 'id'=>$errorid, 'message'=>$message . ': ' . $e->getMessage()];
+	$d = ['result'=>'error', 'errorid'=>$errorid, 'errormessage'=>$message . ': ' . $e->getMessage()];
 	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time), 6);
 	echo json_encode($d);
 

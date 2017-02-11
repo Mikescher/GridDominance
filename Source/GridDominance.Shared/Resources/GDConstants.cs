@@ -1,7 +1,11 @@
-﻿namespace GridDominance.Shared.Resources
+﻿using System;
+
+namespace GridDominance.Shared.Resources
 {
 	public static class GDConstants
 	{
+		public static readonly Version Version = new Version(0,19,0,0);
+
 		public const int TILE_WIDTH = 64;
 
 		public const int GRID_WIDTH = 16;

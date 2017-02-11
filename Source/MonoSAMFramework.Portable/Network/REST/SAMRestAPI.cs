@@ -1,6 +1,8 @@
 ﻿using MonoSAMFramework.Portable.DeviceBridge;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace MonoSAMFramework.Portable.Network.REST
 {
@@ -22,12 +24,18 @@ namespace MonoSAMFramework.Portable.Network.REST
 			http.MaxResponseContentBufferSize = 256000; // 265 kB
 			http.Timeout = TimeSpan.FromSeconds(45);
 		}
-
-		public void QuerySynchron(string apiEndPoint, RestParameterSet parameter)
+		
+		public async Task<TReturn> QueryAsync<TReturn>(string apiEndPoint, RestParameterSet parameter)
 		{
 			string url = serverbasepath + "/" + apiEndPoint + ".php" + parameter.CreateParamString(secret, parameterKey);
 
-			//TODO continue here
+			var response = await http.GetAsync(url);
+
+			response.EnsureSuccessStatusCode();
+
+			var content = await response.Content.ReadAsStringAsync();
+
+			return JsonConvert.DeserializeObject<TReturn>(content);
 		}
 	}
 }

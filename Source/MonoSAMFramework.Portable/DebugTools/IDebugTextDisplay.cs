@@ -22,6 +22,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text);
 		DebugTextDisplayLine AddLine(string text);
 		DebugTextDisplayLine AddDecayLine(string text, float lifetime = 2f, float decaytime = 0.15f, float spawntime = 0.25f);
+		DebugTextDisplayLine AddLine(string text, Color background, Color foreground);
 
 		void AddLogLines(SAMLogLevel minLevel);
 

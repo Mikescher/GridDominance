@@ -171,11 +171,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 
 			//== TODO TEST TODO ==
-			var ps = new RestParameterSet();
-			ps.AddParameterInt("userid", 7);
-			ps.AddParameterEncrypted("password", "123");
-			ps.AddParameterString("app_version", "1.99.7763");
-			new GDServerAPI().QuerySynchron("ping", ps);
+			new GDServerAPI().DoPing(DebugDisp, 7, "123");
 			//====================
 		}
 

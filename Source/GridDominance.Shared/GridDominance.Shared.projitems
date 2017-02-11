@@ -10,7 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Network\GDServerAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\GDServerAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultPing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultUserData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\RSAxWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfileLevelData.cs" />

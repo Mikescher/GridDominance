@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
@@ -57,6 +58,14 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public DebugTextDisplayLine AddLine(Func<string> text, Color background, Color foreground)
 		{
 			var l = new DebugTextDisplayLine(text);
+			l.SetColor(foreground);
+			l.SetBackground(background);
+			return AddLine(l);
+		}
+
+		public DebugTextDisplayLine AddLine(string text, Color background, Color foreground)
+		{
+			var l = new DebugTextDisplayLine(() => text);
 			l.SetColor(foreground);
 			l.SetBackground(background);
 			return AddLine(l);
@@ -139,7 +148,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 				var size = font.MeasureString(text) * Scale;
 
 				var bg = line.Background;
-				if (bg.A == 255) bg = BlendColor(line.Background, line.Decay * backgroundAlpha);
+				if (bg.A == 255) bg = ColorMath.Fade(line.Background, line.Decay * backgroundAlpha);
 
 				debugBatch.FillRectangle(
 					new FRectangle(pos.X - TEXT_OFFSET * Scale, pos.Y, size.X + 2 * TEXT_OFFSET * Scale, size.Y), 
@@ -149,7 +158,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 					font, 
 					text, 
 					new Vector2(5, pos.Y), 
-					BlendColor(line.Color, line.Decay), 
+					ColorMath.Fade(line.Color, line.Decay), 
 					0, 
 					Vector2.Zero, 
 					Scale, 
@@ -158,18 +167,6 @@ namespace MonoSAMFramework.Portable.DebugTools
 			}
 
 			debugBatch.End();
-		}
-
-		private Color BlendColor(Color c, float a)
-		{
-			if (a < 1)
-			{
-				return new Color(c.R, c.G, c.B, (c.A / 255f) * a);
-			}
-			else
-			{
-				return c;
-			}
 		}
 	}
 }
