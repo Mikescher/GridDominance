@@ -8,7 +8,7 @@ function run() {
 	global $config;
 
 	$userid        = getParamUIntOrError('userid');
-	$password      = getParamPPKOrError('password');
+	$password      = getParamSHAOrError('password');
 	$resolution    = getParamStrOrError('screen_resolution');
 	$appversion    = getParamStrOrError('app_version');
 	$identifier    = getParamStrOrError('exception_id');

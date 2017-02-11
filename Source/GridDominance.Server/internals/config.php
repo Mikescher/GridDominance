@@ -8,7 +8,6 @@ return [
 	'database_pass' =>  '',
 
 	'signature_key' => 'OZothFoshCiHyPhebMyGheVushNopTyg',                    //TODO change me for prod
-	'parameterkey' => file_get_contents(__DIR__  . '/parameterkey.private'),  //TODO change me for prod
 	'cron-secret' => 'cron',                                                  //TODO change me for prod
 
 	'logfile-normal' => __DIR__ . '/../log/server.log',

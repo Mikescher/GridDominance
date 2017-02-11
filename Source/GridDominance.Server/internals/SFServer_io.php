@@ -58,18 +58,12 @@ function getParamStrOrError($name) {
  * @param string $name
  * @return string
  */
-function getParamPPKOrError($name) {
-	$v = getParamStrOrError($name);
+function getParamSHAOrError($name) {
+	$v = strtoupper(getParamStrOrError($name));
 
-	$rv = str_replace("-", "+", $v);
-	$rv = str_replace("_", "/", $rv);
-	$rv = str_replace(".", "=", $rv);
+	if (strlen($v) !== 64) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name is not in the correct format", LOGLEVEL::DEBUG);
 
-	$rv = decrypt_rsa($rv);
-
-	if ($rv === false) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name is not correctly encrypted", LOGLEVEL::DEBUG);
-
-	return $rv;
+	return $v;
 }
 
 /**

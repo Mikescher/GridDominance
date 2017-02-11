@@ -7,7 +7,7 @@ function run() {
 	global $pdo;
 
 	$userid        = getParamUIntOrError('userid');
-	$password      = getParamPPKOrError('password');
+	$password      = getParamSHAOrError('password');
 	$appversion    = getParamStrOrError('app_version');
 
 	$signature     = getParamStrOrError('msgk');

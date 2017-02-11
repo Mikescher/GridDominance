@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\GDServerAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultPing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultUserData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Network\RSAxWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile\PlayerProfileLevelData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDColors.cs" />

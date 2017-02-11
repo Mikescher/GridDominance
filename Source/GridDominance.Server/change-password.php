@@ -7,8 +7,8 @@ function run() {
 	global $pdo;
 
 	$userid        = getParamUIntOrError('userid');
-	$password_old  = getParamPPKOrError('password_old');
-	$password_new  = getParamPPKOrError('password_new');
+	$password_old  = getParamSHAOrError('password_old');
+	$password_new  = getParamSHAOrError('password_new');
 	$appversion    = getParamStrOrError('app_version');
 
 	$signature     = getParamStrOrError('msgk');
@@ -17,7 +17,7 @@ function run() {
 
 	//----------
 
-	$user = GDUser::QueryOrFail($pdo, $password_old, $userid, $password_new);
+	$user = GDUser::QueryOrFail($pdo, $password_old, $userid);
 
 	//----------
 

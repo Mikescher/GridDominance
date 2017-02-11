@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,6 +22,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public const float TEXT_OFFSET = 5;
 		public const float TEXT_SPACING = 1.15f;
 
+		private readonly ConcurrentQueue<DebugTextDisplayLine> asyncBacklog = new ConcurrentQueue<DebugTextDisplayLine>();
 		private readonly List<IDebugTextDisplayLineProvider> lines = new List<IDebugTextDisplayLineProvider>();
 
 		private readonly IBatchRenderer debugBatch;
@@ -96,6 +98,9 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public void Update(SAMTime gameTime, InputState istate)
 		{
+			DebugTextDisplayLine newLine;
+			while (asyncBacklog.TryDequeue(out newLine)) lines.Add(newLine);
+
 			foreach (var line in lines)
 			{
 				line.Update();
@@ -167,6 +172,33 @@ namespace MonoSAMFramework.Portable.DebugTools
 			}
 
 			debugBatch.End();
+		}
+
+		public DebugTextDisplayLine AddLineFromAsync(Func<string> text)
+		{
+			return AddLineFromAsync(new DebugTextDisplayLine(text));
+		}
+
+		public DebugTextDisplayLine AddLineFromAsync(Func<string> text, Color background, Color foreground)
+		{
+			var l = new DebugTextDisplayLine(text);
+			l.SetColor(foreground);
+			l.SetBackground(background);
+			return AddLineFromAsync(l);
+		}
+
+		public DebugTextDisplayLine AddLineFromAsync(string text, Color background, Color foreground)
+		{
+			var l = new DebugTextDisplayLine(() => text);
+			l.SetColor(foreground);
+			l.SetBackground(background);
+			return AddLineFromAsync(l);
+		}
+
+		public DebugTextDisplayLine AddLineFromAsync(DebugTextDisplayLine l)
+		{
+			asyncBacklog.Enqueue(l);
+			return l;
 		}
 	}
 }

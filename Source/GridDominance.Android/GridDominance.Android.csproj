@@ -57,7 +57,6 @@
     <Compile Include="AndroidImpl.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="RSAxWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -81,10 +80,6 @@
     <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj">
       <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
       <Name>FarseerPhysics.Portable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\External\RSAx-plus\RSAx\RSAx.csproj">
-      <Project>{5DEE8380-3CF6-454D-84AF-93B521175F44}</Project>
-      <Name>RSAx</Name>
     </ProjectReference>
     <ProjectReference Include="..\GridDominance.Levelformat\GridDominance.Levelformat.csproj">
       <Project>{fd075788-85e3-488e-bad4-d3ea72b1d851}</Project>

@@ -1,14 +1,13 @@
 ﻿using MonoSAMFramework.Portable.DeviceBridge;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace MonoSAMFramework.Portable.Network.REST
 {
 	public sealed class RestParameterSet
 	{
-		public enum RestParameterSetType { String, Int, Base64, Encrypted }
+		public enum RestParameterSetType { String, Int, Base64, Hash }
 
 		private readonly Dictionary<string, Tuple<string, RestParameterSetType, bool>> dict = new Dictionary<string, Tuple<string, RestParameterSetType, bool>>();
 
@@ -22,9 +21,9 @@ namespace MonoSAMFramework.Portable.Network.REST
 			dict[name] = Tuple.Create(value.ToString(), RestParameterSetType.Int, signed);
 		}
 
-		public void AddParameterEncrypted(string name, string value, bool signed = true)
+		public void AddParameterHash(string name, string value, bool signed = true)
 		{
-			dict[name] = Tuple.Create(value, RestParameterSetType.Encrypted, signed);
+			dict[name] = Tuple.Create(value, RestParameterSetType.Hash, signed);
 		}
 
 		public void AddParameterBase64(string name, string value, bool signed = true)
@@ -32,23 +31,25 @@ namespace MonoSAMFramework.Portable.Network.REST
 			dict[name] = Tuple.Create(value, RestParameterSetType.Base64, signed);
 		}
 
-		public string CreateParamString(string secret, IRSAProvider rsa)
+		public string CreateParamString(string secret, IOperatingSystemBridge bridge)
 		{
-			var sigbuilder = string.Join("\n", new[]{secret}.Concat(dict.Where(p => p.Value.Item3).Select(p => p.Value.Item1)));
-			var sig = MonoSAMGame.CurrentInst.Bridge.DoSHA256(sigbuilder);
-
-			string result = "?msgk=" + sig;
+			var sigbuilder = secret;
+			
+			string result = "";
 			foreach (var elem in dict)
 			{
 				switch (elem.Value.Item2)
 				{
 					case RestParameterSetType.String:
+						sigbuilder += "\n" + elem.Value.Item1;
 						result += "&" + elem.Key + "=" + Uri.EscapeDataString(elem.Value.Item1);
 						break;
 					case RestParameterSetType.Int:
+						sigbuilder += "\n" + elem.Value.Item1;
 						result += "&" + elem.Key + "=" + elem.Value.Item1;
 						break;
 					case RestParameterSetType.Base64:
+						sigbuilder += "\n" + elem.Value.Item1;
 						var data64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(elem.Value.Item1))
 							.Replace('+', '-')
 							.Replace('\\', '_')
@@ -56,18 +57,20 @@ namespace MonoSAMFramework.Portable.Network.REST
 
 						result += "&" + elem.Key + "=" + data64;
 						break;
-					case RestParameterSetType.Encrypted:
-						var dataPPK = rsa.Encrypt(elem.Value.Item1) //TODO What happens with long texts (long passwords) - this should fail, right?
-							.Replace('+', '-')
-							.Replace('\\', '_')
-							.Replace('=', '.');
+					case RestParameterSetType.Hash:
+						var dataHash = bridge.DoSHA256(elem.Value.Item1).ToUpper();
 
-						result += "&" + elem.Key + "=" + dataPPK;
+						sigbuilder += "\n" + dataHash;
+
+						result += "&" + elem.Key + "=" + dataHash;
 
 						break;
 				}
 			}
-			return result;
+
+			var sig = MonoSAMGame.CurrentInst.Bridge.DoSHA256(sigbuilder);
+
+			return "?msgk=" + sig + result;
 		}
 	}
 }

@@ -54,10 +54,5 @@ namespace GridDominance.Android
 		{
 			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
 		}
-
-		public IRSAProvider CreateNewRSA()
-		{
-			return new RSAxWrapper();
-		}
 	}
 }

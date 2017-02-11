@@ -169,10 +169,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
 
-
-			//== TODO TEST TODO ==
-			new GDServerAPI().DoPing(DebugDisp, 7, "123");
-			//====================
+			if (istate.IsKeyJustDown(SKeys.R))
+			{
+				//== TODO TEST TODO ==
+				new GDServerAPI().DoPing(DebugDisp, 11, "passw0rd");
+				//====================
+			}
 		}
 
 		public override void Resize(int width, int height)

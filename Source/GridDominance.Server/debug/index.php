@@ -87,7 +87,7 @@
         <form class="form" data-apitarget="create-user">
             <h3>Create User</h3>
 
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="enc" data-apisig="true">
             App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
             Device Name:<br>         <input type="text" data-apiparam="device_name"          data-apiformat="str" data-apisig="true">
             Device Version:<br>      <input type="text" data-apiparam="device_version"       data-apiformat="str" data-apisig="true">
@@ -99,9 +99,9 @@
             <h3>Upgrade User</h3>
 
             UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
-            Password (Old):<br>      <input type="text" data-apiparam="password_old"         data-apiformat="ppk" data-apisig="true">
+            Password (Old):<br>      <input type="text" data-apiparam="password_old"         data-apiformat="enc" data-apisig="true">
             App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
-            Password (New):<br>      <input type="text" data-apiparam="password_new"         data-apiformat="ppk" data-apisig="true">
+            Password (New):<br>      <input type="text" data-apiparam="password_new"         data-apiformat="enc" data-apisig="true">
             Username:<br>            <input type="text" data-apiparam="username_new"         data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
@@ -111,7 +111,7 @@
             <h3>Ping</h3>
 
             UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="enc" data-apisig="true">
             App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
@@ -121,7 +121,7 @@
             <h3>Download Data</h3>
 
             UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="enc" data-apisig="true">
             App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
@@ -131,9 +131,9 @@
             <h3>Change Password</h3>
 
             UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
-            Password (Old):<br>      <input type="text" data-apiparam="password_old"         data-apiformat="ppk" data-apisig="true">
+            Password (Old):<br>      <input type="text" data-apiparam="password_old"         data-apiformat="enc" data-apisig="true">
             App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
-            Password (New):<br>      <input type="text" data-apiparam="password_new"         data-apiformat="ppk" data-apisig="true">
+            Password (New):<br>      <input type="text" data-apiparam="password_new"         data-apiformat="enc" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -142,7 +142,7 @@
             <h3>Set Score</h3>
 
             UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="enc" data-apisig="true">
             App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
             Level ID:<br>            <input type="text" data-apiparam="levelid"              data-apiformat="str" data-apisig="true">
             Difficulty:<br>          <input type="text" data-apiparam="difficulty"           data-apiformat="int" data-apisig="true">
@@ -156,7 +156,7 @@
             <h3>Log Client</h3>
 
             UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
-            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="ppk" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="enc" data-apisig="true">
             App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
             Screen Resolution:<br>   <input type="text" data-apiparam="screen_resolution"    data-apiformat="str" data-apisig="true">
             Identifier:<br>          <input type="text" data-apiparam="exception_id"         data-apiformat="str" data-apisig="true">
@@ -220,34 +220,34 @@
         form.children('input').each(function() {
             let v = $(this).val();
 
-            if ($(this).attr('data-apisig')) {
-                sigBuilder = sigBuilder + "\n" + v;
-            }
-
             if ($(this).attr('data-apiformat') === 'b64') {
+                if ($(this).attr('data-apisig')) sigBuilder = sigBuilder + "\n" + v;
+
                 v = WTKBase64.encode(v);
 
                 v = replaceAll(v, '+', '-');
                 v = replaceAll(v, '\\', '_');
                 v = replaceAll(v, '=', '.');
-            } else if ($(this).attr('data-apiformat') === 'ppk') {
-                let keystr = getURL('parameterkey_debug.public');
-                let key = RSA.getPublicKey(keystr);
-                v = RSA.encrypt(v, key);
+            } else if ($(this).attr('data-apiformat') === 'enc') {
+                let shaObj = new jsSHA("SHA-256", "TEXT");
+                shaObj.update(v);
+                v = shaObj.getHash("HEX").toUpperCase();
 
-                v = replaceAll(v, '+', '-');
-                v = replaceAll(v, '\\', '_');
-                v = replaceAll(v, '=', '.');
+                if ($(this).attr('data-apisig')) sigBuilder = sigBuilder + "\n" + v;
+            } else {
+
+                if ($(this).attr('data-apisig')) sigBuilder = sigBuilder + "\n" + v;
             }
 
             urlparams = urlparams + "&" + $(this).attr('data-apiparam') + "=" + v;
         });
-
         let shaObj = new jsSHA("SHA-256", "TEXT");
         shaObj.update(sigBuilder);
         let sig = shaObj.getHash("HEX");
 
         url = url + "?msgk=" + sig + urlparams;
+
+        $("#result").val(url);
 
         jQuery.get(url, undefined, function(data)
         {
