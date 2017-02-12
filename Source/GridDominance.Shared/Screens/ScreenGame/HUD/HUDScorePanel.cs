@@ -1,5 +1,6 @@
 ﻿using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -28,7 +29,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private readonly FractionDifficulty? gainLevel;
 		private readonly bool successScreen;
-		private readonly PlayerProfile.PlayerProfile profile;
+		private readonly PlayerProfile profile;
 		private readonly LevelFile Level;
 		private readonly int increasePoints;
 
@@ -36,7 +37,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private HUDIconTextButton btnMenu;
 		private HUDIconTextButton btnNext;
 
-		public HUDScorePanel(LevelFile lvl, PlayerProfile.PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon, int pointInc)
+		public HUDScorePanel(LevelFile lvl, PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon, int pointInc)
 		{
 			gainLevel = newDifficulty;
 			successScreen = playerHasWon;

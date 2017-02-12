@@ -1,7 +1,7 @@
 ﻿# Level 03 - King of the Hill   #
 #################################
 
-init("0-2", "Neutral", 9887F46BB27E4DBAB9F392A8D6EC26E6)
+init("0-2", "Neutral", {9887f46b-b27e-4dba-b9f3-92a8d6ec26e6})
 
 include("stdvalues")
 

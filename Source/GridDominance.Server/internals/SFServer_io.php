@@ -42,7 +42,7 @@ function getParamStrOrError($name) {
 	if( isset($_GET[$name])) $v = $_GET[$name];
 
 	if ($v === null) {
-		$opt = getopt('', $name . '::');
+		$opt = getopt('', [$name . '::']);
 		if (isset($opt[$name])) $v = $opt[$name];
 	}
 

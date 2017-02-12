@@ -23,7 +23,13 @@ return [
 	'maxsize-logfile-debug'  =>   16 * 1024 * 1024, // 128MB
 	'maxsize-logfile-error'  =>  128 * 1024 * 1024, // 512MB
 
-	'levelids' => ['0', '1', '2', '3', '11', '12'],  //TODO insert real IDs
+	'levelids' =>
+		[
+			'{7018e8a1-6b04-447c-8972-c2c2e118fc49}',
+			'{9887f46b-b27e-4dba-b9f3-92a8d6ec26e6}',
+			'{f9f79506-f15a-47d4-abcc-afdc116b7b3c}',
+		],
+
 	'difficulties' => [0x10, 0x11, 0x12, 0x13],
 
 	'debug' => true,

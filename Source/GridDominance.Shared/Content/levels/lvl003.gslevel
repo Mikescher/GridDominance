@@ -1,7 +1,7 @@
 ﻿# Level 03 - Division   #
 #########################
 
-init("0-3", "Simple Split", F9F79506F15A47D4ABCCAFDC116B7B3C)
+init("0-3", "Simple Split", {f9f79506-f15a-47d4-abcc-afdc116b7b3c})
 
 include("stdvalues")
 

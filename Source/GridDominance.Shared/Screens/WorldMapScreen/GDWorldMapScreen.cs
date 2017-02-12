@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		private void Initialize()
 		{
 #if DEBUG
-			DebugSettings.AddSwitch(null, "DBG", this, KCL.C(SKeys.D, SKeys.AndroidMenu), false);
+			DebugSettings.AddSwitch(null, "DBG", this, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
 
 			DebugSettings.AddTrigger("DBG", "SetQuality_1", this, SKeys.D1, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.FD));
 			DebugSettings.AddTrigger("DBG", "SetQuality_2", this, SKeys.D2, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.BD));
@@ -168,13 +168,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
-
-			if (istate.IsKeyJustDown(SKeys.R))
-			{
-				//== TODO TEST TODO ==
-				new GDServerAPI().DoPing(DebugDisp, 11, "passw0rd");
-				//====================
-			}
 		}
 
 		public override void Resize(int width, int height)

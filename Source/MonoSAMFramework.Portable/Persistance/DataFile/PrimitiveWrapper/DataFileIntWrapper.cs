@@ -19,10 +19,12 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 			Value = reader.ReadInteger();
 		}
 
-		public static BaseDataFile Create(int value)
+		public static DataFileIntWrapper Create(int value)
 		{
 			return new DataFileIntWrapper { Value = value};
 		}
+
+		public static DataFileIntWrapper Create() => Create(0);
 
 		protected override void Configure()
 		{

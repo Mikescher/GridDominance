@@ -31,6 +31,11 @@ namespace MonoSAMFramework.Portable.Network.REST
 			dict[name] = Tuple.Create(value, RestParameterSetType.Base64, signed);
 		}
 
+		public void AddParameterGuid(string name, Guid value, bool signed = true)
+		{
+			dict[name] = Tuple.Create(value.ToString("B"), RestParameterSetType.String, signed);
+		}
+
 		public string CreateParamString(string secret, IOperatingSystemBridge bridge)
 		{
 			var sigbuilder = secret;
@@ -58,7 +63,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 						result += "&" + elem.Key + "=" + data64;
 						break;
 					case RestParameterSetType.Hash:
-						var dataHash = bridge.DoSHA256(elem.Value.Item1).ToUpper();
+						var dataHash = elem.Value.Item1.ToUpper();
 
 						sigbuilder += "\n" + dataHash;
 

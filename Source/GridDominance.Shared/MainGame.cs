@@ -1,12 +1,15 @@
 ﻿using System;
 using GridDominance.Levelformat.Parser;
+using GridDominance.Shared.Network;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Persistance;
 
@@ -19,15 +22,17 @@ namespace GridDominance.Shared
 	{
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
-		public readonly PlayerProfile.PlayerProfile Profile;
+		public readonly PlayerProfile Profile;
+		public readonly GDServerAPI Backend;
 
 		public static MainGame Inst;
 
 		public MainGame(IOperatingSystemBridge b) : base(b)
 		{
-			Profile = new PlayerProfile.PlayerProfile();
+			Backend = new GDServerAPI(b);
+			Profile = new PlayerProfile();
 
-			var sdata = FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);
+			var sdata = (string)null;//FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);
 			if (sdata != null)
 			{
 				try
@@ -38,13 +43,23 @@ namespace GridDominance.Shared
 				{
 					SAMLog.Error("Deserialization", e);
 
-					Profile = new PlayerProfile.PlayerProfile();
+					Profile = new PlayerProfile();
 					SaveProfile();
 				}
 			}
 			else
 			{
 				SaveProfile();
+			}
+
+
+			if (Profile.OnlineUserID >= 0)
+			{
+				Backend.Ping(Profile).EnsureNoError();
+			}
+			else
+			{
+				Backend.CreateUser(Profile).EnsureNoError();
 			}
 
 			Inst = this;
@@ -116,7 +131,7 @@ namespace GridDominance.Shared
 #if DEBUG
 			try
 			{
-				var p = new PlayerProfile.PlayerProfile();
+				var p = new PlayerProfile();
 				p.DeserializeFromString(sdata);
 				var sdata2 = p.SerializeToString();
 

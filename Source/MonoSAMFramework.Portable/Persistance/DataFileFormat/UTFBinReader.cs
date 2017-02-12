@@ -18,23 +18,31 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 		public int ReadInteger()
 		{
-			var length = ReadSimpleInteger(2);
+			var length = ReadSimpleUnsignedInteger(2);
 
 			if (length == 0) return 0;
 
-			return ReadSimpleInteger(length);
+			return ReadSimpleUnsignedInteger(length);
 		}
 
-		private int ReadSimpleInteger(int length)
+		private int ReadSimpleUnsignedInteger(int length)
 		{
 			int r = 0;
 
+			int neg = 1;
 			for (int i = 0; i < length; i++)
 			{
 				if (position >= datalength)
 					throw new DataWriterException("Unexpected EOF found");
 
 				char chr = data[position];
+
+				if (i == 0 && chr == '-')
+				{
+					neg = -1;
+					position++;
+					continue;
+				}
 
 				if (chr < '0' || chr > '9')
 					throw new DataWriterException("the character chr(" + (int)chr + ") is not a digit for SimpleInteger deserialization");
@@ -43,7 +51,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 				position++;
 			}
 
-			return r;
+			return r*neg;
 		}
 
 		public string ReadString()
@@ -57,7 +65,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 		public double ReadDouble()
 		{
-			var len = ReadSimpleInteger(2);
+			var len = ReadSimpleUnsignedInteger(2);
 
 			var raw = ReadRawString(len);
 
@@ -86,9 +94,9 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 		public SemVersion ReadVersion()
 		{
-			var mayor = (UInt16)ReadSimpleInteger(5);
-			var minor = (UInt16)ReadSimpleInteger(5);
-			var patch = (UInt16)ReadSimpleInteger(5);
+			var mayor = (UInt16)ReadSimpleUnsignedInteger(5);
+			var minor = (UInt16)ReadSimpleUnsignedInteger(5);
+			var patch = (UInt16)ReadSimpleUnsignedInteger(5);
 
 			return new SemVersion(mayor, minor, patch);
 		}

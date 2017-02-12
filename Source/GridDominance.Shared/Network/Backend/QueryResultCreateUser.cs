@@ -5,7 +5,7 @@
 	// ReSharper disable once ClassNeverInstantiated.Global
 	// ReSharper disable InconsistentNaming
 	// ReSharper disable once ArrangeTypeModifiers
-	class QueryResultPing
+	class QueryResultCreateUser
 	{
 		public string result;
 

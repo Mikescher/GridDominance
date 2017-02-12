@@ -16,12 +16,12 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 		{
 			if (v == 0)
 			{
-				WriteSimpleInteger(0, 2);
+				WriteSimpleUnsignedInteger(0, 2);
 				return;
 			}
 
 			var data = v.ToString();
-			WriteSimpleInteger(data.Length, 2);
+			WriteSimpleUnsignedInteger(data.Length, 2);
 			builder.Append(data);
 		}
 
@@ -37,7 +37,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 		{
 			var str = v.ToString("r", CultureInfo.InvariantCulture);
 
-			WriteSimpleInteger(str.Length, 2);
+			WriteSimpleUnsignedInteger(str.Length, 2);
 			builder.Append(str);
 		}
 
@@ -48,9 +48,9 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 		public void WriteVersion(SemVersion v)
 		{
-			WriteSimpleInteger(v.Mayor, 5);
-			WriteSimpleInteger(v.Minor, 5);
-			WriteSimpleInteger(v.Patch, 5);
+			WriteSimpleUnsignedInteger(v.Mayor, 5);
+			WriteSimpleUnsignedInteger(v.Minor, 5);
+			WriteSimpleUnsignedInteger(v.Patch, 5);
 		}
 
 		public void WriteRawPrintableByte(byte v)
@@ -66,7 +66,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			builder.Append(s);
 		}
 
-		private void WriteSimpleInteger(int v, int len)
+		private void WriteSimpleUnsignedInteger(int v, int len)
 		{
 			var data = v.ToString().PadLeft(len, '0');
 

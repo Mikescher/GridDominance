@@ -237,7 +237,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				else
 				{
 					int p = FractionDifficultyHelper.GetScore(difficulty);
-					GDOwner.Profile.GetLevelData(Blueprint.UniqueID).SetCompletedTrue(difficulty, levelTime);
+					GDOwner.Profile.SetCompleted(Blueprint.UniqueID, difficulty, (int)(levelTime * 1000), true);
 					GDOwner.SaveProfile();
 					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, difficulty, true, p);
 				}

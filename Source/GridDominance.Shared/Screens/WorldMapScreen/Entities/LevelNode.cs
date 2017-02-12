@@ -1,6 +1,6 @@
 ﻿using GridDominance.Levelformat.Parser;
-using GridDominance.Shared.PlayerProfile;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
@@ -160,85 +160,21 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClickDiff1(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
-#if DEBUG
-			Owner.PushNotification("CLICK DIFF 0");
-
-			if (istate.IsKeyDown(SKeys.ShiftAny))
-			{
-				if (LevelData.HasCompleted(FractionDifficulty.DIFF_0))
-					LevelData.SetCompletedFalse(FractionDifficulty.DIFF_0);
-				else
-					LevelData.SetCompletedTrue(FractionDifficulty.DIFF_0, 9999);
-
-				MainGame.Inst.SaveProfile();
-
-				return;
-			}
-#endif
-
 			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_0);
 		}
 
 		private void OnClickDiff2(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
-#if DEBUG
-			Owner.PushNotification("CLICK DIFF 1");
-
-			if (istate.IsKeyDown(SKeys.ShiftAny))
-			{
-				if (LevelData.HasCompleted(FractionDifficulty.DIFF_1))
-					LevelData.SetCompletedFalse(FractionDifficulty.DIFF_1);
-				else
-					LevelData.SetCompletedTrue(FractionDifficulty.DIFF_1, 9999);
-
-				MainGame.Inst.SaveProfile();
-
-				return;
-			}
-#endif
-
 			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_1);
 		}
 
 		private void OnClickDiff3(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
-#if DEBUG
-			Owner.PushNotification("CLICK DIFF 2");
-
-			if (istate.IsKeyDown(SKeys.ShiftAny))
-			{
-				if (LevelData.HasCompleted(FractionDifficulty.DIFF_2))
-					LevelData.SetCompletedFalse(FractionDifficulty.DIFF_2);
-				else
-					LevelData.SetCompletedTrue(FractionDifficulty.DIFF_2, 9999);
-
-				MainGame.Inst.SaveProfile();
-
-				return;
-			}
-#endif
-
 			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_2);
 		}
 
 		private void OnClickDiff4(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
-#if DEBUG
-			Owner.PushNotification("CLICK DIFF 3");
-
-			if (istate.IsKeyDown(SKeys.ShiftAny))
-			{
-				if (LevelData.HasCompleted(FractionDifficulty.DIFF_3))
-					LevelData.SetCompletedFalse(FractionDifficulty.DIFF_3);
-				else
-					LevelData.SetCompletedTrue(FractionDifficulty.DIFF_3, 9999);
-
-				MainGame.Inst.SaveProfile();
-
-				return;
-			}
-#endif
-
 			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_3);
 		}
 

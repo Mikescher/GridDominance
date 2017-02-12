@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using System;
+using System.Collections.Concurrent;
 
 namespace MonoSAMFramework.Portable
 {
@@ -12,6 +13,7 @@ namespace MonoSAMFramework.Portable
 		private ScreenManager screens;
 
 		protected readonly GraphicsDeviceManager Graphics;
+		private ConcurrentQueue<Action> dispatchQueue = new ConcurrentQueue<Action>();
 
 		public static ulong GameCycleCounter { get; private set; }
 		public static SAMTime CurrentTime { get; private set; }
@@ -80,6 +82,9 @@ namespace MonoSAMFramework.Portable
 
 				screens.Update(time);
 
+				Action dispatchAction;
+				while (dispatchQueue.TryDequeue(out dispatchAction)) dispatchAction();
+
 				base.Update(gameTime);
 			}
 			catch (Exception e)
@@ -105,6 +110,11 @@ namespace MonoSAMFramework.Portable
 			{
 				SAMLog.FatalError("Game::Draw", e);
 			}
+		}
+
+		public void DispatchBeginInvoke(Action a)
+		{
+			dispatchQueue.Enqueue(a);
 		}
 
 		protected abstract void OnAfterInitialize();

@@ -50,6 +50,7 @@
     <Compile Include="DeviceBridge\IOperatingSystemBridge.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
+    <Compile Include="Extensions\TaskExtension.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign9.cs" />

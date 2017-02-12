@@ -5,13 +5,15 @@
 	// ReSharper disable once ClassNeverInstantiated.Global
 	// ReSharper disable InconsistentNaming
 	// ReSharper disable once ArrangeTypeModifiers
-	class QueryResultPing
+	class QueryResultSetScore
 	{
 		public string result;
 
 		public int errorid;
 		public string errormessage;
 
+		public bool update;
+		public int value_db;
 		public QueryResultUserData user;
 	}
 #pragma warning restore 169
