@@ -1,3 +1,4 @@
+using Android.Content.Res;
 using Android.OS;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Language;
@@ -13,6 +14,7 @@ namespace GridDominance.Android
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);
 		public string DeviceVersion { get; } = string.Format("Android {0} sdk-{1}", Build.VERSION.Release, Build.VERSION.Sdk);
+		public string ScreenResolution { get; } = ScreenRes();
 
 		private readonly SHA256 sha256 = SHA256.Create();
 
@@ -32,6 +34,7 @@ namespace GridDominance.Android
 			b.AppendFormat("CpuAbi2             := '{0}'\n", Build.CpuAbi2);
 			b.AppendFormat("Device              := '{0}'\n", Build.Device);
 			b.AppendFormat("Display             := '{0}'\n", Build.Display);
+			b.AppendFormat("Screen              := '{0}'\n", ScreenRes());
 			b.AppendFormat("Fingerprint         := '{0}'\n", Build.Fingerprint);
 			b.AppendFormat("Hardware            := '{0}'\n", Build.Hardware);
 			b.AppendFormat("Host                := '{0}'\n", Build.Host);
@@ -46,8 +49,21 @@ namespace GridDominance.Android
 			b.AppendFormat("Time                := '{0}'\n", Build.Time);
 			b.AppendFormat("Type                := '{0}'\n", Build.Type);
 			b.AppendFormat("User                := '{0}'\n", Build.User);
+			b.AppendFormat("LayoutDirection     := '{0}'\n", Resources.System.Configuration.LayoutDirection);
+			b.AppendFormat("Country             := '{0}'\n", Resources.System.Configuration.Locale.Country);
+			b.AppendFormat("Language            := '{0}'\n", Resources.System.Configuration.Locale.Language);
+			b.AppendFormat("Orientation         := '{0}'\n", Resources.System.Configuration.Orientation);
+			b.AppendFormat("Touchscreen         := '{0}'\n", Resources.System.Configuration.Touchscreen);
 
 			return b.ToString();
+		}
+
+		private static string ScreenRes()
+		{
+			var m = Resources.System.DisplayMetrics;
+			var c = Resources.System.Configuration;
+
+			return $"{m.WidthPixels}x{m.HeightPixels} <=> {c.ScreenWidthDp}x{c.ScreenHeightDp} (d = {m.Density})";
 		}
 
 		public string DoSHA256(string input)

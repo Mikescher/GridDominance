@@ -5,6 +5,7 @@
 		string FullDeviceInfoString { get; }
 		string DeviceName { get; }
 		string DeviceVersion { get; }
+		string ScreenResolution { get; }
 
 		FileHelper FileHelper { get; }
 

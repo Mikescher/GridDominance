@@ -11,9 +11,10 @@ namespace GridDominance.Windows
 	{
 		public FileHelper FileHelper { get; } = new WindowsFileHelper();
 
-		public string FullDeviceInfoString { get; } = "";
+		public string FullDeviceInfoString { get; } = "?";
 		public string DeviceName { get; } = "PC";
 		public string DeviceVersion { get; } = Environment.OSVersion.VersionString;
+		public string ScreenResolution { get; } = "?";
 
 		private readonly SHA256 sha256 = SHA256.Create();
 
@@ -21,5 +22,6 @@ namespace GridDominance.Windows
 		{
 			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
 		}
+
 	}
 }

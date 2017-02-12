@@ -9,7 +9,14 @@ namespace MonoSAMFramework.Portable.LogProtocol
 	{
 		private static readonly object lockobj = new object();
 
-		//TODO Send logs 2 server or smth
+		public class LogEventArgs
+		{
+			public SAMLogLevel Level => Entry.Level;
+			public SAMLogEntry Entry;
+		}
+		
+		public delegate void LogEventHandler(object sender, LogEventArgs e);
+		public static event LogEventHandler LogEvent;
 
 		public static IReadOnlyList<SAMLogEntry> Entries
 		{
@@ -29,6 +36,8 @@ namespace MonoSAMFramework.Portable.LogProtocol
 			lock (lockobj)
 			{
 				_log.Add(e);
+
+				LogEvent?.Invoke(null, new LogEventArgs{Entry = e});
 			}
 		}
 

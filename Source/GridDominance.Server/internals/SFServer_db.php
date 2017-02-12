@@ -8,7 +8,7 @@ function executeOrFail($stmt) {
 		$stmt->execute();
 	} catch (PDOException $e) {
 		logDebug("Failing SQL stmt: '$stmt->queryString'");
-		outputErrorException(ERRORS::SQL_FAILED, "SQL Statement failed", $e, LOGLEVEL::ERROR);
+		outputErrorException(ERRORS::INTERNAL_EXCEPTION, "SQL Statement failed", $e, LOGLEVEL::ERROR);
 	}
 }
 

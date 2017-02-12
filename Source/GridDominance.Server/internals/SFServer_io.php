@@ -8,7 +8,6 @@ abstract class ERRORS {
 	const INVALID_PARAMETER       = 99003;
 	const USER_BY_ID_NOT_FOUND    = 99004;
 	const WRONG_PASSWORD          = 99005;
-	const SQL_FAILED              = 99006;
 
 	/* ======== 11 UPGRADE-USER ========= */
 	const UPGRADE_USER_DUPLICATE_USERNAME  = 10001;
@@ -34,9 +33,10 @@ function is_int_str($value) {
 
 /**
  * @param string $name
+ * @param bool $allowEmpty
  * @return string
  */
-function getParamStrOrError($name) {
+function getParamStrOrError($name, $allowEmpty = false) {
 	$v = null;
 
 	if( isset($_GET[$name])) $v = $_GET[$name];
@@ -47,9 +47,9 @@ function getParamStrOrError($name) {
 	}
 
 
-	if ($v === null)  outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
-	if ($v === false) outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
-	if (empty($v))    outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is empty", LOGLEVEL::DEBUG);
+	if ($v === null)               outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
+	if ($v === false)              outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
+	if (!$allowEmpty && empty($v)) outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is empty", LOGLEVEL::DEBUG);
 
 	return $v;
 }
@@ -68,10 +68,11 @@ function getParamSHAOrError($name) {
 
 /**
  * @param string $name
+ * @param bool $allowEmpty
  * @return string
  */
-function getParamB64OrError($name) {
-	$v = getParamStrOrError($name);
+function getParamB64OrError($name, $allowEmpty = false) {
+	$v = getParamStrOrError($name, $allowEmpty);
 
 	// modified Base64  @see https://en.wikipedia.org/wiki/Base64#URL_applications
 	$rv = str_replace("-", "+", $v);
@@ -83,6 +84,30 @@ function getParamB64OrError($name) {
 	if ($rv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not base64 encoded", LOGLEVEL::DEBUG);
 
 	return $rv;
+}
+
+/**
+ * @param string $name
+ * @param bool $allowEmpty
+ * @return string
+ */
+function getParamDeflOrError($name, $allowEmpty = false) {
+	$v = getParamStrOrError($name, $allowEmpty);
+
+	// modified Base64  @see https://en.wikipedia.org/wiki/Base64#URL_applications
+	$rv = str_replace("-", "+", $v);
+	$rv = str_replace("_", "/", $rv);
+	$rv = str_replace(".", "=", $rv);
+
+	$rv = base64_decode($rv, TRUE);
+
+	if ($rv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not base64 encoded", LOGLEVEL::DEBUG);
+
+	$dv = gzinflate($rv);
+
+	if ($dv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not deflated", LOGLEVEL::DEBUG);
+
+	return $dv;
 }
 
 /**

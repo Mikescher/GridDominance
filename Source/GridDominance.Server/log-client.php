@@ -12,9 +12,9 @@ function run() {
 	$resolution    = getParamStrOrError('screen_resolution');
 	$appversion    = getParamStrOrError('app_version');
 	$identifier    = getParamStrOrError('exception_id');
-	$message       = getParamB64OrError('exception_message');
-	$stacktrace    = getParamB64OrError('exception_stacktrace');
-	$additional    = getParamB64OrError('additional_info');
+	$message       = getParamDeflOrError('exception_message', true);
+	$stacktrace    = getParamDeflOrError('exception_stacktrace', true);
+	$additional    = getParamDeflOrError('additional_info', true);
 
 	//----------
 

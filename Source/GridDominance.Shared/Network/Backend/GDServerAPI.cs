@@ -46,7 +46,27 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
-					SAMLog.Error("Backend", $"Ping: Error {response.errorid}: {response.errormessage}");
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						return; // meh
+					}
+					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
+					{
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							SAMLog.Error("Backend", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+
+							// something went horribly wrong
+							// create new user on next run
+							profile.OnlineUserID = -1;
+
+							MainGame.Inst.SaveProfile();
+						});
+					}
+					else
+					{
+						SAMLog.Error("Backend", $"Ping: Error {response.errorid}: {response.errormessage}");
+					}
 				}
 			}
 			catch (Exception e)
@@ -85,6 +105,7 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
+					//TODO react on duplicate username etc
 					SAMLog.Error("Backend", $"CreateUser: Error {response.errorid}: {response.errormessage}");
 				}
 			}
@@ -125,7 +146,27 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
-					SAMLog.Error("Backend", $"SetScore: Error {response.errorid}: {response.errormessage}");
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						return; // meh
+					}
+					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
+					{
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							SAMLog.Error("Backend", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+
+							// something went horribly wrong
+							// create new user on next run
+							profile.OnlineUserID = -1;
+
+							MainGame.Inst.SaveProfile();
+						});
+					}
+					else
+					{
+						SAMLog.Error("Backend", $"SetScore: Error {response.errorid}: {response.errormessage}");
+					}
 				}
 			}
 			catch (Exception e)
@@ -168,7 +209,27 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
-					SAMLog.Error("Backend", $"SetScore: Error {response.errorid}: {response.errormessage}");
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						return; // meh
+					}
+					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
+					{
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							SAMLog.Error("Backend", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+
+							// something went horribly wrong
+							// create new user on next run
+							profile.OnlineUserID = -1;
+
+							MainGame.Inst.SaveProfile();
+						});
+					}
+					else
+					{
+						SAMLog.Error("Backend", $"SetScore: Error {response.errorid}: {response.errormessage}");
+					}
 				}
 			}
 			catch (Exception e)
@@ -213,6 +274,34 @@ namespace GridDominance.Shared.Network
 				});
 			}
 
+		}
+
+		public async Task LogClient(PlayerProfile profile, SAMLogEntry entry)
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID, false);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash, false);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString(), false);
+				ps.AddParameterString("screen_resolution", bridge.ScreenResolution, false);
+				ps.AddParameterString("exception_id", entry.Type, false);
+				ps.AddParameterCompressed("exception_message", entry.MessageShort, false);
+				ps.AddParameterCompressed("exception_stacktrace", entry.MessageLong, false);
+				ps.AddParameterCompressed("additional_info", bridge.FullDeviceInfoString, false);
+
+				var response = await QueryAsync<QueryResultDownloadData>("log-client", ps);
+
+				if (response.result == "error")
+				{
+					SAMLog.Warning("Log_Upload", response.errormessage);
+				}
+			}
+			catch (Exception e)
+			{
+				// well, that sucks
+				SAMLog.Warning("Backend", e);
+			}
 		}
 	}
 }

@@ -32,7 +32,7 @@ namespace GridDominance.Shared
 			Backend = new GDServerAPI(b);
 			Profile = new PlayerProfile();
 
-			var sdata = (string)null;//FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);
+			var sdata = FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);
 			if (sdata != null)
 			{
 				try
@@ -51,7 +51,8 @@ namespace GridDominance.Shared
 			{
 				SaveProfile();
 			}
-
+			
+			SAMLog.LogEvent += SAMLogOnLogEvent;
 
 			if (Profile.OnlineUserID >= 0)
 			{
@@ -63,6 +64,14 @@ namespace GridDominance.Shared
 			}
 
 			Inst = this;
+		}
+
+		private void SAMLogOnLogEvent(object sender, SAMLog.LogEventArgs args)
+		{
+			if (args.Level == SAMLogLevel.ERROR || args.Level == SAMLogLevel.FATAL_ERROR)
+			{
+				Backend.LogClient(Profile, args.Entry).EnsureNoError();
+			}
 		}
 
 		protected override void OnInitialize()
