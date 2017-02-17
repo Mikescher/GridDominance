@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\BackendCodes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\GDServerAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultHighscores.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultScoreData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultDownloadData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultSetScore.cs" />
@@ -19,7 +20,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultPing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultUserData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\PlayerProfile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SaveData\PlayerProfileLevelData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SaveData\LevelDiffData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SaveData\LevelData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSettings.cs" />

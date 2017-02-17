@@ -29,7 +29,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		DebugTextDisplayLine AddLineFromAsync(string text, Color background, Color foreground);
 		DebugTextDisplayLine AddLineFromAsync(DebugTextDisplayLine l);
 
-		void AddLogLines(SAMLogLevel minLevel);
+		void AddLogLines();
 
 		void Update(SAMTime gameTime, InputState istate);
 		void Draw();

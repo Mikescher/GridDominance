@@ -36,7 +36,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private const float CENTERING_TIME = 0.55f;
 
 		public readonly LevelFile Level;
-		public readonly PlayerProfileLevelData LevelData;
+		public readonly LevelData LevelData;
 
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
@@ -62,7 +62,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public bool IsOpened => FloatMath.IsOne(expansionProgress);
 		public bool IsClosed => FloatMath.IsZero(expansionProgress);
 
-		public LevelNode(GameScreen scrn, Vector2 pos, LevelFile lvlf, PlayerProfileLevelData lvldat) : base(scrn)
+		public LevelNode(GameScreen scrn, Vector2 pos, LevelFile lvlf, LevelData lvldat) : base(scrn)
 		{
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));

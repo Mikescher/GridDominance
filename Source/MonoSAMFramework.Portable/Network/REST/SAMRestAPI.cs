@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.LogProtocol;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -7,6 +9,8 @@ namespace MonoSAMFramework.Portable.Network.REST
 {
 	public abstract class SAMRestAPI
 	{
+		private const int RETRY_SLEEP_TIME = 128;//ms
+
 		private readonly string serverbasepath;
 		private readonly string secret;
 
@@ -22,17 +26,42 @@ namespace MonoSAMFramework.Portable.Network.REST
 			http.Timeout = TimeSpan.FromSeconds(45);
 		}
 		
-		protected async Task<TReturn> QueryAsync<TReturn>(string apiEndPoint, RestParameterSet parameter)
+		protected async Task<TReturn> QueryAsync<TReturn>(string apiEndPoint, RestParameterSet parameter, int maxTries)
 		{
 			string url = serverbasepath + "/" + apiEndPoint + ".php" + parameter.CreateParamString(secret, MonoSAMGame.CurrentInst.Bridge);
 
-			var response = await http.GetAsync(url);
+			for (;;)
+			{
+				string content;
 
-			response.EnsureSuccessStatusCode();
+				try
+				{
+					var response = await http.GetAsync(url);
+					response.EnsureSuccessStatusCode();
+					content = await response.Content.ReadAsStringAsync();
+				}
+				catch (Exception e)
+				{
+					if (maxTries > 0)
+					{
+						maxTries--;
+						SAMLog.Info("QueryAsync", $"Retry query '{url}'. {maxTries}remaining", e.Message);
+						await Task.Delay(RETRY_SLEEP_TIME);
+						continue;
+					}
+					else
+					{
+						throw new RestConnectionException(e); // return to sender
+					}
+				}
 
-			var content = await response.Content.ReadAsStringAsync();
+#if DEBUG
+				SAMLog.Debug("QueryAsync", $"Query '{apiEndPoint}' returned \r\n" + CompactJsonFormatter.CompressJson(content, 1));
+#endif
 
-			return JsonConvert.DeserializeObject<TReturn>(content);
+				return JsonConvert.DeserializeObject<TReturn>(content);
+			}
+
 		}
 	}
 }

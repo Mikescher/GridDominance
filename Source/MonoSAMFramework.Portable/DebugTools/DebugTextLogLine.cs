@@ -8,16 +8,12 @@ namespace MonoSAMFramework.Portable.DebugTools
 {
 	class DebugTextLogLine : IDebugTextDisplayLineProvider
 	{
-		private readonly SAMLogLevel _minLevel;
-
 		private readonly List<DebugTextDisplayLine> _lines;
 		private SAMLogEntry lastReadEntry;
 
-		public DebugTextLogLine(SAMLogLevel min)
+		public DebugTextLogLine()
 		{
-			_minLevel = min;
-
-			_lines = SAMLog.Entries.Where(e => e.Level >= _minLevel).Select(CreateLine).ToList();
+			_lines = SAMLog.Entries.Select(CreateLine).ToList();
 			lastReadEntry = SAMLog.Entries.LastOrDefault();
 		}
 
@@ -25,7 +21,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			foreach (var entry in SAMLog.Entries.Reverse().TakeWhile(p => p != lastReadEntry).Reverse())
 			{
-				if (entry.Level >= _minLevel) _lines.Add(CreateLine(entry));
+				_lines.Add(CreateLine(entry));
 				lastReadEntry = entry;
 			}
 		}
@@ -67,18 +63,23 @@ namespace MonoSAMFramework.Portable.DebugTools
 					line = new DebugTextDisplayLine(() => $"[{e.Type}] {e.MessageShort}");
 					line.SetBackground(Color.DarkOrange * 0.6f);
 					line.SetColor(Color.Black);
+					line.SetLifetime(60);
 					return line;
 
 				case SAMLogLevel.INFORMATION:
 					line = new DebugTextDisplayLine(() => $"[{e.Type}] {e.MessageShort}");
 					line.SetBackground(Color.DodgerBlue * 0.5f);
 					line.SetColor(Color.Black);
+					line.SetLifetime(30);
 					return line;
 
 				case SAMLogLevel.DEBUG:
 					line = new DebugTextDisplayLine(() => $"[{e.Type}] {e.MessageShort}");
-					line.SetBackground(Color.GreenYellow * 0.35f);
+					line.SetBackground(Color.GreenYellow * 0.5f);
 					line.SetColor(Color.Black);
+					line.SetLifetime(10);
+					line.SetSpawntime(2);
+					line.SetDecaytime(2);
 					return line;
 
 				default:

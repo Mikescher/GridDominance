@@ -142,7 +142,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 
-				DebugDisp.AddLogLines(SAMLogLevel.DEBUG);
+				DebugDisp.AddLogLines();
 
 				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
 

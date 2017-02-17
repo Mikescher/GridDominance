@@ -136,7 +136,10 @@ namespace GridDominance.Shared
 			var sdata = Profile.SerializeToString();
 			FileHelper.Inst.WriteData(PROFILE_FILENAME, sdata);
 
+
 #if DEBUG
+			SAMLog.Debug("DEBUG", "Profile saved");
+
 			try
 			{
 				var p = new PlayerProfile();

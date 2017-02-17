@@ -42,6 +42,7 @@
     <Compile Include="BatchRenderer\TextureAtlases\TextureRegion2D.cs" />
     <Compile Include="BatchRenderer\TranslatingSpriteBatchWrapper.cs" />
     <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
+    <Compile Include="DebugTools\CompactJsonFormatter.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="DebugTools\DebugTextLogLine.cs" />
     <Compile Include="DebugTools\FrequencyCounter.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
+    <Compile Include="Extensions\TimeExtension.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign9.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="LogProtocol\SAMLog.cs" />
     <Compile Include="LogProtocol\SAMLogEntry.cs" />
     <Compile Include="LogProtocol\SAMLogLevel.cs" />
+    <Compile Include="Network\REST\RestConnectionException.cs" />
     <Compile Include="Network\REST\RestParameterSet.cs" />
     <Compile Include="Network\REST\SAMRestAPI.cs" />
     <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />

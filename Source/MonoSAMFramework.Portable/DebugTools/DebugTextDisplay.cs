@@ -91,9 +91,9 @@ namespace MonoSAMFramework.Portable.DebugTools
 			return AddLine(new DebugTextDisplayLine(() => text).SetLifetime(lifetime).SetDecaytime(decaytime).SetSpawntime(spawntime));
 		}
 
-		public void AddLogLines(SAMLogLevel minLevel)
+		public void AddLogLines()
 		{
-			lines.Add(new DebugTextLogLine(minLevel));
+			lines.Add(new DebugTextLogLine());
 		}
 
 		public void Update(SAMTime gameTime, InputState istate)

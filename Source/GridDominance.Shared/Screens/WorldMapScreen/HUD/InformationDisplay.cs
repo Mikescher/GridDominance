@@ -4,6 +4,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -60,23 +61,21 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 			else if (tab == 1)
 			{
-				// Best time global //TODO
-
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, "00:00.000");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, "00:00.000");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, "00:00.000");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, "00:00.000");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalBestTime));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalBestTime));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalBestTime));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_3].GlobalBestTime));
 			}
 			else if (tab == 2)
 			{
-				// Amount of players online that solved this //TODO
-
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, "0");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, "0");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, "0");
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, "0");
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalCompletionCount));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalCompletionCount));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalCompletionCount));
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_3].GlobalCompletionCount));
 			}
 		}
+
+		private static string PositiveOrZero(int v) => v < 0 ? "0" : v.ToString();
 
 		private void DrawInfoLine(IBatchRenderer sbatch, FractionDifficulty d, int idx, string strTime)
 		{
@@ -86,6 +85,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			var ic = (node.LevelData.HasCompleted(d) ? FractionDifficultyHelper.GetColor(d) : FlatColors.Concrete) * progressDisplay;
 			var tc = (node.LevelData.HasCompleted(d) ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay;
+
+			if (node.LevelData.Data[d].GlobalBestUserID >= 0 && node.LevelData.Data[d].GlobalBestUserID == MainGame.Inst.Profile.OnlineUserID)
+				tc = FlatColors.SunFlower * progressDisplay;
 
 			sbatch.DrawCentered(Textures.TexCircle, p1, 48, 48, FlatColors.WetAsphalt * progressDisplay);
 			sbatch.DrawCentered(FractionDifficultyHelper.GetIcon(d), p1, 32, 32, ic);

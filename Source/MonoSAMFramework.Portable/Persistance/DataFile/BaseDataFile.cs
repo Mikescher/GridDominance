@@ -42,6 +42,13 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 					property.Setter(this, inst);
 				}
 			}
+
+			OnAfterDeserialize();
+		}
+
+		protected virtual void OnAfterDeserialize()
+		{
+			// override me
 		}
 
 		#region Typeinfo Configuration

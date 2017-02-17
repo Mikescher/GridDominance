@@ -49,5 +49,19 @@ namespace MonoSAMFramework.Portable.LogProtocol
 
 		public static void Warning(string id, string msgShort, string msgLong = null) => Add(new SAMLogEntry(SAMLogLevel.WARNING, id, msgShort, msgLong ?? msgShort));
 		public static void Warning(string id, Exception e) => Add(new SAMLogEntry(SAMLogLevel.WARNING, id, e.Message, e.ToString()));
+
+		public static void Info(string id, string msgShort, string msgLong = null) => Add(new SAMLogEntry(SAMLogLevel.INFORMATION, id, msgShort, msgLong ?? msgShort));
+		public static void Info(string id, Exception e) => Add(new SAMLogEntry(SAMLogLevel.INFORMATION, id, e.Message, e.ToString()));
+
+#if DEBUG
+		public static void Debug(string id, string msgShort, string msgLong = null) => Add(new SAMLogEntry(SAMLogLevel.DEBUG, id, msgShort, msgLong ?? msgShort));
+		public static void Debug(string id, Exception e) => Add(new SAMLogEntry(SAMLogLevel.DEBUG, id, e.Message, e.ToString()));
+#else
+		[Conditional("DEBUG")]
+		public static void Debug(string id, string msgShort, string msgLong = null) {};
+		[Conditional("DEBUG")]
+		public static void Debug(string id, Exception e) {};
+#endif
+
 	}
 }

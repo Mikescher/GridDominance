@@ -35,7 +35,7 @@ DROP TABLE IF EXISTS level_highscores;
 CREATE TABLE IF NOT EXISTS level_highscores 
 (
   userid        int(11)    NOT NULL,
-  levelid       char(36)   NOT NULL,
+  levelid       char(38)   NOT NULL,
   difficulty    tinyint(4) NOT NULL,
   best_time     int(11)    NOT NULL,
   last_changed  timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS level_highscores
 DROP TABLE IF EXISTS cache_levels;
 CREATE TABLE IF NOT EXISTS cache_levels
 (
-  levelid           char(36)   NOT NULL,
+  levelid           char(38)   NOT NULL,
   difficulty        tinyint(4) NOT NULL,
   best_time         int(11)    NOT NULL,
   best_userid       int(11)    NOT NULL,
