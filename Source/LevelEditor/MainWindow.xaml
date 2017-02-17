@@ -5,9 +5,8 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:LevelEditor"
 		xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-		xmlns:mext="clr-namespace:MSHC.MVVM.MarkupExtensions;assembly=CSharpUtils"
-		xmlns:mvvm="clr-namespace:MSHC.MVVM;assembly=CSharpUtils"
-		xmlns:bindingProxies="clr-namespace:MSHC.MVVM.BindingProxies;assembly=CSharpUtils"
+		xmlns:mext="clr-namespace:MSHC.WPF.Extensions.MarkupExtensions;assembly=CSharpUtils"
+		xmlns:prox="clr-namespace:MSHC.WPF.Extensions.BindingProxies;assembly=CSharpUtils"
 		mc:Ignorable="d" 
 		d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
 		Closing="{mext:EventBinding ClosingCommand, CommandParameter=$e}"
@@ -64,9 +63,9 @@
 					FontSize="10pt"/>
 			</Border>
 
-			<bindingProxies:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionStart"  ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionStart}" />
-			<bindingProxies:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionLength" ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionLength}" />
-			<bindingProxies:LegacyStringBinding  Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="Text"            ChangedEventPath="TextChanged"               TargetBinding="{Binding Code}" />
+			<prox:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionStart"  ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionStart}" />
+			<prox:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionLength" ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionLength}" />
+			<prox:LegacyStringBinding  Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="Text"            ChangedEventPath="TextChanged"               TargetBinding="{Binding Code}" />
 
 			<StackPanel Grid.Row="0" Grid.Column="1" Margin="2" Orientation="Vertical">
 				<Button Content="Repaint" Margin="5,5,5,0" Click="{mext:EventBinding RepaintCommand}" />

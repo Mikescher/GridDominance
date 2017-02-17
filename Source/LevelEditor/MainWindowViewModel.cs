@@ -1,7 +1,7 @@
 ﻿using GridDominance.Levelformat.Parser;
 using Leveleditor;
 using LevelEditor.Properties;
-using MSHC.MVVM;
+using MSHC.WPF.MVVM;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

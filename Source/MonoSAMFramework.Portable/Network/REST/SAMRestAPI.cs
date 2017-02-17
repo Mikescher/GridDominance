@@ -22,7 +22,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 			http.Timeout = TimeSpan.FromSeconds(45);
 		}
 		
-		public async Task<TReturn> QueryAsync<TReturn>(string apiEndPoint, RestParameterSet parameter)
+		protected async Task<TReturn> QueryAsync<TReturn>(string apiEndPoint, RestParameterSet parameter)
 		{
 			string url = serverbasepath + "/" + apiEndPoint + ".php" + parameter.CreateParamString(secret, MonoSAMGame.CurrentInst.Bridge);
 
