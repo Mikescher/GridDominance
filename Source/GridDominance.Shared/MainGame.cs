@@ -36,7 +36,13 @@ namespace GridDominance.Shared
 			{
 				try
 				{
+#if DEBUG
+					var starttime = Environment.TickCount;
+#endif
 					Profile.DeserializeFromString(sdata);
+#if DEBUG
+					SAMLog.Debug($"Deserialized profile in {Environment.TickCount - starttime}ms");
+#endif
 				}
 				catch (Exception e)
 				{
@@ -55,11 +61,11 @@ namespace GridDominance.Shared
 
 			if (Profile.OnlineUserID >= 0)
 			{
-				Backend.Ping(Profile).EnsureNoError();
+				Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
 			}
 			else
 			{
-				Backend.CreateUser(Profile).EnsureNoError();
+				Backend.CreateUser(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
 			}
 
 			Inst = this;
@@ -138,7 +144,7 @@ namespace GridDominance.Shared
 
 
 #if DEBUG
-			SAMLog.Debug("DEBUG", "Profile saved");
+			SAMLog.Debug("Profile saved");
 
 			try
 			{

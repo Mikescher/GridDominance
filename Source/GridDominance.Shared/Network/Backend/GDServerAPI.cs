@@ -41,8 +41,6 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultPing>("ping", ps, RETRY_PING);
 
-				DownloadHighscores(profile).EnsureNoError();
-
 				if (response.result == "success")
 				{
 					if (response.user.RevID > profile.OnlineRevisionID)

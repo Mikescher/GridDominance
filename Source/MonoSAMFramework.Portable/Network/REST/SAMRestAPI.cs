@@ -56,7 +56,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 				}
 
 #if DEBUG
-				SAMLog.Debug("QueryAsync", $"Query '{apiEndPoint}' returned \r\n" + CompactJsonFormatter.CompressJson(content, 1));
+				SAMLog.Debug($"Query '{apiEndPoint}' returned \r\n" + CompactJsonFormatter.CompressJson(content, 1));
 #endif
 
 				return JsonConvert.DeserializeObject<TReturn>(content);

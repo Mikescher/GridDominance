@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 
 namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 {
@@ -22,10 +23,31 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 			if (length == 0) return 0;
 
-			return ReadSimpleUnsignedInteger(length);
+			return ReadSimpleSignedInteger(length);
 		}
 
 		private int ReadSimpleUnsignedInteger(int length)
+		{
+			int r = 0;
+			
+			for (int i = 0; i < length; i++)
+			{
+				if (position >= datalength)
+					throw new DataWriterException("Unexpected EOF found");
+
+				char chr = data[position];
+
+				if (chr < '0' || chr > '9')
+					throw new DataWriterException("the character chr(" + (int)chr + ") is not a digit for SimpleInteger deserialization");
+
+				r = r * 10 + (chr - '0');
+				position++;
+			}
+
+			return r;
+		}
+
+		private int ReadSimpleSignedInteger(int length)
 		{
 			int r = 0;
 
@@ -37,7 +59,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 				char chr = data[position];
 
-				if (i == 0 && chr == '-')
+				if (i == 0 && chr == '0')
 				{
 					neg = -1;
 					position++;
@@ -54,13 +76,36 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			return r*neg;
 		}
 
+		private int ReadUnsignedInteger32()
+		{
+			int len = ReadSimpleUnsignedInteger(1) + 1;
+			return ReadSimpleUnsignedInteger(len);
+		}
+
 		public string ReadString()
 		{
-			int len = ReadInteger();
+			var mode = ReadSimpleUnsignedInteger(1);
+			var length = ReadInteger();
+			var builder = new StringBuilder(length);
 
-			string raw = ReadRawString(len);
+			if (mode == 0)
+			{
+				for (int i = 0; i < length; i++) builder.Append((char) (ReadSimpleUnsignedInteger(2) + 32));
+			}
+			else if (mode == 2)
+			{
+				for (int i = 0; i < length; i++) builder.Append((char)Convert.ToInt32(ReadFixedLengthNonEscapedASCII(2), 16));
+			}
+			else if (mode == 2)
+			{
+				for (int i = 0; i < length; i++) builder.Append((char)ReadSimpleUnsignedInteger(3));
+			}
+			else if (mode == 3)
+			{
+				for (int i = 0; i < length; i++) builder.Append((char)ReadUnsignedInteger32());
+			}
 
-			return PersistanceHelper.UnescapeString(raw);
+			return builder.ToString();
 		}
 
 		public double ReadDouble()

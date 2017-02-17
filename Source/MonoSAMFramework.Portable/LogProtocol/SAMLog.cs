@@ -54,13 +54,10 @@ namespace MonoSAMFramework.Portable.LogProtocol
 		public static void Info(string id, Exception e) => Add(new SAMLogEntry(SAMLogLevel.INFORMATION, id, e.Message, e.ToString()));
 
 #if DEBUG
-		public static void Debug(string id, string msgShort, string msgLong = null) => Add(new SAMLogEntry(SAMLogLevel.DEBUG, id, msgShort, msgLong ?? msgShort));
-		public static void Debug(string id, Exception e) => Add(new SAMLogEntry(SAMLogLevel.DEBUG, id, e.Message, e.ToString()));
+		public static void Debug(string msg) => Add(new SAMLogEntry(SAMLogLevel.DEBUG, "D", msg, msg));
 #else
 		[Conditional("DEBUG")]
-		public static void Debug(string id, string msgShort, string msgLong = null) {};
-		[Conditional("DEBUG")]
-		public static void Debug(string id, Exception e) {};
+		public static void Debug(string msg) {};
 #endif
 
 	}

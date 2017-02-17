@@ -93,6 +93,21 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			return esc.ToString();
 		}
 
+		public static int GetStringSerializationMode(string data)
+		{
+			int mode = 0;
+
+			foreach (var chr in data)
+			{
+				if (chr < 32  && mode < 1) mode = 1;
+				if (chr > 126 && mode < 1) mode = 1;
+				if (chr > 255 && mode < 2) mode = 2;
+				if (chr > 999 && mode < 2) return 3;
+			}
+
+			return mode;
+		}
+
 		public static string CreateFileIntegrityHash(string data)
 		{
 			return MD5.GetHashString(data).Substring(0, INTEGRITY_HASH_LEN);

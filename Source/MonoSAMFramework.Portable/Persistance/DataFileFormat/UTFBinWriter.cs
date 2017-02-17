@@ -22,15 +22,39 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 			var data = v.ToString();
 			WriteSimpleUnsignedInteger(data.Length, 2);
+			data = data.Replace('-', '0');
+			builder.Append(data);
+		}
+
+		public void WriteUnsignedInteger32(int v)
+		{
+			var data = v.ToString();
+			WriteSimpleUnsignedInteger(data.Length - 1, 1);
 			builder.Append(data);
 		}
 
 		public void WriteString(string v)
 		{
-			var proc = PersistanceHelper.EscapeString(v);
+			var mode = PersistanceHelper.GetStringSerializationMode(v);
+			WriteSimpleUnsignedInteger(mode, 1);
+			WriteInteger(v.Length);
 
-			WriteInteger(proc.Length);
-			builder.Append(proc);
+			if (mode == 0)
+			{
+				foreach (var chr in v) WriteSimpleUnsignedInteger(chr - 32, 2);
+			}
+			else if (mode == 1)
+			{
+				foreach (var chr in v) WriteFixedLengthNonEscapedASCII(string.Format("{0:X2}", (int)chr), 2);
+			}
+			else if (mode == 2)
+			{
+				foreach (var chr in v) WriteUnsignedInteger32(chr);
+			}
+			else if (mode == 3)
+			{
+				foreach (var chr in v) WriteUnsignedInteger32(chr);
+			}
 		}
 
 		public void WriteDouble(double v)
