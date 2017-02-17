@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using GridDominance.Levelformat.Parser;
-using GridDominance.Shared.Network;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
@@ -18,7 +16,6 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.LogProtocol;
-using MonoSAMFramework.Portable.Network.REST;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
@@ -29,6 +26,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 	{
 		public const int VIEW_WIDTH = 16 * GDConstants.TILE_WIDTH;
 		public const int VIEW_HEIGHT = 10 * GDConstants.TILE_WIDTH;
+
+		public bool IsBackgroundPressed = false;
 
 		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{

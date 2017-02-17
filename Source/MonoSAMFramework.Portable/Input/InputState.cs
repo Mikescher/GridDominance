@@ -31,6 +31,7 @@ namespace MonoSAMFramework.Portable.Input
 		public bool IsRealUp => !isDown;
 		public bool IsRealJustDown => isJustDown;
 		public bool IsRealJustUp => isJustUp;
+
 		public void Swallow() => isUpDownSwallowed = true;
 		
 		public readonly FPoint PointerPosition;

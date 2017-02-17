@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using MonoSAMFramework.Portable.Persistance;
@@ -55,7 +54,7 @@ namespace GridDominance.Shared.SaveData
 			if (!BestTimes.TryGetValue(d, out time)) return "";
 
 			var minutes = (int)(time.Value / 1000f / 60f);
-			var seconds = (int) ((time.Value - minutes * 1000 * 60) / 60f);
+			var seconds = (int) ((time.Value - minutes * 1000 * 60) / 1000f);
 			var millis = time.Value - minutes * 1000 * 60 - seconds * 1000;
 
 			return string.Format("{0:00}:{1:00}.{2:000}", minutes, seconds, millis);

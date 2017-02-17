@@ -5,11 +5,8 @@ using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
-using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
-using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.DeviceBridge;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.REST;
 
@@ -71,7 +68,7 @@ namespace GridDominance.Shared.Network
 			}
 			catch (Exception e)
 			{
-				SAMLog.Warning("Backend", e);
+				SAMLog.Warning("Backend", e); // probably no internet
 			}
 		}
 
@@ -111,7 +108,7 @@ namespace GridDominance.Shared.Network
 			}
 			catch (Exception e)
 			{
-				SAMLog.Warning("Backend", e);
+				SAMLog.Warning("Backend", e); // probably no internet
 			}
 		}
 
@@ -171,7 +168,7 @@ namespace GridDominance.Shared.Network
 			}
 			catch (Exception e)
 			{
-				SAMLog.Warning("Backend", e);
+				SAMLog.Warning("Backend", e); // probably no internet
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
@@ -234,7 +231,7 @@ namespace GridDominance.Shared.Network
 			}
 			catch (Exception e)
 			{
-				SAMLog.Warning("Backend", e);
+				SAMLog.Warning("Backend", e); // probably no internet
 			}
 		}
 
@@ -265,7 +262,7 @@ namespace GridDominance.Shared.Network
 			}
 			catch (Exception e)
 			{
-				SAMLog.Warning("Backend", e);
+				SAMLog.Warning("Backend", e); // probably no internet
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
 					profile.NeedsReupload = false;
@@ -300,6 +297,7 @@ namespace GridDominance.Shared.Network
 			catch (Exception e)
 			{
 				// well, that sucks
+				// probably no internet
 				SAMLog.Warning("Backend", e);
 			}
 		}

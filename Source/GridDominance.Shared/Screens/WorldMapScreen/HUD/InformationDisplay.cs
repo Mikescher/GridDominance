@@ -17,6 +17,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 	class InformationDisplay : HUDContainer
 	{
 		private const float SPEED_BLEND = 2.0f;
+		private const float TAB_SWITCHTIME = 2.0f;
 
 		public override int Depth => 0;
 
@@ -107,7 +108,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			var sel = ((GDWorldHUD)HUD).SelectedNode;
 
 			tabTimer += gameTime.ElapsedSeconds;
-			tab = (int) (tabTimer / 2f) % 3;
+			tab = (int) (tabTimer / TAB_SWITCHTIME) % 3;
 
 			if (sel != null && progressDisplay < 1)
 			{
@@ -122,6 +123,28 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 
 			IsVisible = FloatMath.IsNotZero(progressDisplay);
+		}
+
+
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
+		{
+			return true;
+		}
+
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)
+		{
+			return true;
+		}
+
+		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
+		{
+			var tabNext = (int)(tabTimer  / TAB_SWITCHTIME + 1) % 3;
+			tabTimer = tabNext * TAB_SWITCHTIME;
+		}
+
+		public void ResetCycle()
+		{
+			tabTimer = 0;
 		}
 	}
 }

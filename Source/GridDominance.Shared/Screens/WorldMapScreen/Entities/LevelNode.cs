@@ -129,6 +129,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			((GDWorldHUD)Owner.HUD).SelectNode(this);
 
+			foreach (var node in Owner.GetEntities<LevelNode>())
+			{
+				if (node != this && (node.IsOpening || node.IsOpened)) node.CloseNode();
+			}
+
 			float initProgress = 0f;
 			if (IsClosing)
 			{
@@ -189,18 +194,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			clickAreaD1.IsEnabled = (expansionProgress > 0.5f);
 			clickAreaD2.IsEnabled = (expansionProgress > 0.5f);
 			clickAreaD3.IsEnabled = (expansionProgress > 0.5f);
-
+			
 			if (IsOpened || IsOpening)
 			{
-				var clickOutside =
-					istate.IsRealDown &&
-					!clickAreaD0.IsMouseDown() &&
-					!clickAreaD1.IsMouseDown() &&
-					!clickAreaD2.IsMouseDown() &&
-					!clickAreaD3.IsMouseDown() &&
-					!clickAreaThis.IsMouseDown();
-
-				if (clickOutside) CloseNode();
+				if (((GDWorldMapScreen)Owner).IsBackgroundPressed) CloseNode();
 			}
 
 		}

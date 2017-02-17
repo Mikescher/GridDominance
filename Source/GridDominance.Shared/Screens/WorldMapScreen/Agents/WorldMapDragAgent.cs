@@ -31,9 +31,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private float lastMousePosTimer;
 		private Vector2 dragSpeed;
 
+		private GDWorldMapScreen gdScreen;
+
 		public WorldMapDragAgent(GDWorldMapScreen scrn) : base(scrn)
 		{
 			bounding = scrn.MapFullBounds;
+
+			gdScreen = scrn;
 		}
 
 		public override void Update(SAMTime gameTime, InputState istate)
@@ -43,10 +47,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 				if (istate.IsRealDown)
 				{
 					UpdateDrag(gameTime, istate);
+
+					gdScreen.IsBackgroundPressed = true;
 				}
 				else
 				{
 					EndDrag();
+
+					gdScreen.IsBackgroundPressed = false;
 				}
 			}
 			else
@@ -55,10 +63,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 				{
 					istate.Swallow();
 					StartDrag(istate);
+
+					gdScreen.IsBackgroundPressed = true;
 				}
 				else if (!dragSpeed.IsZero() || !outOfBoundsForce.IsZero())
 				{
 					UpdateRestDrag(gameTime);
+
+					gdScreen.IsBackgroundPressed = false;
 				}
 			}
 		}

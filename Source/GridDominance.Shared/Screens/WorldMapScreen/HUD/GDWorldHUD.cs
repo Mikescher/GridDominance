@@ -11,18 +11,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public LevelNode SelectedNode = null;
 
 		public readonly TopLevelDisplay TopLevelDisplay;
+		public readonly InformationDisplay InfoDisplay;
 
 		public GDWorldHUD(GDWorldMapScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(new SettingsButton());
 			AddElement(new ScoreDisplay());
 			AddElement(TopLevelDisplay = new TopLevelDisplay());
-			AddElement(new InformationDisplay());
+			AddElement(InfoDisplay = new InformationDisplay());
 		}
 
 		public void SelectNode(LevelNode n)
 		{
 			SelectedNode = n;
+			InfoDisplay.ResetCycle();
 		}
 	}
 }

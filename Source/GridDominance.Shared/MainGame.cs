@@ -11,7 +11,6 @@ using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
-using MonoSAMFramework.Portable.Persistance;
 
 namespace GridDominance.Shared
 {

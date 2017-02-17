@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Screens.ScreenGame.Entities;
+﻿using GridDominance.Shared.Screens.ScreenGame.Entities;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Background

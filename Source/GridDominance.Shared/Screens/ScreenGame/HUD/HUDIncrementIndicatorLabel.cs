@@ -1,5 +1,4 @@
 ﻿using GridDominance.Shared.Screens.ScreenGame.HUDOperations;
-using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
