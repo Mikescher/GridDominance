@@ -34,6 +34,15 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			}
 		}
 
+		public override void Remove()
+		{
+			base.Remove();
+			foreach (var child in children)
+			{
+				if (child.IsVisible) child.Remove();
+			}
+		}
+
 		public override void Update(SAMTime gameTime, InputState istate)
 		{
 			base.Update(gameTime, istate);

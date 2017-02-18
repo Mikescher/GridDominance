@@ -207,7 +207,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
 				Icon = Textures.TexIconBack,
-				BackgoundType = HUDButtonBackground.Rounded,
+				BackgoundType = HUDBackgroundType.Rounded,
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 			});
@@ -228,7 +228,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					TextAlignment = HUDAlignment.CENTER,
 					TextPadding = 8,
 					Icon = Textures.TexIconNext,
-					BackgoundType = HUDButtonBackground.Rounded,
+					BackgoundType = HUDBackgroundType.Rounded,
 					Color = FlatColors.Nephritis,
 					ColorPressed = FlatColors.Emerald,
 				});
@@ -249,7 +249,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					TextAlignment = HUDAlignment.CENTER,
 					TextPadding = 8,
 					Icon = Textures.TexIconRedo,
-					BackgoundType = HUDButtonBackground.Rounded,
+					BackgoundType = HUDBackgroundType.Rounded,
 					Color = FlatColors.Nephritis,
 					ColorPressed = FlatColors.Emerald,
 				});

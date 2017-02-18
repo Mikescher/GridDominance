@@ -6,7 +6,6 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using System;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 {
@@ -57,7 +56,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		public Color ColorPressed = Color.Transparent;
 
-		public HUDButtonBackground BackgoundType = HUDButtonBackground.Simple;
+		public HUDBackgroundType BackgoundType = HUDBackgroundType.Simple;
 
 		public float BackgoundCornerSize = 16f;
 
@@ -100,25 +99,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		{
 			var btnColor = IsPointerDownOnElement ? ColorPressed : Color;
 
-			if (btnColor == Color.Transparent) return;
-
-			switch (BackgoundType)
-			{
-				case HUDButtonBackground.None:
-					// Do nothing
-					break;
-				case HUDButtonBackground.Simple:
-					SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, btnColor);
-					break;
-				case HUDButtonBackground.Rounded:
-					SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, btnColor, BackgoundCornerSize);
-					break;
-				case HUDButtonBackground.RoundedBlur:
-					FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, btnColor, BackgoundCornerSize);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, btnColor, BackgoundCornerSize);
 		}
 
 		public override void OnRemove()

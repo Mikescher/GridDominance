@@ -29,7 +29,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			{
 				var swallow = InternalPointerDown(istate);
 
-				if (swallow) istate.Swallow();
+				if (swallow)
+				{
+					istate.Swallow();
+				}
+				else
+				{
+					HUD.FocusedElement = null;
+				}
 			}
 
 			if (istate.IsExclusiveJustUp)

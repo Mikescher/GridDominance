@@ -99,7 +99,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 				if (!isInShape) isClickDown = false;
 				//if (hasMoved) isClickDown = false;
 				if (!istate.IsRealDown) isClickDown = false;
-				if (isInShape && istate.IsRealJustDown) isClickDown = true;
+				if (isInShape && ijd) isClickDown = true;
 			}
 			else
 			{

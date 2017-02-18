@@ -670,7 +670,9 @@
             </struct>
             <key type="filename">icons/back.png</key>
             <key type="filename">icons/next.png</key>
+            <key type="filename">icons/password.png</key>
             <key type="filename">icons/redo.png</key>
+            <key type="filename">icons/user.png</key>
             <key type="filename">panel_blur_corner.png</key>
             <key type="filename">panel_blur_edge.png</key>
             <struct type="IndividualSpriteSettings">

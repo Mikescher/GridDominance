@@ -35,6 +35,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public float CenterY => Top + Height / 2;
 
 		public float PixelWidth => Width * 1f / Screen.VAdapter.RealTotalWidth;
+		public HUDElement FocusedElement = null;
 
 		public void Update(SAMTime gameTime, InputState istate)
 		{

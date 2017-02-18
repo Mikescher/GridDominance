@@ -423,5 +423,29 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 			return new FRectangle(coordX, Y, Right - coordX, Height);
 		}
+
+		[Pure]
+		public FRectangle ToSubRectangleNorth(float newheight)
+		{
+			return new FRectangle(X, Y, Width, newheight);
+		}
+
+		[Pure]
+		public FRectangle ToSubRectangleEast(float newwidth)
+		{
+			return new FRectangle(X + (Width - newwidth), Y / 2f, newwidth, Height);
+		}
+
+		[Pure]
+		public FRectangle ToSubRectangleSouth(float newheight)
+		{
+			return new FRectangle(X, Y + (Height - newheight), Width, newheight);
+		}
+
+		[Pure]
+		public FRectangle ToSubRectangleWest(float newwidth)
+		{
+			return new FRectangle(X, Y, newwidth, Height);
+		}
 	}
 }

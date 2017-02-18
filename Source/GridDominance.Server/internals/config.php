@@ -33,4 +33,5 @@ return [
 	'difficulties' => [0x10, 0x11, 0x12, 0x13],
 
 	'debug' => true,
+	'ping_emulation' => 8, // sec
 ];

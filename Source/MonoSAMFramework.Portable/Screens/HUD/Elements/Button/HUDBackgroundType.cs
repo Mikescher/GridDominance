@@ -1,6 +1,6 @@
 ﻿namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 {
-	public enum HUDButtonBackground
+	public enum HUDBackgroundType
 	{
 		None,
 		Simple,

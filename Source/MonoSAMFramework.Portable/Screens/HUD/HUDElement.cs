@@ -90,6 +90,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		protected bool IsPointerDownOnElement = false;
 		protected bool PositionInvalidated = false;
 
+		public bool IsFocused => HUD != null && HUD.FocusedElement == this;
+
 		public abstract int Depth { get; }
 
 		protected HUDElement()
@@ -97,9 +99,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			//
 		}
 
-		public void Remove()
+		public virtual void Remove()
 		{
 			Alive = false;
+			if (HUD.FocusedElement == this) HUD.FocusedElement = null;
 		}
 
 		public void Initialize()
@@ -298,6 +301,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 			if (swallow)
 			{
+				HUD.FocusedElement = this;
 				IsPointerDownOnElement = true;
 				return true;
 			}

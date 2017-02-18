@@ -132,6 +132,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonIconAbout;
 		public static TextureRegion2D TexHUDButtonIconSettings;
 		public static TextureRegion2D TexHUDButtonIconAccount;
+		public static TextureRegion2D TexHUDIconUser;
+		public static TextureRegion2D TexHUDIconPassword;
 
 		public static TextureRegion2D TexPanelBlurEdge;
 		public static TextureRegion2D TexPanelBlurCorner;
@@ -207,15 +209,16 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonPauseMenuMarker           = AtlasTextures["pausemenu_marker"];
 			TexHUDButtonPauseMenuMarkerBackground = AtlasTextures["pausemenu_marker_background"];
 
-
-			TexHUDButtonIconHighscore	  = AtlasTextures["cloud"];
-			TexHUDButtonIconEffectsOn	  = AtlasTextures["blur_on"];
-			TexHUDButtonIconEffectsOff	  = AtlasTextures["blur_off"];
-			TexHUDButtonIconVolumeOn	  = AtlasTextures["volume_up"];
-			TexHUDButtonIconVolumeOff	  = AtlasTextures["volume_off"];
-			TexHUDButtonIconAbout		  = AtlasTextures["info"];
-			TexHUDButtonIconSettings	  = AtlasTextures["settings"];
-			TexHUDButtonIconAccount		  = AtlasTextures["fingerprint"];
+			TexHUDButtonIconHighscore     = AtlasTextures["cloud"];
+			TexHUDButtonIconEffectsOn     = AtlasTextures["blur_on"];
+			TexHUDButtonIconEffectsOff    = AtlasTextures["blur_off"];
+			TexHUDButtonIconVolumeOn      = AtlasTextures["volume_up"];
+			TexHUDButtonIconVolumeOff     = AtlasTextures["volume_off"];
+			TexHUDButtonIconAbout         = AtlasTextures["info"];
+			TexHUDButtonIconSettings      = AtlasTextures["settings"];
+			TexHUDButtonIconAccount       = AtlasTextures["fingerprint"];
+			TexHUDIconUser                = AtlasTextures["user"];
+			TexHUDIconPassword            = AtlasTextures["password"];
 
 			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];

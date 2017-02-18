@@ -1,9 +1,14 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
-using MonoSAMFramework.Portable.Network.REST;
+using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.HUD;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -23,6 +28,26 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			AddElement(new ScoreDisplay());
 			AddElement(TopLevelDisplay = new TopLevelDisplay());
 			AddElement(InfoDisplay = new InformationDisplay());
+
+
+			AddElement(new HUDIconTextBox(0)
+			{
+				Alignment = HUDAlignment.CENTER,
+				RelativePosition = new FPoint(0, 0),
+				Size = new FSize(450, 80),
+
+				Font = Textures.HUDFontRegular,
+				FontSize = 40,
+
+				Placeholder = "Username",
+				
+				BackgoundCornerSize = 8,
+				ColorPadLeft = FlatColors.ControlHighlight,
+				WidthPadLeft = 80,
+				IconColor = FlatColors.Asbestos,
+				Icon = Textures.TexHUDIconUser,
+				IconSize = new FSize(50, 50),
+			});
 		}
 
 		public void SelectNode(LevelNode n)

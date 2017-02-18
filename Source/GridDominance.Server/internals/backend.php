@@ -35,6 +35,8 @@ function init($action) {
 	$action_name = $action;
 	$start_time = microtime(true);
 
+	if ($config['debug'])sleep($config['ping_emulation']);
+
 	if ($config['debug']) {
 		error_reporting(E_STRICT);
 		ini_set('display_errors', 1);

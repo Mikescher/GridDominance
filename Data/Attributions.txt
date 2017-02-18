@@ -19,3 +19,6 @@ http://www.flaticon.com/packs/gaming-5
 
 more icon:
 https://material.io/icons/
+
+Windows 8 Icons:
+http://www.iconarchive.com/show/windows-8-icons-by-icons8.html || http://icons8.com 

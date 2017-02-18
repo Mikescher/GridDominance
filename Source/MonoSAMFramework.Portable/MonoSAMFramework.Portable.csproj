@@ -78,6 +78,7 @@
     <Compile Include="Input\SKeys.cs" />
     <Compile Include="Interfaces\ISAMPostDrawable.cs" />
     <Compile Include="Language\ByteUtils.cs" />
+    <Compile Include="Language\CacheCollection.cs" />
     <Compile Include="Language\LazyProp.cs" />
     <Compile Include="LogProtocol\SAMLog.cs" />
     <Compile Include="LogProtocol\SAMLogEntry.cs" />
@@ -172,9 +173,12 @@
     <Compile Include="Screens\Entities\Particles\GPUParticles\PointGPUParticleEmitter.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventArgs.cs" />
-    <Compile Include="Screens\HUD\Elements\Button\HUDButtonBackground.cs" />
+    <Compile Include="Screens\HUD\Elements\Button\HUDBackgroundType.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDTextButton.cs" />
+    <Compile Include="Screens\HUD\Elements\Input\HUDIconTextBox.cs" />
+    <Compile Include="Screens\HUD\Elements\Input\HUDSimpleTextBox.cs" />
+    <Compile Include="Screens\HUD\Elements\Input\HUDTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDModalDialog.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDImage.cs" />
     <Compile Include="Screens\HUD\EmptyGameHUD.cs" />

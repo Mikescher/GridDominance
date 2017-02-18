@@ -24,7 +24,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			Height = height;
 		}
 
-		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON && Math.Abs(Height) < FloatMath.EPSILON;
+		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON || Math.Abs(Height) < FloatMath.EPSILON;
 
 		public bool IsQuadratic => FloatMath.EpsilonEquals(Width, Height);
 

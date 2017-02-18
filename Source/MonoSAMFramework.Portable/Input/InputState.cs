@@ -222,8 +222,24 @@ namespace MonoSAMFramework.Portable.Input
 				if (GamePad.IsButtonDown(b)) sb.AppendLine("[X] Buttons." + b);
 			}
 
-			return sb.ToString().Trim();
+			var s = sb.ToString().Trim();
 
+			return s == "" ? "[None]" : s;
+
+		}
+
+		public char? GetCharJustDown()
+		{
+			var shift = IsKeyDown(SKeys.ShiftAny);
+
+			if (IsKeyJustDown(SKeys.Space)) return ' ';
+
+			for (SKeys chr = SKeys.A; chr < SKeys.Z; chr++)
+			{
+				if (IsKeyJustDown(chr)) return (char)(chr - SKeys.A + (shift ? 'A' : 'a'));
+			}
+
+			return null;
 		}
 	}
 }

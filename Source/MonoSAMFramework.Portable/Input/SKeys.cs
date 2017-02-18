@@ -4,12 +4,14 @@ namespace MonoSAMFramework.Portable.Input
 {
 	public enum SKeys
 	{
-		Tab    = Keys.Tab,
-		Enter  = Keys.Enter,
-		Escape = Keys.Escape,
-		Space  = Keys.Space,
-		Insert = Keys.Insert,
-		Delete = Keys.Delete,
+		Enter     = Keys.Enter,
+		Escape    = Keys.Escape,
+		Insert    = Keys.Insert,
+		Delete    = Keys.Delete,
+		Backspace = Keys.Back,
+
+		Tab       = Keys.Tab,
+		Space     = Keys.Space,
 
 		Left  = Keys.Left,
 		Up    = Keys.Up,

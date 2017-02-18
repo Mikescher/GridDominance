@@ -3,6 +3,8 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
+using System;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
@@ -144,6 +146,29 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				StaticTextures.SinglePixel,
 				new FRectangle(bounds.Left, bounds.Bottom - borderSize, bounds.Width, borderSize),
 				color);
+		}
+
+		public static void DrawHUDBackground(IBatchRenderer sbatch, HUDBackgroundType type, FRectangle bounds, Color col, float cornerSize)
+		{
+			if (col == Color.Transparent) return;
+
+			switch (type)
+			{
+				case HUDBackgroundType.None:
+					// Do nothing
+					break;
+				case HUDBackgroundType.Simple:
+					DrawSimpleRect(sbatch, bounds, col);
+					break;
+				case HUDBackgroundType.Rounded:
+					DrawRoundedRect(sbatch, bounds, col, cornerSize);
+					break;
+				case HUDBackgroundType.RoundedBlur:
+					FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, col, cornerSize);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 	}
 }
