@@ -40,12 +40,32 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 40,
 
 				Placeholder = "Username",
-				
+
 				BackgoundCornerSize = 8,
 				ColorPadLeft = FlatColors.ControlHighlight,
 				WidthPadLeft = 80,
 				IconColor = FlatColors.Asbestos,
 				Icon = Textures.TexHUDIconUser,
+				IconSize = new FSize(50, 50),
+			});
+
+
+			AddElement(new HUDIconTextBox(0)
+			{
+				Alignment = HUDAlignment.CENTER,
+				RelativePosition = new FPoint(0, 120),
+				Size = new FSize(450, 80),
+
+				Font = Textures.HUDFontRegular,
+				FontSize = 40,
+
+				Placeholder = "Password",
+
+				BackgoundCornerSize = 8,
+				ColorPadLeft = FlatColors.ControlHighlight,
+				WidthPadLeft = 80,
+				IconColor = FlatColors.Asbestos,
+				Icon = Textures.TexHUDIconPassword,
 				IconSize = new FSize(50, 50),
 			});
 		}

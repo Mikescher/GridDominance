@@ -40,8 +40,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 			if (Icon != null && !IconSize.IsEmpty)
 			{
-				//TODO NOT CENTERED !!!!!!!!!!!!!!
-				sbatch.DrawCentered(Icon, new Vector2(bounds.Top + bounds.Height/2, bounds.Left + WidthPadLeft/2), IconSize.Width, IconSize.Height, IconColor);
+				sbatch.DrawCentered(Icon, new Vector2(bounds.Left + WidthPadLeft / 2, bounds.Top + bounds.Height/2), IconSize.Width, IconSize.Height, IconColor);
 			}
 		}
 	}

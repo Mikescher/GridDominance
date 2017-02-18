@@ -34,15 +34,15 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 		private float _cursorBlinkTimer = 0;
 
-		public HUDTextBox(int depth)
+		protected HUDTextBox(int depth)
 		{
 			Depth = depth;
 		}
 
 		protected void DrawText(IBatchRenderer sbatch, FRectangle bounds, float leftOffset, float rightOffset)
 		{
-			float maxWidth = bounds.Width - leftOffset  - rightOffset - CursorWidth - Font.Spacing;
-			string dispText = Text;
+			var maxWidth = bounds.Width - leftOffset  - rightOffset - CursorWidth - Font.Spacing;
+			var dispText = Text;
 			var textBounds = FontRenderHelper.MeasureStringCached(Font, dispText, FontSize);
 
 			while (dispText.Length > 0 && textBounds.X > maxWidth)
@@ -95,11 +95,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		{
 			_cursorBlinkTimer += gameTime.ElapsedSeconds;
 
-			if ((istate.IsKeyJustDown(SKeys.Delete) || istate.IsKeyJustDown(SKeys.Backspace)) && Text.Length > 0) Text = Text.Substring(0, Text.Length - 1);
+			if (IsFocused)
+			{
+				if ((istate.IsKeyJustDown(SKeys.Delete) || istate.IsKeyJustDown(SKeys.Backspace)) && Text.Length > 0) Text = Text.Substring(0, Text.Length - 1);
 
-			char? c = istate.GetCharJustDown();
-			if (c != null) Text += c;
-
+				char? c = istate.GetCharJustDown();
+				if (c != null) Text += c;
+			}
 		}
 
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
