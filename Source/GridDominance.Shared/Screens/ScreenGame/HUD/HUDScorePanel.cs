@@ -12,9 +12,6 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.ScreenGame.HUD
 {
-	// TODO This should eytend some kind of (modal) DialogContainer
-	// That spans an invisible root around the whole screen and swallows all mouse events (or simply swallows all by other means)
-	// Cause currently the pause button is clickable while the scorescreen is open
 	class HUDScorePanel : HUDRoundedPanel
 	{
 		public const float WIDTH = 11 * GDConstants.TILE_WIDTH;

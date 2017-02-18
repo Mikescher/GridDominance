@@ -103,6 +103,7 @@ namespace GridDominance.Shared.Network
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
+						profile.AccountType = AccountType.Anonymous;
 						profile.OnlineUserID = response.user.ID;
 						profile.OnlineRevisionID = response.user.RevID;
 						profile.OnlinePasswordHash = pw;
@@ -115,7 +116,6 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
-					//TODO react on duplicate username etc
 					SAMLog.Error("Backend", $"CreateUser: Error {response.errorid}: {response.errormessage}");
 				}
 			}

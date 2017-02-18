@@ -98,7 +98,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 		}
 
-		private void CloseNode()
+		public void CloseNode()
 		{
 			if (IsClosing) return;
 
@@ -128,11 +128,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			if (IsOpening) return;
 
 			((GDWorldHUD)Owner.HUD).SelectNode(this);
-
-			foreach (var node in Owner.GetEntities<LevelNode>())
-			{
-				if (node != this && (node.IsOpening || node.IsOpened)) node.CloseNode();
-			}
 
 			float initProgress = 0f;
 			if (IsClosing)

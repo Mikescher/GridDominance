@@ -91,6 +91,7 @@
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileDoubleWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileFloatWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileBoolWrapper.cs" />
+    <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileEnumWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIntWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIntSetWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGDictWrapper.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventArgs.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonBackground.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />
+    <Compile Include="Screens\HUD\Elements\Button\HUDTextButton.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDModalDialog.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDImage.cs" />
     <Compile Include="Screens\HUD\EmptyGameHUD.cs" />

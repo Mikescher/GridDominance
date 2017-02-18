@@ -9,20 +9,19 @@ namespace MonoSAMFramework.Portable.DebugTools
 	class DebugTextLogLine : IDebugTextDisplayLineProvider
 	{
 		private readonly List<DebugTextDisplayLine> _lines;
-		private SAMLogEntry lastReadEntry;
+		private static SAMLogEntry _lastReadEntry = null;
 
 		public DebugTextLogLine()
 		{
-			_lines = SAMLog.Entries.Select(CreateLine).ToList();
-			lastReadEntry = SAMLog.Entries.LastOrDefault();
+			_lines = new List<DebugTextDisplayLine>();
 		}
 
 		public void Update()
 		{
-			foreach (var entry in SAMLog.Entries.Reverse().TakeWhile(p => p != lastReadEntry).Reverse())
+			foreach (var entry in SAMLog.Entries.Reverse().TakeWhile(p => p != _lastReadEntry).Reverse())
 			{
 				_lines.Add(CreateLine(entry));
-				lastReadEntry = entry;
+				_lastReadEntry = entry;
 			}
 		}
 
@@ -78,7 +77,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 					line.SetBackground(Color.GreenYellow * 0.5f);
 					line.SetColor(Color.Black);
 					line.SetLifetime(10);
-					line.SetSpawntime(2);
+					line.SetSpawntime(0.5f);
 					line.SetDecaytime(2);
 					return line;
 

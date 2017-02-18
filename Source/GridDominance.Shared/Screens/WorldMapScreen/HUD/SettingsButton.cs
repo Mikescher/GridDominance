@@ -24,6 +24,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public float OpeningProgress = 0f;
 		public SubSettingButton[] SubButtons;
 
+		public bool isOpening = false;
+		public bool isClosing = false;
+
 		public SettingsButton()
 		{
 			RelativePosition = new FPoint(8, 8);
@@ -53,18 +56,29 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			rotation += gameTime.ElapsedSeconds * RotationSpeed;
 
-			if (istate.IsRealJustDown && FloatMath.IsOne(OpeningProgress) && !IsPressed && SubButtons != null && !SubButtons.Any(p => p.IsPressed))
+			if (istate.IsRealJustDown && !isClosing && !isOpening && !IsPressed && SubButtons != null && !SubButtons.Any(p => p.IsPressed))
 			{
 				// Close when clicked somewhere else
 				AddHUDOperation(new HUDSettingsCloseOperation());
 			}
 		}
 
+		public void Close()
+		{
+			if (isClosing) return;
+
+			if (isOpening) RemoveAllOperations();
+
+			AddHUDOperation(new HUDSettingsCloseOperation());
+		}
+
 		protected override void OnPress(InputState istate)
 		{
-			if (FloatMath.IsZero(OpeningProgress))
+			if (!isOpening && FloatMath.IsZero(OpeningProgress))
 			{
-				AddHUDOperationSequence<SettingsButton>(
+				AddCagedHUDOperationSequence<SettingsButton>(
+					e => e.isOpening = true,
+					e => e.isOpening = false,
 					new HUDSettingsOpenOperation(), 
 					new HUDSettingsFontAppearOperation(0),
 					new HUDSettingsFontAppearOperation(1),
@@ -73,7 +87,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					new HUDSettingsFontAppearOperation(4)
 					);
 			}
-			else if (FloatMath.IsOne(OpeningProgress))
+			else if (! isClosing && FloatMath.IsOne(OpeningProgress))
 			{
 				AddHUDOperation(new HUDSettingsCloseOperation());
 			}

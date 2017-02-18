@@ -15,6 +15,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			button.OpeningProgress = 1f;
 			button.RotationSpeed = 0.5f;
+			button.isClosing = true;
 		}
 
 		protected override void OnProgress(SettingsButton button, float progress, InputState istate)
@@ -41,6 +42,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			button.SubButtons = null;
 			button.OpeningProgress = 0f;
 			button.RotationSpeed = 1f;
+			button.isClosing = false;
 		}
 	}
 }

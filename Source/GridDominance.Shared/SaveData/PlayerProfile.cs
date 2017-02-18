@@ -16,6 +16,7 @@ namespace GridDominance.Shared.SaveData
 
 		public Dictionary<Guid, LevelData> LevelData;
 
+		public AccountType AccountType;
 		public int OnlineUserID;
 		public string OnlineUsername;
 		public string OnlinePasswordHash;
@@ -29,6 +30,7 @@ namespace GridDominance.Shared.SaveData
 		{
 			LevelData = new Dictionary<Guid, LevelData>();
 
+			AccountType        = AccountType.Local;
 			OnlineUserID       = -1;
 			OnlineUsername     = "anonymous";
 			OnlinePasswordHash = string.Empty;
@@ -65,6 +67,8 @@ namespace GridDominance.Shared.SaveData
 		protected override void Configure()
 		{
 			RegisterConstructor(() => new PlayerProfile());
+
+			RegisterProperty<PlayerProfile, AccountType>(SemVersion.VERSION_1_0_0, "type",    o => o.AccountType,       (o, v) => o.AccountType = v);
 
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "userid",    o => o.OnlineUserID,       (o, v) => o.OnlineUserID       = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "user",      o => o.OnlineUsername,     (o, v) => o.OnlineUsername     = v);

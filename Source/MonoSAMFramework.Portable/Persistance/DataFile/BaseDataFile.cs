@@ -109,7 +109,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileStringWrapper.TYPENAME, g, s));
 		}
 
-		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, int> get, Action<TThis, int> set) 
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, int> get, Action<TThis, int> set)
 			where TThis : BaseDataFile
 		{
 			Func<BaseDataFile, BaseDataFile> g = o => DataFileIntWrapper.Create(get((TThis)o));
@@ -118,6 +118,18 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 			DataFileIntWrapper.RegisterIfNeeded();
 
 			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileIntWrapper.TYPENAME, g, s));
+		}
+
+		protected void RegisterProperty<TThis, TEnum>(SemVersion version, string name, Func<TThis, TEnum> get, Action<TThis, TEnum> set)
+			where TThis : BaseDataFile
+			where TEnum : struct, IComparable, IFormattable // IEnum
+		{
+			Func<BaseDataFile, BaseDataFile> g = o => DataFileEnumWrapper<TEnum>.Create(get((TThis)o));
+			Action<BaseDataFile, BaseDataFile> s = (o, v) => set((TThis)o, ((DataFileEnumWrapper<TEnum>)v).Value);
+
+			DataFileEnumWrapper<TEnum>.RegisterIfNeeded();
+
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileEnumWrapper<TEnum>.TYPENAME, g, s));
 		}
 
 		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, float> get, Action<TThis, float> set) 

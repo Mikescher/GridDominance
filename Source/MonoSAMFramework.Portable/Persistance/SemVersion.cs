@@ -109,7 +109,7 @@ namespace MonoSAMFramework.Portable.Persistance
 		[Pure]
 		public bool IsLaterThan(SemVersion other)
 		{
-			return other > this;
+			return other < this;
 		}
 	}
 }

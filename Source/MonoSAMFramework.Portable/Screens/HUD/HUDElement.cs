@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Screens.HUD.Operations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -248,6 +249,28 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			var seqop = new HUDSequenceElementOperation<TElement>(op1, ops);
 			ActiveOperations.Add(seqop);
 			seqop.OnStart(this);
+		}
+
+		public void AddCagedHUDOperationSequence<TElement>(Action<TElement> init, Action<TElement> finish, IHUDElementOperation op1, params IHUDElementOperation[] ops) where TElement : HUDElement
+		{
+			var seqop = new HUDSequenceElementOperation<TElement>(init, finish, op1, ops);
+			ActiveOperations.Add(seqop);
+			seqop.OnStart(this);
+		}
+
+		public bool HasHUDOperation<TType>()
+		{
+			return ActiveOperations.OfType<TType>().Any();
+		}
+
+		public void RemoveAllOperations<TType>()
+		{
+			RemoveAllOperations(p => p is TType);
+		}
+
+		public void RemoveAllOperations()
+		{
+			RemoveAllOperations(p => true);
 		}
 
 		public void RemoveAllOperations(Func<IHUDElementOperation, bool> condition)

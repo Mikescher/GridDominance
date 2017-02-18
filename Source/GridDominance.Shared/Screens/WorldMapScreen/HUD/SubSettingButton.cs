@@ -109,7 +109,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			//
+			var hud = (GDWorldHUD) HUD;
+
+			hud.SelectNode(null);
+
+			hud.ShowAccountPanel();
 		}
 	}
 

@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultCreateUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultPing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultUserData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SaveData\AccountType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\LevelDiffData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\LevelData.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapDebugMinimap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\AnonymousAccountPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\GDWorldHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsCloseOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsFontAppearOperation.cs" />
