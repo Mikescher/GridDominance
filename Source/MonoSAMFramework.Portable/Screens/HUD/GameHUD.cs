@@ -36,13 +36,29 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public float CenterY => Top + Height / 2;
 
 		public float PixelWidth => Width * 1f / Screen.VAdapter.RealTotalWidth;
-		public HUDElement FocusedElement = null;
+
+		private HUDElement _focusedElement = null;
+		public HUDElement FocusedElement
+		{
+			get { return _focusedElement; }
+			set
+			{
+				if (_focusedElement == value) return;
+
+				_focusedElement?.FocusLoose();
+				value?.FocusGain();
+
+				_focusedElement = value;
+			}
+		}
 
 		public void Update(SAMTime gameTime, InputState istate)
 		{
 			root.Update(gameTime, istate);
 
 			OnUpdate(gameTime, istate);
+
+			if (FocusedElement != null && !FocusedElement.Alive) FocusedElement = null;
 		}
 
 		protected virtual void OnUpdate(SAMTime gameTime, InputState istate)

@@ -129,6 +129,16 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 			_forceShowLastChar = IsFocused && (gameTime.TotalElapsedSeconds - _lastCharAdd) < PASSWORD_FADEOUT;
 		}
 
+		public override void FocusGain()
+		{
+//			MonoSAMGame.CurrentInst.Bridge.ShowKeyboard(null);
+		}
+
+		public override void FocusLoose()
+		{
+//			MonoSAMGame.CurrentInst.Bridge.HideKeyboard();
+		}
+
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
 			return true;

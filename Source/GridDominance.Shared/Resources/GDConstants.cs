@@ -15,7 +15,8 @@ namespace GridDominance.Shared.Resources
 		public const int VIEW_HEIGHT = GRID_HEIGHT * TILE_WIDTH; // 640
 
 		//TODO prod
-		public const string SERVER_URL = "http://localhost:666";
+		//public const string SERVER_URL = "http://localhost:666";
+		public const string SERVER_URL = "http://192.168.0.200:666";
 		public const string SERVER_SECRET = "OZothFoshCiHyPhebMyGheVushNopTyg";
 	}
 }

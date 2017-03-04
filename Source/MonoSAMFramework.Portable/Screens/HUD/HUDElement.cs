@@ -361,5 +361,15 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			/* OVERRIDE ME */
 		}
+
+		public virtual void FocusGain()
+		{
+			/* OVERRIDE ME */
+		}
+
+		public virtual void FocusLoose()
+		{
+			/* OVERRIDE ME */
+		}
 	}
 }
