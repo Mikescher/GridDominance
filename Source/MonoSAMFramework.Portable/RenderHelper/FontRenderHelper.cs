@@ -38,6 +38,11 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			return _fontVCenterOffsetCache[fnt];
 		}
 
+		public static Vector2 MeasureStringUncached(SpriteFont font, string text, float size)
+		{
+			return font.MeasureString(text) * GetFontScale(font, size);
+		}
+
 		public static Vector2 MeasureStringCached(SpriteFont font, string text, float size)
 		{
 			return MeasureStringCached(font, text) * GetFontScale(font, size);

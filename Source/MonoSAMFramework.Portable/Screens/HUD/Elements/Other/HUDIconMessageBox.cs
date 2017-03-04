@@ -50,6 +50,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			set { _textPadding = value; innerSizeCache = FSize.Empty; }
 		}
 
+		private FSize _margin = new FSize(48, 48);
+		public FSize Margin
+		{
+			get { return _margin; }
+			set { _margin = value; innerSizeCache = FSize.Empty; }
+		}
+
 		private FSize _iconPadding = new FSize(24, 24);
 		public FSize IconPadding
 		{
@@ -146,6 +153,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 				internalLabel.RelativePosition = new FPoint(IconPadding.Width + IconSize.Width + TextPadding.Width, 0);
 
 				internalImage.RelativePosition = new FPoint(IconPadding.Width, 0);
+				
+				internalLabel.MaxWidth = Owner.Width - TextPadding.Width * 2 - Margin.Width * 2;
 			}
 		}
 

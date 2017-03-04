@@ -48,6 +48,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			set { _textPadding = value; innerSizeCache = FSize.Empty; }
 		}
 
+		private FSize _margin = new FSize(48, 48);
+		public FSize Margin
+		{
+			get { return _margin; }
+			set { _margin = value; innerSizeCache = FSize.Empty; }
+		}
+
 		public Color ColorBackground = Color.White;
 
 		public HUDBackgroundType BackgoundType = HUDBackgroundType.Rounded;
@@ -97,6 +104,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 				Size = innerSizeCache + TextPadding * 2;
 				internalLabel.Size = innerSizeCache;
+
+				internalLabel.MaxWidth = Owner.Width - TextPadding.Width * 2 - Margin.Width * 2;
 			}
 		}
 

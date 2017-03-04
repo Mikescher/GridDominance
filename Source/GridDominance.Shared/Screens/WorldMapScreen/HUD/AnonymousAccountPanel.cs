@@ -163,7 +163,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RotationSpeed = 1f,
 
 				CloseOnClick = false,
-
 			};
 
 			HUD.AddModal(waitDialog, false, 0.7f);

@@ -1,8 +1,10 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System.Threading.Tasks;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
@@ -45,20 +47,45 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			var profile = MainGame.Inst.Profile;
 
+			SelectNode(null);
+			Settings.Close();
+
 			if (profile.AccountType == AccountType.Local)
 			{
-				return; //TODO What do?
+				CreateUserAndShowAnonPanel().EnsureNoError();
 			}
 			else if (profile.AccountType == AccountType.Anonymous)
 			{
-				SelectNode(null);
-				Settings.Close();
-
 				AddModal(new AnonymousAccountPanel(), true);
 			}
 			else if (profile.AccountType == AccountType.Full)
 			{
 				//TODO full acc panel
+			}
+		}
+
+		private async Task CreateUserAndShowAnonPanel()
+		{
+			var waitDialog = new HUDIconMessageBox
+			{
+				Text = "Contacting server",
+				TextColor = FlatColors.TextHUD,
+				ColorBackground = FlatColors.BelizeHole,
+
+				IconColor = FlatColors.Clouds,
+				Icon = Textures.CannonCog,
+				RotationSpeed = 1f,
+
+				CloseOnClick = false,
+			};
+
+			MainGame.Inst.DispatchBeginInvoke(() => { AddModal(waitDialog, false, 0.7f); });
+
+			await MainGame.Inst.Backend.CreateUser(MainGame.Inst.Profile);
+
+			if (MainGame.Inst.Profile.AccountType == AccountType.Anonymous)
+			{
+				MainGame.Inst.DispatchBeginInvoke(() => { AddModal(new AnonymousAccountPanel(), true); });
 			}
 		}
 	}

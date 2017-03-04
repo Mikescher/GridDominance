@@ -6,6 +6,8 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
@@ -18,13 +20,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		public HUDAlignment TextAlignment // TODO vertically the text is not correctly aligned - cause MeasureString includes strange whitespaces
 		{
 			get { return internalText.Alignment; }
-			set { internalText.Alignment = value; }
+			set { internalText.Alignment = value; recalcWordWrap = true; }
 		}
 
+		private string _text;
 		public string Text
 		{
-			get { return internalText.Text; }
-			set { internalText.Text = value; }
+			get { return _text; }
+			set { _text = value; recalcWordWrap = true; }
 		}
 
 		public Color TextColor
@@ -38,16 +41,25 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		public SpriteFont Font
 		{
 			get { return internalText.Font; }
-			set { internalText.Font = value; }
+			set { internalText.Font = value; recalcWordWrap = true; }
 		}
 
 		public float FontSize
 		{
 			get { return internalText.FontSize; }
-			set { internalText.FontSize = value; }
+			set { internalText.FontSize = value; recalcWordWrap = true; }
+		}
+
+		private float? _maxWidth = null; // if set Height is autom. adjusted
+		public float? MaxWidth
+		{
+			get { return _maxWidth; }
+			set { _maxWidth = value; recalcWordWrap = true; }
 		}
 
 		public FSize InnerLabelSize => internalText.Size;
+		
+		private bool recalcWordWrap = false;
 
 		public HUDLabel(int depth = 0)
 		{
@@ -76,7 +88,42 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			// NOP
+			if (recalcWordWrap)
+			{
+				recalcWordWrap = false;
+
+				if (MaxWidth == null)
+				{
+					internalText.Text = _text;
+				}
+				else
+				{
+					var sz = FontRenderHelper.MeasureStringCached(Font, _text, FontSize);
+
+					if (sz.X < MaxWidth.Value)
+					{
+						internalText.Text = _text;
+					}
+					else
+					{
+						List<string> lines = new List<string>();
+
+						var remText = _text;
+						while (remText.Length > 0)
+						{
+							var line = "";
+							while (remText.Length > 0 && FontRenderHelper.MeasureStringUncached(Font, line, FontSize).X < MaxWidth.Value)
+							{
+								line += remText[0];
+								remText = remText.Substring(1);
+							}
+							lines.Add(line.Trim());
+						}
+
+						internalText.Text = string.Join(Environment.NewLine, lines);
+					}
+				}
+			}
 		}
 	}
 }
