@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public override void OnInitialize()
 		{
 			base.OnInitialize();
-			
+
 			AddElement(new HUDRoundedRectangle(0)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
@@ -155,8 +155,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			var waitDialog = new HUDIconMessageBox
 			{
 				Text = "Logging in",
-				TextColor = FlatColors.Clouds,
-				ColorBackground = FlatColors.MidnightBlue,
+				TextColor = FlatColors.TextHUD,
+				ColorBackground = FlatColors.BelizeHole,
 
 				IconColor = FlatColors.Clouds,
 				Icon = Textures.CannonCog,
@@ -213,6 +213,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					profile.AccountType = AccountType.Full;
 					profile.OnlinePasswordHash = MainGame.Inst.Bridge.DoSHA256(password);
 					profile.OnlineUsername = username;
+
+					MainGame.Inst.SaveProfile();
 				});
 
 				await MainGame.Inst.Backend.Reupload(profile);
@@ -220,12 +222,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
-					var text = "???";
-					if (verifyResult == VerifyResult.InternalError) text = "Internal server error";
-					if (verifyResult == VerifyResult.WrongPassword) text = "Wrong password";
-					if (verifyResult == VerifyResult.WrongUsername) text = "User not found";
-					if (verifyResult == VerifyResult.NoConnection) text = "Could not communicate with server";
-
 					spinner.Remove();
 					HUD.AddModal(new HUDMessageBox
 					{
@@ -264,7 +260,145 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		private void OnCreateAccount(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			throw new System.NotImplementedException();
+			if (editUsername.Text == "" || editPassword.Text == "") return;
+
+			if (MainGame.Inst.Profile.AccountType != AccountType.Anonymous) return;
+
+			var waitDialog = new HUDIconMessageBox
+			{
+				Text = "Creating account",
+				TextColor = FlatColors.TextHUD,
+				ColorBackground = FlatColors.BelizeHole,
+
+				IconColor = FlatColors.Clouds,
+				Icon = Textures.CannonCog,
+				RotationSpeed = 1f,
+
+				CloseOnClick = false,
+
+			};
+
+			HUD.AddModal(waitDialog, false, 0.7f);
+
+			DoSignup(waitDialog, editUsername.Text, editPassword.Text).EnsureNoError();
+		}
+
+		private async Task DoSignup(HUDElement spinner, string username, string password)
+		{
+			try
+			{
+				var profile = MainGame.Inst.Profile;
+
+				var r = await MainGame.Inst.Backend.UpgradeUser(profile, username, password);
+
+				switch (r)
+				{
+					case UpgradeResult.Success:
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							spinner.Remove();
+							HUD.AddModal(new HUDMessageBox
+							{
+								Text = "Account created",
+								TextColor = FlatColors.TextHUD,
+								ColorBackground = FlatColors.Nephritis,
+								CloseOnClick = true,
+							}, true, 0.7f);
+
+							Remove();
+						});
+						break;
+					case UpgradeResult.UsernameTaken:
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							spinner.Remove();
+							HUD.AddModal(new HUDMessageBox
+							{
+								Text = "Username already taken",
+								TextColor = FlatColors.Clouds,
+								ColorBackground = FlatColors.Alizarin,
+								CloseOnClick = true,
+							}, true, 0.7f);
+						});
+						break;
+					case UpgradeResult.AlreadyFullAcc:
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							spinner.Remove();
+							HUD.AddModal(new HUDMessageBox
+							{
+								Text = "Account already created",
+								TextColor = FlatColors.Clouds,
+								ColorBackground = FlatColors.Alizarin,
+								CloseOnClick = true,
+							}, true, 0.7f);
+							Remove();
+						});
+						break;
+					case UpgradeResult.InternalError:
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							spinner.Remove();
+							HUD.AddModal(new HUDMessageBox
+							{
+								Text = "Internal server error",
+								TextColor = FlatColors.Clouds,
+								ColorBackground = FlatColors.Alizarin,
+								CloseOnClick = true,
+							}, true, 0.7f);
+							Remove();
+						});
+						break;
+					case UpgradeResult.NoConnection:
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							spinner.Remove();
+							HUD.AddModal(new HUDMessageBox
+							{
+								Text = "Could not communicate with server",
+								TextColor = FlatColors.Clouds,
+								ColorBackground = FlatColors.Alizarin,
+								CloseOnClick = true,
+							}, true, 0.7f);
+							Remove();
+						});
+						break;
+					case UpgradeResult.AuthError:
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							spinner.Remove();
+							HUD.AddModal(new HUDMessageBox
+							{
+								Text = "Authentication error",
+								TextColor = FlatColors.Clouds,
+								ColorBackground = FlatColors.Alizarin,
+								CloseOnClick = true,
+							}, true, 0.7f);
+							Remove();
+						});
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("CreateAccount", e);
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					spinner.Remove();
+					HUD.AddModal(new HUDMessageBox
+					{
+						Text = "Could not create account",
+						TextColor = FlatColors.Clouds,
+						ColorBackground = FlatColors.Alizarin,
+						CloseOnClick = true,
+					}, true, 0.7f);
+
+					Remove();
+				});
+			}
 		}
 	}
 }

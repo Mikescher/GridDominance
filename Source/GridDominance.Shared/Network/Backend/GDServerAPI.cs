@@ -444,5 +444,71 @@ namespace GridDominance.Shared.Network
 				return Tuple.Create(VerifyResult.InternalError, -1);
 			}
 		}
+
+		public async Task<UpgradeResult> UpgradeUser(PlayerProfile profile, string username, string password)
+		{
+			try
+			{
+				var pwHashOld = profile.OnlinePasswordHash;
+				var pwHashNew = bridge.DoSHA256(password);
+
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password_old", pwHashOld);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterHash("password_new", pwHashNew);
+				ps.AddParameterString("username_new", username);
+
+				var response = await QueryAsync<QueryResultUpgradeUser>("upgrade-user", ps, RETRY_VERIFY);
+
+				if (response.result == "success")
+				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						profile.AccountType = AccountType.Full;
+						profile.OnlineUsername = response.user.Username;
+						profile.OnlinePasswordHash = pwHashNew;
+						profile.OnlineRevisionID = response.user.RevID;
+
+						MainGame.Inst.SaveProfile();
+					});
+
+
+					return UpgradeResult.Success;
+				}
+				else if (response.result == "error")
+				{
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+						return UpgradeResult.InternalError;
+
+					if (response.errorid == BackendCodes.WRONG_PASSWORD)
+						return UpgradeResult.AuthError;
+
+					if (response.errorid == BackendCodes.UPGRADE_USER_ACCOUNT_ALREADY_SET)
+						return UpgradeResult.AlreadyFullAcc;
+
+					if (response.errorid == BackendCodes.UPGRADE_USER_DUPLICATE_USERNAME)
+						return UpgradeResult.UsernameTaken;
+
+					SAMLog.Error("Backend", $"UpgradeUser: Error {response.errorid}: {response.errormessage}");
+					return UpgradeResult.InternalError;
+
+				}
+				else
+				{
+					return UpgradeResult.InternalError;
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend", e); // probably no internet
+				return UpgradeResult.NoConnection;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend", e);
+				return UpgradeResult.InternalError;
+			}
+		}
 	}
 }

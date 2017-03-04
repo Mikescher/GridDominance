@@ -56,7 +56,7 @@ function run() {
 
 
 try {
-	init("upgrade_user");
+	init("upgrade-user");
 	run();
 } catch (Exception $e) {
 	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);

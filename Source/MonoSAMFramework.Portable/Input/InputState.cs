@@ -239,6 +239,17 @@ namespace MonoSAMFramework.Portable.Input
 				if (IsKeyJustDown(chr)) return (char)(chr - SKeys.A + (shift ? 'A' : 'a'));
 			}
 
+			if (IsKeyJustDown(SKeys.D0)) return '0';
+			if (IsKeyJustDown(SKeys.D1)) return '1';
+			if (IsKeyJustDown(SKeys.D2)) return '2';
+			if (IsKeyJustDown(SKeys.D3)) return '3';
+			if (IsKeyJustDown(SKeys.D4)) return '4';
+			if (IsKeyJustDown(SKeys.D5)) return '5';
+			if (IsKeyJustDown(SKeys.D6)) return '6';
+			if (IsKeyJustDown(SKeys.D7)) return '7';
+			if (IsKeyJustDown(SKeys.D8)) return '8';
+			if (IsKeyJustDown(SKeys.D9)) return '9';
+
 			return null;
 		}
 	}

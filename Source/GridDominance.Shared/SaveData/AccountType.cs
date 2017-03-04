@@ -6,8 +6,8 @@ namespace GridDominance.Shared.SaveData
 {
 	public enum AccountType
 	{
-		Local,
-		Anonymous,
-		Full
+		Local,			// Not synced - no id
+		Anonymous,		// Anonymous
+		Full			// Full acc
 	}
 }

@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\BackendCodes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\GDServerAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultHighscores.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultUpgradeUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultVerify.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultScoreData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultDownloadData.cs" />
@@ -20,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultCreateUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultPing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultUserData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\UpgradeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\VerifyResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\AccountType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\PlayerProfile.cs" />
