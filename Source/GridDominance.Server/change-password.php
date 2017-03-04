@@ -19,6 +19,8 @@ function run() {
 
 	$user = GDUser::QueryOrFail($pdo, $password_old, $userid);
 
+	if ($user->AutoUser) outputError(ERRORS::UPGRADE_USER_ACCOUNT_ALREADY_SET, "Cannot change password of auto user account", LOGLEVEL::DEBUG);
+
 	//----------
 
 	$hash = password_hash($password_new, PASSWORD_BCRYPT);

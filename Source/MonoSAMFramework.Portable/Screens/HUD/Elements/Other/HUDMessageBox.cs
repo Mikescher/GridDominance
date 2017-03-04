@@ -41,6 +41,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			set { internalLabel.FontSize = value; innerSizeCache = FSize.Empty; }
 		}
 
+		public float Alpha
+		{
+			get { return internalLabel.Alpha; }
+			set { internalLabel.Alpha = value; }
+		}
+
 		private FSize _textPadding = new FSize(48, 12);
 		public FSize TextPadding
 		{
@@ -88,7 +94,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, ColorBackground, BackgoundCornerSize);
+			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, ColorBackground * Alpha, BackgoundCornerSize);
 		}
 
 		public override void OnRemove()

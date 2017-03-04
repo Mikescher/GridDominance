@@ -181,8 +181,10 @@
     <Compile Include="Screens\HUD\Elements\Input\HUDSimpleTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDFadeOutInfoBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDModalDialog.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDMessageBox.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\IHUDModalChild.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDImage.cs" />
     <Compile Include="Screens\HUD\EmptyGameHUD.cs" />
     <Compile Include="Screens\HUD\Enums\HUDImageAlignment.cs" />

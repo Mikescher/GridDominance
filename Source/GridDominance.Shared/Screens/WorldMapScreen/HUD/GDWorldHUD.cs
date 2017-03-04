@@ -60,7 +60,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 			else if (profile.AccountType == AccountType.Full)
 			{
-				//TODO full acc panel
+				AddModal(new FullAccountPanel(), true);
 			}
 		}
 

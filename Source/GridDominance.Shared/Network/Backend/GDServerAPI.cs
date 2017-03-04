@@ -23,6 +23,7 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_DOWNLOADHIGHSCORES = 4;
 		private const int RETRY_CREATEUSER         = 6;
 		private const int RETRY_VERIFY             = 6;
+		private const int RETRY_CHANGE_PW          = 6;
 
 		private readonly IOperatingSystemBridge bridge;
 
@@ -389,7 +390,7 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
-		public async Task<Tuple<VerifyResult, int>> Verify(string username, string password)
+		public async Task<Tuple<VerifyResult, int, string>> Verify(string username, string password)
 		{
 			try
 			{
@@ -404,48 +405,48 @@ namespace GridDominance.Shared.Network
 
 				if (response.result == "success")
 				{
-					if (response.user.AutoUser) return Tuple.Create(VerifyResult.WrongUsername, -1);
+					if (response.user.AutoUser) return Tuple.Create(VerifyResult.WrongUsername, -1, string.Empty);
 
-					return Tuple.Create(VerifyResult.Success, response.user.ID);
+					return Tuple.Create(VerifyResult.Success, response.user.ID, string.Empty);
 				}
 				else if (response.result == "error")
 				{
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
 					{
-						return Tuple.Create(VerifyResult.InternalError, -1);
+						return Tuple.Create(VerifyResult.InternalError, -1, response.errormessage);
 					}
 					else if (response.errorid == BackendCodes.WRONG_PASSWORD)
 					{
-						return Tuple.Create(VerifyResult.WrongPassword, -1);
+						return Tuple.Create(VerifyResult.WrongPassword, -1, string.Empty);
 					}
 					else if (response.errorid == BackendCodes.USER_BY_NAME_NOT_FOUND)
 					{
-						return Tuple.Create(VerifyResult.WrongUsername, -1);
+						return Tuple.Create(VerifyResult.WrongUsername, -1, string.Empty);
 					}
 					else
 					{
 						SAMLog.Error("Backend", $"Verify: Error {response.errorid}: {response.errormessage}");
-						return Tuple.Create(VerifyResult.InternalError, -1);
+						return Tuple.Create(VerifyResult.InternalError, -1, response.errormessage);
 					}
 				}
 				else
 				{
-					return Tuple.Create(VerifyResult.InternalError, -1);
+					return Tuple.Create(VerifyResult.InternalError, -1, "Internal server exception");
 				}
 			}
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
-				return Tuple.Create(VerifyResult.NoConnection, -1);
+				return Tuple.Create(VerifyResult.NoConnection, -1, string.Empty);
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
-				return Tuple.Create(VerifyResult.InternalError, -1);
+				return Tuple.Create(VerifyResult.InternalError, -1, "Internal server exception");
 			}
 		}
 
-		public async Task<UpgradeResult> UpgradeUser(PlayerProfile profile, string username, string password)
+		public async Task<Tuple<UpgradeResult, string>> UpgradeUser(PlayerProfile profile, string username, string password)
 		{
 			try
 			{
@@ -474,40 +475,98 @@ namespace GridDominance.Shared.Network
 					});
 
 
-					return UpgradeResult.Success;
+					return Tuple.Create(UpgradeResult.Success, string.Empty);
 				}
 				else if (response.result == "error")
 				{
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
-						return UpgradeResult.InternalError;
+						return Tuple.Create(UpgradeResult.InternalError, response.errormessage);
 
 					if (response.errorid == BackendCodes.WRONG_PASSWORD)
-						return UpgradeResult.AuthError;
+						return Tuple.Create(UpgradeResult.AuthError, string.Empty);
 
 					if (response.errorid == BackendCodes.UPGRADE_USER_ACCOUNT_ALREADY_SET)
-						return UpgradeResult.AlreadyFullAcc;
+						return Tuple.Create(UpgradeResult.AlreadyFullAcc, string.Empty);
 
 					if (response.errorid == BackendCodes.UPGRADE_USER_DUPLICATE_USERNAME)
-						return UpgradeResult.UsernameTaken;
+						return Tuple.Create(UpgradeResult.UsernameTaken, string.Empty);
 
 					SAMLog.Error("Backend", $"UpgradeUser: Error {response.errorid}: {response.errormessage}");
-					return UpgradeResult.InternalError;
+					return Tuple.Create(UpgradeResult.InternalError, response.errormessage);
 
 				}
 				else
 				{
-					return UpgradeResult.InternalError;
+					return Tuple.Create(UpgradeResult.InternalError, "Internal server error");
 				}
 			}
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
-				return UpgradeResult.NoConnection;
+				return Tuple.Create(UpgradeResult.NoConnection, string.Empty);
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
-				return UpgradeResult.InternalError;
+				return Tuple.Create(UpgradeResult.InternalError, "Internal server error");
+			}
+		}
+
+		public async Task<Tuple<ChangePasswordResult, string>> ChangePassword(PlayerProfile profile, string newPassword)
+		{
+			try
+			{
+				var pwHashOld = profile.OnlinePasswordHash;
+				var pwHashNew = bridge.DoSHA256(newPassword);
+
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password_old", pwHashOld);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterHash("password_new", pwHashNew);
+
+				var response = await QueryAsync<QueryResultChangePassword>("change-password", ps, RETRY_CHANGE_PW);
+
+				if (response.result == "success")
+				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						profile.AccountType = AccountType.Full;
+						profile.OnlinePasswordHash = pwHashNew;
+						profile.OnlineRevisionID = response.user.RevID;
+
+						MainGame.Inst.SaveProfile();
+					});
+
+
+					return Tuple.Create(ChangePasswordResult.Success, string.Empty);
+				}
+				else if (response.result == "error")
+				{
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+						return Tuple.Create(ChangePasswordResult.InternalError, response.errormessage);
+
+					if (response.errorid == BackendCodes.WRONG_PASSWORD)
+						return Tuple.Create(ChangePasswordResult.AuthError, string.Empty);
+					
+					SAMLog.Error("Backend", $"ChangePassword: Error {response.errorid}: {response.errormessage}");
+					return Tuple.Create(ChangePasswordResult.InternalError, response.errormessage);
+
+				}
+				else
+				{
+					return Tuple.Create(ChangePasswordResult.InternalError, "Inetrnal server error");
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend", e); // probably no internet
+				return Tuple.Create(ChangePasswordResult.NoConnection, string.Empty);
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend", e);
+				return Tuple.Create(ChangePasswordResult.InternalError, "Inetrnal server error");
 			}
 		}
 	}

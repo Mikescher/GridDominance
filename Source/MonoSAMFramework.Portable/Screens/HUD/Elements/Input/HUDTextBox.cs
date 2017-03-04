@@ -30,6 +30,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		public Color ColorFocused = Color.White;
 
 		public bool IsPassword = false;
+		public int MaxLength = -1;
 
 		public float CursorWidth = 2;
 
@@ -118,7 +119,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 				if ((istate.IsKeyJustDown(SKeys.Delete) || istate.IsKeyJustDown(SKeys.Backspace)) && Text.Length > 0) Text = Text.Substring(0, Text.Length - 1);
 
 				char? c = istate.GetCharJustDown();
-				if (c != null)
+				if (c != null && (MaxLength == -1 || Text.Length < MaxLength))
 				{
 					Text += c;
 					_lastCharAdd = gameTime.TotalElapsedSeconds;

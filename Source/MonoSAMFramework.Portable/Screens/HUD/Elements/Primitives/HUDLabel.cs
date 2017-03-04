@@ -50,6 +50,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { internalText.FontSize = value; recalcWordWrap = true; }
 		}
 
+		public float Alpha
+		{
+			get { return internalText.Alpha; }
+			set { internalText.Alpha = value; }
+		}
+
 		private float? _maxWidth = null; // if set Height is autom. adjusted
 		public float? MaxWidth
 		{
@@ -72,7 +78,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		{
 			if (BackgroundColor != Color.Transparent)
 			{
-				SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, BackgroundColor);
+				SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, BackgroundColor * Alpha);
 			}
 		}
 
@@ -112,10 +118,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 						while (remText.Length > 0)
 						{
 							var line = "";
-							while (remText.Length > 0 && FontRenderHelper.MeasureStringUncached(Font, line, FontSize).X < MaxWidth.Value)
+							while (remText.Length > 0 && remText[0] != '\n' && FontRenderHelper.MeasureStringUncached(Font, line, FontSize).X < MaxWidth.Value)
 							{
-								line += remText[0];
+								var chr = remText[0];
+
+								if (chr != '\r' && chr != '\n') line += remText[0];
 								remText = remText.Substring(1);
+								if (chr == '\n') break;
 							}
 							lines.Add(line.Trim());
 						}

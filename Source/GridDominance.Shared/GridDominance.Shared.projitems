@@ -11,8 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\BackendCodes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\ChangePasswordResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\GDServerAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultHighscores.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultChangePassword.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultUpgradeUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultVerify.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultScoreData.cs" />
@@ -77,6 +79,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapDebugMinimap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\ChangePasswordPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\FullAccountPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\AnonymousAccountPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\GDWorldHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsCloseOperation.cs" />

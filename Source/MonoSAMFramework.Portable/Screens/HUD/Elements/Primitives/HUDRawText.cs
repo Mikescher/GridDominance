@@ -23,6 +23,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { _text = value; InvalidatePosition(); }
 		}
 
+		public float Alpha = 1f;
+
 		public Color TextColor = Color.Magenta;
 
 		private float _fontScale = 1f;
@@ -49,7 +51,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 					Font, 
 					_textCache, 
 					new Vector2(bounds.Left, bounds.Top + _fontVOffset), 
-					TextColor, 
+					TextColor * Alpha, 
 					0, 
 					Vector2.Zero, 
 					_fontScale, 
@@ -61,8 +63,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 				sbatch.DrawString(
 					Font, 
 					_textCache, 
-					bounds.VectorTopLeft, 
-					TextColor, 
+					bounds.VectorTopLeft,
+					TextColor * Alpha, 
 					0,
 					Vector2.Zero, 
 					_fontScale, 

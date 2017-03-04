@@ -12,6 +12,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		public override int Depth { get; }
 
 		private readonly HUDElement _initElement;
+		private readonly IHUDModalChild _initElementInterface; // can be null
 		private readonly bool _removeOnOutOfBoundsClick;
 		private readonly float _dimFactor;
 
@@ -20,6 +21,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			Depth = d;
 
 			_initElement = child;
+			_initElementInterface = child as IHUDModalChild;
+
 			_removeOnOutOfBoundsClick = removeOnOOB;
 			_dimFactor = dimFactor;
 		}
@@ -49,7 +52,17 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
-			if (_removeOnOutOfBoundsClick)  Remove();
+			if (_removeOnOutOfBoundsClick)
+			{
+				if (_initElementInterface != null)
+					_initElementInterface.OnOutOfBoundsClick();
+				else
+					Remove();
+			}
+			else
+			{
+				_initElementInterface?.OnOutOfBoundsClick();
+			}
 		}
 
 		public override void AddElement(HUDElement e)
