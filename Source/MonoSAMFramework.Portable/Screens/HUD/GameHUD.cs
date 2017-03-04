@@ -3,6 +3,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using System.Collections.Generic;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
@@ -56,6 +57,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				root.DrawBackground(sbatch);
 				root.DrawForeground(sbatch);
 			}
+		}
+
+		public void AddModal(HUDElement e, bool closeOnOOB, float dim = 0f)
+		{
+			root.AddElement(new HUDModalDialog(root.ChildrenMaxDepth + 1, e, dim, closeOnOOB));
 		}
 
 		public void AddElement(HUDElement e)

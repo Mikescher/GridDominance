@@ -8,6 +8,7 @@ abstract class ERRORS {
 	const INVALID_PARAMETER       = 99003;
 	const USER_BY_ID_NOT_FOUND    = 99004;
 	const WRONG_PASSWORD          = 99005;
+	const USER_BY_NAME_NOT_FOUND  = 99006;
 
 	/* ======== 11 UPGRADE-USER ========= */
 	const UPGRADE_USER_DUPLICATE_USERNAME  = 10001;

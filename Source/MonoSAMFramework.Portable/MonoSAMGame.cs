@@ -1,19 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using System;
-using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace MonoSAMFramework.Portable
 {
 	public abstract class MonoSAMGame : Game, ILifetimeObject
 	{
 		private ScreenManager screens;
+		private CustomDispatcher gameDispatcher = new CustomDispatcher();
 
 		protected readonly GraphicsDeviceManager Graphics;
-		private ConcurrentQueue<Action> dispatchQueue = new ConcurrentQueue<Action>();
 
 		public static ulong GameCycleCounter { get; private set; }
 		public static SAMTime CurrentTime { get; private set; }
@@ -82,8 +83,7 @@ namespace MonoSAMFramework.Portable
 
 				screens.Update(time);
 
-				Action dispatchAction;
-				while (dispatchQueue.TryDequeue(out dispatchAction)) dispatchAction();
+				gameDispatcher.Work();
 
 				base.Update(gameTime);
 			}
@@ -114,7 +114,12 @@ namespace MonoSAMFramework.Portable
 
 		public void DispatchBeginInvoke(Action a)
 		{
-			dispatchQueue.Enqueue(a);
+			gameDispatcher.BeginInvoke(a);
+		}
+
+		public async Task DispatchInvoke(Action a)
+		{
+			await gameDispatcher.Invoke(a);
 		}
 
 		protected abstract void OnAfterInitialize();

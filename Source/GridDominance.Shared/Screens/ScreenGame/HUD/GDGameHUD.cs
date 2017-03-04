@@ -28,7 +28,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.hud
 
 			GDOwner.GameSpeedMode = GameSpeedModes.NORMAL;
 
-			AddElement(new HUDModalDialog(new HUDScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints)));
+			AddModal(new HUDScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints), false);
 		} 
 	}
 }

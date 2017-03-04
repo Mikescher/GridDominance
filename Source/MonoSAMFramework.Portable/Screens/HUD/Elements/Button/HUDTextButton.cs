@@ -74,12 +74,25 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		public HUDTextButton(int depth = 0)
 		{
 			Depth = depth;
-			
+
 			internalLabel = new HUDLabel
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				TextAlignment = HUDAlignment.CENTERLEFT,
 			};
+		}
+
+		public HUDTextButton(int depth, ButtonEventHandler clickHandler)
+		{
+			Depth = depth;
+
+			internalLabel = new HUDLabel
+			{
+				Alignment = HUDAlignment.TOPLEFT,
+				TextAlignment = HUDAlignment.CENTERLEFT,
+			};
+
+			ButtonClick += clickHandler;
 		}
 
 		public override void OnInitialize()

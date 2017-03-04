@@ -1,0 +1,41 @@
+<?php
+
+require 'internals/backend.php';
+
+
+function run() {
+	global $pdo;
+
+	$username      = getParamStrOrError('username');
+	$password      = getParamSHAOrError('password');
+	$appversion    = getParamStrOrError('app_version');
+
+	$signature     = getParamStrOrError('msgk');
+
+	check_commit_signature($signature, [$username, $password, $appversion]);
+
+	//----------
+
+	$user = GDUser::QueryOrFailByName($pdo, $password, $username);
+
+	//----------
+
+	$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), last_online_app_version=:av WHERE userid=:uid");
+	$stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
+	$stmt->bindValue(':av', $appversion, PDO::PARAM_STR);
+	executeOrFail($stmt);
+
+	//----------
+
+	logDebug("user $user->ID verified credentials (v: $appversion)");
+	outputResultSuccess(['user' => $user]);
+}
+
+
+
+try {
+	init("verify");
+	run();
+} catch (Exception $e) {
+	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);
+}

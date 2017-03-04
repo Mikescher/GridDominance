@@ -10,6 +10,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 	public abstract class HUDTextBox : HUDElement
 	{
 		private const float CURSOR_BLINK_TIME = 0.5f;
+		private const float PASSWORD_FADEOUT = 0.7f;
 
 		public override int Depth { get; }
 
@@ -28,11 +29,15 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		public Color ColorBackground = Color.White;
 		public Color ColorFocused = Color.White;
 
+		public bool IsPassword = false;
+
 		public float CursorWidth = 2;
 
 		#endregion
 
 		private float _cursorBlinkTimer = 0;
+		private float _lastCharAdd = 0;
+		private bool _forceShowLastChar = false;
 
 		protected HUDTextBox(int depth)
 		{
@@ -43,6 +48,19 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		{
 			var maxWidth = bounds.Width - leftOffset  - rightOffset - CursorWidth - Font.Spacing;
 			var dispText = Text;
+
+			if (IsPassword)
+			{
+				if (_forceShowLastChar && dispText.Length > 0)
+				{
+					dispText = new string('*', dispText.Length - 1) + dispText[dispText.Length - 1];
+				}
+				else
+				{
+					dispText = new string('*', dispText.Length);
+				}
+			}
+
 			var textBounds = FontRenderHelper.MeasureStringCached(Font, dispText, FontSize);
 
 			while (dispText.Length > 0 && textBounds.X > maxWidth)
@@ -100,8 +118,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 				if ((istate.IsKeyJustDown(SKeys.Delete) || istate.IsKeyJustDown(SKeys.Backspace)) && Text.Length > 0) Text = Text.Substring(0, Text.Length - 1);
 
 				char? c = istate.GetCharJustDown();
-				if (c != null) Text += c;
+				if (c != null)
+				{
+					Text += c;
+					_lastCharAdd = gameTime.TotalElapsedSeconds;
+				}
 			}
+
+			_forceShowLastChar = IsFocused && (gameTime.TotalElapsedSeconds - _lastCharAdd) < PASSWORD_FADEOUT;
 		}
 
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)

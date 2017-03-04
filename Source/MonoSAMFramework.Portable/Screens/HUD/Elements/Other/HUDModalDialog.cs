@@ -1,4 +1,5 @@
-﻿using MonoSAMFramework.Portable.BatchRenderer;
+﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
@@ -8,18 +9,19 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 {
 	public class HUDModalDialog : HUDContainer
 	{
-		public override int Depth => int.MinValue;
+		public override int Depth { get; }
 
 		private readonly HUDElement _initElement;
+		private readonly bool _removeOnOutOfBoundsClick;
+		private readonly float _dimFactor;
 
-		public HUDModalDialog()
+		public HUDModalDialog(int d, HUDElement child, float dimFactor, bool removeOnOOB)
 		{
-			_initElement = null;
-		}
+			Depth = d;
 
-		public HUDModalDialog(HUDElement child)
-		{
 			_initElement = child;
+			_removeOnOutOfBoundsClick = removeOnOOB;
+			_dimFactor = dimFactor;
 		}
 
 		public override void OnInitialize()
@@ -34,12 +36,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			// NOP
+			if (_dimFactor > 0) sbatch.FillRectangle(bounds, Color.Black * _dimFactor);
 		}
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			// NOP
+			if (!_initElement.Alive) Remove();
 		}
 
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
@@ -47,7 +49,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
-			// Do nothing - swallow
+			if (_removeOnOutOfBoundsClick)  Remove();
 		}
 
 		public override void AddElement(HUDElement e)

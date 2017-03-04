@@ -46,6 +46,28 @@ class GDUser
 	/**
 	 * @param PDO $pdo
 	 * @param string $pw
+	 * @param string $username
+	 * @return GDUser
+	 */
+	public static function QueryOrFailByName($pdo, $pw, $username)
+	{
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, revision_id FROM users WHERE username=:name");
+		$stmt->bindValue(':name', $username, PDO::PARAM_STR);
+		$stmt->execute();
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if ($row === FALSE) outputError(ERRORS::USER_BY_NAME_NOT_FOUND, "No user with name $username found", LOGLEVEL::DEBUG);
+
+		$user = self::CreateFromSQL($row);
+
+		if (! $user->verify_password($pw)) outputError(ERRORS::WRONG_PASSWORD, "Wrong password supplied", LOGLEVEL::DEBUG);
+
+		return $user;
+	}
+
+	/**
+	 * @param PDO $pdo
+	 * @param string $pw
 	 * @param int $userid
 	 * @return GDUser
 	 */

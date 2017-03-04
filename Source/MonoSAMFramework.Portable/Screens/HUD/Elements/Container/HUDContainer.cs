@@ -14,10 +14,16 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			public override int Compare(HUDElement x, HUDElement y) => (x == null || y == null) ? 0 : x.Depth.CompareTo(y.Depth);
 		}
 
+		// elements with higher depth are in foreground
+		// foreground elements get rendered last (on top)
+		// foreground elements get pointer events first
+		// Updates happen back to front, foreground elements last
 		private readonly AlwaysSortList<HUDElement> children = new AlwaysSortList<HUDElement>(new GameHUDElementComparer());
 
 		public int ChildrenCount => children.Count;
 		public override int DeepInclusiveCount => children.Sum(p => p.DeepInclusiveCount) + 1;
+		public int ChildrenMinDepth => children.Any() ? children.Min(c => c.Depth) : -1;
+		public int ChildrenMaxDepth => children.Any() ? children.Max(c => c.Depth) : +1;
 
 		public override void DrawForeground(IBatchRenderer sbatch)
 		{
@@ -61,7 +67,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 
 		public override bool InternalPointerDown(InputState istate)
 		{
-			foreach (var child in children)
+			foreach (var child in Enumerable.Reverse(children))
 			{
 				if (child.InternalPointerDown(istate)) return true;
 			}
@@ -71,7 +77,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 
 		public override bool InternalPointerUp(InputState istate)
 		{
-			foreach (var child in children)
+			foreach (var child in Enumerable.Reverse(children))
 			{
 				if (child.InternalPointerUp(istate)) return true;
 			}

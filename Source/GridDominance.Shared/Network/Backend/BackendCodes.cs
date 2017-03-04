@@ -9,6 +9,7 @@
 		public const int INVALID_PARAMETER       = 99003;
 		public const int USER_BY_ID_NOT_FOUND    = 99004;
 		public const int WRONG_PASSWORD          = 99005;
+		public const int USER_BY_NAME_NOT_FOUND  = 99006;
 
 		/* ======== 11 UPGRADE-USER ========= */
 		public const int UPGRADE_USER_DUPLICATE_USERNAME  = 10001;

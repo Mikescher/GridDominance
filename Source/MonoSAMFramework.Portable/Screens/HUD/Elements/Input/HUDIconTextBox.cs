@@ -17,7 +17,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 		public float BackgoundCornerSize = 16f;
 
-		public HUDIconTextBox(int depth) : base(depth)
+		public HUDIconTextBox(int depth = 0) : base(depth)
 		{
 		}
 

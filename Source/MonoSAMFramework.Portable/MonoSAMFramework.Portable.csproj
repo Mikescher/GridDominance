@@ -79,6 +79,7 @@
     <Compile Include="Interfaces\ISAMPostDrawable.cs" />
     <Compile Include="Language\ByteUtils.cs" />
     <Compile Include="Language\CacheCollection.cs" />
+    <Compile Include="Language\CustomDispatcher.cs" />
     <Compile Include="Language\LazyProp.cs" />
     <Compile Include="LogProtocol\SAMLog.cs" />
     <Compile Include="LogProtocol\SAMLogEntry.cs" />
@@ -179,7 +180,9 @@
     <Compile Include="Screens\HUD\Elements\Input\HUDIconTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDSimpleTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDTextBox.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDModalDialog.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDImage.cs" />
     <Compile Include="Screens\HUD\EmptyGameHUD.cs" />
     <Compile Include="Screens\HUD\Enums\HUDImageAlignment.cs" />

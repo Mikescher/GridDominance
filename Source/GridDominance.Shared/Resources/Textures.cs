@@ -103,6 +103,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexCannonBarrelShadow;
 		public static TextureRegion2D TexCannonCrosshair;
 		public static TextureRegion2D[] AnimCannonCog;
+		public static TextureRegion2D CannonCog;
 
 		public static TextureRegion2D TexLevelNodeStructure;
 		public static TextureRegion2D TexLevelNodeSegment;
@@ -187,6 +188,7 @@ namespace GridDominance.Shared.Resources
 			TexLevelNodeSegment   = AtlasTextures["levelnode_segment"];
 
 			AnimCannonCog         = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
+			CannonCog             = AnimCannonCog.Last();
 
 			TexBullet             = AtlasTextures["cannonball"];
 			TexBulletSplitter     = AtlasTextures["cannonball_piece"];

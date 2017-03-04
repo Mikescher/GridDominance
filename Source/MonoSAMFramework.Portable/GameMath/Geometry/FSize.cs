@@ -46,6 +46,16 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return !(a == b);
 		}
 
+		public static FSize operator +(FSize value1, FSize value2)
+		{
+			return new FSize(value1.Width + value2.Width, value1.Height + value2.Height);
+		}
+
+		public static FSize operator -(FSize value1, FSize value2)
+		{
+			return new FSize(value1.Width - value2.Width, value1.Width - value2.Height);
+		}
+
 		public bool Equals(FSize other)
 		{
 			return FloatMath.EpsilonEquals(Width, other.Width) && FloatMath.EpsilonEquals(Height, other.Height);

@@ -22,6 +22,7 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_LOGERROR           = 4;
 		private const int RETRY_DOWNLOADHIGHSCORES = 4;
 		private const int RETRY_CREATEUSER         = 6;
+		private const int RETRY_VERIFY             = 6;
 
 		private readonly IOperatingSystemBridge bridge;
 
@@ -47,7 +48,7 @@ namespace GridDominance.Shared.Network
 					{
 						await DownloadData(profile);
 
-						if (profile.NeedsReupload) Reupload(profile);
+						if (profile.NeedsReupload) Reupload(profile).EnsureNoError();
 					}
 				}
 				else if (response.result == "error")
@@ -110,7 +111,7 @@ namespace GridDominance.Shared.Network
 
 						MainGame.Inst.SaveProfile();
 
-						Reupload(profile);
+						Reupload(profile).EnsureNoError();
 					});
 
 				}
@@ -154,7 +155,7 @@ namespace GridDominance.Shared.Network
 
 							MainGame.Inst.SaveProfile();
 
-							if (profile.NeedsReupload) Reupload(profile);
+							if (profile.NeedsReupload) Reupload(profile).EnsureNoError();
 						});
 					}
 				}
@@ -267,7 +268,7 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
-		private async void Reupload(PlayerProfile profile)
+		public async Task Reupload(PlayerProfile profile)
 		{
 			profile.NeedsReupload = false;
 
@@ -312,7 +313,6 @@ namespace GridDominance.Shared.Network
 					MainGame.Inst.SaveProfile();
 				});
 			}
-
 		}
 
 		public async Task LogClient(PlayerProfile profile, SAMLogEntry entry)
@@ -386,6 +386,62 @@ namespace GridDominance.Shared.Network
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
+			}
+		}
+
+		public async Task<Tuple<VerifyResult, int>> Verify(string username, string password)
+		{
+			try
+			{
+				var pwHash = bridge.DoSHA256(password);
+
+				var ps = new RestParameterSet();
+				ps.AddParameterString("username", username);
+				ps.AddParameterHash("password", pwHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+
+				var response = await QueryAsync<QueryResultVerify>("verify", ps, RETRY_VERIFY);
+
+				if (response.result == "success")
+				{
+					if (response.user.AutoUser) return Tuple.Create(VerifyResult.WrongUsername, -1);
+
+					return Tuple.Create(VerifyResult.Success, response.user.ID);
+				}
+				else if (response.result == "error")
+				{
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						return Tuple.Create(VerifyResult.InternalError, -1);
+					}
+					else if (response.errorid == BackendCodes.WRONG_PASSWORD)
+					{
+						return Tuple.Create(VerifyResult.WrongPassword, -1);
+					}
+					else if (response.errorid == BackendCodes.USER_BY_NAME_NOT_FOUND)
+					{
+						return Tuple.Create(VerifyResult.WrongUsername, -1);
+					}
+					else
+					{
+						SAMLog.Error("Backend", $"Verify: Error {response.errorid}: {response.errormessage}");
+						return Tuple.Create(VerifyResult.InternalError, -1);
+					}
+				}
+				else
+				{
+					return Tuple.Create(VerifyResult.InternalError, -1);
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend", e); // probably no internet
+				return Tuple.Create(VerifyResult.NoConnection, -1);
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend", e);
+				return Tuple.Create(VerifyResult.InternalError, -1);
 			}
 		}
 	}

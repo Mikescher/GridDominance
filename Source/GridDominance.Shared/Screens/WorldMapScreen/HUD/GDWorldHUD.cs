@@ -28,46 +28,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			AddElement(new ScoreDisplay());
 			AddElement(TopLevelDisplay = new TopLevelDisplay());
 			AddElement(InfoDisplay = new InformationDisplay());
-
-
-			AddElement(new HUDIconTextBox(0)
-			{
-				Alignment = HUDAlignment.CENTER,
-				RelativePosition = new FPoint(0, 0),
-				Size = new FSize(450, 80),
-
-				Font = Textures.HUDFontRegular,
-				FontSize = 40,
-
-				Placeholder = "Username",
-
-				BackgoundCornerSize = 8,
-				ColorPadLeft = FlatColors.ControlHighlight,
-				WidthPadLeft = 80,
-				IconColor = FlatColors.Asbestos,
-				Icon = Textures.TexHUDIconUser,
-				IconSize = new FSize(50, 50),
-			});
-
-
-			AddElement(new HUDIconTextBox(0)
-			{
-				Alignment = HUDAlignment.CENTER,
-				RelativePosition = new FPoint(0, 120),
-				Size = new FSize(450, 80),
-
-				Font = Textures.HUDFontRegular,
-				FontSize = 40,
-
-				Placeholder = "Password",
-
-				BackgoundCornerSize = 8,
-				ColorPadLeft = FlatColors.ControlHighlight,
-				WidthPadLeft = 80,
-				IconColor = FlatColors.Asbestos,
-				Icon = Textures.TexHUDIconPassword,
-				IconSize = new FSize(50, 50),
-			});
 		}
 
 		public void SelectNode(LevelNode n)
@@ -94,7 +54,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				SelectNode(null);
 				Settings.Close();
 
-				AddElement(new HUDModalDialog(new AnonymousAccountPanel()));
+				AddModal(new AnonymousAccountPanel(), true);
 			}
 			else if (profile.AccountType == AccountType.Full)
 			{
