@@ -88,8 +88,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				ShapePosition,
 				scale * Bullet.BULLET_DIAMETER,
 				scale * Bullet.BULLET_DIAMETER,
-				Fraction.Color * ShapeAlpha,
-				ShapeRotation);
+				Fraction.Color * ShapeAlpha, ShapeRotation);
 		}
 	}
 }

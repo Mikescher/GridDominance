@@ -278,7 +278,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				layerDepth);
 		}
 
-		public override void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation = 0, float layerDepth = 0)
+		public override void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float width, float height, Color color, float rotation = 0f, float layerDepth = 0f)
 		{
 #if DEBUG
 			IncRenderSpriteCount();

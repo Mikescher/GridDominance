@@ -180,6 +180,10 @@
     <Compile Include="Screens\HUD\Elements\Input\HUDIconTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDSimpleTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDTextBox.cs" />
+    <Compile Include="Screens\HUD\Elements\Keyboard\HUDKeyboard.cs" />
+    <Compile Include="Screens\HUD\Elements\Keyboard\HUDKeyboardButton.cs" />
+    <Compile Include="Screens\HUD\Elements\Keyboard\HUDKeyboardButtonType.cs" />
+    <Compile Include="Screens\HUD\Elements\Keyboard\KeyboardLayout.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDFadeOutInfoBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDModalDialog.cs" />

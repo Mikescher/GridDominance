@@ -158,10 +158,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			sbatch.DrawCentered(
 				Textures.TexBullet, 
 				BulletPosition, 
-				Scale * BulletExtraScale * BULLET_DIAMETER, 
 				Scale * BulletExtraScale * BULLET_DIAMETER,
-				Fraction.Color * BulletAlpha,
-				BulletRotation);
+				Scale * BulletExtraScale * BULLET_DIAMETER,
+				Fraction.Color * BulletAlpha, BulletRotation);
 		}
 	}
 }

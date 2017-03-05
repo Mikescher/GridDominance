@@ -3,6 +3,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using System.Collections.Generic;
 
@@ -103,6 +104,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public int DeepCount()
 		{
 			return root.DeepInclusiveCount;
+		}
+
+		public void ShowKeyboard()
+		{
+			AddModal(new HUDKeyboard(), true);
 		}
 	}
 }

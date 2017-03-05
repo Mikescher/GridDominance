@@ -98,5 +98,23 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		public override string ToString() => $"[{Width}|{Height}]";
+
+		public FSize Underfit(FSize bounds, float padding = 0)
+		{
+			if (Width / Height < (bounds.Width - 2 * padding) / (Height - 2 * padding))
+			{
+				var h = bounds.Height - 2 * padding;
+				var w = (Width / Height) * h;
+
+				return new FSize(w, h);
+			}
+			else
+			{
+				var w = bounds.Width - 2 * padding;
+				var h = (Height / Width) * w;
+
+				return new FSize(w, h);
+			}
+		}
 	}
 }

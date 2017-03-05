@@ -30,6 +30,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			AddElement(new ScoreDisplay());
 			AddElement(TopLevelDisplay = new TopLevelDisplay());
 			AddElement(InfoDisplay = new InformationDisplay());
+
+			ShowKeyboard();//TODO DEUBG
 		}
 
 		public void SelectNode(LevelNode n)

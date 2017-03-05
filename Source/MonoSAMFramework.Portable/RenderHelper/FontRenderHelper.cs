@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Language;
 using System.Collections.Generic;
 
@@ -104,6 +105,24 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				color,
 				0,
 				new Vector2(0, bounds.Y / 2f - GetFontVCenterOffset(font)),
+				GetFontScale(font, size),
+				SpriteEffects.None,
+				0);
+		}
+
+		public static void DrawTextTopRight(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position)
+		{
+			if (text == "") return;
+
+			var bounds = MeasureStringCached(font, text);
+
+			sbatch.DrawString(
+				font,
+				text,
+				position,
+				color,
+				0,
+				new Vector2(bounds.X, 0),
 				GetFontScale(font, size),
 				SpriteEffects.None,
 				0);

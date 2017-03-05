@@ -16,7 +16,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void End();
 
 		void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color, float rotation = 0f, float layerDepth = 0f);
-		void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation = 0f, float layerDepth = 0f);
+		void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float width, float height, Color color, float rotation = 0f, float layerDepth = 0f);
 		void DrawScaled(TextureRegion2D texture, Vector2 centerTarget, float scale, Color color, float rotation = 0f, float layerDepth = 0f);
 
 		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color);

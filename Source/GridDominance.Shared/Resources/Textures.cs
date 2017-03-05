@@ -135,6 +135,9 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonIconAccount;
 		public static TextureRegion2D TexHUDIconUser;
 		public static TextureRegion2D TexHUDIconPassword;
+		public static TextureRegion2D TexHUDIconKeyboardCaps;
+		public static TextureRegion2D TexHUDIconKeyboardEnter;
+		public static TextureRegion2D TexHUDIconKeyboardBackspace;
 
 		public static TextureRegion2D TexPanelBlurEdge;
 		public static TextureRegion2D TexPanelBlurCorner;
@@ -221,6 +224,10 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonIconAccount       = AtlasTextures["fingerprint"];
 			TexHUDIconUser                = AtlasTextures["user"];
 			TexHUDIconPassword            = AtlasTextures["password"];
+			TexHUDIconKeyboardCaps        = AtlasTextures["caps"];
+			TexHUDIconKeyboardEnter       = AtlasTextures["enter"];
+			TexHUDIconKeyboardBackspace   = AtlasTextures["backspace"];
+
 
 			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];
@@ -248,6 +255,11 @@ namespace GridDominance.Shared.Resources
 			StaticTextures.PanelBlurCorner = TexPanelBlurCorner;
 			StaticTextures.PanelBlurEdge   = TexPanelBlurEdge;
 			StaticTextures.PanelCorner     = TexPanelCorner;
+
+			StaticTextures.KeyboardBackspace = TexHUDIconKeyboardBackspace;
+			StaticTextures.KeyboardEnter     = TexHUDIconKeyboardEnter;
+			StaticTextures.KeyboardCaps      = TexHUDIconKeyboardCaps;
+
 		}
 
 		public static void ChangeQuality(ContentManager content, TextureQuality q)

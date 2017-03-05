@@ -291,32 +291,28 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position, 
 				DIAMETER, 
 				DIAMETER, 
-				LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, 
-				FloatMath.RAD_POS_000 + FloatMath.TAU * expansionProgress);
+				LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, FloatMath.RAD_POS_000 + FloatMath.TAU * expansionProgress);
 
 			sbatch.DrawCentered(
 				Textures.TexLevelNodeSegment,
 				Position,
 				DIAMETER,
 				DIAMETER,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
-				FloatMath.RAD_POS_090 + FloatMath.TAU * expansionProgress);
+				LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, FloatMath.RAD_POS_090 + FloatMath.TAU * expansionProgress);
 
 			sbatch.DrawCentered(
 				Textures.TexLevelNodeSegment,
 				Position,
 				DIAMETER,
 				DIAMETER,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
-				FloatMath.RAD_POS_180 + FloatMath.TAU * expansionProgress);
+				LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, FloatMath.RAD_POS_180 + FloatMath.TAU * expansionProgress);
 
 			sbatch.DrawCentered(
 				Textures.TexLevelNodeSegment,
 				Position,
 				DIAMETER,
 				DIAMETER,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED,
-				FloatMath.RAD_POS_270 + FloatMath.TAU * expansionProgress);
+				LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, FloatMath.RAD_POS_270 + FloatMath.TAU * expansionProgress);
 			
 			#endregion
 

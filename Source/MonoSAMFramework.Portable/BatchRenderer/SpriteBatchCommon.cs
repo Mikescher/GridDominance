@@ -181,7 +181,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		#region abstracts
 
 		public abstract void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color, float rotation = 0f, float layerDepth = 0f);
-		public abstract void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float height, float width, Color color, float rotation = 0f, float layerDepth = 0f);
+		public abstract void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float width, float height, Color color, float rotation = 0f, float layerDepth = 0f);
 		public abstract void DrawScaled(TextureRegion2D texture, Vector2 centerTarget, float scale, Color color, float rotation = 0f, float layerDepth = 0f);
 
 		public abstract void Begin(float defTexScale, SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
