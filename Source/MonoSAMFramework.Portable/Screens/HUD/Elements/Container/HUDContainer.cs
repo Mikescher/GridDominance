@@ -118,5 +118,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			foreach (var child in children)
 				child.Revalidate();
 		}
+
+		public override IEnumerable<HUDElement> EnumerateElements()
+		{
+			foreach (var child in children)
+			{
+				yield return child;
+				foreach (var subchild in child.EnumerateElements()) yield return subchild;
+			}
+		}
 	}
 }

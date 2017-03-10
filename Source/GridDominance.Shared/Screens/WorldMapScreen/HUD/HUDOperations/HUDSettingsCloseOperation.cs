@@ -44,5 +44,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			button.RotationSpeed = 1f;
 			button.isClosing = false;
 		}
+
+		public override string Name => "SettingsCloseOperation";
 	}
 }

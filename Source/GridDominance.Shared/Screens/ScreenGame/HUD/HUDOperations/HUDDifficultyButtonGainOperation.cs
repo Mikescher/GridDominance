@@ -27,5 +27,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUDOperations
 			element.BackgroundColor = ColorMath.Blend(FlatColors.ButtonHUD, FlatColors.BackgroundHUD2, progress);
 			element.IconScale = FloatMath.FunctionEaseOutElastic(progress);
 		}
+
+		public override string Name => "DifficultyButtonGain";
 	}
 }

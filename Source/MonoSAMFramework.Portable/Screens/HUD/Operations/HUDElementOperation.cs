@@ -33,5 +33,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 		protected abstract void OnStart(TElement element);
 		protected abstract void OnEnd(TElement element);
 
+		public abstract string Name { get; }
 	}
 }

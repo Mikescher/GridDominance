@@ -10,6 +10,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -101,6 +102,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public void CloseNode()
 		{
 			if (IsClosing) return;
+			IsClosing = true;
 
 			if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
 
@@ -116,6 +118,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 
 			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Close::0", EXPANSION_TIME, (n, p) => n.expansionProgress = 1 - p, n => n.IsClosing = true, n => n.IsClosing = false));
+			
 
 			if (initProgress > 0f)
 			{
@@ -126,6 +129,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private void OpenNode()
 		{
 			if (IsOpening) return;
+			IsOpening = true;
 
 			((GDWorldHUD)Owner.HUD).SelectNode(this);
 

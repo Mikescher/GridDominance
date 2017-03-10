@@ -32,5 +32,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			button.SubButtons[index].FontProgress = 1f;
 		}
+
+		public override string Name => "SettingsFontAppear";
 	}
 }

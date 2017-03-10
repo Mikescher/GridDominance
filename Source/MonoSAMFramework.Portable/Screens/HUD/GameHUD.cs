@@ -6,6 +6,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -54,6 +55,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				_focusedElement = value;
 			}
 		}
+
+		public IEnumerable<HUDElement> Enumerate() => Enumerable.Repeat(root, 1).Concat(root.EnumerateElements());
 
 		public void Update(SAMTime gameTime, InputState istate)
 		{

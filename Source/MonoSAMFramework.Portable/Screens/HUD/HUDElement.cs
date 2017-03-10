@@ -87,6 +87,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		protected readonly List<IHUDElementOperation> ActiveOperations = new List<IHUDElementOperation>();
 
+		public IEnumerable<IHUDElementOperation> ActiveHUDOperations => ActiveOperations;
+
 		protected bool IsPointerDownOnElement = false;
 		protected bool PositionInvalidated = false;
 
@@ -287,6 +289,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 					ActiveOperations.RemoveAt(i);
 				}
 			}
+		}
+
+		public virtual IEnumerable<HUDElement> EnumerateElements()
+		{
+			return Enumerable.Empty<HUDElement>();
 		}
 
 		public abstract void OnInitialize();

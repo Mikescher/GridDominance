@@ -1,6 +1,7 @@
 ﻿using MonoSAMFramework.Portable.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 {
@@ -71,5 +72,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 		{
 			actionEnd?.Invoke(element);
 		}
+
+		public override string Name => $"[{string.Join(", ", opQueue.Select(o => o.Name))}]";
 	}
 }

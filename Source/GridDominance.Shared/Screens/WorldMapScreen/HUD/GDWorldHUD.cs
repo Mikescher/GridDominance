@@ -78,10 +78,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			await MainGame.Inst.Backend.CreateUser(MainGame.Inst.Profile);
 
-			if (MainGame.Inst.Profile.AccountType == AccountType.Anonymous)
+			waitDialog.Remove();
+
+			MainGame.Inst.DispatchBeginInvoke(() =>
 			{
-				MainGame.Inst.DispatchBeginInvoke(() => { AddModal(new AnonymousAccountPanel(), true); });
-			}
+				if (MainGame.Inst.Profile.AccountType == AccountType.Anonymous)
+				{
+					AddModal(new AnonymousAccountPanel(), true);
+				}
+			});
 		}
 	}
 }

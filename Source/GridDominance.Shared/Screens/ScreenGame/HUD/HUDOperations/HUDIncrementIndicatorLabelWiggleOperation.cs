@@ -24,5 +24,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUDOperations
 		{
 			element.AnimationOffset = WIGGLE_OFFSET * FloatMath.Sin(lifetime * WIGGLE_SPEED * FloatMath.PI);
 		}
+
+		public override string Name => "IncrementIndicatorLabelWiggle";
 	}
 }

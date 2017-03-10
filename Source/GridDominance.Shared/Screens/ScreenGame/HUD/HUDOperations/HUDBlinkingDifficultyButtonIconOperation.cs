@@ -24,5 +24,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUDOperations
 		{
 			element.ForegroundColor = ColorMath.Blend(FlatColors.SunFlower, FlatColors.Orange, FloatMath.Sin(value / BLINK_LENGTH) / 2f + 0.5f);
 		}
+
+		public override string Name => "BlinkingDifficultyButtonIcon";
 	}
 }

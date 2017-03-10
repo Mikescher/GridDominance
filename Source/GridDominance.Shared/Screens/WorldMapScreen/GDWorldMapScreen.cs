@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
@@ -55,13 +56,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugSettings.AddTrigger("DBG", "SetQuality_5", this, SKeys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
 			DebugSettings.AddTrigger("DBG", "ResetProfile", this, SKeys.R, KeyModifier.Control, x => ResetProfile());
 
-			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      this, SKeys.F2, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugBackground",       this, SKeys.F3, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       this, SKeys.F4, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   this, SKeys.F6, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      this, SKeys.F7, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", this, SKeys.F8, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", this, SKeys.F9, KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      this, SKeys.F2,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugBackground",       this, SKeys.F3,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       this, SKeys.F4,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   this, SKeys.F6,  KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      this, SKeys.F7,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", this, SKeys.F8,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", this, SKeys.F9,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "ShowOperations",        this, SKeys.F10, KeyModifier.None, false);
 
 			DebugSettings.AddPush("DBG", "ShowDebugShortcuts",      this, SKeys.Tab, KeyModifier.None);
 			DebugSettings.AddPush("DBG", "ShowSerializedProfile",   this, SKeys.O, KeyModifier.None);
@@ -90,8 +92,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealOffset={VAdapter.RealGuaranteedBoundingsOffset}");
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={VAdapter.Scale}");
 				
+				DebugDisp.AddLine("ShowOperations", () => string.Join(Environment.NewLine, Entities.Enumerate().SelectMany(e => e.ActiveEntityOperations).Select(o => o.Name)));
+				DebugDisp.AddLine("ShowOperations", () => string.Join(Environment.NewLine, HUD.Enumerate().SelectMany(e => e.ActiveHUDOperations).Select(o => o.Name)));
+
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
-				
+
 				DebugDisp.AddLogLines();
 				
 				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
@@ -190,7 +195,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		{
 			MainGame.Inst.Profile.InitEmpty();
 			MainGame.Inst.SaveProfile();
-			
+
+			DebugDisp.AddDecayLine("Profile reset", 5f, 1f, 1f);
 		}
 #endif
 	}

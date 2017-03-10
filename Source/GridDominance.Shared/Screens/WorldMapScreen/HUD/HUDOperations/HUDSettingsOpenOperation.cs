@@ -45,5 +45,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			button.OpeningProgress = 1f;
 			button.RotationSpeed = 0.5f;
 		}
+
+		public override string Name => "SettingsOpen";
 	}
 }
