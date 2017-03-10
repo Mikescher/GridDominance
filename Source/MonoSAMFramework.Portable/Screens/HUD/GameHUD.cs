@@ -15,6 +15,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		private readonly HUDRootContainer root;
 		public readonly SpriteFont DefaultFont;
 
+		private HUDKeyboard _keyboard = null;
+
 		protected GameHUD(GameScreen scrn, SpriteFont font)
 		{
 			Screen = scrn;
@@ -106,9 +108,21 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			return root.DeepInclusiveCount;
 		}
 
-		public void ShowKeyboard()
+		public void HideKeyboard()
 		{
-			AddModal(new HUDKeyboard(), true);
+			_keyboard?.Remove();
+			_keyboard = null;
+		}
+
+		public HUDKeyboard ShowKeyboard(IKeyboardListener reciever)
+		{
+			if (_keyboard != null) HideKeyboard();
+
+			_keyboard = new HUDKeyboard(reciever);
+
+			AddModal(_keyboard, true);
+
+			return _keyboard;
 		}
 	}
 }

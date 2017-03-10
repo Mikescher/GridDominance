@@ -178,7 +178,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(3, 1, 0.3f)
 							{
-								Text = "Account created",
+								Text = "Password changed",
 								TextColor = FlatColors.TextHUD,
 								ColorBackground = FlatColors.Nephritis,
 								CloseOnClick = true,
@@ -235,14 +235,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("CreateAccount", e);
+				SAMLog.Error("ChangePassword", e);
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
 					spinner.Remove();
 					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 					{
-						Text = "Could not create account",
+						Text = "Could not change password",
 						TextColor = FlatColors.Clouds,
 						ColorBackground = FlatColors.Alizarin,
 						CloseOnClick = true,

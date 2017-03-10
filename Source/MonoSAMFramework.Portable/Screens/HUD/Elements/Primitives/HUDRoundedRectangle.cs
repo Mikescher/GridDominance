@@ -16,6 +16,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		public bool RoundCornerBL = true;
 		public bool RoundCornerBR = true;
 
+		public float CornerSize = 16f;
+
 		public HUDRoundedRectangle(int depth = 0)
 		{
 			Depth = depth;
@@ -25,7 +27,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		{
 			if (Color == Color.Transparent) return;
 
-			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color, RoundCornerTL, RoundCornerTR, RoundCornerBL, RoundCornerBR);
+			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color, RoundCornerTL, RoundCornerTR, RoundCornerBL, RoundCornerBR, CornerSize);
 		}
 
 		public override void OnInitialize()

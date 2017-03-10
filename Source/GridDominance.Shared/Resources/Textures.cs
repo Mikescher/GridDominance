@@ -259,6 +259,7 @@ namespace GridDominance.Shared.Resources
 			StaticTextures.KeyboardBackspace = TexHUDIconKeyboardBackspace;
 			StaticTextures.KeyboardEnter     = TexHUDIconKeyboardEnter;
 			StaticTextures.KeyboardCaps      = TexHUDIconKeyboardCaps;
+			StaticTextures.KeyboardCircle    = TexCircle;
 
 		}
 

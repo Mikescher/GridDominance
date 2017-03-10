@@ -4,10 +4,11 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 {
-	public abstract class HUDTextBox : HUDElement
+	public abstract class HUDTextBox : HUDElement, IKeyboardListener
 	{
 		private const float CURSOR_BLINK_TIME = 0.5f;
 		private const float PASSWORD_FADEOUT = 0.7f;
@@ -116,14 +117,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 			if (IsFocused)
 			{
-				if ((istate.IsKeyJustDown(SKeys.Delete) || istate.IsKeyJustDown(SKeys.Backspace)) && Text.Length > 0) Text = Text.Substring(0, Text.Length - 1);
+				if (istate.IsKeyJustDown(SKeys.Delete) || istate.IsKeyJustDown(SKeys.Backspace)) PressBackspace();
 
 				char? c = istate.GetCharJustDown();
-				if (c != null && (MaxLength == -1 || Text.Length < MaxLength))
-				{
-					Text += c;
-					_lastCharAdd = gameTime.TotalElapsedSeconds;
-				}
+				if (c != null) PressChar(c.Value);
 			}
 
 			_forceShowLastChar = IsFocused && (gameTime.TotalElapsedSeconds - _lastCharAdd) < PASSWORD_FADEOUT;
@@ -131,12 +128,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 		public override void FocusGain()
 		{
-//			MonoSAMGame.CurrentInst.Bridge.ShowKeyboard(null);
+			HUD.ShowKeyboard(this);
 		}
 
 		public override void FocusLoose()
 		{
-//			MonoSAMGame.CurrentInst.Bridge.HideKeyboard();
+			HUD.HideKeyboard();
 		}
 
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
@@ -148,5 +145,26 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		{
 			return true;
 		}
+
+		public void PressChar(char chr)
+		{
+			if (MaxLength == -1 || Text.Length < MaxLength)
+			{
+				Text += chr;
+				_lastCharAdd = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
+			}
+		}
+
+		public void PressBackspace()
+		{
+			if (Text.Length > 0) Text = Text.Substring(0, Text.Length - 1);
+		}
+
+		public void KeyboardClosed()
+		{
+			//
+		}
+
+		public string GetPreviewText() => IsPassword ? new string('*', Text.Length) : Text;
 	}
 }

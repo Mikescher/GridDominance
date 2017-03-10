@@ -28,14 +28,19 @@ namespace GridDominance.Shared.SaveData
 
 		public PlayerProfile()
 		{
+			InitEmpty();
+		}
+
+		public void InitEmpty()
+		{
 			LevelData = new Dictionary<Guid, LevelData>();
 
-			AccountType        = AccountType.Local;
-			OnlineUserID       = -1;
-			OnlineUsername     = "anonymous";
+			AccountType = AccountType.Local;
+			OnlineUserID = -1;
+			OnlineUsername = "anonymous";
 			OnlinePasswordHash = string.Empty;
-			OnlineRevisionID   = -1;
-			NeedsReupload      = false;
+			OnlineRevisionID = -1;
+			NeedsReupload = false;
 
 			SoundsEnabled = true;
 			EffectsEnabled = true;

@@ -2,15 +2,10 @@
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
-using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.HUD;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
-using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -30,8 +25,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			AddElement(new ScoreDisplay());
 			AddElement(TopLevelDisplay = new TopLevelDisplay());
 			AddElement(InfoDisplay = new InformationDisplay());
-
-			ShowKeyboard();//TODO DEUBG
 		}
 
 		public void SelectNode(LevelNode n)

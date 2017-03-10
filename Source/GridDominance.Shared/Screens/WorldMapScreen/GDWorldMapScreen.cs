@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
@@ -52,6 +53,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugSettings.AddTrigger("DBG", "SetQuality_3", this, SKeys.D3, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
 			DebugSettings.AddTrigger("DBG", "SetQuality_4", this, SKeys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
 			DebugSettings.AddTrigger("DBG", "SetQuality_5", this, SKeys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
+			DebugSettings.AddTrigger("DBG", "ResetProfile", this, SKeys.R, KeyModifier.Control, x => ResetProfile());
 
 			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      this, SKeys.F2, KeyModifier.None, true);
 			DebugSettings.AddSwitch("DBG", "DebugBackground",       this, SKeys.F3, KeyModifier.None, true);
@@ -182,5 +184,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			}
 #endif
 		}
+
+#if DEBUG
+		private void ResetProfile()
+		{
+			MainGame.Inst.Profile.InitEmpty();
+			MainGame.Inst.SaveProfile();
+			
+		}
+#endif
 	}
 }
