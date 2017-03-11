@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -36,7 +33,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private float _spawnPercentage = 0f;
 		private float _remainingBoost = 1f;
 
-		public ConnectionOrb(GameScreen scrn, Vector2 start, Vector2 velocity, Vector2 target, FractionDifficulty diff) : base(scrn)
+		public ConnectionOrb(GameScreen scrn, Vector2 start, Vector2 velocity, Vector2 target, FractionDifficulty diff) : base(scrn, -1)
 		{
 			_pos = start;
 			_target = target;

@@ -28,10 +28,12 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public bool IsInViewport = true; // is in viewport and is therefore rendered
 		public bool Alive = true;
 		public float Lifetime = 0;
+		public readonly int Order;
 
-		protected GameEntity(GameScreen scrn)
+		protected GameEntity(GameScreen scrn, int order = 0)
 		{
 			Owner = scrn;
+			Order = order;
 		}
 
 		protected void Remove()

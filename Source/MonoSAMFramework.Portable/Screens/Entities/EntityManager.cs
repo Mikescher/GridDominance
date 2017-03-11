@@ -2,6 +2,7 @@
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.Language;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,9 +10,16 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 {
 	public abstract class EntityManager : ISAMDrawable, ISAMPostDrawable, ISAMUpdateable
 	{
+		private class EntityManagerEntityComparer : Comparer<GameEntity>
+		{
+			public override int Compare(GameEntity x, GameEntity y) => (x == null || y == null) ? 0 : x.Order.CompareTo(y.Order);
+		}
+
 		private const int VIEWPORT_TOLERANCE = 32;
 
-		private readonly List<GameEntity> entities = new List<GameEntity>();
+		// elements with higher Order are in foreground
+		// foreground elements get rendered last (on top)
+		private readonly AlwaysSortList<GameEntity> entities = new AlwaysSortList<GameEntity>(new EntityManagerEntityComparer());
 		private readonly List<ISAMPostDrawable> postDrawEntities = new List<ISAMPostDrawable>();
 
 		public readonly GameScreen Owner;
