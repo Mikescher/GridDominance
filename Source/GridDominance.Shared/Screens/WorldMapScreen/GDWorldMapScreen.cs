@@ -128,11 +128,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			var n1 = AddLevelNode(4,  10, Levels.LEVEL_001);
 			var n2 = AddLevelNode(10, 10, Levels.LEVEL_002);
 			var n3 = AddLevelNode(16, 10, Levels.LEVEL_003);
+			var n4 = AddLevelNode(16, 16, Levels.LEVEL_003);
 
 			n1.NextLinkedNodes.Add(n2);
 			n2.NextLinkedNodes.Add(n3);
+			n3.NextLinkedNodes.Add(n4);
 
-			AddAgent(new WorldMapDragAgent(this));
+			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
 			MapOffsetY = VIEW_HEIGHT / -2f;
 
 			((WorldMapBackground)Background).InitBackground(GetEntities<LevelNode>().ToList());

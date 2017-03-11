@@ -560,5 +560,7 @@ namespace MonoSAMFramework.Portable.GameMath
 			
 			return angle >= 0 && angle <= aEnd;
 		}
+
+		public static float PythSquared(float a, float b) => a * a +b * b;
 	}
 }

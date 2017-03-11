@@ -130,12 +130,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
-			return true;
+			return node != null;
 		}
 
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)
 		{
-			return true;
+			return node != null;
 		}
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)

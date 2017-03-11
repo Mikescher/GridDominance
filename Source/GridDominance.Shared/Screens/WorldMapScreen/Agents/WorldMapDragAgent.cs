@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using GridDominance.Shared.Screens.WorldMapScreen.Entities;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -31,13 +34,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private float lastMousePosTimer;
 		private Vector2 dragSpeed;
 
-		private GDWorldMapScreen gdScreen;
+		private readonly GDWorldMapScreen _gdScreen;
+		private readonly List<Vector2> _nodePositions;
 
-		public WorldMapDragAgent(GDWorldMapScreen scrn) : base(scrn)
+		public WorldMapDragAgent(GDWorldMapScreen scrn, List<Vector2> nodePositions) : base(scrn)
 		{
 			bounding = scrn.MapFullBounds;
 
-			gdScreen = scrn;
+			_gdScreen = scrn;
+			_nodePositions = nodePositions;
 		}
 
 		public override void Update(SAMTime gameTime, InputState istate)
@@ -48,13 +53,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 				{
 					UpdateDrag(gameTime, istate);
 
-					gdScreen.IsBackgroundPressed = true;
+					_gdScreen.IsBackgroundPressed = true;
 				}
 				else
 				{
 					EndDrag();
 
-					gdScreen.IsBackgroundPressed = false;
+					_gdScreen.IsBackgroundPressed = false;
 				}
 			}
 			else
@@ -64,13 +69,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 					istate.Swallow();
 					StartDrag(istate);
 
-					gdScreen.IsBackgroundPressed = true;
+					_gdScreen.IsBackgroundPressed = true;
 				}
 				else if (!dragSpeed.IsZero() || !outOfBoundsForce.IsZero())
 				{
 					UpdateRestDrag(gameTime);
 
-					gdScreen.IsBackgroundPressed = false;
+					_gdScreen.IsBackgroundPressed = false;
 				}
 			}
 		}
@@ -112,31 +117,31 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		{
 			outOfBoundsForce = Vector2.Zero;
 
-			if (Screen.CompleteMapViewport.Left < bounding.Left)
+			var cmvp = Screen.CompleteMapViewport;
+
+			var center = cmvp.Center;
+			var maxDistSquared = FloatMath.PythSquared(cmvp.Width / 2, cmvp.Height / 2);
+
+			float nearestDistSquared = float.MaxValue;
+			Vector2 nearestNode = Vector2.Zero;
+
+			foreach (var np in _nodePositions)
 			{
-				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (bounding.Left - Screen.CompleteMapViewport.Left);
-
-				outOfBoundsForce.X -= force;
+				var d = (np - center).LengthSquared();
+				if (d < nearestDistSquared)
+				{
+					nearestDistSquared = d;
+					nearestNode = np;
+				}
 			}
-			else if (Screen.CompleteMapViewport.Right > bounding.Right)
+
+			if (nearestDistSquared <= maxDistSquared)
 			{
-				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (bounding.Right - Screen.CompleteMapViewport.Right);
-
-				outOfBoundsForce.X -= force;
+				return;
 			}
 
-			if (Screen.CompleteMapViewport.Top < bounding.Top)
-			{
-				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (bounding.Top - Screen.CompleteMapViewport.Top);
+			outOfBoundsForce = (center - nearestNode).Normalized() * (OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * ((nearestNode - center).Length() - FloatMath.Sqrt(maxDistSquared)));
 
-				outOfBoundsForce.Y -= force;
-			}
-			else if (Screen.CompleteMapViewport.Bottom > bounding.Bottom)
-			{
-				var force = OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * (bounding.Bottom - Screen.CompleteMapViewport.Bottom);
-
-				outOfBoundsForce.Y -= force;
-			}
 		}
 
 		private void UpdateRestDrag(SAMTime gameTime)
