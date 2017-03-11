@@ -125,15 +125,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			//AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
 			//AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
 
-			AddLevelNode(4,  10, Levels.LEVEL_001);
-			AddLevelNode(10, 10, Levels.LEVEL_002);
-			AddLevelNode(16, 10, Levels.LEVEL_003);
+			var n1 = AddLevelNode(4,  10, Levels.LEVEL_001);
+			var n2 = AddLevelNode(10, 10, Levels.LEVEL_002);
+			var n3 = AddLevelNode(16, 10, Levels.LEVEL_003);
+
+			n1.NextLinkedNodes.Add(n2);
+			n2.NextLinkedNodes.Add(n3);
 
 			AddAgent(new WorldMapDragAgent(this));
 			MapOffsetY = VIEW_HEIGHT / -2f;
 		}
 
-		private void AddLevelNode(float x, float y, LevelFile f)
+		private LevelNode AddLevelNode(float x, float y, LevelFile f)
 		{
 			var data = MainGame.Inst.Profile.GetLevelData(f.UniqueID);
 			var pos = new Vector2(GDConstants.TILE_WIDTH * (x + 0.5f), GDConstants.TILE_WIDTH * (y + 0.5f));
@@ -141,6 +144,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			var node = new LevelNode(this, pos, f, data);
 
 			Entities.AddEntity(node);
+
+			return node;
 		}
 
 		private void AddLetter(char chr, float size, float x, float y, int index)

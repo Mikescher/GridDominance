@@ -1,4 +1,6 @@
-﻿using GridDominance.Levelformat.Parser;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
@@ -6,6 +8,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -21,7 +24,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
 	class LevelNode : GameEntity
 	{
-		private const float DIAMETER = 2.75f * GDConstants.TILE_WIDTH;
+		public  const float DIAMETER        = 2.75f          * GDConstants.TILE_WIDTH;
 		private const float WIDTH_EXTENDER  = (1496f / 768f) * GDConstants.TILE_WIDTH;
 		private const float HEIGHT_EXTENDER = (1756f / 768f) * GDConstants.TILE_WIDTH;
 		private const float INSET_EXTENDER  = ( 450f / 768f) * GDConstants.TILE_WIDTH;
@@ -35,6 +38,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private const float EXPANSION_TIME = 0.7f;
 		private const float CENTERING_TIME = 0.55f;
+
+		private const float ORB_SPAWN_TIME = 0.25f;
+		private const int ORB_SPAWNPOINTS_PER_SEGMENT = 11;
 
 		public readonly LevelFile Level;
 		public readonly LevelData LevelData;
@@ -58,6 +64,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private float expansionProgress = 0;
 
+		public List<LevelNode> NextLinkedNodes = new List<LevelNode>();
+
 		public bool IsOpening = false;
 		public bool IsClosing = false;
 		public bool IsOpened => FloatMath.IsOne(expansionProgress);
@@ -75,6 +83,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			rectExpanderEast  = FRectangle.CreateByCenter(pos, EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER);
 			rectExpanderSouth = FRectangle.CreateByCenter(pos, 0, EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER);
 			rectExpanderWest  = FRectangle.CreateByCenter(pos, -EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER);
+
+			AddEntityOperation(new CyclicGameEntityOperation<LevelNode>("LevelNode::OrbSpawn", ORB_SPAWN_TIME / 4f, false, SpawnOrb));
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -85,6 +95,42 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			clickAreaD1   = AddClickMouseArea(rectExpanderEast.AsTranslated(-Position).AsDeflated(0, 0, 0, INSET_EXTENDER),  OnClickDiff2);
 			clickAreaD2   = AddClickMouseArea(rectExpanderSouth.AsTranslated(-Position).AsDeflated(INSET_EXTENDER, 0, 0, 0), OnClickDiff3);
 			clickAreaD3   = AddClickMouseArea(rectExpanderWest.AsTranslated(-Position).AsDeflated(0, INSET_EXTENDER, 0, 0),  OnClickDiff4);
+		}
+		
+		private void SpawnOrb(LevelNode me, int cycle)
+		{
+			if (!NextLinkedNodes.Any()) return;
+			if (!IsInViewport) return;
+			if (!MainGame.Inst.Profile.EffectsEnabled) return;
+			if (IsOpened || IsOpening || IsClosing) return;
+
+			FractionDifficulty d = FractionDifficulty.NEUTRAL;
+			switch (cycle % 4)
+			{
+				case 0: d = FractionDifficulty.DIFF_0; break;
+				case 1: d = FractionDifficulty.DIFF_1; break;
+				case 2: d = FractionDifficulty.DIFF_2; break;
+				case 3: d = FractionDifficulty.DIFF_3; break;
+			}
+
+			if (!LevelData.HasCompleted(d)) return;
+
+			var radDelta = FloatMath.RAD_POS_090 / ORB_SPAWNPOINTS_PER_SEGMENT;
+			var r = radDelta / 2 + FloatMath.Random.Next(ORB_SPAWNPOINTS_PER_SEGMENT) * radDelta;
+			var rot = FloatMath.TAU * (cycle % 4) / 4f - FloatMath.RAD_POS_045 + r;
+
+			var v = new Vector2(0, -DIAMETER / 2 - ConnectionOrb.DIAMETER / 2).Rotate(rot);
+			var p = Position + v;
+
+			var t = NextLinkedNodes.Random(FloatMath.Random);
+
+			var aDiff = FloatMath.DiffRadians(v.ToAngle(), (Position - t.Position).ToAngle());
+
+			if (FloatMath.Abs(aDiff) < FloatMath.RAD_POS_045) v = v.Rotate(FloatMath.SignNonZero(aDiff, 1) * FloatMath.RAD_POS_045);
+
+			var orb = new ConnectionOrb(Owner, p, v, t.Position, d);
+
+			Manager.AddEntity(orb);
 		}
 
 		private void OnClickCenter(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
@@ -164,21 +210,41 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClickDiff1(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
+#if DEBUG
+			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Level.UniqueID, FractionDifficulty.DIFF_0, 60000, true); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_0); MainGame.Inst.SaveProfile(); return; }
+#endif
+
 			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_0);
 		}
 
 		private void OnClickDiff2(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
+#if DEBUG
+			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Level.UniqueID, FractionDifficulty.DIFF_1, 60000, true); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_1); MainGame.Inst.SaveProfile(); return; }
+#endif
+
 			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_1);
 		}
 
 		private void OnClickDiff3(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
+#if DEBUG
+			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Level.UniqueID, FractionDifficulty.DIFF_2, 60000, true); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_2); MainGame.Inst.SaveProfile(); return; }
+#endif
+
 			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_2);
 		}
 
 		private void OnClickDiff4(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
+#if DEBUG
+			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Level.UniqueID, FractionDifficulty.DIFF_3, 60000, true); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_3); MainGame.Inst.SaveProfile(); return; }
+#endif
+
 			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_3);
 		}
 

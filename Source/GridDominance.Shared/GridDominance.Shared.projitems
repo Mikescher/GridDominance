@@ -75,6 +75,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDPauseButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\WorldMapDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Background\WorldMapBackground.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\ConnectionOrb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\LevelNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapDebugMinimap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />

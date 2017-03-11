@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared.Screens.ScreenGame.Entities;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 namespace GridDominance.Shared.Screens.ScreenGame.EntityOperations
@@ -18,7 +19,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.EntityOperations
 			entity.TotalBoost += boostPower;
 		}
 
-		protected override void OnProgress(Cannon entity, float progress, InputState istate) { }
+		protected override void OnProgress(Cannon entity, float progress, SAMTime gameTime, InputState istate) { }
 
 		protected override void OnEnd(Cannon entity)
 		{

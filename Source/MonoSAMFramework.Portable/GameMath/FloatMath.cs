@@ -225,6 +225,21 @@ namespace MonoSAMFramework.Portable.GameMath
 			throw new ArithmeticException();
 		}
 
+		public static int SignNonZero(float value, int zeroV)
+		{
+			if (value < 0)
+				return -1;
+
+			if (value > 0)
+				return 1;
+
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			if (value == 0) return zeroV;
+
+			// value is NaN
+			throw new ArithmeticException();
+		}
+
 		public static bool IsZero(float value, float tolerance)
 		{
 			return Abs(value) <= tolerance;

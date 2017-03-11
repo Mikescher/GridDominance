@@ -24,7 +24,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 {
 	class GDGameScreen : GameScreen
 	{
-
 		public const float GAMESPEED_SUPERSLOW = 0.25f;
 		public const float GAMESPEED_SLOW      = 0.5f;
 		public const float GAMESPEED_NORMAL    = 1f;

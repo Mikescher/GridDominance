@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared.Screens.ScreenGame.Entities;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 namespace GridDominance.Shared.Screens.ScreenGame.EntityOperations
@@ -16,7 +17,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.EntityOperations
 			entity.IsDying = true;
 		}
 
-		protected override void OnProgress(Bullet entity, float progress, InputState istate)
+		protected override void OnProgress(Bullet entity, float progress, SAMTime gameTime, InputState istate)
 		{
 			entity.BulletExtraScale = 1 - progress;
 		}

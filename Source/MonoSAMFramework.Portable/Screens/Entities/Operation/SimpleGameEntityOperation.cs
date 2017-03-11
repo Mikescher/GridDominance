@@ -32,7 +32,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 			cmd(entity, 0);
 		}
 
-		protected override void OnProgress(TEntity entity, float progress, InputState istate)
+		protected override void OnProgress(TEntity entity, float progress, SAMTime gameTime, InputState istate)
 		{
 			cmd(entity, progress);
 		}

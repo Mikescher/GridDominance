@@ -51,13 +51,13 @@ function logError($msg) {
 
 
 	try	{
-		$subject = "SFServer has encountered an Error at " . date("Y-m-d h:i:s") . "] ";
+		$subject = "SFServer has encountered an Error at " . date("Y-m-d H:i:s") . "] ";
 
 		$content = "";
 
 		$content .= 'HTTP_HOST: '            . ParamServerOrUndef('HTTP_HOST')            . "\n";
 		$content .= 'REQUEST_URI: '          . ParamServerOrUndef('REQUEST_URI')          . "\n";
-		$content .= 'TIME: '                 . date('Y-m-d h:i:s')                        . "\n";
+		$content .= 'TIME: '                 . date('Y-m-d H:i:s')                        . "\n";
 		$content .= 'REMOTE_ADDR: '          . ParamServerOrUndef('REMOTE_ADDR')          . "\n";
 		$content .= 'HTTP_X_FORWARDED_FOR: ' . ParamServerOrUndef('HTTP_X_FORWARDED_FOR') . "\n";
 		$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')      . "\n";
@@ -106,7 +106,7 @@ function logToFile($filename, $maxsize, $msg, $id) {
 	}
 
 
-	$pd = date('Y-m-d h:i:s');
+	$pd = date('Y-m-d H:i:s');
 	$ra = str_pad(ParamServerOrUndef('REMOTE_ADDR'), 16);
 	$str = "$id [$pd]-$ra $msg";
 

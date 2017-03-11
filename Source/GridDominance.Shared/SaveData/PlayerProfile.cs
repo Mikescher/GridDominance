@@ -62,11 +62,16 @@ namespace GridDominance.Shared.SaveData
 		public void SetCompleted(Guid levelid, FractionDifficulty d, int time, bool upload)
 		{
 			GetLevelData(levelid).SetBestTime(d, time);
-			
+
 			if (upload && OnlineUserID >= 0)
 			{
 				MainGame.Inst.Backend.SetScore(this, levelid, d, time).EnsureNoError();
 			}
+		}
+
+		public void SetNotCompleted(Guid levelid, FractionDifficulty d)
+		{
+			GetLevelData(levelid).SetBestTime(d, null);
 		}
 
 		protected override void Configure()

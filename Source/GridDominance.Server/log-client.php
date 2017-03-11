@@ -37,7 +37,7 @@ function run() {
 
 	//----------
 
-	$subject = "Client send log '$identifier' at " . date("Y-m-d h:i:s");
+	$subject = "Client send log '$identifier' at " . date("Y-m-d H:i:s");
 
 	$content = "";
 
@@ -54,7 +54,7 @@ function run() {
 	$content .=                                                                                        "\n";
 	$content .= 'HTTP_HOST: '            . ParamServerOrUndef('HTTP_HOST')                           . "\n";
 	$content .= 'REQUEST_URI: '          . ParamServerOrUndef('REQUEST_URI')                         . "\n";
-	$content .= 'TIME: '                 . date('Y-m-d h:i:s')                                       . "\n";
+	$content .= 'TIME: '                 . date('Y-m-d H:i:s')                                       . "\n";
 	$content .= 'REMOTE_ADDR: '          . ParamServerOrUndef('REMOTE_ADDR')                         . "\n";
 	$content .= 'HTTP_X_FORWARDED_FOR: ' . ParamServerOrUndef('HTTP_X_FORWARDED_FOR')                . "\n";
 	$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')                     . "\n";
