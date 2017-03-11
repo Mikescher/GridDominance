@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace MonoSAMFramework.Portable.ColorHelper
 {
@@ -41,6 +42,9 @@ namespace MonoSAMFramework.Portable.ColorHelper
 
 		public static Color Blend(Color a, Color b, float perc)
 		{
+			if (FloatMath.IsZero(perc)) return a;
+			if (FloatMath.IsOne(perc)) return b;
+
 			var cr = (1 - perc)*a.R + perc*b.R;
 			var cg = (1 - perc)*a.G + perc*b.G;
 			var cb = (1 - perc)*a.B + perc*b.B;

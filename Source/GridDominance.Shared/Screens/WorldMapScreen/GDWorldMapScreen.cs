@@ -134,6 +134,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			AddAgent(new WorldMapDragAgent(this));
 			MapOffsetY = VIEW_HEIGHT / -2f;
+
+			((WorldMapBackground)Background).InitBackground(GetEntities<LevelNode>().ToList());
 		}
 
 		private LevelNode AddLevelNode(float x, float y, LevelFile f)
