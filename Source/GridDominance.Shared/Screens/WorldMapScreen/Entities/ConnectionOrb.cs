@@ -2,6 +2,7 @@
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -14,31 +15,27 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 	class ConnectionOrb : GameEntity
 	{
 		public  const float DIAMETER = LevelNode.DIAMETER * 0.15f;
-		private const float INITIAL_SPEED = 150f;
-		private const float GRAVITY_TARGET = 150f;
+		private const float SPEED = 150f;
 		private const float MAX_LIFETIME = 15f;
-		private const float INITIAL_BOOST_TIME = 1f;
-		private const float GROW_SPEED = 1f;
+		private const float GROW_SPEED = 0.3f;
 
 		public override FSize DrawingBoundingBox { get; } = new FSize(DIAMETER, DIAMETER);
 		public override Color DebugIdentColor { get; } = Color.MediumOrchid;
 
-		private readonly Vector2 _target;
+		private readonly LevelNodePipe _pipe;
 		private readonly FractionDifficulty _diff;
-		private readonly Vector2 _boostVelocity;
 
 		private Vector2 _pos;
 		public override Vector2 Position => _pos;
 
 		private float _spawnPercentage = 0f;
-		private float _remainingBoost = 1f;
+		private float _movementTime = 0f;
 
-		public ConnectionOrb(GameScreen scrn, Vector2 start, Vector2 velocity, Vector2 target, FractionDifficulty diff) : base(scrn, -1)
+		public ConnectionOrb(GameScreen scrn, LevelNodePipe pipe, FractionDifficulty diff) : base(scrn, -1)
 		{
-			_pos = start;
-			_target = target;
-			_boostVelocity = velocity.Normalized() * INITIAL_SPEED;
+			_pos = pipe.GetOrbPosition(0);
 			_diff = diff;
+			_pipe = pipe;
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -55,18 +52,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			if (_spawnPercentage < 1)
 			{
-				_spawnPercentage = FloatMath.LimitedInc(_spawnPercentage, gameTime.ElapsedSeconds * GROW_SPEED, 1f);
+				_spawnPercentage = FloatMath.LimitedInc(_spawnPercentage, gameTime.ElapsedSeconds / GROW_SPEED, 1f);
 			}
 			else
 			{
-				if (_remainingBoost > 0) _remainingBoost = FloatMath.LimitedDec(_remainingBoost, gameTime.ElapsedSeconds / INITIAL_BOOST_TIME, 0f);
+				_movementTime += gameTime.ElapsedSeconds;
 
-				var dist = (_target - Position);
-				var gravity = dist.Normalized() * GRAVITY_TARGET;
+				_pos = _pipe.GetOrbPosition(_movementTime * SPEED);
 
-				_pos += (_remainingBoost * _boostVelocity + (1 - _remainingBoost) * gravity) * gameTime.ElapsedSeconds;
-
-				if (dist.LengthSquared() < LevelNode.DIAMETER * LevelNode.DIAMETER / 4f) Remove();
+				if (_movementTime * SPEED > _pipe.Length) Remove();
 			}
 
 			if (Lifetime > MAX_LIFETIME) Remove();
@@ -74,7 +68,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			sbatch.DrawCentered(Textures.TexParticle[14], Position, DIAMETER * _spawnPercentage, DIAMETER * _spawnPercentage, FractionDifficultyHelper.GetColor(_diff));
+			var col = FractionDifficultyHelper.GetColor(_diff);
+
+			float alpha = 1;
+			if (_diff == FractionDifficulty.NEUTRAL && _spawnPercentage >= 1)
+			{
+				alpha = 1 - (_movementTime * SPEED / (_pipe.Length/2));
+				col = FlatColors.Asbestos;
+			}
+
+			if (alpha < 0) return;
+
+			sbatch.DrawCentered(Textures.TexParticle[14], Position, DIAMETER * _spawnPercentage, DIAMETER * _spawnPercentage, col * alpha);
 		}
 	}
 }

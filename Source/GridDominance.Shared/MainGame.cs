@@ -64,14 +64,15 @@ namespace GridDominance.Shared
 			
 			SAMLog.LogEvent += SAMLogOnLogEvent;
 
-			if (Profile.OnlineUserID >= 0)
-			{
-				Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
-			}
-			else
-			{
-				Backend.CreateUser(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
-			}
+			//TODO Reenable
+			//if (Profile.OnlineUserID >= 0)
+			//{
+			//	Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
+			//}
+			//else
+			//{
+			//	Backend.CreateUser(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
+			//}
 
 			Inst = this;
 		}

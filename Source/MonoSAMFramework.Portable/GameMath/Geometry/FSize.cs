@@ -116,5 +116,10 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 				return new FSize(w, h);
 			}
 		}
+
+		public static FSize Diff(Vector2 a, Vector2 b)
+		{
+			return new FSize(FloatMath.Abs(a.X - b.X), FloatMath.Abs(a.Y - b.Y));
+		}
 	}
 }

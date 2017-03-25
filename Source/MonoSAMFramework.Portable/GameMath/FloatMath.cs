@@ -418,6 +418,11 @@ namespace MonoSAMFramework.Portable.GameMath
 			return Math.Abs(a - b) < EPSILON;
 		}
 
+		public static bool EpsilonInequals(float a, float b)
+		{
+			return Math.Abs(a - b) > EPSILON;
+		}
+
 		public static bool FloatEquals(float a, float b)
 		{
 			// ReSharper disable CompareOfFloatsByEqualityOperator

@@ -51,5 +51,18 @@ namespace MonoSAMFramework.Portable.Extensions
 
 			return vector2;
 		}
+
+		public static float ManhattenLength(this Vector2 v)
+		{
+			return FloatMath.Abs(v.X) + FloatMath.Abs(v.Y);
+		}
+
+		public static Vector2 WithLength(this Vector2 v, float l)
+		{
+			v = Vector2.Normalize(v);
+			v.X *= l;
+			v.Y *= l;
+			return v;
+		}
 	}
 }
