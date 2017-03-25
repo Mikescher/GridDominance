@@ -244,6 +244,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			}
 
 			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
+			MainGame.Inst.GDSound.PlayEffectShoot();
 		}
 
 		private void UpdatePhysicBodies()

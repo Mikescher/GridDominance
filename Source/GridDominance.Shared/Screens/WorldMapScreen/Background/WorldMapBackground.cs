@@ -37,7 +37,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 
 				if (pow == 0) continue;
 
-				for (int dx = -(6+ NODE_SPREAD); dx <= 6 + NODE_SPREAD; dx++)
+				for (int dx = -(6 + NODE_SPREAD); dx <= 6 + NODE_SPREAD; dx++)
 				{
 					for (int dy = -(6 + NODE_SPREAD); dy <= 6 + NODE_SPREAD; dy++)
 					{

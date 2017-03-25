@@ -79,6 +79,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 				otherBullet.MutualDestruct();
 				MutualDestruct();
+				MainGame.Inst.GDSound.PlayEffectCollision();
 				return false;
 			}
 			
@@ -93,12 +94,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 					{
 						DisintegrateIntoFriend();
 						otherCannon.ApplyBoost();
+						MainGame.Inst.GDSound.PlayEffectBoost();
 					}
 				}
 				else // if (otherCannon.Fraction != this.Fraction)
 				{
 					DisintegrateIntoEnemy();
 					otherCannon.TakeDamage(Fraction);
+					MainGame.Inst.GDSound.PlayEffectHit();
 				}
 
 				return false;

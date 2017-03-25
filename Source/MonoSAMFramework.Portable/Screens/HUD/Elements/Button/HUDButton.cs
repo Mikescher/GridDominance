@@ -70,6 +70,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			{
 				OnPress(istate);
 			}
+
+			HUD.Screen.Game.Sound.TryPlayButtonClickEffect();
 		}
 
 		private void UpdateMultiClick(InputState istate, float delta)

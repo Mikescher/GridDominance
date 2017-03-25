@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultUserData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\UpgradeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\VerifyResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\AccountType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\LevelDiffData.cs" />

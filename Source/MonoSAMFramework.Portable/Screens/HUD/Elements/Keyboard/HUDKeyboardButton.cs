@@ -102,6 +102,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
+			HUD.Screen.Game.Sound.TryPlayButtonKeyboardClickEffect();
+
 			Event?.Invoke();
 		}
 

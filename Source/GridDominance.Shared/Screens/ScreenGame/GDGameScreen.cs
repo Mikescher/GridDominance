@@ -240,10 +240,13 @@ namespace GridDominance.Shared.Screens.ScreenGame
 					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, difficulty, true, p);
 				}
 
+				MainGame.Inst.GDSound.PlayEffectGameWon();
 			}
 			else
 			{
 				GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, null, false, 0);
+
+				MainGame.Inst.GDSound.PlayEffectGameOver();
 			}
 
 			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())

@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Sound;
 using System;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace MonoSAMFramework.Portable
 	public abstract class MonoSAMGame : Game, ILifetimeObject
 	{
 		private ScreenManager screens;
-		private CustomDispatcher gameDispatcher = new CustomDispatcher();
+		private readonly CustomDispatcher gameDispatcher = new CustomDispatcher();
 
 		protected readonly GraphicsDeviceManager Graphics;
 
@@ -24,6 +25,8 @@ namespace MonoSAMFramework.Portable
 		public bool Alive { get; private set; } = true;
 
 		public readonly IOperatingSystemBridge Bridge;
+
+		public abstract SAMSoundPlayer Sound { get; }
 
 		protected MonoSAMGame(IOperatingSystemBridge bridge)
 		{
@@ -81,6 +84,8 @@ namespace MonoSAMFramework.Portable
 			{
 				var time = new SAMTime(gameTime);
 
+				OnUpdate(time);
+
 				screens.Update(time);
 
 				gameDispatcher.Work();
@@ -124,5 +129,6 @@ namespace MonoSAMFramework.Portable
 
 		protected abstract void OnAfterInitialize();
 		protected abstract void OnInitialize();
+		protected virtual void OnUpdate(SAMTime gameTime) { /* override */}
 	}
 }

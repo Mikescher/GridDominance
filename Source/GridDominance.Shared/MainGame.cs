@@ -11,6 +11,8 @@ using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Sound;
 
 namespace GridDominance.Shared
 {
@@ -25,6 +27,9 @@ namespace GridDominance.Shared
 		public readonly GDServerAPI Backend;
 
 		public static MainGame Inst;
+
+		public readonly GDSounds GDSound = new GDSounds();
+		public override SAMSoundPlayer Sound => GDSound;
 
 		public MainGame(IOperatingSystemBridge b) : base(b)
 		{
@@ -115,6 +120,11 @@ namespace GridDominance.Shared
 			SetWorldMapScreen();
 		}
 
+		protected override void OnUpdate(SAMTime gameTime)
+		{
+			GDSound.IsMuted = !Profile.SoundsEnabled;
+		}
+
 		public void SetLevelScreen(LevelFile blueprint, FractionDifficulty d)
 		{
 			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint, d));
@@ -129,6 +139,7 @@ namespace GridDominance.Shared
 		{
 			Textures.Initialize(Content, GraphicsDevice);
 			Levels.LoadContent(Content);
+			Sound.Initialize(Content);
 		}
 
 		protected override void UnloadContent()

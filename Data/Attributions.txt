@@ -22,3 +22,15 @@ https://material.io/icons/
 
 Windows 8 Icons:
 http://www.iconarchive.com/show/windows-8-icons-by-icons8.html || http://icons8.com 
+
+
+Sounds:
+button      http://www.freesound.org/people/Taira%20Komori/sounds/211751/
+key         http://www.freesound.org/people/willy_ineedthatapp_com/sounds/167326/
+open        http://www.freesound.org/people/original_sound/sounds/376338/
+close       http://www.freesound.org/people/unfa/sounds/244266/
+shoot       http://www.freesound.org/people/Quonux/sounds/166418/
+collision   http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270310/
+hit         http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270326/
+boost       http://www.freesound.org/people/RunnerPack/sounds/87043/
+gamewon     http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270330/

@@ -220,6 +220,7 @@
     <Compile Include="Screens\HUD\Elements\Container\HUDRoundedPanel.cs" />
     <Compile Include="Screens\ViewportAdapters\SAMViewportAdapter.cs" />
     <Compile Include="Screens\ViewportAdapters\TolerantBoxingViewportAdapter.cs" />
+    <Compile Include="Sound\SAMSoundPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

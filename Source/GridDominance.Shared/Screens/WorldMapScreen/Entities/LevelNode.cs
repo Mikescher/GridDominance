@@ -37,6 +37,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private static readonly Color COLOR_BORDER = FlatColors.MidnightBlue;
 
 		private const float EXPANSION_TIME = 0.7f;
+		private const float CLOSING_TIME   = 0.25f;
 		private const float CENTERING_TIME = 0.55f;
 
 		private const float ORB_SPAWN_TIME = 0.25f;
@@ -163,13 +164,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				IsOpening = false;
 			}
 
-			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Close::0", EXPANSION_TIME, (n, p) => n.expansionProgress = 1 - p, n => n.IsClosing = true, n => n.IsClosing = false));
+			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Close::0", CLOSING_TIME, (n, p) => n.expansionProgress = 1 - p, n => n.IsClosing = true, n => n.IsClosing = false));
 			
-
 			if (initProgress > 0f)
 			{
 				o.ForceSetProgress(initProgress);
 			}
+
+			MainGame.Inst.GDSound.PlayEffectClose();
 		}
 
 		private void OpenNode()
@@ -198,6 +200,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			{
 				o.ForceSetProgress(initProgress);
 			}
+
+			MainGame.Inst.GDSound.PlayEffectOpen();
 		}
 
 		private void UpdateScreenCentering(LevelNode n, float progress)
