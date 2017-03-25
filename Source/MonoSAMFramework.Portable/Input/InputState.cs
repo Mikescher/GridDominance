@@ -37,9 +37,15 @@ namespace MonoSAMFramework.Portable.Input
 		public readonly FPoint PointerPosition;
 		public readonly FPoint PointerPositionOnMap;
 
+		public readonly FPoint[] AllPointerPositions;
+
 		private readonly Dictionary<SKeys, bool> lastKeyState;
 		private readonly Dictionary<SKeys, bool> currentKeyState;
 
+		private readonly float? _pinchStartDistance = null;
+		public readonly bool IsGesturePinching = false;
+		public readonly bool IsGesturePinchComplete = false;
+		public readonly float LastPinchPower = 0f; // squared
 
 		private InputState(SAMViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, InputState prev, float mox, float moy)
 		{
@@ -48,15 +54,22 @@ namespace MonoSAMFramework.Portable.Input
 			TouchPanel = ts;
 			GamePad = gs;
 
+
+			AllPointerPositions = new FPoint[TouchPanel.Count];
+			for (int i = 0; i < TouchPanel.Count; i++)
+			{
+				adapter.PointToScreen(TouchPanel[i].Position.ToPoint());
+			}
+
 			if (Mouse.LeftButton == ButtonState.Pressed)
 			{
 				isDown = true;
 				PointerPosition = adapter.PointToScreen(Mouse.Position);
 			}
-			else if (TouchPanel.Count > 0)
+			else if (TouchPanel.Count == 1)
 			{
 				isDown = true;
-				PointerPosition = adapter.PointToScreen(TouchPanel[0].Position.ToPoint());
+				PointerPosition = AllPointerPositions[0];
 			}
 			else
 			{
@@ -71,6 +84,33 @@ namespace MonoSAMFramework.Portable.Input
 
 			lastKeyState = prev.currentKeyState;
 			currentKeyState = lastKeyState.ToDictionary(p => p.Key, p => IsKeyDown(p.Key, ks, gs));
+
+
+			LastPinchPower = prev.LastPinchPower;
+			if (TouchPanel.Count == 2)
+			{
+				if (prev.IsGesturePinching)
+				{
+					IsGesturePinching = true;
+					_pinchStartDistance = prev._pinchStartDistance;
+				}
+
+				while (Microsoft.Xna.Framework.Input.Touch.TouchPanel.IsGestureAvailable)
+				{
+					var g = Microsoft.Xna.Framework.Input.Touch.TouchPanel.ReadGesture();
+
+					if (g.GestureType == GestureType.Pinch)
+					{
+						IsGesturePinching = true;
+						_pinchStartDistance = prev._pinchStartDistance ?? (AllPointerPositions[0] - AllPointerPositions[1]).LengthSquared();
+					}
+					else if (g.GestureType == GestureType.PinchComplete && prev._pinchStartDistance != null)
+					{
+						IsGesturePinchComplete = true;
+						LastPinchPower = (AllPointerPositions[0] - AllPointerPositions[1]).LengthSquared() - prev._pinchStartDistance.Value;
+					}
+				}
+			}
 		}
 
 		public InputState(SAMViewportAdapter adapter, KeyboardState ks, MouseState ms, TouchCollection ts, GamePadState gs, float mox, float moy)
@@ -130,6 +170,8 @@ namespace MonoSAMFramework.Portable.Input
 
 		public static InputState GetInitialState(SAMViewportAdapter adapter, float mox, float moy)
 		{
+			Microsoft.Xna.Framework.Input.Touch.TouchPanel.EnabledGestures = GestureType.Pinch | GestureType.PinchComplete;
+
 			var ks = Microsoft.Xna.Framework.Input.Keyboard.GetState();
 			var ms = Microsoft.Xna.Framework.Input.Mouse.GetState();
 			var ts = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();

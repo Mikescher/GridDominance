@@ -1,4 +1,5 @@
-﻿using MonoSAMFramework.Portable.Screens.ViewportAdapters;
+﻿using Microsoft.Xna.Framework.Input.Touch;
+using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace MonoSAMFramework.Portable.Input
 {
