@@ -56,8 +56,8 @@ namespace MonoSAMFramework.Portable.LogProtocol
 #if DEBUG
 		public static void Debug(string msg) => Add(new SAMLogEntry(SAMLogLevel.DEBUG, "D", msg, msg));
 #else
-		[Conditional("DEBUG")]
-		public static void Debug(string msg) {};
+		[System.Diagnostics.Conditional("DEBUG")]
+		public static void Debug(string msg) {}
 #endif
 
 	}

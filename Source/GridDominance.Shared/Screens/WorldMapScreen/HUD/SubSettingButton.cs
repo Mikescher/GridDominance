@@ -52,7 +52,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public override void OnInitialize()
 		{
-			//
+			var px = master.RelativeCenter.X - DIAMETER / 2;
+			var py = master.RelativeCenter.Y + SettingsButton.DIAMETER / 2 - DIAMETER;
+
+			py += MARGIN_Y;
+
+			RelativePosition = new FPoint(px, py);
 		}
 
 		public override void OnRemove()
