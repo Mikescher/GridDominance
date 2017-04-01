@@ -12,7 +12,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	abstract class SubSettingButton : HUDEllipseButton
+	public abstract class SubSettingButton : HUDEllipseButton
 	{
 		private const float DIAMETER  = 96 * 0.8f;
 		private const float SIZE_ICON = 56 * 0.8f;

@@ -35,7 +35,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
-		public override Color DebugIdentColor { get; } = Color.AntiqueWhite;
+		public override Color DebugIdentColor { get; } = Color.Transparent;
 
 		public LevelNodePipe(GameScreen scrn, LevelNode start, LevelNode end) : base(scrn, -2)
 		{

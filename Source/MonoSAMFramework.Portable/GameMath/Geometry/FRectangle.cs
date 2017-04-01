@@ -98,8 +98,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			var minx = FloatMath.Lerp(ra.Left,   rb.Left,   percentage);
 			var miny = FloatMath.Lerp(ra.Top,    rb.Top,    percentage);
-			var maxy = FloatMath.Lerp(ra.Right,  rb.Right,  percentage);
-			var maxx = FloatMath.Lerp(ra.Bottom, rb.Bottom, percentage);
+			var maxx = FloatMath.Lerp(ra.Right,  rb.Right,  percentage);
+			var maxy = FloatMath.Lerp(ra.Bottom, rb.Bottom, percentage);
 
 			return new FRectangle(minx, miny, maxx-minx, maxy-miny);
 		}

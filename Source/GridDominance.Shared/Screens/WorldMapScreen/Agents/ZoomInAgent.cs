@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath;
@@ -12,15 +13,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
 	public class ZoomInAgent : DecayGameScreenAgent
 	{
-		private const float DURATION = 1.8f; // sec
+		private const float DURATION = 0.6f; // sec
 
 		private readonly TolerantBoxingViewportAdapter vp;
 
 		private readonly FRectangle rectStart;
 		private readonly FRectangle rectFinal;
 
-		public ZoomInAgent(GameScreen scrn, FPoint pos) : base(scrn, DURATION)
+		private readonly GDWorldMapScreen _gdScreen;
+
+		public ZoomInAgent(GDWorldMapScreen scrn, FPoint pos) : base(scrn, DURATION)
 		{
+			_gdScreen = scrn;
 			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
 
 			rectStart = scrn.GuaranteedMapViewport;
@@ -30,13 +34,25 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		protected override void Run(float perc)
 		{
-			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseLinear(perc));
+			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseOutQuad(perc));
 
 			vp.ChangeVirtualSize(bounds.Width, bounds.Height);
 			Screen.MapViewportCenterX = bounds.CenterX;
 			Screen.MapViewportCenterY = bounds.CenterY;
 
-			Screen.DebugDisp.AddDecayLine(">" + perc, 0.5f, 0, 0);
+			((WorldMapBackground)_gdScreen.Background).GridLineAlpha = perc;
+		}
+
+		protected override void Start()
+		{
+			_gdScreen.ZoomState = BistateProgress.Reverting;
+			((WorldMapBackground) _gdScreen.Background).GridLineAlpha = 0f;
+		}
+
+		protected override void End()
+		{
+			_gdScreen.ZoomState = BistateProgress.Normal;
+			((WorldMapBackground)_gdScreen.Background).GridLineAlpha = 1f;
 		}
 	}
 }

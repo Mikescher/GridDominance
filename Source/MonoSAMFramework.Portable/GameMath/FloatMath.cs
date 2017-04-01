@@ -5,9 +5,11 @@ namespace MonoSAMFramework.Portable.GameMath
 {
 	public static class FloatMath
 	{
-		public const float PI = 3.1415927f;
-		public const float TAU = PI * 2;
-		public const float E = 2.7182818f;
+		public const float PI            = 3.14159265358979323846f;
+		public const float TAU           = 6.28318530717958647693f;
+		public const float E             = 2.71828182845904523536f;
+		public const float SQRT_TWO      = 1.41421356237309504880f;
+		public const float SQRT_ONE_HALF = 0.70710678118654752440f;
 
 		public const float EPSILON = 1E-10f;
 

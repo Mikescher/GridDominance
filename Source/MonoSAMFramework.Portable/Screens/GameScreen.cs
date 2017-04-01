@@ -32,8 +32,8 @@ namespace MonoSAMFramework.Portable.Screens
 		protected InputStateManager InputStateMan;
 
 		protected GameHUD GameHUD;
-		protected EntityManager Entities;
-		protected GameBackground Background;
+		public    EntityManager Entities;
+		public    GameBackground Background;
 		public    IDebugTextDisplay DebugDisp;
 
 		protected SpriteBatch InternalBatch;
@@ -210,10 +210,11 @@ namespace MonoSAMFramework.Portable.Screens
 			// ======== GAME =========
 
 			TranslatedBatch.OnBegin(bts);
-			InternalBatch.Begin(transformMatrix: VAdapterGame.GetScaleMatrix());
+			InternalBatch.Begin(transformMatrix: VAdapterGame.GetScaleMatrix()); //TODO perhaps dont use translatingspritebatch and simply use on sb with a translating matrix - no dup code
 			{
 				Background.Draw(TranslatedBatch);
 				Entities.Draw(TranslatedBatch);
+				OnDrawGame(TranslatedBatch);
 			}
 			InternalBatch.End();
 			TranslatedBatch.OnEnd();
@@ -227,6 +228,7 @@ namespace MonoSAMFramework.Portable.Screens
 #if DEBUG
 				using (FixedBatch.BeginDebugDraw()) DebugMap.Draw(FixedBatch);
 #endif
+				OnDrawHUD(TranslatedBatch);
 			}
 			InternalBatch.End();
 			FixedBatch.OnEnd();
@@ -291,5 +293,7 @@ namespace MonoSAMFramework.Portable.Screens
 		protected abstract DebugMinimap CreateDebugMinimap();
 		protected abstract FRectangle CreateMapFullBounds();
 		protected abstract float GetBaseTextureScale();
+		protected abstract void OnDrawGame(IBatchRenderer sbatch);
+		protected abstract void OnDrawHUD(IBatchRenderer sbatch);
 	}
 }

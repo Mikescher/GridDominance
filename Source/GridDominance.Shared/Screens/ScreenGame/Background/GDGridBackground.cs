@@ -36,7 +36,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 		private readonly List<Cannon>[,] blockedGridPoints = new List<Cannon>[TILE_COUNT_X + 1, TILE_COUNT_Y + 1];
 		private readonly GridCellMembership[,] gridColor = new GridCellMembership[TILE_COUNT_X + 2, TILE_COUNT_Y + 2];
 
-
 		public int ParticleCount => Particles.Count;
 
 		public GDGridBackground(GameScreen scrn) : base(scrn)

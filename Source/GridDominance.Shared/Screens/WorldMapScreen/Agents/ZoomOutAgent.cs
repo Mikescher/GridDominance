@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath;
@@ -12,33 +13,46 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
 	public class ZoomOutAgent : DecayGameScreenAgent
 	{
-		private const float DURATION = 1.8f; // sec
+		private const float DURATION = 1.0f; // sec
 
 		private readonly TolerantBoxingViewportAdapter vp;
 
 		private readonly FRectangle rectStart;
 		private readonly FRectangle rectFinal;
 
-		public ZoomOutAgent(GameScreen scrn) : base(scrn, DURATION)
+		private readonly GDWorldMapScreen _gdScreen;
+
+		public ZoomOutAgent(GDWorldMapScreen scrn) : base(scrn, DURATION)
 		{
+			_gdScreen = scrn;
 			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
 
 			rectStart = scrn.GuaranteedMapViewport;
 
-			rectFinal = FRectangle.CreateOuter(scrn.GetEntities<LevelNode>().Select(n => n.DrawingBoundingRect))
-				//.AsInflated(LevelNode.DIAMETER, LevelNode.DIAMETER)
-				.SetRatioOverfitKeepCenter(rectStart.Width / rectStart.Height);
+			rectFinal = scrn.Graph.BoundingViewport;
 		}
 
 		protected override void Run(float perc)
 		{
-			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseLinear(perc));
+			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseInOutCubic(perc));
 
 			vp.ChangeVirtualSize(bounds.Width, bounds.Height);
 			Screen.MapViewportCenterX = bounds.CenterX;
 			Screen.MapViewportCenterY = bounds.CenterY;
 
-			Screen.DebugDisp.AddDecayLine(">" + perc, 0.5f, 0, 0);
+			((WorldMapBackground)_gdScreen.Background).GridLineAlpha = 1 - perc;
+		}
+
+		protected override void Start()
+		{
+			((GDWorldMapScreen)Screen).ZoomState = BistateProgress.Expanding;
+			((WorldMapBackground)_gdScreen.Background).GridLineAlpha = 1f;
+		}
+
+		protected override void End()
+		{
+			((GDWorldMapScreen)Screen).ZoomState = BistateProgress.Expanded;
+			((WorldMapBackground)_gdScreen.Background).GridLineAlpha = 0f;
 		}
 	}
 }

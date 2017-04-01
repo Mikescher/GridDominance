@@ -33,8 +33,12 @@ namespace MonoSAMFramework.Portable.Input
 		public bool IsRealJustDown => isJustDown;
 		public bool IsRealJustUp => isJustUp;
 
-		public void Swallow(InputConsumer ic) => isUpDownSwallowed = true;
-		
+		public void Swallow(InputConsumer ic)
+		{
+			isUpDownSwallowed = true;
+			SwallowConsumer = ic;
+		}
+
 		public readonly FPoint HUDPointerPosition;
 
 		public readonly FPoint   GamePointerPosition;
@@ -101,7 +105,7 @@ namespace MonoSAMFramework.Portable.Input
 				}
 
 				var p1 = hudAdapter.PointToScreen(TouchPanel[0].Position.ToPoint()); // hud positions cause HUD will (?) not be resized 
-				var p2 = hudAdapter.PointToScreen(TouchPanel[0].Position.ToPoint());
+				var p2 = hudAdapter.PointToScreen(TouchPanel[1].Position.ToPoint());
 
 				while (Microsoft.Xna.Framework.Input.Touch.TouchPanel.IsGestureAvailable)
 				{
@@ -115,7 +119,7 @@ namespace MonoSAMFramework.Portable.Input
 					else if (g.GestureType == GestureType.PinchComplete && prev._pinchStartDistance != null)
 					{
 						IsGesturePinchComplete = true;
-						LastPinchPower = (p1 - p2).LengthSquared() - prev._pinchStartDistance.Value;
+						LastPinchPower = ((p1 - p2).LengthSquared() - prev._pinchStartDistance.Value) / 5000;
 					}
 				}
 			}

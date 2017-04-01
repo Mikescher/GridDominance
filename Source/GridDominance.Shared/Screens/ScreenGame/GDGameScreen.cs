@@ -18,6 +18,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.ScreenGame
@@ -197,6 +198,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			if (!IsPaused && !HasFinished) levelTime += MonoSAMGame.CurrentTime.ElapsedSeconds;
 
 			TestForGameEndingCondition();
+		}
+
+		protected override void OnDrawGame(IBatchRenderer sbatch)
+		{
+			//
+		}
+
+		protected override void OnDrawHUD(IBatchRenderer sbatch)
+		{
+			//
 		}
 
 		private void TestForGameEndingCondition()

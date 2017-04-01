@@ -11,7 +11,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class SettingsButton : HUDEllipseButton
+	public class SettingsButton : HUDEllipseButton
 	{
 		public const float DIAMETER   = 124 * 0.8f;
 		private const float SIZE_ICON = 72  * 0.8f;

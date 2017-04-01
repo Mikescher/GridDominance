@@ -10,7 +10,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class GDWorldHUD : GameHUD
+	public class GDWorldHUD : GameHUD
 	{
 		public GDWorldMapScreen GDOwner => (GDWorldMapScreen)Screen;
 

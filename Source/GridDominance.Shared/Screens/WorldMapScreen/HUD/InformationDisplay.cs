@@ -15,7 +15,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class InformationDisplay : HUDContainer
+	public class InformationDisplay : HUDContainer
 	{
 		private const float SPEED_BLEND = 2.0f;
 		private const float TAB_SWITCHTIME = 2.0f;
@@ -130,12 +130,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
-			return node != null;
+			return IsVisible;
 		}
 
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)
 		{
-			return node != null;
+			return IsVisible;
 		}
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)

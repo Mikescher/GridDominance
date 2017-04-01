@@ -13,7 +13,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class TopLevelDisplay : HUDContainer
+	public class TopLevelDisplay : HUDContainer
 	{
 		private const float SPEED_MOVE  = 2.0f;
 		private const float SPEED_BLEND = 3.0f;

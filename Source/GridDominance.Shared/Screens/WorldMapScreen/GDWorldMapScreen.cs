@@ -9,15 +9,18 @@ using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
@@ -30,12 +33,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public const int VIEW_HEIGHT = 10 * GDConstants.TILE_WIDTH;
 
 		public bool IsBackgroundPressed = false;
-		public bool IsZoomedOut = false;
+		public BistateProgress ZoomState = BistateProgress.Normal;
+
+		public readonly LevelGraph Graph;
 
 		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{
+			Graph = new LevelGraph(this);
+
 			Initialize();
 		}
+
+		protected GDWorldHUD GDHUD => (GDWorldHUD) HUD;
 
 		protected override EntityManager CreateEntityManager() => new GDWorldMapEntityManager(this);
 		protected override GameHUD CreateHUD() => new GDWorldHUD(this);
@@ -66,6 +75,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", this, SKeys.F8,  KeyModifier.None, true);
 			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", this, SKeys.F9,  KeyModifier.None, true);
 			DebugSettings.AddSwitch("DBG", "ShowOperations",        this, SKeys.F10, KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "DebugGestures",         this, SKeys.F11, KeyModifier.None, true);
 
 			DebugSettings.AddPush("DBG", "ShowDebugShortcuts",      this, SKeys.Tab, KeyModifier.None);
 			DebugSettings.AddPush("DBG", "ShowSerializedProfile",   this, SKeys.O, KeyModifier.None);
@@ -81,9 +91,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00}");
 				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | EntityOps = {Entities.Enumerate().Sum(p => p.ActiveEntityOperations.Count()):00} | Particles = {Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})");
 				DebugDisp.AddLine(() => $"GamePointer = ({InputStateMan.GetCurrentState().GamePointerPosition.X:000.0}|{InputStateMan.GetCurrentState().GamePointerPosition.Y:000.0}) | HUDPointer = ({InputStateMan.GetCurrentState().HUDPointerPosition.X:000.0}|{InputStateMan.GetCurrentState().HUDPointerPosition.Y:000.0}) | PointerOnMap = ({InputStateMan.GetCurrentState().GamePointerPositionOnMap.X:000.0}|{InputStateMan.GetCurrentState().GamePointerPositionOnMap.Y:000.0})");
+				DebugDisp.AddLine("DebugGestures", () => $"Pinching = {InputStateMan.GetCurrentState().IsGesturePinching} & PinchComplete = {InputStateMan.GetCurrentState().IsGesturePinchComplete} & PinchPower = {InputStateMan.GetCurrentState().LastPinchPower}");
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastReleaseRenderSpriteCount:0000} (+ {LastDebugRenderSpriteCount:0000}); OGL Text = {LastReleaseRenderTextCount:0000} (+ {LastDebugRenderTextCount:0000})");
 				DebugDisp.AddLine(() => $"Map Offset = {MapOffset} (Map Center = {MapViewportCenter})");
-				DebugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD) HUD).SelectedNode?.Level?.Name ?? "NULL"}; FocusedHUDElement = {HUD.FocusedElement}");
+				DebugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD) HUD).SelectedNode?.Level?.Name ?? "NULL"}; FocusedHUDElement = {HUD.FocusedElement}; ZoomState = {ZoomState}");
 
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualGuaranteedSize={VAdapterGame.VirtualGuaranteedSize} || GameAdapter.VirtualGuaranteedSize={VAdapterHUD.VirtualGuaranteedSize}");
@@ -127,45 +138,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			//AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
 			//AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
 
-			var n1 = AddLevelNode(4,  10, Levels.LEVEL_001);
-			var n2 = AddLevelNode(10, 10, Levels.LEVEL_002);
-			var n3 = AddLevelNode(22, 10, Levels.LEVEL_003);
-			var n4 = AddLevelNode(16, 16, Levels.LEVEL_003);
-			var n5 = AddLevelNode(28, 10, Levels.LEVEL_003);
-			var n6 = AddLevelNode(34, 10, Levels.LEVEL_003);
-			var n7 = AddLevelNode(40, 10, Levels.LEVEL_003);
-
-			n1.NextLinkedNodes.Add(n2);
-			n2.NextLinkedNodes.Add(n3);
-			n2.NextLinkedNodes.Add(n4);
-			n3.NextLinkedNodes.Add(n5);
-			n5.NextLinkedNodes.Add(n6);
-			n6.NextLinkedNodes.Add(n7);
-
-			n1.CreatePipes();
-			n2.CreatePipes();
-			n3.CreatePipes();
-			n4.CreatePipes();
-			n5.CreatePipes();
-			n6.CreatePipes();
-			n7.CreatePipes();
+			Graph.Init();
 
 			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
 			MapOffsetY = VIEW_HEIGHT / -2f;
 
 			((WorldMapBackground)Background).InitBackground(GetEntities<LevelNode>().ToList());
-		}
-
-		private LevelNode AddLevelNode(float x, float y, LevelFile f)
-		{
-			var data = MainGame.Inst.Profile.GetLevelData(f.UniqueID);
-			var pos = new Vector2(GDConstants.TILE_WIDTH * (x + 0.5f), GDConstants.TILE_WIDTH * (y + 0.5f));
-
-			var node = new LevelNode(this, pos, f, data);
-
-			Entities.AddEntity(node);
-
-			return node;
 		}
 
 		private void AddLetter(char chr, float size, float x, float y, int index)
@@ -201,37 +179,54 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
 
-			if (IsZoomedOut && istate.IsRealDown && istate.SwallowConsumer != InputConsumer.HUDElement)
+			if ((ZoomState == BistateProgress.Expanding || ZoomState == BistateProgress.Expanded) && istate.IsRealJustDown && istate.SwallowConsumer != InputConsumer.HUDElement)
 			{
 				ZoomIn(istate.GamePointerPositionOnMap);
 			}
 
-			if (istate.IsGesturePinchComplete && istate.LastPinchPower > 1000) //TODO number what
+			if ((ZoomState == BistateProgress.Reverting || ZoomState == BistateProgress.Normal) && istate.IsGesturePinchComplete && istate.LastPinchPower < -10)
 			{
 				ZoomOut();
 			}
 		}
 
+		protected override void OnDrawGame(IBatchRenderer sbatch)
+		{
+#if DEBUG
+			if (DebugSettings.Get("DebugBackground"))
+			{
+				sbatch.DrawRectangle(Graph.BoundingRect, Color.OrangeRed, 3f);
+				sbatch.DrawRectangle(Graph.BoundingViewport, Color.OrangeRed, 3f);
+
+				DebugRenderHelper.DrawCrossedCircle(sbatch, Color.Lime, MapViewportCenter, 8, 2);
+				DebugRenderHelper.DrawHalfCrossedCircle(sbatch, Color.Lime, MapOffset, 8, 2);
+			}
+#endif
+		}
+
+		protected override void OnDrawHUD(IBatchRenderer sbatch)
+		{
+			//
+		}
+
 		private void ZoomOut()
 		{
-			if (IsZoomedOut) return;
+			if (ZoomState == BistateProgress.Expanding || ZoomState == BistateProgress.Expanded) return;
 			if (GetAgents<ZoomOutAgent>().Any()) return;
 			if (GetAgents<ZoomInAgent>().Any()) return;
 
 			AddAgent(new ZoomOutAgent(this));
 
-			IsZoomedOut = true;
+			((GDWorldHUD) HUD).SelectedNode?.CloseNode();
 		}
 
 		private void ZoomIn(FPoint mapPosCenter)
 		{
-			if (!IsZoomedOut) return;
+			if (ZoomState == BistateProgress.Reverting || ZoomState == BistateProgress.Normal) return;
 			if (GetAgents<ZoomOutAgent>().Any()) return;
 			if (GetAgents<ZoomInAgent>().Any()) return;
 
 			AddAgent(new ZoomInAgent(this, mapPosCenter));
-
-			IsZoomedOut = false;
 		}
 
 		public override void Resize(int width, int height)

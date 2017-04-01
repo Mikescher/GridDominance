@@ -18,7 +18,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 
 		private const int NODE_SPREAD = 4;
 
-		private Dictionary<int, float> _tileValues = new Dictionary<int, float>();
+		public float GridLineAlpha = 1.0f;
+		private readonly Dictionary<int, float> _tileValues = new Dictionary<int, float>();
 
 		public WorldMapBackground(GameScreen scrn) : base(scrn)
 		{
@@ -93,11 +94,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 					(countY + 2 * extensionY) * TILE_WIDTH), 
 				FlatColors.Background);
 
-			for (int x = -extensionX; x < countX + extensionX; x++)
+			if (GridLineAlpha > 0)
 			{
-				for (int y = -extensionY; y < countY + extensionY; y++)
+				for (int x = -extensionX; x < countX + extensionX; x++)
 				{
-					sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * TILE_WIDTH - offX, y * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH), Color.White);
+					for (int y = -extensionY; y < countY + extensionY; y++)
+					{
+						sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * TILE_WIDTH - offX, y * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH), Color.White * GridLineAlpha);
+					}
 				}
 			}
 		}
@@ -134,14 +138,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 							GDConstants.TILE_WIDTH), 
 						color);
 
-					sbatch.DrawStretched(
-						Textures.TexTileBorder, 
-						new FRectangle(
-							rx * GDConstants.TILE_WIDTH,
-							ry * GDConstants.TILE_WIDTH,
-							GDConstants.TILE_WIDTH, 
-							GDConstants.TILE_WIDTH), 
-						Color.White);
+					if (GridLineAlpha > 0)
+					{
+						sbatch.DrawStretched(
+							Textures.TexTileBorder,
+							new FRectangle(
+								rx * GDConstants.TILE_WIDTH,
+								ry * GDConstants.TILE_WIDTH,
+								GDConstants.TILE_WIDTH,
+								GDConstants.TILE_WIDTH),
+							Color.White * GridLineAlpha);
+					}
 				}
 			}
 		}

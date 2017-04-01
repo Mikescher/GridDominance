@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
@@ -22,8 +21,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private const float FRICTION = 10;
 
-		private readonly FRectangle bounding;
-
 		private bool isDragging = false;
 		private Vector2 outOfBoundsForce = Vector2.Zero;
 
@@ -41,14 +38,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		public WorldMapDragAgent(GDWorldMapScreen scrn, List<Vector2> nodePositions) : base(scrn)
 		{
-			bounding = scrn.MapFullBounds;
-
 			_gdScreen = scrn;
 			_nodePositions = nodePositions;
 		}
 
 		public override void Update(SAMTime gameTime, InputState istate)
 		{
+			if (_gdScreen.ZoomState != BistateProgress.Normal)
+			{
+				if (isDragging) EndDrag();
+				return;
+			}
+
 			if (isDragging)
 			{
 				if (istate.IsRealDown)
