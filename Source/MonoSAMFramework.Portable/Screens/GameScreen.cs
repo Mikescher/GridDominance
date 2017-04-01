@@ -37,8 +37,8 @@ namespace MonoSAMFramework.Portable.Screens
 		public    IDebugTextDisplay DebugDisp;
 
 		protected SpriteBatch InternalBatch;
-		protected IBatchRenderer FixedBatch;                  // no translation          (for HUD)
-		protected ITranslateBatchRenderer TranslatedBatch;    // translated by MapOffset (for everything else)
+		protected IBatchRenderer FixedBatch;         // no translation          (for HUD)
+		protected IBatchRenderer TranslatedBatch;    // translated by MapOffset (for everything else)
 
 #if DEBUG
 		protected RealtimeAPSCounter FPSCounter;
@@ -49,8 +49,8 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public float GameSpeed = 1f;
 
-		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; TranslatedBatch.VirtualOffsetX = value; } }
-		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; TranslatedBatch.VirtualOffsetY = value; } }
+		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; } }
+		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; } }
 		public Vector2 MapOffset => new Vector2(_mapOffsetX, _mapOffsetY);
 		public float MapViewportCenterX { get { return VAdapterGame.VirtualTotalWidth  / 2 - MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX; } set { MapOffsetX = VAdapterGame.VirtualTotalWidth / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetX - value; } }
 		public float MapViewportCenterY { get { return VAdapterGame.VirtualTotalHeight / 2 - MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY; } set { MapOffsetY = VAdapterGame.VirtualTotalHeight / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetY - value; } }
@@ -83,8 +83,8 @@ namespace MonoSAMFramework.Portable.Screens
 			VAdapterHUD = CreateViewport(); // later perhaps diff adapters
 
 			InternalBatch   = new SpriteBatch(Graphics.GraphicsDevice);
-			FixedBatch      = new StandardSpriteBatchWrapper(InternalBatch);
-			TranslatedBatch = new TranslatingSpriteBatchWrapper(InternalBatch);
+			FixedBatch      = new SpriteBatchWrapper(InternalBatch);
+			TranslatedBatch = new SpriteBatchWrapper(InternalBatch);
 
 			InputStateMan = new InputStateManager(VAdapterGame, VAdapterHUD, MapOffsetX, MapOffsetY);
 			GameHUD = CreateHUD();
@@ -206,11 +206,13 @@ namespace MonoSAMFramework.Portable.Screens
 
 			Graphics.GraphicsDevice.Clear(Color.Magenta);
 
+			var mat = Matrix.CreateTranslation(MapOffsetX, MapOffsetY, 0) * VAdapterGame.GetScaleMatrix();
+
 
 			// ======== GAME =========
 
 			TranslatedBatch.OnBegin(bts);
-			InternalBatch.Begin(transformMatrix: VAdapterGame.GetScaleMatrix()); //TODO perhaps dont use translatingspritebatch and simply use on sb with a translating matrix - no dup code
+			InternalBatch.Begin(transformMatrix: mat);
 			{
 				Background.Draw(TranslatedBatch);
 				Entities.Draw(TranslatedBatch);

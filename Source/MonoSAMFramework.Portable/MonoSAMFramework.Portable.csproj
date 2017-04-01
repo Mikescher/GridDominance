@@ -35,13 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BatchRenderer\IBatchRenderer.cs" />
-    <Compile Include="BatchRenderer\ITranslateBatchRenderer.cs" />
-    <Compile Include="BatchRenderer\SpriteBatchCommon.cs" />
     <Compile Include="BatchRenderer\TextureAtlases\TextureAtlas.cs" />
     <Compile Include="BatchRenderer\TextureAtlases\TextureAtlasReader.cs" />
     <Compile Include="BatchRenderer\TextureAtlases\TextureRegion2D.cs" />
-    <Compile Include="BatchRenderer\TranslatingSpriteBatchWrapper.cs" />
-    <Compile Include="BatchRenderer\StandardSpriteBatchWrapper.cs" />
+    <Compile Include="BatchRenderer\SpriteBatchWrapper.cs" />
     <Compile Include="DebugTools\CompactJsonFormatter.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="DebugTools\DebugTextLogLine.cs" />

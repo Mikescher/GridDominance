@@ -38,7 +38,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public DebugTextDisplay(GraphicsDevice graphics, SpriteFont renderFont)
 		{
-			debugBatch = new StandardSpriteBatchWrapper(new SpriteBatch(graphics));
+			debugBatch = new SpriteBatchWrapper(new SpriteBatch(graphics));
 			font = renderFont;
 		}
 
