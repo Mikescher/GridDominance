@@ -68,10 +68,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public List<LevelNode> NextLinkedNodes = new List<LevelNode>();
 		public List<LevelNodePipe> OutgoingPipes = new List<LevelNodePipe>();
 
-		public bool IsOpening = false;
-		public bool IsClosing = false;
-		public bool IsOpened => FloatMath.IsOne(expansionProgress);
-		public bool IsClosed => FloatMath.IsZero(expansionProgress);
+		public BistateProgress state = BistateProgress.Initial;
 
 		public LevelNode(GameScreen scrn, Vector2 pos, LevelFile lvlf, LevelData lvldat) : base(scrn)
 		{
@@ -138,11 +135,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClickCenter(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
-			if (IsClosed)
+			if (state == BistateProgress.Closed)
 			{
 				OpenNode();
 			}
-			else if (IsOpened)
+			else if (state == BistateProgress.Open)
 			{
 				CloseNode();
 			}
@@ -150,60 +147,91 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public void CloseNode()
 		{
-			if (IsClosing) return;
-			IsClosing = true;
-
-			if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
-
-			float initProgress = 0f;
-			if (IsOpening)
+			if (state == BistateProgress.Open)
 			{
+				if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
+
+				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(
+					"LevelNode::Close::0", 
+					CLOSING_TIME, 
+					(n, p) => n.expansionProgress = 1 - p,
+					n => n.state = BistateProgress.Closing,
+					n => n.state = BistateProgress.Closed));
+
+				MainGame.Inst.GDSound.PlayEffectClose();
+			}
+			else if (state == BistateProgress.Forward)
+			{
+				if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
+
+				float initProgress = 0f;
+
 				var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Open::0");
 				AbortAllOperations(p => p.Name == "LevelNode::Open::0");
 				AbortAllOperations(p => p.Name == "LevelNode::Open::1");
 				if (progress != null) initProgress = 1 - progress.Value;
 
-				IsOpening = false;
-			}
+				var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(
+					"LevelNode::Close::0", 
+					CLOSING_TIME, 
+					(n, p) => n.expansionProgress = 1 - p,
+					n => n.state = BistateProgress.Closing,
+					n => n.state = BistateProgress.Closed));
 
-			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Close::0", CLOSING_TIME, (n, p) => n.expansionProgress = 1 - p, n => n.IsClosing = true, n => n.IsClosing = false));
-			
-			if (initProgress > 0f)
-			{
-				o.ForceSetProgress(initProgress);
-			}
+				if (initProgress > 0f) o.ForceSetProgress(initProgress);
 
-			MainGame.Inst.GDSound.PlayEffectClose();
+				MainGame.Inst.GDSound.PlayEffectClose();
+			}
 		}
 
 		private void OpenNode()
 		{
-			if (IsOpening) return;
-			IsOpening = true;
-
-			((GDWorldHUD)Owner.HUD).SelectNode(this);
-
-			float initProgress = 0f;
-			if (IsClosing)
+			if (state == BistateProgress.Closed)
 			{
+				((GDWorldHUD)Owner.HUD).SelectNode(this);
+
+				float initProgress = 0f;
+
+				centeringStartOffset = new Vector2(Owner.MapViewportCenterX, Owner.MapViewportCenterY);
+
+				var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(
+					"LevelNode::Open::0", 
+					EXPANSION_TIME, 
+					(n, p) => n.expansionProgress = p, n => 
+					n.state = BistateProgress.Opening,
+					n => n.state = BistateProgress.Open));
+
+				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::1", CENTERING_TIME, UpdateScreenCentering));
+
+				if (initProgress > 0f) o.ForceSetProgress(initProgress);
+
+				MainGame.Inst.GDSound.PlayEffectOpen();
+			}
+			else if (state == BistateProgress.Closing)
+			{
+				((GDWorldHUD)Owner.HUD).SelectNode(this);
+
+				float initProgress = 0f;
+
 				var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Close::0");
 				AbortAllOperations(p => p.Name == "LevelNode::Close::0");
 				if (progress != null) initProgress = 1 - progress.Value;
 
-				IsClosing = false;
+				centeringStartOffset = new Vector2(Owner.MapViewportCenterX, Owner.MapViewportCenterY);
+
+				var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(
+					"LevelNode::Open::0", 
+					EXPANSION_TIME, 
+					(n, p) => n.expansionProgress = p, 
+					n => n.state = BistateProgress.Opening, 
+					n => n.state = BistateProgress.Open));
+
+				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::1", CENTERING_TIME, UpdateScreenCentering));
+
+				if (initProgress > 0f) o.ForceSetProgress(initProgress);
+
+				MainGame.Inst.GDSound.PlayEffectOpen();
 			}
-
-			centeringStartOffset = new Vector2(Owner.MapViewportCenterX, Owner.MapViewportCenterY);
-
-			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::0", EXPANSION_TIME, (n, p) => n.expansionProgress = p, n => n.IsOpening = true, n => n.IsOpening = false));
-			AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::1", CENTERING_TIME, UpdateScreenCentering));
-
-			if (initProgress > 0f)
-			{
-				o.ForceSetProgress(initProgress);
-			}
-
-			MainGame.Inst.GDSound.PlayEffectOpen();
 		}
 
 		private void UpdateScreenCentering(LevelNode n, float progress)
@@ -266,7 +294,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			clickAreaD2.IsEnabled = (expansionProgress > 0.5f);
 			clickAreaD3.IsEnabled = (expansionProgress > 0.5f);
 			
-			if (IsOpened || IsOpening)
+			if (state == BistateProgress.Open || state == BistateProgress.Opening)
 			{
 				if (((GDWorldMapScreen)Owner).IsBackgroundPressed) CloseNode();
 			}

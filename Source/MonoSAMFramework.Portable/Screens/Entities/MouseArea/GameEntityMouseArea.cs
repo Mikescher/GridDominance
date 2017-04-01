@@ -56,7 +56,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 				var prevPointerPos = pointerPosition;
 				var prevInShape = isInShape;
 
-				pointerPosition = istate.PointerPositionOnMap;
+				pointerPosition = istate.GamePointerPositionOnMap;
 				isInShape = AbsoluteShape.Contains(pointerPosition);
 
 				var hasMoved = !pointerPosition.EpsilonEquals(prevPointerPos, 0.5f);
@@ -64,7 +64,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 				var iju = istate.IsExclusiveJustUp;
 				var ijd = istate.IsExclusiveJustDown;
 
-				if (isInShape && doSwallowEvents) istate.Swallow();
+				if (isInShape && doSwallowEvents) istate.Swallow(InputConsumer.GameEntity);
 
 				if (isInShape && !prevInShape)
 				{

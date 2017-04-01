@@ -71,9 +71,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			var col = FractionDifficultyHelper.GetColor(_diff);
 
 			float alpha = 1;
-			if (_diff == FractionDifficulty.NEUTRAL && _spawnPercentage >= 1)
+			if (_diff == FractionDifficulty.NEUTRAL)
 			{
-				alpha = 1 - (_movementTime * SPEED / (_pipe.Length/2));
+				if (_spawnPercentage >= 1) alpha = 1 - (_movementTime * SPEED / (_pipe.Length/2));
 				col = FlatColors.Asbestos;
 			}
 

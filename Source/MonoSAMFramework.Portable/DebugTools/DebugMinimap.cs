@@ -32,8 +32,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 			var posView = (Owner.GuaranteedMapViewport.VectorTopLeft - rectBoundings.VectorTopLeft) * scale;
 			var posView2 = (Owner.CompleteMapViewport.VectorTopLeft - rectBoundings.VectorTopLeft) * scale;
 
-			var offset = new Vector2(Owner.VAdapter.VirtualTotalWidth - Padding - sizeOuter.Width, Padding) - Owner.VAdapter.VirtualGuaranteedBoundingsOffset;
-			var offsetZero = offset - rectBoundings.VectorTopLeft *scale;
+			var offset = new Vector2(Owner.VAdapterGame.VirtualTotalWidth - Padding - sizeOuter.Width, Padding) - Owner.VAdapterGame.VirtualGuaranteedBoundingsOffset;
+			var offsetZero = offset - rectBoundings.VectorTopLeft * scale;
 
 			sbatch.FillRectangle(offset, sizeOuter, Color.Red * 0.25f);
 			sbatch.DrawRectangle(offset, sizeOuter, Color.Red);

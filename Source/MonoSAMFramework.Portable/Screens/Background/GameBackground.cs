@@ -13,7 +13,7 @@ namespace MonoSAMFramework.Portable.Screens.Background
 		protected GameBackground(GameScreen scrn)
 		{
 			Owner = scrn;
-			VAdapter = Owner.VAdapter;
+			VAdapter = Owner.VAdapterGame;
 		}
 		
 		public abstract void Update(SAMTime gameTime, InputState istate);

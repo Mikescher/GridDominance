@@ -78,7 +78,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			{
 				var center = new Vector2(Position.X + Size.Width / 2f, Position.Y + Size.Height / 2f);
 				
-				var delta = istate.PointerPosition - center;
+				var delta = istate.HUDPointerPosition - center;
 				if (delta.LengthSquared() >= DRAG_MINIMUMDISTANCE * DRAG_MINIMUMDISTANCE)
 				{
 					var angle = delta.ToAngle();

@@ -15,8 +15,11 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		private readonly GameWindow _window;
 		private readonly GraphicsDeviceManager _graphicsDeviceManager;
 
-		public override float VirtualGuaranteedWidth { get; }
-		public override float VirtualGuaranteedHeight { get; }
+		private float _virtualGuaranteedWidth;
+		private float _virtualGuaranteedHeight;
+
+		public override float VirtualGuaranteedWidth => _virtualGuaranteedWidth;
+		public override float VirtualGuaranteedHeight => _virtualGuaranteedHeight;
 
 		public override float RealGuaranteedWidth  => VirtualGuaranteedWidth * scaleXY;
 		public override float RealGuaranteedHeight => VirtualGuaranteedHeight * scaleXY;
@@ -47,10 +50,18 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			_window = window;
 			_graphicsDeviceManager = graphicsDeviceManager;
 
-			VirtualGuaranteedWidth = virtualWidth;
-			VirtualGuaranteedHeight = virtualHeight;
+			_virtualGuaranteedWidth = virtualWidth;
+			_virtualGuaranteedHeight = virtualHeight;
 
 			window.ClientSizeChanged += OnClientSizeChanged;
+
+			UpdateMatrix();
+		}
+
+		public void ChangeVirtualSize(float virtualWidth, float virtualHeight)
+		{
+			_virtualGuaranteedWidth = virtualWidth;
+			_virtualGuaranteedHeight = virtualHeight;
 
 			UpdateMatrix();
 		}

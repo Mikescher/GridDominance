@@ -27,11 +27,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			root.Initialize();
 		}
 
-		public float Left => -Screen.VAdapter.VirtualGuaranteedBoundingsOffsetX;
-		public float Top => -Screen.VAdapter.VirtualGuaranteedBoundingsOffsetY;
+		public float Left => -Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetX;
+		public float Top => -Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetY;
 
-		public float Right => Screen.VAdapter.VirtualTotalWidth - Screen.VAdapter.VirtualGuaranteedBoundingsOffsetX;
-		public float Bottom => Screen.VAdapter.VirtualTotalHeight - Screen.VAdapter.VirtualGuaranteedBoundingsOffsetY;
+		public float Right => Screen.VAdapterHUD.VirtualTotalWidth - Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetX;
+		public float Bottom => Screen.VAdapterHUD.VirtualTotalHeight - Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetY;
 
 		public float Width => Right - Left;
 		public float Height => Bottom - Top;
@@ -39,7 +39,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public float CenterX => Left + Width/2;
 		public float CenterY => Top + Height / 2;
 
-		public float PixelWidth => Width * 1f / Screen.VAdapter.RealTotalWidth;
+		public float PixelWidth => Width * 1f / Screen.VAdapterHUD.RealTotalWidth;
 
 		private HUDElement _focusedElement = null;
 		public HUDElement FocusedElement

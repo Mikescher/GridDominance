@@ -15,7 +15,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			if (!OverrideEllipseSize.IsEmpty) ellipseSize = OverrideEllipseSize;
 
 
-			var relativePoint = BoundingRectangle.Center - istate.PointerPosition;
+			var relativePoint = BoundingRectangle.Center - istate.HUDPointerPosition;
 
 
 			if (ellipseSize.IsQuadratic)

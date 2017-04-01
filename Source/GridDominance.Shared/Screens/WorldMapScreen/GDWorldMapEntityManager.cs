@@ -18,7 +18,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 		protected override FRectangle RecalculateBoundingBox()
 		{
-			return Owner.VAdapter.VirtualTotalBoundingBox;
+			return Owner.VAdapterGame.VirtualTotalBoundingBox;
 		}
 
 		protected override void OnAfterUpdate(SAMTime gameTime, InputState state)

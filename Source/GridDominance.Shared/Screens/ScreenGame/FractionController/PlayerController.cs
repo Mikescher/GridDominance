@@ -25,9 +25,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 
 		protected override void Calculate(InputState istate)
 		{
-			if (istate.IsExclusiveJustDown && innerBoundings.Contains(istate.PointerPosition))
+			if (istate.IsExclusiveJustDown && innerBoundings.Contains(istate.GamePointerPosition))
 			{
-				istate.Swallow();
+				istate.Swallow(InputConsumer.GameEntity);
 
 				isMouseDragging = true;
 				Cannon.CrosshairSize.SetForce(CROSSHAIR_START_SCALE);
@@ -39,11 +39,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 
 				//Screen.PushNotification($"Cannon :: target({FloatMath.ToDegree(Cannon.Rotation.TargetValue):000}°)");
 			}
-			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.PointerPosition))
+			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.GamePointerPosition))
 			{
-				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.PointerPosition.Y - Cannon.Center.Y, istate.PointerPosition.X - Cannon.Center.X));
+				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.GamePointerPosition.Y - Cannon.Center.Y, istate.GamePointerPosition.X - Cannon.Center.X));
 
-				var dist = (istate.PointerPosition - Cannon.Center).Length();
+				var dist = (istate.GamePointerPosition - Cannon.Center).Length();
 				if (dist > 0)
 				{
 					var crosshairScale = FloatMath.Min(dist / CROSSHAIR_CENTER_DISTANCE, 1f);

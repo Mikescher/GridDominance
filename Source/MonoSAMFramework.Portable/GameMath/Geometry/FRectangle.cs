@@ -2,6 +2,7 @@
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
@@ -59,6 +60,48 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public static FRectangle CreateByCenter(Vector2 origin, float cx, float cy, float width, float height)
 		{
 			return new FRectangle(origin.X + cx - width/2, origin.Y + cy - height/2, width, height);
+		}
+
+		[Pure]
+		public static FRectangle CreateByCenter(Vector2 pos, FSize size)
+		{
+			return new FRectangle(pos.X - size.Width / 2, pos.Y - size.Height / 2, size.Width, size.Height);
+		}
+
+		[Pure]
+		public static FRectangle CreateByCenter(Vector2 pos, float w, float h)
+		{
+			return new FRectangle(pos.X - w / 2, pos.Y - h / 2, w, h);
+		}
+
+		[Pure]
+		public static FRectangle CreateOuter(IEnumerable<FRectangle> rects)
+		{
+			float minX = float.MaxValue;
+			float minY = float.MaxValue;
+			float maxX = float.MinValue;
+			float maxY = float.MinValue;
+
+			foreach (var r in rects)
+			{
+				minX = FloatMath.Min(minX, r.Left);
+				minY = FloatMath.Min(minY, r.Top);
+				maxX = FloatMath.Max(maxX, r.Right);
+				maxY = FloatMath.Max(maxY, r.Bottom);
+			}
+
+			return new FRectangle(minX, minY, maxX-minX, maxY-minY);
+		}
+
+		[Pure]
+		public static FRectangle Lerp(FRectangle ra, FRectangle rb, float percentage)
+		{
+			var minx = FloatMath.Lerp(ra.Left,   rb.Left,   percentage);
+			var miny = FloatMath.Lerp(ra.Top,    rb.Top,    percentage);
+			var maxy = FloatMath.Lerp(ra.Right,  rb.Right,  percentage);
+			var maxx = FloatMath.Lerp(ra.Bottom, rb.Bottom, percentage);
+
+			return new FRectangle(minx, miny, maxx-minx, maxy-miny);
 		}
 
 		[Pure]
@@ -373,8 +416,10 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FPoint Location => new FPoint(X, Y);
 		public FSize Size => new FSize(Width, Height);
-		public FPoint Center => new FPoint(X + Width / 2, Y + Height / 2);
-		public Vector2 VecCenter => new Vector2(X + Width / 2, Y + Height / 2);
+		public float CenterX => X + Width / 2;
+		public float CenterY => Y + Height / 2;
+		public FPoint Center => new FPoint(CenterX, CenterY);
+		public Vector2 VecCenter => new Vector2(CenterX, CenterY);
 
 		[Pure]
 		public Rectangle Truncate()
@@ -446,6 +491,25 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public FRectangle ToSubRectangleWest(float newwidth)
 		{
 			return new FRectangle(X, Y, newwidth, Height);
+		}
+
+		[Pure]
+		public FRectangle SetRatioOverfitKeepCenter(float ratio)
+		{
+			if ((Width / Height) < ratio)
+			{
+				// needs more width
+				var newWidth = Height * ratio;
+
+				return AsResized(newWidth, Height);
+			}
+			else // if ((Width / Height) > ratio)
+			{
+				// needs more height
+				var newHeight = Width / ratio;
+
+				return AsResized(Width, newHeight);
+			}
 		}
 	}
 }

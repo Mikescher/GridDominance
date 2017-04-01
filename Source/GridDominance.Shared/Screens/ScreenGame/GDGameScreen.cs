@@ -126,18 +126,18 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} | total = {UPSCounter.TotalActions:000000}) | Speed={GameSpeed:00.00}|{GameSpeedMode}");
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00} | Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
 				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})"); DebugDisp.AddLine(() => $"HUD.Size=(T:{GameHUD.Top}|L:{GameHUD.Left}|R:{GameHUD.Right}|B:{GameHUD.Bottom}) | HUD.AllElements={GameHUD.DeepCount()} | HUD.RootElements={GameHUD.FlatCount()} | Background.Particles={GDBackground.ParticleCount,3}");
-				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0}) | PointerOnMap = ({InputStateMan.GetCurrentState().PointerPositionOnMap.X:000.0}|{InputStateMan.GetCurrentState().PointerPositionOnMap.Y:000.0})");
+				DebugDisp.AddLine(() => $"GamePointer = ({InputStateMan.GetCurrentState().GamePointerPosition.X:000.0}|{InputStateMan.GetCurrentState().GamePointerPosition.Y:000.0}) | HUDPointer = ({InputStateMan.GetCurrentState().HUDPointerPosition.X:000.0}|{InputStateMan.GetCurrentState().HUDPointerPosition.Y:000.0}) | PointerOnMap = ({InputStateMan.GetCurrentState().GamePointerPositionOnMap.X:000.0}|{InputStateMan.GetCurrentState().GamePointerPositionOnMap.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastReleaseRenderSpriteCount:0000} (+ {LastDebugRenderSpriteCount:0000}); OGL Text = {LastReleaseRenderTextCount:0000} (+ {LastDebugRenderTextCount:0000})");
 				DebugDisp.AddLine(() => $"LevelTime = {levelTime:000.000} (finished={HasFinished})");
 
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualGuaranteedSize={VAdapter.VirtualGuaranteedSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealGuaranteedSize={VAdapter.RealGuaranteedSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualTotalSize={VAdapter.VirtualTotalSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealTotalSize={VAdapter.RealTotalSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualOffset={VAdapter.VirtualGuaranteedBoundingsOffset}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealOffset={VAdapter.RealGuaranteedBoundingsOffset}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={VAdapter.Scale}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualGuaranteedSize={VAdapterGame.VirtualGuaranteedSize} || GameAdapter.VirtualGuaranteedSize={VAdapterHUD.VirtualGuaranteedSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealGuaranteedSize={VAdapterGame.RealGuaranteedSize} || GameAdapter.RealGuaranteedSize={VAdapterHUD.RealGuaranteedSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualTotalSize={VAdapterGame.VirtualTotalSize} || GameAdapter.VirtualTotalSize={VAdapterHUD.VirtualTotalSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealTotalSize={VAdapterGame.RealTotalSize} || GameAdapter.RealTotalSize={VAdapterHUD.RealTotalSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualOffset={VAdapterGame.VirtualGuaranteedBoundingsOffset} || GameAdapter.VirtualOffset={VAdapterHUD.VirtualGuaranteedBoundingsOffset}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealOffset={VAdapterGame.RealGuaranteedBoundingsOffset} || GameAdapter.RealOffset={VAdapterHUD.RealGuaranteedBoundingsOffset}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.Scale={VAdapterGame.Scale} || GameAdapter.Scale={VAdapterHUD.Scale}");
 
 				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
 

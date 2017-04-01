@@ -13,5 +13,6 @@ namespace MonoSAMFramework.Portable.Screens.Agents
 		}
 
 		public abstract void Update(SAMTime gameTime, InputState istate);
+		public abstract bool Alive { get;}
 	}
 }

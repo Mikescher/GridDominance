@@ -31,7 +31,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 
 				if (swallow)
 				{
-					istate.Swallow();
+					istate.Swallow(InputConsumer.HUDElement);
 				}
 				else
 				{
@@ -43,7 +43,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			{
 				var swallow = InternalPointerUp(istate);
 
-				if (swallow) istate.Swallow();
+				if (swallow) istate.Swallow(InputConsumer.HUDElement);
 			}
 		}
 

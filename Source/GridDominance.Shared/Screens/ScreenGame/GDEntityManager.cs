@@ -41,14 +41,14 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		protected override FRectangle RecalculateBoundingBox()
 		{
-			return Owner.VAdapter.VirtualTotalBoundingBox.AsInflated(GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH);
+			return Owner.VAdapterGame.VirtualTotalBoundingBox.AsInflated(GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH);
 		}
 
 		protected override void OnBeforeUpdate(SAMTime gameTime, InputState state)
 		{
 #if DEBUG
-			debugView.DebugPanelPosition = new Vector2(55, Owner.VAdapter.RealTotalHeight - 180);
-			debugView.PerformancePanelBounds = new Rectangle(450, (int) (Owner.VAdapter.RealTotalHeight - 180), 200, 100);
+			debugView.DebugPanelPosition = new Vector2(55, Owner.VAdapterGame.RealTotalHeight - 180);
+			debugView.PerformancePanelBounds = new Rectangle(450, (int) (Owner.VAdapterGame.RealTotalHeight - 180), 200, 100);
 
 			debugView.Enabled = DebugSettings.Get("PhysicsDebugView");
 #endif
@@ -64,7 +64,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public override void DrawOuterDebug()
 		{
 #if DEBUG
-			var pMatrix = ((TolerantBoxingViewportAdapter)GDOwner.VAdapter).GetFarseerDebugProjectionMatrix();
+			var pMatrix = ((TolerantBoxingViewportAdapter)GDOwner.VAdapterGame).GetFarseerDebugProjectionMatrix();
 			var vMatrix = Matrix.CreateScale(GDSettings.PHYSICS_CONVERSION_FACTOR);
 			debugView.RenderDebugData(ref pMatrix, ref vMatrix);
 #endif

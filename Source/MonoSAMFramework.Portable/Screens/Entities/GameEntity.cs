@@ -23,6 +23,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 
 		public abstract Vector2 Position { get; } // Center
 		public abstract FSize DrawingBoundingBox { get; }
+		public FRectangle DrawingBoundingRect => FRectangle.CreateByCenter(Position, DrawingBoundingBox);
 		public abstract Color DebugIdentColor { get; }
 
 		public bool IsInViewport = true; // is in viewport and is therefore rendered

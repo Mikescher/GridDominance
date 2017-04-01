@@ -53,6 +53,7 @@
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
     <Compile Include="Extensions\TimeExtension.cs" />
+    <Compile Include="GameMath\BistateProgress.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign9.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="GameMath\VectorPath\VectorPath.cs" />
     <Compile Include="GameMath\VectorPath\VectorPathBuilder.cs" />
     <Compile Include="GameMath\VectorPath\VectorPathSegment.cs" />
+    <Compile Include="Input\InputConsumer.cs" />
     <Compile Include="Input\KCL.cs" />
     <Compile Include="Input\KeyCombination.cs" />
     <Compile Include="Input\KeyCombinationList.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="RenderHelper\SimpleRenderHelper.cs" />
     <Compile Include="RenderHelper\StaticTextures.cs" />
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
+    <Compile Include="Screens\Agents\DecayGameScreenAgent.cs" />
     <Compile Include="Screens\Agents\GameScreenAgent.cs" />
     <Compile Include="Screens\Background\SolidColorBackground.cs" />
     <Compile Include="Screens\Entities\MouseArea\GameEntityMouseArea.cs" />

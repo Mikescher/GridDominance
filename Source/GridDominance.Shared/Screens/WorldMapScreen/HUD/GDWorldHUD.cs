@@ -4,6 +4,7 @@ using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
@@ -34,7 +35,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			
 			foreach (var node in GDOwner.GetEntities<LevelNode>())
 			{
-				if (node != n && (node.IsOpening || node.IsOpened)) node.CloseNode();
+				if (node != n && (node.state == BistateProgress.Open || node.state == BistateProgress.Opening)) node.CloseNode();
 			}
 		}
 

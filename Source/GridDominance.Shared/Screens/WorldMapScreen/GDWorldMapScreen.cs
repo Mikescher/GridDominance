@@ -30,6 +30,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public const int VIEW_HEIGHT = 10 * GDConstants.TILE_WIDTH;
 
 		public bool IsBackgroundPressed = false;
+		public bool IsZoomedOut = false;
 
 		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{
@@ -55,6 +56,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugSettings.AddTrigger("DBG", "SetQuality_4", this, SKeys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
 			DebugSettings.AddTrigger("DBG", "SetQuality_5", this, SKeys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
 			DebugSettings.AddTrigger("DBG", "ResetProfile", this, SKeys.R, KeyModifier.Control, x => ResetProfile());
+			DebugSettings.AddTrigger("DBG", "ResetProfile", this, SKeys.Z, KeyModifier.None, x => ZoomOut());
 
 			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      this, SKeys.F2,  KeyModifier.None, true);
 			DebugSettings.AddSwitch("DBG", "DebugBackground",       this, SKeys.F3,  KeyModifier.None, true);
@@ -78,20 +80,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				DebugDisp.AddLine(() => $"GC = Time since GC:{GCMonitor.TimeSinceLastGC:00.00}s ({GCMonitor.TimeSinceLastGC0:000.00}s | {GCMonitor.TimeSinceLastGC1:000.00}s | {GCMonitor.TimeSinceLastGC2:000.00}s) Memory = {GCMonitor.TotalMemory:000.0}MB Frequency = {GCMonitor.GCFrequency:0.000}");
 				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00}");
 				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | EntityOps = {Entities.Enumerate().Sum(p => p.ActiveEntityOperations.Count()):00} | Particles = {Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})");
-				DebugDisp.AddLine(() => $"Pointer = ({InputStateMan.GetCurrentState().PointerPosition.X:000.0}|{InputStateMan.GetCurrentState().PointerPosition.Y:000.0}) | PointerOnMap = ({InputStateMan.GetCurrentState().PointerPositionOnMap.X:000.0}|{InputStateMan.GetCurrentState().PointerPositionOnMap.Y:000.0}) | Pinching = {InputStateMan.GetCurrentState().IsGesturePinching} | LastPinchPower = {InputStateMan.GetCurrentState().LastPinchPower}");
+				DebugDisp.AddLine(() => $"GamePointer = ({InputStateMan.GetCurrentState().GamePointerPosition.X:000.0}|{InputStateMan.GetCurrentState().GamePointerPosition.Y:000.0}) | HUDPointer = ({InputStateMan.GetCurrentState().HUDPointerPosition.X:000.0}|{InputStateMan.GetCurrentState().HUDPointerPosition.Y:000.0}) | PointerOnMap = ({InputStateMan.GetCurrentState().GamePointerPositionOnMap.X:000.0}|{InputStateMan.GetCurrentState().GamePointerPositionOnMap.Y:000.0})");
 				DebugDisp.AddLine(() => $"OGL Sprites = {LastReleaseRenderSpriteCount:0000} (+ {LastDebugRenderSpriteCount:0000}); OGL Text = {LastReleaseRenderTextCount:0000} (+ {LastDebugRenderTextCount:0000})");
 				DebugDisp.AddLine(() => $"Map Offset = {MapOffset} (Map Center = {MapViewportCenter})");
 				DebugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD) HUD).SelectedNode?.Level?.Name ?? "NULL"}; FocusedHUDElement = {HUD.FocusedElement}");
-				
+
 				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualGuaranteedSize={VAdapter.VirtualGuaranteedSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealGuaranteedSize={VAdapter.RealGuaranteedSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualTotalSize={VAdapter.VirtualTotalSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealTotalSize={VAdapter.RealTotalSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.VirtualOffset={VAdapter.VirtualGuaranteedBoundingsOffset}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.RealOffset={VAdapter.RealGuaranteedBoundingsOffset}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"Adapter.Scale={VAdapter.Scale}");
-				
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualGuaranteedSize={VAdapterGame.VirtualGuaranteedSize} || GameAdapter.VirtualGuaranteedSize={VAdapterHUD.VirtualGuaranteedSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealGuaranteedSize={VAdapterGame.RealGuaranteedSize} || GameAdapter.RealGuaranteedSize={VAdapterHUD.RealGuaranteedSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualTotalSize={VAdapterGame.VirtualTotalSize} || GameAdapter.VirtualTotalSize={VAdapterHUD.VirtualTotalSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealTotalSize={VAdapterGame.RealTotalSize} || GameAdapter.RealTotalSize={VAdapterHUD.RealTotalSize}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualOffset={VAdapterGame.VirtualGuaranteedBoundingsOffset} || GameAdapter.VirtualOffset={VAdapterHUD.VirtualGuaranteedBoundingsOffset}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealOffset={VAdapterGame.RealGuaranteedBoundingsOffset} || GameAdapter.RealOffset={VAdapterHUD.RealGuaranteedBoundingsOffset}");
+				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.Scale={VAdapterGame.Scale} || GameAdapter.Scale={VAdapterHUD.Scale}");
+
 				DebugDisp.AddLine("ShowOperations", () => string.Join(Environment.NewLine, Entities.Enumerate().SelectMany(e => e.ActiveEntityOperations).Select(o => o.Name)));
 				DebugDisp.AddLine("ShowOperations", () => string.Join(Environment.NewLine, HUD.Enumerate().SelectMany(e => e.ActiveHUDOperations).Select(o => o.Name)));
 
@@ -129,15 +131,24 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			var n2 = AddLevelNode(10, 10, Levels.LEVEL_002);
 			var n3 = AddLevelNode(22, 10, Levels.LEVEL_003);
 			var n4 = AddLevelNode(16, 16, Levels.LEVEL_003);
+			var n5 = AddLevelNode(28, 10, Levels.LEVEL_003);
+			var n6 = AddLevelNode(34, 10, Levels.LEVEL_003);
+			var n7 = AddLevelNode(40, 10, Levels.LEVEL_003);
 
 			n1.NextLinkedNodes.Add(n2);
 			n2.NextLinkedNodes.Add(n3);
 			n2.NextLinkedNodes.Add(n4);
+			n3.NextLinkedNodes.Add(n5);
+			n5.NextLinkedNodes.Add(n6);
+			n6.NextLinkedNodes.Add(n7);
 
 			n1.CreatePipes();
 			n2.CreatePipes();
 			n3.CreatePipes();
 			n4.CreatePipes();
+			n5.CreatePipes();
+			n6.CreatePipes();
+			n7.CreatePipes();
 
 			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
 			MapOffsetY = VIEW_HEIGHT / -2f;
@@ -190,10 +201,37 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
 
+			if (IsZoomedOut && istate.IsRealDown && istate.SwallowConsumer != InputConsumer.HUDElement)
+			{
+				ZoomIn(istate.GamePointerPositionOnMap);
+			}
+
 			if (istate.IsGesturePinchComplete && istate.LastPinchPower > 1000) //TODO number what
 			{
-				//TODO Zoom out
+				ZoomOut();
 			}
+		}
+
+		private void ZoomOut()
+		{
+			if (IsZoomedOut) return;
+			if (GetAgents<ZoomOutAgent>().Any()) return;
+			if (GetAgents<ZoomInAgent>().Any()) return;
+
+			AddAgent(new ZoomOutAgent(this));
+
+			IsZoomedOut = true;
+		}
+
+		private void ZoomIn(FPoint mapPosCenter)
+		{
+			if (!IsZoomedOut) return;
+			if (GetAgents<ZoomOutAgent>().Any()) return;
+			if (GetAgents<ZoomInAgent>().Any()) return;
+
+			AddAgent(new ZoomInAgent(this, mapPosCenter));
+
+			IsZoomedOut = false;
 		}
 
 		public override void Resize(int width, int height)

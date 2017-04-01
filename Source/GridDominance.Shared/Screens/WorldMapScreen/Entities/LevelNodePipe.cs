@@ -197,39 +197,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					throw new ArgumentOutOfRangeException();
 			}
 
-			switch (curvature)
-			{
-				case FlatCurve12.UP:
-				case FlatCurve12.RIGHT_UP:
-				case FlatCurve12.LEFT_UP:
-					_orbEnd = NodeSink.Position + new Vector2(0, -orbCenterOffset);
-					break;
-
-				case FlatCurve12.DOWN:
-				case FlatCurve12.RIGHT_DOWN:
-				case FlatCurve12.LEFT_DOWN:
-					_orbEnd = NodeSink.Position + new Vector2(0, +orbCenterOffset);
-					break;
-
-				case FlatCurve12.UP_LEFT:
-				case FlatCurve12.DOWN_LEFT:
-				case FlatCurve12.LEFT:
-					_orbEnd = NodeSink.Position + new Vector2(+orbCenterOffset, 0);
-					break;
-
-				case FlatCurve12.UP_RIGHT:
-				case FlatCurve12.DOWN_RIGHT:
-				case FlatCurve12.RIGHT:
-					_orbEnd = NodeSink.Position + new Vector2(-orbCenterOffset, 0);
-					break;
-
-				case FlatCurve12.POINT:
-					throw new ArgumentOutOfRangeException();
-
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-
+			_orbEnd = NodeSink.Position;
+			
 			Length = (_orbStart - _orbEnd).ManhattenLength();
 		}
 

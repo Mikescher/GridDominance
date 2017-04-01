@@ -25,7 +25,8 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public readonly GraphicsDeviceManager Graphics;
 		public readonly MonoSAMGame Game;
-		public SAMViewportAdapter VAdapter;
+		public SAMViewportAdapter VAdapterGame;
+		public SAMViewportAdapter VAdapterHUD;
 		public GameHUD HUD => GameHUD;
 
 		protected InputStateManager InputStateMan;
@@ -33,7 +34,7 @@ namespace MonoSAMFramework.Portable.Screens
 		protected GameHUD GameHUD;
 		protected EntityManager Entities;
 		protected GameBackground Background;
-		protected IDebugTextDisplay DebugDisp;
+		public    IDebugTextDisplay DebugDisp;
 
 		protected SpriteBatch InternalBatch;
 		protected IBatchRenderer FixedBatch;                  // no translation          (for HUD)
@@ -51,11 +52,11 @@ namespace MonoSAMFramework.Portable.Screens
 		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; TranslatedBatch.VirtualOffsetX = value; } }
 		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; TranslatedBatch.VirtualOffsetY = value; } }
 		public Vector2 MapOffset => new Vector2(_mapOffsetX, _mapOffsetY);
-		public float MapViewportCenterX { get { return VAdapter.VirtualTotalWidth  / 2 - MapOffsetX - VAdapter.VirtualGuaranteedBoundingsOffsetX; } set { MapOffsetX = VAdapter.VirtualTotalWidth / 2 - VAdapter.VirtualGuaranteedBoundingsOffsetX - value; } }
-		public float MapViewportCenterY { get { return VAdapter.VirtualTotalHeight / 2 - MapOffsetY - VAdapter.VirtualGuaranteedBoundingsOffsetY; } set { MapOffsetY = VAdapter.VirtualTotalHeight / 2 - VAdapter.VirtualGuaranteedBoundingsOffsetY - value; } }
+		public float MapViewportCenterX { get { return VAdapterGame.VirtualTotalWidth  / 2 - MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX; } set { MapOffsetX = VAdapterGame.VirtualTotalWidth / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetX - value; } }
+		public float MapViewportCenterY { get { return VAdapterGame.VirtualTotalHeight / 2 - MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY; } set { MapOffsetY = VAdapterGame.VirtualTotalHeight / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetY - value; } }
 		public Vector2 MapViewportCenter => new Vector2(MapViewportCenterX, MapViewportCenterY);
-		public FRectangle GuaranteedMapViewport => new FRectangle(-MapOffsetX, -MapOffsetY, VAdapter.VirtualGuaranteedWidth, VAdapter.VirtualGuaranteedHeight);
-		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapter.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapter.VirtualGuaranteedBoundingsOffsetY, VAdapter.VirtualTotalWidth, VAdapter.VirtualTotalHeight);
+		public FRectangle GuaranteedMapViewport => new FRectangle(-MapOffsetX, -MapOffsetY, VAdapterGame.VirtualGuaranteedWidth, VAdapterGame.VirtualGuaranteedHeight);
+		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY, VAdapterGame.VirtualTotalWidth, VAdapterGame.VirtualTotalHeight);
 		public FRectangle MapFullBounds { get; private set; }
 
 		private List<GameScreenAgent> agents;
@@ -78,13 +79,14 @@ namespace MonoSAMFramework.Portable.Screens
 		private void Initialize()
 		{
 			MapFullBounds = CreateMapFullBounds();
-			VAdapter = CreateViewport();
+			VAdapterGame = CreateViewport();
+			VAdapterHUD = CreateViewport(); // later perhaps diff adapters
 
 			InternalBatch   = new SpriteBatch(Graphics.GraphicsDevice);
 			FixedBatch      = new StandardSpriteBatchWrapper(InternalBatch);
 			TranslatedBatch = new TranslatingSpriteBatchWrapper(InternalBatch);
 
-			InputStateMan = new InputStateManager(VAdapter, MapOffsetX, MapOffsetY);
+			InputStateMan = new InputStateManager(VAdapterGame, VAdapterHUD, MapOffsetX, MapOffsetY);
 			GameHUD = CreateHUD();
 			Background = CreateBackground();
 
@@ -174,9 +176,22 @@ namespace MonoSAMFramework.Portable.Screens
 
 			Background.Update(timeVirtual, state);
 
-			foreach (var agent in agents) agent.Update(timeVirtual, state);
+			UpdateAgents(timeVirtual, state);
 
 			OnUpdate(timeVirtual, state);
+		}
+
+		private void UpdateAgents(SAMTime timeVirtual, InputState istate)
+		{
+			for (int i = agents.Count - 1; i >= 0; i--)
+			{
+				agents[i].Update(timeVirtual, istate);
+
+				if (!agents[i].Alive)
+				{
+					agents.RemoveAt(i);
+				}
+			}
 		}
 
 		public override void Draw(SAMTime gameTime)
@@ -191,23 +206,32 @@ namespace MonoSAMFramework.Portable.Screens
 
 			Graphics.GraphicsDevice.Clear(Color.Magenta);
 
-			FixedBatch.OnBegin(bts);
+
+			// ======== GAME =========
+
 			TranslatedBatch.OnBegin(bts);
-			InternalBatch.Begin(transformMatrix: VAdapter.GetScaleMatrix());
+			InternalBatch.Begin(transformMatrix: VAdapterGame.GetScaleMatrix());
 			{
 				Background.Draw(TranslatedBatch);
-
 				Entities.Draw(TranslatedBatch);
+			}
+			InternalBatch.End();
+			TranslatedBatch.OnEnd();
 
+			// ======== HUD ==========
+
+			FixedBatch.OnBegin(bts);
+			InternalBatch.Begin(transformMatrix: VAdapterHUD.GetScaleMatrix());
+			{
 				GameHUD.Draw(FixedBatch);
-
 #if DEBUG
 				using (FixedBatch.BeginDebugDraw()) DebugMap.Draw(FixedBatch);
 #endif
 			}
 			InternalBatch.End();
-			TranslatedBatch.OnEnd();
 			FixedBatch.OnEnd();
+
+			// =======================
 
 			Entities.PostDraw();
 
@@ -241,6 +265,11 @@ namespace MonoSAMFramework.Portable.Screens
 		public bool RemoveAgent(GameScreenAgent a)
 		{
 			return agents.Remove(a);
+		}
+
+		public IEnumerable<T> GetAgents<T>()
+		{
+			return agents.OfType<T>();
 		}
 
 		public IEnumerable<T> GetEntities<T>()

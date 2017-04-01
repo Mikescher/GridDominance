@@ -37,6 +37,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private readonly GDWorldMapScreen _gdScreen;
 		private readonly List<Vector2> _nodePositions;
 
+		public override bool Alive => true;
+
 		public WorldMapDragAgent(GDWorldMapScreen scrn, List<Vector2> nodePositions) : base(scrn)
 		{
 			bounding = scrn.MapFullBounds;
@@ -66,7 +68,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			{
 				if (istate.IsExclusiveJustDown)
 				{
-					istate.Swallow();
+					istate.Swallow(InputConsumer.GameBackground);
 					StartDrag(istate);
 
 					_gdScreen.IsBackgroundPressed = true;
@@ -82,11 +84,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private void StartDrag(InputState istate)
 		{
-			mouseStartPos = istate.PointerPosition;
+			mouseStartPos = istate.GamePointerPosition;
 			startOffset = Screen.MapOffset;
 
 			dragSpeed = Vector2.Zero;
-			lastMousePos = istate.PointerPosition;
+			lastMousePos = istate.GamePointerPosition;
 			lastMousePosTimer = 0f;
 
 			isDragging = true;
@@ -94,7 +96,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private void UpdateDrag(SAMTime gameTime, InputState istate)
 		{
-			var delta = istate.PointerPosition - mouseStartPos;
+			var delta = istate.GamePointerPosition - mouseStartPos;
 
 			Screen.MapOffsetX = startOffset.X + delta.X;
 			Screen.MapOffsetY = startOffset.Y + delta.Y;
@@ -104,12 +106,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			lastMousePosTimer += gameTime.ElapsedSeconds;
 			if (lastMousePosTimer > DRAGSPEED_RESOLUTION)
 			{
-				dragSpeed = (istate.PointerPosition - lastMousePos) / lastMousePosTimer;
+				dragSpeed = (istate.GamePointerPosition - lastMousePos) / lastMousePosTimer;
 
 				//Debug.WriteLine(dragSpeed);
 
 				lastMousePosTimer = 0f;
-				lastMousePos = istate.PointerPosition;
+				lastMousePos = istate.GamePointerPosition;
 			}
 		}
 
