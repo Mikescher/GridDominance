@@ -175,6 +175,18 @@ namespace GridDominance.Shared
 			}
 #endif
 		}
+
+
+#if DEBUG
+		public void ResetProfile()
+		{
+			Profile.InitEmpty();
+			SaveProfile();
+
+			DebugDisplay.AddDecayLine("Profile reset", 5f, 1f, 1f);
+		}
+#endif
+
 	}
 }
 

@@ -73,7 +73,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private readonly FractionDifficulty difficulty;
 
 		public bool HasFinished = false;
-		private float levelTime = 0f;
+		public float LevelTime = 0f;
 
 		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp, FractionDifficulty diff) : base(game, gdm)
 		{
@@ -95,64 +95,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
 
 #if DEBUG
-			DebugSettings.AddSwitch(null, "DBG", this, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
-
-			DebugSettings.AddTrigger("DBG", "SetQuality_1", this, SKeys.D1, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.FD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_2", this, SKeys.D2, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.BD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_3", this, SKeys.D3, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.LD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_4", this, SKeys.D4, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.MD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_5", this, SKeys.D5, KeyModifier.Control, x => Textures.ChangeQuality(Game.Content, TextureQuality.HD));
-
-			DebugSettings.AddSwitch("DBG", "PhysicsDebugView",      this, SKeys.F1, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      this, SKeys.F2, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugBackground",       this, SKeys.F3, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       this, SKeys.F4, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugCannonView",       this, SKeys.F5, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   this, SKeys.F6, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      this, SKeys.F7, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", this, SKeys.F8, KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", this, SKeys.F9, KeyModifier.None, false);
-
-			DebugSettings.AddPush("DBG", "ShowDebugShortcuts",      this, SKeys.Tab, KeyModifier.None);
-			DebugSettings.AddPush("DBG", "ShowSerializedProfile",   this, SKeys.O, KeyModifier.None);
-
-			DebugSettings.AddPush("DBG", "AssimilateCannon",        this, SKeys.A, KeyModifier.None);
-			DebugSettings.AddPush("DBG", "AbandonCannon",           this, SKeys.S, KeyModifier.None);
+			DebugUtils.CreateShortcuts(this);
+			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
-
-#if DEBUG
-			DebugDisp = new DebugTextDisplay(Graphics.GraphicsDevice, Textures.DebugFont);
-			{
-				DebugDisp.AddLine(() => $"FPS = {FPSCounter.AverageAPS:0000.0} (current = {FPSCounter.CurrentAPS:0000.0} | delta = {FPSCounter.AverageDelta * 1000:000.00} | min = {FPSCounter.MinimumAPS:0000.0} | total = {FPSCounter.TotalActions:000000})");
-				DebugDisp.AddLine(() => $"UPS = {UPSCounter.AverageAPS:0000.0} (current = {UPSCounter.CurrentAPS:0000.0} | delta = {UPSCounter.AverageDelta * 1000:000.00} | min = {UPSCounter.MinimumAPS:0000.0} | total = {UPSCounter.TotalActions:000000}) | Speed={GameSpeed:00.00}|{GameSpeedMode}");
-				DebugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(Game.GraphicsDevice):#.00} | Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
-				DebugDisp.AddLine(() => $"Entities = {Entities.Count(),3} | Particles = {Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})"); DebugDisp.AddLine(() => $"HUD.Size=(T:{GameHUD.Top}|L:{GameHUD.Left}|R:{GameHUD.Right}|B:{GameHUD.Bottom}) | HUD.AllElements={GameHUD.DeepCount()} | HUD.RootElements={GameHUD.FlatCount()} | Background.Particles={GDBackground.ParticleCount,3}");
-				DebugDisp.AddLine(() => $"GamePointer = ({InputStateMan.GetCurrentState().GamePointerPosition.X:000.0}|{InputStateMan.GetCurrentState().GamePointerPosition.Y:000.0}) | HUDPointer = ({InputStateMan.GetCurrentState().HUDPointerPosition.X:000.0}|{InputStateMan.GetCurrentState().HUDPointerPosition.Y:000.0}) | PointerOnMap = ({InputStateMan.GetCurrentState().GamePointerPositionOnMap.X:000.0}|{InputStateMan.GetCurrentState().GamePointerPositionOnMap.Y:000.0})");
-				DebugDisp.AddLine(() => $"OGL Sprites = {LastReleaseRenderSpriteCount:0000} (+ {LastDebugRenderSpriteCount:0000}); OGL Text = {LastReleaseRenderTextCount:0000} (+ {LastDebugRenderTextCount:0000})");
-				DebugDisp.AddLine(() => $"LevelTime = {levelTime:000.000} (finished={HasFinished})");
-
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{Game.GraphicsDevice.Viewport.Width}|{Game.GraphicsDevice.Viewport.Height}]");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualGuaranteedSize={VAdapterGame.VirtualGuaranteedSize} || GameAdapter.VirtualGuaranteedSize={VAdapterHUD.VirtualGuaranteedSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealGuaranteedSize={VAdapterGame.RealGuaranteedSize} || GameAdapter.RealGuaranteedSize={VAdapterHUD.RealGuaranteedSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualTotalSize={VAdapterGame.VirtualTotalSize} || GameAdapter.VirtualTotalSize={VAdapterHUD.VirtualTotalSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealTotalSize={VAdapterGame.RealTotalSize} || GameAdapter.RealTotalSize={VAdapterHUD.RealTotalSize}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualOffset={VAdapterGame.VirtualGuaranteedBoundingsOffset} || GameAdapter.VirtualOffset={VAdapterHUD.VirtualGuaranteedBoundingsOffset}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealOffset={VAdapterGame.RealGuaranteedBoundingsOffset} || GameAdapter.RealOffset={VAdapterHUD.RealGuaranteedBoundingsOffset}");
-				DebugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.Scale={VAdapterGame.Scale} || GameAdapter.Scale={VAdapterHUD.Scale}");
-
-				DebugDisp.AddLine("ShowDebugShortcuts", DebugSettings.GetSummary);
-
-				DebugDisp.AddLogLines();
-
-				DebugDisp.AddLine("ShowSerializedProfile", () => MainGame.Inst.Profile.SerializeToString(128));
-
-				DebugDisp.AddLine("FALSE", () => InputStateMan.GetCurrentState().GetFullDebugSummary());
-			}
-
-			//InputStateMan.PointerDown += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnDown({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);
-			//InputStateMan.PointerUp += (o, a) => DebugDisp.AddDecayLine($"Mouse::OnUp({a.X:0000}|{a.Y:0000})", 0.75f, 0.5f, 0.25f);
-#endif
-
 
 			//--------------------
 
@@ -195,7 +140,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
-			if (!IsPaused && !HasFinished) levelTime += MonoSAMGame.CurrentTime.ElapsedSeconds;
+			if (!IsPaused && !HasFinished) LevelTime += MonoSAMGame.CurrentTime.ElapsedSeconds;
 
 			TestForGameEndingCondition();
 		}
@@ -246,7 +191,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				else
 				{
 					int p = FractionDifficultyHelper.GetScore(difficulty);
-					GDOwner.Profile.SetCompleted(Blueprint.UniqueID, difficulty, (int)(levelTime * 1000), true);
+					GDOwner.Profile.SetCompleted(Blueprint.UniqueID, difficulty, (int)(LevelTime * 1000), true);
 					GDOwner.SaveProfile();
 					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, difficulty, true, p);
 				}

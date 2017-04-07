@@ -29,7 +29,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public SAMViewportAdapter VAdapterHUD;
 		public GameHUD HUD => GameHUD;
 
-		protected InputStateManager InputStateMan;
+		public InputStateManager InputStateMan;
 
 		protected GameHUD GameHUD;
 		public    EntityManager Entities;
@@ -41,9 +41,9 @@ namespace MonoSAMFramework.Portable.Screens
 		protected IBatchRenderer TranslatedBatch;    // translated by MapOffset (for everything else)
 
 #if DEBUG
-		protected RealtimeAPSCounter FPSCounter;
-		protected RealtimeAPSCounter UPSCounter;
-		protected GCMonitor GCMonitor;
+		public    RealtimeAPSCounter FPSCounter;
+		public    RealtimeAPSCounter UPSCounter;
+		public    GCMonitor GCMonitor;
 		protected DebugMinimap DebugMap;
 #endif
 
@@ -58,6 +58,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public FRectangle GuaranteedMapViewport => new FRectangle(-MapOffsetX, -MapOffsetY, VAdapterGame.VirtualGuaranteedWidth, VAdapterGame.VirtualGuaranteedHeight);
 		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY, VAdapterGame.VirtualTotalWidth, VAdapterGame.VirtualTotalHeight);
 		public FRectangle MapFullBounds { get; private set; }
+
 
 		private List<GameScreenAgent> agents;
 

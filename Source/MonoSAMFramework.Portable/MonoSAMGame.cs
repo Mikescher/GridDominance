@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Language;
@@ -27,6 +28,8 @@ namespace MonoSAMFramework.Portable
 		public readonly IOperatingSystemBridge Bridge;
 
 		public abstract SAMSoundPlayer Sound { get; }
+
+		public IDebugTextDisplay DebugDisplay => (screens?.CurrentScreen as GameScreen)?.DebugDisp;
 
 		protected MonoSAMGame(IOperatingSystemBridge bridge)
 		{
