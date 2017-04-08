@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using System;
 

@@ -1,11 +1,6 @@
-﻿using System.Linq;
-using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.WorldMapScreen.Background;
-using GridDominance.Shared.Screens.WorldMapScreen.Entities;
-using Microsoft.Xna.Framework;
+﻿using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 

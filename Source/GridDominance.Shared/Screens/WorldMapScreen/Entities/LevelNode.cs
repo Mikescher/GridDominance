@@ -13,7 +13,6 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
-using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;

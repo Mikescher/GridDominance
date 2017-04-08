@@ -4,7 +4,6 @@ using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.ScreenGame.HUD;
 using MonoSAMFramework.Portable.Screens.HUD;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
 namespace GridDominance.Shared.Screens.ScreenGame.hud
 {

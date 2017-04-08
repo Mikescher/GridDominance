@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD;
-using GridDominance.Shared.Screens.WorldMapScreen;
-using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 

@@ -5,7 +5,6 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
-using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using System;
 using System.Collections.Concurrent;

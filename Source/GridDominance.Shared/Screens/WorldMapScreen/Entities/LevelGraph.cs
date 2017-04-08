@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;

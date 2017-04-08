@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GridDominance.Shared.Network.Backend
+﻿namespace GridDominance.Shared.Network.Backend
 {
 	public enum UpgradeResult
 	{

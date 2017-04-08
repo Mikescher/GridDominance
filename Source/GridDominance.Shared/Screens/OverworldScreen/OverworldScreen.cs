@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.OverworldScreen.Background;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
-using GridDominance.Shared.Screens.WorldMapScreen;
-using GridDominance.Shared.Screens.WorldMapScreen.Background;
-using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -23,7 +18,6 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
-using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 

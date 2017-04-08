@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using GridDominance.Levelformat.Parser;
+﻿using System.Linq;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
@@ -20,8 +17,6 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.LogProtocol;
-using MonoSAMFramework.Portable.RenderHelper;
-using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
