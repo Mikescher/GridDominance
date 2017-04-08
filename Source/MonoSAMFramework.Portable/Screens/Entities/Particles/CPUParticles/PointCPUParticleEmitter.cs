@@ -46,7 +46,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 			if (Config.ParticleSpawnAngleIsTotal)
 				sbatch.DrawCircle(Position, DrawingBoundingBox.Width / 2, 32, Color.LightGreen, 1);
 			else if (Config.ParticleSpawnAngleIsRandom)
-				sbatch.DrawCirclePiece(Position, DrawingBoundingBox.Width / 2, Config.ParticleSpawnAngleMin, Config.ParticleSpawnAngleMax, 32, Color.LightGreen, 1);
+				sbatch.DrawPiePiece(Position, DrawingBoundingBox.Width / 2, Config.ParticleSpawnAngleMin, Config.ParticleSpawnAngleMax, 32, Color.LightGreen, 1);
 		}
 	}
 }

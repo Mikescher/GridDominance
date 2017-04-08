@@ -416,6 +416,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FPoint Location => new FPoint(X, Y);
 		public FSize Size => new FSize(Width, Height);
+		public float Area => Width * Height;
 		public float CenterX => X + Width / 2;
 		public float CenterY => Y + Height / 2;
 		public FPoint Center => new FPoint(CenterX, CenterY);

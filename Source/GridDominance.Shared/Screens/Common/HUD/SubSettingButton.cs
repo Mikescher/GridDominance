@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
@@ -114,9 +115,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			var hud = (GDWorldHUD) HUD;
-
-			hud.SelectNode(null);
+			var hud = (ISettingsOwnerHUD) HUD;
 
 			hud.ShowAccountPanel();
 		}

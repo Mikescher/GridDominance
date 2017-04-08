@@ -107,6 +107,60 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			#endregion
 		}
 
+		public static void DrawRoundedRectOutline(IBatchRenderer sbatch, FRectangle bounds, Color color, int sides = 8, float lineWidth = 1f, float cornerSize = 16f)
+		{
+			DrawRoundedRectOutline(sbatch, bounds, color, true, true, true, true, sides, lineWidth, cornerSize);
+		}
+
+		public static void DrawRoundedRectOutline(IBatchRenderer sbatch, FRectangle bounds, Color color, bool tl, bool tr, bool bl, bool br, int sides = 8, float lineWidth = 1f, float cornerSize = 16f)
+		{
+			StaticTextures.ThrowIfNotInitialized();
+			
+			// LEFT
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				new FRectangle(bounds.Left, bounds.Top + (tl ? cornerSize : 0), lineWidth, bounds.Height - (tl ? cornerSize : 0) - (bl ? cornerSize : 0)),
+				color);
+
+			// TOP
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				new FRectangle(bounds.Left + (tl ? cornerSize : 0), bounds.Top, bounds.Width - (tl ? cornerSize : 0) - (tr ? cornerSize : 0), lineWidth),
+				color);
+
+			// RIGHT
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				new FRectangle(bounds.Right - lineWidth, bounds.Top + (tr ? cornerSize : 0), lineWidth, bounds.Height - (tr ? cornerSize : 0) - (br ? cornerSize : 0)),
+				color);
+
+			// BOTTOM
+			sbatch.DrawStretched(
+				StaticTextures.SinglePixel,
+				new FRectangle(bounds.Left + (bl ? cornerSize : 0), bounds.Bottom - lineWidth, bounds.Width - (bl ? cornerSize : 0) - (br ? cornerSize : 0), lineWidth),
+				color);
+
+			if (br)
+			{
+				sbatch.DrawCirclePiece(new Vector2(bounds.Right - cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_000, FloatMath.RAD_POS_090, 8, color, lineWidth);
+			}
+
+			if (bl)
+			{
+				sbatch.DrawCirclePiece(new Vector2(bounds.Left + cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_090, FloatMath.RAD_POS_180, 8, color, lineWidth);
+			}
+
+			if (tl)
+			{
+				sbatch.DrawCirclePiece(new Vector2(bounds.Left + cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_180, FloatMath.RAD_POS_270, 8, color, lineWidth);
+			}
+
+			if (tr)
+			{
+				sbatch.DrawCirclePiece(new Vector2(bounds.Right - cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_270, FloatMath.RAD_POS_360, 8, color, lineWidth);
+			}
+		}
+
 		public static void DrawSimpleRect(IBatchRenderer sbatch, FRectangle bounds, Color color)
 		{
 			StaticTextures.ThrowIfNotInitialized();
@@ -120,31 +174,29 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		public static void DrawSimpleRectOutline(IBatchRenderer sbatch, FRectangle bounds, float bsize, Color color)
 		{
 			StaticTextures.ThrowIfNotInitialized();
-
-			int borderSize = FloatMath.Round(bsize);
-
+			
 			// LEFT
 			sbatch.DrawStretched(
 				StaticTextures.SinglePixel,
-				new FRectangle(bounds.Left, bounds.Top, borderSize, bounds.Height),
+				new FRectangle(bounds.Left, bounds.Top, bsize, bounds.Height),
 				color);
 
 			// TOP
 			sbatch.DrawStretched(
 				StaticTextures.SinglePixel,
-				new FRectangle(bounds.Left, bounds.Top, bounds.Width, borderSize),
+				new FRectangle(bounds.Left, bounds.Top, bounds.Width, bsize),
 				color);
 
 			// RIGHT
 			sbatch.DrawStretched(
 				StaticTextures.SinglePixel,
-				new FRectangle(bounds.Right - borderSize, bounds.Top, borderSize, bounds.Height),
+				new FRectangle(bounds.Right - bsize, bounds.Top, bsize, bounds.Height),
 				color);
 
 			// BOTTOM
 			sbatch.DrawStretched(
 				StaticTextures.SinglePixel,
-				new FRectangle(bounds.Left, bounds.Bottom - borderSize, bounds.Width, borderSize),
+				new FRectangle(bounds.Left, bounds.Bottom - bsize, bounds.Width, bsize),
 				color);
 		}
 

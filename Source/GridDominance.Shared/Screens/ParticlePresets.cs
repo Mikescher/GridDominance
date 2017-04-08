@@ -18,7 +18,7 @@ namespace GridDominance.Shared.Screens
 				ParticleLifetimeMax = 1.8f,
 				ParticleVelocityMin = 4f * size,
 				ParticleVelocityMax = 24f * size,
-				ParticleSizeInitial = 24 * size,
+				ParticleSizeInitial = 34 * size,
 				ParticleSizeFinalMin = 0 * size,
 				ParticleSizeFinalMax = 24 * size,
 				ParticleAlphaInitial = 1f,

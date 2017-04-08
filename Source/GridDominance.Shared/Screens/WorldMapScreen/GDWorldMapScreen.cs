@@ -138,9 +138,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			{
 				sbatch.DrawRectangle(Graph.BoundingRect, Color.OrangeRed, 3f);
 				sbatch.DrawRectangle(Graph.BoundingViewport, Color.OrangeRed, 3f);
-
-				DebugRenderHelper.DrawCrossedCircle(sbatch, Color.Lime, MapViewportCenter, 8, 2);
-				DebugRenderHelper.DrawHalfCrossedCircle(sbatch, Color.Lime, -MapOffset, 8, 2);
 			}
 #endif
 		}

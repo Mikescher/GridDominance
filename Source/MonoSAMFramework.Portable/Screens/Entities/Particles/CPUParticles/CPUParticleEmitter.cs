@@ -24,6 +24,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 		public int ParticleCount { get; private set; } = 0;
 
+		public bool IsEnabled = true;
+
 		protected CPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg) : base(scrn)
 		{
 			_config = cfg;
@@ -54,6 +56,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 			if (!IsInViewport) return; // No drawing - no updating (state is frozen)
+			if (!IsEnabled) return;
 
 			internalTime += gameTime.ElapsedSeconds;
 
@@ -126,6 +129,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
+			if (!IsEnabled) return;
+
 			for (int i = 0; i < ParticleCount; i++)
 			{
 				var p = particlePool[i];
@@ -146,6 +151,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 		protected override void DrawDebugBorders(IBatchRenderer sbatch)
 		{
+			if (!IsEnabled) return;
+
 			base.DrawDebugBorders(sbatch);
 
 			sbatch.DrawRectangle(Position - new FSize(8, 8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);

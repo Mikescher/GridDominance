@@ -3,6 +3,7 @@ using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Network;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.OverworldScreen;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen;
@@ -118,7 +119,8 @@ namespace GridDominance.Shared
 		protected override void OnAfterInitialize()
 		{
 			//SetLevelScreen(Levels.LEVEL_001, FractionDifficulty.KI_EASY);
-			SetWorldMapScreen();
+			//SetWorldMapScreen();
+			SetOverworldScreen();
 		}
 
 		protected override void OnUpdate(SAMTime gameTime)
@@ -134,6 +136,11 @@ namespace GridDominance.Shared
 		public void SetWorldMapScreen()
 		{
 			SetCurrentScreen(new GDWorldMapScreen(this, Graphics));
+		}
+
+		public void SetOverworldScreen()
+		{
+			SetCurrentScreen(new OverworldScreen(this, Graphics));
 		}
 
 		protected override void LoadContent()

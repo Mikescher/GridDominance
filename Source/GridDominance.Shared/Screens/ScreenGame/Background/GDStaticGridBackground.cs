@@ -29,13 +29,19 @@ namespace GridDominance.Shared.Screens.ScreenGame.Background
 			int extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / GDConstants.TILE_WIDTH);
 			int extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / GDConstants.TILE_WIDTH);
 
+			sbatch.DrawStretched(
+				Textures.TexPixel, 
+				new FRectangle(
+					-extensionX * GDConstants.TILE_WIDTH, 
+					-extensionY * GDConstants.TILE_WIDTH, 
+					(TILE_COUNT_X + 2* extensionX + 1) * GDConstants.TILE_WIDTH, 
+					(TILE_COUNT_Y + 2 * extensionY + 1) * GDConstants.TILE_WIDTH), 
+				FlatColors.Background);
+
 			for (int x = -extensionX; x < TILE_COUNT_X + extensionX; x++)
 			{
 				for (int y = -extensionY; y < TILE_COUNT_Y + extensionY; y++)
 				{
-					var color = FlatColors.Background;
-
-					sbatch.DrawStretched(Textures.TexPixel, new FRectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), color);
 					sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), Color.White);
 				}
 			}

@@ -1,52 +1,36 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD;
+using GridDominance.Shared.Screens.WorldMapScreen;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
+using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
-	public class GDWorldHUD : GameHUD, ISettingsOwnerHUD
+	public class OverworldHUD : GameHUD, ISettingsOwnerHUD
 	{
-		public GDWorldMapScreen GDOwner => (GDWorldMapScreen)Screen;
+		public OverworldScreen GDOwner => (OverworldScreen) Screen;
 
-		public LevelNode SelectedNode = null;
-
-		public readonly TopLevelDisplay TopLevelDisplay;
-		public readonly InformationDisplay InfoDisplay;
 		public readonly SettingsButton Settings;
 
-		public GDWorldHUD(GDWorldMapScreen scrn) : base(scrn, Textures.HUDFontRegular)
+		public OverworldHUD(OverworldScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(Settings = new SettingsButton());
-			AddElement(new ScoreDisplay());
-			AddElement(TopLevelDisplay = new TopLevelDisplay());
-			AddElement(InfoDisplay = new InformationDisplay());
-		}
-
-		public void SelectNode(LevelNode n)
-		{
-			SelectedNode = n;
-			InfoDisplay.ResetCycle();
-			
-			foreach (var node in GDOwner.GetEntities<LevelNode>())
-			{
-				if (node != n && (node.state == BistateProgress.Open || node.state == BistateProgress.Opening)) node.CloseNode();
-			}
 		}
 
 		public void ShowAccountPanel()
 		{
-			SelectNode(null);
-
 			var profile = MainGame.Inst.Profile;
 
-			SelectNode(null);
 			Settings.Close();
 
 			if (profile.AccountType == AccountType.Local)

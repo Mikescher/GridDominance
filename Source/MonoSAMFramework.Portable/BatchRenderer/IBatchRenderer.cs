@@ -32,6 +32,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1f);
 		void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f);
 		void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);
+		void DrawPiePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);
 		void DrawPath(Vector2 posVector2, VectorPath path, int segments, Color color, float thickness = 1f);
 		void DrawShape(IFShape shape, Color color, float thickness = 1f);
 

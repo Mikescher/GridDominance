@@ -405,6 +405,11 @@ namespace MonoSAMFramework.Portable.GameMath
 			return (float)(Random.NextDouble() * max);
 		}
 
+		public static int GetRangedIntRandom(int min, int max)
+		{
+			return min + Random.Next() % (max - min);
+		}
+
 		public static int GetRandomSign()
 		{
 			return (Random.Next() % 2) * 2 - 1; // returns -1 or +1

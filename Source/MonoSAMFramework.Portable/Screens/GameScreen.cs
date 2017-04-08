@@ -5,6 +5,7 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -218,6 +219,10 @@ namespace MonoSAMFramework.Portable.Screens
 				Background.Draw(TranslatedBatch);
 				Entities.Draw(TranslatedBatch);
 				OnDrawGame(TranslatedBatch);
+
+#if DEBUG
+				DrawScreenDebug(TranslatedBatch);
+#endif
 			}
 			InternalBatch.End();
 			TranslatedBatch.OnEnd();
@@ -247,8 +252,32 @@ namespace MonoSAMFramework.Portable.Screens
 				Entities.DrawOuterDebug();
 				DebugDisp.Draw();
 			}
+
 #endif
 		}
+
+#if DEBUG
+		private void DrawScreenDebug(IBatchRenderer sbatch)
+		{
+			if (DebugSettings.Get("DebugBackground"))
+			{
+				DebugRenderHelper.DrawCrossedCircle(sbatch, Color.Red, MapViewportCenter, 8, 2);
+				DebugRenderHelper.DrawHalfCrossedCircle(sbatch, Color.Red, -MapOffset, 8, 2);
+
+				var rTop = new FRectangle(CompleteMapViewport.X, CompleteMapViewport.Y, CompleteMapViewport.Width, GuaranteedMapViewport.Y - CompleteMapViewport.Y);
+				var rBot = new FRectangle(CompleteMapViewport.X, GuaranteedMapViewport.Bottom, CompleteMapViewport.Width, CompleteMapViewport.Bottom - GuaranteedMapViewport.Bottom);
+				var rLef = new FRectangle(CompleteMapViewport.X, CompleteMapViewport.Y, GuaranteedMapViewport.X - CompleteMapViewport.X, CompleteMapViewport.Height);
+				var rRig = new FRectangle(GuaranteedMapViewport.Right, CompleteMapViewport.Y, CompleteMapViewport.Right - GuaranteedMapViewport.Right, CompleteMapViewport.Height);
+
+				if (rTop.Area > 0.001f) sbatch.FillRectangle(rTop, Color.DarkRed * 0.35f);
+				if (rBot.Area > 0.001f) sbatch.FillRectangle(rBot, Color.DarkRed * 0.35f);
+				if (rLef.Area > 0.001f) sbatch.FillRectangle(rLef, Color.DarkRed * 0.35f);
+				if (rRig.Area > 0.001f) sbatch.FillRectangle(rRig, Color.DarkRed * 0.35f);
+
+				sbatch.DrawRectangle(GuaranteedMapViewport, Color.Red * 0.8f, 1f);
+			}
+		}
+#endif
 
 		public override void Resize(int width, int height)
 		{

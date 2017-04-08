@@ -131,11 +131,11 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		protected Vector2[] CreateCirclePiece(double radius, float aMin, float aMax, int sides)
 		{
-			var points = new Vector2[sides];
+			var points = new Vector2[sides+1];
 			var step = (aMax - aMin) / sides;
 			var theta = aMin;
 
-			for (var i = 0; i < sides; i++)
+			for (var i = 0; i <= sides; i++)
 			{
 				points[i] = new Vector2((float)(radius * Math.Cos(theta)), (float)(radius * Math.Sin(theta)));
 				theta += step;
@@ -352,6 +352,13 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		}
 
 		public void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f)
+		{
+			Vector2[] poly = CreateCirclePiece(radius, angleMin, angleMax, sides);
+
+			DrawPolygon(center, poly, color, false, thickness);
+		}
+
+		public void DrawPiePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f)
 		{
 			Vector2[] poly = CreateCirclePiece(radius, angleMin, angleMax, sides);
 
