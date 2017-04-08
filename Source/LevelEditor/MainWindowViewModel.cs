@@ -242,7 +242,7 @@ namespace LevelEditor
 		{
 			while (s.Contains("::UUID::"))
 			{
-				s = new Regex(Regex.Escape("::UUID::")).Replace(s, Guid.NewGuid().ToString("N").ToUpper(), 1);
+				s = new Regex(Regex.Escape("::UUID::")).Replace(s, Guid.NewGuid().ToString("B").ToUpper(), 1);
 			}
 
 			return s;
