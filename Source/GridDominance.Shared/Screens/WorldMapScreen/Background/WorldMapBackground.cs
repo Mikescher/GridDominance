@@ -19,6 +19,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 		private const int NODE_SPREAD = 4;
 
 		public float GridLineAlpha = 1.0f;
+		public float BackgroundPercentageOverride = 1.0f;
 		private readonly Dictionary<int, float> _tileValues = new Dictionary<int, float>();
 
 		public WorldMapBackground(GameScreen scrn) : base(scrn)
@@ -127,7 +128,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 					var ry = y - offY;
 
 					float perc;
-					if (_tileValues.TryGetValue(100000 * rx + ry, out perc)) color = ColorMath.Blend(FlatColors.Background, FlatColors.BackgroundGreen, perc);
+					if (_tileValues.TryGetValue(100000 * rx + ry, out perc)) color = ColorMath.Blend(FlatColors.Background, FlatColors.BackgroundGreen, perc * BackgroundPercentageOverride);
 
 					sbatch.DrawStretched(
 						Textures.TexPixel, 

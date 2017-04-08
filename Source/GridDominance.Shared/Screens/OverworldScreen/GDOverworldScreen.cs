@@ -23,7 +23,7 @@ using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.OverworldScreen
 {
-	public class OverworldScreen : GameScreen
+	public class GDOverworldScreen : GameScreen
 	{
 		public const int VIEW_WIDTH = 16 * GDConstants.TILE_WIDTH;
 		public const int VIEW_HEIGHT = 10 * GDConstants.TILE_WIDTH;
@@ -40,8 +40,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 
 		private bool _effectsEnabledCache = true;
 		private List<CPUParticleEmitter> logoEmitter = new List<CPUParticleEmitter>();
+		public bool IsTransitioning = false;
 
-		public OverworldScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
+		public GDOverworldScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{
 			Initialize();
 		}

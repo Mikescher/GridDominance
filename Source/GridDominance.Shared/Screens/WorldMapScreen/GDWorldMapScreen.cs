@@ -7,6 +7,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
@@ -31,6 +32,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public BistateProgress ZoomState = BistateProgress.Normal;
 
 		public readonly LevelGraph Graph;
+		public float ColorOverdraw = 0f;
 
 		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{
@@ -55,55 +57,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugUtils.CreateShortcuts(this);
 			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
-			//AddLetter('B', 1.0f, 100 + 20, 256, 1);
-			//AddLetter('L', 0.5f, 100 + 120, 256, 2);
-			//AddLetter('A', 0.5f, 100 + 190, 256, 3);
-			//AddLetter('C', 0.5f, 100 + 260, 256, 4);
-			//AddLetter('K', 0.5f, 100 + 330, 256, 5);
-			//
-			//AddLetter('F', 1.0f, 100 + 500, 256, 6);
-			//AddLetter('O', 0.5f, 100 + 570, 256, 7);
-			//AddLetter('R', 0.5f, 100 + 640, 256, 8);
-			//AddLetter('E', 0.5f, 100 + 710, 256, 9);
-			//AddLetter('S', 0.5f, 100 + 780, 256, 10);
-			//AddLetter('T', 0.5f, 100 + 850, 256, 11);
-			//
-			//AddLetter('B', 1.0f, 100 + 260 + 20, 512, 12);
-			//AddLetter('Y', 0.5f, 100 + 260 + 120, 512, 13);
-			//AddLetter('T', 0.5f, 100 + 260 + 190, 512, 14);
-			//AddLetter('E', 0.5f, 100 + 260 + 260, 512, 15);
-			//AddLetter('S', 0.5f, 100 + 260 + 330, 512, 16);
-
 			Graph.Init();
 
 			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
 			MapOffsetY = VIEW_HEIGHT / -2f;
 
 			((WorldMapBackground)Background).InitBackground(GetEntities<LevelNode>().ToList());
-		}
-
-		private void AddLetter(char chr, float size, float x, float y, int index)
-		{
-			//*
-			var em = new AnimatedPathGPUParticleEmitter(
-				this, 
-				new Vector2(x, y - (size * 150) / 2), 
-				PathPresets.LETTERS[chr].AsScaled(size * 150), 
-				ParticlePresets.GetConfigLetterFireRed(size, chr), 
-				0.5f + index * 0.3f, 
-				0.3f);
-			/*/
-
-			var em = new AnimatedPathCPUParticleEmitter(
-				this,
-				new Vector2(x, y - (size * 150) / 2),
-				PathPresets.LETTERS[chr].AsScaled(size * 150),
-				ParticlePresets.GetConfigLetterFireRed(size, chr),
-				0.5f + index * 0.3f,
-				0.3f);
-			//*/
-
-			Entities.AddEntity(em);
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
@@ -115,15 +74,37 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
 
-			if ((ZoomState == BistateProgress.Expanding || ZoomState == BistateProgress.Expanded) && istate.IsRealJustDown && istate.SwallowConsumer != InputConsumer.HUDElement)
+			if (ZoomState == BistateProgress.Expanded && istate.IsRealJustDown && istate.SwallowConsumer != InputConsumer.HUDElement)
 			{
 				ZoomIn(istate.GamePointerPositionOnMap);
 			}
 
-			if ((ZoomState == BistateProgress.Reverting || ZoomState == BistateProgress.Normal) && istate.IsGesturePinchComplete && istate.LastPinchPower < -10)
+			if (ZoomState == BistateProgress.Normal && istate.IsGesturePinchComplete && istate.LastPinchPower < -10)
 			{
 				ZoomOut();
 			}
+
+			if (ZoomState == BistateProgress.Expanded && istate.IsGesturePinchComplete && istate.LastPinchPower < -10)
+			{
+				MainGame.Inst.SetOverworldScreen();
+			}
+
+			if (ZoomState == BistateProgress.Expanded && istate.IsGesturePinchComplete && istate.LastPinchPower > +10)
+			{
+				ZoomIn(istate.GamePointerPositionOnMap);
+			}
+
+			if (istate.IsKeyJustDown(SKeys.AndroidBack))
+			{
+				MainGame.Inst.SetOverworldScreen();
+			}
+
+#if DEBUG
+			if (DebugSettings.Get("LeaveScreen"))
+			{
+				MainGame.Inst.SetOverworldScreen();
+			}
+#endif
 		}
 
 		protected override void OnDrawGame(IBatchRenderer sbatch)
@@ -135,6 +116,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				sbatch.DrawRectangle(Graph.BoundingViewport, Color.OrangeRed, 3f);
 			}
 #endif
+
+			if (ColorOverdraw > 0)
+			{
+				sbatch.FillRectangle(CompleteMapViewport, FlatColors.Background * ColorOverdraw);
+			}
 		}
 
 		protected override void OnDrawHUD(IBatchRenderer sbatch)

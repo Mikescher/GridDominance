@@ -1,6 +1,7 @@
 ﻿using System;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -26,7 +27,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		private readonly string description;
 		private readonly GameEntityMouseArea clickArea;
 
-		public OverworldNode(GameScreen scrn, Vector2 pos, string text) : base(scrn, 0)
+		public float AlphaOverride = 1f;
+
+		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, string text) : base(scrn, 0)
 		{
 			description = text;
 			Position = pos;
@@ -51,7 +54,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
 		{
+			var ownr = ((GDOverworldScreen) Owner);
 
+			if (ownr.IsTransitioning) return;
+
+			ownr.IsTransitioning = true;
+
+			ownr.AddAgent(new TransitionZoomInAgent(ownr, this));
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
@@ -68,15 +77,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			{
 				for (int y = 0; y < 8; y++)
 				{
-					var col = GetCellColor(x, y);
+					var col = ColorMath.Blend(FlatColors.Background, GetCellColor(x, y), AlphaOverride);
 					sbatch.FillRectangle(new FRectangle(innerBounds.X + scoreRectSize * x, innerBounds.Y + scoreRectSize * y, scoreRectSize, scoreRectSize), col);
 				}
 			}
 
 			for (int i = 0; i <= 8; i++)
 			{
-				sbatch.DrawLine(innerBounds.Left, innerBounds.Top + i*scoreRectSize, innerBounds.Right, innerBounds.Top + i * scoreRectSize, Color.Black);
-				sbatch.DrawLine(innerBounds.Left + i*scoreRectSize, innerBounds.Top, innerBounds.Left + i*scoreRectSize, innerBounds.Bottom, Color.Black);
+				sbatch.DrawLine(innerBounds.Left, innerBounds.Top + i*scoreRectSize, innerBounds.Right, innerBounds.Top + i * scoreRectSize, Color.Black * AlphaOverride);
+				sbatch.DrawLine(innerBounds.Left + i*scoreRectSize, innerBounds.Top, innerBounds.Left + i*scoreRectSize, innerBounds.Bottom, Color.Black * AlphaOverride);
 			}
 
 			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, description, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));

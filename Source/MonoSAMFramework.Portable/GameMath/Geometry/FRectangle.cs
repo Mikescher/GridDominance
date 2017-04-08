@@ -512,5 +512,24 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 				return AsResized(Width, newHeight);
 			}
 		}
+
+		[Pure]
+		public FRectangle SetRatioUnderfitKeepCenter(float ratio)
+		{
+			if ((Width / Height) < ratio)
+			{
+				// needs less height
+				var newHeight = Width / ratio;
+
+				return AsResized(Width, newHeight);
+			}
+			else // if ((Width / Height) > ratio)
+			{
+				// needs less width
+				var newWidth = Height * ratio;
+
+				return AsResized(newWidth, Height);
+			}
+		}
 	}
 }

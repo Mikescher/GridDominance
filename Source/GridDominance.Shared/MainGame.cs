@@ -7,6 +7,7 @@ using GridDominance.Shared.Screens.OverworldScreen;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen;
+using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
@@ -140,7 +141,15 @@ namespace GridDominance.Shared
 
 		public void SetOverworldScreen()
 		{
-			SetCurrentScreen(new OverworldScreen(this, Graphics));
+			SetCurrentScreen(new GDOverworldScreen(this, Graphics));
+		}
+
+		public void SetWorldMapScreenWithTransition()
+		{
+			var screen = new GDWorldMapScreen(this, Graphics);
+			SetCurrentScreen(screen);
+			screen.AddAgent(new InitialTransitionAgent(screen));
+			screen.ColorOverdraw = 1f;
 		}
 
 		protected override void LoadContent()

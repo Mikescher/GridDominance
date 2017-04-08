@@ -81,10 +81,11 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddSwitch("DBG", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None, true);
 
-			DebugSettings.AddPush("DBG", "ShowDebugShortcuts",      scrn, SKeys.Tab, KeyModifier.None);
-			DebugSettings.AddPush("DBG", "ShowSerializedProfile",   scrn, SKeys.O,   KeyModifier.None);
-			DebugSettings.AddPush("DBG", "AssimilateCannon",        scrn, SKeys.A,   KeyModifier.None);
-			DebugSettings.AddPush("DBG", "AbandonCannon",           scrn, SKeys.S,   KeyModifier.None);
+			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab,       KeyModifier.None);
+			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,         KeyModifier.None);
+			DebugSettings.AddPush("DBG",  "AssimilateCannon",       scrn, SKeys.A,         KeyModifier.None);
+			DebugSettings.AddPush("DBG",  "AbandonCannon",          scrn, SKeys.S,         KeyModifier.None);
+			DebugSettings.AddPush("TRUE", "LeaveScreen",            scrn, SKeys.Backspace, KeyModifier.Control);
 		}
 
 #endif

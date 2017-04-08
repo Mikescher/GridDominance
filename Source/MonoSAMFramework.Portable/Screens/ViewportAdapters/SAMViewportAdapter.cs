@@ -76,7 +76,7 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			return PointToScreen(point.X, point.Y);
 		}
 
-		public virtual FPoint PointToScreen(int x, int y)
+		public virtual FPoint PointToScreen(float x, float y)
 		{
 			var scaleMatrix = GetScaleMatrix();
 			var invertedMatrix = Matrix.Invert(scaleMatrix);

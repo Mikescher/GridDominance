@@ -40,15 +40,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ChangePasswordPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\FullAccountPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ISettingsOwnerHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ScoreDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SettingsButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SubSettingButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\ParticlePresets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\TransitionZoomInAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Background\OverworldBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\OverworldHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\OverworldDebugMinimap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\OverworldEntityManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\OverworldScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\GDOverworldScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Background\BackgroundParticle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Background\GDStaticGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Background\GDGridBackground.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDSpeedBaseButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\HUD\HUDPauseButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\WorldMapDragAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\InitialTransitionAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\ZoomInAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\ZoomOutAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Background\WorldMapBackground.cs" />
@@ -103,7 +106,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsFontAppearOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsOpenOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\InformationDisplay.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\ScoreDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\TopLevelDisplay.cs" />
   </ItemGroup>
   <ItemGroup>

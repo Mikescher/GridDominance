@@ -518,10 +518,47 @@ namespace MonoSAMFramework.Portable.GameMath
 		/// https://gist.github.com/gre/1650294
 		public static float FunctionEaseInOutQuint(float t) => t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (t - 1) * (t - 1) * (t - 1) * (t - 1) * (t - 1);
 
+		/// accelerating from zero velocity 
+		/// http://robertpenner.com/easing/
+		public static float FunctionEaseInSine(float t) => FloatMath.Sin(t * FloatMath.PI / 2);
+
+		/// decelerating to zero velocity 
+		/// http://robertpenner.com/easing/
+		public static float FunctionEaseOutSine(float t) => 1 + FloatMath.Sin((t - 1) * FloatMath.PI / 2);
+
+		/// acceleration until halfway, then deceleration 
+		/// http://robertpenner.com/easing/
+		public static float FunctionEaseInOutSine(float t) => (1 - FloatMath.Cos(FloatMath.PI * t)) / 2;
+
 		public static float FunctionEaseOutElastic(float t, float power = 0.3f, float bounces = 2)
 		{
 			t *= 0.175f * bounces + 0.0875f;
 			return Pow(2, -10 * t) * Sin((t - power / 4) * (2 * PI) / power) + 1;
+		}
+
+		/// accelerating from zero velocity 
+		/// http://robertpenner.com/easing/
+		public static float FunctionEaseInExpo(float t, float p = 10f)
+		{
+			var s = FloatMath.Pow(2, -p);
+			return (FloatMath.Pow(2, p * (t - 1)) - s) / (1 - s);
+		}
+
+		/// decelerating to zero velocity 
+		/// http://robertpenner.com/easing/
+		public static float FunctionEaseOutExpo(float t, float p = 10)
+		{
+			return (1 - FloatMath.Pow(2, -p * t)) / (1 - FloatMath.Pow(2, -p));
+		}
+
+		/// acceleration until halfway, then deceleration 
+		/// http://robertpenner.com/easing/
+		public static float FunctionEaseInOutExpo(float t, float p = 10)
+		{
+			var s = FloatMath.Pow(2, -2 * p) / 2;
+			var e = 1 - FloatMath.Pow(2, -p) / 2;
+			if (t < 0.5) return (FloatMath.Pow(2, p * (2 * t - 1)) / 2 - s) / (e - s);
+			return (1 - FloatMath.Pow(2, -p * (2 * t - 1)) / 2 - s) / (e - s);
 		}
 
 		/// <summary>

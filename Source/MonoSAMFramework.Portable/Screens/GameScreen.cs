@@ -118,7 +118,7 @@ namespace MonoSAMFramework.Portable.Screens
 		{
 			var state = InputStateMan.GetNewState(MapOffsetX, MapOffsetY);
 
-			if (state.IsKeyDown(SKeys.Escape) || state.IsKeyDown(SKeys.AndroidBack)) Game.Exit();
+			if (state.IsKeyDown(SKeys.Escape) || state.IsKeyDown(SKeys.AndroidBack)) Game.Exit(); //TODO remove me from framework and better handling in user code
 
 #if DEBUG
 			DebugSettings.Update(state);

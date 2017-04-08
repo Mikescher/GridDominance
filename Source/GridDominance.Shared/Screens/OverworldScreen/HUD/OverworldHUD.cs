@@ -12,13 +12,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
 	public class OverworldHUD : GameHUD, ISettingsOwnerHUD
 	{
-		public OverworldScreen GDOwner => (OverworldScreen) Screen;
+		public GDOverworldScreen GDOwner => (GDOverworldScreen) Screen;
 
 		public readonly SettingsButton Settings;
 
-		public OverworldHUD(OverworldScreen scrn) : base(scrn, Textures.HUDFontRegular)
+		public OverworldHUD(GDOverworldScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(Settings = new SettingsButton());
+			AddElement(new ScoreDisplay());
 		}
 
 		public void ShowAccountPanel()

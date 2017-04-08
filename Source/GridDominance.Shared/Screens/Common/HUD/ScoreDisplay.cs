@@ -65,11 +65,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
+			var whud = HUD as GDWorldHUD;
+
 			text.Text = MainGame.Inst.Profile.TotalPoints.ToString();
 
 			icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
 
-			offset.Set(((GDWorldHUD)HUD).TopLevelDisplay.Bottom);
+			if (whud != null)
+				offset.Set(whud.TopLevelDisplay.Bottom);
+			else
+				offset.Set(0);
+
 			offset.Update(gameTime);
 			if (offset.ActualValue < offset.TargetValue) offset.SetForce(offset.TargetValue);
 

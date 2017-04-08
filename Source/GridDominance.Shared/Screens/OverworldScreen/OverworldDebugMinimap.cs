@@ -4,7 +4,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 {
 	public class OverworldDebugMinimap : DebugMinimap
 	{
-		public OverworldDebugMinimap(OverworldScreen scrn) : base(scrn)
+		public OverworldDebugMinimap(GDOverworldScreen scrn) : base(scrn)
 		{
 		}
 

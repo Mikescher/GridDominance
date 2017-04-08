@@ -62,9 +62,13 @@ namespace MonoSAMFramework.Portable.Input
 
 
 			AllGamePointerPositions = new FPoint[TouchPanel.Count];
+			float sumX = 0;
+			float sumY = 0;
 			for (int i = 0; i < TouchPanel.Count; i++)
 			{
 				AllGamePointerPositions[i] = gameAdapter.PointToScreen(TouchPanel[i].Position.ToPoint());
+				sumX += TouchPanel[i].Position.X;
+				sumY += TouchPanel[i].Position.Y;
 			}
 
 			if (Mouse.LeftButton == ButtonState.Pressed)
@@ -77,13 +81,19 @@ namespace MonoSAMFramework.Portable.Input
 			{
 				isDown = true;
 				GamePointerPosition = AllGamePointerPositions[0];
-				HUDPointerPosition = hudAdapter.PointToScreen(TouchPanel[0].Position.ToPoint());
+				HUDPointerPosition  = hudAdapter.PointToScreen(TouchPanel[0].Position.ToPoint());
 			}
-			else
+			else if (TouchPanel.Count == 0)
 			{
 				isDown = false;
 				GamePointerPosition = prev.GamePointerPosition;
 				HUDPointerPosition  = prev.HUDPointerPosition;
+			}
+			else // if (TouchPanel.Count > 1)
+			{
+				isDown = true;
+				GamePointerPosition = gameAdapter.PointToScreen(sumX / TouchPanel.Count, sumY / TouchPanel.Count);
+				HUDPointerPosition  = hudAdapter.PointToScreen(sumX / TouchPanel.Count, sumY / TouchPanel.Count);
 			}
 
 			GamePointerPositionOnMap = GamePointerPosition.RelativeTo(mox, moy);
