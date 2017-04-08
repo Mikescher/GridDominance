@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GridDominance.Graphfileformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
@@ -32,13 +33,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public BistateProgress ZoomState = BistateProgress.Normal;
 
 		public readonly LevelGraph Graph;
+		public readonly WorldGraphFile GraphBlueprint;
 		public float ColorOverdraw = 0f;
 
-		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
+		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm, WorldGraphFile g) : base(game, gdm)
 		{
 			Graph = new LevelGraph(this);
+			GraphBlueprint = g;
 
-			Initialize();
+			Initialize(g);
 		}
 
 		protected GDWorldHUD GDHUD => (GDWorldHUD) HUD;
@@ -51,13 +54,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(-8, -8, 48, 48) * GDConstants.TILE_WIDTH;
 		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
-		private void Initialize()
+		private void Initialize(WorldGraphFile g)
 		{
 #if DEBUG
 			DebugUtils.CreateShortcuts(this);
 			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
-			Graph.Init();
+			Graph.Init(g);
 
 			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
 			MapOffsetY = VIEW_HEIGHT / -2f;

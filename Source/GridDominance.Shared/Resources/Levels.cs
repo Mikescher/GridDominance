@@ -1,4 +1,7 @@
-﻿using GridDominance.Levelformat.Parser;
+﻿using System;
+using System.Collections.Generic;
+using GridDominance.Graphfileformat.Parser;
+using GridDominance.Levelformat.Parser;
 using Microsoft.Xna.Framework.Content;
 
 // ReSharper disable NotAccessedField.Global
@@ -6,6 +9,10 @@ namespace GridDominance.Shared.Resources
 {
 	public static class Levels
 	{
+		public static WorldGraphFile WORLD_001;
+
+		public static Dictionary<Guid, LevelFile> LEVELS;
+
 		public static LevelFile LEVEL_DBG;
 
 		public static LevelFile LEVEL_001;
@@ -14,10 +21,20 @@ namespace GridDominance.Shared.Resources
 
 		public static void LoadContent(ContentManager content)
 		{
-			LEVEL_001 = content.Load<LevelFile>("levels/lvl001");
-			LEVEL_002 = content.Load<LevelFile>("levels/lvl002");
-			LEVEL_003 = content.Load<LevelFile>("levels/lvl003");
-			LEVEL_DBG = content.Load<LevelFile>("levels/lvl_debug");
+			LEVELS = new Dictionary<Guid, LevelFile>();
+
+			LoadLevel(content, "levels/lvl001");
+			LoadLevel(content, "levels/lvl002");
+			LoadLevel(content, "levels/lvl003");
+			LoadLevel(content, "levels/lvl_debug");
+
+			WORLD_001 = content.Load<WorldGraphFile>("levels/world_1");
+		}
+
+		private static void LoadLevel(ContentManager content, string id)
+		{
+			var lvl = content.Load<LevelFile>(id);
+			LEVELS[lvl.UniqueID] = lvl;
 		}
 	}
 }

@@ -18,6 +18,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		public const float ANIMATION_SPEED = 2.5f;
 
+		private GDGameScreen GDScreen => (GDGameScreen) HUD.Screen;
+
 		private bool isOpened = false;
 		private float animationProgress = 0f;
 
@@ -128,7 +130,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private void OnExit()
 		{
-			MainGame.Inst.SetWorldMapScreen();
+			MainGame.Inst.SetWorldMapScreen(GDScreen.WorldBlueprint);
 		}
 
 		protected override void OnPress(InputState istate)
@@ -157,7 +159,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void OnHold(InputState istate, float holdTime)
 		{
-			this.GDHUD().GDOwner.GDOwner.SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY);
+			this.GDHUD().GDOwner.GDOwner.SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, GDScreen.WorldBlueprint);
 		}
 
 		protected override void OnEnabledChanged(bool newValue)

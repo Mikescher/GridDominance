@@ -1,4 +1,5 @@
 ﻿using System;
+using GridDominance.Graphfileformat.Parser;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Network;
 using GridDominance.Shared.Resources;
@@ -129,27 +130,27 @@ namespace GridDominance.Shared
 			GDSound.IsMuted = !Profile.SoundsEnabled;
 		}
 
-		public void SetLevelScreen(LevelFile blueprint, FractionDifficulty d)
+		public void SetLevelScreen(LevelFile blueprint, FractionDifficulty d, WorldGraphFile source)
 		{
-			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint, d));
+			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint, d, source));
 		}
 
-		public void SetWorldMapScreen()
+		public void SetWorldMapScreen(WorldGraphFile g)
 		{
-			SetCurrentScreen(new GDWorldMapScreen(this, Graphics));
+			SetCurrentScreen(new GDWorldMapScreen(this, Graphics, g));
+		}
+
+		public void SetWorldMapScreenWithTransition(WorldGraphFile g)
+		{
+			var screen = new GDWorldMapScreen(this, Graphics, g);
+			SetCurrentScreen(screen);
+			screen.AddAgent(new InitialTransitionAgent(screen));
+			screen.ColorOverdraw = 1f;
 		}
 
 		public void SetOverworldScreen()
 		{
 			SetCurrentScreen(new GDOverworldScreen(this, Graphics));
-		}
-
-		public void SetWorldMapScreenWithTransition()
-		{
-			var screen = new GDWorldMapScreen(this, Graphics);
-			SetCurrentScreen(screen);
-			screen.AddAgent(new InitialTransitionAgent(screen));
-			screen.ColorOverdraw = 1f;
 		}
 
 		protected override void LoadContent()

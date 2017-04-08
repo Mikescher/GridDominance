@@ -22,7 +22,7 @@ using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Entities
 {
-	class Cannon : GameEntity
+	public class Cannon : GameEntity
 	{
 		private const float ROTATION_SPEED = FloatMath.TAU / 2; // 3.141 rad/sec
 		private const float HEALTH_PROGRESS_SPEED = 1f; // min 1sec for 360°

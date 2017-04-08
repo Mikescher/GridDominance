@@ -59,9 +59,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			AddLetter('L', 1.2f, 100, 256, 4);
 			AddLetter('E', 1.2f, 100, 256, 5);
 
-			Entities.AddEntity(new OverworldNode(this, new Vector2(3f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), "Tutorial"));
-			Entities.AddEntity(new OverworldNode(this, new Vector2(8f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), "Basic"));
-			Entities.AddEntity(new OverworldNode(this, new Vector2(13f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), "Professional"));
+			Entities.AddEntity(new OverworldNode(this, new Vector2(3f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), "Tutorial", Levels.WORLD_001));
+			Entities.AddEntity(new OverworldNode(this, new Vector2(8f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), "Basic", Levels.WORLD_001));
+			Entities.AddEntity(new OverworldNode(this, new Vector2(13f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), "Professional", Levels.WORLD_001));
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

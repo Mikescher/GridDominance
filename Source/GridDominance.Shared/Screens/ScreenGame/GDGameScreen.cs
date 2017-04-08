@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using GridDominance.Graphfileformat.Parser;
 using GridDominance.Shared.Screens.ScreenGame.Background;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
 using GridDominance.Shared.Screens.ScreenGame.hud;
@@ -22,7 +23,7 @@ using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
-	class GDGameScreen : GameScreen
+	public class GDGameScreen : GameScreen
 	{
 		public const float GAMESPEED_SUPERSLOW = 0.25f;
 		public const float GAMESPEED_SLOW      = 0.5f;
@@ -69,14 +70,17 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private Fraction fractionComputer3;
 
 		public readonly LevelFile Blueprint;
+		public readonly WorldGraphFile WorldBlueprint;
 		private readonly FractionDifficulty difficulty;
+
 
 		public bool HasFinished = false;
 		public float LevelTime = 0f;
 
-		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp, FractionDifficulty diff) : base(game, gdm)
+		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp, FractionDifficulty diff, WorldGraphFile ws) : base(game, gdm)
 		{
 			Blueprint = bp;
+			WorldBlueprint = ws;
 			difficulty = diff;
 
 			Initialize();
@@ -260,12 +264,12 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public void RestartLevel()
 		{
-			GDOwner.SetLevelScreen(Blueprint, difficulty);
+			GDOwner.SetLevelScreen(Blueprint, difficulty, WorldBlueprint);
 		}
 
 		public void ReplayLevel(FractionDifficulty diff)
 		{
-			GDOwner.SetLevelScreen(Blueprint, diff);
+			GDOwner.SetLevelScreen(Blueprint, diff, WorldBlueprint);
 		}
 	}
 }

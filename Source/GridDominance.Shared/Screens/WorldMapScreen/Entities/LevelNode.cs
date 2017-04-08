@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GridDominance.Graphfileformat.Parser;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
@@ -40,7 +42,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private const float CENTERING_TIME = 0.55f;
 
 		private const float ORB_SPAWN_TIME = 0.35f;
-		private const int ORB_SPAWNPOINTS_PER_SEGMENT = 11;
+
+		private GDWorldMapScreen GDScreen => (GDWorldMapScreen) Owner;
 
 		public readonly LevelFile Level;
 		public readonly LevelData LevelData;
@@ -69,7 +72,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public BistateProgress state = BistateProgress.Initial;
 
-		public LevelNode(GameScreen scrn, Vector2 pos, LevelFile lvlf, LevelData lvldat) : base(scrn)
+		public LevelNode(GDWorldMapScreen scrn, Vector2 pos, LevelFile lvlf, LevelData lvldat) : base(scrn)
 		{
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));
@@ -111,25 +114,23 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			if (!LevelData.HasCompleted(d)) d = FractionDifficulty.NEUTRAL;
 
-			var t = OutgoingPipes.Random(FloatMath.Random);
+			foreach (var t in OutgoingPipes)
+			{
+				if (!t.NodeSource.IsInViewport && !t.NodeSource.IsInViewport) return;
 
-			if (!t.NodeSource.IsInViewport && !t.NodeSource.IsInViewport) return;
+				var orb = new ConnectionOrb(Owner, t, d);
 
-			var orb = new ConnectionOrb(Owner, t, d);
-
-			Manager.AddEntity(orb);
+				Manager.AddEntity(orb);
+			}
 		}
 
-		public void CreatePipes()
+		public void CreatePipe(LevelNode target, WGPipe.Orientation orientation)
 		{
-			foreach (var node in NextLinkedNodes)
-			{
-				var p = new LevelNodePipe(Owner, this, node);
+			NextLinkedNodes.Add(target);
 
-				OutgoingPipes.Add(p);
-
-				Manager.AddEntity(p);
-			}
+			var p = new LevelNodePipe(Owner, this, target, orientation);
+			OutgoingPipes.Add(p);
+			Manager.AddEntity(p);
 		}
 
 		private void OnClickCenter(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
@@ -248,7 +249,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_0); MainGame.Inst.SaveProfile(); return; }
 #endif
 
-			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_0);
+			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_0, GDScreen.GraphBlueprint);
 		}
 
 		private void OnClickDiff2(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
@@ -258,7 +259,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_1); MainGame.Inst.SaveProfile(); return; }
 #endif
 
-			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_1);
+			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_1, GDScreen.GraphBlueprint);
 		}
 
 		private void OnClickDiff3(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
@@ -268,7 +269,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_2); MainGame.Inst.SaveProfile(); return; }
 #endif
 
-			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_2);
+			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_2, GDScreen.GraphBlueprint);
 		}
 
 		private void OnClickDiff4(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
@@ -278,7 +279,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_3); MainGame.Inst.SaveProfile(); return; }
 #endif
 
-			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_3);
+			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_3, GDScreen.GraphBlueprint);
 		}
 
 		public override void OnRemove()

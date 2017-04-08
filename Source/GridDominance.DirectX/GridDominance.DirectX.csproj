@@ -69,9 +69,9 @@
       <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
       <Name>FarseerPhysics.Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GridDominance.Levelformat\GridDominance.Levelformat.csproj">
-      <Project>{fd075788-85e3-488e-bad4-d3ea72b1d851}</Project>
-      <Name>GridDominance.Levelformat</Name>
+    <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj">
+      <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
+      <Name>GridDominance.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
       <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>

@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using GridDominance.Graphfileformat.Parser;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.OverworldScreen;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
@@ -19,10 +20,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private readonly FRectangle rectFinal;
 
 		private readonly OverworldNode _gdNode;
+		private readonly WorldGraphFile _graph;
 
-		public TransitionZoomInAgent(GDOverworldScreen scrn, OverworldNode node) : base(scrn, DURATION)
+		public TransitionZoomInAgent(GDOverworldScreen scrn, OverworldNode node, WorldGraphFile g) : base(scrn, DURATION)
 		{
 			_gdNode = node;
+			_graph = g;
 			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
 
 			rectStart = scrn.GuaranteedMapViewport;
@@ -51,7 +54,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		{
 			_gdNode.AlphaOverride = 0;
 
-			MainGame.Inst.SetWorldMapScreenWithTransition();
+			MainGame.Inst.SetWorldMapScreenWithTransition(_graph);
 		}
 	}
 }

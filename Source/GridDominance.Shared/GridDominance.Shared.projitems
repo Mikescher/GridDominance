@@ -118,6 +118,7 @@
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl003.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl_debug.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\stdvalues.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\world_1.gsgraph" />
     <None Include="$(MSBuildThisFileDirectory)Content\shaders\SAMParticleEffect.fx" />
     <None Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>

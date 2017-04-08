@@ -5,7 +5,7 @@ using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
-	abstract class AbstractFractionController
+	public abstract class AbstractFractionController
 	{
 		protected readonly GDGameScreen Owner;
 

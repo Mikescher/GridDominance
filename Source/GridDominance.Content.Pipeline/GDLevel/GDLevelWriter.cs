@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GridDominance.Levelfileformat.Pipeline;
 using GridDominance.Levelformat.Parser;
-using GridDominance.Levelformat.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
+using System;
 
 namespace GridDominance.Content.Pipeline.GDLevel
 {
@@ -16,7 +16,6 @@ namespace GridDominance.Content.Pipeline.GDLevel
 			var length = output.BaseStream.Position - start;
 
 			Console.WriteLine("Writing " + length + " byte long serialized file");
-
 		}
 		
 		public override string GetRuntimeType(TargetPlatform targetPlatform)

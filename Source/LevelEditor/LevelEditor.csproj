@@ -113,13 +113,13 @@
       <Project>{d661cd9f-8934-496d-8332-bc82aab77598}</Project>
       <Name>CSharpUtils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj">
+      <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
+      <Name>GridDominance.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GridDominance.Content.Pipeline\GridDominance.Content.Pipeline.csproj">
       <Project>{28cd24bd-432c-4987-9e9d-65cfcf120ea1}</Project>
       <Name>GridDominance.Content.Pipeline</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GridDominance.Levelformat\GridDominance.Levelformat.csproj">
-      <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
-      <Name>GridDominance.Levelformat</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

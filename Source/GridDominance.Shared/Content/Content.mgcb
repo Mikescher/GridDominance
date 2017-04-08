@@ -204,3 +204,8 @@
 /processorParam:Quality=Best
 /build:sounds/gamewon.mp3
 
+#begin levels/world_1.gsgraph
+/importer:GDWorldGraphImporter
+/processor:GDWorldGraphProcessor
+/build:levels/world_1.gsgraph
+

@@ -12,7 +12,7 @@ using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
-	class GDEntityManager : EntityManager
+	public class GDEntityManager : EntityManager
 	{
 		public readonly World PhysicsWorld;
 		public GDGameScreen GDOwner => (GDGameScreen) Owner;

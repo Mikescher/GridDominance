@@ -1,4 +1,5 @@
 ﻿using System;
+using GridDominance.Graphfileformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
@@ -24,14 +25,16 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public override FSize DrawingBoundingBox { get; } = new FSize(SIZE, SIZE);
 		public override Color DebugIdentColor { get; } = Color.Blue;
 
-		private readonly string description;
+		private readonly string _description;
+		private readonly WorldGraphFile _graph;
 		private readonly GameEntityMouseArea clickArea;
 
 		public float AlphaOverride = 1f;
 
-		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, string text) : base(scrn, 0)
+		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, string text, WorldGraphFile graph) : base(scrn, 0)
 		{
-			description = text;
+			_description = text;
+			_graph = graph;
 			Position = pos;
 
 			clickArea = AddClickMouseArea(FRectangle.CreateByCenter(Vector2.Zero, new FSize(SIZE, SIZE)), OnClick);
@@ -60,7 +63,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			ownr.IsTransitioning = true;
 
-			ownr.AddAgent(new TransitionZoomInAgent(ownr, this));
+			ownr.AddAgent(new TransitionZoomInAgent(ownr, this, _graph));
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
@@ -88,7 +91,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				sbatch.DrawLine(innerBounds.Left + i*scoreRectSize, innerBounds.Top, innerBounds.Left + i*scoreRectSize, innerBounds.Bottom, Color.Black * AlphaOverride);
 			}
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, description, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
+			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, _description, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 		}
 
 		private Color GetCellColor(int x, int y)

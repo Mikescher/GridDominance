@@ -3,7 +3,7 @@ using GridDominance.Shared.Screens.ScreenGame.Fractions;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Background
 {
-	interface IGDGridBackground
+	public interface IGDGridBackground
 	{
 		int ParticleCount { get; }
 		void RegisterBlockedSpawn(Cannon cannon, int i, int i1);

@@ -7,7 +7,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.ScreenGame.hud
 {
-	class GDGameHUD : GameHUD
+	public class GDGameHUD : GameHUD
 	{
 		public GDGameScreen GDOwner => (GDGameScreen)Screen;
 		

@@ -1,6 +1,6 @@
 ﻿namespace GridDominance.Shared.Screens.ScreenGame
 {
-	enum GameSpeedModes
+	public enum GameSpeedModes
 	{
 		SUPERSLOW = -2,
 		SLOW      = -1,

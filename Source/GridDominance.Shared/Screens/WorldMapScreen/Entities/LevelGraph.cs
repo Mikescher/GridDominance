@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using GridDominance.Graphfileformat.Parser;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
@@ -20,24 +22,31 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			screen = s;
 		}
 
-		public void Init()
+		public void Init(WorldGraphFile g)
 		{
-			var n1 = AddLevelNode(4, 10, Levels.LEVEL_001);
-			var n2 = AddLevelNode(10, 10, Levels.LEVEL_002);
-			var n3 = AddLevelNode(22, 10, Levels.LEVEL_003);
-			var n4 = AddLevelNode(16, 16, Levels.LEVEL_003);
-			var n5 = AddLevelNode(28, 10, Levels.LEVEL_003);
-			var n6 = AddLevelNode(34, 10, Levels.LEVEL_003);
-			var n7 = AddLevelNode(40, 10, Levels.LEVEL_003);
+			foreach (var bpNode in g.Nodes)
+			{
+				var f = Levels.LEVELS[bpNode.LevelID];
 
-			n1.NextLinkedNodes.Add(n2);
-			n2.NextLinkedNodes.Add(n3);
-			n2.NextLinkedNodes.Add(n4);
-			n3.NextLinkedNodes.Add(n5);
-			n5.NextLinkedNodes.Add(n6);
-			n6.NextLinkedNodes.Add(n7);
+				var data = MainGame.Inst.Profile.GetLevelData(f.UniqueID);
+				var pos = new Vector2(bpNode.X, bpNode.Y);
 
-			foreach (var n in nodes) n.CreatePipes();
+				var node = new LevelNode(screen, pos, f, data);
+
+				screen.Entities.AddEntity(node);
+				nodes.Add(node);
+			}
+
+			foreach (var bpNode in g.Nodes)
+			{
+				var sourcenode = nodes.Single(n => n.Level.UniqueID == bpNode.LevelID);
+				foreach (var pipe in bpNode.OutgoingPipes)
+				{
+					var sinknode = nodes.Single(n => n.Level.UniqueID == pipe.Target);
+
+					sourcenode.CreatePipe(sinknode, pipe.PipeOrientation);
+				}
+			}
 
 			BoundingRect = FRectangle.CreateOuter(nodes.Select(n => n.DrawingBoundingRect));
 

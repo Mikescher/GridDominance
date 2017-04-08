@@ -1,4 +1,5 @@
 ﻿using System;
+using GridDominance.Graphfileformat.Parser;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -35,7 +36,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
-		public LevelNodePipe(GameScreen scrn, LevelNode start, LevelNode end) : base(scrn, -2)
+		public LevelNodePipe(GameScreen scrn, LevelNode start, LevelNode end, WGPipe.Orientation orientation) : base(scrn, -2)
 		{
 			NodeSource = start;
 			NodeSink = end;
@@ -43,13 +44,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			Position = (start.Position + end.Position) / 2;
 			DrawingBoundingBox = FSize.Diff(start.Position, end.Position) + new FSize(THICKNESS, THICKNESS);
 
-			curvature = GetCurve(start, end);
+			curvature = GetCurve(start, end, orientation);
 
 			InitCurvature();
 		}
 
-		private FlatCurve12 GetCurve(LevelNode start, LevelNode end)
+		private FlatCurve12 GetCurve(LevelNode start, LevelNode end, WGPipe.Orientation o)
 		{
+			var cw   = (o == WGPipe.Orientation.Clockwise);
+			var ccw  = (o == WGPipe.Orientation.Counterclockwise);
+			var auto = (o == WGPipe.Orientation.Auto);
+
 			if (FloatMath.EpsilonEquals(start.Position.X, end.Position.X))
 			{
 				if (start.Position.Y < end.Position.Y)
@@ -73,17 +78,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			if (start.Position.X < end.Position.X)
 			{
 				if (start.Position.Y < end.Position.Y)
-					return FlatCurve12.RIGHT_DOWN; // DOWN_RIGHT
+					return (auto || cw) ? FlatCurve12.RIGHT_DOWN : FlatCurve12.DOWN_RIGHT;
 				else if (start.Position.Y > end.Position.Y)
-					return FlatCurve12.RIGHT_UP;   // UP_RIGHT
+					return (auto || ccw) ? FlatCurve12.RIGHT_UP : FlatCurve12.UP_RIGHT;
 			}
 
 			if (start.Position.X > end.Position.X)
 			{
 				if (start.Position.Y < end.Position.Y)
-					return FlatCurve12.LEFT_DOWN; // DOWN_LEFT
+					return (auto || ccw) ? FlatCurve12.LEFT_DOWN : FlatCurve12.DOWN_LEFT;
 				else if (start.Position.Y > end.Position.Y)
-					return FlatCurve12.LEFT_UP;   // UP_LEFT
+					return (auto || cw) ? FlatCurve12.LEFT_UP : FlatCurve12.UP_LEFT;
 			}
 
 			throw new Exception("Invalid curvature found");
@@ -272,15 +277,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 				case FlatCurve12.UP_RIGHT:
 					return
-						(distance < (_orbEnd.Y - _orbStart.Y))
+						(distance < (_orbStart.Y - _orbEnd.Y))
 						? new Vector2(_orbStart.X, _orbStart.Y - distance)
-						: new Vector2(_orbEnd.X + (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
+						: new Vector2(_orbStart.X + (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
 
 				case FlatCurve12.UP_LEFT:
 					return
-						(distance < (_orbEnd.Y - _orbStart.Y))
+						(distance < (_orbStart.Y - _orbEnd.Y))
 						? new Vector2(_orbStart.X, _orbStart.Y - distance)
-						: new Vector2(_orbEnd.X - (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
+						: new Vector2(_orbStart.X - (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
 					
 				case FlatCurve12.POINT:
 					return _orbStart;

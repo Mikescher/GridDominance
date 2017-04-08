@@ -186,7 +186,7 @@ namespace LevelEditor
 					bw.Write((UInt32)0x95);
 
 					bw.Write((byte)0x01);
-					bw.Write("GridDominance.Levelformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+					bw.Write("GridDominance.Levelfileformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
 					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
 
 					bw.Write(binData);
@@ -194,14 +194,14 @@ namespace LevelEditor
 					bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00 });
 					bw.Write(new byte[] { 0x9B, 0x00, 0x00, 0x00, 0x01 });
 
-					bw.Write("GridDominance.Levelformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+					bw.Write("GridDominance.Levelfileformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
 
 					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
 					bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00 });
 					bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0xA1 });
 					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x01 });
 
-					bw.Write("GridDominance.Levelformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+					bw.Write("GridDominance.Levelfileformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
 
 					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
 				}

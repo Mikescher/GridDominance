@@ -6,7 +6,7 @@ using GridDominance.Shared.Screens.ScreenGame.FractionController;
 
 namespace GridDominance.Shared.Screens.ScreenGame.Fractions
 {
-	class Fraction
+	public class Fraction
 	{
 		public static readonly Color COLOR_NEUTRAL     = FlatColors.Silver;
 		public static readonly Color COLOR_PLAYER      = FlatColors.Nephritis;     
