@@ -26,7 +26,7 @@ namespace GridDominance.Shared.Resources
 			LoadLevel(content, "levels/lvl001");
 			LoadLevel(content, "levels/lvl002");
 			LoadLevel(content, "levels/lvl003");
-			LoadLevel(content, "levels/lvl_debug");
+			LoadLevel(content, "levels/lvl_debug"); //TODO Laggs like shit on handy with speed++
 
 			WORLD_001 = content.Load<WorldGraphFile>("levels/world_1");
 		}

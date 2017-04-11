@@ -165,7 +165,7 @@ namespace MonoSAMFramework.Portable.Screens
 		private void InternalUpdate(SAMTime timeVirtual, InputState state, SAMTime timeReal)
 		{
 #if DEBUG
-			UPSCounter.Update(timeReal);
+			UPSCounter.StartCycle(timeReal);
 #endif
 			// Update Top Down  (Debug -> HUD -> Entities -> BG)
 			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
@@ -181,6 +181,10 @@ namespace MonoSAMFramework.Portable.Screens
 			UpdateAgents(timeVirtual, state);
 
 			OnUpdate(timeVirtual, state);
+
+#if DEBUG
+			UPSCounter.EndCycle();
+#endif
 		}
 
 		private void UpdateAgents(SAMTime timeVirtual, InputState istate)
@@ -199,7 +203,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public override void Draw(SAMTime gameTime)
 		{
 #if DEBUG
-			FPSCounter.Update(gameTime);
+			FPSCounter.StartCycle(gameTime);
 #endif
 			// Update Top Down  (Debug -> HUD -> Entities -> BG)
 			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
@@ -253,6 +257,10 @@ namespace MonoSAMFramework.Portable.Screens
 				DebugDisp.Draw();
 			}
 
+#endif
+
+#if DEBUG
+			FPSCounter.EndCycle();
 #endif
 		}
 

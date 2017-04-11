@@ -91,7 +91,7 @@ namespace MonoSAMFramework.Portable.Input
 			}
 			else // if (TouchPanel.Count > 1)
 			{
-				isDown = true;
+				isDown = false; // this is correct - down onl when one finger
 				GamePointerPosition = gameAdapter.PointToScreen(sumX / TouchPanel.Count, sumY / TouchPanel.Count);
 				HUDPointerPosition  = hudAdapter.PointToScreen(sumX / TouchPanel.Count, sumY / TouchPanel.Count);
 			}

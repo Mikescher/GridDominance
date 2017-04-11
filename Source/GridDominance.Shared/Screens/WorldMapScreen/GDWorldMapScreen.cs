@@ -63,7 +63,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			Graph.Init(g);
 
 			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
-			MapOffsetY = VIEW_HEIGHT / -2f;
+			MapOffsetY = VIEW_HEIGHT / -2f; //TODO Focus on last played levelnode (the node from where we came)
 
 			((WorldMapBackground)Background).InitBackground(GetEntities<LevelNode>().ToList());
 		}
