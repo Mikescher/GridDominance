@@ -113,6 +113,8 @@ namespace MonoSAMFramework.Portable
 				screens.Draw(time);
 
 				base.Draw(gameTime);
+
+				GC.Collect(0); // small collect after every tick
 			}
 			catch (Exception e)
 			{

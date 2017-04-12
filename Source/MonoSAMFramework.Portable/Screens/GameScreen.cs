@@ -116,6 +116,9 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public override void Update(SAMTime gameTime)
 		{
+#if DEBUG
+			UPSCounter.StartCycle(gameTime);
+#endif
 			var state = InputStateMan.GetNewState(MapOffsetX, MapOffsetY);
 
 			if (state.IsKeyDown(SKeys.Escape) || state.IsKeyDown(SKeys.AndroidBack)) Game.Exit(); //TODO remove me from framework and better handling in user code
@@ -160,13 +163,14 @@ namespace MonoSAMFramework.Portable.Screens
 				// okay - dafuq
 				throw new ArgumentException(nameof(GameSpeed) + " = " + GameSpeed, nameof(GameSpeed));
 			}
+
+#if DEBUG
+			UPSCounter.EndCycle();
+#endif
 		}
 
 		private void InternalUpdate(SAMTime timeVirtual, InputState state, SAMTime timeReal)
 		{
-#if DEBUG
-			UPSCounter.StartCycle(timeReal);
-#endif
 			// Update Top Down  (Debug -> HUD -> Entities -> BG)
 			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
 
@@ -181,10 +185,6 @@ namespace MonoSAMFramework.Portable.Screens
 			UpdateAgents(timeVirtual, state);
 
 			OnUpdate(timeVirtual, state);
-
-#if DEBUG
-			UPSCounter.EndCycle();
-#endif
 		}
 
 		private void UpdateAgents(SAMTime timeVirtual, InputState istate)
