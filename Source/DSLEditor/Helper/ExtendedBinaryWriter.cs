@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace GraphEditor
+namespace GridDominance.DSLEditor.Helper
 {
 	class ExtendedBinaryWriter : BinaryWriter
 	{

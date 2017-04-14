@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace GraphEditor
+namespace GridDominance.DSLEditor
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml

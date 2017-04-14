@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Media;
 
-namespace LevelEditor
+namespace GridDominance.DSLEditor.Drawing
 {
 	public static class ImageHelper
 	{

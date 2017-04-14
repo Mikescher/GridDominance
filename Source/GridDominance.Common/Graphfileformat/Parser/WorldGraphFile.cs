@@ -1,4 +1,4 @@
-﻿using GridDominance.Levelformat.Parser;
+﻿using GridDominance.SAMScriptParser;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,22 +16,32 @@ namespace GridDominance.Graphfileformat.Parser
 		private readonly string content;
 
 		public readonly List<WGNode> Nodes = new List<WGNode>();
-		public int UniqueID { get; private set; } = -999;
 
-		private Dictionary<string, string> _aliasDict;
+		private SSParser parser = new SSParser();
 		private WGNode? _currentNode;
 		private float _scaleFactor = 1f;
 
 		public WorldGraphFile()
 		{
 			content = string.Empty;
+
+			Init();
 		}
 
 		public WorldGraphFile(string levelContent)
 		{
 			content = levelContent;
+
+			Init();
 		}
 
+		private void Init()
+		{
+			parser.DefineMethod("alias", DefineAlias);
+			parser.DefineMethod("scale", SetScale);
+			parser.DefineMethod("node", AddNode);
+			parser.DefineMethod("connect", AddPipe);
+		}
 
 		#region Parsing
 
@@ -45,100 +55,44 @@ namespace GridDominance.Graphfileformat.Parser
 
 		public void Parse(string fileName, string fileContent)
 		{
-			_aliasDict = new Dictionary<string, string>();
-			_currentNode = null;
-			_scaleFactor = 1f;
-
-			using (StringReader sr = new StringReader(fileContent))
-			{
-				string rawline;
-				int lineNumber = 0;
-				while ((rawline = sr.ReadLine()) != null)
-				{
-					lineNumber++;
-					try
-					{
-						var line = Uncomment(rawline);
-						if (line == string.Empty) continue;
-
-						ParseLine(line);
-					}
-					catch (Exception e)
-					{
-						throw new ParsingException(fileName, lineNumber, e);
-					}
-				}
-			}
+			parser.Parse(fileName, fileContent);
 		}
 
-		private void ParseLine(string cntLine)
+		private void DefineAlias(List<string> methodParameter)
 		{
-			for (var m1 = REX_ALIAS.Match(cntLine); m1.Success;)
-			{
-				_aliasDict.Add(m1.Groups["idshort"].Value.ToLower(), m1.Groups["idlong"].Value);
-				return;
-			}
-			
-			for (var m2 = REX_NODE.Match(cntLine); m2.Success;)
-			{
-				_currentNode = new WGNode(_scaleFactor * float.Parse(m2.Groups["px"].Value), _scaleFactor * float.Parse(m2.Groups["py"].Value), Guid.Parse(DeRef(m2.Groups["id"].Value)));
-				Nodes.Add(_currentNode.Value);
-				return;
-			}
-			
-			for (var m3 = REX_PIPE.Match(cntLine); m3.Success;)
-			{
-				if (_currentNode == null) throw new Exception("Pipe without Node");
+			var key = parser.ExtractValueParameter(methodParameter, 0);
+			var val = parser.ExtractValueParameter(methodParameter, 1);
 
-				var o = WGPipe.Orientation.Auto;
-				if (m3.Groups["orientation"] != null && m3.Groups["orientation"].Value.ToLower() == "cw")  o = WGPipe.Orientation.Clockwise;
-				if (m3.Groups["orientation"] != null && m3.Groups["orientation"].Value.ToLower() == "ccw") o = WGPipe.Orientation.Counterclockwise;
-
-				_currentNode.Value.OutgoingPipes.Add(new WGPipe(Guid.Parse(DeRef(m3.Groups["id"].Value)), o));
-				return;
-			}
-			
-			for (var m4 = REX_SCALE.Match(cntLine); m4.Success;)
-			{
-				_scaleFactor = float.Parse(m4.Groups["factor"].Value);
-				return;
-			}
-
-			throw new Exception("Regex match failed");
+			parser.AddAlias(key, val);
 		}
 
-		private string DeRef(string r)
+		private void SetScale(List<string> methodParameter)
 		{
-			if (_aliasDict.ContainsKey(r.ToLower())) return DeRef(_aliasDict[r.ToLower()]);
-			return r;
+			_scaleFactor = parser.ExtractNumberParameter(methodParameter, 0);
 		}
 
-		private string Uncomment(string line)
+		private void AddNode(List<string> methodParameter)
 		{
-			int start = -1;
-			int end = -1;
-			for (int i = 0; i < line.Length; i++)
-			{
-				if (line[i] == '#')
-				{
-					if (start < 0) return string.Empty;
-					return line.Substring(start, end - start);
-				}
-				if (line[i] == ' ')
-				{
-					continue;
-				}
-				if (line[i] == '\t')
-				{
-					continue;
-				}
-				
-				if (start == -1) start = i;
-				end = i+1;
-			}
+			var pos = parser.ExtractVec2fParameter(methodParameter, 0);
+			var id = parser.ExtractGuidParameter(methodParameter, 1);
 
-			if (start == end) return string.Empty;
-			return line.Substring(start, end - start);
+			var px = pos.Item1 * _scaleFactor;
+			var py = pos.Item2 * _scaleFactor;
+
+			_currentNode = new WGNode(px, py, id);
+			Nodes.Add(_currentNode.Value);
+		}
+
+		private void AddPipe(List<string> methodParameter)
+		{
+			if (_currentNode == null) throw new Exception("Pipe without Node");
+
+			var id = parser.ExtractGuidParameter(methodParameter, 0);
+			var o = WGPipe.Orientation.Auto;
+			if (parser.ExtractValueParameter(methodParameter, 1, "").ToLower() == "cw") o = WGPipe.Orientation.Clockwise;
+			if (parser.ExtractValueParameter(methodParameter, 1, "").ToLower() == "ccw") o = WGPipe.Orientation.Counterclockwise;
+
+			_currentNode.Value.OutgoingPipes.Add(new WGPipe(id, o));
 		}
 
 		#endregion

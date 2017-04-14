@@ -1,6 +1,4 @@
-﻿using GraphEditor.Properties;
-using GridDominance.Graphfileformat.Parser;
-using GridDominance.Levelformat.Parser;
+﻿using GridDominance.DSLEditor.Properties;
 using MSHC.WPF.MVVM;
 using System;
 using System.Collections.ObjectModel;
@@ -13,16 +11,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace GraphEditor
+namespace GridDominance.DSLEditor
 {
-	public class MainWindowViewModel : ObservableObject
+	public partial class MainWindowViewModel : ObservableObject
 	{
 		private const int TIMER_COOLDOWN = 33;
 
-		public ICommand ReloadCommand => new RelayCommand(Reload);
+		public ICommand ReloadCommand => new RelayCommand(r => Reload());
 		public ICommand SaveCommand => new RelayCommand(Save);
 		public ICommand CompileCommand => new RelayCommand(Compile); 
+		public ICommand OverviewCommand => new RelayCommand(LevelOverview);
 		public ICommand RepaintCommand => new RelayCommand(Repaint);
+		public ICommand UUIDCommand => new RelayCommand(InsertUUID);
 		public ICommand ClosingCommand => new RelayCommand<CancelEventArgs>(FormClosing);
 		public ICommand EditorChangedCommand => new RelayCommand(ResetTimer);
 
@@ -34,8 +34,9 @@ namespace GraphEditor
 		private string _filePath = "";
 		public string FilePath { get { return _filePath; } set {if (value != _filePath) {_filePath = value; OnPropertyChanged();} } }
 
+		private bool _codeDirty = false;
 		private string _code = "";
-		public string Code { get { return _code; } set { if (value != _code) { _code = value; OnPropertyChanged(); ResetTimer(); } } }
+		public string Code { get { return _code; } set { if (value != _code) { _code = value; OnPropertyChanged(); ResetTimer(); _codeDirty = true; } } }
 
 		private int _progressValue = 0;
 		public int ProgressValue { get { return _progressValue; } set { _progressValue = value; OnPropertyChanged(); } }
@@ -52,11 +53,12 @@ namespace GraphEditor
 
 		private ImageSource _previewImage;
 		public ImageSource PreviewImage { get { return _previewImage; } set { _previewImage = value; OnPropertyChanged(); } }
-		
-		private readonly PreviewPainter painter = new PreviewPainter();
 
 		private readonly DispatcherTimer repaintTimer = new DispatcherTimer();
 		private int timerCountDown = TIMER_COOLDOWN;
+
+		private bool IsFilePathLevel => FilePath.ToLower().EndsWith(".gslevel");
+		private bool IsFilePathGraph => FilePath.ToLower().EndsWith(".gsgraph");
 
 		public MainWindowViewModel()
 		{
@@ -67,8 +69,11 @@ namespace GraphEditor
 			}
 			else
 			{
-				Code = Resources.example;
+				
+				Code = Resources.example_graph; FilePath = "example.gsgraph";
+				//Code = Resources.example_level; FilePath = "example.gslevel";
 			}
+			_codeDirty = false;
 
 			repaintTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
 			repaintTimer.Tick += (o, te) =>
@@ -87,38 +92,31 @@ namespace GraphEditor
 
 		private void Reparse()
 		{
+			Log.Clear();
+
 			try
 			{
-				long tmr = Environment.TickCount;
-				var lp = ParseFile();
-
-				Log.Clear();
-
-				PreviewImage = ImageHelper.CreateImageSource(painter.Draw(lp));
-				
-				Log.Add("File parsed and map drawn in " + (Environment.TickCount - tmr) + "ms");
+				if (IsFilePathLevel)
+					ReparseLevelFile();
+				else if (IsFilePathGraph)
+					ReparseGraphFile();
+				else
+					throw new Exception("Unknown filetype");
 			}
-			catch (ParsingException pe)
+			catch (Exception exc)
 			{
-				Log.Add(pe.ToOutput());
-				Console.Out.WriteLine(pe.ToString());
-
-				PreviewImage = ImageHelper.CreateImageSource(painter.Draw(null));
-			}
-			catch (Exception pe)
-			{
-				Log.Add(pe.Message);
-				Console.Out.WriteLine(pe.ToString());
-
-				PreviewImage = ImageHelper.CreateImageSource(painter.Draw(null));
+				Log.Add(exc.Message);
+				Console.Out.WriteLine(exc.ToString());
 			}
 		}
-		
-		private void Reload()
+
+		private void Reload(bool ask = true)
 		{
+			if (ask && !ConditionalSave()) return;
 			try
 			{
 				Code = File.ReadAllText(FilePath);
+				_codeDirty = false;
 				Reparse();
 			}
 			catch (Exception e)
@@ -131,10 +129,17 @@ namespace GraphEditor
 		{
 			try
 			{
+				if (!File.Exists(FilePath))
+				{
+					MessageBox.Show("Filepath does not exist");
+					return;
+				}
+
 				string iold = Code;
-				string inew = ReplaceMagicConstants(Code);
+				string inew = ReplaceMagicConstantsInLevelFile(Code);
 				if (iold != inew) Code = inew;
 				File.WriteAllText(FilePath, Code, Encoding.UTF8);
+				_codeDirty = false;
 			}
 			catch (Exception e)
 			{
@@ -146,62 +151,12 @@ namespace GraphEditor
 		{
 			try
 			{
-				if (!File.Exists(FilePath)) throw new FileNotFoundException(FilePath);
-
-				var lp = ParseFile();
-
-				var dir = Path.GetDirectoryName(FilePath);
-				var name = Path.GetFileNameWithoutExtension(FilePath) + ".xnb";
-
-				if (string.IsNullOrWhiteSpace(dir)) throw new Exception("dir == null");
-				if (string.IsNullOrWhiteSpace(name)) throw new Exception("name == null");
-
-				var outPath = Path.Combine(dir, name);
-
-				byte[] binData;
-				using (var ms = new MemoryStream())
-				using (var bw = new BinaryWriter(ms))
-				{
-					lp.BinarySerialize(bw);
-					binData = ms.ToArray();
-				}
-
-				using (var fs = new FileStream(outPath, FileMode.Create))
-				using (var bw = new ExtendedBinaryWriter(fs))
-				{
-					// Header
-
-					bw.Write('X');
-					bw.Write('N');
-					bw.Write('B');
-					bw.Write('g');        // Target Platform
-					bw.Write((byte)5);    // XNB Version
-					bw.Write((byte)0);    // Flags
-
-
-					bw.Write((UInt32)0x95);
-
-					bw.Write((byte)0x01);
-					bw.Write("GridDominance.Graphfileformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
-
-					bw.Write(binData);
-
-					bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00 });
-					bw.Write(new byte[] { 0x9B, 0x00, 0x00, 0x00, 0x01 });
-
-					bw.Write("GridDominance.Graphfileformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-
-					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
-					bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00 });
-					bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0xA1 });
-					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x01 });
-
-					bw.Write("GridDominance.Graphfileformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-
-					bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
-				}
-
+				if (IsFilePathLevel)
+					CompileLevel();
+				else if (IsFilePathGraph)
+					CompileGraph();
+				else
+					throw new Exception("Unknown filetype");
 			}
 			catch (Exception exc)
 			{
@@ -214,28 +169,24 @@ namespace GraphEditor
 		{
 			Reparse();
 		}
-		
+
+		private void InsertUUID()
+		{
+			if (SelectionStart == -1)
+			{
+				Code = Code.Substring(0, _selectionStartLastValid) + "::UUID::" + Code.Substring(_selectionStartLastValid);
+				SelectionStart = _selectionStartLastValid;
+				SelectionLength = 0;
+			}
+			else
+			{
+				Code = Code.Substring(0, SelectionStart) + "::UUID::" + Code.Substring(SelectionStart + SelectionLength);
+			}
+		}
+
 		private void ResetTimer()
 		{
 			timerCountDown = TIMER_COOLDOWN;
-		}
-
-		private string ReplaceMagicConstants(string s)
-		{
-			//
-
-			return s;
-		}
-
-		private WorldGraphFile ParseFile()
-		{
-			var input = Code;
-			input = ReplaceMagicConstants(input);
-			
-			var lp = new WorldGraphFile(input);
-			lp.Parse();
-
-			return lp;
 		}
 
 		private void Drop(DragEventArgs e)
@@ -246,8 +197,9 @@ namespace GraphEditor
 			{
 				foreach (string file in files)
 				{
+					if (!ConditionalSave()) return;
 					FilePath = file;
-					Reload();
+					Reload(false);
 				}
 			}
 		}
@@ -259,25 +211,29 @@ namespace GraphEditor
 
 		private void FormClosing(CancelEventArgs e)
 		{
-			if (File.Exists(FilePath) && File.ReadAllText(FilePath) != Code)
+			e.Cancel = !ConditionalSave();
+		}
+
+		private bool ConditionalSave()
+		{
+			if (File.Exists(FilePath) && _codeDirty)
 			{
-				switch (MessageBox.Show("Save changes ?", "Save?", MessageBoxButton.YesNoCancel))
+				switch (MessageBox.Show($"Save changes to {Path.GetFileName(FilePath)} ?", "Save?", MessageBoxButton.YesNoCancel))
 				{
 					case MessageBoxResult.None:
 					case MessageBoxResult.Cancel:
-						e.Cancel = true;
-						return;
+						return false;
 					case MessageBoxResult.Yes:
 						Save();
-						e.Cancel = false;
-						return;
+						return true;
 					case MessageBoxResult.No:
-						e.Cancel = false;
-						return;
+						return true;
 					default:
 						throw new ArgumentOutOfRangeException();
 				}
 			}
+
+			return true;
 		}
 	}
 }

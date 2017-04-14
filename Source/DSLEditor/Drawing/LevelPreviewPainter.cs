@@ -1,11 +1,11 @@
-﻿using GridDominance.Levelformat.Parser;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using GridDominance.Levelfileformat.Parser;
 
-namespace LevelEditor
+namespace GridDominance.DSLEditor.Drawing
 {
-	public class PreviewPainter
+	public class LevelPreviewPainter
 	{
 		private static readonly Color[] CANNON_COLORS = new Color[] { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
 

@@ -1,5 +1,5 @@
-﻿using GridDominance.Levelfileformat.Pipeline;
-using GridDominance.Levelformat.Parser;
+﻿using GridDominance.Levelfileformat.Parser;
+using GridDominance.Levelfileformat.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using System;

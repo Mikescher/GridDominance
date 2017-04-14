@@ -1,14 +1,14 @@
-﻿using GridDominance.Graphfileformat.Parser;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using GridDominance.Graphfileformat.Parser;
 using Color = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
 
-namespace GraphEditor
+namespace GridDominance.DSLEditor.Drawing
 {
-	public class PreviewPainter
+	public class GraphPreviewPainter
 	{
 		public Bitmap Draw(WorldGraphFile wgraph)
 		{

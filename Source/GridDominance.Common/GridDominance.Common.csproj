@@ -40,9 +40,10 @@
     <Compile Include="Graphfileformat\Pipeline\GDWorldGraphReader.cs" />
     <Compile Include="Levelfileformat\Parser\LevelFile.cs" />
     <Compile Include="Levelfileformat\Parser\LPCannon.cs" />
-    <Compile Include="ParsingException.cs" />
+    <Compile Include="SAMScriptParser\ParsingException.cs" />
     <Compile Include="Levelfileformat\Pipeline\GDLevelReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SAMScriptParser\SSParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

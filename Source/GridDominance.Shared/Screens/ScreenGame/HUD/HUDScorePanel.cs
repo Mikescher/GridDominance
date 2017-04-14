@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Graphfileformat.Parser;
+using GridDominance.Levelfileformat.Parser;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;

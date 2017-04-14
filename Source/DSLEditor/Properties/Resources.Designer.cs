@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GraphEditor.Properties {
+namespace GridDominance.DSLEditor.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace GraphEditor.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GraphEditor.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GridDominance.DSLEditor.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -64,24 +64,56 @@ namespace GraphEditor.Properties {
         ///   Looks up a localized string similar to # First World - Tutorial   #
         ///############################
         ///
-        ///scale 64
+        ///scale(64)
         ///
-        ///alias 0_1 =&gt; {7018e8a1-6b04-447c-8972-c2c2e118fc49}
-        ///alias 0_2 =&gt; {9887f46b-b27e-4dba-b9f3-92a8d6ec26e6}
-        ///alias 0_3 =&gt; {f9f79506-f15a-47d4-abcc-afdc116b7b3c}
+        ///alias(0_1, {7018e8a1-6b04-447c-8972-c2c2e118fc49})
+        ///alias(0_2, {9887f46b-b27e-4dba-b9f3-92a8d6ec26e6})
+        ///alias(0_3, {f9f79506-f15a-47d4-abcc-afdc116b7b3c})
         ///
-        ///node[12, 123]: 0_1
-        ///  -&gt; 0_2 (CW)
-        ///  -&gt; 0_3 (CW)
+        ///node([0, 0], 0_1)
+        ///  connect(0_2, CW)
+        ///  connect(0_3, CW)
         ///
+        ///node([7, 0], 0_2)
+        ///  connect(0_3, CW)
         ///
+        ///node([7, -7], 0_3)
         ///
         ///
         ///.
         /// </summary>
-        internal static string example {
+        internal static string example_graph {
             get {
-                return ResourceManager.GetString("example", resourceCulture);
+                return ResourceManager.GetString("example_graph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to # Level 00 - Example   #
+        ///########################
+        ///
+        ///init(&quot;0-exmpl&quot;, &quot;Template&quot;, ::UUID::)
+        ///
+        ///define(N0, 0) # Neutral
+        ///define(P1, 1) # Human
+        ///define(A2, 2) # PC
+        ///define(A3, 3) # PC
+        ///define(A4, 4) # PC
+        ///
+        ///define(SIZE_NORMAL, 1.0)
+        ///define(CELL_W, 128)
+        ///define(CELL_H, 128)
+        ///
+        ///########################################################################
+        ///
+        ///Cannon  (SIZE_NORMAL, P1, 1.5 * CELL_W, 1.5 * CELL_H)
+        ///
+        ///Cannon  (SIZE_NORMAL, N0, 2.5 * CELL_W, 3.5 * CELL_H)
+        ///.
+        /// </summary>
+        internal static string example_level {
+            get {
+                return ResourceManager.GetString("example_level", resourceCulture);
             }
         }
     }
