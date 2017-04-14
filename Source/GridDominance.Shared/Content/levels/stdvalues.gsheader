@@ -7,14 +7,15 @@ define(A2, 2) # PC 1
 define(A3, 3) # PC 2
 define(A4, 4) # PC 3
 
-define(ROT_N,  000)
-define(ROT_NE, 315)
-define(ROT_E,  270)
-define(ROT_SE, 225)
-define(ROT_S,  180)
+
+define(ROT_E,  000)
+define(ROT_SE, 045)
+define(ROT_S,  090)
 define(ROT_SW, 135)
-define(ROT_W,  090)
-define(ROT_NW, 045)
+define(ROT_W,  180)
+define(ROT_NW, 225)
+define(ROT_N,  270)
+define(ROT_NE, 315)
 
 define(SIZE_TINY,     2/4)
 define(SIZE_SMALL,    3/4)

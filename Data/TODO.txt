@@ -32,6 +32,7 @@ WORLD MAP
     -> animation is letter drawing with particles
     -> and after animation if not dragged autom move to next free level
 
+ - Root node in level returns to map
 
 => needs topic: particles
 => needs topic: screen with offset

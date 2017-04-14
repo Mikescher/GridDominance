@@ -1,7 +1,7 @@
 # Level 00 - Example   #
 ########################
 
-init("0-exmpl", ::UUID::)
+init("0-exmpl", "Template", ::UUID::)
 
 define(N0, 0) # Neutral
 define(P1, 1) # Human

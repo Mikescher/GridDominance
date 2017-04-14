@@ -1,7 +1,7 @@
-﻿# Level 00 - DEBUG     #
-########################
+﻿# Grid Dominance Level Definition   #
+#####################################
 
-init("DBG", "DEBUG", 30143B96701E47029A2CA58E8CA3C40E)
+init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001})
 
 
 include("stdvalues")

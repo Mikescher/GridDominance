@@ -1,4 +1,5 @@
 ﻿using GridDominance.Levelformat.Parser;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -9,6 +10,29 @@ namespace LevelEditor
 		private static readonly Color[] CANNON_COLORS = new Color[] { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
 
 		public readonly Bitmap GraphicsBuffer = new Bitmap(1024, 640);
+
+		public Bitmap DrawOverview(LevelFile level)
+		{
+			Bitmap img;
+
+			try
+			{
+				img = Draw(level);
+			}
+			catch (Exception)
+			{
+				img = Draw(null);
+			}
+
+			Bitmap r = new Bitmap(img.Width, img.Height + 48);
+			using (Graphics g = Graphics.FromImage(r))
+			{
+				g.Clear(Color.White);
+				g.DrawString(level.Name + ": " + level.FullName, new Font("Calibri", 28, FontStyle.Bold), Brushes.DarkRed, 24, 8);
+				g.DrawImageUnscaled(img, 0, 48);
+			}
+			return r;
+		}
 
 		public Bitmap Draw(LevelFile level)
 		{

@@ -15,10 +15,6 @@ namespace GridDominance.Shared.Resources
 
 		public static LevelFile LEVEL_DBG;
 
-		public static LevelFile LEVEL_001;
-		public static LevelFile LEVEL_002;
-		public static LevelFile LEVEL_003;
-
 		public static void LoadContent(ContentManager content)
 		{
 			LEVELS = new Dictionary<Guid, LevelFile>();
@@ -26,6 +22,7 @@ namespace GridDominance.Shared.Resources
 			LoadLevel(content, "levels/lvl001");
 			LoadLevel(content, "levels/lvl002");
 			LoadLevel(content, "levels/lvl003");
+			LoadLevel(content, "levels/lvl004");
 			LoadLevel(content, "levels/lvl_debug"); //TODO Laggs like shit on handy with speed++
 
 			WORLD_001 = content.Load<WorldGraphFile>("levels/world_1");

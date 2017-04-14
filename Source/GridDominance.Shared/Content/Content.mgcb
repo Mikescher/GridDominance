@@ -209,3 +209,8 @@
 /processor:GDWorldGraphProcessor
 /build:levels/world_1.gsgraph
 
+#begin levels/lvl004.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl004.gslevel
+

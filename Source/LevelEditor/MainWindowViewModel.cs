@@ -1,10 +1,12 @@
 ﻿using GridDominance.Levelformat.Parser;
 using Leveleditor;
 using LevelEditor.Properties;
+using Microsoft.Win32;
 using MSHC.WPF.MVVM;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Color = System.Drawing.Color;
 
 namespace LevelEditor
 {
@@ -20,9 +23,10 @@ namespace LevelEditor
 	{
 		private const int TIMER_COOLDOWN = 33;
 
-		public ICommand ReloadCommand => new RelayCommand(Reload);
+		public ICommand ReloadCommand => new RelayCommand(r => Reload());
 		public ICommand SaveCommand => new RelayCommand(Save);
 		public ICommand CompileCommand => new RelayCommand(Compile); 
+		public ICommand OverviewCommand => new RelayCommand(Overview);
 		public ICommand RepaintCommand => new RelayCommand(Repaint);
 		public ICommand UUIDCommand => new RelayCommand(InsertUUID);
 		public ICommand ClosingCommand => new RelayCommand<CancelEventArgs>(FormClosing);
@@ -36,8 +40,9 @@ namespace LevelEditor
 		private string _filePath = "";
 		public string FilePath { get { return _filePath; } set {if (value != _filePath) {_filePath = value; OnPropertyChanged();} } }
 
+		private bool _codeDirty = false;
 		private string _code = "";
-		public string Code { get { return _code; } set { if (value != _code) { _code = value; OnPropertyChanged(); ResetTimer(); } } }
+		public string Code { get { return _code; } set { if (value != _code) { _code = value; OnPropertyChanged(); ResetTimer(); _codeDirty = true; } } }
 
 		private int _progressValue = 0;
 		public int ProgressValue { get { return _progressValue; } set { _progressValue = value; OnPropertyChanged(); } }
@@ -71,6 +76,7 @@ namespace LevelEditor
 			{
 				Code = Resources.example;
 			}
+			_codeDirty = false;
 
 			repaintTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
 			repaintTimer.Tick += (o, te) =>
@@ -118,11 +124,13 @@ namespace LevelEditor
 			}
 		}
 		
-		private void Reload()
+		private void Reload(bool ask = true)
 		{
+			if (ask && !ConditionalSave()) return;
 			try
 			{
 				Code = File.ReadAllText(FilePath);
+				_codeDirty = false;
 				Reparse();
 			}
 			catch (Exception e)
@@ -139,6 +147,7 @@ namespace LevelEditor
 				string inew = ReplaceMagicConstants(Code);
 				if (iold != inew) Code = inew;
 				File.WriteAllText(FilePath, Code, Encoding.UTF8);
+				_codeDirty = false;
 			}
 			catch (Exception e)
 			{
@@ -257,7 +266,29 @@ namespace LevelEditor
 			if (File.Exists(FilePath))
 			{
 				var path = Path.GetDirectoryName(FilePath) ?? "";
-				var pattern = "*" + Path.GetExtension(FilePath);
+				var pattern = "*.gsheader";
+
+				var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
+
+				includesFunc = x => includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value;
+			}
+
+			var lp = new LevelFile(input, includesFunc);
+			lp.Parse();
+
+			return lp;
+		}
+
+		private LevelFile ParseSpecificLevelFile(string f)
+		{
+			var input = File.ReadAllText(f);
+			input = ReplaceMagicConstants(input);
+
+			Func<string, string> includesFunc = x => null;
+			if (File.Exists(FilePath))
+			{
+				var path = Path.GetDirectoryName(f) ?? "";
+				var pattern = "*.gsheader";
 
 				var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
 
@@ -278,8 +309,9 @@ namespace LevelEditor
 			{
 				foreach (string file in files)
 				{
+					if (!ConditionalSave()) return;
 					FilePath = file;
-					Reload();
+					Reload(false);
 				}
 			}
 		}
@@ -291,25 +323,29 @@ namespace LevelEditor
 
 		private void FormClosing(CancelEventArgs e)
 		{
-			if (File.Exists(FilePath) && File.ReadAllText(FilePath) != Code)
+			e.Cancel = !ConditionalSave();
+		}
+
+		private bool ConditionalSave()
+		{
+			if (File.Exists(FilePath) && _codeDirty)
 			{
-				switch (MessageBox.Show("Save changes ?", "Save?", MessageBoxButton.YesNoCancel))
+				switch (MessageBox.Show($"Save changes to {Path.GetFileName(FilePath)} ?", "Save?", MessageBoxButton.YesNoCancel))
 				{
 					case MessageBoxResult.None:
 					case MessageBoxResult.Cancel:
-						e.Cancel = true;
-						return;
+						return false;
 					case MessageBoxResult.Yes:
 						Save();
-						e.Cancel = false;
-						return;
+						return true;
 					case MessageBoxResult.No:
-						e.Cancel = false;
-						return;
+						return true;
 					default:
 						throw new ArgumentOutOfRangeException();
 				}
 			}
+
+			return true;
 		}
 
 		private void RecreateMap(LevelFile lp)
@@ -331,6 +367,50 @@ namespace LevelEditor
 				SelectionLength = selL;
 
 				Console.WriteLine("Regenerate map");
+			}
+		}
+
+		private void Overview()
+		{
+			var folder = Path.GetDirectoryName(FilePath);
+			if (!Directory.Exists(folder)) return;
+
+			var imgs = Directory
+				.EnumerateFiles(folder)
+				.Where(p => Path.GetExtension(p).ToLower() == ".gslevel")
+				.Select(f => new PreviewPainter().DrawOverview(ParseSpecificLevelFile(f)))
+				.ToList();
+
+			var sw = imgs[0].Width;
+			var sh = imgs[0].Height;
+
+			var rc = (imgs.Count + 3) / 4;
+
+			var w = sw * 4 + 48 * 5;
+			var h = rc * sh + rc * 48;
+
+			var bmp = new Bitmap(w, h);
+			using (Graphics g = Graphics.FromImage(bmp))
+			{
+				g.Clear(Color.White);
+				for (int i = 0; i < imgs.Count; i++)
+				{
+					var x = (i % 4) * (48 + sw);
+					var y = (i / 4) * (48 + sh);
+
+					g.DrawImageUnscaled(imgs[i], x, y);
+				}
+			}
+
+			FileDialog sfd = new SaveFileDialog
+			{
+				DefaultExt = ".png",
+				InitialDirectory = folder,
+				FileName = "overview.png",
+			};
+			if (sfd.ShowDialog() == true)
+			{
+				bmp.Save(sfd.FileName);
 			}
 		}
 	}

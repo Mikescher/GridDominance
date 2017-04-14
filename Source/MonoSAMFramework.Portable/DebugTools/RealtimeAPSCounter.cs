@@ -66,12 +66,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			cycleTimeSum += ctime;
 			MaximumCycleTime = Math.Max(MaximumCycleTime, ctime / 1000f);
 			CurrentCycleTime = ctime / 1000f;
-
-			if (ctime > 0)
-			{
-				System.Diagnostics.Debug.WriteLine("sad");
-			}
-
+			
 			if (bufferSum > interval)
 			{
 				AverageAPS = bufferCount / bufferSum;

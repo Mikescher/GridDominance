@@ -35,6 +35,10 @@ namespace MonoSAMFramework.Portable.LogProtocol
 		{
 			lock (lockobj)
 			{
+#if DEBUG
+				System.Diagnostics.Debug.WriteLine($"[{e.Level}] {e.MessageShort}\r\n{e.MessageLong}");
+#endif
+
 				_log.Add(e);
 
 				LogEvent?.Invoke(null, new LogEventArgs{Entry = e});

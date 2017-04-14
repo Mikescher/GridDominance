@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Content.Pipeline;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace GridDominance.Content.Pipeline.GDLevel
 {
@@ -16,7 +16,7 @@ namespace GridDominance.Content.Pipeline.GDLevel
 			Console.WriteLine("Reading {0} character long file", content.Length);
 
 			var path = Path.GetDirectoryName(filename) ?? "";
-			var pattern = "*" + Path.GetExtension(filename);
+			var pattern = "*.gsheader";
 
 			var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
 				

@@ -1,17 +1,17 @@
-﻿# Level 03 - Division   #
-#########################
+﻿# Grid Dominance Level Definition   #
+#####################################
 
-init("0-3", "Simple Split", {f9f79506-f15a-47d4-abcc-afdc116b7b3c})
+init("0-3", "Simple Split", {b16b00b5-0001-4000-0000-000001000003})
 
 include("stdvalues")
 
-Cannon(SIZE_SMALL, P1,  2 * CELL_W,  5 * CELL_H, ROT_N)
-
-Cannon(SIZE_SMALL, A3, 14 * CELL_W,  5 * CELL_H, ROT_S)
+Cannon(SIZE_SMALL, P1,  2 * CELL_W,  5 * CELL_H, ROT_E)
 
 Cannon(SIZE_SMALL, N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
-Cannon(SIZE_SMALL, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)
+Cannon(SIZE_SMALL, N0,  8 * CELL_W,  5 * CELL_H, ROT_N)
 Cannon(SIZE_SMALL, N0,  8 * CELL_W,  9 * CELL_H, ROT_NE)
+
+Cannon(SIZE_SMALL, A3, 14 * CELL_W,  5 * CELL_H, ROT_W)
 
 
 
