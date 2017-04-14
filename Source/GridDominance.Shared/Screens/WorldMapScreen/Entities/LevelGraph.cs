@@ -13,9 +13,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 	{
 		private readonly GDWorldMapScreen screen;
 
-		private readonly List<LevelNode> nodes = new List<LevelNode>();
+		public readonly List<LevelNode> Nodes = new List<LevelNode>();
 		public FRectangle BoundingRect;
 		public FRectangle BoundingViewport;
+
+		public LevelNode InitialNode;
+		public LevelNode FinalNode;
 
 		public LevelGraph(GDWorldMapScreen s)
 		{
@@ -34,21 +37,29 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				var node = new LevelNode(screen, pos, f, data);
 
 				screen.Entities.AddEntity(node);
-				nodes.Add(node);
+				Nodes.Add(node);
+
+				if (node.OutgoingPipes.Count == 0) FinalNode = node; //TODO Better calc or even better define by file
 			}
+
+			var initNodeCandidates = Nodes.ToList();
 
 			foreach (var bpNode in g.Nodes)
 			{
-				var sourcenode = nodes.Single(n => n.Level.UniqueID == bpNode.LevelID);
+				var sourcenode = Nodes.Single(n => n.Level.UniqueID == bpNode.LevelID);
 				foreach (var pipe in bpNode.OutgoingPipes)
 				{
-					var sinknode = nodes.Single(n => n.Level.UniqueID == pipe.Target);
+					var sinknode = Nodes.Single(n => n.Level.UniqueID == pipe.Target);
 
 					sourcenode.CreatePipe(sinknode, pipe.PipeOrientation);
+
+					initNodeCandidates.Remove(sinknode);
 				}
 			}
 
-			BoundingRect = FRectangle.CreateOuter(nodes.Select(n => n.DrawingBoundingRect));
+			InitialNode = initNodeCandidates.First(); //TODO Better calc or even better define by file
+
+			BoundingRect = FRectangle.CreateOuter(Nodes.Select(n => n.DrawingBoundingRect));
 
 			BoundingViewport = BoundingRect
 				.AsInflated(LevelNode.DIAMETER, LevelNode.DIAMETER)
@@ -63,7 +74,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			var node = new LevelNode(screen, pos, f, data);
 
 			screen.Entities.AddEntity(node);
-			nodes.Add(node);
+			Nodes.Add(node);
 
 			return node;
 		}

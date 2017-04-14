@@ -40,6 +40,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
+			base.DoUpdate(gameTime, istate);
+
 			var innerRel = internalText.Position + new FPoint(InnerLabelSize.Width + 5, AnimationOffset - incrementLabel.Height / 4);
 
 			incrementLabel.RelativePosition = innerRel;

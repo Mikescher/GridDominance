@@ -135,14 +135,14 @@ namespace GridDominance.Shared
 			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint, d, source));
 		}
 
-		public void SetWorldMapScreen(WorldGraphFile g)
+		public void SetWorldMapScreen(WorldGraphFile g, Guid focus)
 		{
-			SetCurrentScreen(new GDWorldMapScreen(this, Graphics, g));
+			SetCurrentScreen(new GDWorldMapScreen(this, Graphics, g, focus));
 		}
 
 		public void SetWorldMapScreenWithTransition(WorldGraphFile g)
 		{
-			var screen = new GDWorldMapScreen(this, Graphics, g);
+			var screen = new GDWorldMapScreen(this, Graphics, g, null);
 			SetCurrentScreen(screen);
 			screen.AddAgent(new InitialTransitionAgent(screen));
 			screen.ColorOverdraw = 1f;

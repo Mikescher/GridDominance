@@ -130,7 +130,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private void OnExit()
 		{
-			MainGame.Inst.SetWorldMapScreen(GDScreen.WorldBlueprint);
+			MainGame.Inst.SetWorldMapScreen(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID);
 		}
 
 		protected override void OnPress(InputState istate)

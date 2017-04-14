@@ -1,4 +1,8 @@
-﻿using GridDominance.Levelformat.Parser;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GridDominance.Graphfileformat.Parser;
+using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
@@ -32,7 +36,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private readonly LevelFile Level;
 		private readonly int increasePoints;
 
-		private HUDLabel lblPoints;
 		private HUDIconTextButton btnMenu;
 		private HUDIconTextButton btnNext;
 
@@ -128,19 +131,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				FontSize = 35,
 			});
 
-			AddElement(lblPoints = new HUDLabel(2)
-			{
-				Alignment = HUDAlignment.BOTTOMLEFT,
-				RelativePosition = new FPoint(0, 15),
-				Size = new FSize(WIDTH / 3f, 60),
-
-				Text = Level.Name,
-				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				TextColor = FlatColors.TextHUD,
-				Font = Textures.HUDFontBold,
-				FontSize = 57,
-			});
-
 			AddElement(new HUDLabel(2)
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
@@ -152,18 +142,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
-			});
-
-			AddElement(lblPoints = new HUDIncrementIndicatorLabel(profile.TotalPoints.ToString(), increasePoints==0 ? "" : "+"+increasePoints, 2)
-			{
-				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 15),
-				Size = new FSize(WIDTH / 3f, 60),
-
-				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				TextColor = FlatColors.TextHUD,
-				Font = Textures.HUDFontBold,
-				FontSize = 57,
 			});
 
 			AddElement(new HUDLabel(2)
@@ -179,7 +157,32 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				FontSize = 35,
 			});
 
-			AddElement(lblPoints = new HUDLabel(2)
+			AddElement(new HUDLabel(2)
+			{
+				Alignment = HUDAlignment.BOTTOMLEFT,
+				RelativePosition = new FPoint(0, 15),
+				Size = new FSize(WIDTH / 3f, 60),
+
+				Text = Level.Name,
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontBold,
+				FontSize = 57,
+			});
+
+			AddElement(new HUDIncrementIndicatorLabel(profile.TotalPoints.ToString(), increasePoints == 0 ? "" : "+" + increasePoints, 2)
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(0, 15),
+				Size = new FSize(WIDTH / 3f, 60),
+
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontBold,
+				FontSize = 57,
+			});
+
+			AddElement(new HUDLabel(2)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(0, 15),
@@ -213,28 +216,33 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 			});
-			btnMenu.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreen(GDScreen.WorldBlueprint);
+			btnMenu.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreen(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID);
 
 			if (successScreen)
 			{
-				AddElement(btnNext = new HUDIconTextButton(2)
-				{
-					Alignment = HUDAlignment.BOTTOMRIGHT,
-					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-					Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
+				var next = GetNextNode();
 
-					Text = "Next",
-					TextColor = Color.White,
-					Font = Textures.HUDFontRegular,
-					FontSize = 55,
-					TextAlignment = HUDAlignment.CENTER,
-					TextPadding = 8,
-					Icon = Textures.TexIconNext,
-					BackgoundType = HUDBackgroundType.Rounded,
-					Color = FlatColors.Nephritis,
-					ColorPressed = FlatColors.Emerald,
-				});
-				btnNext.ButtonClick += (s, a) => HUD.Screen.PushNotification("OnClick >>Next<<"); // TODO
+				if (next != null)
+				{
+					AddElement(btnNext = new HUDIconTextButton(2)
+					{
+						Alignment = HUDAlignment.BOTTOMRIGHT,
+						RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
+						Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
+
+						Text = "Next",
+						TextColor = Color.White,
+						Font = Textures.HUDFontRegular,
+						FontSize = 55,
+						TextAlignment = HUDAlignment.CENTER,
+						TextPadding = 8,
+						Icon = Textures.TexIconNext,
+						BackgoundType = HUDBackgroundType.Rounded,
+						Color = FlatColors.Nephritis,
+						ColorPressed = FlatColors.Emerald,
+					});
+					btnNext.ButtonClick += (s, a) => MainGame.Inst.SetLevelScreen(next.Item1, next.Item2, GDScreen.WorldBlueprint);
+				}
 			}
 			else
 			{
@@ -252,8 +260,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 					TextPadding = 8,
 					Icon = Textures.TexIconRedo,
 					BackgoundType = HUDBackgroundType.Rounded,
-					Color = FlatColors.Nephritis,
-					ColorPressed = FlatColors.Emerald,
+					Color = FlatColors.Orange,
+					ColorPressed = FlatColors.SunFlower,
 				});
 				btnNext.ButtonClick += (s, a) => ((GDGameScreen) HUD.Screen).RestartLevel();
 			}
@@ -325,6 +333,33 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			});
 
 			#endregion
+		}
+
+		private Tuple<LevelFile, FractionDifficulty> GetNextNode()
+		{
+			var currNode = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == GDScreen.Blueprint.UniqueID);
+			var diff = GDScreen.Difficulty;
+
+			foreach (var lid in currNode.OutgoingPipes)
+			{
+				var node = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target);
+
+				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
+			}
+
+			var nodestack = new Stack<WGNode>();
+			foreach (var n in currNode.OutgoingPipes.Select(lid => GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target))) nodestack.Push(n);
+			while (nodestack.Any())
+			{
+				var node = nodestack.Pop();
+				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
+				foreach (var n in node.OutgoingPipes.Select(lid => GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target)))
+				{
+					nodestack.Push(n);
+				}
+			}
+
+			return null;
 		}
 	}
 }

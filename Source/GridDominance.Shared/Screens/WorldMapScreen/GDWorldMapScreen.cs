@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GridDominance.Graphfileformat.Parser;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
@@ -36,12 +39,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public readonly WorldGraphFile GraphBlueprint;
 		public float ColorOverdraw = 0f;
 
-		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm, WorldGraphFile g) : base(game, gdm)
+		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm, WorldGraphFile g, Guid? initialFocus) : base(game, gdm)
 		{
 			Graph = new LevelGraph(this);
 			GraphBlueprint = g;
 
-			Initialize(g);
+			Initialize(g, initialFocus);
 		}
 
 		protected GDWorldHUD GDHUD => (GDWorldHUD) HUD;
@@ -54,7 +57,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(-8, -8, 48, 48) * GDConstants.TILE_WIDTH;
 		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
-		private void Initialize(WorldGraphFile g)
+		private void Initialize(WorldGraphFile g, Guid? initialFocus)
 		{
 #if DEBUG
 			DebugUtils.CreateShortcuts(this);
@@ -63,7 +66,22 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			Graph.Init(g);
 
 			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
-			MapOffsetY = VIEW_HEIGHT / -2f; //TODO Focus on last played levelnode (the node from where we came)
+
+			if (initialFocus == null)
+			{
+				MapViewportCenterX = Graph.BoundingRect.CenterX;
+				MapViewportCenterY = Graph.BoundingRect.CenterY;
+			}
+			else
+			{
+				var nd = Graph.Nodes.FirstOrDefault(n => n.Level.UniqueID == initialFocus);
+				if (nd != null)
+				{
+					MapViewportCenterX = nd.Position.X;
+					MapViewportCenterY = nd.Position.Y;
+				}
+
+			}
 
 			((WorldMapBackground)Background).InitBackground(GetEntities<LevelNode>().ToList());
 		}
@@ -162,6 +180,42 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				Textures.ChangeQuality(Game.Content, newQuality);
 			}
 #endif
+		}
+
+		public LevelNode GetInitialNode()
+		{
+			LevelNode n;
+
+			n = GetInitialNode(FractionDifficulty.DIFF_0);
+			if (n != null) return n;
+
+			n = GetInitialNode(FractionDifficulty.DIFF_1);
+			if (n != null) return n;
+
+			n = GetInitialNode(FractionDifficulty.DIFF_2);
+			if (n != null) return n;
+
+			n = GetInitialNode(FractionDifficulty.DIFF_3);
+			if (n != null) return n;
+
+			return Graph.FinalNode;
+		}
+
+		private LevelNode GetInitialNode(FractionDifficulty d)
+		{
+			var nodes = new Stack<LevelNode>();
+			nodes.Push(Graph.InitialNode);
+
+			while (nodes.Any())
+			{
+				var node = nodes.Pop();
+
+				if (!node.LevelData.HasCompleted(d)) return node;
+
+				foreach (var nn in node.NextLinkedNodes) nodes.Push(nn);
+			}
+
+			return null;
 		}
 	}
 }

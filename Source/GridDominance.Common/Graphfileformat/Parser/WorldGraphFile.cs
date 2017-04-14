@@ -38,6 +38,9 @@ namespace GridDominance.Graphfileformat.Parser
 		public void Parse()
 		{
 			Parse("__root__", content);
+			//TODO Define Root and final node
+			//TODO test for loops (forbidden - breaks some algos in map)
+			//TODO test all nodes reachable
 		}
 
 		public void Parse(string fileName, string fileContent)

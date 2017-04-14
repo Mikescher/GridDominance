@@ -27,7 +27,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 			rectStart = scrn.Graph.BoundingViewport;
 
-			var pos = scrn.GetEntities<LevelNode>().First().Position; // TODO Choose better default node
+			var pos = scrn.GetInitialNode().Position;
 
 			rectFinal = FRectangle.CreateByCenter(pos, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		}

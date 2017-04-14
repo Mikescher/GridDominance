@@ -71,7 +71,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public readonly LevelFile Blueprint;
 		public readonly WorldGraphFile WorldBlueprint;
-		private readonly FractionDifficulty difficulty;
+		public readonly FractionDifficulty Difficulty;
 
 
 		public bool HasFinished = false;
@@ -81,7 +81,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		{
 			Blueprint = bp;
 			WorldBlueprint = ws;
-			difficulty = diff;
+			Difficulty = diff;
 
 			Initialize();
 		}
@@ -106,9 +106,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			fractionNeutral = Fraction.CreateNeutralFraction();
 			fractionPlayer = Fraction.CreatePlayerFraction(fractionNeutral);
-			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, difficulty);
-			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, difficulty);
-			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, difficulty);
+			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, Difficulty);
+			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, Difficulty);
+			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, Difficulty);
 
 			LoadLevelFromBlueprint();
 		}
@@ -187,16 +187,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			if (winner.IsPlayer)
 			{
-				if (GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(difficulty))
+				if (GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(Difficulty))
 				{
 					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, null, true, 0);
 				}
 				else
 				{
-					int p = FractionDifficultyHelper.GetScore(difficulty);
-					GDOwner.Profile.SetCompleted(Blueprint.UniqueID, difficulty, (int)(LevelTime * 1000), true);
+					int p = FractionDifficultyHelper.GetScore(Difficulty);
+					GDOwner.Profile.SetCompleted(Blueprint.UniqueID, Difficulty, (int)(LevelTime * 1000), true);
 					GDOwner.SaveProfile();
-					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, difficulty, true, p);
+					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, Difficulty, true, p);
 				}
 
 				MainGame.Inst.GDSound.PlayEffectGameWon();
@@ -264,7 +264,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public void RestartLevel()
 		{
-			GDOwner.SetLevelScreen(Blueprint, difficulty, WorldBlueprint);
+			GDOwner.SetLevelScreen(Blueprint, Difficulty, WorldBlueprint);
 		}
 
 		public void ReplayLevel(FractionDifficulty diff)
