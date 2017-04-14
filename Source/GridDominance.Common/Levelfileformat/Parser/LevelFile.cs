@@ -24,6 +24,8 @@ namespace GridDominance.Levelfileformat.Parser
 		public Guid UniqueID { get; private set; } = Guid.Empty;
 		public string Name { get; private set; } = "";
 		public string FullName { get; private set; } = "";
+		private float _scaleFactorX = 1f;
+		private float _scaleFactorY = 1f;
 
 		public LevelFile()
 		{
@@ -43,6 +45,7 @@ namespace GridDominance.Levelfileformat.Parser
 
 		private void Init()
 		{
+			parser.DefineMethod("scale", SetScale);
 			parser.DefineMethod("define", DefineAlias);
 			parser.DefineMethod("cannon", AddCannon);
 			parser.DefineMethod("include", IncludeSource);
@@ -58,6 +61,9 @@ namespace GridDominance.Levelfileformat.Parser
 
 		public void Parse(string fileName, string fileContent)
 		{
+			BlueprintCannons.Clear();
+			_scaleFactorX = 1f;
+			_scaleFactorY = 1f;
 			parser.Parse(fileName, fileContent);
 
 			if (string.IsNullOrWhiteSpace(Name))
@@ -79,8 +85,8 @@ namespace GridDominance.Levelfileformat.Parser
 		{
 			var size     = parser.ExtractNumberParameter(methodParameter, 0);
 			var player   = parser.ExtractIntegerParameter(methodParameter, 1);
-			var posX     = parser.ExtractVec2fParameter(methodParameter, 2).Item1;
-			var posY     = parser.ExtractVec2fParameter(methodParameter, 2).Item2;
+			var posX     = parser.ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactorX;
+			var posY     = parser.ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactorY;
 			var rotation = parser.ExtractNumberParameter(methodParameter, 3, -1);
 
 			BlueprintCannons.Add(new LPCannon(posX, posY, size, player, rotation));
@@ -105,6 +111,12 @@ namespace GridDominance.Levelfileformat.Parser
 			Name = levelname;
 			FullName = leveldesc;
 			UniqueID = levelguid;
+		}
+
+		private void SetScale(List<string> methodParameter)
+		{
+			_scaleFactorX = parser.ExtractNumberParameter(methodParameter, 0);
+			_scaleFactorY = parser.ExtractNumberParameter(methodParameter, 1);
 		}
 
 		#endregion

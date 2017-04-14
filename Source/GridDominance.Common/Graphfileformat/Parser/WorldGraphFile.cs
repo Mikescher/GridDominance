@@ -55,6 +55,8 @@ namespace GridDominance.Graphfileformat.Parser
 
 		public void Parse(string fileName, string fileContent)
 		{
+			_scaleFactor = 1f;
+			_currentNode = null;
 			parser.Parse(fileName, fileContent);
 		}
 

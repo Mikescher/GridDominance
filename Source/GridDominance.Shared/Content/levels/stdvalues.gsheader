@@ -26,3 +26,5 @@ define(SIZE_GIGANTIC, 8/4)
 define(CELL_W, 64)
 define(CELL_H, 64)
 
+scale(CELL_W, CELL_H)
+

@@ -5,13 +5,13 @@ init("0-3", "Simple Split", {b16b00b5-0001-4000-0000-000001000003})
 
 include("stdvalues")
 
-Cannon(SIZE_SMALL, P1,  2 * CELL_W,  5 * CELL_H, ROT_E)
+Cannon(SIZE_SMALL, P1, [ 2,  5], ROT_E)
 
-Cannon(SIZE_SMALL, N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
-Cannon(SIZE_SMALL, N0,  8 * CELL_W,  5 * CELL_H, ROT_N)
-Cannon(SIZE_SMALL, N0,  8 * CELL_W,  9 * CELL_H, ROT_NE)
+Cannon(SIZE_SMALL, N0, [ 8,  1], ROT_SW)
+Cannon(SIZE_SMALL, N0, [ 8,  5], ROT_N)
+Cannon(SIZE_SMALL, N0, [ 8,  9], ROT_NE)
 
-Cannon(SIZE_SMALL, A3, 14 * CELL_W,  5 * CELL_H, ROT_W)
+Cannon(SIZE_SMALL, A3, [14,  5], ROT_W)
 
 
 

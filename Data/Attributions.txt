@@ -34,3 +34,4 @@ collision   http://www.freesound.org/people/LittleRobotSoundFactory/sounds/27031
 hit         http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270326/
 boost       http://www.freesound.org/people/RunnerPack/sounds/87043/
 gamewon     http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270330/
+zoomin      http://www.freesound.org/people/benjaminharveydesign/sounds/366092/

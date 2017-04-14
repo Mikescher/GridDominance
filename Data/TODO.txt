@@ -118,3 +118,18 @@ Special Stuff:
 		Protect other turret from damage
 		Dont shoot itself
 		Shield turret can't form loop (shielded turret can's shield other turret)
+
+
+root node in level returns to overworld map
+
+
+More level ideas:
+	cannons
+	diff sizes
+	walls
+	kill walls
+	port walls
+	endless level (donut)
+	shoot 4 way cannon
+	spreadshot cannon
+	minigun cannon with cooldown

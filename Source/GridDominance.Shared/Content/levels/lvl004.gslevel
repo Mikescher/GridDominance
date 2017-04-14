@@ -5,19 +5,19 @@ init("0-4", "Hexagon", {b16b00b5-0001-4000-0000-000001000004})
 
 include("stdvalues")
 
-Cannon(SIZE_SMALL, P1,  1 * CELL_W,  5 * CELL_H, ROT_N)
+Cannon(SIZE_SMALL,  P1, [ 1,  5], ROT_E)
 
-Cannon(SIZE_TINY,   N0,  4 * CELL_W,  3 * CELL_H, ROT_SW)
-Cannon(SIZE_TINY,   N0,  4 * CELL_W,  7 * CELL_H, ROT_NW)
+Cannon(SIZE_TINY,   N0, [ 4,  3], ROT_SW)
+Cannon(SIZE_TINY,   N0, [ 4,  7], ROT_NW)
 
-Cannon(SIZE_TINY,   N0,  8 * CELL_W,  1 * CELL_H, ROT_S)
-Cannon(SIZE_NORMAL, N0,  8 * CELL_W,  5 * CELL_H, ROT_N)
-Cannon(SIZE_TINY,   N0,  8 * CELL_W,  9 * CELL_H, ROT_N)
+Cannon(SIZE_TINY,   N0, [ 8,  1], ROT_S)
+Cannon(SIZE_NORMAL, N0, [ 8,  5], ROT_N)
+Cannon(SIZE_TINY,   N0, [ 8,  9], ROT_N)
 
-Cannon(SIZE_TINY,   N0, 12 * CELL_W,  3 * CELL_H, ROT_SE)
-Cannon(SIZE_TINY,   N0, 12 * CELL_W,  7 * CELL_H, ROT_NE)
+Cannon(SIZE_TINY,   N0, [12,  3], ROT_SE)
+Cannon(SIZE_TINY,   N0, [12,  7], ROT_NE)
 
-Cannon(SIZE_SMALL, A3, 15 * CELL_W,  5 * CELL_H, ROT_S)
+Cannon(SIZE_SMALL,  A3, [15,  5], ROT_W)
 
 
 
