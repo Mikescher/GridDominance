@@ -9,13 +9,13 @@ namespace GridDominance.Content.Pipeline.GDWorldGraph
 	{
 		public override WorldGraphFile Process(string input, ContentProcessorContext context)
 		{
-			var lf = new WorldGraphFile(input);
+			var parser = new WorldGraphFileParser(input);
 
-			lf.Parse();
+			var gf = parser.Parse();
 			
-			Console.WriteLine("Parsing file with " + lf.Nodes.Count + " node definitions");
+			Console.WriteLine("Parsing file with " + gf.Nodes.Count + " node definitions");
 
-			return lf;
+			return gf;
 		}
 	}
 }

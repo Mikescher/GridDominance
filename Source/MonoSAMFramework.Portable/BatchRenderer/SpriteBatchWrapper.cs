@@ -264,12 +264,12 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				scale: scale);
 		}
 
-		public void FillRectangle(FRectangle rectangle, Color color)
+		public void FillRectangle(FRectangle rectangle, Color color, float rotation = 0)
 		{
-			FillRectangle(rectangle.Location, rectangle.Size, color);
+			FillRectangle(rectangle.Location, rectangle.Size, color, rotation);
 		}
 
-		public void FillRectangle(Vector2 location, Vector2 size, Color color)
+		public void FillRectangle(Vector2 location, Vector2 size, Color color, float rotation = 0)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -280,7 +280,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				location,
 				StaticTextures.SinglePixel.Bounds, 
 				color, 
-				0, 
+				rotation, 
 				Vector2.Zero, 
 				size, 
 				SpriteEffects.None, 

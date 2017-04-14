@@ -20,7 +20,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 		public PlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction) 
 			: base(0f, owner, cannon, fraction)
 		{
-			innerBoundings = new FCircle(Cannon.Center, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
+			innerBoundings = new FCircle(Cannon.Position, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
 		}
 
 		protected override void Calculate(InputState istate)
@@ -41,9 +41,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 			}
 			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.GamePointerPosition))
 			{
-				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.GamePointerPosition.Y - Cannon.Center.Y, istate.GamePointerPosition.X - Cannon.Center.X));
+				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.GamePointerPosition.Y - Cannon.Position.Y, istate.GamePointerPosition.X - Cannon.Position.X));
 
-				var dist = (istate.GamePointerPosition - Cannon.Center).Length();
+				var dist = (istate.GamePointerPosition - Cannon.Position).Length();
 				if (dist > 0)
 				{
 					var crosshairScale = FloatMath.Min(dist / CROSSHAIR_CENTER_DISTANCE, 1f);

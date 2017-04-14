@@ -6,19 +6,21 @@ init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001})
 
 include("stdvalues")
 
-Cannon(SIZE_SMALL, P1,  2 * CELL_W,  5 * CELL_H, ROT_N)
+Cannon(SIZE_SMALL,  P1,  [ 2,  5], ROT_N)
 
-Cannon(SIZE_SMALL, N0, 14 * CELL_W,  5 * CELL_H, ROT_S)
+Cannon(SIZE_SMALL,  N0,  [14,  5], ROT_S)
 
-Cannon(SIZE_SMALL,  N0,  8 * CELL_W,  1 * CELL_H, ROT_SW)
-Cannon(SIZE_NORMAL, N0,  8 * CELL_W,  5 * CELL_H, ROT_E)
-Cannon(SIZE_SMALL,  N0,  8 * CELL_W,  9 * CELL_H, ROT_NE)
+Cannon(SIZE_SMALL,  N0,  [ 8,  1], ROT_SW)
+Cannon(SIZE_NORMAL, N0,  [ 8,  5], ROT_E)
+Cannon(SIZE_SMALL,  N0,  [ 8,  9], ROT_NE)
 
-Cannon(SIZE_TINY, N0,  1  * CELL_W,  1 * CELL_H, ROT_N)
-Cannon(SIZE_TINY, A2,  15 * CELL_W,  9 * CELL_H, ROT_N)
-Cannon(SIZE_TINY, N0,  1  * CELL_W,  9 * CELL_H, ROT_N)
-Cannon(SIZE_TINY, A3,  15 * CELL_W,  1 * CELL_H, ROT_N)
+Cannon(SIZE_TINY,   N0,  [1 ,  1], ROT_N)
+Cannon(SIZE_TINY,   A2,  [15,  9], ROT_N)
+Cannon(SIZE_TINY,   N0,  [1 ,  9], ROT_N)
+Cannon(SIZE_TINY,   A3,  [15,  1], ROT_N)
 
+VoidWall_V([ 5, 5], 4)
+VoidWall_V([11, 5], 4)
 
 
 #<map>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
 namespace MonoSAMFramework.Portable.GameMath.Geometry
@@ -120,6 +121,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public static FSize Diff(Vector2 a, Vector2 b)
 		{
 			return new FSize(FloatMath.Abs(a.X - b.X), FloatMath.Abs(a.Y - b.Y));
+		}
+
+		[Pure]
+		public FSize AtLeast(float minwidth, float minheight)
+		{
+			return new FSize(Math.Max(Width, minwidth), Math.Max(Height, minheight));
 		}
 	}
 }

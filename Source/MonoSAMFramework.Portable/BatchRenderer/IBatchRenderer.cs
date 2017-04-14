@@ -22,8 +22,8 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color);
 		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
 
-		void FillRectangle(FRectangle rectangle, Color color);
-		void FillRectangle(Vector2 location, Vector2 size, Color color);
+		void FillRectangle(FRectangle rectangle, Color color, float rotation = 0);
+		void FillRectangle(Vector2 location, Vector2 size, Color color, float rotation = 0);
 		void DrawRectangle(Vector2 location, Vector2 size, Color color, float thickness = 1f);
 		void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f);
 		void DrawLine(float x1, float y1, float x2, float y2, Color color, float thickness = 1f);

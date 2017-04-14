@@ -4,6 +4,7 @@ using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using GridDominance.Levelfileformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Screens.ScreenGame.EntityOperations;
@@ -64,9 +65,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		public readonly DeltaLimitedModuloFloat Rotation;
 		public readonly DeltaLimitedFloat CrosshairSize = new DeltaLimitedFloat(0f, CROSSHAIR_GROW_SPEED);
-		public readonly Vector2 Center;
 		public readonly float Scale;
-		public override Vector2 Position => Center;
+		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 		private float cannonCogRotation;
@@ -80,7 +80,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			Fraction = fractions[blueprint.Player];
 
-			Center = new Vector2(blueprint.X, blueprint.Y);
+			Position = new Vector2(blueprint.X, blueprint.Y);
 			Scale = blueprint.Scale;
 			DrawingBoundingBox = new FSize(CANNON_OUTER_DIAMETER, CANNON_OUTER_DIAMETER) * Scale;
 
@@ -97,7 +97,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			controller = Fraction.CreateController(this.GDOwner(), this);
 
-			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Center), 0, BodyType.Static);
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static);
 
 			PhysicsFixtureBase = FixtureFactory.AttachCircle(
 				ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1,
@@ -124,8 +124,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			particleSpawns = new List<Vector2>();
 
-			var cx = Center.X / GDConstants.TILE_WIDTH;
-			var cy = Center.Y / GDConstants.TILE_WIDTH;
+			var cx = Position.X / GDConstants.TILE_WIDTH;
+			var cy = Position.Y / GDConstants.TILE_WIDTH;
 			var cr = (CANNON_DIAMETER * Scale * 0.5f) / GDConstants.TILE_WIDTH;
 
 			for (int x = FloatMath.Ceiling(cx - cr); x <= FloatMath.Floor(cx + cr); x++)
@@ -175,7 +175,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		private bool IsMouseDownOnThis(InputState istate)
 		{
-			return istate.IsRealDown && (istate.GamePointerPosition - Center).Length() < CANNON_DIAMETER;
+			return istate.IsRealDown && (istate.GamePointerPosition - Position).Length() < CANNON_DIAMETER;
 		}
 
 		private void UpdateHealth(SAMTime gameTime)
@@ -254,7 +254,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		public Vector2 GetBulletSpawnPoint()
 		{
-			return Center + new Vector2(Scale * (CANNON_DIAMETER/2 + Bullet.BULLET_DIAMETER * 0.66f), 0).Rotate(Rotation.ActualValue);
+			return Position + new Vector2(Scale * (CANNON_DIAMETER/2 + Bullet.BULLET_DIAMETER * 0.66f), 0).Rotate(Rotation.ActualValue);
 		}
 
 		public Vector2 GetBulletVelocity()
@@ -291,8 +291,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			if (FloatMath.IsNotZero(CrosshairSize.ActualValue))
 			{
 				sbatch.DrawScaled(
-					Textures.TexCannonCrosshair, 
-					Center, 
+					Textures.TexCannonCrosshair,
+					Position, 
 					Scale * CrosshairSize.ActualValue, 
 					Color.White * (CROSSHAIR_TRANSPARENCY * CrosshairSize.ActualValue),
 					Rotation.TargetValue);
@@ -303,7 +303,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			var recoil = (1-barrelRecoil) * BARREL_RECOIL_LENGTH;
 
-			var barrelCenter = Center + new Vector2(Scale * (CANNON_DIAMETER/2f - recoil), 0).Rotate(Rotation.ActualValue);
+			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER/2f - recoil), 0).Rotate(Rotation.ActualValue);
 
 			sbatch.DrawScaled(
 				Textures.TexCannonBarrelShadow,
@@ -314,7 +314,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			sbatch.DrawScaled(
 				Textures.TexCannonBodyShadow,
-				Center,
+				Position,
 				Scale,
 				Color.White,
 				Rotation.ActualValue);
@@ -328,7 +328,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			sbatch.DrawScaled(
 				Textures.TexCannonBody,
-				Center,
+				Position,
 				Scale,
 				Color.White,
 				Rotation.ActualValue);
@@ -338,14 +338,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			sbatch.DrawScaled(
 				Textures.AnimCannonCog[Textures.ANIMATION_CANNONCOG_SIZE - 1],
-				Center,
+				Position,
 				Scale,
 				FlatColors.Clouds,
 				cannonCogRotation + 3 * (FloatMath.PI / 2));
 
 			sbatch.DrawScaled(
 				Textures.AnimCannonCog[(int)(CannonHealth.ActualValue * (Textures.ANIMATION_CANNONCOG_SIZE - 1))],
-				Center,
+				Position,
 				Scale,
 				Fraction.Color,
 				cannonCogRotation + 3 * (FloatMath.PI / 2));
@@ -356,16 +356,16 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			var innerRadius = Scale*CANNON_DIAMETER/2;
 
-			var rectChargeFull = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
-			var rectChargeProg = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * barrelCharge, 8);
+			var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
+			var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * barrelCharge, 8);
 
 			sbatch.FillRectangle(rectChargeFull, Color.White);
 			sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
 			sbatch.DrawRectangle(rectChargeFull, Color.Black);
 
-			var rectHealthFull = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2, 8);
-			var rectHealthProgT = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.TargetValue, 8);
-			var rectHealthProgA = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.ActualValue, 8);
+			var rectHealthFull  = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2, 8);
+			var rectHealthProgT = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.TargetValue, 8);
+			var rectHealthProgA = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.ActualValue, 8);
 
 			if (CannonHealth.IsDecreasing())
 			{
@@ -390,8 +390,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 			for (int i = 0; i < ActiveOperations.Count; i++)
 			{
-				var rectFull = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2, 8);
-				var rectProg = new FRectangle(Center.X - innerRadius, Center.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2 * (1- ActiveOperations[i].Progress), 8);
+				var rectFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2, 8);
+				var rectProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + ((i+2) * 12) + 16, innerRadius * 2 * (1- ActiveOperations[i].Progress), 8);
 
 				sbatch.FillRectangle(rectFull, Color.White);
 				sbatch.FillRectangle(rectProg, Color.Chocolate);
@@ -460,7 +460,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		public void RotateTo(GameEntity target)
 		{
-			Rotation.Set(FloatMath.PositiveAtan2(target.Position.Y - Center.Y, target.Position.X - Center.X));
+			Rotation.Set(FloatMath.PositiveAtan2(target.Position.Y - Position.Y, target.Position.X - Position.X));
 			//Screen.PushNotification($"Cannon :: target({FloatMath.ToDegree(Rotation.TargetValue):000}°)");
 		}
 

@@ -1,6 +1,4 @@
-﻿using GridDominance.Levelformat.Parser;
-using GridDominance.SAMScriptParser;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,115 +12,21 @@ namespace GridDominance.Levelfileformat.Parser
 		private const byte SERIALIZE_ID_NAME        = 0x02; 
 		private const byte SERIALIZE_ID_DESCRIPTION = 0x03; 
 		private const byte SERIALIZE_ID_GUID        = 0x04;
+		private const byte SERIALIZE_ID_VOIDWALL    = 0x05;
 		private const byte SERIALIZE_ID_EOF         = 0xFF;
 
-		private readonly SSParser parser = new SSParser();
-		private readonly string content;
-		private readonly Func<string, string> includeFinderFunction;
+		public readonly List<LPCannon>   BlueprintCannons   = new List<LPCannon>();
+		public readonly List<LPVoidWall> BlueprintVoidWalls = new List<LPVoidWall>();
 
-		public readonly List<LPCannon> BlueprintCannons = new List<LPCannon>();
-		public Guid UniqueID { get; private set; } = Guid.Empty;
-		public string Name { get; private set; } = "";
-		public string FullName { get; private set; } = "";
-		private float _scaleFactorX = 1f;
-		private float _scaleFactorY = 1f;
-
+		public Guid UniqueID { get; set; } = Guid.Empty;
+		public string Name { get; set; } = "";
+		public string FullName { get; set; } = "";
+		
 		public LevelFile()
 		{
-			content = string.Empty;
-			includeFinderFunction = s => null; 
-
-			Init();
-		}
-
-		public LevelFile(string levelContent, Func<string, string> includeFunction)
-		{
-			content = levelContent;
-			includeFinderFunction = includeFunction;
-
-			Init();
-		}
-
-		private void Init()
-		{
-			parser.DefineMethod("scale", SetScale);
-			parser.DefineMethod("define", DefineAlias);
-			parser.DefineMethod("cannon", AddCannon);
-			parser.DefineMethod("include", IncludeSource);
-			parser.DefineMethod("init", InitLevel);
-		}
-
-		#region Parsing
-
-		public void Parse()
-		{
-			Parse("__root__", content);
-		}
-
-		public void Parse(string fileName, string fileContent)
-		{
-			BlueprintCannons.Clear();
-			_scaleFactorX = 1f;
-			_scaleFactorY = 1f;
-			parser.Parse(fileName, fileContent);
-
-			if (string.IsNullOrWhiteSpace(Name))
-				throw new Exception("Level needs a valid name");
-
-			if (UniqueID == Guid.Empty)
-				throw new Exception("Level needs a valid UUID");
+			//
 		}
 		
-		private void DefineAlias(List<string> methodParameter)
-		{
-			var key = parser.ExtractValueParameter(methodParameter, 0);
-			var val = parser.ExtractValueParameter(methodParameter, 1);
-
-			parser.AddAlias(key, val);
-		}
-
-		private void AddCannon(List<string> methodParameter)
-		{
-			var size     = parser.ExtractNumberParameter(methodParameter, 0);
-			var player   = parser.ExtractIntegerParameter(methodParameter, 1);
-			var posX     = parser.ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactorX;
-			var posY     = parser.ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactorY;
-			var rotation = parser.ExtractNumberParameter(methodParameter, 3, -1);
-
-			BlueprintCannons.Add(new LPCannon(posX, posY, size, player, rotation));
-		}
-
-		private void IncludeSource(List<string> methodParameter)
-		{
-			var fileName = parser.ExtractStringParameter(methodParameter, 0);
-			var fileContent = includeFinderFunction(fileName);
-
-			if (fileContent == null) throw new Exception("Include not found: " + fileName);
-
-			Parse(fileName, fileContent);
-		}
-
-		private void InitLevel(List<string> methodParameter)
-		{
-			var levelname = parser.ExtractStringParameter(methodParameter, 0);
-			var leveldesc = parser.ExtractStringParameter(methodParameter, 1);
-			var levelguid = parser.ExtractGuidParameter(methodParameter, 2);
-
-			Name = levelname;
-			FullName = leveldesc;
-			UniqueID = levelguid;
-		}
-
-		private void SetScale(List<string> methodParameter)
-		{
-			_scaleFactorX = parser.ExtractNumberParameter(methodParameter, 0);
-			_scaleFactorY = parser.ExtractNumberParameter(methodParameter, 1);
-		}
-
-		#endregion
-
-		#region Pipeline Serialize
-
 		public void BinarySerialize(BinaryWriter bw)
 		{
 			bw.Write(SERIALIZE_ID_NAME);
@@ -144,6 +48,15 @@ namespace GridDominance.Levelfileformat.Parser
 				bw.Write(cannon.Rotation);
 			}
 
+			foreach (var wall in BlueprintVoidWalls)
+			{
+				bw.Write(SERIALIZE_ID_VOIDWALL);
+				bw.Write(wall.X);
+				bw.Write(wall.Y);
+				bw.Write(wall.Length);
+				bw.Write(wall.Rotation);
+			}
+
 			bw.Write(SERIALIZE_ID_EOF);
 		}
 
@@ -163,6 +76,17 @@ namespace GridDominance.Levelfileformat.Parser
 						var a = br.ReadSingle();
 
 						BlueprintCannons.Add(new LPCannon(x, y, r, p, a));
+
+						break;
+					}
+					case SERIALIZE_ID_VOIDWALL:
+					{
+						var x = br.ReadSingle();
+						var y = br.ReadSingle();
+						var l = br.ReadSingle();
+						var r = br.ReadSingle();
+
+						BlueprintVoidWalls.Add(new LPVoidWall(x, y, l, r));
 
 						break;
 					}
@@ -201,10 +125,6 @@ namespace GridDominance.Levelfileformat.Parser
 
 			throw new Exception("Unexpected binary file end");
 		}
-
-		#endregion
-
-		#region Static Helper
 		
 		public static bool IsIncludeMatch(string a, string b)
 		{
@@ -217,11 +137,7 @@ namespace GridDominance.Levelfileformat.Parser
 
 			return string.Equals(a, b, icic);
 		}
-
-		#endregion
-
-		#region Output
-
+		
 		public string GenerateASCIIMap()
 		{
 			var builder = new StringBuilder();
@@ -259,7 +175,5 @@ namespace GridDominance.Levelfileformat.Parser
 
 			return builder.ToString();
 		}
-
-		#endregion
 	}
 }

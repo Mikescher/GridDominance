@@ -1,7 +1,7 @@
+using GridDominance.Levelfileformat.Parser;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using GridDominance.Levelfileformat.Parser;
 
 namespace GridDominance.DSLEditor.Drawing
 {
@@ -92,7 +92,16 @@ namespace GridDominance.DSLEditor.Drawing
 						g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectCircle);
 						g.DrawEllipse(new Pen(Color.Black), rectCircle);
 						g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 2), rectOuter);
+					}
 
+					var voidpen = new Pen(Color.FloralWhite, 8);
+					foreach (var vwall in level.BlueprintVoidWalls)
+					{
+						var save = g.Save();
+						g.TranslateTransform(vwall.X, vwall.Y);
+						g.RotateTransform(vwall.Rotation);
+						g.DrawLine(voidpen, -vwall.Length / 2, 0, +vwall.Length / 2, 0);
+						g.Restore(save);
 					}
 				}
 			}

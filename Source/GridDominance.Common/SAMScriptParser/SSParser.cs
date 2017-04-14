@@ -9,32 +9,42 @@ using System.Text.RegularExpressions;
 
 namespace GridDominance.SAMScriptParser
 {
-	public class SSParser
+	public abstract class SSParser
 	{
 		private static readonly Regex REX_EXPRESSION = new Regex(@"(\d*\.\d+)|(\d+)|([A-Za-z_]+)|[\+\-\*/]");
 
 		private readonly Dictionary<string, Action<List<string>>> _actions;
 		private readonly Dictionary<string, string> _aliasDict = new Dictionary<string, string>();
 
-		public SSParser()
+		protected SSParser()
 		{
 			_actions = new Dictionary<string, Action<List<string>>>();
 		}
 
-		public void DefineMethod(string id, Action<List<string>> a)
+		protected void DefineMethod(string id, Action<List<string>> a)
 		{
 			_actions.Add(id.ToLower(), a);
 		}
 
-		public void AddAlias(string key, string val)
+		protected void AddAlias(string key, string val)
 		{
 			_aliasDict.Add(key.ToLower(), val);
 		}
 
-		public void Parse(string fileName, string fileContent)
+		protected void StartParse(string fileName, string fileContent)
 		{
 			_aliasDict.Clear();
 
+			InnerParse(fileName, fileContent);
+		}
+
+		protected void SubParse(string fileName, string fileContent)
+		{
+			InnerParse(fileName, fileContent);
+		}
+
+		private void InnerParse(string fileName, string fileContent)
+		{
 			using (StringReader sr = new StringReader(fileContent))
 			{
 				string rawline;
@@ -166,7 +176,7 @@ namespace GridDominance.SAMScriptParser
 			return line.Substring(start, end - start);
 		}
 
-		public string ExtractStringParameter(List<string> methodParameter, int idx)
+		protected string ExtractStringParameter(List<string> methodParameter, int idx)
 		{
 			var v = ExtractValueParameter(methodParameter, idx);
 
@@ -177,7 +187,7 @@ namespace GridDominance.SAMScriptParser
 			return v.Substring(1, v.Length - 2);
 		}
 
-		public string ExtractValueParameter(List<string> methodParameter, int idx, string defaultValue = null)
+		protected string ExtractValueParameter(List<string> methodParameter, int idx, string defaultValue = null)
 		{
 			if (idx >= methodParameter.Count)
 			{
@@ -188,14 +198,14 @@ namespace GridDominance.SAMScriptParser
 			return DeRef(methodParameter[idx]);
 		}
 
-		public int ExtractIntegerParameter(List<string> methodParameter, int idx)
+		protected int ExtractIntegerParameter(List<string> methodParameter, int idx)
 		{
 			var v = ExtractValueParameter(methodParameter, idx);
 
 			return int.Parse(v);
 		}
 
-		public float ExtractNumberParameter(List<string> methodParameter, int idx, int? defaultValue = null)
+		protected float ExtractNumberParameter(List<string> methodParameter, int idx, int? defaultValue = null)
 		{
 			if (idx >= methodParameter.Count)
 			{
@@ -208,7 +218,7 @@ namespace GridDominance.SAMScriptParser
 			return EvaluateFloatExpr(v);
 		}
 
-		public Guid ExtractGuidParameter(List<string> methodParameter, int idx)
+		protected Guid ExtractGuidParameter(List<string> methodParameter, int idx)
 		{
 			var v = ExtractValueParameter(methodParameter, idx);
 
@@ -218,7 +228,7 @@ namespace GridDominance.SAMScriptParser
 			throw new Exception($"GUID parameter {idx} has invalid syntax: '{v}'");
 		}
 
-		public Tuple<float, float> ExtractVec2fParameter(List<string> methodParameter, int idx)
+		protected Tuple<float, float> ExtractVec2fParameter(List<string> methodParameter, int idx)
 		{
 			var v = ExtractListParameter(methodParameter, idx, '[', ']');
 			
@@ -230,7 +240,7 @@ namespace GridDominance.SAMScriptParser
 			return Tuple.Create(t1, t2);
 		}
 
-		public List<string> ExtractListParameter(List<string> methodParameter, int idx, char cstart, char cend)
+		protected List<string> ExtractListParameter(List<string> methodParameter, int idx, char cstart, char cend)
 		{
 			var v = ExtractValueParameter(methodParameter, idx);
 
@@ -285,9 +295,10 @@ namespace GridDominance.SAMScriptParser
 			return value;
 		}
 
-		private string DeRef(string r)
+		private string DeRef(string r, int d = 16)
 		{
-			if (_aliasDict.ContainsKey(r.ToLower())) return DeRef(_aliasDict[r.ToLower()]);
+			if (d <= 0) throw new Exception("Alias nesting too deep: " + r);
+			if (_aliasDict.ContainsKey(r.ToLower())) return DeRef(_aliasDict[r.ToLower()], d-1);
 			return r;
 		}
 	}

@@ -102,12 +102,7 @@ namespace GridDominance.DSLEditor
 
 		private WorldGraphFile ParseGraphFile()
 		{
-			var input = Code;
-
-			var lp = new WorldGraphFile(input);
-			lp.Parse();
-
-			return lp;
+			return new WorldGraphFileParser(Code).Parse();
 		}
 	}
 }

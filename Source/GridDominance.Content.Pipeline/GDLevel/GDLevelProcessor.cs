@@ -10,11 +10,12 @@ namespace GridDominance.Content.Pipeline.GDLevel
 	{
 		public override LevelFile Process(LevelPackage input, ContentProcessorContext context)
 		{
-			var lf = new LevelFile(input.Content, x => input.Includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value);
+			var parser = new LevelFileParser(input.Content, x => input.Includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value);
 
-			lf.Parse();
+			var lf = parser.Parse();
 			
 			Console.WriteLine("Parsing file with " + lf.BlueprintCannons.Count + " cannon definitions");
+			Console.WriteLine("Parsing file with " + lf.BlueprintVoidWalls.Count + " voidwall definitions");
 
 			return lf;
 		}

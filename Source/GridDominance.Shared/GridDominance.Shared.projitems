@@ -59,9 +59,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\BulletSplitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\Cannon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\EntityOperations\BulletConsumeAndDieOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\EntityOperations\BulletDisintegrateAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\EntityOperations\BulletDamageAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\EntityOperations\BulletFadeAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\EntityOperations\CannonBooster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\Entities\VoidWall.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\AbstractFractionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\KIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenGame\FractionController\EmptyController.cs" />

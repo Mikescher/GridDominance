@@ -133,10 +133,7 @@ namespace GridDominance.DSLEditor
 				includesFunc = x => includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value;
 			}
 
-			var lp = new LevelFile(input, includesFunc);
-			lp.Parse();
-
-			return lp;
+			return new LevelFileParser(input, includesFunc).Parse();
 		}
 
 		private LevelFile ParseSpecificLevelFile(string f)
@@ -155,10 +152,7 @@ namespace GridDominance.DSLEditor
 				includesFunc = x => includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value;
 			}
 
-			var lp = new LevelFile(input, includesFunc);
-			lp.Parse();
-
-			return lp;
+			return new LevelFileParser(input, includesFunc).Parse();
 		}
 
 		private void RecreateMapForLevelFile(LevelFile lp)

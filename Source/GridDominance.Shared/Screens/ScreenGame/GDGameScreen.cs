@@ -125,14 +125,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		private void LoadLevelFromBlueprint()
 		{
-			Fraction[] fracList =
-			{
-				fractionNeutral, fractionPlayer, fractionComputer1, fractionComputer2, fractionComputer3,
-			};
+			Fraction[] fracList = { fractionNeutral, fractionPlayer, fractionComputer1, fractionComputer2, fractionComputer3 };
 
 			foreach (var bPrint in Blueprint.BlueprintCannons)
 			{
 				Entities.AddEntity(new Cannon(this, bPrint, fracList));
+			}
+
+			foreach (var bPrint in Blueprint.BlueprintVoidWalls)
+			{
+				Entities.AddEntity(new VoidWall(this, bPrint));
 			}
 		}
 

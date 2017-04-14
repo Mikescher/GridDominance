@@ -106,7 +106,15 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 				return false;
 			}
-			
+
+			var otherVoidWall = fixtureB.UserData as VoidWall;
+			if (otherVoidWall != null)
+			{
+				DisintegrateIntoWall();
+				MainGame.Inst.GDSound.PlayEffectCollision();
+				return false;
+			}
+
 			// wud ???
 			SAMLog.Error("Collision", string.Format("Bullet collided with unkown fixture: {0}", fixtureB.UserData ?? "<NULL>"));
 			return false;
@@ -123,6 +131,14 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			}
 
 			Alive = false;
+		}
+
+		private void DisintegrateIntoWall()
+		{
+			// After Bullet-Voidwall Collision
+
+			AddEntityOperation(new BulletDisintegrateAndDieOperation());
+			IsDying = true;
 		}
 
 		private void DisintegrateIntoEnemy()

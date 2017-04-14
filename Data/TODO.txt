@@ -133,3 +133,5 @@ More level ideas:
 	shoot 4 way cannon
 	spreadshot cannon
 	minigun cannon with cooldown
+	rotating + moving walls
+	rotating and moving cannons

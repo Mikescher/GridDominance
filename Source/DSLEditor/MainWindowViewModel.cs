@@ -70,8 +70,8 @@ namespace GridDominance.DSLEditor
 			else
 			{
 				
-				Code = Resources.example_graph; FilePath = "example.gsgraph";
-				//Code = Resources.example_level; FilePath = "example.gslevel";
+				//Code = Resources.example_graph; FilePath = "example.gsgraph";
+				Code = Resources.example_level; FilePath = "example.gslevel";
 			}
 			_codeDirty = false;
 

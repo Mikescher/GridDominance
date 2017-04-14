@@ -85,7 +85,8 @@ namespace GridDominance.Shared
 		{
 			if (args.Level == SAMLogLevel.ERROR || args.Level == SAMLogLevel.FATAL_ERROR)
 			{
-				Backend.LogClient(Profile, args.Entry).EnsureNoError();
+				//TODO Enable error reporting again - prod
+				//Backend.LogClient(Profile, args.Entry).EnsureNoError();
 			}
 		}
 

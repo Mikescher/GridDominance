@@ -34,6 +34,14 @@ namespace MonoSAMFramework.Portable.Extensions
 			return new Vector2(vector2.X * cos - vector2.Y * sin, vector2.X * sin + vector2.Y * cos);
 		}
 
+		public static Vector2 RotateDeg(this Vector2 vector2, float degree)
+		{
+			var cos = FloatMath.Cos(FloatMath.DegreesToRadians * degree);
+			var sin = FloatMath.Sin(FloatMath.DegreesToRadians * degree);
+
+			return new Vector2(vector2.X * cos - vector2.Y * sin, vector2.X * sin + vector2.Y * cos);
+		}
+
 		public static Vector2 Normalized(this Vector2 v)
 		{
 			return Vector2.Normalize(v);
