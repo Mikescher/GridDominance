@@ -68,7 +68,8 @@
 			<prox:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionStart"  ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionStart}" />
 			<prox:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionLength" ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionLength}" />
 			<prox:LegacyStringBinding  Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="Text"            ChangedEventPath="TextChanged"               TargetBinding="{Binding Code}" />
-
+			<prox:RawIntegerBinding    Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="CaretOffset"                                                  TargetBinding="{Binding CaretOffset}"/>
+			
 			<StackPanel Grid.Row="0" Grid.Column="1" Margin="2" Orientation="Vertical">
 				<Button Content="Repaint" Margin="5,5,5,0" Click="{mext:EventBinding RepaintCommand}" />
 				<ProgressBar MinHeight="20" Margin="5,0,5,5" Value="{Binding ProgressValue}" Maximum="{Binding ProgressMaximum}" />

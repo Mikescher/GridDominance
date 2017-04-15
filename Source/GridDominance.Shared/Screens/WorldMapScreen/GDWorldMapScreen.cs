@@ -199,7 +199,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			n = GetInitialNode(FractionDifficulty.DIFF_3);
 			if (n != null) return n;
 
-			return Graph.FinalNode;
+			return Graph.InitialNode;
 		}
 
 		private LevelNode GetInitialNode(FractionDifficulty d)

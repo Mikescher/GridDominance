@@ -1,4 +1,5 @@
 ﻿using GridDominance.DSLEditor.Properties;
+using MSHC.WPF.Extensions.BindingProxies;
 using MSHC.WPF.MVVM;
 using System;
 using System.Collections.ObjectModel;
@@ -53,6 +54,9 @@ namespace GridDominance.DSLEditor
 
 		private ImageSource _previewImage;
 		public ImageSource PreviewImage { get { return _previewImage; } set { _previewImage = value; OnPropertyChanged(); } }
+
+		private IndirectProperty<int> _caretOffset;
+		public IndirectProperty<int> CaretOffset { get { return _caretOffset; } set { _caretOffset = value; OnPropertyChanged(); } }
 
 		private readonly DispatcherTimer repaintTimer = new DispatcherTimer();
 		private int timerCountDown = TIMER_COOLDOWN;
@@ -172,16 +176,29 @@ namespace GridDominance.DSLEditor
 
 		private void InsertUUID()
 		{
-			if (SelectionStart == -1)
+			int coff = CaretOffset?.Get() ?? -1;
+
+			if (SelectionStart <= 0)
 			{
-				Code = Code.Substring(0, _selectionStartLastValid) + "::UUID::" + Code.Substring(_selectionStartLastValid);
-				SelectionStart = _selectionStartLastValid;
-				SelectionLength = 0;
+				if (coff != -1)
+				{
+					Code = Code.Substring(0, coff) + "::UUID::" + Code.Substring(coff);
+					SelectionStart = coff;
+					SelectionLength = 0;
+				}
+				else
+				{
+					Code = Code.Substring(0, _selectionStartLastValid) + "::UUID::" + Code.Substring(_selectionStartLastValid);
+					SelectionStart = _selectionStartLastValid;
+					SelectionLength = 0;
+				}
 			}
 			else
 			{
 				Code = Code.Substring(0, SelectionStart) + "::UUID::" + Code.Substring(SelectionStart + SelectionLength);
 			}
+
+			if (coff >= 0) CaretOffset?.Set(coff);
 		}
 
 		private void ResetTimer()

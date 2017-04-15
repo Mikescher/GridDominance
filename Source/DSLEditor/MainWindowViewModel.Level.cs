@@ -159,9 +159,10 @@ namespace GridDominance.DSLEditor
 		{
 			var rex = new Regex(@"^#<map>.*^#</map>", RegexOptions.Multiline | RegexOptions.Singleline);
 
-			var newCode = rex.Replace(Code, lp.GenerateASCIIMap());
+			var newCode = rex.Replace(Code, GenerateASCIIMap(lp));
 			int selS = SelectionStart;
 			int selL = SelectionLength;
+			int coff = CaretOffset?.Get() ?? -1;
 
 			if (newCode != Code)
 			{
@@ -172,6 +173,7 @@ namespace GridDominance.DSLEditor
 				timerCountDown = tc;
 				SelectionStart = selS;
 				SelectionLength = selL;
+				if (coff >= 0) CaretOffset?.Set(coff);
 
 				Console.WriteLine("Regenerate map");
 			}
@@ -220,6 +222,13 @@ namespace GridDominance.DSLEditor
 			{
 				bmp.Save(sfd.FileName);
 			}
+		}
+
+		public string GenerateASCIIMap(LevelFile l)
+		{
+			var d = new LevelAsciiDrawer(l);
+			d.Calc();
+			return d.Get();
 		}
 	}
 }

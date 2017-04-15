@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="Helper\ExtendedBinaryWriter.cs" />
     <Compile Include="Drawing\ImageHelper.cs" />
+    <Compile Include="Drawing\LevelAsciiDrawer.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

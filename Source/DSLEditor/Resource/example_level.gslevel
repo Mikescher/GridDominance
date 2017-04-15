@@ -23,3 +23,6 @@ Cannon  (SIZE_NORMAL, N0, [2.5 * CELL_W, 3.5 * CELL_H])
 
 VoidWall([3.5 * CELL_W, 1.5 * CELL_H], [5.5 * CELL_W, 3.5 * CELL_H])
 VoidWall_H([4.5 * CELL_W, 1.5 * CELL_H], 2 * CELL_W)
+
+#<map>
+#</map>

@@ -19,7 +19,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public FRectangle BoundingViewport;
 
 		public LevelNode InitialNode;
-		public LevelNode FinalNode;
 
 		public LevelGraph(GDWorldMapScreen s)
 		{
@@ -39,8 +38,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 				screen.Entities.AddEntity(node);
 				Nodes.Add(node);
-
-				if (node.OutgoingPipes.Count == 0) FinalNode = node; //TODO Better calc or even better define by file
 			}
 
 			var initNodeCandidates = Nodes.ToList();

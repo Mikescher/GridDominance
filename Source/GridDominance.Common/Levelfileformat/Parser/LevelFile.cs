@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace GridDominance.Levelfileformat.Parser
 {
@@ -136,44 +134,6 @@ namespace GridDominance.Levelfileformat.Parser
 			if (b.LastIndexOf('.') > 0) b = b.Substring(0, b.LastIndexOf('.'));
 
 			return string.Equals(a, b, icic);
-		}
-		
-		public string GenerateASCIIMap() //TODO Show VoidWall (and perhaps better algorithm for more structures later)
-		{
-			var builder = new StringBuilder();
-
-			builder.AppendLine("#<map>");
-			builder.AppendLine("#");
-			builder.AppendLine("#            0 1 2 3 4 5 6 7 8 9 A B C D E F");
-			builder.AppendLine("#          # # # # # # # # # # # # # # # # # #");
-			for (int y = 0; y < 10; y++)
-			{
-				builder.Append("#        ");
-				builder.Append(y);
-				builder.Append(" #");
-
-				for (int x = 0; x < 16; x++)
-				{
-					builder.Append(" ");
-					if (BlueprintCannons.Any(p => (int) Math.Round(p.X / 64) == (x + 0) && (int) Math.Round(p.Y / 64) == (y + 0)))
-						builder.Append("/");
-					else if (BlueprintCannons.Any(p => (int)Math.Round(p.X / 64) == (x + 1) && (int)Math.Round(p.Y / 64) == (y + 0)))
-						builder.Append("\\");
-					else if (BlueprintCannons.Any(p => (int)Math.Round(p.X / 64) == (x + 0) && (int)Math.Round(p.Y / 64) == (y + 1)))
-						builder.Append("\\");
-					else if (BlueprintCannons.Any(p => (int)Math.Round(p.X / 64) == (x + 1) && (int)Math.Round(p.Y / 64) == (y + 1)))
-						builder.Append("/");
-					else
-						builder.Append(" ");
-				}
-
-				builder.AppendLine(" #");
-			}
-			builder.AppendLine("#          # # # # # # # # # # # # # # # # # #");
-			builder.AppendLine("#");
-			builder.Append("#</map>");
-
-			return builder.ToString();
 		}
 	}
 }
