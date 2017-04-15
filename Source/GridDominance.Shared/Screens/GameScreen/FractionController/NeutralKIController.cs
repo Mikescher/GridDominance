@@ -9,7 +9,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
 	class NeutralKIController : KIController
 	{
-		private readonly List<Func<GameEntity>> intelligence;
+		private readonly List<KIMethod> intelligence;
 
 		private bool doBarrelRecharge = false;
 
@@ -18,9 +18,9 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 		public NeutralKIController(GDGameScreen owner, Cannon cannon, Fraction fraction)
 			: base(NEUTRAL_UPDATE_TIME, owner, cannon, fraction)
 		{
-			intelligence = new List<Func<GameEntity>>
+			intelligence = new List<KIMethod>
 			{
-				FindTargetAttackingBullet
+				new KIMethod("AttackingBullet", FindTargetAttackingBullet),
 			};
 		}
 

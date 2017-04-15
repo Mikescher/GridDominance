@@ -45,6 +45,7 @@
     <Compile Include="DebugTools\FrequencyCounter.cs" />
     <Compile Include="DebugTools\GCMonitor.cs" />
     <Compile Include="DebugTools\IDebugTextDisplayLineProvider.cs" />
+    <Compile Include="DebugTools\StandardDebugMinimapImplementation.cs" />
     <Compile Include="DeviceBridge\IOperatingSystemBridge.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />

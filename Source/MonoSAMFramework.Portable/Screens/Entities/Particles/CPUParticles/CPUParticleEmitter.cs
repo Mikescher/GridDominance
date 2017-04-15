@@ -26,7 +26,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 		public bool IsEnabled = true;
 
-		protected CPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg) : base(scrn)
+		protected CPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg, int order) : base(scrn, order)
 		{
 			_config = cfg;
 		}

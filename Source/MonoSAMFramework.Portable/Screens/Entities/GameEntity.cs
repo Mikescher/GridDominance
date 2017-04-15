@@ -31,7 +31,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public float Lifetime = 0;
 		public readonly int Order;
 
-		protected GameEntity(GameScreen scrn, int order = 0)
+		protected GameEntity(GameScreen scrn, int order)
 		{
 			Owner = scrn;
 			Order = order;
@@ -155,6 +155,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 #endif
 		}
 
+		public void DrawOrderedForegroundLayer(IBatchRenderer sbatch)
+		{
+			// This drawcall gets called after all other entities on the same order level as this one have been OnDraw'ed
+			// good to draw shadows in normal OnDraw and objects in ForegroundDraw
+
+			OnDrawOrderedForegroundLayer(sbatch);
+		}
+
 		protected virtual void DrawDebugBorders(IBatchRenderer sbatch)
 		{
 			sbatch.DrawRectangle(Position - DrawingBoundingBox * 0.5f, DrawingBoundingBox, Color.LightGreen, 1);
@@ -173,5 +181,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 
 		protected abstract void OnUpdate(SAMTime gameTime, InputState istate);
 		protected abstract void OnDraw(IBatchRenderer sbatch);
+		protected virtual void OnDrawOrderedForegroundLayer(IBatchRenderer sbatch) { /* override me */}
 	}
 }

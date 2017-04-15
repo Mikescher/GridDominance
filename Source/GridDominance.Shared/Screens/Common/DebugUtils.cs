@@ -59,7 +59,7 @@ namespace GridDominance.Shared.Screens
 
 		public static void CreateShortcuts(GameScreen scrn)
 		{
-			DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), false);
+			DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
 
 			DebugSettings.AddTrigger("DBG", "SetQuality_1", scrn, SKeys.D1, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.FD));
 			DebugSettings.AddTrigger("DBG", "SetQuality_2", scrn, SKeys.D2, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.BD));
@@ -72,12 +72,12 @@ namespace GridDominance.Shared.Screens
 
 			DebugSettings.AddSwitch("DBG", "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      scrn, SKeys.F2,  KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       scrn, SKeys.F4,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugCannonView",       scrn, SKeys.F5,  KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       scrn, SKeys.F4,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugCannonView",       scrn, SKeys.F5,  KeyModifier.None, true);
 			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   scrn, SKeys.F6,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      scrn, SKeys.F7,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", scrn, SKeys.F8,  KeyModifier.None, false);
+			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      scrn, SKeys.F7,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", scrn, SKeys.F8,  KeyModifier.None, true);
 			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", scrn, SKeys.F9,  KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None, false);

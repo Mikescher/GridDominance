@@ -63,17 +63,36 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			var viewportBox = Owner.CompleteMapViewport.AsInflated(VIEWPORT_TOLERANCE, VIEWPORT_TOLERANCE);
 
-			foreach (var entity in entities)
+			int currOrderIndex = 0;
+			int currentOrderValue = 0;
+			if (entities.Any()) currentOrderValue = entities[0].Order;
+
+			for (int i = 0; i < entities.Count; i++)
 			{
-				if (viewportBox.Contains(entity.Position, entity.DrawingBoundingBox))
+				if (viewportBox.Contains(entities[i].Position, entities[i].DrawingBoundingBox))
 				{
-					entity.IsInViewport = true;
-					entity.Draw(sbatch);
+					entities[i].IsInViewport = true;
+					entities[i].Draw(sbatch);
 				}
 				else
 				{
-					entity.IsInViewport = false;
+					entities[i].IsInViewport = false;
 				}
+
+				if (entities[i].Order != currentOrderValue)
+				{
+					currentOrderValue = entities[i].Order;
+					for (int j = currOrderIndex; j < i; j++)
+					{
+						if (entities[j].IsInViewport) entities[j].DrawOrderedForegroundLayer(sbatch);
+					}
+					currOrderIndex = i;
+				}
+			}
+
+			for (int j = currOrderIndex; j < entities.Count; j++)
+			{
+				if (entities[j].IsInViewport) entities[j].DrawOrderedForegroundLayer(sbatch);
 			}
 		}
 

@@ -73,7 +73,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public BistateProgress state = BistateProgress.Initial;
 
-		public LevelNode(GDWorldMapScreen scrn, Vector2 pos, LevelFile lvlf, LevelData lvldat) : base(scrn)
+		public LevelNode(GDWorldMapScreen scrn, Vector2 pos, LevelFile lvlf, LevelData lvldat) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));

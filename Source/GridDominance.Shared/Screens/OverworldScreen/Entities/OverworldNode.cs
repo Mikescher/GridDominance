@@ -31,7 +31,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public float AlphaOverride = 1f;
 
-		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, string text, WorldGraphFile graph) : base(scrn, 0)
+		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, string text, WorldGraphFile graph) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
 			_description = text;
 			_graph = graph;

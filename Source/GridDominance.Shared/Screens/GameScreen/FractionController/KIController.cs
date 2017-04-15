@@ -15,35 +15,56 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
 	abstract class KIController : AbstractFractionController
 	{
+		public class KIMethod
+		{
+			public readonly string Name;
+			public readonly Func<GameEntity> Run;
+
+			public KIMethod(string n, Func<GameEntity> r)
+			{
+				Name = n;
+				Run = r;
+			}
+		}
+
 		protected const float STANDARD_UPDATE_TIME = 1.666f;
 		protected const float NEUTRAL_UPDATE_TIME  = 0.111f;
 
 		private readonly ConstantRandom crng;
-		
+		public string LastKIFunction = "None";
+
 		protected KIController(float interval, GDGameScreen owner, Cannon cannon, Fraction fraction) 
 			: base(interval, owner, cannon, fraction)
 		{
 			crng = new ConstantRandom(cannon);
 		}
 
-		protected bool CalculateKI(List<Func<GameEntity>> searchFunctions, bool idleRotate)
+		protected bool CalculateKI(List<KIMethod> searchFunctions, bool idleRotate)
 		{
 			foreach (var sf in searchFunctions)
 			{
-				var target = sf();
+				var target = sf.Run();
 				if (target != null)
 				{
 					Cannon.RotateTo(target);
 
-					//Screen.PushNotification("Cannon :: KIController --> " + sf.Method.Name);
+					LastKIFunction = sf.Name;
+
 					return true;
 				}
 			}
 
-			if (idleRotate) Cannon.Rotation.Set(FloatMath.GetRangedRandom(0, FloatMath.TAU));
-			//Screen.PushNotification("Cannon :: KIController --> Idle");
-
-			return false;
+			if (idleRotate)
+			{
+				LastKIFunction = "Random";
+				Cannon.Rotation.Set(FloatMath.GetRangedRandom(0, FloatMath.TAU));
+				return false;
+			}
+			else
+			{
+				LastKIFunction = "None";
+				return false;
+			}
 		}
 
 		#region Target Finding

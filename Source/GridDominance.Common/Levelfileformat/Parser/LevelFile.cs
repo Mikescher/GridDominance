@@ -138,7 +138,7 @@ namespace GridDominance.Levelfileformat.Parser
 			return string.Equals(a, b, icic);
 		}
 		
-		public string GenerateASCIIMap()
+		public string GenerateASCIIMap() //TODO Show VoidWall (and perhaps better algorithm for more structures later)
 		{
 			var builder = new StringBuilder();
 

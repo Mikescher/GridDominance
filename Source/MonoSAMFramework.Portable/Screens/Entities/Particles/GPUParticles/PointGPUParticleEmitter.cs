@@ -12,7 +12,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		private FSize _boundingbox;
 		public override FSize DrawingBoundingBox => _boundingbox;
 
-		public PointGPUParticleEmitter(GameScreen scrn, Vector2 pos, ParticleEmitterConfig cfg) : base(scrn, cfg)
+		public PointGPUParticleEmitter(GameScreen scrn, Vector2 pos, ParticleEmitterConfig cfg, int order) : base(scrn, cfg, order)
 		{
 			_position = pos;
 		}

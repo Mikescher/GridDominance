@@ -19,7 +19,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 		private readonly float animationLength;
 		private readonly float animationInitialDelay;
 
-		public AnimatedPathCPUParticleEmitter(GameScreen scrn, Vector2 pos, VectorPath path, ParticleEmitterConfig cfg, float delay, float length) : base(scrn, cfg)
+		public AnimatedPathCPUParticleEmitter(GameScreen scrn, Vector2 pos, VectorPath path, ParticleEmitterConfig cfg, float delay, float length, int order) : base(scrn, cfg, order)
 		{
 			vectorPath = path;
 			vectorPathCenter = path.Boundings.Center;

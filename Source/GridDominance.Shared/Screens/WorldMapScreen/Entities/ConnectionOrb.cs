@@ -30,7 +30,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private float _spawnPercentage = 0f;
 		private float _movementTime = 0f;
 
-		public ConnectionOrb(GameScreen scrn, LevelNodePipe pipe, FractionDifficulty diff) : base(scrn, -1)
+		public ConnectionOrb(GameScreen scrn, LevelNodePipe pipe, FractionDifficulty diff) : base(scrn, GDConstants.ORDER_MAP_ORB)
 		{
 			_pos = pipe.GetOrbPosition(0);
 			_diff = diff;

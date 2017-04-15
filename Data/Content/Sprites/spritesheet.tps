@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.3.3</string>
+        <string>4.4.0</string>
         <key>fileName</key>
         <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
@@ -255,6 +255,8 @@
         <false/>
         <key>prependSmartFolderName</key>
         <false/>
+        <key>autodetectAnimations</key>
+        <true/>
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
@@ -308,12 +310,24 @@
                 <false/>
             </struct>
             <key type="filename">blocks/simple_circle.png</key>
-            <key type="filename">blocks/simple_circle_empty.png</key>
             <key type="filename">levelnode_segment.png</key>
             <key type="filename">levelnode_structure.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>49,49,97,97</rect>
+                <key>scale9Paddings</key>
+                <rect>49,49,97,97</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">blocks/simple_circle_empty.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.350515,0.417526</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
@@ -707,6 +721,45 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">keyboard/backspace.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,17,53,34</rect>
+                <key>scale9Paddings</key>
+                <rect>26,17,53,34</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">keyboard/caps.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,31,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,31,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">keyboard/enter.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>27,16,53,32</rect>
+                <key>scale9Paddings</key>
+                <rect>27,16,53,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">particles/particle_00.png</key>
             <key type="filename">particles/particle_01.png</key>
             <key type="filename">particles/particle_02.png</key>
@@ -771,6 +824,59 @@
                 <rect>64,64,128,128</rect>
                 <key>scale9Paddings</key>
                 <rect>64,64,128,128</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">voidcircle.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>53,53,105,105</rect>
+                <key>scale9Paddings</key>
+                <rect>53,53,105,105</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">voidwall_1.png</key>
+            <key type="filename">voidwall_outer.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,40,24,80</rect>
+                <key>scale9Paddings</key>
+                <rect>12,40,24,80</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">voidwall_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,72,24,144</rect>
+                <key>scale9Paddings</key>
+                <rect>12,72,24,144</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">voidwall_inner.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,32,24,64</rect>
+                <key>scale9Paddings</key>
+                <rect>12,32,24,64</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

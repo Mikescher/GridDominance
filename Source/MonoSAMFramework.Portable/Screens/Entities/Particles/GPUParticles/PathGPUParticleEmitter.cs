@@ -15,7 +15,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		private FSize _boundingbox;
 		public override FSize DrawingBoundingBox => _boundingbox;
 
-		public PathGPUParticleEmitter(GameScreen scrn, Vector2 pos, VectorPath path, ParticleEmitterConfig cfg) : base(scrn, cfg)
+		public PathGPUParticleEmitter(GameScreen scrn, Vector2 pos, VectorPath path, ParticleEmitterConfig cfg, int order) : base(scrn, cfg, order)
 		{
 			vectorPath = path;
 			vectorPathCenter = path.Boundings.Center;

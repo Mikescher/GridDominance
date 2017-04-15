@@ -58,7 +58,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public Vector2 MapViewportCenter => new Vector2(MapViewportCenterX, MapViewportCenterY);
 		public FRectangle GuaranteedMapViewport => new FRectangle(-MapOffsetX, -MapOffsetY, VAdapterGame.VirtualGuaranteedWidth, VAdapterGame.VirtualGuaranteedHeight);
 		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY, VAdapterGame.VirtualTotalWidth, VAdapterGame.VirtualTotalHeight);
-		public FRectangle MapFullBounds { get; private set; }
+		public FRectangle MapFullBounds { get; protected set; }
 
 
 		private List<GameScreenAgent> agents;

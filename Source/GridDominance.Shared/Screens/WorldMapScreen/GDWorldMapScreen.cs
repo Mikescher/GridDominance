@@ -53,8 +53,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		protected override GameHUD CreateHUD() => new GDWorldHUD(this);
 		protected override GameBackground CreateBackground() => new WorldMapBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
-		protected override DebugMinimap CreateDebugMinimap() => new GDWorldMapDebugMinimap(this);
-		protected override FRectangle CreateMapFullBounds() => new FRectangle(-8, -8, 48, 48) * GDConstants.TILE_WIDTH;
+		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
+		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, 1, 1);
 		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
 		private void Initialize(WorldGraphFile g, Guid? initialFocus)
@@ -64,6 +64,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
 			Graph.Init(g);
+			MapFullBounds = Graph.BoundingRect.AsInflated(2 * GDConstants.TILE_WIDTH, 2 * GDConstants.TILE_WIDTH);
 
 			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
 

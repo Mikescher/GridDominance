@@ -35,7 +35,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 		public int ParticleCount => geometryCount;
 
-		protected GPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg) : base(scrn)
+		protected GPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg, int order) : base(scrn, order)
 		{
 			_config = cfg;
 		}

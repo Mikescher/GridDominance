@@ -1,0 +1,18 @@
+# Voidwall #
+============
+
+Rectangle ( Width:16   Height: 128*x   Color:White )
+Margin: 16, 16, 16, 16
+
+Manually corner radius:
+
+XXXX....XXXX
+XX........XX
+X..........X
+X..........X
+............
+
+1: Crystallize [4;1]
+2: Copy Layer
+3: Invert
+4: Gauss [12]

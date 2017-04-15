@@ -10,6 +10,10 @@ namespace MonoSAMFramework.Portable.Extensions
 		{
 			return new FSize(p.X, p.Y);
 		}
+		public static FSize ToAbsSize(this Vector2 p)
+		{
+			return new FSize(FloatMath.Abs(p.X), FloatMath.Abs(p.Y));
+		}
 
 		public static FPoint ToFPoint(this Vector2 p)
 		{
@@ -32,6 +36,24 @@ namespace MonoSAMFramework.Portable.Extensions
 			var sin = FloatMath.Sin(radians);
 
 			return new Vector2(vector2.X * cos - vector2.Y * sin, vector2.X * sin + vector2.Y * cos);
+		}
+
+		public static Vector2 RotateAround(this Vector2 vector2, FPoint anchor, float radians)
+		{
+			var cos = FloatMath.Cos(radians);
+			var sin = FloatMath.Sin(radians);
+
+			return new Vector2(anchor.X + (vector2.X - anchor.X) * cos - (vector2.Y - anchor.Y) * sin, anchor.Y + (vector2.X - anchor.X) * sin + (vector2.Y - anchor.Y) * cos);
+		}
+
+		public static Vector2 RotateWithLength(this Vector2 v, float radians, float len)
+		{
+			var vlen = v.Length();
+
+			var cos = FloatMath.Cos(radians);
+			var sin = FloatMath.Sin(radians);
+
+			return new Vector2(((v.X * cos - v.Y * sin) * len) / vlen, ((v.X * sin + v.Y * cos) * len) / vlen);
 		}
 
 		public static Vector2 RotateDeg(this Vector2 vector2, float degree)

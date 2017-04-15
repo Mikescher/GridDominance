@@ -105,6 +105,17 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D[] AnimCannonCog;
 		public static TextureRegion2D CannonCog;
 
+		public static TextureRegion2D TexCannonVoidCircle_FG;
+		public static TextureRegion2D TexCannonVoidWall_FG_L1;
+		public static TextureRegion2D TexCannonVoidWall_FG_L2;
+		public static TextureRegion2D TexCannonVoidWall_FG_End;
+		public static TextureRegion2D TexCannonVoidWall_FG_Middle;
+		public static TextureRegion2D TexCannonVoidCircle_BG;
+		public static TextureRegion2D TexCannonVoidWall_BG_L1;
+		public static TextureRegion2D TexCannonVoidWall_BG_L2;
+		public static TextureRegion2D TexCannonVoidWall_BG_End;
+		public static TextureRegion2D TexCannonVoidWall_BG_Middle;
+
 		public static TextureRegion2D TexLevelNodeStructure;
 		public static TextureRegion2D TexLevelNodeSegment;
 
@@ -179,28 +190,39 @@ namespace GridDominance.Shared.Resources
 		{
 			AtlasTextures = content.Load<TextureAtlas>(TEXTURE_ASSETNAME);
 
-			TexTileBorder         = AtlasTextures["grid"];
+			TexTileBorder            = AtlasTextures["grid"];
 
-			TexCannonBody         = AtlasTextures["simple_circle"];
-			TexCannonBodyShadow   = AtlasTextures["cannonbody_shadow"];
-			TexCannonBarrel       = AtlasTextures["cannonbarrel"];
-			TexCannonBarrelShadow = AtlasTextures["cannonbarrel_shadow"];
-			TexCannonCrosshair    = AtlasTextures["cannoncrosshair"];
+			TexCannonBody            = AtlasTextures["simple_circle"];
+			TexCannonBodyShadow      = AtlasTextures["cannonbody_shadow"];
+			TexCannonBarrel          = AtlasTextures["cannonbarrel"];
+			TexCannonBarrelShadow    = AtlasTextures["cannonbarrel_shadow"];
+			TexCannonCrosshair       = AtlasTextures["cannoncrosshair"];
+			
+			TexCannonVoidCircle_FG      = AtlasTextures["voidcircle_fg"];
+			TexCannonVoidWall_FG_L1     = AtlasTextures["voidwall_fg_1"];
+			TexCannonVoidWall_FG_L2     = AtlasTextures["voidwall_fg_2"];
+			TexCannonVoidWall_FG_End    = AtlasTextures["voidwall_fg_outer"];
+			TexCannonVoidWall_FG_Middle = AtlasTextures["voidwall_fg_inner"];
+			TexCannonVoidCircle_BG      = AtlasTextures["voidcircle_bg"];
+			TexCannonVoidWall_BG_L1     = AtlasTextures["voidwall_bg_1"];
+			TexCannonVoidWall_BG_L2     = AtlasTextures["voidwall_bg_2"];
+			TexCannonVoidWall_BG_End    = AtlasTextures["voidwall_bg_outer"];
+			TexCannonVoidWall_BG_Middle = AtlasTextures["voidwall_bg_inner"];
 
-			TexLevelNodeStructure = AtlasTextures["levelnode_structure"];
-			TexLevelNodeSegment   = AtlasTextures["levelnode_segment"];
+			TexLevelNodeStructure    = AtlasTextures["levelnode_structure"];
+			TexLevelNodeSegment      = AtlasTextures["levelnode_segment"];
 
-			AnimCannonCog         = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
-			CannonCog             = AnimCannonCog.Last();
+			AnimCannonCog            = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
+			CannonCog                = AnimCannonCog.Last();
 
-			TexBullet             = AtlasTextures["cannonball"];
-			TexBulletSplitter     = AtlasTextures["cannonball_piece"];
+			TexBullet                = AtlasTextures["cannonball"];
+			TexBulletSplitter        = AtlasTextures["cannonball_piece"];
 
-			TexCircle             = AtlasTextures["simple_circle"];
-			TexCircleEmpty        = AtlasTextures["simple_circle_empty"];
-			TexPixel              = AtlasTextures["simple_pixel"];
-			TexPixel              = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
-			TexParticle           = Enumerable.Range(0, 16).Select(p => AtlasTextures[$"particle_{p:00}"]).ToArray();
+			TexCircle                = AtlasTextures["simple_circle"];
+			TexCircleEmpty           = AtlasTextures["simple_circle_empty"];
+			TexPixel                 = AtlasTextures["simple_pixel"];
+			TexPixel                 = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
+			TexParticle              = Enumerable.Range(0, 16).Select(p => AtlasTextures[$"particle_{p:00}"]).ToArray();
 
 			TexHUDButtonBase                      = AtlasTextures["hud_button_base"];
 			TexHUDButtonPause                     = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();

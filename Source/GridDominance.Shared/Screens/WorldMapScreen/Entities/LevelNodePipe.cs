@@ -36,7 +36,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
-		public LevelNodePipe(GameScreen scrn, LevelNode start, LevelNode end, WGPipe.Orientation orientation) : base(scrn, -2)
+		public LevelNodePipe(GameScreen scrn, LevelNode start, LevelNode end, WGPipe.Orientation orientation) : base(scrn, GDConstants.ORDER_MAP_PIPE)
 		{
 			NodeSource = start;
 			NodeSink = end;

@@ -34,7 +34,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		protected override GameHUD CreateHUD() => new OverworldHUD(this);
 		protected override GameBackground CreateBackground() => new OverworldBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
-		protected override DebugMinimap CreateDebugMinimap() => new OverworldDebugMinimap(this);
+		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
@@ -102,7 +102,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 				PathPresets.LETTERS[chr].AsScaled(size * 150),
 				ParticlePresets.GetConfigLetterFireRed(size, chr),
 				0.5f + index * 0.3f,
-				0.3f);
+				0.3f,
+				GDConstants.ORDER_WORLD_LOGO);
 			//*/
 
 			logoEmitter.Add(em);

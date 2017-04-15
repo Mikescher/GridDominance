@@ -264,29 +264,47 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				scale: scale);
 		}
 
-		public void FillRectangle(FRectangle rectangle, Color color, float rotation = 0)
+		public void FillRectangle(FRectangle rectangle, Color color)
 		{
-			FillRectangle(rectangle.Location, rectangle.Size, color, rotation);
+			FillRectangle(rectangle.Location, rectangle.Size, color);
 		}
 
-		public void FillRectangle(Vector2 location, Vector2 size, Color color, float rotation = 0)
+		public void FillRectangle(Vector2 location, Vector2 size, Color color)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
 #endif
 
 			internalBatch.Draw(
-				StaticTextures.SinglePixel.Texture, 
+				StaticTextures.SinglePixel.Texture,
 				location,
-				StaticTextures.SinglePixel.Bounds, 
-				color, 
-				rotation, 
-				Vector2.Zero, 
-				size, 
-				SpriteEffects.None, 
+				StaticTextures.SinglePixel.Bounds,
+				color,
+				0,
+				Vector2.Zero,
+				size,
+				SpriteEffects.None,
 				0);
 		}
-		
+
+		public void FillRectangleRot(Vector2 location, Vector2 size, Color color, float rotation)
+		{
+#if DEBUG
+			IncRenderSpriteCount();
+#endif
+
+			internalBatch.Draw(
+				StaticTextures.SinglePixel.Texture,
+				location,
+				StaticTextures.SinglePixel.Bounds,
+				color,
+				rotation,
+				Vector2.Zero,
+				size,
+				SpriteEffects.None,
+				0);
+		}
+
 		public void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f)
 		{
 #if DEBUG
@@ -294,16 +312,32 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 #endif
 
 			var pixel = StaticTextures.SinglePixel;
-			var topLeft         = new Vector2(rectangle.X, rectangle.Y);
-			var topRight        = new Vector2(rectangle.Right - thickness, rectangle.Y);
-			var bottomLeft      = new Vector2(rectangle.X, rectangle.Bottom - thickness);
+			var topLeft = new Vector2(rectangle.X, rectangle.Y);
+			var topRight = new Vector2(rectangle.Right - thickness, rectangle.Y);
+			var bottomLeft = new Vector2(rectangle.X, rectangle.Bottom - thickness);
 			var horizontalScale = new Vector2(rectangle.Width, thickness);
-			var verticalScale   = new Vector2(thickness, rectangle.Height);
+			var verticalScale = new Vector2(thickness, rectangle.Height);
 
-			internalBatch.Draw(pixel.Texture, topLeft,    sourceRectangle: pixel.Bounds, scale: horizontalScale, color: color);
-			internalBatch.Draw(pixel.Texture, topLeft,    sourceRectangle: pixel.Bounds, scale: verticalScale,   color: color);
-			internalBatch.Draw(pixel.Texture, topRight,   sourceRectangle: pixel.Bounds, scale: verticalScale,   color: color);
+			internalBatch.Draw(pixel.Texture, topLeft, sourceRectangle: pixel.Bounds, scale: horizontalScale, color: color);
+			internalBatch.Draw(pixel.Texture, topLeft, sourceRectangle: pixel.Bounds, scale: verticalScale, color: color);
+			internalBatch.Draw(pixel.Texture, topRight, sourceRectangle: pixel.Bounds, scale: verticalScale, color: color);
 			internalBatch.Draw(pixel.Texture, bottomLeft, sourceRectangle: pixel.Bounds, scale: horizontalScale, color: color);
+		}
+
+		public void DrawRectangleRot(FRectangle rectangle, Color color, float rotation, float thickness = 1f)
+		{
+			var center = rectangle.Center;
+
+			var pixel = StaticTextures.SinglePixel;
+			var tl = rectangle.VectorTopLeft.RotateAround(center, rotation);
+			var tr = rectangle.VectorTopRight.RotateAround(center, rotation);
+			var bl = rectangle.VectorBottomLeft.RotateAround(center, rotation);
+			var br = rectangle.VectorBottomRight.RotateAround(center, rotation);
+
+			DrawLine(tl, tr, color, thickness);
+			DrawLine(tr, br, color, thickness);
+			DrawLine(br, bl, color, thickness);
+			DrawLine(bl, tl, color, thickness);
 		}
 
 		public void DrawRectangle(Vector2 location, Vector2 size, Color color, float thickness = 1f)

@@ -75,6 +75,17 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 		}
 
+		private static string LimitStringLength(SpriteFont font, float size, string text, float maxlen)
+		{
+			var len = MeasureStringCached(font, text, size).X;
+			while (len > maxlen && text.Length > 1)
+			{
+				text = text.Substring(0, text.Length - 1);
+				len = MeasureStringCached(font, text, size).X;
+			}
+			return text;
+		}
+
 		public static void DrawTextCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, Vector2 position)
 		{
 			if (text == "") return;
@@ -126,6 +137,21 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				GetFontScale(font, size),
 				SpriteEffects.None,
 				0);
+		}
+
+		public static void DrawSingleLineInBox(IBatchRenderer sbatch, SpriteFont font, string text, FRectangle rect, float padding, bool horzCenter, Color color)
+		{
+			if (text == "") return;
+
+			var size = rect.Height - 2 * padding;
+			var maxwidth = rect.Width - 2 * padding;
+
+			text = LimitStringLength(font, size, text, maxwidth);
+
+			if (horzCenter)
+				DrawTextCentered(sbatch, font, size, text, color, rect.VecCenter);
+			else
+				DrawTextVerticallyCentered(sbatch, font, size, text, color, new Vector2(rect.X + padding, rect.CenterY));
 		}
 	}
 }

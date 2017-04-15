@@ -9,23 +9,23 @@ namespace GridDominance.Shared.Screens.ScreenGame.FractionController
 {
 	class StandardKIController : KIController
 	{
-		private readonly List<Func<GameEntity>> intelligence;
+		private readonly List<KIMethod> intelligence;
 
 		public override bool DoBarrelRecharge() => true;
 
 		public StandardKIController(GDGameScreen owner, Cannon cannon, Fraction fraction)
 			: base(STANDARD_UPDATE_TIME, owner, cannon, fraction)
 		{
-			intelligence = new List<Func<GameEntity>>
+			intelligence = new List<KIMethod>
 			{
-				FindTargetAttackingBullet,
-				FindTargetSupportCannon,
-				FindTargetNeutralCannon,
-				FindTargetEnemyCannon,
-				FindTargetFriendlyCannon,
-				FindTargetBlockedEnemyCannon,
-				FindTargetBlockedFriendlyCannon,
-				FindNearestEnemyCannon
+				new KIMethod("AttackingBullet,",      FindTargetAttackingBullet),
+				new KIMethod("SupportCannon",         FindTargetSupportCannon),
+				new KIMethod("NeutralCannon",         FindTargetNeutralCannon),
+				new KIMethod("EnemyCannon",           FindTargetEnemyCannon),
+				new KIMethod("FriendlyCannon",        FindTargetFriendlyCannon),
+				new KIMethod("BlockedEnemyCannon",    FindTargetBlockedEnemyCannon),
+				new KIMethod("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannon),
+				new KIMethod("NearestEnemyCannon",    FindNearestEnemyCannon),
 			};
 		}
 

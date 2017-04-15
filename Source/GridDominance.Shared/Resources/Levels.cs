@@ -24,15 +24,16 @@ namespace GridDominance.Shared.Resources
 			LoadLevel(content, "levels/lvl002");
 			LoadLevel(content, "levels/lvl003");
 			LoadLevel(content, "levels/lvl004");
-			LoadLevel(content, "levels/lvl_debug"); //TODO Laggs like shit on handy with speed++
+			LEVEL_DBG = LoadLevel(content, "levels/lvl_debug"); //TODO Laggs like shit on handy with speed++
 
 			WORLD_001 = content.Load<WorldGraphFile>("levels/world_1");
 		}
 
-		private static void LoadLevel(ContentManager content, string id)
+		private static LevelFile LoadLevel(ContentManager content, string id)
 		{
 			var lvl = content.Load<LevelFile>(id);
 			LEVELS[lvl.UniqueID] = lvl;
+			return lvl;
 		}
 	}
 }
