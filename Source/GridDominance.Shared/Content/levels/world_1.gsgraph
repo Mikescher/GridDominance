@@ -45,7 +45,7 @@ node([14, -7], LVL_04)
   connect(LVL_08, CW)
 
 node([21, -7], LVL_08)
-  connect(LVL_09, CW)
+  connect(LVL_09, CCW)
   connect(LVL_14, CCW)
 
 node([26, -12], LVL_14)
@@ -53,7 +53,7 @@ node([26, -12], LVL_14)
 node([32, 0], LVL_09)
   connect(LVL_10, CW)
   connect(LVL_11, CW)
-  connect(LVL_12, CW)
+  connect(LVL_12, CCW)
 
 node([44, -7], LVL_10)
   connect(LVL_13, CW)
@@ -62,7 +62,7 @@ node([40, 00], LVL_11)
   connect(LVL_13, CW)
 
 node([44, +7], LVL_12)
-  connect(LVL_13, CW)
+  connect(LVL_13, CCW)
 
 node([48, 00], LVL_13)
 

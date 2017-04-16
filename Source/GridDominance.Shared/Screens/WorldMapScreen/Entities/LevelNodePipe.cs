@@ -264,15 +264,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 				case FlatCurve12.DOWN_RIGHT:
 					return
-						(distance < (_orbStart.Y - _orbEnd.Y))
+						(distance < (_orbEnd.Y - _orbStart.Y))
 						? new Vector2(_orbStart.X, _orbStart.Y + distance)
-						: new Vector2(_orbEnd.X + (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
+						: new Vector2(_orbStart.X + (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
 
 				case FlatCurve12.DOWN_LEFT:
 					return
-						(distance < (_orbStart.Y - _orbEnd.Y))
+						(distance < (_orbEnd.Y - _orbStart.Y))
 						? new Vector2(_orbStart.X, _orbStart.Y + distance)
-						: new Vector2(_orbEnd.X - (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
+						: new Vector2(_orbStart.X - (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
 
 
 				case FlatCurve12.UP_RIGHT:

@@ -186,7 +186,7 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 			else if (dx < 0 && dy >= 0)
 			{
-				if (o == WGPipe.Orientation.Auto || o == WGPipe.Orientation.Clockwise)
+				if (o == WGPipe.Orientation.Auto || o == WGPipe.Orientation.Counterclockwise)
 				{
 					g.DrawLine(p, x1, y1, x2, y1); //H
 					g.DrawLine(p, x2, y1, x2, y2); //V
@@ -201,7 +201,7 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 			else if (dx >= 0 && dy >= 0)
 			{
-				if (o == WGPipe.Orientation.Auto || o == WGPipe.Orientation.Counterclockwise)
+				if (o == WGPipe.Orientation.Auto || o == WGPipe.Orientation.Clockwise)
 				{
 					g.DrawLine(p, x1, y1, x2, y1); //H
 					g.DrawLine(p, x2, y1, x2, y2); //V
