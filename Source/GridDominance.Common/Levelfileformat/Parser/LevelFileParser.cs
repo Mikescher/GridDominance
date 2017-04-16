@@ -8,8 +8,7 @@ namespace GridDominance.Levelfileformat.Parser
 	{
 		private readonly string content;
 		private readonly Func<string, string> includeFinderFunction;
-		private float _scaleFactorX = 1f;
-		private float _scaleFactorY = 1f;
+		private float _scaleFactor = 1f;
 
 		private LevelFile _result = null;
 
@@ -37,8 +36,7 @@ namespace GridDominance.Levelfileformat.Parser
 		{
 			_result = new LevelFile();
 
-			_scaleFactorX = 1f;
-			_scaleFactorY = 1f;
+			_scaleFactor = 1f;
 
 			StartParse(fileName, content);
 
@@ -61,10 +59,10 @@ namespace GridDominance.Levelfileformat.Parser
 
 		private void AddCannon(List<string> methodParameter)
 		{
-			var size     = ExtractNumberParameter(methodParameter, 0);
+			var size     = ExtractNumberParameter(methodParameter, 0) * _scaleFactor;
 			var player   = ExtractIntegerParameter(methodParameter, 1);
-			var posX     = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactorX;
-			var posY     = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactorY;
+			var posX     = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactor;
+			var posY     = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
 			var rotation = ExtractNumberParameter(methodParameter, 3, -1);
 
 			_result.BlueprintCannons.Add(new LPCannon(posX, posY, size, player, rotation));
@@ -93,16 +91,15 @@ namespace GridDominance.Levelfileformat.Parser
 
 		private void SetScale(List<string> methodParameter)
 		{
-			_scaleFactorX = ExtractNumberParameter(methodParameter, 0);
-			_scaleFactorY = ExtractNumberParameter(methodParameter, 1);
+			_scaleFactor = ExtractNumberParameter(methodParameter, 0);
 		}
 
 		private void AddVoidWallFull(List<string> methodParameter)
 		{
-			var x1 = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactorX;
-			var y1 = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactorY;
-			var x2 = ExtractVec2fParameter(methodParameter, 1).Item1 * _scaleFactorX;
-			var y2 = ExtractVec2fParameter(methodParameter, 1).Item2 * _scaleFactorY;
+			var x1 = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var y1 = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var x2 = ExtractVec2fParameter(methodParameter, 1).Item1 * _scaleFactor;
+			var y2 = ExtractVec2fParameter(methodParameter, 1).Item2 * _scaleFactor;
 
 			var pcx = (x1 + x2) / 2f;
 			var pcy = (y1 + y2) / 2f;
@@ -114,9 +111,9 @@ namespace GridDominance.Levelfileformat.Parser
 
 		private void AddVoidWallHorz(List<string> methodParameter)
 		{
-			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactorX;
-			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactorY;
-			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactorX;
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 			var rot = 0;
 
 			_result.BlueprintVoidWalls.Add(new LPVoidWall(pcx, pcy, len, rot));
@@ -124,9 +121,9 @@ namespace GridDominance.Levelfileformat.Parser
 
 		private void AddVoidWallVert(List<string> methodParameter)
 		{
-			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactorX;
-			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactorY;
-			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactorY;
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 			var rot = 90;
 
 			_result.BlueprintVoidWalls.Add(new LPVoidWall(pcx, pcy, len, rot));
@@ -134,9 +131,9 @@ namespace GridDominance.Levelfileformat.Parser
 
 		private void AddVoidWallRot(List<string> methodParameter)
 		{
-			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactorX;
-			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactorY;
-			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactorY;
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 			var rot = ExtractNumberParameter(methodParameter, 2);
 
 			_result.BlueprintVoidWalls.Add(new LPVoidWall(pcx, pcy, len, rot));
@@ -144,9 +141,9 @@ namespace GridDominance.Levelfileformat.Parser
 
 		private void AddVoidCircle(List<string> methodParameter)
 		{
-			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactorX;
-			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactorY;
-			var dia = ExtractNumberParameter(methodParameter, 1);
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var dia = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 
 			_result.BlueprintVoidCircles.Add(new LPVoidCircle(pcx, pcy, dia));
 		}
