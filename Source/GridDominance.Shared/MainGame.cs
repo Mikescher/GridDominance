@@ -122,10 +122,9 @@ namespace GridDominance.Shared
 
 		protected override void OnAfterInitialize()
 		{
-			//SetLevelScreen(Levels.LEVEL_001, FractionDifficulty.KI_EASY);
+			SetOverworldScreen();
 			//SetWorldMapScreen();
-			//SetOverworldScreen();
-			SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
+			//SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
 		}
 
 		protected override void OnUpdate(SAMTime gameTime)

@@ -1,8 +1,8 @@
+using GridDominance.Graphfileformat.Parser;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using GridDominance.Graphfileformat.Parser;
 using Color = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
 
@@ -79,6 +79,9 @@ namespace GridDominance.DSLEditor.Drawing
 				{
 					foreach (var p in n.OutgoingPipes)
 					{
+						if (wgraph.Nodes.Count(nd => nd.LevelID == p.Target) != 1)
+							throw new Exception($"Pipe Target {p.Target:B} is not unambiguous");
+
 						var o = wgraph.Nodes.Single(nd => nd.LevelID == p.Target);
 
 						ManhattanLine(g, n.X, n.Y, o.X, o.Y, p.PipeOrientation);

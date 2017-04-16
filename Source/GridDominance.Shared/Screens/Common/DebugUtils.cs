@@ -59,7 +59,11 @@ namespace GridDominance.Shared.Screens
 
 		public static void CreateShortcuts(GameScreen scrn)
 		{
+#if __DESKTOP__
 			DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
+#else
+			DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), false);
+#endif
 
 			DebugSettings.AddTrigger("DBG", "SetQuality_1", scrn, SKeys.D1, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.FD));
 			DebugSettings.AddTrigger("DBG", "SetQuality_2", scrn, SKeys.D2, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.BD));
@@ -90,5 +94,5 @@ namespace GridDominance.Shared.Screens
 		}
 
 #endif
-	}
+		}
 }

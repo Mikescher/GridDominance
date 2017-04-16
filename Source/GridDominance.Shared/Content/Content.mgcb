@@ -220,3 +220,18 @@
 /processorParam:Quality=Best
 /build:sounds/zoomin.mp3
 
+#begin levels/lvl005.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl005.gslevel
+
+#begin levels/lvl006.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl006.gslevel
+
+#begin levels/lvl007.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl007.gslevel
+
