@@ -1,0 +1,65 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+
+init("1-10", "Shortcut", {b16b00b5-0001-4000-0000-000001000010})
+
+include("stdvalues")
+
+Cannon(SIZE_SMALL, N0, [ 2,  1], ROT_S)
+Cannon(SIZE_SMALL, N0, [ 2,  5], ROT_S)
+Cannon(SIZE_SMALL, P1, [ 2,  9], ROT_E)
+
+Cannon(SIZE_SMALL, N0, [ 6,  1], ROT_W)
+Cannon(SIZE_SMALL, N0, [ 6,  5], ROT_N)
+
+Cannon(SIZE_SMALL, N0, [10,  1], ROT_E)
+Cannon(SIZE_SMALL, N0, [10,  5], ROT_N)
+
+Cannon(SIZE_SMALL, N0, [14,  1], ROT_S)
+Cannon(SIZE_SMALL, N0, [14,  5], ROT_S)
+Cannon(SIZE_SMALL, A3, [14,  9], ROT_W)
+
+Cannon(SIZE_SMALL, N0, [8,  8], ROT_N)
+
+Voidwall([4,7], [6,7])
+Voidwall([4,3], [4,7])
+
+Voidwall([10,7], [12,7])
+Voidwall([12,3], [12,7])
+
+
+Voidwall([8,-10], [8,3])
+
+
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                           |                 
+#        0 #                |                #
+#              <O>     <O>  |  <O>     <O>    
+#        1 #                |                #
+#                           |                 
+#        2 #                |                #
+#                                             
+#        3 #        |               |        #
+#                   |               |         
+#        4 #        |               |        #
+#              <O>  |  <O>     <O>  |  <O>    
+#        5 #        |               |        #
+#                   |               |         
+#        6 #        |               |        #
+#                    ---         ---          
+#        7 #                                 #
+#                          <O>                
+#        8 #   / \                     / \   #
+#               O                       O     
+#        9 #   \ /                     \ /   #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

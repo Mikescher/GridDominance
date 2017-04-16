@@ -1,0 +1,54 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+
+init("1-8", "Big Mama", {b16b00b5-0001-4000-0000-000001000008})
+
+include("stdvalues")
+
+Cannon(SIZE_SMALL, P1, [1,  5], ROT_E)
+
+Cannon(SIZE_TINY,  N0, [ 4,  1], ROT_SW)
+Cannon(SIZE_TINY,  N0, [ 4,  4], ROT_W)
+Cannon(SIZE_TINY,  N0, [ 4,  6], ROT_W)
+Cannon(SIZE_TINY,  N0, [ 4,  9], ROT_NW)
+
+Cannon(SIZE_GIGANTIC, N0, [ 8,  5], ROT_N)
+
+Cannon(SIZE_TINY,  N0, [12,  1], ROT_SE)
+Cannon(SIZE_TINY,  N0, [12,  4], ROT_E)
+Cannon(SIZE_TINY,  N0, [12,  6], ROT_E)
+Cannon(SIZE_TINY,  N0, [12,  9], ROT_NE)
+
+Cannon(SIZE_SMALL, A3, [15,  5], ROT_W)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                  <O>             <O>        
+#        1 #                                 #
+#                                             
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                  <O>             <O>        
+#        4 # / \                         / \ #
+#             O            <O>            O   
+#        5 # \ /                         \ / #
+#                  <O>             <O>        
+#        6 #                                 #
+#                                             
+#        7 #                                 #
+#                                             
+#        8 #                                 #
+#                  <O>             <O>        
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

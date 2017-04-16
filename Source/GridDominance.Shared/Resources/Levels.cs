@@ -55,11 +55,19 @@ namespace GridDominance.Shared.Resources
 
 		private static void Test()
 		{
+			HashSet<Guid> ids = new HashSet<Guid>();
+			HashSet<string> names = new HashSet<string>();
+			HashSet<string> fnames = new HashSet<string>();
+
 			foreach (var w in WORLDS)
 			{
 				foreach (var n in w.Nodes)
 				{
 					if (!LEVELS.ContainsKey(n.LevelID)) SAMLog.Error("ResourceTest", $"Could not find level with ID: {n.LevelID}");
+
+					if (!ids.Add(n.LevelID)) SAMLog.Error("ResourceTest", $"Duplicate LevelID: {n.LevelID}");
+					if (!names.Add(LEVELS[n.LevelID].Name)) SAMLog.Error("ResourceTest", $"Duplicate LevelName: {LEVELS[n.LevelID].Name}");
+					if (!fnames.Add(LEVELS[n.LevelID].FullName)) SAMLog.Error("ResourceTest", $"Duplicate LevelFullName: {LEVELS[n.LevelID].FullName}");
 
 					foreach (var p in n.OutgoingPipes)
 					{
