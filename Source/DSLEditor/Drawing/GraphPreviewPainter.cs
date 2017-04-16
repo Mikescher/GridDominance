@@ -1,8 +1,12 @@
 using GridDominance.Graphfileformat.Parser;
+using GridDominance.Levelfileformat.Parser;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Color = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
 
@@ -10,8 +14,10 @@ namespace GridDominance.DSLEditor.Drawing
 {
 	public class GraphPreviewPainter
 	{
-		public Bitmap Draw(WorldGraphFile wgraph)
+		public Bitmap Draw(WorldGraphFile wgraph, string path)
 		{
+			var idmap = MapLevels(path);
+
 			int minX;
 			int minY;
 			int maxX;
@@ -98,12 +104,47 @@ namespace GridDominance.DSLEditor.Drawing
 
 					g.DrawRectangle(penExtender, n.X - diam / 2f - exw, n.Y - diam / 2f, diam + 2 * exw, diam);
 					g.DrawRectangle(penExtender, n.X - diam / 2f, n.Y - diam / 2f - exw, diam, diam + 2 * exw);
-					
-					g.DrawString(n.LevelID.ToString("D").Replace("-", "\r\n"), new Font("Courier New", 12), new SolidBrush(Color.Chartreuse), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam), new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+
+					if (idmap.ContainsKey(n.LevelID))
+					{
+						DrawFit(g, idmap[n.LevelID], Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
+					}
+					else
+					{
+						DrawFit(g, n.LevelID.ToString("D").Replace("-", "\r\n"), Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
+					}
 				}
 			}
 
 			return buffer;
+		}
+
+		private Dictionary<Guid, string> MapLevels(string path)
+		{
+			path = Path.GetDirectoryName(path);
+
+			if (!Directory.Exists(path)) return new Dictionary<Guid, string>();
+
+			var d = new Dictionary<Guid, string>();
+
+			var includes = Directory.EnumerateFiles(path, "*.gsheader").ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
+			Func<string, string> includesFunc = x => includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value;
+
+			foreach (var f in Directory.EnumerateFiles(path).Where(p => p.ToLower().EndsWith(".gslevel")))
+			{
+				try
+				{
+					var fp = new LevelFileParser(File.ReadAllText(f), includesFunc);
+					var lf = fp.Parse(Path.GetFileName(f));
+
+					d[lf.UniqueID] = lf.Name;
+				}
+				catch (Exception)
+				{
+					//
+				}
+			}
+			return d;
 		}
 
 		private void ManhattanLine(Graphics g, float x1, float y1, float x2, float y2, WGPipe.Orientation o)
@@ -175,6 +216,31 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 
 			throw new ArgumentException();
+		}
+
+		private void DrawFit(Graphics g, string str, Color c, Font f, RectangleF r)
+		{
+			var font = FindFont(g, str, r.Size.ToSize(), f);
+
+			StringFormat stringFormat = new StringFormat
+			{
+				Alignment = StringAlignment.Center,
+				LineAlignment = StringAlignment.Center
+			};
+
+			g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
+			g.DrawString(str, font, new SolidBrush(c), r, stringFormat);
+		}
+
+		private Font FindFont(Graphics g, string longString, Size room, Font preferedFont)
+		{
+			SizeF realSize = g.MeasureString(longString, preferedFont);
+			float heightScaleRatio = room.Height / realSize.Height;
+			float widthScaleRatio = room.Width / realSize.Width;
+			float scaleRatio = (heightScaleRatio < widthScaleRatio) ? heightScaleRatio : widthScaleRatio;
+			float scaleFontSize = preferedFont.Size * scaleRatio;
+			return new Font(preferedFont.FontFamily, scaleFontSize);
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace GridDominance.DSLEditor
 
 				Log.Clear();
 
-				PreviewImage = ImageHelper.CreateImageSource(graphPainter.Draw(lp));
+				PreviewImage = ImageHelper.CreateImageSource(graphPainter.Draw(lp, FilePath));
 
 				Log.Add("File parsed  in " + sw.ElapsedMilliseconds + "ms");
 			}
@@ -30,14 +30,14 @@ namespace GridDominance.DSLEditor
 				Log.Add(pe.ToOutput());
 				Console.Out.WriteLine(pe.ToString());
 
-				PreviewImage = ImageHelper.CreateImageSource(graphPainter.Draw(null));
+				PreviewImage = ImageHelper.CreateImageSource(graphPainter.Draw(null, null));
 			}
 			catch (Exception pe)
 			{
 				Log.Add(pe.Message);
 				Console.Out.WriteLine(pe.ToString());
 
-				PreviewImage = ImageHelper.CreateImageSource(graphPainter.Draw(null));
+				PreviewImage = ImageHelper.CreateImageSource(graphPainter.Draw(null, null));
 			}
 		}
 
