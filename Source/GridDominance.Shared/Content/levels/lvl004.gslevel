@@ -1,7 +1,7 @@
 ﻿# Grid Dominance Level Definition   #
 #####################################
 
-init("0-4", "Hexagon", {b16b00b5-0001-4000-0000-000001000004})
+init("1-4", "Hexagon", {b16b00b5-0001-4000-0000-000001000004})
 
 include("stdvalues")
 

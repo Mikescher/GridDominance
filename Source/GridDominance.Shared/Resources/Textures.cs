@@ -105,16 +105,16 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D[] AnimCannonCog;
 		public static TextureRegion2D CannonCog;
 
-		public static TextureRegion2D TexCannonVoidCircle_FG;
-		public static TextureRegion2D TexCannonVoidWall_FG_L1;
-		public static TextureRegion2D TexCannonVoidWall_FG_L2;
-		public static TextureRegion2D TexCannonVoidWall_FG_End;
-		public static TextureRegion2D TexCannonVoidWall_FG_Middle;
-		public static TextureRegion2D TexCannonVoidCircle_BG;
-		public static TextureRegion2D TexCannonVoidWall_BG_L1;
-		public static TextureRegion2D TexCannonVoidWall_BG_L2;
-		public static TextureRegion2D TexCannonVoidWall_BG_End;
-		public static TextureRegion2D TexCannonVoidWall_BG_Middle;
+		public static TextureRegion2D TexVoidCircle_FG;
+		public static TextureRegion2D TexVoidWall_FG_L1;
+		public static TextureRegion2D TexVoidWall_FG_L2;
+		public static TextureRegion2D TexVoidWall_FG_End;
+		public static TextureRegion2D TexVoidWall_FG_Middle;
+		public static TextureRegion2D TexVoidCircle_BG;
+		public static TextureRegion2D TexVoidWall_BG_L1;
+		public static TextureRegion2D TexVoidWall_BG_L2;
+		public static TextureRegion2D TexVoidWall_BG_End;
+		public static TextureRegion2D TexVoidWall_BG_Middle;
 
 		public static TextureRegion2D TexLevelNodeStructure;
 		public static TextureRegion2D TexLevelNodeSegment;
@@ -198,16 +198,16 @@ namespace GridDominance.Shared.Resources
 			TexCannonBarrelShadow    = AtlasTextures["cannonbarrel_shadow"];
 			TexCannonCrosshair       = AtlasTextures["cannoncrosshair"];
 			
-			TexCannonVoidCircle_FG      = AtlasTextures["voidcircle_fg"];
-			TexCannonVoidWall_FG_L1     = AtlasTextures["voidwall_fg_1"];
-			TexCannonVoidWall_FG_L2     = AtlasTextures["voidwall_fg_2"];
-			TexCannonVoidWall_FG_End    = AtlasTextures["voidwall_fg_outer"];
-			TexCannonVoidWall_FG_Middle = AtlasTextures["voidwall_fg_inner"];
-			TexCannonVoidCircle_BG      = AtlasTextures["voidcircle_bg"];
-			TexCannonVoidWall_BG_L1     = AtlasTextures["voidwall_bg_1"];
-			TexCannonVoidWall_BG_L2     = AtlasTextures["voidwall_bg_2"];
-			TexCannonVoidWall_BG_End    = AtlasTextures["voidwall_bg_outer"];
-			TexCannonVoidWall_BG_Middle = AtlasTextures["voidwall_bg_inner"];
+			TexVoidCircle_FG      = AtlasTextures["voidcircle_fg"];
+			TexVoidWall_FG_L1     = AtlasTextures["voidwall_fg_1"];
+			TexVoidWall_FG_L2     = AtlasTextures["voidwall_fg_2"];
+			TexVoidWall_FG_End    = AtlasTextures["voidwall_fg_outer"];
+			TexVoidWall_FG_Middle = AtlasTextures["voidwall_fg_inner"];
+			TexVoidCircle_BG      = AtlasTextures["voidcircle_bg"];
+			TexVoidWall_BG_L1     = AtlasTextures["voidwall_bg_1"];
+			TexVoidWall_BG_L2     = AtlasTextures["voidwall_bg_2"];
+			TexVoidWall_BG_End    = AtlasTextures["voidwall_bg_outer"];
+			TexVoidWall_BG_Middle = AtlasTextures["voidwall_bg_inner"];
 
 			TexLevelNodeStructure    = AtlasTextures["levelnode_structure"];
 			TexLevelNodeSegment      = AtlasTextures["levelnode_segment"];

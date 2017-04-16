@@ -3,7 +3,7 @@ using MSHC.Math.Geometry;
 using System;
 using System.Text;
 
-namespace GridDominance.DSLEditor.Helper
+namespace GridDominance.DSLEditor.Drawing
 {
 	public class LevelAsciiDrawer
 	{
@@ -26,6 +26,7 @@ namespace GridDominance.DSLEditor.Helper
 
 			foreach (var c in level.BlueprintCannons) DrawCannon(c);
 			foreach (var w in level.BlueprintVoidWalls) DrawVoidWall(w);
+			foreach (var c in level.BlueprintVoidCircles) DrawVoidCircle(c);
 		}
 
 		private void DrawCannon(LPCannon c)
@@ -41,7 +42,7 @@ namespace GridDominance.DSLEditor.Helper
 			}
 			else
 			{
-				if (c.Scale <= 0.5)
+				if (c.Diameter <= 48)
 				{
 					SetMap(x, y, 'O');
 				}
@@ -155,6 +156,16 @@ namespace GridDominance.DSLEditor.Helper
 				SetMap(sx, sy, '/');
 				SetMap(ex, ey, '/');
 			}
+		}
+
+		private void DrawVoidCircle(LPVoidCircle c)
+		{
+			var x = c.X / 64;
+			var y = c.Y / 64;
+
+			SetMap(x - 0.5f, y, '(');
+			SetMap(x + 0.0f, y, 'X');
+			SetMap(x + 0.5f, y, ')');
 		}
 
 		private void SetMap(float fx, float fy, char c)

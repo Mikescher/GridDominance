@@ -179,6 +179,20 @@ namespace GridDominance.DSLEditor
 			}
 		}
 
+		private Bitmap CreateOverviewSafe(string path)
+		{
+			var lpp = new LevelPreviewPainter();
+
+			try
+			{
+				return lpp.DrawOverview(ParseSpecificLevelFile(path));
+			}
+			catch (Exception)
+			{
+				return lpp.DrawOverviewError(Path.GetFileName(path));
+			}
+		}
+
 		private void LevelOverview()
 		{
 			if (!File.Exists(FilePath)) return;
@@ -188,7 +202,7 @@ namespace GridDominance.DSLEditor
 			var imgs = Directory
 				.EnumerateFiles(folder)
 				.Where(p => Path.GetExtension(p).ToLower() == ".gslevel")
-				.Select(f => new LevelPreviewPainter().DrawOverview(ParseSpecificLevelFile(f)))
+				.Select(CreateOverviewSafe)
 				.ToList();
 
 			var sw = imgs[0].Width;

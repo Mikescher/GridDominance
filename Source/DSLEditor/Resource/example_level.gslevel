@@ -9,7 +9,7 @@ define(A2, 2) # PC
 define(A3, 3) # PC
 define(A4, 4) # PC
 
-define(SIZE_NORMAL, 1.0)
+define(SIZE_NORMAL, 1.0 * 96)
 define(CELL_W, 128)
 define(CELL_H, 128)
 
@@ -23,6 +23,8 @@ Cannon  (SIZE_NORMAL, N0, [2.5 * CELL_W, 3.5 * CELL_H])
 
 VoidWall([3.5 * CELL_W, 1.5 * CELL_H], [5.5 * CELL_W, 3.5 * CELL_H])
 VoidWall_H([4.5 * CELL_W, 1.5 * CELL_H], 2 * CELL_W)
+
+VoidCircle([5 * CELL_W, 2 * CELL_H, 64)
 
 #<map>
 #</map>

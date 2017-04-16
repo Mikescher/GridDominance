@@ -19,6 +19,8 @@ Cannon(SIZE_TINY,   A2,  [15,  9], ROT_N)
 Cannon(SIZE_TINY,   N0,  [1 ,  9], ROT_N)
 Cannon(SIZE_TINY,   A3,  [15,  1], ROT_N)
 
+VoidCircle([ 10,  3], 96)
+
 VoidWall_V([ 5, 5.5], 1)
 VoidWall_V([11, 5], 2)
 

@@ -44,6 +44,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SettingsButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SubSettingButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\ParticlePresets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameScreen\Entities\VoidCircle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\TransitionZoomInAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Background\OverworldBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />

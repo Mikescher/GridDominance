@@ -6,15 +6,15 @@ namespace GridDominance.Levelfileformat.Parser
 	{
 		public readonly float X;
 		public readonly float Y;
-		public readonly float Scale;
+		public readonly float Diameter;
 		public readonly int Player;
 		public readonly float Rotation; // in degree
 
-		public LPCannon(float x, float y, float s, int p, float rot)
+		public LPCannon(float x, float y, float d, int p, float rot)
 		{
 			X = x;
 			Y = y;
-			Scale = s;
+			Diameter = d;
 			Player = p;
 
 			if (rot < 0)

@@ -29,6 +29,8 @@ namespace GridDominance.Levelfileformat.Parser
 			DefineMethod("voidwall_h", AddVoidWallHorz);
 			DefineMethod("voidwall_v", AddVoidWallVert);
 			DefineMethod("voidwall_r", AddVoidWallRot);
+
+			DefineMethod("voidcircle", AddVoidCircle);
 		}
 
 		public LevelFile Parse(string fileName = "__root__")
@@ -138,6 +140,15 @@ namespace GridDominance.Levelfileformat.Parser
 			var rot = ExtractNumberParameter(methodParameter, 2);
 
 			_result.BlueprintVoidWalls.Add(new LPVoidWall(pcx, pcy, len, rot));
+		}
+
+		private void AddVoidCircle(List<string> methodParameter)
+		{
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactorX;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactorY;
+			var dia = ExtractNumberParameter(methodParameter, 1);
+
+			_result.BlueprintVoidCircles.Add(new LPVoidCircle(pcx, pcy, dia));
 		}
 	}
 }

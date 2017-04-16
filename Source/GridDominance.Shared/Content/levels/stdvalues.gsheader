@@ -17,14 +17,17 @@ define(ROT_NW, 225)
 define(ROT_N,  270)
 define(ROT_NE, 315)
 
-define(SIZE_TINY,     2/4)
-define(SIZE_SMALL,    3/4)
-define(SIZE_NORMAL,   4/4)
-define(SIZE_BIG,      5/4)
-define(SIZE_GIGANTIC, 8/4)
+define(SIZE_TINY,      48)  # 2/4 * CANNON_DIAMETER
+define(SIZE_SMALL,     72)  # 3/4 * CANNON_DIAMETER
+define(SIZE_NORMAL,    96)  # 4/4 * CANNON_DIAMETER
+define(SIZE_BIG,      120)  # 5/4 * CANNON_DIAMETER
+define(SIZE_GIGANTIC, 192)  # 8/4 * CANNON_DIAMETER
 
 define(CELL_W, 64)
 define(CELL_H, 64)
+
+define(TW, CELL_W)
+
 
 scale(CELL_W, CELL_H)
 

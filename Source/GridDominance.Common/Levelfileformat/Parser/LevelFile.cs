@@ -11,10 +11,12 @@ namespace GridDominance.Levelfileformat.Parser
 		private const byte SERIALIZE_ID_DESCRIPTION = 0x03; 
 		private const byte SERIALIZE_ID_GUID        = 0x04;
 		private const byte SERIALIZE_ID_VOIDWALL    = 0x05;
+		private const byte SERIALIZE_ID_VOIDCIRCLE  = 0x06;
 		private const byte SERIALIZE_ID_EOF         = 0xFF;
 
-		public readonly List<LPCannon>   BlueprintCannons   = new List<LPCannon>();
-		public readonly List<LPVoidWall> BlueprintVoidWalls = new List<LPVoidWall>();
+		public readonly List<LPCannon>     BlueprintCannons     = new List<LPCannon>();
+		public readonly List<LPVoidWall>   BlueprintVoidWalls   = new List<LPVoidWall>();
+		public readonly List<LPVoidCircle> BlueprintVoidCircles = new List<LPVoidCircle>();
 
 		public Guid UniqueID { get; set; } = Guid.Empty;
 		public string Name { get; set; } = "";
@@ -42,7 +44,7 @@ namespace GridDominance.Levelfileformat.Parser
 				bw.Write(cannon.Player);
 				bw.Write(cannon.X);
 				bw.Write(cannon.Y);
-				bw.Write(cannon.Scale);
+				bw.Write(cannon.Diameter);
 				bw.Write(cannon.Rotation);
 			}
 
@@ -53,6 +55,14 @@ namespace GridDominance.Levelfileformat.Parser
 				bw.Write(wall.Y);
 				bw.Write(wall.Length);
 				bw.Write(wall.Rotation);
+			}
+
+			foreach (var wall in BlueprintVoidCircles)
+			{
+				bw.Write(SERIALIZE_ID_VOIDCIRCLE);
+				bw.Write(wall.X);
+				bw.Write(wall.Y);
+				bw.Write(wall.Diameter);
 			}
 
 			bw.Write(SERIALIZE_ID_EOF);
@@ -70,10 +80,10 @@ namespace GridDominance.Levelfileformat.Parser
 						var p = br.ReadInt32();
 						var x = br.ReadSingle();
 						var y = br.ReadSingle();
-						var r = br.ReadSingle();
+						var d = br.ReadSingle();
 						var a = br.ReadSingle();
 
-						BlueprintCannons.Add(new LPCannon(x, y, r, p, a));
+						BlueprintCannons.Add(new LPCannon(x, y, d, p, a));
 
 						break;
 					}
@@ -85,6 +95,16 @@ namespace GridDominance.Levelfileformat.Parser
 						var r = br.ReadSingle();
 
 						BlueprintVoidWalls.Add(new LPVoidWall(x, y, l, r));
+
+						break;
+					}
+					case SERIALIZE_ID_VOIDCIRCLE:
+					{
+						var x = br.ReadSingle();
+						var y = br.ReadSingle();
+						var d = br.ReadSingle();
+
+						BlueprintVoidCircles.Add(new LPVoidCircle(x, y, d));
 
 						break;
 					}

@@ -24,12 +24,27 @@ namespace GridDominance.DSLEditor.Drawing
 				img = Draw(null);
 			}
 
-			Bitmap r = new Bitmap(img.Width, img.Height + 48);
+			Bitmap r = new Bitmap(img.Width, img.Height + 48 + 48);
 			using (Graphics g = Graphics.FromImage(r))
 			{
 				g.Clear(Color.White);
-				g.DrawString(level.Name + ": " + level.FullName, new Font("Calibri", 28, FontStyle.Bold), Brushes.DarkRed, 24, 8);
 				g.DrawImageUnscaled(img, 0, 48);
+				g.DrawString(level.Name + ": " + level.FullName, new Font("Calibri", 28, FontStyle.Bold), Brushes.DarkRed, 24, 8);
+				g.DrawString(level.UniqueID.ToString("B"), new Font("Courier New", 28, FontStyle.Bold), Brushes.DarkRed, 24, 8 + img.Height + 48);
+			}
+			return r;
+		}
+		public Bitmap DrawOverviewError(string name)
+		{
+			Bitmap img = Draw(null);
+
+			Bitmap r = new Bitmap(img.Width, img.Height + 48 + 48);
+			using (Graphics g = Graphics.FromImage(r))
+			{
+				g.Clear(Color.White);
+				g.DrawImageUnscaled(img, 0, 48);
+				g.DrawString(name, new Font("Calibri", 28, FontStyle.Bold), Brushes.DarkRed, 24, 8);
+				g.DrawString("{????????-????-????-????-????????????}", new Font("Courier New", 28, FontStyle.Bold), Brushes.DarkRed, 24, 8 + img.Height + 48);
 			}
 			return r;
 		}
@@ -62,36 +77,33 @@ namespace GridDominance.DSLEditor.Drawing
 
 					foreach (var c in level.BlueprintCannons)
 					{
-						var topleftX = (int)(c.X - c.Scale * 64);
-						var topleftY = (int)(c.Y - c.Scale * 64);
-						var width = (int)(c.Scale * 128);
-						var height = (int)(c.Scale * 128);
-
-						var rectReal = new Rectangle(topleftX, topleftY, width, height);
-						var rectCircle = new Rectangle(rectReal.Location, rectReal.Size);
-						var rectOuter = new Rectangle(rectReal.Location, rectReal.Size);
-						rectCircle.Inflate((width * 48 / 64 - width) / 2, (height * 48 / 64 - height) / 2);
-						rectOuter.Inflate((width * 80 / 64 - width) / 2, (height * 80 / 64 - height) / 2);
+						var rectBaseCircle  = new RectangleF(-0.500f, -0.500f, 1.000f, 1.000f);
+						var rectOuterCircle = new RectangleF(-0.833f, -0.833f, 1.666f, 1.666f);
+						var rectMidArea     = new RectangleF(-0.666f, -0.666f, 1.333f, 1.333f);
+						var rectBarrel      = new RectangleF(+0.166f, -0.166f, 0.666f, 0.333f);
 
 						var save = g.Save();
 						{
 							g.TranslateTransform(c.X, c.Y);
+							g.ScaleTransform(c.Diameter, c.Diameter);
+
+							// Mid Area Alpha
+							g.FillRectangle(new SolidBrush(Color.FromArgb(64, CANNON_COLORS[c.Player])), rectMidArea);
+							
+							// Barrel
 							g.RotateTransform(c.Rotation);
+							g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), rectBarrel);
 
-							var bHeight = height / 4;
-							var bWidth = width / 2;
-							var bPosX = width / 8;
+							// Base
+							g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectBaseCircle);
+							g.DrawEllipse(new Pen(Color.Black, 0.008f), rectBaseCircle);
 
-							var br = new Rectangle(bPosX, -bHeight / 2, bWidth, bHeight);
-
-							g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), br);
+							// Radius
+							g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 0.032f), rectOuterCircle);
+							
 						}
 						g.Restore(save);
 
-						g.FillRectangle(new SolidBrush(Color.FromArgb(64, CANNON_COLORS[c.Player])), rectReal);
-						g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectCircle);
-						g.DrawEllipse(new Pen(Color.Black), rectCircle);
-						g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 2), rectOuter);
 					}
 
 					var voidpen = new Pen(Color.FloralWhite, 8);
@@ -101,6 +113,16 @@ namespace GridDominance.DSLEditor.Drawing
 						g.TranslateTransform(vwall.X, vwall.Y);
 						g.RotateTransform(vwall.Rotation);
 						g.DrawLine(voidpen, -vwall.Length / 2, 0, +vwall.Length / 2, 0);
+						g.Restore(save);
+					}
+
+					foreach (var vcirc in level.BlueprintVoidCircles)
+					{
+						var save = g.Save();
+						{
+							g.TranslateTransform(vcirc.X, vcirc.Y);
+							g.DrawEllipse(voidpen, new RectangleF(-vcirc.Diameter / 2f, -vcirc.Diameter / 2f, vcirc.Diameter, vcirc.Diameter));
+						}
 						g.Restore(save);
 					}
 				}

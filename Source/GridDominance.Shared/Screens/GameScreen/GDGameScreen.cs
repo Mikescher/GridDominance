@@ -128,14 +128,13 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			Fraction[] fracList = { fractionNeutral, fractionPlayer, fractionComputer1, fractionComputer2, fractionComputer3 };
 
 			foreach (var bPrint in Blueprint.BlueprintCannons)
-			{
 				Entities.AddEntity(new Cannon(this, bPrint, fracList));
-			}
 
 			foreach (var bPrint in Blueprint.BlueprintVoidWalls)
-			{
 				Entities.AddEntity(new VoidWall(this, bPrint));
-			}
+
+			foreach (var bPrint in Blueprint.BlueprintVoidCircles)
+				Entities.AddEntity(new VoidCircle(this, bPrint));
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
