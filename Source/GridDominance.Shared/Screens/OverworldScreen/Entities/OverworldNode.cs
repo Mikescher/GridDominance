@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GridDominance.Graphfileformat.Parser;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
@@ -21,6 +23,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public const float SIZE = 3 * GDConstants.TILE_WIDTH;
 		public const float INNERSIZE = 2 * GDConstants.TILE_WIDTH;
 
+		public const float COLLAPSE_TIME = 5f;
+
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; } = new FSize(SIZE, SIZE);
 		public override Color DebugIdentColor { get; } = Color.Blue;
@@ -28,6 +32,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		private readonly string _description;
 		private readonly WorldGraphFile _graph;
 		private readonly GameEntityMouseArea clickArea;
+
+		private readonly Dictionary<FractionDifficulty, float> solvedPerc = new Dictionary<FractionDifficulty, float>();
 
 		public float AlphaOverride = 1f;
 
@@ -38,6 +44,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			Position = pos;
 
 			clickArea = AddClickMouseArea(FRectangle.CreateByCenter(Vector2.Zero, new FSize(SIZE, SIZE)), OnClick);
+
+			solvedPerc[FractionDifficulty.DIFF_0] = GetSolvePercentage(FractionDifficulty.DIFF_0);
+			solvedPerc[FractionDifficulty.DIFF_1] = GetSolvePercentage(FractionDifficulty.DIFF_1);
+			solvedPerc[FractionDifficulty.DIFF_2] = GetSolvePercentage(FractionDifficulty.DIFF_2);
+			solvedPerc[FractionDifficulty.DIFF_3] = GetSolvePercentage(FractionDifficulty.DIFF_3);
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -113,23 +124,41 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			throw new ArgumentOutOfRangeException(nameof(y), y, null);
 		}
 
+		private float GetSolvePercentage(FractionDifficulty d)
+		{
+			int c = _graph.Nodes.Count(n => MainGame.Inst.Profile.GetLevelData(n.LevelID).HasCompleted(d));
+
+			return c * 1f / _graph.Nodes.Count;
+		}
+
 		private bool IsCellActive(FractionDifficulty d, int idx) // TODO Get correct score for this map
 		{
-			return FloatMath.GetRandomSign() > 0;
+			bool active;
 
-			//switch (d)
-			//{
-			//	case FractionDifficulty.KI_EASY:
-			//		return idx < 14;
-			//	case FractionDifficulty.KI_NORMAL:
-			//		return idx < 8;
-			//	case FractionDifficulty.KI_HARD:
-			//		return idx < 6;
-			//	case FractionDifficulty.KI_IMPOSSIBLE:
-			//		return idx < 3;
-			//	default:
-			//		throw new ArgumentOutOfRangeException(nameof(d), d, null);
-			//}
+			if (solvedPerc[d] < 0.5f)
+			{
+				active = idx < FloatMath.Ceiling(solvedPerc[d] * 20);
+			}
+			else
+			{
+				active = idx <= FloatMath.Floor(solvedPerc[d] * 20);
+			}
+			
+			if (Lifetime > COLLAPSE_TIME)
+			{
+				return active;
+			}
+			else
+			{
+				if (active)
+				{
+					return FloatMath.GetRandom() < (0.5f + FloatMath.FunctionEaseInOutCubic(Lifetime / COLLAPSE_TIME) / 2f);
+				}
+				else
+				{
+					return FloatMath.GetRandom() < (0.5f - FloatMath.FunctionEaseInOutCubic(Lifetime / COLLAPSE_TIME) / 2f);
+				}
+			}
 		}
 	}
 }
