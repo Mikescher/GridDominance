@@ -63,7 +63,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			PhysicsBody.Friction = 0.2f;
 			PhysicsBody.LinearDamping = 0f;
 			PhysicsBody.OnCollision += OnCollision;
-			PhysicsBody.AngularVelocity = FloatMath.GetRangedRandom(-FloatMath.PI, +FloatMath.PI); //TODO Remove all angular calculations? (-> more consistency and faster calc?)
+			PhysicsBody.AngularVelocity = 0; //TODO Remove all angular calculations? (-> more consistency and faster calc?)
 			//Body.Mass = Scale * Scale; // Weight dependent on size
 		}
 
@@ -99,7 +99,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 				else // if (otherCannon.Fraction != this.Fraction)
 				{
 					DisintegrateIntoEnemy();
-					otherCannon.TakeDamage(Fraction);
+					otherCannon.TakeDamage(Fraction, Scale);
 					MainGame.Inst.GDSound.PlayEffectHit();
 				}
 

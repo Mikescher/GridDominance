@@ -47,8 +47,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		private const float BOOSTER_LIFETIME_MULTIPLIER = 0.9f;
 		private const float MAX_BOOST = BOOSTER_POWER * 6;
 
-		private const float HEALTH_HIT_DROP = 0.20f; // on Hit
-		private const float HEALTH_HIT_GEN  = 0.20f; // on Hit from own fraction
+		private const float HEALTH_HIT_DROP = 0.27f; // on Hit
+		private const float HEALTH_HIT_GEN  = 0.27f; // on Hit from own fraction
 
 		private const float CROSSHAIR_TRANSPARENCY = 0.5f;
 		private const float CROSSHAIR_GROW_SPEED = 3f;
@@ -66,7 +66,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 
 		public readonly DeltaLimitedModuloFloat Rotation;
 		public readonly DeltaLimitedFloat CrosshairSize = new DeltaLimitedFloat(0f, CROSSHAIR_GROW_SPEED);
-		public readonly float Scale;
+		public readonly float Scale; // scale effects: Size, HEALTH_REGEN, HEALTH_HIT_GEN (this+target), HEALTH_HIT_DROP (this+target), BARREL_CHARGE_SPEED
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
@@ -162,7 +162,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
 			{
 				while (Fraction.Type != FractionType.PlayerFraction)
-					TakeDamage(this.GDOwner().GetPlayerFraction());
+					TakeDamage(this.GDOwner().GetPlayerFraction(), 1);
 
 				CannonHealth.SetForce(1f);
 			}
@@ -186,6 +186,8 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > 0)
 			{
 				var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
+
+				bonus /= Scale;
 
 				CannonHealth.Inc(bonus * gameTime.ElapsedSeconds);
 				CannonHealth.Limit(0f, 1f);
@@ -214,7 +216,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral) && controller.DoBarrelRecharge())
 			{
-				barrelCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds;
+				barrelCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds / Scale;
 
 				if (barrelCharge >= 1f)
 				{
@@ -274,7 +276,6 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		{
 			DrawBodyAndBarrel_BG(sbatch);
 		}
-
 
 		protected override void OnDrawOrderedForegroundLayer(IBatchRenderer sbatch)
 		{
@@ -454,7 +455,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			}
 		}
 
-		public void TakeDamage(Fraction source)
+		public void TakeDamage(Fraction source, float sourceScale)
 		{
 			if (source.IsNeutral)
 			{
@@ -463,11 +464,11 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 			else if (Fraction.IsNeutral)
 			{
 				SetFraction(source);
-				CannonHealth.Set(HEALTH_HIT_GEN);
+				CannonHealth.Set((sourceScale * HEALTH_HIT_GEN) / Scale);
 			}
 			else
 			{
-				CannonHealth.Dec(HEALTH_HIT_DROP);
+				CannonHealth.Dec((sourceScale * HEALTH_HIT_DROP) / Scale);
 
 				if (FloatMath.IsZero(CannonHealth.TargetValue))
 				{

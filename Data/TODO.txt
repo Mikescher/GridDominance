@@ -120,7 +120,9 @@ Special Stuff:
 		Shield turret can't form loop (shielded turret can's shield other turret)
 
 
-root node in level returns to overworld map
+-> root node in level returns to overworld map
+-> Tutorial in first three level (icon anim for drag | text for whoot enemy | text for capture neutral | etxt for boost own cannons)
+-> Make Cannon Bullet power dependent on cannon size (no change for current defaault size, but big mama should one or twoshot enemy cannon), perhaps also shoot with less freq
 
 
 More level ideas:
