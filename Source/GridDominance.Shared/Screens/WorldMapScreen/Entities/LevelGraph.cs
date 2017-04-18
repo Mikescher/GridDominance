@@ -47,7 +47,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				}
 			}
 
-			var initNodeCandidates = Nodes.ToList();
+			var rootNodes = Nodes.ToList();
 
 			foreach (var bpNode in g.Nodes)
 			{
@@ -70,11 +70,37 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 					sourcenode.CreatePipe(sinknode, pipe.PipeOrientation);
 
-					initNodeCandidates.Remove(sinknode);
+					rootNodes.Remove(sinknode);
 				}
 			}
 
-			InitialNode = initNodeCandidates.First(); //TODO Better calc or even better define by file
+			Stack<LevelNode> nstack = new Stack<LevelNode>();
+			foreach (var n in rootNodes)
+			{
+				n.NodeEnabled = true;
+				if (n.LevelData.HasAnyCompleted())
+				{
+					foreach (var nextnode in n.NextLinkedNodes)
+					{
+						if (!nextnode.NodeEnabled) nstack.Push(nextnode);
+					}
+				}
+			}
+			while (nstack.Any())
+			{
+				var n = nstack.Pop();
+
+				n.NodeEnabled = true;
+				if (n.LevelData.HasAnyCompleted())
+				{
+					foreach (var nextnode in n.NextLinkedNodes)
+					{
+						if (!nextnode.NodeEnabled) nstack.Push(nextnode);
+					}
+				}
+			}
+
+			InitialNode = rootNodes.First(); //TODO Better calc or even better define by file
 
 			BoundingRect = FRectangle.CreateOuter(Nodes.Select(n => n.DrawingBoundingRect));
 

@@ -36,7 +36,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			
 			foreach (var node in GDOwner.GetEntities<LevelNode>())
 			{
-				if (node != n && (node.state == BistateProgress.Open || node.state == BistateProgress.Opening)) node.CloseNode();
+				if (node != n && (node.State == BistateProgress.Open || node.State == BistateProgress.Opening)) node.CloseNode();
 			}
 		}
 

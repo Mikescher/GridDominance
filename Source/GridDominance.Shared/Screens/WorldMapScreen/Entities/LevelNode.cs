@@ -68,10 +68,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private float expansionProgress = 0;
 
-		public List<LevelNode> NextLinkedNodes = new List<LevelNode>();
-		public List<LevelNodePipe> OutgoingPipes = new List<LevelNodePipe>();
+		public readonly List<LevelNode> NextLinkedNodes = new List<LevelNode>();
+		public readonly List<LevelNodePipe> OutgoingPipes = new List<LevelNodePipe>();
 
-		public BistateProgress state = BistateProgress.Initial;
+		public BistateProgress State = BistateProgress.Initial;
+
+		public bool NodeEnabled = false;
 
 		public LevelNode(GDWorldMapScreen scrn, Vector2 pos, LevelFile lvlf, LevelData lvldat) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
@@ -136,11 +138,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClickCenter(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
-			if (state == BistateProgress.Closed)
+			if (State == BistateProgress.Closed)
 			{
 				OpenNode();
 			}
-			else if (state == BistateProgress.Open)
+			else if (State == BistateProgress.Open)
 			{
 				CloseNode();
 			}
@@ -148,7 +150,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public void CloseNode()
 		{
-			if (state == BistateProgress.Open)
+			if (State == BistateProgress.Open)
 			{
 				if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
 
@@ -156,12 +158,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					"LevelNode::Close::0", 
 					CLOSING_TIME, 
 					(n, p) => n.expansionProgress = 1 - p,
-					n => n.state = BistateProgress.Closing,
-					n => n.state = BistateProgress.Closed));
+					n => n.State = BistateProgress.Closing,
+					n => n.State = BistateProgress.Closed));
 
 				MainGame.Inst.GDSound.PlayEffectClose();
 			}
-			else if (state == BistateProgress.Forward)
+			else if (State == BistateProgress.Forward)
 			{
 				if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
 
@@ -176,8 +178,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					"LevelNode::Close::0", 
 					CLOSING_TIME, 
 					(n, p) => n.expansionProgress = 1 - p,
-					n => n.state = BistateProgress.Closing,
-					n => n.state = BistateProgress.Closed));
+					n => n.State = BistateProgress.Closing,
+					n => n.State = BistateProgress.Closed));
 
 				if (initProgress > 0f) o.ForceSetProgress(initProgress);
 
@@ -187,7 +189,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OpenNode()
 		{
-			if (state == BistateProgress.Closed)
+			if (!NodeEnabled)
+			{
+				//TODO Sound
+				//TODO Shake effect
+				return;
+			}
+
+			if (State == BistateProgress.Closed)
 			{
 				((GDWorldHUD)Owner.HUD).SelectNode(this);
 
@@ -199,8 +208,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					"LevelNode::Open::0", 
 					EXPANSION_TIME, 
 					(n, p) => n.expansionProgress = p, n => 
-					n.state = BistateProgress.Opening,
-					n => n.state = BistateProgress.Open));
+					n.State = BistateProgress.Opening,
+					n => n.State = BistateProgress.Open));
 
 				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::1", CENTERING_TIME, UpdateScreenCentering));
 
@@ -208,7 +217,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 				MainGame.Inst.GDSound.PlayEffectOpen();
 			}
-			else if (state == BistateProgress.Closing)
+			else if (State == BistateProgress.Closing)
 			{
 				((GDWorldHUD)Owner.HUD).SelectNode(this);
 
@@ -224,8 +233,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					"LevelNode::Open::0", 
 					EXPANSION_TIME, 
 					(n, p) => n.expansionProgress = p, 
-					n => n.state = BistateProgress.Opening, 
-					n => n.state = BistateProgress.Open));
+					n => n.State = BistateProgress.Opening, 
+					n => n.State = BistateProgress.Open));
 
 				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::1", CENTERING_TIME, UpdateScreenCentering));
 
@@ -295,7 +304,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			clickAreaD2.IsEnabled = (expansionProgress > 0.5f);
 			clickAreaD3.IsEnabled = (expansionProgress > 0.5f);
 			
-			if (state == BistateProgress.Open || state == BistateProgress.Opening)
+			if (State == BistateProgress.Open || State == BistateProgress.Opening)
 			{
 				if (((GDWorldMapScreen)Owner).IsBackgroundPressed) CloseNode();
 			}
@@ -385,7 +394,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Ground
 
-			sbatch.DrawCentered(Textures.TexCircle, Position, DIAMETER, DIAMETER, FlatColors.Asbestos);
+			if (NodeEnabled)
+				sbatch.DrawCentered(Textures.TexCircle, Position, DIAMETER, DIAMETER, FlatColors.Asbestos);
+			else
+				sbatch.DrawCentered(Textures.TexCircle, Position, DIAMETER, DIAMETER, FlatColors.Silver);
 
 			#endregion
 

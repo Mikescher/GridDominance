@@ -37,6 +37,15 @@ namespace GridDominance.Shared.SaveData
 			return Data[d].HasCompleted;
 		}
 
+		public bool HasAnyCompleted()
+		{
+			return 
+				Data[FractionDifficulty.DIFF_0].HasCompleted || 
+				Data[FractionDifficulty.DIFF_1].HasCompleted || 
+				Data[FractionDifficulty.DIFF_2].HasCompleted || 
+				Data[FractionDifficulty.DIFF_3].HasCompleted;
+		}
+
 		public void SetBestTime(FractionDifficulty d, int? time)
 		{
 			if (time == null)
