@@ -1,15 +1,15 @@
-﻿using GridDominance.Graphfileformat.Parser;
-using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
+using GridDominance.Graphfileformat.Blueprint;
 
 namespace GridDominance.Content.Pipeline.GDWorldGraph
 {
 	[ContentProcessor(DisplayName = "GridDominance WorldGraph Processor")]
-	public class GDWorldGraphProcessor : ContentProcessor<string, WorldGraphFile>
+	public class GDWorldGraphProcessor : ContentProcessor<string, GraphBlueprint>
 	{
-		public override WorldGraphFile Process(string input, ContentProcessorContext context)
+		public override GraphBlueprint Process(string input, ContentProcessorContext context)
 		{
-			var parser = new WorldGraphFileParser(input);
+			var parser = new GraphParser(input);
 
 			var gf = parser.Parse();
 			

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GridDominance.Graphfileformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
@@ -36,10 +36,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public BistateProgress ZoomState = BistateProgress.Normal;
 
 		public readonly LevelGraph Graph;
-		public readonly WorldGraphFile GraphBlueprint;
+		public readonly GraphBlueprint GraphBlueprint;
 		public float ColorOverdraw = 0f;
 
-		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm, WorldGraphFile g, Guid? initialFocus) : base(game, gdm)
+		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm, GraphBlueprint g, Guid? initialFocus) : base(game, gdm)
 		{
 			Graph = new LevelGraph(this);
 			GraphBlueprint = g;
@@ -57,7 +57,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, 1, 1);
 		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
-		private void Initialize(WorldGraphFile g, Guid? initialFocus)
+		private void Initialize(GraphBlueprint g, Guid? initialFocus)
 		{
 #if DEBUG
 			DebugUtils.CreateShortcuts(this);

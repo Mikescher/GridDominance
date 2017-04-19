@@ -1,12 +1,12 @@
-﻿namespace GridDominance.Levelfileformat.Parser
+﻿namespace GridDominance.Levelfileformat.Blueprint
 {
-	public struct LPVoidCircle
+	public struct VoidCircleBlueprint
 	{
 		public readonly float X;
 		public readonly float Y;
 		public readonly float Diameter;
 
-		public LPVoidCircle(float x, float y, float d)
+		public VoidCircleBlueprint(float x, float y, float d)
 		{
 			X = x;
 			Y = y;

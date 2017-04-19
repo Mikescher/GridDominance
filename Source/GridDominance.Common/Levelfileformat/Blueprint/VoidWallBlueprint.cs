@@ -1,21 +1,20 @@
 ﻿using System;
 
-namespace GridDominance.Levelfileformat.Parser
+namespace GridDominance.Levelfileformat.Blueprint
 {
-	public struct LPCannon
+	public struct VoidWallBlueprint
 	{
 		public readonly float X;
 		public readonly float Y;
-		public readonly float Diameter;
-		public readonly int Player;
+		public readonly float Length;
 		public readonly float Rotation; // in degree
 
-		public LPCannon(float x, float y, float d, int p, float rot)
+		public VoidWallBlueprint(float x, float y, float l, float rot)
 		{
 			X = x;
 			Y = y;
-			Diameter = d;
-			Player = p;
+			Length = l;
+			Rotation = rot;
 
 			if (rot < 0)
 				Rotation = (float) (Math.Atan2(320 - Y, 512 - X) / Math.PI * 180);

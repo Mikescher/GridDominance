@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace GridDominance.Graphfileformat.Parser
+namespace GridDominance.Graphfileformat.Blueprint
 {
-	public struct WGPipe
+	public struct PipeBlueprint
 	{
 		public enum Orientation
 		{
@@ -14,7 +14,7 @@ namespace GridDominance.Graphfileformat.Parser
 		public readonly Guid Target;
 		public readonly Orientation PipeOrientation;
 
-		public WGPipe(Guid t, Orientation o)
+		public PipeBlueprint(Guid t, Orientation o)
 		{
 			Target = t;
 			PipeOrientation = o;

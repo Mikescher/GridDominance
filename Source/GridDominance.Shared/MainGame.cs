@@ -1,7 +1,6 @@
 ﻿using System;
-using GridDominance.Graphfileformat.Parser;
-using GridDominance.Levelfileformat.Parser;
-using GridDominance.Levelformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
@@ -132,17 +131,17 @@ namespace GridDominance.Shared
 			GDSound.IsMuted = !Profile.SoundsEnabled;
 		}
 
-		public void SetLevelScreen(LevelFile blueprint, FractionDifficulty d, WorldGraphFile source)
+		public void SetLevelScreen(LevelBlueprint blueprint, FractionDifficulty d, GraphBlueprint source)
 		{
 			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint, d, source));
 		}
 
-		public void SetWorldMapScreen(WorldGraphFile g, Guid focus)
+		public void SetWorldMapScreen(GraphBlueprint g, Guid focus)
 		{
 			SetCurrentScreen(new GDWorldMapScreen(this, Graphics, g, focus));
 		}
 
-		public void SetWorldMapScreenWithTransition(WorldGraphFile g)
+		public void SetWorldMapScreenWithTransition(GraphBlueprint g)
 		{
 			var screen = new GDWorldMapScreen(this, Graphics, g, null);
 			SetCurrentScreen(screen);

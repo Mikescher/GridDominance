@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GridDominance.Levelformat.Parser
+namespace GridDominance.SAMScriptParser
 {
 	public class ParsingException : Exception
 	{

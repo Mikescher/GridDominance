@@ -75,6 +75,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
+		public static FRectangle CreateByCenter(float x, float y, float w, float h)
+		{
+			return new FRectangle(x - w / 2, y - h / 2, w, h);
+		}
+
+		[Pure]
 		public static FRectangle CreateOuter(IEnumerable<FRectangle> rects)
 		{
 			float minX = float.MaxValue;

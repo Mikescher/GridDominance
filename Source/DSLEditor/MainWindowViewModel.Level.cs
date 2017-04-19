@@ -1,7 +1,7 @@
 ﻿using GridDominance.DSLEditor.Drawing;
 using GridDominance.DSLEditor.Helper;
-using GridDominance.Levelfileformat.Parser;
-using GridDominance.Levelformat.Parser;
+using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.SAMScriptParser;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
@@ -117,7 +117,7 @@ namespace GridDominance.DSLEditor
 			return s;
 		}
 
-		private LevelFile ParseLevelFile()
+		private LevelBlueprint ParseLevelFile()
 		{
 			var input = Code;
 			input = ReplaceMagicConstantsInLevelFile(input);
@@ -130,13 +130,13 @@ namespace GridDominance.DSLEditor
 
 				var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
 
-				includesFunc = x => includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value;
+				includesFunc = x => includes.FirstOrDefault(p => LevelBlueprint.IsIncludeMatch(p.Key, x)).Value;
 			}
 
-			return new LevelFileParser(input, includesFunc).Parse();
+			return new LevelParser(input, includesFunc).Parse();
 		}
 
-		private LevelFile ParseSpecificLevelFile(string f)
+		private LevelBlueprint ParseSpecificLevelFile(string f)
 		{
 			var input = File.ReadAllText(f);
 			input = ReplaceMagicConstantsInLevelFile(input);
@@ -149,13 +149,13 @@ namespace GridDominance.DSLEditor
 
 				var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
 
-				includesFunc = x => includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value;
+				includesFunc = x => includes.FirstOrDefault(p => LevelBlueprint.IsIncludeMatch(p.Key, x)).Value;
 			}
 
-			return new LevelFileParser(input, includesFunc).Parse();
+			return new LevelParser(input, includesFunc).Parse();
 		}
 
-		private void RecreateMapForLevelFile(LevelFile lp)
+		private void RecreateMapForLevelFile(LevelBlueprint lp)
 		{
 			var rex = new Regex(@"^#<map>.*^#</map>", RegexOptions.Multiline | RegexOptions.Singleline);
 
@@ -238,7 +238,7 @@ namespace GridDominance.DSLEditor
 			}
 		}
 
-		public string GenerateASCIIMap(LevelFile l)
+		public string GenerateASCIIMap(LevelBlueprint l)
 		{
 			var d = new LevelAsciiDrawer(l);
 			d.Calc();

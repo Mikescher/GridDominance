@@ -1,4 +1,4 @@
-using GridDominance.Levelfileformat.Parser;
+using GridDominance.Levelfileformat.Blueprint;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -11,7 +11,7 @@ namespace GridDominance.DSLEditor.Drawing
 
 		public readonly Bitmap GraphicsBuffer = new Bitmap(1024, 640);
 
-		public Bitmap DrawOverview(LevelFile level)
+		public Bitmap DrawOverview(LevelBlueprint level)
 		{
 			Bitmap img;
 
@@ -49,7 +49,7 @@ namespace GridDominance.DSLEditor.Drawing
 			return r;
 		}
 
-		public Bitmap Draw(LevelFile level)
+		public Bitmap Draw(LevelBlueprint level)
 		{
 			using (Graphics g = Graphics.FromImage(GraphicsBuffer))
 			{

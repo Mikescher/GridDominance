@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace GridDominance.Levelfileformat.Parser
+namespace GridDominance.Levelfileformat.Blueprint
 {
-	public class LevelFile
+	public class LevelBlueprint
 	{
 		private const byte SERIALIZE_ID_CANNON      = 0x01; 
 		private const byte SERIALIZE_ID_NAME        = 0x02; 
@@ -14,15 +14,15 @@ namespace GridDominance.Levelfileformat.Parser
 		private const byte SERIALIZE_ID_VOIDCIRCLE  = 0x06;
 		private const byte SERIALIZE_ID_EOF         = 0xFF;
 
-		public readonly List<LPCannon>     BlueprintCannons     = new List<LPCannon>();
-		public readonly List<LPVoidWall>   BlueprintVoidWalls   = new List<LPVoidWall>();
-		public readonly List<LPVoidCircle> BlueprintVoidCircles = new List<LPVoidCircle>();
+		public readonly List<CannonBlueprint>     BlueprintCannons     = new List<CannonBlueprint>();
+		public readonly List<VoidWallBlueprint>   BlueprintVoidWalls   = new List<VoidWallBlueprint>();
+		public readonly List<VoidCircleBlueprint> BlueprintVoidCircles = new List<VoidCircleBlueprint>();
 
 		public Guid UniqueID { get; set; } = Guid.Empty;
 		public string Name { get; set; } = "";
 		public string FullName { get; set; } = "";
 		
-		public LevelFile()
+		public LevelBlueprint()
 		{
 			//
 		}
@@ -83,7 +83,7 @@ namespace GridDominance.Levelfileformat.Parser
 						var d = br.ReadSingle();
 						var a = br.ReadSingle();
 
-						BlueprintCannons.Add(new LPCannon(x, y, d, p, a));
+						BlueprintCannons.Add(new CannonBlueprint(x, y, d, p, a));
 
 						break;
 					}
@@ -94,7 +94,7 @@ namespace GridDominance.Levelfileformat.Parser
 						var l = br.ReadSingle();
 						var r = br.ReadSingle();
 
-						BlueprintVoidWalls.Add(new LPVoidWall(x, y, l, r));
+						BlueprintVoidWalls.Add(new VoidWallBlueprint(x, y, l, r));
 
 						break;
 					}
@@ -104,7 +104,7 @@ namespace GridDominance.Levelfileformat.Parser
 						var y = br.ReadSingle();
 						var d = br.ReadSingle();
 
-						BlueprintVoidCircles.Add(new LPVoidCircle(x, y, d));
+						BlueprintVoidCircles.Add(new VoidCircleBlueprint(x, y, d));
 
 						break;
 					}
@@ -154,6 +154,15 @@ namespace GridDominance.Levelfileformat.Parser
 			if (b.LastIndexOf('.') > 0) b = b.Substring(0, b.LastIndexOf('.'));
 
 			return string.Equals(a, b, icic);
+		}
+
+		public void ValidOrThrow()
+		{
+			if (string.IsNullOrWhiteSpace(Name))
+				throw new Exception("Level needs a valid name");
+
+			if (UniqueID == Guid.Empty)
+				throw new Exception("Level needs a valid UUID");
 		}
 	}
 }

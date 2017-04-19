@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
-namespace GridDominance.Graphfileformat.Parser
+namespace GridDominance.Graphfileformat.Blueprint
 {
-	public class WorldGraphFile
+	public class GraphBlueprint
 	{
-		public readonly List<WGNode> Nodes = new List<WGNode>();
+		public IEnumerable<INodeBlueprint> AllNodes => new INodeBlueprint[] {RootNode}.Concat(Nodes.Cast<INodeBlueprint>());
 
-		public WorldGraphFile()
+		public readonly List<NodeBlueprint> Nodes = new List<NodeBlueprint>();
+		public RootNodeBlueprint RootNode = new RootNodeBlueprint(float.NaN, float.NaN);
+
+		public GraphBlueprint()
 		{
 			//
 		}
@@ -16,6 +20,10 @@ namespace GridDominance.Graphfileformat.Parser
 		public void BinarySerialize(BinaryWriter bw)
 		{
 			bw.Write((byte)0x66);
+
+			bw.Write(RootNode.X);
+			bw.Write(RootNode.Y);
+
 			bw.Write((byte)Nodes.Count);
 
 			for (int i = 0; i < Nodes.Count; i++)
@@ -42,6 +50,10 @@ namespace GridDominance.Graphfileformat.Parser
 			var header = br.ReadByte();
 			if (header != 0x66) throw new Exception("Missing header");
 
+			float rootx = br.ReadSingle();
+			float rooty = br.ReadSingle();
+			RootNode = new RootNodeBlueprint(rootx, rooty);
+
 			int ncount = br.ReadByte();
 
 			Nodes.Clear();
@@ -51,15 +63,15 @@ namespace GridDominance.Graphfileformat.Parser
 				var ny = br.ReadSingle();
 				var nid = new Guid(br.ReadBytes(16));
 				
-				var node = new WGNode(nx, ny, nid);
+				var node = new NodeBlueprint(nx, ny, nid);
 
 				int pcount = br.ReadByte();
 				for (int j = 0; j < pcount; j++)
 				{
 					var b = br.ReadBytes(16);
 					var pid = new Guid(b);
-					var por = (WGPipe.Orientation)br.ReadByte();
-					node.OutgoingPipes.Add(new WGPipe(pid, por));
+					var por = (PipeBlueprint.Orientation)br.ReadByte();
+					node.OutgoingPipes.Add(new PipeBlueprint(pid, por));
 				}
 				Nodes.Add(node);
 			}
@@ -68,6 +80,12 @@ namespace GridDominance.Graphfileformat.Parser
 			if (br.ReadByte() != 0x08) throw new Exception("Missing footer byte 2");
 			if (br.ReadByte() != 0xFF) throw new Exception("Missing footer byte 3");
 			if (br.ReadByte() != 0x26) throw new Exception("Missing footer byte 4");
+		}
+
+		public void ValidOrThrow()
+		{
+			if (float.IsNaN(RootNode.X) || float.IsNaN(RootNode.Y))
+				throw new Exception("Every World needs a root node");
 		}
 	}
 }

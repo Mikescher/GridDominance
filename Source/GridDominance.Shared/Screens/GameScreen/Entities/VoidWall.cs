@@ -1,7 +1,7 @@
 ﻿using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using GridDominance.Levelfileformat.Parser;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -32,7 +32,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		public Body PhysicsBody;
 		public Fixture PhysicsFixture;
 		
-		public VoidWall(GDGameScreen scrn, LPVoidWall blueprint) : base(scrn, GDConstants.ORDER_GAME_WALL)
+		public VoidWall(GDGameScreen scrn, VoidWallBlueprint blueprint) : base(scrn, GDConstants.ORDER_GAME_WALL)
 		{
 			var pos   = new Vector2(blueprint.X, blueprint.Y);
 

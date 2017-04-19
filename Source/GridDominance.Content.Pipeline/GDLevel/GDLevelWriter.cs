@@ -1,4 +1,4 @@
-﻿using GridDominance.Levelfileformat.Parser;
+﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Levelfileformat.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
@@ -7,9 +7,9 @@ using System;
 namespace GridDominance.Content.Pipeline.GDLevel
 {
 	[ContentTypeWriter]
-	public class GDLevelWriter : ContentTypeWriter<LevelFile>
+	public class GDLevelWriter : ContentTypeWriter<LevelBlueprint>
 	{
-		protected override void Write(ContentWriter output, LevelFile value)
+		protected override void Write(ContentWriter output, LevelBlueprint value)
 		{
 			var start = output.BaseStream.Position;
 			value.BinarySerialize(output);
@@ -20,7 +20,7 @@ namespace GridDominance.Content.Pipeline.GDLevel
 		
 		public override string GetRuntimeType(TargetPlatform targetPlatform)
 		{
-			return typeof(LevelFile).AssemblyQualifiedName;
+			return typeof(LevelBlueprint).AssemblyQualifiedName;
 		}
 
 		public override string GetRuntimeReader(TargetPlatform targetPlatform)

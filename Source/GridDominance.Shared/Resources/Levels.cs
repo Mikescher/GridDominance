@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using GridDominance.Graphfileformat.Parser;
-using GridDominance.Levelfileformat.Parser;
-using GridDominance.Levelformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Levelfileformat.Blueprint;
 using Microsoft.Xna.Framework.Content;
 using MonoSAMFramework.Portable.LogProtocol;
 
@@ -11,17 +10,17 @@ namespace GridDominance.Shared.Resources
 {
 	public static class Levels
 	{
-		public static WorldGraphFile WORLD_001;
+		public static GraphBlueprint WORLD_001;
 
-		public static List<WorldGraphFile> WORLDS;
-		public static Dictionary<Guid, LevelFile> LEVELS;
+		public static List<GraphBlueprint> WORLDS;
+		public static Dictionary<Guid, LevelBlueprint> LEVELS;
 
-		public static LevelFile LEVEL_DBG;
+		public static LevelBlueprint LEVEL_DBG;
 
 		public static void LoadContent(ContentManager content)
 		{
-			LEVELS = new Dictionary<Guid, LevelFile>();
-			WORLDS = new List<WorldGraphFile>();
+			LEVELS = new Dictionary<Guid, LevelBlueprint>();
+			WORLDS = new List<GraphBlueprint>();
 
 			LEVEL_DBG = LoadLevel(content, "levels/lvl_debug");
 
@@ -47,16 +46,16 @@ namespace GridDominance.Shared.Resources
 #endif
 		}
 
-		private static LevelFile LoadLevel(ContentManager content, string id)
+		private static LevelBlueprint LoadLevel(ContentManager content, string id)
 		{
-			var lvl = content.Load<LevelFile>(id);
+			var lvl = content.Load<LevelBlueprint>(id);
 			LEVELS[lvl.UniqueID] = lvl;
 			return lvl;
 		}
 
-		private static WorldGraphFile LoadWorld(ContentManager content, string id)
+		private static GraphBlueprint LoadWorld(ContentManager content, string id)
 		{
-			var grph = content.Load<WorldGraphFile>(id);
+			var grph = content.Load<GraphBlueprint>(id);
 			WORLDS.Add(grph);
 			return grph;
 		}

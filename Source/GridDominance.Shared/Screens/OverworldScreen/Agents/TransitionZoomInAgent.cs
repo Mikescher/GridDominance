@@ -1,4 +1,4 @@
-﻿using GridDominance.Graphfileformat.Parser;
+﻿using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.OverworldScreen;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
@@ -20,9 +20,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private readonly FRectangle rectFinal;
 
 		private readonly OverworldNode _gdNode;
-		private readonly WorldGraphFile _graph;
+		private readonly GraphBlueprint _graph;
 
-		public TransitionZoomInAgent(GDOverworldScreen scrn, OverworldNode node, WorldGraphFile g) : base(scrn, DURATION)
+		public TransitionZoomInAgent(GDOverworldScreen scrn, OverworldNode node, GraphBlueprint g) : base(scrn, DURATION)
 		{
 			_gdNode = node;
 			_graph = g;

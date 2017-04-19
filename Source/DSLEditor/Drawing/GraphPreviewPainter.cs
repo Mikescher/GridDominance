@@ -1,5 +1,5 @@
-using GridDominance.Graphfileformat.Parser;
-using GridDominance.Levelfileformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Levelfileformat.Blueprint;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,7 +14,7 @@ namespace GridDominance.DSLEditor.Drawing
 {
 	public class GraphPreviewPainter
 	{
-		public Bitmap Draw(WorldGraphFile wgraph, string path)
+		public Bitmap Draw(GraphBlueprint wgraph, string path)
 		{
 			var idmap = MapLevels(path);
 
@@ -48,10 +48,10 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 			else
 			{
-				minX = (int)wgraph.Nodes.Min(n => n.X) - 250;
-				minY = (int)wgraph.Nodes.Min(n => n.Y) - 250;
-				maxX = (int)wgraph.Nodes.Max(n => n.X) + 250;
-				maxY = (int)wgraph.Nodes.Max(n => n.Y) + 250;
+				minX = (int)wgraph.AllNodes.Min(n => n.X) - 250;
+				minY = (int)wgraph.AllNodes.Min(n => n.Y) - 250;
+				maxX = (int)wgraph.AllNodes.Max(n => n.X) + 250;
+				maxY = (int)wgraph.AllNodes.Max(n => n.Y) + 250;
 			}
 			
 			Bitmap buffer = new Bitmap(maxX - minX, maxY - minY);
@@ -79,11 +79,12 @@ namespace GridDominance.DSLEditor.Drawing
 				var sbExtender = new SolidBrush(Color.FromArgb(64, 231, 76, 60));
 
 				var diam = 2.75f * 64;
+				var diamRoot = 3f * 64;
 				var exw = 1.7f * 64;
 
-				foreach (var n in wgraph.Nodes)
+				foreach (var n in wgraph.AllNodes)
 				{
-					foreach (var p in n.OutgoingPipes)
+					foreach (var p in n.Pipes)
 					{
 						if (wgraph.Nodes.Count(nd => nd.LevelID == p.Target) != 1)
 							throw new Exception($"Pipe Target {p.Target:B} is not unambiguous");
@@ -114,6 +115,10 @@ namespace GridDominance.DSLEditor.Drawing
 						DrawFit(g, n.LevelID.ToString("D").Replace("-", "\r\n"), Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
 					}
 				}
+
+				{
+					g.FillRectangle(sbNode, wgraph.RootNode.X - diamRoot / 2f, wgraph.RootNode.Y - diamRoot / 2f, diamRoot, diamRoot);
+				}
 			}
 
 			return buffer;
@@ -128,13 +133,13 @@ namespace GridDominance.DSLEditor.Drawing
 			var d = new Dictionary<Guid, string>();
 
 			var includes = Directory.EnumerateFiles(path, "*.gsheader").ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
-			Func<string, string> includesFunc = x => includes.FirstOrDefault(p => LevelFile.IsIncludeMatch(p.Key, x)).Value;
+			Func<string, string> includesFunc = x => includes.FirstOrDefault(p => LevelBlueprint.IsIncludeMatch(p.Key, x)).Value;
 
 			foreach (var f in Directory.EnumerateFiles(path).Where(p => p.ToLower().EndsWith(".gslevel")))
 			{
 				try
 				{
-					var fp = new LevelFileParser(File.ReadAllText(f), includesFunc);
+					var fp = new LevelParser(File.ReadAllText(f), includesFunc);
 					var lf = fp.Parse(Path.GetFileName(f));
 
 					d[lf.UniqueID] = lf.Name;
@@ -147,7 +152,7 @@ namespace GridDominance.DSLEditor.Drawing
 			return d;
 		}
 
-		private void ManhattanLine(Graphics g, float x1, float y1, float x2, float y2, WGPipe.Orientation o)
+		private void ManhattanLine(Graphics g, float x1, float y1, float x2, float y2, PipeBlueprint.Orientation o)
 		{
 			var dx = x2 - x1;
 			var dy = y2 - y1;
@@ -156,7 +161,7 @@ namespace GridDominance.DSLEditor.Drawing
 
 			if (dx < 0 && dy < 0)
 			{
-				if (o == WGPipe.Orientation.Auto || o == WGPipe.Orientation.Clockwise)
+				if (o == PipeBlueprint.Orientation.Auto || o == PipeBlueprint.Orientation.Clockwise)
 				{
 					g.DrawLine(p, x1, y1, x2, y1); //H
 					g.DrawLine(p, x2, y1, x2, y2); //V
@@ -171,7 +176,7 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 			else if (dx >= 0 && dy < 0)
 			{
-				if (o == WGPipe.Orientation.Auto || o == WGPipe.Orientation.Counterclockwise)
+				if (o == PipeBlueprint.Orientation.Auto || o == PipeBlueprint.Orientation.Counterclockwise)
 				{
 					g.DrawLine(p, x1, y1, x2, y1); //H
 					g.DrawLine(p, x2, y1, x2, y2); //V
@@ -186,7 +191,7 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 			else if (dx < 0 && dy >= 0)
 			{
-				if (o == WGPipe.Orientation.Auto || o == WGPipe.Orientation.Counterclockwise)
+				if (o == PipeBlueprint.Orientation.Auto || o == PipeBlueprint.Orientation.Counterclockwise)
 				{
 					g.DrawLine(p, x1, y1, x2, y1); //H
 					g.DrawLine(p, x2, y1, x2, y2); //V
@@ -201,7 +206,7 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 			else if (dx >= 0 && dy >= 0)
 			{
-				if (o == WGPipe.Orientation.Auto || o == WGPipe.Orientation.Clockwise)
+				if (o == PipeBlueprint.Orientation.Auto || o == PipeBlueprint.Orientation.Clockwise)
 				{
 					g.DrawLine(p, x1, y1, x2, y1); //H
 					g.DrawLine(p, x2, y1, x2, y2); //V

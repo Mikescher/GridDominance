@@ -2,17 +2,17 @@
 using System;
 using System.Collections.Generic;
 
-namespace GridDominance.Levelfileformat.Parser
+namespace GridDominance.Levelfileformat.Blueprint
 {
-	public class LevelFileParser : SSParser
+	public class LevelParser : SSParser
 	{
 		private readonly string content;
 		private readonly Func<string, string> includeFinderFunction;
 		private float _scaleFactor = 1f;
 
-		private LevelFile _result = null;
+		private LevelBlueprint _result = null;
 
-		public LevelFileParser(string levelContent, Func<string, string> includeFunction)
+		public LevelParser(string levelContent, Func<string, string> includeFunction)
 		{
 			content = levelContent;
 			includeFinderFunction = includeFunction;
@@ -32,21 +32,17 @@ namespace GridDominance.Levelfileformat.Parser
 			DefineMethod("voidcircle", AddVoidCircle);
 		}
 
-		public LevelFile Parse(string fileName = "__root__")
+		public LevelBlueprint Parse(string fileName = "__root__")
 		{
-			_result = new LevelFile();
+			_result = new LevelBlueprint();
 
 			_scaleFactor = 1f;
 
 			StartParse(fileName, content);
 
-			if (string.IsNullOrWhiteSpace(_result.Name))
-				throw new Exception("Level needs a valid name");
+			_result.ValidOrThrow();
 
-			if (_result.UniqueID == Guid.Empty)
-				throw new Exception("Level needs a valid UUID");
-
-			return _result; ;
+			return _result;
 		}
 		
 		private void DefineAlias(List<string> methodParameter)
@@ -65,7 +61,7 @@ namespace GridDominance.Levelfileformat.Parser
 			var posY     = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
 			var rotation = ExtractNumberParameter(methodParameter, 3, -1);
 
-			_result.BlueprintCannons.Add(new LPCannon(posX, posY, size, player, rotation));
+			_result.BlueprintCannons.Add(new CannonBlueprint(posX, posY, size, player, rotation));
 		}
 
 		private void IncludeSource(List<string> methodParameter)
@@ -106,7 +102,7 @@ namespace GridDominance.Levelfileformat.Parser
 			var len = (float)Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
 			var rot = (float)(360 + Math.Atan2(y2 - y1, x2 - x1) * (180 / Math.PI)) % 360;
 
-			_result.BlueprintVoidWalls.Add(new LPVoidWall(pcx, pcy, len, rot));
+			_result.BlueprintVoidWalls.Add(new VoidWallBlueprint(pcx, pcy, len, rot));
 		}
 
 		private void AddVoidWallHorz(List<string> methodParameter)
@@ -116,7 +112,7 @@ namespace GridDominance.Levelfileformat.Parser
 			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 			var rot = 0;
 
-			_result.BlueprintVoidWalls.Add(new LPVoidWall(pcx, pcy, len, rot));
+			_result.BlueprintVoidWalls.Add(new VoidWallBlueprint(pcx, pcy, len, rot));
 		}
 
 		private void AddVoidWallVert(List<string> methodParameter)
@@ -126,7 +122,7 @@ namespace GridDominance.Levelfileformat.Parser
 			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 			var rot = 90;
 
-			_result.BlueprintVoidWalls.Add(new LPVoidWall(pcx, pcy, len, rot));
+			_result.BlueprintVoidWalls.Add(new VoidWallBlueprint(pcx, pcy, len, rot));
 		}
 
 		private void AddVoidWallRot(List<string> methodParameter)
@@ -136,7 +132,7 @@ namespace GridDominance.Levelfileformat.Parser
 			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 			var rot = ExtractNumberParameter(methodParameter, 2);
 
-			_result.BlueprintVoidWalls.Add(new LPVoidWall(pcx, pcy, len, rot));
+			_result.BlueprintVoidWalls.Add(new VoidWallBlueprint(pcx, pcy, len, rot));
 		}
 
 		private void AddVoidCircle(List<string> methodParameter)
@@ -145,7 +141,7 @@ namespace GridDominance.Levelfileformat.Parser
 			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
 			var dia = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 
-			_result.BlueprintVoidCircles.Add(new LPVoidCircle(pcx, pcy, dia));
+			_result.BlueprintVoidCircles.Add(new VoidCircleBlueprint(pcx, pcy, dia));
 		}
 	}
 }

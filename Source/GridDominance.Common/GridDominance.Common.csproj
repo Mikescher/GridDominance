@@ -34,16 +34,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Graphfileformat\Parser\WGPipe.cs" />
-    <Compile Include="Graphfileformat\Parser\WGNode.cs" />
-    <Compile Include="Graphfileformat\Parser\WorldGraphFile.cs" />
-    <Compile Include="Graphfileformat\Parser\WorldGraphFileParser.cs" />
+    <Compile Include="Graphfileformat\Blueprint\INodeBlueprint.cs" />
+    <Compile Include="Graphfileformat\Blueprint\RootNodeBlueprint.cs" />
+    <Compile Include="Graphfileformat\Blueprint\PipeBlueprint.cs" />
+    <Compile Include="Graphfileformat\Blueprint\NodeBlueprint.cs" />
+    <Compile Include="Graphfileformat\Blueprint\GraphBlueprint.cs" />
+    <Compile Include="Graphfileformat\Blueprint\GraphParser.cs" />
     <Compile Include="Graphfileformat\Pipeline\GDWorldGraphReader.cs" />
-    <Compile Include="Levelfileformat\Parser\LevelFile.cs" />
-    <Compile Include="Levelfileformat\Parser\LevelFileParser.cs" />
-    <Compile Include="Levelfileformat\Parser\LPVoidCircle.cs" />
-    <Compile Include="Levelfileformat\Parser\LPVoidWall.cs" />
-    <Compile Include="Levelfileformat\Parser\LPCannon.cs" />
+    <Compile Include="Levelfileformat\Blueprint\LevelBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\LevelParser.cs" />
+    <Compile Include="Levelfileformat\Blueprint\VoidCircleBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\VoidWallBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\CannonBlueprint.cs" />
     <Compile Include="SAMScriptParser\ParsingException.cs" />
     <Compile Include="Levelfileformat\Pipeline\GDLevelReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

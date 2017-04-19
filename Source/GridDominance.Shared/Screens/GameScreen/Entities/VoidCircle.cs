@@ -1,13 +1,10 @@
 ﻿using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using GridDominance.Levelfileformat.Parser;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -29,7 +26,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		public Body PhysicsBody;
 		public Fixture PhysicsFixture;
 		
-		public VoidCircle(GDGameScreen scrn, LPVoidCircle blueprint) : base(scrn, GDConstants.ORDER_GAME_WALL)
+		public VoidCircle(GDGameScreen scrn, VoidCircleBlueprint blueprint) : base(scrn, GDConstants.ORDER_GAME_WALL)
 		{
 			var pos   = new Vector2(blueprint.X, blueprint.Y);
 

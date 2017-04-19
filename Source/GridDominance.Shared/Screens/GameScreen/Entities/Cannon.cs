@@ -4,9 +4,8 @@ using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using GridDominance.Levelfileformat.Parser;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Levelformat.Parser;
 using GridDominance.Shared.Screens.ScreenGame.EntityOperations;
 using Microsoft.Xna.Framework;
 using GridDominance.Shared.Screens.ScreenGame.FractionController;
@@ -77,7 +76,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.Entities
 		public Fixture PhysicsFixtureBase;
 		public Fixture PhysicsFixtureBarrel;
 
-		public Cannon(GDGameScreen scrn, LPCannon blueprint, Fraction[] fractions) : base(scrn, GDConstants.ORDER_GAME_CANNON)
+		public Cannon(GDGameScreen scrn, CannonBlueprint blueprint, Fraction[] fractions) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
 			Fraction = fractions[blueprint.Player];
 

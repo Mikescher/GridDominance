@@ -1,5 +1,5 @@
 ﻿using System;
-using GridDominance.Graphfileformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -17,11 +17,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 	public class LevelNodePipe : GameEntity
 	{
 		private const float THICKNESS = 0.275f * GDConstants.TILE_WIDTH;
-		private static readonly Color COLOR_INACTIVE = FlatColors.Silver;
-		private static readonly Color COLOR_ACTIVE   = FlatColors.Silver;
+		private static readonly Color COLOR = FlatColors.Silver;
 
-		public readonly LevelNode NodeSource;
-		public readonly LevelNode NodeSink;
+		public readonly IWorldNode NodeSource;
+		public readonly IWorldNode NodeSink;
 
 		private Vector2 _orbStart;
 		private Vector2 _orbEnd;
@@ -36,7 +35,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
-		public LevelNodePipe(GameScreen scrn, LevelNode start, LevelNode end, WGPipe.Orientation orientation) : base(scrn, GDConstants.ORDER_MAP_PIPE)
+		public LevelNodePipe(GameScreen scrn, IWorldNode start, IWorldNode end, PipeBlueprint.Orientation orientation) : base(scrn, GDConstants.ORDER_MAP_PIPE)
 		{
 			NodeSource = start;
 			NodeSink = end;
@@ -49,11 +48,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			InitCurvature();
 		}
 
-		private FlatCurve12 GetCurve(LevelNode start, LevelNode end, WGPipe.Orientation o)
+		private FlatCurve12 GetCurve(IWorldNode start, IWorldNode end, PipeBlueprint.Orientation o)
 		{
-			var cw   = (o == WGPipe.Orientation.Clockwise);
-			var ccw  = (o == WGPipe.Orientation.Counterclockwise);
-			var auto = (o == WGPipe.Orientation.Auto);
+			var cw   = (o == PipeBlueprint.Orientation.Clockwise);
+			var ccw  = (o == PipeBlueprint.Orientation.Counterclockwise);
+			var auto = (o == PipeBlueprint.Orientation.Auto);
 
 			if (FloatMath.EpsilonEquals(start.Position.X, end.Position.X))
 			{
@@ -222,10 +221,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			var c = NodeSource.LevelData.CompletionCount > 0 ? COLOR_ACTIVE : COLOR_INACTIVE;
-
-			if (rectHorz != null) sbatch.FillRectangle(rectHorz.Value, c);
-			if (rectVert != null) sbatch.FillRectangle(rectVert.Value, c);
+			if (rectHorz != null) sbatch.FillRectangle(rectHorz.Value, COLOR);
+			if (rectVert != null) sbatch.FillRectangle(rectVert.Value, COLOR);
 		}
 
 		public Vector2 GetOrbPosition(float distance)

@@ -1,4 +1,4 @@
-﻿using GridDominance.Levelfileformat.Parser;
+﻿using GridDominance.Levelfileformat.Blueprint;
 using MSHC.Math.Geometry;
 using System;
 using System.Text;
@@ -10,11 +10,11 @@ namespace GridDominance.DSLEditor.Drawing
 		private const int MAPWIDTH  = 16 + 17;
 		private const int MAPHEIGHT = 10 + 11;
 
-		private LevelFile level;
+		private readonly LevelBlueprint level;
 
 		private char[,] chrmap;
 
-		public LevelAsciiDrawer(LevelFile f)
+		public LevelAsciiDrawer(LevelBlueprint f)
 		{
 			level = f;
 		}
@@ -29,7 +29,7 @@ namespace GridDominance.DSLEditor.Drawing
 			foreach (var c in level.BlueprintVoidCircles) DrawVoidCircle(c);
 		}
 
-		private void DrawCannon(LPCannon c)
+		private void DrawCannon(CannonBlueprint c)
 		{
 			var x = c.X / 64;
 			var y = c.Y / 64;
@@ -58,7 +58,7 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 		}
 
-		private void DrawVoidWall(LPVoidWall w)
+		private void DrawVoidWall(VoidWallBlueprint w)
 		{
 			var wx = w.X / 64;
 			var wy = w.Y / 64;
@@ -158,7 +158,7 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 		}
 
-		private void DrawVoidCircle(LPVoidCircle c)
+		private void DrawVoidCircle(VoidCircleBlueprint c)
 		{
 			var x = c.X / 64;
 			var y = c.Y / 64;

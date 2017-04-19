@@ -1,15 +1,15 @@
-﻿using GridDominance.Graphfileformat.Parser;
-using GridDominance.Graphfileformat.Pipeline;
+﻿using GridDominance.Graphfileformat.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using System;
+using GridDominance.Graphfileformat.Blueprint;
 
 namespace GridDominance.Content.Pipeline.GDWorldGraph
 {
 	[ContentTypeWriter]
-	public class GDWorldGraphWriter : ContentTypeWriter<WorldGraphFile>
+	public class GDWorldGraphWriter : ContentTypeWriter<GraphBlueprint>
 	{
-		protected override void Write(ContentWriter output, WorldGraphFile value)
+		protected override void Write(ContentWriter output, GraphBlueprint value)
 		{
 			var start = output.BaseStream.Position;
 			value.BinarySerialize(output);
@@ -20,7 +20,7 @@ namespace GridDominance.Content.Pipeline.GDWorldGraph
 		
 		public override string GetRuntimeType(TargetPlatform targetPlatform)
 		{
-			return typeof(WorldGraphFile).AssemblyQualifiedName;
+			return typeof(GraphBlueprint).AssemblyQualifiedName;
 		}
 
 		public override string GetRuntimeReader(TargetPlatform targetPlatform)

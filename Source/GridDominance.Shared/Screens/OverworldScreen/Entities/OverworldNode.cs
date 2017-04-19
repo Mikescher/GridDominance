@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GridDominance.Graphfileformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
@@ -30,14 +30,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public override Color DebugIdentColor { get; } = Color.Blue;
 
 		private readonly string _description;
-		private readonly WorldGraphFile _graph;
+		private readonly GraphBlueprint _graph;
 		private readonly GameEntityMouseArea clickArea;
 
 		private readonly Dictionary<FractionDifficulty, float> solvedPerc = new Dictionary<FractionDifficulty, float>();
 
 		public float AlphaOverride = 1f;
 
-		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, string text, WorldGraphFile graph) : base(scrn, GDConstants.ORDER_WORLD_NODE)
+		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, string text, GraphBlueprint graph) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
 			_description = text;
 			_graph = graph;

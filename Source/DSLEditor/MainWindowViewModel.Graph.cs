@@ -1,10 +1,10 @@
 ﻿using GridDominance.DSLEditor.Drawing;
 using GridDominance.DSLEditor.Helper;
-using GridDominance.Graphfileformat.Parser;
-using GridDominance.Levelformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
 using System;
 using System.Diagnostics;
 using System.IO;
+using GridDominance.SAMScriptParser;
 
 namespace GridDominance.DSLEditor
 {
@@ -100,9 +100,9 @@ namespace GridDominance.DSLEditor
 			}
 		}
 
-		private WorldGraphFile ParseGraphFile()
+		private GraphBlueprint ParseGraphFile()
 		{
-			return new WorldGraphFileParser(Code).Parse();
+			return new GraphParser(Code).Parse();
 		}
 	}
 }

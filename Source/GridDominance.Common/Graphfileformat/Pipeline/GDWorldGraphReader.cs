@@ -1,13 +1,13 @@
-﻿using GridDominance.Graphfileformat.Parser;
+﻿using GridDominance.Graphfileformat.Blueprint;
 using Microsoft.Xna.Framework.Content;
 
 namespace GridDominance.Graphfileformat.Pipeline
 {
-	public class GDWorldGraphReader : ContentTypeReader<WorldGraphFile>
+	public class GDWorldGraphReader : ContentTypeReader<GraphBlueprint>
 	{
-		protected override WorldGraphFile Read(ContentReader input, WorldGraphFile existingInstance)
+		protected override GraphBlueprint Read(ContentReader input, GraphBlueprint existingInstance)
 		{
-			var lf = new WorldGraphFile();
+			var lf = new GraphBlueprint();
 
 			lf.BinaryDeserialize(input);
 

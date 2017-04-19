@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GridDominance.Graphfileformat.Parser;
-using GridDominance.Levelfileformat.Parser;
-using GridDominance.Levelformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame.Fractions;
@@ -34,13 +33,13 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 		private readonly FractionDifficulty? gainLevel;
 		private readonly bool successScreen;
 		private readonly PlayerProfile profile;
-		private readonly LevelFile Level;
+		private readonly LevelBlueprint Level;
 		private readonly int increasePoints;
 
 		private HUDIconTextButton btnMenu;
 		private HUDIconTextButton btnNext;
 
-		public HUDScorePanel(LevelFile lvl, PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon, int pointInc)
+		public HUDScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon, int pointInc)
 		{
 			gainLevel = newDifficulty;
 			successScreen = playerHasWon;
@@ -336,7 +335,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 			#endregion
 		}
 
-		private Tuple<LevelFile, FractionDifficulty> GetNextNode()
+		private Tuple<LevelBlueprint, FractionDifficulty> GetNextNode()
 		{
 			var currNode = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == GDScreen.Blueprint.UniqueID);
 			var diff = GDScreen.Difficulty;
@@ -348,7 +347,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
 			}
 
-			var nodestack = new Stack<WGNode>();
+			var nodestack = new Stack<NodeBlueprint>();
 			foreach (var n in currNode.OutgoingPipes.Select(lid => GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target))) nodestack.Push(n);
 			while (nodestack.Any())
 			{

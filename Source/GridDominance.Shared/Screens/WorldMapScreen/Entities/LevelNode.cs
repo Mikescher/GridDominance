@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GridDominance.Graphfileformat.Parser;
-using GridDominance.Levelfileformat.Parser;
-using GridDominance.Levelformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame;
@@ -24,7 +23,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
-	public class LevelNode : GameEntity
+	public class LevelNode : GameEntity, IWorldNode
 	{
 		public  const float DIAMETER        = 2.75f          * GDConstants.TILE_WIDTH;
 		private const float WIDTH_EXTENDER  = (1496f / 768f) * GDConstants.TILE_WIDTH;
@@ -46,7 +45,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private GDWorldMapScreen GDScreen => (GDWorldMapScreen) Owner;
 
-		public readonly LevelFile Level;
+		public readonly LevelBlueprint Level;
 		public readonly LevelData LevelData;
 
 		public override Vector2 Position { get; }
@@ -75,7 +74,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public bool NodeEnabled = false;
 
-		public LevelNode(GDWorldMapScreen scrn, Vector2 pos, LevelFile lvlf, LevelData lvldat) : base(scrn, GDConstants.ORDER_MAP_NODE)
+		public LevelNode(GDWorldMapScreen scrn, Vector2 pos, LevelBlueprint lvlf, LevelData lvldat) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));
@@ -127,7 +126,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 		}
 
-		public void CreatePipe(LevelNode target, WGPipe.Orientation orientation)
+		public void CreatePipe(LevelNode target, PipeBlueprint.Orientation orientation)
 		{
 			NextLinkedNodes.Add(target);
 

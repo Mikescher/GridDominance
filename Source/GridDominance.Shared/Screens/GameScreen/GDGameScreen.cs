@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
-using GridDominance.Graphfileformat.Parser;
-using GridDominance.Levelfileformat.Parser;
+using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Screens.ScreenGame.Background;
 using GridDominance.Shared.Screens.ScreenGame.Entities;
 using GridDominance.Shared.Screens.ScreenGame.hud;
-using GridDominance.Levelformat.Parser;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
@@ -70,15 +69,15 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private Fraction fractionComputer2;
 		private Fraction fractionComputer3;
 
-		public readonly LevelFile Blueprint;
-		public readonly WorldGraphFile WorldBlueprint;
+		public readonly LevelBlueprint Blueprint;
+		public readonly GraphBlueprint WorldBlueprint;
 		public readonly FractionDifficulty Difficulty;
 
 
 		public bool HasFinished = false;
 		public float LevelTime = 0f;
 
-		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelFile bp, FractionDifficulty diff, WorldGraphFile ws) : base(game, gdm)
+		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, GraphBlueprint ws) : base(game, gdm)
 		{
 			Blueprint = bp;
 			WorldBlueprint = ws;
