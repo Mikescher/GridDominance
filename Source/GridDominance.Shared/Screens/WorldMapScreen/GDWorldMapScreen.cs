@@ -183,9 +183,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 #endif
 		}
 
-		public LevelNode GetInitialNode()
+		public IWorldNode GetInitialNode()
 		{
-			LevelNode n;
+			IWorldNode n;
 
 			n = GetInitialNode(FractionDifficulty.DIFF_0);
 			if (n != null) return n;
@@ -199,19 +199,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			n = GetInitialNode(FractionDifficulty.DIFF_3);
 			if (n != null) return n;
 
-			return Graph.InitialNode;
+			return Graph.InitialNode; // can practically not happen
 		}
 
-		private LevelNode GetInitialNode(FractionDifficulty d)
+		private IWorldNode GetInitialNode(FractionDifficulty d)
 		{
-			var nodes = new Stack<LevelNode>();
+			var nodes = new Stack<IWorldNode>();
 			nodes.Push(Graph.InitialNode);
 
 			while (nodes.Any())
 			{
 				var node = nodes.Pop();
 
-				if (!node.LevelData.HasCompleted(d)) return node;
+				var lnode = node as LevelNode;
+				if (lnode != null && !lnode.LevelData.HasCompleted(d)) return node;
 
 				foreach (var nn in node.NextLinkedNodes) nodes.Push(nn);
 			}

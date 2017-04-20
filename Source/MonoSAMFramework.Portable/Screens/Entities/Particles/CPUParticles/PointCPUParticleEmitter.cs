@@ -4,7 +4,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 {
-	public class PointParticleEmitter : CPUParticleEmitter
+	public class PointCPUParticleEmitter : CPUParticleEmitter
 	{
 		private Vector2 _position;
 		public override Vector2 Position => _position;
@@ -12,7 +12,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 		private FSize _boundingbox;
 		public override FSize DrawingBoundingBox => _boundingbox;
 
-		public PointParticleEmitter(GameScreen scrn, Vector2 pos, ParticleEmitterConfig cfg, int order) : base(scrn, cfg, order)
+		public PointCPUParticleEmitter(GameScreen scrn, Vector2 pos, ParticleEmitterConfig cfg, int order) : base(scrn, cfg, order)
 		{
 			_position = pos;
 		}

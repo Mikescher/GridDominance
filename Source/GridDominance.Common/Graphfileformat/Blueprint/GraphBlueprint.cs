@@ -23,9 +23,14 @@ namespace GridDominance.Graphfileformat.Blueprint
 
 			bw.Write(RootNode.X);
 			bw.Write(RootNode.Y);
+			bw.Write((byte)RootNode.OutgoingPipes.Count);
+			for (int j = 0; j < RootNode.OutgoingPipes.Count; j++)
+			{
+				bw.Write(RootNode.OutgoingPipes[j].Target.ToByteArray());
+				bw.Write((byte)RootNode.OutgoingPipes[j].PipeOrientation);
+			}
 
 			bw.Write((byte)Nodes.Count);
-
 			for (int i = 0; i < Nodes.Count; i++)
 			{
 				bw.Write(Nodes[i].X);
@@ -50,9 +55,18 @@ namespace GridDominance.Graphfileformat.Blueprint
 			var header = br.ReadByte();
 			if (header != 0x66) throw new Exception("Missing header");
 
-			float rootx = br.ReadSingle();
-			float rooty = br.ReadSingle();
-			RootNode = new RootNodeBlueprint(rootx, rooty);
+			{
+				float nx = br.ReadSingle();
+				float ny = br.ReadSingle();
+				RootNode = new RootNodeBlueprint(nx, ny);
+				int pcount = br.ReadByte();
+				for (int j = 0; j < pcount; j++)
+				{
+					var pid = new Guid(br.ReadBytes(16));
+					var por = (PipeBlueprint.Orientation)br.ReadByte();
+					RootNode.OutgoingPipes.Add(new PipeBlueprint(pid, por));
+				}
+			}
 
 			int ncount = br.ReadByte();
 
@@ -68,8 +82,7 @@ namespace GridDominance.Graphfileformat.Blueprint
 				int pcount = br.ReadByte();
 				for (int j = 0; j < pcount; j++)
 				{
-					var b = br.ReadBytes(16);
-					var pid = new Guid(b);
+					var pid = new Guid(br.ReadBytes(16));
 					var por = (PipeBlueprint.Orientation)br.ReadByte();
 					node.OutgoingPipes.Add(new PipeBlueprint(pid, por));
 				}

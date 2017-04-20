@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace GridDominance.Shared.Resources
 {
@@ -24,11 +25,12 @@ namespace GridDominance.Shared.Resources
 		public const int ORDER_GAME_WALL           = 100;
 		public const int ORDER_GAME_CANNON         = 110;
 		public const int ORDER_GAME_BULLETPARTICLE = 200;
-		public const int ORDER_GAME_BULLETS        = 210;
+		public const int ORDER_GAME_BULLETS        = 210; //TODO Bullets behind cannons ?
 
-		public const int ORDER_MAP_PIPE = 100;
-		public const int ORDER_MAP_ORB  = 110;
-		public const int ORDER_MAP_NODE = 200;
+		public const int ORDER_MAP_PIPE          = 100;
+		public const int ORDER_MAP_ORB           = 110;
+		public const int ORDER_MAP_NODE          = 200;
+		public const int ORDER_MAP_NODEPARTICLES = 210;
 
 		public const int ORDER_WORLD_NODE = 100;
 		public const int ORDER_WORLD_LOGO = 200;

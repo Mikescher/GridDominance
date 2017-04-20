@@ -41,7 +41,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private const float CLOSING_TIME   = 0.25f;
 		private const float CENTERING_TIME = 0.55f;
 
-		private const float ORB_SPAWN_TIME = 0.35f;
+		public const float ORB_SPAWN_TIME = 0.35f;
 
 		private GDWorldMapScreen GDScreen => (GDWorldMapScreen) Owner;
 
@@ -51,6 +51,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.SandyBrown;
+		IEnumerable<IWorldNode> IWorldNode.NextLinkedNodes => NextLinkedNodes;
 
 		private Vector2 centeringStartOffset;
 
@@ -69,6 +70,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public readonly List<LevelNode> NextLinkedNodes = new List<LevelNode>();
 		public readonly List<LevelNodePipe> OutgoingPipes = new List<LevelNodePipe>();
+
 
 		public BistateProgress State = BistateProgress.Initial;
 
@@ -118,7 +120,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			foreach (var t in OutgoingPipes)
 			{
-				if (!t.NodeSource.IsInViewport && !t.NodeSource.IsInViewport) return;
+				if (!((GameEntity)t.NodeSource).IsInViewport && !((GameEntity)t.NodeSink).IsInViewport) return;
 
 				var orb = new ConnectionOrb(Owner, t, d);
 
