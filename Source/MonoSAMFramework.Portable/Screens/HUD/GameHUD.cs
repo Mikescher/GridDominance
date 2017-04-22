@@ -127,5 +127,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 			return _keyboard;
 		}
+
+		public void Validate()
+		{
+			root.ValidateRecursive();
+		}
 	}
 }

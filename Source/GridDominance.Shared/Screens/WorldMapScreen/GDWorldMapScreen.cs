@@ -106,11 +106,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				ZoomOut();
 			}
 
-			if (ZoomState == BistateProgress.Expanded && istate.IsGesturePinchComplete && istate.LastPinchPower < -10)
-			{
-				MainGame.Inst.SetOverworldScreen();
-			}
-
 			if (ZoomState == BistateProgress.Expanded && istate.IsGesturePinchComplete && istate.LastPinchPower > +10)
 			{
 				ZoomIn(istate.GamePointerPositionOnMap);

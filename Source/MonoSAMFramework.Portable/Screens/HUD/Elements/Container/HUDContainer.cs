@@ -127,5 +127,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 				foreach (var subchild in child.EnumerateElements()) yield return subchild;
 			}
 		}
+
+		public override void ValidateRecursive()
+		{
+			base.ValidateRecursive();
+
+			foreach (var child in children) child.ValidateRecursive();
+		}
 	}
 }

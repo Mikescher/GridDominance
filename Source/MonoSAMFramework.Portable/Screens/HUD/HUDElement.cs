@@ -381,5 +381,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			/* OVERRIDE ME */
 		}
+
+		public virtual void ValidateRecursive()
+		{
+			if (PositionInvalidated) RecalculatePosition();
+		}
 	}
 }

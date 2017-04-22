@@ -17,6 +17,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Operation;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
@@ -24,6 +25,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 	{
 		public const float DIAMETER = 3f * GDConstants.TILE_WIDTH;
 		public const float INNER_DIAMETER = 2f * GDConstants.TILE_WIDTH;
+
+		private GDWorldMapScreen GDOwner => (GDWorldMapScreen) Owner;
 
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
@@ -74,7 +77,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClick(GameEntityMouseArea sender, SAMTime gameTime, InputState istate)
 		{
-			Owner.AddAgent(new LeaveTransitionAgent((GDWorldMapScreen) Owner));
+			if (GDOwner.ZoomState != BistateProgress.Normal) return;
+
+			Owner.AddAgent(new LeaveTransitionAgent(GDOwner));
 			MainGame.Inst.GDSound.PlayEffectZoomOut();
 		}
 

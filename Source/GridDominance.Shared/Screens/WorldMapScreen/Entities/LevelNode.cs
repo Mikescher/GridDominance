@@ -37,6 +37,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private static readonly Color COLOR_DEACTIVATED = FlatColors.Silver;
 		private static readonly Color COLOR_BORDER = FlatColors.MidnightBlue;
 
+		private GDWorldMapScreen GDOwner => (GDWorldMapScreen)Owner;
+
 		private const float EXPANSION_TIME = 0.7f;
 		private const float CLOSING_TIME   = 0.25f;
 		private const float CENTERING_TIME = 0.55f;
@@ -139,6 +141,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClickCenter(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
+			if (GDOwner.ZoomState != BistateProgress.Normal) return;
+
 			if (State == BistateProgress.Closed)
 			{
 				OpenNode();

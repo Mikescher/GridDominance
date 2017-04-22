@@ -97,6 +97,8 @@ namespace MonoSAMFramework.Portable.Screens
 
 			DebugDisp = new DummyDebugTextDisplay();
 
+			GameHUD.Validate();
+
 #if DEBUG
 			FPSCounter = new RealtimeAPSCounter();
 			UPSCounter = new RealtimeAPSCounter();

@@ -22,13 +22,13 @@ Cannon(SIZE_SMALL, A3, [14,  9], ROT_W)
 Cannon(SIZE_SMALL, N0, [8,  8.5], ROT_N)
 
 Voidwall([4,7], [6,7])
-Voidwall([4,3], [4,7])
+Voidwall([4,4], [4,7])
 
 Voidwall([10,7], [12,7])
-Voidwall([12,3], [12,7])
+Voidwall([12,4], [12,7])
 
 
-Voidwall([8,-10], [8,3])
+Voidwall([8,-10], [8,2])
 
 
 
@@ -42,11 +42,11 @@ Voidwall([8,-10], [8,3])
 #        0 #                |                #
 #              <O>     <O>  |  <O>     <O>    
 #        1 #                |                #
-#                           |                 
-#        2 #                |                #
 #                                             
-#        3 #        |               |        #
-#                   |               |         
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                                             
 #        4 #        |               |        #
 #              <O>  |  <O>     <O>  |  <O>    
 #        5 #        |               |        #

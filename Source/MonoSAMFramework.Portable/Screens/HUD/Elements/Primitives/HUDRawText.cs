@@ -20,7 +20,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		public string Text
 		{
 			get { return _text; }
-			set { _text = value; InvalidatePosition(); }
+			set { if (_text != value) { _text = value; InvalidatePosition(); } }
 		}
 
 		public float Alpha = 1f;
@@ -33,7 +33,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		public float FontSize
 		{
 			get { return _fontSize; }
-			set { _fontSize = value; InvalidatePosition(); }
+			set { if (_fontSize != value) {_fontSize = value; InvalidatePosition(); } }
 		}
 
 		public SpriteFont Font;
