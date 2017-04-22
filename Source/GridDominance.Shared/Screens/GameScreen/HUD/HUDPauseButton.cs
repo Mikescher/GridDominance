@@ -130,7 +130,10 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		private void OnExit()
 		{
-			MainGame.Inst.SetWorldMapScreen(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID);
+			if (GDScreen.IsTutorial)
+				MainGame.Inst.SetOverworldScreen();
+			else
+				MainGame.Inst.SetWorldMapScreen(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID);
 		}
 
 		protected override void OnPress(InputState istate)
@@ -159,7 +162,7 @@ namespace GridDominance.Shared.Screens.ScreenGame.HUD
 
 		protected override void OnHold(InputState istate, float holdTime)
 		{
-			this.GDHUD().GDOwner.GDOwner.SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, GDScreen.WorldBlueprint);
+			// Not Available
 		}
 
 		protected override void OnEnabledChanged(bool newValue)

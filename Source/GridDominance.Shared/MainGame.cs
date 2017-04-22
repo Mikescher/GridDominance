@@ -91,11 +91,12 @@ namespace GridDominance.Shared
 
 		protected override void OnInitialize()
 		{
+#if __DESKTOP__
+
 //			const double ZOOM = 0.925;
 			const double ZOOM = 0.625;
 //			const double ZOOM = 0.325;
 
-#if __DESKTOP__
 			IsMouseVisible = true;
 			Graphics.IsFullScreen = false;
 
@@ -160,6 +161,10 @@ namespace GridDominance.Shared
 			SetCurrentScreen(screen);
 			screen.AddAgent(new ReappearTransitionAgent(screen, bp));
 		}
+		public void SetTutorialLevelScreen()
+		{
+			SetCurrentScreen(new GDGameScreen(this, Graphics, Levels.LEVEL_TUTORIAL));
+		}
 
 		protected override void LoadContent()
 		{
@@ -211,7 +216,6 @@ namespace GridDominance.Shared
 			DebugDisplay.AddDecayLine("Profile reset", 5f, 1f, 1f);
 		}
 #endif
-
 	}
 }
 

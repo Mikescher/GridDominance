@@ -133,7 +133,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			return c * 1f / Graph.Nodes.Count;
 		}
 
-		private bool IsCellActive(FractionDifficulty d, int idx) // TODO Get correct score for this map
+		private bool IsCellActive(FractionDifficulty d, int idx)
 		{
 			bool active;
 

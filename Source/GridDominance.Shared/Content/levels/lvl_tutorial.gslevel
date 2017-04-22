@@ -1,0 +1,48 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+
+init("X-X", "Tutorial", {b16b00b5-0001-4000-9999-000000000002})
+
+include("stdvalues")
+
+Cannon(SIZE_NORMAL, P1, [ 3, 8], ROT_E)
+Cannon(SIZE_NORMAL, A3, [13, 8], ROT_W)
+
+VoidWall([8, 5], [8, 20])
+VoidWall_H([8, 5], 6)
+
+Cannon(SIZE_NORMAL, N0, [ 3, 3], ROT_E)
+Cannon(SIZE_NORMAL, N0, [13, 3], ROT_W)
+
+Cannon(SIZE_SMALL, N0, [8, 2], ROT_W)
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #                                 #
+#                          <O>                
+#        2 #                                 #
+#                <O>                 <O>      
+#        3 #                                 #
+#                                             
+#        4 #                                 #
+#                      -----------            
+#        5 #                |                #
+#                           |                 
+#        6 #                |                #
+#                           |                 
+#        7 #     / \        |        / \     #
+#                 O         |         O       
+#        8 #     \ /        |        \ /     #
+#                           |                 
+#        9 #                |                #
+#                           |                 
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

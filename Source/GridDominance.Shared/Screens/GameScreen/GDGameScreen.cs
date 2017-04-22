@@ -77,11 +77,28 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public bool HasFinished = false;
 		public float LevelTime = 0f;
 
+		public readonly bool IsTutorial;
+
 		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, GraphBlueprint ws) : base(game, gdm)
 		{
+			IsTutorial = false;
+
 			Blueprint = bp;
 			WorldBlueprint = ws;
 			Difficulty = diff;
+
+			Initialize();
+		}
+
+		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp) : base(game, gdm)
+		{
+			IsTutorial = true;
+
+			//TUTORIAL
+
+			Blueprint = bp;
+			WorldBlueprint = null;
+			Difficulty = FractionDifficulty.DIFF_0;
 
 			Initialize();
 		}
@@ -265,12 +282,18 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public void RestartLevel()
 		{
-			GDOwner.SetLevelScreen(Blueprint, Difficulty, WorldBlueprint);
+			if (IsTutorial)
+				GDOwner.SetTutorialLevelScreen();
+			else
+				GDOwner.SetLevelScreen(Blueprint, Difficulty, WorldBlueprint);
 		}
 
 		public void ReplayLevel(FractionDifficulty diff)
 		{
-			GDOwner.SetLevelScreen(Blueprint, diff, WorldBlueprint);
+			if (IsTutorial)
+				GDOwner.SetTutorialLevelScreen();
+			else
+				GDOwner.SetLevelScreen(Blueprint, diff, WorldBlueprint);
 		}
 	}
 }

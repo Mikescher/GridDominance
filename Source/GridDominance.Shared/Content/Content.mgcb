@@ -285,3 +285,8 @@
 /processorParam:Quality=Best
 /build:sounds/zoomout.mp3
 
+#begin levels/lvl_tutorial.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl_tutorial.gslevel
+

@@ -12,17 +12,19 @@ namespace GridDominance.Shared.Resources
 	{
 		public static GraphBlueprint WORLD_001;
 
+		public static LevelBlueprint LEVEL_TUTORIAL;
+		public static LevelBlueprint LEVEL_DBG;
+
 		public static List<GraphBlueprint> WORLDS;
 		public static Dictionary<Guid, LevelBlueprint> LEVELS;
-
-		public static LevelBlueprint LEVEL_DBG;
 
 		public static void LoadContent(ContentManager content)
 		{
 			LEVELS = new Dictionary<Guid, LevelBlueprint>();
 			WORLDS = new List<GraphBlueprint>();
 
-			LEVEL_DBG = LoadLevel(content, "levels/lvl_debug");
+			LEVEL_DBG      = LoadLevel(content, "levels/lvl_debug");
+			LEVEL_TUTORIAL = LoadLevel(content, "levels/lvl_tutorial");
 
 			LoadLevel(content, "levels/lvl001");
 			LoadLevel(content, "levels/lvl002");
