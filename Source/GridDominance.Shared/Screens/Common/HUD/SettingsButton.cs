@@ -24,8 +24,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public float OpeningProgress = 0f;
 		public SubSettingButton[] SubButtons;
 
-		public bool isOpening = false;
-		public bool isClosing = false;
+		public BistateProgress OpeningState = BistateProgress.Closed;
 
 		public SettingsButton()
 		{
@@ -56,7 +55,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			rotation += gameTime.ElapsedSeconds * RotationSpeed;
 
-			if (istate.IsRealJustDown && !isClosing && !isOpening && !IsPressed && SubButtons != null && !SubButtons.Any(p => p.IsPressed))
+			if (istate.IsRealJustDown && OpeningState == BistateProgress.Open && !IsPressed && SubButtons != null && !SubButtons.Any(p => p.IsPressed))
 			{
 				// Close when clicked somewhere else
 				AddHUDOperation(new HUDSettingsCloseOperation());
@@ -65,21 +64,22 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public void Close()
 		{
-			if (isClosing) return;
+			if (OpeningState == BistateProgress.Closing) return;
+			if (OpeningState == BistateProgress.Closed) return;
 
-			if (isOpening) RemoveAllOperations();
+			if (OpeningState == BistateProgress.Opening) RemoveAllOperations();
 
 			AddHUDOperation(new HUDSettingsCloseOperation());
 		}
 
 		protected override void OnPress(InputState istate)
 		{
-			if (!isOpening && FloatMath.IsZero(OpeningProgress))
+			if (OpeningState == BistateProgress.Closed)
 			{
 				AddCagedHUDOperationSequence<SettingsButton>(
-					e => e.isOpening = true,
-					e => e.isOpening = false,
-					new HUDSettingsOpenOperation(), 
+					e => e.OpeningState = BistateProgress.Opening,
+					e => e.OpeningState = BistateProgress.Open,
+					new HUDSettingsOpenOperation(),
 					new HUDSettingsFontAppearOperation(0),
 					new HUDSettingsFontAppearOperation(1),
 					new HUDSettingsFontAppearOperation(2),
@@ -87,7 +87,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					new HUDSettingsFontAppearOperation(4)
 					);
 			}
-			else if (! isClosing && FloatMath.IsOne(OpeningProgress))
+			else if (OpeningState == BistateProgress.Open)
 			{
 				AddHUDOperation(new HUDSettingsCloseOperation());
 			}
