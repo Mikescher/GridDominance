@@ -16,6 +16,7 @@ using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using MonoSAMFramework.Portable.Screens.Entities.Operation;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
+using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
@@ -73,8 +74,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClick(GameEntityMouseArea sender, SAMTime gameTime, InputState istate)
 		{
-			//TODO evtl transition effect + sound
-			MainGame.Inst.SetOverworldScreen();
+			Owner.AddAgent(new LeaveTransitionAgent((GDWorldMapScreen) Owner));
+			MainGame.Inst.GDSound.PlayEffectZoomOut();
 		}
 
 		public void CreatePipe(LevelNode target, PipeBlueprint.Orientation orientation)

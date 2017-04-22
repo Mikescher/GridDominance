@@ -30,17 +30,19 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public override Color DebugIdentColor { get; } = Color.Blue;
 
 		private readonly string _description;
-		private readonly GraphBlueprint _graph;
+		public readonly GraphBlueprint Graph;
 		private readonly GameEntityMouseArea clickArea;
 
 		private readonly Dictionary<FractionDifficulty, float> solvedPerc = new Dictionary<FractionDifficulty, float>();
 
 		public float AlphaOverride = 1f;
 
+		public float FlickerTime = 0f;
+
 		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, string text, GraphBlueprint graph) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
 			_description = text;
-			_graph = graph;
+			Graph = graph;
 			Position = pos;
 
 			clickArea = AddClickMouseArea(FRectangle.CreateByCenter(Vector2.Zero, new FSize(SIZE, SIZE)), OnClick);
@@ -63,7 +65,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
-			//
+			FlickerTime += gameTime.ElapsedSeconds;
 		}
 
 		private void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
@@ -74,7 +76,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			ownr.IsTransitioning = true;
 
-			ownr.AddAgent(new TransitionZoomInAgent(ownr, this, _graph));
+			ownr.AddAgent(new TransitionZoomInAgent(ownr, this, Graph));
 
 			MainGame.Inst.GDSound.PlayEffectZoomIn();
 		}
@@ -126,9 +128,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private float GetSolvePercentage(FractionDifficulty d)
 		{
-			int c = _graph.Nodes.Count(n => MainGame.Inst.Profile.GetLevelData(n.LevelID).HasCompleted(d));
+			int c = Graph.Nodes.Count(n => MainGame.Inst.Profile.GetLevelData(n.LevelID).HasCompleted(d));
 
-			return c * 1f / _graph.Nodes.Count;
+			return c * 1f / Graph.Nodes.Count;
 		}
 
 		private bool IsCellActive(FractionDifficulty d, int idx) // TODO Get correct score for this map
@@ -144,7 +146,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				active = idx <= FloatMath.Floor(solvedPerc[d] * 20);
 			}
 			
-			if (Lifetime > COLLAPSE_TIME)
+			if (FlickerTime > COLLAPSE_TIME)
 			{
 				return active;
 			}
@@ -152,11 +154,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			{
 				if (active)
 				{
-					return FloatMath.GetRandom() < (0.5f + FloatMath.FunctionEaseInOutCubic(Lifetime / COLLAPSE_TIME) / 2f);
+					return FloatMath.GetRandom() < (0.5f + FloatMath.FunctionEaseInOutCubic(FlickerTime / COLLAPSE_TIME) / 2f);
 				}
 				else
 				{
-					return FloatMath.GetRandom() < (0.5f - FloatMath.FunctionEaseInOutCubic(Lifetime / COLLAPSE_TIME) / 2f);
+					return FloatMath.GetRandom() < (0.5f - FloatMath.FunctionEaseInOutCubic(FlickerTime / COLLAPSE_TIME) / 2f);
 				}
 			}
 		}

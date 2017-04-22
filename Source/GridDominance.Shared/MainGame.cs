@@ -154,6 +154,13 @@ namespace GridDominance.Shared
 			SetCurrentScreen(new GDOverworldScreen(this, Graphics));
 		}
 
+		public void SetOverworldScreenWithTransition(GraphBlueprint bp)
+		{
+			var screen = new GDOverworldScreen(this, Graphics);
+			SetCurrentScreen(screen);
+			screen.AddAgent(new ReappearTransitionAgent(screen, bp));
+		}
+
 		protected override void LoadContent()
 		{
 			Textures.Initialize(Content, GraphicsDevice);
