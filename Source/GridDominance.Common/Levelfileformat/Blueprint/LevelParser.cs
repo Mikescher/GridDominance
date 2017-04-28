@@ -9,6 +9,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		private readonly string content;
 		private readonly Func<string, string> includeFinderFunction;
 		private float _scaleFactor = 1f;
+		private int _nextCannonID = 1;
 
 		private LevelBlueprint _result = null;
 
@@ -37,6 +38,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			_result = new LevelBlueprint();
 
 			_scaleFactor = 1f;
+			_nextCannonID = 1;
 
 			StartParse(fileName, content);
 
@@ -60,8 +62,11 @@ namespace GridDominance.Levelfileformat.Blueprint
 			var posX     = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactor;
 			var posY     = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
 			var rotation = ExtractNumberParameter(methodParameter, 3, -1);
+			var cannonid = ExtractIntegerParameter(methodParameter, "id", _nextCannonID);
 
-			_result.BlueprintCannons.Add(new CannonBlueprint(posX, posY, size, player, rotation));
+			_nextCannonID = Math.Max(cannonid + 1, _nextCannonID);
+
+			_result.BlueprintCannons.Add(new CannonBlueprint(posX, posY, size, player, rotation, cannonid));
 		}
 
 		private void IncludeSource(List<string> methodParameter)

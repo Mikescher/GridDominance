@@ -41,6 +41,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			foreach (var cannon in BlueprintCannons)
 			{
 				bw.Write(SERIALIZE_ID_CANNON);
+				bw.Write(cannon.CannonID);
 				bw.Write(cannon.Player);
 				bw.Write(cannon.X);
 				bw.Write(cannon.Y);
@@ -77,13 +78,14 @@ namespace GridDominance.Levelfileformat.Blueprint
 				{
 					case SERIALIZE_ID_CANNON:
 					{
+						var i = br.ReadInt32();
 						var p = br.ReadInt32();
 						var x = br.ReadSingle();
 						var y = br.ReadSingle();
 						var d = br.ReadSingle();
 						var a = br.ReadSingle();
 
-						BlueprintCannons.Add(new CannonBlueprint(x, y, d, p, a));
+						BlueprintCannons.Add(new CannonBlueprint(x, y, d, p, a, i));
 
 						break;
 					}

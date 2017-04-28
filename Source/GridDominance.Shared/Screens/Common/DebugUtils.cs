@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
+using GridDominance.Shared.NormalGameScreen;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
-using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;

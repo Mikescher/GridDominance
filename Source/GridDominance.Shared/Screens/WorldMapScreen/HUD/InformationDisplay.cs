@@ -1,5 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;

@@ -1,0 +1,12 @@
+﻿using GridDominance.Shared.NormalGameScreen;
+using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.Screens.Entities;
+
+namespace GridDominance.Shared.Screens.NormalGameScreen
+{
+	static class EntityHelper
+	{
+		public static GDEntityManager GDManager(this GameEntity e) => (GDEntityManager) e.Manager;
+		public static GDGameScreen GDOwner(this GameEntity e) => (GDGameScreen)e.Owner;
+	}
+}

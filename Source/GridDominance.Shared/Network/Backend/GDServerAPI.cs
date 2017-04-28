@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
-using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Extensions;

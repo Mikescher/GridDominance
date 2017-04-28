@@ -6,6 +6,7 @@ difficulty trophy:
 http://www.flaticon.com/packs/play-football
 
 difficulty teddy:
+toy train:
 http://www.flaticon.com/packs/amusement-park
 
 difficulty medal:

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GridDominance.Shared.Screens.ScreenGame.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;

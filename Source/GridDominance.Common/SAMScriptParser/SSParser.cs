@@ -11,6 +11,7 @@ namespace GridDominance.SAMScriptParser
 	public abstract class SSParser
 	{
 		private static readonly Regex REX_EXPRESSION = new Regex(@"(\d*\.\d+)|(\d+)|([A-Za-z_]+)|[\+\-\*/]");
+		private static readonly Regex REX_NAMEDPARAM = new Regex(@"^\s*(?<name>[a-zA-Z0-9_]+)\s*=\s*(?<value>[^\s]+)$");
 
 		private readonly Dictionary<string, Action<List<string>>> _actions;
 		private readonly Dictionary<string, string> _aliasDict = new Dictionary<string, string>();
@@ -186,6 +187,20 @@ namespace GridDominance.SAMScriptParser
 			return v.Substring(1, v.Length - 2);
 		}
 
+		protected string ExtractValueParameter(List<string> methodParameter, string name, string defaultValue = null)
+		{
+			foreach (var v in methodParameter)
+			{
+				var m = REX_NAMEDPARAM.Match(v);
+				if (!m.Success) continue;
+
+				if (name.ToLower().Trim() == m.Groups["name"].Value.ToLower().Trim()) return DeRef(m.Groups["value"].Value);
+			}
+
+			if (defaultValue != null) return defaultValue;
+			throw new Exception($"Not enough parameter (missing param '{name}')");
+		}
+
 		protected string ExtractValueParameter(List<string> methodParameter, int idx, string defaultValue = null)
 		{
 			if (idx >= methodParameter.Count)
@@ -194,12 +209,22 @@ namespace GridDominance.SAMScriptParser
 				throw new Exception($"Not enough parameter (missing param {idx})");
 			}
 
-			return DeRef(methodParameter[idx]);
+			var v = methodParameter[idx].Trim();
+			var m = REX_NAMEDPARAM.Match(v);
+			if (!m.Success) return DeRef(v);
+
+			return DeRef(m.Groups["value"].Value);
 		}
 
 		protected int ExtractIntegerParameter(List<string> methodParameter, int idx)
 		{
 			var v = ExtractValueParameter(methodParameter, idx);
+			return int.Parse(v);
+		}
+
+		protected int ExtractIntegerParameter(List<string> methodParameter, string name, int? defaultValue = null)
+		{
+			var v = defaultValue.HasValue ? ExtractValueParameter(methodParameter, name, defaultValue.Value.ToString()) : ExtractValueParameter(methodParameter, name);
 
 			return int.Parse(v);
 		}
@@ -213,7 +238,12 @@ namespace GridDominance.SAMScriptParser
 			}
 
 			var v = ExtractValueParameter(methodParameter, idx);
-			
+			return EvaluateFloatExpr(v);
+		}
+
+		protected float ExtractNumberParameter(List<string> methodParameter, string name)
+		{
+			var v = ExtractValueParameter(methodParameter, name);
 			return EvaluateFloatExpr(v);
 		}
 
@@ -227,12 +257,34 @@ namespace GridDominance.SAMScriptParser
 			throw new Exception($"GUID parameter {idx} has invalid syntax: '{v}'");
 		}
 
+		protected Guid ExtractGuidParameter(List<string> methodParameter, string name)
+		{
+			var v = ExtractValueParameter(methodParameter, name);
+
+			Guid g;
+			if (Guid.TryParse(v, out g)) return g;
+
+			throw new Exception($"GUID parameter '{name}' has invalid syntax: '{v}'");
+		}
+
 		protected Tuple<float, float> ExtractVec2fParameter(List<string> methodParameter, int idx)
 		{
 			var v = ExtractListParameter(methodParameter, idx, '[', ']');
-			
+
 			if (v.Count != 2) throw new Exception("Vec2f needs to have exactly 2 components");
-			
+
+			var t1 = EvaluateFloatExpr(v[0]);
+			var t2 = EvaluateFloatExpr(v[1]);
+
+			return Tuple.Create(t1, t2);
+		}
+
+		protected Tuple<float, float> ExtractVec2fParameter(List<string> methodParameter, string name)
+		{
+			var v = ExtractListParameter(methodParameter, name, '[', ']');
+
+			if (v.Count != 2) throw new Exception("Vec2f needs to have exactly 2 components");
+
 			var t1 = EvaluateFloatExpr(v[0]);
 			var t2 = EvaluateFloatExpr(v[1]);
 
@@ -242,6 +294,23 @@ namespace GridDominance.SAMScriptParser
 		protected List<string> ExtractListParameter(List<string> methodParameter, int idx, char cstart, char cend)
 		{
 			var v = ExtractValueParameter(methodParameter, idx);
+
+			if (v[0] != cstart) throw new Exception("Syntax of sublist invalid");
+
+			int ipos = 1;
+			List<string> list = new List<string>();
+			while (ipos < v.Length && v[ipos] != cend)
+			{
+				list.Add(ParseComplexParam(v, ref ipos).Trim());
+			}
+			if (ipos < v.Length) throw new Exception("Could not parse parameter sublist - content after last char");
+
+			return list;
+		}
+
+		protected List<string> ExtractListParameter(List<string> methodParameter, string name, char cstart, char cend)
+		{
+			var v = ExtractValueParameter(methodParameter, name);
 
 			if (v[0] != cstart) throw new Exception("Syntax of sublist invalid");
 
