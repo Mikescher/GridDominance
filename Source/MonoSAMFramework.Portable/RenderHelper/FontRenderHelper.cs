@@ -1,9 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Language;
 using System.Collections.Generic;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
@@ -152,6 +154,89 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				DrawTextCentered(sbatch, font, size, text, color, rect.VecCenter);
 			else
 				DrawTextVerticallyCentered(sbatch, font, size, text, color, new Vector2(rect.X + padding, rect.CenterY));
+		}
+
+		public static List<string> WrapLinesIntoWidth(string text, SpriteFont font, float fontSize, float maxWidth, HUDWordWrap wrap)
+		{
+			var sz = MeasureStringCached(font, text, fontSize);
+
+			if (sz.X < maxWidth) return new List<string> { text };
+
+
+			List<string> lines = new List<string>();
+
+			var remText = text;
+			while (remText.Length > 0)
+			{
+				var line = "";
+				while (remText.Length > 0 && remText[0] != '\n')
+				{
+					var chr = remText[0];
+
+					if (chr == '\r')
+					{
+						remText = remText.Substring(1);
+						continue;
+					}
+
+					var newlen = MeasureStringUncached(font, line + chr, fontSize).X;
+
+					if (line.Length > 1 && newlen > maxWidth)
+					{
+						if (wrap == HUDWordWrap.WrapByCharacter)
+						{
+							break; // break exactly here
+						}
+						else if (wrap == HUDWordWrap.WrapByWordTrusted)
+						{
+							for (int i = line.Length - 1; i > 0; i--) // find last breakable
+							{
+								if (line[i] == ' ' || line[i] == '\t')
+								{
+									remText = line.Substring(i + 1) + remText;
+									line = line.Substring(0, i);
+									break;
+								}
+							}
+
+							break; // break at character
+						}
+						else if (wrap == HUDWordWrap.WrapByWordWithOverflow)
+						{
+							for (int i = line.Length-1; i > 0; i--) // find last breakable
+							{
+								if (line[i] == ' ' || line[i] == '\t')
+								{
+									remText = line.Substring(i + 1) + remText;
+									line = line.Substring(0, i - 1);
+									break;
+								}
+							}
+
+							while (remText.Length > 0 && (remText[0] != ' ' && remText[0] != '\t')) // break at next breakable
+							{
+								line += remText[0];
+								remText = remText.Substring(1);
+							}
+							break;
+						}
+						else throw new ArgumentException("wrap");
+					}
+					else
+					{
+						line += chr;
+						remText = remText.Substring(1);
+					}
+				}
+				lines.Add(line.Trim());
+
+				while (remText.Length > 0 && (remText[0] == ' ' || remText[0] == '\t'))
+				{
+					remText = remText.Substring(1);
+				}
+			}
+
+			return lines;
 		}
 	}
 }

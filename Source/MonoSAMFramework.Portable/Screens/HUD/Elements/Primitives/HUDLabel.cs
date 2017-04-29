@@ -63,6 +63,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { _maxWidth = value; recalcWordWrap = true; }
 		}
 
+		private HUDWordWrap _wordWrap = HUDWordWrap.WrapByCharacter;
+		public HUDWordWrap WordWrap
+		{
+			get { return _wordWrap; }
+			set { _wordWrap = value; recalcWordWrap = true; }
+		}
+
 		public FSize InnerLabelSize => internalText.Size;
 		
 		private bool recalcWordWrap = false;
@@ -104,33 +111,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 				}
 				else
 				{
-					var sz = FontRenderHelper.MeasureStringCached(Font, _text, FontSize);
-
-					if (sz.X < MaxWidth.Value)
-					{
-						internalText.Text = _text;
-					}
-					else
-					{
-						List<string> lines = new List<string>();
-
-						var remText = _text;
-						while (remText.Length > 0)
-						{
-							var line = "";
-							while (remText.Length > 0 && remText[0] != '\n' && FontRenderHelper.MeasureStringUncached(Font, line, FontSize).X < MaxWidth.Value)
-							{
-								var chr = remText[0];
-
-								if (chr != '\r' && chr != '\n') line += remText[0];
-								remText = remText.Substring(1);
-								if (chr == '\n') break;
-							}
-							lines.Add(line.Trim());
-						}
-
-						internalText.Text = string.Join(Environment.NewLine, lines);
-					}
+					internalText.Text = string.Join(Environment.NewLine, FontRenderHelper.WrapLinesIntoWidth(_text, Font, FontSize, MaxWidth.Value, WordWrap));
 				}
 			}
 		}

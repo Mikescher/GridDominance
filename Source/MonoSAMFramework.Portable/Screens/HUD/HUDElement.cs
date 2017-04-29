@@ -207,6 +207,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				case HUDAlignment.ABSOLUTE:
 					px = RelativePosition.X;
 					break;
+				case HUDAlignment.ABSOLUTE_BOTHCENTERED:
+					px = RelativePosition.X - Size.Width / 2;
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
@@ -230,6 +233,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 					break;
 				case HUDAlignment.ABSOLUTE:
 					py = RelativePosition.Y;
+					break;
+				case HUDAlignment.ABSOLUTE_BOTHCENTERED:
+					py = RelativePosition.Y - Size.Height / 2;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

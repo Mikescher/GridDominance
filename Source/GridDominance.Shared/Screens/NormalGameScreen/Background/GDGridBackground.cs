@@ -307,7 +307,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 					if (blockedGridPoints[x, y].Any(p => FloatMath.IsOne(p.CannonHealth.TargetValue)))
 					{
 						var f = blockedGridPoints[x, y].First().Fraction;
-						if (f.IsNeutral) f = null;
+						if (f.IsNeutral) continue;
 
 						ColorGridCellDirect(f, x - 0, y - 0, gameTime.ElapsedSeconds * GRID_ADAPTION_SPEED_DIRECT);
 						ColorGridCellDirect(f, x - 1, y - 0, gameTime.ElapsedSeconds * GRID_ADAPTION_SPEED_DIRECT);

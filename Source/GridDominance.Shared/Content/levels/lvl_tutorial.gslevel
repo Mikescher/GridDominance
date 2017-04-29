@@ -11,10 +11,10 @@ Cannon(SIZE_NORMAL, A3, [13, 8], ROT_W, id=2001)
 VoidWall([8, 5], [8, 20])
 VoidWall_H([8, 5], 6)
 
-Cannon(SIZE_NORMAL, N0, [ 3, 3], ROT_E, id=1002)
-Cannon(SIZE_NORMAL, N0, [13, 3], ROT_W, id=2002)
+Cannon(SIZE_NORMAL, N0, [ 3, 3], ROT_S, id=1002)
+Cannon(SIZE_NORMAL, N0, [13, 3], ROT_S, id=2002)
 
-Cannon(SIZE_SMALL, N0, [8, 2], ROT_W, id=3000)
+Cannon(SIZE_SMALL, N0, [8, 2], ROT_S, id=3000)
 
 
 #<map>

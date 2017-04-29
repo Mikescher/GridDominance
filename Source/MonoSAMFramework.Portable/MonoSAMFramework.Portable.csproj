@@ -191,12 +191,15 @@
     <Compile Include="Screens\HUD\Elements\Keyboard\KeyboardLayout.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDFadeOutInfoBox.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDInfoBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDModalDialog.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\IHUDModalChild.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDImage.cs" />
+    <Compile Include="Screens\HUD\Elements\Primitives\HUDRawMultilineText.cs" />
     <Compile Include="Screens\HUD\EmptyGameHUD.cs" />
     <Compile Include="Screens\HUD\Enums\HUDImageAlignment.cs" />
+    <Compile Include="Screens\HUD\Enums\HUDWordWrap.cs" />
     <Compile Include="Screens\HUD\GameHUD.cs" />
     <Compile Include="Screens\HUD\Elements\Container\HUDContainer.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDEllipseButton.cs" />

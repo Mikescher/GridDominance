@@ -71,7 +71,12 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		//public Rectangle BoundingRectangle => new Rectangle(0, 0, VirtualWidth, VirtualHeight);
 		//public Point Center => BoundingRectangle.Center;
 
-		public FPoint PointToScreen(Point point)
+		public FPoint PointToScreen(Point point) // real to virtual
+		{
+			return PointToScreen(point.X, point.Y);
+		}
+
+		public FPoint PointToScreen(FPoint point)
 		{
 			return PointToScreen(point.X, point.Y);
 		}
@@ -81,6 +86,12 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			var scaleMatrix = GetScaleMatrix();
 			var invertedMatrix = Matrix.Invert(scaleMatrix);
 			return Vector2.Transform(new Vector2(x, y), invertedMatrix).ToFPoint();
+		}
+
+		public virtual FPoint ScreenToPoint(float x, float y) // virtual to real
+		{
+			var scaleMatrix = GetScaleMatrix();
+			return Vector2.Transform(new Vector2(x, y), scaleMatrix).ToFPoint();
 		}
 
 		public virtual void Reset() { }

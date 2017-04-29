@@ -11,7 +11,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 {
-	public class HUDMessageBox : HUDContainer
+	public class HUDInfoBox : HUDContainer
 	{
 		public override int Depth { get; }
 
@@ -47,6 +47,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			set { internalLabel.Alpha = value; }
 		}
 
+		public HUDWordWrap WordWrap
+		{
+			get { return internalLabel.WordWrap; }
+			set { internalLabel.WordWrap = value; innerSizeCache = FSize.Empty; }
+		}
+
 		private FSize _textPadding = new FSize(48, 12);
 		public FSize TextPadding
 		{
@@ -54,17 +60,17 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			set { _textPadding = value; innerSizeCache = FSize.Empty; }
 		}
 
-		private FSize _margin = new FSize(48, 48);
-		public FSize Margin
+		private int _maxWidth = 10000;
+		public int MaxWidth
 		{
-			get { return _margin; }
-			set { _margin = value; innerSizeCache = FSize.Empty; }
+			get { return _maxWidth; }
+			set { _maxWidth = value; innerSizeCache = FSize.Empty; }
 		}
 
 		public Color ColorBackground = Color.White;
 
-		public HUDBackgroundType BackgoundType = HUDBackgroundType.Rounded;
-		public float BackgroundCornerSize = 16f;
+		public HUDBackgroundType BackgroundType = HUDBackgroundType.Rounded;
+		public float BackgoundCornerSize = 16f;
 
 		public bool CloseOnClick = true;
 
@@ -73,7 +79,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		private readonly HUDLabel internalLabel;
 		private FSize innerSizeCache = FSize.Empty;
 
-		public HUDMessageBox(int depth = 0)
+		public HUDInfoBox(int depth = 0)
 		{
 			Depth = depth;
 
@@ -84,6 +90,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 				Alignment = HUDAlignment.CENTER,
 				TextAlignment = HUDAlignment.CENTER,
 				FontSize = 96,
+				BackgroundColor = Color.Transparent,
 			};
 		}
 
@@ -94,7 +101,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, ColorBackground * Alpha, BackgroundCornerSize);
+			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgroundType, bounds, ColorBackground * Alpha, BackgoundCornerSize);
 		}
 
 		public override void OnRemove()
@@ -111,7 +118,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 				Size = innerSizeCache + TextPadding * 2;
 				internalLabel.Size = innerSizeCache;
 
-				internalLabel.MaxWidth = Owner.Width - TextPadding.Width * 2 - Margin.Width * 2;
+				internalLabel.MaxWidth = MaxWidth - TextPadding.Width * 2;
 			}
 		}
 

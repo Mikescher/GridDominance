@@ -27,11 +27,13 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float RAD_NEG_120 = -120 * DegRad;
 		public const float RAD_NEG_090 = -90  * DegRad;
 		public const float RAD_NEG_060 = -60  * DegRad;
-		public const float RAD_NEG_045 = -45  * DegRad;
+		public const float RAD_NEG_045 = -45 * DegRad;
+		public const float RAD_NEG_030 = -30 * DegRad;
 		public const float RAD_NEG_000 =  0   * DegRad;
 		public const float RAD_000     =  0   * DegRad;
 		public const float RAD_POS_000 =  0   * DegRad;
 		public const float RAD_POS_045 = +45  * DegRad;
+		public const float RAD_POS_030 = +30  * DegRad;
 		public const float RAD_POS_060 = +60  * DegRad;
 		public const float RAD_POS_090 = +90  * DegRad;
 		public const float RAD_POS_120 = +120 * DegRad;
@@ -51,6 +53,11 @@ namespace MonoSAMFramework.Portable.GameMath
 		public static float Sin(float value)
 		{
 			return (float)Math.Sin(value);
+		}
+
+		public static float PercSin(float value) // sinus from 0->1->0->1...
+		{
+			return ((float)Math.Sin(value) + 1f) / 2f;
 		}
 
 		public static float Sinh(float value)
@@ -289,6 +296,11 @@ namespace MonoSAMFramework.Portable.GameMath
 		public static float DiffRadians(float a1, float a2) // [a1 - a2]
 		{
 			return DiffModulo(a1, a2, TAU);
+		}
+
+		public static float DiffRadiansAbs(float a1, float a2) // [a1 <-> a2]
+		{
+			return Abs(DiffModulo(a1, a2, TAU));
 		}
 
 		public static float DiffModulo(float a1, float a2, float mod) // [a1 - a2]

@@ -54,7 +54,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private const float CROSSHAIR_TRANSPARENCY = 0.5f;
 		private const float CROSSHAIR_GROW_SPEED = 3f;
 
-
 		public Fraction Fraction { get; private set; }
 		private AbstractFractionController controller;
 		public float TotalBoost = 0f;
@@ -496,7 +495,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			}
 		}
 
-		private void SetFraction(Fraction f)
+		public void SetFraction(Fraction f)
 		{
 			Fraction = f;
 			ResetChargeAndBooster();
@@ -519,6 +518,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			controller = ctrl;
 		}
 
+		public void ForceResetBarrelCharge()
+		{
+			barrelCharge = 0f;
+		}
+ 
 		#endregion
 	}
 }

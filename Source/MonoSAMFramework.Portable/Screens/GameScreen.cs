@@ -326,6 +326,11 @@ namespace MonoSAMFramework.Portable.Screens
 			return Entities.Enumerate();
 		}
 
+		public FPoint TranslateGameToHUDCoordinates(int x, int y)
+		{
+			return VAdapterHUD.PointToScreen(VAdapterGame.ScreenToPoint(x, y));
+		}
+
 		protected abstract void OnUpdate(SAMTime gameTime, InputState istate);
 
 		protected abstract EntityManager CreateEntityManager();
