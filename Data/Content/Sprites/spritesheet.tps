@@ -538,6 +538,7 @@
             <key type="filename">icons/difficulty_2.png</key>
             <key type="filename">icons/difficulty_3.png</key>
             <key type="filename">icons/jewels.png</key>
+            <key type="filename">icons/tutorial.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -682,10 +683,13 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">icons/arrow.png</key>
             <key type="filename">icons/back.png</key>
             <key type="filename">icons/next.png</key>
             <key type="filename">icons/password.png</key>
             <key type="filename">icons/redo.png</key>
+            <key type="filename">icons/touch_down.png</key>
+            <key type="filename">icons/touch_up.png</key>
             <key type="filename">icons/user.png</key>
             <key type="filename">panel_blur_corner.png</key>
             <key type="filename">panel_blur_edge.png</key>
@@ -827,7 +831,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">voidcircle.png</key>
+            <key type="filename">voidcircle_bg.png</key>
+            <key type="filename">voidcircle_fg.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -840,43 +845,59 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">voidwall_1.png</key>
-            <key type="filename">voidwall_outer.png</key>
+            <key type="filename">voidwall_bg_1.png</key>
+            <key type="filename">voidwall_fg_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>12,40,24,80</rect>
+                <rect>40,12,80,24</rect>
                 <key>scale9Paddings</key>
-                <rect>12,40,24,80</rect>
+                <rect>40,12,80,24</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">voidwall_2.png</key>
+            <key type="filename">voidwall_bg_2.png</key>
+            <key type="filename">voidwall_fg_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>12,72,24,144</rect>
+                <rect>72,12,144,24</rect>
                 <key>scale9Paddings</key>
-                <rect>12,72,24,144</rect>
+                <rect>72,12,144,24</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">voidwall_inner.png</key>
+            <key type="filename">voidwall_bg_inner.png</key>
+            <key type="filename">voidwall_fg_inner.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>12,32,24,64</rect>
+                <rect>32,12,64,24</rect>
                 <key>scale9Paddings</key>
-                <rect>12,32,24,64</rect>
+                <rect>32,12,64,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">voidwall_bg_outer.png</key>
+            <key type="filename">voidwall_fg_outer.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>36,12,72,24</rect>
+                <key>scale9Paddings</key>
+                <rect>36,12,72,24</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

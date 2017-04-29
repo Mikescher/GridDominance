@@ -28,21 +28,21 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public FPoint RelativePosition
 		{
 			get { return _relativePosition;}
-			set { _relativePosition = value; InvalidatePosition(); }
+			set { if (value != _relativePosition) {_relativePosition = value; InvalidatePosition();} }
 		}
 
 		private FSize _size = FSize.Empty;
 		public FSize Size
 		{
 			get { return _size; }
-			set { _size = value; InvalidatePosition(); }
+			set { if (value != _size) {_size = value; InvalidatePosition();} }
 		}
 
 		private HUDAlignment _alignment = HUDAlignment.TOPLEFT;
 		public HUDAlignment Alignment
 		{
 			get { return _alignment; }
-			set { _alignment = value; InvalidatePosition(); }
+			set {if (value != _alignment) {_alignment = value; InvalidatePosition();} }
 		}
 
 		public FPoint Position { get; protected set; } = FPoint.Zero; // _Not_ Center
@@ -84,6 +84,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public float CenterY => Position.Y + Size.Height / 2f;
 
 		public Vector2 Center => new Vector2(CenterX, CenterY);
+		public FPoint CenterPos => new FPoint(CenterX, CenterY);
 
 		protected readonly List<IHUDElementOperation> ActiveOperations = new List<IHUDElementOperation>();
 

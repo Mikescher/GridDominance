@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 
 namespace GridDominance.Shared.Resources
 {
 	public static class GDConstants
 	{
-		public static readonly Version Version = new Version(0,20,0,0);
+		public static readonly Version Version = new Version(0,21,0,0);
 
 		public const int TILE_WIDTH = 64;
 

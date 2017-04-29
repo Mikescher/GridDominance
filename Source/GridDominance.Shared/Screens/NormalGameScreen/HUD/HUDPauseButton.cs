@@ -12,7 +12,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
-	class HUDPauseButton : HUDEllipseButton
+	public class HUDPauseButton : HUDEllipseButton
 	{
 		public const int DIAMETER = 48;
 

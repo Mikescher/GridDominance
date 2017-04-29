@@ -9,7 +9,10 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
@@ -217,9 +220,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-				Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
+				Size = new FSize(7f * GDConstants.TILE_WIDTH, 60),
 
-				Text = "Play",
+				Text = "Give me the deal",
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,
@@ -267,31 +270,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			#endregion
 		}
 
-		private Tuple<LevelBlueprint, FractionDifficulty> GetNextNode()
+		public override void Update(SAMTime gameTime, InputState istate)
 		{
-			var currNode = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == GDScreen.Blueprint.UniqueID);
-			var diff = GDScreen.Difficulty;
+			base.Update(gameTime, istate);
 
-			foreach (var lid in currNode.OutgoingPipes)
-			{
-				var node = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target);
-
-				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
-			}
-
-			var nodestack = new Stack<NodeBlueprint>();
-			foreach (var n in currNode.OutgoingPipes.Select(lid => GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target))) nodestack.Push(n);
-			while (nodestack.Any())
-			{
-				var node = nodestack.Pop();
-				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
-				foreach (var n in node.OutgoingPipes.Select(lid => GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target)))
-				{
-					nodestack.Push(n);
-				}
-			}
-
-			return null;
+			btnPlay.Color = ColorMath.Blend(FlatColors.Nephritis, FlatColors.GreenSea, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 3));
 		}
 	}
 }

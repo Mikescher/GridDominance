@@ -121,8 +121,8 @@ namespace GridDominance.Shared
 
 		protected override void OnAfterInitialize()
 		{
-			SetTutorialLevelScreen();
-			//SetOverworldScreen();
+			//SetTutorialLevelScreen();
+			SetOverworldScreen();
 			//SetWorldMapScreen();
 			//SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
 		}

@@ -11,19 +11,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 	{
 		public GDGameScreen GDOwner => (GDGameScreen)Screen;
 		
-		private readonly HUDPauseButton btnPause;
-		private readonly HUDSpeedBaseButton btnSpeed;
+		public readonly HUDPauseButton BtnPause;
+		public readonly HUDSpeedBaseButton BtnSpeed;
 
 		public GDGameHUD(GDGameScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
-			AddElement(btnPause = new HUDPauseButton());
-			AddElement(btnSpeed = new HUDSpeedBaseButton());
+			AddElement(BtnPause = new HUDPauseButton());
+			AddElement(BtnSpeed = new HUDSpeedBaseButton());
 		}
 
 		public void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
 		{
-			btnPause.IsEnabled = false;
-			btnSpeed.IsEnabled = false;
+			BtnPause.IsEnabled = false;
+			BtnSpeed.IsEnabled = false;
 
 			GDOwner.GameSpeedMode = GameSpeedModes.NORMAL;
 

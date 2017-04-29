@@ -149,6 +149,9 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDIconKeyboardCaps;
 		public static TextureRegion2D TexHUDIconKeyboardEnter;
 		public static TextureRegion2D TexHUDIconKeyboardBackspace;
+		public static TextureRegion2D TexHUDIconTouchUp;
+		public static TextureRegion2D TexHUDIconTouchDown;
+		public static TextureRegion2D TexHUDIconArrow;
 
 		public static TextureRegion2D TexPanelBlurEdge;
 		public static TextureRegion2D TexPanelBlurCorner;
@@ -250,7 +253,9 @@ namespace GridDominance.Shared.Resources
 			TexHUDIconKeyboardCaps        = AtlasTextures["caps"];
 			TexHUDIconKeyboardEnter       = AtlasTextures["enter"];
 			TexHUDIconKeyboardBackspace   = AtlasTextures["backspace"];
-
+			TexHUDIconTouchUp             = AtlasTextures["touch_up"];
+			TexHUDIconTouchDown           = AtlasTextures["touch_down"];
+			TexHUDIconArrow               = AtlasTextures["arrow"];
 
 			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];

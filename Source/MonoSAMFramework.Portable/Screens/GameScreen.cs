@@ -326,7 +326,7 @@ namespace MonoSAMFramework.Portable.Screens
 			return Entities.Enumerate();
 		}
 
-		public FPoint TranslateGameToHUDCoordinates(int x, int y)
+		public FPoint TranslateGameToHUDCoordinates(float x, float y)
 		{
 			return VAdapterHUD.PointToScreen(VAdapterGame.ScreenToPoint(x, y));
 		}

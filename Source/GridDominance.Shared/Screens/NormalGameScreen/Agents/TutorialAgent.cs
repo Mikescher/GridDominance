@@ -55,6 +55,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		private float _s1_blinkTimer = 0f;
 
 		private HUDInfoBox _infobox;
+		private HUDTouchAnimation _anim;
+		private HUDArrowAnimation _anim2;
 
 		public TutorialAgent(GDGameScreen scrn) : base(scrn)
 		{
@@ -157,7 +159,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			SetInfoBox("Drag to rotate your own cannons");
 
-			//TODO drag finger animation from 1 to 2
+			AddTouchAnimation(_cannon1, _cannon2);
 		}
 
 		private void Transition_2_ShootingFirstNeutral()
@@ -166,6 +168,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			_infobox.Remove();
 			SetInfoBox("Shoot it until it becomes your cannon");
+
+			_anim?.Remove();
 		}
 
 		private void Transition_3_TargetCenter()
@@ -181,7 +185,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			SetInfoBox("Now capture the next cannon");
 
-			//TODO drag finger animation from 2 to 3
+			AddTouchAnimation(_cannon2, _cannon3);
 		}
 
 		private void Transition_4_BoostWhileShootingCenter()
@@ -191,6 +195,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_controller5.RechargeBarrel = true;
 
 			SetInfoBox("Keep shooting at the first cannon to increase its fire rate");
+
+			_anim?.Remove();
 		}
 
 		private void Transition_5_AttackEnemy()
@@ -208,7 +214,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			SetInfoBox("The enemy has captured a cannon. Attack him!");
 
-			//TODO drag finger animation from 3 to 4
+			AddTouchAnimation(_cannon3, _cannon4);
 		}
 
 		private void Transition_6_ChangeGameSpeed()
@@ -219,7 +225,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			SetInfoBox("Speed up the Game with the bottom left button.");
 
-			//TODO Hint animation for BL button
+			_anim?.Remove();
+
+			_hud.AddElement(_anim2 = new HUDArrowAnimation(_hud.BtnSpeed.CenterPos + new Vector2(60, -40), 150 * FloatMath.DegreesToRadians));
 		}
 
 		private void Transition_7_CaptureEnemy()
@@ -229,8 +237,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_screen.GameSpeedMode = GameSpeedModes.NORMAL;
 
 			_cannon3.RotateTo(_cannon4);
+			_controller5.RechargeBarrel = false;
 
 			SetInfoBox("Now capture the enemy cannon");
+
+			_anim2.Remove();
 		}
 
 		private void Transition_8_WinGame()
@@ -240,6 +251,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_cannon1.RotateTo(_cannon2);
 			_cannon2.RotateTo(_cannon3);
 			_cannon3.RotateTo(_cannon4);
+
+			_controller5.RechargeBarrel = true;
 
 			SetInfoBox("Win the game by capturing all enemy cannons");
 		}
@@ -253,17 +266,29 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 				Text = text,
 				Alignment = HUDAlignment.ABSOLUTE_BOTHCENTERED,
 				RelativePosition = _screen.TranslateGameToHUDCoordinates(8 * GDConstants.TILE_WIDTH, 9 * GDConstants.TILE_WIDTH),
-				FontSize = 32,
+				FontSize = 40,
 				Font = Textures.HUDFontRegular,
 				TextColor = Color.Black,
 				ColorBackground = FlatColors.Concrete,
 				Alpha = 1f,
 				TextPadding = new FSize(8, 8),
 				BackgroundType = HUDBackgroundType.RoundedBlur,
-				MaxWidth = 6 * GDConstants.TILE_WIDTH,
+				MaxWidth = 8 * GDConstants.TILE_WIDTH,
 				BackgoundCornerSize = 4f,
 				WordWrap = HUDWordWrap.WrapByWordTrusted,
 			});
+		}
+
+		private void AddTouchAnimation(Cannon c1, Cannon c2)
+		{
+			_anim?.Remove();
+
+			var p1 = _screen.TranslateGameToHUDCoordinates(c1.Position.X, c1.Position.Y);
+			var p2 = _screen.TranslateGameToHUDCoordinates(c2.Position.X, c2.Position.Y);
+
+			_anim = new HUDTouchAnimation(p1, p2);
+
+			_hud.AddElement(_anim);
 		}
 	}
 }
