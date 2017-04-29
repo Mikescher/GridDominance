@@ -215,7 +215,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral) && controller.DoBarrelRecharge())
 			{
-				barrelCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds / Scale;
+				float chargeDelta = BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds;
+				if (Scale > 2.5f) chargeDelta /= Scale;
+
+				barrelCharge += chargeDelta;
 
 				if (barrelCharge >= 1f)
 				{
@@ -227,7 +230,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			if (CannonHealth.TargetValue >= 1) // same as barrelCharge but works without DoBarrelRecharge and not for neutrals
 			{
-				particleCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds / Scale;
+				particleCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds;
 
 				if (particleCharge >= 1f)
 				{
@@ -471,6 +474,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				SetFraction(source);
 				CannonHealth.Set((sourceScale * HEALTH_HIT_GEN) / Scale);
+				CannonHealth.Limit(0f, 1f);
 			}
 			else
 			{
@@ -487,6 +491,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					SetFraction(source);
 					CannonHealth.Set(FloatMath.Abs(CannonHealth.TargetValue));
 				}
+
+				CannonHealth.Limit(0f, 1f);
 			}
 		}
 

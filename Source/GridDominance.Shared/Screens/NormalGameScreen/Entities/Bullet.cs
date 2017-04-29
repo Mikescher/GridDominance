@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.LogProtocol;
@@ -75,17 +76,36 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			if (otherBullet != null)
 			{
 				if (otherBullet.Fraction == Fraction) return true;
+				if (!otherBullet.Alive) return false;
 
-				otherBullet.MutualDestruct();
-				MutualDestruct();
-				MainGame.Inst.GDSound.PlayEffectCollision();
-				return false;
+				if (otherBullet.Scale / Scale >= 2f && !otherBullet.Fraction.IsNeutral)
+				{
+					// split other
+					otherBullet.SplitDestruct();
+					MutualDestruct();
+					MainGame.Inst.GDSound.PlayEffectCollision();
+					return false;
+				}
+				else if (Scale / otherBullet.Scale >= 2f && Fraction.IsNeutral)
+				{
+					// split me
+					otherBullet.MutualDestruct();
+					SplitDestruct();
+					MainGame.Inst.GDSound.PlayEffectCollision();
+					return false;
+				}
+				else
+				{
+					otherBullet.MutualDestruct();
+					MutualDestruct();
+					MainGame.Inst.GDSound.PlayEffectCollision();
+					return false;
+				}
 			}
 			
 			var otherCannon = fixtureB.UserData as Cannon;
 			if (otherCannon != null)
 			{
-
 				if (otherCannon.Fraction == Fraction)
 				{
 					// if Source barrel then ignore collision
@@ -134,10 +154,29 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			if (MainGame.Inst.Profile.EffectsEnabled)
 			{
 				for (int i = 0; i < 8; i++)
-					Manager.AddEntity(new BulletSplitter(Owner, this, (FlatAlign8) i));
+					Manager.AddEntity(new BulletSplitter(Owner, this, (FlatAlign8)i));
 			}
 
 			Alive = false;
+		}
+
+		private void SplitDestruct()
+		{
+			// After Bullet-Bulllet Collision
+
+			Alive = false;
+
+			float newScale = Scale / 2f;
+
+			var v1 = ConvertUnits.ToDisplayUnits(PhysicsBody.LinearVelocity).Rotate(FloatMath.RAD_NEG_030);
+			var v2 = ConvertUnits.ToDisplayUnits(PhysicsBody.LinearVelocity).Rotate(FloatMath.RAD_POS_030);
+
+			var p1 = Position + v1.WithLength(BULLET_DIAMETER * newScale * 0.9f);
+			var p2 = Position + v2.WithLength(BULLET_DIAMETER * newScale * 0.9f);
+
+
+			Manager.AddEntity(new Bullet(Owner, Source, p1, v1, newScale));
+			Manager.AddEntity(new Bullet(Owner, Source, p2, v2, newScale));
 		}
 
 		private void DisintegrateIntoVoidObject()
