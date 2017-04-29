@@ -1,8 +1,10 @@
-﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
@@ -13,6 +15,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		private const float CROSSHAIR_START_SCALE = 0.25f;
 
 		private bool isMouseDragging = false;
+		private FPoint dragOrigin;
 
 		private readonly FCircle innerBoundings;
 
@@ -32,6 +35,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 				isMouseDragging = true;
 				Cannon.CrosshairSize.SetForce(CROSSHAIR_START_SCALE);
+				dragOrigin = istate.GamePointerPosition;
 			}
 			else if (!istate.IsRealDown && isMouseDragging)
 			{
@@ -42,6 +46,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			}
 			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.GamePointerPosition))
 			{
+				dragOrigin = Cannon.Position.ToFPoint();
 				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.GamePointerPosition.Y - Cannon.Position.Y, istate.GamePointerPosition.X - Cannon.Position.X));
 
 				var dist = (istate.GamePointerPosition - Cannon.Position).Length();
@@ -51,6 +56,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 					Cannon.CrosshairSize.Set(crosshairScale);
 				}
+			}
+			else if (isMouseDragging && istate.IsRealDown && (istate.GamePointerPosition - dragOrigin).LengthSquared() > (GDConstants.TILE_WIDTH / 2f) * (GDConstants.TILE_WIDTH / 2f))
+			{
+				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.GamePointerPosition.Y - dragOrigin.Y, istate.GamePointerPosition.X - dragOrigin.X));
 			}
 		}
 	}
