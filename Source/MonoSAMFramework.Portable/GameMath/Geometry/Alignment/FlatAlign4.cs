@@ -1,11 +1,14 @@
-﻿namespace MonoSAMFramework.Portable.GameMath.Geometry.Alignment
+﻿using System;
+
+namespace MonoSAMFramework.Portable.GameMath.Geometry.Alignment
 {
+	[Flags]
 	public enum FlatAlign4
 	{
-		TOP,
-		RIGHT,
-		BOTTOM,
-		LEFT,
+		TOP    = 0x01,
+		RIGHT  = 0x02,
+		BOTTOM = 0x04,
+		LEFT   = 0x08,
 
 		
 		NORTH = TOP,

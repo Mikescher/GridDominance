@@ -46,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\ParticlePresets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\TutorialAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\VoidCircle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\TutorialController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDOperations\HUDBlinkingTutorialDifficultyButtonIconOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTutorialDifficultyButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTutorialScorePanel.cs" />

@@ -2,14 +2,14 @@
 {
 	public enum FlatAlign8
 	{
-		TOP,
-		TOPRIGHT,
-		RIGHT,
-		BOTTOMRIGHT,
-		BOTTOM,
-		BOTTOMLEFT,
-		LEFT,
-		TOPLEFT,
+		TOP         = 0x001,
+		TOPRIGHT    = 0x020,
+		RIGHT       = 0x002,
+		BOTTOMRIGHT = 0x040,
+		BOTTOM      = 0x004,
+		BOTTOMLEFT  = 0x080,
+		LEFT        = 0x008,
+		TOPLEFT     = 0x100,
 
 
 		NORTH     = TOP,

@@ -35,6 +35,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		private readonly List<BackgroundParticle>[,] particlesVertical = new List<BackgroundParticle>[TILE_COUNT_X + 1, TILE_COUNT_Y];
 		private readonly List<Cannon>[,] blockedGridPoints = new List<Cannon>[TILE_COUNT_X + 1, TILE_COUNT_Y + 1];
 		private readonly GridCellMembership[,] gridColor = new GridCellMembership[TILE_COUNT_X + 2, TILE_COUNT_Y + 2];
+		private readonly FlatAlign4[,] allowedBranches = new FlatAlign4[TILE_COUNT_X + 2, TILE_COUNT_Y + 2];
 
 		public int ParticleCount => Particles.Count;
 
@@ -60,6 +61,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			for (int x = 0; x < TILE_COUNT_X + 2; x++)
 				for (int y = 0; y < TILE_COUNT_Y + 2; y++)
 					gridColor[x, y] = new GridCellMembership();
+
+			for (int x = 0; x < TILE_COUNT_X + 2; x++)
+				for (int y = 0; y < TILE_COUNT_Y + 2; y++)
+					allowedBranches[x, y] = FlatAlign4.NN | FlatAlign4.EE | FlatAlign4.SS | FlatAlign4.WW;
 		}
 
 		#region Draw
@@ -94,6 +99,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 							string.Format("{0,2}: {1:000}", gridColor[x + 1, y + 1].Fraction?.ToString() ?? "##", gridColor[x + 1, y + 1].Strength * 100),
 							new Vector2(tx, ty),
 							gridColor[x + 1, y + 1].Fraction?.Color ?? Color.Black);
+
+						if ((allowedBranches[x + 1, y + 1] & FlatAlign4.NN) != FlatAlign4.NN)
+							sbatch.DrawLine(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 24, Color.Red, 4);
+
+						if ((allowedBranches[x + 1, y + 1] & FlatAlign4.EE) != FlatAlign4.EE)
+							sbatch.DrawLine(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, x * GDConstants.TILE_WIDTH + 24, y * GDConstants.TILE_WIDTH, Color.Red, 4);
+
+						if ((allowedBranches[x + 1, y + 1] & FlatAlign4.SS) != FlatAlign4.SS)
+							sbatch.DrawLine(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 24, Color.Red, 4);
+
+						if ((allowedBranches[x + 1, y + 1] & FlatAlign4.WW) != FlatAlign4.WW)
+							sbatch.DrawLine(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, x * GDConstants.TILE_WIDTH - 24, y * GDConstants.TILE_WIDTH, Color.Red, 4);
 					}
 #endif
 				}
@@ -149,10 +166,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 							{
 								RemoveParticle(particle);
 
-								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, FlatAlign4.NORTH), x, y);
-								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.EAST), x, y);
-								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, FlatAlign4.SOUTH), x, y);
-								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.WEST), x, y);
+								if (particle.OriginY >= y && CanSplit(x, y, FlatAlign4.NN)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, FlatAlign4.NORTH), x, y);
+								if (particle.OriginX <= x && CanSplit(x, y, FlatAlign4.EE)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.EAST), x, y);
+								if (particle.OriginY <= y && CanSplit(x, y, FlatAlign4.SS)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, FlatAlign4.SOUTH), x, y);
+								if (particle.OriginX >= x && CanSplit(x, y, FlatAlign4.WW)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.WEST), x, y);
 							}
 							else
 							{
@@ -188,10 +205,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 							{
 								RemoveParticle(particle);
 
-								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, FlatAlign4.NORTH), x, y);
-								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.EAST), x, y);
-								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, FlatAlign4.SOUTH), x, y);
-								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.WEST), x, y);
+								if (particle.OriginY >= y && CanSplit(x, y, FlatAlign4.NN)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, FlatAlign4.NORTH), x, y);
+								if (particle.OriginX <= x && CanSplit(x, y, FlatAlign4.EE)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.EAST), x, y);
+								if (particle.OriginY <= y && CanSplit(x, y, FlatAlign4.SS)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, FlatAlign4.SOUTH), x, y);
+								if (particle.OriginX >= x && CanSplit(x, y, FlatAlign4.WW)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.WEST), x, y);
 							}
 							else
 							{
@@ -227,10 +244,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 							{
 								RemoveParticle(particle);
 
-								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, FlatAlign4.NORTH), x, y);
-								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.EAST), x, y);
-								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, FlatAlign4.SOUTH), x, y);
-								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.WEST), x, y);
+								if (particle.OriginY >= y && CanSplit(x, y, FlatAlign4.NN)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH - 0.01f, FlatAlign4.NORTH), x, y);
+								if (particle.OriginX <= x && CanSplit(x, y, FlatAlign4.EE)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH + 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.EAST), x, y);
+								if (particle.OriginY <= y && CanSplit(x, y, FlatAlign4.SS)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH + 0.01f, FlatAlign4.SOUTH), x, y);
+								if (particle.OriginX >= x && CanSplit(x, y, FlatAlign4.WW)) AddParticle(new BackgroundParticle(particle, x * GDConstants.TILE_WIDTH - 0.01f, y * GDConstants.TILE_WIDTH, FlatAlign4.WEST), x, y);
 							}
 							else
 							{
@@ -266,10 +283,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 							{
 								RemoveParticle(particle);
 
-								if (particle.OriginY >= y) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH, y*GDConstants.TILE_WIDTH - 0.01f, FlatAlign4.NORTH), x, y);
-								if (particle.OriginX <= x) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH + 0.01f, y*GDConstants.TILE_WIDTH, FlatAlign4.EAST), x, y);
-								if (particle.OriginY <= y) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH, y*GDConstants.TILE_WIDTH + 0.01f, FlatAlign4.SOUTH), x, y);
-								if (particle.OriginX >= x) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH - 0.01f, y*GDConstants.TILE_WIDTH, FlatAlign4.WEST), x, y);
+								if (particle.OriginY >= y && CanSplit(x, y, FlatAlign4.NN)) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH, y*GDConstants.TILE_WIDTH - 0.01f, FlatAlign4.NORTH), x, y);
+								if (particle.OriginX <= x && CanSplit(x, y, FlatAlign4.EE)) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH + 0.01f, y*GDConstants.TILE_WIDTH, FlatAlign4.EAST), x, y);
+								if (particle.OriginY <= y && CanSplit(x, y, FlatAlign4.SS)) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH, y*GDConstants.TILE_WIDTH + 0.01f, FlatAlign4.SOUTH), x, y);
+								if (particle.OriginX >= x && CanSplit(x, y, FlatAlign4.WW)) AddParticle(new BackgroundParticle(particle, x*GDConstants.TILE_WIDTH - 0.01f, y*GDConstants.TILE_WIDTH, FlatAlign4.WEST), x, y);
 							}
 							else
 							{
@@ -298,6 +315,23 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 						ColorGridCellDirect(f, x - 1, y - 1, gameTime.ElapsedSeconds * GRID_ADAPTION_SPEED_DIRECT);
 					}
 				}
+			}
+		}
+
+		private bool CanSplit(int x, int y, FlatAlign4 d)
+		{
+			if (x < -1) return true;
+			if (y < -1) return true;
+			if (x > TILE_COUNT_X) return true;
+			if (y > TILE_COUNT_Y) return true;
+
+			if ((allowedBranches[x + 1, y + 1] & d) == d)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
 			}
 		}
 
@@ -448,9 +482,154 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			blockedGridPoints[x, y].Add(cannon);
 		}
 
-		public void DeregisterBlockedSpawn(Cannon cannon, int x, int y)
+		public void RegisterBlockedLine(Vector2 start, Vector2 end)
 		{
-			blockedGridPoints[x, y].Remove(cannon);
+			if (FloatMath.EpsilonEquals(start.Y, end.Y, 1f))
+			{
+				// HORZ
+
+				float fgy = start.Y / GDConstants.TILE_WIDTH;
+				int gy = (int) (fgy);
+
+				int gsx = FloatMath.Ceiling(FloatMath.Min(start.X, end.X) / GDConstants.TILE_WIDTH);
+				int gex = FloatMath.Floor(FloatMath.Max(start.X, end.X) / GDConstants.TILE_WIDTH);
+
+				for (int xx = gsx; xx <= gex; xx++)
+				{
+					if (xx < -1) continue;
+					if (gy < -1) continue;
+					if (xx > TILE_COUNT_X) continue;
+					if (gy > TILE_COUNT_Y) continue;
+
+					if (fgy - 0.001f <= gy) allowedBranches[xx + 1, gy + 1] &= ~FlatAlign4.SS;
+					if (fgy + 0.001f >= gy) allowedBranches[xx + 1, gy + 1] &= ~FlatAlign4.NN;
+				}
+			}
+			else if (FloatMath.EpsilonEquals(start.X, end.X, 1f))
+			{
+				// VERT
+
+				float fgx = start.X / GDConstants.TILE_WIDTH;
+				int gx = (int)(fgx);
+
+				int gsy = FloatMath.Ceiling(FloatMath.Min(start.Y, end.Y) / GDConstants.TILE_WIDTH);
+				int gey = FloatMath.Floor(FloatMath.Max(start.Y, end.Y) / GDConstants.TILE_WIDTH);
+
+				for (int yy = gsy; yy <= gey; yy++)
+				{
+					if (gx < -1) continue;
+					if (yy < -1) continue;
+					if (gx > TILE_COUNT_X) continue;
+					if (yy > TILE_COUNT_Y) continue;
+
+					if (fgx - 0.001f <= gx) allowedBranches[gx + 1, yy + 1] &= ~FlatAlign4.EE;
+					if (fgx + 0.001f >= gx) allowedBranches[gx + 1, yy + 1] &= ~FlatAlign4.WW;
+				}
+			}
+			else
+			{
+				// TILT
+				float sx;
+				float ex;
+				float sy;
+				float ey;
+
+				if (start.X < end.X)
+				{
+					sx = start.X;
+					sy = start.Y;
+					ex = end.X;
+					ey = end.Y;
+				}
+				else
+				{
+					sx = end.X;
+					sy = end.Y;
+					ex = start.X;
+					ey = start.Y;
+				}
+
+				int gsx = FloatMath.Ceiling(sx / GDConstants.TILE_WIDTH);
+				int gex = FloatMath.Floor(ex / GDConstants.TILE_WIDTH);
+
+				for (int xx = gsx; xx <= gex; xx++)
+				{
+					if (xx < -1) continue;
+					if (xx > TILE_COUNT_X) continue;
+
+					float r = (xx - sx) / (ex - sx);
+
+					int yy1 = FloatMath.Ceiling(((ey - sy) * r) / GDConstants.TILE_WIDTH);
+					int yy2 = FloatMath.Ceiling(((ey - sy) * r) / GDConstants.TILE_WIDTH);
+
+					if (yy1 >= -1 && yy1 <= TILE_COUNT_Y)
+					{
+						if (sy < ey)
+						{
+							// \  
+							//  \ 
+							//   \
+
+							allowedBranches[xx + 1, yy1 + 1] &= ~FlatAlign4.WW;
+							allowedBranches[xx + 1, yy1 + 1] &= ~FlatAlign4.SS;
+						}
+						else
+						{
+
+							//   /
+							//  / 
+							// /  
+
+							allowedBranches[xx + 1, yy1 + 1] &= ~FlatAlign4.EE;
+							allowedBranches[xx + 1, yy1 + 1] &= ~FlatAlign4.SS;
+						}
+					}
+
+					if (yy2 >= -1 && yy2 <= TILE_COUNT_Y)
+					{
+						if (sy < ey)
+						{
+							// \  
+							//  \ 
+							//   \
+
+							allowedBranches[xx + 1, yy1 + 1] &= ~FlatAlign4.NN;
+							allowedBranches[xx + 1, yy1 + 1] &= ~FlatAlign4.EE;
+						}
+						else
+						{
+
+							//   /
+							//  / 
+							// /  
+
+							allowedBranches[xx + 1, yy1 + 1] &= ~FlatAlign4.NN;
+							allowedBranches[xx + 1, yy1 + 1] &= ~FlatAlign4.WW;
+						}
+					}
+				}
+			}
+		}
+
+		public void RegisterBlockedCircle(Vector2 pos, float r)
+		{
+			int sx = FloatMath.Ceiling((pos.X - r) / GDConstants.TILE_WIDTH);
+			int sy = FloatMath.Ceiling((pos.Y - r) / GDConstants.TILE_WIDTH);
+			int ex = FloatMath.Floor((pos.X + r) / GDConstants.TILE_WIDTH);
+			int ey = FloatMath.Floor((pos.Y + r) / GDConstants.TILE_WIDTH);
+
+			for (int x = sx; x <= ex; x++)
+			{
+				for (int y = sy; y <= ey; y++)
+				{
+					if (x < -1) continue;
+					if (y < -1) continue;
+					if (x > TILE_COUNT_X) continue;
+					if (y > TILE_COUNT_Y) continue;
+
+					allowedBranches[x + 1, y + 1] = 0; // None
+				}
+			}
 		}
 
 		#endregion

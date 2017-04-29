@@ -62,6 +62,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public float RealBoost => 1 + Math.Min(TotalBoost, MAX_BOOST);
 
 		private float barrelCharge = 0f;
+		private float particleCharge = 0f;
 		private float barrelRecoil = 0f;
 		public readonly DeltaLimitedFloat CannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
@@ -117,11 +118,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override void OnRemove()
 		{
 			this.GDManager().PhysicsWorld.RemoveBody(PhysicsBody);
-
-			foreach (var spawn in particleSpawns)
-			{
-				this.GDOwner().GDBackground.DeregisterBlockedSpawn(this, (int)spawn.X, (int)spawn.Y);
-			}
 		}
 
 		private void FindParticleSpawns()
@@ -229,6 +225,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				}
 			}
 
+			if (CannonHealth.TargetValue >= 1) // same as barrelCharge but works without DoBarrelRecharge and not for neutrals
+			{
+				particleCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds / Scale;
+
+				if (particleCharge >= 1f)
+				{
+					particleCharge -= 1f;
+
+					foreach (var spawn in particleSpawns) this.GDOwner().GDBackground.SpawnParticles(Fraction, (int)spawn.X, (int)spawn.Y);
+				}
+			}
+
 			if (barrelRecoil < 1)
 			{
 				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds, 1f);
@@ -243,11 +251,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			//Screen.PushNotification($"Cannon :: Shoot ({position.X:000.0}|{position.Y:000.0}) at {FloatMath.ToDegree(velocity.ToAngle()):000}°");
 
 			barrelRecoil = 0f;
-
-			foreach (var spawn in particleSpawns)
-			{
-				this.GDOwner().GDBackground.SpawnParticles(Fraction, (int)spawn.X, (int)spawn.Y);
-			}
 
 			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
 			MainGame.Inst.GDSound.PlayEffectShoot();
@@ -503,6 +506,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public void ForceUpdateController()
 		{
 			controller = Fraction.CreateController(this.GDOwner(), this);
+		}
+
+		public void ForceSetController(AbstractFractionController ctrl)
+		{
+			controller = ctrl;
 		}
 
 		#endregion

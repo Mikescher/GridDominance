@@ -45,6 +45,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Position = pos;
 
 			DrawingBoundingBox = new Vector2(_length, 0).Rotate(_rotation).ToAbsSize().AtLeast(WIDTH, WIDTH);
+
+			this.GDOwner().GDBackground.RegisterBlockedLine(pos - Vector2.UnitX.RotateWithLength(_rotation, _length/2f), pos + Vector2.UnitX.RotateWithLength(_rotation, _length / 2f));
 		}
 
 		public override void OnInitialize(EntityManager manager)
