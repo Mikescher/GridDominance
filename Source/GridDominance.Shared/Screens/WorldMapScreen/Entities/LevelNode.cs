@@ -362,7 +362,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			#region Icons
 
 			sbatch.DrawStretched(
-				Textures.TexDifficulty0,
+				Textures.TexDifficultyLine0,
 				rectExpanderNorth
 					.ToSquare(ICON_SIZE, FlatAlign9.NORTH)
 					.AsTranslated(0, +ICON_OFFSET)
@@ -370,7 +370,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				clickAreaD0.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			sbatch.DrawStretched(
-				Textures.TexDifficulty1,
+				Textures.TexDifficultyLine1,
 				rectExpanderEast
 					.ToSquare(ICON_SIZE, FlatAlign9.EAST)
 					.AsTranslated(-ICON_OFFSET, 0)
@@ -378,7 +378,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				clickAreaD1.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			sbatch.DrawStretched(
-				Textures.TexDifficulty2,
+				Textures.TexDifficultyLine2,
 				rectExpanderSouth
 					.ToSquare(ICON_SIZE, FlatAlign9.SOUTH)
 					.AsTranslated(0, -ICON_OFFSET)
@@ -386,7 +386,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				clickAreaD2.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			sbatch.DrawStretched(
-				Textures.TexDifficulty3,
+				Textures.TexDifficultyLine3,
 				rectExpanderWest
 					.ToSquare(ICON_SIZE, FlatAlign9.WEST)
 					.AsTranslated(+ICON_OFFSET, 0)

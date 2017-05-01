@@ -222,7 +222,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
 				Size = new FSize(7f * GDConstants.TILE_WIDTH, 60),
 
-				Text = "Give me the deal",
+				Text = "Let's get started",
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,
@@ -233,7 +233,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Color = FlatColors.Nephritis,
 				ColorPressed = FlatColors.Emerald,
 			});
-			btnPlay.ButtonClick += (s, a) => MainGame.Inst.SetOverworldScreen();
+			btnPlay.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreenWithTransition(Levels.WORLD_001);
 
 			#endregion
 

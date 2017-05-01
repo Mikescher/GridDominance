@@ -123,6 +123,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					_cannon3.Rotation.Set(FloatMath.RAD_POS_090);
 					var cap3 = _cannon3.Fraction == _fracPlayer && FloatMath.IsOne(_cannon3.CannonHealth.ActualValue);
 					var cap4 = _cannon4.Fraction == _fracComputer && FloatMath.IsOne(_cannon4.CannonHealth.ActualValue);
+					if (cap3 && _cannon4.Fraction == _fracComputer) _cannon4.CannonHealth.Set(1);
 					if (cap3 && cap4) Transition_5_AttackEnemy();
 					break;
 

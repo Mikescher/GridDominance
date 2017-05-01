@@ -91,13 +91,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 			switch (d)
 			{
 				case FractionDifficulty.KI_EASY:
-					return Textures.TexDifficulty0;
+					return Textures.TexDifficultyLine0;
 				case FractionDifficulty.KI_NORMAL:
-					return Textures.TexDifficulty1;
+					return Textures.TexDifficultyLine1;
 				case FractionDifficulty.KI_HARD:
-					return Textures.TexDifficulty2;
+					return Textures.TexDifficultyLine2;
 				case FractionDifficulty.KI_IMPOSSIBLE:
-					return Textures.TexDifficulty3;
+					return Textures.TexDifficultyLine3;
 			}
 
 			return null;

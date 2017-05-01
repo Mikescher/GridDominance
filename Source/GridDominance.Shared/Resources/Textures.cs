@@ -163,10 +163,10 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconScore;
 		public static TextureRegion2D TexIconTutorial;
 
-		public static TextureRegion2D TexDifficulty0;
-		public static TextureRegion2D TexDifficulty1;
-		public static TextureRegion2D TexDifficulty2;
-		public static TextureRegion2D TexDifficulty3;
+		public static TextureRegion2D TexDifficultyLine0;
+		public static TextureRegion2D TexDifficultyLine1;
+		public static TextureRegion2D TexDifficultyLine2;
+		public static TextureRegion2D TexDifficultyLine3;
 
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
@@ -266,11 +266,11 @@ namespace GridDominance.Shared.Resources
 			TexIconRedo        = AtlasTextures["redo"];
 			TexIconScore       = AtlasTextures["jewels"];
 			TexIconTutorial    = AtlasTextures["tutorial"];
-
-			TexDifficulty0     = AtlasTextures["difficulty_0"];
-			TexDifficulty1     = AtlasTextures["difficulty_1"];
-			TexDifficulty2     = AtlasTextures["difficulty_2"];
-			TexDifficulty3     = AtlasTextures["difficulty_3"];
+			
+			TexDifficultyLine0     = AtlasTextures["difficulty_line_01"];
+			TexDifficultyLine1     = AtlasTextures["difficulty_line_02"];
+			TexDifficultyLine2     = AtlasTextures["difficulty_line_03"];
+			TexDifficultyLine3     = AtlasTextures["difficulty_line_04"];
 
 			HUDFontRegular     = content.Load<SpriteFont>("fonts/hudFontRegular");
 			HUDFontBold        = content.Load<SpriteFont>("fonts/hudFontBold");

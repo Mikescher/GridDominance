@@ -1270,8 +1270,44 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "grid.png",
+	"filename": "difficulty/difficulty_line_01.png",
 	"frame": {"x":97,"y":353,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "difficulty/difficulty_line_02.png",
+	"frame": {"x":97,"y":372,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "difficulty/difficulty_line_03.png",
+	"frame": {"x":97,"y":391,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "difficulty/difficulty_line_04.png",
+	"frame": {"x":97,"y":410,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "grid.png",
+	"frame": {"x":97,"y":429,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1528,42 +1564,6 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":9},
 	"sourceSize": {"w":9,"h":9},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "icons/difficulty_0.png",
-	"frame": {"x":97,"y":372,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "icons/difficulty_1.png",
-	"frame": {"x":97,"y":391,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "icons/difficulty_2.png",
-	"frame": {"x":97,"y":410,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "icons/difficulty_3.png",
-	"frame": {"x":97,"y":429,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -2014,6 +2014,6 @@
 	"format": "RGBA8888",
 	"size": {"w":126,"h":589},
 	"scale": "0.125",
-	"smartupdate": "$TexturePacker:SmartUpdate:168d0115a1168d6c83985ecb827ed6fb:b76404bd4deca0425064578dd105d5d6:9fac3d74b0a8c1bbebef8c43dc3edd25$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a8ee3cf7179d2565aa5fa7f17afaf44e:08c753fdb84e385eb555fb74c8e6894f:9fac3d74b0a8c1bbebef8c43dc3edd25$"
 }
 }

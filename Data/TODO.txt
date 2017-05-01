@@ -126,6 +126,9 @@ Special Stuff:
 -> Better Icons for 4 diff (1+4 is ok)
 -> Zoom in should start mid pinch (once power is big enough) not when release finger
 
+Größere Hitbox pause button
+evtl größere buttons for speed (klein aufm handy)
+
 More level ideas:
 	cannons
 	diff sizes

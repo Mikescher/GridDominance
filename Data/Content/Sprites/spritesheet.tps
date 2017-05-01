@@ -533,10 +533,6 @@
             <key type="filename">cannoncog_animated/cannoncog_126.png</key>
             <key type="filename">cannoncog_animated/cannoncog_127.png</key>
             <key type="filename">grid.png</key>
-            <key type="filename">icons/difficulty_0.png</key>
-            <key type="filename">icons/difficulty_1.png</key>
-            <key type="filename">icons/difficulty_2.png</key>
-            <key type="filename">icons/difficulty_3.png</key>
             <key type="filename">icons/jewels.png</key>
             <key type="filename">icons/tutorial.png</key>
             <struct type="IndividualSpriteSettings">
@@ -561,6 +557,22 @@
                 <rect>160,160,320,320</rect>
                 <key>scale9Paddings</key>
                 <rect>160,160,320,320</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">difficulty/difficulty_line_01.png</key>
+            <key type="filename">difficulty/difficulty_line_02.png</key>
+            <key type="filename">difficulty/difficulty_line_03.png</key>
+            <key type="filename">difficulty/difficulty_line_04.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>128,128,256,256</rect>
+                <key>scale9Paddings</key>
+                <rect>128,128,256,256</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
