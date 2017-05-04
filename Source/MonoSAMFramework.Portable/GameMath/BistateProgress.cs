@@ -2,11 +2,12 @@
 {
 	public enum BistateProgress
 	{
-		Initial,
-		Forward,
-		Final,
-		Backwards,
+		Initial   = 0x00,
+		Forward   = 0x01,
+		Final     = 0x10,
+		Backwards = 0x11,
 
+		Undefined = 0xFF,
 
 		Closed  = Initial,
 		Opening = Forward,
@@ -18,5 +19,6 @@
 		Expanding = Forward,
 		Expanded  = Final,
 		Reverting = Backwards,
+
 	}
 }

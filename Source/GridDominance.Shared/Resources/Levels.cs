@@ -14,6 +14,7 @@ namespace GridDominance.Shared.Resources
 
 		public static LevelBlueprint LEVEL_TUTORIAL;
 		public static LevelBlueprint LEVEL_DBG;
+		public static LevelBlueprint LEVEL_1_1;
 
 		public static List<GraphBlueprint> WORLDS;
 		public static Dictionary<Guid, LevelBlueprint> LEVELS;
@@ -26,7 +27,7 @@ namespace GridDominance.Shared.Resources
 			LEVEL_DBG      = LoadLevel(content, "levels/lvl_debug");
 			LEVEL_TUTORIAL = LoadLevel(content, "levels/lvl_tutorial");
 
-			LoadLevel(content, "levels/lvl001");
+			LEVEL_1_1 = LoadLevel(content, "levels/lvl001");
 			LoadLevel(content, "levels/lvl002");
 			LoadLevel(content, "levels/lvl003");
 			LoadLevel(content, "levels/lvl004");

@@ -8,13 +8,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 {
 	public enum FractionDifficulty
 	{
-		NEUTRAL       = 0x00,
-		PLAYER        = 0x01,
+		KI_EASY       = 0x00, // Can be used as Array indizies
+		KI_NORMAL     = 0x01,
+		KI_HARD       = 0x02,
+		KI_IMPOSSIBLE = 0x03,
 
-		KI_EASY       = 0x10,
-		KI_NORMAL     = 0x11,
-		KI_HARD       = 0x12,
-		KI_IMPOSSIBLE = 0x13,
+		NEUTRAL       = 0x10,
+		PLAYER        = 0x11,
+
 
 		DIFF_0        = KI_EASY,
 		DIFF_1        = KI_NORMAL,

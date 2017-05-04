@@ -5,6 +5,7 @@ using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -37,9 +38,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private GDWorldMapScreen GDOwner => (GDWorldMapScreen)Owner;
 
-		private const float EXPANSION_TIME = 0.7f;
-		private const float CLOSING_TIME   = 0.25f;
-		private const float CENTERING_TIME = 0.55f;
+		public const float EXPANSION_TIME       = 0.5f;
+		public const float CLOSING_TIME         = 0.25f;
+		public const float CENTERING_TIME       = 0.55f;
+		public const float EXTENDER_DELAY       = 0.1f;
+		public const float TOTAL_EXPANSION_TIME = 0.7f; // ~ EXPANSION_TIME+3*EXTENDER_DELAY   ; but a bit less 'cause it looks better
 
 		public const float ORB_SPAWN_TIME = 0.35f;
 
@@ -52,9 +55,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.SandyBrown;
 		IEnumerable<IWorldNode> IWorldNode.NextLinkedNodes => NextLinkedNodes;
-
-		private Vector2 centeringStartOffset;
-
+		
 		private readonly FRectangle rectExpanderNorth;
 		private readonly FRectangle rectExpanderEast;
 		private readonly FRectangle rectExpanderSouth;
@@ -66,13 +67,25 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private GameEntityMouseArea clickAreaD2;
 		private GameEntityMouseArea clickAreaD3;
 
-		private float expansionProgress = 0;
-
 		public readonly List<LevelNode> NextLinkedNodes = new List<LevelNode>();
 		public readonly List<LevelNodePipe> OutgoingPipes = new List<LevelNodePipe>();
 
+		public float RootExpansionProgress = 0f;
+		public readonly float[] ExpansionProgress = {0f, 0f, 0f, 0f};
+		public readonly BistateProgress[] State = { BistateProgress.Closed, BistateProgress.Closed, BistateProgress.Closed, BistateProgress.Closed };
 
-		public BistateProgress State = BistateProgress.Initial;
+		public BistateProgress StateSum
+		{
+			get
+			{
+				if (State.All(s => s == BistateProgress.Closed)) return BistateProgress.Closed;
+				if (State.All(s => s == BistateProgress.Open)) return BistateProgress.Open;
+				if (State.All(s => s == BistateProgress.Open || s == BistateProgress.Opening)) return BistateProgress.Opening;
+				if (State.All(s => s == BistateProgress.Closed || s == BistateProgress.Closing)) return BistateProgress.Closing;
+
+				return BistateProgress.Undefined;
+			}
+		}
 
 		public bool NodeEnabled = false;
 
@@ -141,11 +154,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			if (GDOwner.ZoomState != BistateProgress.Normal) return;
 
-			if (State == BistateProgress.Closed)
+			var stat = StateSum;
+
+			if (stat == BistateProgress.Closed || stat == BistateProgress.Closing)
 			{
 				OpenNode();
 			}
-			else if (State == BistateProgress.Open)
+			else if (stat == BistateProgress.Open || stat == BistateProgress.Opening || stat == BistateProgress.Undefined)
 			{
 				CloseNode();
 			}
@@ -153,40 +168,44 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public void CloseNode()
 		{
-			if (State == BistateProgress.Open)
+			if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
+
+			if (StateSum == BistateProgress.Closing) return;
+
+			var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Open::root");
+			AbortAllOperations(p => p.Name == "LevelNode::Open::root");
+			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Close::root", TOTAL_EXPANSION_TIME, (n,p) => RootExpansionProgress = 1-p));
+			if (progress != null) o.ForceSetProgress(1-progress.Value);
+
+			CloseExtender(FractionDifficulty.DIFF_0);
+			CloseExtender(FractionDifficulty.DIFF_1);
+			CloseExtender(FractionDifficulty.DIFF_2);
+			CloseExtender(FractionDifficulty.DIFF_3);
+
+			MainGame.Inst.GDSound.PlayEffectClose();
+		}
+
+		private void CloseExtender(FractionDifficulty d)
+		{
+			if (State[(int)d] == BistateProgress.Open)
 			{
-				if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
-
-				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(
-					"LevelNode::Close::0", 
-					CLOSING_TIME, 
-					(n, p) => n.expansionProgress = 1 - p,
-					n => n.State = BistateProgress.Closing,
-					n => n.State = BistateProgress.Closed));
-
-				MainGame.Inst.GDSound.PlayEffectClose();
+				AddEntityOperation(new CloseNodeOperation(d));
 			}
-			else if (State == BistateProgress.Forward)
+			else if (State[(int) d] == BistateProgress.Opening)
 			{
-				if (((GDWorldHUD)Owner.HUD).SelectedNode == this) ((GDWorldHUD)Owner.HUD).SelectNode(null);
-
 				float initProgress = 0f;
 
-				var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Open::0");
-				AbortAllOperations(p => p.Name == "LevelNode::Open::0");
-				AbortAllOperations(p => p.Name == "LevelNode::Open::1");
-				if (progress != null) initProgress = 1 - progress.Value;
+				var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Open::" + (int) d);
+				AbortAllOperations(p => p.Name == "LevelNode::Open::" + (int) d);
+				AbortAllOperations(p => p.Name == "LevelNode::Open::" + (int) d + "#delay");
+				if (progress != null)
+					initProgress = 1 - progress.Value;
+				else
+					initProgress = 0.9999f;
 
-				var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(
-					"LevelNode::Close::0", 
-					CLOSING_TIME, 
-					(n, p) => n.expansionProgress = 1 - p,
-					n => n.State = BistateProgress.Closing,
-					n => n.State = BistateProgress.Closed));
+				var o = AddEntityOperation(new CloseNodeOperation(d));
 
 				if (initProgress > 0f) o.ForceSetProgress(initProgress);
-
-				MainGame.Inst.GDSound.PlayEffectClose();
 			}
 		}
 
@@ -196,63 +215,62 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			{
 				//TODO Sound
 				//TODO Shake effect
+
+				AddEntityOperation(new CenterNodeOperation(Owner));
+
 				return;
 			}
+			
+			((GDWorldHUD)Owner.HUD).SelectNode(this);
 
-			if (State == BistateProgress.Closed)
+			var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Close::root");
+			AbortAllOperations(p => p.Name == "LevelNode::Close::root");
+			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::root", TOTAL_EXPANSION_TIME, (n, p) => RootExpansionProgress = p));
+			if (progress != null) o.ForceSetProgress(1 - progress.Value);
+
+			if (Level == Levels.LEVEL_1_1 && !LevelData.HasCompleted(FractionDifficulty.DIFF_0))
 			{
-				((GDWorldHUD)Owner.HUD).SelectNode(this);
-
-				float initProgress = 0f;
-
-				centeringStartOffset = new Vector2(Owner.MapViewportCenterX, Owner.MapViewportCenterY);
-
-				var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(
-					"LevelNode::Open::0", 
-					EXPANSION_TIME, 
-					(n, p) => n.expansionProgress = p, n => 
-					n.State = BistateProgress.Opening,
-					n => n.State = BistateProgress.Open));
-
-				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::1", CENTERING_TIME, UpdateScreenCentering));
-
-				if (initProgress > 0f) o.ForceSetProgress(initProgress);
-
-				MainGame.Inst.GDSound.PlayEffectOpen();
+				OpenExtender(FractionDifficulty.DIFF_0);
 			}
-			else if (State == BistateProgress.Closing)
+			else
 			{
-				((GDWorldHUD)Owner.HUD).SelectNode(this);
-
-				float initProgress = 0f;
-
-				var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Close::0");
-				AbortAllOperations(p => p.Name == "LevelNode::Close::0");
-				if (progress != null) initProgress = 1 - progress.Value;
-
-				centeringStartOffset = new Vector2(Owner.MapViewportCenterX, Owner.MapViewportCenterY);
-
-				var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>(
-					"LevelNode::Open::0", 
-					EXPANSION_TIME, 
-					(n, p) => n.expansionProgress = p, 
-					n => n.State = BistateProgress.Opening, 
-					n => n.State = BistateProgress.Open));
-
-				AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::1", CENTERING_TIME, UpdateScreenCentering));
-
-				if (initProgress > 0f) o.ForceSetProgress(initProgress);
-
-				MainGame.Inst.GDSound.PlayEffectOpen();
+				OpenExtender(FractionDifficulty.DIFF_0);
+				OpenExtender(FractionDifficulty.DIFF_1);
+				OpenExtender(FractionDifficulty.DIFF_2);
+				OpenExtender(FractionDifficulty.DIFF_3);
 			}
+
+
+			AddEntityOperation(new CenterNodeOperation(Owner));
+
+			MainGame.Inst.GDSound.PlayEffectOpen();
 		}
 
-		private void UpdateScreenCentering(LevelNode n, float progress)
+		private void OpenExtender(FractionDifficulty d)
 		{
-			var p = FloatMath.FunctionEaseInOutQuad(progress);
+			if (State[(int)d] == BistateProgress.Closed)
+			{
+				float initProgress = 0f;
 
-			Owner.MapViewportCenterX = centeringStartOffset.X + p * (Position.X - centeringStartOffset.X);
-			Owner.MapViewportCenterY = centeringStartOffset.Y + p * (Position.Y - centeringStartOffset.Y);
+				State[(int)d] = BistateProgress.Opening;
+				var o = AddEntityOperationDelayed(new OpenNodeOperation(d), EXTENDER_DELAY * (int)d);
+
+				if (initProgress > 0f) o.ForceSetProgress(initProgress);
+
+			}
+			else if (State[(int) d] == BistateProgress.Closing)
+			{
+				float initProgress = 0f;
+
+				var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Close::" + (int) d);
+				AbortAllOperations(p => p.Name == "LevelNode::Close::" + (int) d);
+				AbortAllOperations(p => p.Name == "LevelNode::Close::" + (int) d + "#delay");
+				if (progress != null) initProgress = 1 - progress.Value;
+
+				var o = AddEntityOperation(new OpenNodeOperation(d));
+
+				if (initProgress > 0f) o.ForceSetProgress(initProgress);
+			}
 		}
 
 		private void OnClickDiff1(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
@@ -302,28 +320,43 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
-			clickAreaD0.IsEnabled = (expansionProgress > 0.5f);
-			clickAreaD1.IsEnabled = (expansionProgress > 0.5f);
-			clickAreaD2.IsEnabled = (expansionProgress > 0.5f);
-			clickAreaD3.IsEnabled = (expansionProgress > 0.5f);
+			clickAreaD0.IsEnabled = (ExpansionProgress[0] > 0.5f);
+			clickAreaD1.IsEnabled = (ExpansionProgress[1] > 0.5f);
+			clickAreaD2.IsEnabled = (ExpansionProgress[2] > 0.5f);
+			clickAreaD3.IsEnabled = (ExpansionProgress[3] > 0.5f);
 			
-			if (State == BistateProgress.Open || State == BistateProgress.Opening)
+			if (StateSum == BistateProgress.Open || StateSum == BistateProgress.Opening || StateSum == BistateProgress.Undefined)
 			{
 				if (((GDWorldMapScreen)Owner).IsBackgroundPressed) CloseNode();
 			}
-
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			float iep = 1 - FloatMath.FunctionEaseOutCubic(expansionProgress);
-			float lep = 1 - expansionProgress;
-			
+			float nepX = RootExpansionProgress;
+			float lepX = 1 - RootExpansionProgress;
+
+			float iep0 = 1 - FloatMath.FunctionEaseOutCubic(ExpansionProgress[0]);
+			float lep0 = 1 - ExpansionProgress[0];
+			float nep0 = ExpansionProgress[0];
+
+			float iep1 = 1 - FloatMath.FunctionEaseOutCubic(ExpansionProgress[1]);
+			float lep1 = 1 - ExpansionProgress[1];
+			float nep1 = ExpansionProgress[1];
+
+			float iep2 = 1 - FloatMath.FunctionEaseOutCubic(ExpansionProgress[2]);
+			float lep2 = 1 - ExpansionProgress[2];
+			float nep2 = ExpansionProgress[2];
+
+			float iep3 = 1 - FloatMath.FunctionEaseOutCubic(ExpansionProgress[3]);
+			float lep3 = 1 - ExpansionProgress[3];
+			float nep3 = ExpansionProgress[3];
+
 			#region Expander
 
 			FlatRenderHelper.DrawOutlinesBlurRectangle(
 				sbatch,
-				rectExpanderNorth.AsTranslated(0, HEIGHT_EXTENDER * iep).LimitSingleCoordSouth(Position.Y),
+				rectExpanderNorth.AsTranslated(0, HEIGHT_EXTENDER * iep0).LimitSingleCoordSouth(Position.Y),
 				2,
 				LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
 				COLOR_BORDER,
@@ -332,7 +365,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			FlatRenderHelper.DrawOutlinesBlurRectangle(
 				sbatch,
-				rectExpanderEast.AsTranslated(-HEIGHT_EXTENDER * iep, 0).LimitSingleCoordWest(Position.X),
+				rectExpanderEast.AsTranslated(-HEIGHT_EXTENDER * iep1, 0).LimitSingleCoordWest(Position.X),
 				2,
 				LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
 				COLOR_BORDER,
@@ -341,7 +374,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			FlatRenderHelper.DrawOutlinesBlurRectangle(
 				sbatch,
-				rectExpanderSouth.AsTranslated(0, -HEIGHT_EXTENDER * iep).LimitSingleCoordNorth(Position.Y), 
+				rectExpanderSouth.AsTranslated(0, -HEIGHT_EXTENDER * iep2).LimitSingleCoordNorth(Position.Y), 
 				2,
 				LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED, 
 				COLOR_BORDER, 
@@ -350,7 +383,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			FlatRenderHelper.DrawOutlinesBlurRectangle(
 				sbatch,
-				rectExpanderWest.AsTranslated(HEIGHT_EXTENDER * iep, 0).LimitSingleCoordEast(Position.X),
+				rectExpanderWest.AsTranslated(HEIGHT_EXTENDER * iep3, 0).LimitSingleCoordEast(Position.X),
 				2,
 				LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
 				COLOR_BORDER,
@@ -366,7 +399,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				rectExpanderNorth
 					.ToSquare(ICON_SIZE, FlatAlign9.NORTH)
 					.AsTranslated(0, +ICON_OFFSET)
-					.AsTranslated(0, HEIGHT_EXTENDER * iep),
+					.AsTranslated(0, HEIGHT_EXTENDER * iep0),
 				clickAreaD0.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			sbatch.DrawStretched(
@@ -374,7 +407,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				rectExpanderEast
 					.ToSquare(ICON_SIZE, FlatAlign9.EAST)
 					.AsTranslated(-ICON_OFFSET, 0)
-					.AsTranslated(-HEIGHT_EXTENDER * iep, 0),
+					.AsTranslated(-HEIGHT_EXTENDER * iep1, 0),
 				clickAreaD1.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			sbatch.DrawStretched(
@@ -382,7 +415,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				rectExpanderSouth
 					.ToSquare(ICON_SIZE, FlatAlign9.SOUTH)
 					.AsTranslated(0, -ICON_OFFSET)
-					.AsTranslated(0, -HEIGHT_EXTENDER * iep),
+					.AsTranslated(0, -HEIGHT_EXTENDER * iep2),
 				clickAreaD2.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			sbatch.DrawStretched(
@@ -390,7 +423,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				rectExpanderWest
 					.ToSquare(ICON_SIZE, FlatAlign9.WEST)
 					.AsTranslated(+ICON_OFFSET, 0)
-					.AsTranslated(HEIGHT_EXTENDER * iep, 0),
+					.AsTranslated(HEIGHT_EXTENDER * iep3, 0),
 				clickAreaD3.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			#endregion
@@ -411,40 +444,40 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position, 
 				DIAMETER, 
 				DIAMETER, 
-				LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, FloatMath.RAD_POS_000 + FloatMath.TAU * expansionProgress);
+				LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_000 + FloatMath.TAU * nepX);
 
 			sbatch.DrawCentered(
 				Textures.TexLevelNodeSegment,
 				Position,
 				DIAMETER,
 				DIAMETER,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, FloatMath.RAD_POS_090 + FloatMath.TAU * expansionProgress);
+				LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_090 + FloatMath.TAU * nepX);
 
 			sbatch.DrawCentered(
 				Textures.TexLevelNodeSegment,
 				Position,
 				DIAMETER,
 				DIAMETER,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, FloatMath.RAD_POS_180 + FloatMath.TAU * expansionProgress);
+				LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_180 + FloatMath.TAU * nepX);
 
 			sbatch.DrawCentered(
 				Textures.TexLevelNodeSegment,
 				Position,
 				DIAMETER,
 				DIAMETER,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3.BlendTo(COLOR_DEACTIVATED, 0.3f * lep) : COLOR_DEACTIVATED, FloatMath.RAD_POS_270 + FloatMath.TAU * expansionProgress);
+				LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_270 + FloatMath.TAU * nepX);
 			
 			#endregion
 
 			#region Structure
 
-			sbatch.DrawCentered(Textures.TexLevelNodeStructure, Position, DIAMETER, DIAMETER, FlatColors.MidnightBlue, FloatMath.TAU * expansionProgress);
+			sbatch.DrawCentered(Textures.TexLevelNodeStructure, Position, DIAMETER, DIAMETER, FlatColors.MidnightBlue, FloatMath.TAU * nepX);
 
 			#endregion
 
 			#region Text
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, Level.Name, ColorMath.Blend(FlatColors.Clouds, FlatColors.MidnightBlue, expansionProgress), Position);
+			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, Level.Name, ColorMath.Blend(FlatColors.Clouds, FlatColors.MidnightBlue, nepX), Position);
 
 			#endregion
 		}

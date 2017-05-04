@@ -8,7 +8,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 		private readonly float? length;
 		private float time;
 
-		public float Progress => length.HasValue ? time / length.Value : 0;
+		public float Progress => length.HasValue ? FloatMath.Min(time / length.Value, 1f) : 0;
 
 		public string Name { get; }
 

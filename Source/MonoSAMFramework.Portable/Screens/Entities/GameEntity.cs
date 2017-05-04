@@ -79,6 +79,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			return op;
 		}
 
+		public IGameEntityOperation AddEntityOperationDelayed(IGameEntityOperation op, float delay)
+		{
+			ActiveOperations.Add(new DelayGameEntityOperation(op.Name + "#delay", delay, op));
+			op.OnStart(this);
+			return op;
+		}
+
 		public void FinishAllOperations(Func<IGameEntityOperation, bool> condition)
 		{
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
