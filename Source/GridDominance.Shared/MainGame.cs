@@ -12,6 +12,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
@@ -65,16 +66,15 @@ namespace GridDominance.Shared
 			}
 			
 			SAMLog.LogEvent += SAMLogOnLogEvent;
-
-			//TODO Reenable
-			//if (Profile.OnlineUserID >= 0)
-			//{
-			//	Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
-			//}
-			//else
-			//{
-			//	Backend.CreateUser(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
-			//}
+			
+			if (Profile.OnlineUserID >= 0)
+			{
+				Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
+			}
+			else
+			{
+				Backend.CreateUser(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
+			}
 
 			Inst = this;
 		}
@@ -83,8 +83,7 @@ namespace GridDominance.Shared
 		{
 			if (args.Level == SAMLogLevel.ERROR || args.Level == SAMLogLevel.FATAL_ERROR)
 			{
-				//TODO Enable error reporting again - prod
-				//Backend.LogClient(Profile, args.Entry).EnsureNoError();
+				Backend.LogClient(Profile, args.Entry).EnsureNoError();
 			}
 		}
 

@@ -1,5 +1,7 @@
 <?php
 
+if(count(get_included_files()) ==1) exit("Direct access not permitted.");
+
 /**
  * @param string $sig_in
  * @param array $data

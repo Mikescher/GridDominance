@@ -1,5 +1,7 @@
 <?php
 
+if(count(get_included_files()) ==1) exit("Direct access not permitted.");
+
 set_error_handler(function($errno, $errstr, $errfile, $errline) {
 	if (0 === error_reporting()) return false;
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);

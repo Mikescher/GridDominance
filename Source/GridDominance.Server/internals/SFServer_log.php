@@ -1,5 +1,7 @@
 <?php
 
+if(count(get_included_files()) ==1) exit("Direct access not permitted.");
+
 abstract class LOGLEVEL {
 	const NO_LOGGING = -1;
 	const DEBUG      = 0;    // in debug-log log file

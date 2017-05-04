@@ -14,11 +14,10 @@ namespace GridDominance.Shared.Resources
 		public const int VIEW_WIDTH = GRID_WIDTH * TILE_WIDTH; // 1024
 		public const int VIEW_HEIGHT = GRID_HEIGHT * TILE_WIDTH; // 640
 
-
-		//TODO prod
+		
 		//public const string SERVER_URL = "http://localhost:666";
-		public const string SERVER_URL = "http://192.168.0.200:666";
-		public const string SERVER_SECRET = "OZothFoshCiHyPhebMyGheVushNopTyg";
+		public const string SERVER_URL = "http://gdapi.mikescher.com";
+		public const string SERVER_SECRET = "OZothFoshCiHyPhebMyGheVushNopTyg"; //TODO change 4 prod
 
 
 		public const int ORDER_GAME_WALL           = 100;
