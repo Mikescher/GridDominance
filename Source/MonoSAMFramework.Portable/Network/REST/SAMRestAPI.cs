@@ -30,6 +30,10 @@ namespace MonoSAMFramework.Portable.Network.REST
 		{
 			string url = serverbasepath + "/" + apiEndPoint + ".php" + parameter.CreateParamString(secret, MonoSAMGame.CurrentInst.Bridge);
 
+#if DEBUG
+			System.Diagnostics.Debug.WriteLine($"QueryAsync('{apiEndPoint}', '{url}', {maxTries})");
+#endif
+
 			for (;;)
 			{
 				string content;
