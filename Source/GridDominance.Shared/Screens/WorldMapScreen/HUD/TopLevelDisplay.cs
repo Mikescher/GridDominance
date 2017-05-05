@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, Color.Black * 0.6f);
+			if (progressMove > 0) SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, Color.Black * 0.6f);
 		}
 
 		public override void OnInitialize()

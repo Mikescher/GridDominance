@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using GridDominance.Shared.NormalGameScreen;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.WorldMapScreen;
@@ -73,7 +72,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddTrigger("DBG", "SetQuality_5", scrn, SKeys.D5, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.HD));
 			DebugSettings.AddTrigger("DBG", "ResetProfile", scrn, SKeys.R, KeyModifier.Control, x => MainGame.Inst.ResetProfile());
 
-			if (scrn is GDWorldMapScreen) DebugSettings.AddTrigger("DBG", "ResetProfile", scrn, SKeys.Z, KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
+			if (scrn is GDWorldMapScreen) DebugSettings.AddTrigger("DBG", "ZoomOut", scrn, SKeys.Z, KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
 
 			DebugSettings.AddSwitch("DBG", "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      scrn, SKeys.F2,  KeyModifier.None, true);

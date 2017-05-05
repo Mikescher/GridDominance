@@ -4,8 +4,6 @@ if(count(get_included_files()) ==1) exit("Direct access not permitted.");
 
 //TODO make prod version
 //TODO auto backup db
-//TODO levelids to other file (auto gen levelids in this config+cs from DSL editor)
-//TODO good way to update data on server (simple git pull+chown+cp+rm script ?) (+ rm data folder + rm debug folder)
 return [
 	'database_host' =>  'localhost',
 	'database_name' =>  'grid_dominance',

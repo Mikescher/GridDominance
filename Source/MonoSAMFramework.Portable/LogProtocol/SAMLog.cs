@@ -37,6 +37,9 @@ namespace MonoSAMFramework.Portable.LogProtocol
 			{
 #if DEBUG
 				System.Diagnostics.Debug.WriteLine($"[{e.Level}] {e.MessageShort}\r\n{e.MessageLong}");
+
+				if (e.Level == SAMLogLevel.ERROR) System.Diagnostics.Debugger.Break();
+				if (e.Level == SAMLogLevel.FATAL_ERROR) System.Diagnostics.Debugger.Break();
 #endif
 
 				_log.Add(e);

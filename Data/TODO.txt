@@ -1,143 +1,112 @@
-TODO GD: Optimize background rendering
 
-
-WORLD MAP
----------
-
- (X) WorldBackground correct Render
- (X) Only draw visible entities
- (X) World Map Node Entities
-
- X Level are nodes on grid => bigger than cannons - should be easily clickable by touch !!!
- X draggable
- X ring around level button, 4 segments, one for each difficulty
- X show diff buttons on click -> extend rectangular segments outwards
- X smooth overdrag (autom push back into bounds)
- - spell game name with particles on base view
-    - Particle system
-    - draw leetters by having their path stored nin game
-    - text appears like written by delaying path draw
- - connect level round buttons with pipes (or with CPU grid particles ?)
- - pipe becomes active when levl cleared on at least one diff
- - whole map not forcible rectangulare (but 90° edges)
- - background like in level, cleared levels convert background (diff = different color or higher intensity or higher reach) -> or diff=lighter color (?)
- X only draw what is visible
- X when level node is clicked center it on scren and move bar on top and bottom into screen where you can see (levelname | difficulty | what you have solved | percentage solved worldwide | etc)
- X  -> normal draging removes bars again (slide in slide out)
- X  -> clicking on otehr node in range opens that one and centers taht one and show that ones info
- - For first few levels (all ?) only unlock diff 3-4 when one is done
- - Add floating button to find next free level - auto drag following tree to next unsolved level node (aka fastest path)
- - If multiple leafs each click moves view and focus to the next
- - Worldmap starts with logo view - but animation is non-blocking you can always start dragging
-    -> animation is letter drawing with particles
-    -> and after animation if not dragged autom move to next free level
-
- - Root node in level returns to map
-
-=> needs topic: particles
-=> needs topic: screen with offset
-=> needs topic: drag events
-
-=> No dim+energysaving while active
-
-Possible Names:
-  - Grid Dominance
-  - Bullet Swipe
-  - Cannon Conquest   <--
-  - Shoot and Conquer
-
-
-Online account
- -> automatic create initial
- -> by device id
- -> later add username + pw for reuse
- -> save levels solved, points, times online
- -> daily (/hourly?) cronjob to calc stats
- -> php backend
- -> log into other acc with pw
-
-Online crash log 
- -> by php send mail (always or daily report ??)
- -> username, log, device, resolution, android version, etc
-
-
-TODO NEXT
-
- - Less cannoncog frames in spritesheet (mirror on axis) (does not work with less than hd ??)
- - winning HUD
-    -> HUD COntainer
-    -> Dyn create blur background from 9 pieces (use for pauseButtons)
-    -> Dyn create rounded border panels (use for pauseButtons)
-    -> see sample win hud
-        - Diff levels clickable
-        - On new diff achieve icon pop-grows (swiggle function) and +score indicator is visible (and animated ?)
-
- - menu
- - levels
- - score
- - sound
-
---------------------------------------------------------------------------
-
-Different spritesheet scales for diff devices
-
-mit ton + musik
-
-different tower types
-
-Level select wie Sokobond, drag around
-	- Level build a tree
-	- some (3) branches must be bought per in-app-buy, or buy full eversion with everything
-	- dead ends and master level with two roots
-
-Levels in plaintext, code like format
-	-> Level Editor / Level Live Preview tool
-
-Digital World (like World of Goo)
-
-Art Style wie Tron? - somth simplistic
-	On Cannon shoot eject particles in color on grid
-	particles follow grid lines
-	particles split into smaller ones on intersections
-	tiles get colors from surrounding particles
-	enemy particles neutralize each other
-	whole map gets colored in sections of the fractions naturally
-
-Special Stuff:
-	Laser Cannons
-		Continoous damage
-		Lasers combine
-		Lasers reflect each other
-		Reflecting Walls
-		Refracting walls -> Glass Walls
-			(game machanic: bullets feflect, lasers only refract)
-	Destructible Turrets
-		Can't convert - only destroy
-	Smaller turrets, bullets have less weight
-	Shield Turrets
-		Protect other turret from damage
-		Dont shoot itself
-		Shield turret can't form loop (shielded turret can's shield other turret)
-
-
--> root node in level returns to overworld map
--> Tutorial in first three level (icon anim for drag | text for whoot enemy | text for capture neutral | etxt for boost own cannons)
--> Make Cannon Bullet power dependent on cannon size (no change for current defaault size, but big mama should one or twoshot enemy cannon), perhaps also shoot with less freq
--> Better Icons for 4 diff (1+4 is ok)
--> Zoom in should start mid pinch (once power is big enough) not when release finger
-
-Größere Hitbox pause button
-evtl größere buttons for speed (klein aufm handy)
-
-More level ideas:
-	cannons
-	diff sizes
-	walls
-	kill walls
-	port walls
-	endless level (donut)
-	shoot 4 way cannon
-	spreadshot cannon
-	minigun cannon with cooldown
-	rotating + moving walls
-	rotating and moving cannons
+[X] WorldBackground correct Render
+[X] Only draw visible entities
+[X] World Map Node Entities
+[X] Level are nodes on grid => bigger than cannons - should be easily clickable by touch !!!
+[X] draggable
+[X] ring around level button, 4 segments, one for each difficulty
+[X] show diff buttons on click -> extend rectangular segments outwards
+[X] smooth overdrag (autom push back into bounds)
+[X] spell game name with particles on base view
+      - Particle system
+      - draw leetters by having their path stored nin game
+      - text appears like written by delaying path draw
+[X] connect level round buttons with pipes (or with CPU grid particles ?)
+[X] pipe becomes active when levl cleared on at least one diff
+[X] whole map not forcible rectangulare (but 90° edges)
+[X] background like in level, cleared levels convert background (diff = different color or higher intensity or higher reach) -> or diff=lighter color (?)
+[X] only draw what is visible
+[X] when level node is clicked center it on scren and move bar on top and bottom into screen where you can see (levelname | difficulty | what you have solved | percentage solved worldwide | etc)
+      - normal draging removes bars again (slide in slide out)
+      - clicking on otehr node in range opens that one and centers taht one and show that ones info
+[X] For first few levels (all ?) only unlock diff 3-4 when one is done
+[/] Add floating button to find next free level - auto drag following tree to next unsolved level node (aka fastest path)
+[/] If multiple leafs each click moves view and focus to the next
+[/] Worldmap starts with logo view - but animation is non-blocking you can always start dragging
+      - animation is letter drawing with particles
+      - and after animation if not dragged autom move to next free level
+[X] Root node in level returns to map
+[X] needs topic: particles
+[X] needs topic: screen with offset
+[X] needs topic: drag events
+[ ] No dim+energysaving while active
+[ ] Possible Names:
+      - Grid Dominance
+      - Bullet Swipe
+      - Cannon Conquest   <--
+      - Shoot and Conquer
+[X] Online account
+      - automatic create initial
+      - by device id
+      - later add username + pw for reuse
+      - save levels solved, points, times online
+      - daily (/hourly?) cronjob to calc stats
+      - php backend
+      - log into other acc with pw
+[X] Online crash log 
+      - by php send mail (always or daily report ??)
+      - username, log, device, resolution, android version, etc
+[ ] Less cannoncog frames in spritesheet (mirror on axis) (does not work with less than hd ??)
+[X] winning HUD
+      - HUD COntainer
+      - Dyn create blur background from 9 pieces (use for pauseButtons)
+      - Dyn create rounded border panels (use for pauseButtons)
+      - see sample win hud
+          - Diff levels clickable
+          - On new diff achieve icon pop-grows (swiggle function) and +score indicator is visible (and animated ?)
+[~] Sound effects
+[~] Background music
+[X] Score
+[~] Menu
+      - Account
+      - Attributions
+      - Highscore
+      - Settings
+[X] Different spritesheet scales for diff devices
+[ ] different tower types
+[/] Level select wie Sokobond, drag around
+      - Level build a tree
+      - some (3) branches must be bought per in-app-buy, or buy full eversion with everything
+      - dead ends and master level with two roots
+[X] Levels in plaintext, code like format
+      - Level Editor / Level Live Preview tool
+[ ] Digital World (like World of Goo)
+[X] Art Style wie Tron? - somth simplistic
+      - On Cannon shoot eject particles in color on grid
+      - particles follow grid lines
+      - particles split into smaller ones on intersections
+      - tiles get colors from surrounding particles
+      - enemy particles neutralize each other
+      - whole map gets colored in sections of the fractions naturally
+[X] Laser Cannons
+      - Continoous damage
+      - Lasers combine
+      - Lasers reflect each other
+      - Reflecting Walls
+      - Refracting walls -> Glass Walls
+          - (game machanic: bullets feflect, lasers only refract)
+[ ] Destructible Turrets
+      - Can't convert - only destroy
+[X] Smaller turrets, bullets have less weight
+[ ] Shield Turrets
+      - Protect other turret from damage
+      - Dont shoot itself
+      - Shield turret can't form loop (shielded turret can's shield other turret)
+[X] root node in level returns to overworld map
+[/] Tutorial in first three level (icon anim for drag | text for whoot enemy | text for capture neutral | etxt for boost own cannons)
+[X] Make Cannon Bullet power dependent on cannon size (no change for current defaault size, but big mama should one or twoshot enemy cannon), perhaps also shoot with less freq
+[X] Better Icons for 4 diff (1+4 is ok)
+[/] Zoom in should start mid pinch (once power is big enough) not when release finger
+[ ] Fix stretched splash screen (+ better splash image -> BFB logo (evtl bfb animation ???))
+[ ] Größere Hitbox pause button
+[ ] evtl größere buttons for speed (klein aufm handy)
+[X] Diff cannon sizes
+[~] Walls
+[X] kill walls
+[ ] portal walls
+[ ] endless level (donut)
+[ ] shoot 4 way cannon
+[ ] spreadshot cannon
+[ ] minigun cannon with cooldown
+[ ] rotating + moving walls
+[ ] rotating and moving cannons
