@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
 using System.Linq;
+using GridDominance.Levelfileformat;
 
 namespace GridDominance.Content.Pipeline.GDLevel
 {

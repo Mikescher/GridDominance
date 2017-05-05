@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
+using GridDominance.Graphfileformat;
 using GridDominance.Graphfileformat.Blueprint;
 
 namespace GridDominance.Content.Pipeline.GDWorldGraph

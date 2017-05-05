@@ -39,11 +39,12 @@
     <Compile Include="Graphfileformat\Blueprint\PipeBlueprint.cs" />
     <Compile Include="Graphfileformat\Blueprint\NodeBlueprint.cs" />
     <Compile Include="Graphfileformat\Blueprint\GraphBlueprint.cs" />
-    <Compile Include="Graphfileformat\Blueprint\GraphParser.cs" />
+    <Compile Include="Graphfileformat\GraphParser.cs" />
     <Compile Include="Graphfileformat\Pipeline\GDWorldGraphReader.cs" />
     <Compile Include="Levelfileformat\Blueprint\LevelBlueprint.cs" />
-    <Compile Include="Levelfileformat\Blueprint\LevelParser.cs" />
+    <Compile Include="Levelfileformat\LevelParser.cs" />
     <Compile Include="Levelfileformat\Blueprint\VoidCircleBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\GlassBlockBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\VoidWallBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\CannonBlueprint.cs" />
     <Compile Include="SAMScriptParser\ParsingException.cs" />

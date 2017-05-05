@@ -2,7 +2,7 @@
 {
 	public struct VoidCircleBlueprint
 	{
-		public readonly float X;
+		public readonly float X; // center
 		public readonly float Y;
 		public readonly float Diameter;
 

@@ -125,6 +125,19 @@ namespace GridDominance.DSLEditor.Drawing
 						}
 						g.Restore(save);
 					}
+
+					var glassbrush = new SolidBrush(Color.FromArgb(128, Color.Aqua));
+					var glasspen = new Pen(Color.White, 4);
+					foreach (var vblock in level.BlueprintGlassBlocks)
+					{
+						var save = g.Save();
+						{
+							g.TranslateTransform(vblock.X, vblock.Y);
+							g.FillRectangle(glassbrush, -vblock.Width / 2, -vblock.Height / 2, vblock.Width, vblock.Height);
+							g.DrawRectangle(glasspen, -vblock.Width / 2, -vblock.Height / 2, vblock.Width, vblock.Height);
+						}
+						g.Restore(save);
+					}
 				}
 			}
 

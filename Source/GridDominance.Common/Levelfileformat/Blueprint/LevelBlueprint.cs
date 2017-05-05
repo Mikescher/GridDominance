@@ -12,11 +12,13 @@ namespace GridDominance.Levelfileformat.Blueprint
 		private const byte SERIALIZE_ID_GUID        = 0x04;
 		private const byte SERIALIZE_ID_VOIDWALL    = 0x05;
 		private const byte SERIALIZE_ID_VOIDCIRCLE  = 0x06;
+		private const byte SERIALIZE_ID_GLASSBLOCK  = 0x07;
 		private const byte SERIALIZE_ID_EOF         = 0xFF;
 
 		public readonly List<CannonBlueprint>     BlueprintCannons     = new List<CannonBlueprint>();
 		public readonly List<VoidWallBlueprint>   BlueprintVoidWalls   = new List<VoidWallBlueprint>();
 		public readonly List<VoidCircleBlueprint> BlueprintVoidCircles = new List<VoidCircleBlueprint>();
+		public readonly List<GlassBlockBlueprint> BlueprintGlassBlocks = new List<GlassBlockBlueprint>();
 
 		public Guid UniqueID { get; set; } = Guid.Empty;
 		public string Name { get; set; } = "";
@@ -66,6 +68,15 @@ namespace GridDominance.Levelfileformat.Blueprint
 				bw.Write(wall.Diameter);
 			}
 
+			foreach (var block in BlueprintGlassBlocks)
+			{
+				bw.Write(SERIALIZE_ID_GLASSBLOCK);
+				bw.Write(block.X);
+				bw.Write(block.Y);
+				bw.Write(block.Width);
+				bw.Write(block.Height);
+			}
+
 			bw.Write(SERIALIZE_ID_EOF);
 		}
 
@@ -107,6 +118,17 @@ namespace GridDominance.Levelfileformat.Blueprint
 						var d = br.ReadSingle();
 
 						BlueprintVoidCircles.Add(new VoidCircleBlueprint(x, y, d));
+
+						break;
+					}
+					case SERIALIZE_ID_GLASSBLOCK:
+					{
+						var x = br.ReadSingle();
+						var y = br.ReadSingle();
+						var w = br.ReadSingle();
+						var h = br.ReadSingle();
+
+						BlueprintGlassBlocks.Add(new GlassBlockBlueprint(x, y, w, h));
 
 						break;
 					}

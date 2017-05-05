@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using GridDominance.Graphfileformat;
 using GridDominance.SAMScriptParser;
 
 namespace GridDominance.DSLEditor

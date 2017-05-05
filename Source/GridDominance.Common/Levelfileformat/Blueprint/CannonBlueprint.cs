@@ -4,7 +4,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 {
 	public struct CannonBlueprint
 	{
-		public readonly float X;
+		public readonly float X; // center
 		public readonly float Y;
 		public readonly float Diameter;
 		public readonly int Player;

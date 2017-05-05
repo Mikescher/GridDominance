@@ -19,12 +19,15 @@ Cannon(SIZE_TINY,   A2,  [15,  9], ROT_N)
 Cannon(SIZE_TINY,   N0,  [1 ,  9], ROT_N)
 Cannon(SIZE_TINY,   A3,  [15,  1], ROT_N)
 
+
+GlassBlock([ 12,  2], 1.5, 2)
+
 VoidCircle([ 10,  3], 1)
 
 VoidWall_V([ 5, 5.5], 1)
 VoidWall_V([11, 5], 2)
 
-VoidWall_H([8, 7], 9)
+GlassWall_H([8, 7], 9)
 
 VoidWall([3, 1], [6, 4])
 
@@ -50,7 +53,7 @@ VoidWall_H([5, 9], 2)
 #        5 #   \ /    |           |          #
 #                                             
 #        6 #                                 #
-#                   -----------------         
+#                                             
 #        7 #                                 #
 #                      -                      
 #        8 #          |                      #

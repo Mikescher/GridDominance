@@ -157,6 +157,10 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexPanelBlurCorner;
 		public static TextureRegion2D TexPanelCorner;
 
+		public static TextureRegion2D TexGlassEdge;
+		public static TextureRegion2D TexGlassCorner;
+		public static TextureRegion2D TexGlassFill;
+
 		public static TextureRegion2D TexIconBack;
 		public static TextureRegion2D TexIconNext;
 		public static TextureRegion2D TexIconRedo;
@@ -260,6 +264,10 @@ namespace GridDominance.Shared.Resources
 			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];
 			TexPanelCorner     = AtlasTextures["panel_corner"];
+
+			TexGlassEdge       = AtlasTextures["glass_side"];
+			TexGlassCorner     = AtlasTextures["glass_corner"];
+			TexGlassFill       = AtlasTextures["glass_fill"];
 
 			TexIconBack        = AtlasTextures["back"];
 			TexIconNext        = AtlasTextures["next"];

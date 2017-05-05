@@ -156,6 +156,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			foreach (var bPrint in Blueprint.BlueprintVoidCircles)
 				Entities.AddEntity(new VoidCircle(this, bPrint));
+
+			foreach (var bPrint in Blueprint.BlueprintGlassBlocks)
+				Entities.AddEntity(new GlassBlock(this, bPrint));
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

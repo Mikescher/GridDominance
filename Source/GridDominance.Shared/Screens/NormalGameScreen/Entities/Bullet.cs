@@ -59,12 +59,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			PhysicsBody.LinearVelocity = ConvertUnits.ToSimUnits(initialVelocity);
 			PhysicsBody.CollidesWith = Category.All;
 			PhysicsBody.IsBullet = true;
-			PhysicsBody.Restitution = 0.95f;
+			PhysicsBody.Restitution = 1f;         //Bouncability, 1=bounce always
 			PhysicsBody.AngularDamping = 0.5f;
-			PhysicsBody.Friction = 0.2f;
+			PhysicsBody.Friction = 0f;
 			PhysicsBody.LinearDamping = 0f;
 			PhysicsBody.OnCollision += OnCollision;
-			PhysicsBody.AngularVelocity = 0; //TODO Remove all angular calculations? (-> more consistency and faster calc?)
+			PhysicsBody.AngularVelocity = 0;
 			//Body.Mass = Scale * Scale; // Weight dependent on size
 		}
 
@@ -140,6 +140,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				DisintegrateIntoVoidObject();
 				MainGame.Inst.GDSound.PlayEffectCollision();
 				return false;
+			}
+
+			var otherGlassBlock = fixtureB.UserData as GlassBlock;
+			if (otherGlassBlock != null)
+			{
+				//TODO Glass Collision Soundeffect
+				return true;
 			}
 
 			// wud ???

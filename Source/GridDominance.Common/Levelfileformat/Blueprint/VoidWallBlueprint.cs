@@ -4,7 +4,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 {
 	public struct VoidWallBlueprint
 	{
-		public readonly float X;
+		public readonly float X; // center
 		public readonly float Y;
 		public readonly float Length;
 		public readonly float Rotation; // in degree

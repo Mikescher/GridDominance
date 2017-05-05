@@ -26,5 +26,7 @@ VoidWall_H([4.5 * CELL_W, 1.5 * CELL_H], 2 * CELL_W)
 
 VoidCircle([5 * CELL_W, 2 * CELL_H], 64)
 
+GlassBlock([7 * CELL_W, 2 * CELL_H], 64, 64)
+
 #<map>
 #</map>

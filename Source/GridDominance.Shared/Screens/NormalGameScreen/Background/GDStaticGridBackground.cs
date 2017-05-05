@@ -76,5 +76,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		{
 			// NOTHING
 		}
+
+		public void RegisterBlockedBlock(FRectangle block)
+		{
+			// NOTHING
+		}
 	}
 }

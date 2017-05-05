@@ -632,6 +632,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			}
 		}
 
+		public void RegisterBlockedBlock(FRectangle block)
+		{
+			RegisterBlockedLine(block.VectorTopLeft, block.VectorTopRight);
+			RegisterBlockedLine(block.VectorTopRight, block.VectorBottomRight);
+			RegisterBlockedLine(block.VectorBottomRight, block.VectorBottomLeft);
+			RegisterBlockedLine(block.VectorBottomLeft, block.VectorTopLeft);
+		}
+
 		#endregion
 	}
 }

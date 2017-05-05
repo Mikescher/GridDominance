@@ -5,6 +5,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using System;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
@@ -221,6 +222,48 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+		}
+
+		public static void DrawDef9Rect(IBatchRenderer sbatch, FRectangle bounds, Color colEdge, Color colCorner, Color colFill, TextureRegion2D texEdge, TextureRegion2D texCorner, TextureRegion2D texFill, float cornerSize)
+		{
+			var r_tl = new FRectangle(bounds.Left - cornerSize, bounds.Top - cornerSize, 2 * cornerSize, 2 * cornerSize);
+			var r_tr = new FRectangle(bounds.Right - cornerSize, bounds.Top - cornerSize, 2 * cornerSize, 2 * cornerSize);
+			var r_br = new FRectangle(bounds.Right - cornerSize, bounds.Bottom - cornerSize, 2 * cornerSize, 2 * cornerSize);
+			var r_bl = new FRectangle(bounds.Left - cornerSize, bounds.Bottom - cornerSize, 2 * cornerSize, 2 * cornerSize);
+
+			var r_l = new FRectangle(r_tl.Left, r_tl.Bottom, r_tl.Width, r_bl.Top - r_tl.Bottom);
+			var r_t = new FRectangle(r_tl.Right, r_tl.Top, r_tr.Left - r_tl.Right, r_tl.Height);
+			var r_r = new FRectangle(r_tr.Left, r_tr.Bottom, r_tr.Width, r_br.Top - r_tr.Bottom);
+			var r_b = new FRectangle(r_bl.Right, r_bl.Top, r_br.Left - r_bl.Right, r_bl.Height);
+
+			var r_c = new FRectangle(bounds.Left + cornerSize, bounds.Top + cornerSize, bounds.Width - 2 * cornerSize, bounds.Height - 2 * cornerSize);
+
+			// Top
+			sbatch.DrawRot000(texEdge, r_t, colEdge, 0);
+
+			// Right
+			sbatch.DrawRot090(texEdge, r_r, colEdge, 0);
+
+			// Bottom
+			sbatch.DrawRot180(texEdge, r_b, colEdge, 0);
+
+			// Left
+			sbatch.DrawRot270(texEdge, r_l, colEdge, 0);
+
+			// TL
+			sbatch.DrawRot000(texCorner, r_tl, colCorner, 0);
+
+			// TR
+			sbatch.DrawRot090(texCorner, r_tr, colCorner, 0);
+
+			// BR
+			sbatch.DrawRot180(texCorner, r_br, colCorner, 0);
+
+			// BL
+			sbatch.DrawRot270(texCorner, r_bl, colCorner, 0);
+
+			// Center
+			sbatch.DrawStretched(texFill, r_c, colFill, 0);
 		}
 	}
 }

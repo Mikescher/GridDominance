@@ -118,7 +118,7 @@ function getParamDeflOrError($name, $allowEmpty = false) {
  * @return string
  */
 function getParamUIntOrError($name) {
-	$v = getParamStrOrError($name);
+	$v = getParamStrOrError($name, true);
 
 	if (!is_int_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::DEBUG);
 
