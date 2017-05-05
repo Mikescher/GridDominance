@@ -21,7 +21,7 @@ namespace GridDominance.DSLEditor
 		public ICommand ReloadCommand => new RelayCommand(r => Reload());
 		public ICommand SaveCommand => new RelayCommand(Save);
 		public ICommand CompileCommand => new RelayCommand(Compile); 
-		public ICommand OverviewCommand => new RelayCommand(LevelOverview);
+		public ICommand PackCommand => new RelayCommand(Pack);
 		public ICommand RepaintCommand => new RelayCommand(Repaint);
 		public ICommand UUIDCommand => new RelayCommand(InsertUUID);
 		public ICommand ClosingCommand => new RelayCommand<CancelEventArgs>(FormClosing);
@@ -251,6 +251,27 @@ namespace GridDominance.DSLEditor
 			}
 
 			return true;
+		}
+
+		private void Pack()
+		{
+			try
+			{
+				LevelOverview();
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show("LevelOverview failed:\r\n" + e);
+			}
+
+			try
+			{
+				UpdateGuids();
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show("UpdateGuids failed:\r\n" + e);
+			}
 		}
 	}
 }

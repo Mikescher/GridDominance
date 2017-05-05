@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
@@ -41,6 +41,7 @@ namespace GridDominance.Shared.Resources
 			LoadLevel(content, "levels/lvl012");
 			LoadLevel(content, "levels/lvl013");
 			LoadLevel(content, "levels/lvl014");
+			/* [MARK_LOAD_LEVEL] */
 
 			WORLD_001 = LoadWorld(content, "levels/world_1");
 

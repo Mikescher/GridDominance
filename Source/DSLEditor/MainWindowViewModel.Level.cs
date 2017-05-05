@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace GridDominance.DSLEditor
 {
@@ -226,16 +227,16 @@ namespace GridDominance.DSLEditor
 				}
 			}
 
-			FileDialog sfd = new SaveFileDialog
+
+			var fileOut = Path.Combine(folder, @"..\..\..\..\Data\overview.png");
+
+			if (!File.Exists(fileOut))
 			{
-				DefaultExt = ".png",
-				InitialDirectory = folder,
-				FileName = "overview.png",
-			};
-			if (sfd.ShowDialog() == true)
-			{
-				bmp.Save(sfd.FileName);
+				MessageBox.Show("FileNotFound: " + fileOut);
+				return;
 			}
+
+			bmp.Save(fileOut);
 		}
 
 		public string GenerateASCIIMap(LevelBlueprint l)

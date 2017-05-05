@@ -33,7 +33,7 @@
 			<Button Grid.Column="1" Margin="4" MinWidth="80" MinHeight="26" Content="Reload"   Click="{mext:EventBinding ReloadCommand}" />
 			<Button Grid.Column="2" Margin="4" MinWidth="80" MinHeight="26" Content="Save"     Click="{mext:EventBinding SaveCommand}" />
 			<Button Grid.Column="3" Margin="4" MinWidth="80" MinHeight="26" Content="Compile"  Click="{mext:EventBinding CompileCommand}" />
-			<Button Grid.Column="4" Margin="4" MinWidth="80" MinHeight="26" Content="Overview" Click="{mext:EventBinding OverviewCommand}" />
+            <Button Grid.Column="4" Margin="4" MinWidth="80" MinHeight="26" Content="Pack"     Click="{mext:EventBinding PackCommand}" />
 		</Grid>
 
 		<Border Grid.Row="1" Margin="2" Background="#222" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased">
