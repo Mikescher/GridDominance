@@ -6,12 +6,12 @@ init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001})
 
 include("stdvalues")
 
-Cannon(SIZE_SMALL,  P1,  [ 2,  5], ROT_N)
+Cannon(SIZE_SMALL,  P1,  [ 2,  6.3], ROT_N)
 
 Cannon(SIZE_SMALL,  N0,  [14,  5], ROT_S)
 
 Cannon(SIZE_SMALL,  N0,  [ 8,  1], ROT_SW)
-Cannon(SIZE_NORMAL, N0,  [ 8,  5], ROT_E)
+#Cannon(SIZE_NORMAL, N0,  [ 8,  5], ROT_E)
 Cannon(SIZE_SMALL,  N0,  [ 8,  9], ROT_NE)
 
 Cannon(SIZE_TINY,   N0,  [1 ,  1], ROT_N)
@@ -20,12 +20,12 @@ Cannon(SIZE_TINY,   N0,  [1 ,  9], ROT_N)
 Cannon(SIZE_TINY,   A3,  [15,  1], ROT_N)
 
 
-GlassBlock([ 12,  2], 1.5, 2)
+#GlassBlock([ 12,  2], 1.5, 2)
 
 VoidCircle([ 10,  3], 1)
 
-VoidWall_V([ 5, 5.5], 1)
-VoidWall_V([11, 5], 2)
+#VoidWall_V([ 5, 5.5], 1)
+VoidWall_V([11, 5], 3.5)
 
 GlassWall_H([8, 7], 9)
 
@@ -35,30 +35,36 @@ VoidWall_V([5, 8.5], 1)
 VoidWall_H([5.5, 8], 1)
 VoidWall_H([5, 9], 2)
 
+VoidWall([14, 10], [14, 8])
+VoidWall([14,  8], [16, 8])
+
+VoidWall([14,  0], [14, 2])
+VoidWall([14,  2], [16, 2])
+
 #<map>
 #
 #            0 1 2 3 4 5 6 7 8 9 A B C D E F
 #          # # # # # # # # # # # # # # # # # #
 #                                             
-#        0 #                                 #
-#            <O>  \        <O>            O   
-#        1 #       \                         #
-#                   \                         
+#        0 #                            |    #
+#            <O>  \        <O>          | O   
+#        1 #       \                    |    #
+#                   \                    ---  
 #        2 #         \                       #
 #                     \        (X)            
 #        3 #           \                     #
-#                       \                     
-#        4 #   / \                |          #
-#               O          <O>    |    <O>    
-#        5 #   \ /    |           |          #
-#                                             
-#        6 #                                 #
-#                                             
+#                       \         |           
+#        4 #                                 #
+#                                 |    <O>    
+#        5 #                                 #
+#              / \                |           
+#        6 #    O                            #
+#              \ /                            
 #        7 #                                 #
-#                      -                      
-#        8 #          |                      #
-#            <O>     ---   <O>            O   
-#        9 #                                 #
+#                      -                 ---  
+#        8 #          |                 |    #
+#            <O>     ---   <O>          | O   
+#        9 #                            |    #
 #                                             
 #          # # # # # # # # # # # # # # # # # #
 #

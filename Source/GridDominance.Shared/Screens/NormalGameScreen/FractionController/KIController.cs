@@ -168,6 +168,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 			GameEntity result = null;
 
+			float velo = b.PhysicsBody.LinearVelocity.Length();
+
+			if (Math.Abs(velo) < FloatMath.EPSILON6) return false;
+
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
 				if (f.UserData is Bullet) // ignore _all_ Bullets

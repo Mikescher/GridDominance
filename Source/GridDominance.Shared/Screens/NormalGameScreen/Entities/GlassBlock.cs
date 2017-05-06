@@ -28,7 +28,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly FRectangle _bounds;
 
 		public Body PhysicsBody;
-		
+		public Fixture PhysicsFixture;
+
 		public GlassBlock(GDGameScreen scrn, GlassBlockBlueprint blueprint) : base(scrn, GDConstants.ORDER_GAME_WALL)
 		{
 			var pos = new Vector2(blueprint.X, blueprint.Y);
@@ -47,10 +48,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			PhysicsBody = BodyFactory.CreateRectangle(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(_width), ConvertUnits.ToSimUnits(_height), 1, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static, this);
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static);
 
-			PhysicsBody.Friction = 0;
-			PhysicsBody.Restitution = 0;
+			PhysicsFixture = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(_width), ConvertUnits.ToSimUnits(_height), 1, Vector2.Zero, PhysicsBody, this);
 		}
 		
 		public override void OnRemove()

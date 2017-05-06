@@ -12,6 +12,7 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float SQRT_ONE_HALF = 0.70710678118654752440f;
 
 		public const float EPSILON = 1E-10f;
+		public const float EPSILON6 = 1E-6f;
 
 		public const float RadiansToDegrees = 180f / PI;
 		public const float RadDeg = RadiansToDegrees;
