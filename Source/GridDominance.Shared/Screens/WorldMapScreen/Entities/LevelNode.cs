@@ -41,6 +41,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public const float EXPANSION_TIME       = 0.5f;
 		public const float CLOSING_TIME         = 0.25f;
 		public const float CENTERING_TIME       = 0.55f;
+		public const float SHAKE_TIME           = 0.55f;
 		public const float EXTENDER_DELAY       = 0.1f;
 		public const float TOTAL_EXPANSION_TIME = 0.7f; // ~ EXPANSION_TIME+3*EXTENDER_DELAY   ; but a bit less 'cause it looks better
 
@@ -211,12 +212,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OpenNode()
 		{
+			AbortAllOperations(p => p.Name == "LevelNode::Center");
+			AbortAllOperations(p => p.Name == "LevelNode::CenterShake");
+
 			if (!NodeEnabled)
 			{
-				//TODO Sound
-				//TODO Shake effect
-
-				AddEntityOperation(new CenterNodeOperation(Owner));
+				//TODO Err sound
+				AddEntityOperation(new ScreenShakeAndCenterOperation(this, Owner));
 
 				return;
 			}

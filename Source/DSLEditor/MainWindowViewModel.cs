@@ -266,11 +266,11 @@ namespace GridDominance.DSLEditor
 
 			try
 			{
-				UpdateGuids();
+				UpdateSourceFiles();
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show("UpdateGuids failed:\r\n" + e);
+				MessageBox.Show("UpdateSourceFiles failed:\r\n" + e);
 			}
 		}
 	}

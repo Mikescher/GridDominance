@@ -75,6 +75,8 @@ namespace GridDominance.DSLEditor.Drawing
 						g.DrawLine((y % 2 == 0) ? Pens.DarkGray : new Pen(Color.FromArgb(88, 88, 88)), 0, y * 64, 1024, y * 64);
 					}
 
+					var rayPen = new Pen(Color.Red, 2f) {DashStyle = DashStyle.Dash};
+
 					foreach (var c in level.BlueprintCannons)
 					{
 						var rectBaseCircle  = new RectangleF(-0.500f, -0.500f, 1.000f, 1.000f);
@@ -103,6 +105,19 @@ namespace GridDominance.DSLEditor.Drawing
 							
 						}
 						g.Restore(save);
+
+						foreach (var path in c.PrecalculatedPaths)
+						{
+							float cx = c.X;
+							float cY = c.Y;
+							foreach (var ray in path.Rays)
+							{
+								g.DrawLine(rayPen, cx, cY, ray.Item1, ray.Item2);
+
+								cx = ray.Item1;
+								cY = ray.Item2;
+							}
+						}
 
 					}
 

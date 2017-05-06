@@ -1,6 +1,8 @@
-﻿namespace GridDominance.Levelfileformat.Blueprint
+﻿using System.IO;
+
+namespace GridDominance.Levelfileformat.Blueprint
 {
-	public struct GlassBlockBlueprint
+	public sealed class GlassBlockBlueprint
 	{
 		public const float DEFAULT_WIDTH = 24; // TILE_WIDTH * 0.333f
 
@@ -15,6 +17,25 @@
 			Y = y;
 			Width = w;
 			Height = h;
+		}
+
+		public void Serialize(BinaryWriter bw)
+		{
+			bw.Write(LevelBlueprint.SERIALIZE_ID_GLASSBLOCK);
+			bw.Write(X);
+			bw.Write(Y);
+			bw.Write(Width);
+			bw.Write(Height);
+		}
+
+		public static GlassBlockBlueprint Deserialize(BinaryReader br)
+		{
+			var x = br.ReadSingle();
+			var y = br.ReadSingle();
+			var w = br.ReadSingle();
+			var h = br.ReadSingle();
+
+			return new GlassBlockBlueprint(x, y, w, h);
 		}
 	}
 }

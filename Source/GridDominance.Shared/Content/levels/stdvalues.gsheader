@@ -25,6 +25,9 @@ define(SIZE_GIGANTIC,  3.000)  # 8/4 * CANNON_DIAMETER
 
 define(TILE_WIDTH, 64)
 
+define(KI_RAYTRACE, 10)
+define(KI_PRECALC,  11)
+
 
 scale(TILE_WIDTH)
 

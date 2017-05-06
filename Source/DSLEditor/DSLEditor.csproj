@@ -42,6 +42,9 @@
       <HintPath>..\packages\AvalonEdit.5.0.3\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -73,6 +76,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helper\DSLUtil.cs" />
     <Compile Include="Helper\ExtendedBinaryWriter.cs" />
     <Compile Include="Drawing\ImageHelper.cs" />
     <Compile Include="Drawing\LevelAsciiDrawer.cs" />
@@ -93,6 +97,7 @@
     <Compile Include="MainWindowViewModel.Level.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PreCalculation\LevelBulletPathTracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -127,6 +132,10 @@
     <ProjectReference Include="..\External\CSharpUtils\CSharpUtils.csproj">
       <Project>{d661cd9f-8934-496d-8332-bc82aab77598}</Project>
       <Name>CSharpUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj">
+      <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
+      <Name>FarseerPhysics.Portable</Name>
     </ProjectReference>
     <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj">
       <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>

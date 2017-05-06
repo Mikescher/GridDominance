@@ -109,7 +109,7 @@ namespace GridDominance.DSLEditor
 			return new GraphParser(Code).Parse();
 		}
 
-		private void UpdateGuids()
+		private void UpdateSourceFiles()
 		{
 			if (!File.Exists(FilePath)) { MessageBox.Show("No root folder"); return; }
 			var folder = Path.GetDirectoryName(FilePath);

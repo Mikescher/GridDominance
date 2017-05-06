@@ -41,6 +41,7 @@
     <Compile Include="Graphfileformat\Blueprint\GraphBlueprint.cs" />
     <Compile Include="Graphfileformat\GraphParser.cs" />
     <Compile Include="Graphfileformat\Pipeline\GDWorldGraphReader.cs" />
+    <Compile Include="Levelfileformat\Blueprint\BulletPathBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\LevelBlueprint.cs" />
     <Compile Include="Levelfileformat\LevelParser.cs" />
     <Compile Include="Levelfileformat\Blueprint\VoidCircleBlueprint.cs" />

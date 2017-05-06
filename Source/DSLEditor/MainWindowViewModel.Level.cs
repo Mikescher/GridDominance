@@ -135,26 +135,12 @@ namespace GridDominance.DSLEditor
 				includesFunc = x => includes.FirstOrDefault(p => LevelBlueprint.IsIncludeMatch(p.Key, x)).Value;
 			}
 
-			return new LevelParser(input, includesFunc).Parse();
+			return DSLUtil.ParseLevelFromString(input, includesFunc);
 		}
 
 		private LevelBlueprint ParseSpecificLevelFile(string f)
 		{
-			var input = File.ReadAllText(f);
-			input = ReplaceMagicConstantsInLevelFile(input);
-
-			Func<string, string> includesFunc = x => null;
-			if (File.Exists(FilePath))
-			{
-				var path = Path.GetDirectoryName(f) ?? "";
-				var pattern = "*.gsheader";
-
-				var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
-
-				includesFunc = x => includes.FirstOrDefault(p => LevelBlueprint.IsIncludeMatch(p.Key, x)).Value;
-			}
-
-			return new LevelParser(input, includesFunc).Parse();
+			return DSLUtil.ParseLevelFromFile(f);
 		}
 
 		private void RecreateMapForLevelFile(LevelBlueprint lp)

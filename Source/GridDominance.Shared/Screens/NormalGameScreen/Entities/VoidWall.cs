@@ -18,7 +18,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
 	public class VoidWall : GameEntity
 	{
-		public const float WIDTH      = 8f;
+		public const float WIDTH      = VoidWallBlueprint.DEFAULT_WIDTH;
 		public const float MARGIN_TEX = 8f;
 
 		public override Vector2 Position { get; }
@@ -52,7 +52,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override void OnInitialize(EntityManager manager)
 		{
 			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static);
-
 			PhysicsFixture = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(_length), ConvertUnits.ToSimUnits(WIDTH), 1, Vector2.Zero, PhysicsBody, this);
 
 			PhysicsBody.Rotation = _rotation;

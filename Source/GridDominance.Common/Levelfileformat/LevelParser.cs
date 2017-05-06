@@ -86,13 +86,15 @@ namespace GridDominance.Levelfileformat
 
 		private void InitLevel(List<string> methodParameter)
 		{
-			var levelname = ExtractStringParameter(methodParameter, 0);
-			var leveldesc = ExtractStringParameter(methodParameter, 1);
-			var levelguid = ExtractGuidParameter(methodParameter, 2);
+			var levelname = ExtractStringParameter(methodParameter,  0);
+			var leveldesc = ExtractStringParameter(methodParameter,  1);
+			var levelguid = ExtractGuidParameter(methodParameter,    2);
+			var levelki   = ExtractIntegerParameter(methodParameter, 3);
 
 			_result.Name = levelname;
 			_result.FullName = leveldesc;
 			_result.UniqueID = levelguid;
+			_result.KIType = (byte)levelki;
 		}
 
 		private void SetScale(List<string> methodParameter)

@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
+using GridDominance.DSLEditor.Helper;
 using GridDominance.Levelfileformat;
 using Color = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
@@ -133,15 +134,12 @@ namespace GridDominance.DSLEditor.Drawing
 
 			var d = new Dictionary<Guid, string>();
 
-			var includes = Directory.EnumerateFiles(path, "*.gsheader").ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
-			Func<string, string> includesFunc = x => includes.FirstOrDefault(p => LevelBlueprint.IsIncludeMatch(p.Key, x)).Value;
 
 			foreach (var f in Directory.EnumerateFiles(path).Where(p => p.ToLower().EndsWith(".gslevel")))
 			{
 				try
 				{
-					var fp = new LevelParser(File.ReadAllText(f), includesFunc);
-					var lf = fp.Parse(Path.GetFileName(f));
+					var lf = DSLUtil.ParseLevelFromFile(f);
 
 					d[lf.UniqueID] = lf.Name;
 				}

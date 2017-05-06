@@ -1,6 +1,8 @@
-﻿namespace GridDominance.Levelfileformat.Blueprint
+﻿using System.IO;
+
+namespace GridDominance.Levelfileformat.Blueprint
 {
-	public struct VoidCircleBlueprint
+	public sealed class VoidCircleBlueprint
 	{
 		public readonly float X; // center
 		public readonly float Y;
@@ -11,6 +13,23 @@
 			X = x;
 			Y = y;
 			Diameter = d;
+		}
+
+		public void Serialize(BinaryWriter bw)
+		{
+			bw.Write(LevelBlueprint.SERIALIZE_ID_VOIDCIRCLE);
+			bw.Write(X);
+			bw.Write(Y);
+			bw.Write(Diameter);
+		}
+
+		public static VoidCircleBlueprint Deserialize(BinaryReader br)
+		{
+			var x = br.ReadSingle();
+			var y = br.ReadSingle();
+			var d = br.ReadSingle();
+
+			return new VoidCircleBlueprint(x, y, d);
 		}
 	}
 }
