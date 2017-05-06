@@ -4,6 +4,7 @@ using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.SAMScriptParser;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -11,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using GridDominance.Levelfileformat;
+using System.Windows.Media;
 using Microsoft.Xna.Framework;
 using Color = System.Drawing.Color;
 using Point = System.Windows.Point;
@@ -20,8 +21,9 @@ namespace GridDominance.DSLEditor
 {
 	public partial class MainWindowViewModel
 	{
-		private int CurrentHighlightedCannon = -1;
-		private LevelBlueprint CurrentDisplayLevel = null;
+		private int _currentHighlightedCannon = -1;
+		private LevelBlueprint _currentDisplayLevel = null;
+		private readonly Dictionary<int, ImageSource> _imageCache = new Dictionary<int, ImageSource>();
 		private readonly LevelPreviewPainter levelPainter = new LevelPreviewPainter();
 
 		private void ReparseLevelFile()
@@ -33,8 +35,15 @@ namespace GridDominance.DSLEditor
 
 				Log.Clear();
 
-				PreviewImage = ImageHelper.CreateImageSource(levelPainter.Draw(lp, CurrentHighlightedCannon));
-				CurrentDisplayLevel = lp;
+				_imageCache.Clear();
+				_imageCache[-1] = ImageHelper.CreateImageSource(levelPainter.Draw(lp, -1));
+				foreach (var cid in lp.BlueprintCannons.Select(c => c.CannonID))
+				{
+					_imageCache[cid] = ImageHelper.CreateImageSource(levelPainter.Draw(lp, cid));
+				}
+				_currentDisplayLevel = lp;
+
+				PreviewImage = _imageCache.ContainsKey(_currentHighlightedCannon) ? _imageCache[_currentHighlightedCannon] : _imageCache[-1];
 
 				RecreateMapForLevelFile(lp);
 
@@ -94,7 +103,7 @@ namespace GridDominance.DSLEditor
 				bw.Write((UInt32)0x95);
 
 				bw.Write((byte)0x01);
-				bw.Write("GridDominance.Levelfileformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+				bw.Write("GridDominance.Levelfileformat.Pipeline.GDLevelReader, GridDominance.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
 				bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
 
 				bw.Write(binData);
@@ -102,14 +111,14 @@ namespace GridDominance.DSLEditor
 				bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00 });
 				bw.Write(new byte[] { 0x9B, 0x00, 0x00, 0x00, 0x01 });
 
-				bw.Write("GridDominance.Levelfileformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+				bw.Write("GridDominance.Levelfileformat.Pipeline.GDLevelReader, GridDominance.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
 
 				bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
 				bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00 });
 				bw.Write(new byte[] { 0x58, 0x4E, 0x42, 0x67, 0x05, 0x00, 0xA1 });
 				bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x01 });
 
-				bw.Write("GridDominance.Levelfileformat.Pipeline.GDLevelReader, GridDominance.Levelformat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+				bw.Write("GridDominance.Levelfileformat.Pipeline.GDLevelReader, GridDominance.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
 
 				bw.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 });
 			}
@@ -241,23 +250,25 @@ namespace GridDominance.DSLEditor
 
 		private void OnLevelHover(Point mousePos, double displWidth, double displHeight)
 		{
+			if (_currentDisplayLevel == null) return;
+
 			double pX = (mousePos.X / displWidth) * 1024;
 			double pY = (mousePos.Y / displHeight) * 640;
 
 			var vm = new Vector2((float)pX, (float)pY);
 
 			int newHighlight = -1;
-			foreach (var cannon in CurrentDisplayLevel.BlueprintCannons)
+			foreach (var cannon in _currentDisplayLevel.BlueprintCannons)
 			{
 				var vc = new Vector2(cannon.X, cannon.Y);
 
 				if ((vm - vc).Length() < 1.7f * cannon.Diameter / 2f) newHighlight = cannon.CannonID;
 			}
 
-			if (newHighlight != CurrentHighlightedCannon)
+			if (newHighlight != _currentHighlightedCannon)
 			{
-				CurrentHighlightedCannon = newHighlight;
-				ReparseLevelFile();
+				_currentHighlightedCannon = newHighlight;
+				PreviewImage = _imageCache.ContainsKey(_currentHighlightedCannon) ? _imageCache[_currentHighlightedCannon] : _imageCache[-1];
 			}
 		}
 	}

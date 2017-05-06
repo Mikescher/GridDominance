@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
 using System.Linq;
+using GridDominance.Content.Pipeline.PreCalculation;
 using GridDominance.Levelfileformat;
 
 namespace GridDominance.Content.Pipeline.GDLevel
@@ -14,7 +15,9 @@ namespace GridDominance.Content.Pipeline.GDLevel
 			var parser = new LevelParser(input.Content, x => input.Includes.FirstOrDefault(p => LevelBlueprint.IsIncludeMatch(p.Key, x)).Value);
 
 			var lf = parser.Parse();
-			
+
+			BlueprintPreprocessor.ProcessLevel(lf);
+
 			Console.WriteLine("Parsing file with " + lf.BlueprintCannons.Count + " cannon definitions");
 			Console.WriteLine("Parsing file with " + lf.BlueprintVoidWalls.Count + " voidwall definitions");
 

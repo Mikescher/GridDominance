@@ -1,7 +1,7 @@
 # Levelfile - Example  #
 ########################
 
-init("0-exmpl", "Template", ::UUID::)
+init("0-exmpl", "Template", ::UUID::, 10)
 
 define(N0, 0) # Neutral
 define(P1, 1) # Human

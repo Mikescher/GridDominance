@@ -19,7 +19,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			intelligence = new List<KIMethod>
 			{
-				new KIMethod("AttackingBullet", FindTargetAttackingBullet),
+				KIMethod.CreateRaycast("AttackingBullet", FindTargetAttackingBullet),
 			};
 		}
 

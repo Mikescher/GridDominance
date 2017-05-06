@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
+using GridDominance.Content.Pipeline.PreCalculation;
 using GridDominance.Graphfileformat;
 using GridDominance.Graphfileformat.Blueprint;
 
@@ -13,7 +14,9 @@ namespace GridDominance.Content.Pipeline.GDWorldGraph
 			var parser = new GraphParser(input);
 
 			var gf = parser.Parse();
-			
+
+			BlueprintPreprocessor.ProcessGraph(gf);
+
 			Console.WriteLine("Parsing file with " + gf.Nodes.Count + " node definitions");
 
 			return gf;

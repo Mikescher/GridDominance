@@ -1,4 +1,5 @@
 ﻿using System;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;

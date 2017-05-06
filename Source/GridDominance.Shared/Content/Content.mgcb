@@ -290,3 +290,13 @@
 /processor:GDLevelProcessor
 /build:levels/lvl_tutorial.gslevel
 
+#begin levels/lvl101.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl101.gslevel
+
+#begin levels/world_2.gsgraph
+/importer:GDWorldGraphImporter
+/processor:GDWorldGraphProcessor
+/build:levels/world_2.gsgraph
+

@@ -11,6 +11,7 @@ namespace GridDominance.Shared.Resources
 	public static class Levels
 	{
 		public static GraphBlueprint WORLD_001;
+		public static GraphBlueprint WORLD_002;
 
 		public static LevelBlueprint LEVEL_TUTORIAL;
 		public static LevelBlueprint LEVEL_DBG;
@@ -41,9 +42,12 @@ namespace GridDominance.Shared.Resources
 			LoadLevel(content, "levels/lvl012");
 			LoadLevel(content, "levels/lvl013");
 			LoadLevel(content, "levels/lvl014");
+
+			LoadLevel(content, "levels/lvl101");
 			/* [MARK_LOAD_LEVEL] */
 
 			WORLD_001 = LoadWorld(content, "levels/world_1");
+			WORLD_002 = LoadWorld(content, "levels/world_2");
 
 #if DEBUG
 			Test();

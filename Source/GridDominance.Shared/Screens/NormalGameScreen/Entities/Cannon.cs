@@ -72,8 +72,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 		public readonly int BlueprintCannonID;
+		private readonly BulletPathBlueprint[] bulletPathBlueprints;
 		private float cannonCogRotation;
 		private List<Vector2> particleSpawns;
+		public List<BulletPath> BulletPaths;
 
 		public Body PhysicsBody;
 		public Fixture PhysicsFixtureBase;
@@ -87,6 +89,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Scale = blueprint.Diameter / CANNON_DIAMETER;
 			DrawingBoundingBox = new FSize(CANNON_OUTER_DIAMETER, CANNON_OUTER_DIAMETER) * Scale;
 			BlueprintCannonID = blueprint.CannonID;
+			bulletPathBlueprints = blueprint.PrecalculatedPaths;
 
 			Rotation = new DeltaLimitedModuloFloat(FloatMath.ToRadians(blueprint.Rotation), ROTATION_SPEED, FloatMath.TAU);
 			
@@ -112,6 +115,28 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH), ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT), 1, 
 				new Vector2(ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 0),
 				PhysicsBody, this);
+		}
+
+		public void OnAfterLevelLoad()
+		{
+			BulletPaths = new List<BulletPath>();
+			foreach (var bp in bulletPathBlueprints)
+			{
+				var c = this.GDOwner().GetEntities<Cannon>().First(p => p.BlueprintCannonID == bp.TargetCannonID);
+				var r = bp.CannonRotation;
+
+				var rays = new List<Tuple<Vector2, Vector2>>();
+
+				var start = Position;
+				foreach (var bpRay in bp.Rays)
+				{
+					var next = new Vector2(bpRay.Item1, bpRay.Item2);
+					rays.Add(Tuple.Create(start, next));
+					start = next;
+				}
+
+				BulletPaths.Add(new BulletPath(c, r, rays));
+			}
 		}
 
 		public override void OnRemove()

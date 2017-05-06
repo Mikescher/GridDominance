@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
@@ -15,17 +17,29 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		public EndGameAutoPlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction)
 			: base(STANDARD_UPDATE_TIME, owner, cannon, fraction)
 		{
-			intelligence = new List<KIMethod>
+			if (owner.Blueprint.KIType == LevelBlueprint.KI_TYPE_RAYTRACE)
 			{
-				new KIMethod("AttackingBullet,",      FindTargetAttackingBullet),
-				new KIMethod("SupportCannon",         FindTargetSupportCannon),
-				new KIMethod("NeutralCannon",         FindTargetNeutralCannon),
-				new KIMethod("EnemyCannon",           FindTargetEnemyCannon),
-				new KIMethod("FriendlyCannon",        FindTargetFriendlyCannon),
-				new KIMethod("BlockedEnemyCannon",    FindTargetBlockedEnemyCannon),
-				new KIMethod("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannon),
-				new KIMethod("NearestEnemyCannon",    FindNearestEnemyCannon),
-			};
+				intelligence = new List<KIMethod>
+				{
+					KIMethod.CreateRaycast("SupportCannon",         FindTargetSupportCannon),
+					KIMethod.CreateRaycast("FriendlyCannon",        FindTargetFriendlyCannon),
+					KIMethod.CreateRaycast("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannon),
+					KIMethod.CreateRaycast("NearestFriendlyCannon", FindNearestFriendlyCannon),
+				};
+			}
+			else if (owner.Blueprint.KIType == LevelBlueprint.KI_TYPE_PRECALC)
+			{
+
+				intelligence = new List<KIMethod>
+				{
+					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
+					KIMethod.CreatePrecalc("FriendlyCannon",        FindTargetFriendlyCannonPrecalc),
+					KIMethod.CreatePrecalc("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannonPrecalc),
+					KIMethod.CreateRaycast("NearestFriendlyCannon", FindNearestFriendlyCannon),
+				};
+			}
+			else
+				throw new Exception("Unknown KIType: " + owner.Blueprint.KIType);
 		}
 
 		protected override void Calculate(InputState istate)

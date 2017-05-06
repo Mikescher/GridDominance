@@ -16,15 +16,51 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 {
 	abstract class KIController : AbstractFractionController
 	{
-		public class KIMethod
+		protected class KIMethod
 		{
 			public readonly string Name;
-			public readonly Func<GameEntity> Run;
 
-			public KIMethod(string n, Func<GameEntity> r)
+			private readonly Func<GameEntity> _runDirect;
+			private readonly Func<BulletPath> _runPrecalc;
+
+			private KIMethod(string n, Func<GameEntity> r1, Func<BulletPath> r2)
 			{
 				Name = n;
-				Run = r;
+				_runDirect = r1;
+				_runPrecalc = r2;
+			}
+
+			public static KIMethod CreateRaycast(string n, Func<GameEntity> r) => new KIMethod(n, r, null);
+			public static KIMethod CreatePrecalc(string n, Func<BulletPath> r) => new KIMethod(n, null, r);
+
+			public bool Run(KIController ki)
+			{
+				if (_runDirect != null)
+				{
+					var target = _runDirect();
+					if (target != null)
+					{
+						ki.Cannon.RotateTo(target);
+
+						ki.LastKIFunction = Name;
+
+						return true;
+					}
+				}
+				else if(_runPrecalc != null)
+				{
+					var target = _runPrecalc();
+					if (target != null)
+					{
+						ki.Cannon.Rotation.Set(target.CannonRotation);
+
+						ki.LastKIFunction = Name;
+
+						return true;
+					}
+				}
+
+				return false;
 			}
 		}
 
@@ -44,15 +80,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			foreach (var sf in searchFunctions)
 			{
-				var target = sf.Run();
-				if (target != null)
-				{
-					Cannon.RotateTo(target);
-
-					LastKIFunction = sf.Name;
-
-					return true;
-				}
+				var result = sf.Run(this);
+				if (result) return true;
 			}
 
 			if (idleRotate)
@@ -68,7 +97,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			}
 		}
 
-		#region Target Finding
+		#region Target Finding (Base)
 
 		protected Bullet FindTargetAttackingBullet()
 		{
@@ -156,6 +185,83 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
+
+		protected Cannon FindNearestFriendlyCannon()
+		{
+			return Owner
+				.GetEntities<Cannon>()
+				.Where(p => p.Fraction == Fraction)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		#endregion
+
+		#region Target Finding (Precalc)
+
+		protected BulletPath FindTargetSupportCannonPrecalc()
+		{
+			return Cannon.BulletPaths
+				.Where(p => p.TargetCannon.Fraction == Fraction)
+				.Where(p => p.TargetCannon != Cannon)
+				.Where(p => p.TargetCannon.CannonHealth.TargetValue < 0.5f)
+				.Where(IsReachablePrecalc)
+				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		protected BulletPath FindTargetNeutralCannonPrecalc()
+		{
+			return Cannon.BulletPaths
+				.Where(p => p.TargetCannon.Fraction.IsNeutral)
+				.Where(IsReachablePrecalc)
+				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), 2 * GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		protected BulletPath FindTargetEnemyCannonPrecalc()
+		{
+			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.Fraction.IsNeutral)
+				.Where(p => p.TargetCannon.Fraction != Fraction)
+				.Where(IsReachablePrecalc)
+				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		protected BulletPath FindTargetFriendlyCannonPrecalc()
+		{
+			return Cannon.BulletPaths
+				.Where(p => p.TargetCannon.Fraction == Fraction)
+				.Where(p => p.TargetCannon != Cannon)
+				.Where(IsReachablePrecalc)
+				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		protected BulletPath FindTargetBlockedEnemyCannonPrecalc()
+		{
+			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.Fraction.IsNeutral)
+				.Where(p => p.TargetCannon.Fraction != Fraction)
+				.Where(IsBulletBlockedReachablePrecalc)
+				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		protected BulletPath FindTargetBlockedFriendlyCannonPrecalc()
+		{
+			return Cannon.BulletPaths
+				.Where(p => p.TargetCannon.Fraction == Fraction)
+				.Where(p => p.TargetCannon != Cannon)
+				.Where(IsBulletBlockedReachablePrecalc)
+				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		#endregion
+
+		#region Helper
 
 		// ignore all bullets
 		private bool IsHoming(Bullet b)
@@ -248,6 +354,67 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			Owner.GetPhysicsWorld().RayCast(callback, rayStart, rayEnd);
 
 			return (result == null);
+		}
+
+		// ignore own bullets
+		private bool IsReachablePrecalc(BulletPath p)
+		{
+			foreach (var ray in p.Rays)
+			{
+				GameEntity result = null;
+				Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
+				{
+					if (f.UserData == Cannon) return -1; // ignore self;
+
+					if (f.UserData == p.TargetCannon) return frac; // limit
+
+					var bulletData = f.UserData as Bullet;
+					if ((bulletData != null) && bulletData.Source == Cannon) // ignore own Bullets
+					{
+						return -1; // ignore
+					}
+
+					result = (GameEntity)f.UserData;
+
+					return 0; // terminate
+				};
+				
+				Owner.GetPhysicsWorld().RayCast(callback, ray.Item1, ray.Item2);
+
+				if (result != null) return false;
+			}
+
+			return true;
+		}
+
+		// ignore all bullets
+		private bool IsBulletBlockedReachablePrecalc(BulletPath p)
+		{
+			foreach (var ray in p.Rays)
+			{
+				GameEntity result = null;
+				Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
+				{
+					if (f.UserData == Cannon) return -1; // ignore self;
+
+					if (f.UserData == p.TargetCannon) return frac; // limit
+
+					if (f.UserData is Bullet) // ignore _all_ Bullets
+					{
+						return -1; // ignore
+					}
+
+					result = (GameEntity)f.UserData;
+
+					return 0; // terminate
+				};
+
+				Owner.GetPhysicsWorld().RayCast(callback, ray.Item1, ray.Item2);
+
+				if (result != null) return false;
+			}
+
+			return true;
 		}
 
 		#endregion
