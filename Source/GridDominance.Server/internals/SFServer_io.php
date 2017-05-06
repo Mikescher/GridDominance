@@ -31,7 +31,7 @@ abstract class ERRORS {
  * @return bool
  */
 function is_int_str($value) {
-	return ((is_int($value) || ctype_digit($value)) && (int)$value > 0 );
+	return ctype_digit(strval($value));
 }
 
 /**
