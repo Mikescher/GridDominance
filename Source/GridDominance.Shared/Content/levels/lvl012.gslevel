@@ -1,9 +1,9 @@
 ﻿# Grid Dominance Level Definition   #
 #####################################
-
-init("1-12", "Quarters", {b16b00b5-0001-4000-0000-000001000012})
-
 include("stdvalues")
+
+init("1-12", "Quarters", {b16b00b5-0001-4000-0000-000001000012}, KI_RAYTRACE)
+
 
 Cannon(SIZE_SMALL, P1, [7, 4], ROT_NW)
 Cannon(SIZE_SMALL, A3, [7, 6], ROT_SW)

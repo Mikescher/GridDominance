@@ -37,7 +37,7 @@
 		</Grid>
 
 		<Border Grid.Row="1" Margin="2" Background="#222" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased">
-			<Image  Source="{Binding PreviewImage}"/>
+            <Image Source="{Binding PreviewImage}" MouseMove="{mext:EventBinding HoverCommand, CommandParameter=$e}"/>
 		</Border>
 
 		<GridSplitter Grid.Row="2" Grid.Column="0" Height="5" HorizontalAlignment="Stretch" />

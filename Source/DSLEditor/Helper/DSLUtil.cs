@@ -20,6 +20,7 @@ namespace GridDominance.DSLEditor.Helper
 			var fp = new LevelParser(File.ReadAllText(path), includesFunc);
 			var lf = fp.Parse(Path.GetFileName(path));
 
+			if (lf.KIType == LevelBlueprint.KI_TYPE_RAYTRACE) LevelBulletPathTracer.Precalc(lf);
 			if (lf.KIType == LevelBlueprint.KI_TYPE_PRECALC) LevelBulletPathTracer.Precalc(lf);
 
 			return lf;
@@ -30,6 +31,7 @@ namespace GridDominance.DSLEditor.Helper
 			var fp = new LevelParser(text, includesFunc);
 			var lf = fp.Parse();
 
+			if (lf.KIType == LevelBlueprint.KI_TYPE_RAYTRACE) LevelBulletPathTracer.Precalc(lf);
 			if (lf.KIType == LevelBlueprint.KI_TYPE_PRECALC) LevelBulletPathTracer.Precalc(lf);
 
 			return lf;

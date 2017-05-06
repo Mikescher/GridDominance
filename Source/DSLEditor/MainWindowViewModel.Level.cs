@@ -12,11 +12,16 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using GridDominance.Levelfileformat;
+using Microsoft.Xna.Framework;
+using Color = System.Drawing.Color;
+using Point = System.Windows.Point;
 
 namespace GridDominance.DSLEditor
 {
 	public partial class MainWindowViewModel
 	{
+		private int CurrentHighlightedCannon = -1;
+		private LevelBlueprint CurrentDisplayLevel = null;
 		private readonly LevelPreviewPainter levelPainter = new LevelPreviewPainter();
 
 		private void ReparseLevelFile()
@@ -28,7 +33,8 @@ namespace GridDominance.DSLEditor
 
 				Log.Clear();
 
-				PreviewImage = ImageHelper.CreateImageSource(levelPainter.Draw(lp));
+				PreviewImage = ImageHelper.CreateImageSource(levelPainter.Draw(lp, CurrentHighlightedCannon));
+				CurrentDisplayLevel = lp;
 
 				RecreateMapForLevelFile(lp);
 
@@ -39,14 +45,14 @@ namespace GridDominance.DSLEditor
 				Log.Add(pe.ToOutput());
 				Console.Out.WriteLine(pe.ToString());
 
-				PreviewImage = ImageHelper.CreateImageSource(levelPainter.Draw(null));
+				PreviewImage = ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
 			}
 			catch (Exception pe)
 			{
 				Log.Add(pe.Message);
 				Console.Out.WriteLine(pe.ToString());
 
-				PreviewImage = ImageHelper.CreateImageSource(levelPainter.Draw(null));
+				PreviewImage = ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
 			}
 		}
 
@@ -231,6 +237,28 @@ namespace GridDominance.DSLEditor
 			var d = new LevelAsciiDrawer(l);
 			d.Calc();
 			return d.Get();
+		}
+
+		private void OnLevelHover(Point mousePos, double displWidth, double displHeight)
+		{
+			double pX = (mousePos.X / displWidth) * 1024;
+			double pY = (mousePos.Y / displHeight) * 640;
+
+			var vm = new Vector2((float)pX, (float)pY);
+
+			int newHighlight = -1;
+			foreach (var cannon in CurrentDisplayLevel.BlueprintCannons)
+			{
+				var vc = new Vector2(cannon.X, cannon.Y);
+
+				if ((vm - vc).Length() < 1.7f * cannon.Diameter / 2f) newHighlight = cannon.CannonID;
+			}
+
+			if (newHighlight != CurrentHighlightedCannon)
+			{
+				CurrentHighlightedCannon = newHighlight;
+				ReparseLevelFile();
+			}
 		}
 	}
 }

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -21,11 +22,12 @@ namespace GridDominance.DSLEditor
 		public ICommand ReloadCommand => new RelayCommand(r => Reload());
 		public ICommand SaveCommand => new RelayCommand(Save);
 		public ICommand CompileCommand => new RelayCommand(Compile); 
-		public ICommand PackCommand => new RelayCommand(Pack);
+		public ICommand PackCommand => new RelayCommand(Pack); 
 		public ICommand RepaintCommand => new RelayCommand(Repaint);
 		public ICommand UUIDCommand => new RelayCommand(InsertUUID);
 		public ICommand ClosingCommand => new RelayCommand<CancelEventArgs>(FormClosing);
 		public ICommand EditorChangedCommand => new RelayCommand(ResetTimer);
+		public ICommand HoverCommand => new RelayCommand<MouseEventArgs>(Hover);
 
 		public ICommand DropCommand => new RelayCommand<DragEventArgs>(Drop); 
 		public ICommand DragCommand => new RelayCommand<DragEventArgs>(DragEnter);
@@ -271,6 +273,15 @@ namespace GridDominance.DSLEditor
 			catch (Exception e)
 			{
 				MessageBox.Show("UpdateSourceFiles failed:\r\n" + e);
+			}
+		}
+
+		private void Hover(MouseEventArgs a)
+		{
+			var src = a.Source as Image;
+			if (IsFilePathLevel && src != null)
+			{
+				OnLevelHover(a.GetPosition(src), src.ActualWidth, src.ActualHeight);
 			}
 		}
 	}

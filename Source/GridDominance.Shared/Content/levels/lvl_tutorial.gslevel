@@ -1,9 +1,8 @@
 ﻿# Grid Dominance Level Definition   #
 #####################################
-
-init("X-X", "Tutorial", {b16b00b5-0001-4000-9999-000000000002})
-
 include("stdvalues")
+
+init("X-X", "Tutorial", {b16b00b5-0001-4000-9999-000000000002}, KI_RAYTRACE)
 
 Cannon(SIZE_NORMAL, P1, [ 3, 8], ROT_E, id=1001)
 Cannon(SIZE_NORMAL, A3, [13, 8], ROT_W, id=2001)

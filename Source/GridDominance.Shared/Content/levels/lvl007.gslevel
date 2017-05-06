@@ -1,9 +1,9 @@
 ﻿# Grid Dominance Level Definition   #
 #####################################
-
-init("1-7", "Detour", {b16b00b5-0001-4000-0000-000001000007})
-
 include("stdvalues")
+
+init("1-7", "Detour", {b16b00b5-0001-4000-0000-000001000007}, KI_RAYTRACE)
+
 
 Cannon(SIZE_SMALL, P1, [2,  2.5], ROT_E)
 Cannon(SIZE_SMALL, A3, [14, 7.5], ROT_E)

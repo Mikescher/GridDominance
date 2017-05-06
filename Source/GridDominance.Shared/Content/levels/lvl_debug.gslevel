@@ -1,10 +1,8 @@
 ﻿# Grid Dominance Level Definition   #
 #####################################
-
-init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001})
-
-
 include("stdvalues")
+
+init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001}, KI_RAYTRACE)
 
 Cannon(SIZE_SMALL,  P1,  [ 2,  6.3], ROT_N)
 

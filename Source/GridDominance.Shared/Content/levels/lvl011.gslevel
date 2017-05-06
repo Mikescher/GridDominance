@@ -1,9 +1,9 @@
 ﻿# Grid Dominance Level Definition   #
 #####################################
-
-init("1-11", "Indirection", {b16b00b5-0001-4000-0000-000001000011})
-
 include("stdvalues")
+
+init("1-11", "Indirection", {b16b00b5-0001-4000-0000-000001000011}, KI_RAYTRACE)
+
 
 Cannon(SIZE_SMALL, P1, [ 6,  5], ROT_E)
 Cannon(SIZE_SMALL, A3, [10,  5], ROT_W)

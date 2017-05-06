@@ -2,6 +2,7 @@ using GridDominance.Levelfileformat.Blueprint;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace GridDominance.DSLEditor.Drawing
 {
@@ -17,11 +18,11 @@ namespace GridDominance.DSLEditor.Drawing
 
 			try
 			{
-				img = Draw(level);
+				img = Draw(level, -1);
 			}
 			catch (Exception)
 			{
-				img = Draw(null);
+				img = Draw(null, -1);
 			}
 
 			Bitmap r = new Bitmap(img.Width, img.Height + 48 + 48);
@@ -36,7 +37,7 @@ namespace GridDominance.DSLEditor.Drawing
 		}
 		public Bitmap DrawOverviewError(string name)
 		{
-			Bitmap img = Draw(null);
+			Bitmap img = Draw(null, -1);
 
 			Bitmap r = new Bitmap(img.Width, img.Height + 48 + 48);
 			using (Graphics g = Graphics.FromImage(r))
@@ -49,7 +50,7 @@ namespace GridDominance.DSLEditor.Drawing
 			return r;
 		}
 
-		public Bitmap Draw(LevelBlueprint level)
+		public Bitmap Draw(LevelBlueprint level, int highlightCannon)
 		{
 			using (Graphics g = Graphics.FromImage(GraphicsBuffer))
 			{
@@ -75,7 +76,6 @@ namespace GridDominance.DSLEditor.Drawing
 						g.DrawLine((y % 2 == 0) ? Pens.DarkGray : new Pen(Color.FromArgb(88, 88, 88)), 0, y * 64, 1024, y * 64);
 					}
 
-					var rayPen = new Pen(Color.Red, 2f) {DashStyle = DashStyle.Dash};
 
 					foreach (var c in level.BlueprintCannons)
 					{
@@ -105,7 +105,11 @@ namespace GridDominance.DSLEditor.Drawing
 							
 						}
 						g.Restore(save);
-
+					}
+					
+					var rayPen = new Pen(Color.FromArgb(200, Color.Red), 4f) {DashStyle = DashStyle.Dash};
+					foreach (var c in level.BlueprintCannons.Where(p => p.CannonID == highlightCannon))
+					{
 						foreach (var path in c.PrecalculatedPaths)
 						{
 							float cx = c.X;
@@ -118,7 +122,6 @@ namespace GridDominance.DSLEditor.Drawing
 								cY = ray.Item2;
 							}
 						}
-
 					}
 
 					var voidpen = new Pen(Color.FloralWhite, 8);
