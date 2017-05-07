@@ -6,7 +6,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 	public sealed class BulletPathBlueprint
 	{
 		public readonly int TargetCannonID;
-		public readonly float CannonRotation;
+		public readonly float CannonRotation; // radians
 
 		public readonly Tuple<float, float>[] Rays; // <ray_endX, ray_endY>
 

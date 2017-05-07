@@ -44,6 +44,19 @@ namespace MonoSAMFramework.Portable.Screens
 			IsRunningSlowly = source.IsRunningSlowly;
 		}
 
+		public SAMTime(float delta, float time)
+		{
+			TotalElapsedTicks = (long)(time * 1000);
+			TotalElapsedSecondsDouble = time;
+			TotalElapsedSeconds = time;
+
+			RealtimeElapsedTicks         = ElapsedTicks         = (long)(delta * 1000);
+			RealtimeElapsedSecondsDouble = ElapsedSecondsDouble = delta;
+			RealtimeElapsedSeconds       = ElapsedSeconds       = delta;
+
+			IsRunningSlowly = false;
+		}
+
 		private SAMTime(SAMTime source, float multVirtual, float multReal)
 		{
 			TotalElapsedTicks         = source.TotalElapsedTicks;

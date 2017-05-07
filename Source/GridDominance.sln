@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GridDominance.Shared", "GridDominance.Shared\GridDominance.Shared.shproj", "{8FC3B872-A050-4329-8999-8B490B0B6274}"
 EndProject
@@ -33,6 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSLEditor", "DSLEditor\DSLE
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		GridDominance.Shared\GridDominance.Shared.projitems*{28cd24bd-432c-4987-9e9d-65cfcf120ea1}*SharedItemsImports = 4
 		GridDominance.Shared\GridDominance.Shared.projitems*{8fc3b872-a050-4329-8999-8b490b0b6274}*SharedItemsImports = 13
 		GridDominance.Shared\GridDominance.Shared.projitems*{af110750-b036-4fdc-af51-b08c7389aaa8}*SharedItemsImports = 4
 		GridDominance.Shared\GridDominance.Shared.projitems*{d49363ef-8d37-42b4-9ab4-c2083a4b186e}*SharedItemsImports = 4

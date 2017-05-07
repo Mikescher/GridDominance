@@ -283,6 +283,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			MainGame.Inst.GDSound.PlayEffectShoot();
 		}
 
+		public Bullet ShootForSimulation()
+		{
+			var position = GetBulletSpawnPoint();
+			var velocity = GetBulletVelocity(true);
+
+			var bullet = new Bullet(Owner, this, position, velocity, Scale);
+
+			Manager.AddEntity(bullet);
+
+			return bullet;
+		}
+
 		private void UpdatePhysicBodies()
 		{
 			PhysicsBody.Rotation = Rotation.ActualValue;
@@ -293,9 +305,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			return Position + new Vector2(Scale * (CANNON_DIAMETER/2 + Bullet.BULLET_DIAMETER * 0.66f), 0).Rotate(Rotation.ActualValue);
 		}
 
-		public Vector2 GetBulletVelocity()
+		public Vector2 GetBulletVelocity(bool accurate = false)
 		{
 			var variance = FloatMath.GetRangedRandom(-BULLET_ANGLE_VARIANCE, +BULLET_ANGLE_VARIANCE);
+			if (accurate) variance = 0;
 			var angle = FloatMath.AddRads(Rotation.ActualValue, variance);
 
 			return new Vector2(1, 0).Rotate(angle) * BULLET_INITIAL_SPEED;

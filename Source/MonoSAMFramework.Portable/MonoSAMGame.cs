@@ -81,6 +81,11 @@ namespace MonoSAMFramework.Portable
 			screens.CurrentScreen = gdGameScreen;
 		}
 
+		public Screen GetCurrentScreen()
+		{
+			return screens.CurrentScreen;
+		}
+
 		protected override void Update(GameTime gameTime)
 		{
 			try

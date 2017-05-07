@@ -14,7 +14,7 @@ using MonoSAMFramework.Portable.Network.REST;
 
 namespace GridDominance.Shared.Network
 {
-	public class GDServerAPI : SAMRestAPI
+	public class GDServerAPI : SAMRestAPI, IGDServerAPI
 	{
 		private const int RETRY_PING               = 2;
 		private const int RETRY_SETSCORE           = 4;

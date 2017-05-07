@@ -1,0 +1,11 @@
+﻿# First World - Tutorial   #
+############################
+
+scale(64)
+
+alias(LVL_03, {b16b00b5-0001-4000-0000-000002000003})
+
+root([-7, 0])
+  connect(LVL_03, CW)
+
+node([0, 0], LVL_03)

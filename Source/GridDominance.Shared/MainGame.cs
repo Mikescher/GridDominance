@@ -27,7 +27,7 @@ namespace GridDominance.Shared
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
 		public readonly PlayerProfile Profile;
-		public readonly GDServerAPI Backend;
+		public readonly IGDServerAPI Backend;
 
 		public static MainGame Inst;
 
@@ -75,6 +75,15 @@ namespace GridDominance.Shared
 			{
 				Backend.CreateUser(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
 			}
+
+			Inst = this;
+		}
+
+		// For Simulation
+		public MainGame() : base(new DummyDeviceBridge())
+		{
+			Backend = new DummyGDServerAPI();
+			Profile = new PlayerProfile();
 
 			Inst = this;
 		}
