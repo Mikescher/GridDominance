@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Forms.VisualStyles;
+using System.Windows.Media;
 using GridDominance.Graphfileformat;
 using GridDominance.SAMScriptParser;
 
@@ -16,32 +18,36 @@ namespace GridDominance.DSLEditor
 	{
 		private readonly GraphPreviewPainter graphPainter = new GraphPreviewPainter();
 
-		private void ReparseGraphFile()
+		private ImageSource ReparseGraphFile(string input)
 		{
 			try
 			{
 				var sw = Stopwatch.StartNew();
-				var lp = ParseGraphFile();
 
-				Log.Clear();
+				ClearLog();
+				AddLog("Start parsing");
 
-				PreviewImage = ImageHelper.CreateImageSource(graphPainter.Draw(lp, FilePath));
+				var lp = ParseGraphFile(input);
 
-				Log.Add("File parsed  in " + sw.ElapsedMilliseconds + "ms");
+				var img = ImageHelper.CreateImageSource(graphPainter.Draw(lp, FilePath));
+
+				AddLog("File parsed  in " + sw.ElapsedMilliseconds + "ms");
+
+				return img;
 			}
 			catch (ParsingException pe)
 			{
-				Log.Add(pe.ToOutput());
+				AddLog(pe.ToOutput());
 				Console.Out.WriteLine(pe.ToString());
 
-				PreviewImage = ImageHelper.CreateImageSource(graphPainter.Draw(null, null));
+				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null));
 			}
 			catch (Exception pe)
 			{
-				Log.Add(pe.Message);
+				AddLog(pe.Message);
 				Console.Out.WriteLine(pe.ToString());
 
-				PreviewImage = ImageHelper.CreateImageSource(graphPainter.Draw(null, null));
+				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null));
 			}
 		}
 
@@ -49,7 +55,7 @@ namespace GridDominance.DSLEditor
 		{
 			if (!File.Exists(FilePath)) throw new FileNotFoundException(FilePath);
 
-			var lp = ParseGraphFile();
+			var lp = ParseGraphFile(Code);
 
 			var dir = Path.GetDirectoryName(FilePath);
 			var name = Path.GetFileNameWithoutExtension(FilePath) + ".xnb";
@@ -104,9 +110,9 @@ namespace GridDominance.DSLEditor
 			}
 		}
 
-		private GraphBlueprint ParseGraphFile()
+		private GraphBlueprint ParseGraphFile(string input)
 		{
-			return new GraphParser(Code).Parse();
+			return new GraphParser(input).Parse();
 		}
 
 		private void UpdateSourceFiles()

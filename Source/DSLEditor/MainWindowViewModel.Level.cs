@@ -4,6 +4,7 @@ using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.SAMScriptParser;
 using Microsoft.Win32;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -23,17 +24,19 @@ namespace GridDominance.DSLEditor
 	{
 		private int _currentHighlightedCannon = -1;
 		private LevelBlueprint _currentDisplayLevel = null;
-		private readonly Dictionary<int, ImageSource> _imageCache = new Dictionary<int, ImageSource>();
+		private readonly ConcurrentDictionary<int, ImageSource> _imageCache = new ConcurrentDictionary<int, ImageSource>();
 		private readonly LevelPreviewPainter levelPainter = new LevelPreviewPainter();
 
-		private void ReparseLevelFile()
+		private ImageSource ReparseLevelFile(string input)
 		{
 			try
 			{
 				var sw = Stopwatch.StartNew();
-				var lp = ParseLevelFile();
 
-				Log.Clear();
+				ClearLog();
+				AddLog("Start parsing");
+
+				var lp = ParseLevelFile(input);
 
 				_imageCache.Clear();
 				_imageCache[-1] = ImageHelper.CreateImageSource(levelPainter.Draw(lp, -1));
@@ -43,25 +46,27 @@ namespace GridDominance.DSLEditor
 				}
 				_currentDisplayLevel = lp;
 
-				PreviewImage = _imageCache.ContainsKey(_currentHighlightedCannon) ? _imageCache[_currentHighlightedCannon] : _imageCache[-1];
+				var img = _imageCache.ContainsKey(_currentHighlightedCannon) ? _imageCache[_currentHighlightedCannon] : _imageCache[-1];
 
-				RecreateMapForLevelFile(lp);
+				Application.Current.Dispatcher.Invoke(() => RecreateMapForLevelFile(lp));
 
-				Log.Add("File parsed and map drawn in " + sw.ElapsedMilliseconds + "ms");
+				AddLog("File parsed and map drawn in " + sw.ElapsedMilliseconds + "ms");
+
+				return img;
 			}
 			catch (ParsingException pe)
 			{
-				Log.Add(pe.ToOutput());
+				AddLog(pe.ToOutput());
 				Console.Out.WriteLine(pe.ToString());
 
-				PreviewImage = ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
+				return ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
 			}
 			catch (Exception pe)
 			{
-				Log.Add(pe.Message);
+				AddLog(pe.Message);
 				Console.Out.WriteLine(pe.ToString());
 
-				PreviewImage = ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
+				return ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
 			}
 		}
 
@@ -69,7 +74,7 @@ namespace GridDominance.DSLEditor
 		{
 			if (!File.Exists(FilePath)) throw new FileNotFoundException(FilePath);
 
-			var lp = ParseLevelFile();
+			var lp = ParseLevelFile(Code);
 
 			var dir = Path.GetDirectoryName(FilePath);
 			var name = Path.GetFileNameWithoutExtension(FilePath) + ".xnb";
@@ -134,9 +139,8 @@ namespace GridDominance.DSLEditor
 			return s;
 		}
 
-		private LevelBlueprint ParseLevelFile()
+		private LevelBlueprint ParseLevelFile(string input)
 		{
-			var input = Code;
 			input = ReplaceMagicConstantsInLevelFile(input);
 
 			Func<string, string> includesFunc = x => null;

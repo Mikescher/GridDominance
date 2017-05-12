@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -87,43 +88,109 @@ namespace GridDominance.DSLEditor
 				ProgressMaximum = TIMER_COOLDOWN;
 				ProgressValue = Math.Max(0, Math.Min(TIMER_COOLDOWN, timerCountDown));
 
-				if (--timerCountDown == 0) Reparse();
+				if (--timerCountDown == 0) Reparse(true);
 			};
 			repaintTimer.Start();
 
 			//###########################
 
-			Reparse();
+			//Reparse();
 		}
 
-		private void Reparse()
+		private bool isInAsyncParse = false;
+
+		private void Reparse(bool async)
 		{
-			Log.Clear();
+			if (isInAsyncParse) return;
 
-			try
+			if (async)
 			{
-				if (IsFilePathLevel)
-					ReparseLevelFile();
-				else if (IsFilePathGraph)
-					ReparseGraphFile();
-				else
-					throw new Exception("Unknown filetype");
+				string code = Code;
+
+				new Thread(() =>
+				{
+					try
+					{
+						isInAsyncParse = true;
+
+						ImageSource img;
+						if (IsFilePathLevel)
+							img = ReparseLevelFile(code);
+						else if (IsFilePathGraph)
+							img = ReparseGraphFile(code);
+						else
+							throw new Exception("Unknown filetype");
+
+						Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+						{
+							PreviewImage = img;
+						}));
+					}
+					catch (Exception exc)
+					{
+						Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+						{
+							Log.Add(exc.Message);
+							Console.Out.WriteLine(exc.ToString());
+						}));
+					}
+					finally
+					{
+						isInAsyncParse = false;
+					}
+				}).Start();
 			}
-			catch (Exception exc)
+			else
 			{
-				Log.Add(exc.Message);
-				Console.Out.WriteLine(exc.ToString());
+				try
+				{
+					if (IsFilePathLevel)
+						PreviewImage = ReparseLevelFile(Code);
+					else if (IsFilePathGraph)
+						PreviewImage = ReparseGraphFile(Code);
+					else
+						throw new Exception("Unknown filetype");
+				}
+				catch (Exception exc)
+				{
+					Log.Add(exc.Message);
+					Console.Out.WriteLine(exc.ToString());
+				}
 			}
 		}
 
-		private void Reload(bool ask = true)
+		private void AddLog(string msg)
+		{
+			if (Application.Current.Dispatcher.CheckAccess())
+			{
+				Log.Add(msg);
+			}
+			else
+			{
+				Application.Current.Dispatcher.Invoke(() => Log.Add(msg));
+			}
+		}
+
+		private void ClearLog()
+		{
+			if (Application.Current.Dispatcher.CheckAccess())
+			{
+				Log.Clear();
+			}
+			else
+			{
+				Application.Current.Dispatcher.Invoke(() => Log.Clear());
+			}
+		}
+
+		private void Reload(bool ask = true, bool async = false)
 		{
 			if (ask && !ConditionalSave()) return;
 			try
 			{
 				Code = File.ReadAllText(FilePath);
 				_codeDirty = false;
-				Reparse();
+				Reparse(async);
 			}
 			catch (Exception e)
 			{
@@ -173,7 +240,7 @@ namespace GridDominance.DSLEditor
 
 		private void Repaint()
 		{
-			Reparse();
+			Reparse(false);
 		}
 
 		private void InsertUUID()
@@ -218,7 +285,9 @@ namespace GridDominance.DSLEditor
 				{
 					if (!ConditionalSave()) return;
 					FilePath = file;
-					Reload(false);
+					PreviewImage = null;
+					Reload(false, true);
+					return;
 				}
 			}
 		}

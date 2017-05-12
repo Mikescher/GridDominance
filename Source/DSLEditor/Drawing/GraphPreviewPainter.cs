@@ -134,7 +134,6 @@ namespace GridDominance.DSLEditor.Drawing
 
 			var d = new Dictionary<Guid, string>();
 
-
 			foreach (var f in Directory.EnumerateFiles(path).Where(p => p.ToLower().EndsWith(".gslevel")))
 			{
 				try

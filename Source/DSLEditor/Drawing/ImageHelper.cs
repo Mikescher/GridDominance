@@ -16,6 +16,7 @@ namespace GridDominance.DSLEditor.Drawing
 			memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
 			bitmap.StreamSource = memoryStream;
 			bitmap.EndInit();
+			bitmap.Freeze();
 			return bitmap;
 		}
 	}

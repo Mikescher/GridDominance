@@ -8,7 +8,8 @@ namespace GridDominance.DSLEditor.Drawing
 {
 	public class LevelPreviewPainter
 	{
-		private static readonly Color[] CANNON_COLORS = new Color[] { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
+		private static readonly Color[] CANNON_COLORS = { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
+		private static readonly Brush[] COLORS_KITYPE = { Brushes.BlueViolet, Brushes.Brown, Brushes.Olive };
 
 		public readonly Bitmap GraphicsBuffer = new Bitmap(1024, 640);
 
@@ -25,16 +26,22 @@ namespace GridDominance.DSLEditor.Drawing
 				img = Draw(null, -1);
 			}
 
-			Bitmap r = new Bitmap(img.Width, img.Height + 48 + 48);
+			Bitmap r = new Bitmap(img.Width + 16, img.Height + 48 + 48 + 16);
 			using (Graphics g = Graphics.FromImage(r))
 			{
 				g.Clear(Color.White);
-				g.DrawImageUnscaled(img, 0, 48);
-				g.DrawString(level.Name + ": " + level.FullName, new Font("Calibri", 28, FontStyle.Bold), Brushes.DarkRed, 24, 8);
-				g.DrawString(level.UniqueID.ToString("B"), new Font("Courier New", 28, FontStyle.Bold), Brushes.DarkRed, 24, 8 + img.Height + 48);
+				g.DrawImageUnscaled(img, 0, 16 + 48);
+				g.DrawString(level.Name + ": " + level.FullName, new Font("Calibri", 28, FontStyle.Bold), Brushes.DarkRed, 24, 16 + 8);
+				g.DrawString(level.UniqueID.ToString("B"), new Font("Courier New", 28, FontStyle.Bold), Brushes.DarkRed, 24, 16 + 8 + img.Height + 48);
+
+
+				var kitRect = new RectangleF(img.Width - 16, 48, 32, 32);
+				g.FillEllipse(COLORS_KITYPE[level.KIType - 10], kitRect);
+				g.DrawString((level.KIType - 10).ToString(), new Font("Courier New", 24, FontStyle.Bold), Brushes.Black, kitRect, new StringFormat {Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center});
 			}
 			return r;
 		}
+
 		public Bitmap DrawOverviewError(string name)
 		{
 			Bitmap img = Draw(null, -1);
