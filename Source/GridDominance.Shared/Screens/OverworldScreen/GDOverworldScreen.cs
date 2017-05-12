@@ -7,6 +7,7 @@ using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.BatchRenderer.GraphicsWrapper;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -42,7 +43,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		private readonly List<CPUParticleEmitter> logoEmitter = new List<CPUParticleEmitter>();
 		public bool IsTransitioning = false;
 
-		public GDOverworldScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
+		public GDOverworldScreen(MonoSAMGame game, IRenderHardwareInterface gdm) : base(game, gdm)
 		{
 			Initialize();
 		}

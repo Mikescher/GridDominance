@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.BatchRenderer.GraphicsWrapper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
@@ -19,12 +20,12 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 	/// </summary>
 	public abstract class SAMViewportAdapter
 	{
-		protected SAMViewportAdapter(GraphicsDevice graphicsDevice)
+		protected SAMViewportAdapter(ISecureGraphicsDeviceWrapper graphicsDevice)
 		{
 			GraphicsDevice = graphicsDevice;
 		}
 
-		public GraphicsDevice GraphicsDevice { get; }
+		public ISecureGraphicsDeviceWrapper GraphicsDevice { get; }
 		public Viewport Viewport => GraphicsDevice.Viewport;
 
 		public abstract float Scale { get; }

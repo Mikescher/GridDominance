@@ -34,7 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BatchRenderer\GraphicsWrapper\DummyGraphicsDeviceWrapper.cs" />
+    <Compile Include="BatchRenderer\GraphicsWrapper\DummyRenderHardware.cs" />
+    <Compile Include="BatchRenderer\GraphicsWrapper\ISecureGraphicsDeviceWrapper.cs" />
+    <Compile Include="BatchRenderer\GraphicsWrapper\MonoGameGraphicsDeviceWrapper.cs" />
+    <Compile Include="BatchRenderer\GraphicsWrapper\MonoGameRenderHardware.cs" />
     <Compile Include="BatchRenderer\IBatchRenderer.cs" />
+    <Compile Include="BatchRenderer\GraphicsWrapper\IRenderHardwareInterface.cs" />
     <Compile Include="BatchRenderer\TextureAtlases\TextureAtlas.cs" />
     <Compile Include="BatchRenderer\TextureAtlases\TextureAtlasReader.cs" />
     <Compile Include="BatchRenderer\TextureAtlases\TextureRegion2D.cs" />

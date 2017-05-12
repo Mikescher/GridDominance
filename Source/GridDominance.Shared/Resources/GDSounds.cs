@@ -19,6 +19,13 @@ namespace GridDominance.Shared.Resources
 		private SoundEffect effectZoomIn;
 		private SoundEffect effectZoomOut;
 
+		public GDSounds()
+		{
+#if DUMMY_SAM
+			IsMuted = true;
+#endif
+		}
+
 		public override void Initialize(ContentManager content)
 		{
 			effectButton        = content.Load<SoundEffect>("sounds/button");

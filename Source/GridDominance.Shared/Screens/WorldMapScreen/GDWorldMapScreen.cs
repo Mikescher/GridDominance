@@ -11,6 +11,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.BatchRenderer.GraphicsWrapper;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -39,7 +40,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public readonly GraphBlueprint GraphBlueprint;
 		public float ColorOverdraw = 0f;
 
-		public GDWorldMapScreen(MonoSAMGame game, GraphicsDeviceManager gdm, GraphBlueprint g, Guid? initialFocus) : base(game, gdm)
+		public GDWorldMapScreen(MonoSAMGame game, IRenderHardwareInterface gdm, GraphBlueprint g, Guid? initialFocus) : base(game, gdm)
 		{
 			Graph = new LevelGraph(this);
 			GraphBlueprint = g;

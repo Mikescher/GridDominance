@@ -22,6 +22,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.BatchRenderer.GraphicsWrapper;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.ScreenGame
@@ -82,7 +83,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public readonly bool IsTutorial;
 
-		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, GraphBlueprint ws) : base(game, gdm)
+		public GDGameScreen(MainGame game, IRenderHardwareInterface gdm, LevelBlueprint bp, FractionDifficulty diff, GraphBlueprint ws) : base(game, gdm)
 		{
 			IsTutorial = false;
 
@@ -93,7 +94,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			Initialize();
 		}
 
-		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp) : base(game, gdm)
+		public GDGameScreen(MainGame game, IRenderHardwareInterface gdm, LevelBlueprint bp) : base(game, gdm)
 		{
 			IsTutorial = true;
 
@@ -137,7 +138,11 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
+#if DUMMY_SAM
+		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, null);
+#else
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
+#endif
 		protected override GameBackground CreateBackground() => MainGame.Inst.Profile.EffectsEnabled ? (GameBackground)new GDGridBackground(this) : new GDStaticGridBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
@@ -193,6 +198,10 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		private void TestForGameEndingCondition()
 		{
+#if DUMMY_SAM
+			return;
+#endif
+
 			if (HasFinished) return;
 
 			Fraction winningFraction = null;

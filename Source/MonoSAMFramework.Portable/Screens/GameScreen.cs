@@ -14,6 +14,7 @@ using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.BatchRenderer.GraphicsWrapper;
 
 namespace MonoSAMFramework.Portable.Screens
 {
@@ -24,7 +25,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public GraphicsDevice GraphicsDevice => Graphics.GraphicsDevice;
 
-		public readonly GraphicsDeviceManager Graphics;
+		public readonly IRenderHardwareInterface Graphics;
 		public readonly MonoSAMGame Game;
 		public SAMViewportAdapter VAdapterGame;
 		public SAMViewportAdapter VAdapterHUD;
@@ -50,11 +51,19 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public float GameSpeed = 1f;
 
-		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; } }
-		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; } }
+		public float MapOffsetX { get => _mapOffsetX; set => _mapOffsetX = value; }
+		public float MapOffsetY { get => _mapOffsetY; set => _mapOffsetY = value; }
 		public Vector2 MapOffset => new Vector2(_mapOffsetX, _mapOffsetY);
-		public float MapViewportCenterX { get { return VAdapterGame.VirtualTotalWidth  / 2 - MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX; } set { MapOffsetX = VAdapterGame.VirtualTotalWidth / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetX - value; } }
-		public float MapViewportCenterY { get { return VAdapterGame.VirtualTotalHeight / 2 - MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY; } set { MapOffsetY = VAdapterGame.VirtualTotalHeight / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetY - value; } }
+		public float MapViewportCenterX
+		{
+			get => VAdapterGame.VirtualTotalWidth  / 2 - MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX;
+			set => MapOffsetX = VAdapterGame.VirtualTotalWidth / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetX - value;
+		}
+		public float MapViewportCenterY
+		{
+			get => VAdapterGame.VirtualTotalHeight / 2 - MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY;
+			set => MapOffsetY = VAdapterGame.VirtualTotalHeight / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetY - value;
+		}
 		public Vector2 MapViewportCenter => new Vector2(MapViewportCenterX, MapViewportCenterY);
 		public FRectangle GuaranteedMapViewport => new FRectangle(-MapOffsetX, -MapOffsetY, VAdapterGame.VirtualGuaranteedWidth, VAdapterGame.VirtualGuaranteedHeight);
 		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY, VAdapterGame.VirtualTotalWidth, VAdapterGame.VirtualTotalHeight);
@@ -70,7 +79,7 @@ namespace MonoSAMFramework.Portable.Screens
 		public int LastReleaseRenderTextCount   => FixedBatch.LastReleaseRenderTextCount   + TranslatedBatch.LastReleaseRenderTextCount;
 #endif
 
-		protected GameScreen(MonoSAMGame game, GraphicsDeviceManager gdm)
+		protected GameScreen(MonoSAMGame game, IRenderHardwareInterface gdm)
 		{
 			Graphics = gdm;
 			Game = game;
@@ -84,9 +93,12 @@ namespace MonoSAMFramework.Portable.Screens
 			VAdapterGame = CreateViewport();
 			VAdapterHUD = CreateViewport(); // later perhaps diff adapters
 
-			InternalBatch   = new SpriteBatch(Graphics.GraphicsDevice);
-			FixedBatch      = new SpriteBatchWrapper(InternalBatch);
-			TranslatedBatch = new SpriteBatchWrapper(InternalBatch);
+			if (!Graphics.IsDummy)
+			{
+				InternalBatch = new SpriteBatch(Graphics.GraphicsDevice);
+				FixedBatch = new SpriteBatchWrapper(InternalBatch);
+				TranslatedBatch = new SpriteBatchWrapper(InternalBatch);
+			}
 
 			InputStateMan = new InputStateManager(VAdapterGame, VAdapterHUD, MapOffsetX, MapOffsetY);
 			GameHUD = CreateHUD();

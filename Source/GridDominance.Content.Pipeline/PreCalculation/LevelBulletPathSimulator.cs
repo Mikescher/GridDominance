@@ -121,7 +121,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 				if (!bullet.Alive)
 				{
-					bullet.OnRemove();
+					if (positionList.Count < 2) { quality = float.MaxValue;  return null;}
 
 					switch (bullet.LastCollision)
 					{

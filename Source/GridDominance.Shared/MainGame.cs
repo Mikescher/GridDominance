@@ -80,7 +80,7 @@ namespace GridDominance.Shared
 		}
 
 		// For Simulation
-		public MainGame() : base(new DummyDeviceBridge())
+		public MainGame() : base(new DummyDeviceBridge(), true)
 		{
 			Backend = new DummyGDServerAPI();
 			Profile = new PlayerProfile();
@@ -129,6 +129,8 @@ namespace GridDominance.Shared
 
 		protected override void OnAfterInitialize()
 		{
+			if (DummyMode) return;
+
 //			SetTutorialLevelScreen();
 			SetOverworldScreen();
 //			SetWorldMapScreen();

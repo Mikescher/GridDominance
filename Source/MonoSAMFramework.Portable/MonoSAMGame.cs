@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
 using System;
 using System.Threading.Tasks;
+using MonoSAMFramework.Portable.BatchRenderer.GraphicsWrapper;
 
 namespace MonoSAMFramework.Portable
 {
@@ -16,7 +17,7 @@ namespace MonoSAMFramework.Portable
 		private ScreenManager screens;
 		private readonly CustomDispatcher gameDispatcher = new CustomDispatcher();
 
-		protected readonly GraphicsDeviceManager Graphics;
+		protected readonly IRenderHardwareInterface Graphics;
 
 		public static ulong GameCycleCounter { get; private set; }
 		public static SAMTime CurrentTime { get; private set; }
@@ -26,15 +27,18 @@ namespace MonoSAMFramework.Portable
 		public bool Alive { get; private set; } = true;
 
 		public readonly IOperatingSystemBridge Bridge;
+		public readonly bool DummyMode;
 
 		public abstract SAMSoundPlayer Sound { get; }
 
 		public IDebugTextDisplay DebugDisplay => (screens?.CurrentScreen as GameScreen)?.DebugDisp;
 
-		protected MonoSAMGame(IOperatingSystemBridge bridge)
+		protected MonoSAMGame(IOperatingSystemBridge bridge, bool dummy = false)
 		{
 			try
 			{
+				DummyMode = dummy;
+
 				FileHelper.RegisterSystemSecificHandler(bridge.FileHelper);
 
 				Bridge = bridge;
@@ -42,13 +46,28 @@ namespace MonoSAMFramework.Portable
 
 				CurrentTime = new SAMTime();
 
-				Graphics = new GraphicsDeviceManager(this);
+				if (dummy)
+					Graphics = new DummyRenderHardware();
+				else
+					Graphics = new MonoGameRenderHardware(this);
+
 				Content.RootDirectory = "Content";
+
+				if (dummy) DummyInitialize();
 			}
 			catch (Exception e)
 			{
 				SAMLog.FatalError("Game::Constructor", e);
 			}
+		}
+
+		private void DummyInitialize()
+		{
+			OnInitialize();
+
+			screens = new ScreenManager(this);
+
+			OnAfterInitialize();
 		}
 
 		protected override void Initialize()
@@ -108,6 +127,8 @@ namespace MonoSAMFramework.Portable
 
 		protected override void Draw(GameTime gameTime)
 		{
+			if (Graphics.IsDummy) return;
+
 			try
 			{
 				var time = new SAMTime(gameTime);

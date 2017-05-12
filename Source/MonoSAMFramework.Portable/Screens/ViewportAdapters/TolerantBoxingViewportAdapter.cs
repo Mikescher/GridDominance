@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.Extensions;
 using System;
+using MonoSAMFramework.Portable.BatchRenderer.GraphicsWrapper;
 
 namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 {
@@ -13,7 +14,7 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		private float scaleXY = 1.0f;
 
 		private readonly GameWindow _window;
-		private readonly GraphicsDeviceManager _graphicsDeviceManager;
+		private readonly IRenderHardwareInterface _graphicsDeviceManager;
 
 		private float _virtualGuaranteedWidth;
 		private float _virtualGuaranteedHeight;
@@ -44,8 +45,8 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		public override Matrix GetScaleMatrix() => cachedScaleMatrix;
 		public override Matrix GetShaderMatrix() => cachedShaderMatrix;
 
-		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDeviceManager graphicsDeviceManager, int virtualWidth, int virtualHeight)
-			: base(graphicsDeviceManager.GraphicsDevice)
+		public TolerantBoxingViewportAdapter(GameWindow window, IRenderHardwareInterface graphicsDeviceManager, int virtualWidth, int virtualHeight)
+			: base(graphicsDeviceManager.SecureGraphicsDevice)
 		{
 			_window = window;
 			_graphicsDeviceManager = graphicsDeviceManager;
