@@ -1,6 +1,7 @@
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -16,6 +17,8 @@ namespace GridDominance.DSLEditor.Drawing
 {
 	public class GraphPreviewPainter
 	{
+		private readonly ConcurrentDictionary<string, Tuple<byte[], LevelBlueprint>> _levelCache = new ConcurrentDictionary<string, Tuple<byte[], LevelBlueprint>>();
+
 		public Bitmap Draw(GraphBlueprint wgraph, string path)
 		{
 			var idmap = MapLevels(path);
@@ -138,9 +141,23 @@ namespace GridDominance.DSLEditor.Drawing
 			{
 				try
 				{
+					var dat = File.ReadAllBytes(f);
+
+					Tuple<byte[], LevelBlueprint> cache;
+					if (_levelCache.TryGetValue(f, out cache))
+					{
+						if (cache.Item1.SequenceEqual(dat))
+						{
+							d[cache.Item2.UniqueID] = cache.Item2.Name;
+							continue;
+						}
+					}
+
 					var lf = DSLUtil.ParseLevelFromFile(f);
 
 					d[lf.UniqueID] = lf.Name;
+
+					_levelCache.AddOrUpdate(f, Tuple.Create(dat, lf), (a, b) => Tuple.Create(dat, lf));
 				}
 				catch (Exception)
 				{
