@@ -3,9 +3,129 @@
 
 scale(64)
 
+alias(LVL_01, {b16b00b5-0001-4000-0000-000002000001})
+alias(LVL_02, {b16b00b5-0001-4000-0000-000002000002})
 alias(LVL_03, {b16b00b5-0001-4000-0000-000002000003})
+alias(LVL_04, {b16b00b5-0001-4000-0000-000002000004})
+alias(LVL_05, {b16b00b5-0001-4000-0000-000002000005})
+alias(LVL_06, {b16b00b5-0001-4000-0000-000002000006})
+alias(LVL_07, {b16b00b5-0001-4000-0000-000002000007})
+alias(LVL_08, {b16b00b5-0001-4000-0000-000002000008})
+alias(LVL_09, {b16b00b5-0001-4000-0000-000002000009})
+alias(LVL_10, {b16b00b5-0001-4000-0000-000002000010})
+alias(LVL_11, {b16b00b5-0001-4000-0000-000002000011})
+alias(LVL_12, {b16b00b5-0001-4000-0000-000002000012})
+alias(LVL_13, {b16b00b5-0001-4000-0000-000002000013})
+alias(LVL_14, {b16b00b5-0001-4000-0000-000002000014})
+alias(LVL_15, {b16b00b5-0001-4000-0000-000002000015})
+alias(LVL_16, {b16b00b5-0001-4000-0000-000002000016})
+alias(LVL_17, {b16b00b5-0001-4000-0000-000002000017})
+alias(LVL_18, {b16b00b5-0001-4000-0000-000002000018})
+alias(LVL_19, {b16b00b5-0001-4000-0000-000002000019})
+alias(LVL_20, {b16b00b5-0001-4000-0000-000002000020})
+alias(LVL_21, {b16b00b5-0001-4000-0000-000002000021})
+alias(LVL_22, {b16b00b5-0001-4000-0000-000002000022})
+alias(LVL_23, {b16b00b5-0001-4000-0000-000002000023})
+alias(LVL_24, {b16b00b5-0001-4000-0000-000002000024})
+alias(LVL_25, {b16b00b5-0001-4000-0000-000002000025})
+alias(LVL_26, {b16b00b5-0001-4000-0000-000002000026})
+alias(LVL_27, {b16b00b5-0001-4000-0000-000002000027})
 
 root([-7, 0])
-  connect(LVL_03, CW)
+  connect(LVL_01, CW)
+  connect(LVL_02, CW)
+  connect(LVL_03, CCW)
 
-node([0, 0], LVL_03)
+node([0, -7], LVL_01)
+  connect(LVL_04, CW)
+
+node([7, -7], LVL_04)
+  connect(LVL_05, CW)
+  connect(LVL_06, CCW)
+  connect(LVL_07, CW)
+
+node([14, -10.5], LVL_06)
+  connect(LVL_11, CW)
+  connect(LVL_13, CW)
+
+node([17.5, -15.5], LVL_13)
+
+node([14, -3.5], LVL_07)
+  connect(LVL_11, CCW)
+
+node([21, -7], LVL_11)
+  connect(LVL_12, CCW)
+
+node([28, -7], LVL_12)
+  connect(LVL_16, CCW)
+
+
+
+node([0, 0], LVL_02)
+  connect(LVL_05, CW)
+
+node([7, 0], LVL_05)
+
+
+
+node([0, +7], LVL_03)
+  connect(LVL_08, CW)
+
+
+node([14, +7], LVL_08)
+  connect(LVL_09, CW)
+  connect(LVL_10, CW)
+
+
+node([14, 14], LVL_09)
+
+node([21, +7], LVL_10)
+  connect(LVL_14, CW)
+  connect(LVL_16, CW)
+
+node([21, 14], LVL_14)
+  connect(LVL_15, CW)
+
+node([28, 14], LVL_15)
+
+
+node([31.5, 00], LVL_16)
+  connect(LVL_17, CW)
+  connect(LVL_21, CW)
+  connect(LVL_24, CCW)
+
+
+node([38.5, -7], LVL_17)
+  connect(LVL_18, CW)
+
+node([45.5, -7], LVL_18)
+  connect(LVL_19, CW)
+  connect(LVL_20, CW)
+
+node([52.5, -7], LVL_19)
+  connect(LVL_27, CW)
+
+node([49, -12],  LVL_20)
+
+
+node([38.5, 00], LVL_21)
+  connect(LVL_22, CW)
+
+node([45.5, 00], LVL_22)
+  connect(LVL_23, CW)
+
+node([52.5, 00], LVL_23)
+  connect(LVL_27, CCW)
+
+
+node([45.5, +7], LVL_24)
+  connect(LVL_25, CCW)
+  connect(LVL_26, CCW)
+  connect(LVL_27, CCW)
+
+node([49, 12], LVL_25)
+
+node([49, 17], LVL_26)
+
+
+node([60, 00], LVL_27)

@@ -1,0 +1,64 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("2-13", "Cubicles", {b16b00b5-0001-4000-0000-000002000013}, KI_RAYTRACE)
+
+
+
+Cannon(SIZE_SMALL, P1, [ 2,  1], ROT_E)
+VoidWall([-5, 3], [4, 3])
+Cannon(SIZE_SMALL, A3, [ 2,  5], ROT_E)
+VoidWall([-5, 7], [4, 7])
+Cannon(SIZE_SMALL, P1, [ 2,  9], ROT_E)
+
+Cannon(SIZE_TINY, N0, [ 4.75,  3], ROT_E)
+Cannon(SIZE_TINY, N0, [ 4.75,  7], ROT_E)
+
+
+Cannon(SIZE_SMALL, N0, [ 8,  2], ROT_N)
+VoidCircle([8, 5], SIZE_GIGANTIC)
+Cannon(SIZE_SMALL, N0, [ 8,  8], ROT_S)
+
+
+
+Cannon(SIZE_TINY, N0, [11.25,  3], ROT_W)
+Cannon(SIZE_TINY, N0, [11.25,  7], ROT_W)
+
+Cannon(SIZE_SMALL, A3, [14,  1], ROT_W)
+VoidWall([12, 3], [24, 3])
+Cannon(SIZE_SMALL, P1, [14,  5], ROT_W)
+VoidWall([12, 7], [24, 7])
+Cannon(SIZE_SMALL, A3, [14,  9], ROT_W)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #   / \                     / \   #
+#               O                       O     
+#        1 #   \ /                     \ /   #
+#                          <O>                
+#        2 #                                 #
+#           --------< >           O >-------- 
+#        3 #                                 #
+#                                             
+#        4 #   / \                     / \   #
+#               O          (X)          O     
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #                                 #
+#           --------< >           O >-------- 
+#        7 #                                 #
+#                          <O>                
+#        8 #   / \                     / \   #
+#               O                       O     
+#        9 #   \ /                     \ /   #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

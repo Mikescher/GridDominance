@@ -1,0 +1,57 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("2-24", "Quadratic Formation", {b16b00b5-0001-4000-0000-000002000024}, KI_PRECALC)
+
+Cannon(SIZE_NORMAL, P1, [02, 5])
+Cannon(SIZE_NORMAL, A3, [14, 5])
+
+Cannon(SIZE_SMALL, N0, [06, 3])
+Cannon(SIZE_SMALL, N0, [06, 7])
+Cannon(SIZE_SMALL, N0, [10, 3])
+Cannon(SIZE_SMALL, N0, [10, 7])
+
+voidcircle([06, 05], 1)
+voidcircle([10, 05], 1)
+voidcircle([08, 03], 1)
+voidcircle([08, 07], 1)
+
+Cannon(SIZE_TINY, N0, [08, 01])
+Cannon(SIZE_TINY, N0, [08, 09])
+
+
+Cannon(SIZE_SMALL, N0, [01, 01])
+Cannon(SIZE_SMALL, N0, [01, 09])
+Cannon(SIZE_SMALL, N0, [15, 01])
+Cannon(SIZE_SMALL, N0, [15, 09])
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#            <O>           <O>           <O>  
+#        1 #                                 #
+#                                             
+#        2 #                                 #
+#                      <O> (X) <O>            
+#        3 #                                 #
+#                                             
+#        4 #   / \                     / \   #
+#               O      (X)     (X)      O     
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #                                 #
+#                      <O> (X) <O>            
+#        7 #                                 #
+#                                             
+#        8 #                                 #
+#            <O>           <O>           <O>  
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

@@ -1,0 +1,79 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("2-22", "Gridlines", {b16b00b5-0001-4000-0000-000002000022}, KI_PRECALC)
+
+Cannon(SIZE_SMALL, P1, [1, 1])
+Cannon(SIZE_SMALL, A3, [15, 1])
+
+
+Voidwall_H([8, 3.5], 1.5)
+Voidwall_V([9.5, 5], 1.5)
+Cannon(SIZE_TINY, N0, [8, 5], ROT_N)
+Voidwall_V([6.5, 5], 1.5)
+Voidwall_H([8, 6.5], 1.5)
+
+Voidwall_V([9.5, 2], 1.5)
+Cannon(SIZE_TINY, N0, [8, 2])
+Voidwall_V([6.5, 2], 1.5)
+
+VoidWall([8, 1.25], [8, -5])
+
+Voidwall_V([9.5, 8], 1.5)
+Cannon(SIZE_TINY, N0, [8, 8])
+Voidwall_V([6.5, 8], 1.5)
+
+VoidWall([8, 8.75], [8, 15])
+
+Voidwall_H([11, 3.5], 1.5)
+Cannon(SIZE_TINY, N0, [11, 5])
+Voidwall_H([11, 6.5], 1.5)
+
+Voidwall_H([5, 3.5], 1.5)
+Cannon(SIZE_TINY, N0, [5, 5])
+Voidwall_H([5, 6.5], 1.5)
+
+Cannon(SIZE_TINY, N0, [11, 2])
+Cannon(SIZE_TINY, N0, [11, 8])
+Cannon(SIZE_TINY, N0, [05, 2])
+Cannon(SIZE_TINY, N0, [05, 8])
+
+VoidWall([11.75, 5], [24, 5])
+VoidWall([04.25, 5], [-10, 5])
+
+Cannon(SIZE_TINY, N0, [13.5, 3.5])
+Cannon(SIZE_TINY, N0, [13.5, 6.5])
+
+Cannon(SIZE_TINY, N0, [2.5, 3.5])
+Cannon(SIZE_TINY, N0, [2.5, 6.5])
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                           |                 
+#        0 # / \            |            / \ #
+#             O             |             O   
+#        1 # \ /                         \ / #
+#                    <O> | <O> | <O>          
+#        2 #                                 #
+#                                             
+#        3 #    <O>   -     -     -   <O>    #
+#                                             
+#        4 #                                 #
+#           ---------<O> | <O> | <O>- - - - - 
+#        5 #                                 #
+#                                             
+#        6 #    <O>   -     -     -   <O>    #
+#                                             
+#        7 #                                 #
+#                    <O> | <O> | <O>          
+#        8 #                                 #
+#                           |                 
+#        9 #                                 #
+#                           |                 
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

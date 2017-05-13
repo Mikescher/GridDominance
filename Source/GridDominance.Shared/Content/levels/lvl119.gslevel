@@ -1,0 +1,44 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("2-19", "Collision Course", {b16b00b5-0001-4000-0000-000002000019}, KI_PRECALC)
+
+Cannon(SIZE_NORMAL, P1, [2,  5], ROT_S)
+Cannon(SIZE_NORMAL, A3, [14,  5], ROT_N)
+
+VoidCircle([8, 5], 3)
+
+
+VoidCircle([8, 0.5], 2)
+VoidCircle([8, 9.5], 2)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #               (X)               #
+#                                             
+#        1 #                                 #
+#                                             
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                                             
+#        4 #   / \                     / \   #
+#               O          (X)          O     
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #                                 #
+#                                             
+#        7 #                                 #
+#                                             
+#        8 #                                 #
+#                                             
+#        9 #               (X)               #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

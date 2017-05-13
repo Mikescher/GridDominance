@@ -1,0 +1,52 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("2-10", "Tunnelling", {b16b00b5-0001-4000-0000-000002000010}, KI_PRECALC)
+
+
+Cannon(SIZE_BIG, P1, [2, 5])
+
+Cannon(SIZE_SMALL, N0, [5, 1.5])
+VoidCircle([8, 1.5], SIZE_TINY)
+Cannon(SIZE_SMALL, N0, [11, 1.5])
+
+Glasswall_H([8, 4.25], 8)
+Glasswall_H([8, 5.75], 8)
+
+Cannon(SIZE_SMALL, N0, [5, 8.5])
+VoidCircle([8, 8.5], SIZE_TINY)
+Cannon(SIZE_SMALL, N0, [11, 8.5])
+
+Cannon(SIZE_BIG, A3, [14, 5])
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #         <O>   (X)   <O>         #
+#                                             
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                                             
+#        4 #   / \                     / \   #
+#               O                       O     
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #                                 #
+#                                             
+#        7 #                                 #
+#                                             
+#        8 #         <O>   (X)   <O>         #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

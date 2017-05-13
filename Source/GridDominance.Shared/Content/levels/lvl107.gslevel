@@ -1,0 +1,57 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("2-7", "Satellites II", {b16b00b5-0001-4000-0000-000002000007}, KI_RAYTRACE)
+
+
+Cannon(SIZE_NORMAL, P1, [ 8,   1.5])
+Cannon(SIZE_TINY,   N0, [ 6,   1.5], ROT_W)
+Cannon(SIZE_TINY,   N0, [ 10,  1.5], ROT_E)
+
+
+Cannon(SIZE_NORMAL, A2, [ 2,  5])
+Cannon(SIZE_TINY,   N0, [ 2,  3], ROT_N)
+Cannon(SIZE_TINY,   N0, [ 2,  7], ROT_S)
+
+
+Cannon(SIZE_NORMAL, A3, [ 14,  5])
+Cannon(SIZE_TINY,   N0, [ 14,  3], ROT_N)
+Cannon(SIZE_TINY,   N0, [ 14,  7], ROT_S)
+
+
+Cannon(SIZE_NORMAL, A4, [ 8,  8.5])
+Cannon(SIZE_TINY,   N0, [ 6,  8.5], ROT_W)
+Cannon(SIZE_TINY,   N0, [ 10, 8.5], ROT_E)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                          / \                
+#        1 #           <O>  O  <O>           #
+#                          \ /                
+#        2 #                                 #
+#              <O>                     <O>    
+#        3 #                                 #
+#                                             
+#        4 #   / \                     / \   #
+#               O                       O     
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #                                 #
+#              <O>                     <O>    
+#        7 #                                 #
+#                          / \                
+#        8 #           <O>  O  <O>           #
+#                          \ /                
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

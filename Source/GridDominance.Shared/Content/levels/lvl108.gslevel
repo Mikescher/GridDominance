@@ -1,0 +1,55 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("2-8", "Glass Walls", {b16b00b5-0001-4000-0000-000002000008}, KI_PRECALC)
+
+
+Cannon(SIZE_NORMAL, P1, [ 2,  1.5])
+VoidCircle([2, 5], SIZE_NORMAL)
+Cannon(SIZE_NORMAL, N0, [ 2,  8.5])
+
+Cannon(SIZE_SMALL, N0, [ 6,  2])
+Glasswall_V([6, 5], 4)
+Cannon(SIZE_SMALL, N0, [ 6,  8])
+
+Cannon(SIZE_SMALL, N0, [ 8,  5])
+
+Cannon(SIZE_SMALL, N0, [10,  2])
+Glasswall_V([10, 5], 4)
+Cannon(SIZE_SMALL, N0, [10,  8])
+
+Cannon(SIZE_NORMAL, N0, [ 14,  1.5])
+VoidCircle([14, 5], SIZE_NORMAL)
+Cannon(SIZE_NORMAL, A3, [ 14,  8.5])
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#              / \                            
+#        1 #    O                      <O>   #
+#              \ /     <O>     <O>            
+#        2 #                                 #
+#                                             
+#        3 #            H       H            #
+#                       H       H             
+#        4 #            H       H            #
+#              (X)      H  <O>  H      (X)    
+#        5 #            H       H            #
+#                       H       H             
+#        6 #            H       H            #
+#                                             
+#        7 #                                 #
+#                      <O>     <O>     / \    
+#        8 #   <O>                      O    #
+#                                      \ /    
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

@@ -1,0 +1,50 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("2-15", "The Block II", {b16b00b5-0001-4000-0000-000002000015}, KI_PRECALC)
+
+Cannon(SIZE_SMALL, P1, [ 4, 1])
+VoidCircle([ 8, 1], SIZE_SMALL)
+Cannon(SIZE_SMALL, A2, [12, 1])
+
+Cannon(SIZE_SMALL, N0, [1, 5])
+VoidCircle([ 4, 5], SIZE_SMALL)
+Glassblock([8, 5], 4, 4)
+VoidCircle([12, 5], SIZE_SMALL)
+Cannon(SIZE_SMALL, N0, [15, 5])
+
+Cannon(SIZE_SMALL, A3, [ 4, 9])
+VoidCircle([ 8, 9], SIZE_SMALL)
+Cannon(SIZE_SMALL, A4, [12, 9])
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #       / \             / \       #
+#                   O      (X)      O         
+#        1 #       \ /             \ /       #
+#                                             
+#        2 #                                 #
+#                                             
+#        3 #             HHHHHHH             #
+#                        HHHHHHH              
+#        4 #             HHHHHHH             #
+#            <O>   (X)   HHHHHHH   (X)   <O>  
+#        5 #             HHHHHHH             #
+#                        HHHHHHH              
+#        6 #             HHHHHHH             #
+#                                             
+#        7 #                                 #
+#                                             
+#        8 #       / \             / \       #
+#                   O      (X)      O         
+#        9 #       \ /             \ /       #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

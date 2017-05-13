@@ -1,0 +1,55 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("2-2", "Surrounded", {b16b00b5-0001-4000-0000-000002000002}, KI_RAYTRACE)
+
+
+Cannon(SIZE_SMALL, N0, [ 4,  1])
+Cannon(SIZE_TINY, N0, [ 4,  5])
+Cannon(SIZE_SMALL, N0, [ 4,  9])
+
+Cannon(SIZE_TINY, N0, [ 8.0,  1])
+Cannon(SIZE_TINY, N0, [ 8.0,  9])
+
+Cannon(SIZE_SMALL, N0, [ 12,  1])
+Cannon(SIZE_TINY, N0, [ 12,  5])
+Cannon(SIZE_SMALL, N0, [ 12,  9])
+
+VoidWall_H([8, 5], 4)
+VoidWall_V([8, 5], 4)
+
+Cannon(SIZE_SMALL, P1, [7, 4], ROT_NW)
+Cannon(SIZE_SMALL, N0, [9, 4], ROT_NE)
+Cannon(SIZE_SMALL, N0, [9, 6], ROT_SE)
+Cannon(SIZE_SMALL, A3, [7, 6], ROT_SW)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                  <O>     <O>     <O>        
+#        1 #                                 #
+#                                             
+#        2 #                                 #
+#                                             
+#        3 #             / \|                #
+#                         O |<O>              
+#        4 #             \ /|                #
+#                  <O>   ---|---   <O>        
+#        5 #             / \|                #
+#                         O |<O>              
+#        6 #             \ /|                #
+#                                             
+#        7 #                                 #
+#                                             
+#        8 #                                 #
+#                  <O>     <O>     <O>        
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+
