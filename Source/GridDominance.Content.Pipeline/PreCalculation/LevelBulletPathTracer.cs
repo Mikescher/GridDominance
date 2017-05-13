@@ -199,24 +199,33 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 			foreach (var elem in lvl.BlueprintCannons)
 			{
+				if (elem.Diameter < 0.01f) throw new Exception("Invalid Physics");
+
 				var body = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), 0, BodyType.Static, elem);
 				FixtureFactory.AttachCircle(cannonEnlarge * elem.Diameter / 2f + extend, 1, body, Vector2.Zero, elem);
 			}
 
 			foreach (var elem in lvl.BlueprintGlassBlocks)
 			{
+				if (elem.Width < 0.01f) throw new Exception("Invalid Physics");
+				if (elem.Height < 0.01f) throw new Exception("Invalid Physics");
+
 				var body = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), 0, BodyType.Static, elem);
 				FixtureFactory.AttachRectangle(elem.Width + extend, elem.Height + extend, 1, Vector2.Zero, body, elem);
 			}
 
 			foreach (var elem in lvl.BlueprintVoidCircles)
 			{
+				if (elem.Diameter < 0.01f) throw new Exception("Invalid Physics");
+
 				var body = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), 0, BodyType.Static, elem);
 				FixtureFactory.AttachCircle(elem.Diameter / 2f + extend, 1, body, Vector2.Zero, elem);
 			}
 
 			foreach (var elem in lvl.BlueprintVoidWalls)
 			{
+				if (elem.Length < 0.01f) throw new Exception("Invalid Physics");
+
 				var body = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), 0, BodyType.Static, elem);
 				FixtureFactory.AttachRectangle(elem.Length + extend, VoidWallBlueprint.DEFAULT_WIDTH + extend, 1, Vector2.Zero, body, elem);
 				body.Rotation = FloatMath.DegRad * elem.Rotation;

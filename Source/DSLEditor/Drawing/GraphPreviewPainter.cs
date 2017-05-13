@@ -19,9 +19,9 @@ namespace GridDominance.DSLEditor.Drawing
 	{
 		private readonly ConcurrentDictionary<string, Tuple<byte[], LevelBlueprint>> _levelCache = new ConcurrentDictionary<string, Tuple<byte[], LevelBlueprint>>();
 
-		public Bitmap Draw(GraphBlueprint wgraph, string path)
+		public Bitmap Draw(GraphBlueprint wgraph, string path, Action<string> logwrite)
 		{
-			var idmap = MapLevels(path);
+			var idmap = MapLevels(path, logwrite);
 
 			int minX;
 			int minY;
@@ -129,7 +129,7 @@ namespace GridDominance.DSLEditor.Drawing
 			return buffer;
 		}
 
-		private Dictionary<Guid, string> MapLevels(string path)
+		private Dictionary<Guid, string> MapLevels(string path, Action<string> logwrite)
 		{
 			path = Path.GetDirectoryName(path);
 
@@ -153,6 +153,7 @@ namespace GridDominance.DSLEditor.Drawing
 						}
 					}
 
+					logwrite("Scan level: " + Path.GetFileName(f));
 					var lf = DSLUtil.ParseLevelFromFile(f);
 
 					d[lf.UniqueID] = lf.Name;

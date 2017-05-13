@@ -29,7 +29,7 @@ namespace GridDominance.DSLEditor
 
 				var lp = ParseGraphFile(input);
 
-				var img = ImageHelper.CreateImageSource(graphPainter.Draw(lp, FilePath));
+				var img = ImageHelper.CreateImageSource(graphPainter.Draw(lp, FilePath, AddLog));
 
 				AddLog("File parsed  in " + sw.ElapsedMilliseconds + "ms");
 
@@ -40,14 +40,14 @@ namespace GridDominance.DSLEditor
 				AddLog(pe.ToOutput());
 				Console.Out.WriteLine(pe.ToString());
 
-				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null));
+				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null, AddLog));
 			}
 			catch (Exception pe)
 			{
 				AddLog(pe.Message);
 				Console.Out.WriteLine(pe.ToString());
 
-				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null));
+				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null, AddLog));
 			}
 		}
 

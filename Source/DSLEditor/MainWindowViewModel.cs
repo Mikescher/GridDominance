@@ -97,17 +97,32 @@ namespace GridDominance.DSLEditor
 			//Reparse();
 		}
 
+		private Thread parseThread;
 		private bool isInAsyncParse = false;
 
 		private void Reparse(bool async)
 		{
-			if (isInAsyncParse) return;
+			if (isInAsyncParse && parseThread != null && parseThread.IsAlive)
+			{
+				AddLog("Abort thread and rerun");
+				parseThread.Abort();
+				for (int i = 0; i < 100; i++)
+				{
+					if (!isInAsyncParse) break;
+					Thread.Sleep(10);
+				}
+				if (isInAsyncParse)
+				{
+					AddLog("Parsing failed - other thread is still running");
+					return;
+				}
+			}
 
 			if (async)
 			{
 				string code = Code;
 
-				new Thread(() =>
+				parseThread = new Thread(() =>
 				{
 					try
 					{
@@ -121,24 +136,19 @@ namespace GridDominance.DSLEditor
 						else
 							throw new Exception("Unknown filetype");
 
-						Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-						{
-							PreviewImage = img;
-						}));
+						Application.Current.Dispatcher.BeginInvoke(new Action(() => { PreviewImage = img; }));
 					}
 					catch (Exception exc)
 					{
-						Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-						{
-							Log.Add(exc.Message);
-							Console.Out.WriteLine(exc.ToString());
-						}));
+						AddLog("Exception in parsing thread:" + exc.Message);
+						Console.Out.WriteLine(exc.ToString());
 					}
 					finally
 					{
 						isInAsyncParse = false;
 					}
-				}).Start();
+				});
+				parseThread.Start();
 			}
 			else
 			{
@@ -161,18 +171,23 @@ namespace GridDominance.DSLEditor
 
 		private void AddLog(string msg)
 		{
-			if (Application.Current.Dispatcher.CheckAccess())
+			var app = Application.Current;
+			if (app == null) return;
+
+			if (app.Dispatcher.CheckAccess())
 			{
 				Log.Add(msg);
 			}
 			else
 			{
-				Application.Current.Dispatcher.Invoke(() => Log.Add(msg));
+				app.Dispatcher.Invoke(() => Log.Add(msg));
 			}
 		}
 
 		private void ClearLog()
 		{
+			if (Application.Current == null) return;
+
 			if (Application.Current.Dispatcher.CheckAccess())
 			{
 				Log.Clear();
@@ -191,6 +206,7 @@ namespace GridDominance.DSLEditor
 				Code = File.ReadAllText(FilePath);
 				_codeDirty = false;
 				Reparse(async);
+				timerCountDown = -99;
 			}
 			catch (Exception e)
 			{
