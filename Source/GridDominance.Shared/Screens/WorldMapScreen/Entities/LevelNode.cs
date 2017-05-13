@@ -10,6 +10,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -215,8 +216,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			AbortAllOperations(p => p.Name == "LevelNode::Center");
 			AbortAllOperations(p => p.Name == "LevelNode::CenterShake");
 
+#if DEBUG
+			if (!NodeEnabled && DebugSettings.Get("UnlockNode"))
+			{
+				NodeEnabled = true;
+			}
+#endif
 			if (!NodeEnabled)
 			{
+
 				//TODO Err sound
 				AddEntityOperation(new ScreenShakeAndCenterOperation(this, Owner));
 

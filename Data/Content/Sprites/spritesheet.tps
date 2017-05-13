@@ -536,6 +536,7 @@
             <key type="filename">grid.png</key>
             <key type="filename">icons/jewels.png</key>
             <key type="filename">icons/tutorial.png</key>
+            <key type="filename">vortex_circle_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -732,6 +733,7 @@
             <key type="filename">icons/user.png</key>
             <key type="filename">panel_blur_corner.png</key>
             <key type="filename">panel_blur_edge.png</key>
+            <key type="filename">vortex_circle_0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -937,6 +939,19 @@
                 <rect>36,12,72,24</rect>
                 <key>scale9Paddings</key>
                 <rect>36,12,72,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">vortex_circle_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,48,96,96</rect>
+                <key>scale9Paddings</key>
+                <rect>48,48,96,96</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

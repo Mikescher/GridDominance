@@ -7,7 +7,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 {
 	class BulletFadeAndDieOperation : GameEntityOperation<Bullet>
 	{
-		public BulletFadeAndDieOperation() : base("BulletFadeAndDieOperation", 1.0f)
+		public BulletFadeAndDieOperation(float time) : base("BulletFadeAndDieOperation", time)
 		{
 		}
 

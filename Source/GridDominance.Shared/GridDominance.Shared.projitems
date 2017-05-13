@@ -47,6 +47,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\ParticlePresets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\TutorialAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BulletPath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BlackHole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletShrinkAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\VoidCircle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\GlassBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\TutorialController.cs" />
@@ -71,9 +73,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Bullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BulletSplitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Cannon.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletConsumeAndDieOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletDisintegrateAndDieOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletDamageAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletFadeAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\CannonBooster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\VoidWall.cs" />

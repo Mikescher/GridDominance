@@ -10,8 +10,10 @@ namespace GridDominance.DSLEditor
 	{
 		public MainWindow()
 		{
-			DataContext = new MainWindowViewModel();
+			var vm = new MainWindowViewModel();
+			DataContext = vm;
 			InitializeComponent();
+			vm.TimerCountDown = 2;
 		}
 	}
 }

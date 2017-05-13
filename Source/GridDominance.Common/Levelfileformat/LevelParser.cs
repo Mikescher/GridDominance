@@ -36,6 +36,10 @@ namespace GridDominance.Levelfileformat
 			DefineMethod("glassblock", AddGlassBlock);
 
 			DefineMethod("voidcircle", AddVoidCircle);
+
+			DefineMethod("blackhole", AddBlackHole);
+			DefineMethod("whitehole", AddWhiteHole);
+
 		}
 
 		public LevelBlueprint Parse(string fileName = "__root__")
@@ -182,6 +186,26 @@ namespace GridDominance.Levelfileformat
 			var h = ExtractNumberParameter(methodParameter, 2) * _scaleFactor;
 
 			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(pcx, pcy, w, h));
+		}
+
+		private void AddBlackHole(List<string> methodParameter)
+		{
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var dia = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+			var power = ExtractNumberParameter(methodParameter, 2, dia * BlackHoleBlueprint.DEFAULT_POWER_FACTOR);
+
+			_result.BlueprintBlackHoles.Add(new BlackHoleBlueprint(pcx, pcy, dia, -power));
+		}
+
+		private void AddWhiteHole(List<string> methodParameter)
+		{
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var dia = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+			var power = ExtractNumberParameter(methodParameter, 2, dia * BlackHoleBlueprint.DEFAULT_POWER_FACTOR);
+
+			_result.BlueprintBlackHoles.Add(new BlackHoleBlueprint(pcx, pcy, dia, +power));
 		}
 	}
 }

@@ -173,11 +173,11 @@ namespace GridDominance.DSLEditor
 
 			if (newCode != Code)
 			{
-				int tc = timerCountDown;
+				int tc = TimerCountDown;
 
 				Code = newCode;
 
-				timerCountDown = tc;
+				TimerCountDown = tc;
 				SelectionStart = selS;
 				SelectionLength = selL;
 				if (coff >= 0) CaretOffset?.Set(coff);

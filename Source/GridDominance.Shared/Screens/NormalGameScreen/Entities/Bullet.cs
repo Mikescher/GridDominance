@@ -225,7 +225,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			// After Bullet-Cannon Collision
 
-			AddEntityOperation(new BulletDamageAndDieOperation());
+			AddEntityOperation(new BulletFadeAndDieOperation(0.05f));
+			IsDying = true;
+		}
+
+		public void DisintegrateIntoVortex()
+		{
+			// After Bullet-Vortex Collision
+
+			if (IsDying) return;
+
+			AddEntityOperation(new BulletShrinkAndDieOperation(0.35f));
 			IsDying = true;
 		}
 
@@ -233,7 +243,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			// After Bullet-Cannon Collision
 
-			AddEntityOperation(new BulletConsumeAndDieOperation());
+			AddEntityOperation(new BulletShrinkAndDieOperation(0.15f));
 			IsDying = true;
 		}
 
@@ -247,7 +257,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			BulletPosition = ConvertUnits.ToDisplayUnits(PhysicsBody.Position);
 			BulletRotation = PhysicsBody.Rotation;
 
-			if (Lifetime > MAXIMUM_LIEFTIME) AddEntityOperation(new BulletFadeAndDieOperation());
+			if (Lifetime > MAXIMUM_LIEFTIME) AddEntityOperation(new BulletFadeAndDieOperation(1.0f));
 
 			if (!Manager.BoundingBox.Contains(BulletPosition)) Remove();
 		}

@@ -163,6 +163,37 @@ namespace GridDominance.DSLEditor.Drawing
 						}
 						g.Restore(save);
 					}
+
+					var penBH1 = new Pen(Color.White, 2);
+					var brushBH1 = Brushes.Black;
+					var penBH2 = new Pen(Color.Black, 2);
+					var brushBH2 = Brushes.White;
+					foreach (var vhole in level.BlueprintBlackHoles)
+					{
+						var save = g.Save();
+						{
+							g.TranslateTransform(vhole.X, vhole.Y);
+							if (vhole.Power < 0)
+							{
+								g.FillEllipse(brushBH1, new RectangleF(-vhole.Diameter / 2f, -vhole.Diameter / 2f, vhole.Diameter, vhole.Diameter));
+								for (int i = 1; i <= 6; i++)
+								{
+									var sz = i / 6f;
+									g.DrawEllipse(penBH1, new RectangleF(sz * -vhole.Diameter / 2f, sz * -vhole.Diameter / 2f, sz * vhole.Diameter, sz * vhole.Diameter));
+								}
+							}
+							else
+							{
+								g.FillEllipse(brushBH2, new RectangleF(-vhole.Diameter / 2f, -vhole.Diameter / 2f, vhole.Diameter, vhole.Diameter));
+								for (int i = 1; i <= 6; i++)
+								{
+									var sz = i / 6f;
+									g.DrawEllipse(penBH2, new RectangleF(sz * -vhole.Diameter / 2f, sz * -vhole.Diameter / 2f, sz * vhole.Diameter, sz * vhole.Diameter));
+								}
+							}
+						}
+						g.Restore(save);
+					}
 				}
 			}
 

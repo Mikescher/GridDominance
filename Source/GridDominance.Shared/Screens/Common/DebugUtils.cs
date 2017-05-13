@@ -88,9 +88,10 @@ namespace GridDominance.Shared.Screens
 
 			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab,       KeyModifier.None);
 			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,         KeyModifier.None);
-			DebugSettings.AddPush("DBG",  "AssimilateCannon",       scrn, SKeys.A,         KeyModifier.None);
-			DebugSettings.AddPush("DBG",  "AbandonCannon",          scrn, SKeys.S,         KeyModifier.None);
-			DebugSettings.AddPush("TRUE", "LeaveScreen",            scrn, SKeys.Backspace, KeyModifier.Control);
+			if (scrn is GDGameScreen) DebugSettings.AddPush("DBG",  "AssimilateCannon",       scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDWorldMapScreen) DebugSettings.AddPush("DBG",  "UnlockNode",             scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDGameScreen) DebugSettings.AddPush("DBG",  "AbandonCannon",          scrn, SKeys.S,         KeyModifier.None);
+			if (scrn is GDWorldMapScreen) DebugSettings.AddPush("TRUE", "LeaveScreen",            scrn, SKeys.Backspace, KeyModifier.Control);
 		}
 
 #endif

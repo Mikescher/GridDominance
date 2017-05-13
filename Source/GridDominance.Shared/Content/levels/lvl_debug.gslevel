@@ -12,6 +12,8 @@ Cannon(SIZE_SMALL,  N0,  [ 8,  1], ROT_SW)
 #Cannon(SIZE_NORMAL, N0,  [ 8,  5], ROT_E)
 Cannon(SIZE_SMALL,  N0,  [ 8,  9], ROT_NE)
 
+WhiteHole([ 12,  9], 1)
+
 Cannon(SIZE_TINY,   N0,  [1 ,  1], ROT_N)
 Cannon(SIZE_TINY,   A2,  [15,  9], ROT_N)
 Cannon(SIZE_TINY,   N0,  [1 ,  9], ROT_N)
@@ -21,6 +23,8 @@ Cannon(SIZE_TINY,   A3,  [15,  1], ROT_N)
 GlassBlock([ 12,  2], 1.5, 2)
 
 VoidCircle([ 10,  3], 1)
+
+BlackHole([ 9,  5], 2)
 
 #VoidWall_V([ 5, 5.5], 1)
 VoidWall_V([11, 5], 3.5)
@@ -52,16 +56,16 @@ VoidWall([14,  2], [16, 2])
 #                     \        (X)            
 #        3 #           \                     #
 #                       \         |           
-#        4 #                                 #
-#                                 |    <O>    
-#        5 #                                 #
+#        4 #                 ...             #
+#                            .@.  |    <O>    
+#        5 #                 ...             #
 #              / \                |           
 #        6 #    O                            #
 #              \ /  HHHHHHHHHHHHHHHHH         
 #        7 #                                 #
 #                      -                 ---  
 #        8 #          |                 |    #
-#            <O>     ---   <O>          | O   
+#            <O>     ---   <O>      @   | O   
 #        9 #                            |    #
 #                                             
 #          # # # # # # # # # # # # # # # # # #

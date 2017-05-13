@@ -17,12 +17,14 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const byte SERIALIZE_ID_VOIDCIRCLE  = 0x06;
 		public const byte SERIALIZE_ID_GLASSBLOCK  = 0x07;
 		public const byte SERIALIZE_ID_KITYPE      = 0x08;
+		public const byte SERIALIZE_ID_BLACKHOLE   = 0x09;
 		public const byte SERIALIZE_ID_EOF         = 0xFF;
 
 		public readonly List<CannonBlueprint>     BlueprintCannons     = new List<CannonBlueprint>();
 		public readonly List<VoidWallBlueprint>   BlueprintVoidWalls   = new List<VoidWallBlueprint>();
 		public readonly List<VoidCircleBlueprint> BlueprintVoidCircles = new List<VoidCircleBlueprint>();
 		public readonly List<GlassBlockBlueprint> BlueprintGlassBlocks = new List<GlassBlockBlueprint>();
+		public readonly List<BlackHoleBlueprint>  BlueprintBlackHoles  = new List<BlackHoleBlueprint>();
 
 		public Guid UniqueID { get; set; } = Guid.Empty;
 		public string Name { get; set; } = "";
@@ -52,6 +54,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			for (int i = 0; i < BlueprintVoidWalls.Count;   i++) BlueprintVoidWalls[i].Serialize(bw);
 			for (int i = 0; i < BlueprintVoidCircles.Count; i++) BlueprintVoidCircles[i].Serialize(bw);
 			for (int i = 0; i < BlueprintGlassBlocks.Count; i++) BlueprintGlassBlocks[i].Serialize(bw);
+			for (int i = 0; i < BlueprintBlackHoles.Count;  i++) BlueprintBlackHoles[i].Serialize(bw);
 
 			bw.Write(SERIALIZE_ID_EOF);
 		}
@@ -77,6 +80,10 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 					case SERIALIZE_ID_GLASSBLOCK:
 						BlueprintGlassBlocks.Add(GlassBlockBlueprint.Deserialize(br));
+						break;
+
+					case SERIALIZE_ID_BLACKHOLE:
+						BlueprintBlackHoles.Add(BlackHoleBlueprint.Deserialize(br));
 						break;
 
 					case SERIALIZE_ID_NAME:

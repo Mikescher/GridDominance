@@ -62,7 +62,7 @@ namespace GridDominance.DSLEditor
 		public IndirectProperty<int> CaretOffset { get { return _caretOffset; } set { _caretOffset = value; OnPropertyChanged(); } }
 
 		private readonly DispatcherTimer repaintTimer = new DispatcherTimer();
-		private int timerCountDown = TIMER_COOLDOWN;
+		public int TimerCountDown = TIMER_COOLDOWN;
 
 		private bool IsFilePathLevel => FilePath.ToLower().EndsWith(".gslevel");
 		private bool IsFilePathGraph => FilePath.ToLower().EndsWith(".gsgraph");
@@ -86,15 +86,11 @@ namespace GridDominance.DSLEditor
 			repaintTimer.Tick += (o, te) =>
 			{
 				ProgressMaximum = TIMER_COOLDOWN;
-				ProgressValue = Math.Max(0, Math.Min(TIMER_COOLDOWN, timerCountDown));
+				ProgressValue = Math.Max(0, Math.Min(TIMER_COOLDOWN, TimerCountDown));
 
-				if (--timerCountDown == 0) Reparse(true);
+				if (--TimerCountDown == 0) Reparse(true);
 			};
 			repaintTimer.Start();
-
-			//###########################
-
-			//Reparse();
 		}
 
 		private Thread parseThread;
@@ -206,7 +202,7 @@ namespace GridDominance.DSLEditor
 				Code = File.ReadAllText(FilePath);
 				_codeDirty = false;
 				Reparse(async);
-				timerCountDown = -99;
+				TimerCountDown = -99;
 			}
 			catch (Exception e)
 			{
@@ -288,7 +284,7 @@ namespace GridDominance.DSLEditor
 
 		private void ResetTimer()
 		{
-			timerCountDown = TIMER_COOLDOWN;
+			TimerCountDown = TIMER_COOLDOWN;
 		}
 
 		private void Drop(DragEventArgs e)

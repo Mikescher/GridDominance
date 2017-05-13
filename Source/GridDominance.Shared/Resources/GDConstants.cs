@@ -20,10 +20,11 @@ namespace GridDominance.Shared.Resources
 		public const string SERVER_SECRET = "OZothFoshCiHyPhebMyGheVushNopTyg"; //TODO change 4 prod
 
 
-		public const int ORDER_GAME_WALL           = 100;
-		public const int ORDER_GAME_CANNON         = 110;
-		public const int ORDER_GAME_BULLETPARTICLE = 200;
-		public const int ORDER_GAME_BULLETS        = 210; //TODO Bullets behind cannons ?
+		public const int ORDER_GAME_BLACKHOLE      = 100;
+		public const int ORDER_GAME_WALL           = 200;
+		public const int ORDER_GAME_CANNON         = 210;
+		public const int ORDER_GAME_BULLETPARTICLE = 300;
+		public const int ORDER_GAME_BULLETS        = 310; //TODO Bullets behind cannons ?
 
 		public const int ORDER_MAP_PIPE          = 100;
 		public const int ORDER_MAP_ORB           = 110;

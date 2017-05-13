@@ -5,26 +5,26 @@ using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 {
-	class BulletDamageAndDieOperation : GameEntityOperation<Bullet>
+	class BulletShrinkAndDieOperation : GameEntityOperation<Bullet>
 	{
-		public BulletDamageAndDieOperation() : base("BulletDamageAndDieOperation", 0.05f)
+		public BulletShrinkAndDieOperation(float time) : base("BulletShrinkAndDieOperation", time)
 		{
 		}
 
 		protected override void OnStart(Bullet entity)
 		{
-			entity.BulletAlpha = 1;
+			entity.BulletExtraScale = 1;
 			entity.IsDying = true;
 		}
 
 		protected override void OnProgress(Bullet entity, float progress, SAMTime gameTime, InputState istate)
 		{
-			entity.BulletAlpha = 1 - progress;
+			entity.BulletExtraScale = 1 - progress;
 		}
 
 		protected override void OnEnd(Bullet entity)
 		{
-			entity.BulletAlpha = 0;
+			entity.BulletExtraScale = 0;
 			entity.Alive = false;
 		}
 

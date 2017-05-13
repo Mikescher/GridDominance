@@ -116,6 +116,10 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexVoidWall_BG_End;
 		public static TextureRegion2D TexVoidWall_BG_Middle;
 
+		public static TextureRegion2D TexVortex0;
+		public static TextureRegion2D TexVortex1;
+		public static TextureRegion2D TexVortex2;
+
 		public static TextureRegion2D TexLevelNodeStructure;
 		public static TextureRegion2D TexLevelNodeSegment;
 
@@ -268,6 +272,10 @@ namespace GridDominance.Shared.Resources
 			TexGlassEdge       = AtlasTextures["glass_side"];
 			TexGlassCorner     = AtlasTextures["glass_corner"];
 			TexGlassFill       = AtlasTextures["glass_fill"];
+
+			TexVortex0         = AtlasTextures["vortex_circle_0"];
+			TexVortex1         = AtlasTextures["vortex_circle_1"];
+			TexVortex2         = AtlasTextures["vortex_circle_2"];
 
 			TexIconBack        = AtlasTextures["back"];
 			TexIconNext        = AtlasTextures["next"];

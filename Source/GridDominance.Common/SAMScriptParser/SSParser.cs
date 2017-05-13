@@ -229,7 +229,7 @@ namespace GridDominance.SAMScriptParser
 			return int.Parse(v);
 		}
 
-		protected float ExtractNumberParameter(List<string> methodParameter, int idx, int? defaultValue = null)
+		protected float ExtractNumberParameter(List<string> methodParameter, int idx, float? defaultValue = null)
 		{
 			if (idx >= methodParameter.Count)
 			{

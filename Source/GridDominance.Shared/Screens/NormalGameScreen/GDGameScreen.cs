@@ -162,6 +162,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			foreach (var bPrint in Blueprint.BlueprintGlassBlocks)
 				Entities.AddEntity(new GlassBlock(this, bPrint));
 
+			foreach (var bPrint in Blueprint.BlueprintBlackHoles)
+				Entities.AddEntity(new BlackHole(this, bPrint));
+
 			//----------------------------------------------------------------
 
 			foreach (var cannon in GetEntities<Cannon>())

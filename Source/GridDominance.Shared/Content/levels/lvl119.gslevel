@@ -7,7 +7,7 @@ init("2-19", "Collision Course", {b16b00b5-0001-4000-0000-000002000019}, KI_PREC
 Cannon(SIZE_NORMAL, P1, [2,  5], ROT_S)
 Cannon(SIZE_NORMAL, A3, [14,  5], ROT_N)
 
-VoidCircle([8, 5], 3)
+BlackHole([8, 5], 3)
 
 
 VoidCircle([8, 0.5], 2)
@@ -25,11 +25,11 @@ VoidCircle([8, 9.5], 2)
 #        2 #                                 #
 #                                             
 #        3 #                                 #
-#                                             
-#        4 #   / \                     / \   #
-#               O          (X)          O     
-#        5 #   \ /                     \ /   #
-#                                             
+#                         .....               
+#        4 #   / \        .....        / \   #
+#               O         ..@..         O     
+#        5 #   \ /        .....        \ /   #
+#                         .....               
 #        6 #                                 #
 #                                             
 #        7 #                                 #

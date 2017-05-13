@@ -28,6 +28,7 @@ namespace GridDominance.DSLEditor.Drawing
 			foreach (var w in level.BlueprintVoidWalls) DrawVoidWall(w);
 			foreach (var c in level.BlueprintVoidCircles) DrawVoidCircle(c);
 			foreach (var c in level.BlueprintGlassBlocks) DrawGlassBlock(c);
+			foreach (var h in level.BlueprintBlackHoles) DrawBlackHole(h);
 		}
 
 		private void DrawCannon(CannonBlueprint c)
@@ -171,25 +172,62 @@ namespace GridDominance.DSLEditor.Drawing
 
 		private void DrawGlassBlock(GlassBlockBlueprint c)
 		{
-			var x1 = (c.X - c.Width  / 2) / 64;
+			var x1 = (c.X - c.Width / 2) / 64;
 			var y1 = (c.Y - c.Height / 2) / 64;
-			var x2 = (c.X + c.Width  / 2) / 64;
+			var x2 = (c.X + c.Width / 2) / 64;
 			var y2 = (c.Y + c.Height / 2) / 64;
 
 			FillMap(x1, y1, x2, y2, 'H');
 		}
 
+		private void DrawBlackHole(BlackHoleBlueprint c)
+		{
+			var x = c.X / 64;
+			var y = c.Y / 64;
+			var r = c.Diameter/2 / 64;
+
+			FillCircle(x, y, r, '.');
+			SetMap(x, y, '@');
+		}
+
 		private void FillMap(float x1, float y1, float x2, float y2, char c)
 		{
-			int ix1 = (int) Math.Floor(2 * x1 - 1);
-			int iy1 = (int) Math.Floor(2 * y1 - 1);
-			int ix2 = (int) Math.Ceiling(2 * x2  + 1);
-			int iy2 = (int) Math.Ceiling(2 * y2  + 1);
+			int ix1 = (int)Math.Floor(2 * x1 - 1);
+			int iy1 = (int)Math.Floor(2 * y1 - 1);
+			int ix2 = (int)Math.Ceiling(2 * x2 + 1);
+			int iy2 = (int)Math.Ceiling(2 * y2 + 1);
 
 			for (int ix = ix1; ix <= ix2; ix++)
 			{
 				for (int iy = iy1; iy <= iy2; iy++)
 				{
+					float rx = ix / 2f;
+					float ry = iy / 2f;
+
+					if (rx > x1 + 0.001f && rx < x2 - 0.001f && ry > y1 + 0.001f && ry < y2 - 0.001f) SetMap(rx, ry, c);
+				}
+			}
+		}
+
+		private void FillCircle(float x, float y, float rad, char c)
+		{
+			float x1 = x - rad;
+			float y1 = y - rad;
+			float x2 = x + rad;
+			float y2 = y + rad;
+
+			int ix1 = (int)Math.Floor(2 * x1 - 1);
+			int iy1 = (int)Math.Floor(2 * y1 - 1);
+			int ix2 = (int)Math.Ceiling(2 * x2 + 1);
+			int iy2 = (int)Math.Ceiling(2 * y2 + 1);
+
+			for (int ix = ix1; ix <= ix2; ix++)
+			{
+				for (int iy = iy1; iy <= iy2; iy++)
+				{
+					var d = Math.Sqrt(Math.Pow((ix / 2f - x), 2) + Math.Pow((iy / 2f - y), 2));
+					if (d > rad) continue;
+
 					float rx = ix / 2f;
 					float ry = iy / 2f;
 
