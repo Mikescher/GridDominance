@@ -66,7 +66,7 @@ namespace GridDominance.Shared.NormalGameScreen
 		{
 #if DEBUG
 			var pMatrix = ((TolerantBoxingViewportAdapter)GDOwner.VAdapterGame).GetFarseerDebugProjectionMatrix();
-			var vMatrix = Matrix.CreateScale(GDSettings.PHYSICS_CONVERSION_FACTOR);
+			var vMatrix = Matrix.CreateScale(GDConstants.PHYSICS_CONVERSION_FACTOR);
 			debugView.RenderDebugData(ref pMatrix, ref vMatrix);
 #endif
 		}

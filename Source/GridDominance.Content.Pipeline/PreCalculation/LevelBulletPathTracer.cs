@@ -15,6 +15,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 	{
 		public const int MAX_COUNT_REFLECT = 8;
 
+		private const int RESOLUTION = 3600;
+
 		private const float HITBOX_ENLARGE = 32;
 
 		public static void Precalc(LevelBlueprint lvl)
@@ -34,9 +36,9 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 			bool rayAtStart = true;
 			float rayAtStartQuality = float.MaxValue;
-			for (int ideg = 0; ideg < 3600; ideg ++)
+			for (int ideg = 0; ideg < RESOLUTION; ideg ++)
 			{
-				float deg = ideg / 10f;
+				float deg = ideg * (360f / RESOLUTION);
 
 				float quality;
 				var ray = FindBulletPaths(worldNormal, worldExtend, cannon, deg, out quality);
@@ -128,7 +130,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var fCannon = traceResult.Item1.UserData as CannonBlueprint;
 				if (fCannon != null)
 				{
-					quality = DistLinePoint(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
+					quality = FloatMath.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
 					rays.Add(Tuple.Create(traceResult.Item2.X, traceResult.Item2.Y));
 					return new BulletPathBlueprint(fCannon.CannonID, startRadians, rays.ToArray());
 				}
@@ -160,6 +162,13 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				if (fVoidCircle != null)
 				{
 					quality = float.MaxValue;
+					return null;
+				}
+
+				var fBlackhole = traceResult.Item1.UserData as BlackHoleBlueprint;
+				if (fBlackhole != null)
+				{
+					quality = float.MaxValue; // Black holes are _not_ correctly calculated in this preprocessor
 					return null;
 				}
 
@@ -231,26 +240,15 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				body.Rotation = FloatMath.DegRad * elem.Rotation;
 			}
 
+			foreach (var elem in lvl.BlueprintBlackHoles)
+			{
+				if (elem.Diameter < 0.01f) throw new Exception("Invalid Physics");
+
+				var body = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), 0, BodyType.Static, elem);
+				FixtureFactory.AttachCircle(elem.Diameter * 0.5f * 0.3f, 1, body, Vector2.Zero, elem);
+			}
+
 			return world;
-		}
-
-		private static float CrossProduct(Vector2 pointA, Vector2 pointB, Vector2 pointC)
-		{
-			var AB = new Vector2();
-			var AC = new Vector2();
-			AB.X = pointB.X - pointA.X;
-			AB.Y = pointB.Y - pointA.Y;
-			AC.X = pointC.X - pointA.X;
-			AC.Y = pointC.Y - pointA.Y;
-			float cross = AB.X * AC.Y - AB.Y * AC.X;
-
-			return cross;
-		}
-
-		private static float DistLinePoint(Vector2 p1, Vector2 p2, Vector2 point)
-		{
-			double dist = CrossProduct(p1, p2, point) / (p2 - p1).Length();
-			return (float)Math.Abs(dist);
 		}
 	}
 }

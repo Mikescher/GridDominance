@@ -19,6 +19,7 @@ namespace GridDominance.Shared.Resources
 		public const string SERVER_URL = "http://gdapi.mikescher.com";
 		public const string SERVER_SECRET = "OZothFoshCiHyPhebMyGheVushNopTyg"; //TODO change 4 prod
 
+		public const float PHYSICS_CONVERSION_FACTOR = 50;
 
 		public const int ORDER_GAME_BLACKHOLE      = 100;
 		public const int ORDER_GAME_WALL           = 200;

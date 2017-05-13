@@ -114,19 +114,39 @@ namespace GridDominance.DSLEditor.Drawing
 						g.Restore(save);
 					}
 					
-					var rayPen = new Pen(Color.FromArgb(200, Color.Red), 4f) {DashStyle = DashStyle.Dash};
+					var rayPenBG = new Pen(Color.FromArgb(100, Color.Red), 4f);
+					var rayPen   = new Pen(Color.FromArgb(200, Color.Red), 4f) {DashStyle = DashStyle.Dash};
+					var rayBrush = new SolidBrush(Color.FromArgb(200, Color.Goldenrod));
 					foreach (var c in level.BlueprintCannons.Where(p => p.CannonID == highlightCannon))
 					{
 						foreach (var path in c.PrecalculatedPaths)
 						{
-							float cx = c.X;
-							float cY = c.Y;
-							foreach (var ray in path.Rays)
+							if (path.PreviewBulletPath != null)
 							{
-								g.DrawLine(rayPen, cx, cY, ray.Item1, ray.Item2);
+								float cx = c.X;
+								float cy = c.Y;
+								foreach (var pos in path.PreviewBulletPath)
+								{
+									g.DrawLine(rayPenBG, cx, cy, pos.X, pos.Y);
+									cx = pos.X;
+									cy = pos.Y;
+								}
+							}
 
-								cx = ray.Item1;
-								cY = ray.Item2;
+							{
+								float cx = c.X;
+								float cy = c.Y;
+								if (path.Rays.Length > 1) g.FillEllipse(rayBrush, cx - 4, cy - 4, 8, 8);
+							
+								foreach (var ray in path.Rays)
+								{
+									g.DrawLine(rayPen, cx, cy, ray.Item1, ray.Item2);
+							
+									if (path.Rays.Length > 1) g.FillEllipse(rayBrush, ray.Item1 - 4, ray.Item2 - 4, 8, 8);
+							
+									cx = ray.Item1;
+									cy = ray.Item2;
+								}
 							}
 						}
 					}

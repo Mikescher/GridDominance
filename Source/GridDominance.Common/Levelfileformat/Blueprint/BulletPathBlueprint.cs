@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace GridDominance.Levelfileformat.Blueprint
 {
@@ -10,11 +12,22 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 		public readonly Tuple<float, float>[] Rays; // <ray_endX, ray_endY>
 
+		public readonly List<Vector2> PreviewBulletPath; // NULL in game
+
 		public BulletPathBlueprint(int cid, float rot, Tuple<float, float>[] rays)
 		{
 			TargetCannonID = cid;
 			CannonRotation = rot;
 			Rays = rays;
+			PreviewBulletPath = null;
+		}
+
+		public BulletPathBlueprint(int cid, float rot, Tuple<float, float>[] rays, List<Vector2> calculatedPreviewPath)
+		{
+			TargetCannonID = cid;
+			CannonRotation = rot;
+			Rays = rays;
+			PreviewBulletPath = calculatedPreviewPath;
 		}
 
 		public void Serialize(BinaryWriter bw)

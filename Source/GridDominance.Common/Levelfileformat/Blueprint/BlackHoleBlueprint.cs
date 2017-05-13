@@ -4,7 +4,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 {
 	public sealed class BlackHoleBlueprint
 	{
-		public const float DEFAULT_POWER_FACTOR = 16f;
+		public const float DEFAULT_POWER_FACTOR = 800f;
 
 		public readonly float X; // center
 		public readonly float Y;

@@ -16,9 +16,9 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\..\Bin\GridDominance.Content.Pipeline\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -66,6 +66,7 @@
     <Compile Include="PathExtensions.cs" />
     <Compile Include="PathHelper.cs" />
     <Compile Include="PreCalculation\BlueprintPreprocessor.cs" />
+    <Compile Include="PreCalculation\LevelBulletPathSimulator.cs" />
     <Compile Include="PreCalculation\LevelBulletPathTracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextureAtlases\TexturePackerFile.cs" />
@@ -103,6 +104,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

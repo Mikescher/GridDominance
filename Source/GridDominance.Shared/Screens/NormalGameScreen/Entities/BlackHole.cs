@@ -75,7 +75,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					bullet.DisintegrateIntoVortex();
 				}
 
-				bullet.PhysicsBody.ApplyForce(vecForce);
+				bullet.PhysicsBody.ApplyForce(ConvertUnits.ToSimUnits(vecForce));
 			}
 		}
 
@@ -92,12 +92,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			if (_power < 0)
 			{
-				if (animProgress < 1 / 3f)
-					DrawAnimation0_In(sbatch, animProgress * 3 - 0);
-				else if (animProgress < 2 / 3f)
-					DrawAnimation1_In(sbatch, animProgress * 3 - 1);
-				else if (animProgress < 3 / 3f)
-					DrawAnimation2_In(sbatch, animProgress * 3 - 2);
+				if (animProgress < 2 / 4f)
+					DrawAnimation0_In(sbatch, animProgress * 2 - 0);
+				else if (animProgress < 3 / 4f)
+					DrawAnimation1_In(sbatch, animProgress * 4 - 2);
+				else if (animProgress < 4 / 4f)
+					DrawAnimation2_In(sbatch, animProgress * 4 - 3);
 			}
 			else
 			{
@@ -133,7 +133,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void DrawAnimation0_In(IBatchRenderer sbatch, float progress)
 		{
-			var tfProgress = 4 - FloatMath.FunctionEaseInQuad(progress);
+			var tfProgress = 5 - 2*FloatMath.FunctionEaseInQuad(progress);
 
 			sbatch.DrawCentered(Textures.TexVortex2, Position, _diameter * 0.333f * tfProgress, _diameter * 0.333f * tfProgress, Color.LightGray * FloatMath.FunctionEaseInQuart(progress));
 		}

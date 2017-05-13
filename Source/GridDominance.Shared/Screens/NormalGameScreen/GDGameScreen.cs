@@ -117,7 +117,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		private void Initialize()
 		{
-			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDSettings.PHYSICS_CONVERSION_FACTOR);
+			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDConstants.PHYSICS_CONVERSION_FACTOR);
 
 #if DEBUG
 			DebugUtils.CreateShortcuts(this);

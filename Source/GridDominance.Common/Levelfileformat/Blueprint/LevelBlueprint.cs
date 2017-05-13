@@ -6,8 +6,9 @@ namespace GridDominance.Levelfileformat.Blueprint
 {
 	public sealed class LevelBlueprint
 	{
-		public const int KI_TYPE_RAYTRACE    = 10;
+		public const int KI_TYPE_RAYTRACE    = 10; 
 		public const int KI_TYPE_PRECALC     = 11;
+		public const int KI_TYPE_PRESIMULATE = 12;
 
 		public const byte SERIALIZE_ID_CANNON      = 0x01; 
 		public const byte SERIALIZE_ID_NAME        = 0x02; 

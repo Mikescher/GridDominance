@@ -33,7 +33,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\LevelData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDConstants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Levels.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\DebugUtils.cs" />

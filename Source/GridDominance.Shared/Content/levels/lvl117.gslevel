@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-17", "Black Hole", {b16b00b5-0001-4000-0000-000002000017}, KI_PRECALC)
+init("2-17", "Black Hole", {b16b00b5-0001-4000-0000-000002000017}, KI_PRESIMULATE)
 
 Cannon(SIZE_NORMAL, P1, [2,  5], ROT_S)
 Cannon(SIZE_NORMAL, A3, [14,  5], ROT_N)

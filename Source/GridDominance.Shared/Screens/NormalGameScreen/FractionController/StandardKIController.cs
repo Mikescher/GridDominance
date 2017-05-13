@@ -45,6 +45,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					KIMethod.CreateRaycast("NearestEnemyCannon",    FindNearestEnemyCannon),
 				};
 			}
+			else if (owner.Blueprint.KIType == LevelBlueprint.KI_TYPE_PRESIMULATE)
+			{
+				intelligence = new List<KIMethod>
+				{
+					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
+					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
+					KIMethod.CreatePrecalc("NeutralCannon",         FindTargetNeutralCannonPrecalc),
+					KIMethod.CreatePrecalc("EnemyCannon",           FindTargetEnemyCannonPrecalc),
+					KIMethod.CreatePrecalc("FriendlyCannon",        FindTargetFriendlyCannonPrecalc),
+					KIMethod.CreatePrecalc("BlockedEnemyCannon",    FindTargetBlockedEnemyCannonPrecalc),
+					KIMethod.CreatePrecalc("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannonPrecalc),
+					KIMethod.CreateRaycast("NearestEnemyCannon",    FindNearestEnemyCannon),
+				};
+			}
 			else
 				throw new Exception("Unknown KIType: " + owner.Blueprint.KIType);
 		}

@@ -23,7 +23,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public enum BulletCollisionType { None, VoidObject, GlassObject, FriendlyCannon, NeutralCannon, EnemyCannon, EnemyBullet, FriendlyBullet }
 
 		public  const float BULLET_DIAMETER = 25;
-		private const float MAXIMUM_LIEFTIME = 25;
+		public  const float MAXIMUM_LIEFTIME = 25;
 
 		public readonly Fraction Fraction;
 
@@ -33,8 +33,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public float BulletRotation = 0f;
 		public float BulletAlpha = 1f;
 		public float BulletExtraScale = 1f;
-		public BulletCollisionType LastCollision = BulletCollisionType.None;
-		public GameEntity LastCollisionObject;
 
 		public Body PhysicsBody;
 		public readonly Cannon Source;
@@ -79,9 +77,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherBullet = fixtureB.UserData as Bullet;
 			if (otherBullet != null)
 			{
-				LastCollisionObject = otherBullet;
 
-				if (otherBullet.Fraction == Fraction) { LastCollision = BulletCollisionType.FriendlyBullet; return true;}
+				if (otherBullet.Fraction == Fraction) return true;
 				if (!otherBullet.Alive) return false;
 				
 				if (otherBullet.Scale / Scale >= 2f && !otherBullet.Fraction.IsNeutral)
@@ -90,7 +87,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					otherBullet.SplitDestruct();
 					MutualDestruct();
 					MainGame.Inst.GDSound.PlayEffectCollision();
-					LastCollision = BulletCollisionType.EnemyBullet;
 					return false;
 				}
 				else if (Scale / otherBullet.Scale >= 2f && Fraction.IsNeutral)
@@ -99,7 +95,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					otherBullet.MutualDestruct();
 					SplitDestruct();
 					MainGame.Inst.GDSound.PlayEffectCollision();
-					LastCollision = BulletCollisionType.EnemyBullet;
 					return false;
 				}
 				else
@@ -107,7 +102,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					otherBullet.MutualDestruct();
 					MutualDestruct();
 					MainGame.Inst.GDSound.PlayEffectCollision();
-					LastCollision = BulletCollisionType.EnemyBullet;
 					return false;
 				}
 			}
@@ -115,8 +109,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherCannon = fixtureB.UserData as Cannon;
 			if (otherCannon != null)
 			{
-				LastCollisionObject = otherCannon;
-
 				if (otherCannon.Fraction == Fraction)
 				{
 					// if Source barrel then ignore collision
@@ -125,7 +117,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 						DisintegrateIntoFriend();
 						otherCannon.ApplyBoost();
 						MainGame.Inst.GDSound.PlayEffectBoost();
-						LastCollision = BulletCollisionType.FriendlyCannon;
 					}
 				}
 				else // if (otherCannon.Fraction != this.Fraction)
@@ -133,7 +124,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					DisintegrateIntoEnemy();
 					otherCannon.TakeDamage(Fraction, Scale);
 					MainGame.Inst.GDSound.PlayEffectHit();
-					LastCollision = BulletCollisionType.EnemyCannon;
 				}
 
 				return false;
@@ -142,32 +132,23 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherVoidWall = fixtureB.UserData as VoidWall;
 			if (otherVoidWall != null)
 			{
-				LastCollisionObject = otherVoidWall;
-
 				DisintegrateIntoVoidObject();
 				MainGame.Inst.GDSound.PlayEffectCollision();
-				LastCollision = BulletCollisionType.VoidObject;
 				return false;
 			}
 
 			var otherVoidCircle = fixtureB.UserData as VoidCircle;
 			if (otherVoidCircle != null)
 			{
-				LastCollisionObject = otherVoidCircle;
-
 				DisintegrateIntoVoidObject();
 				MainGame.Inst.GDSound.PlayEffectCollision();
-				LastCollision = BulletCollisionType.VoidObject;
 				return false;
 			}
 
 			var otherGlassBlock = fixtureB.UserData as GlassBlock;
 			if (otherGlassBlock != null)
 			{
-				LastCollisionObject = otherGlassBlock;
-
 				//TODO Glass Collision Soundeffect
-				LastCollision = BulletCollisionType.GlassObject;
 				return true;
 			}
 

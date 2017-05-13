@@ -27,6 +27,7 @@ define(TILE_WIDTH, 64)
 
 define(KI_RAYTRACE,    10)
 define(KI_PRECALC,     11)
+define(KI_PRESIMULATE, 12)
 
 
 scale(TILE_WIDTH)
