@@ -16,7 +16,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public float InertiaPosition = -1;
 
-		public bool IsAlive { get; private set; } = true;
+		public bool IsAlive { get; set; } = true;
 		public Color Color { get; private set; } = Color.Black;
 		public float Decay { get; private set; } = 1f;
 

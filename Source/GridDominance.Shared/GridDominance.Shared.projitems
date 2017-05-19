@@ -67,7 +67,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\GDOverworldScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\BackgroundParticle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\GDStaticGridBackground.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\GDGridBackground.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\GDCellularBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\IGDGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Bullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BulletSplitter.cs" />

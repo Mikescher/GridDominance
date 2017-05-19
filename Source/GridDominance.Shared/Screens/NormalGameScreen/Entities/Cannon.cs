@@ -146,24 +146,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void FindParticleSpawns()
 		{
-			particleSpawns = new List<Vector2>();
-
-			var cx = Position.X / GDConstants.TILE_WIDTH;
-			var cy = Position.Y / GDConstants.TILE_WIDTH;
-			var cr = (CANNON_DIAMETER * Scale * 0.5f) / GDConstants.TILE_WIDTH;
-
-			for (int x = FloatMath.Ceiling(cx - cr); x <= FloatMath.Floor(cx + cr); x++)
-			{
-				for (int y = FloatMath.Ceiling(cy - cr); y <= FloatMath.Floor(cy + cr); y++)
-				{
-					var d = (cx - x)*(cx - x) + (cy - y)*(cy - y);
-					if (d <= cr*cr)
-					{
-						particleSpawns.Add(new Vector2(x, y));
-						this.GDOwner().GDBackground.RegisterBlockedSpawn(this, x, y);
-					}
-				}
-			}
+			this.GDOwner().GDBackground.RegisterSpawn(this, new FCircle(Position, CANNON_DIAMETER * Scale * 0.5f));
 		}
 
 		#endregion
@@ -249,18 +232,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					barrelCharge -= 1f;
 
 					Shoot();
-				}
-			}
-
-			if (CannonHealth.TargetValue >= 1) // same as barrelCharge but works without DoBarrelRecharge and not for neutrals
-			{
-				particleCharge += BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds;
-
-				if (particleCharge >= 1f)
-				{
-					particleCharge -= 1f;
-
-					foreach (var spawn in particleSpawns) this.GDOwner().GDBackground.SpawnParticles(Fraction, (int)spawn.X, (int)spawn.Y);
 				}
 			}
 

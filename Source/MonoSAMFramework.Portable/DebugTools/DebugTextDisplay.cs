@@ -173,6 +173,14 @@ namespace MonoSAMFramework.Portable.DebugTools
 			debugBatch.End();
 		}
 
+		public void Clear()
+		{
+			foreach (var line in lines.SelectMany(p => p.GetLines()))
+			{
+				if (line.IsDecaying) line.IsAlive = false;
+			}
+		}
+
 		public DebugTextDisplayLine AddLineFromAsync(Func<string> text)
 		{
 			return AddLineFromAsync(new DebugTextDisplayLine(text));

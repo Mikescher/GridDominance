@@ -17,8 +17,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		private const int TILE_COUNT_X = GDConstants.GRID_WIDTH;
 		private const int TILE_COUNT_Y = GDConstants.GRID_HEIGHT;
 
-		public int ParticleCount => -1;
-
 		public GDStaticGridBackground(GameScreen scrn) : base(scrn)
 		{
 
@@ -52,17 +50,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			//
 		}
 
-		public void RegisterBlockedSpawn(Cannon cannon, int i, int i1)
-		{
-			// NOTHING
-		}
-
-		public void DeregisterBlockedSpawn(Cannon cannon, int spawnX, int spawnY)
-		{
-			// NOTHING
-		}
-
-		public void SpawnParticles(Fraction fraction, int spawnX, int spawnY)
+		public void RegisterSpawn(Cannon cannon, FCircle circle)
 		{
 			// NOTHING
 		}

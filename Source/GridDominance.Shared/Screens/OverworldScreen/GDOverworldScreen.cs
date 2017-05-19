@@ -69,8 +69,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
-
-			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
 
 			if (_effectsEnabledCache != MainGame.Inst.Profile.EffectsEnabled)

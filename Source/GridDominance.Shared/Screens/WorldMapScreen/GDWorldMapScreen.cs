@@ -92,8 +92,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
-
-			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
 
 			if (ZoomState == BistateProgress.Expanded && istate.IsRealJustDown && istate.SwallowConsumer != InputConsumer.HUDElement)

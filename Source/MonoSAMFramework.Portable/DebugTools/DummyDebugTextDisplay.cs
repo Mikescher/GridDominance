@@ -34,6 +34,6 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public void Update(SAMTime gameTime, InputState istate) { /* DUMMY */ }
 		public void Draw() { /* DUMMY */ }
-
+		public void Clear() { /* DUMMY */ }
 	}
 }

@@ -22,6 +22,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			{
 				_lines.Add(CreateLine(entry));
 				_lastReadEntry = entry;
+				DebugSettings.SetManual("DebugTextDisplay", true);
 			}
 		}
 

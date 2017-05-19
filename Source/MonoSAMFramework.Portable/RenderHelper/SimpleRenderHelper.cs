@@ -265,5 +265,11 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			// Center
 			sbatch.DrawStretched(texFill, r_c, colFill, 0);
 		}
+
+		public static void DrawCross(IBatchRenderer sbatch, FRectangle rect, Color color, float thickness)
+		{
+			sbatch.DrawLine(rect.TopLeft, rect.BottomRight, color, thickness);
+			sbatch.DrawLine(rect.TopRight, rect.BottomLeft, color, thickness);
+		}
 	}
 }

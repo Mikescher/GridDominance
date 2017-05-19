@@ -32,5 +32,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		void Update(SAMTime gameTime, InputState istate);
 		void Draw();
+
+		void Clear();
 	}
 }

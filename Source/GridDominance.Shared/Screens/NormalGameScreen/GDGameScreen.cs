@@ -138,7 +138,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
-		protected override GameBackground CreateBackground() => MainGame.Inst.Profile.EffectsEnabled ? (GameBackground)new GDGridBackground(this) : new GDStaticGridBackground(this);
+		protected override GameBackground CreateBackground() => MainGame.Inst.Profile.EffectsEnabled ? (GameBackground)new GDCellularBackground(this) : new GDStaticGridBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
@@ -176,8 +176,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
-
-			if (SAMLog.Entries.Any()) DebugSettings.SetManual("DebugTextDisplay", true);
 #endif
 			if (!IsPaused && !HasFinished) LevelTime += MonoSAMGame.CurrentTime.ElapsedSeconds;
 
