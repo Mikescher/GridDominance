@@ -23,9 +23,9 @@ namespace GridDominance.Shared.Resources
 
 		public const int ORDER_GAME_BLACKHOLE      = 100;
 		public const int ORDER_GAME_WALL           = 200;
-		public const int ORDER_GAME_CANNON         = 210;
-		public const int ORDER_GAME_BULLETPARTICLE = 300;
-		public const int ORDER_GAME_BULLETS        = 310; //TODO Bullets behind cannons ?
+		public const int ORDER_GAME_BULLETS        = 300;
+		public const int ORDER_GAME_CANNON         = 400;
+		public const int ORDER_GAME_BULLETPARTICLE = 500;
 
 		public const int ORDER_MAP_PIPE          = 100;
 		public const int ORDER_MAP_ORB           = 110;
