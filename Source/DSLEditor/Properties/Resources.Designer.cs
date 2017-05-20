@@ -61,7 +61,7 @@ namespace GridDominance.DSLEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to # First World - Tutorial   #
+        ///   Looks up a localized string similar to # Template WorldGraph   #
         ///############################
         ///
         ///scale(64)
@@ -89,10 +89,10 @@ namespace GridDominance.DSLEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to # Level 00 - Example   #
+        ///   Looks up a localized string similar to # Levelfile - Example  #
         ///########################
         ///
-        ///init(&quot;0-exmpl&quot;, &quot;Template&quot;, ::UUID::)
+        ///init(&quot;0-exmpl&quot;, &quot;Template&quot;, ::UUID::, 10)
         ///
         ///define(N0, 0) # Neutral
         ///define(P1, 1) # Human
@@ -100,16 +100,19 @@ namespace GridDominance.DSLEditor.Properties {
         ///define(A3, 3) # PC
         ///define(A4, 4) # PC
         ///
-        ///define(SIZE_NORMAL, 1.0)
+        ///define(SIZE_NORMAL, 1.0 * 96)
         ///define(CELL_W, 128)
         ///define(CELL_H, 128)
         ///
+        ///scale(1, 1)
+        ///
         ///########################################################################
         ///
-        ///Cannon  (SIZE_NORMAL, P1, 1.5 * CELL_W, 1.5 * CELL_H)
+        ///Cannon  (SIZE_NORMAL, P1, [1.5 * CELL_W, 1.5 * CELL_H])
         ///
-        ///Cannon  (SIZE_NORMAL, N0, 2.5 * CELL_W, 3.5 * CELL_H)
-        ///.
+        ///Cannon  (SIZE_NORMAL, N0, [2.5 * CELL_W, 3.5 * CELL_H])
+        ///
+        ///VoidWall([3.5 * CEL [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string example_level {
             get {

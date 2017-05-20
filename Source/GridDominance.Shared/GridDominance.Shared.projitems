@@ -65,7 +65,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\OverworldHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\OverworldEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\GDOverworldScreen.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\BackgroundParticle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\GDStaticGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\GDCellularBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\IGDGridBackground.cs" />
@@ -153,15 +152,15 @@
     <None Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_bd.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_fd.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_hd.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_ld.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_md.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_bd.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_fd.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_hd.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_ld.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_md.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_bd.json" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_fd.json" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_hd.json" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_ld.json" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_md.json" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_bd.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_fd.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_hd.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_ld.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_md.png" />
   </ItemGroup>
 </Project>

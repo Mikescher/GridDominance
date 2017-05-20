@@ -61,7 +61,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public float RealBoost => 1 + Math.Min(TotalBoost, MAX_BOOST);
 
 		private float barrelCharge = 0f;
-		private float particleCharge = 0f;
 		private float barrelRecoil = 0f;
 		public readonly DeltaLimitedFloat CannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
@@ -74,7 +73,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public readonly int BlueprintCannonID;
 		private readonly BulletPathBlueprint[] bulletPathBlueprints;
 		private float cannonCogRotation;
-		private List<Vector2> particleSpawns;
 		public List<BulletPath> BulletPaths;
 
 		public Body PhysicsBody;
