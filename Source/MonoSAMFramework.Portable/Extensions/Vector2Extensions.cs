@@ -71,7 +71,20 @@ namespace MonoSAMFramework.Portable.Extensions
 		
 		public static float ToAngle(this Vector2 vector2)
 		{
-			return FloatMath.Atan2(vector2.X, -vector2.Y);
+			//
+			//              3*pi/2
+			//                |
+			//                |
+			//        pi -----+----- 0
+			//                |
+			//                |
+			//                pi/2
+			//
+			// = Counterclockwise
+			// = East : Zero
+			// = Radians
+
+			return (FloatMath.Atan2(vector2.Y, vector2.X) + FloatMath.RAD_POS_360) % FloatMath.RAD_POS_360;
 		}
 
 		public static Vector2 Truncate(this Vector2 vector2, float maxLength)

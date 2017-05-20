@@ -60,7 +60,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			// NOTHING
 		}
 
-		public void RegisterBlockedCircle(Vector2 pos, float r)
+		public void RegisterBlockedCircle(FCircle c)
 		{
 			// NOTHING
 		}

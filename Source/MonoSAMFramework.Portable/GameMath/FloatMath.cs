@@ -43,6 +43,10 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float RAD_POS_225 = +225 * DegRad;
 		public const float RAD_POS_240 = +240 * DegRad;
 		public const float RAD_POS_270 = +270 * DegRad;
+		public const float RAD_POS_288 = +288 * DegRad;
+		public const float RAD_POS_306 = +306 * DegRad;
+		public const float RAD_POS_324 = +324 * DegRad;
+		public const float RAD_POS_342 = +342 * DegRad;
 		public const float RAD_POS_360 = +360 * DegRad;
 
 		public static readonly Random Random = new Random();

@@ -83,17 +83,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				{
 					var angle = delta.ToAngle();
 
-					if (angle > -FloatMath.PI && angle < FloatMath.PI / 16f)
+					if (angle >= FloatMath.RAD_POS_180 && angle <= FloatMath.RAD_POS_288)
 						choosen = 0;
-					else if (angle > FloatMath.PI / 16f && angle < 3 * FloatMath.PI / 16f)
+					else if (angle >= FloatMath.RAD_POS_288 && angle <= FloatMath.RAD_POS_306)
 						choosen = 1;
-					else if (angle > 3 * FloatMath.PI / 16f && angle < 5 * FloatMath.PI / 16f)
+					else if (angle >= FloatMath.RAD_POS_306 && angle <= FloatMath.RAD_POS_324)
 						choosen = 2;
-					else if (angle > 5 * FloatMath.PI / 16f && angle < 7 * FloatMath.PI / 16f)
+					else if (angle >= FloatMath.RAD_POS_324 && angle <= FloatMath.RAD_POS_342)
 						choosen = 3;
-					else if (angle > 7 * FloatMath.PI / 16f && angle < FloatMath.PI)
+					else if ((angle >= FloatMath.RAD_POS_342 && angle <= FloatMath.RAD_POS_360) || (angle > FloatMath.RAD_POS_000 && angle <= FloatMath.RAD_POS_090))
 						choosen = 4;
-				}
+					}
 
 				if (istate.IsRealDown)
 				{

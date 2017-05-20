@@ -42,6 +42,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Position = pos;
 
 			DrawingBoundingBox = new FSize(_diameter, _diameter);
+
+			this.GDOwner().GDBackground.RegisterBlockedCircle(new FCircle(pos, _diameter / 2f));
 		}
 
 		public override void OnInitialize(EntityManager manager)

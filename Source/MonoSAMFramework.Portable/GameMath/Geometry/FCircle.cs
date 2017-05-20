@@ -95,6 +95,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
+		public bool Contains(FPoint p, float delta)
+		{
+			return (X - p.X) * (X - p.X) + (Y - p.Y) * (Y - p.Y) <= (Radius+delta) * (Radius+delta);
+		}
+
+		[Pure]
 		public bool Contains(Vector2 v)
 		{
 			return (X - v.X) * (X - v.X) + (Y - v.Y) * (Y - v.Y) <= Radius * Radius;

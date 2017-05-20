@@ -174,14 +174,23 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		[Pure]
 		public bool Contains(FPoint p)
 		{
-			return 
-				p.X >= X && 
-				p.Y >= Y && 
-				p.X < (X + Width) && 
+			return
+				p.X >= X &&
+				p.Y >= Y &&
+				p.X < (X + Width) &&
 				p.Y < (Y + Height);
 		}
 
-		// http://stackoverflow.com/a/306332/1761622
+		[Pure]
+		public bool Contains(FPoint p, float delta)
+		{
+			return
+				p.X >= X-delta &&
+				p.Y >= Y-delta &&
+				p.X < (X+Width+delta+delta) &&
+				p.Y < (Y+Height+delta+delta);
+		}
+
 		[Pure]
 		public bool Contains(Vector2 v)
 		{
@@ -195,7 +204,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		[Pure]
 		public bool Contains(Rectangle value)
 		{
-			return 
+			// http://stackoverflow.com/a/306332/1761622
+			return
 				Left   <= value.Right  && 
 				Top    <= value.Bottom && 
 				Right  >= value.Left   && 

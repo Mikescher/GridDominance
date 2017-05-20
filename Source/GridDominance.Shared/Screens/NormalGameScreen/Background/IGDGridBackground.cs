@@ -9,7 +9,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		void RegisterSpawn(Cannon cannon, FCircle circle);
 
 		void RegisterBlockedLine(Vector2 start, Vector2 end);
-		void RegisterBlockedCircle(Vector2 pos, float r);
+		void RegisterBlockedCircle(FCircle circle);
 		void RegisterBlockedBlock(FRectangle block);
 	}
 }

@@ -17,7 +17,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 			centeringStartOffset = new Vector2(screen.MapViewportCenterX, screen.MapViewportCenterY);
 
 			if ((centeringStartOffset - node.Position).LengthSquared() < 0.1f)
-				rot = FloatMath.RAD_POS_090;
+				rot = FloatMath.RAD_POS_000;
 			else
 				rot = (centeringStartOffset - node.Position).ToAngle() + FloatMath.RAD_POS_090;
 		}
@@ -29,7 +29,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 
 		protected override void OnProgress(LevelNode node, float progress, SAMTime gameTime, InputState istate)
 		{
-			var off = new Vector2(0, FloatMath.Sin(progress * FloatMath.TAU * 3) * 32 * (1 - FloatMath.FunctionEaseInCubic(progress))).Rotate(rot);
+			var off = (Vector2.UnitX * (FloatMath.Sin(progress * FloatMath.TAU * 3) * 32) * (1 - FloatMath.FunctionEaseInCubic(progress))).Rotate(rot);
 			var p = FloatMath.FunctionEaseInOutQuad(progress);
 
 			node.Owner.MapViewportCenterX = centeringStartOffset.X + p * (node.Position.X - centeringStartOffset.X) + off.X;
