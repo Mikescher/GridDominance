@@ -26,7 +26,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		public float PowerNext = 0;
 
 		public Cannon SpawnSource = null;
-		public float SpawnSourceFactor = 1f;
 		public int SourceDistance = GDCellularBackground.SRC_DIST_INF;
 
 		public bool BlockNorth = false;
@@ -34,28 +33,29 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		public bool BlockSouth = false;
 		public bool BlockWest  = false;
 
-		public int Spread = 4;
-
-		public void UpdateSpread() { Spread = (BlockNorth ? 0 : 1) + (BlockEast ? 0 : 1) + (BlockSouth ? 0 : 1) + (BlockWest ? 0 : 1); }
+		public bool IsNeutralDraining = false;
 	}
 
 	class GDCellularBackground : GameBackground, IGDGridBackground
 	{
-		private const int TILE_COUNT_X = GDConstants.GRID_WIDTH;
-		private const int TILE_COUNT_Y = GDConstants.GRID_HEIGHT;
+		private const int TILE_COUNT_X = GDConstants.GRID_WIDTH  + 2 * MAX_EXTENSION;
+		private const int TILE_COUNT_Y = GDConstants.GRID_HEIGHT + 2 * MAX_EXTENSION;
 
-		private const int MAX_EXTENSION = 6;
+		private const int MAX_EXTENSION = 2;
 		
-		public const int SRC_DIST_INF = 7;
+		public const int SRC_DIST_INF = 12;
 
 		private const float MIN_TRANSFER_POWER     = 0.25f;
-		private const float MAX_DECAY_POWER        = 0.15f;
+		private const float MIN_NEUTRALIZE_POWER   = 0.55f; 
+
 		private const float SPAWNCELL_REGENERATION = 2.50f; // power per second
-		private const float CELL_TRANSFER_SPEED    = 0.40f; // power per second
+		private const float CELL_ATTACK_SPEED      = 1.05f; // power per second
+		private const float CELL_OCCUPY_SPEED      = 0.35f; // power per second
 		private const float CELL_DECAY_SPEED       = 0.70f; // power per second
+		private const float CELL_NEUTRALIZE_SPEED  = 0.20f; // power per second
 
 		private readonly GridCellMembership[,] _grid = new GridCellMembership[TILE_COUNT_X, TILE_COUNT_Y];
-		private readonly FRectangle[,] _rects = new FRectangle[TILE_COUNT_X + 2 * MAX_EXTENSION, TILE_COUNT_Y + 2 * MAX_EXTENSION];
+		private readonly FRectangle[,] _rects = new FRectangle[TILE_COUNT_X, TILE_COUNT_Y];
 		
 		public GDCellularBackground(GDGameScreen scrn) : base(scrn)
 		{
@@ -73,16 +73,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 					if (y == 0) _grid[x, y].BlockNorth = true;
 					if (x == TILE_COUNT_X-1) _grid[x, y].BlockEast = true;
 					if (y == TILE_COUNT_Y-1) _grid[x, y].BlockSouth = true;
-
-					_grid[x, y].UpdateSpread();
 				}
 			}
 
-			for (int x = -MAX_EXTENSION; x < TILE_COUNT_X + MAX_EXTENSION; x++)
+			for (int ox = 0; ox < TILE_COUNT_X; ox++)
 			{
-				for (int y = -MAX_EXTENSION; y < TILE_COUNT_Y + MAX_EXTENSION; y++)
+				for (int oy = 0; oy < TILE_COUNT_Y; oy++)
 				{
-					_rects[x + MAX_EXTENSION, y + MAX_EXTENSION] = new FRectangle(
+					var x = ox - MAX_EXTENSION; // array coords -> real coords
+					var y = oy - MAX_EXTENSION;
+
+					_rects[ox, oy] = new FRectangle(
 						x * GDConstants.TILE_WIDTH, 
 						y * GDConstants.TILE_WIDTH, 
 						1 * GDConstants.TILE_WIDTH, 
@@ -98,29 +99,33 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			int extensionX = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / GDConstants.TILE_WIDTH));
 			int extensionY = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / GDConstants.TILE_WIDTH));
 
-			for (int x = -extensionX; x < TILE_COUNT_X + extensionX; x++)
+			for (int ox = -extensionX; ox < GDConstants.GRID_WIDTH + extensionX; ox++)
 			{
-				for (int y = -extensionY; y < TILE_COUNT_Y + extensionY; y++)
+				for (int oy = -extensionY; oy < GDConstants.GRID_HEIGHT + extensionY; oy++)
 				{
+					var x = ox + MAX_EXTENSION; // real coords -> array coords
+					var y = oy + MAX_EXTENSION;
+
+					if (x < 0) continue;
+					if (y < 0) continue;
+					if (x >= TILE_COUNT_X) continue;
+					if (y >= TILE_COUNT_Y) continue;
+
 					var color = GetGridColor(x, y);
 
-					sbatch.DrawStretched(Textures.TexPixel, _rects[x + MAX_EXTENSION, y + MAX_EXTENSION], color);
-					sbatch.DrawStretched(Textures.TexTileBorder, _rects[x + MAX_EXTENSION, y + MAX_EXTENSION], Color.White);
+					sbatch.DrawStretched(Textures.TexPixel, _rects[x, y], color);
+					sbatch.DrawStretched(Textures.TexTileBorder, _rects[x, y], Color.White);
 
 #if DEBUG
 					if (DebugSettings.Get("DebugBackground"))
 					{
-						if (x < 0) continue;
-						if (y < 0) continue;
-						if (x >= TILE_COUNT_X) continue;
-						if (y >= TILE_COUNT_Y) continue;
 
-						var tx = x * GDConstants.TILE_WIDTH + 8;
-						var ty = y * GDConstants.TILE_WIDTH + 8;
+						var tx = _rects[x, y].X + 8;
+						var ty = _rects[x, y].Y + 8;
 
 						sbatch.DrawString(
 							Textures.DebugFontSmall,
-							string.Format("{0,2}: {1:000}\r\n[{2}]", _grid[x, y].Fraction?.ToString() ?? "##", _grid[x, y].PowerCurr * 100, _grid[x, y].SourceDistance),
+							string.Format("({4}|{5})\n{0,2}: {1:000}\n[{2}]{3}", _grid[x, y].Fraction?.ToString() ?? "##", _grid[x, y].PowerCurr * 100, _grid[x, y].SourceDistance, _grid[x, y].IsNeutralDraining ? "D" : "", x, y),
 							new Vector2(tx, ty),
 							_grid[x, y].Fraction?.Color ?? Color.Black);
 
@@ -203,33 +208,49 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 					_grid[x, y].SourceDistance = SRC_DIST_INF;
 			}
 
-			// 3. LoosePower if island
-			if (!ncells.Any(c => c.Fraction == _grid[x, y].Fraction && c.SourceDistance < SRC_DIST_INF) && ncells.Any(c => c.Fraction != _grid[x, y].Fraction || c.PowerCurr < MAX_DECAY_POWER))
+			// 3. GainPower from highest Neighbor
+			var support = ncells.Where(c => c.Fraction != null && c.Fraction == _grid[x, y].Fraction && c.SourceDistance < SRC_DIST_INF && c.PowerCurr > MIN_TRANSFER_POWER).OrderBy(c => c.SourceDistance).FirstOrDefault();
+			var attack  = ncells.Where(c => c.Fraction != null && c.Fraction != _grid[x, y].Fraction && c.SourceDistance < SRC_DIST_INF && c.PowerCurr > MIN_TRANSFER_POWER).OrderBy(c => c.SourceDistance).FirstOrDefault();
+
+			if (support == null && attack == null)
 			{
+				// border of unsupported island
 				LoosePower(x, y, gameTime.ElapsedSeconds * CELL_DECAY_SPEED);
 			}
-
-			// 4. GainPower from highest Neighbor
-			var support = ncells.Where(c => c.Fraction == _grid[x, y].Fraction && c.SourceDistance < SRC_DIST_INF && c.PowerCurr > MIN_TRANSFER_POWER).OrderBy(c => c.SourceDistance).FirstOrDefault();
-			var supply = ncells.Where(c => c.Fraction != null && c.SourceDistance < SRC_DIST_INF && c.PowerCurr > MIN_TRANSFER_POWER).OrderBy(c => c.SourceDistance).FirstOrDefault();
-			if (supply != null)
+			else if (support != null && attack == null)
 			{
-				if (supply.Fraction != _grid[x, y].Fraction)
+				//improv agains none
+				GainPower(support.Fraction, x, y, gameTime.ElapsedSeconds * CELL_OCCUPY_SPEED);
+			}
+			else if (support != null && attack != null && attack.SourceDistance > support.SourceDistance)
+			{
+				//improv against enemy
+				GainPower(support.Fraction, x, y, gameTime.ElapsedSeconds * CELL_ATTACK_SPEED);
+			}
+			else if (support == null && attack != null)
+			{
+				//loose with no support
+				GainPower(attack.Fraction, x, y, gameTime.ElapsedSeconds * CELL_DECAY_SPEED);
+			}
+			else if (support != null && attack != null && attack.SourceDistance < support.SourceDistance)
+			{
+				//loose with against enemy
+				GainPower(attack.Fraction, x, y, gameTime.ElapsedSeconds * CELL_ATTACK_SPEED);
+			}
+			else if (support != null && attack != null && attack.SourceDistance == support.SourceDistance)
+			{
+				//contested cell
+				if (_grid[x, y].PowerCurr > MIN_NEUTRALIZE_POWER || _grid[x, y].IsNeutralDraining)
 				{
-					var factor = 1;
-					if (support != null)
-					{
-						factor = support.SourceDistance - supply.SourceDistance;
-						if (factor < 1) factor = 1;
-						if (factor > 6) factor = 6;
-					}
-					GainPower(supply.Fraction, x, y, gameTime.ElapsedSeconds * CELL_TRANSFER_SPEED * factor);
+					// drain
+					_grid[x, y].IsNeutralDraining = true;
+					GainPower(attack.Fraction, x, y, gameTime.ElapsedSeconds * CELL_NEUTRALIZE_SPEED);
 				}
 				else
 				{
-					GainPower(supply.Fraction, x, y, gameTime.ElapsedSeconds * CELL_TRANSFER_SPEED);
+					//gain
+					GainPower(support.Fraction, x, y, gameTime.ElapsedSeconds * CELL_NEUTRALIZE_SPEED);
 				}
-
 			}
 		}
 
@@ -263,7 +284,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			else if (f == _grid[x, y].Fraction)
 			{
 				_grid[x, y].PowerNext += power;
-				if (_grid[x, y].PowerNext > 1) _grid[x, y].PowerNext = 1;
+				if (_grid[x, y].PowerNext > 1)
+				{
+					_grid[x, y].PowerNext = 1;
+					_grid[x, y].IsNeutralDraining = false;
+				}
 			}
 			else
 			{
@@ -272,6 +297,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				{
 					_grid[x, y].Fraction = f;
 					_grid[x, y].PowerNext = -_grid[x, y].PowerNext;
+					_grid[x, y].IsNeutralDraining = false;
 				}
 			}
 		}
@@ -285,6 +311,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			{
 				_grid[x, y].Fraction = null;
 				_grid[x, y].PowerNext = 0;
+				_grid[x, y].IsNeutralDraining = false;
 			}
 		}
 
@@ -302,40 +329,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		public void RegisterSpawn(Cannon cannon, FCircle circle)
 		{
-			int rcount = 0;
-
-			for (int x = (int)((circle.X-circle.Radius) / GDConstants.TILE_WIDTH); x <= (int)((circle.X + circle.Radius) / GDConstants.TILE_WIDTH); x++)
+			for (int ox = (int)((circle.X-circle.Radius) / GDConstants.TILE_WIDTH); ox <= (int)((circle.X + circle.Radius) / GDConstants.TILE_WIDTH); ox++)
 			{
-				for (int y = (int)((circle.Y - circle.Radius) / GDConstants.TILE_WIDTH); y <= (int)((circle.Y + circle.Radius) / GDConstants.TILE_WIDTH); y++)
+				for (int oy = (int)((circle.Y - circle.Radius) / GDConstants.TILE_WIDTH); oy <= (int)((circle.Y + circle.Radius) / GDConstants.TILE_WIDTH); oy++)
 				{
+					int x = ox + MAX_EXTENSION; // real coords -> array coords
+					int y = oy + MAX_EXTENSION;
+
 					if (x < 0) continue;
 					if (y < 0) continue;
 					if (x >= TILE_COUNT_X) continue;
 					if (y >= TILE_COUNT_Y) continue;
-
-					if (!_rects[x+MAX_EXTENSION, y+MAX_EXTENSION].Intersects(circle)) continue;
+					
+					if (!_rects[x, y].Intersects(circle)) continue;
 
 					_grid[x, y].SpawnSource = cannon;
 					_grid[x, y].PowerCurr = 1f;
-					rcount++;
-				}
-			}
-
-			if (rcount > 1)
-			{
-				for (int x = (int)(circle.X - circle.Radius); x <= (int)(circle.X + circle.Radius); x++)
-				{
-					for (int y = (int)(circle.Y - circle.Radius); y <= (int)(circle.Y + circle.Radius); y++)
-					{
-						if (x < 0) continue;
-						if (y < 0) continue;
-						if (x >= TILE_COUNT_X) continue;
-						if (y >= TILE_COUNT_Y) continue;
-
-						if (_grid[x, y].SpawnSource != cannon) continue;
-
-						_grid[x, y].SpawnSourceFactor = 1f / rcount;
-					}
 				}
 			}
 		}
