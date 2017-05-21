@@ -29,17 +29,26 @@ echo ""
 
 git clone https://github.com/Mikescher/GridDominance --depth 1
 
-chown janitor:janitor GridDominance -R
 
-cd GridDominance
-cd Source
-cd GridDominance.Server
+echo ""
+echo "================================"
+echo " STATUS PROJECT"
+echo "================================"
+echo ""
+
+git status
 
 echo ""
 echo "================================"
 echo " REMOVE DEV FILES"
 echo "================================"
 echo ""
+
+chown janitor:janitor GridDominance -R
+
+cd GridDominance
+cd Source
+cd GridDominance.Server
 
 rm -rf .idea
 rm -rf data
