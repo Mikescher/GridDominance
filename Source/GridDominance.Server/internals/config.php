@@ -6,7 +6,7 @@ if(count(get_included_files()) ==1) exit("Direct access not permitted.");
 //TODO auto backup db
 return [
 	'database_host' =>  'localhost',
-	'database_name' =>  'grid_dominance',
+	'database_name' =>  'gdapi_data',
 	'database_user' =>  'root',
 	'database_pass' =>  '',
 
