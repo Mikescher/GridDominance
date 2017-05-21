@@ -1,11 +1,13 @@
-﻿using MonoSAMFramework.Portable.GameMath;
+﻿using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Shared.Screens.WorldMapScreen.Entities;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class LeaveTransitionAgent : DecayGameScreenAgent
+	public class LeaveTransitionWorldMapAgent : DecayGameScreenAgent
 	{
 		private const float DURATION = 1.0f; // sec
 
@@ -15,15 +17,19 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private readonly FRectangle rectFinal;
 
 		private readonly GDWorldMapScreen _gdScreen;
+		private readonly WarpNode _node;
+		private readonly GraphBlueprint _target;
 
-		public LeaveTransitionAgent(GDWorldMapScreen scrn) : base(scrn, DURATION)
+		public LeaveTransitionWorldMapAgent(GDWorldMapScreen scrn, WarpNode node, GraphBlueprint target) : base(scrn, DURATION)
 		{
 			_gdScreen = scrn;
+			_node = node;
+			_target = target;
 			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
 
 			rectStart = scrn.GuaranteedMapViewport;
 
-			rectFinal = scrn.Graph.BoundingViewport;
+			rectFinal = node.DrawingBoundingRect.AsResized(0.5f, 0.5f);
 		}
 
 		protected override void Run(float perc)
@@ -34,7 +40,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			Screen.MapViewportCenterX = bounds.CenterX;
 			Screen.MapViewportCenterY = bounds.CenterY;
 
-			_gdScreen.ColorOverdraw = FloatMath.FunctionEaseOutExpo(perc, 10);
+			_node.ColorOverdraw = perc;
 		}
 
 		protected override void Start()
@@ -45,18 +51,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			Screen.MapViewportCenterX = bounds.CenterX;
 			Screen.MapViewportCenterY = bounds.CenterY;
 
-			_gdScreen.ZoomState = BistateProgress.Expanding;
-
 			_gdScreen.ColorOverdraw = 0f;
 		}
 
 		protected override void End()
 		{
-			_gdScreen.ZoomState = BistateProgress.Expanded;
+			_node.ColorOverdraw = 1f;
 
-			_gdScreen.ColorOverdraw = 1f;
-
-			MainGame.Inst.SetOverworldScreenWithTransition(_gdScreen.GraphBlueprint);
+			MainGame.Inst.SetWorldMapScreenWithTransition(_target);
 		}
 	}
 }

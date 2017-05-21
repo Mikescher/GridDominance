@@ -8,10 +8,10 @@ namespace GridDominance.Graphfileformat.Blueprint
 		public readonly float X;
 		public readonly float Y;
 		public readonly Guid LevelID;
-
 		public readonly List<PipeBlueprint> OutgoingPipes;
 
 		List<PipeBlueprint> INodeBlueprint.Pipes => OutgoingPipes;
+		Guid INodeBlueprint.ConnectionID => LevelID;
 		float INodeBlueprint.X => X;
 		float INodeBlueprint.Y => Y;
 

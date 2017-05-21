@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
@@ -50,14 +51,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private GDWorldMapScreen GDScreen => (GDWorldMapScreen) Owner;
 
-		public readonly LevelBlueprint Level;
+		public readonly LevelBlueprint Blueprint;
 		public readonly LevelData LevelData;
 
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.SandyBrown;
 		IEnumerable<IWorldNode> IWorldNode.NextLinkedNodes => NextLinkedNodes;
-		
+		public Guid ConnectionID => Blueprint.UniqueID;
+
 		private readonly FRectangle rectExpanderNorth;
 		private readonly FRectangle rectExpanderEast;
 		private readonly FRectangle rectExpanderSouth;
@@ -69,7 +71,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private GameEntityMouseArea clickAreaD2;
 		private GameEntityMouseArea clickAreaD3;
 
-		public readonly List<LevelNode> NextLinkedNodes = new List<LevelNode>();
+		public readonly List<IWorldNode> NextLinkedNodes = new List<IWorldNode>(); // ordered by pipe priority
 		public readonly List<LevelNodePipe> OutgoingPipes = new List<LevelNodePipe>();
 
 		public float RootExpansionProgress = 0f;
@@ -89,14 +91,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 		}
 
-		public bool NodeEnabled = false;
+		public bool NodeEnabled { get; set; } = false;
 
 		public LevelNode(GDWorldMapScreen scrn, Vector2 pos, LevelBlueprint lvlf, LevelData lvldat) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));
 
-			Level = lvlf;
+			Blueprint = lvlf;
 			LevelData = lvldat;
 
 			rectExpanderNorth = FRectangle.CreateByCenter(pos, 0, -EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER);
@@ -143,7 +145,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 		}
 
-		public void CreatePipe(LevelNode target, PipeBlueprint.Orientation orientation)
+		public void CreatePipe(IWorldNode target, PipeBlueprint.Orientation orientation)
 		{
 			NextLinkedNodes.Add(target);
 
@@ -238,7 +240,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::root", TOTAL_EXPANSION_TIME, (n, p) => RootExpansionProgress = p));
 			if (progress != null) o.ForceSetProgress(1 - progress.Value);
 
-			if (Level == Levels.LEVEL_1_1 && !LevelData.HasCompleted(FractionDifficulty.DIFF_0))
+			if (Blueprint == Levels.LEVEL_1_1 && !LevelData.HasCompleted(FractionDifficulty.DIFF_0))
 			{
 				OpenExtender(FractionDifficulty.DIFF_0);
 			}
@@ -286,41 +288,41 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private void OnClickDiff1(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
 #if DEBUG
-			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Level.UniqueID, FractionDifficulty.DIFF_0, 60000, true); MainGame.Inst.SaveProfile(); return; }
-			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_0); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Blueprint.UniqueID, FractionDifficulty.DIFF_0, 60000, true); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Blueprint.UniqueID, FractionDifficulty.DIFF_0); MainGame.Inst.SaveProfile(); return; }
 #endif
 
-			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_0, GDScreen.GraphBlueprint);
+			MainGame.Inst.SetLevelScreen(Blueprint, FractionDifficulty.DIFF_0, GDScreen.GraphBlueprint);
 		}
 
 		private void OnClickDiff2(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
 #if DEBUG
-			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Level.UniqueID, FractionDifficulty.DIFF_1, 60000, true); MainGame.Inst.SaveProfile(); return; }
-			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_1); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Blueprint.UniqueID, FractionDifficulty.DIFF_1, 60000, true); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Blueprint.UniqueID, FractionDifficulty.DIFF_1); MainGame.Inst.SaveProfile(); return; }
 #endif
 
-			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_1, GDScreen.GraphBlueprint);
+			MainGame.Inst.SetLevelScreen(Blueprint, FractionDifficulty.DIFF_1, GDScreen.GraphBlueprint);
 		}
 
 		private void OnClickDiff3(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
 #if DEBUG
-			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Level.UniqueID, FractionDifficulty.DIFF_2, 60000, true); MainGame.Inst.SaveProfile(); return; }
-			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_2); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Blueprint.UniqueID, FractionDifficulty.DIFF_2, 60000, true); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Blueprint.UniqueID, FractionDifficulty.DIFF_2); MainGame.Inst.SaveProfile(); return; }
 #endif
 
-			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_2, GDScreen.GraphBlueprint);
+			MainGame.Inst.SetLevelScreen(Blueprint, FractionDifficulty.DIFF_2, GDScreen.GraphBlueprint);
 		}
 
 		private void OnClickDiff4(GameEntityMouseArea owner, SAMTime dateTime, InputState istate)
 		{
 #if DEBUG
-			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Level.UniqueID, FractionDifficulty.DIFF_3, 60000, true); MainGame.Inst.SaveProfile(); return; }
-			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Level.UniqueID, FractionDifficulty.DIFF_3); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.A)) { MainGame.Inst.Profile.SetCompleted(Blueprint.UniqueID, FractionDifficulty.DIFF_3, 60000, true); MainGame.Inst.SaveProfile(); return; }
+			if (istate.IsKeyDown(SKeys.X)) { MainGame.Inst.Profile.SetNotCompleted(Blueprint.UniqueID, FractionDifficulty.DIFF_3); MainGame.Inst.SaveProfile(); return; }
 #endif
 
-			MainGame.Inst.SetLevelScreen(Level, FractionDifficulty.DIFF_3, GDScreen.GraphBlueprint);
+			MainGame.Inst.SetLevelScreen(Blueprint, FractionDifficulty.DIFF_3, GDScreen.GraphBlueprint);
 		}
 
 		public override void OnRemove()
@@ -487,9 +489,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Text
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, Level.Name, ColorMath.Blend(FlatColors.Clouds, FlatColors.MidnightBlue, nepX), Position);
+			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, FONTSIZE, Blueprint.Name, ColorMath.Blend(FlatColors.Clouds, FlatColors.MidnightBlue, nepX), Position);
 
 			#endregion
+		}
+
+		public bool HasAnyCompleted()
+		{
+			return LevelData.HasAnyCompleted();
 		}
 	}
 }

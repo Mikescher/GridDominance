@@ -61,6 +61,7 @@
     <Compile Include="GDWorldGraph\GDWorldGraphImporter.cs" />
     <Compile Include="GDWorldGraph\GDWorldGraphProcessor.cs" />
     <Compile Include="GDWorldGraph\GDWorldGraphWriter.cs" />
+    <Compile Include="GDWorldGraph\GraphPackage.cs" />
     <Compile Include="PathExtensions.cs" />
     <Compile Include="PathHelper.cs" />
     <Compile Include="PreCalculation\BlueprintPreprocessor.cs" />

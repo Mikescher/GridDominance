@@ -10,21 +10,25 @@ namespace GridDominance.Graphfileformat
 		private INodeBlueprint _currentNode;
 		private float _scaleFactor = 1f;
 		private readonly string content;
+		private readonly Func<string, string> includeFinderFunction;
 
 		private GraphBlueprint _result = null;
 
-		public GraphParser(string graphContent)
+		public GraphParser(string graphContent, Func<string, string> includeFunction)
 		{
 			content = graphContent;
+			includeFinderFunction = includeFunction;
 
 			DefineMethod("alias", DefineAlias);
+			DefineMethod("include", IncludeSource);
 			DefineMethod("scale", SetScale);
+
 			DefineMethod("node", AddNode);
 			DefineMethod("root", AddRootNode);
+			DefineMethod("warp", AddWarpNode);
 			DefineMethod("connect", AddPipe);
 		}
 
-		//TODO Define Final node that links to next map
 		public GraphBlueprint Parse(string fileName = "__root__")
 		{
 			_result = new GraphBlueprint();
@@ -52,6 +56,16 @@ namespace GridDominance.Graphfileformat
 			_scaleFactor = ExtractNumberParameter(methodParameter, 0);
 		}
 
+		private void IncludeSource(List<string> methodParameter)
+		{
+			var fileName = ExtractStringParameter(methodParameter, 0);
+			var fileContent = includeFinderFunction(fileName);
+
+			if (fileContent == null) throw new Exception("Include not found: " + fileName);
+
+			SubParse(fileName, fileContent);
+		}
+
 		private void AddNode(List<string> methodParameter)
 		{
 			var pos = ExtractVec2fParameter(methodParameter, 0);
@@ -66,14 +80,30 @@ namespace GridDominance.Graphfileformat
 			_result.Nodes.Add(node);
 		}
 
-		private void AddRootNode(List<string> methodParameter)
+		private void AddWarpNode(List<string> methodParameter)
 		{
 			var pos = ExtractVec2fParameter(methodParameter, 0);
+			var target = ExtractGuidParameter(methodParameter, 1);
 
 			var px = pos.Item1 * _scaleFactor;
 			var py = pos.Item2 * _scaleFactor;
 
-			var node = new RootNodeBlueprint(px, py);
+			var node = new WarpNodeBlueprint(px, py, target);
+
+			_currentNode = node;
+			_result.WarpNodes.Add(node);
+		}
+
+		private void AddRootNode(List<string> methodParameter)
+		{
+			var pos       = ExtractVec2fParameter(methodParameter, 0);
+			var worldid   = ExtractGuidParameter(methodParameter, 1);
+			var worldname = ExtractStringParameter(methodParameter, 2);
+
+			var px = pos.Item1 * _scaleFactor;
+			var py = pos.Item2 * _scaleFactor;
+
+			var node = new RootNodeBlueprint(px, py, worldid, worldname);
 
 			_currentNode = node;
 			_result.RootNode = node;

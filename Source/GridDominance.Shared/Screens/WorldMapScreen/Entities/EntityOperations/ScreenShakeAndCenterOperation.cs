@@ -12,7 +12,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 		private readonly Vector2 centeringStartOffset;
 		private readonly float rot;
 
-		public ScreenShakeAndCenterOperation(LevelNode node, GameScreen screen) : base("LevelNode::CenterShake", LevelNode.SHAKE_TIME)
+		public ScreenShakeAndCenterOperation(IWorldNode node, GameScreen screen) : base("LevelNode::CenterShake", LevelNode.SHAKE_TIME)
 		{
 			centeringStartOffset = new Vector2(screen.MapViewportCenterX, screen.MapViewportCenterY);
 

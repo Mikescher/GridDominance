@@ -1,7 +1,7 @@
-﻿# First World - Tutorial   #
-############################
+﻿# Second World - Professional   #
+#################################
 
-scale(64)
+include("map_header")
 
 alias(LVL_01, {b16b00b5-0001-4000-0000-000002000001})
 alias(LVL_02, {b16b00b5-0001-4000-0000-000002000002})
@@ -31,7 +31,7 @@ alias(LVL_25, {b16b00b5-0001-4000-0000-000002000025})
 alias(LVL_26, {b16b00b5-0001-4000-0000-000002000026})
 alias(LVL_27, {b16b00b5-0001-4000-0000-000002000027})
 
-root([-7, 0])
+root([-7, 0], WORLD_2, "Professional")
   connect(LVL_01, CW,  1)
   connect(LVL_02, CW,  2)
   connect(LVL_03, CCW, 3)

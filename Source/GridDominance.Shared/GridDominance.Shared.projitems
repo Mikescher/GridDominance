@@ -100,7 +100,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDSpeedSetButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDSpeedBaseButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDPauseButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\LeaveTransitionAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\LeaveTransitionWorldMapAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\LeaveTransitionOverworldAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\WorldMapDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\InitialTransitionAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\ZoomInAgent.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\LevelGraph.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\LevelNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\LevelNodePipe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\WarpNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\RootNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapScreen.cs" />

@@ -112,14 +112,25 @@ namespace GridDominance.DSLEditor
 
 		private GraphBlueprint ParseGraphFile(string input)
 		{
-			return new GraphParser(input).Parse();
+			Func<string, string> includesFunc = x => null;
+			if (File.Exists(FilePath))
+			{
+				var path = Path.GetDirectoryName(FilePath) ?? "";
+				var pattern = "*.gsheader";
+
+				var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
+
+				includesFunc = x => includes.FirstOrDefault(p => GraphBlueprint.IsIncludeMatch(p.Key, x)).Value;
+			}
+
+			return new GraphParser(input, includesFunc).Parse();
 		}
 
 		private GraphBlueprint ParseGraphFileSafe(string input)
 		{
 			try
 			{
-				return new GraphParser(input).Parse();
+				return ParseGraphFile(input);
 			}
 			catch (Exception)
 			{

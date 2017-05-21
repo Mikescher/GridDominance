@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using Microsoft.Xna.Framework.Content;
@@ -17,13 +18,13 @@ namespace GridDominance.Shared.Resources
 		public static LevelBlueprint LEVEL_DBG;
 		public static LevelBlueprint LEVEL_1_1;
 
-		public static List<GraphBlueprint> WORLDS;
+		public static Dictionary<Guid, GraphBlueprint> WORLDS;
 		public static Dictionary<Guid, LevelBlueprint> LEVELS;
 
 		public static void LoadContent(ContentManager content)
 		{
 			LEVELS = new Dictionary<Guid, LevelBlueprint>();
-			WORLDS = new List<GraphBlueprint>();
+			WORLDS = new Dictionary<Guid, GraphBlueprint>();
 
 			LEVEL_DBG      = LoadLevel(content, "levels/lvl_debug");
 			LEVEL_TUTORIAL = LoadLevel(content, "levels/lvl_tutorial");
@@ -90,7 +91,7 @@ namespace GridDominance.Shared.Resources
 		private static GraphBlueprint LoadWorld(ContentManager content, string id)
 		{
 			var grph = content.Load<GraphBlueprint>(id);
-			WORLDS.Add(grph);
+			WORLDS[grph.ID] = grph;
 			return grph;
 		}
 
@@ -100,7 +101,7 @@ namespace GridDominance.Shared.Resources
 			HashSet<string> names = new HashSet<string>();
 			HashSet<string> fnames = new HashSet<string>();
 
-			foreach (var w in WORLDS)
+			foreach (var w in WORLDS.Select(w => w.Value))
 			{
 				foreach (var n in w.Nodes)
 				{
@@ -116,8 +117,16 @@ namespace GridDominance.Shared.Resources
 
 						foreach (var p in n.OutgoingPipes)
 						{
-							if (!LEVELS.ContainsKey(p.Target)) SAMLog.Error("ResourceTest", $"Could not find level with ID: {p.Target}");
+							if (!LEVELS.ContainsKey(p.Target) && !WORLDS.ContainsKey(p.Target)) SAMLog.Error("ResourceTest", $"Could not find level with ID: {p.Target}");
 						}
+					}
+				}
+
+				foreach (var n in w.WarpNodes)
+				{
+					if (!WORLDS.ContainsKey(n.TargetWorld))
+					{
+						SAMLog.Error("ResourceTest", $"Could not find world with ID: {n.TargetWorld}");
 					}
 				}
 			}

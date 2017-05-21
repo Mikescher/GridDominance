@@ -58,6 +58,11 @@ namespace GridDominance.Levelfileformat.Blueprint
 			for (int i = 0; i < BlueprintBlackHoles.Count;  i++) BlueprintBlackHoles[i].Serialize(bw);
 
 			bw.Write(SERIALIZE_ID_EOF);
+
+			bw.Write((byte)0xB1);
+			bw.Write((byte)0x6B);
+			bw.Write((byte)0x00);
+			bw.Write((byte)0xB5);
 		}
 
 		public void BinaryDeserialize(BinaryReader br)
@@ -107,6 +112,11 @@ namespace GridDominance.Levelfileformat.Blueprint
 					{
 						if (string.IsNullOrWhiteSpace(Name)) throw new Exception("Level needs a valid name");
 						if (UniqueID == Guid.Empty) throw new Exception("Level needs a valid UUID");
+
+						if (br.ReadByte() != 0xB1) throw new Exception("Missing footer byte 1");
+						if (br.ReadByte() != 0x6B) throw new Exception("Missing footer byte 2");
+						if (br.ReadByte() != 0x00) throw new Exception("Missing footer byte 3");
+						if (br.ReadByte() != 0xB5) throw new Exception("Missing footer byte 4");
 
 						return;
 					}

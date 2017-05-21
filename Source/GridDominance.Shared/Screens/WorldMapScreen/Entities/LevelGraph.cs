@@ -6,6 +6,7 @@ using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
@@ -13,8 +14,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 	{
 		private readonly GDWorldMapScreen screen;
 
-		public readonly List<LevelNode> Nodes = new List<LevelNode>();
-		public List<LevelNode> RootNodes = new List<LevelNode>();
+		public readonly List<IWorldNode> Nodes = new List<IWorldNode>();
+
 		public FRectangle BoundingRect;
 		public FRectangle BoundingViewport;
 
@@ -57,7 +58,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				}
 			}
 
-			InitialNode = new RootNode(screen, new Vector2(g.RootNode.X, g.RootNode.Y));
+			foreach (var bpNode in g.WarpNodes)
+			{
+				var node = new WarpNode(screen, bpNode);
+
+				screen.Entities.AddEntity(node);
+				Nodes.Add(node);
+			}
+
+			InitialNode = new RootNode(screen, g.RootNode);
 			screen.Entities.AddEntity(InitialNode);
 		}
 
@@ -65,7 +74,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			foreach (var pipe in g.RootNode.OutgoingPipes.OrderBy(p => p.Priority))
 			{
-				var sinknode = Nodes.FirstOrDefault(n => n.Level.UniqueID == pipe.Target);
+				var sinknode = Nodes.FirstOrDefault(n => n.ConnectionID == pipe.Target);
 
 				if (sinknode == null)
 				{
@@ -76,10 +85,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				InitialNode.CreatePipe(sinknode, pipe.PipeOrientation);
 			}
 
-			RootNodes = Nodes.ToList();
 			foreach (var bpNode in g.Nodes)
 			{
-				var sourcenode = Nodes.FirstOrDefault(n => n.Level.UniqueID == bpNode.LevelID);
+				var sourcenode = Nodes.FirstOrDefault(n => n.ConnectionID == bpNode.LevelID);
 				if (sourcenode == null)
 				{
 					SAMLog.Error("LevelGraph", $"Cannot find node with id {bpNode.LevelID:B} in graph for pipe source");
@@ -88,7 +96,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 				foreach (var pipe in bpNode.OutgoingPipes.OrderBy(p => p.Priority))
 				{
-					var sinknode = Nodes.FirstOrDefault(n => n.Level.UniqueID == pipe.Target);
+					var sinknode = Nodes.FirstOrDefault(n => n.ConnectionID == pipe.Target);
 
 					if (sinknode == null)
 					{
@@ -97,38 +105,24 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					}
 
 					sourcenode.CreatePipe(sinknode, pipe.PipeOrientation);
-
-					RootNodes.Remove(sinknode);
 				}
 			}
 		}
 
 		private void InitEnabled()
 		{
-			Stack<LevelNode> nstack = new Stack<LevelNode>();
-			foreach (var n in RootNodes)
-			{
-				n.NodeEnabled = true;
-				if (n.LevelData.HasAnyCompleted())
-				{
-					foreach (var nextnode in n.NextLinkedNodes)
-					{
-						nstack.Push(nextnode);
-					}
-				}
-			}
+			Stack<IWorldNode> nstack = new Stack<IWorldNode>();
 			foreach (var nextnode in InitialNode.NextLinkedNodes)
 			{
 				nstack.Push(nextnode);
 			}
-
 
 			while (nstack.Any())
 			{
 				var n = nstack.Pop();
 
 				n.NodeEnabled = true;
-				if (n.LevelData.HasAnyCompleted())
+				if (n.HasAnyCompleted())
 				{
 					foreach (var nextnode in n.NextLinkedNodes)
 					{
@@ -140,7 +134,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void InitViewport()
 		{
-			BoundingRect = FRectangle.CreateOuter(Nodes.Select(n => n.DrawingBoundingRect));
+			BoundingRect = FRectangle.CreateOuter(Nodes.Select(n => ((GameEntity)n).DrawingBoundingRect));
 
 			BoundingViewport = BoundingRect
 				.AsInflated(LevelNode.DIAMETER, LevelNode.DIAMETER)

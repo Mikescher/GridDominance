@@ -69,88 +69,125 @@ namespace GridDominance.DSLEditor.Drawing
 				g.SmoothingMode = SmoothingMode.AntiAlias;
 				g.Clear(Color.Black);
 
-				for (int x = minX; x < maxX; x++)
-				{
-					if ((x + 1000 * 64) % 64 != 0) continue;
-					g.DrawLine((x % 2 == 0) ? new Pen(Color.DarkGray, 1) : new Pen(Color.DimGray, 1), x, minY, x, maxY);
-				}
-				for (int y = minY; y < maxY; y++)
-				{
-					if ((y + 1000 * 64) % 64 != 0) continue;
-					g.DrawLine((y % 2 == 0) ? new Pen(Color.DarkGray, 1) : new Pen(Color.FromArgb(88, 88, 88), 1), minX, y, maxX, y);
-				}
+				DrawGrid(minX, maxX, g, minY, maxY);
 
-				var sbNode = new SolidBrush(Color.FromArgb(127, 140, 141));
-				var penExtender = new Pen(Color.FromArgb(231, 76, 60));
-				var sbExtender = new SolidBrush(Color.FromArgb(64, 231, 76, 60));
-				var sbMarker = new SolidBrush(Color.FromArgb(255, 255, 255));
-
-				var diam = 2.75f * 64;
-				var diamRoot = 3f * 64;
-				var exw = 1.7f * 64;
-
-				foreach (var n in wgraph.AllNodes)
-				{
-					foreach (var p in n.Pipes)
-					{
-						if (wgraph.Nodes.Count(nd => nd.LevelID == p.Target) != 1)
-							throw new Exception($"Pipe Target {p.Target:B} is not unambiguous");
-
-						var o = wgraph.Nodes.Single(nd => nd.LevelID == p.Target);
-
-						ManhattanLine(g, n.X, n.Y, o.X, o.Y, p.PipeOrientation);
-					}
-				}
+				DrawPipes(wgraph, g);
 				
-				foreach (var n in wgraph.Nodes)
-				{
-					g.FillRectangle(sbExtender, n.X - diam / 2f - exw, n.Y - diam / 2f, diam + 2 * exw, diam);
-					g.FillRectangle(sbExtender, n.X - diam / 2f, n.Y - diam / 2f - exw, diam, diam + 2 * exw);
+				DrawNodes(wgraph, g, idmap);
+				DrawRootNode(wgraph, g);
+				DrawWarpNodes(wgraph, g);
 
-					g.FillEllipse(sbNode, n.X - diam / 2f, n.Y - diam / 2f, diam, diam);
+				DrawPriorityMarker(wgraph, g);
+			}
 
-					g.DrawRectangle(penExtender, n.X - diam / 2f - exw, n.Y - diam / 2f, diam + 2 * exw, diam);
-					g.DrawRectangle(penExtender, n.X - diam / 2f, n.Y - diam / 2f - exw, diam, diam + 2 * exw);
+			return buffer;
+		}
 
-					if (idmap.ContainsKey(n.LevelID))
-					{
-						DrawFit(g, idmap[n.LevelID], Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
-					}
-					else
-					{
-						DrawFit(g, n.LevelID.ToString("D").Replace("-", "\r\n"), Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
-					}
-				}
+		private static void DrawRootNode(GraphBlueprint wgraph, Graphics g)
+		{
+			var sbNode = new SolidBrush(Color.FromArgb(127, 140, 141));
+			var diamRoot = 3f * 64;
 
+			g.FillRectangle(sbNode, wgraph.RootNode.X - diamRoot / 2f, wgraph.RootNode.Y - diamRoot / 2f, diamRoot, diamRoot);
+		}
 
-				foreach (var n in wgraph.AllNodes)
-				{
-					if (n.Pipes.Count > 1 && n.Pipes.Select(p => p.Priority).Distinct().Count() > 1)
+		private void DrawPriorityMarker(GraphBlueprint wgraph, Graphics g)
+		{
+			var sbMarker = new SolidBrush(Color.FromArgb(255, 255, 255));
+
+			var diam = 2.75f * 64;
+			var diamRoot = 3f * 64;
+
+			foreach (var n in wgraph.AllNodes)
+			{
+				if (n.Pipes.Count > 1 && n.Pipes.Select(p => p.Priority).Distinct().Count() > 1)
 					foreach (var p in n.Pipes)
 					{
-						var o = wgraph.Nodes.Single(nd => nd.LevelID == p.Target);
+						var o = wgraph.AllNodes.Single(nd => nd.ConnectionID == p.Target);
 
 						var start = new Vector2(n.X, n.Y);
 						var end = new Vector2(o.X, o.Y);
 						var delta = end - start;
 						delta.Normalize();
 
-						var thisdia = n is RootNodeBlueprint ? (float)Math.Sqrt(2 * diamRoot * diamRoot) : diam;
+						var thisdia = n is RootNodeBlueprint ? (float) Math.Sqrt(2 * diamRoot * diamRoot) : diam;
 
 						var marker = start + delta * (thisdia / 2f + 8);
 
 						g.FillEllipse(sbMarker, marker.X - 16, marker.Y - 16, 32, 32);
 						DrawFit(g, p.Priority.ToString(), Color.Black, new Font("Arial", 24), new RectangleF(marker.X - 16, marker.Y - 16, 32, 32));
-
 					}
-				}
+			}
+		}
 
+		private void DrawNodes(GraphBlueprint wgraph, Graphics g, Dictionary<Guid, string> idmap)
+		{
+			var sbNode = new SolidBrush(Color.FromArgb(127, 140, 141));
+			var penExtender = new Pen(Color.FromArgb(231, 76, 60));
+			var sbExtender = new SolidBrush(Color.FromArgb(64, 231, 76, 60));
+
+			var diam = 2.75f * 64;
+			var exw = 1.7f * 64;
+
+			foreach (var n in wgraph.Nodes)
+			{
+				g.FillRectangle(sbExtender, n.X - diam / 2f - exw, n.Y - diam / 2f, diam + 2 * exw, diam);
+				g.FillRectangle(sbExtender, n.X - diam / 2f, n.Y - diam / 2f - exw, diam, diam + 2 * exw);
+
+				g.FillEllipse(sbNode, n.X - diam / 2f, n.Y - diam / 2f, diam, diam);
+
+				g.DrawRectangle(penExtender, n.X - diam / 2f - exw, n.Y - diam / 2f, diam + 2 * exw, diam);
+				g.DrawRectangle(penExtender, n.X - diam / 2f, n.Y - diam / 2f - exw, diam, diam + 2 * exw);
+
+				if (idmap.ContainsKey(n.LevelID))
 				{
-					g.FillRectangle(sbNode, wgraph.RootNode.X - diamRoot / 2f, wgraph.RootNode.Y - diamRoot / 2f, diamRoot, diamRoot);
+					DrawFit(g, idmap[n.LevelID], Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
+				}
+				else
+				{
+					DrawFit(g, n.LevelID.ToString("D").Replace("-", "\r\n"), Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
 				}
 			}
+		}
 
-			return buffer;
+		private static void DrawWarpNodes(GraphBlueprint wgraph, Graphics g)
+		{
+			var sbNode = new SolidBrush(Color.FromArgb(127, 140, 141));
+			var pen = new Pen(Color.Black, 4);
+			var diamRoot = 3f * 64;
+
+			foreach (var node in wgraph.WarpNodes)
+			{
+				g.FillRectangle(sbNode, node.X - diamRoot / 2f, node.Y - diamRoot / 2f, diamRoot, diamRoot);
+				g.DrawEllipse(pen, node.X - diamRoot / 2f, node.Y - diamRoot / 2f, diamRoot, diamRoot);
+			}
+		}
+
+		private void DrawPipes(GraphBlueprint wgraph, Graphics g)
+		{
+			foreach (var n in wgraph.AllNodes)
+			{
+				foreach (var p in n.Pipes)
+				{
+					var o = wgraph.AllNodes.Single(nd => nd.ConnectionID == p.Target);
+
+					ManhattanLine(g, n.X, n.Y, o.X, o.Y, p.PipeOrientation);
+				}
+			}
+		}
+
+		private static void DrawGrid(int minX, int maxX, Graphics g, int minY, int maxY)
+		{
+			for (int x = minX; x < maxX; x++)
+			{
+				if ((x + 1000 * 64) % 64 != 0) continue;
+				g.DrawLine((x % 2 == 0) ? new Pen(Color.DarkGray, 1) : new Pen(Color.DimGray, 1), x, minY, x, maxY);
+			}
+			for (int y = minY; y < maxY; y++)
+			{
+				if ((y + 1000 * 64) % 64 != 0) continue;
+				g.DrawLine((y % 2 == 0) ? new Pen(Color.DarkGray, 1) : new Pen(Color.FromArgb(88, 88, 88), 1), minX, y, maxX, y);
+			}
 		}
 
 		private Dictionary<Guid, string> MapLevels(string path, Action<string> logwrite)

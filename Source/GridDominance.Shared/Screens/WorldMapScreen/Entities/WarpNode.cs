@@ -17,11 +17,13 @@ using MonoSAMFramework.Portable.Screens.Entities.Operation;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
+using GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
-	public class RootNode : GameEntity, IWorldNode
+	public class WarpNode : GameEntity, IWorldNode
 	{
 		public const float DIAMETER = 3f * GDConstants.TILE_WIDTH;
 		public const float INNER_DIAMETER = 2f * GDConstants.TILE_WIDTH;
@@ -30,28 +32,26 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
-		public override Color DebugIdentColor => Color.SandyBrown;
-		IEnumerable<IWorldNode> IWorldNode.NextLinkedNodes => NextLinkedNodes;
-		public Guid ConnectionID => Blueprint.WorldID;
+		public override Color DebugIdentColor => Color.DarkOrange;
+		IEnumerable<IWorldNode> IWorldNode.NextLinkedNodes => Enumerable.Empty<IWorldNode>();
+		public Guid ConnectionID => Blueprint.TargetWorld;
+		public float ColorOverdraw = 0f;
 
-		public readonly RootNodeBlueprint Blueprint;
+		public readonly WarpNodeBlueprint Blueprint;
+		public readonly GraphBlueprint Target;
 
 		private GameEntityMouseArea clickAreaThis;
 
-		public readonly List<IWorldNode> NextLinkedNodes = new List<IWorldNode>(); // ordered by pipe priority
-		public readonly List<LevelNodePipe> OutgoingPipes = new List<LevelNodePipe>();
-
 		private PointCPUParticleEmitter emitter;
 
-		public bool NodeEnabled { get { return true; } set {} }
+		public bool NodeEnabled { get; set; } = false;
 
-		public RootNode(GDWorldMapScreen scrn, RootNodeBlueprint bp) : base(scrn, GDConstants.ORDER_MAP_NODE)
+		public WarpNode(GDWorldMapScreen scrn, WarpNodeBlueprint bp) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
 			Position = new Vector2(bp.X, bp.Y);
 			DrawingBoundingBox = new FSize(DIAMETER, DIAMETER);
 			Blueprint = bp;
-
-			AddEntityOperation(new CyclicGameEntityOperation<RootNode>("LevelNode::OrbSpawn", LevelNode.ORB_SPAWN_TIME, false, SpawnOrb));
+			Target = Levels.WORLDS[bp.TargetWorld];
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -60,20 +60,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			var cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 			{
-				// red fire
-				Texture = Textures.TexParticle[12],
-				SpawnRate = 20,
-				ParticleLifetimeMin = 1.0f,
-				ParticleLifetimeMax = 2.5f,
-				ParticleVelocityMin = 24f,
-				ParticleVelocityMax = 32f,
-				ParticleSizeInitial = 64,
-				ParticleSizeFinalMin = 32,
-				ParticleSizeFinalMax = 48,
-				ParticleAlphaInitial = 1f,
-				ParticleAlphaFinal = 0f,
-				ColorInitial = Color.DarkOrange,
-				ColorFinal = Color.DarkRed,
+				// blue lines
+				Texture = Textures.TexParticle[14],
+				SpawnRate = 32,
+				ParticleLifetimeMin = 2.3f,
+				ParticleLifetimeMax = 2.3f,
+				ParticleVelocityMin = 12f,
+				ParticleVelocityMax = 24f,
+				ParticleSizeInitial = 0,
+				ParticleSizeFinal = 48,
+				ParticleAlphaInitial =0f,
+				ParticleAlphaFinal = 1f,
+				Color = FlatColors.SunFlower,
 			}.Build();
 
 			emitter = new PointCPUParticleEmitter(Owner, Position, cfg, GDConstants.ORDER_MAP_NODEPARTICLES);
@@ -85,41 +83,27 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			if (GDOwner.ZoomState != BistateProgress.Normal) return;
 
-			Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner));
+#if DEBUG
+			if (!NodeEnabled && DebugSettings.Get("UnlockNode"))
+			{
+				NodeEnabled = true;
+			}
+#endif
+			if (!NodeEnabled)
+			{
+				//TODO Err sound
+				AddEntityOperation(new ScreenShakeAndCenterOperation(this, Owner));
+
+				return;
+			}
+
+			Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, this, Target));
 			MainGame.Inst.GDSound.PlayEffectZoomOut();
 		}
 
 		public void CreatePipe(IWorldNode target, PipeBlueprint.Orientation orientation)
 		{
-			NextLinkedNodes.Add(target);
-
-			var p = new LevelNodePipe(Owner, this, target, orientation);
-			OutgoingPipes.Add(p);
-			Manager.AddEntity(p);
-		}
-
-		private void SpawnOrb(RootNode me, int cycle)
-		{
-			if (!NextLinkedNodes.Any()) return;
-			if (!MainGame.Inst.Profile.EffectsEnabled) return;
-
-			FractionDifficulty d = FractionDifficulty.NEUTRAL;
-			switch (cycle % 4)
-			{
-				case 0: d = FractionDifficulty.DIFF_0; break;
-				case 1: d = FractionDifficulty.DIFF_1; break;
-				case 2: d = FractionDifficulty.DIFF_2; break;
-				case 3: d = FractionDifficulty.DIFF_3; break;
-			}
-
-			foreach (var t in OutgoingPipes)
-			{
-				if (!((GameEntity)t.NodeSource).IsInViewport && !((GameEntity)t.NodeSink).IsInViewport) return;
-
-				var orb = new ConnectionOrb(Owner, t, d);
-
-				Manager.AddEntity(orb);
-			}
+			throw new NotSupportedException();
 		}
 
 		public override void OnRemove()
@@ -129,7 +113,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
-			emitter.IsEnabled = MainGame.Inst.Profile.EffectsEnabled;
+			emitter.IsEnabled = MainGame.Inst.Profile.EffectsEnabled && NodeEnabled;
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
@@ -137,14 +121,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			SimpleRenderHelper.DrawSimpleRect(sbatch, FRectangle.CreateByCenter(Position, DIAMETER, DIAMETER), clickAreaThis.IsMouseDown() ? FlatColors.WetAsphalt : FlatColors.Asbestos);
 			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, FRectangle.CreateByCenter(Position, DIAMETER, DIAMETER), 2, FlatColors.MidnightBlue);
 
-			SimpleRenderHelper.DrawRoundedRect(sbatch, FRectangle.CreateByCenter(Position, INNER_DIAMETER, INNER_DIAMETER), Color.Black);
+			SimpleRenderHelper.DrawRoundedRect(sbatch, FRectangle.CreateByCenter(Position, INNER_DIAMETER, INNER_DIAMETER), NodeEnabled ? ColorMath.Blend(Color.Black, FlatColors.Background, ColorOverdraw) : FlatColors.Asbestos);
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, "Overworld", FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
+			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, Target.Name, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 		}
 
 		public bool HasAnyCompleted()
 		{
-			return true;
+			return false;
 		}
 	}
 }

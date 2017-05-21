@@ -39,9 +39,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public float FlickerTime = 0f;
 
-		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, string text, GraphBlueprint graph) : base(scrn, GDConstants.ORDER_WORLD_NODE)
+		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, GraphBlueprint graph) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
-			_description = text;
+			_description = graph.Name;
 			Graph = graph;
 			Position = pos;
 

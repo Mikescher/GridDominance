@@ -31,7 +31,7 @@ namespace GridDominance.Shared.Screens
 			debugDisp.AddLine(() => $"Map Offset = {scrn.MapOffset} (Map Center = {scrn.MapViewportCenter})");
 			if (gdg != null) debugDisp.AddLine(() => $"LevelTime = {gdg.LevelTime:000.000} (finished={gdg.HasFinished})");
 
-			if (scrn is GDWorldMapScreen) debugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD)scrn.HUD).SelectedNode?.Level?.Name ?? "NULL"}; FocusedHUDElement = {scrn.HUD.FocusedElement}; ZoomState = {((GDWorldMapScreen)scrn).ZoomState}");
+			if (scrn is GDWorldMapScreen) debugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD)scrn.HUD).SelectedNode?.Blueprint?.Name ?? "NULL"}; FocusedHUDElement = {scrn.HUD.FocusedElement}; ZoomState = {((GDWorldMapScreen)scrn).ZoomState}");
 
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{scrn.Game.GraphicsDevice.Viewport.Width}|{scrn.Game.GraphicsDevice.Viewport.Height}]");
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualGuaranteedSize={scrn.VAdapterGame.VirtualGuaranteedSize} || GameAdapter.VirtualGuaranteedSize={scrn.VAdapterHUD.VirtualGuaranteedSize}");
@@ -89,9 +89,9 @@ namespace GridDominance.Shared.Screens
 
 			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab,       KeyModifier.None);
 			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,         KeyModifier.None);
-			if (scrn is GDGameScreen) DebugSettings.AddPush("DBG",  "AssimilateCannon",       scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDGameScreen)     DebugSettings.AddPush("DBG",  "AssimilateCannon",       scrn, SKeys.A,         KeyModifier.None);
 			if (scrn is GDWorldMapScreen) DebugSettings.AddPush("DBG",  "UnlockNode",             scrn, SKeys.A,         KeyModifier.None);
-			if (scrn is GDGameScreen) DebugSettings.AddPush("DBG",  "AbandonCannon",          scrn, SKeys.S,         KeyModifier.None);
+			if (scrn is GDGameScreen)     DebugSettings.AddPush("DBG",  "AbandonCannon",          scrn, SKeys.S,         KeyModifier.None);
 			if (scrn is GDWorldMapScreen) DebugSettings.AddPush("TRUE", "LeaveScreen",            scrn, SKeys.Backspace, KeyModifier.Control);
 		}
 

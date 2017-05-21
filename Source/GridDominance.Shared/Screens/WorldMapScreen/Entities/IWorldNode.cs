@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using GridDominance.Graphfileformat.Blueprint;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
@@ -10,7 +10,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 	{
 		Vector2 Position { get; }
 		IEnumerable<IWorldNode> NextLinkedNodes { get; }
+		Guid ConnectionID { get; }
 
-		void CreatePipe(LevelNode target, PipeBlueprint.Orientation orientation);
+		bool NodeEnabled { get; set; }
+
+		void CreatePipe(IWorldNode target, PipeBlueprint.Orientation orientation);
+		bool HasAnyCompleted();
 	}
 }

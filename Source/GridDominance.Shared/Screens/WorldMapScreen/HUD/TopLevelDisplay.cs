@@ -88,7 +88,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				progressMove = 0;
 				progressBlend = 1;
 
-				text.Text = "Level " + displayNode.Level.Name + "  :  " + displayNode.Level.FullName;
+				text.Text = "Level " + displayNode.Blueprint.Name + "  :  " + displayNode.Blueprint.FullName;
 			}
 			else if (sel != null && sel != displayNode)
 			{
@@ -100,7 +100,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				if (FloatMath.IsZero(progressBlend))
 				{
 					displayNode = sel;
-					text.Text = "Level " + displayNode.Level.Name + "  :  " + displayNode.Level.FullName;
+					text.Text = "Level " + displayNode.Blueprint.Name + "  :  " + displayNode.Blueprint.FullName;
 				}
 			}
 			else if (sel != null && sel == displayNode && (progressBlend < 1 || progressMove < 1))

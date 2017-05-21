@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
+using System.Linq;
 using GridDominance.Content.Pipeline.PreCalculation;
 using GridDominance.Graphfileformat;
 using GridDominance.Graphfileformat.Blueprint;
@@ -7,11 +8,11 @@ using GridDominance.Graphfileformat.Blueprint;
 namespace GridDominance.Content.Pipeline.GDWorldGraph
 {
 	[ContentProcessor(DisplayName = "GridDominance WorldGraph Processor")]
-	public class GDWorldGraphProcessor : ContentProcessor<string, GraphBlueprint>
+	public class GDWorldGraphProcessor : ContentProcessor<GraphPackage, GraphBlueprint>
 	{
-		public override GraphBlueprint Process(string input, ContentProcessorContext context)
+		public override GraphBlueprint Process(GraphPackage input, ContentProcessorContext context)
 		{
-			var parser = new GraphParser(input);
+			var parser = new GraphParser(input.Content, x => input.Includes.FirstOrDefault(p => GraphBlueprint.IsIncludeMatch(p.Key, x)).Value);
 
 			var gf = parser.Parse();
 

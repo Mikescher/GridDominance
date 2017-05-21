@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Graphfileformat\Blueprint\INodeBlueprint.cs" />
+    <Compile Include="Graphfileformat\Blueprint\WarpNodeBlueprint.cs" />
     <Compile Include="Graphfileformat\Blueprint\RootNodeBlueprint.cs" />
     <Compile Include="Graphfileformat\Blueprint\PipeBlueprint.cs" />
     <Compile Include="Graphfileformat\Blueprint\NodeBlueprint.cs" />

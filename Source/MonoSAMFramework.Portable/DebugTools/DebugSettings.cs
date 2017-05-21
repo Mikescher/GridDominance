@@ -35,7 +35,10 @@ namespace MonoSAMFramework.Portable.DebugTools
 			var upperIdent = ident.ToUpper();
 
 			if (listeners.ContainsKey(upperIdent))
+			{
+				initial = listeners[upperIdent].Active;
 				listeners.Remove(upperIdent);
+			}
 
 			var result = new DebugListener(parentIdent, ident, owner, actionkey, mod, DebugListener.DebugListenerType.Switch);
 			result.Set(initial);
@@ -48,7 +51,10 @@ namespace MonoSAMFramework.Portable.DebugTools
 			var upperIdent = ident.ToUpper();
 
 			if (listeners.ContainsKey(upperIdent))
+			{
+				initial = listeners[upperIdent].Active;
 				listeners.Remove(upperIdent);
+			}
 
 			var result = new DebugListener(parentIdent, ident, owner, sources, DebugListener.DebugListenerType.Switch);
 			result.Set(initial);

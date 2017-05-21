@@ -1,7 +1,7 @@
-﻿# First World - Tutorial   #
-############################
+﻿# First World - Basic   #
+#########################
 
-scale(64)
+include("map_header")
 
 alias(DBG,    {b16b00b5-0001-4000-9999-000000000001})
 
@@ -22,7 +22,7 @@ alias(LVL_14, {b16b00b5-0001-4000-0000-000001000014})
 
 # node([0, -7], DBG)
 
-root([-7, 0])
+root([-7, 0], WORLD_1, "Basic")
   connect(LVL_01, LIN)
 
 node([0, 0], LVL_01)
@@ -68,6 +68,9 @@ node([44, +7], LVL_12)
   connect(LVL_13, CCW)
 
 node([48, 00], LVL_13)
+  connect(WORLD_2, LIN)
+
+warp([54, 00], WORLD_2)
 
 
 

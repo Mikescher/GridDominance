@@ -75,7 +75,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			}
 			else
 			{
-				var nd = Graph.Nodes.FirstOrDefault(n => n.Level.UniqueID == initialFocus);
+				var nd = Graph.Nodes.FirstOrDefault(n => n.ConnectionID == initialFocus);
 				if (nd != null)
 				{
 					MapViewportCenterX = nd.Position.X;
@@ -205,7 +205,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			foreach (var next in node.NextLinkedNodes)
 			{
 				var lnode = next as LevelNode;
-				if (lnode != null && !lnode.LevelData.HasCompleted(d)) return node;
+				if (lnode != null && !lnode.LevelData.HasCompleted(d)) return lnode;
 
 				var rec = FindNextUnfinishedNode(next, d);
 				if (rec != null) return rec;
