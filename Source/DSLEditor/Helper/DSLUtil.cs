@@ -10,7 +10,7 @@ namespace GridDominance.DSLEditor.Helper
 {
 	public static class DSLUtil
 	{
-		public static LevelBlueprint ParseLevelFromFile(string path)
+		public static LevelBlueprint ParseLevelFromFile(string path, bool sim)
 		{
 			var folder = Path.GetDirectoryName(path) ?? "";
 
@@ -20,17 +20,17 @@ namespace GridDominance.DSLEditor.Helper
 			var fp = new LevelParser(File.ReadAllText(path), includesFunc);
 			var lf = fp.Parse(Path.GetFileName(path));
 
-			BlueprintPreprocessor.ProcessLevel(lf);
+			if (sim) BlueprintPreprocessor.ProcessLevel(lf);
 
 			return lf;
 		}
 
-		public static LevelBlueprint ParseLevelFromString(string text, Func<string, string> includesFunc)
+		public static LevelBlueprint ParseLevelFromString(string text, Func<string, string> includesFunc, bool sim)
 		{
 			var fp = new LevelParser(text, includesFunc);
 			var lf = fp.Parse();
 
-			BlueprintPreprocessor.ProcessLevel(lf);
+			if (sim) BlueprintPreprocessor.ProcessLevel(lf);
 
 			return lf;
 		}

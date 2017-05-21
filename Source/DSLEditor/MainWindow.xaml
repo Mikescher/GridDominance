@@ -28,21 +28,21 @@
 				<ColumnDefinition Width="auto"/>
 				<ColumnDefinition Width="auto"/>
 			</Grid.ColumnDefinitions>
-			
+
 			<TextBox Grid.Column="0" Margin="4" VerticalAlignment="Center" Text="{Binding FilePath}" />
 			<Button Grid.Column="1" Margin="4" MinWidth="80" MinHeight="26" Content="Reload"   Click="{mext:EventBinding ReloadCommand}" />
 			<Button Grid.Column="2" Margin="4" MinWidth="80" MinHeight="26" Content="Save"     Click="{mext:EventBinding SaveCommand}" />
 			<Button Grid.Column="3" Margin="4" MinWidth="80" MinHeight="26" Content="Compile"  Click="{mext:EventBinding CompileCommand}" />
-            <Button Grid.Column="4" Margin="4" MinWidth="80" MinHeight="26" Content="Pack"     Click="{mext:EventBinding PackCommand}" />
+			<Button Grid.Column="4" Margin="4" MinWidth="80" MinHeight="26" Content="Pack"     Click="{mext:EventBinding PackCommand}" />
 		</Grid>
 
 		<Border Grid.Row="1" Margin="2" Background="#222" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased">
-            <Image Source="{Binding PreviewImage}" MouseMove="{mext:EventBinding HoverCommand, CommandParameter=$e}"/>
+			<Image Source="{Binding PreviewImage}" MouseMove="{mext:EventBinding HoverCommand, CommandParameter=$e}"/>
 		</Border>
 
 		<GridSplitter Grid.Row="2" Grid.Column="0" Height="5" HorizontalAlignment="Stretch" />
 
-		
+
 		<Grid Grid.Row="3">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="1*"/>
@@ -69,9 +69,19 @@
 			<prox:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionLength" ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionLength}" />
 			<prox:LegacyStringBinding  Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="Text"            ChangedEventPath="TextChanged"               TargetBinding="{Binding Code}" />
 			<prox:RawIntegerBinding    Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="CaretOffset"                                                  TargetBinding="{Binding CaretOffset}"/>
-			
+
 			<StackPanel Grid.Row="0" Grid.Column="1" Margin="2" Orientation="Vertical">
-				<Button Content="Repaint" Margin="5,5,5,0" Click="{mext:EventBinding RepaintCommand}" />
+				<Button Margin="5,5,5,0" Click="{mext:EventBinding RepaintCommand}" HorizontalContentAlignment="Stretch" >
+					<Grid HorizontalAlignment="Stretch">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<TextBlock Grid.Column="1">Repaint</TextBlock>
+						<CheckBox Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0" IsChecked="{Binding FullSimulatedRepaint}" />
+					</Grid>
+				</Button>
 				<ProgressBar MinHeight="20" Margin="5,0,5,5" Value="{Binding ProgressValue}" Maximum="{Binding ProgressMaximum}" />
 				<Button Content="Insert UUID" Margin="5" Click="{mext:EventBinding UUIDCommand}"  />
 			</StackPanel>
@@ -79,8 +89,8 @@
 			<ScrollViewer Grid.Column="0" Grid.Row="1" Margin="2" VerticalScrollBarVisibility="Visible" >
 				<ListBox ItemsSource="{Binding Log}" />
 			</ScrollViewer>
-			
+
 		</Grid>
-		
+
 	</Grid>
 </Window>

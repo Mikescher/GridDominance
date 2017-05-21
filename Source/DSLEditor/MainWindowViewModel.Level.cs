@@ -27,7 +27,7 @@ namespace GridDominance.DSLEditor
 		private readonly ConcurrentDictionary<int, ImageSource> _imageCache = new ConcurrentDictionary<int, ImageSource>();
 		private readonly LevelPreviewPainter levelPainter = new LevelPreviewPainter();
 
-		private ImageSource ReparseLevelFile(string input)
+		private ImageSource ReparseLevelFile(string input, bool sim)
 		{
 			try
 			{
@@ -36,13 +36,17 @@ namespace GridDominance.DSLEditor
 				ClearLog();
 				AddLog("Start parsing");
 
-				var lp = ParseLevelFile(input);
+				var lp = ParseLevelFile(input, sim);
 
 				_imageCache.Clear();
 				_imageCache[-1] = ImageHelper.CreateImageSource(levelPainter.Draw(lp, -1));
-				foreach (var cid in lp.BlueprintCannons.Select(c => c.CannonID))
+
+				if (sim)
 				{
-					_imageCache[cid] = ImageHelper.CreateImageSource(levelPainter.Draw(lp, cid));
+					foreach (var cid in lp.BlueprintCannons.Select(c => c.CannonID))
+					{
+						_imageCache[cid] = ImageHelper.CreateImageSource(levelPainter.Draw(lp, cid));
+					}
 				}
 				_currentDisplayLevel = lp;
 
@@ -74,7 +78,7 @@ namespace GridDominance.DSLEditor
 		{
 			if (!File.Exists(FilePath)) throw new FileNotFoundException(FilePath);
 
-			var lp = ParseLevelFile(Code);
+			var lp = ParseLevelFile(Code, true);
 
 			var dir = Path.GetDirectoryName(FilePath);
 			var name = Path.GetFileNameWithoutExtension(FilePath) + ".xnb";
@@ -139,7 +143,7 @@ namespace GridDominance.DSLEditor
 			return s;
 		}
 
-		private LevelBlueprint ParseLevelFile(string input)
+		private LevelBlueprint ParseLevelFile(string input, bool sim)
 		{
 			input = ReplaceMagicConstantsInLevelFile(input);
 
@@ -154,12 +158,25 @@ namespace GridDominance.DSLEditor
 				includesFunc = x => includes.FirstOrDefault(p => LevelBlueprint.IsIncludeMatch(p.Key, x)).Value;
 			}
 
-			return DSLUtil.ParseLevelFromString(input, includesFunc);
+			return DSLUtil.ParseLevelFromString(input, includesFunc, sim);
 		}
 
-		private LevelBlueprint ParseSpecificLevelFile(string f)
+
+		private LevelBlueprint ParseLevelFileSafe(string input, bool sim)
 		{
-			return DSLUtil.ParseLevelFromFile(f);
+			try
+			{
+				return ParseLevelFile(input, sim);
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+		}
+
+		private LevelBlueprint ParseSpecificLevelFile(string f, bool sim)
+		{
+			return DSLUtil.ParseLevelFromFile(f, sim);
 		}
 
 		private void RecreateMapForLevelFile(LevelBlueprint lp)
@@ -186,13 +203,13 @@ namespace GridDominance.DSLEditor
 			}
 		}
 
-		private Bitmap CreateOverviewSafe(string path)
+		private Bitmap CreateOverviewSafe(string path, LevelBlueprint bp)
 		{
 			var lpp = new LevelPreviewPainter();
 
 			try
 			{
-				return lpp.DrawOverview(ParseSpecificLevelFile(path));
+				return lpp.DrawOverview(bp);
 			}
 			catch (Exception)
 			{
@@ -206,11 +223,30 @@ namespace GridDominance.DSLEditor
 			var folder = Path.GetDirectoryName(FilePath);
 			if (!Directory.Exists(folder)) return;
 
-			var imgs = Directory
+			var maps = Directory
+				.EnumerateFiles(folder)
+				.Where(p => Path.GetExtension(p).ToLower() == ".gsgraph")
+				.Select(p => Tuple.Create(p, ParseGraphFileSafe(File.ReadAllText(p))))
+				.Where(p => p.Item2 != null)
+				.ToList();
+
+			var alllevels = Directory
 				.EnumerateFiles(folder)
 				.Where(p => Path.GetExtension(p).ToLower() == ".gslevel")
-				.Select(CreateOverviewSafe)
+				.Select(p => Tuple.Create(p, ParseLevelFileSafe(File.ReadAllText(p), false)))
 				.ToList();
+
+			foreach (var map in maps)
+			{
+				var levels = alllevels.Where(l => map.Item2.Nodes.Any(n => n.LevelID == l.Item2.UniqueID)).ToList();
+
+				OutputOverview(levels, Path.Combine(folder, @"..\..\..\..\Data\overview_"+Path.GetFileNameWithoutExtension(map.Item1)+".png"));
+			}
+		}
+
+		private void OutputOverview(List<Tuple<string, LevelBlueprint>> levels, string fileOut)
+		{
+			var imgs = levels.Select(p => CreateOverviewSafe(p.Item1, p.Item2)).ToList();
 
 			var sw = imgs[0].Width;
 			var sh = imgs[0].Height;
@@ -233,12 +269,9 @@ namespace GridDominance.DSLEditor
 				}
 			}
 
-
-			var fileOut = Path.Combine(folder, @"..\..\..\..\Data\overview.png");
-
-			if (!File.Exists(fileOut))
+			if (!Directory.Exists(Path.GetDirectoryName(fileOut)))
 			{
-				MessageBox.Show("FileNotFound: " + fileOut);
+				MessageBox.Show("FolderNotFound: " + fileOut);
 				return;
 			}
 

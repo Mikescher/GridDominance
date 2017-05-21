@@ -115,6 +115,18 @@ namespace GridDominance.DSLEditor
 			return new GraphParser(input).Parse();
 		}
 
+		private GraphBlueprint ParseGraphFileSafe(string input)
+		{
+			try
+			{
+				return new GraphParser(input).Parse();
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+		}
+
 		private void UpdateSourceFiles()
 		{
 			if (!File.Exists(FilePath)) { MessageBox.Show("No root folder"); return; }
@@ -123,7 +135,7 @@ namespace GridDominance.DSLEditor
 			if (!folder.ToLower().Trim('\\').EndsWith("GridDominance.Shared\\Content\\levels".ToLower())) { MessageBox.Show("Invalid root folder"); return; }
 
 			var files = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gslevel").ToList();
-			var levls = files.Select(ParseSpecificLevelFile).ToList();
+			var levls = files.Select(f => ParseSpecificLevelFile(f, false)).ToList();
 
 			{
 				var f0 = Path.Combine(folder, @"..\..\..\GridDominance.Shared\Content\Content.mgcb");

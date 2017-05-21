@@ -51,9 +51,12 @@ namespace GridDominance.DSLEditor
 		private int _selectionStartLastValid = -1;
 		private int _selectionStart = 0;
 		public int SelectionStart { get { return _selectionStart; } set { _selectionStart = value; if (value!= -1) { _selectionStartLastValid = value; } OnPropertyChanged();} }
-
+		
 		private int _selectionLength = 0;
 		public int SelectionLength { get { return _selectionLength; } set { _selectionLength = value; OnPropertyChanged(); } }
+
+		private bool _fullSimulatedRepaint = true;
+		public bool FullSimulatedRepaint { get { return _fullSimulatedRepaint; } set { _fullSimulatedRepaint = value; OnPropertyChanged(); } }
 
 		private ImageSource _previewImage;
 		public ImageSource PreviewImage { get { return _previewImage; } set { _previewImage = value; OnPropertyChanged(); } }
@@ -126,7 +129,7 @@ namespace GridDominance.DSLEditor
 
 						ImageSource img;
 						if (IsFilePathLevel)
-							img = ReparseLevelFile(code);
+							img = ReparseLevelFile(code, FullSimulatedRepaint);
 						else if (IsFilePathGraph)
 							img = ReparseGraphFile(code);
 						else
@@ -151,7 +154,7 @@ namespace GridDominance.DSLEditor
 				try
 				{
 					if (IsFilePathLevel)
-						PreviewImage = ReparseLevelFile(Code);
+						PreviewImage = ReparseLevelFile(Code, FullSimulatedRepaint);
 					else if (IsFilePathGraph)
 						PreviewImage = ReparseGraphFile(Code);
 					else

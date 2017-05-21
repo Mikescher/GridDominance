@@ -154,7 +154,7 @@ namespace GridDominance.DSLEditor.Drawing
 					}
 
 					logwrite("Scan level: " + Path.GetFileName(f));
-					var lf = DSLUtil.ParseLevelFromFile(f);
+					var lf = DSLUtil.ParseLevelFromFile(f, false);
 
 					d[lf.UniqueID] = lf.Name;
 
