@@ -366,77 +366,85 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			#region Expander
 
-			FlatRenderHelper.DrawOutlinesBlurRectangle(
-				sbatch,
-				rectExpanderNorth.AsTranslated(0, HEIGHT_EXTENDER * iep0).LimitSingleCoordSouth(Position.Y),
-				2,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
-				COLOR_BORDER,
-				8,
-				10);
+			if (State[(int)FractionDifficulty.DIFF_0] != BistateProgress.Closed)
+				FlatRenderHelper.DrawOutlinesBlurRectangle(
+					sbatch,
+					rectExpanderNorth.AsTranslated(0, HEIGHT_EXTENDER * iep0).LimitSingleCoordSouth(Position.Y),
+					2,
+					LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? GDColors.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
+					COLOR_BORDER,
+					8,
+					10);
 
-			FlatRenderHelper.DrawOutlinesBlurRectangle(
-				sbatch,
-				rectExpanderEast.AsTranslated(-HEIGHT_EXTENDER * iep1, 0).LimitSingleCoordWest(Position.X),
-				2,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
-				COLOR_BORDER,
-				8,
-				10);
+			if (State[(int)FractionDifficulty.DIFF_1] != BistateProgress.Closed)
+				FlatRenderHelper.DrawOutlinesBlurRectangle(
+					sbatch,
+					rectExpanderEast.AsTranslated(-HEIGHT_EXTENDER * iep1, 0).LimitSingleCoordWest(Position.X),
+					2,
+					LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? GDColors.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
+					COLOR_BORDER,
+					8,
+					10);
 
-			FlatRenderHelper.DrawOutlinesBlurRectangle(
-				sbatch,
-				rectExpanderSouth.AsTranslated(0, -HEIGHT_EXTENDER * iep2).LimitSingleCoordNorth(Position.Y), 
-				2,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED, 
-				COLOR_BORDER, 
-				8, 
-				10);
+			if (State[(int)FractionDifficulty.DIFF_2] != BistateProgress.Closed)
+				FlatRenderHelper.DrawOutlinesBlurRectangle(
+					sbatch,
+					rectExpanderSouth.AsTranslated(0, -HEIGHT_EXTENDER * iep2).LimitSingleCoordNorth(Position.Y), 
+					2,
+					LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? GDColors.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED, 
+					COLOR_BORDER, 
+					8, 
+					10);
 
-			FlatRenderHelper.DrawOutlinesBlurRectangle(
-				sbatch,
-				rectExpanderWest.AsTranslated(HEIGHT_EXTENDER * iep3, 0).LimitSingleCoordEast(Position.X),
-				2,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
-				COLOR_BORDER,
-				8,
-				10);
+			if (State[(int)FractionDifficulty.DIFF_3] != BistateProgress.Closed)
+				FlatRenderHelper.DrawOutlinesBlurRectangle(
+					sbatch,
+					rectExpanderWest.AsTranslated(HEIGHT_EXTENDER * iep3, 0).LimitSingleCoordEast(Position.X),
+					2,
+					LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? GDColors.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
+					COLOR_BORDER,
+					8,
+					10);
 
 			#endregion
 
 			#region Icons
 
-			sbatch.DrawStretched(
-				Textures.TexDifficultyLine0,
-				rectExpanderNorth
-					.ToSquare(ICON_SIZE, FlatAlign9.NORTH)
-					.AsTranslated(0, +ICON_OFFSET)
-					.AsTranslated(0, HEIGHT_EXTENDER * iep0),
-				clickAreaD0.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
+			if (State[(int)FractionDifficulty.DIFF_0] != BistateProgress.Closed)
+				sbatch.DrawStretched(
+					Textures.TexDifficultyLine0,
+					rectExpanderNorth
+						.ToSquare(ICON_SIZE, FlatAlign9.NORTH)
+						.AsTranslated(0, +ICON_OFFSET)
+						.AsTranslated(0, HEIGHT_EXTENDER * iep0),
+					clickAreaD0.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
-			sbatch.DrawStretched(
-				Textures.TexDifficultyLine1,
-				rectExpanderEast
-					.ToSquare(ICON_SIZE, FlatAlign9.EAST)
-					.AsTranslated(-ICON_OFFSET, 0)
-					.AsTranslated(-HEIGHT_EXTENDER * iep1, 0),
-				clickAreaD1.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
+			if (State[(int)FractionDifficulty.DIFF_1] != BistateProgress.Closed)
+				sbatch.DrawStretched(
+					Textures.TexDifficultyLine1,
+					rectExpanderEast
+						.ToSquare(ICON_SIZE, FlatAlign9.EAST)
+						.AsTranslated(-ICON_OFFSET, 0)
+						.AsTranslated(-HEIGHT_EXTENDER * iep1, 0),
+					clickAreaD1.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
-			sbatch.DrawStretched(
-				Textures.TexDifficultyLine2,
-				rectExpanderSouth
-					.ToSquare(ICON_SIZE, FlatAlign9.SOUTH)
-					.AsTranslated(0, -ICON_OFFSET)
-					.AsTranslated(0, -HEIGHT_EXTENDER * iep2),
-				clickAreaD2.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
+			if (State[(int)FractionDifficulty.DIFF_2] != BistateProgress.Closed)
+				sbatch.DrawStretched(
+					Textures.TexDifficultyLine2,
+					rectExpanderSouth
+						.ToSquare(ICON_SIZE, FlatAlign9.SOUTH)
+						.AsTranslated(0, -ICON_OFFSET)
+						.AsTranslated(0, -HEIGHT_EXTENDER * iep2),
+					clickAreaD2.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
-			sbatch.DrawStretched(
-				Textures.TexDifficultyLine3,
-				rectExpanderWest
-					.ToSquare(ICON_SIZE, FlatAlign9.WEST)
-					.AsTranslated(+ICON_OFFSET, 0)
-					.AsTranslated(HEIGHT_EXTENDER * iep3, 0),
-				clickAreaD3.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
+			if (State[(int)FractionDifficulty.DIFF_3] != BistateProgress.Closed)
+				sbatch.DrawStretched(
+					Textures.TexDifficultyLine3,
+					rectExpanderWest
+						.ToSquare(ICON_SIZE, FlatAlign9.WEST)
+						.AsTranslated(+ICON_OFFSET, 0)
+						.AsTranslated(HEIGHT_EXTENDER * iep3, 0),
+					clickAreaD3.IsMouseDown() ? FlatColors.WetAsphalt : Color.White);
 
 			#endregion
 

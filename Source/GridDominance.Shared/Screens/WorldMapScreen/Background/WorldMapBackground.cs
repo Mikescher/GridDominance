@@ -16,7 +16,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 	{
 		private const int TILE_WIDTH = GDConstants.TILE_WIDTH;
 
-		private const int NODE_SPREAD = 7;
+		private const int NODE_SPREAD = 9;
 
 		public float GridLineAlpha = 1.0f;
 		public float BackgroundPercentageOverride = 1.0f;

@@ -27,6 +27,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 
 		protected override void OnEnd(LevelNode node)
 		{
+			node.ExpansionProgress[(int) _diff] = 1f;
 			node.State[(int)_diff] = BistateProgress.Open;
 		}
 
