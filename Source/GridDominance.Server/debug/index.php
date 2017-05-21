@@ -56,6 +56,10 @@
             align-self: center;
         }
 
+        .tab_prev {
+            visibility: collapse;
+        }
+
         #querypreview {
             display:flex;
             flex-direction: column;
