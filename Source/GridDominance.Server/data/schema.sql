@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS users
 
   last_online             timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   last_online_app_version varchar(24)  NOT NULL,
+  ping_counter            int          NOT NULL DEFAULT 0,
 
   PRIMARY KEY (userid)
 );

@@ -20,7 +20,7 @@ function run() {
 
 	//----------
 
-	$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), last_online_app_version=:av WHERE userid=:uid");
+	$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), last_online_app_version=:av, ping_counter=ping_counter+1 WHERE userid=:uid");
 	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 	$stmt->bindValue(':av', $appversion, PDO::PARAM_STR);
 	executeOrFail($stmt);
