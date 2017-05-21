@@ -32,21 +32,21 @@ alias(LVL_26, {b16b00b5-0001-4000-0000-000002000026})
 alias(LVL_27, {b16b00b5-0001-4000-0000-000002000027})
 
 root([-7, 0])
-  connect(LVL_01, CW)
-  connect(LVL_02, CW)
-  connect(LVL_03, CCW)
+  connect(LVL_01, CW,  1)
+  connect(LVL_02, CW,  2)
+  connect(LVL_03, CCW, 3)
 
 node([0, -7], LVL_01)
-  connect(LVL_04, CW)
+  connect(LVL_04, LIN)
 
 node([7, -7], LVL_04)
-  connect(LVL_05, CW)
-  connect(LVL_06, CCW)
-  connect(LVL_07, CW)
+  connect(LVL_05, LIN, 3)
+  connect(LVL_06, CCW, 2)
+  connect(LVL_07, CW,  1)
 
 node([14, -10.5], LVL_06)
-  connect(LVL_11, CW)
-  connect(LVL_13, CW)
+  connect(LVL_11, CW, 1)
+  connect(LVL_13, CW, 2)
 
 node([17.5, -15.5], LVL_13)
 
@@ -54,7 +54,7 @@ node([14, -3.5], LVL_07)
   connect(LVL_11, CCW)
 
 node([21, -7], LVL_11)
-  connect(LVL_12, CCW)
+  connect(LVL_12, LIN)
 
 node([28, -7], LVL_12)
   connect(LVL_16, CCW)
@@ -62,45 +62,45 @@ node([28, -7], LVL_12)
 
 
 node([0, 0], LVL_02)
-  connect(LVL_05, CW)
+  connect(LVL_05, LIN)
 
 node([7, 0], LVL_05)
 
 
 
 node([0, +7], LVL_03)
-  connect(LVL_08, CW)
+  connect(LVL_08, LIN)
 
 
 node([14, +7], LVL_08)
-  connect(LVL_09, CW)
-  connect(LVL_10, CW)
+  connect(LVL_09, LIN, 2)
+  connect(LVL_10, LIN, 1)
 
 
 node([14, 14], LVL_09)
 
 node([21, +7], LVL_10)
-  connect(LVL_14, CW)
-  connect(LVL_16, CW)
+  connect(LVL_14, LIN, 2)
+  connect(LVL_16, CW, 1)
 
 node([21, 14], LVL_14)
-  connect(LVL_15, CW)
+  connect(LVL_15, LIN)
 
 node([28, 14], LVL_15)
 
 
 node([31.5, 00], LVL_16)
-  connect(LVL_17, CW)
-  connect(LVL_21, CW)
-  connect(LVL_24, CCW)
+  connect(LVL_17, CW,  1)
+  connect(LVL_21, LIN, 3)
+  connect(LVL_24, CCW, 2)
 
 
 node([38.5, -7], LVL_17)
-  connect(LVL_18, CW)
+  connect(LVL_18, LIN)
 
 node([45.5, -7], LVL_18)
-  connect(LVL_19, CW)
-  connect(LVL_20, CW)
+  connect(LVL_19, LIN, 1)
+  connect(LVL_20, CW,  2)
 
 node([52.5, -7], LVL_19)
   connect(LVL_27, CW)
@@ -109,19 +109,19 @@ node([49, -12],  LVL_20)
 
 
 node([38.5, 00], LVL_21)
-  connect(LVL_22, CW)
+  connect(LVL_22, LIN)
 
 node([45.5, 00], LVL_22)
-  connect(LVL_23, CW)
+  connect(LVL_23, LIN)
 
 node([52.5, 00], LVL_23)
-  connect(LVL_27, CCW)
+  connect(LVL_27, LIN)
 
 
 node([45.5, +7], LVL_24)
-  connect(LVL_25, CCW)
-  connect(LVL_26, CCW)
-  connect(LVL_27, CCW)
+  connect(LVL_25, CCW, 2)
+  connect(LVL_26, CCW, 3)
+  connect(LVL_27, CCW, 1)
 
 node([49, 12], LVL_25)
 

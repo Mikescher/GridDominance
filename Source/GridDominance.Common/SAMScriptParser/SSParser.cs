@@ -216,8 +216,14 @@ namespace GridDominance.SAMScriptParser
 			return DeRef(m.Groups["value"].Value);
 		}
 
-		protected int ExtractIntegerParameter(List<string> methodParameter, int idx)
+		protected int ExtractIntegerParameter(List<string> methodParameter, int idx, int? defaultValue = null)
 		{
+			if (idx >= methodParameter.Count)
+			{
+				if (defaultValue != null) return defaultValue.Value;
+				throw new Exception($"Not enough parameter (missing param {idx})");
+			}
+
 			var v = ExtractValueParameter(methodParameter, idx);
 			return int.Parse(v);
 		}

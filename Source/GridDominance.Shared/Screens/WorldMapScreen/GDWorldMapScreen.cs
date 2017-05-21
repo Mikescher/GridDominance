@@ -192,22 +192,23 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			n = GetInitialNode(FractionDifficulty.DIFF_3);
 			if (n != null) return n;
 
-			return Graph.InitialNode; // can practically not happen
+			return Graph.InitialNode; // can happen when all completed
 		}
 
 		private IWorldNode GetInitialNode(FractionDifficulty d)
 		{
-			var nodes = new Stack<IWorldNode>();
-			nodes.Push(Graph.InitialNode);
+			return FindNextUnfinishedNode(Graph.InitialNode, d);
+		}
 
-			while (nodes.Any())
+		private IWorldNode FindNextUnfinishedNode(IWorldNode node, FractionDifficulty d)
+		{
+			foreach (var next in node.NextLinkedNodes)
 			{
-				var node = nodes.Pop();
-
-				var lnode = node as LevelNode;
+				var lnode = next as LevelNode;
 				if (lnode != null && !lnode.LevelData.HasCompleted(d)) return node;
 
-				foreach (var nn in node.NextLinkedNodes) nodes.Push(nn);
+				var rec = FindNextUnfinishedNode(next, d);
+				if (rec != null) return rec;
 			}
 
 			return null;

@@ -341,25 +341,23 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			var currNode = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == GDScreen.Blueprint.UniqueID);
 			var diff = GDScreen.Difficulty;
 
-			foreach (var lid in currNode.OutgoingPipes)
+			// unfinished
+			foreach (var lid in currNode.OutgoingPipes.OrderBy(p => p.Priority))
 			{
 				var node = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target);
 
 				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
 			}
 
-			var nodestack = new Stack<NodeBlueprint>();
-			foreach (var n in currNode.OutgoingPipes.Select(lid => GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target))) nodestack.Push(n);
-			while (nodestack.Any())
+			// any
+			foreach (var lid in currNode.OutgoingPipes.OrderBy(p => p.Priority))
 			{
-				var node = nodestack.Pop();
-				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
-				foreach (var n in node.OutgoingPipes.Select(lid => GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target)))
-				{
-					nodestack.Push(n);
-				}
+				var node = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target);
+
+				return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
 			}
 
+			// none
 			return null;
 		}
 	}

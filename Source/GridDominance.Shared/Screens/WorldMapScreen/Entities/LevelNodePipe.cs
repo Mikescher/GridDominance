@@ -26,7 +26,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private Vector2 _orbEnd;
 		public float Length;
 
-		private readonly FlatCurve12 curvature;
+		private readonly FlatCurve13 curvature;
 
 		private FRectangle? rectHorz = null;
 		private FRectangle? rectVert = null;
@@ -48,46 +48,51 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			InitCurvature();
 		}
 
-		private FlatCurve12 GetCurve(IWorldNode start, IWorldNode end, PipeBlueprint.Orientation o)
+		private FlatCurve13 GetCurve(IWorldNode start, IWorldNode end, PipeBlueprint.Orientation o)
 		{
-			var cw   = (o == PipeBlueprint.Orientation.Clockwise);
-			var ccw  = (o == PipeBlueprint.Orientation.Counterclockwise);
-			var auto = (o == PipeBlueprint.Orientation.Auto);
+			var cw     = (o == PipeBlueprint.Orientation.Clockwise);
+			var ccw    = (o == PipeBlueprint.Orientation.Counterclockwise);
+			var auto   = (o == PipeBlueprint.Orientation.Auto);
+			var direct = (o == PipeBlueprint.Orientation.Direct);
 
 			if (FloatMath.EpsilonEquals(start.Position.X, end.Position.X))
 			{
 				if (start.Position.Y < end.Position.Y)
-					return FlatCurve12.DOWN;
+					return FlatCurve13.DOWN;
 				if (start.Position.Y > end.Position.Y)
-					return FlatCurve12.UP;
+					return FlatCurve13.UP;
 
-				return FlatCurve12.POINT;
+				return FlatCurve13.POINT;
 			}
 
 			if (FloatMath.EpsilonEquals(start.Position.Y, end.Position.Y))
 			{
 				if (start.Position.X < end.Position.X)
-					return FlatCurve12.RIGHT;
+					return FlatCurve13.RIGHT;
 				if (start.Position.X > end.Position.X)
-					return FlatCurve12.LEFT;
+					return FlatCurve13.LEFT;
 
-				return FlatCurve12.POINT;
+				return FlatCurve13.POINT;
 			}
 
 			if (start.Position.X < end.Position.X)
 			{
+				if (direct) return FlatCurve13.DIRECT;
+
 				if (start.Position.Y < end.Position.Y)
-					return (auto || cw) ? FlatCurve12.RIGHT_DOWN : FlatCurve12.DOWN_RIGHT;
+					return (auto || cw) ? FlatCurve13.RIGHT_DOWN : FlatCurve13.DOWN_RIGHT;
 				else if (start.Position.Y > end.Position.Y)
-					return (auto || ccw) ? FlatCurve12.RIGHT_UP : FlatCurve12.UP_RIGHT;
+					return (auto || ccw) ? FlatCurve13.RIGHT_UP : FlatCurve13.UP_RIGHT;
 			}
 
 			if (start.Position.X > end.Position.X)
 			{
+				if (direct) return FlatCurve13.DIRECT;
+
 				if (start.Position.Y < end.Position.Y)
-					return (auto || ccw) ? FlatCurve12.LEFT_DOWN : FlatCurve12.DOWN_LEFT;
+					return (auto || ccw) ? FlatCurve13.LEFT_DOWN : FlatCurve13.DOWN_LEFT;
 				else if (start.Position.Y > end.Position.Y)
-					return (auto || cw) ? FlatCurve12.LEFT_UP : FlatCurve12.UP_LEFT;
+					return (auto || cw) ? FlatCurve13.LEFT_UP : FlatCurve13.UP_LEFT;
 			}
 
 			throw new Exception("Invalid curvature found");
@@ -97,32 +102,36 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			switch (curvature)
 			{
-				case FlatCurve12.RIGHT_UP:
-				case FlatCurve12.RIGHT:
-				case FlatCurve12.RIGHT_DOWN:
+				case FlatCurve13.RIGHT_UP:
+				case FlatCurve13.RIGHT:
+				case FlatCurve13.RIGHT_DOWN:
 					rectHorz = new FRectangle(NodeSource.Position.X, NodeSource.Position.Y, NodeSink.Position.X - NodeSource.Position.X, 0).AsInflated(THICKNESS / 2, THICKNESS / 2);
 					break;
 
-				case FlatCurve12.LEFT_UP:
-				case FlatCurve12.LEFT:
-				case FlatCurve12.LEFT_DOWN:
+				case FlatCurve13.LEFT_UP:
+				case FlatCurve13.LEFT:
+				case FlatCurve13.LEFT_DOWN:
 					rectHorz = new FRectangle(NodeSink.Position.X, NodeSource.Position.Y, NodeSource.Position.X - NodeSink.Position.X, 0).AsInflated(THICKNESS / 2, THICKNESS / 2);
 					break;
 
-				case FlatCurve12.UP:
-				case FlatCurve12.DOWN:
-				case FlatCurve12.POINT:
+				case FlatCurve13.UP:
+				case FlatCurve13.DOWN:
+				case FlatCurve13.POINT:
 					rectHorz = null;
 					break;
 
-				case FlatCurve12.UP_RIGHT:
-				case FlatCurve12.DOWN_RIGHT:
+				case FlatCurve13.UP_RIGHT:
+				case FlatCurve13.DOWN_RIGHT:
 					rectHorz = new FRectangle(NodeSource.Position.X, NodeSink.Position.Y, NodeSink.Position.X - NodeSource.Position.X, 0).AsInflated(THICKNESS / 2, THICKNESS / 2);
 					break;
 
-				case FlatCurve12.DOWN_LEFT:
-				case FlatCurve12.UP_LEFT:
+				case FlatCurve13.DOWN_LEFT:
+				case FlatCurve13.UP_LEFT:
 					rectHorz = new FRectangle(NodeSink.Position.X, NodeSink.Position.Y, NodeSource.Position.X - NodeSink.Position.X, 0).AsInflated(THICKNESS / 2, THICKNESS / 2);
+					break;
+
+				case FlatCurve13.DIRECT:
+					rectHorz = null;
 					break;
 
 				default:
@@ -131,33 +140,37 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			switch (curvature)
 			{
-				case FlatCurve12.RIGHT:
-				case FlatCurve12.LEFT:
-				case FlatCurve12.POINT:
+				case FlatCurve13.RIGHT:
+				case FlatCurve13.LEFT:
+				case FlatCurve13.POINT:
 					rectVert = null;
 					break;
 
-				case FlatCurve12.UP:
-				case FlatCurve12.UP_RIGHT:
-				case FlatCurve12.UP_LEFT:
+				case FlatCurve13.UP:
+				case FlatCurve13.UP_RIGHT:
+				case FlatCurve13.UP_LEFT:
 					rectVert = new FRectangle(NodeSource.Position.X, NodeSink.Position.Y, 0, NodeSource.Position.Y - NodeSink.Position.Y).AsInflated(THICKNESS / 2, THICKNESS / 2);
 					break;
 
-				case FlatCurve12.DOWN:
-				case FlatCurve12.DOWN_RIGHT:
-				case FlatCurve12.DOWN_LEFT:
+				case FlatCurve13.DOWN:
+				case FlatCurve13.DOWN_RIGHT:
+				case FlatCurve13.DOWN_LEFT:
 					rectVert = new FRectangle(NodeSource.Position.X, NodeSource.Position.Y, 0, NodeSink.Position.Y - NodeSource.Position.Y).AsInflated(THICKNESS / 2, THICKNESS / 2);
 
 					break;
 
-				case FlatCurve12.RIGHT_UP:
-				case FlatCurve12.LEFT_UP:
+				case FlatCurve13.RIGHT_UP:
+				case FlatCurve13.LEFT_UP:
 					rectVert = new FRectangle(NodeSink.Position.X, NodeSink.Position.Y, 0, NodeSource.Position.Y - NodeSink.Position.Y).AsInflated(THICKNESS / 2, THICKNESS / 2);
 					break;
 
-				case FlatCurve12.RIGHT_DOWN:
-				case FlatCurve12.LEFT_DOWN:
+				case FlatCurve13.RIGHT_DOWN:
+				case FlatCurve13.LEFT_DOWN:
 					rectVert = new FRectangle(NodeSink.Position.X, NodeSource.Position.Y, 0, NodeSink.Position.Y - NodeSource.Position.Y).AsInflated(THICKNESS / 2, THICKNESS / 2);
+					break;
+
+				case FlatCurve13.DIRECT:
+					rectVert = null;
 					break;
 
 				default:
@@ -168,31 +181,35 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			switch (curvature)
 			{
-				case FlatCurve12.UP:
-				case FlatCurve12.UP_RIGHT:
-				case FlatCurve12.UP_LEFT:
+				case FlatCurve13.UP:
+				case FlatCurve13.UP_RIGHT:
+				case FlatCurve13.UP_LEFT:
 					_orbStart = NodeSource.Position + new Vector2(0, -orbCenterOffset);
 					break;
 
-				case FlatCurve12.DOWN:
-				case FlatCurve12.DOWN_RIGHT:
-				case FlatCurve12.DOWN_LEFT:
+				case FlatCurve13.DOWN:
+				case FlatCurve13.DOWN_RIGHT:
+				case FlatCurve13.DOWN_LEFT:
 					_orbStart = NodeSource.Position + new Vector2(0, +orbCenterOffset);
 					break;
 
-				case FlatCurve12.RIGHT_UP:
-				case FlatCurve12.RIGHT:
-				case FlatCurve12.RIGHT_DOWN:
+				case FlatCurve13.RIGHT_UP:
+				case FlatCurve13.RIGHT:
+				case FlatCurve13.RIGHT_DOWN:
 					_orbStart = NodeSource.Position + new Vector2(+orbCenterOffset, 0);
 					break;
 
-				case FlatCurve12.LEFT_UP:
-				case FlatCurve12.LEFT:
-				case FlatCurve12.LEFT_DOWN:
+				case FlatCurve13.LEFT_UP:
+				case FlatCurve13.LEFT:
+				case FlatCurve13.LEFT_DOWN:
 					_orbStart = NodeSource.Position + new Vector2(-orbCenterOffset, 0);
 					break;
 
-				case FlatCurve12.POINT:
+				case FlatCurve13.DIRECT:
+					_orbStart = NodeSource.Position + (NodeSink.Position - NodeSource.Position).WithLength(orbCenterOffset);
+					break;
+
+				case FlatCurve13.POINT:
 					throw new ArgumentOutOfRangeException();
 
 				default:
@@ -229,63 +246,66 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			switch (curvature)
 			{
-				case FlatCurve12.UP:
-				case FlatCurve12.DOWN:
-				case FlatCurve12.LEFT:
-				case FlatCurve12.RIGHT:
+				case FlatCurve13.UP:
+				case FlatCurve13.DOWN:
+				case FlatCurve13.LEFT:
+				case FlatCurve13.RIGHT:
 					return _orbStart + (_orbEnd - _orbStart).WithLength(distance);
 
-				case FlatCurve12.LEFT_DOWN:
+				case FlatCurve13.LEFT_DOWN:
 					return
 						(distance < (_orbStart.X - _orbEnd.X))
 						? new Vector2(_orbStart.X - distance, _orbStart.Y)
 						: new Vector2(_orbEnd.X, _orbStart.Y + (distance - (_orbStart.X - _orbEnd.X)));
 
-				case FlatCurve12.LEFT_UP:
+				case FlatCurve13.LEFT_UP:
 					return
 						(distance < (_orbStart.X - _orbEnd.X))
 						? new Vector2(_orbStart.X - distance, _orbStart.Y)
 						: new Vector2(_orbEnd.X, _orbStart.Y - (distance - (_orbStart.X - _orbEnd.X)));
 
-				case FlatCurve12.RIGHT_DOWN:
+				case FlatCurve13.RIGHT_DOWN:
 					return
 						(distance < (_orbEnd.X - _orbStart.X))
 						? new Vector2(_orbStart.X + distance, _orbStart.Y)
 						: new Vector2(_orbEnd.X, _orbStart.Y + (distance - (_orbEnd.X - _orbStart.X)));
 
-				case FlatCurve12.RIGHT_UP:
+				case FlatCurve13.RIGHT_UP:
 					return
 						(distance < (_orbEnd.X - _orbStart.X))
 						? new Vector2(_orbStart.X + distance, _orbStart.Y)
 						: new Vector2(_orbEnd.X, _orbStart.Y - (distance - (_orbEnd.X - _orbStart.X)));
 
-				case FlatCurve12.DOWN_RIGHT:
+				case FlatCurve13.DOWN_RIGHT:
 					return
 						(distance < (_orbEnd.Y - _orbStart.Y))
 						? new Vector2(_orbStart.X, _orbStart.Y + distance)
 						: new Vector2(_orbStart.X + (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
 
-				case FlatCurve12.DOWN_LEFT:
+				case FlatCurve13.DOWN_LEFT:
 					return
 						(distance < (_orbEnd.Y - _orbStart.Y))
 						? new Vector2(_orbStart.X, _orbStart.Y + distance)
 						: new Vector2(_orbStart.X - (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
 
 
-				case FlatCurve12.UP_RIGHT:
+				case FlatCurve13.UP_RIGHT:
 					return
 						(distance < (_orbStart.Y - _orbEnd.Y))
 						? new Vector2(_orbStart.X, _orbStart.Y - distance)
 						: new Vector2(_orbStart.X + (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
 
-				case FlatCurve12.UP_LEFT:
+				case FlatCurve13.UP_LEFT:
 					return
 						(distance < (_orbStart.Y - _orbEnd.Y))
 						? new Vector2(_orbStart.X, _orbStart.Y - distance)
 						: new Vector2(_orbStart.X - (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
-					
-				case FlatCurve12.POINT:
+
+				case FlatCurve13.POINT:
 					return _orbStart;
+
+				case FlatCurve13.DIRECT:
+					return _orbStart + (_orbEnd - _orbStart).WithLength(distance);
 
 				default:
 					throw new ArgumentOutOfRangeException();

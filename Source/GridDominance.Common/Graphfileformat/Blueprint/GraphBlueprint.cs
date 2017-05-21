@@ -28,6 +28,7 @@ namespace GridDominance.Graphfileformat.Blueprint
 			{
 				bw.Write(RootNode.OutgoingPipes[j].Target.ToByteArray());
 				bw.Write((byte)RootNode.OutgoingPipes[j].PipeOrientation);
+				bw.Write(RootNode.OutgoingPipes[j].Priority);
 			}
 
 			bw.Write((byte)Nodes.Count);
@@ -41,13 +42,14 @@ namespace GridDominance.Graphfileformat.Blueprint
 				{
 					bw.Write(Nodes[i].OutgoingPipes[j].Target.ToByteArray());
 					bw.Write((byte)Nodes[i].OutgoingPipes[j].PipeOrientation);
+					bw.Write(Nodes[i].OutgoingPipes[j].Priority);
 				}
 			}
 
-			bw.Write((byte)0xAA);
-			bw.Write((byte)0x08);
-			bw.Write((byte)0xFF);
-			bw.Write((byte)0x26);
+			bw.Write((byte)0xB1);
+			bw.Write((byte)0x6B);
+			bw.Write((byte)0x00);
+			bw.Write((byte)0xB5);
 		}
 
 		public void BinaryDeserialize(BinaryReader br)
@@ -64,7 +66,8 @@ namespace GridDominance.Graphfileformat.Blueprint
 				{
 					var pid = new Guid(br.ReadBytes(16));
 					var por = (PipeBlueprint.Orientation)br.ReadByte();
-					RootNode.OutgoingPipes.Add(new PipeBlueprint(pid, por));
+					var pri = br.ReadByte();
+					RootNode.OutgoingPipes.Add(new PipeBlueprint(pid, por, pri));
 				}
 			}
 
@@ -84,15 +87,16 @@ namespace GridDominance.Graphfileformat.Blueprint
 				{
 					var pid = new Guid(br.ReadBytes(16));
 					var por = (PipeBlueprint.Orientation)br.ReadByte();
-					node.OutgoingPipes.Add(new PipeBlueprint(pid, por));
+					var pri = br.ReadByte();
+					node.OutgoingPipes.Add(new PipeBlueprint(pid, por, pri));
 				}
 				Nodes.Add(node);
 			}
 
-			if (br.ReadByte() != 0xAA) throw new Exception("Missing footer byte 1");
-			if (br.ReadByte() != 0x08) throw new Exception("Missing footer byte 2");
-			if (br.ReadByte() != 0xFF) throw new Exception("Missing footer byte 3");
-			if (br.ReadByte() != 0x26) throw new Exception("Missing footer byte 4");
+			if (br.ReadByte() != 0xB1) throw new Exception("Missing footer byte 1");
+			if (br.ReadByte() != 0x6B) throw new Exception("Missing footer byte 2");
+			if (br.ReadByte() != 0x00) throw new Exception("Missing footer byte 3");
+			if (br.ReadByte() != 0xB5) throw new Exception("Missing footer byte 4");
 		}
 
 		public void ValidOrThrow()

@@ -86,11 +86,20 @@ namespace GridDominance.Graphfileformat
 			if (_currentNode == null) throw new Exception("Pipe without Node");
 
 			var id = ExtractGuidParameter(methodParameter, 0);
-			var o = PipeBlueprint.Orientation.Auto;
-			if (ExtractValueParameter(methodParameter, 1, "").ToLower() == "cw") o = PipeBlueprint.Orientation.Clockwise;
-			if (ExtractValueParameter(methodParameter, 1, "").ToLower() == "ccw") o = PipeBlueprint.Orientation.Counterclockwise;
+			PipeBlueprint.Orientation o;
+			byte p = 255;
 
-			_currentNode.Pipes.Add(new PipeBlueprint(id, o));
+			string orientation = ExtractValueParameter(methodParameter, 1).ToLower();
+
+			if (orientation == "auto") o = PipeBlueprint.Orientation.Auto;
+			else if (orientation == "lin") o = PipeBlueprint.Orientation.Direct;
+			else if (orientation == "cw") o = PipeBlueprint.Orientation.Clockwise;
+			else if (orientation == "ccw") o = PipeBlueprint.Orientation.Counterclockwise;
+			else throw new Exception("Not definied PipeBlueprint.Orientation: " + orientation);
+			
+			if (ExtractIntegerParameter(methodParameter, 2, -1) > 0) p = (byte)ExtractIntegerParameter(methodParameter, 2);
+
+			_currentNode.Pipes.Add(new PipeBlueprint(id, o, p));
 		}
 
 	}

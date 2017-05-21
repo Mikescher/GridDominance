@@ -35,7 +35,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private GameEntityMouseArea clickAreaThis;
 
-		public readonly List<LevelNode> NextLinkedNodes = new List<LevelNode>();
+		public readonly List<LevelNode> NextLinkedNodes = new List<LevelNode>(); // ordered by pipe priority
 		public readonly List<LevelNodePipe> OutgoingPipes = new List<LevelNodePipe>();
 
 		private PointCPUParticleEmitter emitter;

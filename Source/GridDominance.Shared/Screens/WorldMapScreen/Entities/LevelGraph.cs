@@ -63,7 +63,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void InitPipes(GraphBlueprint g)
 		{
-			foreach (var pipe in g.RootNode.OutgoingPipes)
+			foreach (var pipe in g.RootNode.OutgoingPipes.OrderBy(p => p.Priority))
 			{
 				var sinknode = Nodes.FirstOrDefault(n => n.Level.UniqueID == pipe.Target);
 
@@ -86,7 +86,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					continue;
 				}
 
-				foreach (var pipe in bpNode.OutgoingPipes)
+				foreach (var pipe in bpNode.OutgoingPipes.OrderBy(p => p.Priority))
 				{
 					var sinknode = Nodes.FirstOrDefault(n => n.Level.UniqueID == pipe.Target);
 

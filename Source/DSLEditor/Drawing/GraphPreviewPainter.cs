@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using GridDominance.DSLEditor.Helper;
 using GridDominance.Levelfileformat;
+using Microsoft.Xna.Framework;
 using Color = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
 
@@ -82,6 +83,7 @@ namespace GridDominance.DSLEditor.Drawing
 				var sbNode = new SolidBrush(Color.FromArgb(127, 140, 141));
 				var penExtender = new Pen(Color.FromArgb(231, 76, 60));
 				var sbExtender = new SolidBrush(Color.FromArgb(64, 231, 76, 60));
+				var sbMarker = new SolidBrush(Color.FromArgb(255, 255, 255));
 
 				var diam = 2.75f * 64;
 				var diamRoot = 3f * 64;
@@ -99,8 +101,7 @@ namespace GridDominance.DSLEditor.Drawing
 						ManhattanLine(g, n.X, n.Y, o.X, o.Y, p.PipeOrientation);
 					}
 				}
-
-
+				
 				foreach (var n in wgraph.Nodes)
 				{
 					g.FillRectangle(sbExtender, n.X - diam / 2f - exw, n.Y - diam / 2f, diam + 2 * exw, diam);
@@ -118,6 +119,29 @@ namespace GridDominance.DSLEditor.Drawing
 					else
 					{
 						DrawFit(g, n.LevelID.ToString("D").Replace("-", "\r\n"), Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
+					}
+				}
+
+
+				foreach (var n in wgraph.AllNodes)
+				{
+					if (n.Pipes.Count > 1 && n.Pipes.Select(p => p.Priority).Distinct().Count() > 1)
+					foreach (var p in n.Pipes)
+					{
+						var o = wgraph.Nodes.Single(nd => nd.LevelID == p.Target);
+
+						var start = new Vector2(n.X, n.Y);
+						var end = new Vector2(o.X, o.Y);
+						var delta = end - start;
+						delta.Normalize();
+
+						var thisdia = n is RootNodeBlueprint ? (float)Math.Sqrt(2 * diamRoot * diamRoot) : diam;
+
+						var marker = start + delta * (thisdia / 2f + 8);
+
+						g.FillEllipse(sbMarker, marker.X - 16, marker.Y - 16, 32, 32);
+						DrawFit(g, p.Priority.ToString(), Color.Black, new Font("Arial", 24), new RectangleF(marker.X - 16, marker.Y - 16, 32, 32));
+
 					}
 				}
 
@@ -175,6 +199,12 @@ namespace GridDominance.DSLEditor.Drawing
 
 			var p = new Pen(Color.SeaGreen, 24);
 
+			if (o == PipeBlueprint.Orientation.Direct)
+			{
+				g.DrawLine(p, x1, y1, x2, y2); //D
+				return;
+			}
+
 			if (dx < 0 && dy < 0)
 			{
 				if (o == PipeBlueprint.Orientation.Auto || o == PipeBlueprint.Orientation.Clockwise)
@@ -190,7 +220,8 @@ namespace GridDominance.DSLEditor.Drawing
 					return;
 				}
 			}
-			else if (dx >= 0 && dy < 0)
+
+			if (dx >= 0 && dy < 0)
 			{
 				if (o == PipeBlueprint.Orientation.Auto || o == PipeBlueprint.Orientation.Counterclockwise)
 				{
@@ -205,7 +236,8 @@ namespace GridDominance.DSLEditor.Drawing
 					return;
 				}
 			}
-			else if (dx < 0 && dy >= 0)
+
+			if (dx < 0 && dy >= 0)
 			{
 				if (o == PipeBlueprint.Orientation.Auto || o == PipeBlueprint.Orientation.Counterclockwise)
 				{
@@ -220,7 +252,8 @@ namespace GridDominance.DSLEditor.Drawing
 					return;
 				}
 			}
-			else if (dx >= 0 && dy >= 0)
+
+			if (dx >= 0 && dy >= 0)
 			{
 				if (o == PipeBlueprint.Orientation.Auto || o == PipeBlueprint.Orientation.Clockwise)
 				{

@@ -23,40 +23,40 @@ alias(LVL_14, {b16b00b5-0001-4000-0000-000001000014})
 # node([0, -7], DBG)
 
 root([-7, 0])
-  connect(LVL_01, CW)
+  connect(LVL_01, LIN)
 
 node([0, 0], LVL_01)
-  connect(LVL_02, CW)
+  connect(LVL_02, LIN)
   
 node([7, 0], LVL_02)
-  connect(LVL_03, CW)
+  connect(LVL_03, LIN)
   
 node([14, 0], LVL_03)
-  connect(LVL_04, CW)
-  connect(LVL_05, CW)
+  connect(LVL_04, LIN, 1)
+  connect(LVL_05, LIN, 2)
 
 node([14, 7], LVL_05)
-  connect(LVL_06, CW)
+  connect(LVL_06, LIN)
 
 node([21, 7], LVL_06)
-  connect(LVL_07, CW)
+  connect(LVL_07, LIN)
 
 node([28, 7], LVL_07)
   connect(LVL_09, CW)
 
 node([14, -7], LVL_04)
-  connect(LVL_08, CW)
+  connect(LVL_08, LIN)
 
 node([21, -7], LVL_08)
-  connect(LVL_09, CCW)
-  connect(LVL_14, CCW)
+  connect(LVL_09, CCW, 1)
+  connect(LVL_14, CCW, 2)
 
 node([26, -12], LVL_14)
 
 node([32, 0], LVL_09)
-  connect(LVL_10, CW)
-  connect(LVL_11, CW)
-  connect(LVL_12, CCW)
+  connect(LVL_10, CW,  1)
+  connect(LVL_11, LIN, 2)
+  connect(LVL_12, CCW, 3)
 
 node([44, -7], LVL_10)
   connect(LVL_13, CW)
