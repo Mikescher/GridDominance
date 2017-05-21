@@ -24,9 +24,7 @@ namespace GridDominance.Graphfileformat
 			DefineMethod("connect", AddPipe);
 		}
 
-		//TODO Define Root and final node
-		//TODO test for loops (forbidden - breaks some algos in map)
-		//TODO test all nodes reachable
+		//TODO Define Final node that links to next map
 		public GraphBlueprint Parse(string fileName = "__root__")
 		{
 			_result = new GraphBlueprint();

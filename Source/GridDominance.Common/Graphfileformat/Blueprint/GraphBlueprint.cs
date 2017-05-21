@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace GridDominance.Graphfileformat.Blueprint
 {
@@ -101,8 +102,42 @@ namespace GridDominance.Graphfileformat.Blueprint
 
 		public void ValidOrThrow()
 		{
+			// ======== 1 ========
+
 			if (float.IsNaN(RootNode.X) || float.IsNaN(RootNode.Y))
 				throw new Exception("Every World needs a root node");
+
+			// ======== 2 ========
+
+			foreach (var pipe in Nodes.SelectMany(n => n.OutgoingPipes).Concat(RootNode.OutgoingPipes))
+			{
+				if (Nodes.Count(n => n.LevelID == pipe.Target) != 1) throw new Exception("Non-unique pipe target: " + pipe.Target);
+			}
+
+			// ======== 3 ========
+
+			foreach (var p in RootNode.OutgoingPipes) WalkGraphAndFindLoops(Nodes.Single(n => n.LevelID == p.Target), new List<NodeBlueprint>());
+
+			// ======== 4 ========
+
+			var nl = Nodes.ToList();
+			var ns = new Stack<NodeBlueprint>();
+			foreach (var p in RootNode.OutgoingPipes) ns.Push(Nodes.Single(n => n.LevelID == p.Target));
+			while (ns.Any())
+			{
+				var bp = ns.Pop();
+				nl.Remove(bp);
+				foreach (var p in bp.OutgoingPipes) ns.Push(Nodes.Single(n => n.LevelID == p.Target));
+			}
+			if (nl.Any()) throw new Exception("Graph has unreachable nodes");
+		}
+
+		private void WalkGraphAndFindLoops(NodeBlueprint me, List<NodeBlueprint> history)
+		{
+			if (history.Contains(me)) throw new Exception("Graph has a directed cycle");
+
+			foreach (var p in me.OutgoingPipes)
+				WalkGraphAndFindLoops(Nodes.Single(n => n.LevelID == p.Target), history.Concat(new List<NodeBlueprint>{me}).ToList());
 		}
 	}
 }
