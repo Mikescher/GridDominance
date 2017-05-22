@@ -230,6 +230,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				//TODO Err sound
 				AddEntityOperation(new ScreenShakeAndCenterOperation(this, Owner));
 
+				Owner.HUD.ShowToast("Level locked", 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+
 				return;
 			}
 			

@@ -219,6 +219,36 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				case HUDBackgroundType.RoundedBlur:
 					FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, col, cornerSize);
 					break;
+				case HUDBackgroundType.SimpleBlur:
+					FlatRenderHelper.DrawSimpleBlurPanel(sbatch, bounds, col, cornerSize);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		public static void DrawAlphaHUDBackground(IBatchRenderer sbatch, HUDBackgroundType type, FRectangle bounds, Color col, float cornerSize, float alpha)
+		{
+			if (col == Color.Transparent) return;
+			if (FloatMath.IsZero(alpha)) return;
+
+			switch (type)
+			{
+				case HUDBackgroundType.None:
+					// Do nothing
+					break;
+				case HUDBackgroundType.Simple:
+					DrawSimpleRect(sbatch, bounds, col * alpha);
+					break;
+				case HUDBackgroundType.Rounded:
+					DrawRoundedRect(sbatch, bounds, col * alpha, cornerSize);
+					break;
+				case HUDBackgroundType.RoundedBlur:
+					FlatRenderHelper.DrawRoundedAlphaBlurPanel(sbatch, bounds, col, cornerSize, alpha);
+					break;
+				case HUDBackgroundType.SimpleBlur:
+					FlatRenderHelper.DrawSimpleAlphaBlurPanel(sbatch, bounds, col, cornerSize, alpha);
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

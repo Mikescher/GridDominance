@@ -78,7 +78,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 
 		private void UnlockNodes(GraphBlueprint print)
 		{
-			var node = GetEntities<OverworldNode>().First(n => n.Graph.ID == print.ID);
+			var node = GetEntities<OverworldNode>().First(n => n.Blueprint.ID == print.ID);
 			if (node.NodeEnabled) return;
 			node.NodeEnabled = true;
 

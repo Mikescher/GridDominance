@@ -6,5 +6,6 @@
 		Simple,
 		Rounded,
 		RoundedBlur,
+		SimpleBlur,
 	}
 }

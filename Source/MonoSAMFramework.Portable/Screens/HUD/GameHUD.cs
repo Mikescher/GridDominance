@@ -7,6 +7,11 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -17,6 +22,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public readonly SpriteFont DefaultFont;
 
 		private HUDKeyboard _keyboard = null;
+		private HUDToast _toast = null;
 
 		protected GameHUD(GameScreen scrn, SpriteFont font)
 		{
@@ -126,6 +132,32 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			AddModal(_keyboard, true);
 
 			return _keyboard;
+		}
+
+		public HUDToast ShowToast(string text, int size, Color background, Color foreground, float lifetime)
+		{
+			if (_toast != null && _toast.Alive)
+			{
+				_toast.Remove();
+			}
+
+			_toast = new HUDToast(lifetime);
+
+			_toast.Text = text;
+			_toast.Alignment = HUDAlignment.BOTTOMCENTER;
+			_toast.RelativePosition = new FPoint(0, size);
+			_toast.FontSize = size;
+			_toast.Font = DefaultFont;
+			_toast.TextColor = foreground;
+			_toast.ColorBackground = background;
+			_toast.TextPadding = new FSize(size / 5f, size / 5f);
+			_toast.BackgroundType = HUDBackgroundType.SimpleBlur;
+			_toast.MaxWidth = Width * 0.8f;
+			_toast.BackgoundCornerSize = size/4f;
+			_toast.WordWrap = HUDWordWrap.WrapByWordTrusted;
+
+			AddElement(_toast);
+			return _toast;
 		}
 
 		public void Validate()

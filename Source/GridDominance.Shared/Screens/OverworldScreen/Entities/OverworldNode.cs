@@ -32,7 +32,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public override Color DebugIdentColor { get; } = Color.Blue;
 
 		private readonly string _description;
-		public readonly GraphBlueprint Graph;
+		public readonly GraphBlueprint Blueprint;
 		private readonly GameEntityMouseArea clickArea;
 
 		private readonly Dictionary<FractionDifficulty, float> solvedPerc = new Dictionary<FractionDifficulty, float>();
@@ -42,11 +42,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public float FlickerTime = 0f;
 
 		public bool NodeEnabled = false;
+		public int ForceClickCounter = 0;
 
-		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, GraphBlueprint graph) : base(scrn, GDConstants.ORDER_WORLD_NODE)
+		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, GraphBlueprint blueprint) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
-			_description = graph.Name;
-			Graph = graph;
+			_description = blueprint.Name;
+			Blueprint = blueprint;
 			NodePos = pos;
 
 			clickArea = AddClickMouseArea(FRectangle.CreateByCenter(Vector2.Zero, new FSize(SIZE, SIZE)), OnClick);
@@ -82,12 +83,40 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				ownr.IsTransitioning = true;
 
-				ownr.AddAgent(new TransitionZoomInAgent(ownr, this, Graph));
+				ownr.AddAgent(new TransitionZoomInAgent(ownr, this, Blueprint));
 
 				MainGame.Inst.GDSound.PlayEffectZoomIn();
 			}
 			else
 			{
+
+				if (Blueprint == Levels.WORLD_001)
+				{
+					if (ForceClickCounter == 0)
+					{
+						Owner.HUD.ShowToast("Click two times more to unlock", 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+						ForceClickCounter++;
+					}
+					else if (ForceClickCounter == 1)
+					{
+						Owner.HUD.ShowToast("Click again to unlock", 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+						ForceClickCounter++;
+					}
+					else if (ForceClickCounter == 2)
+					{
+						Owner.HUD.ShowToast("World unlocked", 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+
+						MainGame.Inst.Profile.SkipTutorial = true;
+						MainGame.Inst.SaveProfile();
+						NodeEnabled = true;
+						return;
+					}
+				}
+				else
+				{
+					Owner.HUD.ShowToast("World locked", 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+				}
+
 				// TODO Erro sound
 				AddEntityOperation(new ShakeNodeOperation());
 			}
@@ -152,9 +181,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private float GetSolvePercentage(FractionDifficulty d)
 		{
-			int c = Graph.Nodes.Count(n => MainGame.Inst.Profile.GetLevelData(n.LevelID).HasCompleted(d));
+			int c = Blueprint.Nodes.Count(n => MainGame.Inst.Profile.GetLevelData(n.LevelID).HasCompleted(d));
 
-			return c * 1f / Graph.Nodes.Count;
+			return c * 1f / Blueprint.Nodes.Count;
 		}
 
 		private bool IsCellActive(FractionDifficulty d, int idx)

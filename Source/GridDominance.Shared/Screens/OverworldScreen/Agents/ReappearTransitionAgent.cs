@@ -24,7 +24,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		public ReappearTransitionAgent(GDOverworldScreen scrn, GraphBlueprint g) : base(scrn, DURATION)
 		{
-			_gdNode = scrn.GetEntities<OverworldNode>().First(n => n.Graph == g);
+			_gdNode = scrn.GetEntities<OverworldNode>().First(n => n.Blueprint == g);
 			_graph = g;
 			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
 
