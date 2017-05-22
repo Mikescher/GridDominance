@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.OverworldScreen.Background;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
@@ -62,6 +64,45 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			Entities.AddEntity(new OverworldTutorialNode(this, new Vector2(3f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), "Tutorial"));
 			Entities.AddEntity(new OverworldNode(this, new Vector2(8f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_001));
 			Entities.AddEntity(new OverworldNode(this, new Vector2(13f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_002));
+
+			UnlockNodes();
+		}
+
+		private void UnlockNodes()
+		{
+			if (MainGame.Inst.Profile.SkipTutorial || MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted())
+			{
+				UnlockNodes(Levels.WORLD_001);
+			}
+		}
+
+		private void UnlockNodes(GraphBlueprint print)
+		{
+			var node = GetEntities<OverworldNode>().First(n => n.Graph.ID == print.ID);
+			if (node.NodeEnabled) return;
+			node.NodeEnabled = true;
+
+			Stack<INodeBlueprint> stack = new Stack<INodeBlueprint>();
+			stack.Push(print.RootNode);
+
+			while (stack.Any())
+			{
+				var sourceNode = stack.Pop();
+
+				if (sourceNode is WarpNodeBlueprint)
+				{
+					UnlockNodes(Levels.WORLDS[((WarpNodeBlueprint)sourceNode).TargetWorld]);
+				}
+
+				if (sourceNode is RootNodeBlueprint || MainGame.Inst.Profile.GetLevelData(sourceNode.ConnectionID).HasAnyCompleted())
+				{
+					foreach (var targetNode in sourceNode.Pipes.Select(p => print.AllNodes.First(an => an.ConnectionID == p.Target)))
+					{
+						stack.Push(targetNode);
+					}
+				}
+			}
+
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

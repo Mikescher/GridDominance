@@ -27,6 +27,8 @@ http://www.iconarchive.com/show/windows-8-icons-by-icons8.html || http://icons8.
 icon_hand:
 http://www.iconarchive.com/show/outline-icons-by-iconsmind/Hand-Touch-icon.html
 
+icon_lokc
+http://www.iconarchive.com/show/flat-finance-icons-by-graphicloads/lock-icon.html
 
 Sounds:
 button      http://www.freesound.org/people/Taira%20Komori/sounds/211751/

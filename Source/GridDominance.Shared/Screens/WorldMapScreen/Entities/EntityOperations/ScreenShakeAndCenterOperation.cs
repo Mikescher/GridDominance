@@ -9,6 +9,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 {
 	class ScreenShakeAndCenterOperation : GameEntityOperation<LevelNode>
 	{
+		public const float SHAKE_OFFSET = 16f;
+
 		private readonly Vector2 centeringStartOffset;
 		private readonly float rot;
 
@@ -29,7 +31,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 
 		protected override void OnProgress(LevelNode node, float progress, SAMTime gameTime, InputState istate)
 		{
-			var off = (Vector2.UnitX * (FloatMath.Sin(progress * FloatMath.TAU * 3) * 32) * (1 - FloatMath.FunctionEaseInCubic(progress))).Rotate(rot);
+			var off = (Vector2.UnitX * (FloatMath.Sin(progress * FloatMath.TAU * 6) * SHAKE_OFFSET) * (1 - FloatMath.FunctionEaseInCubic(progress))).Rotate(rot);
 			var p = FloatMath.FunctionEaseInOutQuad(progress);
 
 			node.Owner.MapViewportCenterX = centeringStartOffset.X + p * (node.Position.X - centeringStartOffset.X) + off.X;

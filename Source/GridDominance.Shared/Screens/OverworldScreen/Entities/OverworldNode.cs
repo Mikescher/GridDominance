@@ -4,6 +4,7 @@ using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -25,7 +26,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public const float COLLAPSE_TIME = 5f;
 
-		public override Vector2 Position { get; }
+		public Vector2 NodePos;
+		public override Vector2 Position => NodePos;
 		public override FSize DrawingBoundingBox { get; } = new FSize(SIZE, SIZE);
 		public override Color DebugIdentColor { get; } = Color.Blue;
 
@@ -39,11 +41,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public float FlickerTime = 0f;
 
+		public bool NodeEnabled = false;
+
 		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, GraphBlueprint graph) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
 			_description = graph.Name;
 			Graph = graph;
-			Position = pos;
+			NodePos = pos;
 
 			clickArea = AddClickMouseArea(FRectangle.CreateByCenter(Vector2.Zero, new FSize(SIZE, SIZE)), OnClick);
 
@@ -70,15 +74,23 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
 		{
-			var ownr = ((GDOverworldScreen) Owner);
+			if (NodeEnabled)
+			{
+				var ownr = ((GDOverworldScreen) Owner);
 
-			if (ownr.IsTransitioning) return;
+				if (ownr.IsTransitioning) return;
 
-			ownr.IsTransitioning = true;
+				ownr.IsTransitioning = true;
 
-			ownr.AddAgent(new TransitionZoomInAgent(ownr, this, Graph));
+				ownr.AddAgent(new TransitionZoomInAgent(ownr, this, Graph));
 
-			MainGame.Inst.GDSound.PlayEffectZoomIn();
+				MainGame.Inst.GDSound.PlayEffectZoomIn();
+			}
+			else
+			{
+				// TODO Erro sound
+				AddEntityOperation(new ShakeNodeOperation());
+			}
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
@@ -91,22 +103,34 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			FlatRenderHelper.DrawRoundedBlurPanel(sbatch, outerBounds, clickArea.IsMouseDown() ? FlatColors.ButtonPressedHUD : FlatColors.Asbestos, 0.5f * GDConstants.TILE_WIDTH);
 			SimpleRenderHelper.DrawRoundedRectOutline(sbatch, outerBounds.AsInflated(1f, 1f), FlatColors.MidnightBlue, 8, 2f, 0.5f * GDConstants.TILE_WIDTH);
 
-			for (int x = 0; x < 8; x++)
+			if (NodeEnabled)
 			{
-				for (int y = 0; y < 8; y++)
+				for (int x = 0; x < 8; x++)
 				{
-					var col = ColorMath.Blend(FlatColors.Background, GetCellColor(x, y), AlphaOverride);
-					sbatch.FillRectangle(new FRectangle(innerBounds.X + scoreRectSize * x, innerBounds.Y + scoreRectSize * y, scoreRectSize, scoreRectSize), col);
+					for (int y = 0; y < 8; y++)
+					{
+						var col = ColorMath.Blend(FlatColors.Background, GetCellColor(x, y), AlphaOverride);
+						sbatch.FillRectangle(new FRectangle(innerBounds.X + scoreRectSize * x, innerBounds.Y + scoreRectSize * y, scoreRectSize, scoreRectSize), col);
+					}
 				}
-			}
 
-			for (int i = 0; i <= 8; i++)
+				for (int i = 0; i <= 8; i++)
+				{
+					sbatch.DrawLine(innerBounds.Left, innerBounds.Top + i * scoreRectSize, innerBounds.Right, innerBounds.Top + i * scoreRectSize, Color.Black * AlphaOverride);
+					sbatch.DrawLine(innerBounds.Left + i * scoreRectSize, innerBounds.Top, innerBounds.Left + i * scoreRectSize, innerBounds.Bottom, Color.Black * AlphaOverride);
+				}
+
+				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, _description, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
+			}
+			else
 			{
-				sbatch.DrawLine(innerBounds.Left, innerBounds.Top + i*scoreRectSize, innerBounds.Right, innerBounds.Top + i * scoreRectSize, Color.Black * AlphaOverride);
-				sbatch.DrawLine(innerBounds.Left + i*scoreRectSize, innerBounds.Top, innerBounds.Left + i*scoreRectSize, innerBounds.Bottom, Color.Black * AlphaOverride);
+				sbatch.DrawRectangle(innerBounds, Color.Black);
+
+				sbatch.DrawCentered(Textures.TexIconLock, innerBounds.VecCenter, INNERSIZE * 0.75f, INNERSIZE * 0.75f, Color.White);
+
+				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, _description, FlatColors.Asbestos, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 			}
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, _description, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 		}
 
 		private Color GetCellColor(int x, int y)

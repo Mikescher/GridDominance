@@ -170,6 +170,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconRedo;
 		public static TextureRegion2D TexIconScore;
 		public static TextureRegion2D TexIconTutorial;
+		public static TextureRegion2D TexIconLock;
 
 		public static TextureRegion2D TexDifficultyLine0;
 		public static TextureRegion2D TexDifficultyLine1;
@@ -282,7 +283,8 @@ namespace GridDominance.Shared.Resources
 			TexIconRedo        = AtlasTextures["redo"];
 			TexIconScore       = AtlasTextures["jewels"];
 			TexIconTutorial    = AtlasTextures["tutorial"];
-			
+			TexIconLock        = AtlasTextures["lock"];
+
 			TexDifficultyLine0     = AtlasTextures["difficulty_line_01"];
 			TexDifficultyLine1     = AtlasTextures["difficulty_line_02"];
 			TexDifficultyLine2     = AtlasTextures["difficulty_line_03"];

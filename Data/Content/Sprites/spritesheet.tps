@@ -751,6 +751,7 @@
             <key type="filename">icons/cloud.png</key>
             <key type="filename">icons/fingerprint.png</key>
             <key type="filename">icons/info.png</key>
+            <key type="filename">icons/lock.png</key>
             <key type="filename">icons/settings.png</key>
             <key type="filename">icons/volume_off.png</key>
             <key type="filename">icons/volume_up.png</key>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Persistance;
@@ -10,7 +11,7 @@ namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => new SemVersion(1, 0, 0);
+		protected override SemVersion ArchiveVersion => new SemVersion(1, 0, 1);
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 
@@ -25,6 +26,8 @@ namespace GridDominance.Shared.SaveData
 
 		public bool SoundsEnabled;
 		public bool EffectsEnabled;
+
+		public bool SkipTutorial;
 
 		public PlayerProfile()
 		{
@@ -44,6 +47,8 @@ namespace GridDominance.Shared.SaveData
 
 			SoundsEnabled = true;
 			EffectsEnabled = true;
+
+			SkipTutorial = false;
 		}
 
 		public LevelData GetLevelData(Guid levelid)
@@ -52,6 +57,11 @@ namespace GridDominance.Shared.SaveData
 				LevelData[levelid] = new LevelData();
 
 			return LevelData[levelid];
+		}
+
+		public LevelData GetLevelData(LevelBlueprint bp)
+		{
+			return GetLevelData(bp.UniqueID);
 		}
 
 		public LevelDiffData GetLevelData(Guid levelid, FractionDifficulty d)
@@ -88,6 +98,8 @@ namespace GridDominance.Shared.SaveData
 
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "sounds",    o => o.SoundsEnabled,      (o, v) => o.SoundsEnabled      = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "effect",    o => o.EffectsEnabled,     (o, v) => o.EffectsEnabled     = v);
+
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_1, "skiptut",   o => o.SkipTutorial,       (o, v) => o.SkipTutorial       = v);
 
 			RegisterPropertyGuidictionary<PlayerProfile, LevelData>(SemVersion.VERSION_1_0_0, "progress", () => new LevelData(),  o => o.LevelData, (o, v) => o.LevelData = v);
 		}
