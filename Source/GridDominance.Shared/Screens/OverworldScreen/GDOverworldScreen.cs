@@ -44,6 +44,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		private readonly List<CPUParticleEmitter> logoEmitter = new List<CPUParticleEmitter>();
 		public bool IsTransitioning = false;
 
+		private float _lastBackClick = -9999f;
+
 		public GDOverworldScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{
 			Initialize();
@@ -120,6 +122,23 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 				{
 					emitter.IsEnabled = _effectsEnabledCache;
 				}
+			}
+
+			if (istate.IsKeyJustDown(SKeys.AndroidBack) || istate.IsKeyJustDown(SKeys.Backspace))
+			{
+				var delta = gameTime.TotalElapsedSeconds - _lastBackClick;
+
+				if (delta < 2f)
+				{
+					MainGame.Inst.Exit();
+					return;
+				}
+				else
+				{
+					HUD.ShowToast("Click again to exit game", 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+				}
+
+				_lastBackClick = gameTime.TotalElapsedSeconds;
 			}
 		}
 
