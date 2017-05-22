@@ -160,7 +160,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				}
 			}
 
-			if (IsPointerDownOnElement && (!istate.IsRealDown || !BoundingRectangle.Contains(istate.HUDPointerPosition)))
+			if (IsPointerDownOnElement && (!istate.IsRealDown || (!BoundingRectangle.Contains(istate.HUDPointerPosition) && !RegisterAllClickEvents())))
 			{
 				IsPointerDownOnElement = false;
 			}
@@ -310,7 +310,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public virtual bool InternalPointerDown(InputState istate)
 		{
-			if (!BoundingRectangle.Contains(istate.HUDPointerPosition)) return false;
+			if (!BoundingRectangle.Contains(istate.HUDPointerPosition) && !RegisterAllClickEvents()) return false;
 
 			var swallow = OnPointerDown(istate.HUDPointerPosition.RelativeTo(Position), istate);
 
@@ -326,7 +326,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public virtual bool InternalPointerUp(InputState istate)
 		{
-			if (!BoundingRectangle.Contains(istate.HUDPointerPosition)) return false;
+			if (!BoundingRectangle.Contains(istate.HUDPointerPosition) && !RegisterAllClickEvents()) return false;
 
 			var wasDown = IsPointerDownOnElement;
 
@@ -393,5 +393,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			if (PositionInvalidated) RecalculatePosition();
 		}
+
+		protected virtual bool RegisterAllClickEvents() => false; // OVERRIDE ME
 	}
 }

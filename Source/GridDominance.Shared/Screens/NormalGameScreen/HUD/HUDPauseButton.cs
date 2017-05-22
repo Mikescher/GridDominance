@@ -32,6 +32,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			RelativePosition = new FPoint(12, 12);
 			Size = new FSize(DIAMETER, DIAMETER);
 			Alignment = HUDAlignment.TOPRIGHT;
+
+			OverrideEllipseSize = new FSize(DIAMETER + 12 + 12, DIAMETER + 12 + 12);
+
 #if DEBUG
 			ClickMode = HUDButtonClickMode.Single | HUDButtonClickMode.InstantHold;
 #else

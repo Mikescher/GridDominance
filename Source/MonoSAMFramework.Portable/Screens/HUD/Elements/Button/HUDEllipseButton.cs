@@ -32,7 +32,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 				return a + b <= 1;
 			}
 		}
-		
+
+		protected override bool RegisterAllClickEvents() => !OverrideEllipseSize.IsEmpty;
+
 		protected override void DrawDebugHUDBorders(IBatchRenderer sbatch)
 		{
 			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta);
