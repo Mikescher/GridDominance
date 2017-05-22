@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-25", "In Glass", {b16b00b5-0001-4000-0000-000002000025}, KI_PRECALC)
+init("2-25", "In Glass", {b16b00b5-0001-4000-0000-000002000025}, KI_PRECALC_PATHTRACE)
 
 Cannon(SIZE_SMALL, P1, [05, 1.5])
 VoidCircle([8, 1.5], 0.75)

@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-21", "Cutting Edge", {b16b00b5-0001-4000-0000-000002000021}, KI_PRECALC)
+init("2-21", "Cutting Edge", {b16b00b5-0001-4000-0000-000002000021}, KI_PRECALC_PATHTRACE)
 
 Cannon(SIZE_TINY, N0, [1, 1])
 Cannon(SIZE_TINY, N0, [1, 3.66])

@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("1-13", "Crosss Over", {b16b00b5-0001-4000-0000-000001000013}, KI_RAYTRACE)
+init("1-13", "Crosss Over", {b16b00b5-0001-4000-0000-000001000013}, KI_DYNAMIC_RAYTRACE)
 
 
 Cannon(SIZE_SMALL, P1, [1.5,  5], ROT_E)

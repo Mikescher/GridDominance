@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-13", "Cubicles", {b16b00b5-0001-4000-0000-000002000013}, KI_RAYTRACE)
+init("2-13", "Cubicles", {b16b00b5-0001-4000-0000-000002000013}, KI_DYNAMIC_RAYTRACE)
 
 
 

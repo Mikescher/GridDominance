@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-3", "Reflections", {b16b00b5-0001-4000-0000-000002000003}, KI_PRECALC)
+init("2-3", "Reflections", {b16b00b5-0001-4000-0000-000002000003}, KI_PRECALC_PATHTRACE)
 
 
 Cannon(SIZE_NORMAL, P1, [ 2,  5], ROT_E)

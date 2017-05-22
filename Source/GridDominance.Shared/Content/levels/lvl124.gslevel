@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-24", "Quadratic Formation", {b16b00b5-0001-4000-0000-000002000024}, KI_PRECALC)
+init("2-24", "Quadratic Formation", {b16b00b5-0001-4000-0000-000002000024}, KI_PRECALC_PATHTRACE)
 
 Cannon(SIZE_NORMAL, P1, [02, 5])
 Cannon(SIZE_NORMAL, A3, [14, 5])

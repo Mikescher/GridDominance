@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-10", "Tunnelling", {b16b00b5-0001-4000-0000-000002000010}, KI_PRECALC)
+init("2-10", "Tunnelling", {b16b00b5-0001-4000-0000-000002000010}, KI_PRECALC_PATHTRACE)
 
 
 Cannon(SIZE_BIG, P1, [2, 5])

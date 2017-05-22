@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-26", "4D Chess", {b16b00b5-0001-4000-0000-000002000026}, KI_PRECALC)
+init("2-26", "4D Chess", {b16b00b5-0001-4000-0000-000002000026}, KI_PRECALC_PATHTRACE)
 
 
 Cannon(SIZE_TINY, P1, [0*2+1, 0*1.416 + 0.75])

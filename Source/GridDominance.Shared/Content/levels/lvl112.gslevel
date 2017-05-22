@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-12", "Extended Triangle", {b16b00b5-0001-4000-0000-000002000012}, KI_RAYTRACE)
+init("2-12", "Extended Triangle", {b16b00b5-0001-4000-0000-000002000012}, KI_DYNAMIC_RAYTRACE)
 
 
 Cannon(SIZE_SMALL, P1, [8,  5-3.5], ROT_E)

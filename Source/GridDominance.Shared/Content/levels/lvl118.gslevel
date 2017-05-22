@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-18", "Black Hole Transit", {b16b00b5-0001-4000-0000-000002000018}, KI_PRESIMULATE)
+init("2-18", "Black Hole Transit", {b16b00b5-0001-4000-0000-000002000018}, KI_PRECALC_SIMULATE)
 
 Cannon(SIZE_NORMAL, P1, [2,  5], ROT_W)
 Cannon(SIZE_NORMAL, A3, [14,  5], ROT_E)
