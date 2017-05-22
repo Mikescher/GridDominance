@@ -44,6 +44,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public bool NodeEnabled = false;
 		public int ForceClickCounter = 0;
 
+		private readonly float _swingPeriode = 4f;
+
 		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, GraphBlueprint blueprint) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
 			_description = blueprint.Name;
@@ -56,6 +58,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			solvedPerc[FractionDifficulty.DIFF_1] = GetSolvePercentage(FractionDifficulty.DIFF_1);
 			solvedPerc[FractionDifficulty.DIFF_2] = GetSolvePercentage(FractionDifficulty.DIFF_2);
 			solvedPerc[FractionDifficulty.DIFF_3] = GetSolvePercentage(FractionDifficulty.DIFF_3);
+
+			_swingPeriode *= FloatMath.GetRangedRandom(0.85f, 1.15f);
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -155,7 +159,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			{
 				sbatch.DrawRectangle(innerBounds, Color.Black);
 
-				sbatch.DrawCentered(Textures.TexIconLock, innerBounds.VecCenter, INNERSIZE * 0.75f, INNERSIZE * 0.75f, Color.White);
+				var rot = FloatMath.Sin(Lifetime * FloatMath.TAU / _swingPeriode) * FloatMath.RAD_POS_005;
+
+				sbatch.DrawCentered(Textures.TexIconLock, innerBounds.VecCenter, INNERSIZE * 0.75f, INNERSIZE * 0.75f, Color.White, rot);
 
 				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, _description, FlatColors.Asbestos, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 			}

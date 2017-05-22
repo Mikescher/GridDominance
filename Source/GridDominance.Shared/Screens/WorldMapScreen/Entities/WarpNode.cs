@@ -92,7 +92,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			if (!NodeEnabled)
 			{
 				//TODO Err sound
-				AddEntityOperation(new ScreenShakeAndCenterOperation(this, Owner));
+				AddEntityOperation(new ScreenShakeAndCenterOperation2(this, Owner));
+
+				Owner.HUD.ShowToast("This world is locked", 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 
 				return;
 			}
@@ -124,6 +126,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			SimpleRenderHelper.DrawRoundedRect(sbatch, FRectangle.CreateByCenter(Position, INNER_DIAMETER, INNER_DIAMETER), NodeEnabled ? ColorMath.Blend(Color.Black, FlatColors.Background, ColorOverdraw) : FlatColors.Asbestos);
 
 			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, Target.Name, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
+
+			if (!NodeEnabled)
+			{
+				var scale = 1 + FloatMath.Sin(Lifetime) * 0.05f;
+				sbatch.DrawCentered(Textures.TexIconLock, Position, INNER_DIAMETER * scale, INNER_DIAMETER * scale, Color.Black);
+			}
 		}
 
 		public bool HasAnyCompleted()

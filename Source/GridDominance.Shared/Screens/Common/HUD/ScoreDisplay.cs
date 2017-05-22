@@ -27,7 +27,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			text = new HUDRawText
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
-				Text = "???",
+				Text = MainGame.Inst.Profile.TotalPoints.ToString(),
 				TextColor = FlatColors.TextHUD,
 				FontSize = 60f,
 				RelativePosition = new FPoint(10 + 40 + 30, 0),
