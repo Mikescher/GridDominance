@@ -121,6 +121,19 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		}
 	}
 
+	class ButtonHighscore : SubSettingButton
+	{
+		public ButtonHighscore(SettingsButton master) : base(master, 2) { }
+
+		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconHighscore;
+		protected override string GetText() => "Highscore";
+
+		protected override void OnPress(InputState istate)
+		{
+			//TODO Show Highscores
+		}
+	}
+
 	class ButtonVolume : SubSettingButton
 	{
 		public ButtonVolume(SettingsButton master) : base(master, 3) { }
@@ -135,9 +148,23 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		}
 	}
 
+	class ButtonMusic : SubSettingButton
+	{
+		public ButtonMusic(SettingsButton master) : base(master, 4) { }
+
+		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.MusicEnabled ? Textures.TexHUDButtonIconMusicOn : Textures.TexHUDButtonIconMusicOff;
+		protected override string GetText() => "Music";
+
+		protected override void OnPress(InputState istate)
+		{
+			MainGame.Inst.Profile.MusicEnabled = !MainGame.Inst.Profile.MusicEnabled;
+			MainGame.Inst.SaveProfile();
+		}
+	}
+
 	class ButtonEffects : SubSettingButton
 	{
-		public ButtonEffects(SettingsButton master) : base(master, 4) { }
+		public ButtonEffects(SettingsButton master) : base(master, 5) { }
 
 		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.EffectsEnabled ? Textures.TexHUDButtonIconEffectsOn : Textures.TexHUDButtonIconEffectsOff;
 		protected override string GetText() => "Effects";
@@ -146,19 +173,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			MainGame.Inst.Profile.EffectsEnabled = !MainGame.Inst.Profile.EffectsEnabled;
 			MainGame.Inst.SaveProfile();
-		}
-	}
-
-	class ButtonHighscore : SubSettingButton
-	{
-		public ButtonHighscore(SettingsButton master) : base(master, 2) { }
-
-		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconHighscore;
-		protected override string GetText() => "Highscore";
-
-		protected override void OnPress(InputState istate)
-		{
-			//TODO Show Highscores
 		}
 	}
 }

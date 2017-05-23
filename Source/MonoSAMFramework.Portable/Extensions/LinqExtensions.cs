@@ -65,5 +65,17 @@ namespace MonoSAMFramework.Portable.Extensions
 
 			return s.Where(p => compareFunc(p) - epsilon <= min);
 		}
+
+		public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+		{
+			var buffer = source.ToList();
+			for (int i = 0; i < buffer.Count; i++)
+			{
+				int j = FloatMath.Random.Next(i, buffer.Count);
+				yield return buffer[j];
+
+				buffer[j] = buffer[i];
+			}
+		}
 	}
 }

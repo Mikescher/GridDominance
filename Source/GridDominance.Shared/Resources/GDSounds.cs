@@ -1,11 +1,18 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System.Linq;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Media;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Sound;
 
 namespace GridDominance.Shared.Resources
 {
 	public class GDSounds : SAMSoundPlayer
 	{
+		private const float MUSIC_LEVEL_FADEIN = 1f;
+		private const float MUSIC_BACKGROUND_FADEIN = 2.5f;
+		private const float MUSIC_FADEOUT = 0.5f;
+
 		private SoundEffect effectButton;
 		private SoundEffect effectKeyboardClick;
 		private SoundEffect effectOpen;
@@ -20,6 +27,10 @@ namespace GridDominance.Shared.Resources
 		private SoundEffect effectZoomOut;
 		private SoundEffect effectError;
 		private SoundEffect effectReflect;
+
+		private Song music_background;
+		private Song music_tutorial;
+		private Song[] music_level;
 
 		public override void Initialize(ContentManager content)
 		{
@@ -41,6 +52,22 @@ namespace GridDominance.Shared.Resources
 			this.ButtonClickEffect         = effectButton;
 			this.ButtonKeyboardClickEffect = effectKeyboardClick;
 
+
+			music_background = content.Load<Song>("music/background");
+			music_tutorial   = content.Load<Song>("music/tutorial");
+			music_level      = new[]
+			{
+				content.Load<Song>("music/song001"),
+				content.Load<Song>("music/song002"),
+				content.Load<Song>("music/song003"),
+				content.Load<Song>("music/song004"),
+				content.Load<Song>("music/song005"),
+				content.Load<Song>("music/song006"),
+				content.Load<Song>("music/song007"),
+				content.Load<Song>("music/song008"),
+				content.Load<Song>("music/song009"),
+			};
+
 		}
 
 		public void PlayEffectButton()    => PlaySoundeffect(effectButton);
@@ -58,5 +85,8 @@ namespace GridDominance.Shared.Resources
 		public void PlayEffectError()     => PlaySoundeffect(effectError);
 		public void PlayEffectReflect()   => PlaySoundeffect(effectReflect);
 
+		public void PlayMusicTutorial()     => PlaySong(music_tutorial, MUSIC_LEVEL_FADEIN, MUSIC_FADEOUT);
+		public void PlayMusicBackground()   => PlaySong(music_background, MUSIC_BACKGROUND_FADEIN, MUSIC_FADEOUT);
+		public void PlayMusicLevel()        => PlaySong(music_level.Shuffle().ToList(), MUSIC_LEVEL_FADEIN, MUSIC_FADEOUT);
 	}
 }

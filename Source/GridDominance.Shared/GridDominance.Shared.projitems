@@ -216,4 +216,17 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\reflect.mp3" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\music\background.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\song001.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\song002.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\song003.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\song004.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\song005.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\song006.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\song007.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\song008.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\song009.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\tutorial.mp3" />
+  </ItemGroup>
 </Project>

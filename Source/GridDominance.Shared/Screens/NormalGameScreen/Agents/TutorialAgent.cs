@@ -240,7 +240,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_cannon3.RotateTo(_cannon4);
 			_controller5.RechargeBarrel = false;
 
-			SetInfoBox("Now capture the enemy cannon");
+			SetInfoBox("Now capture the next cannon");
 
 			_anim2.Remove();
 		}

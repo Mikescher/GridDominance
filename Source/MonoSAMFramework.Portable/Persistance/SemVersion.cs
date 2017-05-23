@@ -7,6 +7,7 @@ namespace MonoSAMFramework.Portable.Persistance
 	{
 		public static readonly SemVersion VERSION_1_0_0 = new SemVersion(1, 0, 0);
 		public static readonly SemVersion VERSION_1_0_1 = new SemVersion(1, 0, 1);
+		public static readonly SemVersion VERSION_1_0_2 = new SemVersion(1, 0, 2);
 
 		public readonly UInt16 Mayor;
 		public readonly UInt16 Minor;

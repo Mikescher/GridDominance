@@ -143,6 +143,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonIconHighscore;
 		public static TextureRegion2D TexHUDButtonIconEffectsOn;
 		public static TextureRegion2D TexHUDButtonIconEffectsOff;
+		public static TextureRegion2D TexHUDButtonIconMusicOn;
+		public static TextureRegion2D TexHUDButtonIconMusicOff;
 		public static TextureRegion2D TexHUDButtonIconVolumeOn;
 		public static TextureRegion2D TexHUDButtonIconVolumeOff;
 		public static TextureRegion2D TexHUDButtonIconAbout;
@@ -252,6 +254,8 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonIconHighscore     = AtlasTextures["cloud"];
 			TexHUDButtonIconEffectsOn     = AtlasTextures["blur_on"];
 			TexHUDButtonIconEffectsOff    = AtlasTextures["blur_off"];
+			TexHUDButtonIconMusicOn       = AtlasTextures["music_on"];
+			TexHUDButtonIconMusicOff      = AtlasTextures["music_off"];
 			TexHUDButtonIconVolumeOn      = AtlasTextures["volume_up"];
 			TexHUDButtonIconVolumeOff     = AtlasTextures["volume_off"];
 			TexHUDButtonIconAbout         = AtlasTextures["info"];

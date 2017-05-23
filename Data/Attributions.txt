@@ -27,7 +27,7 @@ http://www.iconarchive.com/show/windows-8-icons-by-icons8.html || http://icons8.
 icon_hand:
 http://www.iconarchive.com/show/outline-icons-by-iconsmind/Hand-Touch-icon.html
 
-icon_lokc
+icon_lock
 http://www.iconarchive.com/show/flat-finance-icons-by-graphicloads/lock-icon.html
 
 Sounds:
@@ -41,3 +41,17 @@ hit         http://www.freesound.org/people/LittleRobotSoundFactory/sounds/27032
 boost       http://www.freesound.org/people/RunnerPack/sounds/87043/
 gamewon     http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270330/
 zoomin      http://www.freesound.org/people/benjaminharveydesign/sounds/366092/
+error       http://www.freesound.org/people/Autistic%20Lucario/sounds/142608/
+background  http://www.freesound.org/people/fins/sounds/368730/
+
+music       http://keygenmusic.net/?page=pack/packlist&lang=de
+    * 001: AGAiN - Sunflower
+    * 002: Digital Insanity - Unreal Superhero
+    * 003: ECLiPSE - Battleship Chess
+    * 004: EDGE - Complications
+    * 005: PARADOX - Arkanoid
+    * 006: ARYX - ARYX
+    * 007: DEViATED - Project IGI 2  5trn
+    * 008: PiZZA - 7 Sins  5trn
+    * 009: tPORt - Cistone Media Burner 2.3crk
+    * tutorial : ORiON - Keygen Tune

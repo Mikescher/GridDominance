@@ -96,6 +96,8 @@ namespace MonoSAMFramework.Portable
 
 				screens.Update(time);
 
+				Sound.Update(time);
+
 				gameDispatcher.Work();
 
 				base.Update(gameTime);

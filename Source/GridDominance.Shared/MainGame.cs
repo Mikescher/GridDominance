@@ -130,14 +130,15 @@ namespace GridDominance.Shared
 		protected override void OnAfterInitialize()
 		{
 //			SetTutorialLevelScreen();
-//			SetOverworldScreen();
+			SetOverworldScreen();
 //			SetWorldMapScreen();
-			SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
+//			SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
 		}
 
 		protected override void OnUpdate(SAMTime gameTime)
 		{
-			GDSound.IsMuted = !Profile.SoundsEnabled;
+			GDSound.IsEffectsMuted = !Profile.SoundsEnabled;
+			GDSound.IsMusicMuted = !(Profile.MusicEnabled && Profile.SoundsEnabled);
 		}
 
 		public void SetLevelScreen(LevelBlueprint blueprint, FractionDifficulty d, GraphBlueprint source)

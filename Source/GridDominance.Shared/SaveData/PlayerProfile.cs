@@ -11,7 +11,7 @@ namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => new SemVersion(1, 0, 1);
+		protected override SemVersion ArchiveVersion => new SemVersion(1, 0, 2);
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 
@@ -25,6 +25,7 @@ namespace GridDominance.Shared.SaveData
 		public bool NeedsReupload;
 
 		public bool SoundsEnabled;
+		public bool MusicEnabled;
 		public bool EffectsEnabled;
 
 		public bool SkipTutorial;
@@ -96,7 +97,8 @@ namespace GridDominance.Shared.SaveData
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "revid",     o => o.OnlineRevisionID,   (o, v) => o.OnlineRevisionID   = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "uploaderr", o => o.NeedsReupload,      (o, v) => o.NeedsReupload      = v);
 
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "sounds",    o => o.SoundsEnabled,      (o, v) => o.SoundsEnabled      = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_2, "sounds",    o => o.SoundsEnabled,      (o, v) => o.SoundsEnabled      = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_1, "music",     o => o.MusicEnabled,       (o, v) => o.MusicEnabled       = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "effect",    o => o.EffectsEnabled,     (o, v) => o.EffectsEnabled     = v);
 
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_1, "skiptut",   o => o.SkipTutorial,       (o, v) => o.SkipTutorial       = v);

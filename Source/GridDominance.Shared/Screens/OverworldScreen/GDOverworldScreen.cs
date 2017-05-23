@@ -68,6 +68,19 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			Entities.AddEntity(new OverworldNode(this, new Vector2(13f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_002));
 
 			UnlockNodes();
+
+			
+		}
+
+		protected override void OnShow()
+		{
+			MainGame.Inst.GDSound.PlayMusicBackground(); 
+			
+		}
+
+		protected override void OnRemove()
+		{
+			MainGame.Inst.GDSound.StopSong();
 		}
 
 		private void UnlockNodes()
