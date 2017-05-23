@@ -399,7 +399,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 					if (oy != lastoy)
 					{
-						BlockSegmentVert(ox + MAX_EXTENSION-1, lastoy + MAX_EXTENSION, oy + MAX_EXTENSION);
+						BlockSegmentVert(ox + MAX_EXTENSION - 1, lastoy + MAX_EXTENSION, oy + MAX_EXTENSION);
 					}
 
 					BlockSegmentHorz(oy + MAX_EXTENSION, ox - 1 + MAX_EXTENSION, ox + MAX_EXTENSION);
@@ -416,15 +416,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				int firstY = FloatMath.Ceiling((start.Y - 8f) / GDConstants.TILE_WIDTH);
 				int lastY = FloatMath.Floor((end.Y + 8f) / GDConstants.TILE_WIDTH);
 
-				int lastox = FloatMath.Round((start.X + (end.X - start.X) * ((firstY - start.Y) / (end.Y - start.Y))) / GDConstants.TILE_WIDTH);
+				int lastox = FloatMath.Round((start.X + (end.X - start.X) * ((firstY * GDConstants.TILE_WIDTH - start.Y) / (end.Y - start.Y))) / GDConstants.TILE_WIDTH);
 
 				for (int oy = firstY + 1; oy <= lastY; oy++)
 				{
-					var ox = FloatMath.Round((start.X + (end.X - start.X) * ((oy - start.Y) / (end.Y - start.Y))) / GDConstants.TILE_WIDTH);
+					var ox = FloatMath.Round((start.X + (end.X - start.X) * ((oy * GDConstants.TILE_WIDTH - start.Y) / (end.Y - start.Y))) / GDConstants.TILE_WIDTH);
 
 					if (ox != lastox)
 					{
-						BlockSegmentHorz(oy + MAX_EXTENSION, lastox + MAX_EXTENSION, ox + MAX_EXTENSION);
+						BlockSegmentHorz(oy + MAX_EXTENSION - 1, lastox + MAX_EXTENSION, ox + MAX_EXTENSION);
 					}
 
 					BlockSegmentVert(ox + MAX_EXTENSION, oy - 1 + MAX_EXTENSION, oy + MAX_EXTENSION);
