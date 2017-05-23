@@ -44,6 +44,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		public override void Update(SAMTime gameTime, InputState istate)
 		{
+			_gdScreen.IsDragging = isDragging;
+
 			if (_gdScreen.ZoomState != BistateProgress.Normal)
 			{
 				if (isDragging) EndDrag();

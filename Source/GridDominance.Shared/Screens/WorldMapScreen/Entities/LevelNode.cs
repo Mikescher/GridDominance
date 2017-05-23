@@ -226,9 +226,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 #endif
 			if (!NodeEnabled)
 			{
+				MainGame.Inst.GDSound.PlayEffectError();
 
-				//TODO Err sound
-				AddEntityOperation(new ScreenShakeAndCenterOperation(this, Owner));
+				AddEntityOperation(new ScreenShakeAndCenterOperation(this, GDOwner));
 
 				Owner.HUD.ShowToast("Level locked", 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 
@@ -255,7 +255,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 
 
-			AddEntityOperation(new CenterNodeOperation(Owner));
+			AddEntityOperation(new CenterNodeOperation(GDOwner));
 
 			MainGame.Inst.GDSound.PlayEffectOpen();
 		}

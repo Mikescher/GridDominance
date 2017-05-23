@@ -121,7 +121,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 					Owner.HUD.ShowToast("World locked", 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 				}
 
-				// TODO Erro sound
+				MainGame.Inst.GDSound.PlayEffectError();
+
 				AddEntityOperation(new ShakeNodeOperation());
 			}
 		}

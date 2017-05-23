@@ -7,6 +7,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 	{
 		private readonly float? length;
 		private float time;
+		private bool _selfdestruct = false;
 
 		public float Progress => length.HasValue ? FloatMath.Min(time / length.Value, 1f) : 0;
 
@@ -22,6 +23,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 		public bool Update(GameEntity entity, SAMTime gameTime, InputState istate)
 		{
 			return Update((TEntity)entity, gameTime, istate);
+		}
+
+		protected void Abort()
+		{
+			_selfdestruct = true;
 		}
 
 		public void OnStart(GameEntity entity)
@@ -41,6 +47,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 
 		public bool Update(TEntity entity, SAMTime gameTime, InputState istate)
 		{
+			if (_selfdestruct) return false;
+
 			time += gameTime.ElapsedSeconds;
 
 			if (length.HasValue && time >= length) return false;

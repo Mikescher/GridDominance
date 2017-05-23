@@ -18,6 +18,7 @@ namespace GridDominance.Shared.Resources
 		private SoundEffect effectGameOver;
 		private SoundEffect effectZoomIn;
 		private SoundEffect effectZoomOut;
+		private SoundEffect effectError;
 
 		public override void Initialize(ContentManager content)
 		{
@@ -33,6 +34,7 @@ namespace GridDominance.Shared.Resources
 			effectGameOver      = content.Load<SoundEffect>("sounds/gameover");
 			effectZoomIn        = content.Load<SoundEffect>("sounds/zoomin");
 			effectZoomOut       = content.Load<SoundEffect>("sounds/zoomout");
+			effectError         = content.Load<SoundEffect>("sounds/error");
 
 			this.ButtonClickEffect         = effectButton;
 			this.ButtonKeyboardClickEffect = effectKeyboardClick;
@@ -51,6 +53,7 @@ namespace GridDominance.Shared.Resources
 		public void PlayEffectGameOver() => PlaySoundeffect(effectGameOver);
 		public void PlayEffectZoomIn() => PlaySoundeffect(effectZoomIn);
 		public void PlayEffectZoomOut() => PlaySoundeffect(effectZoomOut);
+		public void PlayEffectError() => PlaySoundeffect(effectError);
 
 	}
 }

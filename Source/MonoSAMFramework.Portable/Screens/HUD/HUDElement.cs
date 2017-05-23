@@ -18,6 +18,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public HUDContainer Owner = null; // Only set on add to HUD (the OnInitialize is called)
 		public GameHUD HUD = null;        // Only set on add to HUD (the OnInitialize is called)
 
+		private const int MAX_UPDATES_BY_INIT = 3;
+
 		public bool Alive = true;
 		public bool Initialized { get; private set; } = false;
 		public bool IsVisible = true;
@@ -92,6 +94,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		protected bool IsPointerDownOnElement = false;
 		protected bool PositionInvalidated = false;
+		private InputState _lastInputState = null;
 
 		public bool Focusable = true;
 		public bool IsFocused => HUD != null && HUD.FocusedElement == this;
@@ -112,10 +115,19 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public void Initialize()
 		{
 			Initialized = true;
+			if (Owner != null) _lastInputState = Owner._lastInputState;
 
 			InvalidatePosition();
-
 			OnInitialize();
+
+			if (_lastInputState != null)
+			{
+				int initSteps = MAX_UPDATES_BY_INIT;
+				while (PositionInvalidated && initSteps-- > 0)
+				{
+					Update(MonoSAMGame.CurrentTime, _lastInputState);
+				}
+			}
 		}
 
 		public virtual void DrawBackground(IBatchRenderer sbatch)
@@ -149,6 +161,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public virtual void Update(SAMTime gameTime, InputState istate)
 		{
+			_lastInputState = istate;
+
 			if (PositionInvalidated) RecalculatePosition();
 
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)

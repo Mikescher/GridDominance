@@ -13,9 +13,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 
 		private readonly Vector2 centeringStartOffset;
 		private readonly float rot;
+		private readonly GDWorldMapScreen _screen;
 
-		public ScreenShakeAndCenterOperation2(WarpNode node, GameScreen screen) : base("WarpNode::CenterShake", LevelNode.SHAKE_TIME)
+		public ScreenShakeAndCenterOperation2(WarpNode node, GDWorldMapScreen screen) : base("WarpNode::CenterShake", LevelNode.SHAKE_TIME)
 		{
+			_screen = screen;
 			centeringStartOffset = new Vector2(screen.MapViewportCenterX, screen.MapViewportCenterY);
 
 			if ((centeringStartOffset - node.Position).LengthSquared() < 0.1f)
@@ -36,6 +38,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 
 			node.Owner.MapViewportCenterX = centeringStartOffset.X + p * (node.Position.X - centeringStartOffset.X) + off.X;
 			node.Owner.MapViewportCenterY = centeringStartOffset.Y + p * (node.Position.Y - centeringStartOffset.Y) + off.Y;
+
+			if (_screen.IsDragging) Abort();
 		}
 
 		protected override void OnEnd(WarpNode node)
@@ -46,7 +50,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 
 		protected override void OnAbort(WarpNode node)
 		{
-			//
+			node.Owner.MapViewportCenterX = node.Position.X;
+			node.Owner.MapViewportCenterY = node.Position.Y;
 		}
 	}
 }

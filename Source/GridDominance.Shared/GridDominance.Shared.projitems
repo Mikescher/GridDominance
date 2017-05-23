@@ -148,10 +148,39 @@
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl012.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl013.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl014.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl101.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl102.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl103.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl104.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl105.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl106.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl107.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl108.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl109.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl110.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl111.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl112.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl113.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl114.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl115.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl116.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl117.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl118.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl119.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl120.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl121.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl122.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl123.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl124.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl125.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl126.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl127.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl_debug.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl_tutorial.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\map_header.gsheader" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\stdvalues.gsheader" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\world_1.gsgraph" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\world_2.gsgraph" />
     <None Include="$(MSBuildThisFileDirectory)Content\shaders\SAMParticleEffect.fx" />
     <None Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -166,5 +195,22 @@
     <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_hd.png" />
     <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_ld.png" />
     <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_md.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\boost.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\button.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\click.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\close.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\collision.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\gameover.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\gamewon.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\hit.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\open.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\shoot.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\zoomin.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\zoomout.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\error.mp3" />
   </ItemGroup>
 </Project>

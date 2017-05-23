@@ -34,6 +34,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 		public bool IsBackgroundPressed = false;
 		public BistateProgress ZoomState = BistateProgress.Normal;
+		public bool IsDragging = false;
 
 		public readonly LevelGraph Graph;
 		public readonly GraphBlueprint GraphBlueprint;

@@ -91,8 +91,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 #endif
 			if (!NodeEnabled)
 			{
-				//TODO Err sound
-				AddEntityOperation(new ScreenShakeAndCenterOperation2(this, Owner));
+				MainGame.Inst.GDSound.PlayEffectError();
+
+				AddEntityOperation(new ScreenShakeAndCenterOperation2(this, GDOwner));
 
 				Owner.HUD.ShowToast("This world is locked", 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 

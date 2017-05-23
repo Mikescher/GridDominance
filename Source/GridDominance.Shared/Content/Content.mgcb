@@ -430,3 +430,9 @@
 /processor:GDLevelProcessor
 /build:levels/lvl127.gslevel
 
+#begin sounds/error.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/error.mp3
+
