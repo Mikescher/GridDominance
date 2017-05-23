@@ -104,6 +104,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
+			if (bounds.IsEmpty) return;
+
 			SimpleRenderHelper.DrawAlphaHUDBackground(sbatch, BackgroundType, bounds, ColorBackground, BackgoundCornerSize, Alpha);
 		}
 

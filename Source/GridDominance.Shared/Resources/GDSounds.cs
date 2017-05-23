@@ -19,6 +19,7 @@ namespace GridDominance.Shared.Resources
 		private SoundEffect effectZoomIn;
 		private SoundEffect effectZoomOut;
 		private SoundEffect effectError;
+		private SoundEffect effectReflect;
 
 		public override void Initialize(ContentManager content)
 		{
@@ -35,25 +36,27 @@ namespace GridDominance.Shared.Resources
 			effectZoomIn        = content.Load<SoundEffect>("sounds/zoomin");
 			effectZoomOut       = content.Load<SoundEffect>("sounds/zoomout");
 			effectError         = content.Load<SoundEffect>("sounds/error");
+			effectReflect       = content.Load<SoundEffect>("sounds/reflect");
 
 			this.ButtonClickEffect         = effectButton;
 			this.ButtonKeyboardClickEffect = effectKeyboardClick;
 
 		}
 
-		public void PlayEffectButton() => PlaySoundeffect(effectButton);
-		public void PlayEffectClick() => PlaySoundeffect(effectKeyboardClick);
-		public void PlayEffectOpen() => PlaySoundeffect(effectOpen);
-		public void PlayEffectClose() => PlaySoundeffect(effectClose);
-		public void PlayEffectShoot() => PlaySoundeffect(effectShoot);
+		public void PlayEffectButton()    => PlaySoundeffect(effectButton);
+		public void PlayEffectClick()     => PlaySoundeffect(effectKeyboardClick);
+		public void PlayEffectOpen()      => PlaySoundeffect(effectOpen);
+		public void PlayEffectClose()     => PlaySoundeffect(effectClose);
+		public void PlayEffectShoot()     => PlaySoundeffect(effectShoot);
 		public void PlayEffectCollision() => PlaySoundeffect(effectCollision);
-		public void PlayEffectHit() => PlaySoundeffect(effectHit);
-		public void PlayEffectBoost() => PlaySoundeffect(effectBoost);
-		public void PlayEffectGameWon() => PlaySoundeffect(effectGameWon);
-		public void PlayEffectGameOver() => PlaySoundeffect(effectGameOver);
-		public void PlayEffectZoomIn() => PlaySoundeffect(effectZoomIn);
-		public void PlayEffectZoomOut() => PlaySoundeffect(effectZoomOut);
-		public void PlayEffectError() => PlaySoundeffect(effectError);
+		public void PlayEffectHit()       => PlaySoundeffect(effectHit);
+		public void PlayEffectBoost()     => PlaySoundeffect(effectBoost);
+		public void PlayEffectGameWon()   => PlaySoundeffect(effectGameWon);
+		public void PlayEffectGameOver()  => PlaySoundeffect(effectGameOver);
+		public void PlayEffectZoomIn()    => PlaySoundeffect(effectZoomIn);
+		public void PlayEffectZoomOut()   => PlaySoundeffect(effectZoomOut);
+		public void PlayEffectError()     => PlaySoundeffect(effectError);
+		public void PlayEffectReflect()   => PlaySoundeffect(effectReflect);
 
 	}
 }

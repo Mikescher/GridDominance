@@ -418,7 +418,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public float Top => Y;
 		public float Bottom => Y + Height;
 
-		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON && Math.Abs(Height) < FloatMath.EPSILON && Math.Abs(X) < FloatMath.EPSILON && Math.Abs(Y) < FloatMath.EPSILON;
+		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON && Math.Abs(Height) < FloatMath.EPSILON;
 
 		public FPoint TopLeft => new FPoint(Left, Top);
 		public FPoint TopRight => new FPoint(Right, Top);

@@ -148,7 +148,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherGlassBlock = fixtureB.UserData as GlassBlock;
 			if (otherGlassBlock != null)
 			{
-				//TODO Glass Collision Soundeffect
+				MainGame.Inst.GDSound.PlayEffectReflect();
 				return true;
 			}
 

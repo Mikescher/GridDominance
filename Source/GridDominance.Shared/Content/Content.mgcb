@@ -436,3 +436,9 @@
 /processorParam:Quality=Best
 /build:sounds/error.mp3
 
+#begin sounds/reflect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/reflect.mp3
+

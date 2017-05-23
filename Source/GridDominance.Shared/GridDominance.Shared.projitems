@@ -213,4 +213,7 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\error.mp3" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\reflect.mp3" />
+  </ItemGroup>
 </Project>
