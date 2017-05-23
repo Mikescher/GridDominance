@@ -338,7 +338,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		private Tuple<LevelBlueprint, FractionDifficulty> GetNextNode()
 		{
-			var currNode = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == GDScreen.Blueprint.UniqueID);
+			var currNode = GDScreen.WorldBlueprint.Nodes.FirstOrDefault(n => n.LevelID == GDScreen.Blueprint.UniqueID);
+			if (currNode.LevelID == Guid.Empty) return null;
+
 			var diff = GDScreen.Difficulty;
 
 			// unfinished
@@ -352,7 +354,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			// any
 			foreach (var lid in currNode.OutgoingPipes.OrderBy(p => p.Priority))
 			{
-				var node = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target);
+				var node = GDScreen.WorldBlueprint.Nodes.FirstOrDefault(n => n.LevelID == lid.Target);
 
 				return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
 			}
