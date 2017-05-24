@@ -1,14 +1,8 @@
-﻿
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Views;
 using Android.OS;
 using GridDominance.Shared;
-
-#if OUYA
-using Ouya.Console.Api;
-#endif
-
 using Microsoft.Xna.Framework;
 
 namespace GridDominance.Android
@@ -17,12 +11,10 @@ namespace GridDominance.Android
 		MainLauncher = true,
 		Icon = "@drawable/icon",
 		Theme = "@style/Theme.Splash",
-		AlwaysRetainTaskState = true,
 		LaunchMode = LaunchMode.SingleInstance,
+		ScreenOrientation = ScreenOrientation.Landscape,
 		ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.Keyboard | ConfigChanges.ScreenSize)]
-	#if OUYA
-	[IntentFilter(new[] { Intent.ActionMain }, Categories = new[] { Intent.CategoryLauncher, OuyaIntent.CategoryGame })]
-	#endif
+
 	public class MainActivity : AndroidGameActivity
 	{
 		protected override void OnCreate(Bundle savedInstanceState)
