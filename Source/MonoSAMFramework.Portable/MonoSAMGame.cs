@@ -69,10 +69,16 @@ namespace MonoSAMFramework.Portable
 			}
 		}
 
+		public void CleanExit()
+		{
+			Alive = false;
+			Bridge?.ExitApp();
+			Exit();
+		}
+
 		protected override void OnExiting(object sender, EventArgs args)
 		{
 			base.OnExiting(sender, args);
-
 			Alive = false;
 		}
 

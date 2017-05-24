@@ -79,15 +79,6 @@ namespace GridDominance.Shared
 			Inst = this;
 		}
 
-		// For Simulation
-		public MainGame() : base(new DummyDeviceBridge())
-		{
-			Backend = new DummyGDServerAPI();
-			Profile = new PlayerProfile();
-
-			Inst = this;
-		}
-
 		private void SAMLogOnLogEvent(object sender, SAMLog.LogEventArgs args)
 		{
 			if (args.Level == SAMLogLevel.ERROR || args.Level == SAMLogLevel.FATAL_ERROR)

@@ -10,5 +10,7 @@
 		FileHelper FileHelper { get; }
 
 		string DoSHA256(string input);
+
+		void ExitApp();
 	}
 }

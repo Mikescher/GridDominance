@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.Agents;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
@@ -68,6 +69,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			MapFullBounds = Graph.BoundingRect.AsInflated(2 * GDConstants.TILE_WIDTH, 2 * GDConstants.TILE_WIDTH);
 
 			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
+			AddAgent(new ExitAgent(this));
 
 			if (initialFocus == null)
 			{

@@ -21,7 +21,7 @@ namespace GridDominance.Android
 		{
 			base.OnCreate(savedInstanceState);
 			
-			var g = new MainGame(new AndroidImpl());
+			var g = new MainGame(new AndroidImpl(this));
 			SetContentView(g.Services.GetService<View>());
 			g.Run();
 		}

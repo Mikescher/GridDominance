@@ -8,6 +8,7 @@
 		public string ScreenResolution { get; } = "";
 		public FileHelper FileHelper { get; } = new DummyFileHelper();
 		public string DoSHA256(string input) => "";
+		public void ExitApp() {}
 	}
 
 	public class DummyFileHelper : FileHelper

@@ -17,6 +17,12 @@ namespace GridDominance.Android
 		public string ScreenResolution { get; } = ScreenRes();
 
 		private readonly SHA256 sha256 = SHA256.Create();
+		private readonly MainActivity _activity;
+
+		public AndroidImpl(MainActivity a)
+		{
+			_activity = a;
+		}
 
 		private static string GenerateInfoStr()
 		{
@@ -69,6 +75,13 @@ namespace GridDominance.Android
 		public string DoSHA256(string input)
 		{
 			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+		}
+
+		public void ExitApp()
+		{
+			_activity.FinishAffinity();
+//			global::Android.OS.Process.KillProcess(global::Android.OS.Process.MyPid());
+//			System.Environment.Exit(0);
 		}
 	}
 }

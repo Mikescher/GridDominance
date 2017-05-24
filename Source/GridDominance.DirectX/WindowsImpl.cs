@@ -23,5 +23,6 @@ namespace GridDominance.Windows
 			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
 		}
 
+		public void ExitApp() { /* works autom by MonoGame */ }
 	}
 }

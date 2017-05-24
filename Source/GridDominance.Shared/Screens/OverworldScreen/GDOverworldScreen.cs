@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.Agents;
 using GridDominance.Shared.Screens.OverworldScreen.Background;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
@@ -46,8 +47,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		private readonly ParticleBanner _banner;
 		public bool IsTransitioning = false;
 
-		private float _lastBackClick = -9999f;
-
 		public GDOverworldScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{
 			_banner = new ParticleBanner(this, Textures.TexParticle, GDConstants.ORDER_WORLD_LOGO);
@@ -61,6 +60,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			DebugUtils.CreateShortcuts(this);
 			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
+			AddAgent(new ExitAgent(this));
 
 			Entities.AddEntity(new OverworldTutorialNode(this, new Vector2(3f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), "Tutorial"));
 			Entities.AddEntity(new OverworldNode(this, new Vector2(8f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_001));
@@ -147,23 +147,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 					_banner.CreateEntities(ParticlePresets.GetConfigLetterSmokeyFire());
 				else
 					_banner.RemoveEntities();
-			}
-
-			if (istate.IsKeyJustDown(SKeys.AndroidBack) || istate.IsKeyJustDown(SKeys.Backspace))
-			{
-				var delta = gameTime.TotalElapsedSeconds - _lastBackClick;
-
-				if (delta < 2f)
-				{
-					MainGame.Inst.Exit();
-					return;
-				}
-				else
-				{
-					HUD.ShowToast("Click again to exit game", 40, FlatColors.Silver, FlatColors.Foreground, 2f);
-				}
-
-				_lastBackClick = gameTime.TotalElapsedSeconds;
 			}
 		}
 
