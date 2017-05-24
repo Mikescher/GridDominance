@@ -1,0 +1,18 @@
+TextureIndex = 12,
+SpawnRate = 125,
+
+ParticleLifetimeMin = 1.0f,
+ParticleLifetimeMax = 1.5f,
+
+ParticleVelocityMin = 0f,
+ParticleVelocityMax = 32f,
+
+ParticleSizeInitial = 8,
+ParticleSizeFinalMin = 24,
+ParticleSizeFinalMax = 32,
+
+ParticleAlphaInitial = 1f,
+ParticleAlphaFinal = 0f,
+
+ColorInitial = Color.DarkRed,
+ColorFinal = Color.SlateGray,

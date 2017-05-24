@@ -7,7 +7,7 @@ using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 {
-	public abstract class CPUParticleEmitter : GameEntity, IParticleOwner
+	public abstract class CPUParticleEmitter : GameEntity, IParticleOwner, IParticleEmitter
 	{
 		private const int PARTICLE_POOL_SAFETY = 4; // always add X elements more to pool than calculated
 
@@ -25,6 +25,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 		public int ParticleCount { get; private set; } = 0;
 
 		public bool IsEnabled = true;
+		bool IParticleEmitter.Enabled { get => IsEnabled; set => IsEnabled = value; }
+		bool IParticleEmitter.Alive { get => Alive; set => Alive = value; }
 
 		protected CPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg, int order) : base(scrn, order)
 		{

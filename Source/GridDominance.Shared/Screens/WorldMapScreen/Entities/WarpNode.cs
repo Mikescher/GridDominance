@@ -61,7 +61,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			var cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 			{
 				// blue lines
-				Texture = Textures.TexParticle[14],
+				TextureIndex = 14,
 				SpawnRate = 32,
 				ParticleLifetimeMin = 2.3f,
 				ParticleLifetimeMax = 2.3f,
@@ -72,7 +72,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				ParticleAlphaInitial =0f,
 				ParticleAlphaFinal = 1f,
 				Color = FlatColors.SunFlower,
-			}.Build();
+			}.Build(Textures.TexParticle);
 
 			emitter = new PointCPUParticleEmitter(Owner, Position, cfg, GDConstants.ORDER_MAP_NODEPARTICLES);
 

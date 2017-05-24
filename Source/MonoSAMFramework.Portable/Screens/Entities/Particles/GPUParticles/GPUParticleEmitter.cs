@@ -12,7 +12,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 	/// <summary>
 	/// https://github.com/CartBlanche/MonoGame-Samples/blob/master/Particle3DSample
 	/// </summary>
-	public abstract class GPUParticleEmitter : GameEntity, ISAMPostDrawable
+	public abstract class GPUParticleEmitter : GameEntity, ISAMPostDrawable, IParticleEmitter
 	{
 		public override Color DebugIdentColor => Color.Gold * 0.1f;
 
@@ -34,6 +34,10 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		private int geometryCount;
 
 		public int ParticleCount => geometryCount;
+
+		public bool IsEnabled = true;
+		bool IParticleEmitter.Enabled { get => IsEnabled; set => IsEnabled = value; }
+		bool IParticleEmitter.Alive { get => Alive; set => Alive = value; }
 
 		protected GPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg, int order) : base(scrn, order)
 		{
@@ -189,6 +193,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		public void PostDraw()
 		{
 			if (!IsInViewport) return;
+			if (!IsEnabled) return;
 
 			var g = Owner.GraphicsDevice;
 

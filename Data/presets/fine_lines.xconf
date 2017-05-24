@@ -1,0 +1,18 @@
+TextureIndex = 7,
+SpawnRate = 25,
+
+ParticleLifetimeMin = 4f,
+ParticleLifetimeMax = 4f,
+
+ParticleVelocityMin = 0f,
+ParticleVelocityMax = 0f,
+
+ParticleSizeInitial = 64,
+ParticleSizeFinalMin = 0,
+ParticleSizeFinalMax = 0,
+
+ParticleAlphaInitial = 0f,
+ParticleAlphaFinal = 1f,
+
+ColorInitial = Color.DimGray,
+ColorFinal = Color.Goldenrod,

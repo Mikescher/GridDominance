@@ -2,6 +2,7 @@
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Persistance;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
@@ -9,7 +10,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 	{
 		public class ParticleEmitterConfigBuilder
 		{
-			public TextureRegion2D Texture;
+			public int TextureIndex;
 
 			public float SpawnRate = 0f; // particles per second
 
@@ -75,7 +76,47 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				set { if (value != null) { ColorInitial = value.Value; ColorFinal = value.Value; } }
 			}
 
-			public ParticleEmitterConfig Build() => new ParticleEmitterConfig(this);
+			public static ParticleEmitterConfigBuilder LoadFromXConfig(XConfigFile xcfg)
+			{
+				var builder = new ParticleEmitterConfigBuilder();
+
+				builder.TextureIndex = xcfg.GetInt("TextureIndex");
+				builder.SpawnRate = xcfg.GetInt("SpawnRate");
+
+				if (xcfg.Contains("ParticleLifetime")) builder.ParticleLifetime = xcfg.GetFloat("ParticleLifetime");
+				if (xcfg.Contains("ParticleLifetimeMin")) builder.ParticleLifetimeMin = xcfg.GetFloat("ParticleLifetimeMin");
+				if (xcfg.Contains("ParticleLifetimeMax")) builder.ParticleLifetimeMax = xcfg.GetFloat("ParticleLifetimeMax");
+
+				if (xcfg.Contains("ParticleSpawnAngle")) builder.ParticleSpawnAngle = xcfg.GetFloat("ParticleSpawnAngle");
+				if (xcfg.Contains("ParticleSpawnAngleMin")) builder.ParticleSpawnAngleMin = xcfg.GetFloat("ParticleSpawnAngleMin");
+				if (xcfg.Contains("ParticleSpawnAngleMax")) builder.ParticleSpawnAngleMax = xcfg.GetFloat("ParticleSpawnAngleMax");
+
+				if (xcfg.Contains("ParticleVelocity")) builder.ParticleVelocity = xcfg.GetFloat("ParticleVelocity") ;
+				if (xcfg.Contains("ParticleVelocityMin")) builder.ParticleVelocityMin = xcfg.GetFloat("ParticleVelocityMin") ;
+				if (xcfg.Contains("ParticleVelocityMax")) builder.ParticleVelocityMax = xcfg.GetFloat("ParticleVelocityMax") ;
+
+				if (xcfg.Contains("ParticleAlpha")) builder.ParticleAlpha = xcfg.GetFloat("ParticleAlpha");
+				if (xcfg.Contains("ParticleAlphaInitial")) builder.ParticleAlphaInitial = xcfg.GetFloat("ParticleAlphaInitial");
+				if (xcfg.Contains("ParticleAlphaFinal")) builder.ParticleAlphaFinal = xcfg.GetFloat("ParticleAlphaFinal");
+
+				if (xcfg.Contains("ParticleSize")) builder.ParticleSize = xcfg.GetFloat("ParticleSize") ;
+
+				if (xcfg.Contains("ParticleSizeInitial")) builder.ParticleSizeInitial = xcfg.GetFloat("ParticleSizeInitial") ;
+				if (xcfg.Contains("ParticleSizeInitialMin")) builder.ParticleSizeInitialMin = xcfg.GetFloat("ParticleSizeInitialMin") ;
+				if (xcfg.Contains("ParticleSizeInitialMax")) builder.ParticleSizeInitialMax = xcfg.GetFloat("ParticleSizeInitialMax") ;
+
+				if (xcfg.Contains("ParticleSizeFinal")) builder.ParticleSizeFinal = xcfg.GetFloat("ParticleSizeFinal");
+				if (xcfg.Contains("ParticleSizeFinalMin")) builder.ParticleSizeFinalMin = xcfg.GetFloat("ParticleSizeFinalMin");
+				if (xcfg.Contains("ParticleSizeFinalMax")) builder.ParticleSizeFinalMax = xcfg.GetFloat("ParticleSizeFinalMax");
+
+				if (xcfg.Contains("Color")) builder.Color = xcfg.GetKnownColor("Color");
+				if (xcfg.Contains("ColorInitial")) builder.ColorInitial = xcfg.GetKnownColor("ColorInitial");
+				if (xcfg.Contains("ColorFinal")) builder.ColorFinal = xcfg.GetKnownColor("ColorFinal");
+
+				return builder;
+			}
+
+			public ParticleEmitterConfig Build(TextureRegion2D[] texArray, float size = 1, float length = 1) => new ParticleEmitterConfig(this, texArray, size, length);
 		}
 
 		private static readonly Vector2 vectorOne = Vector2.UnitX;
@@ -119,14 +160,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		public readonly Color ColorFinal;
 		public readonly bool ColorIsChanging;
 
-		internal ParticleEmitterConfig(ParticleEmitterConfigBuilder b)
+		internal ParticleEmitterConfig(ParticleEmitterConfigBuilder b, TextureRegion2D[] texArray, float size, float length)
 		{
-			Texture = b.Texture;
+			Texture = texArray[b.TextureIndex];
 			TextureBounds = Texture.Bounds;
 			TextureCenter = Texture.Center();
 			TextureSize = TextureBounds.Width;
 
-			SpawnRate = b.SpawnRate;
+			SpawnRate = b.SpawnRate * length;
 
 			SpawnDelay = 1f / b.SpawnRate;
 
@@ -141,19 +182,19 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			ParticleSpawnAngleIsTotal = FloatMath.FloatInequals(ParticleSpawnAngleMin, ParticleSpawnAngleMax) && FloatMath.EpsilonEquals(FloatMath.NormalizeAngle(ParticleSpawnAngleMin), FloatMath.NormalizeAngle(ParticleSpawnAngleMax));
 			if (!ParticleSpawnAngleIsRandom) FixedParticleSpawnAngle = vectorOne.Rotate(ParticleSpawnAngleMin);
 
-			ParticleVelocityMin = b.ParticleVelocityMin;
-			ParticleVelocityMax = b.ParticleVelocityMax;
+			ParticleVelocityMin = b.ParticleVelocityMin ;
+			ParticleVelocityMax = b.ParticleVelocityMax ;
 			ParticleVelocityIsRandom = FloatMath.FloatInequals(ParticleVelocityMin, ParticleVelocityMax);
 
 			ParticleAlphaInitial = b.ParticleAlphaInitial;
 			ParticleAlphaFinal = b.ParticleAlphaFinal;
 
-			ParticleSizeInitialMin = b.ParticleSizeInitialMin;
-			ParticleSizeInitialMax = b.ParticleSizeInitialMax;
+			ParticleSizeInitialMin = b.ParticleSizeInitialMin ;
+			ParticleSizeInitialMax = b.ParticleSizeInitialMax ;
 			ParticleSizeInitialIsRandom = FloatMath.FloatInequals(ParticleSizeInitialMin, ParticleSizeInitialMax);
 
-			ParticleSizeFinalMin = b.ParticleSizeFinalMin;
-			ParticleSizeFinalMax = b.ParticleSizeFinalMax;
+			ParticleSizeFinalMin = b.ParticleSizeFinalMin ;
+			ParticleSizeFinalMax = b.ParticleSizeFinalMax ;
 			ParticleSizeFinalIsRandom = FloatMath.FloatInequals(ParticleSizeFinalMin, ParticleSizeFinalMax);
 
 			ColorInitial = b.ColorInitial;

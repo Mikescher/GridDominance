@@ -134,7 +134,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 		public static readonly VectorPath PATH_LETTER_O = VectorPathBuilder
 																	.Start(LETTER_SCALE)
-																	.FullEllipse(14, 20, 14, 20)
+																	.FullEllipseCCW(14, 20, 14, 20)
 																	.Build();
 
 		public static readonly VectorPath PATH_LETTER_P = VectorPathBuilder
@@ -149,7 +149,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 		public static readonly VectorPath PATH_LETTER_Q = VectorPathBuilder
 																	.Start(LETTER_SCALE)
-																	.FullEllipse(14, 20, 14, 20)
+																	.FullEllipseCCW(14, 20, 14, 20)
 																	.MoveTo(20, 30)
 																	.LineTo(30, 40)
 																	.Build();

@@ -144,6 +144,7 @@
     <Compile Include="GameMath\Geometry\FSize.cs" />
     <Compile Include="MonoSAMGame.cs" />
     <Compile Include="Persistance\SemVersion.cs" />
+    <Compile Include="Persistance\XConfigFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DebugTools\RealtimeAPSCounter.cs" />
     <Compile Include="RenderHelper\DebugRenderHelper.cs" />
@@ -173,7 +174,9 @@
     <Compile Include="Screens\Entities\Particles\CPUParticles\PointCPUParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\GPUParticles\GPUParticle.cs" />
     <Compile Include="Screens\Entities\Particles\GPUParticles\GPUParticleEmitter.cs" />
+    <Compile Include="Screens\Entities\Particles\IParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\IParticleOwner.cs" />
+    <Compile Include="Screens\Entities\Particles\ParticleBanner.cs" />
     <Compile Include="Screens\Entities\Particles\ParticleEmitterConfig.cs" />
     <Compile Include="Screens\Entities\Particles\GPUParticles\GPUParticleVBA.cs" />
     <Compile Include="Screens\Entities\Particles\GPUParticles\AnimatedPathGPUParticleEmitter.cs" />

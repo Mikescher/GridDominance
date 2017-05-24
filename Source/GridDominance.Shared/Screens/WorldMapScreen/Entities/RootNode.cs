@@ -61,7 +61,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			var cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 			{
 				// red fire
-				Texture = Textures.TexParticle[12],
+				TextureIndex = 12,
 				SpawnRate = 20,
 				ParticleLifetimeMin = 1.0f,
 				ParticleLifetimeMax = 2.5f,
@@ -74,7 +74,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				ParticleAlphaFinal = 0f,
 				ColorInitial = Color.DarkOrange,
 				ColorFinal = Color.DarkRed,
-			}.Build();
+			}.Build(Textures.TexParticle);
 
 			emitter = new PointCPUParticleEmitter(Owner, Position, cfg, GDConstants.ORDER_MAP_NODEPARTICLES);
 

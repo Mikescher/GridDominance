@@ -1,0 +1,18 @@
+TextureIndex = 7,
+SpawnRate = 75,
+
+ParticleLifetimeMin = 0.5f,
+ParticleLifetimeMax = 1.8f,
+
+ParticleVelocityMin = 4f,
+ParticleVelocityMax = 8f,
+
+ParticleSizeInitial = 24,
+ParticleSizeFinalMin = 0,
+ParticleSizeFinalMax = 24,
+
+ParticleAlphaInitial = 1f,
+ParticleAlphaFinal = 0.5f,
+
+ColorInitial = Color.DeepSkyBlue,
+ColorFinal = Color.Turquoise,

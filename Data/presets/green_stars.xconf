@@ -1,0 +1,18 @@
+TextureIndex = 5,
+SpawnRate = 125,
+
+ParticleLifetimeMin = 0.8f,
+ParticleLifetimeMax = 1.4f,
+
+ParticleVelocityMin = 0f,
+ParticleVelocityMax = 24f,
+
+ParticleSizeInitial = 24,
+ParticleSizeFinalMin = 24,
+ParticleSizeFinalMax = 24,
+
+ParticleAlphaInitial = 1f,
+ParticleAlphaFinal = 0f,
+
+ColorInitial = Color.DarkGreen,
+ColorFinal = Color.GreenYellow,

@@ -15,10 +15,12 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
+using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
@@ -41,13 +43,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
 		private bool _effectsEnabledCache = true;
-		private readonly List<CPUParticleEmitter> logoEmitter = new List<CPUParticleEmitter>();
+		private readonly ParticleBanner _banner;
 		public bool IsTransitioning = false;
 
 		private float _lastBackClick = -9999f;
 
 		public GDOverworldScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{
+			_banner = new ParticleBanner(this, Textures.TexParticle, GDConstants.ORDER_WORLD_LOGO);
+
 			Initialize();
 		}
 
@@ -57,19 +61,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			DebugUtils.CreateShortcuts(this);
 			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
-			AddLetter('T', 1.2f, 100, 256, 1);
-			AddLetter('I', 1.2f, 100, 256, 2);
-			AddLetter('T', 1.2f, 100, 256, 3);
-			AddLetter('L', 1.2f, 100, 256, 4);
-			AddLetter('E', 1.2f, 100, 256, 5);
 
 			Entities.AddEntity(new OverworldTutorialNode(this, new Vector2(3f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), "Tutorial"));
 			Entities.AddEntity(new OverworldNode(this, new Vector2(8f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_001));
 			Entities.AddEntity(new OverworldNode(this, new Vector2(13f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_002));
 
-			UnlockNodes();
+			_banner.TargetRect = new FRectangle(0 * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH, 16 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH);
+			_banner.Text = "CANNON\nCONQUEST";
+			_banner.UseCPUParticles = false;
+			_banner.AnimationTime = 4f;
+			_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas());
 
-			
+			UnlockNodes();
 		}
 
 		protected override void OnShow()
@@ -127,14 +130,23 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			DebugDisp.Scale = 0.75f;
 #endif
 
+#if (DEBUG && __DESKTOP__)
+			if (istate.IsKeyJustDown(SKeys.R))
+			{
+				var xcfg = XConfigFile.LoadFromString(System.IO.File.ReadAllText(@"F:\Symlinks\GridDominance\Data\presets\green_gas.xconf"));
+				var pcfg = ParticleEmitterConfig.ParticleEmitterConfigBuilder.LoadFromXConfig(xcfg);
+				_banner.CreateEntities(pcfg);
+			}
+#endif
+
 			if (_effectsEnabledCache != MainGame.Inst.Profile.EffectsEnabled)
 			{
 				_effectsEnabledCache = MainGame.Inst.Profile.EffectsEnabled;
 
-				foreach (var emitter in logoEmitter)
-				{
-					emitter.IsEnabled = _effectsEnabledCache;
-				}
+				if (MainGame.Inst.Profile.EffectsEnabled)
+					_banner.CreateEntities(ParticlePresets.GetConfigLetterSmokeyFire());
+				else
+					_banner.RemoveEntities();
 			}
 
 			if (istate.IsKeyJustDown(SKeys.AndroidBack) || istate.IsKeyJustDown(SKeys.Backspace))
@@ -155,40 +167,20 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			}
 		}
 
-		private void AddLetter(char chr, float size, float x, float y, int index)
-		{
-			/*
-			var em = new AnimatedPathGPUParticleEmitter(
-				this,
-				new Vector2(x, y - (size * 150) / 2),
-				PathPresets.LETTERS[chr].AsScaled(size * 150),
-				ParticlePresets.GetConfigLetterFireRed(size, chr),
-				0.5f + index * 0.3f,
-				0.3f);
-			/*/
-
-			var em = new AnimatedPathCPUParticleEmitter(
-				this,
-				new Vector2(x + index * 140, y - (size * 150) / 2),
-				PathPresets.LETTERS[chr].AsScaled(size * 150),
-				ParticlePresets.GetConfigLetterFireRed(size, chr),
-				0.5f + index * 0.3f,
-				0.3f,
-				GDConstants.ORDER_WORLD_LOGO);
-			//*/
-
-			logoEmitter.Add(em);
-
-			Entities.AddEntity(em);
-		}
-
 		protected override void OnDrawGame(IBatchRenderer sbatch)
 		{
 			if (!MainGame.Inst.Profile.EffectsEnabled)
 			{
-				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontRegular, 5f * GDConstants.TILE_WIDTH, "TITLE", FlatColors.Orange, new Vector2(VIEW_WIDTH/2f, 2.5f * GDConstants.TILE_WIDTH));
-
+				//TODO img logo
+				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontRegular, 5f * GDConstants.TILE_WIDTH, "CANNON\nCONQUEST", FlatColors.Orange, new Vector2(VIEW_WIDTH/2f, 2.5f * GDConstants.TILE_WIDTH));
 			}
+
+#if DEBUG
+			if (DebugSettings.Get("DebugEntityBoundaries"))
+			{
+				sbatch.DrawRectangle(_banner.TargetRect, Color.DodgerBlue, 3f);
+			}
+#endif
 		}
 
 		protected override void OnDrawHUD(IBatchRenderer sbatch)
