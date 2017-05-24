@@ -7,10 +7,12 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.REST;
+using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Network
 {
@@ -54,6 +56,8 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
+					ShowErrorCommunication();
+
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
 					{
 						return; // meh
@@ -80,10 +84,12 @@ namespace GridDominance.Shared.Network
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
 			}
 		}
 
@@ -119,15 +125,18 @@ namespace GridDominance.Shared.Network
 				else if (response.result == "error")
 				{
 					SAMLog.Error("Backend", $"CreateUser: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
 				}
 			}
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
 			}
 		}
 
@@ -162,6 +171,8 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
+					ShowErrorCommunication();
+
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
 					{
 						return; // meh
@@ -188,6 +199,7 @@ namespace GridDominance.Shared.Network
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
@@ -199,6 +211,7 @@ namespace GridDominance.Shared.Network
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
@@ -256,16 +269,19 @@ namespace GridDominance.Shared.Network
 					else
 					{
 						SAMLog.Error("Backend", $"SetScore: Error {response.errorid}: {response.errormessage}");
+						ShowErrorCommunication();
 					}
 				}
 			}
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
 			}
 		}
 
@@ -297,6 +313,7 @@ namespace GridDominance.Shared.Network
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
 					profile.NeedsReupload = false;
@@ -307,6 +324,7 @@ namespace GridDominance.Shared.Network
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
 					profile.NeedsReupload = false;
@@ -378,15 +396,18 @@ namespace GridDominance.Shared.Network
 				else if (response.result == "error")
 				{
 					SAMLog.Warning("Backend", $"DownloadHighscores: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
 				}
 			}
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
 			}
 		}
 
@@ -425,6 +446,7 @@ namespace GridDominance.Shared.Network
 					}
 					else
 					{
+						ShowErrorCommunication();
 						SAMLog.Error("Backend", $"Verify: Error {response.errorid}: {response.errormessage}");
 						return Tuple.Create(VerifyResult.InternalError, -1, response.errormessage);
 					}
@@ -437,11 +459,13 @@ namespace GridDominance.Shared.Network
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
 				return Tuple.Create(VerifyResult.NoConnection, -1, string.Empty);
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
 				return Tuple.Create(VerifyResult.InternalError, -1, "Internal server exception");
 			}
 		}
@@ -480,7 +504,10 @@ namespace GridDominance.Shared.Network
 				else if (response.result == "error")
 				{
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						ShowErrorCommunication();
 						return Tuple.Create(UpgradeResult.InternalError, response.errormessage);
+					}
 
 					if (response.errorid == BackendCodes.WRONG_PASSWORD)
 						return Tuple.Create(UpgradeResult.AuthError, string.Empty);
@@ -492,22 +519,26 @@ namespace GridDominance.Shared.Network
 						return Tuple.Create(UpgradeResult.UsernameTaken, string.Empty);
 
 					SAMLog.Error("Backend", $"UpgradeUser: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
 					return Tuple.Create(UpgradeResult.InternalError, response.errormessage);
 
 				}
 				else
 				{
+					ShowErrorCommunication();
 					return Tuple.Create(UpgradeResult.InternalError, "Internal server error");
 				}
 			}
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
 				return Tuple.Create(UpgradeResult.NoConnection, string.Empty);
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
 				return Tuple.Create(UpgradeResult.InternalError, "Internal server error");
 			}
 		}
@@ -544,12 +575,16 @@ namespace GridDominance.Shared.Network
 				else if (response.result == "error")
 				{
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						ShowErrorCommunication();
 						return Tuple.Create(ChangePasswordResult.InternalError, response.errormessage);
+					}
 
 					if (response.errorid == BackendCodes.WRONG_PASSWORD)
 						return Tuple.Create(ChangePasswordResult.AuthError, string.Empty);
 					
 					SAMLog.Error("Backend", $"ChangePassword: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
 					return Tuple.Create(ChangePasswordResult.InternalError, response.errormessage);
 
 				}
@@ -561,13 +596,30 @@ namespace GridDominance.Shared.Network
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
 				return Tuple.Create(ChangePasswordResult.NoConnection, string.Empty);
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend", e);
-				return Tuple.Create(ChangePasswordResult.InternalError, "Inetrnal server error");
+				ShowErrorCommunication();
+				return Tuple.Create(ChangePasswordResult.InternalError, "Internal server error");
 			}
+		}
+
+		private void ShowErrorConnection()
+		{
+			MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+			{
+				var screen = MainGame.Inst.GetCurrentScreen() as GameScreen;
+				screen?.HUD?.ShowToast("Could not connect to highscore server", 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+			});
+		}
+
+		private void ShowErrorCommunication()
+		{
+			var screen = MainGame.Inst.GetCurrentScreen() as GameScreen;
+			screen?.HUD?.ShowToast("Could not communicate with highscore server", 40, FlatColors.Flamingo, FlatColors.Foreground, 1.5f);
 		}
 	}
 }
