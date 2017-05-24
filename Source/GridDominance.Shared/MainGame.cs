@@ -37,6 +37,8 @@ namespace GridDominance.Shared
 		public MainGame(IOperatingSystemBridge b) : base(b)
 		{
 			Backend = new GDServerAPI(b);
+//			Backend = new DummyGDServerAPI();
+
 			Profile = new PlayerProfile();
 
 			var sdata = FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);

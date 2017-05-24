@@ -25,9 +25,14 @@ namespace MonoSAMFramework.Portable.Network.REST
 			http.MaxResponseContentBufferSize = 256000; // 265 kB
 			http.Timeout = TimeSpan.FromSeconds(45);
 		}
-		
-		protected async Task<TReturn> QueryAsync<TReturn>(string apiEndPoint, RestParameterSet parameter, int maxTries)
+
+		protected Task<TReturn> QueryAsync<TReturn>(string apiEndPoint, RestParameterSet parameter, int maxTries)
 		{
+			return Task.Run(() => Query<TReturn>(apiEndPoint, parameter, maxTries));
+		}
+
+		private TReturn Query<TReturn>(string apiEndPoint, RestParameterSet parameter, int maxTries)
+		{ 
 			string url = serverbasepath + "/" + apiEndPoint + ".php" + parameter.CreateParamString(secret, MonoSAMGame.CurrentInst.Bridge);
 
 #if DEBUG
@@ -40,9 +45,9 @@ namespace MonoSAMFramework.Portable.Network.REST
 
 				try
 				{
-					var response = await http.GetAsync(url);
+					var response = http.GetAsync(url).Result;
 					response.EnsureSuccessStatusCode();
-					content = await response.Content.ReadAsStringAsync();
+					content = response.Content.ReadAsStringAsync().Result;
 				}
 				catch (Exception e)
 				{
@@ -50,7 +55,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 					{
 						maxTries--;
 						SAMLog.Info("QueryAsync", $"Retry query '{url}'. {maxTries}remaining", e.Message);
-						await Task.Delay(RETRY_SLEEP_TIME);
+						Task.Delay(RETRY_SLEEP_TIME).RunSynchronously();
 						continue;
 					}
 					else
