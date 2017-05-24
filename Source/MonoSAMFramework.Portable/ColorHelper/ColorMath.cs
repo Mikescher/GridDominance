@@ -6,7 +6,6 @@ namespace MonoSAMFramework.Portable.ColorHelper
 {
 	public static class ColorMath
 	{
-#if DEBUG
 		public static readonly Dictionary<string, Color> COLOR_MAP = new Dictionary<string, Color>
 		{
 			{"color.transparentblack", Color.TransparentBlack},
@@ -174,8 +173,6 @@ namespace MonoSAMFramework.Portable.ColorHelper
 			{"flatcolors.concrete", FlatColors.Concrete},
 			{"flatcolors.asbestos", FlatColors.Asbestos},
 		};
-#endif
-
 
 		public static Color Darken(this Color c, float perc = 0.5f)
 		{
