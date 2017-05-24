@@ -139,7 +139,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			SimpleRenderHelper.DrawRoundedRect(sbatch, FRectangle.CreateByCenter(Position, INNER_DIAMETER, INNER_DIAMETER), Color.Black);
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, "Overworld", FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
+			FontRenderHelper.DrawTextCenteredWithBackground(
+				sbatch,
+				Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH,
+				"Overworld",
+				FlatColors.TextHUD,
+				Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH),
+				FlatColors.BackgroundHUD2 * 0.5f);
 		}
 
 		public bool HasAnyCompleted()

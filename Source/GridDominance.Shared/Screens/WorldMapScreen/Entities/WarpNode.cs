@@ -126,7 +126,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			SimpleRenderHelper.DrawRoundedRect(sbatch, FRectangle.CreateByCenter(Position, INNER_DIAMETER, INNER_DIAMETER), NodeEnabled ? ColorMath.Blend(Color.Black, FlatColors.Background, ColorOverdraw) : FlatColors.Asbestos);
 
-			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, Target.Name, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
+			FontRenderHelper.DrawTextCenteredWithBackground(
+				sbatch, 
+				Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, 
+				Target.Name, 
+				FlatColors.TextHUD, 
+				Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH),
+				FlatColors.BackgroundHUD2 * 0.5f);
 
 			if (!NodeEnabled)
 			{

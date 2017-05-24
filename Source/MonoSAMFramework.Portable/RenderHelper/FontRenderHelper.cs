@@ -105,6 +105,26 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0);
 		}
 
+		public static void DrawTextCenteredWithBackground(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, Vector2 position, Color background)
+		{
+			if (text == "") return;
+			var bounds = MeasureStringCached(font, text);
+			var scale = GetFontScale(font, size);
+
+			sbatch.FillRectangle(FRectangle.CreateByCenter(position, scale * bounds.X + size/3f, scale * bounds.Y), background);
+
+			sbatch.DrawString(
+				font,
+				text,
+				position,
+				color,
+				0,
+				new Vector2(bounds.X / 2f, bounds.Y / 2f - GetFontVCenterOffset(font)),
+				scale,
+				SpriteEffects.None,
+				0);
+		}
+
 		public static void DrawTextVerticallyCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, Vector2 position)
 		{
 			if (text == "") return;
