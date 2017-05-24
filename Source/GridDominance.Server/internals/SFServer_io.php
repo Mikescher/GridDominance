@@ -185,7 +185,5 @@ function outputResultSuccess($data) {
 function sendMail($subject, $content, $to, $from) {
 	global $config;
 
-	if ($config['debug']) return;
-
 	mail($to, $subject, $content, 'From: ' . $from);
 }
