@@ -3,5 +3,6 @@
   <style name="Theme.Splash" parent="android:Theme">
     <item name="android:windowBackground">@drawable/splash</item>
     <item name="android:windowNoTitle">true</item>
+    <item name="android:keepScreenOn">true</item>
   </style>
 </resources>
