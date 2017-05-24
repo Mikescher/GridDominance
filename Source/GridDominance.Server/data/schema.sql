@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users
   userid                  int(11)      NOT NULL AUTO_INCREMENT,
   username                varchar(64)  NOT NULL,
   password_hash           char(128)    NOT NULL,
-  is_auto_generated       bit(1)       NOT NULL,
+  is_auto_generated       boolean      NOT NULL,
 
   score                   int(11)      NOT NULL,
   revision_id             int(11)      NOT NULL DEFAULT 0,
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS error_log
 (
   error_id              int(11)       NOT NULL AUTO_INCREMENT,
   userid                int(11)       NOT NULL,
-  password_verified     bit(1)        NOT NULL,
+  password_verified     boolean       NOT NULL,
   screen_resolution     varchar(256)  NOT NULL,
   app_version           varchar(24)   NOT NULL,
   exception_id          varchar(256)  NOT NULL,
