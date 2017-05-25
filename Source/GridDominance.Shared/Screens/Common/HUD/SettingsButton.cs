@@ -84,8 +84,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					new HUDSettingsFontAppearOperation(1),
 					new HUDSettingsFontAppearOperation(2),
 					new HUDSettingsFontAppearOperation(3),
-					new HUDSettingsFontAppearOperation(4),
-					new HUDSettingsFontAppearOperation(5)
+					new HUDSettingsFontAppearOperation(4)
 					);
 			}
 			else if (OpeningState == BistateProgress.Open)

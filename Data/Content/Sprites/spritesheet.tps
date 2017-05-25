@@ -752,8 +752,6 @@
             <key type="filename">icons/fingerprint.png</key>
             <key type="filename">icons/info.png</key>
             <key type="filename">icons/lock.png</key>
-            <key type="filename">icons/music_off.png</key>
-            <key type="filename">icons/music_on.png</key>
             <key type="filename">icons/settings.png</key>
             <key type="filename">icons/volume_off.png</key>
             <key type="filename">icons/volume_up.png</key>

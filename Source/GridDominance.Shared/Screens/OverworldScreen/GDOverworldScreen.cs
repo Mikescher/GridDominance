@@ -74,18 +74,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 
 			UnlockNodes();
 		}
-
-		protected override void OnShow()
-		{
-			MainGame.Inst.GDSound.PlayMusicBackground(); 
-			
-		}
-
-		protected override void OnRemove()
-		{
-			MainGame.Inst.GDSound.StopSong();
-		}
-
+		
 		private void UnlockNodes()
 		{
 			if (MainGame.Inst.Profile.SkipTutorial || MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted())

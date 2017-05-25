@@ -147,24 +147,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			MainGame.Inst.SaveProfile();
 		}
 	}
-
-	class ButtonMusic : SubSettingButton
-	{
-		public ButtonMusic(SettingsButton master) : base(master, 4) { }
-
-		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.MusicEnabled ? Textures.TexHUDButtonIconMusicOn : Textures.TexHUDButtonIconMusicOff;
-		protected override string GetText() => "Music";
-
-		protected override void OnPress(InputState istate)
-		{
-			MainGame.Inst.Profile.MusicEnabled = !MainGame.Inst.Profile.MusicEnabled;
-			MainGame.Inst.SaveProfile();
-		}
-	}
-
+	
 	class ButtonEffects : SubSettingButton
 	{
-		public ButtonEffects(SettingsButton master) : base(master, 5) { }
+		public ButtonEffects(SettingsButton master) : base(master, 4) { }
 
 		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.EffectsEnabled ? Textures.TexHUDButtonIconEffectsOn : Textures.TexHUDButtonIconEffectsOff;
 		protected override string GetText() => "Effects";

@@ -134,24 +134,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			LoadLevelFromBlueprint();
 		}
-
-		protected override void OnShow()
-		{
-			if (IsTutorial)
-			{
-				MainGame.Inst.GDSound.PlayMusicTutorial();
-			}
-			else
-			{
-				MainGame.Inst.GDSound.PlayMusicLevel();
-			}
-		}
-
-		protected override void OnRemove()
-		{
-			MainGame.Inst.GDSound.StopSong();
-		}
-
+		
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
 		protected override GameBackground CreateBackground() => MainGame.Inst.Profile.EffectsEnabled ? (GameBackground)new GDCellularBackground(this) : new GDStaticGridBackground(this);

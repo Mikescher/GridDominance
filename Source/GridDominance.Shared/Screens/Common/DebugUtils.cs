@@ -4,7 +4,6 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
-using Microsoft.Xna.Framework.Media;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -30,8 +29,6 @@ namespace GridDominance.Shared.Screens
 			debugDisp.AddLine("DebugGestures", () => $"Pinching = {scrn.InputStateMan.GetCurrentState().IsGesturePinching} & PinchComplete = {scrn.InputStateMan.GetCurrentState().IsGesturePinchComplete} & PinchPower = {scrn.InputStateMan.GetCurrentState().LastPinchPower}");
 			debugDisp.AddLine(() => $"OGL Sprites = {scrn.LastReleaseRenderSpriteCount:0000} (+ {scrn.LastDebugRenderSpriteCount:0000}); OGL Text = {scrn.LastReleaseRenderTextCount:0000} (+ {scrn.LastDebugRenderTextCount:0000})");
 			debugDisp.AddLine(() => $"Map Offset = {scrn.MapOffset} (Map Center = {scrn.MapViewportCenter})");
-			debugDisp.AddLine(() => $"Mediaplayer[{MediaPlayer.State}] = (Volume: {MediaPlayer.Volume:0.00}) ({MediaPlayer.PlayPosition.TotalSeconds:0}s) {{{string.Join(",", new[]{ MediaPlayer.IsMuted ? "IsMuted" : "", MediaPlayer.GameHasControl ? "GameHasControl" : "", MediaPlayer.IsShuffled ? "IsShuffled" : "", MediaPlayer.IsVisualizationEnabled ? "IsVisualizationEnabled" : "IsRepeating", MediaPlayer.IsRepeating ? "" : "" }.Where(p=>!string.IsNullOrWhiteSpace(p)))}}}");
-			debugDisp.AddLine(() => $"SAMSoundPlayer :={MainGame.Inst.GDSound.GetStringState()}");
 			if (gdg != null) debugDisp.AddLine(() => $"LevelTime = {gdg.LevelTime:000.000} (finished={gdg.HasFinished})");
 
 			if (scrn is GDWorldMapScreen) debugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD)scrn.HUD).SelectedNode?.Blueprint?.Name ?? "NULL"}; FocusedHUDElement = {scrn.HUD.FocusedElement}; ZoomState = {((GDWorldMapScreen)scrn).ZoomState}");
@@ -73,9 +70,8 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddTrigger("DBG", "SetQuality_3",  scrn, SKeys.D3, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.LD));
 			DebugSettings.AddTrigger("DBG", "SetQuality_4",  scrn, SKeys.D4, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.MD));
 			DebugSettings.AddTrigger("DBG", "SetQuality_5",  scrn, SKeys.D5, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.HD));
-			DebugSettings.AddTrigger("DBG", "ResetProfile",  scrn, SKeys.R, KeyModifier.Control,  x => MainGame.Inst.ResetProfile());
-			DebugSettings.AddTrigger("DBG", "ClearMessages", scrn, SKeys.C, KeyModifier.None,     x => scrn.DebugDisp.Clear());
-			DebugSettings.AddTrigger("DBG", "SkipSong",      scrn, SKeys.S, KeyModifier.None,     x => MainGame.Inst.GDSound.SkipSong());
+			DebugSettings.AddTrigger("DBG", "ResetProfile",  scrn, SKeys.R, KeyModifier.Control, x => MainGame.Inst.ResetProfile());
+			DebugSettings.AddTrigger("DBG", "ClearMessages", scrn, SKeys.C, KeyModifier.None, x => scrn.DebugDisp.Clear());
 
 			if (scrn is GDWorldMapScreen) DebugSettings.AddTrigger("DBG", "ZoomOut", scrn, SKeys.Z, KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
 

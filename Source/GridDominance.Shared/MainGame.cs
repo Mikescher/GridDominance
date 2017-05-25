@@ -131,7 +131,6 @@ namespace GridDominance.Shared
 		protected override void OnUpdate(SAMTime gameTime)
 		{
 			GDSound.IsEffectsMuted = !Profile.SoundsEnabled;
-			GDSound.IsMusicMuted = !(Profile.MusicEnabled && Profile.SoundsEnabled);
 		}
 
 		public void SetLevelScreen(LevelBlueprint blueprint, FractionDifficulty d, GraphBlueprint source)
