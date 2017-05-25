@@ -132,7 +132,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 				case FractionDifficulty.KI_HARD:
 					return "Hard";
 				case FractionDifficulty.KI_IMPOSSIBLE:
-					return "Realistic";
+					return "Extreme";
 			}
 
 			return null;
