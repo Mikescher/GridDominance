@@ -40,7 +40,7 @@ node([0, -7], LVL_01)
   connect(LVL_04, LIN)
 
 node([7, -7], LVL_04)
-  connect(LVL_05, LIN, 3)
+#  connect(LVL_05, LIN, 3)
   connect(LVL_06, CCW, 2)
   connect(LVL_07, CW,  1)
 
