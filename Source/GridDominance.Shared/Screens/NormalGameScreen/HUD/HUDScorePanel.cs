@@ -215,7 +215,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 			});
-			btnMenu.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreen(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID);
+			btnMenu.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreenZoomedOut(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID);
 
 			if (successScreen)
 			{

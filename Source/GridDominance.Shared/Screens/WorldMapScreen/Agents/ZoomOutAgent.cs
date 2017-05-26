@@ -48,6 +48,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		{
 			((GDWorldMapScreen)Screen).ZoomState = BistateProgress.Expanded;
 			((WorldMapBackground)_gdScreen.Background).GridLineAlpha = 0f;
+
+			vp.ChangeVirtualSize(rectFinal.Width, rectFinal.Height);
+			Screen.MapViewportCenterX = rectFinal.CenterX;
+			Screen.MapViewportCenterY = rectFinal.CenterY;
 		}
 	}
 }

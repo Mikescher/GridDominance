@@ -136,7 +136,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			if (GDScreen.IsTutorial)
 				MainGame.Inst.SetOverworldScreen();
 			else
-				MainGame.Inst.SetWorldMapScreen(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID);
+				MainGame.Inst.SetWorldMapScreenZoomedOut(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID);
 		}
 
 		protected override void OnPress(InputState istate)

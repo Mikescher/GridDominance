@@ -157,6 +157,23 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			((GDWorldHUD) HUD).SelectedNode?.CloseNode();
 		}
 
+		public void ZoomInstantOut()
+		{
+			if (ZoomState == BistateProgress.Expanding || ZoomState == BistateProgress.Expanded) return;
+			if (GetAgents<ZoomOutAgent>().Any()) return;
+			if (GetAgents<ZoomInAgent>().Any()) return;
+
+			ZoomState = BistateProgress.Expanded;
+			((WorldMapBackground)Background).GridLineAlpha = 0f;
+
+			var bounds = Graph.BoundingViewport;
+			((TolerantBoxingViewportAdapter)VAdapterGame).ChangeVirtualSize(bounds.Width, bounds.Height);
+			MapViewportCenterX = bounds.CenterX;
+			MapViewportCenterY = bounds.CenterY;
+
+			((GDWorldHUD)HUD).SelectedNode?.CloseNode();
+		}
+
 		private void ZoomIn(FPoint mapPosCenter)
 		{
 			if (ZoomState == BistateProgress.Reverting || ZoomState == BistateProgress.Normal) return;
