@@ -493,6 +493,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			Fraction = f;
 			ResetChargeAndBooster();
+			controller?.OnRemove();
 			controller = Fraction.CreateController(this.GDOwner(), this);
 		}
 
@@ -504,6 +505,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public void ForceUpdateController()
 		{
+			controller?.OnRemove();
 			controller = Fraction.CreateController(this.GDOwner(), this);
 		}
 

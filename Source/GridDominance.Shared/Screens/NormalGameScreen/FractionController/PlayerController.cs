@@ -27,6 +27,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			innerBoundings = new FCircle(Cannon.Position, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
 		}
 
+		public override void OnRemove()
+		{
+			Cannon.CrosshairSize.Set(0f);
+		}
+
 		protected override void Calculate(InputState istate)
 		{
 			if (istate.IsExclusiveJustDown && innerBoundings.Contains(istate.GamePointerPosition))

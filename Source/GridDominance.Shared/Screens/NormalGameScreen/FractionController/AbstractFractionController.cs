@@ -35,6 +35,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			}
 		}
 
+		public virtual void OnRemove() { /* OVERRIDE ME */ }
+
 		protected abstract void Calculate(InputState istate);
 		public abstract bool DoBarrelRecharge();
 	}
