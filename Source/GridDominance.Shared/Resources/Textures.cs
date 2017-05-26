@@ -177,6 +177,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexDifficultyLine2;
 		public static TextureRegion2D TexDifficultyLine3;
 
+		public static TextureRegion2D TexLogo;
+
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
 
@@ -202,6 +204,8 @@ namespace GridDominance.Shared.Resources
 		private static void LoadContent(ContentManager content)
 		{
 			AtlasTextures = content.Load<TextureAtlas>(TEXTURE_ASSETNAME);
+
+			TexLogo = new TextureRegion2D(content.Load<Texture2D>("textures/logo"));
 
 			TexTileBorder            = AtlasTextures["grid"];
 

@@ -143,8 +143,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		{
 			if (!MainGame.Inst.Profile.EffectsEnabled)
 			{
-				//TODO img logo
-//				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontRegular, 5f * GDConstants.TILE_WIDTH, "CANNON\nCONQUEST", FlatColors.Orange, new Vector2(VIEW_WIDTH/2f, 2.5f * GDConstants.TILE_WIDTH));
+				var hh = 4.5f * GDConstants.TILE_WIDTH;
+				sbatch.DrawCentered(Textures.TexLogo, _banner.TargetRect.VecCenter, hh * Textures.TexLogo.Width / Textures.TexLogo.Height, hh, Color.White);
 			}
 
 #if DEBUG
