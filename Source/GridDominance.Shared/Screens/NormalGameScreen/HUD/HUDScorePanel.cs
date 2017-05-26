@@ -346,8 +346,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			// unfinished
 			foreach (var lid in currNode.OutgoingPipes.OrderBy(p => p.Priority))
 			{
-				var node = GDScreen.WorldBlueprint.Nodes.First(n => n.LevelID == lid.Target);
-
+				var node = GDScreen.WorldBlueprint.Nodes.FirstOrDefault(n => n.LevelID == lid.Target);
+				if (node.LevelID == Guid.Empty) continue;
 				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
 			}
 
@@ -355,6 +355,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			foreach (var lid in currNode.OutgoingPipes.OrderBy(p => p.Priority))
 			{
 				var node = GDScreen.WorldBlueprint.Nodes.FirstOrDefault(n => n.LevelID == lid.Target);
+				if (node.LevelID == Guid.Empty) continue;
 
 				return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
 			}
