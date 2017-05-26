@@ -226,8 +226,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				}
 				else
 				{
+					var ctime = (int) (LevelTime * 1000);
+
 					int p = FractionDifficultyHelper.GetScore(Difficulty);
-					GDOwner.Profile.SetCompleted(Blueprint.UniqueID, Difficulty, (int)(LevelTime * 1000), true);
+					GDOwner.Profile.SetCompleted(Blueprint.UniqueID, Difficulty, ctime, true);
+
+					// Fake the online data until next sync
+					var localdata = GDOwner.Profile.LevelData[Blueprint.UniqueID].Data[Difficulty];
+					localdata.GlobalCompletionCount++;
+					if (ctime < localdata.BestTime) {localdata.GlobalBestTime = ctime; localdata.GlobalBestUserID = GDOwner.Profile.OnlineUserID; }
+
 					GDOwner.SaveProfile();
 					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, Difficulty, true, p);
 				}
