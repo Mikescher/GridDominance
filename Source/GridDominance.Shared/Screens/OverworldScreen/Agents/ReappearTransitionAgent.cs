@@ -42,7 +42,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			Screen.MapViewportCenterX = bounds.CenterX;
 			Screen.MapViewportCenterY = bounds.CenterY;
 
-			_gdNode.AlphaOverride = FloatMath.FunctionEaseOutExpo(perc, 10);
+			_gdNode.AlphaOverride = FloatMath.FunctionEaseInExpo(perc, 10);
 		}
 
 		protected override void Start()
