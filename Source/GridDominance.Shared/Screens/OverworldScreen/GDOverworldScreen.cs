@@ -66,7 +66,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			Entities.AddEntity(new OverworldNode(this, new Vector2(8f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_001));
 			Entities.AddEntity(new OverworldNode(this, new Vector2(13f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_002));
 
-			_banner.TargetRect = new FRectangle(0 * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH, 16 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH);
+			_banner.TargetRect = new FRectangle(0 * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH, 16 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH).AsDeflated(0.25f * GDConstants.TILE_WIDTH);
 			_banner.Text = "CANNON\nCONQUEST";
 			_banner.UseCPUParticles = false;
 			_banner.AnimationTime = 4f;

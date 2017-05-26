@@ -17,11 +17,11 @@ namespace GridDominance.Shared.Screens
 				ParticleLifetimeMax = 2.0f,
 
 				ParticleVelocityMin = 1f,
-				ParticleVelocityMax = 8f,
+				ParticleVelocityMax = 7f,
 
 				ParticleSizeInitial = 1f,
 				ParticleSizeFinalMin = 2f,
-				ParticleSizeFinalMax = 32f,
+				ParticleSizeFinalMax = 28f,
 
 				ParticleAlphaInitial = 1f,
 				ParticleAlphaFinal = 0f,

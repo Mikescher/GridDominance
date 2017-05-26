@@ -13,8 +13,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 {
 	public class ParticleBanner
 	{
-		public const float LINE_SPACING              = 0.25f;
-		public const float CHAR_SPACING              = 0.20f;
+		public const float LINE_SPACING              = 0.30f;
+		public const float CHAR_SPACING              = 0.25f;
 		public const float ANIMATION_LINEBREAK_PAUSE = 0.45f;
 
 		private readonly GameScreen _screen;

@@ -253,6 +253,18 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
+		public FRectangle AsDeflated(float bothAmount)
+		{
+			if (FloatMath.IsZero(bothAmount)) return this;
+
+			return new FRectangle(
+				X + bothAmount,
+				Y + bothAmount,
+				Width - bothAmount * 2,
+				Height - bothAmount * 2);
+		}
+
+		[Pure]
 		public FRectangle AsDeflated(int horizontalAmount, int verticalAmount)
 		{
 			if (FloatMath.IsZero(horizontalAmount) && FloatMath.IsZero(verticalAmount)) return this;
