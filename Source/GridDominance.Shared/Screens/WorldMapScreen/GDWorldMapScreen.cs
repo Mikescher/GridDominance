@@ -69,7 +69,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			MapFullBounds = Graph.BoundingRect.AsInflated(2 * GDConstants.TILE_WIDTH, 2 * GDConstants.TILE_WIDTH);
 
 			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
-			AddAgent(new ExitAgent(this));
+			//AddAgent(new ExitAgent(this));
 
 			if (initialFocus == null)
 			{

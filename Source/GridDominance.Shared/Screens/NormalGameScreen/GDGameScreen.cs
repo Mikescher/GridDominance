@@ -22,6 +22,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.ScreenGame
