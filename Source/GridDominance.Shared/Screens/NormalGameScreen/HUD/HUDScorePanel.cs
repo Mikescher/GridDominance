@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
@@ -343,7 +341,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			var diff = GDScreen.Difficulty;
 
-			// unfinished
+			// unfinished next node
 			foreach (var lid in currNode.OutgoingPipes.OrderBy(p => p.Priority))
 			{
 				var node = GDScreen.WorldBlueprint.Nodes.FirstOrDefault(n => n.LevelID == lid.Target);
@@ -351,13 +349,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
 			}
 
-			// any
+			// any next node
 			foreach (var lid in currNode.OutgoingPipes.OrderBy(p => p.Priority))
 			{
 				var node = GDScreen.WorldBlueprint.Nodes.FirstOrDefault(n => n.LevelID == lid.Target);
 				if (node.LevelID == Guid.Empty) continue;
 
 				return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
+			}
+
+			// unfinished any node
+			foreach (var node in GDScreen.WorldBlueprint.Nodes)
+			{
+				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
 			}
 
 			// none
