@@ -150,7 +150,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			var bounds = MeasureStringCached(font, text);
 			var scale = GetFontScale(font, size);
 
-			sbatch.FillRectangle(FRectangle.CreateByCenter(position, scale * bounds.X + size / 3f, scale * bounds.Y), background);
+			sbatch.FillRectangle(new FRectangle(position.X, position.Y - scale*bounds.Y/2f, bounds.X * scale, bounds.Y * scale), background);
 
 			sbatch.DrawString(
 				font,

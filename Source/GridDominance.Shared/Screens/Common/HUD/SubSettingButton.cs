@@ -48,7 +48,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * ScaleProgress, SIZE_ICON * ScaleProgress, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds);
 
-			FontRenderHelper.DrawTextVerticallyCenteredWithBackground(sbatch, Textures.HUDFontRegular, SIZE_ICON, GetText(), FlatColors.Clouds * FontProgress, new Vector2(CenterX + SIZE_ICON, CenterY), Color.Black * 0.5f);
+			FontRenderHelper.DrawTextVerticallyCenteredWithBackground(sbatch, Textures.HUDFontRegular, SIZE_ICON, GetText(), FlatColors.Clouds * FontProgress, new Vector2(CenterX + SIZE_ICON, CenterY), Color.Black * 0.5f * FontProgress);
 		}
 
 		public override void OnInitialize()
