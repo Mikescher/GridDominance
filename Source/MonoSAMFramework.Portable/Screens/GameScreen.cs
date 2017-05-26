@@ -208,7 +208,7 @@ namespace MonoSAMFramework.Portable.Screens
 			FPSCounter.StartCycle(gameTime);
 #endif
 			// Update Top Down  (Debug -> HUD -> Entities -> BG)
-			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
+			// Render Bottom Up (BG -> Entities -> GPU_Particle -> HUD -> Debug)
 
 			var bts = GetBaseTextureScale();
 
@@ -233,6 +233,10 @@ namespace MonoSAMFramework.Portable.Screens
 			InternalBatch.End();
 			TranslatedBatch.OnEnd();
 
+			// ======== STUFF ========
+
+			Entities.PostDraw();
+
 			// ======== HUD ==========
 
 			FixedBatch.OnBegin(bts);
@@ -249,7 +253,6 @@ namespace MonoSAMFramework.Portable.Screens
 
 			// =======================
 
-			Entities.PostDraw();
 
 #if DEBUG
 			using (FixedBatch.BeginDebugDraw())
