@@ -133,7 +133,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 				_effectsEnabledCache = MainGame.Inst.Profile.EffectsEnabled;
 
 				if (MainGame.Inst.Profile.EffectsEnabled)
-					_banner.CreateEntities(ParticlePresets.GetConfigLetterSmokeyFire());
+					_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas());
 				else
 					_banner.RemoveEntities();
 			}
