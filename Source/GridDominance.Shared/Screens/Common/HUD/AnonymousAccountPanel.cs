@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -150,7 +151,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		private void OnLogin(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			if (editUsername.Text == "" || editPassword.Text == "") return;
+			if (editUsername.Text == "")
+			{
+				editUsername.AddHUDOperation(new HUDTextBoxBlinkOperation(Color.Red));
+				return;
+			}
+
+			if (editPassword.Text == "")
+			{
+				editPassword.AddHUDOperation(new HUDTextBoxBlinkOperation(Color.Red));
+				return;
+			}
 
 			var waitDialog = new HUDIconMessageBox
 			{

@@ -63,6 +63,11 @@ namespace MonoSAMFramework.Portable.GameMath
 			return (float)Math.Sin(value);
 		}
 
+		public static float AbsSin(float value)
+		{
+			return (float)Math.Abs(Math.Sin(value));
+		}
+
 		public static float PercSin(float value) // sinus from 0->1->0->1...
 		{
 			return ((float)Math.Sin(value) + 1f) / 2f;

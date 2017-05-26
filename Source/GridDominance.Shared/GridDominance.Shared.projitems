@@ -40,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\AnonymousAccountPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ChangePasswordPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\FullAccountPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HUDOperations\HUDTextBoxBlinkOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ISettingsOwnerHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ScoreDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SettingsButton.cs" />

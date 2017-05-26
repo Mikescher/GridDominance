@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -138,7 +139,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		private void OnChangePassword(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			if (editPassword.Text == "") return;
+			if (editPassword.Text == "")
+			{
+				editPassword.AddHUDOperation(new HUDTextBoxBlinkOperation(Color.Red));
+				return;
+			}
 
 			if (MainGame.Inst.Profile.AccountType != AccountType.Full) return;
 
