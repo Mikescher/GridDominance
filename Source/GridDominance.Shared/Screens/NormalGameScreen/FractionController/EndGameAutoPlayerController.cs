@@ -5,6 +5,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 {
@@ -12,34 +13,26 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 	{
 		private readonly List<KIMethod> intelligence;
 
-		public override bool DoBarrelRecharge() => true;
+		public override bool DoBarrelRecharge() => false;
+
+		private float last = 0f;
 
 		public EndGameAutoPlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction)
 			: base(STANDARD_UPDATE_TIME, owner, cannon, fraction)
 		{
-			if (owner.Blueprint.KIType == LevelBlueprint.KI_TYPE_RAYTRACE)
+			intelligence = new List<KIMethod>
 			{
-				intelligence = new List<KIMethod>
-				{
-					KIMethod.CreateRaycast("SupportCannon",         FindTargetSupportCannon),
-					KIMethod.CreateRaycast("FriendlyCannon",        FindTargetFriendlyCannon),
-					KIMethod.CreateRaycast("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannon),
-					KIMethod.CreateRaycast("NearestFriendlyCannon", FindNearestFriendlyCannon),
-				};
-			}
-			else if (owner.Blueprint.KIType == LevelBlueprint.KI_TYPE_PRECALC)
-			{
+				KIMethod.CreateGeneric("IdleRotate", IdleRotate),
+			};
 
-				intelligence = new List<KIMethod>
-				{
-					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
-					KIMethod.CreatePrecalc("FriendlyCannon",        FindTargetFriendlyCannonPrecalc),
-					KIMethod.CreatePrecalc("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannonPrecalc),
-					KIMethod.CreateRaycast("NearestFriendlyCannon", FindNearestFriendlyCannon),
-				};
-			}
-			else
-				throw new Exception("Unknown KIType: " + owner.Blueprint.KIType);
+			last = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
+		}
+
+		private void IdleRotate(KIController ki)
+		{
+			ki.Cannon.Rotation.Set(ki.Cannon.Rotation.ActualValue + (MonoSAMGame.CurrentTime.ElapsedSeconds - last));
+
+			last = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 		}
 
 		protected override void Calculate(InputState istate)

@@ -76,8 +76,8 @@ namespace GridDominance.Shared.Screens
 			if (scrn is GDWorldMapScreen) DebugSettings.AddTrigger("DBG", "ZoomOut", scrn, SKeys.Z, KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
 
 			DebugSettings.AddSwitch("DBG", "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      scrn, SKeys.F2,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      scrn, SKeys.F2,  KeyModifier.None, true);
+			DebugSettings.AddSwitch("DBG", "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       scrn, SKeys.F4,  KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "DebugCannonView",       scrn, SKeys.F5,  KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   scrn, SKeys.F6,  KeyModifier.None, false);
