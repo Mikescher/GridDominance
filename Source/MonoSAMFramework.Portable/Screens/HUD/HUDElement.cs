@@ -92,7 +92,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public IEnumerable<IHUDElementOperation> ActiveHUDOperations => ActiveOperations;
 
-		protected bool IsPointerDownOnElement = false;
+		public bool IsPointerDownOnElement = false;
+
 		protected bool PositionInvalidated = false;
 		private InputState _lastInputState = null;
 
@@ -220,9 +221,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 					px = Owner.CenterX - Size.Width / 2 + RelativePosition.X;
 					break;
 				case HUDAlignment.ABSOLUTE:
+				case HUDAlignment.ABSOLUTE_VERTCENTERED:
 					px = RelativePosition.X;
 					break;
 				case HUDAlignment.ABSOLUTE_BOTHCENTERED:
+				case HUDAlignment.ABSOLUTE_HORZCENTERED:
 					px = RelativePosition.X - Size.Width / 2;
 					break;
 				default:
@@ -247,9 +250,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 					py = Owner.CenterY - Size.Height / 2 + RelativePosition.Y;
 					break;
 				case HUDAlignment.ABSOLUTE:
+				case HUDAlignment.ABSOLUTE_HORZCENTERED:
 					py = RelativePosition.Y;
 					break;
 				case HUDAlignment.ABSOLUTE_BOTHCENTERED:
+				case HUDAlignment.ABSOLUTE_VERTCENTERED:
 					py = RelativePosition.Y - Size.Height / 2;
 					break;
 				default:

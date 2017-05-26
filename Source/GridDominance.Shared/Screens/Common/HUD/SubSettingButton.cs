@@ -23,6 +23,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public override int Depth => 1;
 
 		private readonly SettingsButton master;
+		public readonly SubSettingClickZone Slave;
 		private readonly int position;
 
 		public float OffsetProgress = 0;
@@ -33,6 +34,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			this.master = master;
 			this.position = position;
+			Slave = new SubSettingClickZone(this);
 
 			RelativePosition = new FPoint(8, 8);
 			Size = new FSize(DIAMETER, DIAMETER);
@@ -59,11 +61,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			py += MARGIN_Y;
 
 			RelativePosition = new FPoint(px, py);
+
+			var bounds = FontRenderHelper.MeasureStringCached(Textures.HUDFontRegular, GetText());
+			var scale = FontRenderHelper.GetFontScale(Textures.HUDFontRegular, SIZE_ICON);
+			Slave.Size = new FSize(bounds.X * scale, bounds.Y * scale);
+
+			Owner.AddElement(Slave);
 		}
 
 		public override void OnRemove()
 		{
-			//
+			Slave.Remove();
 		}
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
@@ -75,6 +83,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			py += (position + 1) * (DIAMETER + MARGIN_X / 2) * OffsetProgress;
 
 			RelativePosition = new FPoint(px, py);
+
+			Slave.RelativePosition = new FPoint(CenterX + SIZE_ICON, CenterY);
 		}
 
 		protected override void OnDoublePress(InputState istate)
@@ -90,6 +100,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		protected override void OnHold(InputState istate, float holdTime)
 		{
 			// Not Available
+		}
+
+		public void SlavePress(InputState istate)
+		{
+			OnPress(istate);
 		}
 	}
 

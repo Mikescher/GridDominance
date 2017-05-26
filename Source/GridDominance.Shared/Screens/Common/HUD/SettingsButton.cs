@@ -55,7 +55,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			rotation += gameTime.ElapsedSeconds * RotationSpeed;
 
-			if (istate.IsRealJustDown && OpeningState == BistateProgress.Open && !IsPressed && SubButtons != null && !SubButtons.Any(p => p.IsPressed))
+			if (istate.IsRealJustDown && OpeningState == BistateProgress.Open && !IsPressed && SubButtons != null && !SubButtons.Any(p => p.IsPressed) && !SubButtons.Any(p => p.Slave.IsPointerDownOnElement))
 			{
 				// Close when clicked somewhere else
 				AddHUDOperation(new HUDSettingsCloseOperation());
