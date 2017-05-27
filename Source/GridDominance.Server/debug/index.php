@@ -188,6 +188,9 @@
         <form class="form" data-apitarget="get-ranking">
             <h3>Get Ranking</h3>
 
+            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
+            World ID:<br>            <input type="text" data-apiparam="world_id"              data-apiformat="int" data-apisig="true">
+
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
     </div>

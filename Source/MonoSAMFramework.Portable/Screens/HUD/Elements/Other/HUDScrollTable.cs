@@ -13,7 +13,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 	public class HUDScrollTable : HUDElement
 	{
 		private sealed class HSTColumn { public string Text; public float? Width; public float RealWidth; }
-		private sealed class HSTRow { public string[] Data; public Color? BackgroundOverride; }
+		private sealed class HSTRow { public string[] Data; public Color? ForegroundOverride; }
 
 		private const float DRAGSPEED_RESOLUTION = 0.01f;
 		private const float SPEED_MIN            = 24;
@@ -67,13 +67,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		public void AddRow(params string[] data)
 		{
-			_data.Add(new HSTRow{ BackgroundOverride = null, Data = data });
+			_data.Add(new HSTRow{ ForegroundOverride = null, Data = data });
 			_needsTabRecalc = true;
 		}
 
 		public void AddRowWithColor(Color c, params string[] data)
 		{
-			_data.Add(new HSTRow { BackgroundOverride = c, Data = data });
+			_data.Add(new HSTRow { ForegroundOverride = c, Data = data });
 			_needsTabRecalc = true;
 		}
 
@@ -123,8 +123,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 						sbatch, 
 						Font, 
 						FontSize,
-						FontRenderHelper.MakeTextSafe(Font, _data[di].Data[ci], '?'),
-						_data[di].BackgroundOverride ?? Foreground, 
+						_data[di].Data[ci],
+						_data[di].ForegroundOverride ?? Foreground, 
 						new Vector2(bounds.Left + x + LineWidth * 2, bounds.Top + py + rowHeight / 2f));
 
 					x += _columns[ci].RealWidth;
@@ -162,7 +162,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			//
 		}
 
-		protected override void DoUpdate(SAMTime gameTime, InputState istate)
+		protected override void DoUpdate(SAMTime gameTime, InputState istate) //TODO RestDrag does not really work good
 		{
 			if (_needsTabRecalc) RecalcTabData();
 
@@ -295,6 +295,27 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			}
 
 			isDragging = false;
+		}
+
+		public HUDScrollTableSingleRowPresenter CreateSingleRowPresenter(params string[] data)
+		{
+			var sp = new HUDScrollTableSingleRowPresenter(this, Depth);
+
+			foreach (var d in data) sp.AddData(d);
+
+			return sp;
+		}
+
+		public float GetColumnWidth(int idx)
+		{
+			if (_needsTabRecalc) RecalcTabData();
+
+			return _columns[idx].RealWidth;
+		}
+
+		public float GetRowHeight()
+		{
+			return FontSize + 2 * LineWidth;
 		}
 	}
 }

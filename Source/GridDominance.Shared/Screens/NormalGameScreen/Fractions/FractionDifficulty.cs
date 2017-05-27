@@ -34,7 +34,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 		public const float MULTIPLICATOR_COMPUTER_2 = 0.950f;  // Hard
 		public const float MULTIPLICATOR_COMPUTER_3 = 1.000f;  // Impossible
 
-		private const int SCORE_DIFF_0 = 11;
+		private const int SCORE_DIFF_0 = 11; // also specified in SQL (server)
 		private const int SCORE_DIFF_1 = 13;
 		private const int SCORE_DIFF_2 = 17;
 		private const int SCORE_DIFF_3 = 23;

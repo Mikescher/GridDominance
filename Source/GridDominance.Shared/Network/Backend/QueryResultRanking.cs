@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable InconsistentNaming
@@ -9,7 +8,7 @@ namespace GridDominance.Shared.Network.Backend
 #pragma warning disable 169
 #pragma warning disable 649
 
-	class QueryResultRanking
+	public class QueryResultRanking
 	{
 		public string result;
 
@@ -17,10 +16,21 @@ namespace GridDominance.Shared.Network.Backend
 		public string errormessage;
 
 		public List<QueryResultRankingData> ranking;
+		public List<QueryResultUserRanking> personal;
 	}
 
 	public class QueryResultRankingData
 	{
+		public int userid;
+		public string username;
+
+		public int totalscore;
+		public int totaltime;
+	}
+
+	public class QueryResultUserRanking
+	{
+		public int rank;
 		public int userid;
 		public string username;
 

@@ -35,3 +35,16 @@ function connectOrFail($host, $dbname, $user, $password) {
 		outputErrorException(ERRORS::INTERNAL_EXCEPTION, "Can't connect to db", $e, LOGLEVEL::ERROR);
 	}
 }
+
+function loadSQL($scriptname) {
+	$sql = file_get_contents('data/' . $scriptname . '.sql');
+	$sql = str_replace("\r", "", $sql);
+	$sql = str_replace("\n", " ", $sql);
+	return $sql;
+}
+
+function loadReplSQL($scriptname, $placeholder, $replace) {
+	$sql = loadSQL($scriptname);
+	$sql = str_replace($placeholder, $replace, $sql);
+	return $sql;
+}

@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		public void ShowHighscorePanel()
 		{
 			Settings.Close();
-			AddModal(new HighscorePanel(), true);
+			AddModal(new HighscorePanel(null), true);
 		}
 
 		public void ShowAboutPanel()

@@ -26,7 +26,8 @@ return [
 	'maxsize-logfile-debug'  =>   16 * 1024 * 1024, // 128MB
 	'maxsize-logfile-error'  =>  128 * 1024 * 1024, // 512MB
 
-	'levelids' => require 'config_levelids.php',
+	'levelmapping' => require 'config_levelids.php',
+	'levelids' => array_map(function($k){ return $k[1]; }, require 'config_levelids.php'),
 
 	'difficulties' => [0x00, 0x01, 0x02, 0x03],
 

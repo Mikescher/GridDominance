@@ -110,6 +110,18 @@ namespace GridDominance.DSLEditor
 			}
 		}
 
+		private GraphBlueprint ParseSpecificGraphFile(string f)
+		{
+			var path = Path.GetDirectoryName(f) ?? "";
+			var pattern = "*.gsheader";
+
+			var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
+
+			string IncludesFunc(string x) => includes.FirstOrDefault(p => GraphBlueprint.IsIncludeMatch(p.Key, x)).Value;
+
+			return new GraphParser(File.ReadAllText(f), IncludesFunc).Parse();
+		}
+
 		private GraphBlueprint ParseGraphFile(string input)
 		{
 			Func<string, string> includesFunc = x => null;
@@ -145,16 +157,17 @@ namespace GridDominance.DSLEditor
 			if (!Directory.Exists(folder)) { MessageBox.Show("No root folder"); return; }
 			if (!folder.ToLower().Trim('\\').EndsWith("GridDominance.Shared\\Content\\levels".ToLower())) { MessageBox.Show("Invalid root folder"); return; }
 
-			var files = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gslevel").ToList();
-			var levls = files.Select(f => ParseSpecificLevelFile(f, false)).ToList();
-
+			var files1 = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gslevel").ToList();
+			var files2 = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gegraph").ToList();
+			var levels = files1.Select(f => ParseSpecificLevelFile(f, false)).ToList();
+			var worlds = files2.Select(f => ParseSpecificGraphFile(f)).ToList();
 			{
 				var f0 = Path.Combine(folder, @"..\..\..\GridDominance.Shared\Content\Content.mgcb");
 
 				if (File.Exists(f0))
 				{
 					var txt0 = File.ReadAllText(f0);
-					foreach (var f in files)
+					foreach (var f in files1)
 					{
 						if (!txt0.Contains($"#begin levels/{Path.GetFileName(f)}"))
 						{
@@ -179,7 +192,7 @@ namespace GridDominance.DSLEditor
 				if (File.Exists(f1))
 				{
 					var txt1 = File.ReadAllText(f1);
-					foreach (var loadstr in files.Select(f => $"LoadLevel(content, \"levels/{Path.GetFileNameWithoutExtension(f)}\");"))
+					foreach (var loadstr in files1.Select(f => $"LoadLevel(content, \"levels/{Path.GetFileNameWithoutExtension(f)}\");"))
 					{
 						if (!txt1.Contains(loadstr))
 						{
@@ -202,7 +215,19 @@ namespace GridDominance.DSLEditor
 				txt2.AppendLine("if(count(get_included_files()) ==1) exit(\"Direct access not permitted.\");");
 				txt2.AppendLine();
 				txt2.AppendLine("return [");
-				foreach (var l in levls) txt2.AppendLine($"\t'{l.UniqueID:B}', // {l.Name, -8} | {l.FullName}");
+
+				bool first = true;
+				foreach (var ww in worlds)
+				{
+					if (!first) txt2.AppendLine();
+					first = false;
+					foreach (var nn in ww.Nodes)
+					{
+						var ll = levels.First(l => l.UniqueID == nn.LevelID);
+						txt2.AppendLine($"\t[ '{ww.ID:B}', '{ll.UniqueID:B}' ], // {ll.Name,-8} | {ll.FullName}");
+					}
+				}
+
 				txt2.AppendLine("];");
 
 				if (File.Exists(f2))

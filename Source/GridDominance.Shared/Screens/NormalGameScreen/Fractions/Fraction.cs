@@ -11,10 +11,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 	public class Fraction
 	{
 		public static readonly Color COLOR_NEUTRAL     = FlatColors.Silver;
-		public static readonly Color COLOR_PLAYER      = FlatColors.Nephritis;     
-		public static readonly Color COLOR_COMPUTER_01 = FlatColors.Pomegranate;    
-		public static readonly Color COLOR_COMPUTER_02 = FlatColors.BelizeHole;  
-		public static readonly Color COLOR_COMPUTER_03 = FlatColors.Wisteria;   
+		public static readonly Color COLOR_PLAYER      = FlatColors.Nephritis;
+		public static readonly Color COLOR_COMPUTER_01 = FlatColors.Pomegranate;
+		public static readonly Color COLOR_COMPUTER_02 = FlatColors.BelizeHole;
+		public static readonly Color COLOR_COMPUTER_03 = FlatColors.Wisteria;
 		public static readonly Color COLOR_COMPUTER_04 = FlatColors.Orange;
 		public static readonly Color COLOR_COMPUTER_05 = FlatColors.GreenSea;
 

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.SaveData;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
@@ -16,7 +19,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class HighscorePanel : HUDRoundedPanel // TODO SHow my rank if post-100
+	class HighscorePanel : HUDRoundedPanel
 	{
 		public const float WIDTH = 13 * GDConstants.TILE_WIDTH;
 		public const float HEIGHT = 9 * GDConstants.TILE_WIDTH;
@@ -24,16 +27,21 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public const float TEXT_HEIGHT = 70f;
 		public const float TEXT_HEIGHT_REAL = (HEIGHT - TAB_HEIGHT + TEXT_HEIGHT) / 2f;
 
-		public const float TAB_WIDTH = 12 * GDConstants.TILE_WIDTH;
-		public const float TAB_HEIGHT = 8 * GDConstants.TILE_WIDTH - TEXT_HEIGHT;
+		public const float TAB_WIDTH     = 12 * GDConstants.TILE_WIDTH;
+		public const float TAB_HEIGHT    = 8 * GDConstants.TILE_WIDTH - TEXT_HEIGHT;
+		public const float BOTTOM_HEIGHT = 1 * GDConstants.TILE_WIDTH;
 
 		public override int Depth => 0;
+
+		private readonly GraphBlueprint _focus;
 
 		private HUDRotatingImage _loader;
 		private HUDScrollTable _table;
 
-		public HighscorePanel()
+		public HighscorePanel(GraphBlueprint focus)
 		{
+			_focus = focus;
+
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
@@ -54,7 +62,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = "Global Ranking",
+				Text = _focus == null ? "Global Ranking" : "Ranking for \""+_focus.Name+"\"",
 				TextColor = FlatColors.Clouds,
 			});
 
@@ -96,7 +104,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			_table.AddColumn("", 64);
 			_table.AddColumn("Name", null);
 			_table.AddColumn("Points", 128);
-			_table.AddColumn("Total Time", 175);
+			_table.AddColumn("Total Time", 175); //TODO Total time seems off (too high for some users ???)
 
 			LoadHighscore().EnsureNoError();
 		}
@@ -108,28 +116,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			try
 			{
-				var data = await MainGame.Inst.Backend.GetRanking();
+				var data = await MainGame.Inst.Backend.GetRanking(MainGame.Inst.Profile, _focus);
 				MainGame.Inst.DispatchBeginInvoke(() =>
 				{
 					if (data != null)
 					{
-						_table.IsVisible = true;
-						_loader.IsVisible = false;
-
-						for (int i = 0; i < data.Count; i++)
-						{
-							var r1 = (i + 1).ToString();
-							var r2 = FontRenderHelper.MakeTextSafe(_table.Font, data[i].username, '?');
-							var r3 = data[i].totalscore.ToString();
-							var r4 = FormatSeconds(data[i].totaltime);
-
-							if (data[i].userid == MainGame.Inst.Profile.OnlineUserID)
-								_table.AddRowWithColor(FlatColors.SunFlower, r1, r2, r3, r4);
-							else if (data[i].username == "anonymous")
-								_table.AddRowWithColor(FlatColors.Concrete, r1, r2, r3, r4);
-							else
-								_table.AddRow(r1, r2, r3, r4);
-						}
+						ShowData(data);
 					}
 					else
 					{
@@ -141,6 +133,58 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			catch (Exception e)
 			{
 				SAMLog.Error("HighscorePanel", e);
+			}
+		}
+
+		private void ShowData(QueryResultRanking data)
+		{
+			_table.IsVisible = true;
+			_loader.IsVisible = false;
+
+			bool foundyourself = false;
+
+			for (int i = 0; i < data.ranking.Count; i++)
+			{
+				var r = data.ranking[i];
+
+				var r1 = (i + 1).ToString();
+				var r2 = FontRenderHelper.MakeTextSafe(_table.Font, r.username, '?');
+				var r3 = r.totalscore.ToString();
+				var r4 = FormatSeconds(r.totaltime);
+
+				if (r.userid == MainGame.Inst.Profile.OnlineUserID)
+				{
+					_table.AddRowWithColor(FlatColors.SunFlower, r1, r2, r3, r4);
+					foundyourself = true;
+				}
+				else if (r.username == "anonymous")
+				{
+					_table.AddRowWithColor(FlatColors.Concrete, r1, r2, r3, r4);
+				}
+				else
+				{
+					_table.AddRow(r1, r2, r3, r4);
+				}
+			}
+
+			if (!foundyourself && data.personal.Count > 0 && MainGame.Inst.Profile.AccountType != AccountType.Local)
+			{
+				_table.Size = new FSize(TAB_WIDTH, TAB_HEIGHT - BOTTOM_HEIGHT);
+				_table.RelativePosition = new FPoint(_table.RelativePosition.X, _table.RelativePosition.Y - BOTTOM_HEIGHT/2f);
+
+				var r1 = data.personal[0].rank.ToString();
+				var r2 = FontRenderHelper.MakeTextSafe(_table.Font, data.personal[0].username, '?');
+				var r3 = data.personal[0].totalscore.ToString();
+				var r4 = FormatSeconds(data.personal[0].totaltime);
+
+				var rowp = _table.CreateSingleRowPresenter(r1, r2, r3, r4);
+				rowp.Foreground = FlatColors.SunFlower;
+
+				rowp.Size = new FSize(TAB_WIDTH, _table.GetRowHeight());
+				rowp.RelativePosition = new FPoint(0, _table.RelativeBottom + (HEIGHT - _table.RelativeBottom) / 2f);
+				rowp.Alignment = HUDAlignment.TOPCENTER;
+
+				AddElement(rowp);
 			}
 		}
 

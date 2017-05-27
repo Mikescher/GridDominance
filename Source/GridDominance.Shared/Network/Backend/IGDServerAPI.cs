@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
@@ -20,7 +21,7 @@ namespace GridDominance.Shared.Network
 		Task<Tuple<VerifyResult, int, string>> Verify(string username, string password);
 		Task<Tuple<UpgradeResult, string>> UpgradeUser(PlayerProfile profile, string username, string password);
 		Task<Tuple<ChangePasswordResult, string>> ChangePassword(PlayerProfile profile, string newPassword);
-		Task<List<QueryResultRankingData>> GetRanking();
+		Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit);
 	}
 
 	#pragma warning disable 1998
@@ -85,9 +86,9 @@ namespace GridDominance.Shared.Network
 			return Tuple.Create(ChangePasswordResult.Success, string.Empty);
 		}
 
-		public async Task<List<QueryResultRankingData>> GetRanking()
+		public async Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit)
 		{
-			return new List<QueryResultRankingData>();
+			return new QueryResultRanking();
 		}
 	}
 	#pragma warning restore 1998

@@ -42,7 +42,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			_nodePositions = nodePositions;
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate)
+		public override void Update(SAMTime gameTime, InputState istate) //TODO RestDrag does not really work good
 		{
 			_gdScreen.IsDragging = isDragging;
 

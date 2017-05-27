@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
@@ -608,15 +609,19 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
-		public async Task<List<QueryResultRankingData>> GetRanking()
+		public async Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit)
 		{
 			try
 			{
-				var response = await QueryAsync<QueryResultRanking>("get-ranking", new RestParameterSet(), RETRY_GETRANKING);
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterString("world_id", limit?.ID.ToString("B") ?? "*");
+
+				var response = await QueryAsync<QueryResultRanking>("get-ranking", ps, RETRY_GETRANKING);
 
 				if (response.result == "success")
 				{
-					return response.ranking;
+					return response;
 				}
 				else
 				{

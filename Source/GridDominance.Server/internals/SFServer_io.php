@@ -30,8 +30,17 @@ abstract class ERRORS {
  * @param string $value
  * @return bool
  */
+function is_uint_str($value) {
+	return ctype_digit(strval($value)) && strlen($value) > 0;
+}
+
+/**
+ * @param string $value
+ * @return bool
+ */
 function is_int_str($value) {
-	return ctype_digit(strval($value));
+	if (strlen($value) > 0 && $value[0] === '-') $value = substr($value, 1);
+	return ctype_digit(strval($value)) && strlen($value) > 0;
 }
 
 /**
@@ -118,6 +127,18 @@ function getParamDeflOrError($name, $allowEmpty = false) {
  * @return string
  */
 function getParamUIntOrError($name) {
+	$v = getParamStrOrError($name, true);
+
+	if (!is_uint_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::DEBUG);
+
+	return (int)$v;
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
+function getParamIntOrError($name) {
 	$v = getParamStrOrError($name, true);
 
 	if (!is_int_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::DEBUG);
