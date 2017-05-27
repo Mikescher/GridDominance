@@ -1,0 +1,1118 @@
+<doc>
+    <assembly>
+        <name>Xamarin.InAppBilling</name>
+    </assembly>
+    <members>
+        <member name="T:Com.Android.Vending.Billing.IInAppBillingService">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingService.ConsumePurchase(System.Int32,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="purchaseToken">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingService.GetBuyIntent(System.Int32,System.String,System.String,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="sku">To be added.</param>
+            <param name="type">To be added.</param>
+            <param name="developerPayload">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingService.GetPurchases(System.Int32,System.String,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="type">To be added.</param>
+            <param name="continuationToken">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingService.GetSkuDetails(System.Int32,System.String,System.String,Android.OS.Bundle)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="type">To be added.</param>
+            <param name="skusBundle">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingService.IsBillingSupported(System.Int32,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="type">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Com.Android.Vending.Billing.IInAppBillingServiceStub">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="C:Com.Android.Vending.Billing.IInAppBillingServiceStub">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub.AsBinder">
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub.AsInterface(Android.OS.IBinder)">
+            <param name="obj">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub.ConsumePurchase(System.Int32,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="purchaseToken">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub.GetBuyIntent(System.Int32,System.String,System.String,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="sku">To be added.</param>
+            <param name="type">To be added.</param>
+            <param name="developerPayload">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub.GetPurchases(System.Int32,System.String,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="type">To be added.</param>
+            <param name="continuationToken">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub.GetSkuDetails(System.Int32,System.String,System.String,Android.OS.Bundle)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="type">To be added.</param>
+            <param name="skusBundle">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub.IsBillingSupported(System.Int32,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="type">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub.OnTransact(System.Int32,Android.OS.Parcel,Android.OS.Parcel,System.Int32)">
+            <param name="code">To be added.</param>
+            <param name="data">To be added.</param>
+            <param name="reply">To be added.</param>
+            <param name="flags">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Com.Android.Vending.Billing.IInAppBillingServiceStub+Proxy">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="C:Com.Android.Vending.Billing.IInAppBillingServiceStub+Proxy(Android.OS.IBinder)">
+            <param name="remote">To be added.</param>
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub+Proxy.AsBinder">
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub+Proxy.ConsumePurchase(System.Int32,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="purchaseToken">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub+Proxy.GetBuyIntent(System.Int32,System.String,System.String,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="sku">To be added.</param>
+            <param name="type">To be added.</param>
+            <param name="developerPayload">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub+Proxy.GetInterfaceDescriptor">
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub+Proxy.GetPurchases(System.Int32,System.String,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="type">To be added.</param>
+            <param name="continuationToken">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub+Proxy.GetSkuDetails(System.Int32,System.String,System.String,Android.OS.Bundle)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="type">To be added.</param>
+            <param name="skusBundle">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Com.Android.Vending.Billing.IInAppBillingServiceStub+Proxy.IsBillingSupported(System.Int32,System.String,System.String)">
+            <param name="apiVersion">To be added.</param>
+            <param name="packageName">To be added.</param>
+            <param name="type">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.Billing">
+            <summary>
+            Returns information about the Google Play In-App Billing API used in the <c>Xamarin.Android.InAppBilling</c> component.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Billing.APIVersion">
+            <summary>
+            Gets the API version.
+            </summary>
+            <returns>3</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Billing.ItemIdList">
+            <summary>
+            Gets the item identifier list.
+            </summary>
+            <returns>ITEM_ID_LIST</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Billing.SkuDetailsList">
+            <summary>
+            Gets the sku details list.
+            </summary>
+            <returns>DETAILS_LIST</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.BillingResult">
+            <summary>
+            Avalible response codes returned by methods from the <c>InAppBillingService</c> functions that are
+            part of Google Play In-App Billing.
+            </summary>
+            <remarks>
+                <c>BillingResult</c> was represented as a sealed class with computed properties instead of an enum
+            to better work with the Google Play InAppBillingService interface and Json.net.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.BillingResult.BillingUnavailable">
+            <summary>
+            In-App Billing is not supported on the given Android device.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.BillingResult.DeveloperError">
+            <summary>
+            An invalid argument has been passed to the API or the app was not correctly signed, properly set up for In-app Billing in Google Play Dashboard, or does not have the necessary permissions in its manifest.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.BillingResult.Error">
+            <summary>
+            A fatal error occurred during an API action.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.BillingResult.ItemAlreadyOwned">
+            <summary>
+            The user already owns the given item.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.BillingResult.ItemNotOwned">
+            <summary>
+            The given item has not been purchased by the user.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.BillingResult.ItemUnavailable">
+            <summary>
+            The requested item is unavailable for purchase.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.BillingResult.OK">
+            <summary>
+            The transaction completed successfully.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.BillingResult.ServiceUnavailable">
+            <summary>
+            Network connection is down.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.BillingResult.UserCancelled">
+            <summary>
+            The user canceled the transaction.
+            </summary>
+            <returns>The user cancelled - 1</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.IInAppBillingHandler">
+            <summary>
+            Defines the interfance that all InAppBillingHandlers used with Google Play In-App Billing need to support.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.IInAppBillingHandler.BuyProduct(Xamarin.InAppBilling.Product)">
+            <param name="product">Product.</param>
+            <summary>
+            Buys an items
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.IInAppBillingHandler.BuyProduct(System.String,System.String,System.String)">
+            <param name="sku">Sku.</param>
+            <param name="itemType">Item type.</param>
+            <param name="payload">Payload.</param>
+            <summary>
+            Buys an item.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.IInAppBillingHandler.ConsumePurchase(System.String)">
+            <param name="token">Token.</param>
+            <summary>
+            Consumes the purchased item
+            </summary>
+            <returns>
+                <c>true</c>, if purchased item was consumed, <c>false</c> otherwise.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.IInAppBillingHandler.ConsumePurchase(Xamarin.InAppBilling.Purchase)">
+            <param name="purchase">Purchased item</param>
+            <summary>
+            Consumes the purchased item
+            </summary>
+            <returns>
+                <c>true</c>, if purchased item was consumed, <c>false</c> otherwise.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.IInAppBillingHandler.GetPurchases(System.String)">
+            <param name="itemType">Item type (inapp or subs)</param>
+            <summary>
+            Gets the purchases.
+            </summary>
+            <returns>The purchases.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.IInAppBillingHandler.HandleActivityResult(System.Int32,Android.App.Result,Android.Content.Intent)">
+            <param name="requestCode">Request code.</param>
+            <param name="resultCode">Result code.</param>
+            <param name="data">Data.</param>
+            <summary>
+            Handles the activity result.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.IInAppBillingHandler.QueryInventoryAsync(System.Collections.Generic.IList{System.String},System.String)">
+            <param name="skuList">Sku list.</param>
+            <param name="itemType">Item type.</param>
+            <summary>
+            Queries the inventory asynchronously.
+            </summary>
+            <returns>List of strings</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingErrorType">
+            <summary>
+            Defines the types of errors that con be returned from a <see cref="T:Xamarin.InAppBilling.InAppBillingServiceConnection" /> when processing
+            billing requests.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.InAppBillingErrorType.BillingNotSupported">
+            <summary>
+            In App Billing is not supported on the current device.
+            </summary>
+        </member>
+        <member name="F:Xamarin.InAppBilling.InAppBillingErrorType.SubscriptionsNotSupported">
+            <summary>
+            Subscriptions are not supported on the current device.
+            </summary>
+        </member>
+        <member name="F:Xamarin.InAppBilling.InAppBillingErrorType.UnknownError">
+            <summary>
+            An unknown error has occurred.
+            </summary>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler">
+            <summary>
+            The <see cref="T:Xamarin.InAppBilling.InAppBillingHandler" /> is a helper class that handles communication with the
+            Google Play services to provide support for getting a list of available products, buying a product, consuming a
+            product, and getting a list of already owned products.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="C:Xamarin.InAppBilling.InAppBillingHandler(Android.App.Activity,Com.Android.Vending.Billing.IInAppBillingService,System.String)">
+            <param name="activity">Activity.</param>
+            <param name="billingService">Billing service.</param>
+            <param name="publicKey">Public key.</param>
+            <summary>
+            Initializes a new instance of the <see cref="T:Xamarin.InAppBilling.InAppBillingHandler" /> class.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingHandler.BuyProduct(Xamarin.InAppBilling.Product)">
+            <param name="product">The <see cref="!:Xamarin.Android.InAppBilling.Product" /> representing the item the users wants to
+            purchase.</param>
+            <summary>
+            Buys the given <see cref="!:Xamarin.Android.InAppBilling.Product" /></summary>
+            <remarks>This method automatically generates a unique GUID and attaches it as the developer payload for this purchase.
+            </remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingHandler.BuyProduct(Xamarin.InAppBilling.Product,System.String)">
+            <param name="product">The <see cref="!:Xamarin.Android.InAppBilling.Product" /> representing the item the users wants to
+            purchase.</param>
+            <param name="payload">The developer payload to attach to the purchase.</param>
+            <summary>
+            Buys the given <see cref="!:Xamarin.Android.InAppBilling.Product" /> and attaches the given developer payload to the
+            purchase.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingHandler.BuyProduct(System.String,System.String,System.String)">
+            <param name="sku">The SKU of the item to purchase.</param>
+            <param name="itemType">The type of the item to purchase.</param>
+            <param name="payload">The developer payload to attach to the purchase.</param>
+            <summary>
+            Buys a product based on the given product SKU and Item Type attaching the given payload
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.BuyProductError">
+            <summary>
+            Occurs when the user attempts to buy a product and there is an error.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingHandler.ConsumePurchase(System.String)">
+            <param name="token">The purchase token of the purchase to consume.</param>
+            <summary>
+            Consumes the purchased item
+            </summary>
+            <returns>
+                <c>true</c> if the purchase is successfully consumed else returns <c>false</c>.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingHandler.ConsumePurchase(Xamarin.InAppBilling.Purchase)">
+            <param name="purchase">The purchase receipt of the item to consume.</param>
+            <summary>
+            Consumes the purchased item.
+            </summary>
+            <returns>
+                <c>true</c> if the purchase is successfully consumed else returns <c>false</c>.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingHandler.GetPurchases(System.String)">
+            <param name="itemType">Item type (product or subs)</param>
+            <summary>
+            Gets a list of all products of a given item type purchased by the current user.
+            </summary>
+            <returns>A list of <see cref="T:Xamarin.InAppBilling.Product" />s purchased by the current user.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingHandler.HandleActivityResult(System.Int32,Android.App.Result,Android.Content.Intent)">
+            <param name="requestCode">Request code.</param>
+            <param name="resultCode">Result code.</param>
+            <param name="data">Data.</param>
+            <summary>
+            Handles the activity result.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.InAppBillingProcesingError">
+            <summary>
+            Occurs when there is an in app billing procesing error.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.OnGetProductsError">
+            <summary>
+            Raised where there is an error getting previously purchased products from the Google Play Services.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.OnInvalidOwnedItemsBundleReturned">
+            <summary>
+            Raised when Google Play Services returns an invalid bundle from previously purchased items
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.OnProductPurchased">
+            <summary>
+            Occurs after a product has been successfully purchased Google Play.
+            </summary>
+            <remarks>This event is fired after a <c>OnProductPurchased</c> which is raised when the user successfully
+            logs an intent to purchase with Google Play.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.OnProductPurchasedError">
+            <summary>
+            Occurs when the is an error on a product purchase attempt.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.OnPurchaseConsumed">
+            <summary>
+            Occurs when on product consumed.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.OnPurchaseConsumedError">
+            <summary>
+            Occurs when there is an error consuming a product.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.OnPurchaseFailedValidation">
+            <summary>
+            Occurs when a previously purchased product fails to validate.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.OnUserCanceled">
+            <summary>
+            Occurs when on user canceled.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.InAppBillingHandler.PublicKey">
+            <summary>
+            Gets or sets the Google Play Service public key used for In-App Billing
+            </summary>
+            <value>The public key.</value>
+            <remarks>NOTE: The key will be encrypted when it is stored in memory.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingHandler.QueryInventoryAsync(System.Collections.Generic.IList{System.String},System.String)">
+            <param name="skuList">Sku list.</param>
+            <param name="itemType">The <see cref="!:Xamarin.Android.InAppBilling.ItemType" /> of product being queried.</param>
+            <summary>
+            Queries the inventory asynchronously and returns a list of <see cref="!:Xamarin.Android.InAppBilling.Product" />s matching
+            the given list of SKU numbers.
+            </summary>
+            <returns>List of <see cref="!:Xamarin.Android.InAppBilling.Product" />s matching the given list of SKUs.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingHandler.QueryInventoryError">
+            <summary>
+            Occurs when there is an error querying inventory from Google Play Services.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+BuyProductErrorDelegate">
+            <param name="responseCode">To be added.</param>
+            <param name="sku">To be added.</param>
+            <summary>
+            Occurs when the user attempts to buy a product and there is an error.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+InAppBillingProcessingErrorDelegate">
+            <param name="message">Message.</param>
+            <summary>
+            Occurs when there is an in app billing procesing error.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+OnGetProductsErrorDelegate">
+            <param name="responseCode">Response code.</param>
+            <param name="ownedItems">Owned items.</param>
+            <summary>
+            Raised where there is an error getting previously purchased products from the Google Play Services.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+OnInvalidOwnedItemsBundleReturnedDelegate">
+            <param name="ownedItems">Owned items.</param>
+            <summary>
+            Raised when Google Play Services returns an invalid bundle from previously purchased items
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+OnProductPurchasedDelegate">
+            <param name="response">The response code returned from Google Play Services.</param>
+            <param name="purchase">Information about the purchase.</param>
+            <param name="purchaseData">To be added.</param>
+            <param name="purchaseSignature">To be added.</param>
+            <summary>
+            Occurs after a product has been successfully purchased Google Play.
+            </summary>
+            <remarks>This event is fired after a <c>OnProductPurchased</c> which is raised when the user successfully
+            logs an intent to purchase with Google Play.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+OnProductPurchaseErrorDelegate">
+            <param name="responseCode">Response code.</param>
+            <param name="sku">Sku.</param>
+            <summary>
+            Occurs when the is an error on a product purchase attempt.
+            </summary>
+            <remarks>The <c>responseCode</c> will be a value from <see cref="T:Xamarin.InAppBilling.BillingResult" />.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+OnPurchaseConsumedDelegate">
+            <param name="token">Token.</param>
+            <summary>
+            Occurs when on product consumed.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+OnPurchaseConsumedErrorDelegate">
+            <param name="responseCode">Response code.</param>
+            <param name="token">Token.</param>
+            <summary>
+            Occurs when there is an error consuming a product.
+            </summary>
+            <remarks>The <c>responseCode</c> will be a value from <see cref="T:Xamarin.InAppBilling.BillingResult" />.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+OnPurchaseFailedValidationDelegate">
+            <param name="purchase">The purchase information for the product</param>
+            <param name="purchaseData">To be added.</param>
+            <param name="purchaseSignature">To be added.</param>
+            <summary>
+            Occurs when a previously purchased product fails to validate.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+OnUserCanceledDelegate">
+            <summary>
+            Occurs when the user cancels an In App Billing purchase.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingHandler+QueryInventoryErrorDelegate">
+            <param name="responseCode">To be added.</param>
+            <param name="skuDetails">To be added.</param>
+            <summary>
+            Occurs when there is an error querying inventory from Google Play Services.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingServiceConnection">
+            <summary>
+            The <see cref="T:Xamarin.InAppBilling.InAppBillingServiceConnection" /> class binds your <c>Activity</c> to the Google Play’s In-app Billing
+            service to send In-app Billing requests to Google Play from your application. As part of the setup process,
+            the <see cref="T:Xamarin.InAppBilling.InAppBillingServiceConnection" /> also checks if the In-app Billing Version 3 API is supported by Google Play.
+            If the API version is not supported, or if an error occured while establishing the service binding, the listener is notified and passed an error message.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="C:Xamarin.InAppBilling.InAppBillingServiceConnection(Android.App.Activity,System.String)">
+            <param name="activity">Activity.</param>
+            <param name="publicKey">Public key.</param>
+            <summary>
+            Initializes a new instance of the <see cref="T:Xamarin.InAppBilling.InAppBillingServiceConnection" /> class.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.InAppBillingServiceConnection.BillingHandler">
+            <summary>
+            Gets the <see cref="T:Xamarin.InAppBilling.InAppBillingHandler" /> used to communicate with the Google Play Service
+            </summary>
+            <value>The billing handler.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingServiceConnection.Connect">
+            <summary>
+            Connect this instance to the Google Play service to support In-App Billing in your application
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.InAppBillingServiceConnection.Connected">
+            <summary>
+            Gets a value indicating whether this <see cref="T:Xamarin.InAppBilling.InAppBillingServiceConnection" /> is connected to the
+            Google Play service
+            </summary>
+            <value>
+                <c>true</c> if connected; otherwise, <c>false</c>.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingServiceConnection.Disconnect">
+            <summary>
+            Disconnects this instance from the Google Play service.
+            </summary>
+            <remarks>Important: Remember to unbind from the In-app Billing service when you are done with your activity.
+            If you don’t unbind, the open service connection could cause your device’s performance to degrade. To unbind
+            and free your system resources, call the <c>Disconnect</c> method when your Activity gets destroyed.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingServiceConnection.OnConnected">
+            <summary>
+            Occurs when on connected.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingServiceConnection.OnDisconnected">
+            <summary>
+            Occurs when on disconnected.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="E:Xamarin.InAppBilling.InAppBillingServiceConnection.OnInAppBillingError">
+            <summary>
+            Occurs when on in app billing error.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingServiceConnection.OnServiceConnected(Android.Content.ComponentName,Android.OS.IBinder)">
+            <param name="name">Name.</param>
+            <param name="service">Service.</param>
+            <summary>
+            Raises the service connected event.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingServiceConnection.OnServiceDisconnected(Android.Content.ComponentName)">
+            <param name="name">Name.</param>
+            <summary>
+            Raises the service disconnected event.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.InAppBillingServiceConnection.PublicKey">
+            <summary>
+            Gets or sets the Google Play Service public key used for In-App Billing
+            </summary>
+            <value>The public key.</value>
+            <remarks>NOTE: The key will be encrypted when it is stored in memory.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingServiceConnection.RaiseOnConnected">
+            <summary>
+            Raises the on connected event.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingServiceConnection.RaiseOnDisconnected">
+            <summary>
+            Raises the on disconnected event.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.InAppBillingServiceConnection.RaiseOnInAppBillingError(Xamarin.InAppBilling.InAppBillingErrorType,System.String)">
+            <param name="error">Error.</param>
+            <param name="message">Message.</param>
+            <summary>
+            Raises the on in app billing error.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.InAppBillingServiceConnection.Service">
+            <summary>
+            Gets the Google Play <c>InAppBillingService</c> interface.
+            </summary>
+            <value>The <c>InAppBillingService</c> attached to this <see cref="T:Xamarin.InAppBilling.InAppBillingServiceConnection" /></value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingServiceConnection+OnConnectedDelegate">
+            <summary>
+            Occurs when on connected.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingServiceConnection+OnDisconnectedDelegate">
+            <summary>
+            Occurs when on disconnected.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.InAppBillingServiceConnection+OnInAppBillingErrorDelegate">
+            <param name="error">Error.</param>
+            <param name="message">Message.</param>
+            <summary>
+            Occurs when on in app billing error.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.ItemType">
+            <summary>
+            Defines the types of items that can be purchased using Google Play In-App Billing.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.ItemType.Product">
+            <summary>
+            A standard consumable or non-consumable product.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.ItemType.Subscription">
+            <summary>
+            A subscription product such as a magazine.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.Product">
+            <summary>
+            Holds all information about an In-App Billing product available on the Google Play store.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="C:Xamarin.InAppBilling.Product">
+            <summary>
+            Initializes a new instance of the <see cref="T:Xamarin.InAppBilling.Product" /> class.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Product.Description">
+            <summary>
+            Gets or sets the description.
+            </summary>
+            <value>The description.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Product.Price">
+            <summary>
+            Gets or sets the price.
+            </summary>
+            <value>The price.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Product.Price_Amount_Micros">
+            <summary>
+            Price in micro-units, where 1,000,000 micro-units equal one unit of the currency. For example, if price is "€7.99", price_amount_micros is "7990000".
+            </summary>
+            <value>The price amount micros.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Product.Price_Currency_Code">
+            <summary>
+            ISO 4217 currency code for price. For example, if price is specified in British pounds sterling, price_currency_code is "GBP".
+            </summary>
+            <value>The price currency code.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Product.ProductId">
+            <summary>
+            Gets or sets the product identifier.
+            </summary>
+            <value>The product identifier.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Product.Title">
+            <summary>
+            Gets or sets the title.
+            </summary>
+            <value>The title.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.Product.ToString">
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Product.Type">
+            <summary>
+            Gets or sets the type.
+            </summary>
+            <value>The type.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.Purchase">
+            <summary>
+            Holds all information about a product purchased from Google Play for the current user.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="C:Xamarin.InAppBilling.Purchase">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Purchase.DeveloperPayload">
+            <summary>
+            Gets or sets the developer payload.
+            </summary>
+            <value>The developer payload.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Purchase.OrderId">
+            <summary>
+            Gets or sets the order identifier.
+            </summary>
+            <value>The order identifier.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Purchase.PackageName">
+            <summary>
+            Gets or sets the name of the package.
+            </summary>
+            <value>The name of the package.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Purchase.ProductId">
+            <summary>
+            Gets or sets the product identifier.
+            </summary>
+            <value>The product identifier.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Purchase.PurchaseState">
+            <summary>
+            Gets or sets the state of the purchase.
+            </summary>
+            <value>The state of the purchase.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Purchase.PurchaseTime">
+            <summary>
+            Gets or sets the purchase time.
+            </summary>
+            <value>The purchase time.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="P:Xamarin.InAppBilling.Purchase.PurchaseToken">
+            <summary>
+            Gets or sets the purchase token.
+            </summary>
+            <value>The purchase token.</value>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.Purchase.ToString">
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.ReservedTestProductIDs">
+            <summary>
+            Contains the reserved product IDs use to test In-App Billing via Google Play without actually making a
+            purchase. To test your implementation with static responses, you make an In-app Billing request using
+            a special item that has a reserved product ID. Each reserved product ID returns a specific static response
+            from Google Play. No money is transferred when you make In-app Billing requests with the reserved product
+            IDs. Also, you cannot specify the form of payment when you make a billing request with a reserved product ID.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.ReservedTestProductIDs.Canceled">
+            <summary>
+            When you make an In-app Billing request with this product ID Google Play responds as though the purchase was canceled.
+            </summary>
+            <returns>android.test.canceled</returns>
+            <remarks>This can occur when an error is encountered in the order process, such as an invalid credit card, or when you
+            cancel a user's order before it is charged.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.ReservedTestProductIDs.Purchased">
+            <summary>
+            When you make an In-app Billing request with this product ID, Google Play responds as though you successfully purchased an item.
+            </summary>
+            <returns>android.test.purchased</returns>
+            <remarks>The response includes a JSON string, which contains fake purchase information (for example, a fake order ID). In some cases,
+            the JSON string is signed and the response includes the signature so you can test your signature verification implementation
+            using these responses.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.ReservedTestProductIDs.Refunded">
+            <summary>
+            When you make an In-app Billing request with this product ID, Google Play responds as though the purchase was refunded.
+            </summary>
+            <returns>android.test.refunded</returns>
+            <remarks>Refunds cannot be initiated through Google Play's in-app billing service. Refunds must be initiated by you
+            (the merchant). After you process a refund request through your Google Wallet merchant account, a refund message is
+            sent to your application by Google Play. This occurs only when Google Play gets notification from Google Wallet that
+            a refund has been made.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.ReservedTestProductIDs.Unavailable">
+            <summary>
+            When you make an In-app Billing request with this product ID, Google Play responds as though the item being purchased
+            was not listed in your application's product list.
+            </summary>
+            <returns>android.test.item_unavailable</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.Resource">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="C:Xamarin.InAppBilling.Resource">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.Resource+Attribute">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.Resource+String">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Resource+String.library_name">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.Response">
+            <summary>
+            List of response codes available within the Google Play In-App Billing API.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Response.BuyIntent">
+            <summary>
+            Gets the buy intent.
+            </summary>
+            <returns>The buy intent.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Response.Code">
+            <summary>
+            Gets the response code.
+            </summary>
+            <returns>The response code.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Response.InAppContinuationToken">
+            <summary>
+            Gets the in app continuation token.
+            </summary>
+            <returns>The in app continuation token.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Response.InAppDataSignature">
+            <summary>
+            Gets the in app data signature.
+            </summary>
+            <returns>The in app data signature.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Response.InAppDataSignatureList">
+            <summary>
+            Gets the in app data signature list.
+            </summary>
+            <returns>The in app data signature list.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Response.InAppPurchaseData">
+            <summary>
+            Gets the in app purchase data.
+            </summary>
+            <returns>The in app purchase data.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Response.InAppPurchaseDataList">
+            <summary>
+            Gets the in app purchase data list.
+            </summary>
+            <returns>The in app purchase data list.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="F:Xamarin.InAppBilling.Response.InAppPurchaseItemList">
+            <summary>
+            Gets the in app purchase item list.
+            </summary>
+            <returns>The in app purchase item list.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.Utilities.Extensions">
+            <summary>
+            Adds extension helper methods to several built in classes used for handling In-App Billing
+            with Google Play.
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.Utilities.Extensions.GetReponseCodeFromIntent(Android.Content.Intent)">
+            <param name="intent">Intent.</param>
+            <summary>
+            Gets the reponse code from intent.
+            </summary>
+            <returns>The reponse code from intent.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.Utilities.Extensions.GetResponseCodeFromBundle(Android.OS.Bundle)">
+            <param name="bunble">Bunble.</param>
+            <summary>
+            Gets the response code from bundle.
+            </summary>
+            <returns>The response code from bundle.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="T:Xamarin.InAppBilling.Utilities.Security">
+            <summary>
+            Utility class to support secure transactions for Google Play In-App Billing
+            </summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="C:Xamarin.InAppBilling.Utilities.Security">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.Utilities.Security.GeneratePublicKey(System.String)">
+            <param name="encodedPublicKey">Encoded public key.</param>
+            <summary>
+            Generates the public key.
+            </summary>
+            <returns>The public key.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.Utilities.Security.Unify(System.String[],System.Int32[])">
+            <param name="element">List of elements used to reconstruct the string.</param>
+            <param name="segment">List of segments speciying the order of the elements.</param>
+            <summary>
+            Recombines the given elements and segments to reconstruct an obfuscated string.
+            </summary>
+            <returns>To be added.</returns>
+            <remarks>Given a list of elements {"A","B","C","D"} and segments {1,0,3,2} this function returns "BADC". This function is used to
+            hide a string inside of a Xamarin.Android app.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.Utilities.Security.Unify(System.String[],System.Int32[],System.String[])">
+            <param name="element">List of elements used to reconstruct the string.</param>
+            <param name="segment">List of segments speciying the order of the elements.</param>
+            <param name="hash">Given a list of elements {"A","B","C123","D"}, segments {1,0,3,2} and hashes {"123","007"} this function returns "BADC007". This function is used to
+            hide a string inside of a Xamarin.Android app.</param>
+            <summary>
+            Recombines the given elements, segments and hashes to reconstruct an obfuscated string.
+            </summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.Utilities.Security.Verify(Java.Security.IPublicKey,System.String,System.String)">
+            <param name="publicKey">Public key.</param>
+            <param name="signedData">Signed data.</param>
+            <param name="signature">Signature.</param>
+            <summary>
+            Verify the specified publicKey, signedData and signature.
+            </summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Xamarin.InAppBilling.Utilities.Security.VerifyPurchase(System.String,System.String,System.String)">
+            <param name="publicKey">Public key.</param>
+            <param name="signedData">Signed data.</param>
+            <param name="signature">Signature.</param>
+            <summary>
+            Verifies the purchase.
+            </summary>
+            <returns>
+                <c>true</c>, if purchase was verified, <c>false</c> otherwise.</returns>
+            <remarks>To be added.</remarks>
+        </member>
+    </members>
+</doc>
+andler.RaiseOnUserCanceled">
+            <summary>
+            Raises the on user canceled event.
+            </summary>
+        </member>
+    </members>
+</doc>

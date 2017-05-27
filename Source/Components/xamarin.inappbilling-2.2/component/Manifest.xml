@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<component format="1" id="xamarin.inappbilling">
+  <name>Xamarin.InAppBilling</name>
+  <publisher>Xamarin, Inc.</publisher>
+  <publisher-url>http://components.xamarin.com</publisher-url>
+  <version>2.2</version>
+  <summary>Component to assist in adding In-App Billing to a Xamarin.Android application via Google Play Services.</summary>
+  <samples>
+    <sample id="InAppBillingTesting">
+      <name>Android Sample.</name>
+      <summary>Demonstrates Xamarin.InAppBilling on Android.</summary>
+    </sample>
+  </samples>
+</component>

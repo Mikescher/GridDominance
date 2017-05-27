@@ -62,6 +62,9 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="OpenTK" />
+    <Reference Include="Xamarin.InAppBilling">
+      <HintPath>..\Components\xamarin.inappbilling-2.2\lib\android\Xamarin.InAppBilling.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndroidFileHelper.cs" />
