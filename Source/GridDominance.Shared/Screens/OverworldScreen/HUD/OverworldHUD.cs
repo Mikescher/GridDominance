@@ -48,6 +48,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			AddModal(new HighscorePanel(), true);
 		}
 
+		public void ShowAboutPanel()
+		{
+			Settings.Close();
+			AddModal(new AttributionsPanel(), true);
+		}
+
 		private async Task CreateUserAndShowAnonPanel()
 		{
 			var waitDialog = new HUDIconMessageBox

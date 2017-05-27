@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
@@ -57,7 +58,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				TextColor = FlatColors.Clouds,
 			});
 
-			_loader = new HUDRotatingImage(0)
+			_loader = new HUDRotatingImage
 			{
 				RelativePosition = new FPoint(0, TEXT_HEIGHT / 2f),
 				Alignment = HUDAlignment.CENTER,
@@ -71,7 +72,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			};
 			AddElement(_loader);
 
-			_table = new HUDScrollTable(0)
+			_table = new HUDScrollTable
 			{
 				RelativePosition = new FPoint(0, TEXT_HEIGHT / 2f),
 				Alignment = HUDAlignment.CENTER,
@@ -103,7 +104,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
 
-
 		private async Task LoadHighscore()
 		{
 			try
@@ -118,14 +118,18 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 						for (int i = 0; i < data.Count; i++)
 						{
-							if (data[i].userid == MainGame.Inst.Profile.OnlineUserID)
-								_table.AddRowWithColor(FlatColors.SunFlower, (i + 1).ToString(), data[i].username, data[i].totalscore.ToString(), FormatSeconds(data[i].totaltime));
-							else if (data[i].username == "anonymous")
-								_table.AddRowWithColor(FlatColors.Concrete, (i + 1).ToString(), data[i].username, data[i].totalscore.ToString(), FormatSeconds(data[i].totaltime));
-							else
-								_table.AddRow((i + 1).ToString(), data[i].username, data[i].totalscore.ToString(), FormatSeconds(data[i].totaltime));
-						}
+							var r1 = (i + 1).ToString();
+							var r2 = FontRenderHelper.MakeTextSafe(_table.Font, data[i].username, '?');
+							var r3 = data[i].totalscore.ToString();
+							var r4 = FormatSeconds(data[i].totaltime);
 
+							if (data[i].userid == MainGame.Inst.Profile.OnlineUserID)
+								_table.AddRowWithColor(FlatColors.SunFlower, r1, r2, r3, r4);
+							else if (data[i].username == "anonymous")
+								_table.AddRowWithColor(FlatColors.Concrete, r1, r2, r3, r4);
+							else
+								_table.AddRow((i + 1).ToString(), r1, r2, r3, r4);
+						}
 					}
 					else
 					{

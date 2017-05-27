@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResultUserData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\UpgradeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\VerifyResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Attributions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\AccountType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\PlayerProfile.cs" />
@@ -40,6 +41,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\DebugUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\AnonymousAccountPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ChangePasswordPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\AttributionsPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HighscorePanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\FullAccountPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HUDOperations\HUDTextBoxBlinkOperation.cs" />

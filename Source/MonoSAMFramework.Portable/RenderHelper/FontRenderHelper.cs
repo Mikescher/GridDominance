@@ -199,6 +199,8 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 		public static List<string> WrapLinesIntoWidth(string text, SpriteFont font, float fontSize, float maxWidth, HUDWordWrap wrap)
 		{
+			if (wrap == HUDWordWrap.NoWrap) return new List<string>{text};
+
 			var sz = MeasureStringCached(font, text, fontSize);
 
 			if (sz.X < maxWidth) return new List<string> { text };

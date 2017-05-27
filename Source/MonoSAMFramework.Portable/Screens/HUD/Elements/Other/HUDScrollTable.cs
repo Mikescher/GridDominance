@@ -49,7 +49,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		private bool _needsTabRecalc = true;
 		private int _maxScrollPosition = 0;
 
-		public HUDScrollTable(int depth)
+		public HUDScrollTable(int depth = 0)
 		{
 			Depth = depth;
 		}

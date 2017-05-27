@@ -1,6 +1,7 @@
 ﻿using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Language;
 using System;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -21,6 +22,11 @@ namespace GridDominance.Windows
 		public string DoSHA256(string input)
 		{
 			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+		}
+
+		public void OpenURL(string url)
+		{
+			Process.Start(url);
 		}
 
 		public void ExitApp() { /* works autom by MonoGame */ }

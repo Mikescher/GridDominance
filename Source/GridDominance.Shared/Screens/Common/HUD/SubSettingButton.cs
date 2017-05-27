@@ -117,7 +117,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			//TODO About
+			var hud = (ISettingsOwnerHUD)HUD;
+
+			hud.ShowAboutPanel();
 		}
 	}
 

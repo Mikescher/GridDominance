@@ -10,6 +10,7 @@
 		FileHelper FileHelper { get; }
 
 		string DoSHA256(string input);
+		void OpenURL(string url);
 
 		void ExitApp();
 	}

@@ -4,5 +4,6 @@
 	{
 		void ShowAccountPanel();
 		void ShowHighscorePanel();
+		void ShowAboutPanel();
 	}
 }

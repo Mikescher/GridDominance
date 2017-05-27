@@ -70,6 +70,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			AddModal(new HighscorePanel(), true);
 		}
 
+		public void ShowAboutPanel()
+		{
+			SelectNode(null);
+			Settings.Close();
+
+			AddModal(new AttributionsPanel(), true);
+		}
+
 		private async Task CreateUserAndShowAnonPanel()
 		{
 			var waitDialog = new HUDIconMessageBox

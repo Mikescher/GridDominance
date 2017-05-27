@@ -4,6 +4,8 @@ using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Language;
 using System.Security.Cryptography;
 using System.Text;
+using Android.Content;
+using Android.Net;
 
 namespace GridDominance.Android
 {
@@ -75,6 +77,11 @@ namespace GridDominance.Android
 		public string DoSHA256(string input)
 		{
 			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+		}
+
+		public void OpenURL(string url)
+		{
+			_activity.StartActivity(new Intent(Intent.ActionView, Uri.Parse(url)));
 		}
 
 		public void ExitApp()
