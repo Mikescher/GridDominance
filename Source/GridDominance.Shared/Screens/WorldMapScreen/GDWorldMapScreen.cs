@@ -133,7 +133,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (DebugSettings.Get("DebugBackground"))
 			{
 				sbatch.DrawRectangle(Graph.BoundingRect, Color.OrangeRed, 3f);
-				sbatch.DrawRectangle(Graph.BoundingViewport, Color.OrangeRed, 3f);
+				sbatch.DrawRectangle(Graph.BoundingViewport, Color.Purple, 3f);
 			}
 #endif
 

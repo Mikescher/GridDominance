@@ -68,6 +68,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			InitialNode = new RootNode(screen, g.RootNode);
 			screen.Entities.AddEntity(InitialNode);
+			Nodes.Add(InitialNode);
 		}
 
 		private void InitPipes(GraphBlueprint g)
