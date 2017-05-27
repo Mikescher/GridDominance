@@ -16,7 +16,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class HighscorePanel : HUDRoundedPanel
+	class HighscorePanel : HUDRoundedPanel // TODO SHow my rank if post-100
 	{
 		public const float WIDTH = 13 * GDConstants.TILE_WIDTH;
 		public const float HEIGHT = 9 * GDConstants.TILE_WIDTH;
@@ -128,7 +128,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							else if (data[i].username == "anonymous")
 								_table.AddRowWithColor(FlatColors.Concrete, r1, r2, r3, r4);
 							else
-								_table.AddRow((i + 1).ToString(), r1, r2, r3, r4);
+								_table.AddRow(r1, r2, r3, r4);
 						}
 					}
 					else
