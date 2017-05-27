@@ -79,6 +79,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public float Bottom => BoundingRectangle.Bottom;
 		public float Right => BoundingRectangle.Right;
 
+		public float RelativeTop  => RelativePosition.Y;
+		public float RelativeLeft => RelativePosition.X;
+
+		public float RelativeBottom => RelativePosition.Y + Height;
+		public float RelativeRight  => RelativePosition.X + Width;
+
 		public float Width => BoundingRectangle.Width;
 		public float Height => BoundingRectangle.Height;
 

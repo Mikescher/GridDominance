@@ -72,7 +72,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
 
 			if (whud != null)
-				offset.Set(whud.TopLevelDisplay.Bottom);
+				offset.Set(whud.TopLevelDisplay.RelativeBottom);
 			else
 				offset.Set(0);
 
