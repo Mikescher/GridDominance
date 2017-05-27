@@ -43,8 +43,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public void ShowAccountPanel()
 		{
-			SelectNode(null);
-
 			var profile = MainGame.Inst.Profile;
 
 			SelectNode(null);
@@ -62,6 +60,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				AddModal(new FullAccountPanel(), true);
 			}
+		}
+
+		public void ShowHighscorePanel()
+		{
+			SelectNode(null);
+			Settings.Close();
+
+			AddModal(new HighscorePanel(), true);
 		}
 
 		private async Task CreateUserAndShowAnonPanel()

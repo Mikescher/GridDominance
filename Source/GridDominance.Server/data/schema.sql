@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS error_log
   exception_stacktrace  varchar(4096) NOT NULL,
   timestamp             timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   additional_info       varchar(4096) NOT NULL,
+  acknowledged          boolean       NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY (error_id)
 );

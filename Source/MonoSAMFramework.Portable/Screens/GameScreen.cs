@@ -221,6 +221,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 			TranslatedBatch.OnBegin(bts);
 			InternalBatch.Begin(transformMatrix: mat);
+			try
 			{
 				Background.Draw(TranslatedBatch);
 				Entities.Draw(TranslatedBatch);
@@ -230,8 +231,11 @@ namespace MonoSAMFramework.Portable.Screens
 				DrawScreenDebug(TranslatedBatch);
 #endif
 			}
-			InternalBatch.End();
-			TranslatedBatch.OnEnd();
+			finally
+			{
+				InternalBatch.End();
+				TranslatedBatch.OnEnd();
+			}
 
 			// ======== STUFF ========
 
@@ -241,6 +245,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 			FixedBatch.OnBegin(bts);
 			InternalBatch.Begin(transformMatrix: VAdapterHUD.GetScaleMatrix());
+			try
 			{
 				GameHUD.Draw(FixedBatch);
 #if DEBUG
@@ -248,11 +253,13 @@ namespace MonoSAMFramework.Portable.Screens
 #endif
 				OnDrawHUD(TranslatedBatch);
 			}
-			InternalBatch.End();
-			FixedBatch.OnEnd();
+			finally
+			{
+				InternalBatch.End();
+				FixedBatch.OnEnd();
+			}
 
 			// =======================
-
 
 #if DEBUG
 			using (FixedBatch.BeginDebugDraw())

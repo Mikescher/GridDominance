@@ -197,6 +197,8 @@
     <Compile Include="Screens\HUD\Elements\Keyboard\KeyboardLayout.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDFadeOutInfoBox.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDRotatingImage.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDScrollTable.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDToast.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDInfoBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDModalDialog.cs" />

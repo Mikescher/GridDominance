@@ -49,7 +49,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			Initialize(g, initialFocus);
 		}
 
-		protected GDWorldHUD GDHUD => (GDWorldHUD) HUD;
+		public GDWorldHUD GDHUD => (GDWorldHUD) HUD;
+		public WorldMapBackground GDBackground => (WorldMapBackground) Background;
+		public TolerantBoxingViewportAdapter GDGameAdapter => (TolerantBoxingViewportAdapter) VAdapterGame;
 
 		protected override EntityManager CreateEntityManager() => new GDWorldMapEntityManager(this);
 		protected override GameHUD CreateHUD() => new GDWorldHUD(this);
@@ -87,7 +89,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			}
 
-			((WorldMapBackground)Background).InitBackground(GetEntities<LevelNode>().ToList());
+			GDBackground.InitBackground(GetEntities<LevelNode>().ToList());
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
@@ -154,7 +156,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			AddAgent(new ZoomOutAgent(this));
 
-			((GDWorldHUD) HUD).SelectedNode?.CloseNode();
+			GDHUD.SelectedNode?.CloseNode();
 		}
 
 		public void ZoomInstantOut()
@@ -164,14 +166,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (GetAgents<ZoomInAgent>().Any()) return;
 
 			ZoomState = BistateProgress.Expanded;
-			((WorldMapBackground)Background).GridLineAlpha = 0f;
+			GDBackground.GridLineAlpha = 0f;
 
 			var bounds = Graph.BoundingViewport;
-			((TolerantBoxingViewportAdapter)VAdapterGame).ChangeVirtualSize(bounds.Width, bounds.Height);
+			GDGameAdapter.ChangeVirtualSize(bounds.Width, bounds.Height);
 			MapViewportCenterX = bounds.CenterX;
 			MapViewportCenterY = bounds.CenterY;
 
-			((GDWorldHUD)HUD).SelectedNode?.CloseNode();
+			GDHUD.SelectedNode?.CloseNode();
 		}
 
 		private void ZoomIn(FPoint mapPosCenter)

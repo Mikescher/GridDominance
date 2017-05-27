@@ -184,6 +184,12 @@
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
+
+        <form class="form" data-apitarget="get-ranking">
+            <h3>Get Ranking</h3>
+
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
     </div>
 
 

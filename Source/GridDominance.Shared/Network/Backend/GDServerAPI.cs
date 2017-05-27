@@ -26,6 +26,7 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_CREATEUSER         = 6;
 		private const int RETRY_VERIFY             = 6;
 		private const int RETRY_CHANGE_PW          = 6;
+		private const int RETRY_GETRANKING         = 6;
 
 		private readonly IOperatingSystemBridge bridge;
 
@@ -604,6 +605,36 @@ namespace GridDominance.Shared.Network
 				SAMLog.Error("Backend", e);
 				ShowErrorCommunication();
 				return Tuple.Create(ChangePasswordResult.InternalError, "Internal server error");
+			}
+		}
+
+		public async Task<List<QueryResultRankingData>> GetRanking()
+		{
+			try
+			{
+				var response = await QueryAsync<QueryResultRanking>("get-ranking", new RestParameterSet(), RETRY_GETRANKING);
+
+				if (response.result == "success")
+				{
+					return response.ranking;
+				}
+				else
+				{
+					ShowErrorCommunication();
+					return null;
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
+				return null;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
+				return null;
 			}
 		}
 

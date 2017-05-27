@@ -3,5 +3,6 @@
 	public interface ISettingsOwnerHUD
 	{
 		void ShowAccountPanel();
+		void ShowHighscorePanel();
 	}
 }

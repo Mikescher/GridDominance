@@ -36,19 +36,19 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			Screen.MapViewportCenterX = bounds.CenterX;
 			Screen.MapViewportCenterY = bounds.CenterY;
 
-			((WorldMapBackground)_gdScreen.Background).GridLineAlpha = perc;
+			_gdScreen.GDBackground.GridLineAlpha = perc;
 		}
 
 		protected override void Start()
 		{
 			_gdScreen.ZoomState = BistateProgress.Reverting;
-			((WorldMapBackground) _gdScreen.Background).GridLineAlpha = 0f;
+			_gdScreen.GDBackground.GridLineAlpha = 0f;
 		}
 
 		protected override void End()
 		{
 			_gdScreen.ZoomState = BistateProgress.Normal;
-			((WorldMapBackground)_gdScreen.Background).GridLineAlpha = 1f;
+			_gdScreen.GDBackground.GridLineAlpha = 1f;
 
 			vp.ChangeVirtualSize(rectFinal.Width, rectFinal.Height);
 			Screen.MapViewportCenterX = rectFinal.CenterX;

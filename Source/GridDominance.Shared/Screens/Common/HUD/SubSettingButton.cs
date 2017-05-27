@@ -145,7 +145,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			//TODO Show Highscores
+			var hud = (ISettingsOwnerHUD)HUD;
+
+			hud.ShowHighscorePanel();
 		}
 	}
 

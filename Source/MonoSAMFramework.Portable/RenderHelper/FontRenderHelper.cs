@@ -150,7 +150,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			var bounds = MeasureStringCached(font, text);
 			var scale = GetFontScale(font, size);
 
-			sbatch.FillRectangle(new FRectangle(position.X, position.Y - scale*bounds.Y/2f, bounds.X * scale, bounds.Y * scale), background);
+			sbatch.FillRectangle(new FRectangle(position.X - size / 6f, position.Y - scale*bounds.Y/2f, bounds.X * scale + size / 3f, bounds.Y * scale), background);
 
 			sbatch.DrawString(
 				font,
@@ -278,6 +278,16 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 
 			return lines;
+		}
+
+		public static string MakeTextSafe(SpriteFont font, string s, char c)
+		{
+			char[] cc = new char[s.Length];
+			for (int i = 0; i < s.Length; i++)
+			{
+				if (!font.Characters.Contains(s[i])) cc[i] = c; else cc[i] = s[i];
+			}
+			return new string(cc);
 		}
 	}
 }

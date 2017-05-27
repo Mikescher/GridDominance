@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.SaveData;
@@ -19,6 +20,7 @@ namespace GridDominance.Shared.Network
 		Task<Tuple<VerifyResult, int, string>> Verify(string username, string password);
 		Task<Tuple<UpgradeResult, string>> UpgradeUser(PlayerProfile profile, string username, string password);
 		Task<Tuple<ChangePasswordResult, string>> ChangePassword(PlayerProfile profile, string newPassword);
+		Task<List<QueryResultRankingData>> GetRanking();
 	}
 
 	#pragma warning disable 1998
@@ -81,6 +83,11 @@ namespace GridDominance.Shared.Network
 		public async Task<Tuple<ChangePasswordResult, string>> ChangePassword(PlayerProfile profile, string newPassword)
 		{
 			return Tuple.Create(ChangePasswordResult.Success, string.Empty);
+		}
+
+		public async Task<List<QueryResultRankingData>> GetRanking()
+		{
+			return new List<QueryResultRankingData>();
 		}
 	}
 	#pragma warning restore 1998
