@@ -12,7 +12,7 @@ namespace MonoSAMFramework.Portable.Language
 			public bool Executed = false;
 		}
 
-		private ConcurrentQueue<CustomDispatcherItem> dispatchQueue = new ConcurrentQueue<CustomDispatcherItem>();
+		private readonly ConcurrentQueue<CustomDispatcherItem> dispatchQueue = new ConcurrentQueue<CustomDispatcherItem>();
 
 		public void BeginInvoke(Action a)
 		{
@@ -20,13 +20,13 @@ namespace MonoSAMFramework.Portable.Language
 			dispatchQueue.Enqueue(item);
 		}
 
-		public async Task Invoke(Action a)
+		public void Invoke(Action a)
 		{
 			var item = new CustomDispatcherItem { DispatchAction = a };
 			dispatchQueue.Enqueue(item);
 			while (!item.Executed)
 			{
-				await Task.Delay(0);
+				MonoSAMGame.CurrentInst.Bridge.Sleep(0);
 			}
 		}
 

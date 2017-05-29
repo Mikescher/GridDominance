@@ -55,7 +55,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 					{
 						maxTries--;
 						SAMLog.Info("QueryAsync", $"Retry query '{url}'. {maxTries}remaining", e.Message);
-						Task.Delay(RETRY_SLEEP_TIME).Wait();
+						MonoSAMGame.CurrentInst.Bridge.Sleep(RETRY_SLEEP_TIME);
 						continue;
 					}
 					else

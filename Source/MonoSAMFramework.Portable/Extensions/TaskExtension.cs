@@ -9,5 +9,10 @@ namespace MonoSAMFramework.Portable.Extensions
 		{
 			task.ContinueWith(t => { SAMLog.Error("EnsureNoError", t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
 		}
+
+		public static void RunAsync(this Task task)
+		{
+			Task.Run(() => task).EnsureNoError();
+		}
 	}
 }

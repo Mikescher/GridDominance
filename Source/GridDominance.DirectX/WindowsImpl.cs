@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 
 // ReSharper disable once CheckNamespace
 namespace GridDominance.Windows
@@ -11,23 +12,16 @@ namespace GridDominance.Windows
 	class WindowsImpl : IOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new WindowsFileHelper();
+		private readonly SHA256 sha256 = SHA256.Create();
 
 		public string FullDeviceInfoString { get; } = "?";
 		public string DeviceName { get; } = "PC";
 		public string DeviceVersion { get; } = Environment.OSVersion.VersionString;
 		public string ScreenResolution { get; } = "?";
 
-		private readonly SHA256 sha256 = SHA256.Create();
-
-		public string DoSHA256(string input)
-		{
-			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
-		}
-
-		public void OpenURL(string url)
-		{
-			Process.Start(url);
-		}
+		public string DoSHA256(string input) => ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+		public void OpenURL(string url) => Process.Start(url);
+		public void Sleep(int milsec) => Thread.Sleep(milsec);
 
 		public void ExitApp() { /* works autom by MonoGame */ }
 	}

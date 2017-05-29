@@ -11,6 +11,7 @@
 
 		string DoSHA256(string input);
 		void OpenURL(string url);
+		void Sleep(int milsec);
 
 		void ExitApp();
 	}

@@ -140,9 +140,9 @@ namespace MonoSAMFramework.Portable
 			gameDispatcher.BeginInvoke(a);
 		}
 
-		public async Task DispatchInvoke(Action a)
+		public void DispatchInvoke(Action a)
 		{
-			await gameDispatcher.Invoke(a);
+			gameDispatcher.Invoke(a);
 		}
 
 		protected abstract void OnAfterInitialize();

@@ -178,7 +178,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			HUD.AddModal(waitDialog, false, 0.7f);
 
-			DoLogin(waitDialog, editUsername.Text, editPassword.Text).EnsureNoError();
+			DoLogin(waitDialog, editUsername.Text, editPassword.Text).RunAsync();
 		}
 
 		private async Task DoLogin(HUDElement spinner, string username, string password)
@@ -217,15 +217,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					return;
 				}
 
-				await MonoSAMGame.CurrentInst.DispatchInvoke(() =>
-				{
+//				MonoSAMGame.CurrentInst.DispatchInvoke(() =>
+//				{
 					profile.OnlineUserID = verifyUserID;
 					profile.AccountType = AccountType.Full;
 					profile.OnlinePasswordHash = MainGame.Inst.Bridge.DoSHA256(password);
 					profile.OnlineUsername = username;
 
 					MainGame.Inst.SaveProfile();
-				});
+//				});
 
 				await MainGame.Inst.Backend.Reupload(profile);
 				await MainGame.Inst.Backend.DownloadData(profile);
@@ -242,6 +242,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 						CloseOnClick = true,
 
 					}, true);
+
+					MainGame.Inst.SetOverworldScreen();
 
 					Remove();
 				});
@@ -290,7 +292,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			HUD.AddModal(waitDialog, false, 0.7f);
 
-			DoSignup(waitDialog, editUsername.Text, editPassword.Text).EnsureNoError();
+			DoSignup(waitDialog, editUsername.Text, editPassword.Text).RunAsync();
 		}
 
 		private async Task DoSignup(HUDElement spinner, string username, string password)

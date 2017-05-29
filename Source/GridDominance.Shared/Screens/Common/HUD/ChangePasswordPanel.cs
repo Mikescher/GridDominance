@@ -163,7 +163,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			HUD.AddModal(waitDialog, false, 0.7f);
 
-			DoChangePassword(waitDialog, editPassword.Text).EnsureNoError();
+			DoChangePassword(waitDialog, editPassword.Text).RunAsync();
 		}
 
 

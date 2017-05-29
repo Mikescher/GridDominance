@@ -29,8 +29,8 @@
 [X] needs topic: particles
 [X] needs topic: screen with offset
 [X] needs topic: drag events
-[ ] No dim+energysaving while active
-[ ] Possible Names:
+[X] No dim+energysaving while active
+[X] Possible Names:
       - Grid Dominance
       - Bullet Swipe
       - Cannon Conquest   <--
@@ -54,10 +54,10 @@
       - see sample win hud
           - Diff levels clickable
           - On new diff achieve icon pop-grows (swiggle function) and +score indicator is visible (and animated ?)
-[~] Sound effects
-[~] Background music
+[X] Sound effects
+[/] Background music
 [X] Score
-[~] Menu
+[X] Menu
       - Account
       - Attributions
       - Highscore
@@ -97,9 +97,9 @@
 [X] Make Cannon Bullet power dependent on cannon size (no change for current defaault size, but big mama should one or twoshot enemy cannon), perhaps also shoot with less freq
 [X] Better Icons for 4 diff (1+4 is ok)
 [/] Zoom in should start mid pinch (once power is big enough) not when release finger
-[ ] Fix stretched splash screen (+ better splash image -> BFB logo (evtl bfb animation ???))
-[ ] Größere Hitbox pause button
-[ ] evtl größere buttons for speed (klein aufm handy)
+[X] Fix stretched splash screen (+ better splash image -> BFB logo (evtl bfb animation ???))
+[X] Größere Hitbox pause button
+[X] evtl größere buttons for speed (klein aufm handy)
 [X] Diff cannon sizes
 [~] Walls
 [X] kill walls

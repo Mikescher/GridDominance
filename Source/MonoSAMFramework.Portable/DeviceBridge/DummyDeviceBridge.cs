@@ -10,6 +10,7 @@
 		public string DoSHA256(string input) => "";
 
 		public void OpenURL(string url) { }
+		public void Sleep(int milsec) {}
 		public void ExitApp() {}
 	}
 
