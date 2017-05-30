@@ -3,6 +3,8 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Agents;
+using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.Common.Agents
 {
@@ -29,7 +31,7 @@ namespace GridDominance.Shared.Screens.Common.Agents
 				}
 				else
 				{
-					Screen.HUD.ShowToast("Click again to exit game", 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+					Screen.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_EXITTOAST), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 				}
 
 				_lastBackClick = gameTime.TotalElapsedSeconds;

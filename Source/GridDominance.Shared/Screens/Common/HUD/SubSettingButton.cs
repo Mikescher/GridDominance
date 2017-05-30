@@ -6,6 +6,7 @@ using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
@@ -42,7 +43,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		}
 
 		protected abstract TextureRegion2D GetIcon();
-		protected abstract string GetText();
+		protected abstract string ButtonText { get; }
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
@@ -50,7 +51,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * ScaleProgress, SIZE_ICON * ScaleProgress, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds);
 
-			FontRenderHelper.DrawTextVerticallyCenteredWithBackground(sbatch, Textures.HUDFontRegular, SIZE_ICON, GetText(), FlatColors.Clouds * FontProgress, new Vector2(CenterX + SIZE_ICON, CenterY), Color.Black * 0.5f * FontProgress);
+			FontRenderHelper.DrawTextVerticallyCenteredWithBackground(sbatch, Textures.HUDFontRegular, SIZE_ICON, ButtonText, FlatColors.Clouds * FontProgress, new Vector2(CenterX + SIZE_ICON, CenterY), Color.Black * 0.5f * FontProgress);
 		}
 
 		public override void OnInitialize()
@@ -62,7 +63,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			RelativePosition = new FPoint(px, py);
 
-			var bounds = FontRenderHelper.MeasureStringCached(Textures.HUDFontRegular, GetText());
+			var bounds = FontRenderHelper.MeasureStringCached(Textures.HUDFontRegular, ButtonText);
 			var scale = FontRenderHelper.GetFontScale(Textures.HUDFontRegular, SIZE_ICON);
 			Slave.Size = new FSize(bounds.X * scale, bounds.Y * scale);
 
@@ -113,7 +114,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public HUDButtonAbout(SettingsButton master) : base(master, 0) { }
 
 		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconAbout;
-		protected override string GetText() => "About";
+		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_ABOUT);
 
 		protected override void OnPress(InputState istate)
 		{
@@ -128,7 +129,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public ButtonAccount(SettingsButton master) : base(master, 1) { }
 
 		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconAccount;
-		protected override string GetText() => "Account";
+		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_ACCOUNT);
 
 		protected override void OnPress(InputState istate)
 		{
@@ -143,7 +144,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public ButtonHighscore(SettingsButton master) : base(master, 2) { }
 
 		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconHighscore;
-		protected override string GetText() => "Highscore";
+		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_HIGHSCORE);
 
 		protected override void OnPress(InputState istate)
 		{
@@ -158,7 +159,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public ButtonVolume(SettingsButton master) : base(master, 3) { }
 
 		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.SoundsEnabled ? Textures.TexHUDButtonIconVolumeOn : Textures.TexHUDButtonIconVolumeOff;
-		protected override string GetText() => "Mute";
+		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_MUTE);
 
 		protected override void OnPress(InputState istate)
 		{
@@ -172,7 +173,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public ButtonEffects(SettingsButton master) : base(master, 4) { }
 
 		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.EffectsEnabled ? Textures.TexHUDButtonIconEffectsOn : Textures.TexHUDButtonIconEffectsOff;
-		protected override string GetText() => "Effects";
+		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_EFFECTS);
 
 		protected override void OnPress(InputState istate)
 		{

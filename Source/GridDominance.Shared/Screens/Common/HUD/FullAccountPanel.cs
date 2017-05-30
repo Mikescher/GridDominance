@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
@@ -53,7 +54,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = "Account",
+				Text = L10N.T(L10NImpl.STR_FAP_ACCOUNT),
 				TextColor = FlatColors.Clouds,
 			});
 
@@ -67,7 +68,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 64,
 				TextColor = FlatColors.Clouds,
 
-				Text = "Username:",
+				Text = L10N.T(L10NImpl.STR_FAP_USERNAME),
 			});
 
 			AddElement(new HUDLabel(1)
@@ -93,7 +94,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 64,
 				TextColor = FlatColors.Clouds,
 
-				Text = "Score:",
+				Text = L10N.T(L10NImpl.STR_FAP_SCORE),
 			});
 
 			AddElement(new HUDLabel(1)
@@ -115,7 +116,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = new FPoint(24, 32),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
-				Text = "Change Password",
+				Text = L10N.T(L10NImpl.STR_FAP_CHANGEPW),
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,

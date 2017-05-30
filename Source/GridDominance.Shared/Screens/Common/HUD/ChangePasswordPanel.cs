@@ -18,6 +18,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -66,7 +67,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = "Change Password",
+				Text = L10N.T(L10NImpl.STR_CPP_CHANGEPW),
 				TextColor = FlatColors.Clouds,
 			});
 
@@ -80,7 +81,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 64,
 				TextColor = FlatColors.Clouds,
 
-				Text = "Username:",
+				Text = L10N.T(L10NImpl.STR_CPP_USERNAME),
 			});
 
 			AddElement(new HUDLabel(1)
@@ -105,7 +106,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontRegular,
 				FontSize = 40,
 
-				Placeholder = "New Password",
+				Placeholder = L10N.T(L10NImpl.STR_CPP_NEWPW),
 				IsPassword = true,
 
 				BackgoundCornerSize = 8,
@@ -122,7 +123,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = new FPoint(24, 32),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
-				Text = "Change",
+				Text = L10N.T(L10NImpl.STR_CPP_CHANGE),
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,
@@ -149,7 +150,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			var waitDialog = new HUDIconMessageBox
 			{
-				Text = "Changing password",
+				Text = L10N.T(L10NImpl.STR_CPP_CHANGING),
 				TextColor = FlatColors.TextHUD,
 				ColorBackground = FlatColors.BelizeHole,
 
@@ -183,7 +184,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(3, 1, 0.3f)
 							{
-								Text = "Password changed",
+								Text = L10N.T(L10NImpl.STR_CPP_CHANGED),
 								TextColor = FlatColors.TextHUD,
 								ColorBackground = FlatColors.Nephritis,
 								CloseOnClick = true,
@@ -212,7 +213,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 							{
-								Text = "Could not communicate with server",
+								Text = L10N.T(L10NImpl.STR_CPP_COMERR),
 								TextColor = FlatColors.Clouds,
 								ColorBackground = FlatColors.Alizarin,
 								CloseOnClick = true,
@@ -226,7 +227,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 							{
-								Text = "Authentication error",
+								Text = L10N.T(L10NImpl.STR_CPP_AUTHERR),
 								TextColor = FlatColors.Clouds,
 								ColorBackground = FlatColors.Alizarin,
 								CloseOnClick = true,
@@ -247,7 +248,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					spinner.Remove();
 					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 					{
-						Text = "Could not change password",
+						Text = L10N.T(L10NImpl.STR_CPP_CHANGEERR),
 						TextColor = FlatColors.Clouds,
 						ColorBackground = FlatColors.Alizarin,
 						CloseOnClick = true,

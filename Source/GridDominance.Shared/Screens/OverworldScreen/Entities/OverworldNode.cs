@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -93,22 +94,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			}
 			else
 			{
-
 				if (Blueprint == Levels.WORLD_001)
 				{
 					if (ForceClickCounter == 0)
 					{
-						Owner.HUD.ShowToast("Click two times more to unlock", 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST1), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 						ForceClickCounter++;
 					}
 					else if (ForceClickCounter == 1)
 					{
-						Owner.HUD.ShowToast("Click again to unlock", 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST2), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 						ForceClickCounter++;
 					}
 					else if (ForceClickCounter == 2)
 					{
-						Owner.HUD.ShowToast("World unlocked", 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST3), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 
 						MainGame.Inst.Profile.SkipTutorial = true;
 						MainGame.Inst.SaveProfile();
@@ -118,7 +118,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				}
 				else
 				{
-					Owner.HUD.ShowToast("World locked", 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+					Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 				}
 
 				MainGame.Inst.GDSound.PlayEffectError();

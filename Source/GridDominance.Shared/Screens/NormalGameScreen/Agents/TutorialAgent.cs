@@ -16,6 +16,7 @@ using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 {
@@ -158,7 +159,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			_controller5.RechargeBarrel = false;
 
-			SetInfoBox("Drag to rotate your own cannons");
+			SetInfoBox(L10N.T(L10NImpl.STR_TUT_INFO1));
 
 			AddTouchAnimation(_cannon1, _cannon2);
 		}
@@ -168,7 +169,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_state = TutorialState.ShootingFirstNeutral;
 
 			_infobox.Remove();
-			SetInfoBox("Shoot it until it becomes your cannon");
+			SetInfoBox(L10N.T(L10NImpl.STR_TUT_INFO2));
 
 			_anim?.Remove();
 		}
@@ -184,7 +185,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 				_cannon2.Rotation.Set(FloatMath.RAD_POS_180);
 			}
 
-			SetInfoBox("Now capture the next cannon");
+			SetInfoBox(L10N.T(L10NImpl.STR_TUT_INFO3));
 
 			AddTouchAnimation(_cannon2, _cannon3);
 		}
@@ -195,7 +196,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			_controller5.RechargeBarrel = true;
 
-			SetInfoBox("Keep shooting at the first cannon to increase its fire rate");
+			SetInfoBox(L10N.T(L10NImpl.STR_TUT_INFO4));
 
 			_anim?.Remove();
 		}
@@ -213,7 +214,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_cannon1.RotateTo(_cannon2);
 			_cannon2.RotateTo(_cannon3);
 
-			SetInfoBox("The enemy has captured a cannon. Attack him!");
+			SetInfoBox(L10N.T(L10NImpl.STR_TUT_INFO5));
 
 			AddTouchAnimation(_cannon3, _cannon4);
 		}
@@ -224,7 +225,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			
 			_screen.GameSpeedMode = GameSpeedModes.SUPERSLOW;
 
-			SetInfoBox("Speed up the Game with the bottom left button.");
+			SetInfoBox(L10N.T(L10NImpl.STR_TUT_INFO6));
 
 			_anim?.Remove();
 
@@ -240,7 +241,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_cannon3.RotateTo(_cannon4);
 			_controller5.RechargeBarrel = false;
 
-			SetInfoBox("Now capture the next cannon");
+			SetInfoBox(L10N.T(L10NImpl.STR_TUT_INFO7));
 
 			_anim2.Remove();
 		}
@@ -255,7 +256,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			_controller5.RechargeBarrel = true;
 
-			SetInfoBox("Win the game by capturing all enemy cannons");
+			SetInfoBox(L10N.T(L10NImpl.STR_TUT_INFO8));
 		}
 
 		private void SetInfoBox(string text)

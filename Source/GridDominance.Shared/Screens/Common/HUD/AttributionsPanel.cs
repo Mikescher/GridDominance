@@ -1,15 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using GridDominance.Shared.Resources;
-using Microsoft.Xna.Framework;
+﻿using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -45,7 +42,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = "Attributions",
+				Text = L10N.T(L10NImpl.STR_ATTRIBUTIONS),
 				TextColor = FlatColors.Clouds,
 			});
 

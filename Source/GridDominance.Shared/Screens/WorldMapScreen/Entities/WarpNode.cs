@@ -20,6 +20,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
@@ -95,7 +96,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 				AddEntityOperation(new ScreenShakeAndCenterOperation2(this, GDOwner));
 
-				Owner.HUD.ShowToast("This world is locked", 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+				Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 
 				return;
 			}

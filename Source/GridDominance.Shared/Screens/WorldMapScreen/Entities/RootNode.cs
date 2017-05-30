@@ -18,6 +18,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
@@ -44,6 +45,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private PointCPUParticleEmitter emitter;
 
 		public bool NodeEnabled { get { return true; } set {} }
+
+		private readonly string _text = L10N.T(L10NImpl.STR_GLOB_OVERWORLD);
 
 		public RootNode(GDWorldMapScreen scrn, RootNodeBlueprint bp) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
@@ -142,7 +145,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			FontRenderHelper.DrawTextCenteredWithBackground(
 				sbatch,
 				Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH,
-				"Overworld",
+				_text,
 				FlatColors.TextHUD,
 				Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH),
 				FlatColors.BackgroundHUD2 * 0.5f);

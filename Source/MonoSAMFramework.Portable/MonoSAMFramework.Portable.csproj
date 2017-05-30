@@ -84,6 +84,7 @@
     <Compile Include="Language\CacheCollection.cs" />
     <Compile Include="Language\CustomDispatcher.cs" />
     <Compile Include="Language\LazyProp.cs" />
+    <Compile Include="Localization\L10N.cs" />
     <Compile Include="LogProtocol\SAMLog.cs" />
     <Compile Include="LogProtocol\SAMLogEntry.cs" />
     <Compile Include="LogProtocol\SAMLogLevel.cs" />

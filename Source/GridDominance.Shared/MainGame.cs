@@ -16,6 +16,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared
 {
@@ -40,6 +41,8 @@ namespace GridDominance.Shared
 //			Backend = new DummyGDServerAPI();
 
 			Profile = new PlayerProfile();
+
+			L10NImpl.Init();
 
 			var sdata = FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);
 			if (sdata != null)

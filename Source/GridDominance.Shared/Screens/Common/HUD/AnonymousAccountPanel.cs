@@ -18,6 +18,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -67,7 +68,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = "Sign up / Log in",
+				Text = L10N.T(L10NImpl.STR_AAP_HEADER),
 				TextColor = FlatColors.Clouds,
 			});
 
@@ -80,7 +81,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontRegular,
 				FontSize = 40,
 
-				Placeholder = "Username",
+				Placeholder = L10N.T(L10NImpl.STR_AAP_USERNAME),
 				MaxLength = 16,
 
 				BackgoundCornerSize = 8,
@@ -100,7 +101,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontRegular,
 				FontSize = 40,
 
-				Placeholder = "Password",
+				Placeholder = L10N.T(L10NImpl.STR_AAP_PASSWORD),
 				IsPassword = true,
 
 				BackgoundCornerSize = 8,
@@ -117,7 +118,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = new FPoint(24, 32),
 				Size = new FSize((WIDTH - 3 * 24) / 2, 64),
 
-				Text = "Create Account",
+				Text = L10N.T(L10NImpl.STR_AAP_CREATEACCOUNT),
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,
@@ -134,7 +135,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = new FPoint(24, 32),
 				Size = new FSize((WIDTH - 3 * 24) / 2, 64),
 
-				Text = "Login",
+				Text = L10N.T(L10NImpl.STR_AAP_LOGIN),
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,
@@ -165,7 +166,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			var waitDialog = new HUDIconMessageBox
 			{
-				Text = "Logging in",
+				Text = L10N.T(L10NImpl.STR_AAP_LOGGINGIN),
 				TextColor = FlatColors.TextHUD,
 				ColorBackground = FlatColors.BelizeHole,
 
@@ -197,9 +198,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					{
 						var text = "???";
 						if (verifyResult == VerifyResult.InternalError) text = r.Item3;
-						if (verifyResult == VerifyResult.WrongPassword) text = "Wrong password";
-						if (verifyResult == VerifyResult.WrongUsername) text = "User not found";
-						if (verifyResult == VerifyResult.NoConnection) text = "Could not communicate with server";
+						if (verifyResult == VerifyResult.WrongPassword) text = L10N.T(L10NImpl.STR_AAP_WRONGPW);
+						if (verifyResult == VerifyResult.WrongUsername) text = L10N.T(L10NImpl.STR_AAP_USERNOTFOUND);
+						if (verifyResult == VerifyResult.NoConnection)  text = L10N.T(L10NImpl.STR_AAP_NOCOM);
 
 						spinner.Remove();
 						HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
@@ -235,7 +236,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					spinner.Remove();
 					HUD.AddModal(new HUDFadeOutInfoBox(3, 1, 0.3f)
 					{
-						Text = "Successfully logged in",
+						Text = L10N.T(L10NImpl.STR_AAP_LOGINSUCCESS),
 						TextColor = FlatColors.TextHUD,
 						ColorBackground = FlatColors.Nephritis,
 
@@ -257,7 +258,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					spinner.Remove();
 					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 					{
-						Text = "Could not login",
+						Text = L10N.T(L10NImpl.STR_AAP_NOLOGIN),
 						TextColor = FlatColors.Clouds,
 						ColorBackground = FlatColors.Alizarin,
 
@@ -278,7 +279,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			var waitDialog = new HUDIconMessageBox
 			{
-				Text = "Creating account",
+				Text = L10N.T(L10NImpl.STR_AAP_ACCCREATING),
 				TextColor = FlatColors.TextHUD,
 				ColorBackground = FlatColors.BelizeHole,
 
@@ -311,7 +312,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(3, 1, 0.3f)
 							{
-								Text = "Account created",
+								Text = L10N.T(L10NImpl.STR_AAP_ACCCREATED),
 								TextColor = FlatColors.TextHUD,
 								ColorBackground = FlatColors.Nephritis,
 								CloseOnClick = true,
@@ -326,7 +327,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 							{
-								Text = "Username already taken",
+								Text = L10N.T(L10NImpl.STR_AAP_USERTAKEN),
 								TextColor = FlatColors.Clouds,
 								ColorBackground = FlatColors.Alizarin,
 								CloseOnClick = true,
@@ -339,7 +340,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 							{
-								Text = "Account already created",
+								Text = L10N.T(L10NImpl.STR_AAP_ALREADYCREATED),
 								TextColor = FlatColors.Clouds,
 								ColorBackground = FlatColors.Alizarin,
 								CloseOnClick = true,
@@ -367,7 +368,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 							{
-								Text = "Could not communicate with server",
+								Text = L10N.T(L10NImpl.STR_AAP_NOCOM),
 								TextColor = FlatColors.Clouds,
 								ColorBackground = FlatColors.Alizarin,
 								CloseOnClick = true,
@@ -381,7 +382,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 							{
-								Text = "Authentication error",
+								Text = L10N.T(L10NImpl.STR_AAP_AUTHERROR),
 								TextColor = FlatColors.Clouds,
 								ColorBackground = FlatColors.Alizarin,
 								CloseOnClick = true,
@@ -402,7 +403,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					spinner.Remove();
 					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 					{
-						Text = "Could not create account",
+						Text = L10N.T(L10NImpl.STR_AAP_COULDNOTCREATE),
 						TextColor = FlatColors.Clouds,
 						ColorBackground = FlatColors.Alizarin,
 						CloseOnClick = true,

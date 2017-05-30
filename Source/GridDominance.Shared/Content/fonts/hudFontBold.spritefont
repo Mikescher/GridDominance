@@ -13,6 +13,13 @@
         <Start>&#32;</Start>
         <End>&#126;</End>
       </CharacterRegion>
+      <CharacterRegion><Start>ä</Start><End>ä</End></CharacterRegion>
+      <CharacterRegion><Start>ö</Start><End>ö</End></CharacterRegion>
+      <CharacterRegion><Start>ü</Start><End>ü</End></CharacterRegion>
+      <CharacterRegion><Start>Ä</Start><End>Ä</End></CharacterRegion>
+      <CharacterRegion><Start>Ö</Start><End>Ö</End></CharacterRegion>
+      <CharacterRegion><Start>Ü</Start><End>Ü</End></CharacterRegion>
+      <CharacterRegion><Start>ß</Start><End>ß</End></CharacterRegion>
     </CharacterRegions>
   </Asset>
 </XnaContent>

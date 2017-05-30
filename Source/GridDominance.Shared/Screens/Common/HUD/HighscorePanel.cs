@@ -16,6 +16,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -62,7 +63,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = _focus == null ? "Global Ranking" : "Ranking for \""+_focus.Name+"\"",
+				Text = _focus == null ? L10N.T(L10NImpl.STR_HSP_GLOBALRANKING) : L10N.TF(L10NImpl.STR_HSP_RANKINGFOR, _focus.Name),
 				TextColor = FlatColors.Clouds,
 			});
 
@@ -102,9 +103,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			AddElement(_table);
 
 			_table.AddColumn("", 64);
-			_table.AddColumn("Name", null);
-			_table.AddColumn("Points", 128);
-			_table.AddColumn("Total Time", 175); //TODO Total time seems off (too high for some users ???)
+			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
+			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 128);
+			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175); //TODO Total time seems off (too high for some users ???)
 
 			LoadHighscore().EnsureNoError();
 		}
@@ -126,7 +127,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					else
 					{
 						_loader.Color = FlatColors.Pomegranate;
-						HUD.ShowToast("Could not connect to highscore server", 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+						HUD.ShowToast(L10N.T(L10NImpl.STR_HSP_CONERROR), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
 					}
 				});
 			}

@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
@@ -99,8 +100,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				button.IsClosing = true;
 			}
 			subMenu = null;
-
-			HUD.Screen.PushNotification("HUDPauseButton :: Game resumed");
 		}
 
 		private void Open()
@@ -109,13 +108,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			this.GDHUD().GDOwner.IsPaused = true;
 
-			HUD.Screen.PushNotification("HUDPauseButton :: Game paused");
-
 			subMenu = new[]
 			{
-				new HUDPauseMenuButton(this, "RESUME", -1, 0, 3, OnResume),
-				new HUDPauseMenuButton(this, "RESTART", -2, 1, 3, OnRestart),
-				new HUDPauseMenuButton(this, "EXIT", -3, 2, 3, OnExit),
+				new HUDPauseMenuButton(this, L10N.T(L10NImpl.STR_PAUS_RESUME), -1, 0, 3, OnResume),
+				new HUDPauseMenuButton(this, L10N.T(L10NImpl.STR_PAUS_RESTART), -2, 1, 3, OnRestart),
+				new HUDPauseMenuButton(this, L10N.T(L10NImpl.STR_PAUS_EXIT), -3, 2, 3, OnExit),
 			};
 
 			Owner.AddElements(subMenu);
@@ -141,8 +138,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			this.GDHUD().GDOwner.PushNotification("Single Press");
-
 			if (!isOpened)
 			{
 				Open();

@@ -16,6 +16,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -230,7 +231,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 				AddEntityOperation(new ScreenShakeAndCenterOperation(this, GDOwner));
 
-				Owner.HUD.ShowToast("Level locked", 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+				Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_LEVELLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 
 				return;
 			}

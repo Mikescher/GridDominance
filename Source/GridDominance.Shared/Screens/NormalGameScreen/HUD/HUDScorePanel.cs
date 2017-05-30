@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
@@ -98,7 +99,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Color = FlatColors.Pomegranate,
 			});
 
-
 			AddElement(new HUDSeperator(HUDOrientation.Vertical, 3)
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
@@ -124,7 +124,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Size = new FSize(WIDTH / 3f, 40),
 
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				Text = "Level",
+				Text = L10N.T(L10NImpl.STR_HSP_LEVEL),
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
@@ -137,7 +137,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Size = new FSize(WIDTH / 3f, 40),
 
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				Text = "Points",
+				Text = L10N.T(L10NImpl.STR_HSP_POINTS),
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
@@ -150,7 +150,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Size = new FSize(WIDTH / 3f, 40),
 
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				Text = "Progress",
+				Text = L10N.T(L10NImpl.STR_HSP_PROGRESS),
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
@@ -204,7 +204,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
 				Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
 
-				Text = "Back",
+				Text = L10N.T(L10NImpl.STR_HSP_BACK),
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,
@@ -229,7 +229,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 						RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
 						Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
 
-						Text = "Next",
+						Text = L10N.T(L10NImpl.STR_HSP_NEXT),
 						TextColor = Color.White,
 						Font = Textures.HUDFontRegular,
 						FontSize = 55,
@@ -251,7 +251,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
 					Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
 
-					Text = "Again",
+					Text = L10N.T(L10NImpl.STR_HSP_AGAIN),
 					TextColor = Color.White,
 					Font = Textures.HUDFontRegular,
 					FontSize = 55,

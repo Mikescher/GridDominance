@@ -14,6 +14,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.REST;
 using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Network
 {
@@ -648,14 +649,14 @@ namespace GridDominance.Shared.Network
 			MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 			{
 				var screen = MainGame.Inst.GetCurrentScreen() as GameScreen;
-				screen?.HUD?.ShowToast("Could not connect to highscore server", 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				screen?.HUD?.ShowToast(L10N.T(L10NImpl.STR_API_CONERR), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
 			});
 		}
 
 		private void ShowErrorCommunication()
 		{
 			var screen = MainGame.Inst.GetCurrentScreen() as GameScreen;
-			screen?.HUD?.ShowToast("Could not communicate with highscore server", 40, FlatColors.Flamingo, FlatColors.Foreground, 1.5f);
+			screen?.HUD?.ShowToast(L10N.T(L10NImpl.STR_API_COMERR), 40, FlatColors.Flamingo, FlatColors.Foreground, 1.5f);
 		}
 	}
 }

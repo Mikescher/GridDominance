@@ -6,6 +6,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
@@ -82,7 +83,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			var waitDialog = new HUDIconMessageBox
 			{
-				Text = "Contacting server",
+				Text = L10N.T(L10NImpl.STR_GLOB_WAITFORSERVER),
 				TextColor = FlatColors.TextHUD,
 				ColorBackground = FlatColors.BelizeHole,
 

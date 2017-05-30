@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Language;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using Android.Content;
 using Android.Net;
 
@@ -82,6 +83,11 @@ namespace GridDominance.Android
 		public void OpenURL(string url)
 		{
 			_activity.StartActivity(new Intent(Intent.ActionView, Uri.Parse(url)));
+		}
+
+		public void Sleep(int milsec)
+		{
+			Thread.Sleep(milsec);
 		}
 
 		public void ExitApp()

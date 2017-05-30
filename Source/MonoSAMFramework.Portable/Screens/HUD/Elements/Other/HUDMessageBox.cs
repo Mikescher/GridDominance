@@ -84,6 +84,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 				Alignment = HUDAlignment.CENTER,
 				TextAlignment = HUDAlignment.CENTER,
 				FontSize = 96,
+				WordWrap = HUDWordWrap.WrapByWordTrusted,
 			};
 		}
 

@@ -3,6 +3,7 @@ using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 {
@@ -62,6 +63,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return MULTIPLICATOR_COMPUTER_3;
 
 				default:
+					SAMLog.Error("EnumSwitch", "GetScore()", "FractionDifficultyHelper.GetMultiplicator -> " + d);
 					throw new ArgumentOutOfRangeException(nameof(d), d, null);
 			}
 		}
@@ -83,6 +85,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 				case FractionDifficulty.KI_IMPOSSIBLE:
 					return "C3";
 				default:
+					SAMLog.Error("EnumSwitch", "GetScore()", "FractionDifficultyHelper.GetShortIdentifier -> " + d);
 					throw new ArgumentOutOfRangeException(nameof(d), d, null);
 			}
 		}
@@ -101,6 +104,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return Textures.TexDifficultyLine3;
 			}
 
+			SAMLog.Error("EnumSwitch", "GetScore()", "FractionDifficultyHelper.GetIcon -> " + d);
 			return null;
 		}
 
@@ -118,23 +122,30 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return GDColors.COLOR_DIFFICULTY_3;
 			}
 
+			SAMLog.Error("EnumSwitch", "GetScore()", "FractionDifficultyHelper.GetColor -> " + d);
 			return Color.Magenta;
 		}
+
+		private static readonly string _desc0 = L10N.T(L10NImpl.STR_DIFF_0);
+		private static readonly string _desc1 = L10N.T(L10NImpl.STR_DIFF_1);
+		private static readonly string _desc2 = L10N.T(L10NImpl.STR_DIFF_2);
+		private static readonly string _desc3 = L10N.T(L10NImpl.STR_DIFF_3);
 
 		public static string GetDescription(FractionDifficulty d)
 		{
 			switch (d)
 			{
-				case FractionDifficulty.KI_EASY:
-					return "Easy";
-				case FractionDifficulty.KI_NORMAL:
-					return "Normal";
-				case FractionDifficulty.KI_HARD:
-					return "Hard";
-				case FractionDifficulty.KI_IMPOSSIBLE:
-					return "Extreme";
+				case FractionDifficulty.DIFF_0:
+					return _desc0;
+				case FractionDifficulty.DIFF_1:
+					return _desc1;
+				case FractionDifficulty.DIFF_2:
+					return _desc2;
+				case FractionDifficulty.DIFF_3:
+					return _desc3;
 			}
 
+			SAMLog.Error("EnumSwitch", "GetScore()", "FractionDifficultyHelper.GetDescription -> " + d);
 			return null;
 		}
 
