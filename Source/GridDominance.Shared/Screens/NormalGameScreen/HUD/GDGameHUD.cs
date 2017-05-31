@@ -3,6 +3,9 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
@@ -31,6 +34,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				AddModal(new HUDTutorialScorePanel(profile, addPoints), false);
 			else
 				AddModal(new HUDScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints), false);
-		} 
+		}
+
+#if DEBUG
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
+		{
+			root.IsVisible = !DebugSettings.Get("HideHUD");
+		}
+#endif
 	}
 }

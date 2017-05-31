@@ -120,6 +120,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return GDColors.COLOR_DIFFICULTY_2;
 				case FractionDifficulty.KI_IMPOSSIBLE:
 					return GDColors.COLOR_DIFFICULTY_3;
+				case FractionDifficulty.NEUTRAL:
+					return Color.Magenta;
 			}
 
 			SAMLog.Error("EnumSwitch", "GetScore()", "FractionDifficultyHelper.GetColor -> " + d);

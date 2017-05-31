@@ -15,7 +15,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
 	class HUDPauseMenuButton : HUDButton
 	{
-		public const int MARKER_WIDTH = 33;
+		public const int MARKER_WIDTH = 33; //TODO get width from text
 		public const int MARKER_HEIGHT = 17;
 
 		private const int WIDTH = 170;

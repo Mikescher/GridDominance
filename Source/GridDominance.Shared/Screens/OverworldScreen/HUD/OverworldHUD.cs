@@ -7,6 +7,9 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.DebugTools;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
@@ -83,5 +86,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				}
 			});
 		}
+
+
+#if DEBUG
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
+		{
+			root.IsVisible = !DebugSettings.Get("HideHUD");
+		}
+#endif
 	}
 }

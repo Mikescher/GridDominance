@@ -103,10 +103,30 @@
 [X] Diff cannon sizes
 [~] Walls
 [X] kill walls
-[ ] portal walls
+[ ] portal walls (can have multi-in | multi-out)
+[ ] Glass Walls make reflection+refraction for lasers (splitting laser in to differently powerful lasers)
+[ ] True mirror walls for lasers
 [ ] endless level (donut)
 [ ] shoot 4 way cannon
 [ ] spreadshot cannon
 [ ] minigun cannon with cooldown
 [ ] rotating + moving walls
 [ ] rotating and moving cannons
+
+
+
+----------------------------
+
+ - World 0 := Tutorial
+ - World 1 := Basic, Free (evtl move some more maps from other worlds here)
+ - World 2 := Black Holes, Mirror Walls, Multiple Enemies
+ - World 3 := Laser, Portals, Wrap around maps
+ - World 4 := Bigger Maps, Movables, Shield cannons
+ - World 5 := Multiplayer (only one needs to have unlocked), Lidgren?
+
+ Pricing:
+ - 1,99 Full Game
+ - 0,99 Unlock World
+
+
+

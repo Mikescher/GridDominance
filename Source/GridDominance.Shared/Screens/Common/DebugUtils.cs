@@ -73,7 +73,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddTrigger("DBG", "ResetProfile",  scrn, SKeys.R, KeyModifier.Control, x => MainGame.Inst.ResetProfile());
 			DebugSettings.AddTrigger("DBG", "ClearMessages", scrn, SKeys.C, KeyModifier.None, x => scrn.DebugDisp.Clear());
 
-			if (scrn is GDWorldMapScreen) DebugSettings.AddTrigger("DBG", "ZoomOut", scrn, SKeys.Z, KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
+			if (scrn is GDWorldMapScreen) DebugSettings.AddTrigger("TRUE", "ZoomOut", scrn, SKeys.Z, KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
 
 			DebugSettings.AddSwitch("DBG", "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None, false);
 			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      scrn, SKeys.F2,  KeyModifier.None, true);
@@ -89,10 +89,11 @@ namespace GridDominance.Shared.Screens
 
 			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab,       KeyModifier.None);
 			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,         KeyModifier.None);
-			if (scrn is GDGameScreen)     DebugSettings.AddPush("DBG",  "AssimilateCannon",       scrn, SKeys.A,         KeyModifier.None);
-			if (scrn is GDWorldMapScreen) DebugSettings.AddPush("DBG",  "UnlockNode",             scrn, SKeys.A,         KeyModifier.None);
-			if (scrn is GDGameScreen)     DebugSettings.AddPush("DBG",  "AbandonCannon",          scrn, SKeys.S,         KeyModifier.None);
+			if (scrn is GDGameScreen)     DebugSettings.AddPush("TRUE",  "AssimilateCannon",       scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDWorldMapScreen) DebugSettings.AddPush("TRUE",  "UnlockNode",             scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDGameScreen)     DebugSettings.AddPush("TRUE",  "AbandonCannon",          scrn, SKeys.S,         KeyModifier.None);
 			if (scrn is GDWorldMapScreen) DebugSettings.AddPush("TRUE", "LeaveScreen",            scrn, SKeys.Backspace, KeyModifier.Control);
+			DebugSettings.AddPush("TRUE", "HideHUD", scrn, SKeys.H, KeyModifier.None);
 		}
 
 #endif

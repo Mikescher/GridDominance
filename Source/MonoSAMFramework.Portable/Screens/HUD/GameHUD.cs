@@ -18,7 +18,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 	public abstract class GameHUD : ISAMDrawable, ISAMUpdateable
 	{
 		public readonly GameScreen Screen;
-		private readonly HUDRootContainer root;
+		protected readonly HUDRootContainer root;
 		public readonly SpriteFont DefaultFont;
 
 		private HUDKeyboard _keyboard = null;

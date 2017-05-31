@@ -9,6 +9,9 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.DebugTools;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -108,5 +111,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				}
 			});
 		}
+
+#if DEBUG
+		protected override void OnUpdate(SAMTime gameTime, InputState istate)
+		{
+			root.IsVisible = !DebugSettings.Get("HideHUD");
+		}
+#endif
 	}
 }
