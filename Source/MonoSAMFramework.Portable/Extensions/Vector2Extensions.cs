@@ -71,14 +71,19 @@ namespace MonoSAMFramework.Portable.Extensions
 		
 		public static float ToAngle(this Vector2 vector2)
 		{
-			//
-			//              3*pi/2
-			//                |
-			//                |
-			//        pi -----+----- 0
-			//                |
-			//                |
-			//                pi/2
+			//   +------------------------------->
+			//   |
+			//   |
+			//   |          3*pi/2    
+			//   |            |       
+			//   |            |       
+			//   |    pi -----+----- 0
+			//   |            |       
+			//   |            |       
+			//   |            pi/2    
+			//   |
+			//   |
+			//   v
 			//
 			// = Counterclockwise
 			// = East : Zero

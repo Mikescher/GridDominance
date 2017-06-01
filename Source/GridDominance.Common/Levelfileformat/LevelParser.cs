@@ -40,6 +40,7 @@ namespace GridDominance.Levelfileformat
 			DefineMethod("blackhole", AddBlackHole);
 			DefineMethod("whitehole", AddWhiteHole);
 
+			DefineMethod("portal", AddPortal);
 		}
 
 		public LevelBlueprint Parse(string fileName = "__root__")
@@ -206,6 +207,18 @@ namespace GridDominance.Levelfileformat
 			var power = ExtractNumberParameter(methodParameter, 2, dia * BlackHoleBlueprint.DEFAULT_POWER_FACTOR);
 
 			_result.BlueprintBlackHoles.Add(new BlackHoleBlueprint(pcx, pcy, dia, +power));
+		}
+
+		private void AddPortal(List<string> methodParameter)
+		{
+			var grp = (short)ExtractIntegerParameter(methodParameter, 0);
+			var sid = ExtractBooleanParameter(methodParameter, 1);
+			var pcx = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
+			var len = ExtractNumberParameter(methodParameter, 3) * _scaleFactor;
+			var nrm = ExtractNumberParameter(methodParameter, 4);
+
+			_result.BlueprintPortals.Add(new PortalBlueprint(pcx, pcy, len, nrm, grp, sid));
 		}
 	}
 }

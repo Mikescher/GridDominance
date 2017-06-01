@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace GridDominance.Levelfileformat.Blueprint
 {
@@ -19,6 +20,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const byte SERIALIZE_ID_GLASSBLOCK  = 0x07;
 		public const byte SERIALIZE_ID_KITYPE      = 0x08;
 		public const byte SERIALIZE_ID_BLACKHOLE   = 0x09;
+		public const byte SERIALIZE_ID_PORTAL      = 0x10;
 		public const byte SERIALIZE_ID_EOF         = 0xFF;
 
 		public readonly List<CannonBlueprint>     BlueprintCannons     = new List<CannonBlueprint>();
@@ -26,6 +28,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public readonly List<VoidCircleBlueprint> BlueprintVoidCircles = new List<VoidCircleBlueprint>();
 		public readonly List<GlassBlockBlueprint> BlueprintGlassBlocks = new List<GlassBlockBlueprint>();
 		public readonly List<BlackHoleBlueprint>  BlueprintBlackHoles  = new List<BlackHoleBlueprint>();
+		public readonly List<PortalBlueprint>     BlueprintPortals     = new List<PortalBlueprint>();
 
 		public Guid UniqueID { get; set; } = Guid.Empty;
 		public string Name { get; set; } = "";
@@ -56,6 +59,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			for (int i = 0; i < BlueprintVoidCircles.Count; i++) BlueprintVoidCircles[i].Serialize(bw);
 			for (int i = 0; i < BlueprintGlassBlocks.Count; i++) BlueprintGlassBlocks[i].Serialize(bw);
 			for (int i = 0; i < BlueprintBlackHoles.Count;  i++) BlueprintBlackHoles[i].Serialize(bw);
+			for (int i = 0; i < BlueprintPortals.Count;     i++) BlueprintPortals[i].Serialize(bw);
 
 			bw.Write(SERIALIZE_ID_EOF);
 
@@ -90,6 +94,10 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 					case SERIALIZE_ID_BLACKHOLE:
 						BlueprintBlackHoles.Add(BlackHoleBlueprint.Deserialize(br));
+						break;
+
+					case SERIALIZE_ID_PORTAL:
+						BlueprintPortals.Add(PortalBlueprint.Deserialize(br));
 						break;
 
 					case SERIALIZE_ID_NAME:
@@ -150,6 +158,40 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 			if (UniqueID == Guid.Empty)
 				throw new Exception("Level needs a valid UUID");
+
+			if (BlueprintCannons.Count != BlueprintCannons.Select(c => c.CannonID).Distinct().Count()) throw new Exception("Duplicate CannonID");
+			foreach (var c in BlueprintCannons)
+			{
+				if (c.Diameter <= 0) throw new Exception("Cannon with diameter <= 0");
+			}
+
+			foreach (var w in BlueprintVoidWalls)
+			{
+				if (w.Length <= 0) throw new Exception("Voidwall with length <= 0");
+			}
+
+			foreach (var c in BlueprintVoidCircles)
+			{
+				if (c.Diameter <= 0) throw new Exception("Voidcircle with diameter <= 0");
+			}
+
+			foreach (var b in BlueprintGlassBlocks)
+			{
+				if (b.Width <= 0) throw new Exception("Glassblock with width <= 0");
+				if (b.Height <= 0) throw new Exception("Glassblock with height <= 0");
+			}
+
+			foreach (var h in BlueprintBlackHoles)
+			{
+				if (h.Diameter <= 0) throw new Exception("Blackhole with diameter <= 0");
+			}
+
+			foreach (var p1 in BlueprintPortals)
+			{
+				var match = BlueprintPortals.Where(p2 => p2.Group == p1.Group).Where(p2 => p2.Side == !p1.Side).Any();
+				if (!match) throw new Exception($"Portalgroup {p1.Group} has no matching in/out");
+				if (p1.Length <= 0) throw new Exception("Portal with length <= 0");
+			}
 		}
 	}
 }

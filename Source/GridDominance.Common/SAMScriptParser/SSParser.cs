@@ -235,6 +235,25 @@ namespace GridDominance.SAMScriptParser
 			return int.Parse(v);
 		}
 
+		protected bool ExtractBooleanParameter(List<string> methodParameter, int idx, bool? defaultValue = null)
+		{
+			if (idx >= methodParameter.Count)
+			{
+				if (defaultValue != null) return defaultValue.Value;
+				throw new Exception($"Not enough parameter (missing param {idx})");
+			}
+
+			var v = ExtractValueParameter(methodParameter, idx);
+			return ParseBool(v);
+		}
+
+		protected bool ExtractBooleanParameter(List<string> methodParameter, string name, bool? defaultValue = null)
+		{
+			var v = defaultValue.HasValue ? ExtractValueParameter(methodParameter, name, defaultValue.Value.ToString()) : ExtractValueParameter(methodParameter, name);
+
+			return ParseBool(v);
+		}
+
 		protected float ExtractNumberParameter(List<string> methodParameter, int idx, float? defaultValue = null)
 		{
 			if (idx >= methodParameter.Count)
@@ -374,6 +393,22 @@ namespace GridDominance.SAMScriptParser
 			if (d <= 0) throw new Exception("Alias nesting too deep: " + r);
 			if (_aliasDict.ContainsKey(r.ToLower())) return DeRef(_aliasDict[r.ToLower()], d-1);
 			return r;
+		}
+
+		private bool ParseBool(string d)
+		{
+			d = d.ToUpper();
+			if (d == "FALSE") return false;
+			if (d == "TRUE")  return true;
+
+			int di;
+			if (int.TryParse(d, out di))
+			{
+				if (di == 0) return false;
+				if (di == 1) return true;
+			}
+
+			throw new Exception("NotABool: " + d);
 		}
 	}
 }

@@ -10,11 +10,11 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public readonly int TargetCannonID;
 		public readonly float CannonRotation; // radians
 
-		public readonly Tuple<float, float>[] Rays; // <ray_endX, ray_endY>
+		public readonly Tuple<Vector2, Vector2>[] Rays; // <start, end>
 
 		public readonly List<Vector2> PreviewBulletPath; // NULL in game
 
-		public BulletPathBlueprint(int cid, float rot, Tuple<float, float>[] rays)
+		public BulletPathBlueprint(int cid, float rot, Tuple<Vector2, Vector2>[] rays)
 		{
 			TargetCannonID = cid;
 			CannonRotation = rot;
@@ -22,7 +22,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			PreviewBulletPath = null;
 		}
 
-		public BulletPathBlueprint(int cid, float rot, Tuple<float, float>[] rays, List<Vector2> calculatedPreviewPath)
+		public BulletPathBlueprint(int cid, float rot, Tuple<Vector2, Vector2>[] rays, List<Vector2> calculatedPreviewPath)
 		{
 			TargetCannonID = cid;
 			CannonRotation = rot;
@@ -37,8 +37,10 @@ namespace GridDominance.Levelfileformat.Blueprint
 			bw.Write((short)Rays.Length);
 			foreach (var ray in Rays)
 			{
-				bw.Write(ray.Item1);
-				bw.Write(ray.Item2);
+				bw.Write(ray.Item1.X);
+				bw.Write(ray.Item1.Y);
+				bw.Write(ray.Item2.X);
+				bw.Write(ray.Item2.Y);
 			}
 		}
 
@@ -49,13 +51,15 @@ namespace GridDominance.Levelfileformat.Blueprint
 			var rot = br.ReadSingle();
 
 			var cnt = br.ReadInt16();
-			var ray = new Tuple<float, float>[cnt];
+			var ray = new Tuple<Vector2, Vector2>[cnt];
 			for (int i = 0; i < cnt; i++)
 			{
-				var x = br.ReadSingle();
-				var y = br.ReadSingle();
+				var x1 = br.ReadSingle();
+				var y1 = br.ReadSingle();
+				var x2 = br.ReadSingle();
+				var y2 = br.ReadSingle();
 
-				ray[i] = Tuple.Create(x, y);
+				ray[i] = Tuple.Create(new Vector2(x1, y1), new Vector2(x2, y2));
 			}
 
 			return new BulletPathBlueprint(cid, rot, ray);

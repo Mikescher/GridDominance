@@ -122,18 +122,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				var c = this.GDOwner().GetEntities<Cannon>().First(p => p.BlueprintCannonID == bp.TargetCannonID);
 				var r = bp.CannonRotation;
-
-				var rays = new List<Tuple<Vector2, Vector2>>();
-
-				var start = Position;
-				foreach (var bpRay in bp.Rays)
-				{
-					var next = new Vector2(bpRay.Item1, bpRay.Item2);
-					rays.Add(Tuple.Create(start, next));
-					start = next;
-				}
-
-				BulletPaths.Add(new BulletPath(c, r, rays));
+				
+				BulletPaths.Add(new BulletPath(c, r, bp.Rays.ToList()));
 			}
 		}
 

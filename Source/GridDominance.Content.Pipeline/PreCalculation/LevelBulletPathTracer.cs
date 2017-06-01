@@ -13,7 +13,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 {
 	internal static class LevelBulletPathTracer
 	{
-		public const int MAX_COUNT_REFLECT = 8;
+		public const int MAX_COUNT_RECAST = 8;
 
 		private const int RESOLUTION = 3600;
 
@@ -40,12 +40,11 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			{
 				float deg = ideg * (360f / RESOLUTION);
 
-				float quality;
-				var ray = FindBulletPaths(worldNormal, worldExtend, cannon, deg, out quality);
+				var rays = FindBulletPaths(lvl, worldNormal, worldExtend, cannon, deg);
 
-				if (ideg == 0) rayAtStart = (ray != null);
+				if (ideg == 0) rayAtStart = (rays.Any());
 
-				if (ray == null)
+				if (rays.Count == 0)
 				{
 					if (bestRay != null)
 					{
@@ -57,22 +56,25 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				}
 				else
 				{
-					if (bestRay == null)
+					foreach (var ray in rays)
 					{
-						bestRay = ray;
-						bestQuality = quality;
-					}
-					else if (bestRay.TargetCannonID != ray.TargetCannonID)
-					{
-						if (!resultRays.Any()) rayAtStartQuality = bestQuality;
-						resultRays.Add(bestRay);
-						bestRay = ray;
-						bestQuality = quality;
-					}
-					else if (bestQuality > quality)
-					{
-						bestRay = ray;
-						bestQuality = quality;
+						if (bestRay == null)
+						{
+							bestRay = ray.Item1;
+							bestQuality = ray.Item2;
+						}
+						else if (bestRay.TargetCannonID != ray.Item1.TargetCannonID)
+						{
+							if (!resultRays.Any()) rayAtStartQuality = bestQuality;
+							resultRays.Add(bestRay);
+							bestRay = ray.Item1;
+							bestQuality = ray.Item2;
+						}
+						else if (bestQuality > ray.Item2)
+						{
+							bestRay = ray.Item1;
+							bestQuality = ray.Item2;
+						}
 					}
 				}
 			}
@@ -100,84 +102,103 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return resultRays.ToArray();
 		}
 
-		private static BulletPathBlueprint FindBulletPaths(World wBase, World wCollision, CannonBlueprint cannon, float deg, out float quality)
+		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, CannonBlueprint cannon, float deg)
 		{
-			float startRadians = deg * FloatMath.DegRad;
+			return FindBulletPaths(lvl, wBase, wCollision, new Vector2(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, MAX_COUNT_RECAST);
+		}
 
-			var rays = new List<Tuple<float, float>>();
+		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, Vector2 rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, int remainingRecasts)
+		{
+			var none = new List<Tuple<BulletPathBlueprint, float>>();
+			if (remainingRecasts <= 0) return none;
+
+			var rays = sourcerays.ToList();
 			
-			var rcStart = new Vector2(cannon.X, cannon.Y);
-			var rcEnd   = new Vector2(cannon.X, cannon.Y) + new Vector2(2048, 0).Rotate(startRadians);
+			var rcEnd = rcStart + new Vector2(2048, 0).Rotate(startRadians);
 
-			for (int i = 0; i < MAX_COUNT_REFLECT; i++)
+			var traceResult = RayCast(wBase, rcStart, rcEnd);
+			var traceResult2 = RayCast(wCollision, rcStart, rcEnd);
+
+			if (traceResult2 != null && traceResult != null && traceResult2.Item1.UserData != traceResult.Item1.UserData)
 			{
-				var traceResult = RayCast(wBase, rcStart, rcEnd);
-				var traceResult2 = RayCast(wCollision, rcStart, rcEnd);
-
-				if (traceResult2 != null && traceResult != null && traceResult2.Item1.UserData != traceResult.Item1.UserData)
-				{
-					// Dirty hit
-					quality = float.MaxValue;
-					return null;
-				}
-
-				if (traceResult == null)
-				{
-					quality = float.MaxValue;
-					return null;
-				}
-
-				var fCannon = traceResult.Item1.UserData as CannonBlueprint;
-				if (fCannon != null)
-				{
-					quality = FloatMath.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
-					rays.Add(Tuple.Create(traceResult.Item2.X, traceResult.Item2.Y));
-					return new BulletPathBlueprint(fCannon.CannonID, startRadians, rays.ToArray());
-				}
-
-				var fGlassBlock = traceResult.Item1.UserData as GlassBlockBlueprint;
-				if (fGlassBlock != null)
-				{
-					rays.Add(Tuple.Create(traceResult.Item2.X, traceResult.Item2.Y));
-
-					var pNewStart = traceResult.Item2;
-					var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
-					pVec *= 2048 * pVec.Length();
-					var pNewEnd = pNewStart + pVec;
-
-					rcStart = pNewStart;
-					rcEnd = pNewEnd;
-
-					continue;
-				}
-
-				var fVoidWall = traceResult.Item1.UserData as VoidWallBlueprint;
-				if (fVoidWall != null)
-				{
-					quality = float.MaxValue;
-					return null;
-				}
-
-				var fVoidCircle = traceResult.Item1.UserData as VoidCircleBlueprint;
-				if (fVoidCircle != null)
-				{
-					quality = float.MaxValue;
-					return null;
-				}
-
-				var fBlackhole = traceResult.Item1.UserData as BlackHoleBlueprint;
-				if (fBlackhole != null)
-				{
-					quality = float.MaxValue; // Black holes are _not_ correctly calculated in this preprocessor
-					return null;
-				}
-
-				throw new Exception("Unknown rayTrace resturn ficture: " + traceResult.Item1.UserData);
+				// Dirty hit
+				return none;
 			}
 
-			// Too many hops
-			quality = float.MaxValue;
-			return null;
+			if (traceResult == null)
+			{
+				return none;
+			}
+
+			var fCannon = traceResult.Item1.UserData as CannonBlueprint;
+			if (fCannon != null)
+			{
+				var quality = FloatMath.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
+				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				var path = new BulletPathBlueprint(fCannon.CannonID, startRadians, rays.ToArray());
+				return new List<Tuple<BulletPathBlueprint, float>> { Tuple.Create(path, quality) };
+			}
+
+			var fGlassBlock = traceResult.Item1.UserData as GlassBlockBlueprint;
+			if (fGlassBlock != null)
+			{
+				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+
+				var pNewStart = traceResult.Item2;
+				var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
+
+				return FindBulletPaths(lvl, wBase, wCollision, pNewStart, rays, pVec.ToAngle(), remainingRecasts - 1);
+			}
+
+			var fVoidWall = traceResult.Item1.UserData as VoidWallBlueprint;
+			if (fVoidWall != null)
+			{
+				return none;
+			}
+
+			var fVoidCircle = traceResult.Item1.UserData as VoidCircleBlueprint;
+			if (fVoidCircle != null)
+			{
+				return none;
+			}
+
+			var fBlackhole = traceResult.Item1.UserData as BlackHoleBlueprint;
+			if (fBlackhole != null)
+			{
+				return none; // Black holes are _not_ correctly calculated in this preprocessor
+			}
+
+			var fPortal = traceResult.Item1.UserData as PortalBlueprint;
+			if (fPortal != null)
+			{
+				bool hit = FloatMath.DiffRadiansAbs(traceResult.Item3.ToAngle(), FloatMath.ToRadians(fPortal.Normal)) < FloatMath.RAD_POS_005;
+
+				if (!hit) return none;
+
+				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+
+				var dat = new List<Tuple<BulletPathBlueprint, float>>();
+				foreach (var outportal in lvl.BlueprintPortals.Where(p => p.Side != fPortal.Side && p.Group == fPortal.Group))
+				{
+					var cIn  = new Vector2(fPortal.X, fPortal.Y);
+					var cOut = new Vector2(outportal.X, outportal.Y);
+
+					var rot = FloatMath.ToRadians(outportal.Normal - fPortal.Normal + 180);
+					var stretch = outportal.Length / fPortal.Length;
+
+					var newAngle = FloatMath.NormalizeAngle(startRadians + rot);
+					var newStart = cOut + stretch * (traceResult.Item2 - cIn).Rotate(rot);
+
+					newStart = Mirror(newStart, cOut, Vector2.UnitX.Rotate(FloatMath.ToRadians(outportal.Normal)));
+
+
+					var sub = FindBulletPaths(lvl, wBase, wCollision, newStart, rays, newAngle, remainingRecasts - 1);
+					dat.AddRange(sub);
+				}
+				return dat;
+			}
+
+			throw new Exception("Unknown rayTrace resturn ficture: " + traceResult.Item1.UserData);
 		}
 
 		private static Tuple<Fixture, Vector2, Vector2> RayCast(World w, Vector2 start, Vector2 end)
@@ -248,7 +269,43 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				FixtureFactory.AttachCircle(elem.Diameter * 0.5f * 0.3f, 1, body, Vector2.Zero, elem);
 			}
 
+			foreach (var elem in lvl.BlueprintPortals)
+			{
+				if (elem.Length < 0.01f) throw new Exception("Invalid Physics");
+
+				var body = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), 0, BodyType.Static, elem);
+				FixtureFactory.AttachRectangle(elem.Length + extend, PortalBlueprint.DEFAULT_WIDTH + extend, 1, Vector2.Zero, body, elem);
+				body.Rotation = FloatMath.DegRad * (elem.Normal + 90);
+			}
+
 			return world;
+		}
+
+		private static Vector2 Mirror(Vector2 p, Vector2 center, Vector2 normal)
+		{
+			//https://stackoverflow.com/a/6177788/1761622
+
+			float x1 = center.X - normal.Y;
+			float y1 = center.Y + normal.X;
+
+			float x2 = center.X + normal.Y;
+			float y2 = center.Y - normal.X;
+
+			float x3 = p.X;
+			float y3 = p.Y;
+
+			float u = ((x3 - x1) * (x2 - x1) + (y3 - y1) * (y2 - y1)) / ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+			float xu = x1 + u * (x2 - x1);
+			float yu = y1 + u * (y2 - y1);
+			
+			float dx = xu - p.X;
+			float dy = yu - p.Y;
+
+			float rx = p.X + 2 * dx;
+			float ry = p.Y + 2 * dy;
+
+			return new Vector2(rx, ry);
 		}
 	}
 }

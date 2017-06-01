@@ -24,11 +24,12 @@ namespace GridDominance.DSLEditor.Drawing
 			chrmap = new char[MAPWIDTH, MAPHEIGHT];
 			for (var x = 0; x < MAPWIDTH; x++) for (var y = 0; y < MAPHEIGHT; y++) chrmap[x, y] = ' ';
 
-			foreach (var c in level.BlueprintCannons) DrawCannon(c);
-			foreach (var w in level.BlueprintVoidWalls) DrawVoidWall(w);
+			foreach (var c in level.BlueprintCannons)     DrawCannon(c);
+			foreach (var w in level.BlueprintVoidWalls)   DrawVoidWall(w);
 			foreach (var c in level.BlueprintVoidCircles) DrawVoidCircle(c);
 			foreach (var c in level.BlueprintGlassBlocks) DrawGlassBlock(c);
-			foreach (var h in level.BlueprintBlackHoles) DrawBlackHole(h);
+			foreach (var h in level.BlueprintBlackHoles)  DrawBlackHole(h);
+			foreach (var p in level.BlueprintPortals)     DrawPortal(p);
 		}
 
 		private void DrawCannon(CannonBlueprint c)
@@ -66,98 +67,7 @@ namespace GridDominance.DSLEditor.Drawing
 			var wy = w.Y / 64;
 			var wl = w.Length / 64;
 
-			var wxs = new Vec2d(wx + wl / 2, wy);
-			wxs.RotateAround(new Vec2d(wx, wy), Math.PI * w.Rotation / 180);
-
-			var wxe = new Vec2d(wx - wl / 2, wy);
-			wxe.RotateAround(new Vec2d(wx, wy), Math.PI * w.Rotation / 180);
-
-			if ((int)Math.Round(w.Rotation % 180) == 0)
-			{
-				var sx = wx - wl / 2;
-				var ex = wx + wl / 2;
-				var y = wy;
-				
-				var done = false;
-				for (var x = sx + 0.5f; x < ex; x += 0.5f)
-				{
-					SetMap(x, y, '-');
-					done = true;
-				}
-				if (!done) SetMap(sx, y, '-');
-			}
-			else if ((int)Math.Round(w.Rotation % 180) == 90)
-			{
-				var x  = wx;
-				var sy = wy - wl / 2;
-				var ey = wy + wl / 2;
-
-				var done = false;
-				for (var y = sy + 0.5f; y < ey; y += 0.5f)
-				{
-					SetMap(x, y, '|');
-					done = true;
-				}
-				if (!done) SetMap(x, sy, '|');
-			}
-			else if ((int)Math.Round(w.Rotation % 180) < 90)
-			{
-				var sx = (float)wxs.X;
-				var sy = (float)wxs.Y;
-
-				var ex = (float)(wxe.X);
-				var ey = (float)(wxe.Y);
-
-				var dx = (ex - sx) / 32f;
-				var dy = (ey - sy) / 32f;
-
-				int ly = -99999;
-				int lx = -99999;
-				for (int i = 0; i <= 32; i++)
-				{
-					int ry = (int)Math.Round((sy + i * dy) * 2);
-					int rx = (int)Math.Round((sx + i * dx) * 2);
-
-					if (ry != ly && rx != lx)
-					{
-						SetMap(sx + i * dx, sy + i * dy, '\\');
-						ly = ry;
-						lx = rx;
-					}
-				}
-
-				SetMap(sx, sy, '\\');
-				SetMap(ex, ey, '\\');
-			}
-			else
-			{
-				var sx = (float)wxs.X;
-				var sy = (float)wxs.Y;
-
-				var ex = (float)(wxe.X);
-				var ey = (float)(wxe.Y);
-
-				var dx = (ex - sx) / 32f;
-				var dy = (ey - sy) / 32f;
-
-				int ly = -99999;
-				int lx = -99999;
-				for (int i = 0; i <= 32; i++)
-				{
-					int ry = (int)Math.Round((sy + i * dy) * 2);
-					int rx = (int)Math.Round((sx + i * dx) * 2);
-
-					if (ry != ly && rx != lx)
-					{
-						SetMap(sx + i * dx, sy + i * dy, '/');
-						ly = ry;
-						lx = rx;
-					}
-				}
-
-				SetMap(sx, sy, '/');
-				SetMap(ex, ey, '/');
-			}
+			DrawLine(wx, wy, wl, w.Rotation, '-', '|', '/', '\\');
 		}
 
 		private void DrawVoidCircle(VoidCircleBlueprint c)
@@ -184,10 +94,121 @@ namespace GridDominance.DSLEditor.Drawing
 		{
 			var x = c.X / 64;
 			var y = c.Y / 64;
-			var r = c.Diameter/2 / 64;
+			var r = c.Diameter / 2 / 64;
 
 			FillCircle(x, y, r, '.');
 			SetMap(x, y, '@');
+		}
+
+		private void DrawPortal(PortalBlueprint p)
+		{
+			var x = p.X / 64;
+			var y = p.Y / 64;
+			var l = p.Length / 64;
+			var r = p.Normal + 90;
+
+			DrawLine(x, y, l, r, '&');
+		}
+
+		private void DrawLine(float cx, float cy, float len, double rot, char c)
+		{
+			DrawLine(cx, cy, len, rot, c, c, c, c);
+		}
+
+		private void DrawLine(float cx, float cy, float len, double rot, char cH, char cV, char cTN, char cTP)
+		{
+			var wxs = new Vec2d(cx + len / 2, cy);
+			wxs.RotateAround(new Vec2d(cx, cy), Math.PI * rot / 180);
+
+			var wxe = new Vec2d(cx - len / 2, cy);
+			wxe.RotateAround(new Vec2d(cx, cy), Math.PI * rot / 180);
+
+			if ((int)Math.Round(rot % 180) == 0)
+			{
+				var sx = cx - len / 2;
+				var ex = cx + len / 2;
+				var y = cy;
+
+				var done = false;
+				for (var x = sx + 0.5f; x < ex; x += 0.5f)
+				{
+					SetMap(x, y, cH);
+					done = true;
+				}
+				if (!done) SetMap(sx, y, cH);
+			}
+			else if ((int)Math.Round(rot % 180) == 90)
+			{
+				var x = cx;
+				var sy = cy - len / 2;
+				var ey = cy + len / 2;
+
+				var done = false;
+				for (var y = sy + 0.5f; y < ey; y += 0.5f)
+				{
+					SetMap(x, y, cV);
+					done = true;
+				}
+				if (!done) SetMap(x, sy, cV);
+			}
+			else if ((int)Math.Round(rot % 180) < 90)
+			{
+				var sx = (float)wxs.X;
+				var sy = (float)wxs.Y;
+
+				var ex = (float)(wxe.X);
+				var ey = (float)(wxe.Y);
+
+				var dx = (ex - sx) / 32f;
+				var dy = (ey - sy) / 32f;
+
+				int ly = -99999;
+				int lx = -99999;
+				for (int i = 0; i <= 32; i++)
+				{
+					int ry = (int)Math.Round((sy + i * dy) * 2);
+					int rx = (int)Math.Round((sx + i * dx) * 2);
+
+					if (ry != ly && rx != lx)
+					{
+						SetMap(sx + i * dx, sy + i * dy, cTN);
+						ly = ry;
+						lx = rx;
+					}
+				}
+
+				SetMap(sx, sy, cTN);
+				SetMap(ex, ey, cTN);
+			}
+			else
+			{
+				var sx = (float)wxs.X;
+				var sy = (float)wxs.Y;
+
+				var ex = (float)(wxe.X);
+				var ey = (float)(wxe.Y);
+
+				var dx = (ex - sx) / 32f;
+				var dy = (ey - sy) / 32f;
+
+				int ly = -99999;
+				int lx = -99999;
+				for (int i = 0; i <= 32; i++)
+				{
+					int ry = (int)Math.Round((sy + i * dy) * 2);
+					int rx = (int)Math.Round((sx + i * dx) * 2);
+
+					if (ry != ly && rx != lx)
+					{
+						SetMap(sx + i * dx, sy + i * dy, cTP);
+						ly = ry;
+						lx = rx;
+					}
+				}
+
+				SetMap(sx, sy, cTP);
+				SetMap(ex, ey, cTP);
+			}
 		}
 
 		private void FillMap(float x1, float y1, float x2, float y2, char c)

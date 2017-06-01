@@ -45,6 +45,7 @@
     <Compile Include="Levelfileformat\Blueprint\BulletPathBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\LevelBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\BlackHoleBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\PortalBlueprint.cs" />
     <Compile Include="Levelfileformat\LevelParser.cs" />
     <Compile Include="Levelfileformat\Blueprint\VoidCircleBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\GlassBlockBlueprint.cs" />

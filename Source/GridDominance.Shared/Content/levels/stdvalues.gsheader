@@ -29,6 +29,14 @@ define(KI_DYNAMIC_RAYTRACE,  10)
 define(KI_PRECALC_PATHTRACE, 11)
 define(KI_PRECALC_SIMULATE,  12)
 
+define(PORTAL_IN,  true)
+define(PORTAL_OUT, false)
+
+define(PORTAL_1, 1)
+define(PORTAL_2, 2)
+define(PORTAL_3, 3)
+define(PORTAL_4, 4)
+
 
 scale(TILE_WIDTH)
 
