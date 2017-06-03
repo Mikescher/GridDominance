@@ -10,6 +10,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
@@ -17,7 +18,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 	{
 		public const int DIAMETER = 48;
 
-		public const float ANIMATION_SPEED = 2.5f;
+		public const float ANIMATION_SPEED = 0.5f;
 
 		private GDGameScreen GDScreen => (GDGameScreen) HUD.Screen;
 
@@ -81,11 +82,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		{
 			if (isOpened && FloatMath.IsNotOne(animationProgress))
 			{
-				animationProgress = FloatMath.LimitedInc(animationProgress, gameTime.ElapsedSeconds * ANIMATION_SPEED, 1f);
+				animationProgress = FloatMath.LimitedInc(animationProgress, gameTime.ElapsedSeconds / ANIMATION_SPEED, 1f);
 			}
 			else if (!isOpened && FloatMath.IsNotZero(animationProgress))
 			{
-				animationProgress = FloatMath.LimitedDec(animationProgress, gameTime.ElapsedSeconds * ANIMATION_SPEED, 0f);
+				animationProgress = FloatMath.LimitedDec(animationProgress, gameTime.ElapsedSeconds / ANIMATION_SPEED, 0f);
 			}
 		}
 
@@ -108,11 +109,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			this.GDHUD().GDOwner.IsPaused = true;
 
+			var t1 = L10N.T(L10NImpl.STR_PAUS_RESUME);
+			var t2 = L10N.T(L10NImpl.STR_PAUS_RESTART);
+			var t3 = L10N.T(L10NImpl.STR_PAUS_EXIT);
+
+			var w1 = FontRenderHelper.MeasureStringCached(Textures.HUDFontBold, t1, 40f);
+			var w2 = FontRenderHelper.MeasureStringCached(Textures.HUDFontBold, t2, 40f);
+			var w3 = FontRenderHelper.MeasureStringCached(Textures.HUDFontBold, t3, 40f);
+
+			var w = FloatMath.Max(w1.X, w2.X, w3.X);
+
 			subMenu = new[]
 			{
-				new HUDPauseMenuButton(this, L10N.T(L10NImpl.STR_PAUS_RESUME), -1, 0, 3, OnResume),
-				new HUDPauseMenuButton(this, L10N.T(L10NImpl.STR_PAUS_RESTART), -2, 1, 3, OnRestart),
-				new HUDPauseMenuButton(this, L10N.T(L10NImpl.STR_PAUS_EXIT), -3, 2, 3, OnExit),
+				new HUDPauseMenuButton(this, t1, w, -1, 0, 3, OnResume),
+				new HUDPauseMenuButton(this, t2, w, -2, 1, 3, OnRestart),
+				new HUDPauseMenuButton(this, t3, w, -3, 2, 3, OnExit),
 			};
 
 			Owner.AddElements(subMenu);
