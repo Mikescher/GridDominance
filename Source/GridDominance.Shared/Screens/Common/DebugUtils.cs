@@ -65,13 +65,15 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), false);
 #endif
 
-			DebugSettings.AddTrigger("DBG", "SetQuality_1",  scrn, SKeys.D1, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.FD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_2",  scrn, SKeys.D2, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.BD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_3",  scrn, SKeys.D3, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.LD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_4",  scrn, SKeys.D4, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.MD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_5",  scrn, SKeys.D5, KeyModifier.Control, x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.HD));
-			DebugSettings.AddTrigger("DBG", "ResetProfile",  scrn, SKeys.R, KeyModifier.Control, x => MainGame.Inst.ResetProfile());
-			DebugSettings.AddTrigger("DBG", "ClearMessages", scrn, SKeys.C, KeyModifier.None, x => scrn.DebugDisp.Clear());
+			DebugSettings.AddTrigger("DBG", "SetQuality_1",    scrn, SKeys.D1, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.FD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_2",    scrn, SKeys.D2, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.BD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_3",    scrn, SKeys.D3, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.LD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_4",    scrn, SKeys.D4, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.MD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_5",    scrn, SKeys.D5, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.HD));
+			DebugSettings.AddTrigger("DBG", "ResetProfile",    scrn, SKeys.R, KeyModifier.Control,                     x => MainGame.Inst.ResetProfile());
+			DebugSettings.AddTrigger("DBG", "ClearMessages",   scrn, SKeys.C, KeyModifier.None,                        x => scrn.DebugDisp.Clear());
+			DebugSettings.AddTrigger("DBG", "StartDebugLevel", scrn, SKeys.D, KeyModifier.Control | KeyModifier.Shift, x => MainGame.Inst.SetDebugLevelScreen());
+			DebugSettings.AddTrigger("DBG", "ShowOverworld",   scrn, SKeys.O, KeyModifier.Control | KeyModifier.Shift, x => MainGame.Inst.SetOverworldScreen());
 
 			if (scrn is GDWorldMapScreen) DebugSettings.AddTrigger("TRUE", "ZoomOut", scrn, SKeys.Z, KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
 

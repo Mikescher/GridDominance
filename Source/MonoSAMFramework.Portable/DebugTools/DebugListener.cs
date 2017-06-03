@@ -1,10 +1,12 @@
 ﻿using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {
+	[DebuggerDisplay("[{ParentIdentifier} -> {Identifier}] {Active} ({_active})")]
 	public class DebugListener
 	{
 		public enum DebugListenerType
@@ -25,7 +27,9 @@ namespace MonoSAMFramework.Portable.DebugTools
 		private Action<DebugListener> triggerEvent;
 
 		private bool _active;
+
 		public bool Active => _active && (ParentIdentifier == null || DebugSettings.Get(ParentIdentifier));
+		public bool SelfActive => _active;
 
 		public DebugListener(string parentIdent, string ident, ILifetimeObject owner, SKeys actionkey, KeyModifier mod, DebugListenerType debugtype)
 		{
@@ -78,7 +82,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 				{
 					_active = !Active;
 
-					triggerEvent?.Invoke(this);
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => triggerEvent?.Invoke(this));
 				}
 			}
 		}
@@ -91,7 +95,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 				if (Active)
 				{
-					triggerEvent?.Invoke(this);
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => triggerEvent?.Invoke(this));
 				}
 			}
 		}
@@ -104,7 +108,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 				{
 					_active = true;
 
-					triggerEvent?.Invoke(this);
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => triggerEvent?.Invoke(this));
 				}
 				else
 				{

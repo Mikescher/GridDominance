@@ -25,7 +25,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 				if (listener.Value.Owner.Alive)
 					listener.Value.Update(istate);
 				else
-					listeners.Remove(listener.Key);
+					 listeners.Remove(listener.Key);
 			}
 		}
 
@@ -36,7 +36,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 			if (listeners.ContainsKey(upperIdent))
 			{
-				initial = listeners[upperIdent].Active;
+				initial = listeners[upperIdent].SelfActive;
 				listeners.Remove(upperIdent);
 			}
 
@@ -52,7 +52,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 			if (listeners.ContainsKey(upperIdent))
 			{
-				initial = listeners[upperIdent].Active;
+				initial = listeners[upperIdent].SelfActive;
 				listeners.Remove(upperIdent);
 			}
 
