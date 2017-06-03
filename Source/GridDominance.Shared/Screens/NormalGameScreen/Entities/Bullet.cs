@@ -163,11 +163,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherPortal = fixtureB.UserData as Portal;
 			if (otherPortal != null)
 			{
+				var inPortal = otherPortal;
+
 				Vector2 normal;
 				FixedArray2<Vector2> t;
 				contact.GetWorldManifold(out normal, out t);
 
-				bool hit = FloatMath.DiffRadiansAbs(normal.ToAngle(), otherPortal.Normal) < FloatMath.RAD_POS_001;
+				bool hit = FloatMath.DiffRadiansAbs(normal.ToAngle(), inPortal.Normal) < FloatMath.RAD_POS_001;
 
 				if (!hit)
 				{
@@ -176,7 +178,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					return false;
 				}
 
-				if (otherPortal.Links.Count == 0)
+				if (inPortal.Links.Count == 0)
 				{
 					// void portal
 					DisintegrateIntoPortal();
@@ -187,11 +189,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 				for (int i = 0; i < _ignoredPortals.Count; i++)
 				{
-					if (_ignoredPortals[i].Entity == otherPortal)
+					if (_ignoredPortals[i].Entity == inPortal)
 					{
 						_ignoredPortals[i].LastCollidedCycle = MonoSAMGame.GameCycleCounter;
 
-						if (FloatMath.DiffRadiansAbs(velocity.ToAngle(), otherPortal.Normal) > FloatMath.RAD_POS_090)
+						if (FloatMath.DiffRadiansAbs(velocity.ToAngle(), inPortal.Normal) > FloatMath.RAD_POS_090)
 						{
 							// prevent tunneling
 							Alive = false;
@@ -202,15 +204,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					}
 				}
 
-				foreach (var outportal in otherPortal.Links)
+				foreach (var outportal in inPortal.Links)
 				{
-					var rot = outportal.Normal - otherPortal.Normal + FloatMath.RAD_POS_180;
-					var projec = ConvertUnits.ToDisplayUnits(PhysicsBody.Position).ProjectOntoLine(otherPortal.Position, otherPortal.VecDirection);
+					var stretch = outportal.Length / inPortal.Length;
+
+					var rot = outportal.Normal - inPortal.Normal + FloatMath.RAD_POS_180;
+					var projec = ConvertUnits.ToDisplayUnits(PhysicsBody.Position).ProjectOntoLine(inPortal.Position, inPortal.VecDirection);
 
 					var newVelocity = velocity.Rotate(rot);
 					var newStart = outportal.Position + outportal.VecDirection * (-projec) + outportal.VecNormal * (Portal.WIDTH / 2f);
 
-					var b = new Bullet(Owner, Source, newStart, newVelocity, Scale, Fraction) { Lifetime = Lifetime };
+					var b = new Bullet(Owner, Source, newStart, newVelocity, Scale * stretch, Fraction) { Lifetime = Lifetime };
 					b._ignoredPortals.Add(new CollisionIgnorePortal() { Entity = outportal, LastCollidedCycle = MonoSAMGame.GameCycleCounter});
 					b.AddEntityOperation(new BulletGrowOperation(0.15f));
 					Owner.Entities.AddEntity(b);

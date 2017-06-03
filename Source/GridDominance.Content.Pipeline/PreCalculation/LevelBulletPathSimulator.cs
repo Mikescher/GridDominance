@@ -169,6 +169,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 					var dat = new List<Tuple<List<Vector2>, CannonBlueprint, float>>();
 					foreach (var outportal in lvl.BlueprintPortals.Where(p => p.Side != fPortal.Side && p.Group == fPortal.Group))
 					{
+						var stretch = outportal.Length / fPortal.Length;
+
 						var cIn = new Vector2(fPortal.X, fPortal.Y);
 						var cOut = new Vector2(outportal.X, outportal.Y);
 						var cInVecNormal  = Vector2.UnitX.RotateDeg(fPortal.Normal);
@@ -182,7 +184,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 						var newVelocity = ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity).Rotate(rot);
 						var newStart = cOut + cOutVecDirection * (-projec) + cOutVecNormal * (Portal.WIDTH / 2f) + newVelocity.WithLength(scale * Bullet.BULLET_DIAMETER / 2 + 4);
 
-						var sub = FindBulletPaths(lvl, world, newStart, newVelocity, fullpath, scale, lifetime);
+						var sub = FindBulletPaths(lvl, world, newStart, newVelocity, fullpath, scale * stretch, lifetime);
 						dat.AddRange(sub);
 
 					}
