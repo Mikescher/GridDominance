@@ -80,6 +80,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
+			if (!isOpened && FloatMath.IsZero(animationProgress) && (istate.IsKeyJustDown(SKeys.AndroidBack) || istate.IsKeyJustDown(SKeys.Backspace)))
+			{
+				Open();
+			}
+
 			if (isOpened && FloatMath.IsNotOne(animationProgress))
 			{
 				animationProgress = FloatMath.LimitedInc(animationProgress, gameTime.ElapsedSeconds / ANIMATION_SPEED, 1f);
