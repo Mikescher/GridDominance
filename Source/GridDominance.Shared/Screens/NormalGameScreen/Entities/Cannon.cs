@@ -238,7 +238,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			barrelRecoil = 0f;
 
-			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale));
+			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale, Fraction));
 			MainGame.Inst.GDSound.PlayEffectShoot();
 		}
 
@@ -359,10 +359,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			base.DrawDebugBorders(sbatch);
 
-			if (DebugSettings.Get("DebugCannonView"))
-			{
-				DrawDebugView(sbatch);
-			}
+			DrawDebugView(sbatch);
 
 			// ASSERTION
 			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");

@@ -12,6 +12,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using FarseerPhysics.Common;
 
 namespace GridDominance.Content.Pipeline.PreCalculation
 {
@@ -26,79 +27,65 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		private static BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
 		{
-			List<BulletPathBlueprint> resultRays = new List<BulletPathBlueprint>();
-
-			BulletPathBlueprint bestRay = null;
-			float bestQuality = float.MaxValue;
-
 			var worldNormal = CreateRayWorld(lvl);
 
-			bool rayAtStart = true;
-			float rayAtStartQuality = float.MaxValue;
+			var rayClock = new List<Tuple<BulletPathBlueprint, float>>[RESOLUTION];
+
 			for (int ideg = 0; ideg < RESOLUTION; ideg++)
 			{
 				float deg = ideg * (360f / RESOLUTION);
-
 				var rays = FindBulletPaths(lvl, worldNormal, cannon, deg);
 
-				if (ideg == 0) rayAtStart = (rays.Any());
-
-				if (rays.Count == 0)
-				{
-					if (bestRay != null)
-					{
-						if (!resultRays.Any()) rayAtStartQuality = bestQuality;
-						resultRays.Add(bestRay);
-						bestRay = null;
-						bestQuality = float.MaxValue;
-					}
-				}
-				else
-				{
-					foreach (var ray in rays)
-					{
-						if (bestRay == null)
-						{
-							bestRay = ray.Item1;
-							bestQuality = ray.Item2;
-						}
-						else if (bestRay.TargetCannonID != ray.Item1.TargetCannonID)
-						{
-							if (!resultRays.Any()) rayAtStartQuality = bestQuality;
-							resultRays.Add(bestRay);
-							bestRay = ray.Item1;
-							bestQuality = ray.Item2;
-						}
-						else if (bestQuality > ray.Item2)
-						{
-							bestRay = ray.Item1;
-							bestQuality = ray.Item2;
-						}
-					}
-				}
+				rayClock[ideg] = rays;
 			}
 
-			if (bestRay != null)
+			List<BulletPathBlueprint> resultRays = new List<BulletPathBlueprint>();
+			for (;;)
 			{
-				if (resultRays.Any() && rayAtStart && resultRays.First().TargetCannonID == bestRay.TargetCannonID)
+				for (int ideg = 0; ideg < RESOLUTION; ideg++)
 				{
-					if (rayAtStartQuality > bestQuality)
-					{
-						resultRays.RemoveAt(0);
-						resultRays.Add(bestRay);
-					}
-					else
-					{
-						// keep first
-					}
+					if (rayClock[ideg].Any()) resultRays.Add(ExtractBestRay(rayClock, ideg, rayClock[ideg].First().Item1.TargetCannonID));
 				}
-				else
-				{
-					resultRays.Add(bestRay);
-				}
+				break;
 			}
 
 			return resultRays.ToArray();
+		}
+
+		private static BulletPathBlueprint ExtractBestRay(List<Tuple<BulletPathBlueprint, float>>[] rayClock, int iStart, int cid)
+		{
+			float bestQuality = rayClock[iStart].First(p => p.Item1.TargetCannonID == cid).Item2;
+			BulletPathBlueprint bestRay = rayClock[iStart].First(p => p.Item1.TargetCannonID == cid).Item1;
+
+			for (int delta = 0; delta < RESOLUTION; delta++)
+			{
+				var ideg = (iStart + delta + RESOLUTION) % RESOLUTION;
+
+				var clockrays = rayClock[ideg].Where(p => p.Item1.TargetCannonID == cid).ToList();
+				if (!clockrays.Any()) break;
+
+				foreach (var ray in clockrays)
+				{
+					if (ray.Item2 < bestQuality) { bestQuality = ray.Item2; bestRay = ray.Item1; }
+					rayClock[ideg].Remove(ray);
+				}
+			}
+
+			for (int delta = 1; delta < RESOLUTION; delta++)
+			{
+				var ideg = (iStart - delta + RESOLUTION) % RESOLUTION;
+
+				var clockrays = rayClock[ideg].Where(p => p.Item1.TargetCannonID == cid).ToList();
+				if (!clockrays.Any()) break;
+
+				foreach (var ray in clockrays)
+				{
+					if (ray.Item2 < bestQuality) { bestQuality = ray.Item2; bestRay = ray.Item1; }
+					rayClock[ideg].Remove(ray);
+				}
+			}
+
+			return bestRay;
 		}
 
 		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, CannonBlueprint cannon, float deg)
@@ -150,8 +137,6 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 			for (;;)
 			{
-				if (lifetime >= Bullet.MAXIMUM_LIEFTIME) { world.RemoveBody(farseerBullet); return none; }
-
 				collisionUserObject = null;
 
 				foreach (var bh in lvl.BlueprintBlackHoles)
@@ -166,27 +151,18 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				lifetime += 1 / 24f;
 				fullpath.Add(ConvertUnits.ToDisplayUnits(farseerBullet.Position));
 
-				if (collisionUserObject is CannonBlueprint)
-				{
-					world.RemoveBody(farseerBullet);
-					var tgcannon = (CannonBlueprint)collisionUserObject;
-
-					var quality = FloatMath.LinePointDistance(ConvertUnits.ToDisplayUnits(farseerBullet.Position), ConvertUnits.ToDisplayUnits(farseerBullet.Position) + ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity), new Vector2(tgcannon.X, tgcannon.Y));
-					
-					return new List<Tuple<List<Vector2>, CannonBlueprint, float>> { Tuple.Create(fullpath, tgcannon, quality) };
-				}
-
 				if (collisionUserObject is PortalBlueprint)
 				{
-					var veloc = farseerBullet.LinearVelocity;
+					var veloc = ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity);
 
 					world.RemoveBody(farseerBullet);
 					var fPortal = (PortalBlueprint)collisionUserObject;
 
-					//TODO or evtl GetWorldManifold ?? (https://gamedev.stackexchange.com/questions/29254/how-do-i-determine-which-side-of-the-player-has-collided-with-an-object)
-					var normal = collisionContact.Manifold.LocalNormal;
+					Vector2 normal;
+					FixedArray2<Vector2> t;
+					collisionContact.GetWorldManifold(out normal, out t);
 
-					bool hit = FloatMath.DiffRadiansAbs(normal.ToAngle(), FloatMath.ToRadians(fPortal.Normal)) < FloatMath.RAD_POS_005;
+					bool hit = FloatMath.DiffRadiansAbs(normal.ToAngle(), FloatMath.ToRadians(fPortal.Normal)) < FloatMath.RAD_POS_001;
 
 					if (!hit) return none;
 
@@ -195,27 +171,48 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 					{
 						var cIn = new Vector2(fPortal.X, fPortal.Y);
 						var cOut = new Vector2(outportal.X, outportal.Y);
+						var cInVecNormal  = Vector2.UnitX.RotateDeg(fPortal.Normal);
+						var cInVecDirection = cInVecNormal.RotateWithLength(FloatMath.RAD_POS_090, fPortal.Length / 2f);
+						var cOutVecNormal = Vector2.UnitX.RotateDeg(outportal.Normal);
+						var cOutVecDirection = cOutVecNormal.RotateWithLength(FloatMath.RAD_POS_090, outportal.Length / 2f);
 
-						var rot = FloatMath.ToRadians(outportal.Normal - fPortal.Normal + 180);
-						var stretch = outportal.Length / fPortal.Length;
+						var rot = FloatMath.ToRadians(outportal.Normal - fPortal.Normal) + FloatMath.RAD_POS_180;
+						var projec = ConvertUnits.ToDisplayUnits(farseerBullet.Position).ProjectOntoLine(cIn, cInVecDirection);
 
-						var newVelocity = veloc.Rotate(rot);
-						var newStart = cOut + stretch * (farseerBullet.Position - cIn).Rotate(rot); //TODO this starts behind portal??
+						var newVelocity = ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity).Rotate(rot);
+						var newStart = cOut + cOutVecDirection * (-projec) + cOutVecNormal * (Portal.WIDTH / 2f) + newVelocity.WithLength(scale * Bullet.BULLET_DIAMETER / 2 + 4);
 
 						var sub = FindBulletPaths(lvl, world, newStart, newVelocity, fullpath, scale, lifetime);
 						dat.AddRange(sub);
+
 					}
 					return dat;
 				}
+
+				if (collisionUserObject is CannonBlueprint)
+				{
+					world.RemoveBody(farseerBullet);
+					var tgcannon = (CannonBlueprint)collisionUserObject;
+
+					var quality = FloatMath.LinePointDistance(ConvertUnits.ToDisplayUnits(farseerBullet.Position), ConvertUnits.ToDisplayUnits(farseerBullet.Position) + ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity), new Vector2(tgcannon.X, tgcannon.Y));
+
+					return new List<Tuple<List<Vector2>, CannonBlueprint, float>> { Tuple.Create(fullpath, tgcannon, quality) };
+				}
+
+				bool oow = (farseerBullet.Position.X < 0 - 64) || (farseerBullet.Position.Y < 0 - 64) || (farseerBullet.Position.X > 1024 + 64) || (farseerBullet.Position.Y > 640 + 64);
+				bool ool = (lifetime >= Bullet.MAXIMUM_LIEFTIME);
+
+				//if (collisionUserObject != null || oow || ool)
+				//{
+				//	world.RemoveBody(farseerBullet);
+				//	return new List<Tuple<List<Vector2>, CannonBlueprint, float>> { Tuple.Create(fullpath, new CannonBlueprint(farseerBullet.Position.X, farseerBullet.Position.Y, 64, 1, 0, FloatMath.GetRangedIntRandom(0, 9999999)), 1f) };
+				//}
 
 				if (collisionUserObject is VoidWallBlueprint)   { world.RemoveBody(farseerBullet); return none; }
 				if (collisionUserObject is VoidCircleBlueprint) { world.RemoveBody(farseerBullet); return none; }
 				if (collisionUserObject is BlackHoleBlueprint)  { world.RemoveBody(farseerBullet); return none; }
 				
-				if (farseerBullet.Position.X < 0    - 64) { world.RemoveBody(farseerBullet); return none; }
-				if (farseerBullet.Position.Y < 0    - 64) { world.RemoveBody(farseerBullet); return none; }
-				if (farseerBullet.Position.X > 1024 + 64) { world.RemoveBody(farseerBullet); return none; }
-				if (farseerBullet.Position.Y > 640  + 64) { world.RemoveBody(farseerBullet); return none; }
+				if (oow || ool)                                 { world.RemoveBody(farseerBullet); return none; }
 			}
 		}
 		
@@ -283,27 +280,30 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 		{
 			//return fullpath.Skip(1).Select(o => Tuple.Create(o.X, o.Y)).ToArray();
 
-			List<Vector2> outl = new List<Vector2>();
+			List<Tuple<Vector2, Vector2>> outl = new List<Tuple<Vector2, Vector2>>();
 
 			Vector2 vStart = cannonpos;
 			int start = 0;
 			for (int i = 2; i < fullpath.Count; i++)
 			{
-				if (CanSimplify(vStart, fullpath[i], fullpath.Skip(start+1).Take(i - start - 1)) && !IsSplit(fullpath[i-1], fullpath[i])) continue;
+				if (IsSplit(fullpath[i - 1], fullpath[i]))
+				{
+					outl.Add(Tuple.Create(vStart, fullpath[i - 1]));
+					start = i;
+					vStart = fullpath[i];
+					continue;
+				}
 
-				outl.Add(vStart);
+				if (CanSimplify(vStart, fullpath[i], fullpath.Skip(start+1).Take(i - start - 1))) continue;
+
+				outl.Add(Tuple.Create(vStart, fullpath[i - 1]));
 				start = i - 1;
 				vStart = fullpath[i - 1];
 				i++;
 			}
-			outl.Add(fullpath.Last());
+			outl.Add(Tuple.Create(vStart, fullpath.Last()));
 			
-			Tuple<Vector2, Vector2>[] funres = new Tuple<Vector2, Vector2>[outl.Count - 1];
-			for (int i = 0; i < outl.Count-1; i++)
-			{
-				funres[i] = Tuple.Create(outl[i], outl[i + 1]);
-			}
-			return funres;
+			return outl.ToArray();
 		}
 
 		private static bool CanSimplify(Vector2 p1, Vector2 p2, IEnumerable<Vector2> test)
@@ -318,7 +318,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		private static bool IsSplit(Vector2 p1, Vector2 p2)
 		{
-			return (p2 - p1).LengthSquared() > 0.1f;
+			return (p2 - p1).LengthSquared() > 16f * 16f;
 		}
 	}
 }

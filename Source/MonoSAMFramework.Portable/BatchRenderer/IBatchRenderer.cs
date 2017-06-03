@@ -24,7 +24,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		void FillRectangle(FRectangle rectangle, Color color);
 		void FillRectangle(Vector2 location, Vector2 size, Color color);
-		void FillRectangleRot(Vector2 location, Vector2 size, Color color, float rotation);
+		void FillRectangleRot(Vector2 center, Vector2 size, Color color, float rotation);
 		void DrawRectangle(Vector2 location, Vector2 size, Color color, float thickness = 1f);
 		void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f);
 		void DrawRectangleRot(FRectangle rectangle, Color color, float rotation, float thickness = 1f);

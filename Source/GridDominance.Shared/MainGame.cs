@@ -86,10 +86,12 @@ namespace GridDominance.Shared
 
 		private void SAMLogOnLogEvent(object sender, SAMLog.LogEventArgs args)
 		{
+#if !DEBUG
 			if (args.Level == SAMLogLevel.ERROR || args.Level == SAMLogLevel.FATAL_ERROR)
 			{
 				Backend.LogClient(Profile, args.Entry).EnsureNoError();
 			}
+#endif
 		}
 
 		protected override void OnInitialize()
@@ -173,9 +175,15 @@ namespace GridDominance.Shared
 			SetCurrentScreen(screen);
 			screen.AddAgent(new ReappearTransitionAgent(screen, bp));
 		}
+		
 		public void SetTutorialLevelScreen()
 		{
 			SetCurrentScreen(new GDGameScreen(this, Graphics, Levels.LEVEL_TUTORIAL));
+		}
+
+		public void SetDebugLevelScreen()
+		{
+			SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
 		}
 
 		protected override void LoadContent()

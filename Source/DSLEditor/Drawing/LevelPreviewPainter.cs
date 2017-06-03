@@ -75,13 +75,15 @@ namespace GridDominance.DSLEditor.Drawing
 					g.Clear(Color.Black);
 
 					DrawGrid(g);
+
 					DrawCannons(level, g);
-					DrawRays(level, highlightCannon, g);
 					DrawVoidwalls(level, g);
 					DrawVoidCircles(level, g);
 					DrawGlassBlocks(level, g);
 					DrawBlackHoles(level, g);
 					DrawPortals(level, g);
+
+					DrawRays(level, highlightCannon, g);
 				}
 			}
 
@@ -168,6 +170,7 @@ namespace GridDominance.DSLEditor.Drawing
 		private static void DrawRays(LevelBlueprint level, int highlightCannon, Graphics g)
 		{
 			var rayPenBG = new Pen(Color.FromArgb(100, Color.Red), 4f);
+			var rayPenBGP = new Pen(Color.FromArgb(70, Color.Yellow), 2f);
 			var rayPen = new Pen(Color.FromArgb(200, Color.Red), 4f) { DashStyle = DashStyle.Dash };
 			var rayBrush = new SolidBrush(Color.FromArgb(200, Color.Goldenrod));
 			foreach (var c in level.BlueprintCannons.Where(p => p.CannonID == highlightCannon))
@@ -180,7 +183,11 @@ namespace GridDominance.DSLEditor.Drawing
 						float cy = c.Y;
 						foreach (var pos in path.PreviewBulletPath)
 						{
-							g.DrawLine(rayPenBG, cx, cy, pos.X, pos.Y);
+							if (SqDist(cx, cy, pos.X, pos.Y) < 64 * 64)
+								g.DrawLine(rayPenBG, cx, cy, pos.X, pos.Y);
+							else
+								g.DrawLine(rayPenBGP, cx, cy, pos.X, pos.Y);
+					
 							cx = pos.X;
 							cy = pos.Y;
 						}
@@ -197,6 +204,14 @@ namespace GridDominance.DSLEditor.Drawing
 					}
 				}
 			}
+		}
+
+		private static float SqDist(float cx, float cy, float bx, float by)
+		{
+			var x = cx - bx;
+			var y = cy - by;
+
+			return x * x + y * y;
 		}
 
 		private static void DrawCannons(LevelBlueprint level, Graphics g)

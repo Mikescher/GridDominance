@@ -43,7 +43,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			OnBeforeUpdate(gameTime, state);
 
-			foreach (var entity in entities.ToList())
+			foreach (var entity in entities.ToList()) //TODO CopyOnRead vs remember new|rem entities and applying after ??
 			{
 				entity.Update(gameTime, state);
 				if (!entity.Alive)

@@ -26,80 +26,66 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		private static BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
 		{
-			List<BulletPathBlueprint> resultRays = new List<BulletPathBlueprint>();
-
-			BulletPathBlueprint bestRay = null;
-			float bestQuality = float.MaxValue;
-
 			var worldNormal = CreateRayWorld(lvl, 0, 1);
 			var worldExtend = CreateRayWorld(lvl, HITBOX_ENLARGE, 1.5f);
 
-			bool rayAtStart = true;
-			float rayAtStartQuality = float.MaxValue;
+			var rayClock = new List<Tuple<BulletPathBlueprint, float>>[RESOLUTION];
+
 			for (int ideg = 0; ideg < RESOLUTION; ideg ++)
 			{
 				float deg = ideg * (360f / RESOLUTION);
-
 				var rays = FindBulletPaths(lvl, worldNormal, worldExtend, cannon, deg);
 
-				if (ideg == 0) rayAtStart = (rays.Any());
-
-				if (rays.Count == 0)
-				{
-					if (bestRay != null)
-					{
-						if (!resultRays.Any()) rayAtStartQuality = bestQuality;
-						resultRays.Add(bestRay);
-						bestRay = null;
-						bestQuality = float.MaxValue;
-					}
-				}
-				else
-				{
-					foreach (var ray in rays)
-					{
-						if (bestRay == null)
-						{
-							bestRay = ray.Item1;
-							bestQuality = ray.Item2;
-						}
-						else if (bestRay.TargetCannonID != ray.Item1.TargetCannonID)
-						{
-							if (!resultRays.Any()) rayAtStartQuality = bestQuality;
-							resultRays.Add(bestRay);
-							bestRay = ray.Item1;
-							bestQuality = ray.Item2;
-						}
-						else if (bestQuality > ray.Item2)
-						{
-							bestRay = ray.Item1;
-							bestQuality = ray.Item2;
-						}
-					}
-				}
+				rayClock[ideg] = rays;
 			}
 
-			if (bestRay != null)
+			List<BulletPathBlueprint> resultRays = new List<BulletPathBlueprint>();
+			for (;;)
 			{
-				if (resultRays.Any() && rayAtStart && resultRays.First().TargetCannonID == bestRay.TargetCannonID)
+				for (int ideg = 0; ideg < RESOLUTION; ideg++)
 				{
-					if (rayAtStartQuality > bestQuality)
-					{
-						resultRays.RemoveAt(0);
-						resultRays.Add(bestRay);
-					}
-					else
-					{
-						// keep first
-					}
+					if (rayClock[ideg].Any()) resultRays.Add(ExtractBestRay(rayClock, ideg, rayClock[ideg].First().Item1.TargetCannonID));
 				}
-				else
-				{
-					resultRays.Add(bestRay);
-				}
+				break;
 			}
 
 			return resultRays.ToArray();
+		}
+
+		private static BulletPathBlueprint ExtractBestRay(List<Tuple<BulletPathBlueprint, float>>[] rayClock, int iStart, int cid)
+		{
+			float bestQuality = rayClock[iStart].First(p => p.Item1.TargetCannonID == cid).Item2;
+			BulletPathBlueprint bestRay = rayClock[iStart].First(p => p.Item1.TargetCannonID == cid).Item1;
+			
+			for (int delta = 0; delta < RESOLUTION; delta++)
+			{
+				var ideg = (iStart + delta + RESOLUTION) % RESOLUTION;
+
+				var clockrays = rayClock[ideg].Where(p => p.Item1.TargetCannonID == cid).ToList();
+				if (!clockrays.Any()) break;
+
+				foreach (var ray in clockrays)
+				{
+					if (ray.Item2 < bestQuality) { bestQuality = ray.Item2; bestRay = ray.Item1; }
+					rayClock[ideg].Remove(ray);
+				}
+			}
+
+			for (int delta = 1; delta < RESOLUTION; delta++)
+			{
+				var ideg = (iStart - delta + RESOLUTION) % RESOLUTION;
+
+				var clockrays = rayClock[ideg].Where(p => p.Item1.TargetCannonID == cid).ToList();
+				if (!clockrays.Any()) break;
+
+				foreach (var ray in clockrays)
+				{
+					if (ray.Item2 < bestQuality) { bestQuality = ray.Item2; bestRay = ray.Item1; }
+					rayClock[ideg].Remove(ray);
+				}
+			}
+
+			return bestRay;
 		}
 
 		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, CannonBlueprint cannon, float deg)

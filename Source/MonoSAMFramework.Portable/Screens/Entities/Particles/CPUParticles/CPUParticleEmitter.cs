@@ -17,12 +17,12 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 		private float spawnDelay = 0f;
 		protected float internalTime = 0;
 
-		private ParticleEmitterConfig _config;
+		protected ParticleEmitterConfig _config;
 		public ParticleEmitterConfig Config { get { return _config; } set { _config = value; RecalculateState(); } }
 
-		private CPUParticle[] particlePool;
+		protected CPUParticle[] particlePool;
 
-		public int ParticleCount { get; private set; } = 0;
+		public int ParticleCount { get; protected set; } = 0;
 
 		public bool IsEnabled = true;
 		bool IParticleEmitter.Enabled { get => IsEnabled; set => IsEnabled = value; }
@@ -86,7 +86,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 			}
 		}
 
-		private void SpawnParticle()
+		protected virtual void SpawnParticle()
 		{
 			if (ParticleCount >= particlePool.Length) return; // Could happen if we lag big time
 

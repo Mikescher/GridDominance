@@ -188,8 +188,8 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 			foreach (var p1 in BlueprintPortals)
 			{
-				var match = BlueprintPortals.Where(p2 => p2.Group == p1.Group).Where(p2 => p2.Side == !p1.Side).Any();
-				if (!match) throw new Exception($"Portalgroup {p1.Group} has no matching in/out");
+				//var match = BlueprintPortals.Where(p2 => p2.Group == p1.Group).Where(p2 => p2.Side == !p1.Side).Any();
+				//if (!match) throw new Exception($"Portalgroup {p1.Group} has no matching in/out");
 				if (p1.Length <= 0) throw new Exception("Portal with length <= 0");
 			}
 		}

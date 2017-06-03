@@ -55,9 +55,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\TutorialAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BulletPath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BlackHole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletGrowOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletShrinkAndDieOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Particles\PortalParticleEmitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\VoidCircle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\GlassBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Portal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\TutorialController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDArrowAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDOperations\HUDBlinkingTutorialDifficultyButtonIconOperation.cs" />

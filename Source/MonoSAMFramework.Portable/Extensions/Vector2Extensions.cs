@@ -112,5 +112,50 @@ namespace MonoSAMFramework.Portable.Extensions
 			v.Y *= l;
 			return v;
 		}
+
+		public static Vector2 MirrorAtNormal(this Vector2 p, Vector2 linePoint, Vector2 normal)
+		{
+			//https://stackoverflow.com/a/6177788/1761622
+
+			float x1 = linePoint.X - normal.Y;
+			float y1 = linePoint.Y + normal.X;
+
+			float x2 = linePoint.X + normal.Y;
+			float y2 = linePoint.Y - normal.X;
+
+			float x3 = p.X;
+			float y3 = p.Y;
+
+			float u = ((x3 - x1) * (x2 - x1) + (y3 - y1) * (y2 - y1)) / ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+			float xu = x1 + u * (x2 - x1);
+			float yu = y1 + u * (y2 - y1);
+
+			float dx = xu - p.X;
+			float dy = yu - p.Y;
+
+			float rx = p.X + 2 * dx;
+			float ry = p.Y + 2 * dy;
+
+			return new Vector2(rx, ry);
+		}
+
+		public static float ProjectOntoLine(this Vector2 p, Vector2 lineStart, Vector2 lineVec)
+		{
+			//https://stackoverflow.com/a/6177788/1761622
+
+			float x1 = lineStart.X;
+			float y1 = lineStart.Y;
+
+			float x2 = lineStart.X + lineVec.X;
+			float y2 = lineStart.Y + lineVec.Y;
+
+			float x3 = p.X;
+			float y3 = p.Y;
+
+			float u = ((x3 - x1) * (x2 - x1) + (y3 - y1) * (y2 - y1)) / ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+			return u;
+		}
 	}
 }

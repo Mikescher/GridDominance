@@ -96,6 +96,7 @@ namespace GridDominance.Shared.Resources
 
 		public static TextureRegion2D TexCircle;
 		public static TextureRegion2D TexCircleEmpty; 
+		public static TextureRegion2D TexGradient;
 
 		public static TextureRegion2D TexCannonBody;
 		public static TextureRegion2D TexCannonBodyShadow;
@@ -119,6 +120,10 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexVortex0;
 		public static TextureRegion2D TexVortex1;
 		public static TextureRegion2D TexVortex2;
+
+		public static TextureRegion2D TexPortalDropEnd1;
+		public static TextureRegion2D TexPortalDropEnd2;
+		public static TextureRegion2D TexPortalDropMid;
 
 		public static TextureRegion2D TexLevelNodeStructure;
 		public static TextureRegion2D TexLevelNodeSegment;
@@ -240,6 +245,7 @@ namespace GridDominance.Shared.Resources
 			TexPixel                 = AtlasTextures["simple_pixel"];
 			TexPixel                 = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
 			TexParticle              = Enumerable.Range(0, 16).Select(p => AtlasTextures[$"particle_{p:00}"]).ToArray();
+			TexGradient              = AtlasTextures["alphagradient"];
 
 			TexHUDButtonBase                      = AtlasTextures["hud_button_base"];
 			TexHUDButtonPause                     = Enumerable.Range(0, ANIMATION_HUDBUTTONPAUSE_SIZE).Select(p => AtlasTextures[$"hud_pause_{p:00}"]).ToArray();
@@ -273,6 +279,10 @@ namespace GridDominance.Shared.Resources
 			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];
 			TexPanelCorner     = AtlasTextures["panel_corner"];
+
+			TexPortalDropEnd1   = AtlasTextures["portalshadow_end1"];
+			TexPortalDropEnd2   = AtlasTextures["portalshadow_end2"];
+			TexPortalDropMid   = AtlasTextures["portalshadow_mid"];
 
 			TexGlassEdge       = AtlasTextures["glass_side"];
 			TexGlassCorner     = AtlasTextures["glass_corner"];

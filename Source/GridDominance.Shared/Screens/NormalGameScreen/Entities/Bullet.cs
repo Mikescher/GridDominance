@@ -15,11 +15,17 @@ using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
+using FarseerPhysics.Common;
+using System.Collections.Generic;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
 	public class Bullet : GameEntity
 	{
+		private sealed class CollisionIgnorePortal { public Portal Entity; public ulong LastCollidedCycle; }
+		private const int CollisionIgnoreObjectDecayCycles = 16;
+
 		public enum BulletCollisionType { None, VoidObject, GlassObject, FriendlyCannon, NeutralCannon, EnemyCannon, EnemyBullet, FriendlyBullet }
 
 		public  const float BULLET_DIAMETER = 25;
@@ -44,15 +50,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 
-		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale) : base(scrn, GDConstants.ORDER_GAME_BULLETS)
+		private List<CollisionIgnorePortal> _ignoredPortals = new List<CollisionIgnorePortal>();
+
+		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale, Fraction frac) : base(scrn, GDConstants.ORDER_GAME_BULLETS)
 		{
 			BulletPosition = pos;
 			initialVelocity = velo;
 			Source = shooter;
-			Fraction = Source.Fraction;
+			Fraction = frac;
 			Scale = entityScale;
 
-			DrawingBoundingBox = new FSize(BULLET_DIAMETER, BULLET_DIAMETER);
+			DrawingBoundingBox = new FSize(Scale * BULLET_DIAMETER, Scale * BULLET_DIAMETER);
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -152,6 +160,65 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				return true;
 			}
 
+			var otherPortal = fixtureB.UserData as Portal;
+			if (otherPortal != null)
+			{
+				Vector2 normal;
+				FixedArray2<Vector2> t;
+				contact.GetWorldManifold(out normal, out t);
+
+				bool hit = FloatMath.DiffRadiansAbs(normal.ToAngle(), otherPortal.Normal) < FloatMath.RAD_POS_001;
+
+				if (!hit)
+				{
+					// back-side hit
+					DisintegrateIntoVoidObject();
+					return false;
+				}
+
+				if (otherPortal.Links.Count == 0)
+				{
+					// void portal
+					DisintegrateIntoPortal();
+					return false;
+				}
+
+				var velocity = ConvertUnits.ToDisplayUnits(PhysicsBody.LinearVelocity);
+
+				for (int i = 0; i < _ignoredPortals.Count; i++)
+				{
+					if (_ignoredPortals[i].Entity == otherPortal)
+					{
+						_ignoredPortals[i].LastCollidedCycle = MonoSAMGame.GameCycleCounter;
+
+						if (FloatMath.DiffRadiansAbs(velocity.ToAngle(), otherPortal.Normal) > FloatMath.RAD_POS_090)
+						{
+							// prevent tunneling
+							Alive = false;
+							return false;
+						}
+
+						return false;
+					}
+				}
+
+				foreach (var outportal in otherPortal.Links)
+				{
+					var rot = outportal.Normal - otherPortal.Normal + FloatMath.RAD_POS_180;
+					var projec = ConvertUnits.ToDisplayUnits(PhysicsBody.Position).ProjectOntoLine(otherPortal.Position, otherPortal.VecDirection);
+
+					var newVelocity = velocity.Rotate(rot);
+					var newStart = outportal.Position + outportal.VecDirection * (-projec) + outportal.VecNormal * (Portal.WIDTH / 2f);
+
+					var b = new Bullet(Owner, Source, newStart, newVelocity, Scale, Fraction) { Lifetime = Lifetime };
+					b._ignoredPortals.Add(new CollisionIgnorePortal() { Entity = outportal, LastCollidedCycle = MonoSAMGame.GameCycleCounter});
+					b.AddEntityOperation(new BulletGrowOperation(0.15f));
+					Owner.Entities.AddEntity(b);
+				}
+				DisintegrateIntoPortal();
+				return false;
+			}
+
 			// wud ???
 			SAMLog.Error("Collision", string.Format("Bullet collided with unkown fixture: {0}", fixtureB.UserData ?? "<NULL>"));
 			return false;
@@ -185,8 +252,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var p2 = Position + v2.WithLength(BULLET_DIAMETER * newScale * 0.9f);
 
 
-			Manager.AddEntity(new Bullet(Owner, Source, p1, v1, newScale));
-			Manager.AddEntity(new Bullet(Owner, Source, p2, v2, newScale));
+			Manager.AddEntity(new Bullet(Owner, Source, p1, v1, newScale, Fraction));
+			Manager.AddEntity(new Bullet(Owner, Source, p2, v2, newScale, Fraction));
 		}
 
 		private void DisintegrateIntoVoidObject()
@@ -228,6 +295,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			IsDying = true;
 		}
 
+		private void DisintegrateIntoPortal()
+		{
+			// After Bullet-Portal Collision
+
+			AddEntityOperation(new BulletShrinkAndDieOperation(0.15f));
+			IsDying = true;
+		}
+
 		public override void OnRemove()
 		{
 			this.GDManager().PhysicsWorld.RemoveBody(PhysicsBody);
@@ -237,6 +312,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			BulletPosition = ConvertUnits.ToDisplayUnits(PhysicsBody.Position);
 			BulletRotation = PhysicsBody.Rotation;
+
+			for (int i = _ignoredPortals.Count - 1; i >= 0; i--)
+			{
+				if (MonoSAMGame.GameCycleCounter - _ignoredPortals[i].LastCollidedCycle > 16)
+				{
+					_ignoredPortals[i].LastCollidedCycle = CollisionIgnoreObjectDecayCycles;
+					_ignoredPortals.RemoveAt(i);
+				}
+			}
 
 			if (Lifetime > MAXIMUM_LIEFTIME) AddEntityOperation(new BulletFadeAndDieOperation(1.0f));
 

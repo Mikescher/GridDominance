@@ -24,6 +24,7 @@ using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.LogProtocol;
+using System.Collections.Generic;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -150,25 +151,55 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			//----------------------------------------------------------------
 
+			var cannonList = new List<Cannon>();
+			var portalList = new List<Portal>();
+
 			foreach (var bPrint in Blueprint.BlueprintCannons)
-				Entities.AddEntity(new Cannon(this, bPrint, fracList));
+			{
+				var e = new Cannon(this, bPrint, fracList);
+				Entities.AddEntity(e);
+				cannonList.Add(e);
+			}
 
 			foreach (var bPrint in Blueprint.BlueprintVoidWalls)
-				Entities.AddEntity(new VoidWall(this, bPrint));
+			{
+				var e = new VoidWall(this, bPrint);
+				Entities.AddEntity(e);
+			}
 
 			foreach (var bPrint in Blueprint.BlueprintVoidCircles)
-				Entities.AddEntity(new VoidCircle(this, bPrint));
+			{
+				var e = new VoidCircle(this, bPrint);
+				Entities.AddEntity(e);
+			}
 
 			foreach (var bPrint in Blueprint.BlueprintGlassBlocks)
-				Entities.AddEntity(new GlassBlock(this, bPrint));
+			{
+				var e = new GlassBlock(this, bPrint);
+				Entities.AddEntity(e);
+			}
 
 			foreach (var bPrint in Blueprint.BlueprintBlackHoles)
-				Entities.AddEntity(new BlackHole(this, bPrint));
+			{
+				var e = new BlackHole(this, bPrint);
+				Entities.AddEntity(e);
+			}
+
+			foreach (var bPrint in Blueprint.BlueprintPortals)
+			{
+				var e = new Portal(this, bPrint);
+				Entities.AddEntity(e);
+				portalList.Add(e);
+			}
 
 			//----------------------------------------------------------------
 
-			foreach (var cannon in GetEntities<Cannon>())
+			foreach (var cannon in cannonList)
 				cannon.OnAfterLevelLoad();
+
+
+			foreach (var portal in portalList)
+				portal.OnAfterLevelLoad(portalList);
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

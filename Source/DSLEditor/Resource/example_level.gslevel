@@ -1,63 +1,51 @@
 # Levelfile - Example  #
 ########################
 
-init("0-exmpl", "Template", ::UUID::, 10)
-
 define(N0, 0) # Neutral
 define(P1, 1) # Human
-define(A2, 2) # PC
-define(A3, 3) # PC
-define(A4, 4) # PC
+define(A2, 2) # PC 1
+define(A3, 3) # PC 2
+define(A4, 4) # PC 3
 
-define(SIZE_NORMAL, 1.0 * 96)
-define(CELL_W, 128)
-define(CELL_H, 128)
+define(ROT_E,  000)
+define(ROT_SE, 045)
+define(ROT_S,  090)
+define(ROT_SW, 135)
+define(ROT_W,  180)
+define(ROT_NW, 225)
+define(ROT_N,  270)
+define(ROT_NE, 315)
 
-scale(1, 1)
+define(SIZE_TINY,      0.750)  # 2/4 * CANNON_DIAMETER
+define(SIZE_SMALL,     1.125)  # 3/4 * CANNON_DIAMETER
+define(SIZE_NORMAL,    1.500)  # 4/4 * CANNON_DIAMETER
+define(SIZE_BIG,       1.875)  # 5/4 * CANNON_DIAMETER
+define(SIZE_GIGANTIC,  3.000)  # 8/4 * CANNON_DIAMETER
 
-########################################################################
+define(TILE_WIDTH, 64)
 
-Portal  (0, true,  [1.5 * CELL_W, 0.5 * CELL_H], 128, 90)
-Portal  (0, false, [3.5 * CELL_W, 4.5 * CELL_H], 200, 240)
+define(KI_DYNAMIC_RAYTRACE,  10)
+define(KI_PRECALC_PATHTRACE, 11)
+define(KI_PRECALC_SIMULATE,  12)
 
-Cannon  (SIZE_NORMAL, P1, [1.5 * CELL_W, 1.5 * CELL_H])
+define(PORTAL_IN,  true)
+define(PORTAL_OUT, false)
 
-VoidWall_H([2 * CELL_W, 2.5 * CELL_H], 1 * CELL_W)
+define(PORTAL_1, 1)
+define(PORTAL_2, 2)
+define(PORTAL_3, 3)
+define(PORTAL_4, 4)
 
-Cannon  (SIZE_NORMAL, N0, [2.5 * CELL_W, 3.5 * CELL_H])
+scale(TILE_WIDTH)
 
-VoidWall([3.5 * CELL_W, 1.5 * CELL_H], [5.5 * CELL_W, 3.5 * CELL_H])
-VoidWall_H([4.5 * CELL_W, 1.5 * CELL_H], 2 * CELL_W)
+###############################################################
 
-VoidCircle([5 * CELL_W, 2 * CELL_H], 64)
+init("0-exmpl", "Template", ::UUID::, KI_PRECALC_SIMULATE)
 
-GlassBlock([7.25 * CELL_W, 2.25 * CELL_H], 64, 64)
+Cannon(SIZE_SMALL, P1, [ 3,  5], ROT_E)
 
-#<map>
-#
-#            0 1 2 3 4 5 6 7 8 9 A B C D E F
-#          # # # # # # # # # # # # # # # # # #
-#                                             
-#        0 #                                 #
-#                &&&                          
-#        1 #                                 #
-#                                             
-#        2 #     / \                         #
-#                 O       /-------            
-#        3 #     \ /       /                 #
-#                           /  (X)            
-#        4 #                 /           H   #
-#                  ---        /               
-#        5 #                   /             #
-#                               /             
-#        6 #                     /           #
-#                    <O>          /           
-#        7 #                                 #
-#                            &                
-#        8 #                &                #
-#                          &                  
-#        9 #             &                   #
-#                      &                      
-#          # # # # # # # # # # # # # # # # # #
-#
-#</map>
+Cannon(SIZE_SMALL, A3, [13,  5], ROT_W)
+
+Portal(PORTAL_1, PORTAL_IN,  [5, 5], 3, ROT_W)
+Portal(PORTAL_1, PORTAL_OUT, [7, 5], 3, ROT_E)
+

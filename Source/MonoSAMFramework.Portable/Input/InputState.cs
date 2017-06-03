@@ -230,9 +230,9 @@ namespace MonoSAMFramework.Portable.Input
 
 			bool down = true;
 
-			down &= ! needsCtrl  || IsKeyDown(SKeys.ControlAny);
-			down &= ! needsShift || IsKeyDown(SKeys.ShiftAny)  ;
-			down &= ! needsAlt   || IsKeyDown(SKeys.AltAny);
+			down &= needsCtrl  == IsKeyDown(SKeys.ControlAny);
+			down &= needsShift == IsKeyDown(SKeys.ShiftAny);
+			down &= needsAlt   == IsKeyDown(SKeys.AltAny);
 			
 			return down;
 		}

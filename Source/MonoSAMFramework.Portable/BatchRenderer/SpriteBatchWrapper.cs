@@ -287,7 +287,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				0);
 		}
 
-		public void FillRectangleRot(Vector2 location, Vector2 size, Color color, float rotation)
+		public void FillRectangleRot(Vector2 center, Vector2 size, Color color, float rotation)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -295,11 +295,11 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			internalBatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				location,
+				center,
 				StaticTextures.SinglePixel.Bounds,
 				color,
 				rotation,
-				Vector2.Zero,
+				StaticTextures.SinglePixel.Center(),
 				size,
 				SpriteEffects.None,
 				0);
