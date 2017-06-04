@@ -4,9 +4,9 @@ include("stdvalues")
 
 init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001}, KI_PRECALC_SIMULATE)
 
-Cannon(SIZE_SMALL,  P1,  [ 2,  6.3], ROT_N)
+Cannon(SIZE_SMALL,  A2,  [ 2,  6.3], ROT_N)
 
-Cannon(SIZE_SMALL,  A2,  [ 8,  9], ROT_NE)
+Cannon(SIZE_SMALL,  P1,  [ 8,  9], ROT_NE)
 
 WhiteHole([ 12,  9], 1)
 

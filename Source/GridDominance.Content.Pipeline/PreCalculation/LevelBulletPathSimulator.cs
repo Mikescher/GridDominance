@@ -95,7 +95,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			var spawnPoint = new Vector2(cannon.X, cannon.Y) + new Vector2(scale * (Cannon.CANNON_DIAMETER / 2 + Bullet.BULLET_DIAMETER * 0.66f), 0).Rotate(startRadians);
 			var spawnVeloc = new Vector2(1, 0).Rotate(startRadians) * Cannon.BULLET_INITIAL_SPEED;
 
-			var fbpresult = FindBulletPaths(lvl, world, spawnPoint, spawnVeloc, new List<Vector2>(), scale, 0);
+			var fbpresult = FindBulletPaths(lvl, world, cannon.CannonID, spawnPoint, spawnVeloc, new List<Vector2>(), scale, 0);
 
 			var result = new List<Tuple<BulletPathBlueprint, float>>();
 			foreach (var r in fbpresult)
@@ -107,7 +107,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return result;
 		}
 
-		private static List<Tuple<List<Vector2>, CannonBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, Vector2 spawnPoint, Vector2 spawnVeloc, List<Vector2> fullpath, float scale, float lifetime)
+		private static List<Tuple<List<Vector2>, CannonBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, int sourceID, Vector2 spawnPoint, Vector2 spawnVeloc, List<Vector2> fullpath, float scale, float lifetime)
 		{
 			var none = new List<Tuple<List<Vector2>, CannonBlueprint, float>>();
 
@@ -183,7 +183,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 						var newVelocity = ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity).Rotate(rot);
 						var newStart = cOut + cOutVecDirection * (-projec) + cOutVecNormal * (Portal.WIDTH / 2f) + newVelocity.WithLength(scale * Bullet.BULLET_DIAMETER / 2 + 4);
 
-						var sub = FindBulletPaths(lvl, world, newStart, newVelocity, fullpath, scale * stretch, lifetime);
+						var sub = FindBulletPaths(lvl, world, sourceID, newStart, newVelocity, fullpath, scale * stretch, lifetime);
 						dat.AddRange(sub);
 
 					}
@@ -194,6 +194,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				{
 					world.RemoveBody(farseerBullet);
 					var tgcannon = (CannonBlueprint)collisionUserObject;
+
+					if (tgcannon.CannonID == sourceID) return none;
 
 					var quality = FloatMath.LinePointDistance(ConvertUnits.ToDisplayUnits(farseerBullet.Position), ConvertUnits.ToDisplayUnits(farseerBullet.Position) + ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity), new Vector2(tgcannon.X, tgcannon.Y));
 
