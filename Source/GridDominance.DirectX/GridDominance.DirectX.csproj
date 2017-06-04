@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="WindowsBillingAdapter.cs" />
     <Compile Include="WindowsFileHelper.cs" />
     <Compile Include="WindowsImpl.cs" />
   </ItemGroup>

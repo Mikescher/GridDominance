@@ -1,0 +1,8 @@
+
+Font: Calibri, Bold
+
+Color: #04D104
+
++ crystallize (2 or 3 times layed over each other)
++ black outline
++ blue gaussian glow

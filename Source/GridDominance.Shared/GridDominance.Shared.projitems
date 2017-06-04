@@ -62,6 +62,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\GlassBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Portal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\TutorialController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_SP.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDArrowAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDOperations\HUDBlinkingTutorialDifficultyButtonIconOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTouchAnimation.cs" />

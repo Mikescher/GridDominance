@@ -12,6 +12,7 @@ namespace GridDominance.Windows
 	class WindowsImpl : IOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new WindowsFileHelper();
+		public IBillingAdapter IAB { get; } = new WindowsEmulatingBillingAdapter();
 		private readonly SHA256 sha256 = SHA256.Create();
 
 		public string FullDeviceInfoString { get; } = "?";

@@ -60,6 +60,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\GridDominance.DirectX\WindowsBillingAdapter.cs">
+      <Link>WindowsBillingAdapter.cs</Link>
+    </Compile>
     <Compile Include="..\GridDominance.DirectX\WindowsFileHelper.cs">
       <Link>WindowsFileHelper.cs</Link>
     </Compile>

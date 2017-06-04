@@ -15,20 +15,17 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
-using GridDominance.Shared.Screens.NormalGameScreen.Agents;
 using GridDominance.Shared.Screens.NormalGameScreen.Background;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.LogProtocol;
 using System.Collections.Generic;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
-	public class GDGameScreen : GameScreen
+	public abstract class GDGameScreen : GameScreen
 	{
 		public const float GAMESPEED_SUPERSLOW = 0.25f;
 		public const float GAMESPEED_SLOW      = 0.5f;
@@ -75,39 +72,17 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private Fraction fractionComputer3;
 
 		public readonly LevelBlueprint Blueprint;
-		public readonly GraphBlueprint WorldBlueprint;
 		public readonly FractionDifficulty Difficulty;
-
 
 		public bool HasFinished = false;
 		public float LevelTime = 0f;
 
-		public readonly bool IsTutorial;
-
-		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, GraphBlueprint ws) : base(game, gdm)
+		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff) : base(game, gdm)
 		{
-			IsTutorial = false;
-
 			Blueprint = bp;
-			WorldBlueprint = ws;
 			Difficulty = diff;
 
 			Initialize();
-		}
-
-		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp) : base(game, gdm)
-		{
-			IsTutorial = true;
-
-			//TUTORIAL
-
-			Blueprint = bp;
-			WorldBlueprint = null;
-			Difficulty = FractionDifficulty.DIFF_0;
-
-			Initialize();
-
-			AddAgent(new TutorialAgent(this));
 		}
 
 #if DEBUG
@@ -335,20 +310,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			}
 		}
 
-		public void RestartLevel()
-		{
-			if (IsTutorial)
-				GDOwner.SetTutorialLevelScreen();
-			else
-				GDOwner.SetLevelScreen(Blueprint, Difficulty, WorldBlueprint);
-		}
-
-		public void ReplayLevel(FractionDifficulty diff)
-		{
-			if (IsTutorial)
-				GDOwner.SetTutorialLevelScreen();
-			else
-				GDOwner.SetLevelScreen(Blueprint, diff, WorldBlueprint);
-		}
+		public abstract void RestartLevel();
+		public abstract void ReplayLevel(FractionDifficulty diff);
 	}
 }
