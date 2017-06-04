@@ -86,7 +86,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			var waitDialog = new HUDIconMessageBox
 			{
-				Text = L10N.T(L10NImpl.STR_GLOB_WAITFORSERVER),
+				L10NText = L10NImpl.STR_GLOB_WAITFORSERVER,
 				TextColor = FlatColors.TextHUD,
 				ColorBackground = FlatColors.BelizeHole,
 

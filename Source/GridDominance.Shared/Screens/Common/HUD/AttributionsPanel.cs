@@ -42,7 +42,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = L10N.T(L10NImpl.STR_ATTRIBUTIONS),
+				L10NText = L10NImpl.STR_ATTRIBUTIONS,
 				TextColor = FlatColors.Clouds,
 			});
 

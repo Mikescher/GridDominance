@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Screens.WorldMapScreen.HUD;
+﻿using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -27,6 +24,7 @@ namespace GridDominance.Shared.Screens.Common.HUD
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
+			HUD.Screen.Game.Sound.TryPlayButtonClickEffect();
 			_master.SlavePress(istate);
 		}
 

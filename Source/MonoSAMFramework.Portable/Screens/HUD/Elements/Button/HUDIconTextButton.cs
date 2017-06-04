@@ -22,6 +22,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			set { internalIcon.Image = value; InvalidatePosition(); }
 		}
 
+		public int L10NText
+		{
+			get { return internalLabel.L10NText; }
+			set { internalLabel.L10NText = value; InvalidatePosition(); }
+		}
+
 		public string Text
 		{
 			get { return internalLabel.Text; }

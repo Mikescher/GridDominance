@@ -15,6 +15,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -31,16 +32,16 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public override FSize DrawingBoundingBox { get; } = new FSize(SIZE, SIZE);
 		public override Color DebugIdentColor { get; } = Color.Blue;
 
-		private readonly string _description;
+		private readonly int _l10ndescription;
 		private readonly GameEntityMouseArea clickArea;
 
 		private readonly Dictionary<FractionDifficulty, float> solvedPerc = new Dictionary<FractionDifficulty, float>();
 
 		public float AlphaOverride = 1f;
 
-		public OverworldTutorialNode(GDOverworldScreen scrn, Vector2 pos, string text) : base(scrn, GDConstants.ORDER_WORLD_NODE)
+		public OverworldTutorialNode(GDOverworldScreen scrn, Vector2 pos, int l10ntext) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
-			_description = text;
+			_l10ndescription = l10ntext;
 			Position = pos;
 
 			clickArea = AddClickMouseArea(FRectangle.CreateByCenter(Vector2.Zero, new FSize(SIZE, SIZE)), OnClick);
@@ -88,7 +89,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				sbatch.DrawStretched(Textures.TexIconTutorial, iconBounds, Color.White * AlphaOverride);
 
-				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, _description, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
+				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, L10N.T(_l10ndescription), FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 			}
 			else
 			{
@@ -101,7 +102,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				sbatch.DrawStretched(Textures.TexIconTutorial, iconBounds, FlatColors.Emerald * AlphaOverride);
 
-				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, _description, FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
+				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, L10N.T(_l10ndescription), FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 
 			}
 		}

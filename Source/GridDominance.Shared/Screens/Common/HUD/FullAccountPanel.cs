@@ -54,7 +54,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = L10N.T(L10NImpl.STR_FAP_ACCOUNT),
+				L10NText = L10NImpl.STR_FAP_ACCOUNT,
 				TextColor = FlatColors.Clouds,
 			});
 
@@ -68,7 +68,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 64,
 				TextColor = FlatColors.Clouds,
 
-				Text = L10N.T(L10NImpl.STR_FAP_USERNAME),
+				L10NText = L10NImpl.STR_FAP_USERNAME,
 			});
 
 			AddElement(new HUDLabel(1)
@@ -94,7 +94,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 64,
 				TextColor = FlatColors.Clouds,
 
-				Text = L10N.T(L10NImpl.STR_FAP_SCORE),
+				L10NText = L10NImpl.STR_FAP_SCORE,
 			});
 
 			AddElement(new HUDLabel(1)
@@ -116,7 +116,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = new FPoint(24, 32),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
-				Text = L10N.T(L10NImpl.STR_FAP_CHANGEPW),
+				L10NText = L10NImpl.STR_FAP_CHANGEPW,
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,

@@ -67,7 +67,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = L10N.T(L10NImpl.STR_CPP_CHANGEPW),
+				L10NText = L10NImpl.STR_CPP_CHANGEPW,
 				TextColor = FlatColors.Clouds,
 			});
 
@@ -81,7 +81,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 64,
 				TextColor = FlatColors.Clouds,
 
-				Text = L10N.T(L10NImpl.STR_CPP_USERNAME),
+				L10NText = L10NImpl.STR_CPP_USERNAME,
 			});
 
 			AddElement(new HUDLabel(1)
@@ -123,7 +123,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = new FPoint(24, 32),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
-				Text = L10N.T(L10NImpl.STR_CPP_CHANGE),
+				L10NText = L10NImpl.STR_CPP_CHANGE,
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,
@@ -150,7 +150,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			var waitDialog = new HUDIconMessageBox
 			{
-				Text = L10N.T(L10NImpl.STR_CPP_CHANGING),
+				L10NText = L10NImpl.STR_CPP_CHANGING,
 				TextColor = FlatColors.TextHUD,
 				ColorBackground = FlatColors.BelizeHole,
 
@@ -184,7 +184,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(3, 1, 0.3f)
 							{
-								Text = L10N.T(L10NImpl.STR_CPP_CHANGED),
+								L10NText = L10NImpl.STR_CPP_CHANGED,
 								TextColor = FlatColors.TextHUD,
 								ColorBackground = FlatColors.Nephritis,
 								CloseOnClick = true,
@@ -213,7 +213,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 							{
-								Text = L10N.T(L10NImpl.STR_CPP_COMERR),
+								L10NText = L10NImpl.STR_CPP_COMERR,
 								TextColor = FlatColors.Clouds,
 								ColorBackground = FlatColors.Alizarin,
 								CloseOnClick = true,
@@ -227,7 +227,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							spinner.Remove();
 							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 							{
-								Text = L10N.T(L10NImpl.STR_CPP_AUTHERR),
+								L10NText = L10NImpl.STR_CPP_AUTHERR,
 								TextColor = FlatColors.Clouds,
 								ColorBackground = FlatColors.Alizarin,
 								CloseOnClick = true,
@@ -248,7 +248,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					spinner.Remove();
 					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 					{
-						Text = L10N.T(L10NImpl.STR_CPP_CHANGEERR),
+						L10NText = L10NImpl.STR_CPP_CHANGEERR,
 						TextColor = FlatColors.Clouds,
 						ColorBackground = FlatColors.Alizarin,
 						CloseOnClick = true,

@@ -123,7 +123,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Size = new FSize(WIDTH / 3f, 40),
 
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				Text = L10N.T(L10NImpl.STR_HSP_LEVEL),
+				L10NText = L10NImpl.STR_HSP_LEVEL,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
@@ -136,7 +136,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Size = new FSize(WIDTH / 3f, 40),
 
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				Text = L10N.T(L10NImpl.STR_HSP_POINTS),
+				L10NText = L10NImpl.STR_HSP_POINTS,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
@@ -149,7 +149,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Size = new FSize(WIDTH / 3f, 40),
 
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				Text = L10N.T(L10NImpl.STR_HSP_PROGRESS),
+				L10NText = L10NImpl.STR_HSP_PROGRESS,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
@@ -161,7 +161,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
 			
-				Text = L10N.T(L10NImpl.STR_HSP_TUTORIAL),
+				L10NText = L10NImpl.STR_HSP_TUTORIAL,
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,
@@ -223,7 +223,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
 				Size = new FSize(7f * GDConstants.TILE_WIDTH, 60),
 
-				Text = L10N.T(L10NImpl.STR_HSP_GETSTARTED),
+				L10NText = L10NImpl.STR_HSP_GETSTARTED,
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,

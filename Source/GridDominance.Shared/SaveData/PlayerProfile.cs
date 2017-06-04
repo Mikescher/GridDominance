@@ -6,12 +6,13 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => new SemVersion(1, 0, 2);
+		protected override SemVersion ArchiveVersion => new SemVersion(1, 0, 3);
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 
@@ -28,6 +29,8 @@ namespace GridDominance.Shared.SaveData
 		public bool EffectsEnabled;
 
 		public bool SkipTutorial;
+
+		public int Language;
 
 		public PlayerProfile()
 		{
@@ -49,6 +52,8 @@ namespace GridDominance.Shared.SaveData
 			EffectsEnabled = true;
 
 			SkipTutorial = false;
+
+			Language = L10N.LANG_EN_US;
 		}
 
 		public LevelData GetLevelData(Guid levelid)
@@ -98,6 +103,7 @@ namespace GridDominance.Shared.SaveData
 
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_1, "sounds",    o => o.SoundsEnabled,      (o, v) => o.SoundsEnabled      = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "effect",    o => o.EffectsEnabled,     (o, v) => o.EffectsEnabled     = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_3, "lang",      o => o.Language,           (o, v) => o.Language = v);
 
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_1, "skiptut",   o => o.SkipTutorial,       (o, v) => o.SkipTutorial       = v);
 

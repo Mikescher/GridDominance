@@ -19,12 +19,18 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		#region Properties
 
+		public int L10NText
+		{
+			get { return internalLabel.L10NText; }
+			set { internalLabel.L10NText = value; innerSizeCache = FSize.Empty; }
+		}
+
 		public string Text
 		{
 			get { return internalLabel.Text; }
 			set { internalLabel.Text = value; innerSizeCache = FSize.Empty; }
 		}
-		
+
 		public Color TextColor
 		{
 			get { return internalLabel.TextColor; }

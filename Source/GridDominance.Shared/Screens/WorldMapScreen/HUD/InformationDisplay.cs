@@ -29,9 +29,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		private float tabTimer = 0;
 		private int tab = 0;
 
-		private readonly string _header1 = L10N.T(L10NImpl.STR_INF_YOU);
-		private readonly string _header2 = L10N.T(L10NImpl.STR_INF_GLOBAL);
-		private readonly string _header3 = L10N.T(L10NImpl.STR_INF_HIGHSCORE);
+		private readonly int _header1 = L10NImpl.STR_INF_YOU;
+		private readonly int _header2 = L10NImpl.STR_INF_GLOBAL;
+		private readonly int _header3 = L10NImpl.STR_INF_HIGHSCORE;
 
 		public InformationDisplay()
 		{
@@ -51,9 +51,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			sbatch.DrawLine(Position + new Vector2(1 * (Width/3f), 0), Position + new Vector2(1 * (Width / 3f), 32), FlatColors.MidnightBlue * progressDisplay, 2);
 			sbatch.DrawLine(Position + new Vector2(2 * (Width/3f), 0), Position + new Vector2(2 * (Width / 3f), 32), FlatColors.MidnightBlue * progressDisplay, 2);
 
-			FontRenderHelper.DrawTextCentered(sbatch, (tab == 0 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, _header1, (tab == 0 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(1 * (Width / 6f), 16));
-			FontRenderHelper.DrawTextCentered(sbatch, (tab == 1 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, _header2, (tab == 1 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(3 * (Width / 6f), 16));
-			FontRenderHelper.DrawTextCentered(sbatch, (tab == 2 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, _header3, (tab == 2 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(5 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 0 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, L10N.T(_header1), (tab == 0 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(1 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 1 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, L10N.T(_header2), (tab == 1 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(3 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 2 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, L10N.T(_header3), (tab == 2 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(5 * (Width / 6f), 16));
 
 			if (tab == 0)
 			{

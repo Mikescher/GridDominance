@@ -45,9 +45,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private PointCPUParticleEmitter emitter;
 
 		public bool NodeEnabled { get { return true; } set {} }
-
-		private readonly string _text = L10N.T(L10NImpl.STR_GLOB_OVERWORLD);
-
+		
 		public RootNode(GDWorldMapScreen scrn, RootNodeBlueprint bp) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
 			Position = new Vector2(bp.X, bp.Y);
@@ -145,7 +143,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			FontRenderHelper.DrawTextCenteredWithBackground(
 				sbatch,
 				Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH,
-				_text,
+				L10N.T(L10NImpl.STR_GLOB_OVERWORLD),
 				FlatColors.TextHUD,
 				Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH),
 				FlatColors.BackgroundHUD2 * 0.5f);

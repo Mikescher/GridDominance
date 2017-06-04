@@ -228,6 +228,13 @@ namespace MonoSAMFramework.Portable.GameMath
 			return value;
 		}
 
+		public static int IClamp(int value, int min, int max)
+		{
+			if (value < min) return min;
+			if (value >= max) return max-1;
+			return value;
+		}
+
 		public static float Lerp(float start, float end, float percentage)
 		{
 			return start + (end - start) * percentage;

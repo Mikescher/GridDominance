@@ -14,7 +14,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		public override int Depth { get; }
 
 		#region Properties
-		
+
+		public int L10NText
+		{
+			get { return internalLabel.L10NText; }
+			set { internalLabel.L10NText = value; InvalidatePosition(); }
+		}
+
 		public string Text
 		{
 			get { return internalLabel.Text; }

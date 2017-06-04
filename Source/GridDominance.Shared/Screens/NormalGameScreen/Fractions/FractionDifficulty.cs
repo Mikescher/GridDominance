@@ -128,23 +128,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 			return Color.Magenta;
 		}
 
-		private static readonly string _desc0 = L10N.T(L10NImpl.STR_DIFF_0);
-		private static readonly string _desc1 = L10N.T(L10NImpl.STR_DIFF_1);
-		private static readonly string _desc2 = L10N.T(L10NImpl.STR_DIFF_2);
-		private static readonly string _desc3 = L10N.T(L10NImpl.STR_DIFF_3);
-
 		public static string GetDescription(FractionDifficulty d)
 		{
 			switch (d)
 			{
 				case FractionDifficulty.DIFF_0:
-					return _desc0;
+					return L10N.T(L10NImpl.STR_DIFF_0);
 				case FractionDifficulty.DIFF_1:
-					return _desc1;
+					return L10N.T(L10NImpl.STR_DIFF_1);
 				case FractionDifficulty.DIFF_2:
-					return _desc2;
+					return L10N.T(L10NImpl.STR_DIFF_2);
 				case FractionDifficulty.DIFF_3:
-					return _desc3;
+					return L10N.T(L10NImpl.STR_DIFF_3);
 			}
 
 			SAMLog.Error("EnumSwitch", "GetScore()", "FractionDifficultyHelper.GetDescription -> " + d);

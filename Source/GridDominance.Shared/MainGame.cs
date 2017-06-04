@@ -42,8 +42,6 @@ namespace GridDominance.Shared
 
 			Profile = new PlayerProfile();
 
-			L10NImpl.Init();
-
 			var sdata = FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);
 			if (sdata != null)
 			{
@@ -69,8 +67,10 @@ namespace GridDominance.Shared
 			{
 				SaveProfile();
 			}
-			
+
 			SAMLog.LogEvent += SAMLogOnLogEvent;
+
+			L10NImpl.Init(Profile.Language);
 			
 			if (Profile.OnlineUserID >= 0)
 			{

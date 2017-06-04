@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
@@ -29,13 +30,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public float OffsetProgress = 0;
 		public float ScaleProgress = 1;
+		public float IconScale = 1;
 		public float FontProgress = 0;
 
-		protected SubSettingButton(SettingsButton master, int position)
+		protected SubSettingButton(SettingsButton master, int position, float icscale)
 		{
 			this.master = master;
 			this.position = position;
 			Slave = new SubSettingClickZone(this);
+			IconScale = icscale;
 
 			RelativePosition = new FPoint(8, 8);
 			Size = new FSize(DIAMETER, DIAMETER);
@@ -49,7 +52,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			sbatch.DrawCentered(Textures.TexHUDButtonBase, Center, DIAMETER * ScaleProgress, DIAMETER * ScaleProgress, ColorMath.Blend(FlatColors.Asbestos, FlatColors.Alizarin, OffsetProgress*ScaleProgress));
 
-			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * ScaleProgress, SIZE_ICON * ScaleProgress, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds);
+			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * ScaleProgress * IconScale, SIZE_ICON * ScaleProgress * IconScale, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds);
 
 			FontRenderHelper.DrawTextVerticallyCenteredWithBackground(sbatch, Textures.HUDFontRegular, SIZE_ICON, ButtonText, FlatColors.Clouds * FontProgress, new Vector2(CenterX + SIZE_ICON, CenterY), Color.Black * 0.5f * FontProgress);
 		}
@@ -111,10 +114,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 	class HUDButtonAbout : SubSettingButton
 	{
-		public HUDButtonAbout(SettingsButton master) : base(master, 0) { }
+		public HUDButtonAbout(SettingsButton master) : base(master, 0, 1f) { }
 
 		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconAbout;
-		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_ABOUT);
+		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_ABOUT);
 
 		protected override void OnPress(InputState istate)
 		{
@@ -126,10 +129,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 	class ButtonAccount : SubSettingButton
 	{
-		public ButtonAccount(SettingsButton master) : base(master, 1) { }
+		public ButtonAccount(SettingsButton master) : base(master, 1, 1f) { }
 
 		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconAccount;
-		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_ACCOUNT);
+		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_ACCOUNT);
 
 		protected override void OnPress(InputState istate)
 		{
@@ -141,10 +144,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 	class ButtonHighscore : SubSettingButton
 	{
-		public ButtonHighscore(SettingsButton master) : base(master, 2) { }
+		public ButtonHighscore(SettingsButton master) : base(master, 2, 1f) { }
 
 		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconHighscore;
-		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_HIGHSCORE);
+		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_HIGHSCORE);
 
 		protected override void OnPress(InputState istate)
 		{
@@ -156,10 +159,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 	class ButtonVolume : SubSettingButton
 	{
-		public ButtonVolume(SettingsButton master) : base(master, 3) { }
+		public ButtonVolume(SettingsButton master) : base(master, 3, 1f) { }
 
 		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.SoundsEnabled ? Textures.TexHUDButtonIconVolumeOn : Textures.TexHUDButtonIconVolumeOff;
-		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_MUTE);
+		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_MUTE);
 
 		protected override void OnPress(InputState istate)
 		{
@@ -167,18 +170,33 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			MainGame.Inst.SaveProfile();
 		}
 	}
-	
+
 	class ButtonEffects : SubSettingButton
 	{
-		public ButtonEffects(SettingsButton master) : base(master, 4) { }
+		public ButtonEffects(SettingsButton master) : base(master, 4, 1f) { }
 
 		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.EffectsEnabled ? Textures.TexHUDButtonIconEffectsOn : Textures.TexHUDButtonIconEffectsOff;
-		protected override string ButtonText { get; } = L10N.T(L10NImpl.STR_SSB_EFFECTS);
+		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_EFFECTS);
 
 		protected override void OnPress(InputState istate)
 		{
 			MainGame.Inst.Profile.EffectsEnabled = !MainGame.Inst.Profile.EffectsEnabled;
 			MainGame.Inst.SaveProfile();
+		}
+	}
+
+	class ButtonLanguage : SubSettingButton
+	{
+		public ButtonLanguage(SettingsButton master) : base(master, 5, 0.85f) { }
+
+		protected override TextureRegion2D GetIcon() => Textures.TexHUDFlags[FloatMath.IClamp(MainGame.Inst.Profile.Language, 0, L10N.LANG_COUNT)];
+		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_LANGUAGE);
+
+		protected override void OnPress(InputState istate)
+		{
+			MainGame.Inst.Profile.Language = (MainGame.Inst.Profile.Language + 1) % L10N.LANG_COUNT;
+			MainGame.Inst.SaveProfile();
+			L10N.ChangeLanguage(MainGame.Inst.Profile.Language);
 		}
 	}
 }
