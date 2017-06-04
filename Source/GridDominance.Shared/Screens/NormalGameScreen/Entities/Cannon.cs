@@ -446,6 +446,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public void TakeDamage(Fraction source, float sourceScale)
 		{
+#if DEBUG
+			if (DebugSettings.Get("ImmortalCannons")) return;
+#endif
+
 			if (source.IsNeutral)
 			{
 				ResetChargeAndBooster();

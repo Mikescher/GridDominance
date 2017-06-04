@@ -7,12 +7,15 @@ using System.Text;
 using System.Threading;
 using Android.Content;
 using Android.Net;
+using Android.App;
+using System;
 
 namespace GridDominance.Android
 {
 	class AndroidImpl : IOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new AndroidFileHelper();
+		public IBillingAdapter IAB => _iab;
 
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);
@@ -21,10 +24,18 @@ namespace GridDominance.Android
 
 		private readonly SHA256 sha256 = SHA256.Create();
 		private readonly MainActivity _activity;
+		private readonly AndroidBilling _iab;
+
+		public void OnDestroy()
+		{
+			_iab.Disconnect();
+		}
 
 		public AndroidImpl(MainActivity a)
 		{
 			_activity = a;
+
+			_iab = new AndroidBilling(a);
 		}
 
 		private static string GenerateInfoStr()
@@ -65,6 +76,11 @@ namespace GridDominance.Android
 			b.AppendFormat("Touchscreen         := '{0}'\n", Resources.System.Configuration.Touchscreen);
 
 			return b.ToString();
+		}
+
+		public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
+		{
+			_iab.HandleActivityResult(requestCode, resultCode, data);
 		}
 
 		private static string ScreenRes()

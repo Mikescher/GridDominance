@@ -17,6 +17,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
+using MonoSAMFramework.Portable.DebugTools;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -80,6 +81,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
 		{
+#if DEBUG
+			if (DebugSettings.Get("UnlockNode")) NodeEnabled = true;
+#endif
+
 			if (NodeEnabled)
 			{
 				var ownr = ((GDOverworldScreen) Owner);

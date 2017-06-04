@@ -8,6 +8,7 @@
 		string ScreenResolution { get; }
 
 		FileHelper FileHelper { get; }
+		IBillingAdapter IAB { get; }
 
 		string DoSHA256(string input);
 		void OpenURL(string url);

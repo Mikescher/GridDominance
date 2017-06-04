@@ -27,6 +27,20 @@ namespace GridDominance.Shared
 	{
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
+		public const string IAB_WORLD2 = @"gd_world_002";
+		public const string IAB_WORLD3 = @"gd_world_003";
+		public static readonly string[] IABList = new[] 
+		{
+#if DEBUG
+			AndroidBillingHelper.PID_CANCELED,
+			AndroidBillingHelper.PID_PURCHASED,
+			AndroidBillingHelper.PID_REFUNDED,
+			AndroidBillingHelper.PID_UNAVAILABLE,
+#endif
+			IAB_WORLD2,
+			IAB_WORLD3,
+		};
+
 		public readonly PlayerProfile Profile;
 		public readonly IGDServerAPI Backend;
 
@@ -38,7 +52,11 @@ namespace GridDominance.Shared
 		public MainGame(IOperatingSystemBridge b) : base(b)
 		{
 			Backend = new GDServerAPI(b);
-//			Backend = new DummyGDServerAPI();
+			//Backend = new DummyGDServerAPI();
+
+#if LICENSE_IAB
+			Bridge.IAB.Connect(IABList);
+#endif
 
 			Profile = new PlayerProfile();
 

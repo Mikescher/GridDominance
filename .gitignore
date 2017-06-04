@@ -51,3 +51,5 @@ MyBuilds
 /Data/web/*
 
 *.xnb
+
+__Secrets.cs

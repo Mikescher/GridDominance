@@ -126,7 +126,7 @@
 
  Pricing:
  - 1,99 Full Game
- - 0,99 Unlock World
+ - 0,79 Unlock World
 
 
 

@@ -4,6 +4,7 @@ using Android.Views;
 using Android.OS;
 using GridDominance.Shared;
 using Microsoft.Xna.Framework;
+using Android.Content;
 
 namespace GridDominance.Android
 {
@@ -17,15 +18,29 @@ namespace GridDominance.Android
 
 	public class MainActivity : AndroidGameActivity
 	{
+		private AndroidImpl _impl;
+
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-			
-			var g = new MainGame(new AndroidImpl(this));
+
+			_impl = new AndroidImpl(this);
+			var g = new MainGame(_impl);
 			SetContentView(g.Services.GetService<View>());
 			g.Run();
 		}
-		
+
+		protected override void OnDestroy()
+		{
+			_impl.OnDestroy();
+
+			base.OnDestroy();
+		}
+
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		{
+			_impl.HandleActivityResult(requestCode, resultCode, data);
+		}
 	}
 }
 

@@ -283,8 +283,8 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">base_blocks/alphagradient.png</key>
-            <key type="filename">hud/flags/Germany-flag.png</key>
-            <key type="filename">hud/flags/United-states-flag.png</key>
+            <key type="filename">hud/flags/flag_00.png</key>
+            <key type="filename">hud/flags/flag_01.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
