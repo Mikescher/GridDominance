@@ -51,7 +51,7 @@ cd Source
 cd GridDominance.Server
 
 rm -rf .idea
-rm -rf data
+#rm -rf data
 rm .gitignore
 rm internals/config.php
 
