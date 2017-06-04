@@ -30,10 +30,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			GDOwner.GameSpeedMode = GameSpeedModes.NORMAL;
 
-			if (GDOwner.IsTutorial)
-				AddModal(new HUDTutorialScorePanel(profile, addPoints), false);
-			else
-				AddModal(new HUDScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints), false);
+			GDOwner.ShowScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints);
 		}
 
 #if DEBUG

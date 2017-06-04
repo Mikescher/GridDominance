@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Attributions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\L10NImpl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\__Secrets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\AccountType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveData\LevelDiffData.cs" />

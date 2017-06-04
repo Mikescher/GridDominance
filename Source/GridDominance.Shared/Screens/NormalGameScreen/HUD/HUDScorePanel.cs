@@ -26,7 +26,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		public const float ICON_MARGIN = GDConstants.TILE_WIDTH * (3/8f);
 		public const float ICON_SIZE = GDConstants.TILE_WIDTH * 2;
 
-		private GDGameScreen GDScreen => (GDGameScreen)HUD.Screen;
+		private GDGameScreen_SP GDScreen => (GDGameScreen_SP)HUD.Screen;
 
 		public override int Depth => 0;
 
@@ -215,7 +215,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 			});
-			btnMenu.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreenZoomedOut(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID);
+			btnMenu.ButtonClick += (s, a) => GDScreen.ExitToMap();
 
 			if (successScreen)
 			{

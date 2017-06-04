@@ -22,6 +22,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using System.Collections.Generic;
+using GridDominance.Shared.SaveData;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -312,5 +313,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public abstract void RestartLevel();
 		public abstract void ReplayLevel(FractionDifficulty diff);
+		public abstract void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints);
+		public abstract void ExitToMap();
 	}
 }

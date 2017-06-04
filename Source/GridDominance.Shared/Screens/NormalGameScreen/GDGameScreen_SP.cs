@@ -1,8 +1,11 @@
-﻿using GridDominance.Graphfileformat.Blueprint;
+﻿using System;
+using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
+using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
 {
@@ -23,6 +26,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public override void ReplayLevel(FractionDifficulty diff)
 		{
 			GDOwner.SetLevelScreen(Blueprint, diff, WorldBlueprint);
+		}
+
+		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
+		{
+			HUD.AddModal(new HUDScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints), false);
+		}
+
+		public override void ExitToMap()
+		{
+			MainGame.Inst.SetWorldMapScreenZoomedOut(WorldBlueprint, Blueprint.UniqueID);
 		}
 	}
 }

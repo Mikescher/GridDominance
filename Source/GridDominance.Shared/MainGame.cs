@@ -17,6 +17,7 @@ using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
 using MonoSAMFramework.Portable.Localization;
+using GridDominance.Shared.Screens.NormalGameScreen;
 
 namespace GridDominance.Shared
 {
@@ -54,9 +55,7 @@ namespace GridDominance.Shared
 			Backend = new GDServerAPI(b);
 			//Backend = new DummyGDServerAPI();
 
-#if LICENSE_IAB
-			Bridge.IAB.Connect(IABList);
-#endif
+			if (GDConstants.USE_IAB) Bridge.IAB.Connect(IABList);
 
 			Profile = new PlayerProfile();
 
@@ -158,7 +157,7 @@ namespace GridDominance.Shared
 
 		public void SetLevelScreen(LevelBlueprint blueprint, FractionDifficulty d, GraphBlueprint source)
 		{
-			SetCurrentScreen(new GDGameScreen(this, Graphics, blueprint, d, source));
+			SetCurrentScreen(new GDGameScreen_SP(this, Graphics, blueprint, d, source));
 		}
 
 		public void SetWorldMapScreen(GraphBlueprint g, Guid focus)
@@ -196,7 +195,7 @@ namespace GridDominance.Shared
 		
 		public void SetTutorialLevelScreen()
 		{
-			SetCurrentScreen(new GDGameScreen(this, Graphics, Levels.LEVEL_TUTORIAL));
+			SetCurrentScreen(new GDGameScreen_Tutorial(this, Graphics, Levels.LEVEL_TUTORIAL));
 		}
 
 		public void SetDebugLevelScreen()
