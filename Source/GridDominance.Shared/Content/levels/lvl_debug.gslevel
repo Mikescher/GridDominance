@@ -6,78 +6,43 @@ init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001}, KI_PRECALC_SIMULATE
 
 Cannon(SIZE_SMALL,  P1,  [ 2,  6.3], ROT_N)
 
-Cannon(SIZE_SMALL,  N0,  [14,  5], ROT_S)
-
-Cannon(SIZE_SMALL,  N0,  [ 8,  1], ROT_SW)
-#Cannon(SIZE_NORMAL, N0,  [ 8,  5], ROT_E)
-Cannon(SIZE_SMALL,  N0,  [ 8,  9], ROT_NE)
-
-Portal(PORTAL_1, PORTAL_OUT, [ 2.5,  1], 1, ROT_W)
-Portal(PORTAL_1, PORTAL_OUT, [ 2.5,  9], 1, ROT_W)
-Portal(PORTAL_1, PORTAL_IN, [ 1.7,  4], 3, ROT_S)
-
-Portal(PORTAL_2, PORTAL_IN, [ 6,  2], 3, ROT_E)
-
-Portal(PORTAL_2, PORTAL_OUT, [ 5,  5], 1, ROT_E)
-Portal(PORTAL_3, PORTAL_IN, [ 7,  5], 1, ROT_W)
-
-Portal(PORTAL_3, PORTAL_OUT, [ 10,  9], 1, ROT_W)
+Cannon(SIZE_SMALL,  A2,  [ 8,  9], ROT_NE)
 
 WhiteHole([ 12,  9], 1)
 
-Cannon(SIZE_TINY,   N0,  [1 ,  1], ROT_N)
-Cannon(SIZE_TINY,   A2,  [15,  9], ROT_N)
-Cannon(SIZE_TINY,   N0,  [1 ,  9], ROT_N)
-Cannon(SIZE_TINY,   A3,  [15,  1], ROT_N)
-
-
-GlassBlock([ 12,  2], 1.5, 2)
-
-VoidCircle([ 10,  3], 1)
-
 BlackHole([ 9,  5], 2)
-
-#VoidWall_V([ 5, 5.5], 1)
-VoidWall_V([11, 5], 3.5)
 
 GlassWall_H([8, 7], 9)
 
-VoidWall([3, 1], [6, 4])
-
 VoidWall_V([5, 8.5], 1)
-VoidWall_H([5.5, 8], 1)
-VoidWall_H([5, 9], 2)
 
-VoidWall([14, 10], [14, 8])
-VoidWall([14,  8], [16, 8])
-
-VoidWall([14,  0], [14, 2])
-VoidWall([14,  2], [16, 2])
+VoidWall_V([10, 8.5], 2)
+VoidWall_H([8, 7.5], 1)
 
 #<map>
 #
 #            0 1 2 3 4 5 6 7 8 9 A B C D E F
 #          # # # # # # # # # # # # # # # # # #
 #                                             
-#        0 #                            |    #
-#            <O> &/     &  <O>          | O   
-#        1 #       /    &          HHH  |    #
-#                   /   &          HHH   ---  
-#        2 #         /  &          HHH       #
-#                     / &      (X)            
-#        3 #           /                     #
-#            &&&&&      /         |           
+#        0 #                                 #
+#                                             
+#        1 #                                 #
+#                                             
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                                             
 #        4 #                 ...             #
-#                     &   &  .@.  |    <O>    
+#                            .@.              
 #        5 #                 ...             #
-#              / \                |           
+#              / \                            
 #        6 #    O                            #
 #              \ /  HHHHHHHHHHHHHHHHH         
-#        7 #                                 #
-#                      -                 ---  
-#        8 #          |                 |    #
-#            <O> &   ---   <O>  &   @   | O   
-#        9 #                            |    #
+#        7 #                -                #
+#                               |             
+#        8 #          |    / \  |            #
+#                           O   |   @         
+#        9 #               \ /               #
 #                                             
 #          # # # # # # # # # # # # # # # # # #
 #
