@@ -119,7 +119,6 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			var farseerBullet = BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(scale * Bullet.BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(spawnPoint), BodyType.Dynamic, null);
 			farseerBullet.LinearVelocity = ConvertUnits.ToSimUnits(spawnVeloc);
 			farseerBullet.CollidesWith = Category.All;
-			farseerBullet.IsBullet = true;               // Use CCD solver (prevents tunelling) - do we really need this / how much perf soes this cost ??
 			farseerBullet.Restitution = 1f;              // Bouncability, 1=bounce always elastic
 			farseerBullet.AngularDamping = 1f;           // Practically no angular rotation
 			farseerBullet.Friction = 0f;

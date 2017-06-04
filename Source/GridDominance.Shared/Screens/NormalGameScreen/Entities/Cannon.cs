@@ -38,7 +38,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public  const float CANNON_OUTER_DIAMETER = 160; // includes fully extended barrel
 		public  const float BARREL_HEIGHT = 32;
 		public  const float BARREL_WIDTH = 64;
-		private const float BULLET_ANGLE_VARIANCE = 0.035f; // ~ 2 degree
+		private const float BULLET_ANGLE_VARIANCE = FloatMath.RAD_POS_002;
 		public  const float BULLET_INITIAL_SPEED = 100f;
 
 		private const float START_HEALTH_REGEN = 0.015f; // Health per sec bei 0HP

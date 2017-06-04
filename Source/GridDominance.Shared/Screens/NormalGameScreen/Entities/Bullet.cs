@@ -68,7 +68,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			PhysicsBody = BodyFactory.CreateCircle(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(BulletPosition), BodyType.Dynamic, this);
 			PhysicsBody.LinearVelocity = ConvertUnits.ToSimUnits(initialVelocity);
 			PhysicsBody.CollidesWith = Category.All;
-			PhysicsBody.IsBullet = true;               // Use CCD solver (prevents tunelling) - do we really need this / how much perf soes this cost ??
 			PhysicsBody.Restitution = 1f;              // Bouncability, 1=bounce always elastic
 			PhysicsBody.AngularDamping = 1f;           // Practically no angular rotation
 			PhysicsBody.Friction = 0f;
