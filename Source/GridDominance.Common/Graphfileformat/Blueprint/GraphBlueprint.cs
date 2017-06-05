@@ -11,10 +11,9 @@ namespace GridDominance.Graphfileformat.Blueprint
 
 		public readonly List<NodeBlueprint> Nodes = new List<NodeBlueprint>();
 		public readonly List<WarpNodeBlueprint> WarpNodes = new List<WarpNodeBlueprint>();
-		public RootNodeBlueprint RootNode = new RootNodeBlueprint(float.NaN, float.NaN, Guid.Empty, null);
+		public RootNodeBlueprint RootNode = new RootNodeBlueprint(float.NaN, float.NaN, Guid.Empty);
 
 		public Guid ID => RootNode.WorldID;
-		public string Name => RootNode.WorldName;
 
 		public GraphBlueprint()
 		{
@@ -28,7 +27,6 @@ namespace GridDominance.Graphfileformat.Blueprint
 			bw.Write(RootNode.X);
 			bw.Write(RootNode.Y);
 			bw.Write(RootNode.WorldID.ToByteArray());
-			bw.Write(RootNode.WorldName);
 			bw.Write((byte)RootNode.OutgoingPipes.Count);
 			for (int j = 0; j < RootNode.OutgoingPipes.Count; j++)
 			{
@@ -75,8 +73,7 @@ namespace GridDominance.Graphfileformat.Blueprint
 				float nx = br.ReadSingle();
 				float ny = br.ReadSingle();
 				var rid = new Guid(br.ReadBytes(16));
-				var rnm = br.ReadString();
-				RootNode = new RootNodeBlueprint(nx, ny, rid, rnm);
+				RootNode = new RootNodeBlueprint(nx, ny, rid);
 				int pcount = br.ReadByte();
 				for (int j = 0; j < pcount; j++)
 				{

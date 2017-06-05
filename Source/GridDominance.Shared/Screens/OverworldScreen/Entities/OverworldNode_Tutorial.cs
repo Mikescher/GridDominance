@@ -1,76 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GridDominance.Graphfileformat.Blueprint;
+﻿using Microsoft.Xna.Framework;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.WorldMapScreen.Agents;
-using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.RenderHelper;
-using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Input;
+using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
-	public class OverworldTutorialNode : GameEntity
+	public class OverworldNode_Tutorial : OverworldNode
 	{
-		public const float SIZE = 3 * GDConstants.TILE_WIDTH;
-		public const float INNERSIZE = 2 * GDConstants.TILE_WIDTH;
 		public const float ICONSIZE = 1.5f * GDConstants.TILE_WIDTH;
 		public const float ICONSIZESWIGGLE = 0.125f * GDConstants.TILE_WIDTH;
 
-		public const float COLLAPSE_TIME = 5f;
+		public int ForceClickCounter = 0;
 
-		public override Vector2 Position { get; }
-		public override FSize DrawingBoundingBox { get; } = new FSize(SIZE, SIZE);
-		public override Color DebugIdentColor { get; } = Color.Blue;
-
-		private readonly int _l10ndescription;
-		private readonly GameEntityMouseArea clickArea;
-
-		private readonly Dictionary<FractionDifficulty, float> solvedPerc = new Dictionary<FractionDifficulty, float>();
-
-		public float AlphaOverride = 1f;
-
-		public OverworldTutorialNode(GDOverworldScreen scrn, Vector2 pos, int l10ntext) : base(scrn, GDConstants.ORDER_WORLD_NODE)
-		{
-			_l10ndescription = l10ntext;
-			Position = pos;
-
-			clickArea = AddClickMouseArea(FRectangle.CreateByCenter(Vector2.Zero, new FSize(SIZE, SIZE)), OnClick);
-		}
-
-		public override void OnInitialize(EntityManager manager)
+		public OverworldNode_Tutorial(GDOverworldScreen scrn, Vector2 pos) : base(scrn, pos, L10NImpl.STR_WORLD_TUTORIAL, Levels.LEVEL_TUTORIAL.UniqueID)
 		{
 			//
-		}
-
-		public override void OnRemove()
-		{
-			//
-		}
-
-		protected override void OnUpdate(SAMTime gameTime, InputState istate)
-		{
-			//
-		}
-
-		private void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
-		{
-			var ownr = ((GDOverworldScreen) Owner);
-			if (ownr.IsTransitioning) return;
-			ownr.IsTransitioning = true;
-
-			ownr.AddAgent(new TransitionZoomInToTutorialAgent(ownr, this));
-			
-			MainGame.Inst.GDSound.PlayEffectZoomIn();
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
@@ -78,7 +30,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			var outerBounds = FRectangle.CreateByCenter(Position, DrawingBoundingBox);
 			var innerBounds = FRectangle.CreateByCenter(Position, new FSize(INNERSIZE, INNERSIZE));
 
-			if (! MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL.UniqueID).HasAnyCompleted())
+			if (!MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL.UniqueID).HasAnyCompleted())
 			{
 				var iconBounds = FRectangle.CreateByCenter(Position, new FSize(ICONSIZE + ICONSIZESWIGGLE * FloatMath.Sin(Lifetime), ICONSIZE + ICONSIZESWIGGLE * FloatMath.Sin(Lifetime)));
 
@@ -105,6 +57,17 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, L10N.T(_l10ndescription), FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 
 			}
+		}
+
+		protected override void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
+		{
+			var ownr = ((GDOverworldScreen)Owner);
+			if (ownr.IsTransitioning) return;
+			ownr.IsTransitioning = true;
+
+			ownr.AddAgent(new TransitionZoomInToTutorialAgent(ownr, this));
+
+			MainGame.Inst.GDSound.PlayEffectZoomIn();
 		}
 	}
 }

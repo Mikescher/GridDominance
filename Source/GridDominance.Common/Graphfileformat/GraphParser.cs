@@ -98,12 +98,11 @@ namespace GridDominance.Graphfileformat
 		{
 			var pos       = ExtractVec2fParameter(methodParameter, 0);
 			var worldid   = ExtractGuidParameter(methodParameter, 1);
-			var worldname = ExtractStringParameter(methodParameter, 2);
 
 			var px = pos.Item1 * _scaleFactor;
 			var py = pos.Item2 * _scaleFactor;
 
-			var node = new RootNodeBlueprint(px, py, worldid, worldname);
+			var node = new RootNodeBlueprint(px, py, worldid);
 
 			_currentNode = node;
 			_result.RootNode = node;

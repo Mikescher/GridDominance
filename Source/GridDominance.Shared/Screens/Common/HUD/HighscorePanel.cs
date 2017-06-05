@@ -62,7 +62,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = _focus == null ? L10N.T(L10NImpl.STR_HSP_GLOBALRANKING) : L10N.TF(L10NImpl.STR_HSP_RANKINGFOR, _focus.Name),
+				Text = _focus == null ? L10N.T(L10NImpl.STR_HSP_GLOBALRANKING) : L10N.TF(L10NImpl.STR_HSP_RANKINGFOR, L10N.T(Levels.WORLD_NAMES[_focus.ID])),
 				TextColor = FlatColors.Clouds,
 			});
 

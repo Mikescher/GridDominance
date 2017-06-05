@@ -22,7 +22,7 @@ alias(LVL_14, {b16b00b5-0001-4000-0000-000001000014})
 
 # node([0, -7], DBG)
 
-root([-7, 0], WORLD_1, "Basic")
+root([-7, 0], WORLD_1)
   connect(LVL_01, LIN)
 
 node([0, 0], LVL_01)

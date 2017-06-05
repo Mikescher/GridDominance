@@ -76,7 +76,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_fracNeutral = _cannon3.Fraction;
 			_fracComputer = _cannon5.Fraction;
 
-			_hud = _screen.GDGameHUD;
+			_hud = (GDGameHUD)_screen.HUD;
 
 			_screen.GameSpeedMode = GameSpeedModes.SLOW;
 

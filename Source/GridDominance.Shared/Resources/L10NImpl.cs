@@ -92,14 +92,16 @@ namespace GridDominance.Shared.Resources
 		public const int STR_GLOB_WORLDLOCK     = 71;
 		public const int STR_GLOB_OVERWORLD     = 75;
 		public const int STR_GLOB_WAITFORSERVER = 76;
-		public const int STR_GLOB_TUTORIAL      = 77;
+
+		public const int STR_WORLD_TUTORIAL      = 77;
+		public const int STR_WORLD_W1            = 80;
+		public const int STR_WORLD_W2            = 81;
 
 		public const int STR_INF_YOU            = 72;
 		public const int STR_INF_GLOBAL         = 73;
 		public const int STR_INF_HIGHSCORE      = 74;
 
-		private const int TEXT_COUNT = 80; // = next idx
-		// next = 79
+		private const int TEXT_COUNT = 82; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -183,8 +185,10 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_INF_HIGHSCORE,      "Highscore",                                                   "Bestzeit"                                                             );
 			L10N.Add(STR_GLOB_OVERWORLD,     "Overworld",                                                   "Übersicht"                                                            );
 			L10N.Add(STR_GLOB_WAITFORSERVER, "Contacting server",                                           "Server wird kontaktiert"                                              );
-			L10N.Add(STR_GLOB_TUTORIAL,      "Tutorial",                                                    "Tutorial"                                                             );
+			L10N.Add(STR_WORLD_TUTORIAL,     "Tutorial",                                                    "Tutorial"                                                             );
 			L10N.Add(STR_SSB_LANGUAGE,       "Language",                                                    "Sprache"                                                              );
+			L10N.Add(STR_WORLD_W1,           "Basic",                                                       "Grundlagen"                                                           );
+			L10N.Add(STR_WORLD_W2,           "Professional",                                                "Fortgeschritten"                                                      );
 
 #if DEBUG
 			L10N.Verify();

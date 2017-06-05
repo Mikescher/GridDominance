@@ -100,7 +100,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			controller = Fraction.CreateController(this.GDOwner(), this);
+			controller = this.GDOwner().CreateController(Fraction, this);
 
 			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static);
 
@@ -485,7 +485,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Fraction = f;
 			ResetChargeAndBooster();
 			controller?.OnRemove();
-			controller = Fraction.CreateController(this.GDOwner(), this);
+			controller = this.GDOwner().CreateController(Fraction, this);
 		}
 
 		public void RotateTo(GameEntity target)
@@ -497,7 +497,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public void ForceUpdateController()
 		{
 			controller?.OnRemove();
-			controller = Fraction.CreateController(this.GDOwner(), this);
+			controller = this.GDOwner().CreateController(Fraction, this);
 		}
 
 		public void ForceSetController(AbstractFractionController ctrl)

@@ -23,6 +23,7 @@ using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using System.Collections.Generic;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -39,7 +40,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public IGDGridBackground GDBackground => (IGDGridBackground) Background;
 		public GDEntityManager GDEntities => (GDEntityManager)Entities;
-		public GDGameHUD GDGameHUD => (GDGameHUD) GameHUD;
+		//public GDGameHUD GDGameHUD => (GDGameHUD) GameHUD;
 		//-----------------------------------------------------------------
 
 		private bool _isPaused = false;
@@ -114,7 +115,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		}
 		
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
-		protected override GameHUD CreateHUD() => new GDGameHUD(this);
 		protected override GameBackground CreateBackground() => MainGame.Inst.Profile.EffectsEnabled ? (GameBackground)new GDCellularBackground(this) : new GDStaticGridBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
@@ -199,7 +199,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			//
 		}
 
-		private void TestForGameEndingCondition()
+		protected virtual void TestForGameEndingCondition()
 		{
 			if (HasFinished) return;
 
@@ -230,7 +230,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			{
 				if (GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(Difficulty))
 				{
-					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, null, true, 0);
+					ShowScorePanel(Blueprint, GDOwner.Profile, null, true, 0);
 				}
 				else
 				{
@@ -245,14 +245,14 @@ namespace GridDominance.Shared.Screens.ScreenGame
 					if (ctime < localdata.BestTime) {localdata.GlobalBestTime = ctime; localdata.GlobalBestUserID = GDOwner.Profile.OnlineUserID; }
 
 					GDOwner.SaveProfile();
-					GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, Difficulty, true, p);
+					ShowScorePanel(Blueprint, GDOwner.Profile, Difficulty, true, p);
 				}
 
 				MainGame.Inst.GDSound.PlayEffectGameWon();
 			}
 			else
 			{
-				GDGameHUD.ShowScorePanel(Blueprint, GDOwner.Profile, null, false, 0);
+				ShowScorePanel(Blueprint, GDOwner.Profile, null, false, 0);
 
 				MainGame.Inst.GDSound.PlayEffectGameOver();
 			}
@@ -315,5 +315,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public abstract void ReplayLevel(FractionDifficulty diff);
 		public abstract void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints);
 		public abstract void ExitToMap();
+		public abstract AbstractFractionController CreateController(Fraction f, Cannon cannon);
 	}
 }

@@ -19,9 +19,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private readonly FRectangle rectStart;
 		private readonly FRectangle rectFinal;
 
-		private readonly OverworldTutorialNode _gdNode;
+		private readonly OverworldNode_Tutorial _gdNode;
 
-		public TransitionZoomInToTutorialAgent(GDOverworldScreen scrn, OverworldTutorialNode node) : base(scrn, DURATION)
+		public TransitionZoomInToTutorialAgent(GDOverworldScreen scrn, OverworldNode_Tutorial node) : base(scrn, DURATION)
 		{
 			_gdNode = node;
 			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;

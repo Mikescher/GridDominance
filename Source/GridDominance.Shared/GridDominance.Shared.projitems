@@ -66,6 +66,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_SP.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\GDPreviewHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDArrowAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDOperations\HUDBlinkingTutorialDifficultyButtonIconOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTouchAnimation.cs" />
@@ -76,7 +77,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\TransitionZoomInAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Background\OverworldBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\EntityOperations\ShakeNodeOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldTutorialNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_Graph.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_Tutorial.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\OverworldHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\OverworldEntityManager.cs" />

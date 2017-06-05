@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
 using MonoSAMFramework.Portable.Localization;
+using GridDominance.Graphfileformat.Blueprint;
 
 namespace GridDominance.Shared.SaveData
 {
@@ -67,6 +68,11 @@ namespace GridDominance.Shared.SaveData
 		public LevelData GetLevelData(LevelBlueprint bp)
 		{
 			return GetLevelData(bp.UniqueID);
+		}
+
+		public LevelData GetLevelData(NodeBlueprint bp)
+		{
+			return GetLevelData(bp.LevelID);
 		}
 
 		public LevelDiffData GetLevelData(Guid levelid, FractionDifficulty d)

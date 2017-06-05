@@ -63,56 +63,17 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 #endif
 			AddAgent(new ExitAgent(this));
 
-			Entities.AddEntity(new OverworldTutorialNode(this, new Vector2(3f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), L10NImpl.STR_GLOB_TUTORIAL));
-			Entities.AddEntity(new OverworldNode(this, new Vector2(8f  * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_001));
-			Entities.AddEntity(new OverworldNode(this, new Vector2(13f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH), Levels.WORLD_002));
+			Entities.AddEntity(new OverworldNode_Tutorial(this, new Vector2( 3f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH)));
+			Entities.AddEntity(new OverworldNode_W1(      this, new Vector2( 8f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH)));
+			Entities.AddEntity(new OverworldNode_W2(      this, new Vector2(13f * GDConstants.TILE_WIDTH, 6.5f * GDConstants.TILE_WIDTH)));
 
 			_banner.TargetRect = new FRectangle(0 * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH, 16 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH).AsDeflated(0.25f * GDConstants.TILE_WIDTH);
 			_banner.Text = "CANNON\nCONQUEST";
 			_banner.UseCPUParticles = false;
 			_banner.AnimationTime = 4f;
 			_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas()); //TODO delay by 1.5s , or only start when initial android lag finished
-
-			UnlockNodes();
 		}
 		
-		private void UnlockNodes()
-		{
-			if (MainGame.Inst.Profile.SkipTutorial || MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted())
-			{
-				UnlockNodes(Levels.WORLD_001);
-			}
-		}
-
-		private void UnlockNodes(GraphBlueprint print)
-		{
-			var node = GetEntities<OverworldNode>().First(n => n.Blueprint.ID == print.ID);
-			if (node.NodeEnabled) return;
-			node.NodeEnabled = true;
-
-			Stack<INodeBlueprint> stack = new Stack<INodeBlueprint>();
-			stack.Push(print.RootNode);
-
-			while (stack.Any())
-			{
-				var sourceNode = stack.Pop();
-
-				if (sourceNode is WarpNodeBlueprint)
-				{
-					UnlockNodes(Levels.WORLDS[((WarpNodeBlueprint)sourceNode).TargetWorld]);
-				}
-
-				if (sourceNode is RootNodeBlueprint || MainGame.Inst.Profile.GetLevelData(sourceNode.ConnectionID).HasAnyCompleted())
-				{
-					foreach (var targetNode in sourceNode.Pipes.Select(p => print.AllNodes.First(an => an.ConnectionID == p.Target)))
-					{
-						stack.Push(targetNode);
-					}
-				}
-			}
-
-		}
-
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 #if DEBUG

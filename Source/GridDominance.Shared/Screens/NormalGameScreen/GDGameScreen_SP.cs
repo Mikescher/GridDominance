@@ -6,11 +6,16 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
+using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
 {
 	class GDGameScreen_SP : GDGameScreen
 	{
+		protected override GameHUD CreateHUD() => new GDGameHUD(this);
+
 		public readonly GraphBlueprint WorldBlueprint;
 
 		public GDGameScreen_SP(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, GraphBlueprint ws) : base(game, gdm, bp, diff)
@@ -30,12 +35,38 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
 		{
+			((GDGameHUD)HUD).BtnPause.IsEnabled = false;
+			((GDGameHUD)HUD).BtnSpeed.IsEnabled = false;
+
+			GameSpeedMode = GameSpeedModes.NORMAL;
+
 			HUD.AddModal(new HUDScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints), false);
 		}
 
 		public override void ExitToMap()
 		{
 			MainGame.Inst.SetWorldMapScreenZoomedOut(WorldBlueprint, Blueprint.UniqueID);
+		}
+
+		public override AbstractFractionController CreateController(Fraction f, Cannon cannon)
+		{
+			switch (f.Type)
+			{
+				case FractionType.PlayerFraction:
+					if (HasFinished)
+						return new EndGameAutoPlayerController(this, cannon, f);
+					else
+						return new PlayerController(this, cannon, f);
+
+				case FractionType.ComputerFraction:
+					return new StandardKIController(this, cannon, f);
+
+				case FractionType.NeutralFraction:
+					return new NeutralKIController(this, cannon, f);
+
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 	}
 }

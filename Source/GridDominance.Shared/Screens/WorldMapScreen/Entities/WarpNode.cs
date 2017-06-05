@@ -130,7 +130,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			FontRenderHelper.DrawTextCenteredWithBackground(
 				sbatch, 
 				Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, 
-				Target.Name, 
+				L10N.T(Levels.WORLD_NAMES[Target.ID]), 
 				FlatColors.TextHUD, 
 				Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH),
 				FlatColors.BackgroundHUD2 * 0.5f);

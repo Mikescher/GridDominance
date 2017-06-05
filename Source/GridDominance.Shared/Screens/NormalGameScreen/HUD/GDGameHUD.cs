@@ -22,17 +22,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			AddElement(BtnPause = new HUDPauseButton());
 			AddElement(BtnSpeed = new HUDSpeedBaseButton());
 		}
-
-		public void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
-		{
-			BtnPause.IsEnabled = false;
-			BtnSpeed.IsEnabled = false;
-
-			GDOwner.GameSpeedMode = GameSpeedModes.NORMAL;
-
-			GDOwner.ShowScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints);
-		}
-
+		
 #if DEBUG
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{

@@ -66,26 +66,5 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 		{
 			return FractionDifficultyHelper.GetShortIdentifier(Difficulty);
 		}
-
-		public AbstractFractionController CreateController(GDGameScreen owner, Cannon cannon)
-		{
-			switch (Type)
-			{
-				case FractionType.PlayerFraction:
-					if (owner.HasFinished)
-						return new EndGameAutoPlayerController(owner, cannon, this);
-					else
-						return new PlayerController(owner, cannon, this);
-
-				case FractionType.ComputerFraction:
-					return new StandardKIController(owner, cannon, this);
-
-				case FractionType.NeutralFraction:
-					return new NeutralKIController(owner, cannon, this);
-
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
 	}
 }
