@@ -203,6 +203,11 @@ namespace GridDominance.Shared
 			SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
 		}
 
+		public void SetPreviewScreen(LevelBlueprint[] previews, int idx = 0)
+		{
+			SetCurrentScreen(new GDGameScreen_Preview(this, Graphics, previews, idx));
+		}
+
 		protected override void LoadContent()
 		{
 			Textures.Initialize(Content, GraphicsDevice);

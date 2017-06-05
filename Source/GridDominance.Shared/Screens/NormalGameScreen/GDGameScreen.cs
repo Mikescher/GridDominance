@@ -32,6 +32,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public const float GAMESPEED_SUPERSLOW = 0.25f;
 		public const float GAMESPEED_SLOW      = 0.5f;
 		public const float GAMESPEED_NORMAL    = 1f;
+		public const float GAMESPEED_SEMIFAST  = 1.5f;
 		public const float GAMESPEED_FAST      = 2f;
 		public const float GAMESPEED_SUPERFAST = 4f;
 

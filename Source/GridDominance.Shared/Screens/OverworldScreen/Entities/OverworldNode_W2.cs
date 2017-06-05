@@ -4,6 +4,11 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using System.Linq;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.ColorHelper;
+using System.Collections.Generic;
+using GridDominance.Levelfileformat.Blueprint;
+using System;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -21,7 +26,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			else
 				DrawLockSwing(sbatch);
 		}
-
+		 
 		private bool? _isGPUnlocked = null;
 		protected override bool IsUnlocked()
 		{
@@ -40,23 +45,22 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD2);
 
-				return true;//TODO
-
 				switch (ip) //TODO
 				{
 					case PurchaseQueryResult.Purchased:
 						return true;
 					case PurchaseQueryResult.NotPurchased:
-						return false;
 					case PurchaseQueryResult.Refunded:
-						return false;
 					case PurchaseQueryResult.Cancelled:
 						return false;
 					case PurchaseQueryResult.Error:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						return false;
 					case PurchaseQueryResult.NotConnected:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						return false;
 					case PurchaseQueryResult.CurrentlyInitializing:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						return false;
 					default:
 						SAMLog.Error("EnumSwitch", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD2)) -> " + ip);
@@ -68,6 +72,29 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				// FULL VERSION
 
 				return _isGPUnlocked.Value;
+			}
+		}
+
+		protected override void OnClickDeny()
+		{
+			if (_isGPUnlocked == false)
+			{
+				base.OnClickDeny();
+			}
+			else
+			{
+				LevelBlueprint[] previews = new LevelBlueprint[] 
+				{
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000019")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000015")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000012")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000013")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000005")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000025")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000027")],
+				};
+
+				MainGame.Inst.SetPreviewScreen(previews);
 			}
 		}
 	}

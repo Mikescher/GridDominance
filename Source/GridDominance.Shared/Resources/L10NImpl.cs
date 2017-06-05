@@ -101,7 +101,11 @@ namespace GridDominance.Shared.Resources
 		public const int STR_INF_GLOBAL         = 73;
 		public const int STR_INF_HIGHSCORE      = 74;
 
-		private const int TEXT_COUNT = 82; // = next idx
+		public const int STR_IAB_TESTERR        = 82;
+		public const int STR_IAB_TESTNOCONN     = 83;
+		public const int STR_IAB_TESTINPROGRESS = 84;
+
+		private const int TEXT_COUNT = 85; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -189,6 +193,9 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_SSB_LANGUAGE,       "Language",                                                    "Sprache"                                                              );
 			L10N.Add(STR_WORLD_W1,           "Basic",                                                       "Grundlagen"                                                           );
 			L10N.Add(STR_WORLD_W2,           "Professional",                                                "Fortgeschritten"                                                      );
+			L10N.Add(STR_IAB_TESTERR,        "Error connecting to Google Play services",                    "Fehler beim Versuch mit Google Play zu verbinden"                     );
+			L10N.Add(STR_IAB_TESTNOCONN,     "No connection to Google Play services",                       "Keine Verbindung zu Google Play services"                             );
+			L10N.Add(STR_IAB_TESTINPROGRESS, "Payment in progress",                                         "Zahung wird verarbeitet"                                              );
 
 #if DEBUG
 			L10N.Verify();
