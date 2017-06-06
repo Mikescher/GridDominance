@@ -24,12 +24,15 @@ namespace GridDominance.DSLEditor.Drawing
 			chrmap = new char[MAPWIDTH, MAPHEIGHT];
 			for (var x = 0; x < MAPWIDTH; x++) for (var y = 0; y < MAPHEIGHT; y++) chrmap[x, y] = ' ';
 
-			foreach (var c in level.BlueprintCannons)     DrawCannon(c);
-			foreach (var w in level.BlueprintVoidWalls)   DrawVoidWall(w);
-			foreach (var c in level.BlueprintVoidCircles) DrawVoidCircle(c);
-			foreach (var c in level.BlueprintGlassBlocks) DrawGlassBlock(c);
-			foreach (var h in level.BlueprintBlackHoles)  DrawBlackHole(h);
-			foreach (var p in level.BlueprintPortals)     DrawPortal(p);
+			foreach (var c in level.BlueprintCannons)       DrawCannon(c);
+			foreach (var w in level.BlueprintVoidWalls)     DrawVoidWall(w);
+			foreach (var c in level.BlueprintVoidCircles)   DrawVoidCircle(c);
+			foreach (var c in level.BlueprintGlassBlocks)   DrawGlassBlock(c);
+			foreach (var h in level.BlueprintBlackHoles)    DrawBlackHole(h);
+			foreach (var p in level.BlueprintPortals)       DrawPortal(p);
+			foreach (var b in level.BlueprintMirrorBlocks)  DrawMirrorBlock(b);
+			foreach (var c in level.BlueprintMirrorCircles) DrawMirrorCircle(c);
+			foreach (var c in level.BlueprintLaserCannons)  DrawLaserCannon(c);
 		}
 
 		private void DrawCannon(CannonBlueprint c)
@@ -87,7 +90,7 @@ namespace GridDominance.DSLEditor.Drawing
 			var x2 = (c.X + c.Width / 2) / 64;
 			var y2 = (c.Y + c.Height / 2) / 64;
 
-			FillMap(x1, y1, x2, y2, 'H');
+			FillMapRot(x1, y1, x2, y2, c.Rotation, 'H');
 		}
 
 		private void DrawBlackHole(BlackHoleBlueprint c)
@@ -108,6 +111,55 @@ namespace GridDominance.DSLEditor.Drawing
 			var r = p.Normal + 90;
 
 			DrawLine(x, y, l, r, '&');
+		}
+
+		private void DrawMirrorBlock(MirrorBlockBlueprint c)
+		{
+			var x1 = (c.X - c.Width / 2) / 64;
+			var y1 = (c.Y - c.Height / 2) / 64;
+			var x2 = (c.X + c.Width / 2) / 64;
+			var y2 = (c.Y + c.Height / 2) / 64;
+
+			FillMapRot(x1, y1, x2, y2, c.Rotation, 'N');
+		}
+
+		private void DrawMirrorCircle(MirrorCircleBlueprint c)
+		{
+			var x = c.X / 64;
+			var y = c.Y / 64;
+
+			SetMap(x - 0.5f, y, '(');
+			SetMap(x + 0.0f, y, '#');
+			SetMap(x + 0.5f, y, ')');
+		}
+
+		private void DrawLaserCannon(LaserCannonBlueprint c)
+		{
+			var x = c.X / 64;
+			var y = c.Y / 64;
+
+			if (c.Player == 0)
+			{
+				SetMap(x - 0.5f, y, '<');
+				SetMap(x, y, '+');
+				SetMap(x + 0.5f, y, '>');
+			}
+			else
+			{
+				if (c.Diameter <= 48)
+				{
+					SetMap(x, y, '+');
+				}
+				else
+				{
+					SetMap(x, y, '+');
+
+					SetMap(x - 0.5f, y - 0.5f, '/');
+					SetMap(x + 0.5f, y - 0.5f, '\\');
+					SetMap(x - 0.5f, y + 0.5f, '\\');
+					SetMap(x + 0.5f, y + 0.5f, '/');
+				}
+			}
 		}
 
 		private void DrawLine(float cx, float cy, float len, double rot, char c)
@@ -226,6 +278,33 @@ namespace GridDominance.DSLEditor.Drawing
 					float ry = iy / 2f;
 
 					if (rx > x1 + 0.001f && rx < x2 - 0.001f && ry > y1 + 0.001f && ry < y2 - 0.001f) SetMap(rx, ry, c);
+				}
+			}
+		}
+
+		private void FillMapRot(float x1, float y1, float x2, float y2, float deg, char c)
+		{
+			if (deg == 0)   { FillMap(x1, y1, x2, y2, c); return; }
+			if (deg == 180) { FillMap(x1, y1, x2, y2, c); return; }
+
+			int ix1 = (int)Math.Floor(2 * x1 - 1);
+			int iy1 = (int)Math.Floor(2 * y1 - 1);
+			int ix2 = (int)Math.Ceiling(2 * x2 + 1);
+			int iy2 = (int)Math.Ceiling(2 * y2 + 1);
+
+			var cc = new Vec2d((x1 + x2) / 2, (y1 + y2) / 2);
+
+			for (int ix = ix1; ix <= ix2; ix++)
+			{
+				for (int iy = iy1; iy <= iy2; iy++)
+				{
+					float rx = ix / 2f;
+					float ry = iy / 2f;
+
+					Vec2d crd = new Vec2d(rx, ry);
+					crd.RotateAround(cc, (deg / 360f) * (2 * Math.PI));
+
+					if (rx > x1 + 0.001f && rx < x2 - 0.001f && ry > y1 + 0.001f && ry < y2 - 0.001f) SetMap((float)crd.X, (float)crd.Y, c);
 				}
 			}
 		}

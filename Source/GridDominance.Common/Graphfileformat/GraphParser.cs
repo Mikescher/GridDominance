@@ -20,6 +20,7 @@ namespace GridDominance.Graphfileformat
 			includeFinderFunction = includeFunction;
 
 			DefineMethod("alias", DefineAlias);
+			DefineMethod("define", DefineAlias);
 			DefineMethod("include", IncludeSource);
 			DefineMethod("scale", SetScale);
 

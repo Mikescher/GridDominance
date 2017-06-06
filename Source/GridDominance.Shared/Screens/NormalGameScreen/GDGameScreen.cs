@@ -133,7 +133,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			foreach (var bPrint in Blueprint.BlueprintCannons)
 			{
-				var e = new Cannon(this, bPrint, fracList);
+				var e = new BulletCannon(this, bPrint, fracList);
 				Entities.AddEntity(e);
 				cannonList.Add(e);
 			}
@@ -167,6 +167,23 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				var e = new Portal(this, bPrint);
 				Entities.AddEntity(e);
 				portalList.Add(e);
+			}
+
+			foreach (var bPrint in Blueprint.BlueprintLaserCannons)
+			{
+				var e = new LaserCannon(this, bPrint, fracList);
+				Entities.AddEntity(e);
+				cannonList.Add(e);
+			}
+
+			foreach (var bPrint in Blueprint.BlueprintMirrorBlocks)
+			{
+				//TODO
+			}
+
+			foreach (var bPrint in Blueprint.BlueprintMirrorCircles)
+			{
+				//TODO
 			}
 
 			//----------------------------------------------------------------

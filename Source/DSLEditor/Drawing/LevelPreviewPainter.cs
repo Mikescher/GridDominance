@@ -82,6 +82,9 @@ namespace GridDominance.DSLEditor.Drawing
 					DrawGlassBlocks(level, g);
 					DrawBlackHoles(level, g);
 					DrawPortals(level, g);
+					DrawMirrorBlocks(level, g);
+					DrawMirrorCircles(level, g);
+					DrawLaserCannons(level, g);
 
 					DrawRays(level, highlightCannon, g);
 				}
@@ -133,6 +136,7 @@ namespace GridDominance.DSLEditor.Drawing
 				var save = g.Save();
 				{
 					g.TranslateTransform(vblock.X, vblock.Y);
+					g.RotateTransform(vblock.Rotation);
 					g.FillRectangle(glassbrush, -vblock.Width / 2, -vblock.Height / 2, vblock.Width, vblock.Height);
 					g.DrawRectangle(glasspen, -vblock.Width / 2, -vblock.Height / 2, vblock.Width, vblock.Height);
 				}
@@ -173,7 +177,7 @@ namespace GridDominance.DSLEditor.Drawing
 			var rayPenBGP = new Pen(Color.FromArgb(70, Color.Yellow), 2f);
 			var rayPen = new Pen(Color.FromArgb(200, Color.Red), 4f) { DashStyle = DashStyle.Dash };
 			var rayBrush = new SolidBrush(Color.FromArgb(200, Color.Goldenrod));
-			foreach (var c in level.BlueprintCannons.Where(p => p.CannonID == highlightCannon))
+			foreach (var c in level.AllCannons.Where(p => p.CannonID == highlightCannon))
 			{
 				foreach (var path in c.PrecalculatedPaths)
 				{
@@ -274,6 +278,77 @@ namespace GridDominance.DSLEditor.Drawing
 				g.DrawLine(portalpen, 4, -port.Length / 2, 4, +port.Length / 2);
 				g.DrawLine(basepen, 0, -port.Length / 2, 0, +port.Length / 2);
 				if (port.Side) g.DrawLine(highpen, 0, -port.Length / 6, 0, +port.Length / 6);
+				g.Restore(save);
+			}
+		}
+
+		private static void DrawLaserCannons(LevelBlueprint level, Graphics g)
+		{
+			foreach (var c in level.BlueprintLaserCannons)
+			{
+				var rectBaseCircle = new RectangleF(-0.500f, -0.500f, 1.000f, 1.000f);
+				var rectOuterCircle = new RectangleF(-0.833f, -0.833f, 1.666f, 1.666f);
+				var rectMidArea = new RectangleF(-0.666f, -0.666f, 1.333f, 1.333f);
+				var rectBarrel = new RectangleF(+0.166f, -0.166f, 0.666f, 0.333f);
+
+				var save = g.Save();
+				{
+					g.TranslateTransform(c.X, c.Y);
+					g.ScaleTransform(c.Diameter, c.Diameter);
+
+					// Mid Area Alpha
+					g.FillRectangle(new SolidBrush(Color.FromArgb(64, CANNON_COLORS[c.Player])), rectMidArea);
+
+					// Barrel
+					g.RotateTransform(c.Rotation);
+					g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), rectBarrel);
+
+					// Base
+					g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectBaseCircle);
+					g.DrawEllipse(new Pen(Color.Black, 0.008f), rectBaseCircle);
+
+					// Radius
+					g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 0.032f), rectOuterCircle);
+
+					// Laser marker
+					g.DrawLine(new Pen(Color.Red, 0.05f), -0.25f, -0.25f, +0.25f, +0.25f);
+					g.DrawLine(new Pen(Color.Red, 0.05f), -0.25f, +0.25f, +0.25f, -0.25f);
+					g.DrawLine(new Pen(Color.Red, 0.05f), +0.00f, -0.35f, +0.00f, +0.35f);
+					g.DrawLine(new Pen(Color.Red, 0.05f), -0.35f, +0.00f, +0.35f, +0.00f);
+				}
+				g.Restore(save);
+			}
+		}
+
+		private static void DrawMirrorBlocks(LevelBlueprint level, Graphics g)
+		{
+			var mirrorbrush = new SolidBrush(Color.FromArgb(128, Color.Silver));
+			var mirrorpen = new Pen(Color.White, 2);
+			foreach (var b in level.BlueprintMirrorBlocks)
+			{
+				var save = g.Save();
+				{
+					g.TranslateTransform(b.X, b.Y);
+					g.RotateTransform(b.Rotation);
+					g.FillRectangle(mirrorbrush, -b.Width / 2, -b.Height / 2, b.Width, b.Height);
+					g.DrawRectangle(mirrorpen, -b.Width / 2, -b.Height / 2, b.Width, b.Height);
+				}
+				g.Restore(save);
+			}
+		}
+
+		private static void DrawMirrorCircles(LevelBlueprint level, Graphics g)
+		{
+			var mirrorbrush = new SolidBrush(Color.FromArgb(128, Color.Silver));
+			var mirrorpen = new Pen(Color.White, 2);
+			foreach (var vcirc in level.BlueprintVoidCircles)
+			{
+				var save = g.Save();
+				{
+					g.TranslateTransform(vcirc.X, vcirc.Y);
+					g.FillEllipse(mirrorbrush, new RectangleF(-vcirc.Diameter / 2f, -vcirc.Diameter / 2f, vcirc.Diameter, vcirc.Diameter));
+					g.DrawEllipse(mirrorpen, new RectangleF(-vcirc.Diameter / 2f, -vcirc.Diameter / 2f, vcirc.Diameter, vcirc.Diameter));
+				}
 				g.Restore(save);
 			}
 		}

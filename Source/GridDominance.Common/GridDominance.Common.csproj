@@ -43,8 +43,12 @@
     <Compile Include="Graphfileformat\GraphParser.cs" />
     <Compile Include="Graphfileformat\Pipeline\GDWorldGraphReader.cs" />
     <Compile Include="Levelfileformat\Blueprint\BulletPathBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\ICannonBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\LaserCannonBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\LevelBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\BlackHoleBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\MirrorBlockBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\MirrorCircleBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\PortalBlueprint.cs" />
     <Compile Include="Levelfileformat\LevelParser.cs" />
     <Compile Include="Levelfileformat\Blueprint\VoidCircleBlueprint.cs" />

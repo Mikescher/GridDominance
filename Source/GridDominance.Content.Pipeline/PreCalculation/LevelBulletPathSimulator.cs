@@ -22,10 +22,14 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		public static void Precalc(LevelBlueprint lvl)
 		{
-			foreach (var cannon in lvl.BlueprintCannons) cannon.PrecalculatedPaths = Precalc(lvl, cannon);
+			foreach (var cannon in lvl.BlueprintCannons)
+				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
+
+			foreach (var cannon in lvl.BlueprintLaserCannons)
+				cannon.PrecalculatedPaths = LevelBulletPathTracer.Precalc(lvl, cannon);
 		}
 
-		private static BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
+		public static BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
 		{
 			var worldNormal = CreateRayWorld(lvl);
 

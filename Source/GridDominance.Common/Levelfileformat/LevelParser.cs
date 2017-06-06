@@ -21,6 +21,7 @@ namespace GridDominance.Levelfileformat
 
 			DefineMethod("init", InitLevel);
 			DefineMethod("scale", SetScale);
+			DefineMethod("alias", DefineAlias);
 			DefineMethod("define", DefineAlias);
 			DefineMethod("include", IncludeSource);
 
@@ -33,6 +34,7 @@ namespace GridDominance.Levelfileformat
 
 			DefineMethod("glasswall_h", AddGlassWallHorz);
 			DefineMethod("glasswall_v", AddGlassWallVert);
+			DefineMethod("glasswall_r", AddGlassWallRot);
 			DefineMethod("glassblock", AddGlassBlock);
 
 			DefineMethod("voidcircle", AddVoidCircle);
@@ -41,6 +43,15 @@ namespace GridDominance.Levelfileformat
 			DefineMethod("whitehole", AddWhiteHole);
 
 			DefineMethod("portal", AddPortal);
+
+			DefineMethod("mirrorwall_h", AddMirrorWallHorz);
+			DefineMethod("mirrorwall_v", AddMirrorWallVert);
+			DefineMethod("mirrorwall_r", AddMirrorWallRot);
+			DefineMethod("mirrorblock", AddMirrorBlock);
+
+			DefineMethod("mirrorcircle", AddMirrorCircle);
+
+			DefineMethod("laser", AddLaserCannon);
 		}
 
 		public LevelBlueprint Parse(string fileName = "__root__")
@@ -167,7 +178,7 @@ namespace GridDominance.Levelfileformat
 			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
 			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 
-			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(pcx, pcy, len, GlassBlockBlueprint.DEFAULT_WIDTH));
+			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(pcx, pcy, len, GlassBlockBlueprint.DEFAULT_WIDTH, 0));
 		}
 
 		private void AddGlassWallVert(List<string> methodParameter)
@@ -176,17 +187,28 @@ namespace GridDominance.Levelfileformat
 			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
 			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 
-			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(pcx, pcy, GlassBlockBlueprint.DEFAULT_WIDTH, len));
+			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(pcx, pcy, GlassBlockBlueprint.DEFAULT_WIDTH, len, 0));
+		}
+
+		private void AddGlassWallRot(List<string> methodParameter)
+		{
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+			var rot = ExtractNumberParameter(methodParameter, 2);
+
+			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(pcx, pcy, GlassBlockBlueprint.DEFAULT_WIDTH, len, rot));
 		}
 
 		private void AddGlassBlock(List<string> methodParameter)
 		{
 			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
 			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
-			var w = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
-			var h = ExtractNumberParameter(methodParameter, 2) * _scaleFactor;
+			var w   = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+			var h   = ExtractNumberParameter(methodParameter, 2) * _scaleFactor;
+			var r   = ExtractNumberParameter(methodParameter, 2, 0f);
 
-			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(pcx, pcy, w, h));
+			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(pcx, pcy, w, h, r));
 		}
 
 		private void AddBlackHole(List<string> methodParameter)
@@ -220,5 +242,68 @@ namespace GridDominance.Levelfileformat
 
 			_result.BlueprintPortals.Add(new PortalBlueprint(pcx, pcy, len, nrm, grp, sid));
 		}
+
+		private void AddMirrorWallHorz(List<string> methodParameter)
+		{
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+
+			_result.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(pcx, pcy, len, MirrorBlockBlueprint.DEFAULT_WIDTH, 0));
+		}
+
+		private void AddMirrorWallVert(List<string> methodParameter)
+		{
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+
+			_result.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(pcx, pcy, len, MirrorBlockBlueprint.DEFAULT_WIDTH, 90));
+		}
+
+		private void AddMirrorWallRot(List<string> methodParameter)
+		{
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var len = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+			var rot = ExtractNumberParameter(methodParameter, 2);
+
+			_result.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(pcx, pcy, len, MirrorBlockBlueprint.DEFAULT_WIDTH, rot));
+		}
+
+		private void AddMirrorBlock(List<string> methodParameter)
+		{
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var w   = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+			var h   = ExtractNumberParameter(methodParameter, 2) * _scaleFactor;
+			var rot = ExtractNumberParameter(methodParameter, 3, 0f);
+
+			_result.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(pcx, pcy, w, h, rot));
+		}
+
+		private void AddMirrorCircle(List<string> methodParameter)
+		{
+			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var dia = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+
+			_result.BlueprintMirrorCircles.Add(new MirrorCircleBlueprint(pcx, pcy, dia));
+		}
+
+		private void AddLaserCannon(List<string> methodParameter)
+		{
+			var size = ExtractNumberParameter(methodParameter, 0) * _scaleFactor;
+			var player = ExtractIntegerParameter(methodParameter, 1);
+			var posX = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactor;
+			var posY = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
+			var rotation = ExtractNumberParameter(methodParameter, 3, -1);
+			var cannonid = ExtractIntegerParameter(methodParameter, "id", _nextCannonID);
+
+			_nextCannonID = Math.Max(cannonid + 1, _nextCannonID);
+
+			_result.BlueprintLaserCannons.Add(new LaserCannonBlueprint(posX, posY, size, player, rotation, cannonid));
+		}
+
 	}
 }

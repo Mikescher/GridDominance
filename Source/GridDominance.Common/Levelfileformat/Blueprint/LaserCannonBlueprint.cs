@@ -3,7 +3,7 @@ using System.IO;
 
 namespace GridDominance.Levelfileformat.Blueprint
 {
-	public sealed class CannonBlueprint : ICannonBlueprint
+	public sealed class LaserCannonBlueprint : ICannonBlueprint
 	{
 		public readonly float X; // center
 		public readonly float Y;
@@ -20,7 +20,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		float ICannonBlueprint.Diameter => Diameter;
 		BulletPathBlueprint[] ICannonBlueprint.PrecalculatedPaths => PrecalculatedPaths;
 
-		public CannonBlueprint(float x, float y, float d, int p, float rot, int cid, BulletPathBlueprint[] bp)
+		public LaserCannonBlueprint(float x, float y, float d, int p, float rot, int cid, BulletPathBlueprint[] bp)
 		{
 			X = x;
 			Y = y;
@@ -30,12 +30,12 @@ namespace GridDominance.Levelfileformat.Blueprint
 			PrecalculatedPaths = bp;
 
 			if (rot < 0)
-				Rotation = (float) (Math.Atan2(320 - Y, 512 - X) / Math.PI * 180);
+				Rotation = (float)(Math.Atan2(320 - Y, 512 - X) / Math.PI * 180);
 			else
 				Rotation = rot;
 		}
 
-		public CannonBlueprint(float x, float y, float d, int p, float rot, int cid)
+		public LaserCannonBlueprint(float x, float y, float d, int p, float rot, int cid)
 		{
 			X = x;
 			Y = y;
@@ -52,7 +52,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 		public void Serialize(BinaryWriter bw)
 		{
-			bw.Write(LevelBlueprint.SERIALIZE_ID_CANNON);
+			bw.Write(LevelBlueprint.SERIALIZE_ID_LASERCANNON);
 			bw.Write(CannonID);
 			bw.Write(Player);
 			bw.Write(X);
@@ -64,7 +64,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			foreach (var path in PrecalculatedPaths) path.Serialize(bw);
 		}
 
-		public static CannonBlueprint Deserialize(BinaryReader br)
+		public static LaserCannonBlueprint Deserialize(BinaryReader br)
 		{
 			var i = br.ReadInt32();
 			var p = br.ReadInt32();
@@ -77,7 +77,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			var b = new BulletPathBlueprint[pathCount];
 			for (int j = 0; j < pathCount; j++) b[j] = BulletPathBlueprint.Deserialize(br);
 
-			return new CannonBlueprint(x, y, d, p, a, i, b);
+			return new LaserCannonBlueprint(x, y, d, p, a, i, b);
 		}
 	}
 }

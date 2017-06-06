@@ -295,7 +295,7 @@ namespace GridDominance.DSLEditor
 			var vm = new Vector2((float)pX, (float)pY);
 
 			int newHighlight = -1;
-			foreach (var cannon in _currentDisplayLevel.BlueprintCannons)
+			foreach (var cannon in _currentDisplayLevel.AllCannons)
 			{
 				var vc = new Vector2(cannon.X, cannon.Y);
 
