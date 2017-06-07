@@ -206,7 +206,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 					return new List<Tuple<List<Vector2>, CannonBlueprint, float>> { Tuple.Create(fullpath, tgcannon, quality) };
 				}
 
-				bool oow = (farseerBullet.Position.X < 0 - 64) || (farseerBullet.Position.Y < 0 - 64) || (farseerBullet.Position.X > 1024 + 64) || (farseerBullet.Position.Y > 640 + 64);
+				bool oow = (farseerBullet.Position.X < 0 - 64) || (farseerBullet.Position.Y < 0 - 64) || (farseerBullet.Position.X > lvl.LevelWidth + 64) || (farseerBullet.Position.Y > lvl.LevelHeight + 64);
 				bool ool = (lifetime >= Bullet.MAXIMUM_LIEFTIME);
 
 				//if (collisionUserObject != null || oow || ool)

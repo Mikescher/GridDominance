@@ -334,7 +334,7 @@ namespace GridDominance.Shared.Resources
 			LoadContent(content);
 		}
 
-		public static TextureQuality GetPreferredQuality(GraphicsDevice device)
+		public static TextureQuality GetPreferredQuality(GraphicsDevice device) //TODO Does this actually work, bzw should we be more generous 
 		{
 			float scale = GetDeviceTextureScaling(device);
 

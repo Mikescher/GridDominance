@@ -12,18 +12,15 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const int KI_TYPE_PRESIMULATE = 12;
 
 		public const byte SERIALIZE_ID_CANNON       = 0x01; 
-		public const byte SERIALIZE_ID_NAME         = 0x02; 
-		public const byte SERIALIZE_ID_DESCRIPTION  = 0x03; 
-		public const byte SERIALIZE_ID_GUID         = 0x04;
 		public const byte SERIALIZE_ID_VOIDWALL     = 0x05;
 		public const byte SERIALIZE_ID_VOIDCIRCLE   = 0x06;
 		public const byte SERIALIZE_ID_GLASSBLOCK   = 0x07;
-		public const byte SERIALIZE_ID_KITYPE       = 0x08;
 		public const byte SERIALIZE_ID_BLACKHOLE    = 0x09;
 		public const byte SERIALIZE_ID_PORTAL       = 0x10;
 		public const byte SERIALIZE_ID_LASERCANNON  = 0x11;
 		public const byte SERIALIZE_ID_MIRRORBLOCK  = 0x12;
 		public const byte SERIALIZE_ID_MIRRORCIRCLE = 0x13;
+		public const byte SERIALIZE_ID_META         = 0x80;
 		public const byte SERIALIZE_ID_EOF          = 0xFF;
 
 		public readonly List<CannonBlueprint>       BlueprintCannons       = new List<CannonBlueprint>();
@@ -38,10 +35,17 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 		public IEnumerable<ICannonBlueprint> AllCannons => BlueprintCannons.Cast<ICannonBlueprint>().Concat(BlueprintLaserCannons);
 
-		public Guid UniqueID { get; set; } = Guid.Empty;
-		public string Name { get; set; } = "";
-		public string FullName { get; set; } = "";
-		public byte KIType { get; set; } = KI_TYPE_RAYTRACE;
+		public Guid UniqueID     = Guid.Empty;
+		public string Name       = "";
+		public string FullName   = "";
+
+		public byte KIType       = KI_TYPE_RAYTRACE;
+
+		public float LevelWidth  = 16 * 64;
+		public float LevelHeight = 10 * 64;
+
+		public float LevelViewX = 8 * 64;
+		public float LevelViewY = 5 * 64;
 
 		public LevelBlueprint()
 		{
@@ -50,17 +54,15 @@ namespace GridDominance.Levelfileformat.Blueprint
 		
 		public void BinarySerialize(BinaryWriter bw)
 		{
-			bw.Write(SERIALIZE_ID_NAME);
+			bw.Write(SERIALIZE_ID_META);
 			bw.Write(Name);
-
-			bw.Write(SERIALIZE_ID_DESCRIPTION);
 			bw.Write(FullName);
-
-			bw.Write(SERIALIZE_ID_GUID);
 			bw.Write(UniqueID.ToByteArray());
-
-			bw.Write(SERIALIZE_ID_KITYPE);
 			bw.Write(KIType);
+			bw.Write(LevelWidth);
+			bw.Write(LevelHeight);
+			bw.Write(LevelViewX);
+			bw.Write(LevelViewY);
 
 			for (int i = 0; i < BlueprintCannons.Count;       i++) BlueprintCannons[i].Serialize(bw);
 			for (int i = 0; i < BlueprintVoidWalls.Count;     i++) BlueprintVoidWalls[i].Serialize(bw);
@@ -123,20 +125,15 @@ namespace GridDominance.Levelfileformat.Blueprint
 						BlueprintMirrorCircles.Add(MirrorCircleBlueprint.Deserialize(br));
 						break;
 
-					case SERIALIZE_ID_NAME:
-						Name = br.ReadString();
-						break;
-
-					case SERIALIZE_ID_KITYPE:
-						KIType = br.ReadByte();
-						break;
-
-					case SERIALIZE_ID_DESCRIPTION:
-						FullName = br.ReadString();
-						break;
-
-					case SERIALIZE_ID_GUID:
-						UniqueID = new Guid(br.ReadBytes(16));
+					case SERIALIZE_ID_META:
+						Name        = br.ReadString();
+						FullName    = br.ReadString();
+						UniqueID    = new Guid(br.ReadBytes(16));
+						KIType      = br.ReadByte();
+						LevelWidth  = br.ReadSingle();
+						LevelHeight = br.ReadSingle();
+						LevelViewX  = br.ReadSingle();
+						LevelViewY  = br.ReadSingle();
 						break;
 
 					case SERIALIZE_ID_EOF:

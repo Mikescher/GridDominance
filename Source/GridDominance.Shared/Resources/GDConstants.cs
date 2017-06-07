@@ -8,13 +8,15 @@ namespace GridDominance.Shared.Resources
 
 		public const int TILE_WIDTH = 64;
 
-		public const int GRID_WIDTH = 16;
-		public const int GRID_HEIGHT = 10;
+		public const int DEFAULT_GRID_WIDTH = 16;
+		public const int DEFAULT_GRID_HEIGHT = 10;
 
-		public const int VIEW_WIDTH = GRID_WIDTH * TILE_WIDTH; // 1024
-		public const int VIEW_HEIGHT = GRID_HEIGHT * TILE_WIDTH; // 640
+		public const int VIEW_WIDTH  = DEFAULT_GRID_WIDTH  * TILE_WIDTH; // 1024
+		public const int VIEW_HEIGHT = DEFAULT_GRID_HEIGHT * TILE_WIDTH; //  640
 
 		public const bool USE_IAB = true;
+
+		public const string LOGO_STRING = "CANNON\nCONQUEST";
 
 		//public const string SERVER_URL = "http://localhost:666";
 		public const string SERVER_URL = "http://gdapi.mikescher.com";

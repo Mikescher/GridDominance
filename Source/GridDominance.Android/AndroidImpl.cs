@@ -6,9 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using Android.Content;
-using Android.Net;
 using Android.App;
-using System;
 
 namespace GridDominance.Android
 {
@@ -98,7 +96,7 @@ namespace GridDominance.Android
 
 		public void OpenURL(string url)
 		{
-			_activity.StartActivity(new Intent(Intent.ActionView, Uri.Parse(url)));
+			_activity.StartActivity(new Intent(Intent.ActionView, global::Android.Net.Uri.Parse(url)));
 		}
 
 		public void Sleep(int milsec)

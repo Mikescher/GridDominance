@@ -18,10 +18,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Background
 			public float Power = 0f;
 		}
 
-		private const int TILE_COUNT_X = GDConstants.GRID_WIDTH;
-		private const int TILE_COUNT_Y = GDConstants.GRID_HEIGHT;
+		private const int TILE_COUNT_X = GDConstants.DEFAULT_GRID_WIDTH;
+		private const int TILE_COUNT_Y = GDConstants.DEFAULT_GRID_HEIGHT;
+		private const int TILE_WIDTH   = GDConstants.TILE_WIDTH;
 
-		private const int ARRAY_EXTEND = 8;
+		private const int ARRAY_EXTEND = 2;
 
 		private const float BLINK_DELAY_MIN = 0.1f;
 		private const float BLINK_DELAY_DERIVATION = 0.25f;
@@ -92,14 +93,20 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Background
 
 		public override void Draw(IBatchRenderer sbatch)
 		{
-			int extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / GDConstants.TILE_WIDTH);
-			int extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / GDConstants.TILE_WIDTH);
+			int offX = TILE_WIDTH * (int)(Owner.MapOffsetX / TILE_WIDTH);
+			int offY = TILE_WIDTH * (int)(Owner.MapOffsetY / TILE_WIDTH);
+
+			int extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH) + 2;
+			int extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH) + 2;
+
+			int countX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedWidth / TILE_WIDTH);
+			int countY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedHeight / TILE_WIDTH);
 
 			if (MainGame.Inst.Profile.EffectsEnabled)
 			{
-				for (int x = -extensionX; x < TILE_COUNT_X + extensionX; x++)
+				for (int x = -(extensionX+1); x < countX + extensionX; x++)
 				{
-					for (int y = -extensionY; y < TILE_COUNT_Y + extensionY; y++)
+					for (int y = -(extensionY+1); y < countY + extensionY; y++)
 					{
 						int cx = ARRAY_EXTEND + x;
 						int cy = ARRAY_EXTEND + y;
@@ -112,31 +119,25 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Background
 							if (c.Power > 0) color = ColorMath.Blend(FlatColors.Background, FlatColors.BackgroundGreen, FloatMath.FunctionEaseInOutCubic(c.Power));
 						}
 
-						sbatch.DrawStretched(Textures.TexPixel, new FRectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), color);
-						sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), Color.White);
+						sbatch.DrawStretched(Textures.TexPixel,      new FRectangle(x * GDConstants.TILE_WIDTH - offX, y * GDConstants.TILE_WIDTH - offY, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), color);
+						sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * GDConstants.TILE_WIDTH - offX, y * GDConstants.TILE_WIDTH - offY, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), Color.White);
 					}
 				}
 			}
 			else
 			{
-				sbatch.DrawStretched(
-					Textures.TexPixel,
-					new FRectangle(
-						-extensionX * GDConstants.TILE_WIDTH,
-						-extensionY * GDConstants.TILE_WIDTH,
-						(TILE_COUNT_X + 2 * extensionX + 1) * GDConstants.TILE_WIDTH,
-						(TILE_COUNT_Y + 2 * extensionY + 1) * GDConstants.TILE_WIDTH),
-					FlatColors.Background);
+				var r = new FRectangle(-extensionX * TILE_WIDTH - offX, -extensionY * TILE_WIDTH - offY, (countX + 2 * extensionX) * TILE_WIDTH, (countY + 2 * extensionY) * TILE_WIDTH);
 
-				for (int x = -extensionX; x < TILE_COUNT_X + extensionX; x++)
+				sbatch.DrawStretched(Textures.TexPixel, r, FlatColors.Background);
+
+				for (int x = -extensionX; x < countX + extensionX; x++)
 				{
-					for (int y = -extensionY; y < TILE_COUNT_Y + extensionY; y++)
+					for (int y = -extensionY; y < countY + extensionY; y++)
 					{
-						sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * GDConstants.TILE_WIDTH, y * GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH), Color.White);
+						sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * TILE_WIDTH - offX, y * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH), Color.White);
 					}
 				}
 			}
-
 		}
 	}
 }

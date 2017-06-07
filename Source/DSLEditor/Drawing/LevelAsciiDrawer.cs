@@ -1,14 +1,18 @@
 ﻿using GridDominance.Levelfileformat.Blueprint;
 using MSHC.Math.Geometry;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace GridDominance.DSLEditor.Drawing
 {
 	public class LevelAsciiDrawer
 	{
-		private const int MAPWIDTH  = 16 + 17;
-		private const int MAPHEIGHT = 10 + 11;
+		private readonly int MAPWIDTH_I;
+		private readonly int MAPHEIGHT_I;
+
+		private readonly int MAPWIDTH;
+		private readonly int MAPHEIGHT;
 
 		private readonly LevelBlueprint level;
 
@@ -17,6 +21,12 @@ namespace GridDominance.DSLEditor.Drawing
 		public LevelAsciiDrawer(LevelBlueprint f)
 		{
 			level = f;
+
+			MAPWIDTH_I  = (int)(f.LevelWidth / 64);
+			MAPHEIGHT_I = (int)(f.LevelHeight / 64);
+
+			MAPWIDTH  = MAPWIDTH_I * 2 + 1;
+			MAPHEIGHT = MAPHEIGHT_I * 2 + 1;
 		}
 
 		public void Calc()
@@ -355,8 +365,8 @@ namespace GridDominance.DSLEditor.Drawing
 
 			builder.AppendLine("#<map>");
 			builder.AppendLine("#");
-			builder.AppendLine("#            0 1 2 3 4 5 6 7 8 9 A B C D E F");
-			builder.AppendLine("#          # # # # # # # # # # # # # # # # # #");
+			builder.AppendLine("#            " + string.Join(" ", Enumerable.Range(0, MAPWIDTH_I).Select(ToDig)) );
+			builder.AppendLine("#          # " + string.Join(" ", Enumerable.Range(0, MAPWIDTH_I+1).Select(i=>"#")));
 
 			for (int y = 0; y < MAPHEIGHT; y++)
 			{
@@ -373,11 +383,19 @@ namespace GridDominance.DSLEditor.Drawing
 				if (y % 2 == 1) builder.AppendLine("#"); else builder.AppendLine(" ");
 			}
 
-			builder.AppendLine("#          # # # # # # # # # # # # # # # # # #");
+			builder.AppendLine("#          # " + string.Join(" ", Enumerable.Range(0, MAPWIDTH_I + 1).Select(i => "#")));
 			builder.AppendLine("#");
 			builder.Append("#</map>");
 
 			return builder.ToString();
+		}
+
+		private string ToDig(int arg)
+		{
+			if (arg < 10)
+				return arg.ToString();
+			else
+				return ('A' + (arg - 10)).ToString();
 		}
 	}
 }

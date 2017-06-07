@@ -11,8 +11,6 @@ namespace GridDominance.DSLEditor.Drawing
 		private static readonly Color[] CANNON_COLORS = { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
 		private static readonly Brush[] COLORS_KITYPE = { Brushes.BlueViolet, Brushes.Brown, Brushes.Olive };
 
-		public readonly Bitmap GraphicsBuffer = new Bitmap(1024, 640);
-
 		public Bitmap DrawOverview(LevelBlueprint level)
 		{
 			Bitmap img;
@@ -59,6 +57,11 @@ namespace GridDominance.DSLEditor.Drawing
 
 		public Bitmap Draw(LevelBlueprint level, int highlightCannon)
 		{
+			var w = (int)level.LevelWidth;
+			var h = (int)level.LevelHeight;
+
+			Bitmap GraphicsBuffer = new Bitmap(w, h);
+
 			using (Graphics g = Graphics.FromImage(GraphicsBuffer))
 			{
 				if (level == null)
@@ -66,15 +69,15 @@ namespace GridDominance.DSLEditor.Drawing
 					g.SmoothingMode = SmoothingMode.AntiAlias;
 					g.Clear(Color.OrangeRed);
 
-					g.DrawLine(new Pen(Color.DarkRed, 32), 0, 0, 1024, 640);
-					g.DrawLine(new Pen(Color.DarkRed, 32), 1024, 0, 0, 640);
+					g.DrawLine(new Pen(Color.DarkRed, 32), 0, 0, h, w);
+					g.DrawLine(new Pen(Color.DarkRed, 32), h, 0, 0, w);
 				}
 				else
 				{
 					g.SmoothingMode = SmoothingMode.AntiAlias;
 					g.Clear(Color.Black);
 
-					DrawGrid(g);
+					DrawGrid(g, w, h);
 
 					DrawCannons(level, g);
 					DrawVoidwalls(level, g);
@@ -86,6 +89,7 @@ namespace GridDominance.DSLEditor.Drawing
 					DrawMirrorCircles(level, g);
 					DrawLaserCannons(level, g);
 
+					DrawViewport(level, g, w, h);
 					DrawRays(level, highlightCannon, g);
 				}
 			}
@@ -251,15 +255,15 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 		}
 
-		private static void DrawGrid(Graphics g)
+		private static void DrawGrid(Graphics g, int w, int h)
 		{
-			for (int x = 0; x < 16; x++)
+			for (int x = 0; x < Math.Ceiling(h/64f); x++)
 			{
-				g.DrawLine((x % 2 == 0) ? Pens.DarkGray : Pens.DimGray, x * 64, 0, x * 64, 640);
+				g.DrawLine((x % 2 == 0) ? Pens.DarkGray : Pens.DimGray, x * 64, 0, x * 64, w);
 			}
-			for (int y = 0; y < 10; y++)
+			for (int y = 0; y < Math.Ceiling(w/64f); y++)
 			{
-				g.DrawLine((y % 2 == 0) ? Pens.DarkGray : new Pen(Color.FromArgb(88, 88, 88)), 0, y * 64, 1024, y * 64);
+				g.DrawLine((y % 2 == 0) ? Pens.DarkGray : new Pen(Color.FromArgb(88, 88, 88)), 0, y * 64, h, y * 64);
 			}
 		}
 
@@ -353,5 +357,24 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 		}
 
+		private static void DrawViewport(LevelBlueprint level, Graphics g, float w, float h)
+		{
+			var vpw = 16 * 64;
+			var vph = 10 * 64;
+
+			var redpen = new Pen(Color.Red, 1);
+			var graybrush = new SolidBrush(Color.FromArgb(64, Color.Black));
+
+			if (level.LevelWidth > vpw || level.LevelHeight > vph)
+			{
+				var rect = new RectangleF(level.LevelViewX - vpw / 2, level.LevelViewY - vph / 2, vpw, vph);
+				
+				g.SetClip(Rectangle.Round(rect), CombineMode.Exclude);
+				g.FillRectangle(graybrush, new Rectangle(0, 0, (int)w, (int)h));
+				g.ResetClip();
+
+				g.DrawRectangle(redpen, Rectangle.Round(rect));
+			}
+		}
 	}
 }

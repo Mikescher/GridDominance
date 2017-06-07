@@ -37,11 +37,20 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public const float GAMESPEED_SUPERFAST = 4f;
 
 		//-----------------------------------------------------------------
-		public MainGame GDOwner => (MainGame)Game;
 
+		public MainGame GDOwner => (MainGame)Game;
 		public IGDGridBackground GDBackground => (IGDGridBackground) Background;
 		public GDEntityManager GDEntities => (GDEntityManager)Entities;
-		//public GDGameHUD GDGameHUD => (GDGameHUD) GameHUD;
+
+		//-----------------------------------------------------------------
+
+		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
+		protected override GameBackground CreateBackground() => new GDStaticGridBackground(this);
+		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
+		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
+		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, 1, 1);
+		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
+
 		//-----------------------------------------------------------------
 
 		private bool _isPaused = false;
@@ -114,13 +123,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			LoadLevelFromBlueprint();
 		}
-		
-		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
-		protected override GameBackground CreateBackground() => MainGame.Inst.Profile.EffectsEnabled ? (GameBackground)new GDCellularBackground(this) : new GDStaticGridBackground(this);
-		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
-		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
-		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
-		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
 		private void LoadLevelFromBlueprint()
 		{
@@ -178,12 +180,14 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			foreach (var bPrint in Blueprint.BlueprintMirrorBlocks)
 			{
-				//TODO
+				var e = new MirrorBlock(this, bPrint);
+				Entities.AddEntity(e);
 			}
 
 			foreach (var bPrint in Blueprint.BlueprintMirrorCircles)
 			{
-				//TODO
+				var e = new MirrorCircle(this, bPrint);
+				Entities.AddEntity(e);
 			}
 
 			//----------------------------------------------------------------
@@ -194,6 +198,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			foreach (var portal in portalList)
 				portal.OnAfterLevelLoad(portalList);
+
+			//----------------------------------------------------------------
+
+			MapFullBounds = new FRectangle(0, 0, Blueprint.LevelWidth, Blueprint.LevelHeight);
+			MapViewportCenterX = Blueprint.LevelViewX;
+			MapViewportCenterY = Blueprint.LevelViewY;
+
+			if (MainGame.Inst.Profile.EffectsEnabled) Background = new GDCellularBackground(this, Blueprint);
+
+			//TODO AddDragAgent
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

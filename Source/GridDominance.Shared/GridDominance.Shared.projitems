@@ -59,8 +59,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BlackHole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletGrowOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletShrinkAndDieOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\MirrorBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\LaserCannon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Particles\PortalParticleEmitter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\MirrorCircle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\VoidCircle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\GlassBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Portal.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTouchAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTutorialDifficultyButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTutorialScorePanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\OverworldScrollAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\ReappearTransitionAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\TransitionZoomInToTutorialAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\TransitionZoomInAgent.cs" />

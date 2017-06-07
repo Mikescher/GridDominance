@@ -19,11 +19,13 @@ namespace GridDominance.Levelfileformat
 			content = levelContent;
 			includeFinderFunction = includeFunction;
 
-			DefineMethod("init", InitLevel);
-			DefineMethod("scale", SetScale);
 			DefineMethod("alias", DefineAlias);
 			DefineMethod("define", DefineAlias);
 			DefineMethod("include", IncludeSource);
+
+			DefineMethod("init", InitLevel);
+			DefineMethod("scale", SetScale);
+			DefineMethod("setview", SetView);
 
 			DefineMethod("cannon", AddCannon);
 
@@ -305,5 +307,17 @@ namespace GridDominance.Levelfileformat
 			_result.BlueprintLaserCannons.Add(new LaserCannonBlueprint(posX, posY, size, player, rotation, cannonid));
 		}
 
+		private void SetView(List<string> methodParameter)
+		{
+			var width  = ExtractNumberParameter(methodParameter, 0) * _scaleFactor;
+			var height = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+			var ctrX   = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactor;
+			var ctrY   = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
+
+			_result.LevelWidth  = width;
+			_result.LevelHeight = height;
+			_result.LevelViewX  = ctrX;
+			_result.LevelViewY  = ctrY;
+		}
 	}
 }

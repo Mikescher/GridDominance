@@ -13,6 +13,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Extensions;
 using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Levelfileformat.Blueprint;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 {
@@ -36,11 +37,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		public float DifficultyMod = 1f;
 	}
 
-	class GDCellularBackground : GameBackground, IGDGridBackground
+	class GDCellularBackground : GameBackground, IGDGridBackground //TODO Test with bigger level (draw|update|blocking)
 	{
-		private const int TILE_COUNT_X = GDConstants.GRID_WIDTH  + 2 * MAX_EXTENSION;
-		private const int TILE_COUNT_Y = GDConstants.GRID_HEIGHT + 2 * MAX_EXTENSION;
-
+		private const int TILE_WIDTH = GDConstants.TILE_WIDTH;
 		private const int MAX_EXTENSION = 2;
 		
 		public const int SRC_DIST_INF = 12;
@@ -56,73 +55,72 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		private const float CELL_DECAY_SPEED       = 0.70f; // power per second
 		private const float CELL_NEUTRALIZE_SPEED  = 0.20f; // power per second
 
-		private readonly GridCellMembership[,] _grid = new GridCellMembership[TILE_COUNT_X, TILE_COUNT_Y];
-		private readonly FRectangle[,] _rects = new FRectangle[TILE_COUNT_X, TILE_COUNT_Y];
-		
-		public GDCellularBackground(GDGameScreen scrn) : base(scrn)
+		private readonly GridCellMembership[,] _grid;
+
+		private readonly int TileCountX;
+		private readonly int TileCountY;
+
+		public GDCellularBackground(GDGameScreen scrn, LevelBlueprint lvl) : base(scrn)
 		{
+			TileCountX = FloatMath.Ceiling(lvl.LevelWidth / 64f) + 2 * MAX_EXTENSION;
+			TileCountY = FloatMath.Ceiling(lvl.LevelHeight / 64f) + 2 * MAX_EXTENSION;
+
+			_grid = new GridCellMembership[TileCountX, TileCountY];
+
 			Initialize();
 		}
 
 		private void Initialize()
 		{
-			for (int x = 0; x < TILE_COUNT_X; x++)
+			for (int x = 0; x < TileCountX; x++)
 			{
-				for (int y = 0; y < TILE_COUNT_Y; y++)
+				for (int y = 0; y < TileCountY; y++)
 				{
 					_grid[x, y] = new GridCellMembership();
 					_grid[x, y].DifficultyMod = 1 + FloatMath.Sin(FloatMath.GetRandom()*FloatMath.RAD_POS_360) * RANDOM_MOD_FACTOR;
 					if (x == 0) _grid[x, y].BlockWest = true;
 					if (y == 0) _grid[x, y].BlockNorth = true;
-					if (x == TILE_COUNT_X-1) _grid[x, y].BlockEast = true;
-					if (y == TILE_COUNT_Y-1) _grid[x, y].BlockSouth = true;
-				}
-			}
-
-			for (int ox = 0; ox < TILE_COUNT_X; ox++)
-			{
-				for (int oy = 0; oy < TILE_COUNT_Y; oy++)
-				{
-					var x = ox - MAX_EXTENSION; // array coords -> real coords
-					var y = oy - MAX_EXTENSION;
-
-					_rects[ox, oy] = new FRectangle(
-						x * GDConstants.TILE_WIDTH, 
-						y * GDConstants.TILE_WIDTH, 
-						1 * GDConstants.TILE_WIDTH, 
-						1 * GDConstants.TILE_WIDTH);
+					if (x == TileCountX - 1) _grid[x, y].BlockEast = true;
+					if (y == TileCountY - 1) _grid[x, y].BlockSouth = true;
 				}
 			}
 		}
 
 		public override void Draw(IBatchRenderer sbatch)
 		{
-			int extensionX = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / GDConstants.TILE_WIDTH));
-			int extensionY = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / GDConstants.TILE_WIDTH));
+			int offX = TILE_WIDTH * (int)(Owner.MapOffsetX / TILE_WIDTH);
+			int offY = TILE_WIDTH * (int)(Owner.MapOffsetY / TILE_WIDTH);
 
-			for (int ox = -extensionX; ox < GDConstants.GRID_WIDTH + extensionX; ox++)
+			int extensionX = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH));
+			int extensionY = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH));
+
+			int countX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedWidth / TILE_WIDTH);
+			int countY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedHeight / TILE_WIDTH);
+
+			for (int ox = -extensionX; ox < countX + extensionX; ox++)
 			{
-				for (int oy = -extensionY; oy < GDConstants.GRID_HEIGHT + extensionY; oy++)
+				for (int oy = -extensionY; oy < countY + extensionY; oy++)
 				{
 					var x = ox + MAX_EXTENSION; // real coords -> array coords
 					var y = oy + MAX_EXTENSION;
 
 					if (x < 0) continue;
 					if (y < 0) continue;
-					if (x >= TILE_COUNT_X) continue;
-					if (y >= TILE_COUNT_Y) continue;
+					if (x >= TileCountX) continue;
+					if (y >= TileCountY) continue;
 
 					var color = GetGridColor(x, y);
 
-					sbatch.DrawStretched(Textures.TexPixel, _rects[x, y], color);
-					sbatch.DrawStretched(Textures.TexTileBorder, _rects[x, y], Color.White);
+					var rect = new FRectangle(ox * TILE_WIDTH - offX, oy * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH);
+
+					sbatch.DrawStretched(Textures.TexPixel, rect, color);
+					sbatch.DrawStretched(Textures.TexTileBorder, rect, Color.White);
 
 #if DEBUG
 					if (DebugSettings.Get("DebugBackground"))
 					{
-
-						var tx = _rects[x, y].X + 8;
-						var ty = _rects[x, y].Y + 8;
+						var tx = rect.X + 8;
+						var ty = rect.Y + 8;
 
 						sbatch.DrawString(
 							Textures.DebugFontSmall,
@@ -131,7 +129,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 							_grid[x, y].Fraction?.Color ?? Color.Black);
 
 						if (_grid[x, y].SpawnSource != null)
-							SimpleRenderHelper.DrawCross(sbatch, _rects[x, y], _grid[x, y].SpawnSource.Fraction.Color * 0.5f, 2);
+							SimpleRenderHelper.DrawCross(sbatch, rect, _grid[x, y].SpawnSource.Fraction.Color * 0.5f, 2);
 
 						var v4tl = new Vector2(+5,+5);
 						var v4tr = new Vector2(-5,+5);
@@ -139,16 +137,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 						var v4bl = new Vector2(+5,-5);
 
 						if (_grid[x, y].BlockNorth)
-							sbatch.DrawLine(_rects[x, y].TopLeft + v4tl, _rects[x, y].TopRight + v4tr, Color.Yellow * 0.6f, 4);
+							sbatch.DrawLine(rect.TopLeft + v4tl, rect.TopRight + v4tr, Color.Yellow * 0.6f, 4);
 
 						if (_grid[x, y].BlockEast)
-							sbatch.DrawLine(_rects[x, y].TopRight + v4tr, _rects[x, y].BottomRight + v4br, Color.Yellow * 0.6f, 4);
+							sbatch.DrawLine(rect.TopRight + v4tr, rect.BottomRight + v4br, Color.Yellow * 0.6f, 4);
 
 						if (_grid[x, y].BlockSouth)
-							sbatch.DrawLine(_rects[x, y].BottomRight + v4br, _rects[x, y].BottomLeft + v4bl, Color.Yellow * 0.6f, 4);
+							sbatch.DrawLine(rect.BottomRight + v4br, rect.BottomLeft + v4bl, Color.Yellow * 0.6f, 4);
 
 						if (_grid[x, y].BlockWest)
-							sbatch.DrawLine(_rects[x, y].BottomLeft + v4bl, _rects[x, y].TopLeft + v4tl, Color.Yellow * 0.6f, 4);
+							sbatch.DrawLine(rect.BottomLeft + v4bl, rect.TopLeft + v4tl, Color.Yellow * 0.6f, 4);
 
 					}
 #endif
@@ -158,9 +156,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		public override void Update(SAMTime gameTime, InputState state)
 		{
-			for (int x = 0; x < TILE_COUNT_X; x++)
+			for (int x = 0; x < TileCountX; x++)
 			{
-				for (int y = 0; y < TILE_COUNT_Y; y++)
+				for (int y = 0; y < TileCountY; y++)
 				{
 					UpdateCell(x, y, gameTime);
 					
@@ -168,9 +166,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				}
 			}
 
-			for (int x = 0; x < TILE_COUNT_X; x++)
+			for (int x = 0; x < TileCountX; x++)
 			{
-				for (int y = 0; y < TILE_COUNT_Y; y++)
+				for (int y = 0; y < TileCountY; y++)
 				{
 					_grid[x, y].PowerCurr = _grid[x, y].PowerNext;
 				}
@@ -347,8 +345,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		{
 			if (x < 0) return GetGridColor(0, y);
 			if (y < 0) return GetGridColor(x, 0);
-			if (x >= TILE_COUNT_X) return GetGridColor(TILE_COUNT_X-1, y);
-			if (y >= TILE_COUNT_Y) return GetGridColor(x, TILE_COUNT_Y-1);
+			if (x >= TileCountX) return GetGridColor(TileCountX - 1, y);
+			if (y >= TileCountY) return GetGridColor(x, TileCountY - 1);
 
 			if (_grid[x, y].Fraction == null) return FlatColors.Background;
 
@@ -366,10 +364,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 					if (x < 0) continue;
 					if (y < 0) continue;
-					if (x >= TILE_COUNT_X) continue;
-					if (y >= TILE_COUNT_Y) continue;
-					
-					if (!_rects[x, y].Intersects(circle)) continue;
+					if (x >= TileCountX) continue;
+					if (y >= TileCountY) continue;
+
+					var rect = new FRectangle(ox * TILE_WIDTH, oy * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+
+					if (!rect.Intersects(circle)) continue;
 
 					_grid[x, y].SpawnSource = cannon;
 					_grid[x, y].PowerCurr = 1f;
@@ -439,13 +439,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		{
 			for (int x = x1; x < x2; x++)
 			{
-				if (x >= 0 && y >= 0 && x < TILE_COUNT_X && y < TILE_COUNT_Y)
+				if (x >= 0 && y >= 0 && x < TileCountX && y < TileCountY)
 				{
 					// bot
 					_grid[x, y].BlockNorth = true;
 				}
 
-				if (x >= 0 && y - 1 >= 0 && x < TILE_COUNT_X && y - 1 < TILE_COUNT_Y)
+				if (x >= 0 && y - 1 >= 0 && x < TileCountX && y - 1 < TileCountY)
 				{
 					// bot
 					_grid[x, y - 1].BlockSouth = true;
@@ -457,13 +457,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		{
 			for (int y = y1; y < y2; y++)
 			{
-				if (x >= 0 && y >= 0 && x < TILE_COUNT_X && y < TILE_COUNT_Y)
+				if (x >= 0 && y >= 0 && x < TileCountX && y < TileCountY)
 				{
 					// bot
 					_grid[x, y].BlockWest = true;
 				}
 
-				if (x - 1 >= 0 && y >= 0 && x - 1 < TILE_COUNT_X && y < TILE_COUNT_Y)
+				if (x - 1 >= 0 && y >= 0 && x - 1 < TileCountX && y < TileCountY)
 				{
 					// bot
 					_grid[x - 1, y].BlockEast = true;
@@ -482,19 +482,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 					if (x < 0) continue;
 					if (y < 0) continue;
-					if (x >= TILE_COUNT_X) continue;
-					if (y >= TILE_COUNT_Y) continue;
+					if (x >= TileCountX) continue;
+					if (y >= TileCountY) continue;
 
-					if (circle.Contains(_rects[x, y].TopLeft, 0.5f) && circle.Contains(_rects[x, y].TopRight, 0.5f))
+					var rect = new FRectangle(ox * TILE_WIDTH, oy * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+
+					if (circle.Contains(rect.TopLeft, 0.5f) && circle.Contains(rect.TopRight, 0.5f))
 						_grid[x, y].BlockNorth = true;
 
-					if (circle.Contains(_rects[x, y].TopRight, 0.5f) && circle.Contains(_rects[x, y].BottomRight, 0.5f))
+					if (circle.Contains(rect.TopRight, 0.5f) && circle.Contains(rect.BottomRight, 0.5f))
 						_grid[x, y].BlockEast = true;
 
-					if (circle.Contains(_rects[x, y].BottomRight, 0.5f) && circle.Contains(_rects[x, y].BottomLeft, 0.5f))
+					if (circle.Contains(rect.BottomRight, 0.5f) && circle.Contains(rect.BottomLeft, 0.5f))
 						_grid[x, y].BlockSouth = true;
 
-					if (circle.Contains(_rects[x, y].BottomLeft, 0.5f) && circle.Contains(_rects[x, y].TopLeft, 0.5f))
+					if (circle.Contains(rect.BottomLeft, 0.5f) && circle.Contains(rect.TopLeft, 0.5f))
 						_grid[x, y].BlockWest = true;
 				}
 			}
@@ -511,19 +513,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 					if (x < 0) continue;
 					if (y < 0) continue;
-					if (x >= TILE_COUNT_X) continue;
-					if (y >= TILE_COUNT_Y) continue;
+					if (x >= TileCountX) continue;
+					if (y >= TileCountY) continue;
 
-					if (block.Contains(_rects[x, y].TopLeft, 0.5f) && block.Contains(_rects[x, y].TopRight, 0.5f))
+					var rect = new FRectangle(ox * TILE_WIDTH, oy * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+
+					if (block.Contains(rect.TopLeft, 0.5f) && block.Contains(rect.TopRight, 0.5f))
 						_grid[x, y].BlockNorth = true;
 
-					if (block.Contains(_rects[x, y].TopRight, 0.5f) && block.Contains(_rects[x, y].BottomRight, 0.5f))
+					if (block.Contains(rect.TopRight, 0.5f) && block.Contains(rect.BottomRight, 0.5f))
 						_grid[x, y].BlockEast = true;
 
-					if (block.Contains(_rects[x, y].BottomRight, 0.5f) && block.Contains(_rects[x, y].BottomLeft, 0.5f))
+					if (block.Contains(rect.BottomRight, 0.5f) && block.Contains(rect.BottomLeft, 0.5f))
 						_grid[x, y].BlockSouth = true;
 
-					if (block.Contains(_rects[x, y].BottomLeft, 0.5f) && block.Contains(_rects[x, y].TopLeft, 0.5f))
+					if (block.Contains(rect.BottomLeft, 0.5f) && block.Contains(rect.TopLeft, 0.5f))
 						_grid[x, y].BlockWest = true;
 				}
 			}

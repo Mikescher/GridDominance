@@ -268,6 +268,11 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				return none;
 			}
 
+			if (traceResult == null)
+			{
+				return none;
+			}
+
 			var fCannon = traceResult.Item1.UserData as ICannonBlueprint;
 			if (fCannon != null)
 			{

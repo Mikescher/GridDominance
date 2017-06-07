@@ -26,8 +26,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private sealed class CollisionIgnorePortal { public Portal Entity; public ulong LastCollidedCycle; }
 		private const int CollisionIgnoreObjectDecayCycles = 16;
 
-		public enum BulletCollisionType { None, VoidObject, GlassObject, FriendlyCannon, NeutralCannon, EnemyCannon, EnemyBullet, FriendlyBullet }
-
 		public  const float BULLET_DIAMETER = 25;
 		public  const float MAXIMUM_LIEFTIME = 25;
 
@@ -81,6 +79,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			if (!Alive || IsDying) return false;
 
+			#region Bullet
 			var otherBullet = fixtureB.UserData as Bullet;
 			if (otherBullet != null)
 			{
@@ -112,7 +111,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					return false;
 				}
 			}
-			
+			#endregion
+
+			#region Cannon
 			var otherCannon = fixtureB.UserData as Cannon;
 			if (otherCannon != null)
 			{
@@ -135,7 +136,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 				return false;
 			}
+			#endregion
 
+			#region VoidWall
 			var otherVoidWall = fixtureB.UserData as VoidWall;
 			if (otherVoidWall != null)
 			{
@@ -143,7 +146,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				MainGame.Inst.GDSound.PlayEffectCollision();
 				return false;
 			}
+			#endregion
 
+			#region VoidCircle
 			var otherVoidCircle = fixtureB.UserData as VoidCircle;
 			if (otherVoidCircle != null)
 			{
@@ -151,14 +156,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				MainGame.Inst.GDSound.PlayEffectCollision();
 				return false;
 			}
+			#endregion
 
+			#region GlassBlock
 			var otherGlassBlock = fixtureB.UserData as GlassBlock;
 			if (otherGlassBlock != null)
 			{
 				MainGame.Inst.GDSound.PlayEffectReflect();
 				return true;
 			}
+			#endregion
 
+			#region Portal
 			var otherPortal = fixtureB.UserData as Portal;
 			if (otherPortal != null)
 			{
@@ -221,6 +230,25 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				DisintegrateIntoPortal();
 				return false;
 			}
+			#endregion
+
+			#region MirrorBlock
+			var otherMirrorBlock = fixtureB.UserData as MirrorBlock;
+			if (otherMirrorBlock != null)
+			{
+				MainGame.Inst.GDSound.PlayEffectReflect(); //TODO evtl other sound?
+				return true;
+			}
+			#endregion
+
+			#region MirrorCircle
+			var otherMirrorCircle = fixtureB.UserData as MirrorCircle;
+			if (otherMirrorCircle != null)
+			{
+				MainGame.Inst.GDSound.PlayEffectReflect(); //TODO evtl other sound?
+				return true;
+			}
+			#endregion
 
 			// wud ???
 			SAMLog.Error("Collision", string.Format("Bullet collided with unkown fixture: {0}", fixtureB.UserData ?? "<NULL>"));

@@ -39,4 +39,4 @@ define(PORTAL_4, 4)
 
 
 scale(TILE_WIDTH)
-
+setview(16, 10, [8, 5])

@@ -53,6 +53,7 @@
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
     <Compile Include="Extensions\TimeExtension.cs" />
+    <Compile Include="GameMath\AccelerationFloat.cs" />
     <Compile Include="GameMath\BistateProgress.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />

@@ -20,12 +20,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private readonly FRectangle rectFinal;
 
 		private readonly OverworldNode _gdNode;
-		private readonly GraphBlueprint _graph;
 
 		public ReappearTransitionAgent(GDOverworldScreen scrn, GraphBlueprint g) : base(scrn, DURATION)
 		{
 			_gdNode = scrn.GetEntities<OverworldNode>().First(n => n.ContentID == g.ID);
-			_graph = g;
 			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
 
 			rectStart = FRectangle.CreateByCenter(_gdNode.Position, new FSize(1.8f * GDConstants.TILE_WIDTH, 1.8f * GDConstants.TILE_WIDTH))
