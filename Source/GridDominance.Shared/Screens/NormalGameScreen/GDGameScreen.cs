@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
-using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.NormalGameScreen;
 using Microsoft.Xna.Framework;
@@ -10,7 +9,6 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
-using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using GridDominance.Shared.Resources;
@@ -18,12 +16,12 @@ using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.NormalGameScreen.Background;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using System.Collections.Generic;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
+using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -85,6 +83,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public readonly LevelBlueprint Blueprint;
 		public readonly FractionDifficulty Difficulty;
+		public readonly LaserNetwork LaserNetwork;
 
 		public bool HasFinished = false;
 		public float LevelTime = 0f;
@@ -93,6 +92,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		{
 			Blueprint = bp;
 			Difficulty = diff;
+
+			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this);
 
 			Initialize();
 		}
@@ -103,6 +104,11 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			return fractionPlayer;
 		}
 #endif
+
+		public Fraction GetNeutralFraction()
+		{
+			return fractionNeutral;
+		}
 
 		private void Initialize()
 		{
