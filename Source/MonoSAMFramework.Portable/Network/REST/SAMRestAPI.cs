@@ -36,7 +36,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 			string url = serverbasepath + "/" + apiEndPoint + ".php" + parameter.CreateParamString(secret, MonoSAMGame.CurrentInst.Bridge);
 
 #if DEBUG
-			System.Diagnostics.Debug.WriteLine($"QueryAsync('{apiEndPoint}', '{url}', {maxTries})");
+			if (DebugSettings.Get("DebugNetwork")) System.Diagnostics.Debug.WriteLine($"QueryAsync('{apiEndPoint}', '{url}', {maxTries})");
 #endif
 
 			for (;;)
@@ -65,7 +65,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 				}
 
 #if DEBUG
-				SAMLog.Debug($"Query '{apiEndPoint}' returned \r\n" + CompactJsonFormatter.CompressJson(content, 1));
+				if (DebugSettings.Get("DebugNetwork")) SAMLog.Debug($"Query '{apiEndPoint}' returned \r\n" + CompactJsonFormatter.CompressJson(content, 1));
 #endif
 
 				return JsonConvert.DeserializeObject<TReturn>(content);
