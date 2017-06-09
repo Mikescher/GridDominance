@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Agents;
 
@@ -11,15 +13,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
 	class WorldMapDragAgent : GameScreenAgent
 	{
-		private const float DRAGSPEED_RESOLUTION = 0.01f;
+		private const int DRAGSPEED_RESOLUTION = 1;
 
 		private const float SPEED_MIN = 24;
 		private const float SPEED_MAX = 128;
 
-		private const int OUT_OF_BOUNDS_FORCE_BASE = 64;
-		private const int OUT_OF_BOUNDS_FORCE_MULT = 32;
+		private const int OUT_OF_BOUNDS_FORCE_BASE = 6;
+		private const int OUT_OF_BOUNDS_FORCE_MULT = 12;
 
-		private const float FRICTION = 10;
+		private const float FRICTION = 6f;
 
 		private bool isDragging = false;
 		private Vector2 outOfBoundsForce = Vector2.Zero;
@@ -28,7 +30,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private Vector2 startOffset;
 
 		private FPoint lastMousePos;
-		private float lastMousePosTimer;
+		private float lastMousePosTime;
+		private ulong lastMousePosTick;
 		private Vector2 dragSpeed;
 
 		private readonly GDWorldMapScreen _gdScreen;
@@ -42,7 +45,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			_nodePositions = nodePositions;
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate) //TODO RestDrag does not really work good
+		public override void Update(SAMTime gameTime, InputState istate)
 		{
 			_gdScreen.IsDragging = isDragging;
 
@@ -69,7 +72,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			}
 			else
 			{
-				if (istate.IsExclusiveJustDown)
+				if (istate.IsExclusiveDown)
 				{
 					istate.Swallow(InputConsumer.GameBackground);
 					StartDrag(istate);
@@ -92,7 +95,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 			dragSpeed = Vector2.Zero;
 			lastMousePos = istate.GamePointerPosition;
-			lastMousePosTimer = 0f;
+			lastMousePosTick = MonoSAMGame.GameCycleCounter;
+			lastMousePosTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
 			isDragging = true;
 		}
@@ -106,14 +110,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 			CalculateOOB();
 
-			lastMousePosTimer += gameTime.ElapsedSeconds;
-			if (lastMousePosTimer > DRAGSPEED_RESOLUTION)
+			if (MonoSAMGame.GameCycleCounter - lastMousePosTick > DRAGSPEED_RESOLUTION)
 			{
-				dragSpeed = (istate.GamePointerPosition - lastMousePos) / lastMousePosTimer;
+				dragSpeed = (istate.GamePointerPosition - lastMousePos) / (gameTime.TotalElapsedSeconds - lastMousePosTime);
 
-				//Debug.WriteLine(dragSpeed);
-
-				lastMousePosTimer = 0f;
+				lastMousePosTick = MonoSAMGame.GameCycleCounter;
+				lastMousePosTime = gameTime.TotalElapsedSeconds;
 				lastMousePos = istate.GamePointerPosition;
 			}
 		}

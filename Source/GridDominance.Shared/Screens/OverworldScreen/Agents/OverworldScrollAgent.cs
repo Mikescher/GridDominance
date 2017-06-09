@@ -43,6 +43,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			for (int i = 0; i < _nodes.Length; i++)
 			{
 				_values[i] = new AdaptionFloat(PADDING_X + i * DIST_X, FORCE, DRAG, MIN_SPEED);
+				_nodes[i].NodePos.X = _values[i].Value;
+				_nodes[i].NodePos.Y = POSITION_Y;
 			}
 		}
 
@@ -56,7 +58,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				}
 				else
 				{
-					EndDrag(istate);
+					EndDrag();
 				}
 			}
 			else
@@ -145,7 +147,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			UpdateOffsets(gameTime, istate);
 		}
 
-		private void EndDrag(InputState istate)
+		private void EndDrag()
 		{
 			isDragging = false;
 
