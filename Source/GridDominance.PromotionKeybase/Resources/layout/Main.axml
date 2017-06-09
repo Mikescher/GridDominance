@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:text="00000000"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lblPromoCode"
+        android:textStyle="bold"
+        android:textSize="50dp"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+        android:typeface="monospace"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp" />
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/btnCodeGen"
+        android:src="@drawable/finger"
+        android:layout_margin="40dp" />
+</LinearLayout>
