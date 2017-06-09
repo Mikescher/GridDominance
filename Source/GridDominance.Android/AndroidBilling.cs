@@ -7,6 +7,7 @@ using Android.OS;
 using System;
 using Android.App;
 using Android.Content;
+using GridDominance.Shared.Resources;
 
 namespace GridDominance.Android
 {
@@ -50,11 +51,6 @@ namespace GridDominance.Android
 				_serviceConnection = new InAppBillingServiceConnection(_activity, PUBLIC_KEY);
 
 				_serviceConnection.OnConnected += OnConnected;
-				_serviceConnection.BillingHandler.QueryInventoryError += QueryInventoryError;
-				_serviceConnection.BillingHandler.BuyProductError += BuyProductError;
-				_serviceConnection.BillingHandler.OnProductPurchased += OnProductPurchased; ;
-				_serviceConnection.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
-				_serviceConnection.BillingHandler.OnPurchaseFailedValidation += OnPurchaseFailedValidation;
 
 				_serviceConnection.Connect(); // throws Exception
 				return true;
@@ -131,6 +127,12 @@ namespace GridDominance.Android
 			{
 				_isInitializing = true;
 				SAMLog.Debug($"AndroidBilling.OnConnected[1]");
+
+				_serviceConnection.BillingHandler.QueryInventoryError += QueryInventoryError;
+				_serviceConnection.BillingHandler.BuyProductError += BuyProductError;
+				_serviceConnection.BillingHandler.OnProductPurchased += OnProductPurchased;
+				_serviceConnection.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
+				_serviceConnection.BillingHandler.OnPurchaseFailedValidation += OnPurchaseFailedValidation;
 
 				_purchases = _serviceConnection.BillingHandler.GetPurchases(ItemType.Product).ToList();
 				SAMLog.Debug($"AndroidBilling.OnConnected[2]");

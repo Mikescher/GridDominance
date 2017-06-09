@@ -17,13 +17,15 @@ namespace MonoSAMFramework.Portable.GameMath
 
 		private readonly float _forcePerUnit;
 		private readonly float _dragFactor;
+		private readonly float _minSpeed;
 
-		public AdaptionFloat(float initial, float forceFactor, float drag)
+		public AdaptionFloat(float initial, float forceFactor, float drag, float minSpeed)
 		{
 			Value = TargetValue = initial;
 			
 			_forcePerUnit = forceFactor;
 			_dragFactor = drag;
+			_minSpeed = minSpeed;
 		}
 		
 		public void Update(SAMTime gameTime, InputState istate)
@@ -33,11 +35,12 @@ namespace MonoSAMFramework.Portable.GameMath
 			Speed += force * gameTime.ElapsedSeconds;
 			Speed *= _dragFactor;
 
+			if (FloatMath.Abs(Speed) < _minSpeed && Speed > 0) Speed = _minSpeed * FloatMath.Sign(Speed);
+			
 			var nv = Value + Speed * gameTime.ElapsedSeconds;
 
 			if (nv < ValueMin)
 			{
-				
 				var nnv = FloatMath.Max(Value, ValueMin);
 				Value = nnv;
 				if (Speed < 0) Speed = 0;
@@ -48,6 +51,11 @@ namespace MonoSAMFramework.Portable.GameMath
 				Value = nnv;
 				if (Speed > 0) Speed = 0;
 			}
+			else if (FloatMath.Sign(nv-TargetValue) != FloatMath.Sign(Value - TargetValue) && FloatMath.Abs(FloatMath.Abs(Speed) - _minSpeed) < FloatMath.EPSILON)
+			{
+				Value = TargetValue;
+				Speed = 0;
+			} 
 			else
 			{
 				Value = nv;

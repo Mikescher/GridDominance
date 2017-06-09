@@ -3,24 +3,24 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using GridDominance.Shared.Resources;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 {
-	class OverworldScrollAgent : GameScreenAgent //TODO OverworldScrollAgent
+	class OverworldScrollAgent : GameScreenAgent
 	{
-		private const float POSITION_X = 1.5f * GDConstants.TILE_WIDTH;
+		private const float PADDING_X  = 2.5f * GDConstants.TILE_WIDTH;
 		private const float POSITION_Y = 6.5f * GDConstants.TILE_WIDTH;
 
 		private const float DIST_X     = 5.0f * GDConstants.TILE_WIDTH;
 		private const float MIN_DIST_X = 3.5f * GDConstants.TILE_WIDTH;
 
-		private const float FORCE      = 10f;  // [(m/s²)/m] = [1/s²]
+		private const float FORCE      = 500f;  // [(m/s²)/m] = [1/s²]
 		private const float DRAG       = 0.8f; // %
+		private const float MIN_SPEED  = 32f; // %
 
-		public const float CLICK_CANCEL_TIME = 3f;
-		public const float CLICK_CANCEL_DIST = 0.5f * GDConstants.TILE_WIDTH;
+		public const float CLICK_CANCEL_TIME = 0.5f;
+		public const float CLICK_CANCEL_DIST = 0.2f * GDConstants.TILE_WIDTH;
 
 		private enum DragMode { Global, Node }
 
@@ -42,7 +42,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			_values = new AdaptionFloat[_nodes.Length];
 			for (int i = 0; i < _nodes.Length; i++)
 			{
-				_values[i] = new AdaptionFloat(POSITION_X + i * DIST_X, FORCE, DRAG);
+				_values[i] = new AdaptionFloat(PADDING_X + i * DIST_X, FORCE, DRAG, MIN_SPEED);
 			}
 		}
 
@@ -123,7 +123,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 					_values[i].ValueMax = float.MaxValue;
 				}
 
-				if (gameTime.TotalElapsedSeconds - dragStartTime > CLICK_CANCEL_TIME || delta > CLICK_CANCEL_DIST)
+				if (gameTime.TotalElapsedSeconds - dragStartTime > CLICK_CANCEL_TIME || FloatMath.Abs(delta) > CLICK_CANCEL_DIST)
 				{
 					_nodes[dragAnchor].CancelClick();
 				}
@@ -155,16 +155,16 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				_values[i].ValueMax = float.MaxValue;
 			}
 
-			if (_values[0].TargetValue > POSITION_X)
+			if (_values[0].TargetValue < PADDING_X)
 			{
 				for (int i = 0; i < _nodes.Length; i++)
 				{
-					_values[i].Set(POSITION_X + i * DIST_X);
+					_values[i].Set(PADDING_X + i * DIST_X);
 				}
 			}
-			else if (_values[_values.Length-1].TargetValue < Screen.VAdapterGame.VirtualTotalWidth - POSITION_X)
+			else if (_values[_values.Length-1].TargetValue > Screen.VAdapterGame.VirtualTotalWidth - PADDING_X)
 			{
-				var n0 = Screen.VAdapterGame.VirtualTotalWidth - POSITION_X - (_values.Length * DIST_X);
+				var n0 = GDConstants.VIEW_WIDTH - PADDING_X - ((_values.Length - 1) * DIST_X);
 
 				for (int i = 0; i < _nodes.Length; i++)
 				{

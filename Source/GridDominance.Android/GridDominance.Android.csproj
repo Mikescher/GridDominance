@@ -72,7 +72,6 @@
     <Compile Include="AndroidImpl.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="__Secrets.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -18,6 +18,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
 using MonoSAMFramework.Portable.Localization;
 using GridDominance.Shared.Screens.NormalGameScreen;
+using GridDominance.Shared.Screens.OverworldScreen.Entities;
 
 namespace GridDominance.Shared
 {
@@ -145,7 +146,7 @@ namespace GridDominance.Shared
 		protected override void OnAfterInitialize()
 		{
 //			SetTutorialLevelScreen();
-			SetOverworldScreen();
+			SetOverworldScreen(false);
 //			SetWorldMapScreen();
 //			SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
 		}
@@ -181,9 +182,18 @@ namespace GridDominance.Shared
 			screen.ColorOverdraw = 1f;
 		}
 
-		public void SetOverworldScreen()
+		public void SetOverworldScreen(bool noflicker = true)
 		{
-			SetCurrentScreen(new GDOverworldScreen(this, Graphics));
+			var ovs = new GDOverworldScreen(this, Graphics);
+			SetCurrentScreen(ovs);
+
+			if (noflicker)
+			{
+				foreach (var node in ovs.GetEntities<OverworldNode>())
+				{
+					node.FlickerTime = OverworldNode.COLLAPSE_TIME * 10; // no flicker - for sure
+				}
+			}
 		}
 
 		public void SetOverworldScreenWithTransition(GraphBlueprint bp)
