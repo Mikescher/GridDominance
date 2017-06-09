@@ -95,6 +95,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexTileBorder;
 
 		public static TextureRegion2D TexCircle;
+		public static TextureRegion2D TexTriangle;
 		public static TextureRegion2D TexCircleEmpty; 
 		public static TextureRegion2D TexGradient;
 
@@ -242,6 +243,7 @@ namespace GridDominance.Shared.Resources
 			TexBulletSplitter        = AtlasTextures["cannonball_piece"];
 
 			TexCircle                = AtlasTextures["simple_circle"];
+			TexTriangle              = AtlasTextures["simple_triangle"];
 			TexCircleEmpty           = AtlasTextures["simple_circle_empty"];
 			TexPixel                 = AtlasTextures["simple_pixel"];
 			TexPixel                 = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising

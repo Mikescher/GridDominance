@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace GridDominance.Shared.Resources
 {
@@ -17,6 +18,7 @@ namespace GridDominance.Shared.Resources
 		public const bool USE_IAB = true;
 
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
+		public const string BFB_URL     = @"http://blackforestbytes.de/";
 
 		//public const string SERVER_URL = "http://localhost:666";
 		public const string SERVER_URL = "http://gdapi.mikescher.com";

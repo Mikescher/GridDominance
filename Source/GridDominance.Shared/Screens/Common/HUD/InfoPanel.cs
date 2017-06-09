@@ -1,10 +1,12 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System;
+using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
@@ -98,18 +100,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Click = OnClickUnlock,
 			});
 
-			AddElement(new HUDImageButton(1)
+			AddElement(new TimesheetAnimationPresenter(1)
 			{
-				Alignment = HUDAlignment.BOTTOMRIGHT,
+				Animation = Animations.AnimationBlackForestBytesLogo,
 
+				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(ELEM_MARGIN, ELEM_MARGIN),
 				Size = new FSize(BFB_WIDTH, BFB_WIDTH),
 
-				Image = Textures.CannonCog, //TODO BFB Logo
-
-				BackgoundType = HUDBackgroundType.None,
-
-				ClickMode = HUDButton.HUDButtonClickMode.Single,
 				Click = OnClickBFB,
 			});
 		}
@@ -117,9 +115,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
 
-		private void OnClickBFB(HUDImageButton sender, HUDButtonEventArgs e)
+		private void OnClickBFB(TimesheetAnimationPresenter sender, EventArgs e)
 		{
-			//TODO
+			MainGame.Inst.Bridge.OpenURL(GDConstants.BFB_URL);
 		}
 
 		private void OnClickUnlock(HUDTextButton sender, HUDButtonEventArgs e)

@@ -157,6 +157,12 @@
     <Compile Include="RenderHelper\SimpleRenderHelper.cs" />
     <Compile Include="RenderHelper\StaticTextures.cs" />
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
+    <Compile Include="RenderHelper\TimesheetAnimation\Transformations\TSATransformation.cs" />
+    <Compile Include="RenderHelper\TimesheetAnimation\Transformations\TSARotationTransform.cs" />
+    <Compile Include="RenderHelper\TimesheetAnimation\Transformations\TSABoundingTransform.cs" />
+    <Compile Include="RenderHelper\TimesheetAnimation\Transformations\TSAColorTransform.cs" />
+    <Compile Include="RenderHelper\TimesheetAnimation\TSAImageObject.cs" />
+    <Compile Include="RenderHelper\TimesheetAnimation\TSAObject.cs" />
     <Compile Include="Screens\Agents\DecayGameScreenAgent.cs" />
     <Compile Include="Screens\Agents\GameScreenAgent.cs" />
     <Compile Include="Screens\Background\SolidColorBackground.cs" />
@@ -200,12 +206,14 @@
     <Compile Include="Screens\HUD\Elements\Keyboard\HUDKeyboardButtonType.cs" />
     <Compile Include="Screens\HUD\Elements\Keyboard\IKeyboardListener.cs" />
     <Compile Include="Screens\HUD\Elements\Keyboard\KeyboardLayout.cs" />
-    <Compile Include="Screens\HUD\Elements\Other\HUDCharacterControl.cs" />
+    <Compile Include="Screens\HUD\Elements\Presenter\HUDCharacterControl.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDFadeOutInfoBox.cs" />
-    <Compile Include="Screens\HUD\Elements\Other\HUDRotatingImage.cs" />
-    <Compile Include="Screens\HUD\Elements\Other\HUDScrollTable.cs" />
-    <Compile Include="Screens\HUD\Elements\Other\HUDScrollTableSingleRowPresenter.cs" />
+    <Compile Include="Screens\HUD\Elements\Presenter\HUDRotatingImage.cs" />
+    <Compile Include="RenderHelper\TimesheetAnimation\TimesheetAnimation.cs" />
+    <Compile Include="Screens\HUD\Elements\Presenter\TimesheetAnimationPresenter.cs" />
+    <Compile Include="Screens\HUD\Elements\Table\HUDScrollTable.cs" />
+    <Compile Include="Screens\HUD\Elements\Table\HUDScrollTableSingleRowPresenter.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDToast.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDInfoBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDModalDialog.cs" />
@@ -255,6 +263,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

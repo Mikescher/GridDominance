@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
+        <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -510,6 +510,7 @@
             </struct>
             <key type="filename">base_blocks/simple_circle.png</key>
             <key type="filename">base_blocks/simple_circle_empty.png</key>
+            <key type="filename">base_blocks/simple_triangle.png</key>
             <key type="filename">worldmap/levelnode_segment.png</key>
             <key type="filename">worldmap/levelnode_structure.png</key>
             <struct type="IndividualSpriteSettings">

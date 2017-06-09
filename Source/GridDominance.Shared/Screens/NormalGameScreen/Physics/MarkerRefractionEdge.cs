@@ -3,7 +3,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Physics
 {
-	public sealed class MarkerRefractionEdge
+	public sealed class MarkerRefractionEdge : IPhysicsMarker
 	{
 		public GlassBlock Source;
 		public FlatAlign4 Side;

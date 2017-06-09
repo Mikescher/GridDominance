@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.Screens.Entities;
 
@@ -288,10 +289,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
-				if (f.UserData is Bullet) // ignore _all_ Bullets
-				{
-					return -1; // ignore
-				}
+				if (f.UserData is Bullet) return -1; // ignore _all_ Bullets
+
+				if (f.UserData is IPhysicsMarker) return -1; // ignore
 
 				result = (GameEntity)f.UserData;
 				return frac; // limit to this length
@@ -317,10 +317,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				if (f.UserData == c) return frac; // limit
 
 				var bulletData = f.UserData as Bullet;
-				if ((bulletData != null) && bulletData.Source == Cannon) // ignore own Bullets
-				{
-					return -1; // ignore
-				}
+				if (bulletData != null && bulletData.Source == Cannon) return -1; // ignore own Bullets
+
+				if (f.UserData is IPhysicsMarker) return -1; // ignore
 
 				result = (GameEntity) f.UserData;
 
@@ -346,10 +345,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 				if (f.UserData == c) return frac; // limit
 				
-				if (f.UserData is Bullet) // ignore _all_ Bullets
-				{
-					return -1; // ignore
-				}
+				if (f.UserData is Bullet) return -1;// ignore _all_ Bullets
+				
+				if (f.UserData is IPhysicsMarker) return -1; // ignore
 
 				result = (GameEntity)f.UserData;
 
@@ -377,10 +375,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					if (f.UserData == p.TargetCannon) return frac; // limit
 
 					var bulletData = f.UserData as Bullet;
-					if ((bulletData != null) && bulletData.Source == Cannon) // ignore own Bullets
-					{
-						return -1; // ignore
-					}
+					if (bulletData != null && bulletData.Source == Cannon) return -1; // ignore own Bullets
+
+					if (f.UserData is IPhysicsMarker) return -1; // ignore
 
 					result = (GameEntity)f.UserData;
 
@@ -407,10 +404,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 					if (f.UserData == p.TargetCannon) return frac; // limit
 
-					if (f.UserData is Bullet) // ignore _all_ Bullets
-					{
-						return -1; // ignore
-					}
+					if (f.UserData is Bullet) return -1;// ignore _all_ Bullets
+
+					if (f.UserData is IPhysicsMarker) return -1; // ignore
 
 					result = (GameEntity)f.UserData;
 

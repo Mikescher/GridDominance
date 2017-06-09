@@ -100,6 +100,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
+		public static FRectangle CreateWithOffset(int offx, int offy, int x, int y, int w, int h)
+		{
+			return new FRectangle(offx+x, offy+y, w, h);
+		}
+
+		[Pure]
 		public static FRectangle Lerp(FRectangle ra, FRectangle rb, float percentage)
 		{
 			var minx = FloatMath.Lerp(ra.Left,   rb.Left,   percentage);
@@ -374,6 +380,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FRectangle(X + offset.X, Y + offset.Y, Width, Height);
 		}
 
+		[Pure]
+		public FRectangle AsScaledAndTranslated(float scale, FPoint offset)
+		{
+			return new FRectangle(X * scale + offset.X, Y * scale + offset.Y, Width * scale, Height * scale);
+		}
+
 		IFShape IFShape.AsTranslated(Vector2 offset) => AsTranslated(offset);
 
 		[Pure]
@@ -430,7 +442,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public float Top => Y;
 		public float Bottom => Y + Height;
 
-		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON && Math.Abs(Height) < FloatMath.EPSILON;
+		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON || Math.Abs(Height) < FloatMath.EPSILON;
 
 		public FPoint TopLeft => new FPoint(Left, Top);
 		public FPoint TopRight => new FPoint(Right, Top);
