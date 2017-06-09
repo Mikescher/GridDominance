@@ -13,11 +13,12 @@ namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => new SemVersion(1, 0, 3);
+		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_0;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 
 		public Dictionary<Guid, LevelData> LevelData;
+		public HashSet<Guid> PurchasedWorlds;
 
 		public AccountType AccountType;
 		public int OnlineUserID;
@@ -41,6 +42,7 @@ namespace GridDominance.Shared.SaveData
 		public void InitEmpty()
 		{
 			LevelData = new Dictionary<Guid, LevelData>();
+			PurchasedWorlds = new HashSet<Guid>();
 
 			AccountType = AccountType.Local;
 			OnlineUserID = -1;
@@ -107,13 +109,14 @@ namespace GridDominance.Shared.SaveData
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "revid",     o => o.OnlineRevisionID,   (o, v) => o.OnlineRevisionID   = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "uploaderr", o => o.NeedsReupload,      (o, v) => o.NeedsReupload      = v);
 
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_1, "sounds",    o => o.SoundsEnabled,      (o, v) => o.SoundsEnabled      = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "sounds",    o => o.SoundsEnabled,      (o, v) => o.SoundsEnabled      = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "effect",    o => o.EffectsEnabled,     (o, v) => o.EffectsEnabled     = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_3, "lang",      o => o.Language,           (o, v) => o.Language = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "lang",      o => o.Language,           (o, v) => o.Language = v);
 
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_1, "skiptut",   o => o.SkipTutorial,       (o, v) => o.SkipTutorial       = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "skiptut",   o => o.SkipTutorial,       (o, v) => o.SkipTutorial       = v);
 
-			RegisterPropertyGuidictionary<PlayerProfile, LevelData>(SemVersion.VERSION_1_0_0, "progress", () => new LevelData(),  o => o.LevelData, (o, v) => o.LevelData = v);
+			RegisterPropertyGuidDictionary<PlayerProfile, LevelData>(SemVersion.VERSION_1_0_0, "progress", () => new LevelData(),  o => o.LevelData, (o, v) => o.LevelData = v);
+			RegisterPropertyGuidSet<PlayerProfile>(SemVersion.VERSION_1_0_0, "purchases",  o => o.PurchasedWorlds, (o, v) => o.PurchasedWorlds = v);
 		}
 
 		protected override string GetTypeName()

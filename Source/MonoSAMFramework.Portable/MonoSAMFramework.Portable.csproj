@@ -101,6 +101,7 @@
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileFloatWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileBoolWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileEnumWrapper.cs" />
+    <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGuidSetWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIntWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIntSetWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileGDictWrapper.cs" />

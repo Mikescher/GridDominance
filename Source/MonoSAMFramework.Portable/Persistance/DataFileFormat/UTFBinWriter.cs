@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Text;
 
 namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
@@ -88,6 +89,20 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 				throw new DataWriterException($"The given string {s} has not the given fixed length {length}");
 
 			builder.Append(s);
+		}
+
+		public void WriteUUID(Guid g)
+		{
+			var str = g.ToString("N");
+			foreach (var chr in str)
+			{
+				if (chr >= '0' && chr <= '8')
+					builder.Append(chr);
+				else if (chr == '9')
+					builder.Append("90");
+				else
+					builder.Append("9" + ((chr - 'a') + 1));
+			}
 		}
 
 		private void WriteSimpleUnsignedInteger(int v, int len)

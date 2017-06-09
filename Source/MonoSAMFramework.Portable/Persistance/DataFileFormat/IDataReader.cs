@@ -1,4 +1,6 @@
-﻿namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
+﻿using System;
+
+namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 {
 	public interface IDataReader
 	{
@@ -9,5 +11,6 @@
 		SemVersion ReadVersion();
 		byte ReadRawPrintableByte();
 		string ReadFixedLengthNonEscapedASCII(int length);
+		Guid ReadUUID();
 	}
 }

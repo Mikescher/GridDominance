@@ -23,7 +23,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 			writer.WriteInteger(Value.Count);
 			foreach (var v in Value)
 			{
-				writer.WriteFixedLengthNonEscapedASCII(v.Key.ToString("N").ToUpper(), 32);
+				writer.WriteUUID(v.Key);
 				v.Value.Serialize(writer, currentVersion);
 			}
 		}
@@ -34,7 +34,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 
 			for (int i = 0; i < count; i++)
 			{
-				var key = Guid.ParseExact(reader.ReadFixedLengthNonEscapedASCII(32), "N");
+				var key = reader.ReadUUID();
 
 				var inst = _elemTypeInfo.Create();
 

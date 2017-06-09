@@ -231,7 +231,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileIntSetWrapper.TYPENAME, g, s));
 		}
 
-		protected void RegisterPropertyGuidictionary<TThis, TElem>(SemVersion version, string name, Func<TElem> ctr, Func<TThis, Dictionary<Guid, TElem>> get, Action<TThis, Dictionary<Guid, TElem>> set)
+		protected void RegisterPropertyGuidDictionary<TThis, TElem>(SemVersion version, string name, Func<TElem> ctr, Func<TThis, Dictionary<Guid, TElem>> get, Action<TThis, Dictionary<Guid, TElem>> set)
 			where TThis : BaseDataFile
 			where TElem : BaseDataFile
 		{
@@ -243,6 +243,17 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 			DataFileGDictWrapper<TElem>.RegisterIfNeeded(gen);
 
 			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileGDictWrapper<TElem>.GetTypeName(gen), g, s));
+		}
+
+		protected void RegisterPropertyGuidSet<TThis>(SemVersion version, string name, Func<TThis, HashSet<Guid>> get, Action<TThis, HashSet<Guid>> set)
+			where TThis : BaseDataFile
+		{
+			Func<BaseDataFile, BaseDataFile> g = o => DataFileGuidSetWrapper.Create(get((TThis)o));
+			Action<BaseDataFile, BaseDataFile> s = (o, v) => set((TThis)o, ((DataFileGuidSetWrapper)v).Value);
+			
+			DataFileGuidSetWrapper.RegisterIfNeeded();
+
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileGuidSetWrapper.TYPENAME, g, s));
 		}
 
 		#endregion

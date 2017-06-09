@@ -198,7 +198,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_IAB_TESTERR,        "Error connecting to Google Play services",                    "Fehler beim Versuch mit Google Play zu verbinden"                     );
 			L10N.Add(STR_IAB_TESTNOCONN,     "No connection to Google Play services",                       "Keine Verbindung zu Google Play services"                             );
 			L10N.Add(STR_IAB_TESTINPROGRESS, "Payment in progress",                                         "Zahlung wird verarbeitet"                                             );
-			L10N.Add(STR_UNLOCK,             "Unlock Code",                                                 "Freischaltungs Code"                                                  );
+			L10N.Add(STR_UNLOCK,             "Promotion Code",                                              "Freischaltungs Code"                                                  );
 			L10N.Add(STR_GLOB_UNLOCKSUCCESS, "Upgraded game to full version!",                              "Spiel wurde zur Vollversion aufgewertet"                              );
 
 #if DEBUG

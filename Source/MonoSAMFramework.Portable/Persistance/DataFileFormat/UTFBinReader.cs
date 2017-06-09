@@ -162,6 +162,38 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			return ReadRawString(length);
 		}
 
+		public Guid ReadUUID()
+		{
+			char[] arr = new char[32];
+			for (int i = 0; i < 32; i++)
+			{
+				var chr = ReadRawChar();
+				if (chr >= '0' && chr <= '8')
+				{
+					arr[i] = chr;
+					continue;
+				}
+				if (chr == '9')
+				{
+					var chr2 = ReadRawChar();
+					if (chr2 == '0')
+					{
+						arr[i] = '9';
+						continue;
+					}
+					else if (chr2 >= '0' && chr2 <= '6')
+					{
+						arr[i] = (char)('a' + (chr2 - '1'));
+						continue;
+					}
+					throw new DataWriterException($"the character-surrogate chr(" + (int)chr + "):chr(" + (int)chr2 + ") is not a valid GUID element");
+				}
+				throw new DataWriterException($"the character chr(" + (int)chr + ") is not a valid GUID element");
+			}
+			
+			return Guid.ParseExact(new string(arr), "N");
+		}
+
 		private string ReadRawString(int len)
 		{
 			if (position >= datalength)
@@ -174,6 +206,16 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			position += len;
 
 			return r;
+		}
+
+		private char ReadRawChar()
+		{
+			if (position >= datalength)
+				throw new DataWriterException("Unexpected EOF found");
+
+			position++;
+
+			return data[position-1];
 		}
 
 		public string GetHashOfInput()

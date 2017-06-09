@@ -43,11 +43,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				if (!_isGPUnlocked.Value) return false;
 
+				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID)) return true;
+				
 				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD2);
 
-				switch (ip) //TODO
+				switch (ip)
 				{
 					case PurchaseQueryResult.Purchased:
+						MainGame.Inst.Profile.PurchasedWorlds.Add(Blueprint.ID);
+						MainGame.Inst.SaveProfile();
 						return true;
 					case PurchaseQueryResult.NotPurchased:
 					case PurchaseQueryResult.Refunded:

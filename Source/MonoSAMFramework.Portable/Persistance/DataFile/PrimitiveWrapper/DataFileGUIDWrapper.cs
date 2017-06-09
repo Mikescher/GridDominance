@@ -12,14 +12,14 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 
 		public override void Serialize(IDataWriter writer, SemVersion currentVersion)
 		{
-			writer.WriteFixedLengthNonEscapedASCII(Value.ToString("N").ToUpper(), 32);
+			writer.WriteUUID(Value);
 		}
 
 		public override void Deserialize(IDataReader reader, SemVersion archiveVersion)
 		{
 			try
 			{
-				Value = Guid.ParseExact(reader.ReadFixedLengthNonEscapedASCII(32), "N");
+				Value = reader.ReadUUID();
 			}
 			catch (Exception e)
 			{

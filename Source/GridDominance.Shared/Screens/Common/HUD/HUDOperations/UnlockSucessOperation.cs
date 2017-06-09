@@ -42,6 +42,9 @@ namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 			
 			element.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_UNLOCKSUCCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 3f);
 
+			foreach (var w in Levels.WORLDS) MainGame.Inst.Profile.PurchasedWorlds.Add(w.Key);
+			MainGame.Inst.SaveProfile();
+			
 			MainGame.Inst.GDSound.PlayEffectGameWon();
 		}
 	}
