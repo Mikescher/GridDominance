@@ -54,7 +54,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		public void ShowAboutPanel()
 		{
 			Settings.Close();
-			AddModal(new AttributionsPanel(), true);
+			AddModal(new InfoPanel(), true);
 		}
 
 		private async Task CreateUserAndShowAnonPanel()

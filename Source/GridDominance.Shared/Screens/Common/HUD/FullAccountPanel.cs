@@ -110,7 +110,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Text = MainGame.Inst.Profile.TotalPoints.ToString(),
 			});
 
-			AddElement(new HUDTextButton(1, OnChangePassword)
+			AddElement(new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
 				RelativePosition = new FPoint(24, 32),
@@ -125,6 +125,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				BackgoundType = HUDBackgroundType.RoundedBlur,
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
+
+				Click = OnChangePassword,
 			});
 		}
 

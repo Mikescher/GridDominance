@@ -35,10 +35,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		private readonly PlayerProfile profile;
 		private readonly LevelBlueprint Level;
 		private readonly int increasePoints;
-
-		private HUDIconTextButton btnMenu;
-		private HUDIconTextButton btnNext;
-
+		
 		public HUDScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon, int pointInc)
 		{
 			gainLevel = newDifficulty;
@@ -198,7 +195,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			#region Buttons
 
-			AddElement(btnMenu = new HUDIconTextButton(2)
+			AddElement(new HUDIconTextButton(2)
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
 				RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
@@ -214,8 +211,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				BackgoundType = HUDBackgroundType.Rounded,
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
+
+				Click = (s, a) => GDScreen.ExitToMap(),
 			});
-			btnMenu.ButtonClick += (s, a) => GDScreen.ExitToMap();
 
 			if (successScreen)
 			{
@@ -223,7 +221,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 				if (next != null)
 				{
-					AddElement(btnNext = new HUDIconTextButton(2)
+					AddElement(new HUDIconTextButton(2)
 					{
 						Alignment = HUDAlignment.BOTTOMRIGHT,
 						RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
@@ -239,13 +237,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 						BackgoundType = HUDBackgroundType.Rounded,
 						Color = FlatColors.Nephritis,
 						ColorPressed = FlatColors.Emerald,
+
+						Click = (s, a) => MainGame.Inst.SetLevelScreen(next.Item1, next.Item2, GDScreen.WorldBlueprint),
 					});
-					btnNext.ButtonClick += (s, a) => MainGame.Inst.SetLevelScreen(next.Item1, next.Item2, GDScreen.WorldBlueprint);
 				}
 			}
 			else
 			{
-				AddElement(btnNext = new HUDIconTextButton(2)
+				AddElement(new HUDIconTextButton(2)
 				{
 					Alignment = HUDAlignment.BOTTOMRIGHT,
 					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
@@ -261,8 +260,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 					BackgoundType = HUDBackgroundType.Rounded,
 					Color = FlatColors.Orange,
 					ColorPressed = FlatColors.SunFlower,
+
+					Click = (s, a) => ((GDGameScreen)HUD.Screen).RestartLevel(),
 				});
-				btnNext.ButtonClick += (s, a) => ((GDGameScreen) HUD.Screen).RestartLevel();
 			}
 
 			#endregion

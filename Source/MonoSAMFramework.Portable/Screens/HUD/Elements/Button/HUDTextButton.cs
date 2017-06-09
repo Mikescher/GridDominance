@@ -59,9 +59,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		}
 
 		public Color Color = Color.Transparent;
-
 		public Color ColorPressed = Color.Transparent;
-
 		public HUDBackgroundType BackgoundType = HUDBackgroundType.Simple;
 
 		public float BackgoundCornerSize = 16f;
@@ -74,7 +72,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		public event ButtonEventHandler ButtonDoubleClick;
 		public event ButtonEventHandler ButtonTripleClick;
 		public event ButtonEventHandler ButtonHold;
-		
+
+		public ButtonEventHandler Click { set { ButtonClick += value; } }
+
 		private readonly HUDLabel internalLabel;
 
 		public HUDTextButton(int depth = 0)
@@ -86,19 +86,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 				Alignment = HUDAlignment.TOPLEFT,
 				TextAlignment = HUDAlignment.CENTERLEFT,
 			};
-		}
-
-		public HUDTextButton(int depth, ButtonEventHandler clickHandler)
-		{
-			Depth = depth;
-
-			internalLabel = new HUDLabel
-			{
-				Alignment = HUDAlignment.TOPLEFT,
-				TextAlignment = HUDAlignment.CENTERLEFT,
-			};
-
-			ButtonClick += clickHandler;
 		}
 
 		public override void OnInitialize()

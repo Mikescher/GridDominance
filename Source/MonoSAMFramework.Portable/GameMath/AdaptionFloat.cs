@@ -30,21 +30,23 @@ namespace MonoSAMFramework.Portable.GameMath
 		{
 			var force = (TargetValue - Value) * _forcePerUnit;
 
-			Speed += force * gameTime.ElapsedSeconds * _dragFactor;
+			Speed += force * gameTime.ElapsedSeconds;
+			Speed *= _dragFactor;
 
 			var nv = Value + Speed * gameTime.ElapsedSeconds;
 
-			if (Speed < 0 && nv < ValueMin)
+			if (nv < ValueMin)
 			{
+				
 				var nnv = FloatMath.Max(Value, ValueMin);
 				Value = nnv;
-				Speed = 0;
+				if (Speed < 0) Speed = 0;
 			}
-			else if (Speed > 0 && nv > ValueMax)
+			else if (nv > ValueMax)
 			{
 				var nnv = FloatMath.Min(Value, ValueMax);
 				Value = nnv;
-				Speed = 0;
+				if (Speed > 0) Speed = 0;
 			}
 			else
 			{

@@ -32,7 +32,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { _l10ntext = value; _text = ""; recalcText = true; }
 		}
 
-		private string _text;
+		private string _text = "";
 		public string Text
 		{
 			get { return _text; }

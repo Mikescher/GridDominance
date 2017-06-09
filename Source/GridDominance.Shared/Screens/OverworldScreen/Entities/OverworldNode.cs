@@ -58,6 +58,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			FlickerTime += gameTime.ElapsedSeconds;
 		}
 
+		public void CancelClick()
+		{
+			clickArea.CancelClick();
+		}
+
 		protected abstract void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate);
 	}
 }

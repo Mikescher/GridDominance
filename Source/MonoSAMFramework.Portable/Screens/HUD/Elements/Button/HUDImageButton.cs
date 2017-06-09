@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -10,66 +9,23 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 {
-	public class HUDIconTextButton : HUDButton
+	public class HUDImageButton : HUDButton
 	{
 		public override int Depth { get; }
 
 		#region Properties
 
-		public TextureRegion2D Icon
+		public TextureRegion2D Image
 		{
 			get { return internalIcon.Image; }
 			set { internalIcon.Image = value; InvalidatePosition(); }
 		}
 
-		public int L10NText
+		private int _imagePadding = 8;
+		public int ImagePadding
 		{
-			get { return internalLabel.L10NText; }
-			set { internalLabel.L10NText = value; InvalidatePosition(); }
-		}
-
-		public string Text
-		{
-			get { return internalLabel.Text; }
-			set { internalLabel.Text = value; InvalidatePosition(); }
-		}
-
-		public HUDAlignment TextAlignment
-		{
-			get { return internalLabel.TextAlignment; }
-			set { internalLabel.TextAlignment = value; }
-		}
-
-		public Color TextColor
-		{
-			get { return internalLabel.TextColor; }
-			set { internalLabel.TextColor = value; }
-		}
-		
-		public SpriteFont Font
-		{
-			get { return internalLabel.Font; }
-			set { internalLabel.Font = value; }
-		}
-
-		public float FontSize
-		{
-			get { return internalLabel.FontSize; }
-			set { internalLabel.FontSize = value; InvalidatePosition(); }
-		}
-
-		private int _iconPadding = 8;
-		public int IconPadding
-		{
-			get { return _iconPadding; }
-			set { _iconPadding = value; InvalidatePosition(); }
-		}
-
-		private int _textPadding = 0;
-		public int TextPadding
-		{
-			get { return _textPadding; }
-			set { _textPadding = value; InvalidatePosition(); }
+			get { return _imagePadding; }
+			set { _imagePadding = value; InvalidatePosition(); }
 		}
 
 		public Color Color = Color.Transparent;
@@ -82,7 +38,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		#endregion
 
-		public delegate void ButtonEventHandler(HUDIconTextButton sender, HUDButtonEventArgs e);
+		public delegate void ButtonEventHandler(HUDImageButton sender, HUDButtonEventArgs e);
 
 		public event ButtonEventHandler ButtonClick;
 		public event ButtonEventHandler ButtonDoubleClick;
@@ -92,9 +48,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		public ButtonEventHandler Click { set { ButtonClick += value; } }
 
 		private readonly HUDImage internalIcon;
-		private readonly HUDLabel internalLabel;
 
-		public HUDIconTextButton(int depth = 0)
+		public HUDImageButton(int depth = 0)
 		{
 			Depth = depth;
 
@@ -103,32 +58,21 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 				Alignment = HUDAlignment.TOPLEFT,
 				ImageAlignment = HUDImageAlignment.SCALE_Y,
 			};
-
-			internalLabel = new HUDLabel
-			{
-				Alignment = HUDAlignment.TOPLEFT,
-				TextAlignment = HUDAlignment.CENTERLEFT,
-			};
 		}
 
 		public override void OnInitialize()
 		{
 			AddElement(internalIcon);
-			AddElement(internalLabel);
 		}
 
 		protected override void OnAfterRecalculatePosition()
 		{
 			base.OnAfterRecalculatePosition();
 			
-			var isize = internalIcon.CalculateRealBounds(new FRectangle(0, 0, Width - 2 * IconPadding - TextPadding, Height - 2 * IconPadding)).Size;
+			var isize = internalIcon.CalculateRealBounds(new FRectangle(0, 0, Width - 2 * ImagePadding, Height - 2 * ImagePadding)).Size;
 
-			internalIcon.RelativePosition = new FPoint(IconPadding, IconPadding);
-			internalIcon.Size = new FSize(isize.Width, Height - 2 * IconPadding);
-
-			var labelX = 2 * IconPadding + isize.Width + TextPadding;
-			internalLabel.RelativePosition = new FPoint(labelX, 0);
-			internalLabel.Size = new FSize(Width - labelX, Height);
+			internalIcon.RelativePosition = new FPoint(ImagePadding, ImagePadding);
+			internalIcon.Size = new FSize(isize.Width, Height - 2 * ImagePadding);
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)

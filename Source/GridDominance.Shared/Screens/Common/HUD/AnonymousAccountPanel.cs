@@ -112,7 +112,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				IconSize = new FSize(50, 50),
 			});
 
-			AddElement(new HUDTextButton(1, OnCreateAccount)
+			AddElement(new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
 				RelativePosition = new FPoint(24, 32),
@@ -127,9 +127,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				BackgoundType = HUDBackgroundType.RoundedBlur,
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
+
+				Click = OnCreateAccount,
 			});
 
-			AddElement(new HUDTextButton(1, OnLogin)
+			AddElement(new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(24, 32),
@@ -144,6 +146,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				BackgoundType = HUDBackgroundType.RoundedBlur,
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
+
+				Click = OnLogin,
 			});
 		}
 

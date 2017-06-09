@@ -9,5 +9,11 @@ namespace MonoSAMFramework.Portable.Input
 		Control = 1,
 		Shift   = 2,
 		Alt     = 4,
+
+
+		ShiftCtrl    = Shift | Control,
+		AltShift     = Shift |           Alt,
+		AltCtrl      =         Control | Alt,
+		ShiftCtrlAlt = Shift | Control | Alt,
 	}
 }

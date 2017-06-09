@@ -14,16 +14,18 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		private readonly HUDElement _initElement;
 		private readonly IHUDModalChild _initElementInterface; // can be null
 		private readonly bool _removeOnOutOfBoundsClick;
+		private readonly bool _removeOnBackKey;
 		private readonly float _dimFactor;
 
-		public HUDModalDialog(int d, HUDElement child, float dimFactor, bool removeOnOOB)
+		public HUDModalDialog(int d, HUDElement child, float dimFactor, bool removeOnOOBorBack)
 		{
 			Depth = d;
 
 			_initElement = child;
 			_initElementInterface = child as IHUDModalChild;
 
-			_removeOnOutOfBoundsClick = removeOnOOB;
+			_removeOnOutOfBoundsClick = removeOnOOBorBack;
+			_removeOnBackKey = removeOnOOBorBack;
 			_dimFactor = dimFactor;
 		}
 
@@ -45,6 +47,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			if (!_initElement.Alive) Remove();
+
+			if (_removeOnBackKey && istate.IsKeyJustDown(SKeys.AndroidBack)) Remove();
+			if (_removeOnBackKey && istate.IsKeyJustDown(SKeys.Escape)) Remove();
 		}
 
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;

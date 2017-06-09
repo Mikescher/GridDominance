@@ -42,6 +42,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\Agents\ExitAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\DebugUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\AnonymousAccountPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HUDOperations\UnlockSucessOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HUDOperations\UnlockErrorOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\UnlockPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\InfoPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ChangePasswordPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\AttributionsPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HighscorePanel.cs" />
@@ -78,7 +82,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTutorialScorePanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\LaserNetwork\LaserNetwork.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\LaserNetwork\LaserRay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\LaserNetwork\LaserRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\LaserNetwork\LaserSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerRefractionEdge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\OverworldScrollAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\ReappearTransitionAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\TransitionZoomInToTutorialAgent.cs" />

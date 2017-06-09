@@ -56,6 +56,7 @@
     <Compile Include="GameMath\AdaptionFloat.cs" />
     <Compile Include="GameMath\BistateProgress.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
+    <Compile Include="GameMath\Cryptography\KiddieCryptography.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign9.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign8.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventArgs.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDBackgroundType.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />
+    <Compile Include="Screens\HUD\Elements\Button\HUDImageButton.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDTextButton.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDIconTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDSimpleTextBox.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="Screens\HUD\Elements\Keyboard\HUDKeyboardButtonType.cs" />
     <Compile Include="Screens\HUD\Elements\Keyboard\IKeyboardListener.cs" />
     <Compile Include="Screens\HUD\Elements\Keyboard\KeyboardLayout.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDCharacterControl.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDFadeOutInfoBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDRotatingImage.cs" />

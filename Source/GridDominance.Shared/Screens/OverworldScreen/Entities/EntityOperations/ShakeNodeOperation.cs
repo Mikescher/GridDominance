@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Screens.WorldMapScreen.Entities;
-using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Extensions;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;

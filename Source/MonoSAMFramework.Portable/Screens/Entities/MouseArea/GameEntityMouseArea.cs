@@ -107,6 +107,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 			}
 		}
 
+		public void CancelClick()
+		{
+			isClickDown = false;
+		}
+
 		public bool IsMouseDown() => isClickDown;
 	}
 }

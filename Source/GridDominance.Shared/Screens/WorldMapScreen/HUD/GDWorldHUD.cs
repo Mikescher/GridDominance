@@ -79,7 +79,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			SelectNode(null);
 			Settings.Close();
 
-			AddModal(new AttributionsPanel(), true);
+			AddModal(new InfoPanel(), true);
 		}
 
 		private async Task CreateUserAndShowAnonPanel()

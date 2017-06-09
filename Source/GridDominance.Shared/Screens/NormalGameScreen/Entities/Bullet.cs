@@ -18,6 +18,7 @@ using MonoSAMFramework.Portable.Screens.Entities;
 using FarseerPhysics.Common;
 using System.Collections.Generic;
 using MonoSAMFramework.Portable;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
@@ -248,6 +249,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				MainGame.Inst.GDSound.PlayEffectReflect(); //TODO evtl other sound?
 				return true;
 			}
+			#endregion
+
+			#region RefractionMarker
+			var otherRefractionMarker = fixtureB.UserData as MarkerRefractionEdge;
+			if (otherRefractionMarker != null) return false;
 			#endregion
 
 			// wud ???

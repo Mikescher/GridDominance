@@ -34,6 +34,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_CPP_CHANGEERR      = 21;
 
 		public const int STR_ATTRIBUTIONS       = 22;
+		public const int STR_UNLOCK             = 85;
 
 		public const int STR_AAP_HEADER         = 23;
 		public const int STR_AAP_USERNAME       = 24;
@@ -92,10 +93,11 @@ namespace GridDominance.Shared.Resources
 		public const int STR_GLOB_WORLDLOCK     = 71;
 		public const int STR_GLOB_OVERWORLD     = 75;
 		public const int STR_GLOB_WAITFORSERVER = 76;
+		public const int STR_GLOB_UNLOCKSUCCESS = 86;
 
-		public const int STR_WORLD_TUTORIAL      = 77;
-		public const int STR_WORLD_W1            = 80;
-		public const int STR_WORLD_W2            = 81;
+		public const int STR_WORLD_TUTORIAL     = 77;
+		public const int STR_WORLD_W1           = 80;
+		public const int STR_WORLD_W2           = 81;
 
 		public const int STR_INF_YOU            = 72;
 		public const int STR_INF_GLOBAL         = 73;
@@ -105,7 +107,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_IAB_TESTNOCONN     = 83;
 		public const int STR_IAB_TESTINPROGRESS = 84;
 
-		private const int TEXT_COUNT = 85; // = next idx
+		private const int TEXT_COUNT = 87; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -134,7 +136,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_CPP_COMERR,         "Could not communicate with server",                           "Kommunikation mit Server ist gestört"                                 );
 			L10N.Add(STR_CPP_AUTHERR,        "Authentication error",                                        "Authentifizierung fehlgeschlagen"                                     );
 			L10N.Add(STR_CPP_CHANGEERR,      "Could not change password",                                   "Passwort konnte nicht geändert werden"                                );
-			L10N.Add(STR_ATTRIBUTIONS,       "Attributions",                                                "Info"                                                                 );
+			L10N.Add(STR_ATTRIBUTIONS,       "Attributions",                                                "Lizenzen"                                                             );
 			L10N.Add(STR_AAP_HEADER,         "Sign up / Log in",                                            "Anmelden / Registrieren"                                              );
 			L10N.Add(STR_AAP_USERNAME,       "Username",                                                    "Benutzername"                                                         );
 			L10N.Add(STR_AAP_PASSWORD,       "Password",                                                    "Passwort"                                                             );
@@ -195,7 +197,9 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_W2,           "Professional",                                                "Fortgeschritten"                                                      );
 			L10N.Add(STR_IAB_TESTERR,        "Error connecting to Google Play services",                    "Fehler beim Versuch mit Google Play zu verbinden"                     );
 			L10N.Add(STR_IAB_TESTNOCONN,     "No connection to Google Play services",                       "Keine Verbindung zu Google Play services"                             );
-			L10N.Add(STR_IAB_TESTINPROGRESS, "Payment in progress",                                         "Zahung wird verarbeitet"                                              );
+			L10N.Add(STR_IAB_TESTINPROGRESS, "Payment in progress",                                         "Zahlung wird verarbeitet"                                             );
+			L10N.Add(STR_UNLOCK,             "Unlock Code",                                                 "Freischaltungs Code"                                                  );
+			L10N.Add(STR_GLOB_UNLOCKSUCCESS, "Upgraded game to full version!",                              "Spiel wurde zur Vollversion aufgewertet"                              );
 
 #if DEBUG
 			L10N.Verify();

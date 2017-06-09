@@ -208,7 +208,7 @@ namespace GridDominance.Levelfileformat
 			var pcy = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
 			var w   = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
 			var h   = ExtractNumberParameter(methodParameter, 2) * _scaleFactor;
-			var r   = ExtractNumberParameter(methodParameter, 2, 0f);
+			var r   = ExtractNumberParameter(methodParameter, 3, 0f);
 
 			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(pcx, pcy, w, h, r));
 		}

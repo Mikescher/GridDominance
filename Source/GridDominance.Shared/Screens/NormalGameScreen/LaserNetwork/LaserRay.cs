@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using Microsoft.Xna.Framework;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
@@ -6,5 +7,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 	{
 		public Vector2 Start;
 		public Vector2 End;
+
+		public Cannon Target;
 	}
 }

@@ -66,39 +66,42 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), false);
 #endif
 
-			DebugSettings.AddTrigger("DBG", "SetQuality_1",    scrn, SKeys.D1, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.FD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_2",    scrn, SKeys.D2, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.BD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_3",    scrn, SKeys.D3, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.LD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_4",    scrn, SKeys.D4, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.MD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_5",    scrn, SKeys.D5, KeyModifier.Control,                    x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.HD));
-			DebugSettings.AddTrigger("DBG", "ResetProfile",    scrn, SKeys.R, KeyModifier.Control,                     x => MainGame.Inst.ResetProfile());
-			DebugSettings.AddTrigger("DBG", "ClearMessages",   scrn, SKeys.C, KeyModifier.None,                        x => scrn.DebugDisp.Clear());
-			DebugSettings.AddTrigger("DBG", "StartDebugLevel", scrn, SKeys.D, KeyModifier.Control | KeyModifier.Shift, x => MainGame.Inst.SetDebugLevelScreen());
-			DebugSettings.AddTrigger("DBG", "ShowOverworld",   scrn, SKeys.O, KeyModifier.Control | KeyModifier.Shift, x => MainGame.Inst.SetOverworldScreen());
+			DebugSettings.AddTrigger("DBG", "SetQuality_1",         scrn, SKeys.D1, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.FD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_2",         scrn, SKeys.D2, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.BD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_3",         scrn, SKeys.D3, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.LD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_4",         scrn, SKeys.D4, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.MD));
+			DebugSettings.AddTrigger("DBG", "SetQuality_5",         scrn, SKeys.D5, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.HD));
+			DebugSettings.AddTrigger("DBG", "ResetProfile",         scrn, SKeys.R, KeyModifier.Control,   x => MainGame.Inst.ResetProfile());
+			DebugSettings.AddTrigger("DBG", "ClearMessages",        scrn, SKeys.C, KeyModifier.None,      x => scrn.DebugDisp.Clear());
+			DebugSettings.AddTrigger("DBG", "StartDebugLevel",      scrn, SKeys.D, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetDebugLevelScreen());
+			DebugSettings.AddTrigger("DBG", "ShowOverworld",        scrn, SKeys.O, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetOverworldScreen());
 
-			if (scrn is GDWorldMapScreen) DebugSettings.AddTrigger("TRUE", "ZoomOut", scrn, SKeys.Z, KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
+			DebugSettings.AddSwitch("DBG", "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      scrn, SKeys.F2,  KeyModifier.None,    true);
+			DebugSettings.AddSwitch("DBG", "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       scrn, SKeys.F4,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG", "DebugNetwork",          scrn, SKeys.F5,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   scrn, SKeys.F6,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      scrn, SKeys.F7,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", scrn, SKeys.F8,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", scrn, SKeys.F9,  KeyModifier.None,    false); 
+			DebugSettings.AddSwitch("DBG", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None,    true);
+			DebugSettings.AddSwitch("DBG", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG", "DebugLaserNetwork",     scrn, SKeys.F12, KeyModifier.None,    true);
 
-			DebugSettings.AddSwitch("DBG", "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      scrn, SKeys.F2,  KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       scrn, SKeys.F4,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugNetwork",          scrn, SKeys.F5,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   scrn, SKeys.F6,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      scrn, SKeys.F7,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", scrn, SKeys.F8,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", scrn, SKeys.F9,  KeyModifier.None, false);
-			DebugSettings.AddSwitch("DBG", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None, true);
-			DebugSettings.AddSwitch("DBG", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None, false);
+			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab, KeyModifier.None);
+			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,   KeyModifier.None);
+			DebugSettings.AddPush("TRUE", "HideHUD",                scrn, SKeys.H,   KeyModifier.None);
 
-			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab,       KeyModifier.None);
-			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,         KeyModifier.None);
-			if (scrn is GDGameScreen)      DebugSettings.AddPush("TRUE", "AssimilateCannon",       scrn, SKeys.A,         KeyModifier.None);
-			if (scrn is GDGameScreen)      DebugSettings.AddSwitch("DBG", "ImmortalCannons",       scrn, SKeys.I,         KeyModifier.Control, false);
-			if (scrn is GDWorldMapScreen)  DebugSettings.AddPush("TRUE", "UnlockNode",             scrn, SKeys.A,         KeyModifier.None);
-			if (scrn is GDOverworldScreen) DebugSettings.AddPush("TRUE", "UnlockNode",             scrn, SKeys.A,         KeyModifier.None);
-			if (scrn is GDGameScreen)      DebugSettings.AddPush("TRUE", "AbandonCannon",          scrn, SKeys.S,         KeyModifier.None);
-			if (scrn is GDWorldMapScreen)  DebugSettings.AddPush("TRUE", "LeaveScreen",            scrn, SKeys.Backspace, KeyModifier.Control);
-			DebugSettings.AddPush("TRUE", "HideHUD", scrn, SKeys.H, KeyModifier.None);
+			if (scrn is GDGameScreen)      DebugSettings.AddSwitch( "DBG",  "ImmortalCannons",  scrn, SKeys.I,         KeyModifier.Control, false);
+			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AssimilateCannon", scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AbandonCannon",    scrn, SKeys.S,         KeyModifier.None);
+
+			if (scrn is GDWorldMapScreen)  DebugSettings.AddPush(   "TRUE", "UnlockNode",       scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDWorldMapScreen)  DebugSettings.AddPush(   "TRUE", "LeaveScreen",      scrn, SKeys.Backspace, KeyModifier.Control);
+			if (scrn is GDWorldMapScreen)  DebugSettings.AddTrigger("TRUE", "ZoomOut",          scrn, SKeys.Z,         KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
+
+			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "UnlockNode",       scrn, SKeys.A,         KeyModifier.None);
 		}
 
 #endif

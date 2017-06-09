@@ -37,7 +37,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		private readonly PlayerProfile profile;
 		private readonly int increasePoints;
-
 		private HUDIconTextButton btnPlay;
 
 		public HUDTutorialScorePanel(PlayerProfile playerprofile, int pointInc)
@@ -233,8 +232,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				BackgoundType = HUDBackgroundType.Rounded,
 				Color = FlatColors.Nephritis,
 				ColorPressed = FlatColors.Emerald,
+
+				Click = (s, a) => MainGame.Inst.SetWorldMapScreenWithTransition(Levels.WORLD_001),
 			});
-			btnPlay.ButtonClick += (s, a) => MainGame.Inst.SetWorldMapScreenWithTransition(Levels.WORLD_001);
 
 			#endregion
 
