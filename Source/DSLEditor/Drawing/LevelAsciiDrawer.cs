@@ -395,7 +395,7 @@ namespace GridDominance.DSLEditor.Drawing
 			if (arg < 10)
 				return arg.ToString();
 			else
-				return ('A' + (arg - 10)).ToString();
+				return ((char)('A' + (arg - 10))).ToString();
 		}
 	}
 }

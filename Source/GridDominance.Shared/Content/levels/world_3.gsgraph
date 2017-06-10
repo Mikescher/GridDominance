@@ -1,0 +1,11 @@
+﻿# Third World - Futuristic   #
+##############################
+
+include("map_header")
+
+alias(LVL_01, {b16b00b5-0001-4000-0000-000003000001})
+
+root([-7, 0], WORLD_3)
+  connect(LVL_01, LIN)
+
+node([0, 0], LVL_01)

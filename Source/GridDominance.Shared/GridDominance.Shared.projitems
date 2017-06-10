@@ -95,6 +95,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\EntityOperations\ShakeNodeOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_Graph.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_Tutorial.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\TopLevelDisplay.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\debugFont.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\debugFontSmall.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\hudFontBold.spritefont" />

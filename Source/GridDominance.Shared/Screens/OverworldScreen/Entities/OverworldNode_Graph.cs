@@ -22,6 +22,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	public abstract class OverworldNode_Graph : OverworldNode
 	{ 
+		protected enum UnlockState { Locked, Unlocked, NeedsPurchase }
+		
 		public readonly GraphBlueprint Blueprint;
 
 		private readonly Dictionary<FractionDifficulty, float> solvedPerc = new Dictionary<FractionDifficulty, float>();
@@ -38,6 +40,24 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			solvedPerc[FractionDifficulty.DIFF_3] = GetSolvePercentage(FractionDifficulty.DIFF_3);
 
 			_swingPeriode *= FloatMath.GetRangedRandom(0.85f, 1.15f);
+		}
+
+		protected override void OnDraw(IBatchRenderer sbatch)
+		{
+			switch (IsUnlocked())
+			{
+				case UnlockState.Locked:
+					DrawLockSwing(sbatch);
+					break;
+				case UnlockState.Unlocked:
+					DrawGridProgress(sbatch);
+					break;
+				case UnlockState.NeedsPurchase:
+					DrawGridEmpty(sbatch);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 
 		protected void DrawGridProgress(IBatchRenderer sbatch)
@@ -68,12 +88,25 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, L10N.T(_l10ndescription), FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 		}
 
-		protected void DrawLockSwing(IBatchRenderer sbatch)
+		protected void DrawGridEmpty(IBatchRenderer sbatch)
 		{
 			var outerBounds = FRectangle.CreateByCenter(Position, DrawingBoundingBox);
 			var innerBounds = FRectangle.CreateByCenter(Position, new FSize(INNERSIZE, INNERSIZE));
 
-			var scoreRectSize = innerBounds.Width / 8f;
+			FlatRenderHelper.DrawRoundedBlurPanel(sbatch, outerBounds, clickArea.IsMouseDown() ? FlatColors.ButtonPressedHUD : FlatColors.Asbestos, 0.5f * GDConstants.TILE_WIDTH);
+			SimpleRenderHelper.DrawRoundedRectOutline(sbatch, outerBounds.AsInflated(1f, 1f), FlatColors.MidnightBlue, 8, 2f, 0.5f * GDConstants.TILE_WIDTH);
+
+			sbatch.FillRectangle(innerBounds, FlatColors.Background);
+
+			sbatch.DrawCentered(Textures.TexIconLockOpen, innerBounds.VecCenter, INNERSIZE * 0.75f, INNERSIZE * 0.75f, FlatColors.Nephritis);
+
+			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, L10N.T(_l10ndescription), FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
+		}
+
+		protected void DrawLockSwing(IBatchRenderer sbatch)
+		{
+			var outerBounds = FRectangle.CreateByCenter(Position, DrawingBoundingBox);
+			var innerBounds = FRectangle.CreateByCenter(Position, new FSize(INNERSIZE, INNERSIZE));
 
 			FlatRenderHelper.DrawRoundedBlurPanel(sbatch, outerBounds, clickArea.IsMouseDown() ? FlatColors.ButtonPressedHUD : FlatColors.Asbestos, 0.5f * GDConstants.TILE_WIDTH);
 			SimpleRenderHelper.DrawRoundedRectOutline(sbatch, outerBounds.AsInflated(1f, 1f), FlatColors.MidnightBlue, 8, 2f, 0.5f * GDConstants.TILE_WIDTH);
@@ -141,7 +174,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			}
 		}
 
-		protected abstract bool IsUnlocked();
+		protected abstract UnlockState IsUnlocked();
 
 		protected override void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
 		{
@@ -149,7 +182,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			if (DebugSettings.Get("UnlockNode")) { OnClickAccept(); return; }
 #endif
 
-			if (IsUnlocked())
+			if (IsUnlocked() == UnlockState.Unlocked)
 			{
 				OnClickAccept();
 			}

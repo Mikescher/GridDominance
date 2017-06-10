@@ -129,3 +129,6 @@ node([49, 17], LVL_26)
 
 
 node([60, 00], LVL_27)
+  connect(WORLD_3, CCW, 2)
+
+warp([66, 00], WORLD_3)

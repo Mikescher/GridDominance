@@ -527,3 +527,13 @@
 /processor:TexturePackerProcessor
 /build:textures/spritesheet_extra-sheet_md.json
 
+#begin levels/lvl201.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl201.gslevel
+
+#begin levels/world_3.gsgraph
+/importer:GDWorldGraphImporter
+/processor:GDWorldGraphProcessor
+/build:levels/world_3.gsgraph
+

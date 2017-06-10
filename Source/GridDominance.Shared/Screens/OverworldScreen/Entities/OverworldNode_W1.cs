@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
@@ -21,21 +22,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			//
 		}
 
-		protected override void OnDraw(IBatchRenderer sbatch)
-		{
-			if (IsUnlocked())
-				DrawGridProgress(sbatch);
-			else
-				DrawLockSwing(sbatch);
-		}
-
 		private bool? _isUnlocked = null;
-		protected override bool IsUnlocked()
+		protected override UnlockState IsUnlocked()
 		{
 			if (_isUnlocked == null)
 				_isUnlocked = MainGame.Inst.Profile.SkipTutorial || MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted();
 
-			return _isUnlocked.Value;
+			return _isUnlocked.Value ? UnlockState.Unlocked : UnlockState.Locked;
 		}
 
 		protected override void OnClickDeny()

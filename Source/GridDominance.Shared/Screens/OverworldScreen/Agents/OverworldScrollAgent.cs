@@ -170,14 +170,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				_values[i].ValueMax = float.MaxValue;
 			}
 
-			if (_values[0].TargetValue < PADDING_X)
+			if (_values[0].TargetValue > PADDING_X)
 			{
 				for (int i = 0; i < _nodes.Length; i++)
 				{
 					_values[i].Set(PADDING_X + i * DIST_X);
 				}
 			}
-			else if (_values[_values.Length-1].TargetValue > GDConstants.VIEW_WIDTH - PADDING_X)
+			else if (_values[_values.Length-1].TargetValue < GDConstants.VIEW_WIDTH - PADDING_X)
 			{
 				var n0 = GDConstants.VIEW_WIDTH - PADDING_X - ((_values.Length - 1) * DIST_X);
 

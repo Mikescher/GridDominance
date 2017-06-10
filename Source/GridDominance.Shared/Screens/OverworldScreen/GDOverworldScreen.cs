@@ -69,6 +69,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 				new OverworldNode_Tutorial(this, Vector2.Zero),
 				new OverworldNode_W1(this, Vector2.Zero),
 				new OverworldNode_W2(this, Vector2.Zero),
+				new OverworldNode_W3(this, Vector2.Zero),
 			};
 
 			foreach (var node in nodes) Entities.AddEntity(node);
