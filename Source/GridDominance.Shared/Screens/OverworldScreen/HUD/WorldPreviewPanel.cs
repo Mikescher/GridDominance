@@ -22,6 +22,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		private readonly LevelBlueprint[] _blueprints;
 
+		private HUDSubScreenProxyRenderer _proxy;
+
 		public WorldPreviewPanel(LevelBlueprint[] bps)
 		{
 			_blueprints = bps;
@@ -36,9 +38,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			base.OnInitialize();
 
-			var prev = new GDGameScreen_Preview(MainGame.Inst, MainGame.Inst.Graphics, _blueprints, 0);
+			var prev = new GDGameScreen_Preview(MainGame.Inst, MainGame.Inst.Graphics, this, _blueprints, 0);
 
-			AddElement(new HUDSubScreenProxyRenderer(prev)
+			AddElement(_proxy = new HUDSubScreenProxyRenderer(prev)
 			{
 				Alignment = HUDAlignment.CENTER,
 				RelativePosition = FPoint.Zero,
@@ -48,5 +50,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
+
+		public void SetNextScreen(int idx)
+		{
+			var prev = new GDGameScreen_Preview(MainGame.Inst, MainGame.Inst.Graphics, this, _blueprints, idx);
+
+			_proxy.ChangeScreen(prev);
+		}
 	}
 }

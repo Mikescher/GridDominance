@@ -179,12 +179,22 @@ namespace GridDominance.DSLEditor.Drawing
 		{
 			var rayPenBG = new Pen(Color.FromArgb(100, Color.Red), 4f);
 			var rayPenBGP = new Pen(Color.FromArgb(70, Color.Yellow), 2f);
+			var rayPenDir = new Pen(Color.Goldenrod, 8f);
 			var rayPen = new Pen(Color.FromArgb(200, Color.Red), 4f) { DashStyle = DashStyle.Dash };
 			var rayBrush = new SolidBrush(Color.FromArgb(200, Color.Goldenrod));
 			foreach (var c in level.AllCannons.Where(p => p.CannonID == highlightCannon))
 			{
 				foreach (var path in c.PrecalculatedPaths)
 				{
+					{
+						var cos = Math.Cos(path.CannonRotation);
+						var sin = Math.Sin(path.CannonRotation);
+
+						var tx = (c.Diameter * 0.85f) * cos - 0 * sin;
+						var ty = (c.Diameter * 0.85f) * sin + 0 * cos;
+						g.DrawLine(rayPenDir, (float)c.X, (float)c.Y, c.X + (float)tx, c.Y + (float)ty);
+					}
+					
 					if (path.PreviewBulletPath != null)
 					{
 						float cx = c.X;
@@ -257,13 +267,13 @@ namespace GridDominance.DSLEditor.Drawing
 
 		private static void DrawGrid(Graphics g, int w, int h)
 		{
-			for (int x = 0; x < Math.Ceiling(h/64f); x++)
+			for (int x = 0; x < Math.Ceiling(w/64f); x++)
 			{
-				g.DrawLine((x % 2 == 0) ? Pens.DarkGray : Pens.DimGray, x * 64, 0, x * 64, w);
+				g.DrawLine((x % 2 == 0) ? Pens.DarkGray : Pens.DimGray, x * 64, 0, x * 64, h);
 			}
-			for (int y = 0; y < Math.Ceiling(w/64f); y++)
+			for (int y = 0; y < Math.Ceiling(h/64f); y++)
 			{
-				g.DrawLine((y % 2 == 0) ? Pens.DarkGray : new Pen(Color.FromArgb(88, 88, 88)), 0, y * 64, h, y * 64);
+				g.DrawLine((y % 2 == 0) ? Pens.DarkGray : new Pen(Color.FromArgb(88, 88, 88)), 0, y * 64, w, y * 64);
 			}
 		}
 

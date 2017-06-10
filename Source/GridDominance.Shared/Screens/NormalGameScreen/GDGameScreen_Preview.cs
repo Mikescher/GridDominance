@@ -9,6 +9,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
+using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 
@@ -22,15 +23,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		private readonly LevelBlueprint[] _blueprints;
 		private readonly int _blueprintIndex;
+		private readonly WorldPreviewPanel _parent;
 
 		private float _runtime = 0;
 
-		public GDGameScreen_Preview(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint[] bps, int idx) : base(game, gdm, bps[idx], FractionDifficulty.DIFF_3)
+		public GDGameScreen_Preview(MainGame game, GraphicsDeviceManager gdm, WorldPreviewPanel pnl, LevelBlueprint[] bps, int idx) : base(game, gdm, bps[idx], FractionDifficulty.DIFF_3)
 		{
 			GameSpeed = GAMESPEED_SEMIFAST;
 
 			_blueprints     = bps;
 			_blueprintIndex = idx;
+			_parent         = pnl;
 		}
 
 		public override void ExitToMap()
@@ -59,8 +62,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			if ((_runtime += gameTime.RealtimeElapsedSeconds) > PREVIEW_TIME)
 			{
-				//TODO Exchange in owning panel
-				//MainGame.Inst.SetPreviewScreen(_blueprints, (_blueprintIndex + 1) % _blueprints.Length);
+				_parent.SetNextScreen((_blueprintIndex + 1) % _blueprints.Length);
 			}
 		}
 

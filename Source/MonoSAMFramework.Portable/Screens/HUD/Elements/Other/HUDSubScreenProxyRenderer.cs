@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
-using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 {
@@ -16,15 +11,15 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 	{
 		public override int Depth { get; } = Int32.MaxValue;
 
-		public readonly GameScreen Child;
+		private GameScreen _child;
 
 		private FRectangle _boundsBackup;
 		public FRectangle ProxyTargetBounds => _boundsBackup;
-		public GameScreen Proxy => Child;
+		public GameScreen Proxy => _child;
 
 		public HUDSubScreenProxyRenderer(GameScreen child)
 		{
-			Child = child;
+			_child = child;
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
@@ -34,26 +29,36 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 #endif
 		}
 
+		public void ChangeScreen(GameScreen newchild)
+		{
+			_child.Remove();
+			_child = newchild;
+
+			_child.VAdapterGame = _child.VAdapterHUD.CreateProxyAdapter(this);
+			_child.VAdapterHUD  = _child.VAdapterHUD.CreateProxyAdapter(this);
+			_child.Show();
+		}
+
 		public override void OnInitialize()
 		{
 			HUD.Screen.RegisterProxyScreenProvider(this);
 
-			Child.VAdapterGame = Child.VAdapterHUD.CreateProxyAdapter(this);
-			Child.VAdapterHUD  = Child.VAdapterHUD.CreateProxyAdapter(this);
-			Child.Show();
+			_child.VAdapterGame = _child.VAdapterHUD.CreateProxyAdapter(this);
+			_child.VAdapterHUD  = _child.VAdapterHUD.CreateProxyAdapter(this);
+			_child.Show();
 
 			_boundsBackup = HUD.Screen.VAdapterHUD.ScreenToRect(BoundingRectangle);
 		}
 
 		public override void OnRemove()
 		{
-			Child.Remove();
+			_child.Remove();
 			HUD.Screen.DeregisterProxyScreenProvider(this);
 		}
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			Child.Update(gameTime);
+			_child.Update(gameTime);
 		}
 
 		protected override void OnAfterRecalculatePosition()
