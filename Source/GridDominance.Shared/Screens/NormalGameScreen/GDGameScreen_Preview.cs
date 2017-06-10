@@ -10,6 +10,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 
@@ -17,7 +18,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 {
 	class GDGameScreen_Preview : GDGameScreen
 	{
-		private const float PREVIEW_TIME = 10f;
+		private const float PREVIEW_TIME = 7f;
 
 		protected override GameHUD CreateHUD() => new GDPreviewHUD(this);
 
@@ -60,7 +61,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		{
 			base.OnUpdate(gameTime, istate);
 
-			if ((_runtime += gameTime.RealtimeElapsedSeconds) > PREVIEW_TIME)
+			if ((_runtime += gameTime.RealtimeElapsedSeconds) > PREVIEW_TIME && FloatMath.PercSin(gameTime.TotalElapsedSeconds*2) > 0.85f)
 			{
 				_parent.SetNextScreen((_blueprintIndex + 1) % _blueprints.Length);
 			}

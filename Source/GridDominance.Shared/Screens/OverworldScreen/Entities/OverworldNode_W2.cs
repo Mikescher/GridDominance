@@ -15,6 +15,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	class OverworldNode_W2 : OverworldNode_Graph
 	{
+		private const string IAB_CODE = MainGame.IAB_WORLD2;
+
+
 		public OverworldNode_W2(GDOverworldScreen scrn, Vector2 pos) : base(scrn, pos, Levels.WORLD_002)
 		{
 			//
@@ -46,7 +49,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID)) return true;
 				
-				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD2);
+				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(IAB_CODE);
 
 				switch (ip)
 				{
@@ -99,7 +102,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000027")],
 				};
 
-				Owner.HUD.AddModal(new WorldPreviewPanel(previews), true);
+				Owner.HUD.AddModal(new WorldPreviewPanel(previews, Blueprint.ID, IAB_CODE), true, 0.8f, 1f);
 			}
 		}
 	}

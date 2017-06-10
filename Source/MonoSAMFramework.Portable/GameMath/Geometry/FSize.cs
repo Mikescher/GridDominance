@@ -29,6 +29,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public bool IsQuadratic => FloatMath.EpsilonEquals(Width, Height);
 
+		public float Ratio => Width / Height;
+		
 		public override int GetHashCode()
 		{
 			unchecked
@@ -133,6 +135,18 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public DSize RoundToDSize()
 		{
 			return new DSize(FloatMath.Round(Width), FloatMath.Round(Height));
+		}
+
+		[Pure]
+		public FSize ScaleToHeight(float h)
+		{
+			return new FSize(h * Ratio, h);
+		}
+
+		[Pure]
+		public FSize ScaleToWidth(float w)
+		{
+			return new FSize(w, w / Ratio);
 		}
 	}
 }

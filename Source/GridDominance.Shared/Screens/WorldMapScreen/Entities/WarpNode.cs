@@ -61,7 +61,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			var cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 			{
-				// blue lines
 				TextureIndex = 14,
 				SpawnRate = 32,
 				ParticleLifetimeMin = 2.3f,
@@ -101,8 +100,25 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				return;
 			}
 
-			Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, this, Target));
-			MainGame.Inst.GDSound.PlayEffectZoomOut();
+			if (GDConstants.USE_IAB)
+			{
+				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.TargetWorld))
+				{
+					Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, this, Target));
+					MainGame.Inst.GDSound.PlayEffectZoomOut();
+				}
+				else
+				{
+					Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner));
+					MainGame.Inst.GDSound.PlayEffectZoomOut();
+				}
+			}
+			else
+			{
+				Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, this, Target));
+				MainGame.Inst.GDSound.PlayEffectZoomOut();
+			}
+			
 		}
 
 		public void CreatePipe(IWorldNode target, PipeBlueprint.Orientation orientation)

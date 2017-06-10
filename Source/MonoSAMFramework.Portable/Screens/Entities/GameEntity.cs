@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using MonoSAMFramework.Portable.Screens.Entities.Operation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {
@@ -120,6 +121,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 				}
 			}
 			return null;
+		}
+
+		public bool HasActiveOperation(string name)
+		{
+			return ActiveOperations.Any(o => o.Name == name);
 		}
 
 		public GameEntityMouseArea AddMouseArea(IFShape shape, IGameEntityMouseAreaListener listener, bool swallowEvents = true)

@@ -42,20 +42,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\Agents\ExitAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\DebugUtils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\AnonymousAccountPanel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HUDOperations\UnlockSucessOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HUDOperations\UnlockErrorOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\UnlockPanel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\InfoPanel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ChangePasswordPanel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\AttributionsPanel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HighscorePanel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\FullAccountPanel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\HUDOperations\HUDTextBoxBlinkOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AnonymousAccountPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\UnlockSucessOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\UnlockErrorOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\UnlockPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\InfoPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\ChangePasswordPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AttributionsPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\HighscorePanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\FullAccountPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\HUDTextBoxBlinkOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ISettingsOwnerHUD.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\ScoreDisplay.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SettingsButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SubSettingButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Elements\ScoreDisplay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Elements\SettingsButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Elements\SubSettingButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\ParticlePresets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SubSettingClickZone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\TutorialAgent.cs" />
@@ -76,10 +76,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_SP.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\GDPreviewHUD.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDArrowAnimation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDOperations\HUDBlinkingTutorialDifficultyButtonIconOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTouchAnimation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTutorialDifficultyButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDArrowAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Operations\HUDBlinkingTutorialDifficultyButtonIconOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDTouchAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDTutorialDifficultyButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDTutorialScorePanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\LaserNetwork\LaserNetwork.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\LaserNetwork\LaserRay.cs" />
@@ -125,18 +125,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\EntityHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDEntityManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDDifficultyButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDDifficultyButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\GDGameHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\GDHudExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDIncrementIndicatorLabel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDOperations\HUDBlinkingDifficultyButtonIconOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDOperations\HUDDifficultyButtonGainOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDOperations\HUDIncrementIndicatorLabelWiggleOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDPauseMenuButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDIncrementIndicatorLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Operations\HUDBlinkingDifficultyButtonIconOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Operations\HUDDifficultyButtonGainOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Operations\HUDIncrementIndicatorLabelWiggleOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDPauseMenuButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDScorePanel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDSpeedSetButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDSpeedBaseButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDPauseButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDSpeedSetButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDSpeedBaseButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDPauseButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\LeaveTransitionWorldMapAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\LeaveTransitionOverworldAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\WorldMapDragAgent.cs" />
@@ -222,18 +222,6 @@
     <None Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_bd.json" />
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_fd.json" />
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_hd.json" />
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_ld.json" />
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet-sheet_md.json" />
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_bd.png" />
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_fd.png" />
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_hd.png" />
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_ld.png" />
-    <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_md.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\boost.mp3" />
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\button.mp3" />
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\click.mp3" />
@@ -252,5 +240,32 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\reflect.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_bd.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_fd.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_hd.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_ld.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_md.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default_bd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default_fd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default_hd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default_ld.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default_md.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_bd.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_fd.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_hd.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_ld.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_md.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_bd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_fd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_hd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_ld.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_md.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Elements\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\" />
   </ItemGroup>
 </Project>

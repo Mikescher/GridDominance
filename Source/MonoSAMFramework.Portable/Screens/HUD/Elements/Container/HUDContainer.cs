@@ -19,7 +19,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 		// foreground elements get pointer events first
 		// Updates happen back to front, foreground elements last
 		private readonly AlwaysSortList<HUDElement> children = new AlwaysSortList<HUDElement>(new GameHUDElementComparer());
-
+		private readonly Queue<HUDElement> queuedChildren = new Queue<HUDElement>();
+		
 		public int ChildrenCount => children.Count;
 		public override int DeepInclusiveCount => children.Sum(p => p.DeepInclusiveCount) + 1;
 		public int ChildrenMinDepth => children.Any() ? children.Min(c => c.Depth) : -1;
@@ -53,6 +54,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 		{
 			base.Update(gameTime, istate);
 
+			if (Initialized)
+			{
+				while (queuedChildren.Count > 0) AddElement(queuedChildren.Dequeue());
+			}
+			
 			foreach (var element in children.ToList())
 			{
 				element.Update(gameTime, istate);
@@ -87,9 +93,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 
 		public virtual void AddElement(HUDElement e)
 		{
-#if DEBUG
-			if (!Initialized) throw new Exception("Cannot add elements before initialization");
-#endif
+			if (!Initialized)
+			{
+				queuedChildren.Enqueue(e);
+				return;
+			}
 
 			e.Owner = this;
 			e.HUD = HUD;

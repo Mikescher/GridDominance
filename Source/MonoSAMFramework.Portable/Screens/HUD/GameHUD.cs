@@ -87,9 +87,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			}
 		}
 
-		public void AddModal(HUDElement e, bool closeOnOutOfBoundsOrBackKey, float dim = 0f)
+		public void AddModal(HUDElement e, bool closeOnOutOfBoundsOrBackKey, float dim = 0f, float dimTime = 0f)
 		{
-			root.AddElement(new HUDModalDialog(root.ChildrenMaxDepth + 1, e, dim, closeOnOutOfBoundsOrBackKey));
+			root.AddElement(new HUDModalDialog(root.ChildrenMaxDepth + 1, e, dim, dimTime, closeOnOutOfBoundsOrBackKey));
 		}
 
 		public void AddElement(HUDElement e)

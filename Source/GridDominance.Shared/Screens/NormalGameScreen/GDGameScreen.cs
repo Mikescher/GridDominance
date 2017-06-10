@@ -88,7 +88,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public bool HasFinished = false;
 		public float LevelTime = 0f;
 
-		public GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff) : base(game, gdm)
+		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff) : base(game, gdm)
 		{
 			Blueprint = bp;
 			Difficulty = diff;
@@ -115,8 +115,11 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDConstants.PHYSICS_CONVERSION_FACTOR);
 
 #if DEBUG
-			DebugUtils.CreateShortcuts(this);
-			DebugDisp = DebugUtils.CreateDisplay(this);
+			if (!(this is GDGameScreen_Preview))
+			{
+				DebugUtils.CreateShortcuts(this);
+				DebugDisp = DebugUtils.CreateDisplay(this);
+			}
 #endif
 
 			//--------------------

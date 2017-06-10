@@ -15,10 +15,11 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 
 		private FRectangle _boundsCache;
 
-
-
 		private float offsetX = 0.0f; // in device ("real") units
 		private float offsetY = 0.0f; // in device ("real") units
+		
+		private float suboffsetX = 0.0f; // in device ("real") units
+		private float suboffsetY = 0.0f; // in device ("real") units
 
 		private float scaleXY = 1.0f; // scale from subviewport to virtual
 		private float scaleDX = 1.0f; // scale drom deviceviewport to subviewport
@@ -119,11 +120,11 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			scaleDX = subviewport.Width / deviceviewport.Width;
 			scaleDY = subviewport.Height / deviceviewport.Height;
 
-			offsetX = scaleDX * (subviewport.Width - VirtualGuaranteedWidth * scaleXY) / 2;
-			offsetY = scaleDY * (subviewport.Height - VirtualGuaranteedHeight * scaleXY) / 2;
+			offsetX = (subviewport.Width - VirtualGuaranteedWidth * scaleXY) / 2;
+			offsetY = (subviewport.Height - VirtualGuaranteedHeight * scaleXY) / 2;
 
-			offsetX += subviewport.X;
-			offsetY += subviewport.Y;
+			suboffsetX = subviewport.X;
+			suboffsetY = subviewport.Y;
 
 			cachedScaleMatrix = CalculateScaleMatrix();
 			cachedShaderMatrix = CalculateShaderMatrix();
@@ -131,7 +132,7 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 
 		private Matrix CalculateScaleMatrix()
 		{
-			return MatrixExtensions.CreateScaleTranslation(offsetX, offsetY, scaleXY, scaleXY);
+			return MatrixExtensions.CreateScaleTranslation(scaleDX * offsetX + suboffsetX, scaleDY * offsetY + suboffsetY, scaleXY, scaleXY);
 		}
 
 		private Matrix CalculateShaderMatrix()

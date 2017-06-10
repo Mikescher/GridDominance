@@ -31,11 +31,17 @@ namespace GridDominance.Shared.Resources
 		public static Vector2 TEXTURE_SCALE_BD = new Vector2(4.0f);
 		public static Vector2 TEXTURE_SCALE_FD = new Vector2(8.0f);
 
-		public const string TEXTURE_ASSETNAME_HD = "textures/spritesheet-sheet_hd";
-		public const string TEXTURE_ASSETNAME_MD = "textures/spritesheet-sheet_md";
-		public const string TEXTURE_ASSETNAME_LD = "textures/spritesheet-sheet_ld";
-		public const string TEXTURE_ASSETNAME_BD = "textures/spritesheet-sheet_bd";
-		public const string TEXTURE_ASSETNAME_FD = "textures/spritesheet-sheet_fd";
+		public const string TEXTURE_ASSETNAME_HD = "textures/spritesheet_default-sheet_hd";
+		public const string TEXTURE_ASSETNAME_MD = "textures/spritesheet_default-sheet_md";
+		public const string TEXTURE_ASSETNAME_LD = "textures/spritesheet_default-sheet_ld";
+		public const string TEXTURE_ASSETNAME_BD = "textures/spritesheet_default-sheet_bd";
+		public const string TEXTURE_ASSETNAME_FD = "textures/spritesheet_default-sheet_fd";
+
+		public const string TEXTURE_ASSETNAME_2_HD = "textures/spritesheet_extra-sheet_hd";
+		public const string TEXTURE_ASSETNAME_2_MD = "textures/spritesheet_extra-sheet_md";
+		public const string TEXTURE_ASSETNAME_2_LD = "textures/spritesheet_extra-sheet_ld";
+		public const string TEXTURE_ASSETNAME_2_BD = "textures/spritesheet_extra-sheet_bd";
+		public const string TEXTURE_ASSETNAME_2_FD = "textures/spritesheet_extra-sheet_fd";
 
 		public static float DEFAULT_TEXTURE_SCALE_F => DEFAULT_TEXTURE_SCALE.X;
 
@@ -83,9 +89,32 @@ namespace GridDominance.Shared.Resources
 			}
 		}
 
+		public static string TEXTURE_ASSETNAME_2
+		{
+			get
+			{
+				switch (TEXTURE_QUALITY)
+				{
+					case TextureQuality.HD:
+						return TEXTURE_ASSETNAME_2_HD;
+					case TextureQuality.MD:
+						return TEXTURE_ASSETNAME_2_MD;
+					case TextureQuality.LD:
+						return TEXTURE_ASSETNAME_2_LD;
+					case TextureQuality.BD:
+						return TEXTURE_ASSETNAME_2_BD;
+					case TextureQuality.FD:
+						return TEXTURE_ASSETNAME_2_FD;
+					default:
+						throw new ArgumentException();
+				}
+			}
+		}
+
 		#endregion
 
 		public static TextureAtlas AtlasTextures;
+		public static TextureAtlas AtlasExtraTextures;
 
 		#region Textures
 
@@ -185,6 +214,14 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexDifficultyLine3;
 
 		public static TextureRegion2D TexLogo;
+		public static TextureRegion2D TexGenericTitle;
+		public static TextureRegion2D TexDescription2;
+		public static TextureRegion2D TexTitleNumber2;
+		public static TextureRegion2D TexTitleNumber3;
+		public static TextureRegion2D TexTitleNumber4;
+		public static TextureRegion2D TexTitleNumber5;
+		public static TextureRegion2D TexTitleNumber6;
+		public static TextureRegion2D TexTitleNumber7;
 
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
@@ -210,9 +247,18 @@ namespace GridDominance.Shared.Resources
 
 		private static void LoadContent(ContentManager content)
 		{
-			AtlasTextures = content.Load<TextureAtlas>(TEXTURE_ASSETNAME);
+			AtlasTextures      = content.Load<TextureAtlas>(TEXTURE_ASSETNAME);
+			AtlasExtraTextures = content.Load<TextureAtlas>(TEXTURE_ASSETNAME_2);
 
-			TexLogo = new TextureRegion2D(content.Load<Texture2D>("textures/logo"));
+			TexLogo                  = AtlasExtraTextures["logo"];
+			TexGenericTitle          = AtlasExtraTextures["title_generic"];
+			TexDescription2          = AtlasExtraTextures["description_w2"];
+			TexTitleNumber2          = AtlasExtraTextures["title_w2"];
+			TexTitleNumber3          = AtlasExtraTextures["title_w3"];
+			TexTitleNumber4          = AtlasExtraTextures["title_w4"];
+			TexTitleNumber5          = AtlasExtraTextures["title_w5"];
+			TexTitleNumber6          = AtlasExtraTextures["title_w6"];
+			TexTitleNumber7          = AtlasExtraTextures["title_w7"];
 
 			TexTileBorder            = AtlasTextures["grid"];
 

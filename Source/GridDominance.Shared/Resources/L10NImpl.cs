@@ -107,7 +107,14 @@ namespace GridDominance.Shared.Resources
 		public const int STR_IAB_TESTNOCONN     = 83;
 		public const int STR_IAB_TESTINPROGRESS = 84;
 
-		private const int TEXT_COUNT = 87; // = next idx
+		public const int STR_IAB_BUYERR        = 88;
+		public const int STR_IAB_BUYNOCONN     = 89;
+		public const int STR_IAB_BUYNOTREADY   = 90;
+		public const int STR_IAB_BUYSUCESS     = 91;
+
+		public const int STR_PREV_BUYNOW        = 87;
+
+		private const int TEXT_COUNT = 92; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -200,6 +207,11 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_IAB_TESTINPROGRESS, "Payment in progress",                                         "Zahlung wird verarbeitet"                                             );
 			L10N.Add(STR_UNLOCK,             "Promotion Code",                                              "Freischaltungs Code"                                                  );
 			L10N.Add(STR_GLOB_UNLOCKSUCCESS, "Upgraded game to full version!",                              "Spiel wurde zur Vollversion aufgewertet"                              );
+			L10N.Add(STR_PREV_BUYNOW,        "Unlock now",                                                  "Jetzt freischalten"                                                   );
+			L10N.Add(STR_IAB_BUYERR,         "Error connecting to Google Play services",                    "Fehler beim Versuch mit Google Play zu verbinden"                     );
+			L10N.Add(STR_IAB_BUYNOCONN,      "No connection to Google Play services",                       "Keine Verbindung zu Google Play services"                             );
+			L10N.Add(STR_IAB_BUYNOTREADY,    "Connection to Google Play services not ready",                "Verbindung zu Google Play services nicht bereit"                      );
+			L10N.Add(STR_IAB_BUYSUCESS,      "World sucesfully purchased",                                  "Levelpack wurde erfolgreich erworben"                                 );
 
 #if DEBUG
 			L10N.Verify();

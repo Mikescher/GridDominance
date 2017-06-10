@@ -201,6 +201,7 @@
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDImageButton.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDTextButton.cs" />
+    <Compile Include="Screens\HUD\Elements\Container\HUDLayoutContainer.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDIconTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDSimpleTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDTextBox.cs" />

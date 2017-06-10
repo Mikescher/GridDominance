@@ -9,13 +9,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 {
 	class OverworldScrollAgent : GameScreenAgent
 	{
+		private const float MIN_DRAG   = 0.2f * GDConstants.TILE_WIDTH;
+		
 		private const float PADDING_X  = 2.5f * GDConstants.TILE_WIDTH;
 		private const float POSITION_Y = 6.5f * GDConstants.TILE_WIDTH;
 
 		private const float DIST_X     = 5.0f * GDConstants.TILE_WIDTH;
 		private const float MIN_DIST_X = 3.5f * GDConstants.TILE_WIDTH;
 
-		private const float FORCE      = 500f;  // [(m/s²)/m] = [1/s²]
+		private const float FORCE      = 150f;  // [(m/s²)/m] = [1/s²]
 		private const float DRAG       = 0.8f; // %
 		private const float MIN_SPEED  = 32f; // %
 
@@ -31,11 +33,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 
 		private float dragStartTime = 0f;
 		private bool isDragging = false;
+		private bool isActiveDragging = false;
 		private float mouseStartPos;
 		private float offsetStart;
 		private int dragAnchor;
 		private DragMode dragMode;
 
+		private bool _sleep = true;
+		
 		public OverworldScrollAgent(GDOverworldScreen scrn, OverworldNode[] nodes) : base(scrn)
 		{
 			_nodes = nodes;
@@ -86,6 +91,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				if (_nodes[i].DrawingBoundingRect.Contains(istate.GamePointerPositionOnMap))
 				{
 					isDragging = true;
+					isActiveDragging = false;
 					mouseStartPos = istate.GamePointerPositionOnMap.X;
 					offsetStart = _nodes[i].NodePos.X;
 					dragAnchor = i;
@@ -109,6 +115,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			if (dragMode == DragMode.Node)
 			{
 				var delta = (istate.GamePointerPositionOnMap.X - mouseStartPos);
+
+				isActiveDragging |= FloatMath.Abs(delta) > MIN_DRAG;
+				if (!isActiveDragging) return;
 
 				_values[dragAnchor].SetDirect(offsetStart + delta);
 
@@ -136,6 +145,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			{
 				var delta = (istate.GamePointerPositionOnMap.X - mouseStartPos);
 
+				isActiveDragging |= FloatMath.Abs(delta) > MIN_DRAG;
+				if (!isActiveDragging) return;
+				
 				for (int i = 0; i < _nodes.Length; i++)
 				{
 					_values[i].Set(offsetStart + delta + i * DIST_X);
@@ -145,6 +157,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			}
 			
 			UpdateOffsets(gameTime, istate);
+			_sleep = false;
 		}
 
 		private void EndDrag()
@@ -164,7 +177,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 					_values[i].Set(PADDING_X + i * DIST_X);
 				}
 			}
-			else if (_values[_values.Length-1].TargetValue > Screen.VAdapterGame.VirtualTotalWidth - PADDING_X)
+			else if (_values[_values.Length-1].TargetValue > GDConstants.VIEW_WIDTH - PADDING_X)
 			{
 				var n0 = GDConstants.VIEW_WIDTH - PADDING_X - ((_values.Length - 1) * DIST_X);
 
@@ -177,19 +190,29 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 
 		private void UpdateIdle(SAMTime gameTime, InputState istate)
 		{
+			if (_sleep) return;
+			
 			UpdateOffsets(gameTime, istate);
 		}
 
 		private void UpdateOffsets(SAMTime gameTime, InputState istate)
 		{
-			for (int i = 0; i < _values.Length; i++) _values[i].Update(gameTime, istate);
+			for (int i = 0; i < _values.Length; i++)
+			{
+				if (_nodes[i].HasActiveOperation("OverworldNode::Shake")) continue;
+				_values[i].Update(gameTime, istate);
+			}
 
+			_sleep = true;
 			for (int i = 0; i < _values.Length; i++)
 			{
 				if (!FloatMath.EpsilonEquals(_nodes[i].NodePos.X, _values[i].Value, 0.01f))
 				{
+					if (_nodes[i].HasActiveOperation("OverworldNode::Shake")) continue;
+					
 					_nodes[i].NodePos.X = _values[i].Value;
 					_nodes[i].NodePos.Y = POSITION_Y;
+					_sleep = false;
 				}
 			}
 		}

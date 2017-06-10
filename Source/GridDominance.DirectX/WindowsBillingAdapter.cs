@@ -6,7 +6,7 @@ namespace GridDominance.Windows
 {
 	class WindowsEmulatingBillingAdapter : IBillingAdapter
 	{
-		public bool IsConnected => throw new NotImplementedException();
+		public bool IsConnected => true;
 
 		private readonly List<string> _purchased = new List<string>();
 

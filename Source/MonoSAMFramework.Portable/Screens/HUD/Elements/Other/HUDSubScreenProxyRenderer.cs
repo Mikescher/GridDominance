@@ -20,6 +20,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		public HUDSubScreenProxyRenderer(GameScreen child)
 		{
 			_child = child;
+			_child.VAdapterGame = _child.VAdapterGame.CreateProxyAdapter(this);
+			_child.VAdapterHUD = _child.VAdapterHUD.CreateProxyAdapter(this);
+			_child.HUD.RecalculateAllElementPositions();
+			_child.HUD.Validate();
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
@@ -34,17 +38,19 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			_child.Remove();
 			_child = newchild;
 
-			_child.VAdapterGame = _child.VAdapterHUD.CreateProxyAdapter(this);
+			_child.VAdapterGame = _child.VAdapterGame.CreateProxyAdapter(this);
 			_child.VAdapterHUD  = _child.VAdapterHUD.CreateProxyAdapter(this);
+			_child.HUD.RecalculateAllElementPositions();
+			_child.HUD.Validate();
 			_child.Show();
+			
+			_child.Update(MonoSAMGame.CurrentTime);
 		}
 
 		public override void OnInitialize()
 		{
 			HUD.Screen.RegisterProxyScreenProvider(this);
 
-			_child.VAdapterGame = _child.VAdapterHUD.CreateProxyAdapter(this);
-			_child.VAdapterHUD  = _child.VAdapterHUD.CreateProxyAdapter(this);
 			_child.Show();
 
 			_boundsBackup = HUD.Screen.VAdapterHUD.ScreenToRect(BoundingRectangle);
@@ -64,6 +70,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		protected override void OnAfterRecalculatePosition()
 		{
 			_boundsBackup = HUD.Screen.VAdapterHUD.ScreenToRect(BoundingRectangle);
+			_child.VAdapterGame.Update();
+			_child.VAdapterHUD.Update();
+			_child.HUD.RecalculateAllElementPositions();
+			_child.HUD.Validate();
 		}
 	}
 }
