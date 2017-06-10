@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using System.Collections.Generic;
 using GridDominance.Levelfileformat.Blueprint;
 using System;
+using GridDominance.Shared.Screens.OverworldScreen.HUD;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -87,7 +88,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			}
 			else
 			{
-				LevelBlueprint[] previews = new LevelBlueprint[] 
+				LevelBlueprint[] previews =
 				{
 					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000019")],
 					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000015")],
@@ -98,7 +99,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000002000027")],
 				};
 
-				MainGame.Inst.SetPreviewScreen(previews);
+				Owner.HUD.AddModal(new WorldPreviewPanel(previews), true);
 			}
 		}
 	}

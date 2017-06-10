@@ -106,7 +106,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public bool Focusable = true;
 		public bool IsFocused => HUD != null && HUD.FocusedElement == this;
 
-		public abstract int Depth { get; }
+		public abstract int Depth { get; }// higher depth => in foreground
 
 		protected HUDElement()
 		{

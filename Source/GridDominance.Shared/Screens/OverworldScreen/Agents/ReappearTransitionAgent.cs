@@ -14,7 +14,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 	{
 		private const float DURATION = 0.5f; // sec
 
-		private readonly TolerantBoxingViewportAdapter vp;
+		private readonly SAMViewportAdapter vp;
 
 		private readonly FRectangle rectStart;
 		private readonly FRectangle rectFinal;
@@ -24,7 +24,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		public ReappearTransitionAgent(GDOverworldScreen scrn, GraphBlueprint g) : base(scrn, DURATION)
 		{
 			_gdNode = scrn.GetEntities<OverworldNode>().First(n => n.ContentID == g.ID);
-			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
+			vp = scrn.VAdapterGame;
 
 			rectStart = FRectangle.CreateByCenter(_gdNode.Position, new FSize(1.8f * GDConstants.TILE_WIDTH, 1.8f * GDConstants.TILE_WIDTH))
 				.SetRatioUnderfitKeepCenter(GDConstants.VIEW_WIDTH * 1f / GDConstants.VIEW_HEIGHT);

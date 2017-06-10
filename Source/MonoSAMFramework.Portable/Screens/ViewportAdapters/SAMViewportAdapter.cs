@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 {
@@ -67,10 +69,19 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 
 		public abstract Matrix GetScaleMatrix();
 		public abstract Matrix GetShaderMatrix();
+		public abstract Matrix GetFarseerDebugProjectionMatrix();
+		public abstract void ChangeVirtualSize(float virtualWidth, float virtualHeight);
 
 		//public Rectangle BoundingRectangle => new Rectangle(0, 0, VirtualWidth, VirtualHeight);
 		//public Point Center => BoundingRectangle.Center;
 
+		public FRectangle ScreenToRect(FRectangle point) // virtual to real
+		{
+			var p1 = ScreenToPoint(point.TopLeft);
+			var p2 = ScreenToPoint(point.BottomRight);
+			return new FRectangle(p1, p2);
+		}
+		
 		public FPoint PointToScreen(Point point) // real to virtual
 		{
 			return PointToScreen(point.X, point.Y);
@@ -94,6 +105,14 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			return Vector2.Transform(new Vector2(x, y), scaleMatrix).ToFPoint();
 		}
 
-		public virtual void Reset() { }
+		public virtual FPoint ScreenToPoint(FPoint fp) // virtual to real
+		{
+			var scaleMatrix = GetScaleMatrix();
+			return Vector2.Transform(new Vector2(fp.X, fp.Y), scaleMatrix).ToFPoint();
+		}
+
+		public abstract SAMViewportAdapter CreateProxyAdapter(IProxyScreenProvider p);
+		
+		public virtual void Update() { }
 	}
 }

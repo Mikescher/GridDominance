@@ -32,12 +32,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			Height = height;
 		}
 
-		public FRectangle(FPoint location, FPoint size)
+		public FRectangle(FPoint p1, FPoint p2)
 		{
-			X = location.X;
-			Y = location.Y;
-			Width = size.X;
-			Height = size.Y;
+			X = p1.X;
+			Y = p1.Y;
+			Width = p2.X - p1.X;
+			Height = p2.Y - p1.Y;
 		}
 
 		public FRectangle(FPoint location, FSize size)
@@ -472,6 +472,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public Rectangle Round()
 		{
 			return new Rectangle(FloatMath.Round(X), FloatMath.Round(Y), FloatMath.Round(Width), FloatMath.Round(Height));
+		}
+
+		[Pure]
+		public Rectangle CeilOutwards()
+		{
+			return new Rectangle((int)X, (int)Y, FloatMath.Ceiling(Width), FloatMath.Ceiling(Height));
 		}
 
 		[Pure]

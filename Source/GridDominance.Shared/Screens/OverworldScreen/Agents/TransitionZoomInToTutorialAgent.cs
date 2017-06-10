@@ -14,7 +14,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 	{
 		private const float DURATION = 0.5f; // sec
 
-		private readonly TolerantBoxingViewportAdapter vp;
+		private readonly SAMViewportAdapter vp;
 
 		private readonly FRectangle rectStart;
 		private readonly FRectangle rectFinal;
@@ -24,7 +24,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		public TransitionZoomInToTutorialAgent(GDOverworldScreen scrn, OverworldNode_Tutorial node) : base(scrn, DURATION)
 		{
 			_gdNode = node;
-			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
+			vp = scrn.VAdapterGame;
 
 			rectStart = scrn.GuaranteedMapViewport;
 

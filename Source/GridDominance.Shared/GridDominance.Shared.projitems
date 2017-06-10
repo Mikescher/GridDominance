@@ -99,6 +99,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\OverworldHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\WorldPreviewPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\OverworldEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\GDOverworldScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\GDStaticGridBackground.cs" />

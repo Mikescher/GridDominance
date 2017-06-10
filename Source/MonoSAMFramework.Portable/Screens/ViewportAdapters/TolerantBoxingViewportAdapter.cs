@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.Extensions;
 using System;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 {
@@ -12,8 +14,8 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 
 		private float scaleXY = 1.0f;
 
-		private readonly GameWindow _window;
-		private readonly GraphicsDeviceManager _graphicsDeviceManager;
+		public readonly GameWindow Window;
+		public readonly GraphicsDeviceManager GraphicsDeviceManager;
 
 		private float _virtualGuaranteedWidth;
 		private float _virtualGuaranteedHeight;
@@ -44,11 +46,11 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 		public override Matrix GetScaleMatrix() => cachedScaleMatrix;
 		public override Matrix GetShaderMatrix() => cachedShaderMatrix;
 
-		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDeviceManager graphicsDeviceManager, int virtualWidth, int virtualHeight)
+		public TolerantBoxingViewportAdapter(GameWindow window, GraphicsDeviceManager graphicsDeviceManager, float virtualWidth, float virtualHeight)
 			: base(graphicsDeviceManager.GraphicsDevice)
 		{
-			_window = window;
-			_graphicsDeviceManager = graphicsDeviceManager;
+			Window = window;
+			GraphicsDeviceManager = graphicsDeviceManager;
 
 			_virtualGuaranteedWidth = virtualWidth;
 			_virtualGuaranteedHeight = virtualHeight;
@@ -58,7 +60,7 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			UpdateMatrix();
 		}
 
-		public void ChangeVirtualSize(float virtualWidth, float virtualHeight)
+		public override void ChangeVirtualSize(float virtualWidth, float virtualHeight)
 		{
 			_virtualGuaranteedWidth = virtualWidth;
 			_virtualGuaranteedHeight = virtualHeight;
@@ -71,11 +73,11 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			// Needed for DirectX rendering
 			// see http://gamedev.stackexchange.com/questions/68914/issue-with-monogame-resizing
 
-			if (_graphicsDeviceManager.PreferredBackBufferWidth != _window.ClientBounds.Width || _graphicsDeviceManager.PreferredBackBufferHeight != _window.ClientBounds.Height)
+			if (GraphicsDeviceManager.PreferredBackBufferWidth != Window.ClientBounds.Width || GraphicsDeviceManager.PreferredBackBufferHeight != Window.ClientBounds.Height)
 			{
-				_graphicsDeviceManager.PreferredBackBufferWidth = _window.ClientBounds.Width;
-				_graphicsDeviceManager.PreferredBackBufferHeight = _window.ClientBounds.Height;
-				_graphicsDeviceManager.ApplyChanges();
+				GraphicsDeviceManager.PreferredBackBufferWidth = Window.ClientBounds.Width;
+				GraphicsDeviceManager.PreferredBackBufferHeight = Window.ClientBounds.Height;
+				GraphicsDeviceManager.ApplyChanges();
 			}
 
 			UpdateMatrix();
@@ -115,9 +117,14 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 			return Matrix.CreateOrthographicOffCenter(VirtualTotalBoundingBoxLeft, VirtualTotalBoundingBoxRight, VirtualTotalBoundingBoxBottom, VirtualTotalBoundingBoxTop, -1024, +1024);
 		}
 
-		public Matrix GetFarseerDebugProjectionMatrix()
+		public override Matrix GetFarseerDebugProjectionMatrix()
 		{
 			return Matrix.CreateScale(new Vector3(scaleXY, scaleXY, 1)) * Matrix.CreateTranslation(offsetX, offsetY, 0) * Matrix.CreateOrthographicOffCenter(0f, RealTotalWidth, RealTotalHeight, 0f, 0f, 1f);
+		}
+
+		public override SAMViewportAdapter CreateProxyAdapter(IProxyScreenProvider p)
+		{
+			return new TolerantBoxingProxyViewportAdapter(this, p);
 		}
 	}
 }

@@ -128,5 +128,11 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			return new FSize(Math.Max(Width, minwidth), Math.Max(Height, minheight));
 		}
+
+		[Pure]
+		public DSize RoundToDSize()
+		{
+			return new DSize(FloatMath.Round(Width), FloatMath.Round(Height));
+		}
 	}
 }

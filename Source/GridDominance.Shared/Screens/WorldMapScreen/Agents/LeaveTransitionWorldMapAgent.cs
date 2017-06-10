@@ -11,7 +11,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 	{
 		private const float DURATION = 1.0f; // sec
 
-		private readonly TolerantBoxingViewportAdapter vp;
+		private readonly SAMViewportAdapter vp;
 
 		private readonly FRectangle rectStart;
 		private readonly FRectangle rectFinal;
@@ -25,7 +25,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			_gdScreen = scrn;
 			_node = node;
 			_target = target;
-			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
+			vp = scrn.VAdapterGame;
 
 			rectStart = scrn.GuaranteedMapViewport;
 

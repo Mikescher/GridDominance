@@ -51,7 +51,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 		public GDWorldHUD GDHUD => (GDWorldHUD) HUD;
 		public WorldMapBackground GDBackground => (WorldMapBackground) Background;
-		public TolerantBoxingViewportAdapter GDGameAdapter => (TolerantBoxingViewportAdapter) VAdapterGame;
 
 		protected override EntityManager CreateEntityManager() => new GDWorldMapEntityManager(this);
 		protected override GameHUD CreateHUD() => new GDWorldHUD(this);
@@ -169,7 +168,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			GDBackground.GridLineAlpha = 0f;
 
 			var bounds = Graph.BoundingViewport;
-			GDGameAdapter.ChangeVirtualSize(bounds.Width, bounds.Height);
+			VAdapterGame.ChangeVirtualSize(bounds.Width, bounds.Height);
 			MapViewportCenterX = bounds.CenterX;
 			MapViewportCenterY = bounds.CenterY;
 

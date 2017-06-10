@@ -14,6 +14,7 @@ using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.Screens
 {
@@ -60,9 +61,10 @@ namespace MonoSAMFramework.Portable.Screens
 		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY, VAdapterGame.VirtualTotalWidth, VAdapterGame.VirtualTotalHeight);
 		public FRectangle MapFullBounds { get; protected set; }
 
-
-		private List<GameScreenAgent> agents;
-
+		private readonly List<GameScreenAgent> agents = new List<GameScreenAgent>();
+		private readonly List<IProxyScreenProvider> _proxyScreens = new List<IProxyScreenProvider>();
+		private bool _clearScreenOnDraw = true;
+		
 #if DEBUG
 		public int LastDebugRenderSpriteCount   => FixedBatch.LastDebugRenderSpriteCount   + TranslatedBatch.LastDebugRenderSpriteCount + DebugDisp.LastRenderSpriteCount;
 		public int LastReleaseRenderSpriteCount => FixedBatch.LastReleaseRenderSpriteCount + TranslatedBatch.LastReleaseRenderSpriteCount;
@@ -93,7 +95,6 @@ namespace MonoSAMFramework.Portable.Screens
 			Background = CreateBackground();
 
 			Entities = CreateEntityManager();
-			agents = new List<GameScreenAgent>();
 
 			DebugDisp = new DummyDebugTextDisplay();
 
@@ -122,14 +123,11 @@ namespace MonoSAMFramework.Portable.Screens
 			UPSCounter.StartCycle(gameTime);
 #endif
 			var state = InputStateMan.GetNewState(MapOffsetX, MapOffsetY);
-
-			//if (state.IsKeyDown(SKeys.Escape) || state.IsKeyDown(SKeys.AndroidBack)) Game.Exit(); //TODO remove me from framework and better handling in user code
-
+			
 #if DEBUG
 			DebugSettings.Update(state);
 			GCMonitor.Update(gameTime, state);
 #endif
-
 
 			if (FloatMath.IsZero(GameSpeed))
 			{
@@ -204,23 +202,37 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public override void Draw(SAMTime gameTime)
 		{
+			InternalDraw(gameTime, null);
+		}
+		
+		private void InternalDraw(SAMTime gameTime, Rectangle? scissor)
+		{
 #if DEBUG
 			FPSCounter.StartCycle(gameTime);
 #endif
+			VAdapterGame.Update();
+			VAdapterHUD.Update();
+			
+			if (_clearScreenOnDraw) Graphics.GraphicsDevice.Clear(Color.Magenta);
+
 			// Update Top Down  (Debug -> HUD -> Entities -> BG)
 			// Render Bottom Up (BG -> Entities -> GPU_Particle -> HUD -> Debug)
 
 			var bts = GetBaseTextureScale();
-
-			Graphics.GraphicsDevice.Clear(Color.Magenta);
-
 			var mat = Matrix.CreateTranslation(MapOffsetX, MapOffsetY, 0) * VAdapterGame.GetScaleMatrix();
-
 
 			// ======== GAME =========
 
 			TranslatedBatch.OnBegin(bts);
-			InternalBatch.Begin(transformMatrix: mat);
+			if (scissor == null)
+			{
+				InternalBatch.Begin(transformMatrix: mat);
+			}
+			else
+			{
+				GraphicsDevice.ScissorRectangle = scissor.Value;
+				InternalBatch.Begin(transformMatrix: mat, rasterizerState: new RasterizerState{ScissorTestEnable = true});
+			}
 			try
 			{
 				Background.Draw(TranslatedBatch);
@@ -244,7 +256,16 @@ namespace MonoSAMFramework.Portable.Screens
 			// ======== HUD ==========
 
 			FixedBatch.OnBegin(bts);
-			InternalBatch.Begin(transformMatrix: VAdapterHUD.GetScaleMatrix());
+
+			if (scissor == null)
+			{
+				InternalBatch.Begin(transformMatrix: VAdapterHUD.GetScaleMatrix());
+			}
+			else
+			{
+				GraphicsDevice.ScissorRectangle = scissor.Value;
+				InternalBatch.Begin(transformMatrix: VAdapterHUD.GetScaleMatrix(), rasterizerState: new RasterizerState { ScissorTestEnable = true });
+			}
 			try
 			{
 				GameHUD.Draw(FixedBatch);
@@ -268,14 +289,21 @@ namespace MonoSAMFramework.Portable.Screens
 				Entities.DrawOuterDebug();
 				DebugDisp.Draw();
 			}
-
 #endif
+
+			foreach (var proxy in _proxyScreens)
+			{
+				if (proxy.ProxyTargetBounds.IsEmpty) continue;
+				proxy.Proxy._clearScreenOnDraw = false;
+
+				proxy.Proxy.InternalDraw(gameTime, proxy.ProxyTargetBounds.CeilOutwards());
+			}
 
 #if DEBUG
 			FPSCounter.EndCycle();
 #endif
 		}
-
+		
 #if DEBUG
 		private void DrawScreenDebug(IBatchRenderer sbatch)
 		{
@@ -339,6 +367,16 @@ namespace MonoSAMFramework.Portable.Screens
 		public FPoint TranslateGameToHUDCoordinates(float x, float y)
 		{
 			return VAdapterHUD.PointToScreen(VAdapterGame.ScreenToPoint(x, y));
+		}
+
+		public void RegisterProxyScreenProvider(IProxyScreenProvider p)
+		{
+			_proxyScreens.Add(p);
+		}
+
+		public void DeregisterProxyScreenProvider(IProxyScreenProvider p)
+		{
+			_proxyScreens.Remove(p);
 		}
 
 		protected abstract void OnUpdate(SAMTime gameTime, InputState istate);

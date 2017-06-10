@@ -59,7 +59,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			if ((_runtime += gameTime.RealtimeElapsedSeconds) > PREVIEW_TIME)
 			{
-				MainGame.Inst.SetPreviewScreen(_blueprints, (_blueprintIndex + 1) % _blueprints.Length);
+				//TODO Exchange in owning panel
+				//MainGame.Inst.SetPreviewScreen(_blueprints, (_blueprintIndex + 1) % _blueprints.Length);
 			}
 		}
 

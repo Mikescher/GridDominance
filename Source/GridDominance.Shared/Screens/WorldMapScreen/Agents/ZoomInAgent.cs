@@ -11,7 +11,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 	{
 		private const float DURATION = 0.6f; // sec
 
-		private readonly TolerantBoxingViewportAdapter vp;
+		private readonly SAMViewportAdapter vp;
 
 		private readonly FRectangle rectStart;
 		private readonly FRectangle rectFinal;
@@ -21,7 +21,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		public ZoomInAgent(GDWorldMapScreen scrn, FPoint pos) : base(scrn, DURATION)
 		{
 			_gdScreen = scrn;
-			vp = (TolerantBoxingViewportAdapter) scrn.VAdapterGame;
+			vp = scrn.VAdapterGame;
 
 			rectStart = scrn.GuaranteedMapViewport;
 

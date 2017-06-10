@@ -65,7 +65,9 @@ namespace GridDominance.Shared.NormalGameScreen
 		public override void DrawOuterDebug()
 		{
 #if DEBUG
-			var pMatrix = ((TolerantBoxingViewportAdapter)GDOwner.VAdapterGame).GetFarseerDebugProjectionMatrix();
+			
+			
+			var pMatrix = GDOwner.VAdapterGame.GetFarseerDebugProjectionMatrix();
 			var vMatrix = Matrix.CreateScale(GDConstants.PHYSICS_CONVERSION_FACTOR);
 			debugView.RenderDebugData(ref pMatrix, ref vMatrix);
 #endif

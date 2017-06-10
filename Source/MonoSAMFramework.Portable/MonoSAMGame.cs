@@ -16,7 +16,7 @@ namespace MonoSAMFramework.Portable
 		private ScreenManager screens;
 		private readonly CustomDispatcher gameDispatcher = new CustomDispatcher();
 
-		protected readonly GraphicsDeviceManager Graphics;
+		public readonly GraphicsDeviceManager Graphics;
 
 		public static ulong GameCycleCounter { get; private set; }
 		public static SAMTime CurrentTime { get; private set; }
