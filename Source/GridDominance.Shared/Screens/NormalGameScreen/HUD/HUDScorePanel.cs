@@ -5,6 +5,7 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -336,36 +337,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		private Tuple<LevelBlueprint, FractionDifficulty> GetNextNode()
 		{
-			var currNode = GDScreen.WorldBlueprint.Nodes.FirstOrDefault(n => n.LevelID == GDScreen.Blueprint.UniqueID);
-			if (currNode.LevelID == Guid.Empty) return null;
-
-			var diff = GDScreen.Difficulty;
-
-			// unfinished next node
-			foreach (var lid in currNode.OutgoingPipes.OrderBy(p => p.Priority))
-			{
-				var node = GDScreen.WorldBlueprint.Nodes.FirstOrDefault(n => n.LevelID == lid.Target);
-				if (node.LevelID == Guid.Empty) continue;
-				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
-			}
-
-			// any next node
-			foreach (var lid in currNode.OutgoingPipes.OrderBy(p => p.Priority))
-			{
-				var node = GDScreen.WorldBlueprint.Nodes.FirstOrDefault(n => n.LevelID == lid.Target);
-				if (node.LevelID == Guid.Empty) continue;
-
-				return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
-			}
-
-			// unfinished any node
-			foreach (var node in GDScreen.WorldBlueprint.Nodes)
-			{
-				if (!MainGame.Inst.Profile.GetLevelData(node.LevelID).HasCompleted(diff)) return Tuple.Create(Levels.LEVELS[node.LevelID], diff);
-			}
-
-			// none
-			return null;
+			var x = BlueprintAnalyzer.FindNextNode(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID, GDScreen.Difficulty);
+			if (x == null) return null;
+			
+			return Tuple.Create(Levels.LEVELS[x.Value.LevelID], GDScreen.Difficulty);
 		}
 	}
 }

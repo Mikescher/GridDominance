@@ -197,43 +197,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			}
 #endif
 		}
-
+		
 		public IWorldNode GetInitialNode()
 		{
-			IWorldNode n;
-
-			n = GetInitialNode(FractionDifficulty.DIFF_0);
-			if (n != null) return n;
-
-			n = GetInitialNode(FractionDifficulty.DIFF_1);
-			if (n != null) return n;
-
-			n = GetInitialNode(FractionDifficulty.DIFF_2);
-			if (n != null) return n;
-
-			n = GetInitialNode(FractionDifficulty.DIFF_3);
-			if (n != null) return n;
-
-			return Graph.InitialNode; // can happen when all completed
-		}
-
-		private IWorldNode GetInitialNode(FractionDifficulty d)
-		{
-			return FindNextUnfinishedNode(Graph.InitialNode, d);
-		}
-
-		private IWorldNode FindNextUnfinishedNode(IWorldNode node, FractionDifficulty d)
-		{
-			foreach (var next in node.NextLinkedNodes)
+			var n = BlueprintAnalyzer.FindInitialNode(GraphBlueprint);
+			if (n != null)
 			{
-				var lnode = next as LevelNode;
-				if (lnode != null && !lnode.LevelData.HasCompleted(d)) return lnode;
-
-				var rec = FindNextUnfinishedNode(next, d);
-				if (rec != null) return rec;
+				var l = Graph.FindNode(n);
+				if (l != null) return l;
 			}
 
-			return null;
+			return Graph.InitialNode; // fallback
 		}
 	}
 }

@@ -142,5 +142,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				.SetRatioOverfitKeepCenter(GDConstants.VIEW_WIDTH * 1f / GDConstants.VIEW_HEIGHT);
 		}
 
+		public IWorldNode FindNode(INodeBlueprint bp)
+		{
+			return Nodes.FirstOrDefault(n => n.ConnectionID == bp.ConnectionID);
+		}
 	}
 }

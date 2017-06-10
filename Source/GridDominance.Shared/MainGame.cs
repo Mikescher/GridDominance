@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network;
@@ -244,7 +245,7 @@ namespace GridDominance.Shared
 
 
 #if DEBUG
-			SAMLog.Debug("Profile saved");
+			SAMLog.Debug($"Profile saved ({sdata.Length})");
 
 			try
 			{
@@ -254,12 +255,14 @@ namespace GridDominance.Shared
 
 				if (sdata2 != sdata)
 				{
-					SAMLog.Warning("Serialization", "Serialization test mismatch", $"Data_1:\n{sdata}\n\n----------------\n\nData_2:\n{sdata2}");
+					SAMLog.Error("Serialization", "Serialization test mismatch", $"Data_1:\n{sdata}\n\n----------------\n\nData_2:\n{sdata2}");
+					Debugger.Break();
 				}
 			}
 			catch (Exception e)
 			{
-				SAMLog.Warning("Serialization", "Serialization test mismatch", e.ToString());
+				SAMLog.Error("Serialization", "Serialization test mismatch", e.ToString());
+				Debugger.Break();
 			}
 #endif
 		}

@@ -143,6 +143,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\ZoomInAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Agents\ZoomOutAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Background\WorldMapBackground.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\BlueprintAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\ConnectionOrb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\EntityOperations\ScreenShakeAndCenterOperation2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\EntityOperations\ScreenShakeAndCenterOperation.cs" />
