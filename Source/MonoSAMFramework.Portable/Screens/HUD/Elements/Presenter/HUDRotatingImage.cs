@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MonoSAMFramework.Portable.GameMath;
+﻿using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 
-namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter
 {
 	public class HUDRotatingImage : HUDImage
 	{

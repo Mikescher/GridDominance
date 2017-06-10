@@ -16,6 +16,8 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Table;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {

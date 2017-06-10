@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -8,14 +7,14 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 
-namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 {
 	public class HUDScrollTable : HUDElement
 	{
 		private sealed class HSTColumn { public string Text; public float? Width; public float RealWidth; }
 		private sealed class HSTRow { public string[] Data; public Color? ForegroundOverride; }
 
-		private const float DRAGSPEED_RESOLUTION = 0.01f;
+		private const int   DRAGSPEED_RESOLUTION = 1;
 		private const float SPEED_MIN            = 24;
 		private const float SPEED_MAX            = 128;
 		private const float FRICTION             = 10;
@@ -40,7 +39,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		private float mouseStartPos;
 		private float startOffset;
 		private float lastMousePos;
-		private float lastMousePosTimer;
+		private float lastMousePosTime;
+		private ulong lastMousePosTick;
 		private float dragSpeed;
 
 		private readonly List<HSTColumn> _columns = new List<HSTColumn>();
@@ -162,7 +162,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			//
 		}
 
-		protected override void DoUpdate(SAMTime gameTime, InputState istate) //TODO RestDrag does not really work good
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			if (_needsTabRecalc) RecalcTabData();
 
@@ -242,7 +242,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 			dragSpeed = 0;
 			lastMousePos = istate.GamePointerPosition.Y;
-			lastMousePosTimer = 0f;
+			lastMousePosTick = MonoSAMGame.GameCycleCounter;
+			lastMousePosTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
 			isDragging = true;
 		}
@@ -257,12 +258,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			if (ScrollPosition < 0) ScrollPosition = 0;
 			if (ScrollPosition > _maxScrollPosition) ScrollPosition = _maxScrollPosition;
 
-			lastMousePosTimer += gameTime.ElapsedSeconds;
-			if (lastMousePosTimer > DRAGSPEED_RESOLUTION)
+			if (MonoSAMGame.GameCycleCounter - lastMousePosTick > DRAGSPEED_RESOLUTION)
 			{
-				dragSpeed = (istate.GamePointerPosition.Y - lastMousePos) / lastMousePosTimer;
+				dragSpeed = (istate.GamePointerPosition.Y - lastMousePos) / (gameTime.TotalElapsedSeconds - lastMousePosTime);
 
-				lastMousePosTimer = 0f;
+				lastMousePosTick = MonoSAMGame.GameCycleCounter;
+				lastMousePosTime = gameTime.TotalElapsedSeconds;
 				lastMousePos = istate.GamePointerPosition.Y;
 			}
 		}

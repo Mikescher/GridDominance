@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
-using MonoSAMFramework.Portable.RenderHelper;
 
-namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
+namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter
 {
 	public class HUDCharacterControl : HUDContainer
 	{
