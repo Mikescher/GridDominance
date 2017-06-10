@@ -247,10 +247,10 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		private static List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, LaserCannonBlueprint cannon, float deg)
 		{
-			return FindLaserPaths(lvl, wBase, wCollision, cannon.CannonID, new Vector2(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, MAX_COUNT_REFLECT, false);
+			return FindLaserPaths(lvl, wBase, wCollision, cannon.CannonID, new Vector2(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, deg * FloatMath.DegRad, MAX_COUNT_REFLECT, false);
 		}
 
-		private static List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, Vector2 rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, int remainingRecasts, bool inGlassBlock)
+		private static List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, Vector2 rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, float cannonRadians, int remainingRecasts, bool inGlassBlock)
 		{
 			var none = new List<Tuple<BulletPathBlueprint, float>>();
 			if (remainingRecasts <= 0) return none;
@@ -280,7 +280,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 				var quality = FloatMath.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
 				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
-				var path = new BulletPathBlueprint(fCannon.CannonID, startRadians, rays.ToArray());
+				var path = new BulletPathBlueprint(fCannon.CannonID, cannonRadians, rays.ToArray());
 				return new List<Tuple<BulletPathBlueprint, float>> { Tuple.Create(path, quality) };
 			}
 
@@ -310,7 +310,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 					var pRefractAngle = normal.ToAngle() + aOut;
 
-					var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pRefractAngle, remainingRecasts - 1, !inGlassBlock);
+					var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pRefractAngle, cannonRadians, remainingRecasts - 1, !inGlassBlock);
 					dat.AddRange(sub);
 				}
 
@@ -320,7 +320,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 					var pReflectVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
 
-					var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pReflectVec.ToAngle(), remainingRecasts - 1, !inGlassBlock);
+					var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pReflectVec.ToAngle(), cannonRadians, remainingRecasts - 1, !inGlassBlock);
 					dat.AddRange(sub);
 				}
 
@@ -335,7 +335,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var pNewStart = traceResult.Item2;
 				var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
 
-				return FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), remainingRecasts - 1, inGlassBlock);
+				return FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), cannonRadians, remainingRecasts - 1, inGlassBlock);
 			}
 
 			var fMirrorCircle = traceResult.Item1.UserData as MirrorCircleBlueprint;
@@ -346,7 +346,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var pNewStart = traceResult.Item2;
 				var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
 
-				return FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), remainingRecasts - 1, inGlassBlock);
+				return FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), cannonRadians, remainingRecasts - 1, inGlassBlock);
 			}
 
 			var fVoidWall = traceResult.Item1.UserData as VoidWallBlueprint;
@@ -384,7 +384,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 					newStart = newStart.MirrorAtNormal(cOut, Vector2.UnitX.Rotate(FloatMath.ToRadians(outportal.Normal)));
 
-					var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, newStart, rays, newAngle, remainingRecasts - 1, inGlassBlock);
+					var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, newStart, rays, newAngle, cannonRadians, remainingRecasts - 1, inGlassBlock);
 					dat.AddRange(sub);
 				}
 				return dat;

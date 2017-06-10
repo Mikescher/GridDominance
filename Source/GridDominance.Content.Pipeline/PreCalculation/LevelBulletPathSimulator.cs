@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
-using FarseerPhysics.Collision;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;

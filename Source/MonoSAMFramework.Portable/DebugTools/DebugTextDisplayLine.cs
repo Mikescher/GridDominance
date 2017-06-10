@@ -19,6 +19,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public bool IsAlive { get; set; } = true;
 		public Color Color { get; private set; } = Color.Black;
 		public float Decay { get; private set; } = 1f;
+		public double Lifetime => lifetime;
 
 		private double age = 0f;
 

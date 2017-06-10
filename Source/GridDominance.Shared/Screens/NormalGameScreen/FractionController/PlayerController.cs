@@ -47,7 +47,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				isMouseDragging = false;
 				Cannon.CrosshairSize.Set(0f);
 
-				//Screen.PushNotification($"Cannon :: target({FloatMath.ToDegree(Cannon.Rotation.TargetValue):000}°)");
+				//SAMLog.Debug($"Cannon :: target({FloatMath.ToDegree(Cannon.Rotation.TargetValue):000}°)");
 			}
 			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.GamePointerPosition))
 			{

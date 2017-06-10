@@ -8,6 +8,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 {
 	class DebugTextLogLine : IDebugTextDisplayLineProvider
 	{
+		private const int MAX_LINE_COUNT = 16;
+		
 		private readonly List<DebugTextDisplayLine> _lines;
 		private static SAMLogEntry _lastReadEntry = null;
 
@@ -23,6 +25,13 @@ namespace MonoSAMFramework.Portable.DebugTools
 				_lines.Add(CreateLine(entry));
 				_lastReadEntry = entry;
 				DebugSettings.SetManual("DebugTextDisplay", true);
+			}
+
+			while (_lines.Count(l => l.IsAlive) > MAX_LINE_COUNT)
+			{
+				var d = _lines.Where(l => l.IsAlive && l.Lifetime < 60).OrderBy(l => l.Lifetime).FirstOrDefault();
+				if (d == null) break;
+				d.IsAlive = false;
 			}
 		}
 
@@ -77,7 +86,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 					line = new DebugTextDisplayLine(() => $"[{e.Type}] {e.MessageShort}");
 					line.SetBackground(Color.GreenYellow * 0.5f);
 					line.SetColor(Color.Black);
-					line.SetLifetime(10);
+					line.SetLifetime(5);
 					line.SetSpawntime(0.5f);
 					line.SetDecaytime(2);
 					return line;
