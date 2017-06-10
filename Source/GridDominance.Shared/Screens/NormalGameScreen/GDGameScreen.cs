@@ -241,30 +241,24 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		{
 			if (HasFinished) return;
 
-			Fraction winningFraction = null;
-
+			bool hasPlayer = false;
+			bool hasComputer = false;
+			
 			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
 			{
-				if (cannon.Fraction.IsNeutral) continue;
-
-				if (winningFraction == null)
-				{
-					winningFraction = cannon.Fraction;
-				}
-				else if (winningFraction != cannon.Fraction)
-				{
-					return;
-				}
+				if (cannon.Fraction.IsPlayer) hasPlayer = true;
+				if (cannon.Fraction.IsComputer) hasComputer = true;
 			}
 
-			EndGame(winningFraction);
+			if (hasPlayer && !hasComputer) EndGame(true);
+			if (!hasPlayer && hasComputer) EndGame(false);
 		}
 
-		private void EndGame(Fraction winner)
+		private void EndGame(bool playerWon)
 		{
 			HasFinished = true;
 
-			if (winner.IsPlayer)
+			if (playerWon)
 			{
 				if (GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(Difficulty))
 				{
