@@ -230,6 +230,8 @@ namespace GridDominance.Shared
 		{
 			base.OnActivated(sender, args);
 
+			SAMLog.Info("I", "MainGame.OnActivated()");
+			
 			//TODO when does this happen - evtl refresh levelhighscores + ping here ??
 		}
 

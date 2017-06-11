@@ -6,6 +6,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 {
@@ -17,14 +18,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		private bool isMouseDragging = false;
 		private FPoint dragOrigin;
 
-		private readonly FCircle innerBoundings;
-
 		public override bool DoBarrelRecharge() => true;
 
 		public PlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction) 
 			: base(0f, owner, cannon, fraction)
 		{
-			innerBoundings = new FCircle(Cannon.Position, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
+			//
 		}
 
 		public override void OnRemove()
@@ -32,15 +31,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			Cannon.CrosshairSize.Set(0f);
 		}
 
+		protected override void OnExclusiveDown(InputState istate)
+		{
+			isMouseDragging = true;
+			Cannon.CrosshairSize.SetForce(CROSSHAIR_START_SCALE);
+			dragOrigin = istate.GamePointerPosition;
+		}
+
 		protected override void Calculate(InputState istate)
 		{
-			if (istate.IsExclusiveJustDown && innerBoundings.Contains(istate.GamePointerPosition))
+			if (istate.IsRealJustDown)
 			{
-				istate.Swallow(InputConsumer.GameEntity);
-
-				isMouseDragging = true;
-				Cannon.CrosshairSize.SetForce(CROSSHAIR_START_SCALE);
-				dragOrigin = istate.GamePointerPosition;
+				// drag started
 			}
 			else if (!istate.IsRealDown && isMouseDragging)
 			{

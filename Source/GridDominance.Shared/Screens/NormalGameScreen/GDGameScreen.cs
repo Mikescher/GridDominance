@@ -20,6 +20,7 @@ using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using System.Collections.Generic;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.NormalGameScreen.Agents;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 
@@ -88,10 +89,13 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public bool HasFinished = false;
 		public float LevelTime = 0f;
 
-		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff) : base(game, gdm)
+		public readonly bool IsPreview;
+		
+		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, bool prev) : base(game, gdm)
 		{
 			Blueprint = bp;
 			Difficulty = diff;
+			IsPreview = prev;
 
 			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this);
 
@@ -115,7 +119,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDConstants.PHYSICS_CONVERSION_FACTOR);
 
 #if DEBUG
-			if (!(this is GDGameScreen_Preview))
+			if (!IsPreview)
 			{
 				DebugUtils.CreateShortcuts(this);
 				DebugDisp = DebugUtils.CreateDisplay(this);
@@ -136,6 +140,14 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private void LoadLevelFromBlueprint()
 		{
 			Fraction[] fracList = { fractionNeutral, fractionPlayer, fractionComputer1, fractionComputer2, fractionComputer3 };
+
+			//----------------------------------------------------------------
+
+			MapFullBounds = new FRectangle(0, 0, Blueprint.LevelWidth, Blueprint.LevelHeight);
+			MapViewportCenterX = Blueprint.LevelViewX;
+			MapViewportCenterY = Blueprint.LevelViewY;
+
+			if (MainGame.Inst.Profile.EffectsEnabled) Background = new GDCellularBackground(this, Blueprint);
 
 			//----------------------------------------------------------------
 
@@ -210,13 +222,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			//----------------------------------------------------------------
 
-			MapFullBounds = new FRectangle(0, 0, Blueprint.LevelWidth, Blueprint.LevelHeight);
-			MapViewportCenterX = Blueprint.LevelViewX;
-			MapViewportCenterY = Blueprint.LevelViewY;
-
-			if (MainGame.Inst.Profile.EffectsEnabled) Background = new GDCellularBackground(this, Blueprint);
-
-			//TODO AddDragAgent
+			if (!IsPreview) AddAgent(new GameDragAgent(this));
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

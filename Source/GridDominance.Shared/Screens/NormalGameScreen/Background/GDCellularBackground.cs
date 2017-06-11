@@ -57,61 +57,61 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		private readonly GridCellMembership[,] _grid;
 
-		private readonly int TileCountX;
-		private readonly int TileCountY;
+		private readonly int tileCountX;
+		private readonly int tileCountY;
 
 		public GDCellularBackground(GDGameScreen scrn, LevelBlueprint lvl) : base(scrn)
 		{
-			TileCountX = FloatMath.Ceiling(lvl.LevelWidth / 64f) + 2 * MAX_EXTENSION;
-			TileCountY = FloatMath.Ceiling(lvl.LevelHeight / 64f) + 2 * MAX_EXTENSION;
+			tileCountX = FloatMath.Ceiling(lvl.LevelWidth / 64f) + 2 * MAX_EXTENSION;
+			tileCountY = FloatMath.Ceiling(lvl.LevelHeight / 64f) + 2 * MAX_EXTENSION;
 
-			_grid = new GridCellMembership[TileCountX, TileCountY];
+			_grid = new GridCellMembership[tileCountX, tileCountY];
 
 			Initialize();
 		}
 
 		private void Initialize()
 		{
-			for (int x = 0; x < TileCountX; x++)
+			for (int x = 0; x < tileCountX; x++)
 			{
-				for (int y = 0; y < TileCountY; y++)
+				for (int y = 0; y < tileCountY; y++)
 				{
 					_grid[x, y] = new GridCellMembership();
 					_grid[x, y].DifficultyMod = 1 + FloatMath.Sin(FloatMath.GetRandom()*FloatMath.RAD_POS_360) * RANDOM_MOD_FACTOR;
 					if (x == 0) _grid[x, y].BlockWest = true;
 					if (y == 0) _grid[x, y].BlockNorth = true;
-					if (x == TileCountX - 1) _grid[x, y].BlockEast = true;
-					if (y == TileCountY - 1) _grid[x, y].BlockSouth = true;
+					if (x == tileCountX - 1) _grid[x, y].BlockEast = true;
+					if (y == tileCountY - 1) _grid[x, y].BlockSouth = true;
 				}
 			}
 		}
 
 		public override void Draw(IBatchRenderer sbatch)
 		{
-			int offX = TILE_WIDTH * (int)(Owner.MapOffsetX / TILE_WIDTH);
-			int offY = TILE_WIDTH * (int)(Owner.MapOffsetY / TILE_WIDTH);
-
+			int ioffX = -(int)(Owner.MapOffsetX / TILE_WIDTH);
+			int ioffY = -(int)(Owner.MapOffsetY / TILE_WIDTH);
+			
 			int extensionX = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH));
 			int extensionY = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH));
 
-			int countX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedWidth / TILE_WIDTH);
-			int countY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedHeight / TILE_WIDTH);
+			int countX = FloatMath.Ceiling(VAdapter.VirtualTotalWidth / TILE_WIDTH) + 1;
+			int countY = FloatMath.Ceiling(VAdapter.VirtualTotalHeight / TILE_WIDTH) + 1;
 
-			for (int ox = -extensionX; ox < countX + extensionX; ox++)
+			for (int ox = ioffX - extensionX; ox < ioffX + countX + extensionX; ox++)
 			{
-				for (int oy = -extensionY; oy < countY + extensionY; oy++)
+				for (int oy = ioffY - extensionY; oy < ioffY + countY + extensionY; oy++)
 				{
 					var x = ox + MAX_EXTENSION; // real coords -> array coords
 					var y = oy + MAX_EXTENSION;
 
 					if (x < 0) continue;
 					if (y < 0) continue;
-					if (x >= TileCountX) continue;
-					if (y >= TileCountY) continue;
+					if (x >= tileCountX) continue;
+					if (y >= tileCountY) continue;
 
 					var color = GetGridColor(x, y);
 
-					var rect = new FRectangle(ox * TILE_WIDTH - offX, oy * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH);
+					var rect = new FRectangle(ox * TILE_WIDTH, oy * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 
 					sbatch.DrawStretched(Textures.TexPixel, rect, color);
 					sbatch.DrawStretched(Textures.TexTileBorder, rect, Color.White);
@@ -124,7 +124,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 						sbatch.DrawString(
 							Textures.DebugFontSmall,
-							string.Format("({4}|{5})\n{0,2}: {1:000}\n[{2}]{3}", _grid[x, y].Fraction?.ToString() ?? "##", _grid[x, y].PowerCurr * 100, _grid[x, y].SourceDistance, _grid[x, y].IsNeutralDraining ? "D" : "", x, y),
+							string.Format("({4}|{5})\n{0,2}: {1:000}\n[{2}]{3}", _grid[x, y].Fraction?.ToString() ?? "##", _grid[x, y].PowerCurr * 100, _grid[x, y].SourceDistance, _grid[x, y].IsNeutralDraining ? "D" : "", ox, oy),
 							new Vector2(tx, ty),
 							_grid[x, y].Fraction?.Color ?? Color.Black);
 
@@ -156,9 +156,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		public override void Update(SAMTime gameTime, InputState state)
 		{
-			for (int x = 0; x < TileCountX; x++)
+			for (int x = 0; x < tileCountX; x++)
 			{
-				for (int y = 0; y < TileCountY; y++)
+				for (int y = 0; y < tileCountY; y++)
 				{
 					UpdateCell(x, y, gameTime);
 					
@@ -166,9 +166,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				}
 			}
 
-			for (int x = 0; x < TileCountX; x++)
+			for (int x = 0; x < tileCountX; x++)
 			{
-				for (int y = 0; y < TileCountY; y++)
+				for (int y = 0; y < tileCountY; y++)
 				{
 					_grid[x, y].PowerCurr = _grid[x, y].PowerNext;
 				}
@@ -345,8 +345,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		{
 			if (x < 0) return GetGridColor(0, y);
 			if (y < 0) return GetGridColor(x, 0);
-			if (x >= TileCountX) return GetGridColor(TileCountX - 1, y);
-			if (y >= TileCountY) return GetGridColor(x, TileCountY - 1);
+			if (x >= tileCountX) return GetGridColor(tileCountX - 1, y);
+			if (y >= tileCountY) return GetGridColor(x, tileCountY - 1);
 
 			if (_grid[x, y].Fraction == null) return FlatColors.Background;
 
@@ -364,8 +364,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 					if (x < 0) continue;
 					if (y < 0) continue;
-					if (x >= TileCountX) continue;
-					if (y >= TileCountY) continue;
+					if (x >= tileCountX) continue;
+					if (y >= tileCountY) continue;
 
 					var rect = new FRectangle(ox * TILE_WIDTH, oy * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 
@@ -439,13 +439,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		{
 			for (int x = x1; x < x2; x++)
 			{
-				if (x >= 0 && y >= 0 && x < TileCountX && y < TileCountY)
+				if (x >= 0 && y >= 0 && x < tileCountX && y < tileCountY)
 				{
 					// bot
 					_grid[x, y].BlockNorth = true;
 				}
 
-				if (x >= 0 && y - 1 >= 0 && x < TileCountX && y - 1 < TileCountY)
+				if (x >= 0 && y - 1 >= 0 && x < tileCountX && y - 1 < tileCountY)
 				{
 					// bot
 					_grid[x, y - 1].BlockSouth = true;
@@ -457,13 +457,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		{
 			for (int y = y1; y < y2; y++)
 			{
-				if (x >= 0 && y >= 0 && x < TileCountX && y < TileCountY)
+				if (x >= 0 && y >= 0 && x < tileCountX && y < tileCountY)
 				{
 					// bot
 					_grid[x, y].BlockWest = true;
 				}
 
-				if (x - 1 >= 0 && y >= 0 && x - 1 < TileCountX && y < TileCountY)
+				if (x - 1 >= 0 && y >= 0 && x - 1 < tileCountX && y < tileCountY)
 				{
 					// bot
 					_grid[x - 1, y].BlockEast = true;
@@ -482,8 +482,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 					if (x < 0) continue;
 					if (y < 0) continue;
-					if (x >= TileCountX) continue;
-					if (y >= TileCountY) continue;
+					if (x >= tileCountX) continue;
+					if (y >= tileCountY) continue;
 
 					var rect = new FRectangle(ox * TILE_WIDTH, oy * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 
@@ -513,8 +513,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 					if (x < 0) continue;
 					if (y < 0) continue;
-					if (x >= TileCountX) continue;
-					if (y >= TileCountY) continue;
+					if (x >= tileCountX) continue;
+					if (y >= tileCountY) continue;
 
 					var rect = new FRectangle(ox * TILE_WIDTH, oy * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 

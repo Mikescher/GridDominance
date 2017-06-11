@@ -17,7 +17,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 	{
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
 
-		public GDGameScreen_Tutorial(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp) : base(game, gdm, Levels.LEVEL_TUTORIAL, FractionDifficulty.DIFF_0)
+		public GDGameScreen_Tutorial(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp) : base(game, gdm, Levels.LEVEL_TUTORIAL, FractionDifficulty.DIFF_0, false)
 		{
 			AddAgent(new TutorialAgent(this));
 		}

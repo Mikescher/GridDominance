@@ -11,7 +11,7 @@ using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 {
-	class GDStaticGridBackground : GameBackground, IGDGridBackground //TODO Test if it works with big level
+	class GDStaticGridBackground : GameBackground, IGDGridBackground
 	{
 		private const int TILE_WIDTH = GDConstants.TILE_WIDTH;
 

@@ -372,7 +372,7 @@ namespace GridDominance.DSLEditor.Drawing
 			var vpw = 16 * 64;
 			var vph = 10 * 64;
 
-			var redpen = new Pen(Color.Red, 1);
+			var redpen = new Pen(Color.Red, 4);
 			var graybrush = new SolidBrush(Color.FromArgb(64, Color.Black));
 
 			if (level.LevelWidth > vpw || level.LevelHeight > vph)
