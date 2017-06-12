@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens;
+using GridDominance.Shared.Screens.ScreenGame;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 {
@@ -15,9 +16,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 	{
 		private const int TILE_WIDTH = GDConstants.TILE_WIDTH;
 
-		public GDStaticGridBackground(GameScreen scrn) : base(scrn)
-		{
+		private readonly GameWrapMode _wrapMode;
+		private readonly GDGameScreen _gdowner;
 
+		public GDStaticGridBackground(GDGameScreen scrn, GameWrapMode mode) : base(scrn)
+		{
+			_wrapMode = mode;
+			_gdowner = scrn;
 		}
 		
 		public override void Draw(IBatchRenderer sbatch)
@@ -41,6 +46,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				{
 					sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * TILE_WIDTH - offX, y * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH), Color.White);
 				}
+			}
+
+			if (_wrapMode ==GameWrapMode.Donut || _wrapMode == GameWrapMode.Reflect)
+			{
+				var rn = new FRectangle(-extensionX, -extensionY, Owner.MapFullBounds.Width + 2 * extensionX, extensionY);
+				var re = new FRectangle(Owner.MapFullBounds.Width, -extensionY, extensionX, Owner.MapFullBounds.Height + 2 * extensionY);
+				var rs = new FRectangle(-extensionX, Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * extensionX, extensionY);
+				var rw = new FRectangle(-extensionX, -extensionY, extensionX, Owner.MapFullBounds.Height + 2 * extensionY);
+
+				sbatch.DrawStretched(Textures.TexPixel, rn, Color.Black);
+				sbatch.DrawStretched(Textures.TexPixel, re, Color.Black);
+				sbatch.DrawStretched(Textures.TexPixel, rs, Color.Black);
+				sbatch.DrawStretched(Textures.TexPixel, rw, Color.Black);
 			}
 		}
 		

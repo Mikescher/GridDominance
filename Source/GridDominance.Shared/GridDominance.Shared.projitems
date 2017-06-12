@@ -73,6 +73,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\GlassBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Portal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\TutorialController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GameWrapMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_SP.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\LaserNetwork\LaserRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\LaserNetwork\LaserSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\IPhysicsMarker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerCollisionBorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerRefractionEdge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\OverworldScrollAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\ReappearTransitionAgent.cs" />

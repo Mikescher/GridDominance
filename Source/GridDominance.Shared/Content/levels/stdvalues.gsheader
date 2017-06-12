@@ -7,7 +7,6 @@ define(A2, 2) # PC 1
 define(A3, 3) # PC 2
 define(A4, 4) # PC 3
 
-
 define(ROT_E,  000)
 define(ROT_SE, 045)
 define(ROT_S,  090)
@@ -29,6 +28,10 @@ define(KI_DYNAMIC_RAYTRACE,  10)
 define(KI_PRECALC_PATHTRACE, 11)
 define(KI_PRECALC_SIMULATE,  12)
 
+define(WRAPMODE_DEATH, 101)
+define(WRAPMODE_DONUT, 102)
+define(WRAPMODE_SOLID, 103)
+
 define(PORTAL_IN,  true)
 define(PORTAL_OUT, false)
 
@@ -37,6 +40,8 @@ define(PORTAL_2, 2)
 define(PORTAL_3, 3)
 define(PORTAL_4, 4)
 
+###########################################
 
 scale(TILE_WIDTH)
 setview(16, 10, [8, 5])
+setwrap(WRAPMODE_DEATH)

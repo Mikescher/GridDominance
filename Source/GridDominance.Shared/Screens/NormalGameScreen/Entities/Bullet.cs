@@ -19,6 +19,7 @@ using FarseerPhysics.Common;
 using System.Collections.Generic;
 using MonoSAMFramework.Portable;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
+using GridDominance.Shared.Screens.ScreenGame;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
@@ -28,7 +29,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private const int CollisionIgnoreObjectDecayCycles = 16;
 
 		public  const float BULLET_DIAMETER = 25;
-		public  const float MAXIMUM_LIEFTIME = 25;
+		public  const float MAXIMUM_LIFETIME = 25;
 
 		public readonly Fraction Fraction;
 
@@ -42,7 +43,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public Body PhysicsBody;
 		public readonly Cannon Source;
 		public readonly float Scale;
-		
+		public readonly GDGameScreen GDOwner;
+
 		private readonly Vector2 initialVelocity;
 
 		public override Vector2 Position => BulletPosition;
@@ -51,13 +53,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private List<CollisionIgnorePortal> _ignoredPortals = new List<CollisionIgnorePortal>();
 
-		public Bullet(GameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale, Fraction frac) : base(scrn, GDConstants.ORDER_GAME_BULLETS)
+		public Bullet(GDGameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale, Fraction frac) : base(scrn, GDConstants.ORDER_GAME_BULLETS)
 		{
 			BulletPosition = pos;
 			initialVelocity = velo;
 			Source = shooter;
 			Fraction = frac;
 			Scale = entityScale;
+			GDOwner = scrn;
 
 			DrawingBoundingBox = new FSize(Scale * BULLET_DIAMETER, Scale * BULLET_DIAMETER);
 		}
@@ -223,7 +226,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					var newVelocity = velocity.Rotate(rot);
 					var newStart = outportal.Position + outportal.VecDirection * (-projec) + outportal.VecNormal * (Portal.WIDTH / 2f);
 
-					var b = new Bullet(Owner, Source, newStart, newVelocity, Scale * stretch, Fraction) { Lifetime = Lifetime };
+					var b = new Bullet(GDOwner, Source, newStart, newVelocity, Scale * stretch, Fraction) { Lifetime = Lifetime };
 					b._ignoredPortals.Add(new CollisionIgnorePortal() { Entity = outportal, LastCollidedCycle = MonoSAMGame.GameCycleCounter});
 					b.AddEntityOperation(new BulletGrowOperation(0.15f));
 					Owner.Entities.AddEntity(b);
@@ -254,6 +257,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			#region RefractionMarker
 			var otherRefractionMarker = fixtureB.UserData as MarkerRefractionEdge;
 			if (otherRefractionMarker != null) return false;
+			#endregion
+
+			#region BorderMarker
+			var otherBorderMarker = fixtureB.UserData as MarkerCollisionBorder;
+			if (otherBorderMarker != null)
+			{
+				if (GDOwner.WrapMode == GameWrapMode.Reflect) return true;
+				return false;
+			}
 			#endregion
 
 			// wud ???
@@ -289,8 +301,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var p2 = Position + v2.WithLength(BULLET_DIAMETER * newScale * 0.9f);
 
 
-			Manager.AddEntity(new Bullet(Owner, Source, p1, v1, newScale, Fraction));
-			Manager.AddEntity(new Bullet(Owner, Source, p2, v2, newScale, Fraction));
+			Manager.AddEntity(new Bullet(GDOwner, Source, p1, v1, newScale, Fraction));
+			Manager.AddEntity(new Bullet(GDOwner, Source, p2, v2, newScale, Fraction));
 		}
 
 		private void DisintegrateIntoVoidObject()
@@ -359,9 +371,25 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				}
 			}
 
-			if (Lifetime > MAXIMUM_LIEFTIME) AddEntityOperation(new BulletFadeAndDieOperation(1.0f));
+			if (Lifetime > MAXIMUM_LIFETIME) AddEntityOperation(new BulletFadeAndDieOperation(1.0f));
 
-			if (!Manager.BoundingBox.Contains(BulletPosition)) Remove();
+			if (GDOwner.WrapMode == GameWrapMode.Death && !Manager.BoundingBox.Contains(BulletPosition))
+			{
+				Remove();
+			}
+
+			if (GDOwner.WrapMode == GameWrapMode.Donut && !GDOwner.MapFullBounds.Contains(BulletPosition))
+			{
+				DonutWrap();
+			}
+		}
+
+		private void DonutWrap()
+		{
+			BulletPosition.X = (BulletPosition.X + GDOwner.MapFullBounds.Width) % GDOwner.MapFullBounds.Width;
+			BulletPosition.Y = (BulletPosition.Y + GDOwner.MapFullBounds.Height) % GDOwner.MapFullBounds.Height;
+
+			PhysicsBody.Position = ConvertUnits.ToSimUnits(BulletPosition);
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)

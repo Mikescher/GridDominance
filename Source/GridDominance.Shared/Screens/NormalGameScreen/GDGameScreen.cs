@@ -23,6 +23,9 @@ using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Agents;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
+using FarseerPhysics.Factories;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -44,7 +47,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		//-----------------------------------------------------------------
 
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
-		protected override GameBackground CreateBackground() => new GDStaticGridBackground(this);
+		protected override GameBackground CreateBackground() => new SolidColorBackground(this, Color.Gainsboro);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, 1, 1);
@@ -85,6 +88,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public readonly LevelBlueprint Blueprint;
 		public readonly FractionDifficulty Difficulty;
 		public readonly LaserNetwork LaserNetwork;
+		public          GameWrapMode WrapMode;
 
 		public bool HasFinished = false;
 		public float LevelTime = 0f;
@@ -146,8 +150,26 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			MapFullBounds = new FRectangle(0, 0, Blueprint.LevelWidth, Blueprint.LevelHeight);
 			MapViewportCenterX = Blueprint.LevelViewX;
 			MapViewportCenterY = Blueprint.LevelViewY;
+			WrapMode = (GameWrapMode)Blueprint.WrapMode;
 
-			if (MainGame.Inst.Profile.EffectsEnabled) Background = new GDCellularBackground(this, Blueprint);
+			//TODO (evtl) Cellular background wrap around when donut
+			//TODO black Portal effect when wrap around
+			//TODO When not death:
+			//  - zoom 0.5TW out 
+			//  - black box around
+			//  - drop shadow for 3d high ground effect
+
+			if (WrapMode == GameWrapMode.Donut || WrapMode == GameWrapMode.Reflect)
+			{
+				VAdapterGame.ChangeVirtualSize(GDConstants.VIEW_WIDTH + GDConstants.TILE_WIDTH, GDConstants.VIEW_HEIGHT + GDConstants.TILE_WIDTH);
+				MapViewportCenterX = Blueprint.LevelViewX;
+				MapViewportCenterY = Blueprint.LevelViewY;
+			}
+
+			if (MainGame.Inst.Profile.EffectsEnabled)
+				Background = new GDCellularBackground(this, Blueprint);
+			else
+				Background = new GDStaticGridBackground(this, WrapMode);
 
 			//----------------------------------------------------------------
 
@@ -213,6 +235,10 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			//----------------------------------------------------------------
 
+			AddEdgeMarker();
+
+			//----------------------------------------------------------------
+
 			foreach (var cannon in cannonList)
 				cannon.OnAfterLevelLoad();
 
@@ -223,6 +249,33 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			//----------------------------------------------------------------
 
 			if (!IsPreview) AddAgent(new GameDragAgent(this));
+		}
+
+		private void AddEdgeMarker()
+		{
+			var mw = MapFullBounds.Width;
+			var mh = MapFullBounds.Height;
+			var ex = 2 * GDConstants.TILE_WIDTH;
+
+			var rn = new FRectangle(-ex, -ex, mw + 2 * ex, ex);
+			var re = new FRectangle(+mw, -ex, ex,          mh + 2 * ex);
+			var rs = new FRectangle(-ex, +mh, mw + 2 * ex, ex);
+			var rw = new FRectangle(-ex, -ex, ex,          mh + 2 * ex);
+
+			var dn = new MarkerCollisionBorder { Side = FlatAlign4.NN };
+			var de = new MarkerCollisionBorder { Side = FlatAlign4.EE };
+			var ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
+			var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
+
+			var bn = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+			var be = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+			var bs = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+			var bw = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+
+			var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
+			var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);
+			var fs = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rs.Width), ConvertUnits.ToSimUnits(rs.Height), 1, Vector2.Zero, bs, ds);
+			var fw = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rw.Width), ConvertUnits.ToSimUnits(rw.Height), 1, Vector2.Zero, bw, dw);
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

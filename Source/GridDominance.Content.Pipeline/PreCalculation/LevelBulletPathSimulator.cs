@@ -12,6 +12,9 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using FarseerPhysics.Common;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace GridDominance.Content.Pipeline.PreCalculation
 {
@@ -129,8 +132,11 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			farseerBullet.OnCollision += (fa, fb, cobj) =>
 			{
 				collisionUserObject = fb.UserData;
-				collisionContact    = cobj;
-				if (fb.UserData is GlassBlockBlueprint) return true;
+				collisionContact    = cobj; 
+				if (fb.UserData is GlassBlockBlueprint)   return true;
+				if (fb.UserData is MirrorBlockBlueprint)  return true;
+				if (fb.UserData is MirrorCircleBlueprint) return true;
+				if (fb.UserData is MarkerCollisionBorder) return true;
 				return false;
 			};
 			farseerBullet.AngularVelocity = 0;
@@ -204,9 +210,11 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 					return new List<Tuple<List<Vector2>, CannonBlueprint, float>> { Tuple.Create(fullpath, tgcannon, quality) };
 				}
-
-				bool oow = (farseerBullet.Position.X < 0 - 64) || (farseerBullet.Position.Y < 0 - 64) || (farseerBullet.Position.X > lvl.LevelWidth + 64) || (farseerBullet.Position.Y > lvl.LevelHeight + 64);
-				bool ool = (lifetime >= Bullet.MAXIMUM_LIEFTIME);
+				
+				bool oow = (farseerBullet.Position.X < 0 - 64) || (farseerBullet.Position.Y < 0 - 64) || (farseerBullet.Position.X > ConvertUnits.ToSimUnits(lvl.LevelWidth) + 64) || (farseerBullet.Position.Y > ConvertUnits.ToSimUnits(lvl.LevelHeight) + 64);
+				bool don = false;
+				if (lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT) { oow = false; don = true; }
+				bool ool = (lifetime >= Bullet.MAXIMUM_LIFETIME);
 
 				//if (collisionUserObject != null || oow || ool)
 				//{
@@ -219,6 +227,13 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				if (collisionUserObject is BlackHoleBlueprint)  { world.RemoveBody(farseerBullet); return none; }
 				
 				if (oow || ool)                                 { world.RemoveBody(farseerBullet); return none; }
+
+				if (don)
+				{
+					var nx = (farseerBullet.Position.X + ConvertUnits.ToSimUnits(lvl.LevelWidth)) % ConvertUnits.ToSimUnits(lvl.LevelWidth);
+					var ny = (farseerBullet.Position.Y + ConvertUnits.ToSimUnits(lvl.LevelHeight)) % ConvertUnits.ToSimUnits(lvl.LevelHeight);
+					farseerBullet.Position = new Vector2(nx, ny);
+				}
 			}
 		}
 		
@@ -277,6 +292,33 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var body = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(new Vector2(elem.X, elem.Y)), 0, BodyType.Static, elem);
 				FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(elem.Length), ConvertUnits.ToSimUnits(PortalBlueprint.DEFAULT_WIDTH), 1, Vector2.Zero, body, elem);
 				body.Rotation = FloatMath.DegRad * (elem.Normal+90);
+			}
+
+			if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID)
+			{
+				var mw = lvl.LevelWidth;
+				var mh = lvl.LevelHeight;
+				var ex = 2 * GDConstants.TILE_WIDTH;
+
+				var rn = new FRectangle(-ex, -ex, mw + 2 * ex, ex);
+				var re = new FRectangle(+mw, -ex, ex, mh + 2 * ex);
+				var rs = new FRectangle(-ex, +mh, mw + 2 * ex, ex);
+				var rw = new FRectangle(-ex, -ex, ex, mh + 2 * ex);
+
+				var dn = new MarkerCollisionBorder { Side = FlatAlign4.NN };
+				var de = new MarkerCollisionBorder { Side = FlatAlign4.EE };
+				var ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
+				var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
+
+				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+
+				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
+				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);
+				var fs = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rs.Width), ConvertUnits.ToSimUnits(rs.Height), 1, Vector2.Zero, bs, ds);
+				var fw = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rw.Width), ConvertUnits.ToSimUnits(rw.Height), 1, Vector2.Zero, bw, dw);
 			}
 
 			return world;

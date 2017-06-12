@@ -8,6 +8,10 @@ using GridDominance.Levelfileformat.Blueprint;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace GridDominance.Content.Pipeline.PreCalculation
 {
@@ -390,6 +394,39 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				return dat;
 			}
 
+			var fBorder = traceResult.Item1.UserData as MarkerCollisionBorder;
+			if (fBorder != null)
+			{
+				if (lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT)
+				{
+					rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+
+					var pNewStartX = traceResult.Item2.X;
+					var pNewStartY = traceResult.Item2.Y;
+					switch (fBorder.Side)
+					{
+						case FlatAlign4.NN: pNewStartY += lvl.LevelHeight; break;
+						case FlatAlign4.EE: pNewStartX -= lvl.LevelWidth; break;
+						case FlatAlign4.SS: pNewStartY -= lvl.LevelHeight; break;
+						case FlatAlign4.WW: pNewStartX += lvl.LevelWidth; break;
+					}
+					var pVec = rcEnd - rcStart;
+					var pNewStart = new Vector2(pNewStartX, pNewStartY);
+
+					return FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), cannonRadians, remainingRecasts - 1, inGlassBlock);
+				}
+				else if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID)
+				{
+					rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+
+					var pNewStart = traceResult.Item2;
+					var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
+
+					return FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), cannonRadians, remainingRecasts - 1, inGlassBlock);
+				}
+				throw new Exception("Unsupported WrapMode: " + lvl.WrapMode);
+			}
+
 			throw new Exception("Unknown rayTrace resturn ficture: " + traceResult.Item1.UserData);
 		}
 
@@ -531,6 +568,33 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 				var body = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), 0, BodyType.Static, elem);
 				FixtureFactory.AttachCircle(cannonEnlarge * elem.Diameter / 2f + extend, 1, body, Vector2.Zero, elem);
+			}
+
+			if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID || lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT)
+			{
+				var mw = lvl.LevelWidth;
+				var mh = lvl.LevelHeight;
+				var ex = 2 * GDConstants.TILE_WIDTH;
+
+				var rn = new FRectangle(-ex, -ex, mw + 2 * ex, ex);
+				var re = new FRectangle(+mw, -ex, ex, mh + 2 * ex);
+				var rs = new FRectangle(-ex, +mh, mw + 2 * ex, ex);
+				var rw = new FRectangle(-ex, -ex, ex, mh + 2 * ex);
+
+				var dn = new MarkerCollisionBorder { Side = FlatAlign4.NN };
+				var de = new MarkerCollisionBorder { Side = FlatAlign4.EE };
+				var ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
+				var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
+
+				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+
+				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
+				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);
+				var fs = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rs.Width), ConvertUnits.ToSimUnits(rs.Height), 1, Vector2.Zero, bs, ds);
+				var fw = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rw.Width), ConvertUnits.ToSimUnits(rw.Height), 1, Vector2.Zero, bw, dw);
 			}
 
 			return world;

@@ -11,6 +11,10 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const int KI_TYPE_PRECALC     = 11;
 		public const int KI_TYPE_PRESIMULATE = 12;
 
+		public const int WRAPMODE_DEATH = 101;
+		public const int WRAPMODE_DONUT = 102;
+		public const int WRAPMODE_SOLID = 103;
+
 		public const byte SERIALIZE_ID_CANNON       = 0x01; 
 		public const byte SERIALIZE_ID_VOIDWALL     = 0x05;
 		public const byte SERIALIZE_ID_VOIDCIRCLE   = 0x06;
@@ -40,12 +44,13 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public string FullName   = "";
 
 		public byte KIType       = KI_TYPE_RAYTRACE;
+		public byte WrapMode     = WRAPMODE_DEATH;
 
 		public float LevelWidth  = 16 * 64;
 		public float LevelHeight = 10 * 64;
 
-		public float LevelViewX = 8 * 64;
-		public float LevelViewY = 5 * 64;
+		public float LevelViewX  = 8 * 64;
+		public float LevelViewY  = 5 * 64;
 
 		public LevelBlueprint()
 		{
@@ -59,6 +64,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			bw.Write(FullName);
 			bw.Write(UniqueID.ToByteArray());
 			bw.Write(KIType);
+			bw.Write(WrapMode);
 			bw.Write(LevelWidth);
 			bw.Write(LevelHeight);
 			bw.Write(LevelViewX);
@@ -130,6 +136,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 						FullName    = br.ReadString();
 						UniqueID    = new Guid(br.ReadBytes(16));
 						KIType      = br.ReadByte();
+						WrapMode    = br.ReadByte();
 						LevelWidth  = br.ReadSingle();
 						LevelHeight = br.ReadSingle();
 						LevelViewX  = br.ReadSingle();
@@ -137,22 +144,15 @@ namespace GridDominance.Levelfileformat.Blueprint
 						break;
 
 					case SERIALIZE_ID_EOF:
-					{
-						if (string.IsNullOrWhiteSpace(Name)) throw new Exception("Level needs a valid name");
-						if (UniqueID == Guid.Empty) throw new Exception("Level needs a valid UUID");
-
 						if (br.ReadByte() != 0xB1) throw new Exception("Missing footer byte 1");
 						if (br.ReadByte() != 0x6B) throw new Exception("Missing footer byte 2");
 						if (br.ReadByte() != 0x00) throw new Exception("Missing footer byte 3");
 						if (br.ReadByte() != 0xB5) throw new Exception("Missing footer byte 4");
 
 						return;
-					}
 
 					default:
-					{
 						throw new Exception("Unknown binary ID:" + id[0]);
-					}
 				}
 			}
 
@@ -180,6 +180,9 @@ namespace GridDominance.Levelfileformat.Blueprint
 				throw new Exception("Level needs a valid UUID");
 
 			if (AllCannons.Count() != AllCannons.Select(c => c.CannonID).Distinct().Count()) throw new Exception("Duplicate CannonID");
+
+			if (! new[]{ KI_TYPE_PRECALC, KI_TYPE_PRESIMULATE, KI_TYPE_RAYTRACE }.Contains(KIType)) throw new Exception("Unknown KIType");
+			if (! new[]{ WRAPMODE_DEATH, WRAPMODE_DONUT, WRAPMODE_SOLID }.Contains(WrapMode)) throw new Exception("Unknown WrapMode");
 
 			foreach (var c in BlueprintCannons)
 			{

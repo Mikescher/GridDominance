@@ -26,6 +26,7 @@ namespace GridDominance.Levelfileformat
 			DefineMethod("init", InitLevel);
 			DefineMethod("scale", SetScale);
 			DefineMethod("setview", SetView);
+			DefineMethod("setwrap", SetWrapMode);
 
 			DefineMethod("cannon", AddCannon);
 
@@ -318,6 +319,13 @@ namespace GridDominance.Levelfileformat
 			_result.LevelHeight = height;
 			_result.LevelViewX  = ctrX;
 			_result.LevelViewY  = ctrY;
+		}
+
+		private void SetWrapMode(List<string> methodParameter)
+		{
+			var wm  = (byte)ExtractIntegerParameter(methodParameter, 0);
+
+			_result.WrapMode = wm;
 		}
 	}
 }

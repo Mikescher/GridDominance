@@ -57,6 +57,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public  Fraction Fraction { get; private set; }
 		protected AbstractFractionController controller;
 		public  float TotalBoost = 0f;
+		public readonly GDGameScreen GDOwner;
 
 		public float RealBoost => 1 + Math.Min(TotalBoost, MAX_BOOST);
 
@@ -79,6 +80,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, int cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
 			Fraction = fractions[player];
+			GDOwner = scrn;
 
 			Position = new Vector2(px, py);
 			Scale = diam / CANNON_DIAMETER;

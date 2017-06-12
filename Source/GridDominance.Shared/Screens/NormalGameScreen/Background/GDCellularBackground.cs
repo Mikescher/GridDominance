@@ -59,11 +59,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		private readonly int tileCountX;
 		private readonly int tileCountY;
+		private readonly GameWrapMode wrapMode;
 
 		public GDCellularBackground(GDGameScreen scrn, LevelBlueprint lvl) : base(scrn)
 		{
 			tileCountX = FloatMath.Ceiling(lvl.LevelWidth / 64f) + 2 * MAX_EXTENSION;
 			tileCountY = FloatMath.Ceiling(lvl.LevelHeight / 64f) + 2 * MAX_EXTENSION;
+			wrapMode   = scrn.WrapMode;
 
 			_grid = new GridCellMembership[tileCountX, tileCountY];
 
@@ -78,10 +80,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				{
 					_grid[x, y] = new GridCellMembership();
 					_grid[x, y].DifficultyMod = 1 + FloatMath.Sin(FloatMath.GetRandom()*FloatMath.RAD_POS_360) * RANDOM_MOD_FACTOR;
-					if (x == 0) _grid[x, y].BlockWest = true;
-					if (y == 0) _grid[x, y].BlockNorth = true;
-					if (x == tileCountX - 1) _grid[x, y].BlockEast = true;
-					if (y == tileCountY - 1) _grid[x, y].BlockSouth = true;
+
+					if (wrapMode != GameWrapMode.Donut)
+					{
+						if (x == 0) _grid[x, y].BlockWest = true;
+						if (y == 0) _grid[x, y].BlockNorth = true;
+						if (x == tileCountX - 1) _grid[x, y].BlockEast = true;
+						if (y == tileCountY - 1) _grid[x, y].BlockSouth = true;
+					}
 				}
 			}
 		}
@@ -151,6 +157,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 					}
 #endif
 				}
+			}
+
+			if (wrapMode == GameWrapMode.Donut || wrapMode == GameWrapMode.Reflect)
+			{
+				var rn = new FRectangle(-extensionX, -extensionY, Owner.MapFullBounds.Width + 2 * extensionX, extensionY);
+				var re = new FRectangle(Owner.MapFullBounds.Width, -extensionY, extensionX, Owner.MapFullBounds.Height + 2 * extensionY);
+				var rs = new FRectangle(-extensionX, Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * extensionX, extensionY);
+				var rw = new FRectangle(-extensionX, -extensionY, extensionX, Owner.MapFullBounds.Height + 2 * extensionY);
+
+				sbatch.DrawStretched(Textures.TexPixel, rn, Color.Black);
+				sbatch.DrawStretched(Textures.TexPixel, re, Color.Black);
+				sbatch.DrawStretched(Textures.TexPixel, rs, Color.Black);
+				sbatch.DrawStretched(Textures.TexPixel, rw, Color.Black);
 			}
 		}
 
@@ -261,6 +280,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		private void AnalyseCell(GridCellMembership me, int x, int y, ref int totalNeighbourCount, ref int newSourceDistance, ref GridCellMembership support, ref int occupyCount, ref GridCellMembership attack)
 		{
+			if (wrapMode == GameWrapMode.Donut)
+			{
+				x = (x + tileCountX) % tileCountX;
+				y = (y + tileCountY) % tileCountY;
+			}
+
 			totalNeighbourCount++;
 
 			if (me.Fraction != null && _grid[x, y].Fraction == me.Fraction && _grid[x, y].SourceDistance + 1 < newSourceDistance)

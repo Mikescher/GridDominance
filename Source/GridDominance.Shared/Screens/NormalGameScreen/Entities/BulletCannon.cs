@@ -116,7 +116,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			barrelRecoil = 0f;
 
-			Manager.AddEntity(new Bullet(Owner, this, position, velocity, Scale, Fraction));
+			Manager.AddEntity(new Bullet(GDOwner, this, position, velocity, Scale, Fraction));
 			MainGame.Inst.GDSound.PlayEffectShoot();
 		}
 
