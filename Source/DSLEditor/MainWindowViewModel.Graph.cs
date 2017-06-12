@@ -158,7 +158,7 @@ namespace GridDominance.DSLEditor
 			if (!folder.ToLower().Trim('\\').EndsWith("GridDominance.Shared\\Content\\levels".ToLower())) { MessageBox.Show("Invalid root folder"); return; }
 
 			var files1 = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gslevel").ToList();
-			var files2 = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gegraph").ToList();
+			var files2 = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gsgraph").ToList();
 			var levels = files1.Select(f => ParseSpecificLevelFile(f, false)).ToList();
 			var worlds = files2.Select(f => ParseSpecificGraphFile(f)).ToList();
 			{

@@ -158,6 +158,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			//  - zoom 0.5TW out 
 			//  - black box around
 			//  - drop shadow for 3d high ground effect
+			//TODO test WrapMode
 
 			if (WrapMode == GameWrapMode.Donut || WrapMode == GameWrapMode.Reflect)
 			{
