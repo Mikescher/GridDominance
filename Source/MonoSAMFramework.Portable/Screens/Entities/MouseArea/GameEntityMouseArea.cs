@@ -64,7 +64,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 				var iju = istate.IsExclusiveJustUp;
 				var ijd = istate.IsExclusiveJustDown;
 
-				if (isInShape && doSwallowEvents) istate.Swallow(InputConsumer.GameEntity);
+				if (isInShape && doSwallowEvents && (iju || ijd)) istate.Swallow(InputConsumer.GameEntity);
 
 				if (isInShape && !prevInShape)
 				{
