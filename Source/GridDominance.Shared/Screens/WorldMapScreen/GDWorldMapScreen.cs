@@ -113,7 +113,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				ZoomIn(istate.GamePointerPositionOnMap);
 			}
 
-			if (istate.IsKeyJustDown(SKeys.AndroidBack))
+			if (istate.IsKeyJustDown(SKeys.AndroidBack) || istate.IsKeyJustDown(SKeys.Backspace))
 			{
 				MainGame.Inst.SetOverworldScreen();
 			}

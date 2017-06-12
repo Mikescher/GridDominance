@@ -218,7 +218,8 @@ namespace MonoSAMFramework.Portable.Input
 			{
 				v = IsKeyDown(key, Keyboard, GamePad);
 				currentKeyState.Add(key, v);
-				return v;
+				lastKeyState.Add(key, v);
+				return false;
 			}
 		}
 
