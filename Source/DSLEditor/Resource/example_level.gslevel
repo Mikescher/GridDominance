@@ -31,6 +31,10 @@ define(KI_PRECALC_SIMULATE,  12)
 define(PORTAL_IN,  true)
 define(PORTAL_OUT, false)
 
+define(WRAPMODE_DEATH, 101)
+define(WRAPMODE_DONUT, 102)
+define(WRAPMODE_SOLID, 103)
+
 define(PORTAL_1, 1)
 define(PORTAL_2, 2)
 define(PORTAL_3, 3)
@@ -40,7 +44,8 @@ scale(TILE_WIDTH)
 
 ###############################################################
 
-init("0-exmpl", "Template", ::UUID::, KI_PRECALC_SIMULATE)
+init("0-exmpl", "Template", ::UUID::, KI_PRECALC_PATHTRACE)
+setwrap(WRAPMODE_SOLID)
 
 Cannon(SIZE_SMALL, P1, [ 3,  5], ROT_E)
 

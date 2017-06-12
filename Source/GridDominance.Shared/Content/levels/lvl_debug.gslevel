@@ -3,8 +3,8 @@
 include("stdvalues")
 
 init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001}, KI_DYNAMIC_RAYTRACE)
-setview(18, 12, [8, 5])
-setwrap(WRAPMODE_SOLID)
+#setview(25, 25, [8, 5])
+setwrap(WRAPMODE_DONUT)
 
 Cannon(SIZE_SMALL, P1, [ 2,  5], ROT_E)
 

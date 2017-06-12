@@ -311,9 +311,9 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
 
 				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
-				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
-				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
-				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.Center), 0, BodyType.Static);
+				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.Center), 0, BodyType.Static);
+				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.Center), 0, BodyType.Static);
 
 				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
 				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);

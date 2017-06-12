@@ -246,6 +246,39 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				return dat;
 			}
 
+			var fBorder = traceResult.Item1.UserData as MarkerCollisionBorder;
+			if (fBorder != null)
+			{
+				if (lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT)
+				{
+					rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+
+					var pNewStartX = traceResult.Item2.X;
+					var pNewStartY = traceResult.Item2.Y;
+					switch (fBorder.Side)
+					{
+						case FlatAlign4.NN: pNewStartY += lvl.LevelHeight; break;
+						case FlatAlign4.EE: pNewStartX -= lvl.LevelWidth; break;
+						case FlatAlign4.SS: pNewStartY -= lvl.LevelHeight; break;
+						case FlatAlign4.WW: pNewStartX += lvl.LevelWidth; break;
+					}
+					var pVec = rcEnd - rcStart;
+					var pNewStart = new Vector2(pNewStartX, pNewStartY);
+
+					return FindBulletPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), cannonRadians, remainingRecasts - 1);
+				}
+				else if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID)
+				{
+					rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+
+					var pNewStart = traceResult.Item2;
+					var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
+
+					return FindBulletPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), cannonRadians, remainingRecasts - 1);
+				}
+				throw new Exception("Unsupported WrapMode: " + lvl.WrapMode);
+			}
+
 			throw new Exception("Unknown rayTrace resturn ficture: " + traceResult.Item1.UserData);
 		}
 
@@ -570,7 +603,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				FixtureFactory.AttachCircle(cannonEnlarge * elem.Diameter / 2f + extend, 1, body, Vector2.Zero, elem);
 			}
 
-			if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID || lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT)
+			if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID || lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT) //TODO DOES NOT WORK
 			{
 				var mw = lvl.LevelWidth;
 				var mh = lvl.LevelHeight;
@@ -587,9 +620,9 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
 
 				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
-				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
-				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
-				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
+				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.Center), 0, BodyType.Static);
+				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.Center), 0, BodyType.Static);
+				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.Center), 0, BodyType.Static);
 
 				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
 				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);
