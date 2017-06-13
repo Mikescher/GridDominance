@@ -30,7 +30,7 @@
 
 	<div class="infocontainer">
 		<div class="infodiv">
-			Errors: <a href="errorlist.php"><?php echo getErrorCount(); ?>/<?php echo getRemainingErrorCount(); ?></a>
+			Errors: <a href="errorlist.php"><?php echo getRemainingErrorCount(); ?>/<?php echo getErrorCount(); ?></a>
 		</div>
 		<div class="infodiv">
 			Entries:  <a href="entrylist.php"><?php echo getEntryCount(); ?></a>
@@ -118,7 +118,7 @@
         <table class="sqltab pure-table pure-table-bordered">
             <thead>
             <tr>
-                <th>Username</th>
+                <th style='width: 250px'>Username</th>
                 <th>Score</th>
                 <th>Time</th>
             </tr>
@@ -150,9 +150,13 @@
 			<?php foreach (getLevelHighscores() as $lhigh): ?>
                 <tr>
                     <td title="<?php echo $lhigh['levelid']; ?>" >
-                        <a href="levelscores.php?id=<?php echo $lhigh['levelid']; ?>">
-							<?php echo (int)substr($lhigh['levelid'], 25, 6) . " - " . (int)substr($lhigh['levelid'], 31, 6); ?>
-                        </a>
+                        <?php if ($lhigh['difficulty'] == 0): ?>
+                            <a href="levelscores.php?id=<?php echo $lhigh['levelid']; ?>">
+								<?php echo (int)substr($lhigh['levelid'], 25, 6) . " - " . (int)substr($lhigh['levelid'], 31, 6); ?>
+                            </a>
+                        <?php else: ?>
+                            <?php echo (int)substr($lhigh['levelid'], 25, 6) . " - " . (int)substr($lhigh['levelid'], 31, 6); ?>
+                        <?php endif; ?>
                     </td>
                     <td><?php echo $lhigh['difficulty']; ?></td>
                     <td title="<?php echo $lhigh['best_time']; ?>ms" ><?php echo gmdate("H:i:s", $lhigh['best_time']/1000.0); ?></td>

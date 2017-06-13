@@ -35,7 +35,7 @@
                     <th>error id</th>
                     <th style='width: 170px'>username</th>
                     <th>pw verified</th>
-                    <th style='width: 100px'>resolution</th>
+                    <th>resolution</th>
                     <th>app version</th>
                     <th>exception id</th>
                     <th>message</th>
@@ -50,7 +50,7 @@
                     <td><?php echo $error['error_id']; ?></td>
                     <td><?php echo $error['username'] . " (" . $error['userid'] . ")" ; ?></td>
                     <td><?php echo $error['password_verified']; ?></td>
-                    <td><?php echo $error['screen_resolution']; ?></td>
+					<?php expansioncell($error['screen_resolution']); ?>
                     <td><?php echo $error['app_version']; ?></td>
                     <td><?php echo $error['exception_id']; ?></td>
 					<?php expansioncell($error['exception_message']); ?>

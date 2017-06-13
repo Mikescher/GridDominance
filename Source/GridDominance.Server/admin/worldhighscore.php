@@ -22,7 +22,7 @@
         <table class="sqltab pure-table pure-table-bordered">
             <thead>
                 <tr>
-                    <th>Username</th>
+                    <th style='width: 250px'>Username</th>
                     <th>Score</th>
                     <th>Time</th>
                 </tr>
