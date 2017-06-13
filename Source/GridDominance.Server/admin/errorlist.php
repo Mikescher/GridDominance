@@ -23,7 +23,7 @@
 	    global $previd;
 
 	    echo "<td>";
-	    echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace('\n', '<br/>', json_encode($txt)) . ");return false;'>show</a>";
+		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show</a>";
 		echo "</td>";
     }
     ?>
