@@ -2,10 +2,10 @@
 {
 	public static class KiddieCryptography
 	{
-		public static int Limit(int v, int revbase, int len)
+		public static uint Limit(uint v, uint revbase, uint len)
 		{
-			int[] digits = new int[len];
-			int p = 0;
+			uint[] digits = new uint[len];
+			uint p = 0;
 			while (v != 0)
 			{
 				if (p < len)
@@ -22,8 +22,8 @@
 				}
 			}
 
-			int d = 0;
-			for (int i = len - 1; i >= 0; i--)
+			uint d = 0;
+			for (uint i = len - 1; i >= 0; i--)
 			{
 				d *= revbase;
 				d += digits[i];
@@ -31,10 +31,10 @@
 			return d;
 		}
 
-		public static int Reverse(int v, int revbase, int len)
+		public static uint Reverse(uint v, uint revbase, uint len)
 		{
-			int d = 0;
-			for (int i = 0; i < len; i++)
+			uint d = 0;
+			for (uint i = 0; i < len; i++)
 			{
 				d *= revbase;
 				d += v % revbase;
@@ -43,25 +43,25 @@
 			return d;
 		}
 
-		public static int ReverseXOR(int v, int revbase, int len)
+		public static uint ReverseXOR(uint v, uint revbase, uint len)
 		{
 			return v ^ Reverse(v, revbase, len);
 		}
 
-		public static int SelfDefininedShuffle(int v, int revbase, int len)
+		public static uint SelfDefininedShuffle(uint v, uint revbase, uint len)
 		{
-			int?[] digits = new int?[len];
-			for (int i = 0; i < len; i++)
+			uint?[] digits = new uint?[len];
+			for (uint i = 0; i < len; i++)
 			{
 				digits[i] = v % revbase;
 				v /= revbase;
 			}
 
-			int d = 0;
-			int pos = 0;
-			for (int i = 0; ;)
+			uint d = 0;
+			uint pos = 0;
+			for (uint i = 0; ;)
 			{
-				var dpv = digits[pos].Value;
+				var dpv = digits[pos] ?? 0;
 				d *= revbase;
 				d += dpv;
 				digits[pos] = null;
@@ -72,7 +72,7 @@
 
 				while (dpv > 0)
 				{
-					pos = (pos + 1) % digits.Length;
+					pos = (pos + 1) % len;
 					if (digits[pos] != null) dpv--;
 				}
 			}
@@ -80,17 +80,17 @@
 			return d;
 		}
 
-		public static int PrefixShift(int v, int revbase, int len)
+		public static uint PrefixShift(uint v, uint revbase, uint len)
 		{
-			int[] digits = new int[len];
-			for (int i = 0; i < len; i++)
+			uint[] digits = new uint[len];
+			for (uint i = 0; i < len; i++)
 			{
 				digits[len - i - 1] = v % revbase;
 				v /= revbase;
 			}
 
-			int d = 0;
-			for (int i = 0; i < len; i++)
+			uint d = 0;
+			for (uint i = 0; i < len; i++)
 			{
 				var shift = digits[(len + (i - 1)) % len];
 				var value = (digits[i] + shift) % revbase;
@@ -101,21 +101,21 @@
 			return d;
 		}
 
-		public static int ZeroFix(int v, int revbase, int len)
+		public static uint ZeroFix(uint v, uint revbase, uint len)
 		{
-			int[] digits = new int[len];
-			for (int i = 0; i < len; i++)
+			uint[] digits = new uint[len];
+			for (uint i = 0; i < len; i++)
 			{
 				digits[len - i - 1] = v % revbase;
 				v /= revbase;
 			}
 
-			for (int i = 1; i < len; i++)
+			for (uint i = 1; i < len; i++)
 			{
 				if (digits[i] != 0 && digits[i - 1] != 0)
 				{
-					int d = 0;
-					for (int j = 0; j < len; j++)
+					uint d = 0;
+					for (uint j = 0; j < len; j++)
 					{
 						d *= revbase;
 						d += digits[(i + j) % len];
@@ -125,8 +125,8 @@
 			}
 			{
 				digits[0] = 1;
-				int d = 0;
-				for (int j = 0; j < len; j++)
+				uint d = 0;
+				for (uint j = 0; j < len; j++)
 				{
 					d *= revbase;
 					d += digits[j];

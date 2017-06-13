@@ -37,7 +37,9 @@ function connectOrFail($host, $dbname, $user, $password) {
 }
 
 function loadSQL($scriptname) {
-	$sql = file_get_contents('data/' . $scriptname . '.sql');
+	if (file_exists('data/' . $scriptname . '.sql')) $sql = file_get_contents('/data/' . $scriptname . '.sql');
+	if (file_exists('../data/' . $scriptname . '.sql')) $sql = file_get_contents('../data/' . $scriptname . '.sql');
+
 	$sql = str_replace("\r", "", $sql);
 	$sql = str_replace("\n", " ", $sql);
 	return $sql;

@@ -1,4 +1,4 @@
-<?php $c=require('../internals/config.php'); if (!$c['debug']) exit('Think of how stupid the average person is, and realize half of them are stupider than that.'); ?>
+<?php $c=require('../internals/config.php'); if (!$c['debug']) exit('Nope.'); ?>
 <!doctype html>
 
 <html lang="en">

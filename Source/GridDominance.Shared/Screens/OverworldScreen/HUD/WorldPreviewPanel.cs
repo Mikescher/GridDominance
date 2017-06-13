@@ -79,6 +79,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 				Click = OnClickBuy,
 			});
+			
+			//TODO evtl button with link to full version ??
 		}
 
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
