@@ -93,7 +93,7 @@ namespace GridDominance.Shared
 			
 			if (Profile.OnlineUserID >= 0)
 			{
-				Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
+				Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();  //TODO every 10min or so ping + dl highscores
 			}
 			else
 			{

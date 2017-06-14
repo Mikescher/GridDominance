@@ -1,7 +1,9 @@
-﻿using GridDominance.DSLEditor.Properties;
+﻿using GridDominance.DSLEditor.Helper;
+using GridDominance.DSLEditor.Properties;
 using MSHC.WPF.Extensions.BindingProxies;
 using MSHC.WPF.MVVM;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -35,6 +37,8 @@ namespace GridDominance.DSLEditor
 
 		public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
 
+		public TabControl TabCtrl;
+
 		private string _filePath = "";
 		public string FilePath { get { return _filePath; } set {if (value != _filePath) {_filePath = value; OnPropertyChanged();} } }
 
@@ -67,8 +71,8 @@ namespace GridDominance.DSLEditor
 		private readonly DispatcherTimer repaintTimer = new DispatcherTimer();
 		public int TimerCountDown = TIMER_COOLDOWN;
 
-		private bool IsFilePathLevel => FilePath.ToLower().EndsWith(".gslevel");
-		private bool IsFilePathGraph => FilePath.ToLower().EndsWith(".gsgraph");
+		private bool IsFilePathLevel  => FilePath.ToLower().EndsWith(".gslevel");
+		private bool IsFilePathGraph  => FilePath.ToLower().EndsWith(".gsgraph");
 
 		public MainWindowViewModel()
 		{
@@ -135,7 +139,8 @@ namespace GridDominance.DSLEditor
 						else
 							throw new Exception("Unknown filetype");
 
-						Application.Current.Dispatcher.BeginInvoke(new Action(() => { PreviewImage = img; }));
+						Application.Current.Dispatcher.BeginInvoke(new Action(() => { PreviewImage = img;  }));
+						Application.Current.Dispatcher.BeginInvoke(new Action(() => { UpdateTabsControl(); }));
 					}
 					catch (Exception exc)
 					{
@@ -164,6 +169,88 @@ namespace GridDominance.DSLEditor
 				{
 					Log.Add(exc.Message);
 					Console.Out.WriteLine(exc.ToString());
+				}
+			}
+		}
+
+		private void UpdateTabsControl()
+		{
+			var tabs = new List<Tuple<string, string>>();
+
+			if (DSLUtil.LastParsedIncludedSources != null)
+			{
+				tabs.AddRange(DSLUtil.LastParsedIncludedSources);
+			}
+
+			if (IsFilePathLevel && _currentDisplayLevel != null)
+			{
+				byte[] binData;
+				using (var ms = new MemoryStream())
+				using (var bw = new BinaryWriter(ms))
+				{
+					_currentDisplayLevel.BinarySerialize(bw);
+					binData = ms.ToArray();
+				}
+
+				var str = binData
+					.Select(b => $"{b:X2}")
+					.Select((s, i) => (i > 0 && i % 16 == 0) ? (s + "\r\n") : (s + " "))
+					.Aggregate((a, b) => a + b);
+
+				tabs.Add(Tuple.Create("Binary", str));
+
+			}
+			else if (IsFilePathGraph && _currentDisplayGraph != null)
+			{
+				byte[] binData;
+				using (var ms = new MemoryStream())
+				using (var bw = new BinaryWriter(ms))
+				{
+					_currentDisplayGraph.BinarySerialize(bw);
+					binData = ms.ToArray();
+				}
+
+				var str = binData
+					.Select(b => $"{b:X2}")
+					.Select((s, i) => (i > 0 && i % 16 == 0) ? (s + "\r\n") : (s + " "))
+					.Aggregate((a, b) => a + b);
+
+				tabs.Add(Tuple.Create("Binary", str));
+			}
+
+			if (TabCtrl.Items.Count != tabs.Count + 1)
+			{
+				while (TabCtrl.Items.Count > 1) TabCtrl.Items.RemoveAt(TabCtrl.Items.Count - 1);
+
+				for (int i = 0; i < tabs.Count; i++)
+				{
+					TabCtrl.Items.Add(new TabItem()
+					{
+						Header = tabs[i].Item1,
+						Content = new ScrollViewer()
+						{
+							VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
+							HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+							Content = new TextBox()
+							{
+								FontFamily = new FontFamily("Consolas"),
+								FontSize = 10,
+								IsReadOnly = true,
+								IsReadOnlyCaretVisible = true,
+								Text = tabs[i].Item2,
+								AcceptsReturn = true,
+							}
+						}
+					});
+				}
+				TabCtrl.SelectedIndex = 0;
+			}
+			else
+			{
+				for (int i = 0; i < tabs.Count; i++)
+				{
+					((TabItem)TabCtrl.Items[i + 1]).Header = tabs[i].Item1;
+					((TextBox)((ScrollViewer)((TabItem)TabCtrl.Items[i + 1]).Content).Content).Text = tabs[i].Item2;
 				}
 			}
 		}

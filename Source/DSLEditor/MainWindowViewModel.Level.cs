@@ -62,6 +62,7 @@ namespace GridDominance.DSLEditor
 			{
 				AddLog(pe.ToOutput());
 				Console.Out.WriteLine(pe.ToString());
+				_currentDisplayLevel = null;
 
 				return ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
 			}
@@ -69,6 +70,7 @@ namespace GridDominance.DSLEditor
 			{
 				AddLog(pe.Message);
 				Console.Out.WriteLine(pe.ToString());
+				_currentDisplayLevel = null;
 
 				return ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
 			}
@@ -147,20 +149,10 @@ namespace GridDominance.DSLEditor
 		{
 			input = ReplaceMagicConstantsInLevelFile(input);
 
-			Func<string, string> includesFunc = x => null;
-			if (File.Exists(FilePath))
-			{
-				var path = Path.GetDirectoryName(FilePath) ?? "";
-				var pattern = "*.gsheader";
-
-				var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
-
-				includesFunc = x => includes.FirstOrDefault(p => LevelBlueprint.IsIncludeMatch(p.Key, x)).Value;
-			}
+			var includesFunc = DSLUtil.GetIncludesFunc(FilePath);
 
 			return DSLUtil.ParseLevelFromString(input, includesFunc, sim);
 		}
-
 
 		private LevelBlueprint ParseLevelFileSafe(string input, bool sim)
 		{
@@ -226,7 +218,7 @@ namespace GridDominance.DSLEditor
 			var maps = Directory
 				.EnumerateFiles(folder)
 				.Where(p => Path.GetExtension(p).ToLower() == ".gsgraph")
-				.Select(p => Tuple.Create(p, ParseGraphFileSafe(File.ReadAllText(p))))
+				.Select(p => Tuple.Create(p, ParseGraphFileSafe(File.ReadAllText(p), p)))
 				.Where(p => p.Item2 != null)
 				.ToList();
 

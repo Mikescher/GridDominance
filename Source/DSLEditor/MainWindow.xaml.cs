@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 
 namespace GridDominance.DSLEditor
 {
@@ -13,6 +12,8 @@ namespace GridDominance.DSLEditor
 			var vm = new MainWindowViewModel();
 			DataContext = vm;
 			InitializeComponent();
+			vm.TabCtrl = ContentTabCtrl;
+
 			vm.TimerCountDown = 2;
 		}
 	}

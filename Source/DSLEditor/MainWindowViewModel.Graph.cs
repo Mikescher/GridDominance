@@ -18,6 +18,8 @@ namespace GridDominance.DSLEditor
 	{
 		private readonly GraphPreviewPainter graphPainter = new GraphPreviewPainter();
 
+		private GraphBlueprint _currentDisplayGraph = null;
+
 		private ImageSource ReparseGraphFile(string input)
 		{
 			try
@@ -27,7 +29,10 @@ namespace GridDominance.DSLEditor
 				ClearLog();
 				AddLog("Start parsing");
 
-				var lp = ParseGraphFile(input);
+				var incf = DSLUtil.GetIncludesFunc(FilePath);
+				var lp = DSLUtil.ParseGraphFromString(input, incf);
+
+				_currentDisplayGraph = lp;
 
 				var img = ImageHelper.CreateImageSource(graphPainter.Draw(lp, FilePath, AddLog));
 
@@ -39,6 +44,7 @@ namespace GridDominance.DSLEditor
 			{
 				AddLog(pe.ToOutput());
 				Console.Out.WriteLine(pe.ToString());
+				_currentDisplayGraph = null;
 
 				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null, AddLog));
 			}
@@ -46,6 +52,7 @@ namespace GridDominance.DSLEditor
 			{
 				AddLog(pe.Message);
 				Console.Out.WriteLine(pe.ToString());
+				_currentDisplayGraph = null;
 
 				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null, AddLog));
 			}
@@ -55,7 +62,8 @@ namespace GridDominance.DSLEditor
 		{
 			if (!File.Exists(FilePath)) throw new FileNotFoundException(FilePath);
 
-			var lp = ParseGraphFile(Code);
+			var incf = DSLUtil.GetIncludesFunc(FilePath);
+			var lp = DSLUtil.ParseGraphFromString(Code, incf);
 
 			var dir = Path.GetDirectoryName(FilePath);
 			var name = Path.GetFileNameWithoutExtension(FilePath) + ".xnb";
@@ -110,39 +118,12 @@ namespace GridDominance.DSLEditor
 			}
 		}
 
-		private GraphBlueprint ParseSpecificGraphFile(string f)
-		{
-			var path = Path.GetDirectoryName(f) ?? "";
-			var pattern = "*.gsheader";
-
-			var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
-
-			string IncludesFunc(string x) => includes.FirstOrDefault(p => GraphBlueprint.IsIncludeMatch(p.Key, x)).Value;
-
-			return new GraphParser(File.ReadAllText(f), IncludesFunc).Parse();
-		}
-
-		private GraphBlueprint ParseGraphFile(string input)
-		{
-			Func<string, string> includesFunc = x => null;
-			if (File.Exists(FilePath))
-			{
-				var path = Path.GetDirectoryName(FilePath) ?? "";
-				var pattern = "*.gsheader";
-
-				var includes = Directory.EnumerateFiles(path, pattern).ToDictionary(p => Path.GetFileName(p) ?? p, p => File.ReadAllText(p, Encoding.UTF8));
-
-				includesFunc = x => includes.FirstOrDefault(p => GraphBlueprint.IsIncludeMatch(p.Key, x)).Value;
-			}
-
-			return new GraphParser(input, includesFunc).Parse();
-		}
-
-		private GraphBlueprint ParseGraphFileSafe(string input)
+		private GraphBlueprint ParseGraphFileSafe(string input, string path)
 		{
 			try
 			{
-				return ParseGraphFile(input);
+				var incf = DSLUtil.GetIncludesFunc(path);
+				return DSLUtil.ParseGraphFromString(input, incf);
 			}
 			catch (Exception)
 			{
@@ -160,7 +141,7 @@ namespace GridDominance.DSLEditor
 			var files1 = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gslevel").ToList();
 			var files2 = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gsgraph").ToList();
 			var levels = files1.Select(f => ParseSpecificLevelFile(f, false)).ToList();
-			var worlds = files2.Select(f => ParseSpecificGraphFile(f)).ToList();
+			var worlds = files2.Select(f => DSLUtil.ParseGraphFromFile(f)).ToList();
 			{
 				var f0 = Path.Combine(folder, @"..\..\..\GridDominance.Shared\Content\Content.mgcb");
 

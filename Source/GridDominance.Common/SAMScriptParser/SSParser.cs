@@ -16,6 +16,8 @@ namespace GridDominance.SAMScriptParser
 		private readonly Dictionary<string, Action<List<string>>> _actions;
 		private readonly Dictionary<string, string> _aliasDict = new Dictionary<string, string>();
 
+		public List<Tuple<string, string>> IncludedSources = new List<Tuple<string, string>>();
+
 		protected SSParser()
 		{
 			_actions = new Dictionary<string, Action<List<string>>>();
@@ -40,6 +42,7 @@ namespace GridDominance.SAMScriptParser
 
 		protected void SubParse(string fileName, string fileContent)
 		{
+			IncludedSources.Add(Tuple.Create(fileName, fileContent));
 			InnerParse(fileName, fileContent);
 		}
 

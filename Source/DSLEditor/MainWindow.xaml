@@ -53,17 +53,19 @@
 				<ColumnDefinition Width="200"/>
 			</Grid.ColumnDefinitions>
 
-			<Border Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="2">
-				<avalonEdit:TextEditor x:Name="Editor"
-					HorizontalScrollBarVisibility="Hidden"
-					VerticalScrollBarVisibility="Auto"
-					ShowLineNumbers="True"
-					TextChanged="{mext:EventBinding EditorChangedCommand}"
+			<TabControl Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="2" x:Name="ContentTabCtrl">
+				<TabItem Header="Code">
+					<avalonEdit:TextEditor x:Name="Editor"
+						HorizontalScrollBarVisibility="Hidden"
+						VerticalScrollBarVisibility="Auto"
+						ShowLineNumbers="True"
+						TextChanged="{mext:EventBinding EditorChangedCommand}"
 						   
-					SyntaxHighlighting="C#"
-					FontFamily="Consolas"
-					FontSize="10pt"/>
-			</Border>
+						SyntaxHighlighting="C#"
+						FontFamily="Consolas"
+						FontSize="10pt"/>
+				</TabItem>
+			</TabControl>
 
 			<prox:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionStart"  ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionStart}" />
 			<prox:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionLength" ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionLength}" />
