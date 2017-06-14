@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Screens.OverworldScreen;
+using MonoSAMFramework.Portable.Extensions;
 
 namespace GridDominance.Shared.Screens
 {
@@ -102,6 +103,8 @@ namespace GridDominance.Shared.Screens
 			if (scrn is GDWorldMapScreen)  DebugSettings.AddTrigger("TRUE", "ZoomOut",          scrn, SKeys.Z,         KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
 
 			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "UnlockNode",       scrn, SKeys.A,         KeyModifier.None);
+			
+			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger(   "TRUE", "ReuploadProfile",       scrn, SKeys.O,         KeyModifier.Control, x => MainGame.Inst.Backend.Reupload(MainGame.Inst.Profile).RunAsync() );
 		}
 
 #endif

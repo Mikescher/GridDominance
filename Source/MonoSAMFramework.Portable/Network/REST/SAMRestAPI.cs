@@ -2,6 +2,7 @@
 using MonoSAMFramework.Portable.LogProtocol;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -32,8 +33,11 @@ namespace MonoSAMFramework.Portable.Network.REST
 		}
 
 		private TReturn Query<TReturn>(string apiEndPoint, RestParameterSet parameter, int maxTries)
-		{ 
-			string url = serverbasepath + "/" + apiEndPoint + ".php" + parameter.CreateParamString(secret, MonoSAMGame.CurrentInst.Bridge);
+		{
+			var para = parameter.CreateParamString(secret);
+
+
+			string url = serverbasepath + "/" + apiEndPoint + ".php" + para.Item1;
 
 #if DEBUG
 			if (DebugSettings.Get("DebugNetwork")) System.Diagnostics.Debug.WriteLine($"QueryAsync('{apiEndPoint}', '{url}', {maxTries})");
@@ -45,7 +49,14 @@ namespace MonoSAMFramework.Portable.Network.REST
 
 				try
 				{
-					var response = http.GetAsync(url).Result;
+					HttpResponseMessage response;
+
+
+					if (para.Item2.Any())
+						response = http.PostAsync(url, para.Item2).Result;
+					else
+						response = http.GetAsync(url).Result;
+
 					response.EnsureSuccessStatusCode();
 					content = response.Content.ReadAsStringAsync().Result;
 				}

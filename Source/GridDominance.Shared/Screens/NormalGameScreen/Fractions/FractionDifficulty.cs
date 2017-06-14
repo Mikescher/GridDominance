@@ -26,19 +26,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 
 	public static class FractionDifficultyHelper
 	{
-		public const float MULTIPLICATOR_PLAYER     = 1.000f;
+		public const float MULTIPLICATOR_PLAYER     = GDConstants.MULTIPLICATOR_PLAYER;
+		public const float MULTIPLICATOR_NEUTRAL    = GDConstants.MULTIPLICATOR_NEUTRAL;
+		public const float MULTIPLICATOR_COMPUTER_0 = GDConstants.MULTIPLICATOR_COMPUTER_0;
+		public const float MULTIPLICATOR_COMPUTER_1 = GDConstants.MULTIPLICATOR_COMPUTER_1;
+		public const float MULTIPLICATOR_COMPUTER_2 = GDConstants.MULTIPLICATOR_COMPUTER_2;
+		public const float MULTIPLICATOR_COMPUTER_3 = GDConstants.MULTIPLICATOR_COMPUTER_3;
 
-		public const float MULTIPLICATOR_NEUTRAL    = 0.600f;
-
-		public const float MULTIPLICATOR_COMPUTER_0 = 0.800f;  // Easy
-		public const float MULTIPLICATOR_COMPUTER_1 = 0.875f;  // Normal
-		public const float MULTIPLICATOR_COMPUTER_2 = 0.950f;  // Hard
-		public const float MULTIPLICATOR_COMPUTER_3 = 1.000f;  // Impossible
-
-		private const int SCORE_DIFF_0 = 11; // also specified in SQL (server)
-		private const int SCORE_DIFF_1 = 13;
-		private const int SCORE_DIFF_2 = 17;
-		private const int SCORE_DIFF_3 = 23;
+		private const int SCORE_DIFF_0 = GDConstants.SCORE_DIFF_0;
+		private const int SCORE_DIFF_1 = GDConstants.SCORE_DIFF_1;
+		private const int SCORE_DIFF_2 = GDConstants.SCORE_DIFF_2;
+		private const int SCORE_DIFF_3 = GDConstants.SCORE_DIFF_3;
 
 		public static float GetMultiplicator(FractionDifficulty d)
 		{

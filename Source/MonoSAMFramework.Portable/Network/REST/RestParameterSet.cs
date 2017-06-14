@@ -3,19 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Net.Http;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MonoSAMFramework.Portable.Network.REST
 {
 	public sealed class RestParameterSet
 	{
-		public enum RestParameterSetType { String, Int, Base64, Hash, Compressed, Guid }
+		private const int MAX_GET_LENGTH = 128;
+		
+		public enum RestParameterSetType { String, Int, Base64, Hash, Compressed, Guid, Json }
 
 		private readonly Dictionary<string, Tuple<string, RestParameterSetType, bool>> dict = new Dictionary<string, Tuple<string, RestParameterSetType, bool>>();
 
 		public void AddParameterString(string name, string value, bool signed = true)
 		{
 			dict[name] = Tuple.Create(value, RestParameterSetType.String, signed);
+		}
+		
+		public void AddParameterJson(string name, object value, bool signed = true)
+		{
+			dict[name] = Tuple.Create(JsonConvert.SerializeObject(value, Formatting.None), RestParameterSetType.Json, signed);
 		}
 
 		public void AddParameterInt(string name, int value, bool signed = true)
@@ -43,24 +52,34 @@ namespace MonoSAMFramework.Portable.Network.REST
 			dict[name] = Tuple.Create(value.ToString("B"), RestParameterSetType.Guid, signed);
 		}
 
-		public string CreateParamString(string secret, IOperatingSystemBridge bridge)
+		public Tuple<string, MultipartFormDataContent> CreateParamString(string secret)
 		{
-			var sigbuilder = secret;
+			var post = new MultipartFormDataContent();
 			
+			var sigbuilder = secret;
+
 			string result = "";
 			foreach (var elem in dict)
 			{
+				
 				switch (elem.Value.Item2)
 				{
 					case RestParameterSetType.String:
+					case RestParameterSetType.Json:
 					case RestParameterSetType.Guid:
 						sigbuilder += "\n" + elem.Value.Item1;
-						result += "&" + elem.Key + "=" + Uri.EscapeDataString(elem.Value.Item1);
+						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(elem.Value.Item1), elem.Key);
+						else
+							result += "&" + elem.Key + "=" + Uri.EscapeDataString(elem.Value.Item1);
 						break;
 
 					case RestParameterSetType.Int:
 						sigbuilder += "\n" + elem.Value.Item1;
-						result += "&" + elem.Key + "=" + elem.Value.Item1;
+						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(elem.Value.Item1), elem.Key);
+						else
+							result += "&" + elem.Key + "=" + elem.Value.Item1;
 						break;
 
 					case RestParameterSetType.Base64:
@@ -70,13 +89,19 @@ namespace MonoSAMFramework.Portable.Network.REST
 							.Replace('\\', '_')
 							.Replace('=', '.');
 
-						result += "&" + elem.Key + "=" + data64;
+						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(data64), elem.Key);
+						else
+							result += "&" + elem.Key + "=" + data64;
 						break;
 
 					case RestParameterSetType.Hash:
 						var dataHash = elem.Value.Item1.ToUpper();
 						sigbuilder += "\n" + dataHash;
-						result += "&" + elem.Key + "=" + dataHash;
+						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(dataHash), elem.Key);
+						else
+							result += "&" + elem.Key + "=" + dataHash;
 						break;
 
 					case RestParameterSetType.Compressed:
@@ -85,16 +110,20 @@ namespace MonoSAMFramework.Portable.Network.REST
 							.Replace('+', '-')
 							.Replace('\\', '_')
 							.Replace('=', '.');
-						result += "&" + elem.Key + "=" + dataComp;
+						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(dataComp), elem.Key);
+						else
+							result += "&" + elem.Key + "=" + dataComp;
 						break;
 				}
 			}
 
 			var sig = MonoSAMGame.CurrentInst.Bridge.DoSHA256(sigbuilder);
 
-			return "?msgk=" + sig + result;
-		}
+			var get = "?msgk=" + sig + result;
 
+			return Tuple.Create(get, post);
+		}
 
 		public static string CompressString(string str)
 		{

@@ -89,7 +89,7 @@ namespace MonoSAMFramework.Portable
 
 		public Screen GetCurrentScreen()
 		{
-			return screens.CurrentScreen;
+			return screens?.CurrentScreen;
 		}
 
 		protected override void Update(GameTime gameTime)

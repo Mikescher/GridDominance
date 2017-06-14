@@ -140,7 +140,7 @@ namespace GridDominance.DSLEditor
 							throw new Exception("Unknown filetype");
 
 						Application.Current.Dispatcher.BeginInvoke(new Action(() => { PreviewImage = img;  }));
-						Application.Current.Dispatcher.BeginInvoke(new Action(() => { UpdateTabsControl(); }));
+						Application.Current.Dispatcher.BeginInvoke(new Action(UpdateTabsControl));
 					}
 					catch (Exception exc)
 					{
@@ -164,6 +164,8 @@ namespace GridDominance.DSLEditor
 						PreviewImage = ReparseGraphFile(Code);
 					else
 						throw new Exception("Unknown filetype");
+
+					Application.Current.Dispatcher.BeginInvoke(new Action(UpdateTabsControl));
 				}
 				catch (Exception exc)
 				{
@@ -194,7 +196,7 @@ namespace GridDominance.DSLEditor
 
 				var str = binData
 					.Select(b => $"{b:X2}")
-					.Select((s, i) => (i > 0 && i % 16 == 0) ? (s + "\r\n") : (s + " "))
+					.Select((s, i) => (i % 16 == 15) ? (s + "\r\n") : (s + " "))
 					.Aggregate((a, b) => a + b);
 
 				tabs.Add(Tuple.Create("Binary", str));
@@ -212,7 +214,7 @@ namespace GridDominance.DSLEditor
 
 				var str = binData
 					.Select(b => $"{b:X2}")
-					.Select((s, i) => (i > 0 && i % 16 == 0) ? (s + "\r\n") : (s + " "))
+					.Select((s, i) => (i % 16 == 15) ? (s + "\r\n") : (s + " "))
 					.Aggregate((a, b) => a + b);
 
 				tabs.Add(Tuple.Create("Binary", str));
@@ -234,7 +236,7 @@ namespace GridDominance.DSLEditor
 							Content = new TextBox()
 							{
 								FontFamily = new FontFamily("Consolas"),
-								FontSize = 10,
+								FontSize = 14,
 								IsReadOnly = true,
 								IsReadOnlyCaretVisible = true,
 								Text = tabs[i].Item2,

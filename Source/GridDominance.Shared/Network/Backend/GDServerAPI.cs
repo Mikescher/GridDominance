@@ -48,7 +48,11 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultPing>("ping", ps, RETRY_PING);
 
-				if (response.result == "success")
+				if (response == null)
+				{
+					return; // meh - internal server error
+				}
+				else if (response.result == "success")
 				{
 					if (response.user.RevID > profile.OnlineRevisionID)
 					{
@@ -110,7 +114,12 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultCreateUser>("create-user", ps, RETRY_CREATEUSER);
 
-				if (response.result == "success")
+				if (response == null)
+				{
+					SAMLog.Error("Backend", "CreateUser returned NULL");
+					ShowErrorCommunication();
+				}
+				else if (response.result == "success")
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
@@ -158,7 +167,11 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultSetScore>("set-score", ps, RETRY_SETSCORE);
 
-				if (response.result == "success")
+				if (response == null)
+				{
+					return; // meh - internal server error
+				}
+				else if (response.result == "success")
 				{
 					if (response.update)
 					{
@@ -236,7 +249,11 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultDownloadData>("download-data", ps, RETRY_DOWNLOADDATA);
 
-				if (response.result == "success")
+				if (response == null)
+				{
+					return; // meh - internal server error
+				}
+				else if (response.result == "success")
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
@@ -294,32 +311,67 @@ namespace GridDominance.Shared.Network
 
 			try
 			{
-				List<Task> scoretasks = new List<Task>();
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterJson("data", CreateScoreArray(profile));
 
-				foreach (var lvldata in profile.LevelData)
+				var response = await QueryAsync<QueryResultSetMultiscore>("set-multiscore", ps, RETRY_DOWNLOADDATA);
+
+				if (response == null)
 				{
-					foreach (var diff in lvldata.Value.Data.Where(p => p.Value.HasCompleted))
+					return; // meh - internal server error
+				}
+				else if (response.result == "success")
+				{
+					if (response.update)
 					{
-						scoretasks.Add(SetScore(profile, lvldata.Key, diff.Key, diff.Value.BestTime));
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							profile.OnlineRevisionID = response.user.RevID;
+
+							MainGame.Inst.SaveProfile();
+
+							if (profile.NeedsReupload) Reupload(profile).EnsureNoError();
+						});
 					}
 				}
-
-				await Task.WhenAll(scoretasks);
-
-				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				else if (response.result == "error")
 				{
-					profile.NeedsReupload = false;
+					ShowErrorCommunication();
 
-					MainGame.Inst.SaveProfile();
-				});
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						return; // meh
+					}
+					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
+					{
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							SAMLog.Error("Backend", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+
+							// something went horribly wrong
+							// create new user on next run
+							profile.OnlineUserID = -1;
+
+							MainGame.Inst.SaveProfile();
+						});
+					}
+					else
+					{
+						SAMLog.Error("Backend", $"SetScore: Error {response.errorid}: {response.errormessage}");
+					}
+				}
 			}
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend", e); // probably no internet
 				ShowErrorConnection();
+
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
-					profile.NeedsReupload = false;
+					profile.NeedsReupload = true;
 
 					MainGame.Inst.SaveProfile();
 				});
@@ -328,9 +380,10 @@ namespace GridDominance.Shared.Network
 			{
 				SAMLog.Error("Backend", e);
 				ShowErrorCommunication();
+
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
-					profile.NeedsReupload = false;
+					profile.NeedsReupload = true;
 
 					MainGame.Inst.SaveProfile();
 				});
@@ -353,7 +406,11 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultDownloadData>("log-client", ps, RETRY_LOGERROR);
 
-				if (response.result == "error")
+				if (response == null)
+				{
+					SAMLog.Warning("Log_Upload", "response == null");
+				}
+				else if (response.result == "error")
 				{
 					SAMLog.Warning("Log_Upload", response.errormessage);
 				}
@@ -376,7 +433,12 @@ namespace GridDominance.Shared.Network
 			{
 				var response = await QueryAsync<QueryResultHighscores>("get-highscores", new RestParameterSet(), RETRY_DOWNLOADHIGHSCORES);
 
-				if (response.result == "success")
+				if (response == null)
+				{
+					SAMLog.Warning("Backend", $"DownloadHighscores: Error response == null");
+					ShowErrorCommunication();
+				}
+				else if (response.result == "success")
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
@@ -427,7 +489,11 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultVerify>("verify", ps, RETRY_VERIFY);
 
-				if (response.result == "success")
+				if (response == null)
+				{
+					return Tuple.Create(VerifyResult.InternalError, -1, response.errormessage);
+				}
+				else if (response.result == "success")
 				{
 					if (response.user.AutoUser) return Tuple.Create(VerifyResult.WrongUsername, -1, string.Empty);
 
@@ -489,7 +555,12 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultUpgradeUser>("upgrade-user", ps, RETRY_VERIFY);
 
-				if (response.result == "success")
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return Tuple.Create(UpgradeResult.InternalError, response.errormessage);
+				}
+				else if (response.result == "success")
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
@@ -561,7 +632,12 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultChangePassword>("change-password", ps, RETRY_CHANGE_PW);
 
-				if (response.result == "success")
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return Tuple.Create(ChangePasswordResult.InternalError, response.errormessage);
+				}
+				else if (response.result == "success")
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
@@ -571,7 +647,6 @@ namespace GridDominance.Shared.Network
 
 						MainGame.Inst.SaveProfile();
 					});
-
 
 					return Tuple.Create(ChangePasswordResult.Success, string.Empty);
 				}
@@ -620,7 +695,12 @@ namespace GridDominance.Shared.Network
 
 				var response = await QueryAsync<QueryResultRanking>("get-ranking", ps, RETRY_GETRANKING);
 
-				if (response.result == "success")
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "success")
 				{
 					return response;
 				}
@@ -644,6 +724,86 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
+		public async Task<Tuple<VerifyResult, string>> MergeLogin(PlayerProfile profile, string username, string password)
+		{
+			try
+			{
+				var pwHash = bridge.DoSHA256(password);
+
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("old_userid", profile.OnlineUserID);
+				ps.AddParameterHash("old_password", profile.OnlinePasswordHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterString("new_username", username);
+				ps.AddParameterHash("new_password", pwHash);
+				ps.AddParameterString("device_name", bridge.DeviceName);
+				ps.AddParameterJson("merge_data", CreateScoreArray(profile));
+
+				var response = await QueryAsync<QueryResultMergeLogin>("merge-login", ps, RETRY_CREATEUSER);
+
+				if (response == null)
+				{
+					return Tuple.Create(VerifyResult.InternalError, response.errormessage);
+				}
+				else if (response.result == "success")
+				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						profile.AccountType = AccountType.Full;
+						profile.OnlineUserID = response.user.ID;
+						profile.OnlineRevisionID = response.user.RevID;
+						profile.OnlinePasswordHash = pwHash;
+
+						foreach (var scdata in response.scores)
+						{
+							profile.SetCompleted(Guid.Parse(scdata.levelid), (FractionDifficulty)scdata.difficulty, scdata.best_time, false);
+						}
+
+						MainGame.Inst.SaveProfile();
+					});
+					
+					return Tuple.Create(VerifyResult.Success, string.Empty);
+				}
+				else if (response.result == "error")
+				{
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						return Tuple.Create(VerifyResult.InternalError, response.errormessage);
+					}
+					else if (response.errorid == BackendCodes.WRONG_PASSWORD)
+					{
+						return Tuple.Create(VerifyResult.WrongPassword, string.Empty);
+					}
+					else if (response.errorid == BackendCodes.USER_BY_NAME_NOT_FOUND)
+					{
+						return Tuple.Create(VerifyResult.WrongUsername, string.Empty);
+					}
+					else
+					{
+						ShowErrorCommunication();
+						SAMLog.Error("Backend", $"Verify: Error {response.errorid}: {response.errormessage}");
+						return Tuple.Create(VerifyResult.InternalError, response.errormessage);
+					}
+				}
+				else
+				{
+					return Tuple.Create(VerifyResult.InternalError, "Internal server exception");
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend", e); // probably no internet
+				ShowErrorConnection();
+				return Tuple.Create(VerifyResult.NoConnection, string.Empty);
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend", e);
+				ShowErrorCommunication();
+				return Tuple.Create(VerifyResult.InternalError, "Internal server exception");
+			}
+		}
+
 		private void ShowErrorConnection()
 		{
 			MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
@@ -657,6 +817,28 @@ namespace GridDominance.Shared.Network
 		{
 			var screen = MainGame.Inst.GetCurrentScreen() as GameScreen;
 			screen?.HUD?.ShowToast(L10N.T(L10NImpl.STR_API_COMERR), 40, FlatColors.Flamingo, FlatColors.Foreground, 1.5f);
+		}
+
+		private object CreateScoreArray(PlayerProfile profile)
+		{
+			var d = new List<Tuple<Guid, FractionDifficulty, int>>();
+
+			foreach (var ld in profile.LevelData)
+			{
+				foreach (var dd in ld.Value.Data)
+				{
+					if (dd.Value.HasCompleted && dd.Key >= FractionDifficulty.DIFF_0 && dd.Key <= FractionDifficulty.DIFF_3)
+					
+					d.Add(Tuple.Create(ld.Key, dd.Key, dd.Value.BestTime));
+				}
+			}
+
+			return d.Select(p => (object)new
+			{
+				levelid = p.Item1.ToString("B"),
+				difficulty = (int)p.Item2,
+				leveltime = p.Item3,
+			}).ToArray();
 		}
 	}
 }

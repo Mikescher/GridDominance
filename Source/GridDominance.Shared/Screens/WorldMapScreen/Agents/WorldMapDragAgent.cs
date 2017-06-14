@@ -72,7 +72,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			}
 			else
 			{
-				if (istate.IsExclusiveDown)
+				if (istate.IsExclusiveJustDown)
 				{
 					istate.Swallow(InputConsumer.GameBackground);
 					StartDrag(istate);

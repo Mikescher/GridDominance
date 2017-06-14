@@ -24,6 +24,11 @@ abstract class ERRORS {
 
 	/* ======== 13 SET-SCORE ========= */
 	const CRON_INTERNAL_ERR  = 13001;
+
+	/* ======== 14 MERGE-LOGIN ========= */
+	const MERGE_INVALID_TIME  = 14001;
+	const MERGE_INVALID_LVLID = 14002;
+	const MERGE_INVALID_DIFF  = 14003;
 }
 
 /**
@@ -52,6 +57,8 @@ function getParamStrOrError($name, $allowEmpty = false) {
 	$v = null;
 
 	if( isset($_GET[$name])) $v = $_GET[$name];
+
+	if ($v === null) { if( isset($_POST[$name])) $v = $_POST[$name]; }
 
 	if ($v === null) {
 		$opt = getopt('', [$name . '::']);

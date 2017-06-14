@@ -24,8 +24,6 @@ namespace MonoSAMFramework.Portable.Input
 		private bool isUpDownSwallowed = false;
 		public InputConsumer SwallowConsumer { get; private set; } = InputConsumer.None;
 
-		public bool IsExclusiveDown => isDown && !isUpDownSwallowed;
-		public bool IsExclusiveUp => !isDown && !isUpDownSwallowed;
 		public bool IsExclusiveJustDown => isJustDown && !isUpDownSwallowed;
 		public bool IsExclusiveJustUp => isJustUp && !isUpDownSwallowed;
 		public bool IsRealDown => isDown;

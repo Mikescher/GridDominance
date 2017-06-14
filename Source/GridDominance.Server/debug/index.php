@@ -188,8 +188,32 @@
         <form class="form" data-apitarget="get-ranking">
             <h3>Get Ranking</h3>
 
-            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
+            UserID:<br>              <input type="text" data-apiparam="userid"                data-apiformat="int" data-apisig="true">
             World ID:<br>            <input type="text" data-apiparam="world_id"              data-apiformat="int" data-apisig="true">
+
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
+
+        <form class="form" data-apitarget="merge-login">
+            <h3>Merge Login</h3>
+
+            UserID(old):<br>              <input type="text" data-apiparam="old_userid"               data-apiformat="int" data-apisig="true">
+            Password(old):<br>              <input type="text" data-apiparam="old_password"             data-apiformat="enc" data-apisig="true">
+            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
+            Username:<br>         <input type="text" data-apiparam="new_username"          data-apiformat="str" data-apisig="true">
+            Password:<br>         <input type="text" data-apiparam="new_password"          data-apiformat="enc" data-apisig="true">
+            MergeData:<br>         <input type="text" data-apiparam="merge_data"          data-apiformat="str" data-apisig="true">
+
+            <button type="button" onclick="apicall(this);">Query</button>
+        </form>
+
+        <form class="form" data-apitarget="set-score">
+            <h3>Set Score</h3>
+
+            UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
+            Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="enc" data-apisig="true">
+            App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
+            Data:<br>         <input type="text" data-apiparam="data"           data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>

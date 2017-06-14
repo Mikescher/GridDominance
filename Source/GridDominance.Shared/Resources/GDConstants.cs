@@ -20,8 +20,8 @@ namespace GridDominance.Shared.Resources
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
 		public const string BFB_URL     = @"http://blackforestbytes.de/";
 
-		//public const string SERVER_URL = "http://localhost:666";
-		public const string SERVER_URL = "http://gdapi.mikescher.com";
+		public const string SERVER_URL = "http://localhost:666";
+//		public const string SERVER_URL = "http://gdapi.mikescher.com";
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 
 		public const float PHYSICS_CONVERSION_FACTOR = 50;
@@ -42,5 +42,18 @@ namespace GridDominance.Shared.Resources
 
 		public const int ORDER_WORLD_NODE = 100;
 		public const int ORDER_WORLD_LOGO = 200;
+
+
+		public const float MULTIPLICATOR_PLAYER     = 1.000f;
+		public const float MULTIPLICATOR_NEUTRAL    = 0.600f;
+		public const float MULTIPLICATOR_COMPUTER_0 = 0.800f;  // Easy
+		public const float MULTIPLICATOR_COMPUTER_1 = 0.875f;  // Normal
+		public const float MULTIPLICATOR_COMPUTER_2 = 0.950f;  // Hard
+		public const float MULTIPLICATOR_COMPUTER_3 = 1.000f;  // Impossible
+
+		public const int SCORE_DIFF_0 = 11; // also specified in SQL (server)
+		public const int SCORE_DIFF_1 = 13;
+		public const int SCORE_DIFF_2 = 17;
+		public const int SCORE_DIFF_3 = 23;
 	}
 }

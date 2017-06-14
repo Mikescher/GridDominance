@@ -22,6 +22,10 @@ namespace GridDominance.Shared.Resources
 		public const int STR_FAP_USERNAME       = 11;
 		public const int STR_FAP_SCORE          = 78;
 		public const int STR_FAP_CHANGEPW       = 12;
+		public const int STR_FAP_LOGOUT         = 93;
+		public const int STR_FAP_WARN1          = 94;
+		public const int STR_FAP_WARN2          = 95;
+		public const int STR_FAP_LOGOUT_SUCESS  = 96;
 
 		public const int STR_CPP_CHANGEPW       = 13;
 		public const int STR_CPP_USERNAME       = 14;
@@ -115,7 +119,7 @@ namespace GridDominance.Shared.Resources
 
 		public const int STR_PREV_BUYNOW        = 87;
 
-		private const int TEXT_COUNT = 93; // = next idx
+		private const int TEXT_COUNT = 97; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -135,6 +139,10 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_FAP_USERNAME,       "Username:",                                                   "Benutzername:"                                                        );
 			L10N.Add(STR_FAP_SCORE,          "Points:",                                                     "Punkte:"                                                              );
 			L10N.Add(STR_FAP_CHANGEPW,       "Change Password",                                             "Passwort ändern"                                                      );
+			L10N.Add(STR_FAP_LOGOUT,         "Logout",                                                      "Ausloggen"                                                            );
+			L10N.Add(STR_FAP_WARN1,          "This will clear all local data. Press again to log out.",     "Dies löscht alle lokalen Daten. Nochmal drücken zum ausloggen."       );
+			L10N.Add(STR_FAP_WARN2,          "Are you really sure you want to log out?",                    "Wirklich vom Serverkonto abmelden?"                                   );
+			L10N.Add(STR_FAP_LOGOUT_SUCESS,  "Logged out from account",                                     "Lokaler Benutzer wurde abgemeldet."                                   );
 			L10N.Add(STR_CPP_CHANGEPW,       "Change Password",                                             "Passwort ändern"                                                      );
 			L10N.Add(STR_CPP_USERNAME,       "Username:",                                                   "Benutzername:"                                                        );
 			L10N.Add(STR_CPP_NEWPW,          "New Password",                                                "Neues Passwort"                                                       );

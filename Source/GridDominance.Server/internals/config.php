@@ -28,6 +28,7 @@ return [
 	'levelids' => array_map(function($k){ return $k[1]; }, require 'config_levelids.php'),
 
 	'difficulties' => [0x00, 0x01, 0x02, 0x03],
+	'diff_scores'  => [11,   13,   17,   23  ],
 
 	'debug' => true,
 	'ping_emulation' => 0, // sec

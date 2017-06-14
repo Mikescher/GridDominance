@@ -23,5 +23,10 @@
 
 		/* ======== 13 SET-SCORE ========= */
 		public const int CRON_INTERNAL_ERR  = 13001;
+
+		/* ======== 14 MERGE-LOGIN ========= */
+		public const int MERGE_INVALID_TIME  = 14001;
+		public const int MERGE_INVALID_LVLID = 14002;
+		public const int MERGE_INVALID_DIFF  = 14003;
 	}
 }

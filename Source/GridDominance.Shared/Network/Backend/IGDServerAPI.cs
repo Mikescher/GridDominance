@@ -22,6 +22,7 @@ namespace GridDominance.Shared.Network
 		Task<Tuple<UpgradeResult, string>> UpgradeUser(PlayerProfile profile, string username, string password);
 		Task<Tuple<ChangePasswordResult, string>> ChangePassword(PlayerProfile profile, string newPassword);
 		Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit);
+		Task<Tuple<VerifyResult, string>> MergeLogin(PlayerProfile profile, string username, string password);
 	}
 
 	#pragma warning disable 1998
@@ -68,6 +69,11 @@ namespace GridDominance.Shared.Network
 		public async Task<Tuple<VerifyResult, int, string>> Verify(string username, string password)
 		{
 			return Tuple.Create(VerifyResult.Success, 77, string.Empty);
+		}
+
+		public async Task<Tuple<VerifyResult, string>> MergeLogin(PlayerProfile profile, string username, string password)
+		{
+			return Tuple.Create(VerifyResult.Success, string.Empty);
 		}
 
 		public async Task<Tuple<UpgradeResult, string>> UpgradeUser(PlayerProfile profile, string username, string password)

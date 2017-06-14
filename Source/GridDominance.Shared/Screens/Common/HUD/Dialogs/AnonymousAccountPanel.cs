@@ -19,6 +19,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -192,16 +193,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				var profile = MainGame.Inst.Profile;
 
-				var r = await MainGame.Inst.Backend.Verify(username, password);
+				var r = await MainGame.Inst.Backend.MergeLogin(profile, username, password);
 				var verifyResult = r.Item1;
-				var verifyUserID = r.Item2;
 
 				if (verifyResult != VerifyResult.Success)
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
 						var text = "???";
-						if (verifyResult == VerifyResult.InternalError) text = r.Item3;
+						if (verifyResult == VerifyResult.InternalError) text = r.Item2;
 						if (verifyResult == VerifyResult.WrongPassword) text = L10N.T(L10NImpl.STR_AAP_WRONGPW);
 						if (verifyResult == VerifyResult.WrongUsername) text = L10N.T(L10NImpl.STR_AAP_USERNOTFOUND);
 						if (verifyResult == VerifyResult.NoConnection)  text = L10N.T(L10NImpl.STR_AAP_NOCOM);
@@ -221,24 +221,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					});
 					return;
 				}
-
-//				MonoSAMGame.CurrentInst.DispatchInvoke(() =>
-//				{
-					profile.OnlineUserID = verifyUserID;
-					profile.AccountType = AccountType.Full;
-					profile.OnlinePasswordHash = MainGame.Inst.Bridge.DoSHA256(password);
-					profile.OnlineUsername = username;
-
-					MainGame.Inst.SaveProfile();
-//				});
-
-				await MainGame.Inst.Backend.Reupload(profile);
-				await MainGame.Inst.Backend.DownloadData(profile);
-
+				
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
 					spinner.Remove();
-					HUD.AddModal(new HUDFadeOutInfoBox(3, 1, 0.3f)
+
+					MainGame.Inst.SetOverworldScreen();
+					var screen = MainGame.Inst.GetCurrentScreen() as GameScreen;
+					screen?.HUD?.AddModal(new HUDFadeOutInfoBox(3, 1, 0.3f)
 					{
 						L10NText = L10NImpl.STR_AAP_LOGINSUCCESS,
 						TextColor = FlatColors.TextHUD,
@@ -247,8 +237,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 						CloseOnClick = true,
 
 					}, true);
-
-					MainGame.Inst.SetOverworldScreen();
 
 					Remove();
 				});
