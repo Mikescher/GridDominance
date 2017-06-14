@@ -6,8 +6,11 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
@@ -15,12 +18,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
 	public class MirrorBlock : GameEntity
 	{
+		public const float CORNER_SIZE = 16f;
+		
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
 		private readonly float _width;
 		private readonly float _height;
+		private readonly float _rotation;
 
 		private readonly FRectangle _bounds;
 
@@ -33,6 +39,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			_width = blueprint.Width;
 			_height = blueprint.Height;
+			_rotation = FloatMath.ToRadians(blueprint.Rotation);
 
 			_bounds = FRectangle.CreateByCenter(pos, _width, _height);
 
@@ -40,12 +47,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			DrawingBoundingBox = new FSize(_width, _height);
 
-			this.GDOwner().GDBackground.RegisterBlockedBlock(_bounds);
+			this.GDOwner().GDBackground.RegisterBlockedBlock(_bounds, _rotation);
 		}
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static);
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), _rotation, BodyType.Static);
 
 			PhysicsFixture = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(_width), ConvertUnits.ToSimUnits(_height), 1, Vector2.Zero, PhysicsBody, this);
 		}
@@ -62,7 +69,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			//TODO
+			SimpleRenderHelper.Draw9Patch(
+				sbatch,
+				_bounds,
+				Color.White, Color.White, FlatColors.Concrete,
+				Textures.TexMirrorBlockEdge, Textures.TexMirrorBlockCorner, Textures.TexPixel,
+				CORNER_SIZE,
+				_rotation);
 		}
 	}
 }

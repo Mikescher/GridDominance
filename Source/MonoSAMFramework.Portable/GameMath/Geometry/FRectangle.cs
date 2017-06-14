@@ -380,13 +380,13 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FRectangle(X + offset.X, Y + offset.Y, Width, Height);
 		}
 
+		IFShape IFShape.AsTranslated(Vector2 offset) => AsTranslated(offset);
+
 		[Pure]
 		public FRectangle AsScaledAndTranslated(float scale, FPoint offset)
 		{
 			return new FRectangle(X * scale + offset.X, Y * scale + offset.Y, Width * scale, Height * scale);
 		}
-
-		IFShape IFShape.AsTranslated(Vector2 offset) => AsTranslated(offset);
 
 		[Pure]
 		public FRectangle AsResized(FSize size)
@@ -427,14 +427,26 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 				case PerpendicularRotation.DEGREE_CW_090:
 				case PerpendicularRotation.DEGREE_CW_270:
 					return new FRectangle(
-						X + Width/2 - Height/2,
-						Y - Width/2 + Height/2,
+						X + Width / 2 - Height / 2,
+						Y - Width / 2 + Height / 2,
 						Height,
 						Width);
 
 				default:
 					throw new ArgumentOutOfRangeException(nameof(rot), rot, null);
 			}
+		}
+
+		[Pure]
+		public FRotatedRectangle AsRotated(float rads)
+		{
+			return new FRotatedRectangle(CenterX, CenterY, Width, Height, rads);
+		}
+
+		[Pure]
+		public FRectangle AsRotateCenterAround(FPoint center, float rot)
+		{
+			return CreateByCenter(VecCenter.RotateAround(center, rot), Width, Height);
 		}
 
 		public float Left => X;
@@ -576,6 +588,29 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 				return AsResized(newWidth, Height);
 			}
+		}
+
+		[Pure]
+		public FRectangle AsNormalized()
+		{
+			var _x = X;
+			var _y = Y;
+			var _w = Width;
+			var _h = Height;
+
+			if (_w < 0)
+			{
+				_x += _w;
+				_w *= -1;
+			}
+
+			if (_h < 0)
+			{
+				_y += _h;
+				_h *= -1;
+			}
+			
+			return new FRectangle(_x, _y, _w, _h);
 		}
 	}
 }

@@ -10,6 +10,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		void RegisterBlockedLine(Vector2 start, Vector2 end);
 		void RegisterBlockedCircle(FCircle circle);
-		void RegisterBlockedBlock(FRectangle block);
+		void RegisterBlockedBlock(FRectangle block, float rotation);
 	}
 }

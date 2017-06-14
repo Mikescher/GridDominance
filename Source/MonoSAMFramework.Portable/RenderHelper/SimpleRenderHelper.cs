@@ -254,7 +254,55 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 		}
 
-		public static void DrawDef9Rect(IBatchRenderer sbatch, FRectangle bounds, Color colEdge, Color colCorner, Color colFill, TextureRegion2D texEdge, TextureRegion2D texCorner, TextureRegion2D texFill, float cornerSize)
+		public static void Draw9Patch(IBatchRenderer sbatch, FRectangle bounds, Color colEdge, Color colCorner, Color colFill, TextureRegion2D texEdge, TextureRegion2D texCorner, TextureRegion2D texFill, float cornerSize, float rotation)
+		{
+			rotation = FloatMath.NormalizeAngle(rotation);
+			
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_000)) { DrawAligned9Patch(sbatch, bounds.AsRotated(PerpendicularRotation.DEGREE_CW_000), colEdge, colCorner, colFill, texEdge, texCorner, texFill, cornerSize); return; }
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_090)) { DrawAligned9Patch(sbatch, bounds.AsRotated(PerpendicularRotation.DEGREE_CW_090), colEdge, colCorner, colFill, texEdge, texCorner, texFill, cornerSize); return; }
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_180)) { DrawAligned9Patch(sbatch, bounds.AsRotated(PerpendicularRotation.DEGREE_CW_180), colEdge, colCorner, colFill, texEdge, texCorner, texFill, cornerSize); return; }
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_270)) { DrawAligned9Patch(sbatch, bounds.AsRotated(PerpendicularRotation.DEGREE_CW_270), colEdge, colCorner, colFill, texEdge, texCorner, texFill, cornerSize); return; }
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_360)) { DrawAligned9Patch(sbatch, bounds.AsRotated(PerpendicularRotation.DEGREE_CW_360), colEdge, colCorner, colFill, texEdge, texCorner, texFill, cornerSize); return; }
+
+			var ctr = bounds.Center;
+			
+			var r_tl = new FRectangle(bounds.Left  - cornerSize, bounds.Top    - cornerSize, 2 * cornerSize, 2 * cornerSize);
+			var r_tr = new FRectangle(bounds.Right - cornerSize, bounds.Top    - cornerSize, 2 * cornerSize, 2 * cornerSize);
+			var r_br = new FRectangle(bounds.Right - cornerSize, bounds.Bottom - cornerSize, 2 * cornerSize, 2 * cornerSize);
+			var r_bl = new FRectangle(bounds.Left  - cornerSize, bounds.Bottom - cornerSize, 2 * cornerSize, 2 * cornerSize);
+
+			var r_t  = new FRectangle(bounds.Left  + cornerSize, bounds.Top    - cornerSize, bounds.Width  - 2 * cornerSize, 2 * cornerSize);
+			var r_b  = new FRectangle(bounds.Left  + cornerSize, bounds.Bottom - cornerSize, bounds.Width  - 2 * cornerSize, 2 * cornerSize);
+			
+			var r_r  = FRectangle.CreateByCenter(bounds.Right, bounds.CenterY, bounds.Height - 2 * cornerSize, 2 * cornerSize);
+			var r_l  = FRectangle.CreateByCenter(bounds.Left,  bounds.CenterY, bounds.Height - 2 * cornerSize, 2 * cornerSize);
+
+			var r_c = new FRectangle(bounds.Left + cornerSize, bounds.Top + cornerSize, bounds.Width - 2 * cornerSize, bounds.Height - 2 * cornerSize);
+
+			r_tl = r_tl.AsRotateCenterAround(ctr, rotation);
+			r_tr = r_tr.AsRotateCenterAround(ctr, rotation);
+			r_br = r_br.AsRotateCenterAround(ctr, rotation);
+			r_bl = r_bl.AsRotateCenterAround(ctr, rotation);
+			
+			r_t  = r_t.AsRotateCenterAround(ctr, rotation);
+			r_r  = r_r.AsRotateCenterAround(ctr, rotation);
+			r_b  = r_b.AsRotateCenterAround(ctr, rotation);
+			r_l  = r_l.AsRotateCenterAround(ctr, rotation);
+
+			sbatch.DrawStretched(texEdge, r_t, colEdge, FloatMath.RAD_POS_000 + rotation);
+			sbatch.DrawStretched(texEdge, r_r, colEdge, FloatMath.RAD_POS_090 + rotation);
+			sbatch.DrawStretched(texEdge, r_b, colEdge, FloatMath.RAD_POS_180 + rotation);
+			sbatch.DrawStretched(texEdge, r_l, colEdge, FloatMath.RAD_POS_270 + rotation);
+
+			sbatch.DrawStretched(texCorner, r_tl, colCorner, FloatMath.RAD_POS_000 + rotation);
+			sbatch.DrawStretched(texCorner, r_tr, colCorner, FloatMath.RAD_POS_090 + rotation);
+			sbatch.DrawStretched(texCorner, r_br, colCorner, FloatMath.RAD_POS_180 + rotation);
+			sbatch.DrawStretched(texCorner, r_bl, colCorner, FloatMath.RAD_POS_270 + rotation);
+			
+			sbatch.DrawStretched(texFill, r_c, colFill, rotation);
+		}
+		
+		public static void DrawAligned9Patch(IBatchRenderer sbatch, FRectangle bounds, Color colEdge, Color colCorner, Color colFill, TextureRegion2D texEdge, TextureRegion2D texCorner, TextureRegion2D texFill, float cornerSize)
 		{
 			var r_tl = new FRectangle(bounds.Left - cornerSize, bounds.Top - cornerSize, 2 * cornerSize, 2 * cornerSize);
 			var r_tr = new FRectangle(bounds.Right - cornerSize, bounds.Top - cornerSize, 2 * cornerSize, 2 * cornerSize);

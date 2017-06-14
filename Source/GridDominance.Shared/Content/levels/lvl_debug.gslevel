@@ -4,12 +4,17 @@ include("stdvalues")
 
 init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001}, KI_DYNAMIC_RAYTRACE)
 #setview(25, 25, [8, 5])
-setwrap(WRAPMODE_DONUT)
+#setwrap(WRAPMODE_DONUT)
 
-Cannon(SIZE_SMALL, P1, [ 2,  5], ROT_E)
+Laser(SIZE_SMALL, P1, [ 2,  5], ROT_E)
 
-Cannon(SIZE_SMALL, N0, [ 8,  1], ROT_SW)
-Cannon(SIZE_SMALL, N0, [ 8,  5], ROT_N)
-Cannon(SIZE_SMALL, N0, [ 8,  9], ROT_NE)
+Laser(SIZE_SMALL, N0, [ 8,  2], ROT_N)
 
-Cannon(SIZE_SMALL, A3, [14,  5], ROT_W)
+Laser(SIZE_SMALL, A3, [14,  5], ROT_W)
+
+MirrorBlock([8, 8], 5, 2, -10)
+
+GlassBlock([2, 2], 1.75, 1.75, 45)
+
+MirrorCircle([2, 8], SIZE_BIG)
+

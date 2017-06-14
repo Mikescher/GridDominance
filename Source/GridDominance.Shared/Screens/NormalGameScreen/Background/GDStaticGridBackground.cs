@@ -82,7 +82,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			// NOTHING
 		}
 
-		public void RegisterBlockedBlock(FRectangle block)
+		public void RegisterBlockedBlock(FRectangle block, float rotation)
 		{
 			// NOTHING
 		}

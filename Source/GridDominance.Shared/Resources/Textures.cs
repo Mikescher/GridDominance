@@ -120,6 +120,7 @@ namespace GridDominance.Shared.Resources
 
 		public static int ANIMATION_CANNONCOG_SIZE = 128;
 		public static int ANIMATION_HUDBUTTONPAUSE_SIZE = 16;
+		public static int CANNONCORE_COUNT = 6;
 
 		public static TextureRegion2D TexTileBorder;
 
@@ -131,6 +132,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexCannonBody;
 		public static TextureRegion2D TexCannonBodyShadow;
 		public static TextureRegion2D TexCannonBarrel;
+		public static TextureRegion2D[] TexCannonCore;
+		public static TextureRegion2D[] TexCannonCoreShadow;
 		public static TextureRegion2D TexCannonBarrelShadow;
 		public static TextureRegion2D TexCannonCrosshair;
 		public static TextureRegion2D[] AnimCannonCog;
@@ -201,6 +204,11 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexGlassCorner;
 		public static TextureRegion2D TexGlassFill;
 
+		public static TextureRegion2D TexMirrorBlockEdge;
+		public static TextureRegion2D TexMirrorBlockCorner;
+		public static TextureRegion2D TexMirrorCircleSmall;
+		public static TextureRegion2D TexMirrorCircleBig;
+
 		public static TextureRegion2D TexIconBack;
 		public static TextureRegion2D TexIconNext;
 		public static TextureRegion2D TexIconRedo;
@@ -266,6 +274,8 @@ namespace GridDominance.Shared.Resources
 			TexCannonBody            = AtlasTextures["simple_circle"];
 			TexCannonBodyShadow      = AtlasTextures["cannonbody_shadow"];
 			TexCannonBarrel          = AtlasTextures["cannonbarrel"];
+			TexCannonCore            = Enumerable.Range(1, CANNONCORE_COUNT).Select(p => AtlasTextures[$"cannoncore_{p:00}"]).ToArray();
+			TexCannonCoreShadow      = Enumerable.Range(1, CANNONCORE_COUNT).Select(p => AtlasTextures[$"cannoncore_shadow_{p:00}"]).ToArray();
 			TexCannonBarrelShadow    = AtlasTextures["cannonbarrel_shadow"];
 			TexCannonCrosshair       = AtlasTextures["cannoncrosshair"];
 			
@@ -339,6 +349,13 @@ namespace GridDominance.Shared.Resources
 			TexGlassEdge       = AtlasTextures["glass_side"];
 			TexGlassCorner     = AtlasTextures["glass_corner"];
 			TexGlassFill       = AtlasTextures["glass_fill"];
+
+			TexMirrorBlockEdge   = AtlasTextures["mirror_edge"];
+			TexMirrorBlockCorner = AtlasTextures["mirror_corner"];
+			TexMirrorCircleSmall = AtlasTextures["mirrorblock_small"];
+			TexMirrorCircleBig   = AtlasTextures["mirrorblock_big"];
+
+
 
 			TexVortex0         = AtlasTextures["vortex_circle_0"];
 			TexVortex1         = AtlasTextures["vortex_circle_1"];

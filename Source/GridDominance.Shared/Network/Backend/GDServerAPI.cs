@@ -78,8 +78,13 @@ namespace GridDominance.Shared.Network
 							// something went horribly wrong
 							// create new user on next run
 							profile.OnlineUserID = -1;
+							profile.OnlineUsername = "anonymous";
+							profile.AccountType = AccountType.Local;
+							profile.OnlinePasswordHash = "";
 
 							MainGame.Inst.SaveProfile();
+
+							MainGame.Inst.Backend.CreateUser(MainGame.Inst.Profile).EnsureNoError();
 						});
 					}
 					else
@@ -491,7 +496,7 @@ namespace GridDominance.Shared.Network
 
 				if (response == null)
 				{
-					return Tuple.Create(VerifyResult.InternalError, -1, response.errormessage);
+					return Tuple.Create(VerifyResult.InternalError, -1, "Internal server error");
 				}
 				else if (response.result == "success")
 				{
@@ -558,7 +563,7 @@ namespace GridDominance.Shared.Network
 				if (response == null)
 				{
 					ShowErrorCommunication();
-					return Tuple.Create(UpgradeResult.InternalError, response.errormessage);
+					return Tuple.Create(UpgradeResult.InternalError, "Internal server error");
 				}
 				else if (response.result == "success")
 				{
@@ -635,7 +640,7 @@ namespace GridDominance.Shared.Network
 				if (response == null)
 				{
 					ShowErrorCommunication();
-					return Tuple.Create(ChangePasswordResult.InternalError, response.errormessage);
+					return Tuple.Create(ChangePasswordResult.InternalError, "Internal server error");
 				}
 				else if (response.result == "success")
 				{
@@ -736,20 +741,20 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
 				ps.AddParameterString("new_username", username);
 				ps.AddParameterHash("new_password", pwHash);
-				ps.AddParameterString("device_name", bridge.DeviceName);
 				ps.AddParameterJson("merge_data", CreateScoreArray(profile));
 
 				var response = await QueryAsync<QueryResultMergeLogin>("merge-login", ps, RETRY_CREATEUSER);
 
 				if (response == null)
 				{
-					return Tuple.Create(VerifyResult.InternalError, response.errormessage);
+					return Tuple.Create(VerifyResult.InternalError, "Internal server error");
 				}
 				else if (response.result == "success")
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
 						profile.AccountType = AccountType.Full;
+						profile.OnlineUsername = response.user.Username;
 						profile.OnlineUserID = response.user.ID;
 						profile.OnlineRevisionID = response.user.RevID;
 						profile.OnlinePasswordHash = pwHash;

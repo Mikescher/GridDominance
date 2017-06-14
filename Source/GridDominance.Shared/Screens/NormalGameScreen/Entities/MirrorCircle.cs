@@ -6,6 +6,7 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -15,12 +16,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
 	public class MirrorCircle : GameEntity
 	{
+		public const float MARGIN_TEX = 8f;
+		
 		public override Vector2 Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
 		private readonly float _diameter;
 		private readonly FRectangle _renderRect;
+		private readonly TextureRegion2D _tex;
 
 		public Body PhysicsBody;
 		public Fixture PhysicsFixture;
@@ -30,7 +34,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var pos   = new Vector2(blueprint.X, blueprint.Y);
 
 			_diameter = blueprint.Diameter;
-			_renderRect = FRectangle.CreateByCenter(pos, _diameter, _diameter);
+			_renderRect = FRectangle.CreateByCenter(pos, _diameter + 2 * MARGIN_TEX, _diameter + 2 * MARGIN_TEX);
+			_tex = _diameter < 96 ? Textures.TexMirrorCircleSmall : Textures.TexMirrorCircleBig;
 
 			Position = pos;
 
@@ -58,7 +63,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			//TODO
+			sbatch.DrawStretched(_tex, _renderRect, Color.White);
 		}
 	}
 }

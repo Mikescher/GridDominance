@@ -66,6 +66,7 @@
     <Compile Include="GameMath\Geometry\Alignment\FlatCurve12.cs" />
     <Compile Include="GameMath\Geometry\FCircle.cs" />
     <Compile Include="GameMath\Geometry\DSize.cs" />
+    <Compile Include="GameMath\Geometry\FRotatedRectangle.cs" />
     <Compile Include="GameMath\Geometry\IFShape.cs" />
     <Compile Include="GameMath\Geometry\GeometryHelper.cs" />
     <Compile Include="GameMath\Geometry\Matrix3x3.cs" />

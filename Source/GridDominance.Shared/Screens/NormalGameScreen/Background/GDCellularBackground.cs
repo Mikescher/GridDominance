@@ -530,7 +530,48 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			}
 		}
 
-		public void RegisterBlockedBlock(FRectangle block)
+		public void RegisterBlockedBlock(FRectangle ablock, float rotation)
+		{
+			rotation = FloatMath.NormalizeAngle(rotation);
+			
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_000)) { RegisterAlignedBlockedBlock(ablock.AsRotated(PerpendicularRotation.DEGREE_CW_000)); return; }
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_090)) { RegisterAlignedBlockedBlock(ablock.AsRotated(PerpendicularRotation.DEGREE_CW_090)); return; }
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_180)) { RegisterAlignedBlockedBlock(ablock.AsRotated(PerpendicularRotation.DEGREE_CW_180)); return; }
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_270)) { RegisterAlignedBlockedBlock(ablock.AsRotated(PerpendicularRotation.DEGREE_CW_270)); return; }
+			if (FloatMath.EpsilonEquals(rotation, FloatMath.RAD_POS_360)) { RegisterAlignedBlockedBlock(ablock.AsRotated(PerpendicularRotation.DEGREE_CW_360)); return; }
+
+			var block = ablock.AsRotated(rotation);
+			
+			for (int ox = (int)(block.MostLeft/ GDConstants.TILE_WIDTH); ox <= (int)(block.MostRight / GDConstants.TILE_WIDTH); ox++)
+			{
+				for (int oy = (int)(block.MostTop / GDConstants.TILE_WIDTH); oy <= (int)(block.MostBottom / GDConstants.TILE_WIDTH); oy++)
+				{
+					int x = ox + MAX_EXTENSION; // real coords -> array coords
+					int y = oy + MAX_EXTENSION;
+
+					if (x < 0) continue;
+					if (y < 0) continue;
+					if (x >= tileCountX) continue;
+					if (y >= tileCountY) continue;
+
+					var rect = new FRectangle(ox * TILE_WIDTH, oy * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+
+					if (block.Contains(rect.TopLeft, 0.5f) && block.Contains(rect.TopRight, 0.5f))
+						_grid[x, y].BlockNorth = true;
+
+					if (block.Contains(rect.TopRight, 0.5f) && block.Contains(rect.BottomRight, 0.5f))
+						_grid[x, y].BlockEast = true;
+
+					if (block.Contains(rect.BottomRight, 0.5f) && block.Contains(rect.BottomLeft, 0.5f))
+						_grid[x, y].BlockSouth = true;
+
+					if (block.Contains(rect.BottomLeft, 0.5f) && block.Contains(rect.TopLeft, 0.5f))
+						_grid[x, y].BlockWest = true;
+				}
+			}
+		}
+
+		public void RegisterAlignedBlockedBlock(FRectangle block)
 		{
 			for (int ox = (int)(block.Left / GDConstants.TILE_WIDTH); ox <= (int)(block.Right / GDConstants.TILE_WIDTH); ox++)
 			{

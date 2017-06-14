@@ -27,10 +27,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
-		private readonly GlassBlockBlueprint Blueprint;
+		public readonly GlassBlockBlueprint Blueprint;
 
 		private readonly float _width;
 		private readonly float _height;
+		private readonly float _rotation;
 
 		private readonly FRectangle _bounds;
 
@@ -45,6 +46,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			_width = blueprint.Width;
 			_height = blueprint.Height;
+			_rotation = FloatMath.ToRadians(blueprint.Rotation);
 
 			_bounds = FRectangle.CreateByCenter(pos, _width, _height);
 
@@ -52,7 +54,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			DrawingBoundingBox = new FSize(_width, _height);
 
-			this.GDOwner().GDBackground.RegisterBlockedBlock(_bounds);
+			this.GDOwner().GDBackground.RegisterBlockedBlock(_bounds, _rotation);
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -62,9 +64,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var w = ConvertUnits.ToSimUnits(_width);
 			var h = ConvertUnits.ToSimUnits(_height);
 			var p = ConvertUnits.ToSimUnits(Position);
-			var r = FloatMath.ToRadians(Blueprint.Rotation);
 
-			PhysicsBody = BodyFactory.CreateBody(pw, p, r, BodyType.Static);
+			PhysicsBody = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, this);
 			PhysicsFixture = FixtureFactory.AttachRectangle(w, h, 1, Vector2.Zero, PhysicsBody, this);
 
 			var rn = new MarkerRefractionEdge { Source = this, Side = FlatAlign4.NN };
@@ -72,16 +73,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var rs = new MarkerRefractionEdge { Source = this, Side = FlatAlign4.SS };
 			var rw = new MarkerRefractionEdge { Source = this, Side = FlatAlign4.WW };
 
-			var bodyN = BodyFactory.CreateBody(pw, p, r, BodyType.Static, rn);
+			var bodyN = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, rn);
 			FixtureFactory.AttachRectangle(w, MARKER_WIDTH, 1, new Vector2(0, -(h - MARKER_WIDTH) / 2f), bodyN, rn);
 
-			var bodyE = BodyFactory.CreateBody(pw, p, r, BodyType.Static, re);
+			var bodyE = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, re);
 			FixtureFactory.AttachRectangle(MARKER_WIDTH, h, 1, new Vector2(+(w - MARKER_WIDTH) / 2f, 0), bodyE, re);
 
-			var bodyS = BodyFactory.CreateBody(pw, p, r, BodyType.Static, rs);
+			var bodyS = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, rs);
 			FixtureFactory.AttachRectangle(w, MARKER_WIDTH, 1, new Vector2(0, +(h - MARKER_WIDTH) / 2f), bodyS, rs);
 
-			var bodyW = BodyFactory.CreateBody(pw, p, r, BodyType.Static, rw);
+			var bodyW = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, rw);
 			FixtureFactory.AttachRectangle(MARKER_WIDTH, h, 1, new Vector2(-(w - MARKER_WIDTH) / 2f, 0), bodyW, rw);
 		}
 		
@@ -97,7 +98,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			SimpleRenderHelper.DrawDef9Rect(sbatch, _bounds, Color.White, Color.White, Color.White, Textures.TexGlassEdge, Textures.TexGlassCorner, Textures.TexGlassFill, CORNER_SIZE);
+			SimpleRenderHelper.Draw9Patch(
+				sbatch, 
+				_bounds, 
+				Color.White, Color.White, Color.White, 
+				Textures.TexGlassEdge, Textures.TexGlassCorner, Textures.TexGlassFill, 
+				CORNER_SIZE, 
+				_rotation);
 		}
 	}
 }

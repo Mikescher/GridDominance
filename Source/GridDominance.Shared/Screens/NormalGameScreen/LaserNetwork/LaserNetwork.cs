@@ -14,6 +14,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.GameMath;
 using FarseerPhysics;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.BatchRenderer;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
@@ -126,7 +127,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 					#region Cannon
 					var resultCannon = result.Item1.UserData as Cannon;
-					if (resultCannon == null)
+					if (resultCannon != null)
 					{
 						src.LaserCount = arridx + 1;
 						src.Lasers[arridx].Start  = start;
@@ -138,9 +139,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					}
 					#endregion
 
-					#region GlassBlock
-					var resultGlassBlock = result.Item1.UserData as GlassBlock;
-					if (resultGlassBlock == null)
+					#region GlassBlockRefraction
+					var resultGlassBlockRefrac = result.Item1.UserData as MarkerRefractionEdge;
+					if (resultGlassBlockRefrac != null)
 					{
 						src.LaserCount = arridx + 1;
 						src.Lasers[arridx].Start = start;
@@ -175,10 +176,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 						}
 					}
 					#endregion
-
+					
 					#region MirrorBlock
 					var resultMirrorBlock = result.Item1.UserData as MirrorBlock;
-					if (resultMirrorBlock == null)
+					if (resultMirrorBlock != null)
 					{
 						src.LaserCount = arridx + 1;
 						src.Lasers[arridx].Start = start;
@@ -195,7 +196,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 					#region MirrorCircle
 					var resultMirrorCircle = result.Item1.UserData as MirrorCircle;
-					if (resultMirrorCircle == null)
+					if (resultMirrorCircle != null)
 					{
 						src.LaserCount = arridx + 1;
 						src.Lasers[arridx].Start = start;
@@ -212,7 +213,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 					#region VoidWall
 					var resultVoidWall = result.Item1.UserData as VoidWall;
-					if (resultVoidWall == null)
+					if (resultVoidWall != null)
 					{
 						src.LaserCount = arridx + 1;
 						src.Lasers[arridx].Start = start;
@@ -226,7 +227,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 					#region VoidCircle
 					var resultVoidCircle = result.Item1.UserData as VoidCircle;
-					if (resultVoidCircle == null)
+					if (resultVoidCircle != null)
 					{
 						src.LaserCount = arridx + 1;
 						src.Lasers[arridx].Start = start;
@@ -240,7 +241,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 					#region Portal
 					var resultPortal = result.Item1.UserData as Portal;
-					if (resultPortal == null)
+					if (resultPortal != null)
 					{
 						src.LaserCount = arridx + 1;
 						src.Lasers[arridx].Start = start;
@@ -290,8 +291,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			//     return 1:        don't clip the ray and continue
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
-				result = Tuple.Create(f, ConvertUnits.ToDisplayUnits(pos), normal);
+				if (f.UserData is GlassBlock) return -1; // ignore;
 
+				result = Tuple.Create(f, ConvertUnits.ToDisplayUnits(pos), normal);
+				
 				return frac; // limit
 			};
 

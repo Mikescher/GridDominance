@@ -24,8 +24,6 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		private const float HITBOX_ENLARGE = 32;
 
-		private static object objRefract = new object();
-
 		public static void Precalc(LevelBlueprint lvl)
 		{
 			foreach (var cannon in lvl.BlueprintCannons)
@@ -321,7 +319,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				return new List<Tuple<BulletPathBlueprint, float>> { Tuple.Create(path, quality) };
 			}
 
-			var fGlassBlock = traceResult.Item1.UserData as GlassBlockBlueprint;
+			var fGlassBlock = traceResult.Item1.UserData as MarkerRefractionEdge;
 			if (fGlassBlock != null)
 			{
 				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
@@ -473,7 +471,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			//     return 1:        don't clip the ray and continue
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
-				if (f.UserData == objRefract) return -1; // ignore
+				if (f.UserData is MarkerRefractionEdge) return -1; // ignore
 
 				result = Tuple.Create(f, pos, normal);
 
@@ -530,18 +528,22 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var body = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), FloatMath.ToRadians(elem.Rotation), BodyType.Static, elem);
 				FixtureFactory.AttachRectangle(elem.Width + extend, elem.Height + extend, 1, Vector2.Zero, body, elem);
 
+				var mN = new MarkerRefractionEdge { Side = FlatAlign4.NN };
+				var mE = new MarkerRefractionEdge { Side = FlatAlign4.NN };
+				var mS = new MarkerRefractionEdge { Side = FlatAlign4.NN };
+				var mW = new MarkerRefractionEdge { Side = FlatAlign4.NN };
 
-				var bodyN = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), FloatMath.ToRadians(elem.Rotation), BodyType.Static, objRefract);
-				FixtureFactory.AttachRectangle(elem.Width, 0.1f, 1, new Vector2(+elem.Height / 2f, 0), bodyN, objRefract);
+				var bodyN = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), FloatMath.ToRadians(elem.Rotation), BodyType.Static, mN);
+				FixtureFactory.AttachRectangle(elem.Width, 0.1f, 1, new Vector2(+elem.Height / 2f, 0), bodyN, mN);
 
-				var bodyE = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), FloatMath.ToRadians(elem.Rotation), BodyType.Static, objRefract);
-				FixtureFactory.AttachRectangle(0.1f, elem.Height, 1, new Vector2(+elem.Width / 2f, 0), bodyE, objRefract);
+				var bodyE = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), FloatMath.ToRadians(elem.Rotation), BodyType.Static, mE);
+				FixtureFactory.AttachRectangle(0.1f, elem.Height, 1, new Vector2(+elem.Width / 2f, 0), bodyE, mE);
 
-				var bodyS = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), FloatMath.ToRadians(elem.Rotation), BodyType.Static, objRefract);
-				FixtureFactory.AttachRectangle(elem.Width, 0.1f, 1, new Vector2(-elem.Height / 2f, 0), bodyS, objRefract);
+				var bodyS = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), FloatMath.ToRadians(elem.Rotation), BodyType.Static, mS);
+				FixtureFactory.AttachRectangle(elem.Width, 0.1f, 1, new Vector2(-elem.Height / 2f, 0), bodyS, mS);
 
-				var bodyW = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), FloatMath.ToRadians(elem.Rotation), BodyType.Static, objRefract);
-				FixtureFactory.AttachRectangle(0.1f, elem.Height, 1, new Vector2(-elem.Width / 2f, 0), bodyW, objRefract);
+				var bodyW = BodyFactory.CreateBody(world, new Vector2(elem.X, elem.Y), FloatMath.ToRadians(elem.Rotation), BodyType.Static, mW);
+				FixtureFactory.AttachRectangle(0.1f, elem.Height, 1, new Vector2(-elem.Width / 2f, 0), bodyW, mW);
 			}
 
 			foreach (var elem in lvl.BlueprintVoidCircles)
@@ -619,10 +621,10 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
 				var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
 
-				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
-				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.Center), 0, BodyType.Static);
-				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.Center), 0, BodyType.Static);
-				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.Center), 0, BodyType.Static);
+				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static, dn);
+				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.Center), 0, BodyType.Static, de);
+				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.Center), 0, BodyType.Static, ds);
+				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.Center), 0, BodyType.Static, dw);
 
 				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
 				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);

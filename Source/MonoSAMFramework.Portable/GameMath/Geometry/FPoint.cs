@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
 namespace MonoSAMFramework.Portable.GameMath.Geometry
@@ -114,6 +115,24 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public float LengthSquared()
 		{
 			return X * X + Y * Y;
+		}
+		
+		[Pure]
+		public FPoint AsRotated(float radians)
+		{
+			var cos = FloatMath.Cos(radians);
+			var sin = FloatMath.Sin(radians);
+
+			return new FPoint(X * cos - Y * sin, X * sin + Y * cos);
+		}
+
+		[Pure]
+		public Vector2 AsRotatedAround(FPoint anchor, float radians)
+		{
+			var cos = FloatMath.Cos(radians);
+			var sin = FloatMath.Sin(radians);
+
+			return new FPoint(anchor.X + (X - anchor.X) * cos - (Y - anchor.Y) * sin, anchor.Y + (X - anchor.X) * sin + (Y - anchor.Y) * cos);
 		}
 	}
 }

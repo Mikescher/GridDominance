@@ -170,5 +170,10 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			
 			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, borderWidth, cBorder);
 		}
+
+		public static void DrawRotatedRectangleInwards(IBatchRenderer sbatch, FRectangle bounds, Color col, float thickness, float rotation)
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

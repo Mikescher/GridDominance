@@ -355,7 +355,7 @@ namespace GridDominance.DSLEditor.Drawing
 		{
 			var mirrorbrush = new SolidBrush(Color.FromArgb(128, Color.Silver));
 			var mirrorpen = new Pen(Color.White, 2);
-			foreach (var vcirc in level.BlueprintVoidCircles)
+			foreach (var vcirc in level.BlueprintMirrorCircles)
 			{
 				var save = g.Save();
 				{
