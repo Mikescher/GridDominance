@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.GlobalAgents;
 using GridDominance.Shared.Network;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
@@ -93,12 +94,14 @@ namespace GridDominance.Shared
 			
 			if (Profile.OnlineUserID >= 0)
 			{
-				Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();  //TODO every 10min or so ping + dl highscores
+				Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
 			}
 			else
 			{
 				Backend.CreateUser(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
 			}
+			
+			AddAgent(new HighscoreAgent());
 
 			Inst = this;
 		}
@@ -263,7 +266,6 @@ namespace GridDominance.Shared
 			}
 #endif
 		}
-
 
 #if DEBUG
 		public void ResetProfile()

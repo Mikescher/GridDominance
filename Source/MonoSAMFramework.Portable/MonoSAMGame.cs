@@ -7,7 +7,12 @@ using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using MonoSAMFramework.Portable.GameAgents;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens.Agents;
 
 namespace MonoSAMFramework.Portable
 {
@@ -18,6 +23,7 @@ namespace MonoSAMFramework.Portable
 
 		private ScreenManager screens;
 		private readonly CustomDispatcher gameDispatcher = new CustomDispatcher();
+		private readonly List<MonoSAMGameAgent> agents = new List<MonoSAMGameAgent>();
 		private static int _initialNoLagFrameCounter= 0;
 
 		public readonly GraphicsDeviceManager Graphics;
@@ -103,6 +109,8 @@ namespace MonoSAMFramework.Portable
 			{
 				var time = new SAMTime(gameTime);
 
+				UpdateAgents(time);
+
 				OnUpdate(time);
 
 				screens.Update(time);
@@ -170,6 +178,19 @@ namespace MonoSAMFramework.Portable
 			}
 		}
 
+		private void UpdateAgents(SAMTime time)
+		{
+			for (int i = agents.Count - 1; i >= 0; i--)
+			{
+				agents[i].Update(time);
+
+				if (!agents[i].Alive)
+				{
+					agents.RemoveAt(i);
+				}
+			}
+		}
+
 		public void DispatchBeginInvoke(Action a)
 		{
 			gameDispatcher.BeginInvoke(a);
@@ -178,6 +199,21 @@ namespace MonoSAMFramework.Portable
 		public void DispatchInvoke(Action a)
 		{
 			gameDispatcher.Invoke(a);
+		}
+
+		public void AddAgent(MonoSAMGameAgent a)
+		{
+			agents.Add(a);
+		}
+
+		public bool RemoveAgent(MonoSAMGameAgent a)
+		{
+			return agents.Remove(a);
+		}
+
+		public IEnumerable<T> GetAgents<T>()
+		{
+			return agents.OfType<T>();
 		}
 
 		protected abstract void OnAfterInitialize();
