@@ -126,7 +126,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 				internalLabel.MaxWidth = MaxWidth - TextPadding.Width * 2;
 			}
 
-			_lifetime += gameTime.ElapsedSeconds;
+			if (!MonoSAMGame.IsInitializationLag) _lifetime += gameTime.ElapsedSeconds;
 
 			var p = _lifetime / _toastTime;
 

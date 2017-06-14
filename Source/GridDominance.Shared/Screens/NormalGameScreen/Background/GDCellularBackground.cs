@@ -37,7 +37,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		public float DifficultyMod = 1f;
 	}
 
-	class GDCellularBackground : GameBackground, IGDGridBackground //TODO Test with bigger level (draw|update|blocking)
+	class GDCellularBackground : GameBackground, IGDGridBackground
 	{
 		private const int TILE_WIDTH = GDConstants.TILE_WIDTH;
 		private const int MAX_EXTENSION = 2;

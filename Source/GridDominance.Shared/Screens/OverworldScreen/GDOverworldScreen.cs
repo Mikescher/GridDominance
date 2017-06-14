@@ -80,7 +80,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			_banner.Text = GDConstants.LOGO_STRING;
 			_banner.UseCPUParticles = false;
 			_banner.AnimationTime = 4f;
-			_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas()); //TODO delay by 1.5s , or only start when initial android lag finished
+			_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas());
 		}
 		
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

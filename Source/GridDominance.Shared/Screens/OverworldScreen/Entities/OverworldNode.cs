@@ -1,16 +1,12 @@
 ﻿using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using System;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -55,7 +51,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
-			FlickerTime += gameTime.ElapsedSeconds;
+			if(!MonoSAMGame.IsInitializationLag) FlickerTime += gameTime.ElapsedSeconds;
 		}
 
 		public void CancelClick()

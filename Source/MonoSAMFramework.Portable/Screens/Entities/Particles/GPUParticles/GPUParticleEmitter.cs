@@ -16,8 +16,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 	{
 		public override Color DebugIdentColor => Color.Gold * 0.1f;
 
-		protected float initializeTime;
-
 		private ParticleEmitterConfig _config;
 		public ParticleEmitterConfig Config { get { return _config; } set { _config = value; RecalculateState(); } }
 
@@ -39,6 +37,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		bool IParticleEmitter.Enabled { get => IsEnabled; set => IsEnabled = value; }
 		bool IParticleEmitter.Alive { get => Alive; set => Alive = value; }
 
+		protected float _time = 0f;
+		
 		protected GPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg, int order) : base(scrn, order)
 		{
 			_config = cfg;
@@ -46,7 +46,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 		protected virtual void RecalculateState()
 		{
-			initializeTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
+			_time = 0f;
 
 			LoadShader();
 		}
@@ -180,7 +180,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
-
+			if (!MonoSAMGame.IsInitializationLag) _time += gameTime.ElapsedSeconds;
 		}
 		
 		protected abstract void InitializeParticle(GPUParticle p, int index, int count);
@@ -202,8 +202,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 			parameterOffset.SetValue(Owner.MapOffset + Position);
 			parameterVirtualViewport.SetValue(Owner.VAdapterGame.GetShaderMatrix());
-			parameterCurrentTime.SetValue(MonoSAMGame.CurrentTime.TotalElapsedSeconds - initializeTime);
-//			parameterCurrentTime.SetValue(100f);
+			parameterCurrentTime.SetValue(_time);
 
 			g.SetVertexBuffer(vertexBuffer);
 			g.Indices = indexBuffer;

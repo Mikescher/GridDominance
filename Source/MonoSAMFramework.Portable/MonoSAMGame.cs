@@ -13,13 +13,18 @@ namespace MonoSAMFramework.Portable
 {
 	public abstract class MonoSAMGame : Game, ILifetimeObject
 	{
+		private const int NOLAGFRAMES_FOR_INITLAG = 6;
+		private const float MAX_DELTA_FOR_NOLAGFRAME = 1/30f;
+
 		private ScreenManager screens;
 		private readonly CustomDispatcher gameDispatcher = new CustomDispatcher();
+		private static int _initialNoLagFrameCounter= 0;
 
 		public readonly GraphicsDeviceManager Graphics;
 
 		public static ulong GameCycleCounter { get; private set; }
 		public static SAMTime CurrentTime { get; private set; }
+		public static bool IsInitializationLag = true;
 
 		public static MonoSAMGame CurrentInst { get; private set; }
 
@@ -127,11 +132,41 @@ namespace MonoSAMFramework.Portable
 
 				base.Draw(gameTime);
 
+				if (IsInitializationLag) UpdateInitLag(gameTime);
+
 				GC.Collect(0); // small collect after every tick
 			}
 			catch (Exception e)
 			{
 				SAMLog.FatalError("Game::Draw", e);
+			}
+		}
+
+		private static void UpdateInitLag(GameTime gameTime)
+		{
+			if (GameCycleCounter > 30)
+			{
+				IsInitializationLag = false;
+				return;
+			}
+
+			if (gameTime.IsRunningSlowly)
+			{
+				IsInitializationLag = true;
+				return;
+			}
+
+			if (gameTime.ElapsedGameTime.TotalSeconds < MAX_DELTA_FOR_NOLAGFRAME)
+			{
+				_initialNoLagFrameCounter++;
+
+				if (_initialNoLagFrameCounter > NOLAGFRAMES_FOR_INITLAG) IsInitializationLag = true;
+				return;
+			}
+			else
+			{
+				_initialNoLagFrameCounter = 0;
+				return;
 			}
 		}
 

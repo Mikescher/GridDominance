@@ -19,8 +19,8 @@ namespace GridDominance.Shared.Resources
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
 		public const string BFB_URL     = @"http://blackforestbytes.de/";
 
-		public const string SERVER_URL = "http://localhost:666";
-//		public const string SERVER_URL = "http://gdapi.mikescher.com";
+//		public const string SERVER_URL = "http://localhost:666";
+		public const string SERVER_URL = "http://gdapi.mikescher.com";
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 
 		public const float PHYSICS_CONVERSION_FACTOR = 50;

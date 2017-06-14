@@ -23,7 +23,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 		public void ResetAnimation()
 		{
-			initializeTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
+			_time = 0;
 		}
 	}
 }
