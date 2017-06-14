@@ -16,11 +16,13 @@ function run() {
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$password, $appversion, $username, $password, $mergedata]);
+	check_commit_signature($signature, [$old_userid, $old_password, $appversion, $username, $password, $mergedata]);
 
 	//--------- step 1: [verify]
 
-	$user = GDUser::QueryOrFailByName($pdo, $password, $username);
+	GDUser::QueryOrFail($pdo, $old_password, $old_userid); // old (anon) user
+
+	$user = GDUser::QueryOrFailByName($pdo, $password, $username); // new user
 	$userid = $user->ID;
 	$jdata = json_decode($mergedata);
 
