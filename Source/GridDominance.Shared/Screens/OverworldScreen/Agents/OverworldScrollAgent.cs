@@ -121,15 +121,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 
 				_values[dragAnchor].SetDirect(offsetStart + delta);
 
-				for (int i = 0; i < dragAnchor; i++)
+				for (int i = dragAnchor-1; i >= 0; i--)
 				{
-					_values[i].Set(_values[i+1].Value - DIST_X);
+					_values[i].Set(_values[i+1].TargetValue - DIST_X);
 					_values[i].ValueMin = float.MinValue;
 					_values[i].ValueMax = _values[i + 1].Value - MIN_DIST_X;
 				}
 				for (int i = dragAnchor+1; i < _nodes.Length; i++)
 				{
-					_values[i].Set(_values[i - 1].Value + DIST_X);
+					_values[i].Set(_values[i - 1].TargetValue + DIST_X);
 					_values[i].ValueMin = _values[i - 1].Value + MIN_DIST_X;
 					_values[i].ValueMax = float.MaxValue;
 				}
@@ -206,14 +206,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			_sleep = true;
 			for (int i = 0; i < _values.Length; i++)
 			{
-				if (!FloatMath.EpsilonEquals(_nodes[i].NodePos.X, _values[i].Value, 0.01f))
-				{
-					if (_nodes[i].HasActiveOperation("OverworldNode::Shake")) continue;
+				if (FloatMath.EpsilonEquals(_values[i].TargetValue, _values[i].Value, 0.01f) && FloatMath.EpsilonEquals(_values[i].Value, _nodes[i].NodePos.X, 0.01f))
+					continue;
+				
+				_sleep = false;
+
+				if (_nodes[i].HasActiveOperation("OverworldNode::Shake")) continue;
 					
-					_nodes[i].NodePos.X = _values[i].Value;
-					_nodes[i].NodePos.Y = POSITION_Y;
-					_sleep = false;
-				}
+				_nodes[i].NodePos.X = _values[i].Value;
+				_nodes[i].NodePos.Y = POSITION_Y;
 			}
 		}
 	}
