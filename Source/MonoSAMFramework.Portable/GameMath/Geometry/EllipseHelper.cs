@@ -1,6 +1,6 @@
 ﻿namespace MonoSAMFramework.Portable.GameMath.Geometry
 {
-	public static class GeometryHelper
+	public static class EllipseHelper
 	{
 		public static FRectangle CalculateEllipseSegmentsBoundingBox(float cx, float cy, float rx, float ry, float aStart, float aEnd)
 		{

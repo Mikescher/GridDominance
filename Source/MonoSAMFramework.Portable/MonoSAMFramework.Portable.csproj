@@ -71,7 +71,8 @@
     <Compile Include="GameMath\Geometry\DSize.cs" />
     <Compile Include="GameMath\Geometry\FRotatedRectangle.cs" />
     <Compile Include="GameMath\Geometry\IFShape.cs" />
-    <Compile Include="GameMath\Geometry\GeometryHelper.cs" />
+    <Compile Include="GameMath\Geometry\EllipseHelper.cs" />
+    <Compile Include="GameMath\Geometry\Math2D.cs" />
     <Compile Include="GameMath\Geometry\Matrix3x3.cs" />
     <Compile Include="GameMath\Geometry\PerpendicularRotation.cs" />
     <Compile Include="GameMath\VectorPath\CirclePieceSegment.cs" />

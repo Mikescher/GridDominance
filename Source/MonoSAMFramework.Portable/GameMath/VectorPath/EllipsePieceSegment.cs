@@ -30,7 +30,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			{
 				Length = FloatMath.TAU * FloatMath.Sqrt((radiusX * radiusX + radiusY * radiusY) / 2f) * (angleEnd - angleStart) / FloatMath.TAU;
 
-				Boundings = GeometryHelper.CalculateEllipseSegmentsBoundingBox(center.X, center.Y, radiusX, radiusY, angleStart, angleEnd);
+				Boundings = EllipseHelper.CalculateEllipseSegmentsBoundingBox(center.X, center.Y, radiusX, radiusY, angleStart, angleEnd);
 			}
 			else
 			{
@@ -38,7 +38,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 				
 				Length = FloatMath.TAU * FloatMath.Sqrt((radiusX * radiusX + radiusY * radiusY) / 2f) * (angleStart - angleEnd) / FloatMath.TAU;
 
-				Boundings = GeometryHelper.CalculateEllipseSegmentsBoundingBox(center.X, center.Y, radiusX, radiusY, angleEnd, angleStart);
+				Boundings = EllipseHelper.CalculateEllipseSegmentsBoundingBox(center.X, center.Y, radiusX, radiusY, angleEnd, angleStart);
 			}
 
 
@@ -52,7 +52,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 				var angle = angleStart + (angleEnd - angleStart) * (len / Length);
 
-				return GeometryHelper.GetPointOnEllipse(center.X, center.Y, radiusX, radiusY, angle);
+				return EllipseHelper.GetPointOnEllipse(center.X, center.Y, radiusX, radiusY, angle);
 			}
 			else
 			{
@@ -60,7 +60,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 				var angle = angleStart + (angleEnd - angleStart) * (len / Length);
 
-				return GeometryHelper.GetPointOnEllipse(center.X, center.Y, radiusX, radiusY, angle);
+				return EllipseHelper.GetPointOnEllipse(center.X, center.Y, radiusX, radiusY, angle);
 			}
 		}
 

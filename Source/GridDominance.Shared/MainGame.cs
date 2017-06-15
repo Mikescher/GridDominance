@@ -121,7 +121,7 @@ namespace GridDominance.Shared
 #if __DESKTOP__
 
 //			const double ZOOM = 0.925;
-			const double ZOOM = 0.625;
+			const double ZOOM = 0.525;
 //			const double ZOOM = 0.325;
 
 			IsMouseVisible = true;

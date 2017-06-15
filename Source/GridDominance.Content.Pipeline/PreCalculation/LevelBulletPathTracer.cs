@@ -158,7 +158,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			{
 				if (fCannon.CannonID == sourceID) return none;
 
-				var quality = FloatMath.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
+				var quality = Math2D.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
 				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
 				var path = new BulletPathBlueprint(fCannon.CannonID, cannonRadians, rays.ToArray());
 				return new List<Tuple<BulletPathBlueprint, float>> { Tuple.Create(path, quality) };
@@ -313,7 +313,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			{
 				if (fCannon.CannonID == sourceID) return none;
 
-				var quality = FloatMath.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
+				var quality = Math2D.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
 				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
 				var path = new BulletPathBlueprint(fCannon.CannonID, cannonRadians, rays.ToArray());
 				return new List<Tuple<BulletPathBlueprint, float>> { Tuple.Create(path, quality) };

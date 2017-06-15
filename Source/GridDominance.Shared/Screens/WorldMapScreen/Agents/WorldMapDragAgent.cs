@@ -5,7 +5,6 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Agents;
 
@@ -16,7 +15,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private const int DRAGSPEED_RESOLUTION = 1;
 
 		private const float SPEED_MIN = 24;
-		private const float SPEED_MAX = 128;
 
 		private const int OUT_OF_BOUNDS_FORCE_BASE = 6;
 		private const int OUT_OF_BOUNDS_FORCE_MULT = 12;
@@ -176,10 +174,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			if (dragSpeedValue < SPEED_MIN * SPEED_MIN)
 			{
 				dragSpeed = Vector2.Zero;
-			}
-			else if (dragSpeedValue > SPEED_MAX * SPEED_MAX)
-			{
-				dragSpeed.Truncate(SPEED_MAX);
 			}
 
 			isDragging = false;

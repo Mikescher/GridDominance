@@ -657,12 +657,5 @@ namespace MonoSAMFramework.Portable.GameMath
 		}
 
 		public static float PythSquared(float a, float b) => a*a + b*b;
-
-		public static float CrossProduct(Vector2 a, Vector2 b, Vector2 c) => (b.X - a.X) * (c.Y - a.Y) - (b.Y - a.Y) * (c.X - a.X);
-
-		public static float LinePointDistance(Vector2 p1, Vector2 p2, Vector2 point)
-		{
-			return Abs(CrossProduct(p1, p2, point) / (p2 - p1).Length());
-		}
 	}
 }

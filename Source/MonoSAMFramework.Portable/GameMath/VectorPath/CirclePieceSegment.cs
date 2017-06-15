@@ -42,7 +42,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			Length = (2 * FloatMath.PI * radius) * (angleEnd - angleStart) / FloatMath.TAU;
 			directionZero = new Vector2(radius, 0);
 			
-			Boundings = GeometryHelper.CalculateEllipseSegmentsBoundingBox(center.X, center.Y, radius, radius, angleStart, angleEnd);
+			Boundings = EllipseHelper.CalculateEllipseSegmentsBoundingBox(center.X, center.Y, radius, radius, angleStart, angleEnd);
 		}
 
 		public override FPoint Get(float len)

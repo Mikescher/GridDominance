@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.OverworldScreen;
-using GridDominance.Shared.Screens.OverworldScreen.Agents;
-using GridDominance.Shared.Screens.OverworldScreen.Entities;
-using GridDominance.Shared.Screens.ScreenGame;
-using GridDominance.Shared.Screens.WorldMapScreen;
+﻿using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Extensions;
@@ -23,7 +15,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		private const int DRAGSPEED_RESOLUTION = 1;
 
 		private const float SPEED_MIN = 24;
-		private const float SPEED_MAX = 128;
 
 		private const float FRICTION = 12f;
 
@@ -160,11 +151,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			{
 				dragSpeed = Vector2.Zero;
 			}
-			else if (dragSpeedValue > SPEED_MAX * SPEED_MAX)
-			{
-				dragSpeed.Truncate(SPEED_MAX);
-			}
-
+			
 			isDragging = false;
 		}
 	}

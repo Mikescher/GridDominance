@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+﻿using System.Collections.Generic;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using Microsoft.Xna.Framework;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
@@ -13,8 +14,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public float LaserRotation;
 		public object UserData;
 
-		public int LaserCount = 0;
-		public LaserRay[] Lasers = new LaserRay[LaserNetwork.MAX_LASER_PER_SOURCE];
+		public readonly List<LaserRay> Lasers = new List<LaserRay>(LaserNetwork.MAX_LASER_PER_SOURCE);
 
 		public LaserSource(LaserNetwork owner, Vector2 position, Fraction fracNeutral, object userData)
 		{

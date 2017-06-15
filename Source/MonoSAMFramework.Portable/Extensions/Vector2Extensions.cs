@@ -10,6 +10,7 @@ namespace MonoSAMFramework.Portable.Extensions
 		{
 			return new FSize(p.X, p.Y);
 		}
+
 		public static FSize ToAbsSize(this Vector2 p)
 		{
 			return new FSize(FloatMath.Abs(p.X), FloatMath.Abs(p.Y));

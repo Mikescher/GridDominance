@@ -95,6 +95,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddSwitch("DBG", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG", "DebugLaserNetwork",     scrn, SKeys.F12, KeyModifier.None,    true);
 			DebugSettings.AddSwitch("DBG", "DebugTimings",          scrn, SKeys.F1,  KeyModifier.Control, true);
+			DebugSettings.AddSwitch("DBG", "ContinoousLasers",      scrn, SKeys.F2,  KeyModifier.Control, true);
 
 			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab, KeyModifier.None);
 			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,   KeyModifier.None);

@@ -206,7 +206,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 					if (tgcannon.CannonID == sourceID) return none;
 
-					var quality = FloatMath.LinePointDistance(ConvertUnits.ToDisplayUnits(farseerBullet.Position), ConvertUnits.ToDisplayUnits(farseerBullet.Position) + ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity), new Vector2(tgcannon.X, tgcannon.Y));
+					var quality = Math2D.LinePointDistance(ConvertUnits.ToDisplayUnits(farseerBullet.Position), ConvertUnits.ToDisplayUnits(farseerBullet.Position) + ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity), new Vector2(tgcannon.X, tgcannon.Y));
 
 					return new List<Tuple<List<Vector2>, CannonBlueprint, float>> { Tuple.Create(fullpath, tgcannon, quality) };
 				}
@@ -358,7 +358,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 		{
 			foreach (var elem in test)
 			{
-				if (FloatMath.LinePointDistance(p1, p2, elem) > Bullet.BULLET_DIAMETER / 3f) return false;
+				if (Math2D.LinePointDistance(p1, p2, elem) > Bullet.BULLET_DIAMETER / 3f) return false;
 			}
 
 			return true;
