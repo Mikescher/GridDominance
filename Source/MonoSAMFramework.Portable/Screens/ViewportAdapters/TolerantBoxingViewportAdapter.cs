@@ -119,7 +119,11 @@ namespace MonoSAMFramework.Portable.Screens.ViewportAdapters
 
 		public override Matrix GetFarseerDebugProjectionMatrix()
 		{
-			return Matrix.CreateScale(new Vector3(scaleXY, scaleXY, 1)) * Matrix.CreateTranslation(offsetX, offsetY, 0) * Matrix.CreateOrthographicOffCenter(0f, RealTotalWidth, RealTotalHeight, 0f, 0f, 1f);
+			var scale = Matrix.CreateScale(new Vector3(scaleXY, scaleXY, 1));
+			var trans = Matrix.CreateTranslation(offsetX, offsetY, 0);
+			var ortho = Matrix.CreateOrthographicOffCenter(0f, RealTotalWidth, RealTotalHeight, 0f, 0f, 1f);
+
+			return scale * trans * ortho;
 		}
 
 		public override SAMViewportAdapter CreateProxyAdapter(IProxyScreenProvider p)

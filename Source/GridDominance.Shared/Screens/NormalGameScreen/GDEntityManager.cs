@@ -67,7 +67,7 @@ namespace GridDominance.Shared.NormalGameScreen
 #if DEBUG
 			
 			
-			var pMatrix = GDOwner.VAdapterGame.GetFarseerDebugProjectionMatrix();
+			var pMatrix = Matrix.CreateTranslation(GDOwner.MapOffsetX, GDOwner.MapOffsetY, 0) * GDOwner.VAdapterGame.GetFarseerDebugProjectionMatrix();
 			var vMatrix = Matrix.CreateScale(GDConstants.PHYSICS_CONVERSION_FACTOR);
 			debugView.RenderDebugData(ref pMatrix, ref vMatrix);
 #endif

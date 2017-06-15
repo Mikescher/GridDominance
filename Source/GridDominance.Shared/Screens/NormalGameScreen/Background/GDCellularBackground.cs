@@ -161,13 +161,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 			if (wrapMode == GameWrapMode.Donut || wrapMode == GameWrapMode.Reflect)
 			{
-				var ex = extensionX * TILE_WIDTH;
-				var ey = extensionY * TILE_WIDTH;
+				int real_extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH) + 2;
+				int real_extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH) + 2;
+				
+				var fextx = real_extensionX * TILE_WIDTH;
+				var fexty = real_extensionY * TILE_WIDTH;
 
-				var rn = new FRectangle(-ex, -ey, Owner.MapFullBounds.Width + 2 * ex, ey);
-				var re = new FRectangle(Owner.MapFullBounds.Width, -ey, ex, Owner.MapFullBounds.Height + 2 * ey);
-				var rs = new FRectangle(-ex, Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * ex, ey);
-				var rw = new FRectangle(-ex, -ey, ex, Owner.MapFullBounds.Height + 2 * ey);
+				var rn = new FRectangle(-fextx,                    -fexty,                     Owner.MapFullBounds.Width + 2 * fextx, fexty);
+				var re = new FRectangle(Owner.MapFullBounds.Width, -fexty,                     fextx,                                 Owner.MapFullBounds.Height + 2 * fexty);
+				var rs = new FRectangle(-fextx,                    Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * fextx, fexty);
+				var rw = new FRectangle(-fextx,                    -fexty,                     fextx,                                 Owner.MapFullBounds.Height + 2 * fexty);
 
 				sbatch.DrawStretched(Textures.TexPixel, rn, Color.Black);
 				sbatch.DrawStretched(Textures.TexPixel, re, Color.Black);
