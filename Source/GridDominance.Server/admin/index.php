@@ -16,6 +16,25 @@
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
 
+	<?php
+
+	$previd = 0;
+	function expansioncell($txt) {
+		global $previd;
+
+		echo "<td>";
+		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show</a>";
+		echo "</td>";
+	}
+	function remoteexpansioncell($txt) {
+		global $previd;
+
+		echo "<td>";
+		echo "<a href='#' onclick='ShowRemoteExpandedColumn(" . $previd . ", \"" . $txt . "\");return false;'>show</a>";
+		echo "</td>";
+	}
+	?>
+
 	<div class="infocontainer">
 		<div class="infodiv">
 			Total Users: <a href="userlist.php"><?php echo getUserCount(); ?></a>
@@ -39,23 +58,11 @@
             Highscore: <?php echo getTotalHighscore(); ?>
         </div>
         <div class="infodiv">
-            <a href="<?php global $config; echo "../cron.php?cronsecret=" . $config['cron-secret']; ?>">Cron</a>
+            Cron: <?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo "../cron.php?cronsecret=" . $config['cron-secret']; ?>">Now</a> )
         </div>
 	</div>
 
 	<h2>New errors</h2>
-
-    <?php
-
-    $previd = 0;
-	function expansioncell($txt) {
-	    global $previd;
-
-	    echo "<td>";
-	    echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show</a>";
-		echo "</td>";
-    }
-    ?>
 
     <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered">
@@ -94,13 +101,28 @@
         </table>
     </div>
 
-    <script type="text/javascript">
-        function ShowExpandedColumn(id, text) {
-            $(".tab_prev").css("visibility", "collapse");
-            $("#td_prev_"+id).html(text);
-            $("#tr_prev_"+id).css("visibility", "visible");
-        }
-    </script>
+    <h2>Logs</h2>
+
+    <div class="tablebox">
+        <table class="sqltab pure-table pure-table-bordered" style="width:100%;">
+            <thead>
+            <tr>
+                <th style='width: 250px'>Logfile</th>
+                <th style='width: 250px'>Changedate</th>
+                <th>Content</th>
+            </tr>
+            </thead>
+			<?php foreach (listLogFiles() as $entry): ?>
+                <tr>
+                    <td title="<?php echo $entry['path']; ?>" ><?php echo $entry['name']; ?></td>
+                    <td><?php echo $entry['changedate']; ?></td>
+					<?php remoteexpansioncell($entry['name']); ?>
+                </tr>
+                <tr class='tab_prev' id='tr_prev_<?php echo $previd; ?>'><td colspan='12' id='td_prev_<?php echo $previd; ?>' style='text-align: left;' ></td></tr>
+				<?php $previd++; ?>
+			<?php endforeach; ?>
+        </table>
+    </div>
 
 	<h2>Global highscore</h2>
 
@@ -168,5 +190,30 @@
 			<?php endforeach; ?>
         </table>
     </div>
+
+    <script type="text/javascript">
+        function ShowExpandedColumn(id, text) {
+            if ($("#tr_prev_"+id).css('visibility') != 'visible') {
+                $(".tab_prev").css("visibility", "collapse");
+                $("#td_prev_"+id).html(text);
+                $("#tr_prev_"+id).css("visibility", "visible");
+            } else {
+                $(".tab_prev").css("visibility", "collapse");
+            }
+        }
+        function ShowRemoteExpandedColumn(id, ident) {
+            if ($("#tr_prev_"+id).css('visibility') != 'visible') {
+                $(".tab_prev").css("visibility", "collapse");
+
+                $.get('logquery.php?id=' + ident, function( data ) {
+                    $("#td_prev_"+id).html(data);
+                    $("#tr_prev_"+id).css("visibility", "visible");
+                });
+
+            } else {
+                $(".tab_prev").css("visibility", "collapse");
+            }
+        }
+    </script>
 </body>
 </html>

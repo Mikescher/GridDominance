@@ -96,6 +96,17 @@ function getLevelEntries($lvl) {
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getLevelDiffEntries($lvl, $diff) {
+	global $pdo;
+
+	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND difficulty = :diff");
+	$stmt->bindValue(':id', $lvl, PDO::PARAM_STR);
+	$stmt->bindValue(':diff', $diff, PDO::PARAM_STR);
+	$stmt->execute();
+
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getUserEntries($uid) {
 	global $pdo;
 
@@ -125,4 +136,39 @@ function getWorldHighscores($worldid) {
 	$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top100', '#$$CONDITION$$', $condition));
 	$stmt->execute();
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getLastCronTime() {
+	global $config;
+
+	$path = str_replace('{action}', 'cron', $config['logfile-debug']);
+
+	if (!file_exists($path)) return "FNF";
+
+	return date('Y-m-d H:i:s', filemtime($path));
+}
+
+function listLogFiles() {
+	global $config;
+
+	$list = [];
+
+	$path = dirname($config['logfile-normal']);
+	$dir = opendir($path);
+	while($file = readdir($dir)){
+		if ($file == '.' or $file == '..') continue;
+
+		$filepath = $path . '/' . $file;
+
+		$list[] =
+			[
+				'path' => $filepath,
+				'name' => basename($filepath),
+				'changedate' => date('Y-m-d H:i:s', filemtime($filepath)),
+				'content' => file_get_contents($filepath),
+			];
+	}
+	closedir($dir);
+
+	return $list;
 }

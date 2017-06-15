@@ -12,6 +12,10 @@
   border: 1px dashed black;
 }
 
+#rootbox {
+  margin: 32px;
+}
+
 .infocontainer {
   display: flex;
   justify-content: center;
