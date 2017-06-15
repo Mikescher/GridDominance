@@ -27,11 +27,11 @@
                     <th>Time</th>
                 </tr>
             </thead>
-            <?php foreach (getWorldHighscores($_GET['id']) as $ghigh): ?>
+            <?php foreach (getWorldHighscores($_GET['id']) as $entry): ?>
                 <tr>
-                    <td><?php echo $ghigh['username'] . " (" .$ghigh['userid']. ")"; ?></td>
-                    <td><?php echo $ghigh['totalscore']; ?></td>
-                    <td title="<?php echo $ghigh['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $ghigh['totaltime']/1000.0); ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                    <td><?php echo $entry['totalscore']; ?></td>
+                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
                 </tr>
 			<?php endforeach; ?>
         </table>

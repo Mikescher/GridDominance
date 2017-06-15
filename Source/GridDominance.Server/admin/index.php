@@ -62,7 +62,7 @@
             <thead>
                 <tr>
                     <th>error id</th>
-                    <th>userid</th>
+                    <th style='width: 250px'>Username</th>
                     <th>password verified</th>
                     <th>screen resolution</th>
                     <th>app version</th>
@@ -74,19 +74,19 @@
                     <th>acknowledged</th>
                 </tr>
             </thead>
-            <?php foreach (getRemainingErrors() as $error): ?>
+            <?php foreach (getRemainingErrors() as $entry): ?>
                 <tr>
-                    <td><?php echo $error['error_id']; ?></td>
-                    <td><?php echo $error['userid']; ?></td>
-                    <td><?php echo $error['password_verified']; ?></td>
-                    <td style='max-width: 256px'><?php echo $error['screen_resolution']; ?></td>
-                    <td><?php echo $error['app_version']; ?></td>
-                    <td><?php echo $error['exception_id']; ?></td>
-					<?php expansioncell($error['exception_message']); ?>
-					<?php expansioncell($error['exception_stacktrace']); ?>
-                    <td style='max-width: 256px'><?php echo $error['timestamp']; ?></td>
-					<?php expansioncell($error['additional_info']); ?>
-                    <td><a href="ack.php?id=<?php echo $error['error_id']; ?>" target="_blank">acknowledge</a></td>
+                    <td><?php echo $entry['error_id']; ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                    <td><?php echo $entry['password_verified']; ?></td>
+                    <td style='max-width: 256px'><?php echo $entry['screen_resolution']; ?></td>
+                    <td><?php echo $entry['app_version']; ?></td>
+                    <td><?php echo $entry['exception_id']; ?></td>
+					<?php expansioncell($entry['exception_message']); ?>
+					<?php expansioncell($entry['exception_stacktrace']); ?>
+                    <td style='max-width: 256px'><?php echo $entry['timestamp']; ?></td>
+					<?php expansioncell($entry['additional_info']); ?>
+                    <td><a href="ack.php?id=<?php echo $entry['error_id']; ?>" target="_blank">acknowledge</a></td>
                 </tr>
                 <tr class='tab_prev' id='tr_prev_<?php echo $previd; ?>'><td colspan='12' id='td_prev_<?php echo $previd; ?>' style='text-align: left;' ></td></tr>
                 <?php $previd++; ?>
@@ -123,11 +123,11 @@
                 <th>Time</th>
             </tr>
             </thead>
-			<?php foreach (getGlobalHighscores() as $ghigh): ?>
+			<?php foreach (getGlobalHighscores() as $entry): ?>
                 <tr>
-                    <td><?php echo $ghigh['username'] . " (" .$ghigh['userid']. ")"; ?></td>
-                    <td><?php echo $ghigh['totalscore']; ?></td>
-                    <td title="<?php echo $ghigh['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $ghigh['totaltime']/1000.0); ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                    <td><?php echo $entry['totalscore']; ?></td>
+                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
                 </tr>
 			<?php endforeach; ?>
         </table>
@@ -147,22 +147,22 @@
                 <th>Completion Count</th>
             </tr>
             </thead>
-			<?php foreach (getLevelHighscores() as $lhigh): ?>
+			<?php foreach (getLevelHighscores() as $entry): ?>
                 <tr>
-                    <td title="<?php echo $lhigh['levelid']; ?>" >
-                        <?php if ($lhigh['difficulty'] == 0): ?>
-                            <a href="levelscores.php?id=<?php echo $lhigh['levelid']; ?>">
-								<?php echo (int)substr($lhigh['levelid'], 25, 6) . " - " . (int)substr($lhigh['levelid'], 31, 6); ?>
+                    <td title="<?php echo $entry['levelid']; ?>" >
+                        <?php if ($entry['difficulty'] == 0): ?>
+                            <a href="levelscores.php?id=<?php echo $entry['levelid']; ?>">
+								<?php echo (int)substr($entry['levelid'], 25, 6) . " - " . (int)substr($entry['levelid'], 31, 6); ?>
                             </a>
                         <?php else: ?>
-                            <?php echo (int)substr($lhigh['levelid'], 25, 6) . " - " . (int)substr($lhigh['levelid'], 31, 6); ?>
+                            <?php echo (int)substr($entry['levelid'], 25, 6) . " - " . (int)substr($entry['levelid'], 31, 6); ?>
                         <?php endif; ?>
                     </td>
-                    <td><?php echo $lhigh['difficulty']; ?></td>
-                    <td title="<?php echo $lhigh['best_time']; ?>ms" ><?php echo gmdate("H:i:s", $lhigh['best_time']/1000.0); ?></td>
-                    <td><?php echo $lhigh['username'] . " (" .$lhigh['best_userid']. ")"; ?></td>
-                    <td><?php echo $lhigh['best_last_changed']; ?></td>
-                    <td><?php echo $lhigh['completion_count']; ?></td>
+                    <td><?php echo $entry['difficulty']; ?></td>
+                    <td title="<?php echo $entry['best_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['best_time']/1000.0); ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $entry['best_userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['best_userid']; ?>)</td>
+                    <td><?php echo $entry['best_last_changed']; ?></td>
+                    <td><?php echo $entry['completion_count']; ?></td>
                 </tr>
                 <tr class='tab_prev' id='tr_prev_<?php echo $previd; ?>'><td colspan='12' id='td_prev_<?php echo $previd; ?>' style='text-align: left;' ></td></tr>
 			<?php endforeach; ?>

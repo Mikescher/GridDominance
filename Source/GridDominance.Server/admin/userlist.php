@@ -46,7 +46,7 @@
             </thead>
             <?php foreach (getUsers() as $entry): ?>
                 <tr>
-                    <td><?php echo $entry['username'] . " (" . $entry['userid'] . ")" ; ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
 					<?php expansioncell($entry['password_hash']); ?>
                     <td><?php echo $entry['is_auto_generated']; ?></td>
                     <td><?php echo $entry['score']; ?></td>

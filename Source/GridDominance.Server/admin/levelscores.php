@@ -31,7 +31,7 @@
             </thead>
             <?php foreach (getLevelEntries($_GET['id']) as $entry): ?>
                 <tr>
-                    <td><?php echo $entry['username'] . " (" . $entry['userid'] . ")" ; ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td title="<?php echo $entry['levelid']; ?>" >
                         <?php echo (int)substr($entry['levelid'], 25, 6) . " - " . (int)substr($entry['levelid'], 31, 6); ?>
                     </td>

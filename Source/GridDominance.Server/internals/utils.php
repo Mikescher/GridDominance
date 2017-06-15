@@ -43,13 +43,23 @@ function getTotalHighscore() {
 function getRemainingErrors() {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM error_log WHERE acknowledged = 0')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getAllErrors() {
 	global $pdo;
 
 	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid')->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getUserErrors($uid) {
+	global $pdo;
+
+	$stmt = $pdo->prepare("SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE users.userid = :uid");
+	$stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
+	$stmt->execute();
+
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getUsers() {
@@ -81,6 +91,16 @@ function getLevelEntries($lvl) {
 
 	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id");
 	$stmt->bindValue(':id', $lvl, PDO::PARAM_STR);
+	$stmt->execute();
+
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getUserEntries($uid) {
+	global $pdo;
+
+	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE level_highscores.userid= :uid");
+	$stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
 	$stmt->execute();
 
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);

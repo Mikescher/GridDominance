@@ -29,9 +29,11 @@
             </thead>
             <?php foreach (getAllEntries() as $entry): ?>
                 <tr>
-                    <td><?php echo $entry['username'] . " (" . $entry['userid'] . ")" ; ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td title="<?php echo $entry['levelid']; ?>" >
-                        <?php echo (int)substr($entry['levelid'], 25, 6) . " - " . (int)substr($entry['levelid'], 31, 6); ?>
+                        <a href="levelscores.php?id=<?php echo $entry['levelid']; ?>">
+							<?php echo (int)substr($entry['levelid'], 25, 6) . " - " . (int)substr($entry['levelid'], 31, 6); ?>
+                        </a>
                     </td>
                     <td><?php echo $entry['difficulty']; ?></td>
                     <td title="<?php echo $entry['best_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['best_time']/1000.0); ?></td>

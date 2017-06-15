@@ -45,19 +45,19 @@
                     <th>acknowledged</th>
                 </tr>
             </thead>
-            <?php foreach (getAllErrors() as $error): ?>
+            <?php foreach (getAllErrors() as $entry): ?>
                 <tr>
-                    <td><?php echo $error['error_id']; ?></td>
-                    <td><?php echo $error['username'] . " (" . $error['userid'] . ")" ; ?></td>
-                    <td><?php echo $error['password_verified']; ?></td>
-					<?php expansioncell($error['screen_resolution']); ?>
-                    <td><?php echo $error['app_version']; ?></td>
-                    <td><?php echo $error['exception_id']; ?></td>
-					<?php expansioncell($error['exception_message']); ?>
-					<?php expansioncell($error['exception_stacktrace']); ?>
-                    <td><?php echo $error['timestamp']; ?></td>
-					<?php expansioncell($error['additional_info']); ?>
-                    <td><?php echo $error['acknowledged']; ?></td>
+                    <td><?php echo $entry['error_id']; ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                    <td><?php echo $entry['password_verified']; ?></td>
+					<?php expansioncell($entry['screen_resolution']); ?>
+                    <td><?php echo $entry['app_version']; ?></td>
+                    <td><?php echo $entry['exception_id']; ?></td>
+					<?php expansioncell($entry['exception_message']); ?>
+					<?php expansioncell($entry['exception_stacktrace']); ?>
+                    <td><?php echo $entry['timestamp']; ?></td>
+					<?php expansioncell($entry['additional_info']); ?>
+                    <td><?php echo $entry['acknowledged']; ?></td>
                 </tr>
                 <tr class='tab_prev' id='tr_prev_<?php echo $previd; ?>'><td colspan='12' id='td_prev_<?php echo $previd; ?>' style='text-align: left;' ></td></tr>
                 <?php $previd++; ?>
