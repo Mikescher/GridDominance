@@ -289,7 +289,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
 #endif
-			if (!IsPaused && !HasFinished) LevelTime += MonoSAMGame.CurrentTime.ElapsedSeconds;
+			if (!IsPaused && !HasFinished) LevelTime += gameTime.RealtimeElapsedSeconds;
 
 			TestForGameEndingCondition();
 		}

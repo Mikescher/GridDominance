@@ -106,7 +106,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			_table.AddColumn("", 64);
 			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
 			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 128);
-			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175); //TODO Total time seems off (too high for some users ???)
+			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175);
 
 			LoadHighscore().EnsureNoError();
 		}
