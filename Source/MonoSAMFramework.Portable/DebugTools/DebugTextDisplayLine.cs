@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {
@@ -11,7 +12,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 	{
 		private static readonly Func<bool> ActionTrue = () => true;
 
-		public readonly Func<string> DisplayText;
+		public readonly Func<List<string>> DisplayText;
 		public readonly Func<bool> Active;
 
 		public float InertiaPosition = -1;
@@ -39,6 +40,11 @@ namespace MonoSAMFramework.Portable.DebugTools
 		}
 
 		public DebugTextDisplayLine(Func<string> text, Func<bool> active)
+			: this(() => new List<string>{ text() }, active)
+		{
+		}
+
+		public DebugTextDisplayLine(Func<List<string>> text, Func<bool> active)
 		{
 			DisplayText = text;
 			Active = active;
@@ -117,7 +123,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 			PositionY = posY;
 			
-			posY += font.MeasureString(DisplayText()).Y * DebugTextDisplay.TEXT_SPACING;
+			posY += DisplayText().Max(l => font.MeasureString(l).Y) * DebugTextDisplay.TEXT_SPACING;
 		}
 
 		public DebugTextDisplayLine SetColor(Color c)

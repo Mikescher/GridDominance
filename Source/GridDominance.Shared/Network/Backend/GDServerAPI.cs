@@ -117,6 +117,10 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("device_name", bridge.DeviceName);
 				ps.AddParameterString("device_version", bridge.DeviceVersion);
 
+				//TODO Send Resolution
+				//TODO Send IAB Info
+				//TODO Send Device info in ping
+
 				var response = await QueryAsync<QueryResultCreateUser>("create-user", ps, RETRY_CREATEUSER);
 
 				if (response == null)

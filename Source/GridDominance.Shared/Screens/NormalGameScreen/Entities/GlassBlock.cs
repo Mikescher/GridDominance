@@ -20,7 +20,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 	public class GlassBlock : GameEntity
 	{
 		public const float CORNER_SIZE = 4f;
-		private const float MARKER_WIDTH = 0.1f;
+		private const float MARKER_WIDTH = 0.001f;
 		public const float REFRACTION_INDEX = GlassBlockBlueprint.REFRACTION_INDEX;
 
 		public override Vector2 Position { get; }

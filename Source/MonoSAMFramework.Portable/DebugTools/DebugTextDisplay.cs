@@ -77,6 +77,11 @@ namespace MonoSAMFramework.Portable.DebugTools
 			return AddLine(new DebugTextDisplayLine(text, () => DebugSettings.Get(debugSettingsKey)));
 		}
 
+		public DebugTextDisplayLine AddTabularLine(string debugSettingsKey, Func<List<string>> texts)
+		{
+			return AddLine(new DebugTextDisplayLine(texts, () => DebugSettings.Get(debugSettingsKey)));
+		}
+
 		public DebugTextDisplayLine AddLine(string text)
 		{
 			return AddLine(new DebugTextDisplayLine(() => text));
@@ -146,28 +151,35 @@ namespace MonoSAMFramework.Portable.DebugTools
 			
 			foreach (var line in lines.SelectMany(p => p.GetLines()).Where(p => p.Active()))
 			{
-				var text = line.DisplayText();
+				var columns = line.DisplayText();
 
 				var pos = new Vector2(TEXT_OFFSET * Scale, line.PositionY * Scale);
-				var size = font.MeasureString(text) * Scale;
 
-				var bg = line.Background;
-				if (bg.A == 255) bg = ColorMath.Fade(line.Background, line.Decay * backgroundAlpha);
+				foreach (var text in columns)
+				{
+					var size = font.MeasureString(text) * Scale;
 
-				debugBatch.FillRectangle(
-					new FRectangle(pos.X - TEXT_OFFSET * Scale, pos.Y, size.X + 2 * TEXT_OFFSET * Scale, size.Y), 
-					bg);
+					var bg = line.Background;
+					if (bg.A == 255) bg = ColorMath.Fade(line.Background, line.Decay * backgroundAlpha);
 
-				debugBatch.DrawString(
-					font, 
-					text, 
-					new Vector2(5, pos.Y), 
-					ColorMath.Fade(line.Color, line.Decay), 
-					0, 
-					Vector2.Zero, 
-					Scale, 
-					SpriteEffects.None, 
-					0);
+					debugBatch.FillRectangle(
+						new FRectangle(pos.X - TEXT_OFFSET * Scale, pos.Y, size.X + 2 * TEXT_OFFSET * Scale, size.Y),
+						bg);
+
+					debugBatch.DrawString(
+						font,
+						text,
+						pos,
+						ColorMath.Fade(line.Color, line.Decay),
+						0,
+						Vector2.Zero,
+						Scale,
+						SpriteEffects.None,
+						0);
+
+					pos.X += 3*TEXT_OFFSET * Scale + size.X;
+				}
+				
 			}
 
 			debugBatch.End();

@@ -158,5 +158,23 @@ namespace MonoSAMFramework.Portable.Extensions
 
 			return u;
 		}
+
+		public static float ProjectOntoLine2(this Vector2 p, Vector2 lineStart, Vector2 lineEnd)
+		{
+			//https://stackoverflow.com/a/6177788/1761622
+
+			float x1 = lineStart.X;
+			float y1 = lineStart.Y;
+
+			float x2 = lineEnd.X;
+			float y2 = lineEnd.Y;
+
+			float x3 = p.X;
+			float y3 = p.Y;
+
+			float u = ((x3 - x1) * (x2 - x1) + (y3 - y1) * (y2 - y1)) / ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+			return u;
+		}
 	}
 }

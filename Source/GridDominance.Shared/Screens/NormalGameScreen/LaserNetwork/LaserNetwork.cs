@@ -22,9 +22,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
 	public sealed class LaserNetwork : ISAMUpdateable, ISAMDrawable
 	{
-		public const int MAX_LASER_RAYCOUNT   = 16;
-		public const int MAX_LASER_PER_SOURCE = 128; // 8 * 16
-		public const int MAX_BACKTRACE        = 4;
+		public const int MAX_LASER_RAYCOUNT        = 16;
+		public const int MAX_LASER_PER_SOURCE      = 128; // 8 * 16
+		public const int MAX_BACKTRACE             = 4;
+		public const float RAY_WIDTH               = 6f;
+		public const float PARALLEL_ANGLE_EPSILON  = FloatMath.RAD_POS_004;
 
 		public bool Dirty = false;
 		
@@ -81,7 +83,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 						if (src.Lasers.Contains(ray))
 						{
 							src.Lasers.Remove(ray);
-							RecalcFromRay(src, ray.Start, ray.Start + (ray.End - ray.Start).WithLength(_rayLength), ray.Depth, ray.InGlass, ray.StartIgnoreObj, ray.Source, i+1 >= MAX_BACKTRACE);
+							RecalcFromRay(src, ray.Start, ray.Start + (ray.End - ray.Start).WithLength(_rayLength), ray.Depth, ray.InGlass, ray.StartIgnoreObj, ray.Source, ray.SourceDistance, i+1 >= MAX_BACKTRACE);
 						}
 
 					}
@@ -103,14 +105,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		{
 			foreach (var src in Sources)
 			{
-//				sbatch.FillCircle(src.Position, 64, 128, Color.LimeGreen);
-//				sbatch.FillCircle(src.Position, 48, 128, src.LaserFraction.Color);
-
 				foreach (var ray in src.Lasers)
 				{
 					sbatch.DrawLine(ray.Start, ray.End, Color.LimeGreen, 4);
 					
 					if (ray.Terminator == LaserRayTerminator.LaserDoubleTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new Vector2(8, 8), Color.Salmon);
+					if (ray.Terminator == LaserRayTerminator.LaserSelfTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new Vector2(8, 8), Color.CornflowerBlue);
+					if (ray.Terminator == LaserRayTerminator.LaserFaultTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new Vector2(8, 8), Color.Magenta);
 				}
 			}
 		}
@@ -129,25 +130,26 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			Vector2 istart = src.Position;
 			Vector2 iend   = src.Position + new Vector2(_rayLength, 0).Rotate(src.LaserRotation);
 
-			RecalcFromRay(src, istart, iend, 0, false, src.UserData, null, false);
+			RecalcFromRay(src, istart, iend, 0, false, src.UserData, null, 0, false);
 		}
 
-		private void RecalcFromRay(LaserSource src, Vector2 istart, Vector2 iend, int idepth, bool iinglass, object iignore, LaserRay isrc, bool nofault)
+		private void RecalcFromRay(LaserSource src, Vector2 istart, Vector2 iend, int idepth, bool iinglass, object iignore, LaserRay isrc, float idist, bool nofault)
 		{
-			Stack<Tuple<Vector2, Vector2, int, bool, object, LaserRay>> remaining = new Stack<Tuple<Vector2, Vector2, int, bool, object, LaserRay>>();
+			Stack<Tuple<Vector2, Vector2, int, bool, object, LaserRay, float>> remaining = new Stack<Tuple<Vector2, Vector2, int, bool, object, LaserRay, float>>();
 
-			remaining.Push(Tuple.Create(istart, iend, idepth, iinglass, iignore, isrc));
+			remaining.Push(Tuple.Create(istart, iend, idepth, iinglass, iignore, isrc, idist));
 
 			while (remaining.Any())
 			{
 				var pop = remaining.Pop();
 				
-				var start   = pop.Item1;
-				var end     = pop.Item2;
-				var depth   = pop.Item3;
-				var inglass = pop.Item4;
-				var ignore  = pop.Item5;
-				var source  = pop.Item6;
+				var start     = pop.Item1;
+				var end       = pop.Item2;
+				var depth     = pop.Item3;
+				var inglass   = pop.Item4;
+				var ignore    = pop.Item5;
+				var source    = pop.Item6;
+				var startdist = pop.Item7;
 
 				if (src.Lasers.Count + 1 >= MAX_LASER_PER_SOURCE) continue;
 				if (depth >= MAX_LASER_RAYCOUNT) continue;
@@ -157,7 +159,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				#region OOB
 				if (result == null)
 				{
-					var ray = new LaserRay(start, end, source, LaserRayTerminator.OOB, depth, inglass, ignore, null, null);
+					var ray = new LaserRay(start, end, source, LaserRayTerminator.OOB, depth, inglass, ignore, startdist, null, null);
 					src.Lasers.Add(ray);
 					if (TestForLaserCollision(src, ray, nofault)) continue;
 
@@ -169,7 +171,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				var resultCannon = result.Item1.UserData as Cannon;
 				if (resultCannon != null)
 				{
-					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Target, depth, inglass, ignore, resultCannon, null);
+					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Target, depth, inglass, ignore, startdist, resultCannon, null);
 					src.Lasers.Add(ray);
 					if (TestForLaserCollision(src, ray, nofault)) continue;
 
@@ -181,7 +183,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				var resultGlassBlockRefrac = result.Item1.UserData as MarkerRefractionEdge;
 				if (resultGlassBlockRefrac != null)
 				{
-					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Glass, depth, inglass, ignore, null, null);
+					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Glass, depth, inglass, ignore, startdist, null, null);
 					src.Lasers.Add(ray);
 					if (TestForLaserCollision(src, ray, nofault)) continue;
 
@@ -197,13 +199,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 						var aOut = FloatMath.Asin(sinaOut);
 						var pRefractAngle = (-result.Item3).ToAngle() + aOut;
 
-						remaining.Push(Tuple.Create(result.Item2, result.Item2 + new Vector2(_rayLength, 0).Rotate(pRefractAngle), depth + 1, !inglass, (object) resultGlassBlockRefrac, ray));
+						remaining.Push(Tuple.Create(result.Item2, result.Item2 + new Vector2(_rayLength, 0).Rotate(pRefractAngle), depth + 1, !inglass, (object) resultGlassBlockRefrac, ray, startdist + ray.Length));
 					}
 
 					if (!inglass)
 					{
 						var reflect_end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(_rayLength);
-						remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultGlassBlockRefrac, ray));
+						remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultGlassBlockRefrac, ray, startdist + ray.Length));
 						continue;
 					}
 					else
@@ -215,7 +217,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 						else
 						{
 							var reflect_end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(_rayLength);
-							remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultGlassBlockRefrac, ray));
+							remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultGlassBlockRefrac, ray, startdist + ray.Length));
 							continue;
 						}
 					}
@@ -226,12 +228,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				var resultMirrorBlock = result.Item1.UserData as MirrorBlock;
 				if (resultMirrorBlock != null)
 				{
-					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Mirror, depth, inglass, ignore, null, null);
+					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Mirror, depth, inglass, ignore, startdist, null, null);
 					src.Lasers.Add(ray);
 					if (TestForLaserCollision(src, ray, nofault)) continue;
 
 					var reflect_end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(_rayLength);
-					remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultMirrorBlock, ray));
+					remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultMirrorBlock, ray, startdist + ray.Length));
 					continue;
 				}
 				#endregion
@@ -240,12 +242,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				var resultMirrorCircle = result.Item1.UserData as MirrorCircle;
 				if (resultMirrorCircle != null)
 				{
-					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Mirror, depth, inglass, ignore, null, null);
+					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Mirror, depth, inglass, ignore, startdist, null, null);
 					src.Lasers.Add(ray);
 					if (TestForLaserCollision(src, ray, nofault)) continue;
 
 					var reflect_end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(_rayLength);
-					remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultMirrorCircle, ray));
+					remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultMirrorCircle, ray, startdist + ray.Length));
 					continue;
 				}
 				#endregion
@@ -254,7 +256,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				var resultVoidWall = result.Item1.UserData as VoidWall;
 				if (resultVoidWall != null)
 				{
-					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.VoidObject, depth, inglass, ignore, null, null);
+					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.VoidObject, depth, inglass, ignore, startdist, null, null);
 					src.Lasers.Add(ray);
 					if (TestForLaserCollision(src, ray, nofault)) continue;
 
@@ -266,7 +268,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				var resultVoidCircle = result.Item1.UserData as VoidCircle;
 				if (resultVoidCircle != null)
 				{
-					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.VoidObject, depth, inglass, ignore, null, null);
+					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.VoidObject, depth, inglass, ignore, startdist, null, null);
 					src.Lasers.Add(ray);
 					if (TestForLaserCollision(src, ray, nofault)) continue;
 
@@ -278,7 +280,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				var resultPortal = result.Item1.UserData as Portal;
 				if (resultPortal != null)
 				{
-					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Portal, depth, inglass, ignore, null, null);
+					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Portal, depth, inglass, ignore, startdist, null, null);
 					src.Lasers.Add(ray);
 					if (TestForLaserCollision(src, ray, nofault)) continue;
 
@@ -300,7 +302,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 						var newEnd = newStart + newVelocity.WithLength(_rayLength);
 
-						remaining.Push(Tuple.Create(newStart, newEnd, depth + 1, false, (object) outportal, ray));
+						remaining.Push(Tuple.Create(newStart, newEnd, depth + 1, false, (object) outportal, ray, startdist + ray.Length));
 					}
 					continue;
 				}
@@ -348,13 +350,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			{
 				foreach (var ray2 in src2.Lasers)
 				{
+					if (src1 == src2 && ray1 == ray2) continue;
+					
 					FPoint intersect;
 					float u;
-					float tmp;
-					if (Math2D.LineIntersectionExt(ray1.Start, ray1.End, ray2.Start, ray2.End, -0.1f, out intersect, out u, out tmp))
+					if (LineParallality(ray1.Start, ray1.End, ray1.SourceDistance, ray2.Start, ray2.End, ray2.SourceDistance, out intersect, out u))
 					{
-						if (src1 == minSrc2 && ray1 == minRay2) continue;
-
+						if (u < minU)
+						{
+							minU = u;
+							minP = intersect;
+							minRay2 = ray2;
+							minSrc2 = src2;
+						}
+					}
+					else if (Math2D.LineIntersectionExt(ray1.Start, ray1.End, ray2.Start, ray2.End, -0.1f, out intersect, out u, out _))
+					{
 						if (u < minU)
 						{
 							minU = u;
@@ -368,15 +379,26 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 			if (minRay2 != null)
 			{
-				if (src1 == minSrc2 || nofault)
+				if (nofault)
 				{
-					ray1.SetSelfLaserIntersect(minP, minRay2, minSrc2);
+					ray1.SetLaserIntersect(minP, minRay2, minSrc2, LaserRayTerminator.LaserFaultTerm);
+
+					return true;
+				}
+				else if (src1 == minSrc2)
+				{
+					ray1.SetLaserIntersect(minP, minRay2, minSrc2, LaserRayTerminator.LaserSelfTerm);
+					minRay2.SelfCollRays.Add(ray1);
+					foreach (var r in ray1.SelfCollRays) _faultRays.Add(Tuple.Create(r, src1));
+					ray1.SelfCollRays.Clear();
 
 					return true;
 				}
 				else
 				{
-					ray1.SetLaserIntersect(minP, minRay2, minSrc2);
+					ray1.SetLaserIntersect(minP, minRay2, minSrc2, LaserRayTerminator.LaserDoubleTerm);
+					foreach (var r in ray1.SelfCollRays) _faultRays.Add(Tuple.Create(r, src1));
+					ray1.SelfCollRays.Clear();
 
 					CutRayAndUpdate(minSrc2, minRay2, minP, src1, ray1);
 
@@ -388,6 +410,60 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			return false;
 		}
 
+		private bool LineParallality(Vector2 v1s, Vector2 v1e, float v1d, Vector2 v2s, Vector2 v2e, float v2d, out FPoint intersect, out float u)
+		{
+			var dsq = Math2D.SegmentSegmentDistanceSquared(v1s.ToFPoint(), v1e.ToFPoint(), v2s.ToFPoint(), v2e.ToFPoint(), out _);
+			
+			if (dsq > RAY_WIDTH*RAY_WIDTH) { intersect = FPoint.Zero; u = float.NaN; return false; }
+
+			var a1 = (v1e - v1s).ToAngle();
+			var a2 = (v2e - v2s).ToAngle();
+
+			if (FloatMath.DiffRadiansAbs(a1, a2) < PARALLEL_ANGLE_EPSILON)
+			{
+				// same direction
+
+				var u1 = v2s.ProjectOntoLine2(v1s, v1e);
+				var u2 = v1s.ProjectOntoLine2(v2s, v2e);
+
+				if (FloatMath.Abs(u1) < FloatMath.Abs(u2))
+				{
+					intersect = v2s.ToFPoint();
+					u = u1;
+					return true;
+				}
+				else
+				{
+					intersect = v1s.ToFPoint();
+					u = 0;
+					return true;
+				}
+			}
+			else if (FloatMath.Abs(FloatMath.DiffModulo(a1, a2, FloatMath.RAD_POS_180)) < PARALLEL_ANGLE_EPSILON)
+			{
+				var pc = ((v1s + v1e) / 2f).ToFPoint();
+
+				pc = pc + (v1s - v2s).WithLength((v1d - v2d)/2f);
+
+				var pcu1 = pc.ProjectOntoLine(v1s.ToFPoint(), v1e.ToFPoint());
+				if (pcu1 < 0) pc = v1s.ToFPoint();
+				if (pcu1 > 1) pc = v1e.ToFPoint();
+
+				var pcu2 = pc.ProjectOntoLine(v2s.ToFPoint(), v2e.ToFPoint());
+				if (pcu2 < 0) pc = v2s.ToFPoint();
+				if (pcu2 > 1) pc = v2e.ToFPoint();
+
+				intersect = pc;
+				u = pc.ProjectOntoLine(v1s.ToFPoint(), v1e.ToFPoint());
+				return true;
+			}
+
+			intersect = FPoint.Zero;
+			u = float.NaN;
+			
+			return false;
+		}
+
 		private void CutRayAndUpdate(LaserSource src, LaserRay ray, FPoint intersect, LaserSource srcOther, LaserRay rayOther)
 		{
 			if (ray.Terminator == LaserRayTerminator.LaserDoubleTerm)
@@ -395,7 +471,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				_faultRays.Add(ray.TerminatorRay);
 			}
 
-			ray.SetLaserIntersect(intersect, rayOther, srcOther);
+
+			ray.SetLaserIntersect(intersect, rayOther, srcOther, LaserRayTerminator.LaserDoubleTerm);
+			foreach (var r in ray.SelfCollRays) _faultRays.Add(Tuple.Create(r, src));
+			ray.SelfCollRays.Clear();
 
 			Stack<LaserRay> rem = new Stack<LaserRay>();
 			rem.Push(ray);
@@ -412,6 +491,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					{
 						_faultRays.Add(src.Lasers[i].TerminatorRay);
 					}
+
+					foreach (var r in src.Lasers[i].SelfCollRays) _faultRays.Add(Tuple.Create(r, src));
 
 					rem.Push(src.Lasers[i]);
 					src.Lasers.RemoveAt(i);

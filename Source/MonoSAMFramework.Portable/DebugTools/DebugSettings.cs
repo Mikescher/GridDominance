@@ -132,6 +132,37 @@ namespace MonoSAMFramework.Portable.DebugTools
 			return builder.ToString().TrimEnd();
 		}
 
+		public static List<string> GetSummaries()
+		{
+			var r = new List<string>();
+
+			var lst = listeners.Where(p => p.Value.Type != DebugListener.DebugListenerType.Constant).ToList();
+
+			if (lst.Count <= 16)
+			{
+				r.Add(string.Join(Environment.NewLine, lst.Select(l => l.Value.GetSummary())));
+				return r;
+			}
+			else
+			{
+				int c = lst.Count / 2;
+
+				r.Add(string.Join(Environment.NewLine, lst.Take(c).Select(l => l.Value.GetSummary())));
+				r.Add(string.Join(Environment.NewLine, lst.Skip(c).Select(l => l.Value.GetSummary())));
+				return r;
+			}
+		}
+
+		public static List<string> GetCategorizedSummaries()
+		{
+			return new List<string>
+			{
+				string.Join(Environment.NewLine, listeners.Where(p => p.Value.Type == DebugListener.DebugListenerType.Switch).Select(l => l.Value.GetSummary())),
+				string.Join(Environment.NewLine, listeners.Where(p => p.Value.Type == DebugListener.DebugListenerType.Trigger).Select(l => l.Value.GetSummary())),
+				string.Join(Environment.NewLine, listeners.Where(p => p.Value.Type == DebugListener.DebugListenerType.Push).Select(l => l.Value.GetSummary())),
+			};
+		}
+
 		public static void SetManual(string ident, bool value)
 		{
 			ident = ident.ToUpper();

@@ -134,5 +134,23 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 			return new FPoint(anchor.X + (X - anchor.X) * cos - (Y - anchor.Y) * sin, anchor.Y + (X - anchor.X) * sin + (Y - anchor.Y) * cos);
 		}
+
+		/// <summary>
+		///https://stackoverflow.com/a/6177788/1761622
+		/// </summary>
+		[Pure]
+		public float ProjectOntoLine(FPoint lineStart, FPoint lineEnd)
+		{
+
+			float x1 = lineStart.X;
+			float y1 = lineStart.Y;
+
+			float x2 = lineEnd.X;
+			float y2 = lineEnd.Y;
+
+			float u = ((X - x1) * (x2 - x1) + (Y - y1) * (y2 - y1)) / ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+			return u;
+		}
 	}
 }
