@@ -28,9 +28,9 @@ define(KI_DYNAMIC_RAYTRACE,  10)
 define(KI_PRECALC_PATHTRACE, 11)
 define(KI_PRECALC_SIMULATE,  12)
 
-define(WRAPMODE_DEATH, 101)
-define(WRAPMODE_DONUT, 102)
-define(WRAPMODE_SOLID, 103)
+define(WRAPMODE_DEATH, 101) # Inifinity
+define(WRAPMODE_DONUT, 102) # Wrap around
+define(WRAPMODE_SOLID, 103) # Reflect
 
 define(PORTAL_IN,  true)
 define(PORTAL_OUT, false)

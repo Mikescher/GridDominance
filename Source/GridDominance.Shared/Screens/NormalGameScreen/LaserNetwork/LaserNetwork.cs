@@ -17,6 +17,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
@@ -304,6 +305,51 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 						remaining.Push(Tuple.Create(newStart, newEnd, depth + 1, false, (object) outportal, ray, startdist + ray.Length));
 					}
+					continue;
+				}
+				#endregion
+
+				#region Border
+				var resultBorderMarker = result.Item1.UserData as MarkerCollisionBorder;
+				if (resultBorderMarker != null)
+				{
+					if (_wrapMode == GameWrapMode.Reflect)
+					{
+						var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Mirror, depth, inglass, ignore, startdist, null, null);
+						src.Lasers.Add(ray);
+						if (TestForLaserCollision(src, ray, nofault)) continue;
+
+						var reflect_end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(_rayLength);
+						remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object)resultBorderMarker, ray, startdist + ray.Length));
+						continue;
+					}
+					else if (_wrapMode == GameWrapMode.Donut)
+					{
+						var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Portal, depth, inglass, ignore, startdist, null, null);
+						src.Lasers.Add(ray);
+						if (TestForLaserCollision(src, ray, nofault)) continue;
+
+						var pNewStartX = result.Item2.X;
+						var pNewStartY = result.Item2.Y;
+						switch (resultBorderMarker.Side)
+						{
+							case FlatAlign4.NN: pNewStartY += _screen.Blueprint.LevelHeight; break;
+							case FlatAlign4.EE: pNewStartX -= _screen.Blueprint.LevelWidth; break;
+							case FlatAlign4.SS: pNewStartY -= _screen.Blueprint.LevelHeight; break;
+							case FlatAlign4.WW: pNewStartX += _screen.Blueprint.LevelWidth; break;
+						}
+
+						var newStart = new Vector2(pNewStartX, pNewStartY);
+						var newEnd = newStart + (end - start);
+						
+						remaining.Push(Tuple.Create(newStart, newEnd, depth + 1, inglass, (object)resultBorderMarker, ray, startdist + ray.Length));
+						continue;
+					}
+					else
+					{
+						SAMLog.Error("LSR-NTW", "Unknown wrapmode: " + _wrapMode);
+					}
+
 					continue;
 				}
 				#endregion
