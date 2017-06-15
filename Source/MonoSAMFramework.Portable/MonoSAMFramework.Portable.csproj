@@ -42,6 +42,7 @@
     <Compile Include="DebugTools\CompactJsonFormatter.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="DebugTools\DebugTextLogLine.cs" />
+    <Compile Include="DebugTools\TimingCounter.cs" />
     <Compile Include="DebugTools\FrequencyCounter.cs" />
     <Compile Include="DebugTools\GCMonitor.cs" />
     <Compile Include="DebugTools\IDebugTextDisplayLineProvider.cs" />

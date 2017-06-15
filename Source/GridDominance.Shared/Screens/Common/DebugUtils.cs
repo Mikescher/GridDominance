@@ -16,6 +16,9 @@ namespace GridDominance.Shared.Screens
 	public static class DebugUtils
 	{
 #if DEBUG
+		public static readonly TimingCounter TIMING_KI    = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_LASER = new TimingCounter(32);
+
 		public static DebugTextDisplay CreateDisplay(GameScreen scrn)
 		{
 			var debugDisp = new DebugTextDisplay(scrn.Graphics.GraphicsDevice, Textures.DebugFont);
@@ -34,6 +37,8 @@ namespace GridDominance.Shared.Screens
 			if (gdg != null) debugDisp.AddLine(() => $"LevelTime = {gdg.LevelTime:000.000} (finished={gdg.HasFinished})");
 
 			if (scrn is GDWorldMapScreen) debugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD)scrn.HUD).SelectedNode?.Blueprint?.Name ?? "NULL"}; FocusedHUDElement = {scrn.HUD.FocusedElement}; ZoomState = {((GDWorldMapScreen)scrn).ZoomState}");
+
+			debugDisp.AddLine("DebugTimings", () => $"KI: [{TIMING_KI.Format()}] LASER: [{TIMING_LASER.Format()}]");
 
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{scrn.Game.GraphicsDevice.Viewport.Width}|{scrn.Game.GraphicsDevice.Viewport.Height}]");
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualGuaranteedSize={scrn.VAdapterGame.VirtualGuaranteedSize} || GameAdapter.VirtualGuaranteedSize={scrn.VAdapterHUD.VirtualGuaranteedSize}");
@@ -89,6 +94,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddSwitch("DBG", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None,    true);
 			DebugSettings.AddSwitch("DBG", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG", "DebugLaserNetwork",     scrn, SKeys.F12, KeyModifier.None,    true);
+			DebugSettings.AddSwitch("DBG", "DebugTimings",          scrn, SKeys.F1,  KeyModifier.Control, true);
 
 			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab, KeyModifier.None);
 			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,   KeyModifier.None);

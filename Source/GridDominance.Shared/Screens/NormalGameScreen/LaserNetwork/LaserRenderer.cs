@@ -43,20 +43,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
 			_network.Draw(sbatch);
-		}
 
 #if DEBUG
-
-		protected override void DrawDebugBorders(IBatchRenderer sbatch)
-		{
-			base.DrawDebugBorders(sbatch);
-
 			if (DebugSettings.Get("DebugLaserNetwork"))
 			{
 				_network.DrawDebug(sbatch);
 			}
-		}
 #endif
+		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{

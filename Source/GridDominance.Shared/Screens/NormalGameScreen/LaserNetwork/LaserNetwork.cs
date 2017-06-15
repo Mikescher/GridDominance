@@ -8,7 +8,6 @@ using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections;
 using System.Linq;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.LogProtocol;
@@ -24,38 +23,48 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public const int MAX_LASER_RAYCOUNT   = 16;
 		public const int MAX_LASER_PER_SOURCE = 128; // 8 * 16
 
+		public bool Dirty = false;
+		
 		private readonly GDGameScreen _screen;
 		private readonly World _world;
 		private readonly float _worldWidth;
 		private readonly float _worldHeight;
+		private readonly GameWrapMode _wrapMode;
 
 		public List<LaserSource> Sources = new List<LaserSource>();
 
-		public LaserNetwork(World b2dworld, GDGameScreen scrn)
+		public LaserNetwork(World b2dworld, GDGameScreen scrn, GameWrapMode wrap)
 		{
 			_screen = scrn;
 			_world = b2dworld;
 
 			_worldWidth  = scrn.Blueprint.LevelWidth;
 			_worldHeight = scrn.Blueprint.LevelHeight;
+			_wrapMode = wrap;
 		}
 
 		public void Update(SAMTime gameTime, InputState istate)
 		{
+			if (!Dirty) return;
+
+#if DEBUG
+			DebugUtils.TIMING_LASER.Start();
+#endif
+
 			for (int i = 0; i < Sources.Count; i++)
 			{
-				if (!Sources[i].IsDirty) continue;
 				Sources[i].LaserCount = 0;
 			}
 
 			for (int i = 0; i < Sources.Count; i++)
 			{
-				if (!Sources[i].IsDirty) continue;
-
 				RecalcSource(Sources[i]);
-
-				Sources[i].IsDirty = false;
 			}
+
+			Dirty = false;
+#if DEBUG
+			DebugUtils.TIMING_LASER.Stop();
+#endif
 		}
 
 		public void Draw(IBatchRenderer sbatch)
@@ -67,8 +76,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		{
 			foreach (var src in Sources)
 			{
-				sbatch.FillCircle(src.Position, 64, 16, Color.LimeGreen);
-				sbatch.FillCircle(src.Position, 48, 16, src.LaserFraction.Color);
+//				sbatch.FillCircle(src.Position, 64, 128, Color.LimeGreen);
+//				sbatch.FillCircle(src.Position, 48, 128, src.LaserFraction.Color);
 
 				for (int i = 0; i < src.LaserCount; i++)
 				{
@@ -79,7 +88,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 		public LaserSource AddSource(GameEntity e)
 		{
-			var src = new LaserSource(e.Position, _screen.GetNeutralFraction());
+			var src = new LaserSource(this, e.Position, _screen.GetNeutralFraction(), e);
 			Sources.Add(src);
 			return src;
 		}
@@ -93,9 +102,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			Vector2 istart = src.Position;
 			Vector2 iend   = src.Position + new Vector2(raylen,0).Rotate(src.LaserRotation);
 
-			Stack<Tuple<Vector2, Vector2, int, bool>> remaining = new Stack<Tuple<Vector2, Vector2, int, bool>>();
+			Stack<Tuple<Vector2, Vector2, int, bool, object>> remaining = new Stack<Tuple<Vector2, Vector2, int, bool, object>>();
 
-			remaining.Push(Tuple.Create(istart, iend, 0, false));
+			remaining.Push(Tuple.Create(istart, iend, 0, false, src.UserData));
 
 			int arridx = 0;
 			while (remaining.Any())
@@ -105,12 +114,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				var end     = pop.Item2;
 				var depth   = pop.Item3;
 				var inglass = pop.Item4;
+				var ignore  = pop.Item5;
 
 				for (int dd = depth; dd < MAX_LASER_RAYCOUNT; dd++)
 				{
 					if (arridx + 1 >= MAX_LASER_PER_SOURCE) break;
 
-					var result = RayCast(_world, start, end);
+					var result = RayCast(_world, start, end, ignore);
 
 					#region OOB
 					if (result == null)
@@ -150,29 +160,42 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 						arridx++;
 
 						// sin(aIn) / sin(aOut) = currRefractIdx / Glass.RefractIdx
-						var aIn = (end - start).ToAngle() - result.Item3.ToAngle();
+						var aIn = (start - end).ToAngle() - result.Item3.ToAngle();
 						var n = inglass ? (GlassBlock.REFRACTION_INDEX / 1f) : (1f / GlassBlock.REFRACTION_INDEX);
 
-						var sinaOut = FloatMath.Sin(aIn) / n;
+						var sinaOut = FloatMath.Sin(aIn) * n;
 
-						if (sinaOut < 1 && sinaOut > -1) // refraction
+						var isRefracting = sinaOut < 1 && sinaOut > -1;
+						if (isRefracting) // refraction
 						{
 							var aOut = FloatMath.Asin(sinaOut);
-							var pRefractAngle = result.Item3.ToAngle() + aOut;
+							var pRefractAngle = (-result.Item3).ToAngle() + aOut;
 
-							remaining.Push(Tuple.Create(result.Item2, result.Item2 + new Vector2(raylen, 0).Rotate(pRefractAngle), dd+1, !inglass));
+							remaining.Push(Tuple.Create(result.Item2, result.Item2 + new Vector2(raylen, 0).Rotate(pRefractAngle), dd+1, !inglass, (object)resultGlassBlockRefrac));
 						}
 
 						if (!inglass) 
 						{
 							start = result.Item2;
 							end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(raylen);
+							ignore = resultGlassBlockRefrac;
 
 							continue; // reflection
 						}
 						else
 						{
-							break; // no reflection in glass
+							if (isRefracting)
+							{
+								break; // no reflection in glass
+							}
+							else
+							{
+								start = result.Item2;
+								end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(raylen);
+								ignore = resultGlassBlockRefrac;
+
+								continue; // reflection
+							}
 						}
 					}
 					#endregion
@@ -189,6 +212,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 						start = result.Item2;
 						end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(raylen);
+						ignore = resultMirrorBlock;
 
 						continue;
 					}
@@ -206,6 +230,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 						start = result.Item2;
 						end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(raylen);
+						ignore = resultMirrorCircle;
 
 						continue;
 					}
@@ -260,15 +285,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 						foreach (var outportal in inPortal.Links)
 						{
-							var stretch = outportal.Length / inPortal.Length;
-
 							var rot = outportal.Normal - inPortal.Normal + FloatMath.RAD_POS_180;
 							var projec = result.Item2.ProjectOntoLine(inPortal.Position, inPortal.VecDirection);
 
 							var newVelocity = (end-start).Rotate(rot);
 							var newStart = outportal.Position + outportal.VecDirection * (-projec) + outportal.VecNormal * (Portal.WIDTH / 2f);
 
-							remaining.Push(Tuple.Create(newStart, newVelocity, dd+1, false));
+							var newEnd = newStart + newVelocity.WithLength(raylen);
+
+
+							remaining.Push(Tuple.Create(newStart, newEnd, dd+1, false, (object)outportal));
 						}
 						break;
 					}
@@ -281,7 +307,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			}
 		}
 
-		private static Tuple<Fixture, Vector2, Vector2> RayCast(World w, Vector2 start, Vector2 end)
+		private Tuple<Fixture, Vector2, Vector2> RayCast(World w, Vector2 start, Vector2 end, object udIgnore)
 		{
 			Tuple<Fixture, Vector2, Vector2> result = null;
 
@@ -289,16 +315,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			//     return  0:       terminate the ray cast
 			//     return fraction: clip the ray to this point
 			//     return 1:        don't clip the ray and continue
-			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
+			float rcCallback(Fixture f, Vector2 pos, Vector2 normal, float frac)
 			{
 				if (f.UserData is GlassBlock) return -1; // ignore;
+				
+				if (udIgnore != null && udIgnore == f.UserData) return -1; // ignore
+
+				if (_wrapMode == GameWrapMode.Death && f.UserData is MarkerCollisionBorder) return -1; // ignore
 
 				result = Tuple.Create(f, ConvertUnits.ToDisplayUnits(pos), normal);
-				
-				return frac; // limit
-			};
 
-			w.RayCast(callback, ConvertUnits.ToSimUnits(start), ConvertUnits.ToSimUnits(end));
+				return frac; // limit
+			}
+
+			w.RayCast(rcCallback, ConvertUnits.ToSimUnits(start), ConvertUnits.ToSimUnits(end));
 
 			return result;
 		}

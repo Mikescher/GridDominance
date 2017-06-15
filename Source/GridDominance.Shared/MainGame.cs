@@ -229,15 +229,6 @@ namespace GridDominance.Shared
 			// NOP
 		}
 
-		protected override void OnActivated(object sender, EventArgs args)
-		{
-			base.OnActivated(sender, args);
-
-			SAMLog.Info("I", "MainGame.OnActivated()");
-			
-			//TODO when does this happen - evtl refresh levelhighscores + ping here ??
-		}
-
 		public void SaveProfile()
 		{
 			var sdata = Profile.SerializeToString();

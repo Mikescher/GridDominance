@@ -87,6 +87,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		protected bool CalculateKI(List<KIMethod> searchFunctions, bool idleRotate)
 		{
+
+#if DEBUG
+			try { DebugUtils.TIMING_KI.Start();
+#endif
+			
 			foreach (var sf in searchFunctions)
 			{
 				var result = sf.Run(this);
@@ -104,6 +109,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				LastKIFunction = "None";
 				return false;
 			}
+
+#if DEBUG
+			} finally { DebugUtils.TIMING_KI.Stop(); }
+#endif
 		}
 
 		#region Target Finding (Base)

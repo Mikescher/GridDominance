@@ -8,13 +8,19 @@ init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001}, KI_DYNAMIC_RAYTRACE
 
 Laser(SIZE_SMALL, P1, [ 2,  5], ROT_E)
 
-Laser(SIZE_SMALL, N0, [ 8,  2], ROT_N)
+Laser(SIZE_SMALL, N0, [ 9,  2], ROT_N)
 
 Laser(SIZE_SMALL, A3, [14,  5], ROT_W)
 
 MirrorBlock([8, 8], 5, 2, -10)
 
-GlassBlock([2, 2], 1.75, 1.75, 45)
+GlassBlock([2, 2], 1.75, 1.75, 65)
 
 MirrorCircle([2, 8], SIZE_BIG)
+
+Portal(PORTAL_1, PORTAL_IN, [14, 2], 3, ROT_SW)
+
+Portal(PORTAL_1, PORTAL_OUT, [14, 8], 1, ROT_W)
+Portal(PORTAL_1, PORTAL_OUT, [5.5, 2], 4, ROT_S)
+
 

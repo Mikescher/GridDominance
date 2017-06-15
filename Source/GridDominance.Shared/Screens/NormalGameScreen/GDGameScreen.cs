@@ -101,7 +101,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			Difficulty = diff;
 			IsPreview = prev;
 
-			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this);
+			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this, (GameWrapMode)bp.WrapMode);
 
 			Initialize();
 		}
@@ -176,7 +176,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			var cannonList = new List<Cannon>();
 			var portalList = new List<Portal>();
-
+			var laserworld = false;
+			
 			foreach (var bPrint in Blueprint.BlueprintCannons)
 			{
 				var e = new BulletCannon(this, bPrint, fracList);
@@ -220,6 +221,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				var e = new LaserCannon(this, bPrint, fracList);
 				Entities.AddEntity(e);
 				cannonList.Add(e);
+				laserworld = true;
 			}
 
 			foreach (var bPrint in Blueprint.BlueprintMirrorBlocks)
@@ -236,6 +238,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			//----------------------------------------------------------------
 
+			if (laserworld) Entities.AddEntity(new LaserRenderer(this, LaserNetwork, Blueprint));
+			
 			AddEdgeMarker();
 
 			//----------------------------------------------------------------
