@@ -342,7 +342,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 						var newStart = new FPoint(pNewStartX, pNewStartY);
 						var newEnd = newStart + (end - start);
 						
-						remaining.Push(Tuple.Create(newStart, newEnd, depth + 1, inglass, (object)resultBorderMarker, ray, startdist + ray.Length));
+						remaining.Push(Tuple.Create(newStart, newEnd, depth + 1, inglass, (object)null, ray, startdist + ray.Length));
 						continue;
 					}
 					else
