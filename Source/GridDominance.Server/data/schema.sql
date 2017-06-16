@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users
   is_auto_generated       boolean       NOT NULL,
 
   score                   int(11)       NOT NULL,
-  revision_id             int(11)       NOT NULL DEFAULT 0,
+  revision_id             int(11)       UNSIGNED NOT NULL DEFAULT 0,
 
   creation_time           timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS users
   unlocked_worlds         varchar(1024) NOT NULL,
   device_resolution       varchar(24)   NOT NULL,
 
-  ping_counter            int           NOT NULL DEFAULT 0,
+  ping_counter            int           UNSIGNED NOT NULL DEFAULT 0,
 
   PRIMARY KEY (userid)
 );

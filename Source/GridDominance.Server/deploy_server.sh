@@ -36,7 +36,10 @@ echo " STATUS PROJECT"
 echo "================================"
 echo ""
 
+cd GridDominance
+ls -halF --color
 git status
+cd ..
 
 echo ""
 echo "================================"
