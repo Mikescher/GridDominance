@@ -79,7 +79,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 						return true;
 					}
-					return true;
+					return false;
 				}
 				else if (_runGeneric != null)
 				{

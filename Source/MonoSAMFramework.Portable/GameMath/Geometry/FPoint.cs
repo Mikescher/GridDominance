@@ -167,6 +167,17 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		///https://stackoverflow.com/a/6177788/1761622
 		/// </summary>
 		[Pure]
+		public FPoint ProjectPointOntoLine(FPoint lineStart, FPoint lineEnd)
+		{
+			float u = ProjectOntoLine(lineStart, lineEnd);
+
+			return lineStart + (lineEnd - lineStart) * u;
+		}
+
+		/// <summary>
+		///https://stackoverflow.com/a/6177788/1761622
+		/// </summary>
+		[Pure]
 		public float ProjectOntoLine(FPoint lineStart, Vector2 lineVec)
 		{
 
@@ -181,6 +192,15 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return u;
 		}
 
+		/// <summary>
+		///https://stackoverflow.com/a/6177788/1761622
+		/// </summary>
+		[Pure]
+		public FPoint ProjectPointOntoLine(FPoint lineStart, Vector2 lineVec)
+		{
+			return lineStart + lineVec * ProjectOntoLine(lineStart, lineVec);
+		}
+		
 		[Pure]
 		public float DistanceTo(FPoint value2)
 		{

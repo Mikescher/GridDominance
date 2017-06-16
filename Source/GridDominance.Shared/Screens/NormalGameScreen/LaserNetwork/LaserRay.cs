@@ -5,7 +5,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
-	public enum LaserRayTerminator { OOB, VoidObject, Portal, Glass, Mirror, Target, LaserDoubleTerm, LaserSelfTerm, LaserFaultTerm }
+	public enum LaserRayTerminator { OOB, VoidObject, Portal, Glass, Mirror, Target, LaserMultiTerm, LaserSelfTerm, LaserFaultTerm }
 	
 	public sealed class LaserRay
 	{
@@ -15,7 +15,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public LaserRayTerminator Terminator;
 
 		public Cannon TerminatorCannon;
-		public Tuple<LaserRay, LaserSource> TerminatorRay;
+
+		public List<Tuple<LaserRay, LaserSource>> TerminatorRays;         // Rays that directcollide with this one
 		public List<LaserRay> SelfCollRays = new List<LaserRay>(); // Rays that [[LaserSelfTerm]] with this one
 
 		public readonly LaserRay Source;
@@ -27,7 +28,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 		public float Length => (End - Start).Length();
 
-		public LaserRay(FPoint s, FPoint e, LaserRay src, LaserRayTerminator t, int d, bool g, object sign, object eign, float sd, Cannon tc, Tuple<LaserRay, LaserSource> tr)
+		public LaserRay(FPoint s, FPoint e, LaserRay src, LaserRayTerminator t, int d, bool g, object sign, object eign, float sd, Cannon tc)
 		{
 			Depth = d;
 			InGlass = g;
@@ -38,7 +39,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			Source = src;
 			Terminator = t;
 			TerminatorCannon = tc;
-			TerminatorRay = tr;
+			TerminatorRays = new List<Tuple<LaserRay, LaserSource>>();
 			SourceDistance = sd;
 		}
 
@@ -47,7 +48,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			End = e;
 			Terminator = t;
 			TerminatorCannon = null;
-			TerminatorRay = Tuple.Create(otherRay, otherSource);
+
+			TerminatorRays.Add(Tuple.Create(otherRay, otherSource));
+		}
+
+		public void SetLaserCollisionlessIntersect(FPoint e, LaserRay otherRay, LaserSource otherSource, LaserRayTerminator t)
+		{
+			End = e;
+			Terminator = t;
+			TerminatorCannon = null;
+
+			TerminatorRays.Clear();
 		}
 	}
 }
