@@ -15,12 +15,17 @@ using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
+	public class CannonLaserBoost { public LaserCannon Source; public float RemainingTime; }
+	
 	public abstract class Cannon : GameEntity
 	{
 		protected const float ROTATION_SPEED = FloatMath.TAU / 2; // 3.141 rad/sec
@@ -28,6 +33,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float BASE_COG_ROTATION_SPEED = FloatMath.TAU / 3; // 2.1 rad/sec
 		protected const float BARREL_RECOIL_SPEED = 4; // 250ms for full recovery (on normal boost and normal fraction mult)
 		protected const float BARREL_RECOIL_LENGTH = 32;
+
+		protected const float CORE_PULSE_FREQ = 2f;
+		protected const float CORE_PULSE = 0.06f; // perc
 
 		protected const float BARREL_CHARGE_SPEED = 0.9f;
 		public    const float CANNON_DIAMETER = 96;		 // only diameter of base circle
@@ -46,16 +54,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected const float HEALTH_HIT_DROP = 0.27f; // on Hit
 		protected const float HEALTH_HIT_GEN  = 0.27f; // on Hit from own fraction
+		protected const float LASER_BOOSTER_LIFETIME = 0.1f;
+
+		protected const float LASER_CHARGE_COOLDOWN   = 0.8f;
+		protected const float LASER_DAMAGE_PER_SECOND = 0.25f;
+		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
 
 		protected const float CROSSHAIR_TRANSPARENCY = 0.5f;
 		protected const float CROSSHAIR_GROW_SPEED = 3f;
 
 		public  Fraction Fraction { get; private set; }
 		protected AbstractFractionController controller;
-		public  float TotalBoost = 0f;
+		public float TotalBulletBoost = 0f;
+		private List<CannonLaserBoost> _laserBoosts = new List<CannonLaserBoost>();
 		public readonly GDGameScreen GDOwner;
 
-		public float RealBoost => 1 + Math.Min(TotalBoost, MAX_BOOST);
+		public float RealBoost => 1 + Math.Min(TotalBulletBoost + _laserBoosts.Count * BOOSTER_POWER, MAX_BOOST);
 
 		public readonly DeltaLimitedFloat CannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
@@ -141,6 +155,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			return istate.IsRealDown && (istate.GamePointerPosition - Position).Length() < CANNON_DIAMETER;
 		}
 
+		protected void UpdateBoost(SAMTime gameTime)
+		{
+			for (int i = _laserBoosts.Count - 1; i >= 0; i--)
+			{
+				if ((_laserBoosts[i].RemainingTime -= gameTime.ElapsedSeconds) < 0)
+				{
+					_laserBoosts.RemoveAt(i);
+				}
+			}
+		}
+		
 		protected void UpdateHealth(SAMTime gameTime)
 		{
 			CannonHealth.Update(gameTime);
@@ -163,6 +188,104 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		#endregion
 
+#if DEBUG
+
+		protected override void DrawDebugBorders(IBatchRenderer sbatch)
+		{
+			base.DrawDebugBorders(sbatch);
+
+			DrawDebugView(sbatch);
+
+			// ASSERTION
+			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBulletBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
+		}
+
+		private void DrawDebugView(IBatchRenderer sbatch)
+		{
+			var innerRadius = Scale * CANNON_DIAMETER / 2;
+
+			if (this is BulletCannon)
+			{
+				var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
+				var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * ((BulletCannon)this).BarrelCharge, 8);
+
+				sbatch.FillRectangle(rectChargeFull, Color.White);
+				sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
+				sbatch.DrawRectangle(rectChargeFull, Color.Black);
+			}
+			else if (this is LaserCannon)
+			{
+				var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
+				var rectChargeProg = new FRectangle(Position.X, Position.Y + innerRadius + (0 * 12) + 4, ((((LaserCannon)this).CorePulse.ActualValue - 1) / CORE_PULSE) * innerRadius, 8).AsNormalized();
+
+				sbatch.FillRectangle(rectChargeFull, Color.White);
+				sbatch.FillRectangle(rectChargeProg, Color.OrangeRed);
+				sbatch.DrawRectangle(rectChargeFull, Color.Black);
+			}
+
+			var rectHealthFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2, 8);
+			var rectHealthProgT = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.TargetValue, 8);
+			var rectHealthProgA = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.ActualValue, 8);
+
+			if (CannonHealth.IsDecreasing())
+			{
+				sbatch.FillRectangle(rectHealthFull, Color.White);
+				sbatch.FillRectangle(rectHealthProgA, Fraction.Color.Lighten());
+				sbatch.FillRectangle(rectHealthProgT, Fraction.Color);
+				sbatch.DrawRectangle(rectHealthFull, Color.Black);
+			}
+			else if (CannonHealth.IsIncreasing())
+			{
+				sbatch.FillRectangle(rectHealthFull, Color.White);
+				sbatch.FillRectangle(rectHealthProgT, Fraction.Color.Lighten());
+				sbatch.FillRectangle(rectHealthProgA, Fraction.Color);
+				sbatch.DrawRectangle(rectHealthFull, Color.Black);
+			}
+			else
+			{
+				sbatch.FillRectangle(rectHealthFull, Color.White);
+				sbatch.FillRectangle(rectHealthProgA, Fraction.Color);
+				sbatch.DrawRectangle(rectHealthFull, Color.Black);
+			}
+
+			var yy = 2;
+			for (int i = 0; i < ActiveOperations.Count; i++)
+			{
+				if (!(ActiveOperations[i] is CannonBooster)) return;
+
+				var rectFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (yy * 12) + 16, innerRadius * 2, 8);
+				var rectProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (yy * 12) + 16, innerRadius * 2 * (1 - ActiveOperations[i].Progress), 8);
+
+				sbatch.FillRectangle(rectFull, Color.White);
+				sbatch.FillRectangle(rectProg, Color.Chocolate);
+				sbatch.DrawRectangle(rectFull, Color.Black);
+
+				yy++;
+			}
+			foreach (var booster in _laserBoosts)
+			{
+				var rectFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (yy * 12) + 16, innerRadius * 2, 8);
+				var rectProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (yy * 12) + 16, innerRadius * 2 * (booster.RemainingTime / LASER_BOOSTER_LIFETIME), 8);
+
+				sbatch.FillRectangle(rectFull, Color.White);
+				sbatch.FillRectangle(rectProg, Color.Chocolate);
+				sbatch.DrawRectangle(rectFull, Color.Black);
+
+				yy++;
+			}
+
+			var kicontroller = controller as KIController;
+			if (kicontroller != null)
+			{
+				var r = new FRectangle(Position.X - DrawingBoundingBox.Width * 0.5f, Position.Y - DrawingBoundingBox.Height / 2f, DrawingBoundingBox.Width, 12);
+
+				sbatch.FillRectangle(r, Color.LightGray * 0.5f);
+				FontRenderHelper.DrawSingleLineInBox(sbatch, Textures.DebugFontSmall, kicontroller.LastKIFunction, r, 1, true, Color.Black);
+			}
+		}
+
+#endif
+		
 		#region Change State
 
 		public abstract void ResetChargeAndBooster();
@@ -197,6 +320,61 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			else
 			{
 				CannonHealth.Dec((sourceScale * HEALTH_HIT_DROP) / Scale);
+
+				if (FloatMath.IsZero(CannonHealth.TargetValue))
+				{
+					// Never tell me the odds
+
+					SetFraction(Fraction.GetNeutral());
+				}
+				else if (CannonHealth.TargetValue < 0)
+				{
+					SetFraction(source);
+					CannonHealth.Set(FloatMath.Abs(CannonHealth.TargetValue));
+				}
+
+				CannonHealth.Limit(0f, 1f);
+			}
+		}
+
+		public void ApplyLaserBoost(LaserCannon src, float pwr)
+		{
+			if (Fraction.IsNeutral) return;
+
+			CannonHealth.Inc(pwr);
+			if (CannonHealth.Limit(0f, 1f) == 1)
+			{
+				foreach (var boost in _laserBoosts)
+				{
+					if (boost.Source == src)
+					{
+						boost.RemainingTime = LASER_BOOSTER_LIFETIME;
+						return;
+					}
+				}
+				_laserBoosts.Add(new CannonLaserBoost {Source = src, RemainingTime = LASER_BOOSTER_LIFETIME });
+			}
+		}
+
+		public void TakeLaserDamage(Fraction source, float dmg)
+		{
+#if DEBUG
+			if (DebugSettings.Get("ImmortalCannons")) return;
+#endif
+
+			if (source.IsNeutral)
+			{
+				ResetChargeAndBooster();
+			}
+			else if (Fraction.IsNeutral)
+			{
+				SetFraction(source);
+				CannonHealth.Set(dmg / Scale);
+				CannonHealth.Limit(0f, 1f);
+			}
+			else
+			{
+				CannonHealth.Dec(dmg / Scale);
 
 				if (FloatMath.IsZero(CannonHealth.TargetValue))
 				{

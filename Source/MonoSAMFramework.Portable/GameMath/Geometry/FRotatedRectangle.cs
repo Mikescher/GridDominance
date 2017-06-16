@@ -38,6 +38,34 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			_cacheMostBottom = null;
 		}
 
+		public FRotatedRectangle(FPoint c, float width, float height, float rot)
+		{
+			CenterX = c.X;
+			CenterY = c.Y;
+			Width = width;
+			Height = height;
+			Rotation = rot;
+
+			_cacheMostLeft = null;
+			_cacheMostRight = null;
+			_cacheMostTop = null;
+			_cacheMostBottom = null;
+		}
+
+		public FRotatedRectangle(FPoint c, FSize s, float rot)
+		{
+			CenterX = c.X;
+			CenterY = c.Y;
+			Width = s.Width;
+			Height = s.Height;
+			Rotation = rot;
+
+			_cacheMostLeft = null;
+			_cacheMostRight = null;
+			_cacheMostTop = null;
+			_cacheMostBottom = null;
+		}
+
 		[Pure]
 		public static bool operator ==(FRotatedRectangle a, FRotatedRectangle b)
 		{
@@ -138,6 +166,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return $"{{X:{CenterX} Y:{CenterY} Width:{Width} Height:{Height} Rotation:{FloatMath.ToDegree(Rotation)}°}}";
 		}
 
+		[Pure]
+		public FRectangle WithNoRotation()
+		{
+			return new FRectangle(CenterX - Width / 2f, CenterY - Height / 2f, Width, Height);
+		}
+
 		internal string DebugDisplayString => $"({CenterX}|{CenterY}):({Width}|{Height}):({FloatMath.ToDegree(Rotation)}°)";
 
 		private float? _cacheMostLeft;
@@ -150,10 +184,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public float MostTop    { get { if (_cacheMostLeft == null) CalcOuterCoords(); return _cacheMostTop ?? 0; } }
 		public float MostBottom { get { if (_cacheMostLeft == null) CalcOuterCoords(); return _cacheMostBottom ?? 0; } }
 
+		public FSize OuterSize { get { if (_cacheMostLeft == null) CalcOuterCoords(); return new FSize(FloatMath.Abs((_cacheMostLeft ?? 0) - (_cacheMostRight ?? 0)), FloatMath.Abs((_cacheMostTop ?? 0) - (_cacheMostBottom ?? 0))); } }
+
 		private void CalcOuterCoords()
 		{
-			var p1 = new Vector2(+Width, -Width).Rotate(Rotation);
-			var p2 = new Vector2(-Width, -Width).Rotate(Rotation);
+			var p1 = new Vector2(+Width/2f, -Height/2f).Rotate(Rotation);
+			var p2 = new Vector2(-Width/2f, -Height/2f).Rotate(Rotation);
 
 			_cacheMostLeft   = FloatMath.Min(CenterX - p1.X, CenterX + p1.X, CenterX - p2.X, CenterX + p2.X);
 			_cacheMostRight  = FloatMath.Max(CenterX - p1.X, CenterX + p1.X, CenterX - p2.X, CenterX + p2.X);
@@ -172,5 +208,6 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public float Area => Width * Height;
 		public FPoint Center => new FPoint(CenterX, CenterY);
 		public Vector2 VecCenter => new Vector2(CenterX, CenterY);
+
 	}
 }

@@ -4,7 +4,7 @@ include("stdvalues")
 
 init("DBG", "DEBUG", {b16b00b5-0001-4000-9999-000000000001}, KI_DYNAMIC_RAYTRACE)
 #setview(25, 25, [8, 5])
-setwrap(WRAPMODE_DONUT)
+#setwrap(WRAPMODE_DONUT)
 
 Laser(SIZE_SMALL, P1, [ 2,  5], ROT_E)
 

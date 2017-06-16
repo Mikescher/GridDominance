@@ -37,7 +37,6 @@ echo "================================"
 echo ""
 
 cd GridDominance
-ls -halF --color
 git status
 cd ..
 

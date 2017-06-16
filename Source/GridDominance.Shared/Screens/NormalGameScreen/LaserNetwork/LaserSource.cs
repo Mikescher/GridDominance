@@ -10,6 +10,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public readonly LaserNetwork Owner;
 
 		public bool LaserActive;
+		public bool LaserPowered;
 		public Fraction LaserFraction;
 		public float LaserRotation;
 		public object UserData;
@@ -22,16 +23,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			Position = position;
 
 			LaserActive = false;
+			LaserPowered = false;
 			LaserFraction = fracNeutral;
 			LaserRotation = 0f;
 			UserData = userData;
 		}
 
-		public void SetState(bool active, Fraction fraction, float rotation)
+		public void SetState(bool active, Fraction fraction, float rotation, bool powered)
 		{
 			if (active   != LaserActive)   { LaserActive   = active;   Owner.Dirty = true; }
 			if (rotation != LaserRotation) { LaserRotation = rotation; Owner.Dirty = true; }
 
+			LaserPowered = powered;
 			LaserFraction = fraction;
 		}
 	}

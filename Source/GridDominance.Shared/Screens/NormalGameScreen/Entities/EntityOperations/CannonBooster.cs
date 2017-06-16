@@ -16,19 +16,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 
 		protected override void OnStart(Cannon entity)
 		{
-			entity.TotalBoost += boostPower;
+			entity.TotalBulletBoost += boostPower;
 		}
 
 		protected override void OnProgress(Cannon entity, float progress, SAMTime gameTime, InputState istate) { }
 
 		protected override void OnEnd(Cannon entity)
 		{
-			entity.TotalBoost -= boostPower;
+			entity.TotalBulletBoost -= boostPower;
 		}
 
 		protected override void OnAbort(Cannon entity)
 		{
-			entity.TotalBoost -= boostPower;
+			entity.TotalBulletBoost -= boostPower;
 		}
 	}
 }

@@ -60,7 +60,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			{
 				foreach (var ray in src.Lasers)
 				{
-					sbatch.DrawLine(ray.Start, ray.End, Color.LimeGreen, 4);
+					sbatch.DrawLine(ray.Start, ray.End, src.LaserPowered ? Color.LimeGreen : Color.LightGreen, 4);
 
 					if (ray.Terminator == LaserRayTerminator.LaserDoubleTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new FSize(8, 8), Color.Salmon);
 					if (ray.Terminator == LaserRayTerminator.LaserSelfTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new FSize(8, 8), Color.CornflowerBlue);

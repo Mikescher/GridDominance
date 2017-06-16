@@ -22,17 +22,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
 	public class LaserCannon : Cannon
 	{
-		private const float CORE_PULSE_FREQ = 2f;
-		private const float CORE_PULSE = 0.06f; // perc
-
+		
 		private readonly LaserCannonBlueprint Blueprint;
 		private readonly LaserSource _laserSource;
 		private readonly GDGameScreen _screen;
 
-		private readonly DeltaLimitedFloat corePulse = new DeltaLimitedFloat(1, CORE_PULSE * CORE_PULSE_FREQ * 2);
+		public readonly DeltaLimitedFloat CorePulse = new DeltaLimitedFloat(1, CORE_PULSE * CORE_PULSE_FREQ * 2);
 
 		private readonly int coreImage;
 		private readonly float coreRotation;
+		private float chargeTime = 0f;
 
 		public LaserCannon(GDGameScreen scrn, LaserCannonBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
@@ -114,7 +113,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			sbatch.DrawScaled(
 				Textures.TexCannonCoreShadow[coreImage],
 				Position,
-				Scale * corePulse.ActualValue,
+				Scale * CorePulse.ActualValue,
 				Color.White,
 				coreRotation);
 
@@ -123,94 +122,27 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				sbatch.DrawScaled(
 					Textures.TexCannonCore[coreImage],
 					Position,
-					Scale * corePulse.ActualValue * FloatMath.Sqrt(CannonHealth.ActualValue),
+					Scale * CorePulse.ActualValue * FloatMath.Sqrt(CannonHealth.ActualValue),
 					Fraction.Color,
 					coreRotation);
 			}
 		}
-
-#if DEBUG
-
-		protected override void DrawDebugBorders(IBatchRenderer sbatch)
-		{
-			base.DrawDebugBorders(sbatch);
-
-			DrawDebugView(sbatch);
-
-			// ASSERTION
-			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
-		}
-
-		private void DrawDebugView(IBatchRenderer sbatch)
-		{
-			var innerRadius = Scale * CANNON_DIAMETER / 2;
-
-			var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
-			var rectChargeProg = new FRectangle(Position.X, Position.Y + innerRadius + (0 * 12) + 4, ((corePulse.ActualValue-1)/CORE_PULSE) * innerRadius, 8).AsNormalized();
-
-			var rectHealthFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2, 8);
-			var rectHealthProgT = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.TargetValue, 8);
-			var rectHealthProgA = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.ActualValue, 8);
-
-			sbatch.FillRectangle(rectChargeFull, Color.White);
-			sbatch.FillRectangle(rectChargeProg, Color.OrangeRed);
-			sbatch.DrawRectangle(rectChargeFull, Color.Black);
-			
-			if (CannonHealth.IsDecreasing())
-			{
-				sbatch.FillRectangle(rectHealthFull, Color.White);
-				sbatch.FillRectangle(rectHealthProgA, Fraction.Color.Lighten());
-				sbatch.FillRectangle(rectHealthProgT, Fraction.Color);
-				sbatch.DrawRectangle(rectHealthFull, Color.Black);
-			}
-			else if (CannonHealth.IsIncreasing())
-			{
-				sbatch.FillRectangle(rectHealthFull, Color.White);
-				sbatch.FillRectangle(rectHealthProgT, Fraction.Color.Lighten());
-				sbatch.FillRectangle(rectHealthProgA, Fraction.Color);
-				sbatch.DrawRectangle(rectHealthFull, Color.Black);
-			}
-			else
-			{
-				sbatch.FillRectangle(rectHealthFull, Color.White);
-				sbatch.FillRectangle(rectHealthProgA, Fraction.Color);
-				sbatch.DrawRectangle(rectHealthFull, Color.Black);
-			}
-
-			for (int i = 0; i < ActiveOperations.Count; i++)
-			{
-				var rectFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + ((i + 2) * 12) + 16, innerRadius * 2, 8);
-				var rectProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + ((i + 2) * 12) + 16, innerRadius * 2 * (1 - ActiveOperations[i].Progress), 8);
-
-				sbatch.FillRectangle(rectFull, Color.White);
-				sbatch.FillRectangle(rectProg, Color.Chocolate);
-				sbatch.DrawRectangle(rectFull, Color.Black);
-			}
-
-			var kicontroller = controller as KIController;
-			if (kicontroller != null)
-			{
-				var r = new FRectangle(Position.X - DrawingBoundingBox.Width * 0.5f, Position.Y - DrawingBoundingBox.Height / 2f, DrawingBoundingBox.Width, 12);
-
-				sbatch.FillRectangle(r, Color.LightGray * 0.5f);
-				FontRenderHelper.DrawSingleLineInBox(sbatch, Textures.DebugFontSmall, kicontroller.LastKIFunction, r, 1, true, Color.Black);
-			}
-		}
-#endif
 		
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 			controller.Update(gameTime, istate);
 
 			bool change = Rotation.CUpdate(gameTime);
-			if (change) _screen.LaserNetwork.SemiDirty = true;
+			if (change) {_screen.LaserNetwork.SemiDirty = true; chargeTime = 0; }
 
 			CrosshairSize.Update(gameTime);
 
 			UpdatePhysicBodies();
 			UpdateHealth(gameTime);
+			UpdateBoost(gameTime);
 			UpdateNetwork(gameTime);
 			UpdateCore(gameTime);
+			UpdateDamage(gameTime);
 
 #if DEBUG
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
@@ -231,16 +163,44 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private void UpdateCore(SAMTime gameTime)
 		{
 			if (CannonHealth.ActualValue < 1 || Fraction.IsNeutral)
-				corePulse.Set(1);
+				CorePulse.Set(1);
 			else
-				corePulse.Set(1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * CORE_PULSE_FREQ) * CORE_PULSE);
-			corePulse.Update(gameTime);
+				CorePulse.Set(1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * CORE_PULSE_FREQ) * CORE_PULSE);
+			CorePulse.Update(gameTime);
+
+			chargeTime += gameTime.ElapsedSeconds;
+
+			if (CannonHealth.ActualValue < 1) chargeTime = 0;
 		}
 
 		private void UpdateNetwork(SAMTime gameTime)
 		{
 			bool active = CannonHealth.TargetValue >= 1 && controller.DoBarrelRecharge();
-			_laserSource.SetState(active, Fraction, Rotation.ActualValue);
+
+			_laserSource.SetState(active, Fraction, Rotation.ActualValue, chargeTime > LASER_CHARGE_COOLDOWN);
+		}
+
+		private void UpdateDamage(SAMTime gameTime)
+		{
+			if (!_laserSource.LaserPowered || !_laserSource.LaserActive) return;
+
+			foreach (var ray in _laserSource.Lasers)
+			{
+				if (ray.Terminator != LaserRayTerminator.Target) continue;
+				if (ray.TerminatorCannon == null) continue;
+
+				if (ray.TerminatorCannon.Fraction == Fraction)
+				{
+					if (ray.TerminatorCannon == this) continue; // stop touching yourself
+
+					ray.TerminatorCannon.ApplyLaserBoost(this, Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_BOOST_PER_SECOND);
+				}
+				else
+				{
+					ray.TerminatorCannon.TakeLaserDamage(Fraction, Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_DAMAGE_PER_SECOND);
+				}
+				
+			}
 		}
 
 		public override void ResetChargeAndBooster()
@@ -250,7 +210,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void ForceResetBarrelCharge()
 		{
-			//
+			chargeTime = 0f;
 		}
 	}
 }

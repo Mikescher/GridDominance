@@ -24,7 +24,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly CannonBlueprint Blueprint;
 		private readonly GDGameScreen _screen;
 
-		private float barrelCharge = 0f;
+		public float BarrelCharge = 0f;
+		
 		private float barrelRecoil = 0f;
 		private float cannonCogRotation;
 
@@ -48,6 +49,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			UpdatePhysicBodies();
 			UpdateHealth(gameTime);
+			UpdateBoost(gameTime);
 			UpdateCog(gameTime);
 			UpdateBarrel(gameTime);
 
@@ -74,11 +76,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				float chargeDelta = BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds;
 				if (Scale > 2.5f) chargeDelta /= Scale;
 
-				barrelCharge += chargeDelta;
+				BarrelCharge += chargeDelta;
 
-				if (barrelCharge >= 1f)
+				if (BarrelCharge >= 1f)
 				{
-					barrelCharge -= 1f;
+					BarrelCharge -= 1f;
 
 					Shoot();
 				}
@@ -154,7 +156,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 #if DEBUG
 			// ASSERTION
-			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
+			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBulletBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
 		}
 
@@ -215,6 +217,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void DrawCog(IBatchRenderer sbatch)
 		{
+			var health = CannonHealth.ActualValue;
+			if (health > 0.99) health = 1f;
+
 			sbatch.DrawScaled(
 				Textures.AnimCannonCog[Textures.ANIMATION_CANNONCOG_SIZE - 1],
 				Position,
@@ -223,81 +228,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				cannonCogRotation + 3 * (FloatMath.PI / 2));
 
 			sbatch.DrawScaled(
-				Textures.AnimCannonCog[(int)(CannonHealth.ActualValue * (Textures.ANIMATION_CANNONCOG_SIZE - 1))],
+				Textures.AnimCannonCog[(int)(health * (Textures.ANIMATION_CANNONCOG_SIZE - 1))],
 				Position,
 				Scale,
 				Fraction.Color,
 				cannonCogRotation + 3 * (FloatMath.PI / 2));
 		}
-
-#if DEBUG
-
-		protected override void DrawDebugBorders(IBatchRenderer sbatch)
-		{
-			base.DrawDebugBorders(sbatch);
-
-			DrawDebugView(sbatch);
-
-			// ASSERTION
-			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
-		}
-
-		private void DrawDebugView(IBatchRenderer sbatch)
-		{
-			var innerRadius = Scale * CANNON_DIAMETER / 2;
-
-			var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
-			var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * barrelCharge, 8);
-
-			sbatch.FillRectangle(rectChargeFull, Color.White);
-			sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
-			sbatch.DrawRectangle(rectChargeFull, Color.Black);
-
-			var rectHealthFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2, 8);
-			var rectHealthProgT = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.TargetValue, 8);
-			var rectHealthProgA = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (1 * 12) + 4, innerRadius * 2 * CannonHealth.ActualValue, 8);
-
-			if (CannonHealth.IsDecreasing())
-			{
-				sbatch.FillRectangle(rectHealthFull, Color.White);
-				sbatch.FillRectangle(rectHealthProgA, Fraction.Color.Lighten());
-				sbatch.FillRectangle(rectHealthProgT, Fraction.Color);
-				sbatch.DrawRectangle(rectHealthFull, Color.Black);
-			}
-			else if (CannonHealth.IsIncreasing())
-			{
-				sbatch.FillRectangle(rectHealthFull, Color.White);
-				sbatch.FillRectangle(rectHealthProgT, Fraction.Color.Lighten());
-				sbatch.FillRectangle(rectHealthProgA, Fraction.Color);
-				sbatch.DrawRectangle(rectHealthFull, Color.Black);
-			}
-			else
-			{
-				sbatch.FillRectangle(rectHealthFull, Color.White);
-				sbatch.FillRectangle(rectHealthProgA, Fraction.Color);
-				sbatch.DrawRectangle(rectHealthFull, Color.Black);
-			}
-
-			for (int i = 0; i < ActiveOperations.Count; i++)
-			{
-				var rectFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + ((i + 2) * 12) + 16, innerRadius * 2, 8);
-				var rectProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + ((i + 2) * 12) + 16, innerRadius * 2 * (1 - ActiveOperations[i].Progress), 8);
-
-				sbatch.FillRectangle(rectFull, Color.White);
-				sbatch.FillRectangle(rectProg, Color.Chocolate);
-				sbatch.DrawRectangle(rectFull, Color.Black);
-			}
-
-			var kicontroller = controller as KIController;
-			if (kicontroller != null)
-			{
-				var r = new FRectangle(Position.X - DrawingBoundingBox.Width * 0.5f, Position.Y - DrawingBoundingBox.Height / 2f, DrawingBoundingBox.Width, 12);
-
-				sbatch.FillRectangle(r, Color.LightGray * 0.5f);
-				FontRenderHelper.DrawSingleLineInBox(sbatch, Textures.DebugFontSmall, kicontroller.LastKIFunction, r, 1, true, Color.Black);
-			}
-		}
-#endif
 
 		#endregion
 
@@ -305,14 +241,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void ResetChargeAndBooster()
 		{
-			barrelCharge = 0f;
+			BarrelCharge = 0f;
 
 			FinishAllOperations(o => o is CannonBooster);
 		}
 
 		public override void ForceResetBarrelCharge()
 		{
-			barrelCharge = 0f;
+			BarrelCharge = 0f;
 		}
 
 		#endregion

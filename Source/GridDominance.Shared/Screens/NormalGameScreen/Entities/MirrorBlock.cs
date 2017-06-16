@@ -29,7 +29,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly float _height;
 		private readonly float _rotation;
 
-		private readonly FRectangle _bounds;
+		private readonly FRotatedRectangle _bounds;
 
 		public Body PhysicsBody;
 		public Fixture PhysicsFixture;
@@ -42,13 +42,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			_height = blueprint.Height;
 			_rotation = FloatMath.ToRadians(blueprint.Rotation);
 
-			_bounds = FRectangle.CreateByCenter(pos, _width, _height);
+			_bounds = new FRotatedRectangle(pos, _width, _height, _rotation);
 
 			Position = pos;
 
-			DrawingBoundingBox = new FSize(_width, _height);
+			DrawingBoundingBox = _bounds.OuterSize;
 
-			this.GDOwner().GDBackground.RegisterBlockedBlock(_bounds, _rotation);
+			this.GDOwner().GDBackground.RegisterBlockedBlock(_bounds.WithNoRotation(), _rotation);
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -75,8 +75,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				_bounds,
 				Color.White, Color.White, FlatColors.Concrete,
 				Textures.TexMirrorBlockEdge, Textures.TexMirrorBlockCorner, Textures.TexPixel,
-				CORNER_SIZE,
-				_rotation);
+				CORNER_SIZE);
 		}
 	}
 }

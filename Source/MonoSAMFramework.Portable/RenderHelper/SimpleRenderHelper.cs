@@ -254,6 +254,11 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 		}
 
+		public static void Draw9Patch(IBatchRenderer sbatch, FRotatedRectangle bounds, Color colEdge, Color colCorner, Color colFill, TextureRegion2D texEdge, TextureRegion2D texCorner, TextureRegion2D texFill, float cornerSize)
+		{
+			Draw9Patch(sbatch, bounds.WithNoRotation(), colEdge, colCorner, colFill, texEdge, texCorner, texFill, cornerSize, bounds.Rotation);
+		}
+
 		public static void Draw9Patch(IBatchRenderer sbatch, FRectangle bounds, Color colEdge, Color colCorner, Color colFill, TextureRegion2D texEdge, TextureRegion2D texCorner, TextureRegion2D texFill, float cornerSize, float rotation)
 		{
 			rotation = FloatMath.NormalizeAngle(rotation);
