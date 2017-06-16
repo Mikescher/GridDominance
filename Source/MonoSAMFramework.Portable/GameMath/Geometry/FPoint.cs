@@ -181,6 +181,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return u;
 		}
 
+		[Pure]
 		public float DistanceTo(FPoint value2)
 		{
 			float v1 = X - value2.X, v2 = Y - value2.Y;
@@ -198,6 +199,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FPoint((a.X + b.X) / 2f, (a.Y + b.Y) / 2f);
 		}
 
+		[Pure]
 		public FPoint Negate()
 		{
 			return new FPoint(-X, -Y);
@@ -214,11 +216,19 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return (FloatMath.Atan2(Y, X) + FloatMath.RAD_POS_360) % FloatMath.RAD_POS_360;
 		}
 
+		// @see Vector2Extension.ToAngle()
+		public float ToAngle(FPoint origin)
+		{
+			return (FloatMath.Atan2(Y - origin.Y, X - origin.X) + FloatMath.RAD_POS_360) % FloatMath.RAD_POS_360;
+		}
+
+		[Pure]
 		public FPoint WithOrigin(FPoint origin)
 		{
 			return new FPoint(X + origin.X, Y + origin.Y);
 		}
 
+		[Pure]
 		public FPoint MirrorAtNormal(FPoint linePoint, Vector2 normal)
 		{
 			//https://stackoverflow.com/a/6177788/1761622
@@ -244,6 +254,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			float ry = Y + 2 * dy;
 
 			return new FPoint(rx, ry);
+		}
+
+		[Pure]
+		public FPoint MirrorAt(FPoint mirrorPoint)
+		{
+			return new FPoint(2 * mirrorPoint.X - X, 2 * mirrorPoint.Y - Y);
 		}
 	}
 }

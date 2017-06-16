@@ -56,8 +56,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 #if DEBUG
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
 			{
+				var bckp = DebugSettings.Get("ImmortalCannons");
+				DebugSettings.SetManual("ImmortalCannons", false);
+				
 				while (Fraction.Type != FractionType.PlayerFraction)
 					TakeDamage(this.GDOwner().GetPlayerFraction(), 1);
+
+				DebugSettings.SetManual("ImmortalCannons", bckp);
 
 				CannonHealth.SetForce(1f);
 			}

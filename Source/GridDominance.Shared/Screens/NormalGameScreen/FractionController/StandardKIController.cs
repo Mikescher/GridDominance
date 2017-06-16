@@ -21,6 +21,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			{
 				intelligence = new List<KIMethod>
 				{
+					KIMethod.CreateDefense("AttackingLaser",        FindTargetAttackingLaser),
 					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
 					KIMethod.CreateRaycast("SupportCannon",         FindTargetSupportCannon),
 					KIMethod.CreateRaycast("NeutralCannon",         FindTargetNeutralCannon),
@@ -35,6 +36,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			{
 				intelligence = new List<KIMethod>
 				{
+					KIMethod.CreateDefense("AttackingLaser",        FindTargetAttackingLaser),
 					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
 					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
 					KIMethod.CreatePrecalc("NeutralCannon",         FindTargetNeutralCannonPrecalc),
@@ -49,6 +51,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			{
 				intelligence = new List<KIMethod>
 				{
+					KIMethod.CreateDefense("AttackingLaser",        FindTargetAttackingLaser),
 					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
 					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
 					KIMethod.CreatePrecalc("NeutralCannon",         FindTargetNeutralCannonPrecalc),

@@ -13,6 +13,7 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -66,8 +67,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public  Fraction Fraction { get; private set; }
 		protected AbstractFractionController controller;
 		public float TotalBulletBoost = 0f;
-		private List<CannonLaserBoost> _laserBoosts = new List<CannonLaserBoost>();
+		private readonly List<CannonLaserBoost> _laserBoosts = new List<CannonLaserBoost>();
 		public readonly GDGameScreen GDOwner;
+		
+		public  readonly List<LaserRay> AttackingRays = new List<LaserRay>();
+		private readonly List<LaserRay> _attackingRaysCollector = new List<LaserRay>();
 
 		public float RealBoost => 1 + Math.Min(TotalBulletBoost + _laserBoosts.Count * BOOSTER_POWER, MAX_BOOST);
 
@@ -163,6 +167,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				{
 					_laserBoosts.RemoveAt(i);
 				}
+			}
+
+			AttackingRays.Clear();
+			if (_attackingRaysCollector.Count > 0)
+			{
+				AttackingRays.AddRange(_attackingRaysCollector);
+				_attackingRaysCollector.Clear();
 			}
 		}
 		
@@ -356,10 +367,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			}
 		}
 
-		public void TakeLaserDamage(Fraction source, float dmg)
+		public void TakeLaserDamage(Fraction source, LaserRay ray, float dmg)
 		{
 #if DEBUG
-			if (DebugSettings.Get("ImmortalCannons")) return;
+			if (DebugSettings.Get("ImmortalCannons")) { _attackingRaysCollector.Add(ray); return;}
 #endif
 
 			if (source.IsNeutral)
@@ -374,6 +385,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			}
 			else
 			{
+				_attackingRaysCollector.Add(ray);
+
 				CannonHealth.Dec(dmg / Scale);
 
 				if (FloatMath.IsZero(CannonHealth.TargetValue))

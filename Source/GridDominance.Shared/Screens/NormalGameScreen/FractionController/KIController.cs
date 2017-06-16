@@ -9,8 +9,10 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
@@ -23,19 +25,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 			private readonly Func<GameEntity> _runDirect;
 			private readonly Func<BulletPath> _runPrecalc;
+			private readonly Func<LaserRay> _runAntiLaser;
 			private readonly Action<KIController> _runGeneric;
 
-			private KIMethod(string n, Func<GameEntity> r1, Func<BulletPath> r2, Action<KIController> r3)
+			private KIMethod(string n, Func<GameEntity> r1, Func<BulletPath> r2, Action<KIController> r3, Func<LaserRay> r4)
 			{
 				Name = n;
 				_runDirect = r1;
 				_runPrecalc = r2;
 				_runGeneric = r3;
+				_runAntiLaser = r4;
 			}
 
-			public static KIMethod CreateRaycast(string n, Func<GameEntity>     r) => new KIMethod(n, r,    null, null);
-			public static KIMethod CreatePrecalc(string n, Func<BulletPath>     r) => new KIMethod(n, null, r,    null);
-			public static KIMethod CreateGeneric(string n, Action<KIController> r) => new KIMethod(n, null, null, r);
+			public static KIMethod CreateRaycast(string n, Func<GameEntity>     r) => new KIMethod(n, r,    null, null, null);
+			public static KIMethod CreatePrecalc(string n, Func<BulletPath>     r) => new KIMethod(n, null, r,    null, null);
+			public static KIMethod CreateGeneric(string n, Action<KIController> r) => new KIMethod(n, null, null, r,    null);
+			public static KIMethod CreateDefense(string n, Func<LaserRay>       r) => new KIMethod(n, null, null, null, r);
 
 			public bool Run(KIController ki)
 			{
@@ -62,6 +67,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 						return true;
 					}
+				}
+				else if (_runAntiLaser != null)
+				{
+					var ray = _runAntiLaser();
+					if (ray != null)
+					{
+						var target = ki.Cannon.Position.MirrorAt(FPoint.MiddlePoint(ray.Start, ray.End));
+						ki.Cannon.Rotation.Set(target.ToAngle(ki.Cannon.Position));
+						ki.LastKIFunction = Name;
+
+						return true;
+					}
+					return true;
 				}
 				else if (_runGeneric != null)
 				{
@@ -116,6 +134,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		}
 
 		#region Target Finding (Base)
+
+		protected LaserRay FindTargetAttackingLaser()
+		{
+			return Cannon
+				.AttackingRays
+				.RandomOrDefault(crng);
+		}
 
 		protected Bullet FindTargetAttackingBullet()
 		{
