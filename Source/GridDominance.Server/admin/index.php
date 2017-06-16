@@ -192,28 +192,7 @@
     </div>
 
     <script type="text/javascript">
-        function ShowExpandedColumn(id, text) {
-            if ($("#tr_prev_"+id).css('visibility') != 'visible') {
-                $(".tab_prev").css("visibility", "collapse");
-                $("#td_prev_"+id).html(text);
-                $("#tr_prev_"+id).css("visibility", "visible");
-            } else {
-                $(".tab_prev").css("visibility", "collapse");
-            }
-        }
-        function ShowRemoteExpandedColumn(id, ident) {
-            if ($("#tr_prev_"+id).css('visibility') != 'visible') {
-                $(".tab_prev").css("visibility", "collapse");
-
-                $.get('logquery.php?id=' + ident, function( data ) {
-                    $("#td_prev_"+id).html(data);
-                    $("#tr_prev_"+id).css("visibility", "visible");
-                });
-
-            } else {
-                $(".tab_prev").css("visibility", "collapse");
-            }
-        }
+        <?php echo file_get_contents('admin.js'); ?>
     </script>
 </body>
 </html>

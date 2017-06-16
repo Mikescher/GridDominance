@@ -37,6 +37,7 @@ h2 {
 
 .tab_prev {
   visibility: collapse;
+  display: none;
 }
 
 .sqltab td {

@@ -251,11 +251,7 @@ function fmtw($w) {
 </div>
 
 <script type="text/javascript">
-    function ShowExpandedColumn(id, text) {
-        $(".tab_prev").css("visibility", "collapse");
-        $("#td_prev_"+id).html(text);
-        $("#tr_prev_"+id).css("visibility", "visible");
-    }
+	<?php echo file_get_contents('admin.js'); ?>
 </script>
 </body>
 </html>
