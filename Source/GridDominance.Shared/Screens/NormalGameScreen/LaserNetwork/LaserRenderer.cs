@@ -39,14 +39,34 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			_network.Draw(sbatch);
+			DrawNetwork(sbatch);
 
 #if DEBUG
 			if (DebugSettings.Get("DebugLaserNetwork"))
 			{
-				_network.DrawDebug(sbatch);
+				DrawNetworkDebug(sbatch);
 			}
 #endif
+		}
+
+		private void DrawNetwork(IBatchRenderer sbatch)
+		{
+			// TODO Draw Laz0rs
+		}
+
+		private void DrawNetworkDebug(IBatchRenderer sbatch)
+		{
+			foreach (var src in _network.Sources)
+			{
+				foreach (var ray in src.Lasers)
+				{
+					sbatch.DrawLine(ray.Start, ray.End, Color.LimeGreen, 4);
+
+					if (ray.Terminator == LaserRayTerminator.LaserDoubleTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new FSize(8, 8), Color.Salmon);
+					if (ray.Terminator == LaserRayTerminator.LaserSelfTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new FSize(8, 8), Color.CornflowerBlue);
+					if (ray.Terminator == LaserRayTerminator.LaserFaultTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new FSize(8, 8), Color.Magenta);
+				}
+			}
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

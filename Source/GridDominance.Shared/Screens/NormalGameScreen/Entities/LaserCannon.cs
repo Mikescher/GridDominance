@@ -27,6 +27,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private readonly LaserCannonBlueprint Blueprint;
 		private readonly LaserSource _laserSource;
+		private readonly GDGameScreen _screen;
 
 		private readonly DeltaLimitedFloat corePulse = new DeltaLimitedFloat(1, CORE_PULSE * CORE_PULSE_FREQ * 2);
 
@@ -37,6 +38,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
 			Blueprint = bp;
+			_screen = scrn;
 
 			_laserSource = scrn.LaserNetwork.AddSource(this);
 
@@ -121,7 +123,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				sbatch.DrawScaled(
 					Textures.TexCannonCore[coreImage],
 					Position,
-					Scale * corePulse.ActualValue * CannonHealth.ActualValue,
+					Scale * corePulse.ActualValue * FloatMath.Sqrt(CannonHealth.ActualValue),
 					Fraction.Color,
 					coreRotation);
 			}
@@ -200,7 +202,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			controller.Update(gameTime, istate);
 
-			Rotation.Update(gameTime);
+			bool change = Rotation.CUpdate(gameTime);
+			if (change) _screen.LaserNetwork.SemiDirty = true;
+
 			CrosshairSize.Update(gameTime);
 
 			UpdatePhysicBodies();

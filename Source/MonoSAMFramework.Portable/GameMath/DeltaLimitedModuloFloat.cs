@@ -18,7 +18,7 @@ namespace MonoSAMFramework.Portable.GameMath
 			ActualValue = initialValue;
 			TargetValue = initialValue;
 		}
-		
+
 		public void Update(SAMTime gameTime)
 		{
 			// ReSharper disable once CompareOfFloatsByEqualityOperator
@@ -29,6 +29,22 @@ namespace MonoSAMFramework.Portable.GameMath
 
 				ActualValue = FloatMath.Abs(diff) <= radSpeed ? TargetValue : FloatMath.AddRads(ActualValue, -FloatMath.Sign(diff) * radSpeed);
 			}
+		}
+
+		public bool CUpdate(SAMTime gameTime)
+		{
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
+			if (ActualValue != TargetValue)
+			{
+				var radSpeed = deltaSpeed * gameTime.ElapsedSeconds;
+				var diff = FloatMath.DiffModulo(ActualValue, TargetValue, modulo);
+
+				ActualValue = FloatMath.Abs(diff) <= radSpeed ? TargetValue : FloatMath.AddRads(ActualValue, -FloatMath.Sign(diff) * radSpeed);
+
+				return true;
+			}
+
+			return false;
 		}
 
 		public void Set(float v)

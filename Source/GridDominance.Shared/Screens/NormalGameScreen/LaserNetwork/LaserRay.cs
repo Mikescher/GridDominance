@@ -22,15 +22,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public readonly int Depth;
 		public readonly bool InGlass;
 		public readonly object StartIgnoreObj;
+		public readonly object EndIgnoreObj;
 		public readonly float SourceDistance; // At [[Start]]
 
 		public float Length => (End - Start).Length();
 
-		public LaserRay(FPoint s, FPoint e, LaserRay src, LaserRayTerminator t, int d, bool g, object ign, float sd, Cannon tc, Tuple<LaserRay, LaserSource> tr)
+		public LaserRay(FPoint s, FPoint e, LaserRay src, LaserRayTerminator t, int d, bool g, object sign, object eign, float sd, Cannon tc, Tuple<LaserRay, LaserSource> tr)
 		{
 			Depth = d;
 			InGlass = g;
-			StartIgnoreObj = ign;
+			StartIgnoreObj = sign;
+			EndIgnoreObj   = eign;
 			Start = s;
 			End = e;
 			Source = src;

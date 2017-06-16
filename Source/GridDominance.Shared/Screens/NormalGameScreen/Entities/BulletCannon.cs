@@ -22,6 +22,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 	public class BulletCannon : Cannon
 	{
 		private readonly CannonBlueprint Blueprint;
+		private readonly GDGameScreen _screen;
 
 		private float barrelCharge = 0f;
 		private float barrelRecoil = 0f;
@@ -31,6 +32,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
 			Blueprint = bp;
+			_screen = scrn;
 		}
 
 		#region Update
@@ -39,7 +41,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			controller.Update(gameTime, istate);
 
-			Rotation.Update(gameTime);
+			bool change = Rotation.CUpdate(gameTime);
+			if (change) _screen.LaserNetwork.SemiDirty = true;
+
 			CrosshairSize.Update(gameTime);
 
 			UpdatePhysicBodies();

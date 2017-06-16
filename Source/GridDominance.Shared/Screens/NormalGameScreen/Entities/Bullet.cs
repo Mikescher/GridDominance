@@ -382,6 +382,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				DonutWrap();
 			}
+
+			this.GDOwner().LaserNetwork.SemiDirty = true;
 		}
 
 		private void DonutWrap()

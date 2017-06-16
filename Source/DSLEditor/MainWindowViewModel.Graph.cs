@@ -197,11 +197,11 @@ namespace GridDominance.DSLEditor
 				txt2.AppendLine();
 				txt2.AppendLine("return [");
 
-				bool first = true;
+				txt2.AppendLine("\t[ '{d34db335-0001-4000-7711-000000100001}', '{b16b00b5-0001-4000-9999-000000000002}' ], // X-X      | Tutorial");
+				
 				foreach (var ww in worlds)
 				{
-					if (!first) txt2.AppendLine();
-					first = false;
+					txt2.AppendLine();
 					foreach (var nn in ww.Nodes)
 					{
 						var ll = levels.First(l => l.UniqueID == nn.LevelID);

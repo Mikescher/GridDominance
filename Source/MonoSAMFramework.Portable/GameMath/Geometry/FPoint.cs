@@ -33,6 +33,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public Vector2 ToVec2D() => new Vector2(X, Y);
 
 		public bool IsOrigin() => Math.Abs(X) < FloatMath.EPSILON || Math.Abs(Y) < FloatMath.EPSILON;
+		public bool IsValid => !float.IsInfinity(X) && !float.IsNaN(X) && !float.IsInfinity(Y) && !float.IsNaN(Y);
 
 		public static FPoint operator +(FPoint value1, Vector2 value2)
 		{

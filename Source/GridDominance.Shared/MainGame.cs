@@ -108,12 +108,10 @@ namespace GridDominance.Shared
 
 		private void SAMLogOnLogEvent(object sender, SAMLog.LogEventArgs args)
 		{
-#if !DEBUG
 			if (args.Level == SAMLogLevel.ERROR || args.Level == SAMLogLevel.FATAL_ERROR)
 			{
 				Backend.LogClient(Profile, args.Entry).EnsureNoError();
 			}
-#endif
 		}
 
 		protected override void OnInitialize()
