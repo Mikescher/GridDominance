@@ -125,8 +125,11 @@
  - World 5 := Multiplayer (only one needs to have unlocked), Lidgren?
 
  Pricing:
- - 1,99 Full Game
- - 0,79 Unlock World
+ - W2:   0.25
+ - W3:   0.49
+ - W4:   0.49
+ - MP:   0.99
+ - FULL: 1.49
 
 
 

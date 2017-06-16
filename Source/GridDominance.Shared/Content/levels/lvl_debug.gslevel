@@ -8,7 +8,7 @@ setwrap(WRAPMODE_DONUT)
 
 Laser(SIZE_SMALL, P1, [ 2,  5], ROT_E)
 
-Laser(SIZE_SMALL, N0, [ 9,  2], ROT_N)
+Cannon(SIZE_SMALL, N0, [ 9,  2], ROT_N)
 Laser(SIZE_TINY, N0, [ 4,  8.5], ROT_N)
 
 Laser(SIZE_SMALL, A3, [14,  5], ROT_W)

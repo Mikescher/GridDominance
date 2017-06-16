@@ -40,6 +40,7 @@ namespace MonoSAMFramework.Portable.ColorHelper
 		//###########################################################################
 
 		public static readonly Color Background       = new Color(0x3D, 0x3D, 0x3D); // #3D3D3D = ( 61,  61,  61)
+		public static readonly Color BackgroundLight  = new Color(0x42, 0x42, 0x42); // #424242 = ( 66,  66,  66)
 		public static readonly Color BackgroundGreen  = new Color(0x27, 0x44, 0x35); // #274435 = ( 39,  68,  53)
 		public static readonly Color BackgroundHUD    = new Color(0x45, 0x49, 0x54); // #454954 = ( 69,  73,  84)
 		public static readonly Color BackgroundHUD2   = new Color(0x24, 0x25, 0x2A); // #24252A = ( 36,  37,  42)

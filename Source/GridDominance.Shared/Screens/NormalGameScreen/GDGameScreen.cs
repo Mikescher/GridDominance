@@ -272,10 +272,10 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			var ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
 			var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
 
-			var bn = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits2.ToSimUnits(rn.Center), 0, BodyType.Static);
-			var be = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits2.ToSimUnits(re.Center), 0, BodyType.Static);
-			var bs = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits2.ToSimUnits(rs.Center), 0, BodyType.Static);
-			var bw = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits2.ToSimUnits(rw.Center), 0, BodyType.Static);
+			var bn = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits2.ToSimUnits(rn.Center), 0, BodyType.Static, dn);
+			var be = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits2.ToSimUnits(re.Center), 0, BodyType.Static, de);
+			var bs = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits2.ToSimUnits(rs.Center), 0, BodyType.Static, ds);
+			var bw = BodyFactory.CreateBody(GetPhysicsWorld(), ConvertUnits2.ToSimUnits(rw.Center), 0, BodyType.Static, dw);
 
 			var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
 			var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);

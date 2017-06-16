@@ -61,6 +61,8 @@ namespace MonoSAMFramework.Portable.Screens
 		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY, VAdapterGame.VirtualTotalWidth, VAdapterGame.VirtualTotalHeight);
 		public FRectangle MapFullBounds { get; protected set; }
 
+		public float PixelWidth => VAdapterGame.VirtualGuaranteedWidth / VAdapterGame.RealGuaranteedWidth;
+
 		private readonly List<GameScreenAgent> agents = new List<GameScreenAgent>();
 		private readonly List<IProxyScreenProvider> _proxyScreens = new List<IProxyScreenProvider>();
 		private bool _clearScreenOnDraw = true;
