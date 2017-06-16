@@ -96,7 +96,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 			bool doSpawn;
 
-			SetParticleSpawnPosition(ref particlePool[ParticleCount].Position, out doSpawn);
+			particlePool[ParticleCount].Position = SetParticleSpawnPosition(out doSpawn);
 
 			if (!doSpawn) return;
 
@@ -112,7 +112,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 			ParticleCount++;
 		}
 
-		protected abstract void SetParticleSpawnPosition(ref Vector2 vec, out bool doSpawn);
+		protected abstract FPoint SetParticleSpawnPosition(out bool doSpawn);
 
 		private void RemoveParticle(int idx)
 		{
@@ -157,7 +157,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 			base.DrawDebugBorders(sbatch);
 
-			sbatch.DrawRectangle(Position - new FSize(8, 8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
+			sbatch.DrawRectangle(Position - new Vector2(8, 8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
 
 			for (int i = 0; i < ParticleCount; i++)
 			{

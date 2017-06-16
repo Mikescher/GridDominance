@@ -200,7 +200,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 			var oldBlendState = g.BlendState;
 			g.BlendState = BlendState.AlphaBlend;
 
-			parameterOffset.SetValue(Owner.MapOffset + Position);
+			parameterOffset.SetValue(Position.WithOrigin(Owner.MapOffset).ToVec2D());
 			parameterVirtualViewport.SetValue(Owner.VAdapterGame.GetShaderMatrix());
 			parameterCurrentTime.SetValue(_time);
 
@@ -225,7 +225,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		{
 			base.DrawDebugBorders(sbatch);
 
-			sbatch.DrawRectangle(Position - new FSize(8,8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
+			sbatch.DrawRectangle(Position - new Vector2(8,8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
 		}
 	}
 }

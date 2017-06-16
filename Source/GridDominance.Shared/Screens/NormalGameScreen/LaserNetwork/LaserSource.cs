@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
 	public sealed class LaserSource
 	{
-		public readonly Vector2 Position;
+		public readonly FPoint Position;
 		public readonly LaserNetwork Owner;
 
 		public bool LaserActive;
@@ -16,7 +16,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 		public readonly List<LaserRay> Lasers = new List<LaserRay>(LaserNetwork.MAX_LASER_PER_SOURCE);
 
-		public LaserSource(LaserNetwork owner, Vector2 position, Fraction fracNeutral, object userData)
+		public LaserSource(LaserNetwork owner, FPoint position, Fraction fracNeutral, object userData)
 		{
 			Owner = owner;
 			Position = position;

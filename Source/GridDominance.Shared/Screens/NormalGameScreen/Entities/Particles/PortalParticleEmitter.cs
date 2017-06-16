@@ -11,7 +11,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 {
 	class PortalParticleEmitter : CPUParticleEmitter
 	{
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 
 		public override FSize DrawingBoundingBox { get; }
 
@@ -48,7 +48,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 
 		}
 
-		protected override void SetParticleSpawnPosition(ref Vector2 vec, out bool doSpawn)
+		protected override FPoint SetParticleSpawnPosition(out bool doSpawn)
 		{
 			throw new NotSupportedException();
 		}

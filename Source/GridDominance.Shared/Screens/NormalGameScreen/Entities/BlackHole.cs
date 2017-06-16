@@ -21,7 +21,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private const float ANIMATION_DURATION = 1.8f;
 		private const float CLAMPING_FACTOR    = 10f;
 
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Gold;
 
@@ -33,7 +33,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public BlackHole(GDGameScreen scrn, BlackHoleBlueprint blueprint) : base(scrn, GDConstants.ORDER_GAME_BLACKHOLE)
 		{
-			var pos   = new Vector2(blueprint.X, blueprint.Y);
+			var pos   = new FPoint(blueprint.X, blueprint.Y);
 
 			_diameter = blueprint.Diameter;
 			_radius = _diameter / 2f;

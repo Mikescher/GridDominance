@@ -13,8 +13,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 	{
 		public static readonly FCircle Empty = new FCircle(0, 0, 0);
 
-		private Vector2? _center;
-		public Vector2 Center => (_center ?? (_center = new Vector2(X, Y))).Value;
+		public FPoint Center => new FPoint(X, Y);
 
 		[DataMember]
 		public readonly float X;
@@ -25,7 +24,6 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FCircle(float x, float y, float radius)
 		{
-			_center = null;
 			X = x;
 			Y = y;
 			Radius = radius;
@@ -33,7 +31,6 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FCircle(FPoint location, float radius)
 		{
-			_center = null;
 			X = location.X;
 			Y = location.Y;
 			Radius = radius;
@@ -41,7 +38,6 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FCircle(FCircle r)
 		{
-			_center = null;
 			X = r.X;
 			Y = r.Y;
 			Radius = r.Radius;
@@ -49,7 +45,6 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public FCircle(Vector2 location, float radius)
 		{
-			_center = null;
 			X = location.X;
 			Y = location.Y;
 			Radius = radius;

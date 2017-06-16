@@ -127,10 +127,10 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, CannonBlueprint cannon, float deg)
 		{
-			return FindBulletPaths(lvl, wBase, wCollision, cannon.CannonID, new Vector2(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, deg * FloatMath.DegRad, MAX_COUNT_RECAST);
+			return FindBulletPaths(lvl, wBase, wCollision, cannon.CannonID, new FPoint(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, deg * FloatMath.DegRad, MAX_COUNT_RECAST);
 		}
 
-		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, Vector2 rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, float cannonRadians, int remainingRecasts)
+		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, FPoint rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, float cannonRadians, int remainingRecasts)
 		{
 			var none = new List<Tuple<BulletPathBlueprint, float>>();
 			if (remainingRecasts <= 0) return none;
@@ -158,8 +158,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			{
 				if (fCannon.CannonID == sourceID) return none;
 
-				var quality = Math2D.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				var quality = Math2D.LinePointDistance(rcStart, traceResult.Item2, new FPoint(fCannon.X, fCannon.Y));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 				var path = new BulletPathBlueprint(fCannon.CannonID, cannonRadians, rays.ToArray());
 				return new List<Tuple<BulletPathBlueprint, float>> { Tuple.Create(path, quality) };
 			}
@@ -167,7 +167,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			var fGlassBlock = traceResult.Item1.UserData as GlassBlockBlueprint;
 			if (fGlassBlock != null)
 			{
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 				var pNewStart = traceResult.Item2;
 				var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
@@ -178,7 +178,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			var fMirrorBlock = traceResult.Item1.UserData as MirrorBlockBlueprint;
 			if (fMirrorBlock != null)
 			{
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 				var pNewStart = traceResult.Item2;
 				var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
@@ -189,7 +189,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			var fMirrorCircle = traceResult.Item1.UserData as MirrorCircleBlueprint;
 			if (fMirrorCircle != null)
 			{
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 				var pNewStart = traceResult.Item2;
 				var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
@@ -222,19 +222,19 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 				if (!hit) return none;
 
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 				var dat = new List<Tuple<BulletPathBlueprint, float>>();
 				foreach (var outportal in lvl.BlueprintPortals.Where(p => p.Side != fPortal.Side && p.Group == fPortal.Group))
 				{
-					var cIn  = new Vector2(fPortal.X, fPortal.Y);
-					var cOut = new Vector2(outportal.X, outportal.Y);
+					var cIn  = new FPoint(fPortal.X, fPortal.Y);
+					var cOut = new FPoint(outportal.X, outportal.Y);
 
 					var rot = FloatMath.ToRadians(outportal.Normal - fPortal.Normal + 180);
 					var stretch = outportal.Length / fPortal.Length;
 
 					var newAngle = FloatMath.NormalizeAngle(startRadians + rot);
-					var newStart = cOut + stretch * (traceResult.Item2 - cIn).Rotate(rot);
+					var newStart = cOut + (traceResult.Item2 - cIn).Rotate(rot) * stretch;
 
 					newStart = newStart.MirrorAtNormal(cOut, Vector2.UnitX.Rotate(FloatMath.ToRadians(outportal.Normal)));
 
@@ -249,7 +249,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			{
 				if (lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT)
 				{
-					rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+					rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 					var pNewStartX = traceResult.Item2.X;
 					var pNewStartY = traceResult.Item2.Y;
@@ -261,13 +261,13 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 						case FlatAlign4.WW: pNewStartX += lvl.LevelWidth; break;
 					}
 					var pVec = rcEnd - rcStart;
-					var pNewStart = new Vector2(pNewStartX, pNewStartY);
+					var pNewStart = new FPoint(pNewStartX, pNewStartY);
 
 					return FindBulletPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), cannonRadians, remainingRecasts - 1);
 				}
 				else if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID)
 				{
-					rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+					rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 					var pNewStart = traceResult.Item2;
 					var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
@@ -282,10 +282,10 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		private static List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, LaserCannonBlueprint cannon, float deg)
 		{
-			return FindLaserPaths(lvl, wBase, wCollision, cannon.CannonID, new Vector2(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, deg * FloatMath.DegRad, MAX_COUNT_REFLECT, false);
+			return FindLaserPaths(lvl, wBase, wCollision, cannon.CannonID, new FPoint(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, deg * FloatMath.DegRad, MAX_COUNT_REFLECT, false);
 		}
 
-		private static List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, Vector2 rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, float cannonRadians, int remainingRecasts, bool inGlassBlock)
+		private static List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, FPoint rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, float cannonRadians, int remainingRecasts, bool inGlassBlock)
 		{
 			var none = new List<Tuple<BulletPathBlueprint, float>>();
 			if (remainingRecasts <= 0) return none;
@@ -313,8 +313,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			{
 				if (fCannon.CannonID == sourceID) return none;
 
-				var quality = Math2D.LinePointDistance(rcStart, traceResult.Item2, new Vector2(fCannon.X, fCannon.Y));
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				var quality = Math2D.LinePointDistance(rcStart, traceResult.Item2, new FPoint(fCannon.X, fCannon.Y));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 				var path = new BulletPathBlueprint(fCannon.CannonID, cannonRadians, rays.ToArray());
 				return new List<Tuple<BulletPathBlueprint, float>> { Tuple.Create(path, quality) };
 			}
@@ -322,7 +322,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			var fGlassBlock = traceResult.Item1.UserData as MarkerRefractionEdge;
 			if (fGlassBlock != null)
 			{
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 				var pNewStart = traceResult.Item2;
 
@@ -365,7 +365,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			var fMirrorBlock = traceResult.Item1.UserData as MirrorBlockBlueprint;
 			if (fMirrorBlock != null)
 			{
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 				var pNewStart = traceResult.Item2;
 				var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
@@ -376,7 +376,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			var fMirrorCircle = traceResult.Item1.UserData as MirrorCircleBlueprint;
 			if (fMirrorCircle != null)
 			{
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 				var pNewStart = traceResult.Item2;
 				var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
@@ -403,13 +403,13 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 				if (!hit) return none;
 
-				rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 				var dat = new List<Tuple<BulletPathBlueprint, float>>();
 				foreach (var outportal in lvl.BlueprintPortals.Where(p => p.Side != fPortal.Side && p.Group == fPortal.Group))
 				{
-					var cIn = new Vector2(fPortal.X, fPortal.Y);
-					var cOut = new Vector2(outportal.X, outportal.Y);
+					var cIn = new FPoint(fPortal.X, fPortal.Y);
+					var cOut = new FPoint(outportal.X, outportal.Y);
 
 					var rot = FloatMath.ToRadians(outportal.Normal - fPortal.Normal + 180);
 					var stretch = outportal.Length / fPortal.Length;
@@ -430,7 +430,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			{
 				if (lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT)
 				{
-					rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+					rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 					var pNewStartX = traceResult.Item2.X;
 					var pNewStartY = traceResult.Item2.Y;
@@ -442,13 +442,13 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 						case FlatAlign4.WW: pNewStartX += lvl.LevelWidth; break;
 					}
 					var pVec = rcEnd - rcStart;
-					var pNewStart = new Vector2(pNewStartX, pNewStartY);
+					var pNewStart = new FPoint(pNewStartX, pNewStartY);
 
 					return FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pVec.ToAngle(), cannonRadians, remainingRecasts - 1, inGlassBlock);
 				}
 				else if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID)
 				{
-					rays.Add(Tuple.Create(rcStart, traceResult.Item2));
+					rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 					var pNewStart = traceResult.Item2;
 					var pVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
@@ -461,9 +461,9 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			throw new Exception("Unknown rayTrace resturn ficture: " + traceResult.Item1.UserData);
 		}
 
-		private static Tuple<Fixture, Vector2, Vector2> RayCastBullet(World w, Vector2 start, Vector2 end)
+		private static Tuple<Fixture, FPoint, Vector2> RayCastBullet(World w, FPoint start, FPoint end)
 		{
-			Tuple<Fixture, Vector2, Vector2> result = null;
+			Tuple<Fixture, FPoint, Vector2> result = null;
 
 			//     return -1:       ignore this fixture and continue 
 			//     return  0:       terminate the ray cast
@@ -473,19 +473,19 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			{
 				if (f.UserData is MarkerRefractionEdge) return -1; // ignore
 
-				result = Tuple.Create(f, pos, normal);
+				result = Tuple.Create(f, pos.ToFPoint(), normal);
 
 				return frac; // limit
 			};
 
-			w.RayCast(callback, start, end);
+			w.RayCast(callback, start.ToVec2D(), end.ToVec2D());
 
 			return result;
 		}
 
-		private static Tuple<Fixture, Vector2, Vector2> RayCastLaser(World w, Vector2 start, Vector2 end)
+		private static Tuple<Fixture, FPoint, Vector2> RayCastLaser(World w, FPoint start, FPoint end)
 		{
-			Tuple<Fixture, Vector2, Vector2> result = null;
+			Tuple<Fixture, FPoint, Vector2> result = null;
 
 			//     return -1:       ignore this fixture and continue 
 			//     return  0:       terminate the ray cast
@@ -496,12 +496,12 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				if (f.UserData is GlassBlockBlueprint) return -1; // ignore
 				if (f.UserData is BlackHoleBlueprint) return -1; // ignore
 
-				result = Tuple.Create(f, pos, normal);
+				result = Tuple.Create(f, pos.ToFPoint(), normal);
 
 				return frac; // limit
 			};
 
-			w.RayCast(callback, start, end);
+			w.RayCast(callback, start.ToVec2D(), end.ToVec2D());
 
 			return result;
 		}
@@ -621,10 +621,10 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
 				var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
 
-				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static, dn);
-				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.Center), 0, BodyType.Static, de);
-				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.Center), 0, BodyType.Static, ds);
-				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.Center), 0, BodyType.Static, dw);
+				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.VecCenter), 0, BodyType.Static, dn);
+				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.VecCenter), 0, BodyType.Static, de);
+				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.VecCenter), 0, BodyType.Static, ds);
+				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.VecCenter), 0, BodyType.Static, dw);
 
 				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
 				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);

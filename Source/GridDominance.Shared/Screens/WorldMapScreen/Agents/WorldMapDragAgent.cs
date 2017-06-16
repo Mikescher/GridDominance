@@ -25,7 +25,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private Vector2 outOfBoundsForce = Vector2.Zero;
 
 		private FPoint mouseStartPos;
-		private Vector2 startOffset;
+		private FPoint startOffset;
 
 		private FPoint lastMousePos;
 		private float lastMousePosTime;
@@ -33,11 +33,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private Vector2 dragSpeed;
 
 		private readonly GDWorldMapScreen _gdScreen;
-		private readonly List<Vector2> _nodePositions;
+		private readonly List<FPoint> _nodePositions;
 
 		public override bool Alive => true;
 
-		public WorldMapDragAgent(GDWorldMapScreen scrn, List<Vector2> nodePositions) : base(scrn)
+		public WorldMapDragAgent(GDWorldMapScreen scrn, List<FPoint> nodePositions) : base(scrn)
 		{
 			_gdScreen = scrn;
 			_nodePositions = nodePositions;
@@ -128,7 +128,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			var maxDistSquared = FloatMath.PythSquared(cmvp.Width / 2, cmvp.Height / 2);
 
 			float nearestDistSquared = float.MaxValue;
-			Vector2 nearestNode = Vector2.Zero;
+			FPoint nearestNode = FPoint.Zero;
 
 			foreach (var np in _nodePositions)
 			{

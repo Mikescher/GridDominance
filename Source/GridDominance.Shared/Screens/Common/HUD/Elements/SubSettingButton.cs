@@ -54,7 +54,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * ScaleProgress * IconScale, SIZE_ICON * ScaleProgress * IconScale, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds);
 
-			FontRenderHelper.DrawTextVerticallyCenteredWithBackground(sbatch, Textures.HUDFontRegular, SIZE_ICON, ButtonText, FlatColors.Clouds * FontProgress, new Vector2(CenterX + SIZE_ICON, CenterY), Color.Black * 0.5f * FontProgress);
+			FontRenderHelper.DrawTextVerticallyCenteredWithBackground(sbatch, Textures.HUDFontRegular, SIZE_ICON, ButtonText, FlatColors.Clouds * FontProgress, new FPoint(CenterX + SIZE_ICON, CenterY), Color.Black * 0.5f * FontProgress);
 		}
 
 		public override void OnInitialize()
@@ -68,7 +68,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			var bounds = FontRenderHelper.MeasureStringCached(Textures.HUDFontRegular, ButtonText);
 			var scale = FontRenderHelper.GetFontScale(Textures.HUDFontRegular, SIZE_ICON);
-			Slave.Size = new FSize(bounds.X * scale, bounds.Y * scale);
+			Slave.Size = bounds * scale;
 
 			Owner.AddElement(Slave);
 		}

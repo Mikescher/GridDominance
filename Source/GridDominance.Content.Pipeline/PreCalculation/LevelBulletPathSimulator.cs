@@ -98,7 +98,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 		{
 			float startRadians = deg * FloatMath.DegRad;
 			var scale = cannon.Diameter / Cannon.CANNON_DIAMETER;
-			var spawnPoint = new Vector2(cannon.X, cannon.Y) + new Vector2(scale * (Cannon.CANNON_DIAMETER / 2 + Bullet.BULLET_DIAMETER * 0.66f), 0).Rotate(startRadians);
+			var spawnPoint = new FPoint(cannon.X, cannon.Y) + new Vector2(scale * (Cannon.CANNON_DIAMETER / 2 + Bullet.BULLET_DIAMETER * 0.66f), 0).Rotate(startRadians);
 			var spawnVeloc = new Vector2(1, 0).Rotate(startRadians) * Cannon.BULLET_INITIAL_SPEED;
 
 			var fbpresult = FindBulletPaths(lvl, world, cannon.CannonID, spawnPoint, spawnVeloc, new List<Vector2>(), scale, 0);
@@ -113,7 +113,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return result;
 		}
 
-		private static List<Tuple<List<Vector2>, CannonBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, int sourceID, Vector2 spawnPoint, Vector2 spawnVeloc, List<Vector2> fullpath, float scale, float lifetime)
+		private static List<Tuple<List<Vector2>, CannonBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, int sourceID, FPoint spawnPoint, Vector2 spawnVeloc, List<Vector2> fullpath, float scale, float lifetime)
 		{
 			var none = new List<Tuple<List<Vector2>, CannonBlueprint, float>>();
 
@@ -122,7 +122,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			object collisionUserObject = null;
 			Contact collisionContact = null;
 
-			var farseerBullet = BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(scale * Bullet.BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(spawnPoint), BodyType.Dynamic, null);
+			var farseerBullet = BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(scale * Bullet.BULLET_DIAMETER / 2), 1, ConvertUnits2.ToSimUnits(spawnPoint), BodyType.Dynamic, null);
 			farseerBullet.LinearVelocity = ConvertUnits.ToSimUnits(spawnVeloc);
 			farseerBullet.CollidesWith = Category.All;
 			farseerBullet.Restitution = 1f;              // Bouncability, 1=bounce always elastic
@@ -141,7 +141,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			};
 			farseerBullet.AngularVelocity = 0;
 
-			fullpath.Add(spawnPoint);
+			fullpath.Add(spawnPoint.ToVec2D());
 
 			for (;;)
 			{
@@ -157,7 +157,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 				world.Step(1 / 24f); // 24 UPS
 				lifetime += 1 / 24f;
-				fullpath.Add(ConvertUnits.ToDisplayUnits(farseerBullet.Position));
+				fullpath.Add(ConvertUnits2.ToDisplayUnitsPoint(farseerBullet.Position).ToVec2D());
 
 				if (collisionUserObject is PortalBlueprint)
 				{
@@ -179,8 +179,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 					{
 						var stretch = outportal.Length / fPortal.Length;
 
-						var cIn = new Vector2(fPortal.X, fPortal.Y);
-						var cOut = new Vector2(outportal.X, outportal.Y);
+						var cIn = new FPoint(fPortal.X, fPortal.Y);
+						var cOut = new FPoint(outportal.X, outportal.Y);
 						var cInVecNormal  = Vector2.UnitX.RotateDeg(fPortal.Normal);
 						var cInVecDirection = cInVecNormal.RotateWithLength(FloatMath.RAD_POS_090, fPortal.Length / 2f);
 						var cOutVecNormal = Vector2.UnitX.RotateDeg(outportal.Normal);
@@ -206,7 +206,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 					if (tgcannon.CannonID == sourceID) return none;
 
-					var quality = Math2D.LinePointDistance(ConvertUnits.ToDisplayUnits(farseerBullet.Position), ConvertUnits.ToDisplayUnits(farseerBullet.Position) + ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity), new Vector2(tgcannon.X, tgcannon.Y));
+					var quality = Math2D.LinePointDistance(ConvertUnits2.ToDisplayUnitsPoint(farseerBullet.Position), ConvertUnits2.ToDisplayUnitsPoint(farseerBullet.Position) + ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity), new FPoint(tgcannon.X, tgcannon.Y));
 
 					return new List<Tuple<List<Vector2>, CannonBlueprint, float>> { Tuple.Create(fullpath, tgcannon, quality) };
 				}
@@ -310,10 +310,10 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
 				var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
 
-				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.Center), 0, BodyType.Static);
-				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.Center), 0, BodyType.Static);
-				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.Center), 0, BodyType.Static);
-				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.Center), 0, BodyType.Static);
+				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.VecCenter), 0, BodyType.Static);
+				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.VecCenter), 0, BodyType.Static);
+				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.VecCenter), 0, BodyType.Static);
+				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.VecCenter), 0, BodyType.Static);
 
 				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
 				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);
@@ -358,7 +358,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 		{
 			foreach (var elem in test)
 			{
-				if (Math2D.LinePointDistance(p1, p2, elem) > Bullet.BULLET_DIAMETER / 3f) return false;
+				if (Math2D.LinePointDistance(p1.ToFPoint(), p2.ToFPoint(), elem.ToFPoint()) > Bullet.BULLET_DIAMETER / 3f) return false;
 			}
 
 			return true;

@@ -55,7 +55,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public readonly LevelBlueprint Blueprint;
 		public readonly LevelData LevelData;
 
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.SandyBrown;
 		IEnumerable<IWorldNode> IWorldNode.NextLinkedNodes => NextLinkedNodes;
@@ -94,7 +94,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public bool NodeEnabled { get; set; } = false;
 
-		public LevelNode(GDWorldMapScreen scrn, Vector2 pos, LevelBlueprint lvlf, LevelData lvldat) : base(scrn, GDConstants.ORDER_MAP_NODE)
+		public LevelNode(GDWorldMapScreen scrn, FPoint pos, LevelBlueprint lvlf, LevelData lvldat) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
 			Position = pos;
 			DrawingBoundingBox = new FSize(DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER), DIAMETER + 2 * (HEIGHT_EXTENDER - INSET_EXTENDER));
@@ -114,10 +114,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			clickAreaThis = AddClickMouseArea(new FCircle(0, 0, DIAMETER / 2f), OnClickCenter);
 
-			clickAreaD0   = AddClickMouseArea(rectExpanderNorth.AsTranslated(-Position).AsDeflated(0, 0, INSET_EXTENDER, 0), OnClickDiff1);
-			clickAreaD1   = AddClickMouseArea(rectExpanderEast.AsTranslated(-Position).AsDeflated(0, 0, 0, INSET_EXTENDER),  OnClickDiff2);
-			clickAreaD2   = AddClickMouseArea(rectExpanderSouth.AsTranslated(-Position).AsDeflated(INSET_EXTENDER, 0, 0, 0), OnClickDiff3);
-			clickAreaD3   = AddClickMouseArea(rectExpanderWest.AsTranslated(-Position).AsDeflated(0, INSET_EXTENDER, 0, 0),  OnClickDiff4);
+			clickAreaD0   = AddClickMouseArea(rectExpanderNorth.AsRelativeTo(Position).AsDeflated(0, 0, INSET_EXTENDER, 0), OnClickDiff1);
+			clickAreaD1   = AddClickMouseArea(rectExpanderEast.AsRelativeTo(Position).AsDeflated(0, 0, 0, INSET_EXTENDER),  OnClickDiff2);
+			clickAreaD2   = AddClickMouseArea(rectExpanderSouth.AsRelativeTo(Position).AsDeflated(INSET_EXTENDER, 0, 0, 0), OnClickDiff3);
+			clickAreaD3   = AddClickMouseArea(rectExpanderWest.AsRelativeTo(Position).AsDeflated(0, INSET_EXTENDER, 0, 0),  OnClickDiff4);
 		}
 		
 		private void SpawnOrb(LevelNode me, int cycle)

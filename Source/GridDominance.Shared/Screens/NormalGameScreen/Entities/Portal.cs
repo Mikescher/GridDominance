@@ -17,6 +17,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
@@ -25,7 +26,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public const           float   WIDTH  = PortalBlueprint.DEFAULT_WIDTH;
 		public static readonly Color[] COLORS = new[]{ Color.Magenta, FlatColors.SunFlower, FlatColors.Alizarin, FlatColors.Wisteria, FlatColors.Emerald };
 
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
@@ -51,7 +52,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		
 		public Portal(GDGameScreen scrn, PortalBlueprint blueprint) : base(scrn, GDConstants.ORDER_GAME_PORTAL)
 		{
-			var pos   = new Vector2(blueprint.X, blueprint.Y);
+			var pos   = new FPoint(blueprint.X, blueprint.Y);
 
 			Normal       = FloatMath.DegreesToRadians * blueprint.Normal;
 			VecNormal    = Vector2.UnitX.Rotate(Normal);
@@ -63,7 +64,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			Position = pos;
 
-			DrawingBoundingBox = new Vector2(Length, 0).Rotate(Normal + FloatMath.RAD_POS_090).ToAbsSize().AtLeast(WIDTH, WIDTH);
+			DrawingBoundingBox = new Vector2(Length, 0).Rotate(Normal + FloatMath.RAD_POS_090).ToAbsFSize().AtLeast(WIDTH, WIDTH);
 
 			this.GDOwner().GDBackground.RegisterBlockedLine(pos - Vector2.UnitX.RotateWithLength(Normal + FloatMath.RAD_POS_090, Length/2f), pos + Vector2.UnitX.RotateWithLength(Normal + FloatMath.RAD_POS_090, Length / 2f));
 
@@ -77,7 +78,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static);
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits2.ToSimUnits(Position), 0, BodyType.Static);
 			PhysicsFixture = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(Length), ConvertUnits.ToSimUnits(WIDTH), 1, Vector2.Zero, PhysicsBody, this);
 
 			PhysicsBody.Rotation = Normal + FloatMath.RAD_POS_090;

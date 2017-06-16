@@ -17,8 +17,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public const float COLLAPSE_TIME = 5f;
 
-		public Vector2 NodePos;
-		public override Vector2 Position => NodePos;
+		public FPoint NodePos;
+		public override FPoint Position => NodePos;
 		public override FSize DrawingBoundingBox { get; } = new FSize(SIZE, SIZE);
 		public override Color DebugIdentColor { get; } = Color.Blue;
 		public readonly Guid ContentID;
@@ -30,13 +30,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public float FlickerTime = 0f;
 
-		public OverworldNode(GDOverworldScreen scrn, Vector2 pos, int l10ntext, Guid id) : base(scrn, GDConstants.ORDER_WORLD_NODE)
+		public OverworldNode(GDOverworldScreen scrn, FPoint pos, int l10ntext, Guid id) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
 			_l10ndescription = l10ntext;
 			NodePos = pos;
 			ContentID = id;
 
-			clickArea = AddClickMouseArea(FRectangle.CreateByCenter(Vector2.Zero, new FSize(SIZE, SIZE)), OnClick);
+			clickArea = AddClickMouseArea(FRectangle.CreateByCenter(FPoint.Zero, new FSize(SIZE, SIZE)), OnClick);
 		}
 
 		public override void OnInitialize(EntityManager manager)

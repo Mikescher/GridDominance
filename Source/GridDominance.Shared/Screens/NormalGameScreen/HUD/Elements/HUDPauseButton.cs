@@ -122,7 +122,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			var w2 = FontRenderHelper.MeasureStringCached(Textures.HUDFontBold, t2, 40f);
 			var w3 = FontRenderHelper.MeasureStringCached(Textures.HUDFontBold, t3, 40f);
 
-			var w = FloatMath.Max(w1.X, w2.X, w3.X);
+			var w = FloatMath.Max(w1.Width, w2.Width, w3.Width);
 
 			subMenu = new[]
 			{

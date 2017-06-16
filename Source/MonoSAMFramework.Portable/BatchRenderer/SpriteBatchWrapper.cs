@@ -113,47 +113,47 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			OnEnd();
 		}
 
-		protected Vector2[] CreateCircle(double radius, int sides)
+		protected FPoint[] CreateCircle(double radius, int sides)
 		{
 			const double max = 2.0 * Math.PI;
-			var points = new Vector2[sides];
+			var points = new FPoint[sides];
 			var step = max / sides;
 			var theta = 0.0;
 
 			for (var i = 0; i < sides; i++)
 			{
-				points[i] = new Vector2((float)(radius * Math.Cos(theta)), (float)(radius * Math.Sin(theta)));
+				points[i] = new FPoint((float)(radius * Math.Cos(theta)), (float)(radius * Math.Sin(theta)));
 				theta += step;
 			}
 
 			return points;
 		}
 
-		protected Vector2[] CreateCirclePiece(double radius, float aMin, float aMax, int sides)
+		protected FPoint[] CreateCirclePiece(double radius, float aMin, float aMax, int sides)
 		{
-			var points = new Vector2[sides+1];
+			var points = new FPoint[sides+1];
 			var step = (aMax - aMin) / sides;
 			var theta = aMin;
 
 			for (var i = 0; i <= sides; i++)
 			{
-				points[i] = new Vector2((float)(radius * Math.Cos(theta)), (float)(radius * Math.Sin(theta)));
+				points[i] = new FPoint((float)(radius * Math.Cos(theta)), (float)(radius * Math.Sin(theta)));
 				theta += step;
 			}
 
 			return points;
 		}
 
-		protected Vector2[] CreateEllipse(float width, float height, int sides)
+		protected FPoint[] CreateEllipse(float width, float height, int sides)
 		{
 			const double max = 2.0 * Math.PI;
-			var points = new Vector2[sides];
+			var points = new FPoint[sides];
 			var step = max / sides;
 			var theta = 0.0;
 
 			for (var i = 0; i < sides; i++)
 			{
-				points[i] = new Vector2((float)(width * Math.Cos(theta) / 2), (float)(height * Math.Sin(theta) / 2));
+				points[i] = new FPoint((float)(width * Math.Cos(theta) / 2), (float)(height * Math.Sin(theta) / 2));
 				theta += step;
 			}
 
@@ -208,25 +208,25 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			DrawCircle(circle.Center, circle.Radius, sides, color, thickness);
 		}
 
-		public void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color)
+		public void DrawString(SpriteFont spriteFont, string text, FPoint position, Color color)
 		{
 #if DEBUG
 			IncRenderTextCount(text.Length);
 #endif
 
-			internalBatch.DrawString(spriteFont, text, position, color);
+			internalBatch.DrawString(spriteFont, text, position.ToVec2D(), color);
 		}
 
-		public void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
+		public void DrawString(SpriteFont spriteFont, string text, FPoint position, Color color, float rotation, FPoint origin, float scale, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
 			IncRenderTextCount(text.Length);
 #endif
 
-			internalBatch.DrawString(spriteFont, text, position, color, rotation, origin, scale, effects, layerDepth);
+			internalBatch.DrawString(spriteFont, text, position.ToVec2D(), color, rotation, origin.ToVec2D(), scale, effects, layerDepth);
 		}
 		
-		public void DrawPolygon(Vector2 offset, Vector2[] points, Color color, bool closed, float thickness)
+		public void DrawPolygon(FPoint offset, FPoint[] points, Color color, bool closed, float thickness)
 		{
 			if (points.Length == 0)
 				return;
@@ -240,24 +240,24 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			var texture = StaticTextures.SinglePixel;
 
 			for (var i = 0; i < points.Length - 1; i++)
-				DrawPolygonEdge(texture, points[i] + offset, points[i + 1] + offset, color, thickness);
+				DrawPolygonEdge(texture, points[i].WithOrigin(offset), points[i + 1].WithOrigin(offset), color, thickness);
 
-			if (closed) DrawPolygonEdge(texture, points[points.Length - 1] + offset, points[0] + offset, color, thickness);
+			if (closed) DrawPolygonEdge(texture, points[points.Length - 1].WithOrigin(offset), points[0].WithOrigin(offset), color, thickness);
 		}
 
-		private void DrawPolygonEdge(TextureRegion2D texture, Vector2 point1, Vector2 point2, Color color, float thickness)
+		private void DrawPolygonEdge(TextureRegion2D texture, FPoint point1, FPoint point2, Color color, float thickness)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
 #endif
 
-			var length = Vector2.Distance(point1, point2);
+			var length = FPoint.Distance(point1, point2);
 			var angle = FloatMath.Atan2(point2.Y - point1.Y, point2.X - point1.X);
 			var scale = new Vector2(length, thickness);
 
 			internalBatch.Draw(
 				texture: texture.Texture,
-				position: point1, 
+				position: point1.ToVec2D(), 
 				sourceRectangle: texture.Bounds, 
 				color: color, 
 				rotation: angle, 
@@ -269,7 +269,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			FillRectangle(rectangle.Location, rectangle.Size, color);
 		}
 
-		public void FillRectangle(Vector2 location, Vector2 size, Color color)
+		public void FillRectangle(FPoint location, FSize size, Color color)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -277,17 +277,17 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			internalBatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				location,
+				location.ToVec2D(),
 				StaticTextures.SinglePixel.Bounds,
 				color,
 				0,
 				Vector2.Zero,
-				size,
+				size.ToVec2D(),
 				SpriteEffects.None,
 				0);
 		}
 
-		public void FillRectangleRot(Vector2 center, Vector2 size, Color color, float rotation)
+		public void FillRectangleRot(FPoint center, FSize size, Color color, float rotation)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -295,12 +295,12 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			internalBatch.Draw(
 				StaticTextures.SinglePixel.Texture,
-				center,
+				center.ToVec2D(),
 				StaticTextures.SinglePixel.Bounds,
 				color,
 				rotation,
-				StaticTextures.SinglePixel.Center(),
-				size,
+				StaticTextures.SinglePixel.VecCenter(),
+				size.ToVec2D(),
 				SpriteEffects.None,
 				0);
 		}
@@ -328,11 +328,10 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		{
 			var center = rectangle.Center;
 
-			var pixel = StaticTextures.SinglePixel;
-			var tl = rectangle.VectorTopLeft.RotateAround(center, rotation);
-			var tr = rectangle.VectorTopRight.RotateAround(center, rotation);
-			var bl = rectangle.VectorBottomLeft.RotateAround(center, rotation);
-			var br = rectangle.VectorBottomRight.RotateAround(center, rotation);
+			var tl = rectangle.TopLeft.RotateAround(center, rotation);
+			var tr = rectangle.TopRight.RotateAround(center, rotation);
+			var bl = rectangle.BottomLeft.RotateAround(center, rotation);
+			var br = rectangle.BottomRight.RotateAround(center, rotation);
 
 			DrawLine(tl, tr, color, thickness);
 			DrawLine(tr, br, color, thickness);
@@ -340,25 +339,25 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			DrawLine(bl, tl, color, thickness);
 		}
 
-		public void DrawRectangle(Vector2 location, Vector2 size, Color color, float thickness = 1f)
+		public void DrawRectangle(FPoint location, FSize size, Color color, float thickness = 1f)
 		{
-			DrawRectangle(new FRectangle(location.X, location.Y, size.X, size.Y), color, thickness);
+			DrawRectangle(new FRectangle(location, size), color, thickness);
 		}
 
 		public void DrawLine(float x1, float y1, float x2, float y2, Color color, float thickness = 1f)
 		{
-			DrawLine(new Vector2(x1, y1), new Vector2(x2, y2), color, thickness);
+			DrawLine(new FPoint(x1, y1), new FPoint(x2, y2), color, thickness);
 		}
 
-		public void DrawLine(Vector2 point1, Vector2 point2, Color color, float thickness = 1f)
+		public void DrawLine(FPoint point1, FPoint point2, Color color, float thickness = 1f)
 		{
-			var distance = Vector2.Distance(point1, point2);
+			var distance = FPoint.Distance(point1, point2);
 			var angle = FloatMath.Atan2(point2.Y - point1.Y, point2.X - point1.X);
 
 			DrawLine(point1, distance, angle, color, thickness);
 		}
 
-		public void DrawLine(Vector2 point, float length, float angle, Color color, float thickness = 1f)
+		public void DrawLine(FPoint point, float length, float angle, Color color, float thickness = 1f)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -366,10 +365,10 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			var origin = new Vector2(0f, 0.5f);
 			var scale = new Vector2(length, thickness);
-			internalBatch.Draw(StaticTextures.SinglePixel.Texture, point, StaticTextures.SinglePixel.Bounds, color, angle, origin, scale, SpriteEffects.None, 0);
+			internalBatch.Draw(StaticTextures.SinglePixel.Texture, point.ToVec2D(), StaticTextures.SinglePixel.Bounds, color, angle, origin, scale, SpriteEffects.None, 0);
 		}
 		
-		public void DrawPoint(Vector2 position, Color color, float size = 1f)
+		public void DrawPoint(FPoint position, Color color, float size = 1f)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -377,31 +376,31 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			var scale = Vector2.One * size;
 			var offset = new Vector2(0.5f) - new Vector2(size * 0.5f);
-			internalBatch.Draw(StaticTextures.SinglePixel.Texture, position + offset, sourceRectangle: StaticTextures.SinglePixel.Bounds, color: color, scale: scale);
+			internalBatch.Draw(StaticTextures.SinglePixel.Texture, (position + offset).ToVec2D(), sourceRectangle: StaticTextures.SinglePixel.Bounds, color: color, scale: scale);
 		}
 
-		public void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1f)
+		public void DrawCircle(FPoint center, float radius, int sides, Color color, float thickness = 1f)
 		{
 			DrawPolygon(center, CreateCircle(radius, sides), color, true, thickness);
 		}
 
-		public void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f)
+		public void DrawCirclePiece(FPoint center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f)
 		{
-			Vector2[] poly = CreateCirclePiece(radius, angleMin, angleMax, sides);
+			FPoint[] poly = CreateCirclePiece(radius, angleMin, angleMax, sides);
 
 			DrawPolygon(center, poly, color, false, thickness);
 		}
 
-		public void DrawPiePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f)
+		public void DrawPiePiece(FPoint center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f)
 		{
-			Vector2[] poly = CreateCirclePiece(radius, angleMin, angleMax, sides);
+			FPoint[] poly = CreateCirclePiece(radius, angleMin, angleMax, sides);
 
 			DrawPolygon(center, poly, color, false, thickness);
-			DrawLine(center, center + poly.First(), color, thickness);
-			DrawLine(center, center + poly.Last(), color, thickness);
+			DrawLine(center, poly.First().WithOrigin(center), color, thickness);
+			DrawLine(center, poly.Last().WithOrigin(center), color, thickness);
 		}
 
-		public void DrawPath(Vector2 pos, VectorPath path, int segments, Color color, float thickness = 1)
+		public void DrawPath(FPoint pos, VectorPath path, int segments, Color color, float thickness = 1)
 		{
 			foreach (var segment in path.Segments)
 			{
@@ -416,12 +415,12 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			}
 		}
 
-		public void DrawPathSegment(Vector2 pos, VectorPathSegment path, int segments, Color color, float thickness = 1)
+		public void DrawPathSegment(FPoint pos, VectorPathSegment path, int segments, Color color, float thickness = 1)
 		{
-			var last = pos + path.Get(0);
+			var last = path.Get(0).WithOrigin(pos);
 			for (int i = 1; i <= segments; i++)
 			{
-				var next = pos + path.Get((path.Length * i) / segments);
+				var next = path.Get((path.Length * i) / segments).WithOrigin(pos);
 
 				DrawPolygonEdge(StaticTextures.SinglePixel, last, next, color, thickness);
 
@@ -429,7 +428,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			}
 		}
 
-		public void FillCircle(Vector2 center, float radius, int sides, Color color)
+		public void FillCircle(FPoint center, float radius, int sides, Color color)
 		{
 #if DEBUG
 			IncRenderSpriteCount(sides);
@@ -469,17 +468,17 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			internalBatch.Draw(
 				textureRegion.Texture, 
-				destinationRectangle.Center, 
+				destinationRectangle.VecCenter, 
 				textureRegion.Bounds, 
 				color,
 				rotation, 
-				textureRegion.Center(), 
+				textureRegion.VecCenter(), 
 				new Vector2(destinationRectangle.Width / textureRegion.Width, destinationRectangle.Height / textureRegion.Height), 
 				SpriteEffects.None,
 				layerDepth);
 		}
 
-		public void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float width, float height, Color color, float rotation = 0f, float layerDepth = 0f)
+		public void DrawCentered(TextureRegion2D texture, FPoint centerTarget, float width, float height, Color color, float rotation = 0f, float layerDepth = 0f)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -489,17 +488,17 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			internalBatch.Draw(
 				texture.Texture,
-				centerTarget,
+				centerTarget.ToVec2D(),
 				texture.Bounds,
 				color,
 				rotation,
-				texture.Center(),
+				texture.VecCenter(),
 				scale,
 				SpriteEffects.None,
 				layerDepth);
 		}
 
-		public void DrawScaled(TextureRegion2D texture, Vector2 centerTarget, float scale, Color color, float rotation = 0, float layerDepth = 0)
+		public void DrawScaled(TextureRegion2D texture, FPoint centerTarget, float scale, Color color, float rotation = 0, float layerDepth = 0)
 		{
 #if DEBUG
 			IncRenderSpriteCount();
@@ -507,11 +506,11 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			internalBatch.Draw(
 				texture.Texture,
-				centerTarget,
+				centerTarget.ToVec2D(),
 				texture.Bounds,
 				color,
 				rotation,
-				texture.Center(),
+				texture.VecCenter(),
 				TexScale * scale,
 				SpriteEffects.None,
 				0);

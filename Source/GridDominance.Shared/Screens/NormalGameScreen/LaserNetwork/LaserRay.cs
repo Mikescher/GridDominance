@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
-using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
@@ -9,8 +9,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 	
 	public sealed class LaserRay
 	{
-		public Vector2 Start;
-		public Vector2 End;
+		public FPoint Start;
+		public FPoint End;
 
 		public LaserRayTerminator Terminator;
 
@@ -26,7 +26,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 		public float Length => (End - Start).Length();
 
-		public LaserRay(Vector2 s, Vector2 e, LaserRay src, LaserRayTerminator t, int d, bool g, object ign, float sd, Cannon tc, Tuple<LaserRay, LaserSource> tr)
+		public LaserRay(FPoint s, FPoint e, LaserRay src, LaserRayTerminator t, int d, bool g, object ign, float sd, Cannon tc, Tuple<LaserRay, LaserSource> tr)
 		{
 			Depth = d;
 			InGlass = g;
@@ -40,7 +40,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			SourceDistance = sd;
 		}
 
-		public void SetLaserIntersect(Vector2 e, LaserRay otherRay, LaserSource otherSource, LaserRayTerminator t)
+		public void SetLaserIntersect(FPoint e, LaserRay otherRay, LaserSource otherSource, LaserRayTerminator t)
 		{
 			End = e;
 			Terminator = t;

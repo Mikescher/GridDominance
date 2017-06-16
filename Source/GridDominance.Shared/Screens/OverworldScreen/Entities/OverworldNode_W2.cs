@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using GridDominance.Levelfileformat.Blueprint;
 using System;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -16,7 +17,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 	{
 		private const string IAB_CODE = MainGame.IAB_WORLD2;
 
-		public OverworldNode_W2(GDOverworldScreen scrn, Vector2 pos) : base(scrn, pos, Levels.WORLD_002)
+		public OverworldNode_W2(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, Levels.WORLD_002)
 		{
 			//
 		}

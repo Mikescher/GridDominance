@@ -57,19 +57,19 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
-		public static FRectangle CreateByCenter(Vector2 origin, float cx, float cy, float width, float height)
+		public static FRectangle CreateByCenter(FPoint origin, float cx, float cy, float width, float height)
 		{
 			return new FRectangle(origin.X + cx - width/2, origin.Y + cy - height/2, width, height);
 		}
 
 		[Pure]
-		public static FRectangle CreateByCenter(Vector2 pos, FSize size)
+		public static FRectangle CreateByCenter(FPoint pos, FSize size)
 		{
 			return new FRectangle(pos.X - size.Width / 2, pos.Y - size.Height / 2, size.Width, size.Height);
 		}
 
 		[Pure]
-		public static FRectangle CreateByCenter(Vector2 pos, float w, float h)
+		public static FRectangle CreateByCenter(FPoint pos, float w, float h)
 		{
 			return new FRectangle(pos.X - w / 2, pos.Y - h / 2, w, h);
 		}
@@ -158,7 +158,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		// http://stackoverflow.com/a/306332/1761622
 		[Pure]
-		internal bool Contains(Vector2 center, FSize size)
+		internal bool Contains(FPoint center, FSize size)
 		{
 			return
 				X <= (center.X + size.Width  / 2) &&
@@ -446,7 +446,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		[Pure]
 		public FRectangle AsRotateCenterAround(FPoint center, float rot)
 		{
-			return CreateByCenter(VecCenter.RotateAround(center, rot), Width, Height);
+			return CreateByCenter(Center.RotateAround(center, rot), Width, Height);
 		}
 
 		public float Left => X;
@@ -611,6 +611,14 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			}
 			
 			return new FRectangle(_x, _y, _w, _h);
+		}
+
+		[Pure]
+		public FRectangle AsRelativeTo(FPoint origin)
+		{
+			if (origin.IsOrigin()) return this;
+
+			return new FRectangle(X - origin.X, Y - origin.Y, Width, Height);
 		}
 	}
 }

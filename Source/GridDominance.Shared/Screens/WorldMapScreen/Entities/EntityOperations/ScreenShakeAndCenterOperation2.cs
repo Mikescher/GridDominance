@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities.Operation;
@@ -11,14 +12,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 	{
 		public const float SHAKE_OFFSET = 16f;
 
-		private readonly Vector2 centeringStartOffset;
+		private readonly FPoint centeringStartOffset;
 		private readonly float rot;
 		private readonly GDWorldMapScreen _screen;
 
 		public ScreenShakeAndCenterOperation2(WarpNode node, GDWorldMapScreen screen) : base("WarpNode::CenterShake", LevelNode.SHAKE_TIME)
 		{
 			_screen = screen;
-			centeringStartOffset = new Vector2(screen.MapViewportCenterX, screen.MapViewportCenterY);
+			centeringStartOffset = screen.MapViewportCenter;
 
 			if ((centeringStartOffset - node.Position).LengthSquared() < 0.1f)
 				rot = FloatMath.RAD_POS_000;

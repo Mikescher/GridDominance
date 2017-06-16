@@ -9,9 +9,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 	public class AnimatedPathCPUParticleEmitter : CPUParticleEmitter
 	{
 		private readonly VectorPath vectorPath;
-		private readonly Vector2 vectorPathCenter;
+		private readonly FPoint vectorPathCenter;
 
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 
 		private FSize _boundingbox;
 		public override FSize DrawingBoundingBox => _boundingbox;
@@ -19,7 +19,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 		private readonly float animationLength;
 		private readonly float animationInitialDelay;
 
-		public AnimatedPathCPUParticleEmitter(GameScreen scrn, Vector2 pos, VectorPath path, ParticleEmitterConfig cfg, float delay, float length, int order) : base(scrn, cfg, order)
+		public AnimatedPathCPUParticleEmitter(GameScreen scrn, FPoint pos, VectorPath path, ParticleEmitterConfig cfg, float delay, float length, int order) : base(scrn, cfg, order)
 		{
 			vectorPath = path;
 			vectorPathCenter = path.Boundings.Center;
@@ -30,7 +30,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 			animationInitialDelay = delay;
 		}
 
-		protected override void SetParticleSpawnPosition(ref Vector2 vec, out bool doSpawn)
+		protected override FPoint SetParticleSpawnPosition(out bool doSpawn)
 		{
 			var len = FloatMath.GetRangedRandom(0, vectorPath.Length);
 
@@ -38,10 +38,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 			
 			var pos = vectorPath.Get(len);
 
-			vec.X = Position.X + (pos.X - vectorPathCenter.X);
-			vec.Y = Position.Y + (pos.Y - vectorPathCenter.Y);
-
 			doSpawn = (mintime < internalTime);
+			return Position + (pos - vectorPathCenter);
 		}
 
 		protected override void RecalculateState()
@@ -56,10 +54,10 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 		{
 			base.DrawDebugBorders(sbatch);
 
-			sbatch.DrawRectangle(Position - new FSize(8, 8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
+			sbatch.DrawRectangle(Position - new Vector2(8, 8) * 0.5f, new FSize(8, 8), Color.LightGreen, 1);
 			sbatch.DrawRectangle(vectorPath.Boundings.AsTranslated(Position - vectorPathCenter), Color.LightBlue, 1);
 
-			sbatch.DrawPath(Position - vectorPathCenter, vectorPath, 48, Color.LightGreen, 1);
+			sbatch.DrawPath(Position.RelativeTo(vectorPathCenter), vectorPath, 48, Color.LightGreen, 1);
 
 		}
 	}

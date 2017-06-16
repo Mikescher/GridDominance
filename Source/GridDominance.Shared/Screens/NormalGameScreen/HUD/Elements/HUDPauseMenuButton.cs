@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -115,7 +116,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				var posX = baseButton.RelativeCenter.X + relSpawnpos.X;
 				var posY = baseButton.RelativeCenter.Y + relSpawnpos.Y + FloatMath.Min(stepProgress * (btnCount - 1) * (HEIGHT + GAP), btnIndex * (HEIGHT + GAP));
 
-				RelativeCenter = new Vector2(posX, posY);
+				RelativeCenter = new FPoint(posX, posY);
 
 				Size = new FSize(width, HEIGHT);
 			}
@@ -161,15 +162,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, IsPressed ? FlatColors.Concrete : FlatColors.Silver, ROUNDNESS);
 
-			var fontBounds = Textures.HUDFontBold.MeasureString(btnText);
+			var fontBounds = Textures.HUDFontBold.MeasureString(btnText).ToFSize();
 
 			sbatch.DrawString(
 				Textures.HUDFontBold, 
 				btnText, 
-				Center + new Vector2(-width/2f + 12 + fontScaleFactor * fontBounds.X/2f, 0f)*scale, 
+				Center + new Vector2(-width/2f + 12 + fontScaleFactor * fontBounds.Width/2f, 0f)*scale, 
 				FlatColors.Foreground, 
 				0f,
-				fontBounds/2f,
+				fontBounds.Center,
 				scale * fontScaleFactor, 
 				SpriteEffects.None, 0f);
 		}

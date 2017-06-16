@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
 	public static class DebugRenderHelper
 	{
-		public static void DrawCrossedCircle(IBatchRenderer sbatch, Color color, Vector2 pos, float radius, float thickness = 1)
+		public static void DrawCrossedCircle(IBatchRenderer sbatch, Color color, FPoint pos, float radius, float thickness = 1)
 		{
 			sbatch.DrawCircle(pos, radius, 32, color, thickness);
 
@@ -16,7 +17,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			sbatch.DrawLine(pos.X - offset, pos.Y + offset, pos.X + offset, pos.Y - offset, color, thickness);
 		}
 
-		public static void DrawHalfCrossedCircle(IBatchRenderer sbatch, Color color, Vector2 pos, float radius, float thickness = 1)
+		public static void DrawHalfCrossedCircle(IBatchRenderer sbatch, Color color, FPoint pos, float radius, float thickness = 1)
 		{
 			sbatch.DrawCircle(pos, radius, 32, color, thickness);
 

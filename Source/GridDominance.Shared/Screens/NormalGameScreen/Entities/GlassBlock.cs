@@ -23,7 +23,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private const float MARKER_WIDTH = 0.001f;
 		public const float REFRACTION_INDEX = GlassBlockBlueprint.REFRACTION_INDEX;
 
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
@@ -42,7 +42,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			Blueprint = blueprint;
 
-			var pos = new Vector2(blueprint.X, blueprint.Y);
+			var pos = new FPoint(blueprint.X, blueprint.Y);
 
 			_width = blueprint.Width;
 			_height = blueprint.Height;
@@ -63,7 +63,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			var w = ConvertUnits.ToSimUnits(_width);
 			var h = ConvertUnits.ToSimUnits(_height);
-			var p = ConvertUnits.ToSimUnits(Position);
+			var p = ConvertUnits2.ToSimUnits(Position);
 
 			PhysicsBody = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, this);
 			PhysicsFixture = FixtureFactory.AttachRectangle(w, h, 1, Vector2.Zero, PhysicsBody, this);

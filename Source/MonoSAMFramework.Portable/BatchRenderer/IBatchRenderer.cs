@@ -16,26 +16,26 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void End();
 
 		void DrawStretched(TextureRegion2D textureRegion, FRectangle destinationRectangle, Color color, float rotation = 0f, float layerDepth = 0f);
-		void DrawCentered(TextureRegion2D texture, Vector2 centerTarget, float width, float height, Color color, float rotation = 0f, float layerDepth = 0f);
-		void DrawScaled(TextureRegion2D texture, Vector2 centerTarget, float scale, Color color, float rotation = 0f, float layerDepth = 0f);
+		void DrawCentered(TextureRegion2D texture, FPoint centerTarget, float width, float height, Color color, float rotation = 0f, float layerDepth = 0f);
+		void DrawScaled(TextureRegion2D texture, FPoint centerTarget, float scale, Color color, float rotation = 0f, float layerDepth = 0f);
 
-		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color);
-		void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
+		void DrawString(SpriteFont spriteFont, string text, FPoint position, Color color);
+		void DrawString(SpriteFont spriteFont, string text, FPoint position, Color color, float rotation, FPoint origin, float scale, SpriteEffects effects, float layerDepth);
 
 		void FillRectangle(FRectangle rectangle, Color color);
-		void FillRectangle(Vector2 location, Vector2 size, Color color);
-		void FillRectangleRot(Vector2 center, Vector2 size, Color color, float rotation);
-		void DrawRectangle(Vector2 location, Vector2 size, Color color, float thickness = 1f);
+		void FillRectangle(FPoint location, FSize size, Color color);
+		void FillRectangleRot(FPoint center, FSize size, Color color, float rotation);
+		void DrawRectangle(FPoint location, FSize size, Color color, float thickness = 1f);
 		void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f);
 		void DrawRectangleRot(FRectangle rectangle, Color color, float rotation, float thickness = 1f);
 		void DrawLine(float x1, float y1, float x2, float y2, Color color, float thickness = 1f);
-		void DrawLine(Vector2 point1, Vector2 point2, Color color, float thickness = 1f);
-		void FillCircle(Vector2 center, float radius, int sides, Color color);
-		void DrawCircle(Vector2 center, float radius, int sides, Color color, float thickness = 1f);
+		void DrawLine(FPoint point1, FPoint point2, Color color, float thickness = 1f);
+		void FillCircle(FPoint center, float radius, int sides, Color color);
+		void DrawCircle(FPoint center, float radius, int sides, Color color, float thickness = 1f);
 		void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f);
-		void DrawCirclePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);
-		void DrawPiePiece(Vector2 center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);
-		void DrawPath(Vector2 posVector2, VectorPath path, int segments, Color color, float thickness = 1f);
+		void DrawCirclePiece(FPoint center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);
+		void DrawPiePiece(FPoint center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);
+		void DrawPath(FPoint posVector2, VectorPath path, int segments, Color color, float thickness = 1f);
 		void DrawShape(IFShape shape, Color color, float thickness = 1f);
 
 		void DrawRot000(TextureRegion2D texture, FRectangle destinationRectangle, Color color, float layerDepth);

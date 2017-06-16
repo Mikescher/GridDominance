@@ -2,6 +2,7 @@
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Persistance;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles
@@ -123,7 +124,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 		public readonly TextureRegion2D Texture;
 		public readonly Rectangle TextureBounds;
-		public readonly Vector2 TextureCenter;
+		public readonly FPoint TextureCenter;
 		public readonly float TextureSize;
 
 		public readonly float SpawnRate;

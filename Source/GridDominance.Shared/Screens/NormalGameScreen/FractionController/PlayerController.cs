@@ -4,9 +4,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 {
@@ -53,7 +51,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			}
 			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.GamePointerPosition))
 			{
-				dragOrigin = Cannon.Position.ToFPoint();
+				dragOrigin = Cannon.Position;
 				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.GamePointerPosition.Y - Cannon.Position.Y, istate.GamePointerPosition.X - Cannon.Position.X));
 
 				var dist = (istate.GamePointerPosition - Cannon.Position).Length();

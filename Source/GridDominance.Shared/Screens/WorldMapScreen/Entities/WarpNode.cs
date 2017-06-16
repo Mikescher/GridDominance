@@ -31,7 +31,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private GDWorldMapScreen GDOwner => (GDWorldMapScreen) Owner;
 
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.DarkOrange;
 		IEnumerable<IWorldNode> IWorldNode.NextLinkedNodes => Enumerable.Empty<IWorldNode>();
@@ -49,7 +49,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public WarpNode(GDWorldMapScreen scrn, WarpNodeBlueprint bp) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
-			Position = new Vector2(bp.X, bp.Y);
+			Position = new FPoint(bp.X, bp.Y);
 			DrawingBoundingBox = new FSize(DIAMETER, DIAMETER);
 			Blueprint = bp;
 			Target = Levels.WORLDS[bp.TargetWorld];

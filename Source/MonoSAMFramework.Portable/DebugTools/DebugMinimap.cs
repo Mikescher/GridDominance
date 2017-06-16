@@ -32,7 +32,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			var posView = (Owner.GuaranteedMapViewport.VectorTopLeft - rectBoundings.VectorTopLeft) * scale;
 			var posView2 = (Owner.CompleteMapViewport.VectorTopLeft - rectBoundings.VectorTopLeft) * scale;
 
-			var offset = new Vector2(Owner.VAdapterHUD.VirtualTotalWidth - Padding - sizeOuter.Width, Padding) - Owner.VAdapterHUD.VirtualGuaranteedBoundingsOffset;
+			var offset = new FPoint(Owner.VAdapterHUD.VirtualTotalWidth - Padding - sizeOuter.Width, Padding) - Owner.VAdapterHUD.VirtualGuaranteedBoundingsOffset;
 			var offsetZero = offset - rectBoundings.VectorTopLeft * scale;
 
 			sbatch.FillRectangle(offset, sizeOuter, Color.Red * 0.25f);
@@ -54,11 +54,11 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 				if (entity.IsInViewport)
 				{
-					if (entity.DebugIdentColor.A > 0) sbatch.FillCircle(offsetZero + entity.Position * scale, radius, 8, entity.DebugIdentColor * 0.85f);
+					if (entity.DebugIdentColor.A > 0) sbatch.FillCircle(offsetZero + entity.Position.ToVec2D() * scale, radius, 8, entity.DebugIdentColor * 0.85f);
 				}
 				else
 				{
-					if (entity.DebugIdentColor.A > 0) sbatch.FillCircle(offsetZero + entity.Position * scale, radius, 8, entity.DebugIdentColor * 0.25f);
+					if (entity.DebugIdentColor.A > 0) sbatch.FillCircle(offsetZero + entity.Position.ToVec2D() * scale, radius, 8, entity.DebugIdentColor * 0.25f);
 				}
 			}
 		}

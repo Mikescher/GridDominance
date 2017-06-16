@@ -21,7 +21,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		private bool isDragging = false;
 
 		private FPoint mouseStartPos;
-		private Vector2 startOffset;
+		private FPoint startOffset;
 
 		private FPoint lastMousePos;
 		private float lastMousePosTime;

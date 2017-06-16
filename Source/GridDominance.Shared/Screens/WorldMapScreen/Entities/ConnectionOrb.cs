@@ -24,8 +24,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private readonly LevelNodePipe _pipe;
 		private readonly FractionDifficulty _diff;
 
-		private Vector2 _pos;
-		public override Vector2 Position => _pos;
+		private FPoint _pos;
+		public override FPoint Position => _pos;
 
 		private float _spawnPercentage = 0f;
 		private float _movementTime = 0f;

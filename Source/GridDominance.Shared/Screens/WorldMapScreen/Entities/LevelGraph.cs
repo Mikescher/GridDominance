@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				if (Levels.LEVELS.TryGetValue(bpNode.LevelID, out f))
 				{
 					var data = MainGame.Inst.Profile.GetLevelData(f.UniqueID);
-					var pos = new Vector2(bpNode.X, bpNode.Y);
+					var pos = new FPoint(bpNode.X, bpNode.Y);
 
 					var node = new LevelNode(screen, pos, f, data);
 

@@ -63,7 +63,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		[Pure]
 		public bool Contains(FPoint p)
 		{
-			var rp = p.AsRotatedAround(Center, -Rotation);
+			var rp = p.RotateAround(Center, -Rotation);
 			
 			return
 				rp.X >= CenterX - Width/2f  &&
@@ -106,7 +106,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		[Pure]
 		public bool Contains(FPoint p, float delta)
 		{
-			var rp = p.AsRotatedAround(Center, -Rotation);
+			var rp = p.RotateAround(Center, -Rotation);
 
 			return
 				rp.X >= CenterX - Width/2f  - delta &&

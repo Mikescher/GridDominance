@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities.Operation;
@@ -11,7 +12,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 		public const float SHAKE_TIME = 0.55f;
 		public const float SHAKE_OFFSET = 16f;
 
-		private Vector2 realPos;
+		private FPoint realPos;
 
 		public ShakeNodeOperation() : base("OverworldNode::Shake", SHAKE_TIME)
 		{

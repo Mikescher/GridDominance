@@ -29,7 +29,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private GDWorldMapScreen GDOwner => (GDWorldMapScreen) Owner;
 
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.SandyBrown;
 		IEnumerable<IWorldNode> IWorldNode.NextLinkedNodes => NextLinkedNodes;
@@ -48,7 +48,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		
 		public RootNode(GDWorldMapScreen scrn, RootNodeBlueprint bp) : base(scrn, GDConstants.ORDER_MAP_NODE)
 		{
-			Position = new Vector2(bp.X, bp.Y);
+			Position = new FPoint(bp.X, bp.Y);
 			DrawingBoundingBox = new FSize(DIAMETER, DIAMETER);
 			Blueprint = bp;
 

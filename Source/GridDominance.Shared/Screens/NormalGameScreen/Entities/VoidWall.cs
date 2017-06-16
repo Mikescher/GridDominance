@@ -3,6 +3,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -21,7 +22,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public const float WIDTH      = VoidWallBlueprint.DEFAULT_WIDTH;
 		public const float MARGIN_TEX = 8f;
 
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
@@ -35,7 +36,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		
 		public VoidWall(GDGameScreen scrn, VoidWallBlueprint blueprint) : base(scrn, GDConstants.ORDER_GAME_WALL)
 		{
-			var pos   = new Vector2(blueprint.X, blueprint.Y);
+			var pos   = new FPoint(blueprint.X, blueprint.Y);
 
 			_rotation = FloatMath.DegreesToRadians * blueprint.Rotation;
 			_length = blueprint.Length;
@@ -44,20 +45,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			Position = pos;
 
-			DrawingBoundingBox = new Vector2(_length, 0).Rotate(_rotation).ToAbsSize().AtLeast(WIDTH, WIDTH);
+			DrawingBoundingBox = new Vector2(_length, 0).Rotate(_rotation).ToAbsFSize().AtLeast(WIDTH, WIDTH);
 
 			this.GDOwner().GDBackground.RegisterBlockedLine(pos - Vector2.UnitX.RotateWithLength(_rotation, _length/2f), pos + Vector2.UnitX.RotateWithLength(_rotation, _length / 2f));
 		}
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static);
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits2.ToSimUnits(Position), 0, BodyType.Static);
 			PhysicsFixture = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(_length), ConvertUnits.ToSimUnits(WIDTH), 1, Vector2.Zero, PhysicsBody, this);
 
 			PhysicsBody.Rotation = _rotation;
 		}
 
-		private FRectangle[] CreateRenderRects(Vector2 pos, float len, int pc)
+		private FRectangle[] CreateRenderRects(FPoint pos, float len, int pc)
 		{
 			if (pc <= 2)
 			{

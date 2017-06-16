@@ -1,15 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using GridDominance.Shared.Resources;
-using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
-using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.DebugTools;
-using GridDominance.Shared.Screens.WorldMapScreen.Agents;
+﻿using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.ColorHelper;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -17,7 +10,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 	{
 		public int ForceClickCounter = 0;
 
-		public OverworldNode_W1(GDOverworldScreen scrn, Vector2 pos) : base(scrn, pos, Levels.WORLD_001)
+		public OverworldNode_W1(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, Levels.WORLD_001)
 		{
 			//
 		}

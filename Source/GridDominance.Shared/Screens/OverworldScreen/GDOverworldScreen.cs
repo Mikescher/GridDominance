@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GridDominance.Graphfileformat.Blueprint;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common.Agents;
 using GridDominance.Shared.Screens.OverworldScreen.Background;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
@@ -10,20 +6,14 @@ using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Persistance;
-using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
-using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using GridDominance.Shared.Screens.OverworldScreen.Agents;
@@ -66,10 +56,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 
 			OverworldNode[] nodes =
 			{
-				new OverworldNode_Tutorial(this, Vector2.Zero),
-				new OverworldNode_W1(this, Vector2.Zero),
-				new OverworldNode_W2(this, Vector2.Zero),
-				new OverworldNode_W3(this, Vector2.Zero),
+				new OverworldNode_Tutorial(this, FPoint.Zero),
+				new OverworldNode_W1(this, FPoint.Zero),
+				new OverworldNode_W2(this, FPoint.Zero),
+				new OverworldNode_W3(this, FPoint.Zero),
 			};
 
 			foreach (var node in nodes) Entities.AddEntity(node);
@@ -115,7 +105,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			if (!MainGame.Inst.Profile.EffectsEnabled)
 			{
 				var hh = 4.5f * GDConstants.TILE_WIDTH;
-				sbatch.DrawCentered(Textures.TexLogo, _banner.TargetRect.VecCenter, hh * Textures.TexLogo.Width / Textures.TexLogo.Height, hh, Color.White);
+				sbatch.DrawCentered(Textures.TexLogo, _banner.TargetRect.Center, hh * Textures.TexLogo.Width / Textures.TexLogo.Height, hh, Color.White);
 			}
 
 #if DEBUG

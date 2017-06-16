@@ -22,7 +22,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 
 		public IEnumerable<IGameEntityOperation> ActiveEntityOperations => ActiveOperations;
 
-		public abstract Vector2 Position { get; } // Center
+		public abstract FPoint Position { get; } // Center
 		public abstract FSize DrawingBoundingBox { get; }
 		public FRectangle DrawingBoundingRect => FRectangle.CreateByCenter(Position, DrawingBoundingBox);
 		public abstract Color DebugIdentColor { get; }
@@ -178,7 +178,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 
 		protected virtual void DrawDebugBorders(IBatchRenderer sbatch)
 		{
-			sbatch.DrawRectangle(Position - DrawingBoundingBox * 0.5f, DrawingBoundingBox, Color.LightGreen, 1);
+			sbatch.DrawRectangle(Position.AsTranslated(-DrawingBoundingBox.Width * 0.5f, -DrawingBoundingBox.Height * 0.5f), DrawingBoundingBox, Color.LightGreen, 1);
 		}
 
 		protected virtual void DrawDebugAreas(IBatchRenderer sbatch)

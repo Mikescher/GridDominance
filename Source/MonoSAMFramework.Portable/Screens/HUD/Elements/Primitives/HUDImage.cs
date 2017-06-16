@@ -65,8 +65,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 2f);
 
 			sbatch.DrawRectangle(imageBounds, Color.Magenta, 1f);
-			sbatch.DrawLine(imageBounds.VectorTopLeft, imageBounds.VectorBottomRight, Color.Magenta, 1f);
-			sbatch.DrawLine(imageBounds.VectorTopRight, imageBounds.VectorBottomLeft, Color.Magenta, 1f);
+			sbatch.DrawLine(imageBounds.TopLeft,  imageBounds.BottomRight, Color.Magenta, 1f);
+			sbatch.DrawLine(imageBounds.TopRight, imageBounds.BottomLeft,  Color.Magenta, 1f);
 		}
 
 		public FRectangle GetRealBounds()

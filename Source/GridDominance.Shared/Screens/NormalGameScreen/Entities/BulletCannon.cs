@@ -120,7 +120,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			MainGame.Inst.GDSound.PlayEffectShoot();
 		}
 
-		public Vector2 GetBulletSpawnPoint()
+		public FPoint GetBulletSpawnPoint()
 		{
 			return Position + new Vector2(Scale * (CANNON_DIAMETER / 2 + Bullet.BULLET_DIAMETER * 0.66f), 0).Rotate(Rotation.ActualValue);
 		}

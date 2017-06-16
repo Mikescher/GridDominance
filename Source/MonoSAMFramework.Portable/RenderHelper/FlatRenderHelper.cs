@@ -118,7 +118,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			// BL
 			sbatch.DrawRot270(StaticTextures.PanelBlurCorner, r_bl, alphaWhite, 0);
 
-			sbatch.FillRectangle(r_tl.VectorBottomRight, new Vector2(bounds.Width - 2 * cornerSize, bounds.Height - 2 * cornerSize), alphaBlack);
+			sbatch.FillRectangle(r_tl.BottomRight, new FSize(bounds.Width - 2 * cornerSize, bounds.Height - 2 * cornerSize), alphaBlack);
 		}
 
 		public static void DrawDropShadow(IBatchRenderer sbatch, FRectangle bounds, float sOutset, float sInset)
@@ -169,11 +169,6 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds.AsDeflated(borderWidth / 2f, borderWidth / 2f), cInner);
 			
 			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, borderWidth, cBorder);
-		}
-
-		public static void DrawRotatedRectangleInwards(IBatchRenderer sbatch, FRectangle bounds, Color col, float thickness, float rotation)
-		{
-			throw new System.NotImplementedException();
 		}
 	}
 }

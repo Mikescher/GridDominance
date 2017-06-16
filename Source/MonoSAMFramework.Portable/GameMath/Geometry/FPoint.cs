@@ -13,10 +13,10 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public static readonly FPoint Zero = new FPoint(0, 0);
 
 		[DataMember]
-		public readonly float X;
+		public float X;
 
 		[DataMember]
-		public readonly float Y;
+		public float Y;
 
 		public FPoint(float x, float y)
 		{
@@ -30,31 +30,35 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			Y = p.Y;
 		}
 
-		public static FPoint operator +(FPoint value1, FPoint value2)
-		{
-			return new FPoint(value1.X + value2.X, value1.Y + value2.Y);
-		}
+		public Vector2 ToVec2D() => new Vector2(X, Y);
+
+		public bool IsOrigin() => Math.Abs(X) < FloatMath.EPSILON || Math.Abs(Y) < FloatMath.EPSILON;
 
 		public static FPoint operator +(FPoint value1, Vector2 value2)
 		{
 			return new FPoint(value1.X + value2.X, value1.Y + value2.Y);
 		}
 
+		public static FPoint operator -(FPoint value1, Vector2 value2)
+		{
+			return new FPoint(value1.X - value2.X, value1.Y - value2.Y);
+		}
+
+		public static FPoint operator +(FPoint value1, FSize value2)
+		{
+			return new FPoint(value1.X + value2.Width, value1.Y + value2.Height);
+		}
+
+		public static FPoint operator -(FPoint value1, FSize value2)
+		{
+			return new FPoint(value1.X - value2.Width, value1.Y - value2.Height);
+		}
+
 		public static Vector2 operator -(FPoint value1, FPoint value2)
 		{
 			return new Vector2(value1.X - value2.X, value1.Y - value2.Y);
 		}
-		
-		public static FPoint operator *(FPoint value1, FPoint value2)
-		{
-			return new FPoint(value1.X * value2.X, value1.Y * value2.Y);
-		}
-		
-		public static FPoint operator /(FPoint source, FPoint divisor)
-		{
-			return new FPoint(source.X / divisor.X, source.Y / divisor.Y);
-		}
-		
+
 		public static bool operator ==(FPoint a, FPoint b)
 		{
 			return a.Equals(b);
@@ -84,12 +88,17 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			return obj is FPoint && Equals((FPoint)obj);
 		}
-		
+
 		public bool Equals(FPoint other)
 		{
 			return FloatMath.EpsilonEquals(X, other.X) && FloatMath.EpsilonEquals(Y, other.Y);
 		}
-		
+
+		public bool EpsilonEquals(FPoint other, float eps = FloatMath.EPSILON)
+		{
+			return FloatMath.Abs(X - other.X) <= eps && FloatMath.Abs(Y - other.Y) <= eps;
+		}
+
 		public override int GetHashCode()
 		{
 			return X.GetHashCode() ^ Y.GetHashCode();
@@ -102,15 +111,15 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public string DebugDisplayString => $"({X}|{Y})";
 
-		public static implicit operator FSize(FPoint point)
-		{
-			return new FSize(point.X, point.Y);
-		}
-
-		public static implicit operator Vector2(FPoint point)
-		{
-			return new Vector2(point.X, point.Y);
-		}
+		//public static implicit operator FSize(FPoint point)
+		//{
+		//	return new FSize(point.X, point.Y);
+		//}
+		//
+		//public static implicit operator Vector2(FPoint point)
+		//{
+		//	return new Vector2(point.X, point.Y);
+		//}
 
 		public float LengthSquared()
 		{
@@ -118,7 +127,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 		
 		[Pure]
-		public FPoint AsRotated(float radians)
+		public FPoint Rotate(float radians)
 		{
 			var cos = FloatMath.Cos(radians);
 			var sin = FloatMath.Sin(radians);
@@ -127,7 +136,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
-		public Vector2 AsRotatedAround(FPoint anchor, float radians)
+		public FPoint RotateAround(FPoint anchor, float radians)
 		{
 			var cos = FloatMath.Cos(radians);
 			var sin = FloatMath.Sin(radians);
@@ -151,6 +160,89 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			float u = ((X - x1) * (x2 - x1) + (Y - y1) * (y2 - y1)) / ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 
 			return u;
+		}
+
+		/// <summary>
+		///https://stackoverflow.com/a/6177788/1761622
+		/// </summary>
+		[Pure]
+		public float ProjectOntoLine(FPoint lineStart, Vector2 lineVec)
+		{
+
+			float x1 = lineStart.X;
+			float y1 = lineStart.Y;
+
+			float x2 = lineStart.X + lineVec.X;
+			float y2 = lineStart.Y + lineVec.Y;
+
+			float u = ((X - x1) * (x2 - x1) + (Y - y1) * (y2 - y1)) / ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+			return u;
+		}
+
+		public float DistanceTo(FPoint value2)
+		{
+			float v1 = X - value2.X, v2 = Y - value2.Y;
+			return (float)Math.Sqrt((v1 * v1) + (v2 * v2));
+		}
+
+		public static float Distance(FPoint value1, FPoint value2)
+		{
+			float v1 = value1.X - value2.X, v2 = value1.Y - value2.Y;
+			return (float)Math.Sqrt((v1 * v1) + (v2 * v2));
+		}
+
+		public static FPoint MiddlePoint(FPoint a, FPoint b)
+		{
+			return new FPoint((a.X + b.X) / 2f, (a.Y + b.Y) / 2f);
+		}
+
+		public FPoint Negate()
+		{
+			return new FPoint(-X, -Y);
+		}
+
+		public static FPoint Lerp(FPoint value1, FPoint value2, float amount)
+		{
+			return new FPoint(MathHelper.Lerp(value1.X, value2.X, amount), MathHelper.Lerp(value1.Y, value2.Y, amount));
+		}
+
+		// @see Vector2Extension.ToAngle()
+		public float ToAngle()
+		{
+			return (FloatMath.Atan2(Y, X) + FloatMath.RAD_POS_360) % FloatMath.RAD_POS_360;
+		}
+
+		public FPoint WithOrigin(FPoint origin)
+		{
+			return new FPoint(X + origin.X, Y + origin.Y);
+		}
+
+		public FPoint MirrorAtNormal(FPoint linePoint, Vector2 normal)
+		{
+			//https://stackoverflow.com/a/6177788/1761622
+
+			float x1 = linePoint.X - normal.Y;
+			float y1 = linePoint.Y + normal.X;
+
+			float x2 = linePoint.X + normal.Y;
+			float y2 = linePoint.Y - normal.X;
+
+			float x3 = X;
+			float y3 = Y;
+
+			float u = ((x3 - x1) * (x2 - x1) + (y3 - y1) * (y2 - y1)) / ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+			float xu = x1 + u * (x2 - x1);
+			float yu = y1 + u * (y2 - y1);
+
+			float dx = xu - X;
+			float dy = yu - Y;
+
+			float rx = X + 2 * dx;
+			float ry = Y + 2 * dy;
+
+			return new FPoint(rx, ry);
 		}
 	}
 }

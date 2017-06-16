@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Screens.NormalGameScreen.HUDOperations;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -42,7 +43,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		{
 			base.DoUpdate(gameTime, istate);
 
-			var innerRel = internalText.Position + new FPoint(InnerLabelSize.Width + 5, AnimationOffset - incrementLabel.Height / 4);
+			var innerRel = internalText.Position + new Vector2(InnerLabelSize.Width + 5, AnimationOffset - incrementLabel.Height / 4);
 
 			incrementLabel.RelativePosition = innerRel;
 		}

@@ -153,7 +153,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			{
 				var columns = line.DisplayText();
 
-				var pos = new Vector2(TEXT_OFFSET * Scale, line.PositionY * Scale);
+				var pos = new FPoint(TEXT_OFFSET * Scale, line.PositionY * Scale);
 
 				foreach (var text in columns)
 				{
@@ -172,7 +172,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 						pos,
 						ColorMath.Fade(line.Color, line.Decay),
 						0,
-						Vector2.Zero,
+						FPoint.Zero,
 						Scale,
 						SpriteEffects.None,
 						0);

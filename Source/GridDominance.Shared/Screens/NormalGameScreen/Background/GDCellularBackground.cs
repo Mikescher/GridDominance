@@ -131,7 +131,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 						sbatch.DrawString(
 							Textures.DebugFontSmall,
 							string.Format("({4}|{5})\n{0,2}: {1:000}\n[{2}]{3}", _grid[x, y].Fraction?.ToString() ?? "##", _grid[x, y].PowerCurr * 100, _grid[x, y].SourceDistance, _grid[x, y].IsNeutralDraining ? "D" : "", ox, oy),
-							new Vector2(tx, ty),
+							new FPoint(tx, ty),
 							_grid[x, y].Fraction?.Color ?? Color.Black);
 
 						if (_grid[x, y].SpawnSource != null)
@@ -408,7 +408,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			}
 		}
 
-		public void RegisterBlockedLine(Vector2 start, Vector2 end)
+		public void RegisterBlockedLine(FPoint start, FPoint end)
 		{
 			var delta = end - start;
 			var angle = delta.ToAngle();

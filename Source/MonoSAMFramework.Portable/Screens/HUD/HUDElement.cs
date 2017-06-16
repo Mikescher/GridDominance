@@ -50,10 +50,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public FPoint Position { get; protected set; } = FPoint.Zero; // _Not_ Center
 		public FRectangle BoundingRectangle { get; protected set; } = FRectangle.Empty;
 
-		public Vector2 RelativeCenter
+		public FPoint RelativeCenter
 		{
-			get { return new Vector2(RelativePosition.X + Size.Width / 2f, RelativePosition.Y + Size.Height / 2f);}
-			set { RelativePosition = new FPoint(value.X - Size.Width / 2f, value.Y - Size.Height / 2f);}
+			get => RelativePosition + Size/2;
+			set => RelativePosition = value - Size/2;
 		}
 
 		private bool _isEnabled = true;
@@ -91,8 +91,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public float CenterX => Position.X + Size.Width / 2f;
 		public float CenterY => Position.Y + Size.Height / 2f;
 
-		public Vector2 Center => new Vector2(CenterX, CenterY);
-		public FPoint CenterPos => new FPoint(CenterX, CenterY);
+		public FPoint Center    => new FPoint(CenterX, CenterY);
 
 		protected readonly List<IHUDElementOperation> ActiveOperations = new List<IHUDElementOperation>();
 

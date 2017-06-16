@@ -143,22 +143,22 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			if (br)
 			{
-				sbatch.DrawCirclePiece(new Vector2(bounds.Right - cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_000, FloatMath.RAD_POS_090, 8, color, lineWidth);
+				sbatch.DrawCirclePiece(new FPoint(bounds.Right - cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_000, FloatMath.RAD_POS_090, 8, color, lineWidth);
 			}
 
 			if (bl)
 			{
-				sbatch.DrawCirclePiece(new Vector2(bounds.Left + cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_090, FloatMath.RAD_POS_180, 8, color, lineWidth);
+				sbatch.DrawCirclePiece(new FPoint(bounds.Left + cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_090, FloatMath.RAD_POS_180, 8, color, lineWidth);
 			}
 
 			if (tl)
 			{
-				sbatch.DrawCirclePiece(new Vector2(bounds.Left + cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_180, FloatMath.RAD_POS_270, 8, color, lineWidth);
+				sbatch.DrawCirclePiece(new FPoint(bounds.Left + cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_180, FloatMath.RAD_POS_270, 8, color, lineWidth);
 			}
 
 			if (tr)
 			{
-				sbatch.DrawCirclePiece(new Vector2(bounds.Right - cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_270, FloatMath.RAD_POS_360, 8, color, lineWidth);
+				sbatch.DrawCirclePiece(new FPoint(bounds.Right - cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_270, FloatMath.RAD_POS_360, 8, color, lineWidth);
 			}
 		}
 

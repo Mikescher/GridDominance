@@ -6,9 +6,14 @@ namespace MonoSAMFramework.Portable.Extensions
 {
 	public static class TextureRegion2DExtensions
 	{
-		public static Vector2 Center(this TextureRegion2D source)
+		public static FPoint Center(this TextureRegion2D source)
 		{
-			return new Vector2(source.Width/2f, source.Height/2f);
+			return new FPoint(source.Width / 2f, source.Height / 2f);
+		}
+
+		public static Vector2 VecCenter(this TextureRegion2D source)
+		{
+			return new Vector2(source.Width / 2f, source.Height / 2f);
 		}
 
 		public static FSize Size(this TextureRegion2D source)

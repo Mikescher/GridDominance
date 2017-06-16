@@ -53,10 +53,10 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public float MapOffsetX { get { return _mapOffsetX; } set { _mapOffsetX = value; } }
 		public float MapOffsetY { get { return _mapOffsetY; } set { _mapOffsetY = value; } }
-		public Vector2 MapOffset => new Vector2(_mapOffsetX, _mapOffsetY);
+		public FPoint MapOffset => new FPoint(_mapOffsetX, _mapOffsetY);
 		public float MapViewportCenterX { get { return VAdapterGame.VirtualTotalWidth  / 2 - MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX; } set { MapOffsetX = VAdapterGame.VirtualTotalWidth / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetX - value; } }
 		public float MapViewportCenterY { get { return VAdapterGame.VirtualTotalHeight / 2 - MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY; } set { MapOffsetY = VAdapterGame.VirtualTotalHeight / 2 - VAdapterGame.VirtualGuaranteedBoundingsOffsetY - value; } }
-		public Vector2 MapViewportCenter => new Vector2(MapViewportCenterX, MapViewportCenterY);
+		public FPoint MapViewportCenter => new FPoint(MapViewportCenterX, MapViewportCenterY);
 		public FRectangle GuaranteedMapViewport => new FRectangle(-MapOffsetX, -MapOffsetY, VAdapterGame.VirtualGuaranteedWidth, VAdapterGame.VirtualGuaranteedHeight);
 		public FRectangle CompleteMapViewport => new FRectangle(-MapOffsetX - VAdapterGame.VirtualGuaranteedBoundingsOffsetX, -MapOffsetY - VAdapterGame.VirtualGuaranteedBoundingsOffsetY, VAdapterGame.VirtualTotalWidth, VAdapterGame.VirtualTotalHeight);
 		public FRectangle MapFullBounds { get; protected set; }
@@ -310,7 +310,7 @@ namespace MonoSAMFramework.Portable.Screens
 			if (DebugSettings.Get("DebugBackground"))
 			{
 				DebugRenderHelper.DrawCrossedCircle(sbatch, Color.Red, MapViewportCenter, 8, 2);
-				DebugRenderHelper.DrawHalfCrossedCircle(sbatch, Color.Red, -MapOffset, 8, 2);
+				DebugRenderHelper.DrawHalfCrossedCircle(sbatch, Color.Red, MapOffset.Negate(), 8, 2);
 
 				var rTop = new FRectangle(CompleteMapViewport.X, CompleteMapViewport.Y, CompleteMapViewport.Width, GuaranteedMapViewport.Y - CompleteMapViewport.Y);
 				var rBot = new FRectangle(CompleteMapViewport.X, GuaranteedMapViewport.Bottom, CompleteMapViewport.Width, CompleteMapViewport.Bottom - GuaranteedMapViewport.Bottom);

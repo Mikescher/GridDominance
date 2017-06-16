@@ -22,8 +22,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public readonly IWorldNode NodeSource;
 		public readonly IWorldNode NodeSink;
 
-		private Vector2 _orbStart;
-		private Vector2 _orbEnd;
+		private FPoint _orbStart;
+		private FPoint _orbEnd;
 		public float Length;
 
 		private readonly FlatCurve13 curvature;
@@ -31,7 +31,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		private FRectangle? rectHorz = null;
 		private FRectangle? rectVert = null;
 
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
@@ -40,7 +40,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			NodeSource = start;
 			NodeSink = end;
 
-			Position = (start.Position + end.Position) / 2;
+			Position = FPoint.MiddlePoint(start.Position, end.Position);
 			DrawingBoundingBox = FSize.Diff(start.Position, end.Position) + new FSize(THICKNESS, THICKNESS);
 
 			curvature = GetCurve(start, end, orientation);
@@ -242,7 +242,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			if (rectVert != null) sbatch.FillRectangle(rectVert.Value, COLOR);
 		}
 
-		public Vector2 GetOrbPosition(float distance)
+		public FPoint GetOrbPosition(float distance)
 		{
 			switch (curvature)
 			{
@@ -255,51 +255,51 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				case FlatCurve13.LEFT_DOWN:
 					return
 						(distance < (_orbStart.X - _orbEnd.X))
-						? new Vector2(_orbStart.X - distance, _orbStart.Y)
-						: new Vector2(_orbEnd.X, _orbStart.Y + (distance - (_orbStart.X - _orbEnd.X)));
+						? new FPoint(_orbStart.X - distance, _orbStart.Y)
+						: new FPoint(_orbEnd.X, _orbStart.Y + (distance - (_orbStart.X - _orbEnd.X)));
 
 				case FlatCurve13.LEFT_UP:
 					return
 						(distance < (_orbStart.X - _orbEnd.X))
-						? new Vector2(_orbStart.X - distance, _orbStart.Y)
-						: new Vector2(_orbEnd.X, _orbStart.Y - (distance - (_orbStart.X - _orbEnd.X)));
+						? new FPoint(_orbStart.X - distance, _orbStart.Y)
+						: new FPoint(_orbEnd.X, _orbStart.Y - (distance - (_orbStart.X - _orbEnd.X)));
 
 				case FlatCurve13.RIGHT_DOWN:
 					return
 						(distance < (_orbEnd.X - _orbStart.X))
-						? new Vector2(_orbStart.X + distance, _orbStart.Y)
-						: new Vector2(_orbEnd.X, _orbStart.Y + (distance - (_orbEnd.X - _orbStart.X)));
+						? new FPoint(_orbStart.X + distance, _orbStart.Y)
+						: new FPoint(_orbEnd.X, _orbStart.Y + (distance - (_orbEnd.X - _orbStart.X)));
 
 				case FlatCurve13.RIGHT_UP:
 					return
 						(distance < (_orbEnd.X - _orbStart.X))
-						? new Vector2(_orbStart.X + distance, _orbStart.Y)
-						: new Vector2(_orbEnd.X, _orbStart.Y - (distance - (_orbEnd.X - _orbStart.X)));
+						? new FPoint(_orbStart.X + distance, _orbStart.Y)
+						: new FPoint(_orbEnd.X, _orbStart.Y - (distance - (_orbEnd.X - _orbStart.X)));
 
 				case FlatCurve13.DOWN_RIGHT:
 					return
 						(distance < (_orbEnd.Y - _orbStart.Y))
-						? new Vector2(_orbStart.X, _orbStart.Y + distance)
-						: new Vector2(_orbStart.X + (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
+						? new FPoint(_orbStart.X, _orbStart.Y + distance)
+						: new FPoint(_orbStart.X + (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
 
 				case FlatCurve13.DOWN_LEFT:
 					return
 						(distance < (_orbEnd.Y - _orbStart.Y))
-						? new Vector2(_orbStart.X, _orbStart.Y + distance)
-						: new Vector2(_orbStart.X - (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
+						? new FPoint(_orbStart.X, _orbStart.Y + distance)
+						: new FPoint(_orbStart.X - (distance - (_orbEnd.Y - _orbStart.Y)), _orbEnd.Y);
 
 
 				case FlatCurve13.UP_RIGHT:
 					return
 						(distance < (_orbStart.Y - _orbEnd.Y))
-						? new Vector2(_orbStart.X, _orbStart.Y - distance)
-						: new Vector2(_orbStart.X + (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
+						? new FPoint(_orbStart.X, _orbStart.Y - distance)
+						: new FPoint(_orbStart.X + (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
 
 				case FlatCurve13.UP_LEFT:
 					return
 						(distance < (_orbStart.Y - _orbEnd.Y))
-						? new Vector2(_orbStart.X, _orbStart.Y - distance)
-						: new Vector2(_orbStart.X - (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
+						? new FPoint(_orbStart.X, _orbStart.Y - distance)
+						: new FPoint(_orbStart.X - (distance - (_orbStart.Y - _orbEnd.Y)), _orbEnd.Y);
 
 				case FlatCurve13.POINT:
 					return _orbStart;

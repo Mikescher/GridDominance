@@ -87,7 +87,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 			{
 				if (!string.IsNullOrEmpty(textBase))
 				{
-					FontRenderHelper.DrawTextCentered(sbatch, HUD.DefaultFont, TextSize, textBase, HUDKeyboard.COLOR_TEXT, bounds.VecCenter);
+					FontRenderHelper.DrawTextCentered(sbatch, HUD.DefaultFont, TextSize, textBase, HUDKeyboard.COLOR_TEXT, bounds.Center);
 				}
 				if (!string.IsNullOrEmpty(textAlt))
 				{

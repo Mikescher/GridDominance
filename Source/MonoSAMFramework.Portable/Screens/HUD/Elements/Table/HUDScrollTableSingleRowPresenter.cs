@@ -54,7 +54,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 						_colSource.FontSize,
 						_data[ci],
 						Foreground,
-						new Vector2(bounds.Left + x + _colSource.LineWidth * 2, bounds.Top + rowHeight / 2f));
+						new FPoint(bounds.Left + x + _colSource.LineWidth * 2, bounds.Top + rowHeight / 2f));
 
 					x += _colSource.GetColumnWidth(ci);
 				}

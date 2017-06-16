@@ -229,7 +229,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			_anim?.Remove();
 
-			_hud.AddElement(_anim2 = new HUDArrowAnimation(_hud.BtnSpeed.CenterPos + new Vector2(60, -40), 150 * FloatMath.DegreesToRadians));
+			_hud.AddElement(_anim2 = new HUDArrowAnimation(_hud.BtnSpeed.Center + new Vector2(60, -40), 150 * FloatMath.DegreesToRadians));
 		}
 
 		private void Transition_7_CaptureEnemy()

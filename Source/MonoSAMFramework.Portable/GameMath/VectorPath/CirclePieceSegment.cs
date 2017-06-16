@@ -51,7 +51,7 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 
 			if (direction == CircularDirection.CCW) len = Length - len;
 
-			return (directionZero.Rotate(angleStart + (angleEnd - angleStart) * (len / Length)) + center).ToFPoint();
+			return center + directionZero.Rotate(angleStart + (angleEnd - angleStart) * (len / Length));
 		}
 
 		public override VectorPathSegment AsScaled(float scale)

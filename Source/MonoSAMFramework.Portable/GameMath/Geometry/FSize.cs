@@ -9,10 +9,10 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 	public struct FSize : IEquatable<FSize>
 	{
 		[DataMember]
-		public readonly float Width;
+		public float Width;
 
 		[DataMember]
-		public readonly float Height;
+		public float Height;
 
 		public static readonly FSize Empty = new FSize(0, 0);
 
@@ -30,7 +30,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public bool IsQuadratic => FloatMath.EpsilonEquals(Width, Height);
 
 		public float Ratio => Width / Height;
-		
+		public FPoint Center => new FPoint(Width/2f, Height/2f);
+
 		public override int GetHashCode()
 		{
 			unchecked
@@ -38,6 +39,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 				return Width.GetHashCode() + Height.GetHashCode();
 			}
 		}
+
+		public Vector2 ToVec2D() => new Vector2(Width, Height);
 
 		public static bool operator ==(FSize a, FSize b)
 		{
@@ -64,15 +67,15 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return FloatMath.EpsilonEquals(Width, other.Width) && FloatMath.EpsilonEquals(Height, other.Height);
 		}
 
-		public static implicit operator FPoint(FSize size)
-		{
-			return new FPoint(size.Width, size.Height);
-		}
-
-		public static implicit operator Vector2(FSize size)
-		{
-			return new Vector2(size.Width, size.Height);
-		}
+		//public static implicit operator FPoint(FSize size)
+		//{
+		//	return new FPoint(size.Width, size.Height);
+		//}
+		//
+		//public static implicit operator Vector2(FSize size)
+		//{
+		//	return new Vector2(size.Width, size.Height);
+		//}
 
 		public static FSize operator *(FSize value1, float value2)
 		{
@@ -120,7 +123,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			}
 		}
 
-		public static FSize Diff(Vector2 a, Vector2 b)
+		public static FSize Diff(FPoint a, FPoint b)
 		{
 			return new FSize(FloatMath.Abs(a.X - b.X), FloatMath.Abs(a.Y - b.Y));
 		}

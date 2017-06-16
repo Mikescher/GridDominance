@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
@@ -8,7 +9,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		private readonly float animationLength;
 		private readonly float animationInitialDelay;
 
-		public AnimatedPathGPUParticleEmitter(GameScreen scrn, Vector2 pos, VectorPath path, ParticleEmitterConfig cfg, float delay, float length, int order) : base(scrn, pos, path, cfg, order)
+		public AnimatedPathGPUParticleEmitter(GameScreen scrn, FPoint pos, VectorPath path, ParticleEmitterConfig cfg, float delay, float length, int order) : base(scrn, pos, path, cfg, order)
 		{
 			animationLength = length;
 			animationInitialDelay = delay;

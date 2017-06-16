@@ -6,28 +6,26 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 {
 	public class PointCPUParticleEmitter : CPUParticleEmitter
 	{
-		private Vector2 _position;
-		public override Vector2 Position => _position;
+		private FPoint _position;
+		public override FPoint Position => _position;
 
 		private FSize _boundingbox;
 		public override FSize DrawingBoundingBox => _boundingbox;
 
-		public PointCPUParticleEmitter(GameScreen scrn, Vector2 pos, ParticleEmitterConfig cfg, int order) : base(scrn, cfg, order)
+		public PointCPUParticleEmitter(GameScreen scrn, FPoint pos, ParticleEmitterConfig cfg, int order) : base(scrn, cfg, order)
 		{
 			_position = pos;
 		}
 
-		public void SetPosition(Vector2 pos)
+		public void SetPosition(FPoint pos)
 		{
 			_position = pos;
 		}
 
-		protected override void SetParticleSpawnPosition(ref Vector2 vec, out bool doSpawn)
+		protected override FPoint SetParticleSpawnPosition(out bool doSpawn)
 		{
-			vec.X = Position.X;
-			vec.Y = Position.Y;
-
 			doSpawn = true;
+			return Position;
 		}
 
 		protected override void RecalculateState()

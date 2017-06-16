@@ -93,7 +93,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 					break;
 				case 2:
 					_progress += gameTime.ElapsedSeconds / TIME_MOVE;
-					RelativeCenter = Vector2.Lerp(_start, _end, FloatMath.FunctionEaseInOutCubic(_progress));
+					RelativeCenter = FPoint.Lerp(_start, _end, FloatMath.FunctionEaseInOutCubic(_progress));
 					if (_progress >= 1) { _progress = 0; _mode++; }
 					break;
 				case 3:

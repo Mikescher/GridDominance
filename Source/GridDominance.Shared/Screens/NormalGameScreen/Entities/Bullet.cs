@@ -35,7 +35,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public bool IsDying;
 
-		public Vector2 BulletPosition;
+		public FPoint BulletPosition;
 		public float BulletRotation = 0f;
 		public float BulletAlpha = 1f;
 		public float BulletExtraScale = 1f;
@@ -47,13 +47,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private readonly Vector2 initialVelocity;
 
-		public override Vector2 Position => BulletPosition;
+		public override FPoint Position => BulletPosition;
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 
 		private List<CollisionIgnorePortal> _ignoredPortals = new List<CollisionIgnorePortal>();
 
-		public Bullet(GDGameScreen scrn, Cannon shooter, Vector2 pos, Vector2 velo, float entityScale, Fraction frac) : base(scrn, GDConstants.ORDER_GAME_BULLETS)
+		public Bullet(GDGameScreen scrn, Cannon shooter, FPoint pos, Vector2 velo, float entityScale, Fraction frac) : base(scrn, GDConstants.ORDER_GAME_BULLETS)
 		{
 			BulletPosition = pos;
 			initialVelocity = velo;
@@ -67,7 +67,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			PhysicsBody = BodyFactory.CreateCircle(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Scale * BULLET_DIAMETER / 2), 1, ConvertUnits.ToSimUnits(BulletPosition), BodyType.Dynamic, this);
+			PhysicsBody = BodyFactory.CreateCircle(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Scale * BULLET_DIAMETER / 2), 1, ConvertUnits2.ToSimUnits(BulletPosition), BodyType.Dynamic, this);
 			PhysicsBody.LinearVelocity = ConvertUnits.ToSimUnits(initialVelocity);
 			PhysicsBody.CollidesWith = Category.All;
 			PhysicsBody.Restitution = 1f;              // Bouncability, 1=bounce always elastic
@@ -359,7 +359,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
-			BulletPosition = ConvertUnits.ToDisplayUnits(PhysicsBody.Position);
+			BulletPosition = ConvertUnits2.ToDisplayUnitsPoint(PhysicsBody.Position);
 			BulletRotation = PhysicsBody.Rotation;
 
 			for (int i = _ignoredPortals.Count - 1; i >= 0; i--)
@@ -389,7 +389,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			BulletPosition.X = (BulletPosition.X + GDOwner.MapFullBounds.Width) % GDOwner.MapFullBounds.Width;
 			BulletPosition.Y = (BulletPosition.Y + GDOwner.MapFullBounds.Height) % GDOwner.MapFullBounds.Height;
 
-			PhysicsBody.Position = ConvertUnits.ToSimUnits(BulletPosition);
+			PhysicsBody.Position = ConvertUnits2.ToSimUnits(BulletPosition);
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)

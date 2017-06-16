@@ -31,33 +31,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return true;
 		}
 
-		/// <summary>
-		/// Returns the intersection point of the given lines. 
-		/// Returns Empty if the lines do not intersect.
-		/// Source: http://mathworld.wolfram.com/Line-LineIntersection.html
-		///         https://stackoverflow.com/a/385828/1761622
-		/// </summary>
-		public static bool LineIntersection(Vector2 v1, Vector2 v2, Vector2 v3, Vector2 v4, out FPoint intersec)
-		{
-			float a = Det2(v1.X - v2.X, v1.Y - v2.Y, v3.X - v4.X, v3.Y - v4.Y);
-			if (FloatMath.Abs(a) < FloatMath.EPSILON) { intersec = FPoint.Zero; return false; } // Lines are parallel
-
-			float d1 = Det2(v1.X, v1.Y, v2.X, v2.Y);
-			float d2 = Det2(v3.X, v3.Y, v4.X, v4.Y);
-			float x = Det2(d1, v1.X - v2.X, d2, v3.X - v4.X) / a;
-			float y = Det2(d1, v1.Y - v2.Y, d2, v3.Y - v4.Y) / a;
-
-			intersec = new FPoint(x, y);
-
-			if (x < FloatMath.Min(v1.X, v2.X) - FloatMath.EPSILON || x > FloatMath.Max(v1.X, v2.X) + FloatMath.EPSILON) return false;
-			if (y < FloatMath.Min(v1.Y, v2.Y) - FloatMath.EPSILON || y > FloatMath.Max(v1.Y, v2.Y) + FloatMath.EPSILON) return false;
-			if (x < FloatMath.Min(v3.X, v4.X) - FloatMath.EPSILON || x > FloatMath.Max(v3.X, v4.X) + FloatMath.EPSILON) return false;
-			if (y < FloatMath.Min(v3.Y, v4.Y) - FloatMath.EPSILON || y > FloatMath.Max(v3.Y, v4.Y) + FloatMath.EPSILON) return false;
-
-			return true;
-		}
-
-		public static bool LineIntersectionExt(Vector2 v1s, Vector2 v1e, Vector2 v2s, Vector2 v2e, float epsilon, out FPoint intersec, out float u1, out float u2)
+		public static bool LineIntersectionExt(FPoint v1s, FPoint v1e, FPoint v2s, FPoint v2e, float epsilon, out FPoint intersec, out float u1, out float u2)
 		{
 			float a = Det2(v1s.X - v1e.X, v1s.Y - v1e.Y, v2s.X - v2e.X, v2s.Y - v2e.Y);
 			if (FloatMath.Abs(a) < FloatMath.EPSILON) { intersec = FPoint.Zero; u1 = u2 = Single.NaN; return false; } // Lines are parallel
@@ -95,8 +69,9 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		public static float CrossProduct(Vector2 a, Vector2 b, Vector2 c) => (b.X - a.X) * (c.Y - a.Y) - (b.Y - a.Y) * (c.X - a.X);
+		public static float CrossProduct(FPoint a, FPoint b, FPoint c)    => (b.X - a.X) * (c.Y - a.Y) - (b.Y - a.Y) * (c.X - a.X);
 
-		public static float LinePointDistance(Vector2 p1, Vector2 p2, Vector2 point)
+		public static float LinePointDistance(FPoint p1, FPoint p2, FPoint point)
 		{
 			return FloatMath.Abs(CrossProduct(p1, p2, point) / (p2 - p1).Length());
 		}

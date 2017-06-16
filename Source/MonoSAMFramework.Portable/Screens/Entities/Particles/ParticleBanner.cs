@@ -97,13 +97,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		{
 			if (UseCPUParticles)
 			{
-				var emt = new AnimatedPathCPUParticleEmitter(_screen, new Vector2(px, py), chr.AsScaled(scale), cfg, animOffset, animLen, _order);
+				var emt = new AnimatedPathCPUParticleEmitter(_screen, new FPoint(px, py), chr.AsScaled(scale), cfg, animOffset, animLen, _order);
 				_childEmitter.Add(emt);
 				_screen.Entities.AddEntity(emt);
 			}
 			else
 			{
-				var emt = new AnimatedPathGPUParticleEmitter(_screen, new Vector2(px, py), chr.AsScaled(scale), cfg, animOffset, animLen, _order);
+				var emt = new AnimatedPathGPUParticleEmitter(_screen, new FPoint(px, py), chr.AsScaled(scale), cfg, animOffset, animLen, _order);
 				_childEmitter.Add(emt);
 				_screen.Entities.AddEntity(emt);
 			}

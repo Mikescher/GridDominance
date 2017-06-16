@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameMath.Geometry;
+﻿using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using System.Collections.Generic;
@@ -15,11 +13,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 		private readonly List<IGameEntityMouseAreaListener> listener = new List<IGameEntityMouseAreaListener>();
 		private readonly bool doSwallowEvents;
 
-		private Vector2 ownerPositionCache = Vector2.Zero;
+		private FPoint ownerPositionCache = FPoint.Zero;
 		private IFShape absoluteShapeCache = null;
 
 		private bool isInShape = false;
-		private Vector2 pointerPosition = Vector2.Zero;
+		private FPoint pointerPosition = FPoint.Zero;
 		private bool isClickDown = false;
 
 		public bool IsEnabled = true;
@@ -31,7 +29,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.MouseArea
 				if (absoluteShapeCache == null || ownerPositionCache != Owner.Position)
 				{
 					ownerPositionCache = Owner.Position;
-					absoluteShapeCache = RelativeShape.AsTranslated(ownerPositionCache);
+					absoluteShapeCache = RelativeShape.AsTranslated(ownerPositionCache.ToVec2D());
 				}
 				return absoluteShapeCache;
 			}

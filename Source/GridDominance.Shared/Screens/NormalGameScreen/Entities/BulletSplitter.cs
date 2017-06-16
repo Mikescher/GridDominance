@@ -33,7 +33,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public readonly Fraction Fraction;
 		public float ShapeAlpha;
-		public Vector2 ShapePosition;
+		public FPoint ShapePosition;
 		public float ShapeRotation = 0f;
 
 		private readonly float scale;
@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly float rotationSpeed = 0f;
 		private readonly Vector2 velocity;
 
-		public override Vector2 Position => ShapePosition;
+		public override FPoint Position => ShapePosition;
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 

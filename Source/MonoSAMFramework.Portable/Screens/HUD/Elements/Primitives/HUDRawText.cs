@@ -50,10 +50,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 				sbatch.DrawString(
 					Font, 
 					_textCache, 
-					new Vector2(bounds.Left, bounds.Top + _fontVOffset), 
+					new FPoint(bounds.Left, bounds.Top + _fontVOffset), 
 					TextColor * Alpha, 
-					0, 
-					Vector2.Zero, 
+					0,
+					FPoint.Zero, 
 					_fontScale, 
 					SpriteEffects.None, 
 					0);
@@ -63,10 +63,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 				sbatch.DrawString(
 					Font, 
 					_textCache, 
-					bounds.VectorTopLeft,
+					bounds.TopLeft,
 					TextColor * Alpha, 
 					0,
-					Vector2.Zero, 
+					FPoint.Zero, 
 					_fontScale, 
 					SpriteEffects.None, 
 					0);
@@ -102,7 +102,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 			if (_textCache != _text)
 			{
-				Size = (Font.MeasureString(_text) * _fontScale).ToSize();
+				Size = (Font.MeasureString(_text) * _fontScale).ToFSize();
 
 				_textCache = _text;
 			}
@@ -113,8 +113,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		protected override void DrawDebugHUDBorders(IBatchRenderer sbatch)
 		{
 			sbatch.DrawRectangle(BoundingRectangle, Color.Magenta, 1f);
-			sbatch.DrawLine(BoundingRectangle.VectorTopLeft, BoundingRectangle.VectorBottomRight, Color.Magenta, 1f);
-			sbatch.DrawLine(BoundingRectangle.VectorTopRight, BoundingRectangle.VectorBottomLeft, Color.Magenta, 1f);
+			sbatch.DrawLine(BoundingRectangle.TopLeft,  BoundingRectangle.BottomRight, Color.Magenta, 1f);
+			sbatch.DrawLine(BoundingRectangle.TopRight, BoundingRectangle.BottomLeft,  Color.Magenta, 1f);
 		}
 	}
 }

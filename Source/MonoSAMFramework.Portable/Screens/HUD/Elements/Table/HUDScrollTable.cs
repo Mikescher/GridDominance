@@ -100,7 +100,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 						FontSize, 
 						_columns[i].Text, 
 						HeaderForeground, 
-						new Vector2(bounds.Left + x + _columns[i].RealWidth/2f, bounds.Top + rowHeight / 2f));
+						new FPoint(bounds.Left + x + _columns[i].RealWidth/2f, bounds.Top + rowHeight / 2f));
 
 					x += _columns[i].RealWidth;
 				}
@@ -125,7 +125,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 						FontSize,
 						_data[di].Data[ci],
 						_data[di].ForegroundOverride ?? Foreground, 
-						new Vector2(bounds.Left + x + LineWidth * 2, bounds.Top + py + rowHeight / 2f));
+						new FPoint(bounds.Left + x + LineWidth * 2, bounds.Top + py + rowHeight / 2f));
 
 					x += _columns[ci].RealWidth;
 				}

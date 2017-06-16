@@ -6,25 +6,25 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 {
 	public class PointGPUParticleEmitter : GPUParticleEmitter
 	{
-		private Vector2 _position;
-		public override Vector2 Position => _position;
+		private FPoint _position;
+		public override FPoint Position => _position;
 
 		private FSize _boundingbox;
 		public override FSize DrawingBoundingBox => _boundingbox;
 
-		public PointGPUParticleEmitter(GameScreen scrn, Vector2 pos, ParticleEmitterConfig cfg, int order) : base(scrn, cfg, order)
+		public PointGPUParticleEmitter(GameScreen scrn, FPoint pos, ParticleEmitterConfig cfg, int order) : base(scrn, cfg, order)
 		{
 			_position = pos;
 		}
 
-		public void SetPosition(Vector2 pos)
+		public void SetPosition(FPoint pos)
 		{
 			_position = pos;
 		}
 
 		protected override void InitializeParticle(GPUParticle p, int index, int count)
 		{
-			p.StartPosition = Vector2.Zero;
+			p.StartPosition = FPoint.Zero;
 		}
 
 		protected override void RecalculateState()

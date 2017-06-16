@@ -5,6 +5,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Language;
 using System.Collections.Generic;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.RenderHelper
@@ -15,7 +16,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 		private static readonly Dictionary<SpriteFont, float> _fontHeight = new Dictionary<SpriteFont, float>();
 		private static readonly Dictionary<SpriteFont, float> _fontVCenterOffsetCache = new Dictionary<SpriteFont, float>(); 
-		private static readonly Dictionary<SpriteFont, CacheCollection<string, Vector2>> _measureCache = new Dictionary<SpriteFont, CacheCollection<string, Vector2>>();
+		private static readonly Dictionary<SpriteFont, CacheCollection<string, FSize>> _measureCache = new Dictionary<SpriteFont, CacheCollection<string, FSize>>();
 
 		public static float GetFontScale(SpriteFont fnt, float targetSize)
 		{
@@ -41,32 +42,32 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			return _fontVCenterOffsetCache[fnt];
 		}
 
-		public static Vector2 MeasureStringUncached(SpriteFont font, string text, float size)
+		public static FSize MeasureStringUncached(SpriteFont font, string text, float size)
 		{
-			return font.MeasureString(text) * GetFontScale(font, size);
+			return font.MeasureString(text).ToFSize() * GetFontScale(font, size);
 		}
 
-		public static Vector2 MeasureStringCached(SpriteFont font, string text, float size)
+		public static FSize MeasureStringCached(SpriteFont font, string text, float size)
 		{
 			return MeasureStringCached(font, text) * GetFontScale(font, size);
 		}
 
-		public static Vector2 MeasureStringCached(SpriteFont font, string text)
+		public static FSize MeasureStringCached(SpriteFont font, string text)
 		{
-			CacheCollection<string, Vector2> cache;
+			CacheCollection<string, FSize> cache;
 			if (!_measureCache.TryGetValue(font, out cache))
 			{
-				cache = new CacheCollection<string, Vector2>(MEASURE_CACHE_SIZE);
-				var size = font.MeasureString(text);
+				cache = new CacheCollection<string, FSize>(MEASURE_CACHE_SIZE);
+				var size = font.MeasureString(text).ToFSize();
 				cache.Add(text, size);
 				return size;
 			}
 			else
 			{
-				Vector2 size;
+				FSize size;
 				if (!cache.TryGetValue(text, out size))
 				{
-					size = font.MeasureString(text);
+					size = font.MeasureString(text).ToFSize();
 					cache.Add(text, size);
 					return size;
 				}
@@ -79,16 +80,16 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 		private static string LimitStringLength(SpriteFont font, float size, string text, float maxlen)
 		{
-			var len = MeasureStringCached(font, text, size).X;
+			var len = MeasureStringCached(font, text, size).Width;
 			while (len > maxlen && text.Length > 1)
 			{
 				text = text.Substring(0, text.Length - 1);
-				len = MeasureStringCached(font, text, size).X;
+				len = MeasureStringCached(font, text, size).Width;
 			}
 			return text;
 		}
 
-		public static void DrawTextCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, Vector2 position)
+		public static void DrawTextCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position)
 		{
 			if (text == "") return;
 			var bounds = MeasureStringCached(font, text);
@@ -99,19 +100,19 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new Vector2(bounds.X / 2f, bounds.Y / 2f - GetFontVCenterOffset(font)),
+				new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(font)),
 				GetFontScale(font, size),
 				SpriteEffects.None,
 				0);
 		}
 
-		public static void DrawTextCenteredWithBackground(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, Vector2 position, Color background)
+		public static void DrawTextCenteredWithBackground(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position, Color background)
 		{
 			if (text == "") return;
 			var bounds = MeasureStringCached(font, text);
 			var scale = GetFontScale(font, size);
 
-			sbatch.FillRectangle(FRectangle.CreateByCenter(position, scale * bounds.X + size/3f, scale * bounds.Y), background);
+			sbatch.FillRectangle(FRectangle.CreateByCenter(position, scale * bounds.Width + size/3f, scale * bounds.Height), background);
 
 			sbatch.DrawString(
 				font,
@@ -119,13 +120,13 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new Vector2(bounds.X / 2f, bounds.Y / 2f - GetFontVCenterOffset(font)),
+				new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(font)), 
 				scale,
 				SpriteEffects.None,
 				0);
 		}
 
-		public static void DrawTextVerticallyCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, Vector2 position)
+		public static void DrawTextVerticallyCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position)
 		{
 			if (text == "") return;
 
@@ -137,20 +138,20 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new Vector2(0, bounds.Y / 2f - GetFontVCenterOffset(font)),
+				new FPoint(0, bounds.Height / 2f - GetFontVCenterOffset(font)),
 				GetFontScale(font, size),
 				SpriteEffects.None,
 				0);
 		}
 
-		public static void DrawTextVerticallyCenteredWithBackground(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, Vector2 position, Color background)
+		public static void DrawTextVerticallyCenteredWithBackground(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position, Color background)
 		{
 			if (text == "") return;
 
 			var bounds = MeasureStringCached(font, text);
 			var scale = GetFontScale(font, size);
 
-			sbatch.FillRectangle(new FRectangle(position.X - size / 6f, position.Y - scale*bounds.Y/2f, bounds.X * scale + size / 3f, bounds.Y * scale), background);
+			sbatch.FillRectangle(new FRectangle(position.X - size / 6f, position.Y - scale*bounds.Height / 2f, bounds.Width * scale + size / 3f, bounds.Height * scale), background);
 
 			sbatch.DrawString(
 				font,
@@ -158,7 +159,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new Vector2(0, bounds.Y / 2f - GetFontVCenterOffset(font)),
+				new FPoint(0, bounds.Height / 2f - GetFontVCenterOffset(font)),
 				scale,
 				SpriteEffects.None,
 				0);
@@ -176,7 +177,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new Vector2(bounds.X, 0),
+				new FPoint(bounds.Width, 0),
 				GetFontScale(font, size),
 				SpriteEffects.None,
 				0);
@@ -192,9 +193,9 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			text = LimitStringLength(font, size, text, maxwidth);
 
 			if (horzCenter)
-				DrawTextCentered(sbatch, font, size, text, color, rect.VecCenter);
+				DrawTextCentered(sbatch, font, size, text, color, rect.Center);
 			else
-				DrawTextVerticallyCentered(sbatch, font, size, text, color, new Vector2(rect.X + padding, rect.CenterY));
+				DrawTextVerticallyCentered(sbatch, font, size, text, color, new FPoint(rect.X + padding, rect.CenterY));
 		}
 
 		public static List<string> WrapLinesIntoWidth(string text, SpriteFont font, float fontSize, float maxWidth, HUDWordWrap wrap)
@@ -203,7 +204,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			var sz = MeasureStringCached(font, text, fontSize);
 
-			if (sz.X < maxWidth) return new List<string> { text };
+			if (sz.Width < maxWidth) return new List<string> { text };
 
 
 			List<string> lines = new List<string>();
@@ -222,7 +223,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 						continue;
 					}
 
-					var newlen = MeasureStringUncached(font, line + chr, fontSize).X;
+					var newlen = MeasureStringUncached(font, line + chr, fontSize).Width;
 
 					if (line.Length > 1 && newlen > maxWidth)
 					{

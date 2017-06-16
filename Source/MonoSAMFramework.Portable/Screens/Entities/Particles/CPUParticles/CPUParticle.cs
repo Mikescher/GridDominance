@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 {
 	public sealed class CPUParticle
 	{
-		public Vector2 StartPosition;
+		public FPoint StartPosition;
 
-		public Vector2 Position;
+		public FPoint Position;
 		public Vector2 Velocity;
 
 		public float CurrentLifetime;

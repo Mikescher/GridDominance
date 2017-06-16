@@ -75,7 +75,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			// NOTHING
 		}
 
-		public void RegisterBlockedLine(Vector2 start, Vector2 end)
+		public void RegisterBlockedLine(FPoint start, FPoint end)
 		{
 			// NOTHING
 		}

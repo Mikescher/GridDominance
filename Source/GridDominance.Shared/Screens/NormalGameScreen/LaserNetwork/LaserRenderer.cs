@@ -1,7 +1,4 @@
 ﻿using MonoSAMFramework.Portable.Screens.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using MonoSAMFramework.Portable.Screens;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -16,7 +13,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
 	class LaserRenderer : GameEntity
 	{
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Color.Transparent;
 
@@ -26,7 +23,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		{
 			_network = nw;
 
-			Position = new Vector2(bp.LevelWidth / 2f, bp.LevelHeight / 2f);
+			Position = new FPoint(bp.LevelWidth / 2f, bp.LevelHeight / 2f);
 			DrawingBoundingBox = new FSize(bp.LevelWidth, bp.LevelHeight);
 		}
 

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using GridDominance.Graphfileformat.Blueprint;
-using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
 	public interface IWorldNode
 	{
-		Vector2 Position { get; }
+		FPoint Position { get; }
 		IEnumerable<IWorldNode> NextLinkedNodes { get; }
 		Guid ConnectionID { get; }
 

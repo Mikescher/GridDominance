@@ -6,12 +6,12 @@ namespace MonoSAMFramework.Portable.Extensions
 {
 	public static class Vector2Extensions
 	{
-		public static FSize ToSize(this Vector2 p)
+		public static FSize ToFSize(this Vector2 p)
 		{
 			return new FSize(p.X, p.Y);
 		}
 
-		public static FSize ToAbsSize(this Vector2 p)
+		public static FSize ToAbsFSize(this Vector2 p)
 		{
 			return new FSize(FloatMath.Abs(p.X), FloatMath.Abs(p.Y));
 		}
@@ -114,34 +114,7 @@ namespace MonoSAMFramework.Portable.Extensions
 			return v;
 		}
 
-		public static Vector2 MirrorAtNormal(this Vector2 p, Vector2 linePoint, Vector2 normal)
-		{
-			//https://stackoverflow.com/a/6177788/1761622
-
-			float x1 = linePoint.X - normal.Y;
-			float y1 = linePoint.Y + normal.X;
-
-			float x2 = linePoint.X + normal.Y;
-			float y2 = linePoint.Y - normal.X;
-
-			float x3 = p.X;
-			float y3 = p.Y;
-
-			float u = ((x3 - x1) * (x2 - x1) + (y3 - y1) * (y2 - y1)) / ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-
-			float xu = x1 + u * (x2 - x1);
-			float yu = y1 + u * (y2 - y1);
-
-			float dx = xu - p.X;
-			float dy = yu - p.Y;
-
-			float rx = p.X + 2 * dx;
-			float ry = p.Y + 2 * dy;
-
-			return new Vector2(rx, ry);
-		}
-
-		public static float ProjectOntoLine(this Vector2 p, Vector2 lineStart, Vector2 lineVec)
+		public static float ProjectOntoLine(this Vector2 p, FPoint lineStart, Vector2 lineVec)
 		{
 			//https://stackoverflow.com/a/6177788/1761622
 
@@ -159,7 +132,7 @@ namespace MonoSAMFramework.Portable.Extensions
 			return u;
 		}
 
-		public static float ProjectOntoLine2(this Vector2 p, Vector2 lineStart, Vector2 lineEnd)
+		public static float ProjectOntoLine(this Vector2 p, FPoint lineStart, FPoint lineEnd)
 		{
 			//https://stackoverflow.com/a/6177788/1761622
 

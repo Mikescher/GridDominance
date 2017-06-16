@@ -56,7 +56,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			_progress += gameTime.ElapsedSeconds;
-			RelativePosition = Vector2.Lerp(_p1, _p2, FloatMath.PercSin(_progress/0.5f)).ToFPoint();
+			RelativePosition = FPoint.Lerp(_p1, _p2, FloatMath.PercSin(_progress/0.5f));
 		}
 	}
 }

@@ -3,6 +3,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -18,7 +19,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 	{
 		public const float MARGIN_TEX = 8f;
 		
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
@@ -31,7 +32,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		
 		public MirrorCircle(GDGameScreen scrn, MirrorCircleBlueprint blueprint) : base(scrn, GDConstants.ORDER_GAME_WALL)
 		{
-			var pos   = new Vector2(blueprint.X, blueprint.Y);
+			var pos   = new FPoint(blueprint.X, blueprint.Y);
 
 			_diameter = blueprint.Diameter;
 			_renderRect = FRectangle.CreateByCenter(pos, _diameter + 2 * MARGIN_TEX, _diameter + 2 * MARGIN_TEX);
@@ -46,7 +47,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static);
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits2.ToSimUnits(Position), 0, BodyType.Static);
 
 			PhysicsFixture = FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(_diameter/2f), 1, PhysicsBody, this);
 		}

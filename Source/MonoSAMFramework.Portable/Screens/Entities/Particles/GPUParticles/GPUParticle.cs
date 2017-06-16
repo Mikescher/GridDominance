@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 {
@@ -13,7 +14,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		private readonly GPUParticleVBA _vba;
 		private readonly int _vbaIndex;
 
-		public Vector2 StartPosition;
+		public FPoint StartPosition;
 		public float StartTimeOffset;
 		public Vector4 Random;
 
@@ -26,22 +27,22 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		public void UpdateVBO()
 		{
 			_vba.Data[_vbaIndex * 4 + 0].Corner = CORNER_TL;
-			_vba.Data[_vbaIndex * 4 + 0].StartPosition = StartPosition;
+			_vba.Data[_vbaIndex * 4 + 0].StartPosition = StartPosition.ToVec2D();
 			_vba.Data[_vbaIndex * 4 + 0].StartTimeOffset = StartTimeOffset;
 			_vba.Data[_vbaIndex * 4 + 0].Random = Random;
 
 			_vba.Data[_vbaIndex * 4 + 1].Corner = CORNER_TR;
-			_vba.Data[_vbaIndex * 4 + 1].StartPosition = StartPosition;
+			_vba.Data[_vbaIndex * 4 + 1].StartPosition = StartPosition.ToVec2D();
 			_vba.Data[_vbaIndex * 4 + 1].StartTimeOffset = StartTimeOffset;
 			_vba.Data[_vbaIndex * 4 + 1].Random = Random;
 
 			_vba.Data[_vbaIndex * 4 + 2].Corner = CORNER_BR;
-			_vba.Data[_vbaIndex * 4 + 2].StartPosition = StartPosition;
+			_vba.Data[_vbaIndex * 4 + 2].StartPosition = StartPosition.ToVec2D();
 			_vba.Data[_vbaIndex * 4 + 2].StartTimeOffset = StartTimeOffset;
 			_vba.Data[_vbaIndex * 4 + 2].Random = Random;
 
 			_vba.Data[_vbaIndex * 4 + 3].Corner = CORNER_BL;
-			_vba.Data[_vbaIndex * 4 + 3].StartPosition = StartPosition;
+			_vba.Data[_vbaIndex * 4 + 3].StartPosition = StartPosition.ToVec2D();
 			_vba.Data[_vbaIndex * 4 + 3].StartTimeOffset = StartTimeOffset;
 			_vba.Data[_vbaIndex * 4 + 3].Random = Random;
 		}

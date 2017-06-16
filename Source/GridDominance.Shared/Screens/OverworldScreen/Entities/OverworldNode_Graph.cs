@@ -30,7 +30,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private readonly float _swingPeriode = 4f;
 
-		public OverworldNode_Graph(GDOverworldScreen scrn, Vector2 pos, GraphBlueprint world) : base(scrn, pos, Levels.WORLD_NAMES[world.ID], world.ID)
+		public OverworldNode_Graph(GDOverworldScreen scrn, FPoint pos, GraphBlueprint world) : base(scrn, pos, Levels.WORLD_NAMES[world.ID], world.ID)
 		{
 			Blueprint = world;
 
@@ -98,7 +98,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			sbatch.FillRectangle(innerBounds, FlatColors.Background);
 
-			sbatch.DrawCentered(Textures.TexIconLockOpen, innerBounds.VecCenter, INNERSIZE * 0.75f, INNERSIZE * 0.75f, FlatColors.Nephritis);
+			sbatch.DrawCentered(Textures.TexIconLockOpen, innerBounds.Center, INNERSIZE * 0.75f, INNERSIZE * 0.75f, FlatColors.Nephritis);
 
 			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, L10N.T(_l10ndescription), FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 		}
@@ -115,7 +115,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			var rot = FloatMath.Sin(Lifetime * FloatMath.TAU / _swingPeriode) * FloatMath.RAD_POS_005;
 
-			sbatch.DrawCentered(Textures.TexIconLock, innerBounds.VecCenter, INNERSIZE * 0.75f, INNERSIZE * 0.75f, Color.White, rot);
+			sbatch.DrawCentered(Textures.TexIconLock, innerBounds.Center, INNERSIZE * 0.75f, INNERSIZE * 0.75f, Color.White, rot);
 
 			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, L10N.T(_l10ndescription), FlatColors.Asbestos, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 		}

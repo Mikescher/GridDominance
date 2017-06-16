@@ -13,6 +13,7 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens;
@@ -61,7 +62,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public readonly DeltaLimitedModuloFloat Rotation;
 		public readonly DeltaLimitedFloat CrosshairSize = new DeltaLimitedFloat(0f, CROSSHAIR_GROW_SPEED);
 		public readonly float Scale; // scale effects: Size, HEALTH_REGEN, HEALTH_HIT_GEN (this+target), HEALTH_HIT_DROP (this+target), BARREL_CHARGE_SPEED
-		public override Vector2 Position { get; }
+		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 		public readonly int BlueprintCannonID;
@@ -77,7 +78,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Fraction = fractions[player];
 			GDOwner = scrn;
 
-			Position = new Vector2(px, py);
+			Position = new FPoint(px, py);
 			Scale = diam / CANNON_DIAMETER;
 			DrawingBoundingBox = new FSize(CANNON_OUTER_DIAMETER, CANNON_OUTER_DIAMETER) * Scale;
 			BlueprintCannonID = cid;
@@ -96,7 +97,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			controller = this.GDOwner().CreateController(Fraction, this);
 
-			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits.ToSimUnits(Position), 0, BodyType.Static);
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits2.ToSimUnits(Position), 0, BodyType.Static);
 
 			PhysicsFixtureBase = FixtureFactory.AttachCircle(
 				ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1,

@@ -65,7 +65,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 			var textBounds = FontRenderHelper.MeasureStringCached(Font, dispText, FontSize);
 
-			while (dispText.Length > 0 && textBounds.X > maxWidth)
+			while (dispText.Length > 0 && textBounds.Width > maxWidth)
 			{
 				dispText = Text.Substring(1);
 				textBounds = FontRenderHelper.MeasureStringCached(Font, dispText, FontSize);
@@ -77,13 +77,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 				FontSize, 
 				dispText, 
 				ColorText, 
-				new Vector2(bounds.X + leftOffset, bounds.Y + bounds.Height / 2));
+				new FPoint(bounds.X + leftOffset, bounds.Y + bounds.Height / 2));
 
 			if (IsFocused && (int) (_cursorBlinkTimer / CURSOR_BLINK_TIME) % 2 == 0)
 				SimpleRenderHelper.DrawSimpleRect(
 					sbatch, 
 					new FRectangle(
-						bounds.X + leftOffset + textBounds.X + Font.Spacing, 
+						bounds.X + leftOffset + textBounds.Width + Font.Spacing, 
 						bounds.Y + bounds.Height / 2 - FontSize / 2, 
 						CursorWidth, 
 						FontSize), 
@@ -98,7 +98,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 				FontSize, 
 				Placeholder, 
 				ColorPlaceholder,
-				new Vector2(bounds.X + leftOffset, bounds.Y + bounds.Height / 2));
+				new FPoint(bounds.X + leftOffset, bounds.Y + bounds.Height / 2));
 		}
 
 		public override void OnInitialize()

@@ -110,9 +110,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				{
 					sbatch.DrawLine(ray.Start, ray.End, Color.LimeGreen, 4);
 					
-					if (ray.Terminator == LaserRayTerminator.LaserDoubleTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new Vector2(8, 8), Color.Salmon);
-					if (ray.Terminator == LaserRayTerminator.LaserSelfTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new Vector2(8, 8), Color.CornflowerBlue);
-					if (ray.Terminator == LaserRayTerminator.LaserFaultTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new Vector2(8, 8), Color.Magenta);
+					if (ray.Terminator == LaserRayTerminator.LaserDoubleTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new FSize(8, 8), Color.Salmon);
+					if (ray.Terminator == LaserRayTerminator.LaserSelfTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new FSize(8, 8), Color.CornflowerBlue);
+					if (ray.Terminator == LaserRayTerminator.LaserFaultTerm) sbatch.FillRectangle(ray.End - new Vector2(4, 4), new FSize(8, 8), Color.Magenta);
 				}
 			}
 		}
@@ -128,15 +128,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		{
 			if (!src.LaserActive) { src.Lasers.Clear(); return; }
 
-			Vector2 istart = src.Position;
-			Vector2 iend   = src.Position + new Vector2(_rayLength, 0).Rotate(src.LaserRotation);
+			FPoint istart = src.Position;
+			FPoint iend   = src.Position + new Vector2(_rayLength, 0).Rotate(src.LaserRotation);
 
 			RecalcFromRay(src, istart, iend, 0, false, src.UserData, null, 0, false);
 		}
 
-		private void RecalcFromRay(LaserSource src, Vector2 istart, Vector2 iend, int idepth, bool iinglass, object iignore, LaserRay isrc, float idist, bool nofault)
+		private void RecalcFromRay(LaserSource src, FPoint istart, FPoint iend, int idepth, bool iinglass, object iignore, LaserRay isrc, float idist, bool nofault)
 		{
-			Stack<Tuple<Vector2, Vector2, int, bool, object, LaserRay, float>> remaining = new Stack<Tuple<Vector2, Vector2, int, bool, object, LaserRay, float>>();
+			Stack<Tuple<FPoint, FPoint, int, bool, object, LaserRay, float>> remaining = new Stack<Tuple<FPoint, FPoint, int, bool, object, LaserRay, float>>();
 
 			remaining.Push(Tuple.Create(istart, iend, idepth, iinglass, iignore, isrc, idist));
 
@@ -339,7 +339,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 							case FlatAlign4.WW: pNewStartX += _screen.Blueprint.LevelWidth; break;
 						}
 
-						var newStart = new Vector2(pNewStartX, pNewStartY);
+						var newStart = new FPoint(pNewStartX, pNewStartY);
 						var newEnd = newStart + (end - start);
 						
 						remaining.Push(Tuple.Create(newStart, newEnd, depth + 1, inglass, (object)resultBorderMarker, ray, startdist + ray.Length));
@@ -359,9 +359,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			}
 		}
 
-		private Tuple<Fixture, Vector2, Vector2> RayCast(World w, Vector2 start, Vector2 end, object udIgnore)
+		private Tuple<Fixture, FPoint, Vector2> RayCast(World w, FPoint start, FPoint end, object udIgnore)
 		{
-			Tuple<Fixture, Vector2, Vector2> result = null;
+			Tuple<Fixture, FPoint, Vector2> result = null;
 
 			//     return -1:       ignore this fixture and continue 
 			//     return  0:       terminate the ray cast
@@ -375,12 +375,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 				if (_wrapMode == GameWrapMode.Death && f.UserData is MarkerCollisionBorder) return -1; // ignore
 
-				result = Tuple.Create(f, ConvertUnits.ToDisplayUnits(pos), normal);
+				result = Tuple.Create(f, ConvertUnits.ToDisplayUnits(pos).ToFPoint(), normal);
 
 				return frac; // limit
 			}
 
-			w.RayCast(rcCallback, ConvertUnits.ToSimUnits(start), ConvertUnits.ToSimUnits(end));
+			w.RayCast(rcCallback, ConvertUnits.ToSimUnits(start.ToVec2D()), ConvertUnits.ToSimUnits(end.ToVec2D()));
 
 			return result;
 		}
@@ -456,9 +456,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			return false;
 		}
 
-		private bool LineParallality(Vector2 v1s, Vector2 v1e, float v1d, Vector2 v2s, Vector2 v2e, float v2d, out FPoint intersect, out float u)
+		private bool LineParallality(FPoint v1s, FPoint v1e, float v1d, FPoint v2s, FPoint v2e, float v2d, out FPoint intersect, out float u)
 		{
-			var dsq = Math2D.SegmentSegmentDistanceSquared(v1s.ToFPoint(), v1e.ToFPoint(), v2s.ToFPoint(), v2e.ToFPoint(), out _);
+			var dsq = Math2D.SegmentSegmentDistanceSquared(v1s, v1e, v2s, v2e, out _);
 			
 			if (dsq > RAY_WIDTH*RAY_WIDTH) { intersect = FPoint.Zero; u = float.NaN; return false; }
 
@@ -469,38 +469,38 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			{
 				// same direction
 
-				var u1 = v2s.ProjectOntoLine2(v1s, v1e);
-				var u2 = v1s.ProjectOntoLine2(v2s, v2e);
+				var u1 = v2s.ProjectOntoLine(v1s, v1e);
+				var u2 = v1s.ProjectOntoLine(v2s, v2e);
 
 				if (FloatMath.Abs(u1) < FloatMath.Abs(u2))
 				{
-					intersect = v2s.ToFPoint();
+					intersect = v2s;
 					u = u1;
 					return true;
 				}
 				else
 				{
-					intersect = v1s.ToFPoint();
+					intersect = v1s;
 					u = 0;
 					return true;
 				}
 			}
 			else if (FloatMath.Abs(FloatMath.DiffModulo(a1, a2, FloatMath.RAD_POS_180)) < PARALLEL_ANGLE_EPSILON)
 			{
-				var pc = ((v1s + v1e) / 2f).ToFPoint();
+				var pc = FPoint.MiddlePoint(v1s, v2s);
 
 				pc = pc + (v1s - v2s).WithLength((v1d - v2d)/2f);
 
-				var pcu1 = pc.ProjectOntoLine(v1s.ToFPoint(), v1e.ToFPoint());
-				if (pcu1 < 0) pc = v1s.ToFPoint();
-				if (pcu1 > 1) pc = v1e.ToFPoint();
+				var pcu1 = pc.ProjectOntoLine(v1s, v1e);
+				if (pcu1 < 0) pc = v1s;
+				if (pcu1 > 1) pc = v1e;
 
-				var pcu2 = pc.ProjectOntoLine(v2s.ToFPoint(), v2e.ToFPoint());
-				if (pcu2 < 0) pc = v2s.ToFPoint();
-				if (pcu2 > 1) pc = v2e.ToFPoint();
+				var pcu2 = pc.ProjectOntoLine(v2s, v2e);
+				if (pcu2 < 0) pc = v2s;
+				if (pcu2 > 1) pc = v2e;
 
 				intersect = pc;
-				u = pc.ProjectOntoLine(v1s.ToFPoint(), v1e.ToFPoint());
+				u = pc.ProjectOntoLine(v1s, v1e);
 				return true;
 			}
 
