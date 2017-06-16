@@ -45,6 +45,10 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterString("device_name", bridge.DeviceName);
+				ps.AddParameterString("device_version", bridge.DeviceVersion);
+				ps.AddParameterString("unlocked_worlds", profile.StrPurchasedWorlds);
+				ps.AddParameterString("device_resolution", bridge.DeviceResolution.FormatAsResolution());
 
 				var response = await QueryAsync<QueryResultPing>("ping", ps, RETRY_PING);
 
@@ -116,11 +120,9 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
 				ps.AddParameterString("device_name", bridge.DeviceName);
 				ps.AddParameterString("device_version", bridge.DeviceVersion);
-
-				//TODO Send Resolution
-				//TODO Send IAB Info
-				//TODO Send Device info in ping
-
+				ps.AddParameterString("unlocked_worlds", profile.StrPurchasedWorlds);
+				ps.AddParameterString("device_resolution", bridge.DeviceResolution.FormatAsResolution());
+				
 				var response = await QueryAsync<QueryResultCreateUser>("create-user", ps, RETRY_CREATEUSER);
 
 				if (response == null)
@@ -407,7 +409,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("userid", profile.OnlineUserID, false);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash, false);
 				ps.AddParameterString("app_version", GDConstants.Version.ToString(), false);
-				ps.AddParameterString("screen_resolution", bridge.ScreenResolution, false);
+				ps.AddParameterString("screen_resolution", bridge.DeviceResolution.FormatAsResolution(), false);
 				ps.AddParameterString("exception_id", entry.Type, false);
 				ps.AddParameterCompressed("exception_message", entry.MessageShort, false);
 				ps.AddParameterCompressed("exception_stacktrace", entry.MessageLong, false);

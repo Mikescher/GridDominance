@@ -26,9 +26,23 @@
 		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show</a>";
 		echo "</td>";
 	}
+	function lc($txt) {
+		$c = 0;
+		foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }
+		return $c;
+	}
 	?>
 
-    <?php global $pdo; $user = GDUser::QueryByIDOrNull($pdo, $_GET['id']); ?>
+    <?php
+        global $pdo;
+        $user = GDUser::QueryByIDOrNull($pdo, $_GET['id']);
+
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE userid=:id");
+        $stmt->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+        $stmt->execute();
+        $userdata = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    ?>
 
     <div class="infocontainer">
         <div class="infodiv">
@@ -45,6 +59,32 @@
         </div>
         <div class="infodiv">
             Score: <?php echo $user->Score; ?>
+        </div>
+    </div>
+
+    <div class="infocontainer">
+        <div class="infodiv">
+            Device: <?php echo $userdata['device_name']; ?>
+        </div>
+        <div class="infodiv">
+            Operating System: <?php echo $userdata['device_version']; ?>
+        </div>
+        <div class="infodiv">
+            Resolution: <?php echo $userdata['device_resolution']; ?>
+        </div>
+    </div>
+    <div class="infocontainer">
+        <div class="infodiv" title="<?php echo $userdata['unlocked_worlds']; ?>">
+            Unlocks: <?php echo lc($userdata['unlocked_worlds']); ?>
+        </div>
+        <div class="infodiv">
+            App Version: <?php echo lc($userdata['app_version']); ?>
+        </div>
+        <div class="infodiv">
+            Last Online: <?php echo $userdata['last_online']; ?>
+        </div>
+        <div class="infodiv">
+            Pings: <?php echo $userdata['ping_counter']; ?>
         </div>
     </div>
 

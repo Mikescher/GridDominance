@@ -6,13 +6,17 @@ require 'internals/backend.php';
 function run() {
 	global $pdo;
 
-	$userid        = getParamUIntOrError('userid');
-	$password      = getParamSHAOrError('password');
-	$appversion    = getParamStrOrError('app_version');
+	$userid            = getParamUIntOrError('userid');
+	$password          = getParamSHAOrError('password');
+	$appversion        = getParamStrOrError('app_version');
+	$devicename        = getParamStrOrError('device_name');
+	$deviceversion     = getParamStrOrError('device_version');
+	$unlocked_worlds   = getParamStrOrError('unlocked_worlds');
+	$device_resolution = getParamStrOrError('device_resolution');
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$userid, $password, $appversion]);
+	check_commit_signature($signature, [$userid, $password, $appversion, $devicename, $deviceversion, $unlocked_worlds, $device_resolution]);
 
 	//----------
 
@@ -20,10 +24,7 @@ function run() {
 
 	//----------
 
-	$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), last_online_app_version=:av, ping_counter=ping_counter+1 WHERE userid=:uid");
-	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
-	$stmt->bindValue(':av', $appversion, PDO::PARAM_STR);
-	executeOrFail($stmt);
+	$user->UpdateMeta($appversion, $devicename, $deviceversion, $unlocked_worlds, $device_resolution);
 
 	//----------
 

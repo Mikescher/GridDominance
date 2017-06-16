@@ -19,6 +19,7 @@ namespace GridDominance.Shared.SaveData
 
 		public Dictionary<Guid, LevelData> LevelData;
 		public HashSet<Guid> PurchasedWorlds;
+		public string StrPurchasedWorlds => String.Join("\n", PurchasedWorlds.Select(g => $"{g:B}").OrderBy(p => p));
 
 		public AccountType AccountType;
 		public int OnlineUserID;

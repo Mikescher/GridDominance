@@ -157,14 +157,211 @@ class GDUser
 	}
 
 	/**
-	 * @param $username
-	 * @param $hash
+	 * @param string $username
+	 * @param string $hash
+	 * @param string $app_version
 	 */
-	public function Upgrade(string $username, string $hash)
+	public function Upgrade($username, $hash, $app_version)
 	{
+		global $pdo;
+
+		$stmt = $pdo->prepare("UPDATE users SET username=:usr, password_hash=:pw, is_auto_generated=0, last_online=CURRENT_TIMESTAMP(), app_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
+		$stmt->bindValue(':usr', $username, PDO::PARAM_STR);
+		$stmt->bindValue(':pw', $hash, PDO::PARAM_STR);
+		$stmt->bindValue(':id', $this->ID, PDO::PARAM_INT);
+		$stmt->bindValue(':av', $app_version, PDO::PARAM_STR);
+		executeOrFail($stmt);
+
 		$this->AutoUser = false;
 		$this->PasswordHash = $hash;
 		$this->Username = $username;
 		$this->RevID++;
+	}
+
+	/**
+	 * @param string $app_version
+	 * @param string $device_name
+	 * @param string $device_version
+	 * @param string $unlocked_worlds
+	 * @param string $device_resolution
+	 */
+	public function UpdateMeta($app_version, $device_name, $device_version, $unlocked_worlds, $device_resolution) {
+		global $pdo;
+		$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), app_version=:av, device_name=:dn, device_version=:dv, unlocked_worlds=:uw, device_resolution=:dr, ping_counter=ping_counter+1 WHERE userid=:uid");
+		$stmt->bindValue(':uid', $this->ID,         PDO::PARAM_INT);
+		$stmt->bindValue(':av', $app_version,       PDO::PARAM_STR);
+		$stmt->bindValue(':dn', $device_name,       PDO::PARAM_STR);
+		$stmt->bindValue(':dv', $device_version,    PDO::PARAM_STR);
+		$stmt->bindValue(':uw', $unlocked_worlds,   PDO::PARAM_STR);
+		$stmt->bindValue(':dr', $device_resolution, PDO::PARAM_STR);
+		executeOrFail($stmt);
+	}
+
+	/**
+	 * @param string $app_version
+	 */
+	public function UpdateLastOnline($app_version) {
+		global $pdo;
+		$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), app_version=:av WHERE userid=:uid");
+		$stmt->bindValue(':uid', $this->ID,   PDO::PARAM_INT);
+		$stmt->bindValue(':av', $app_version, PDO::PARAM_STR);
+		executeOrFail($stmt);
+	}
+
+	/**
+	 * @param string $hash
+	 * @param string $app_version
+	 */
+	public function ChangePassword($hash, $app_version) {
+		global $pdo;
+		$stmt = $pdo->prepare("UPDATE users SET password_hash=:pw, last_online=CURRENT_TIMESTAMP(), app_version=:av WHERE userid=:uid");
+		$stmt->bindValue(':uid', $this->ID,   PDO::PARAM_INT);
+		$stmt->bindValue(':av', $app_version, PDO::PARAM_STR);
+		$stmt->bindValue(':pw', $hash,        PDO::PARAM_STR);
+		executeOrFail($stmt);
+
+		$this->PasswordHash = $hash;
+	}
+
+	/**
+	 * @param int $score
+	 * @param string $app_version
+	 */
+	public function SetScore($score, $app_version) {
+		global $pdo;
+		$stmt = $pdo->prepare("UPDATE users SET score=:scr, last_online=CURRENT_TIMESTAMP(), app_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
+		$stmt->bindValue(':id', $this->ID, PDO::PARAM_INT);
+		$stmt->bindValue(':av', $app_version, PDO::PARAM_STR);
+		$stmt->bindValue(':scr', $score, PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		$this->Score = $score;
+		$this->RevID++;
+	}
+
+	/**
+	 * (!) Does _NOT_ update RevID or Score in DB
+	 *
+	 * @param $levelid
+	 * @param $difficulty
+	 * @param $leveltime
+	 * @return array
+	 */
+	public function InsertLevelScore($levelid, $difficulty, $leveltime) {
+		global $pdo;
+
+		$stmt = $pdo->prepare("SELECT levelid, difficulty, best_time FROM level_highscores WHERE userid=:uid AND levelid=:lid AND difficulty=:diff");
+		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
+		$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
+		$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
+		executeOrFail($stmt);
+		$olddata = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return $this->InsertLevelScoreInternal($levelid, $difficulty, $leveltime, empty($olddata) ? FALSE : $olddata[0]);
+	}
+
+	/**
+	 * (!) Does _NOT_ update RevID or Score in DB
+	 *
+	 * @param array $scoredata
+	 * @return int
+	 */
+	public function InsertMultiLevelScore($scoredata) {
+		global $pdo;
+		global $config;
+
+
+		$stmt = $pdo->prepare("SELECT levelid, difficulty, best_time FROM level_highscores WHERE userid=:uid");
+		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
+		executeOrFail($stmt);
+		$olddata = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+		$changecount = 0;
+		foreach($scoredata as $new_data_row) {
+			$levelid       = $new_data_row->levelid;
+			$difficulty    = $new_data_row->difficulty;
+			$leveltime     = $new_data_row->leveltime;
+
+			if ($leveltime <= 0) { logMessage("The time $leveltime is not possible", "WARN"); continue; }
+			if (!in_array($difficulty, $config['difficulties'], TRUE)) { logMessage("The difficulty $difficulty is not possible", "WARN"); continue; }
+			if (!in_array($levelid, $config['levelids'], TRUE)) { logMessage("The levelID $levelid is not possible", "WARN"); continue; }
+
+			$old_data_row = FALSE;
+			foreach($olddata as $d) { if ($d['levelid'] == $levelid && $d['difficulty'] == $difficulty) $old_data_row = $d; }
+
+			$r = $this->InsertLevelScoreInternal($levelid, $difficulty, $leveltime, $old_data_row);
+			if ($r[0] != 1) $changecount++;
+		}
+
+		return $changecount;
+	}
+
+	/**
+	 * @param string $levelid
+	 * @param int $difficulty
+	 * @param int $leveltime
+	 * @param array|bool $olddata
+	 * @return array
+	 */
+	private function InsertLevelScoreInternal($levelid, $difficulty, $leveltime, $olddata) {
+		global $pdo;
+		global $config;
+
+		if ($olddata !== FALSE) {
+
+			if ($olddata['best_time'] <= $leveltime) {
+				// better or same value in db
+				return [1, $olddata['best_time']];
+			}
+
+			// existing row in db
+			$stmt = $pdo->prepare("UPDATE level_highscores SET best_time=:time, last_changed=CURRENT_TIMESTAMP() WHERE userid=:uid AND levelid=:lid AND difficulty=:diff");
+			$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
+			$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
+			$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
+			$stmt->bindValue(':time', $leveltime, PDO::PARAM_INT);
+			executeOrFail($stmt);
+
+			return [2, $leveltime];
+		} else {
+
+			// no row in db
+			$stmt = $pdo->prepare("INSERT INTO level_highscores (userid, levelid, difficulty, best_time, last_changed) VALUES (:uid, :lid, :diff, :time, CURRENT_TIMESTAMP())");
+			$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
+			$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
+			$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
+			$stmt->bindValue(':time', $leveltime, PDO::PARAM_INT);
+			executeOrFail($stmt);
+
+			$this->Score += $config['diff_scores'][$difficulty];
+
+			return [3, $leveltime];
+		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function GetAllLevelScoreEntries() {
+		global $pdo;
+
+		$stmt = $pdo->prepare("SELECT levelid, difficulty, best_time FROM level_highscores WHERE userid=:uid");
+		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function Delete() {
+		global $pdo;
+
+		$stmt = $pdo->prepare("DELETE FROM users WHERE userid=:uid");
+		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		$stmt = $pdo->prepare("DELETE FROM level_highscores WHERE userid=:uid");
+		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
+		executeOrFail($stmt);
 	}
 }

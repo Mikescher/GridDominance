@@ -37,7 +37,7 @@
 
 	<div class="infocontainer">
 		<div class="infodiv">
-			Total Users: <a href="userlist.php"><?php echo getUserCount(); ?></a>
+			Total Users: <a href="userlist.php"><?php echo getUserCount(); ?></a>&nbsp;&nbsp;(<a href="statistics.php">stats</a>)
 		</div>
 		<div class="infodiv">
 			Active Users (week):  <?php echo getActiveUserCount(7); ?>

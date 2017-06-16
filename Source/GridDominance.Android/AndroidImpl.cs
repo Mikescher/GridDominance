@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using Android.Content;
 using Android.App;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Android
 {
@@ -18,7 +19,7 @@ namespace GridDominance.Android
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);
 		public string DeviceVersion { get; } = string.Format("Android {0} sdk-{1}", Build.VERSION.Release, Build.VERSION.Sdk);
-		public string ScreenResolution { get; } = ScreenRes();
+		public FSize DeviceResolution { get; } = ScreenRes();
 
 		private readonly SHA256 sha256 = SHA256.Create();
 		private readonly MainActivity _activity;
@@ -38,6 +39,9 @@ namespace GridDominance.Android
 
 		private static string GenerateInfoStr()
 		{
+			var m = Resources.System.DisplayMetrics;
+			var c = Resources.System.Configuration;
+			
 			StringBuilder b = new StringBuilder();
 
 			b.AppendFormat("VERSION.Codename    := '{0}'\n", Build.VERSION.Codename);
@@ -72,6 +76,7 @@ namespace GridDominance.Android
 			b.AppendFormat("Language            := '{0}'\n", Resources.System.Configuration.Locale.Language);
 			b.AppendFormat("Orientation         := '{0}'\n", Resources.System.Configuration.Orientation);
 			b.AppendFormat("Touchscreen         := '{0}'\n", Resources.System.Configuration.Touchscreen);
+			b.AppendFormat("ScreenResolution    := '{0}'\n", $"{m.WidthPixels}x{m.HeightPixels} <=> {c.ScreenWidthDp}x{c.ScreenHeightDp} (d = {m.Density})");
 
 			return b.ToString();
 		}
@@ -81,12 +86,10 @@ namespace GridDominance.Android
 			_iab.HandleActivityResult(requestCode, resultCode, data);
 		}
 
-		private static string ScreenRes()
+		private static FSize ScreenRes()
 		{
 			var m = Resources.System.DisplayMetrics;
-			var c = Resources.System.Configuration;
-
-			return $"{m.WidthPixels}x{m.HeightPixels} <=> {c.ScreenWidthDp}x{c.ScreenHeightDp} (d = {m.Density})";
+			return new FSize(m.WidthPixels, m.HeightPixels);
 		}
 
 		public string DoSHA256(string input)

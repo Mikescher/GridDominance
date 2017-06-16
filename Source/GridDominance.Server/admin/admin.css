@@ -60,3 +60,19 @@ a:visited { color: blue; }
 h1 a { color: black; text-decoration: none; } 
 h1 a:visited { color: black; text-decoration: none; } 
 h1 a:hover { color: blue; text-decoration: underline; } 
+
+
+
+.columnbox3 {
+  width: 100%;
+}
+.columnbox3:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.column3_0, .column3_1, .column3_2 {
+  width: 33%;
+  float: left;
+}

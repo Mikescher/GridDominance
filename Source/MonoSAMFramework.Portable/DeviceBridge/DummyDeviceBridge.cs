@@ -1,4 +1,5 @@
 ﻿using System;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace MonoSAMFramework.Portable.DeviceBridge
 {
@@ -7,7 +8,7 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		public string FullDeviceInfoString { get; } = "";
 		public string DeviceName { get; } = "";
 		public string DeviceVersion { get; } = "";
-		public string ScreenResolution { get; } = "";
+		public FSize DeviceResolution { get; } = FSize.Empty;
 
 		public FileHelper FileHelper { get; } = new DummyFileHelper();
 		public IBillingAdapter IAB { get; } = new DummyIAB();

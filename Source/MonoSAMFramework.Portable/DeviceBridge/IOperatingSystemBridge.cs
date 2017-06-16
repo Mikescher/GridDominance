@@ -1,11 +1,14 @@
-﻿namespace MonoSAMFramework.Portable.DeviceBridge
+﻿using System;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+
+namespace MonoSAMFramework.Portable.DeviceBridge
 {
 	public interface IOperatingSystemBridge
 	{
 		string FullDeviceInfoString { get; }
 		string DeviceName { get; }
 		string DeviceVersion { get; }
-		string ScreenResolution { get; }
+		FSize DeviceResolution { get; }
 
 		FileHelper FileHelper { get; }
 		IBillingAdapter IAB { get; }

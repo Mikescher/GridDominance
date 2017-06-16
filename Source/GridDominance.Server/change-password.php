@@ -26,11 +26,7 @@ function run() {
 	$hash = password_hash($password_new, PASSWORD_BCRYPT);
 	if (!$hash) throw new Exception('password_hash failure');
 
-	$stmt = $pdo->prepare("UPDATE users SET password_hash=:pw, last_online=CURRENT_TIMESTAMP(), last_online_app_version=:av WHERE userid=:uid");
-	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
-	$stmt->bindValue(':av', $appversion, PDO::PARAM_STR);
-	$stmt->bindValue(':pw', $hash, PDO::PARAM_STR);
-	executeOrFail($stmt);
+	$user->ChangePassword($hash, $appversion);
 
 	//----------
 

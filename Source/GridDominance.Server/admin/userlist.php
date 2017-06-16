@@ -20,12 +20,24 @@
 
     $previd = 0;
 	function expansioncell($txt) {
-	    global $previd;
+		global $previd;
 
-	    echo "<td>";
+		echo "<td>";
 		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show</a>";
 		echo "</td>";
-    }
+	}
+	function expansioncell3($txt, $hdr) {
+		global $previd;
+
+		echo "<td>";
+		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show (" . $hdr . ")</a>";
+		echo "</td>";
+	}
+	function lc($txt) {
+	    $c = 0;
+	    foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }
+	    return $c;
+	}
     ?>
 
     <div class="tablebox">
@@ -39,6 +51,9 @@
                     <th>Rev ID</th>
                     <th style='width: 200px'>Devicename</th>
                     <th style='width: 350px'>Deviceversion</th>
+                    <th>Resolution</th>
+                    <th>Unlocks</th>
+                    <th>Multiplayer</th>
                     <th style='width: 170px'>Last Online</th>
                     <th>App Version</th>
 
@@ -51,10 +66,13 @@
                     <td><?php echo $entry['is_auto_generated']; ?></td>
                     <td><?php echo $entry['score']; ?></td>
                     <td><?php echo $entry['revision_id']; ?></td>
-                    <td><?php echo $entry['creation_device_name']; ?></td>
-                    <td><?php echo $entry['creation_device_version']; ?></td>
+                    <td><?php echo $entry['device_name']; ?></td>
+                    <td><?php echo $entry['device_version']; ?></td>
+                    <td><?php echo $entry['device_resolution']; ?></td>
+					<?php expansioncell3($entry['unlocked_worlds'], lc($entry['unlocked_worlds'])); ?>
+                    <td><?php echo strpos($entry['unlocked_worlds'], '{d34db335-0001-4000-7711-000000300001}') ? 'TRUE' : 'FALSE'; ?></td>
                     <td><?php echo $entry['last_online']; ?></td>
-                    <td><?php echo $entry['last_online_app_version']; ?></td>
+                    <td><?php echo $entry['app_version']; ?></td>
                 </tr>
                 <tr class='tab_prev' id='tr_prev_<?php echo $previd; ?>'><td colspan='12' id='td_prev_<?php echo $previd; ?>' style='text-align: left;' ></td></tr>
                 <?php $previd++; ?>

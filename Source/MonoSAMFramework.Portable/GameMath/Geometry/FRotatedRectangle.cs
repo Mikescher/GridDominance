@@ -161,6 +161,11 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			_cacheMostBottom = FloatMath.Max(CenterY - p1.Y, CenterY + p1.Y, CenterY - p2.Y, CenterY + p2.Y);
 		}
 
+		public FPoint TopLeft     => new FPoint(CenterX - Width / 2, CenterY - Height / 2).RotateAround(Center, Rotation);
+		public FPoint TopRight    => new FPoint(CenterX + Width / 2, CenterY - Height / 2).RotateAround(Center, Rotation);
+		public FPoint BottomLeft  => new FPoint(CenterX - Width / 2, CenterY + Height / 2).RotateAround(Center, Rotation);
+		public FPoint BottomRight => new FPoint(CenterX + Width / 2, CenterY + Height / 2).RotateAround(Center, Rotation);
+
 		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON || Math.Abs(Height) < FloatMath.EPSILON;
 
 		public FSize Size => new FSize(Width, Height);

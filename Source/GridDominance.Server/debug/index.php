@@ -95,6 +95,8 @@
             App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
             Device Name:<br>         <input type="text" data-apiparam="device_name"          data-apiformat="str" data-apisig="true">
             Device Version:<br>      <input type="text" data-apiparam="device_version"       data-apiformat="str" data-apisig="true">
+            Unlocks:<br>             <input type="text" data-apiparam="unlocked_worlds"      data-apiformat="str" data-apisig="true">
+            Resolution:<br>          <input type="text" data-apiparam="device_resolution"    data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>
@@ -117,6 +119,10 @@
             UserID:<br>              <input type="text" data-apiparam="userid"               data-apiformat="int" data-apisig="true">
             Password:<br>            <input type="text" data-apiparam="password"             data-apiformat="enc" data-apisig="true">
             App Version:<br>         <input type="text" data-apiparam="app_version"          data-apiformat="str" data-apisig="true">
+            Device Name:<br>         <input type="text" data-apiparam="device_name"          data-apiformat="str" data-apisig="true">
+            Device Version:<br>      <input type="text" data-apiparam="device_version"       data-apiformat="str" data-apisig="true">
+            Unlocks:<br>             <input type="text" data-apiparam="unlocked_worlds"      data-apiformat="str" data-apisig="true">
+            Resolution:<br>          <input type="text" data-apiparam="device_resolution"    data-apiformat="str" data-apisig="true">
 
             <button type="button" onclick="apicall(this);">Query</button>
         </form>

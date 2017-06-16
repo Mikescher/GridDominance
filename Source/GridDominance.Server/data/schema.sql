@@ -10,21 +10,24 @@ USE grid_dominance;
 DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users
 (
-  userid                  int(11)      NOT NULL AUTO_INCREMENT,
-  username                varchar(64)  NOT NULL,
-  password_hash           char(128)    NOT NULL,
-  is_auto_generated       boolean      NOT NULL,
+  userid                  int(11)       NOT NULL AUTO_INCREMENT,
+  username                varchar(64)   NOT NULL,
+  password_hash           char(128)     NOT NULL,
+  is_auto_generated       boolean       NOT NULL,
 
-  score                   int(11)      NOT NULL,
-  revision_id             int(11)      NOT NULL DEFAULT 0,
+  score                   int(11)       NOT NULL,
+  revision_id             int(11)       NOT NULL DEFAULT 0,
 
-  creation_time           timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  creation_device_name    varchar(128) NOT NULL,
-  creation_device_version varchar(128) NOT NULL,
+  creation_time           timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  last_online             timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  last_online_app_version varchar(24)  NOT NULL,
-  ping_counter            int          NOT NULL DEFAULT 0,
+  last_online             timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  app_version             varchar(24)   NOT NULL,
+  device_name             varchar(128)  NOT NULL,
+  device_version          varchar(128)  NOT NULL,
+  unlocked_worlds         varchar(1024) NOT NULL,
+  device_resolution       varchar(24)   NOT NULL,
+
+  ping_counter            int           NOT NULL DEFAULT 0,
 
   PRIMARY KEY (userid)
 );

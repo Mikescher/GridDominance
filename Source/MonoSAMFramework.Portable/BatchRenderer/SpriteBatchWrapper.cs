@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using System;
 using System.Linq;
 
+#pragma warning disable 618
 namespace MonoSAMFramework.Portable.BatchRenderer
 {
 	/// <summary>
@@ -193,13 +194,14 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			if (shape is FRectangle)
 			{
 				DrawRectangle((FRectangle)shape, color, thickness);
-				return;
 			}
-
-			if (shape is FCircle)
+			else if (shape is FCircle)
 			{
 				DrawCircle((FCircle)shape, 32, color, thickness);
-				return;
+			}
+			else if (shape is FRotatedRectangle)
+			{
+				DrawRectangle((FRotatedRectangle)shape, color, thickness);
 			}
 		}
 
@@ -332,6 +334,19 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			var tr = rectangle.TopRight.RotateAround(center, rotation);
 			var bl = rectangle.BottomLeft.RotateAround(center, rotation);
 			var br = rectangle.BottomRight.RotateAround(center, rotation);
+
+			DrawLine(tl, tr, color, thickness);
+			DrawLine(tr, br, color, thickness);
+			DrawLine(br, bl, color, thickness);
+			DrawLine(bl, tl, color, thickness);
+		}
+
+		public void DrawRectangle(FRotatedRectangle rectangle, Color color, float thickness = 1f)
+		{
+			var tl = rectangle.TopLeft;
+			var tr = rectangle.TopRight;
+			var bl = rectangle.BottomLeft;
+			var br = rectangle.BottomRight;
 
 			DrawLine(tl, tr, color, thickness);
 			DrawLine(tr, br, color, thickness);

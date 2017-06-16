@@ -30,53 +30,33 @@ function run() {
 
 	//----------
 
-	$stmt = $pdo->prepare("SELECT best_time FROM level_highscores WHERE userid=:uid AND levelid=:lid AND difficulty=:diff");
-	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
-	$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
-	$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
-	executeOrFail($stmt);
-	$dbtime = $stmt->fetchColumn();
+	$r = $user->InsertLevelScore($levelid, $difficulty, $leveltime);
 
-	if ($dbtime !== FALSE) {
+	if ($r[0] == 1) {
 
-		if ($dbtime <= $leveltime) {
-			// better or same value in db
-			outputResultSuccess(['update' => false, 'value_db' => $dbtime, 'user' => $user]);
-		}
+		// better or same value in db
+		logDebug("levelscore _not_ changed for user:$userid Level:$levelid::$difficulty to $r[1] ($leveltime) ms ($totalscore)");
+		outputResultSuccess(['update' => false, 'value_db' => $r[1], 'user' => $user]);
+
+	} else if ($r[0] == 2) {
 
 		// existing row in db
-		$stmt = $pdo->prepare("UPDATE level_highscores SET best_time=:time, last_changed=CURRENT_TIMESTAMP() WHERE userid=:uid AND levelid=:lid AND difficulty=:diff");
-		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
-		$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
-		$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
-		$stmt->bindValue(':time', $leveltime, PDO::PARAM_INT);
-		executeOrFail($stmt);
-	} else {
+		$user->SetScore($totalscore, $appversion);
+		logDebug("levelscore changed (update) for user:$userid Level:$levelid::$difficulty to $leveltime ms ($totalscore)");
+		outputResultSuccess(['update' => true, 'value_db' => $leveltime, 'user' => $user]);
+
+	} else if ($r[0] == 3) {
 
 		// no row in db
-		$stmt = $pdo->prepare("INSERT INTO level_highscores (userid, levelid, difficulty, best_time, last_changed) VALUES (:uid, :lid, :diff, :time, CURRENT_TIMESTAMP())");
-		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
-		$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
-		$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
-		$stmt->bindValue(':time', $leveltime, PDO::PARAM_INT);
-		executeOrFail($stmt);
+		$user->SetScore($totalscore, $appversion);
+		logDebug("levelscore changed (insert) for user:$userid Level:$levelid::$difficulty to $leveltime ms ($totalscore)");
+		outputResultSuccess(['update' => true, 'value_db' => $leveltime, 'user' => $user]);
+
+	} else {
+
+		throw new Exception('Unknown return value: $r[0]');
+
 	}
-
-	//----------
-
-	$stmt = $pdo->prepare("UPDATE users SET score=:scr, last_online=CURRENT_TIMESTAMP(), last_online_app_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
-	$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
-	$stmt->bindValue(':av', $appversion, PDO::PARAM_INT);
-	$stmt->bindValue(':scr', $totalscore, PDO::PARAM_INT);
-	executeOrFail($stmt);
-
-	$user->Score = $totalscore;
-	$user->RevID++;
-
-	//----------
-
-	logDebug("levelscore changed for user:$userid Level:$levelid::$difficulty to $leveltime ms ($totalscore)");
-	outputResultSuccess(['update' => true, 'value_db' => $leveltime, 'user' => $user]);
 }
 
 
