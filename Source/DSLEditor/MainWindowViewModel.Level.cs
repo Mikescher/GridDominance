@@ -43,7 +43,7 @@ namespace GridDominance.DSLEditor
 
 				if (sim)
 				{
-					foreach (var cid in lp.BlueprintCannons.Select(c => c.CannonID))
+					foreach (var cid in lp.AllCannons.Select(c => c.CannonID))
 					{
 						_imageCache[cid] = ImageHelper.CreateImageSource(levelPainter.Draw(lp, cid));
 					}

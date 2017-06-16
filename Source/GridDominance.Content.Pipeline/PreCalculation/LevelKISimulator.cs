@@ -18,7 +18,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace GridDominance.Content.Pipeline.PreCalculation
 {
-	internal static class LevelBulletPathSimulator
+	internal static class LevelKISimulator
 	{
 		private const int RESOLUTION = 720;
 
@@ -28,7 +28,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
 
 			foreach (var cannon in lvl.BlueprintLaserCannons)
-				cannon.PrecalculatedPaths = LevelBulletPathTracer.Precalc(lvl, cannon);
+				cannon.PrecalculatedPaths = LevelKITracer.Precalc(lvl, cannon);
 		}
 
 		public static BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)

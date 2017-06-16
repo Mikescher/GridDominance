@@ -15,10 +15,10 @@ using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace GridDominance.Content.Pipeline.PreCalculation
 {
-	internal static class LevelBulletPathTracer
+	internal static class LevelKITracer
 	{
-		public const int MAX_COUNT_RECAST  = 8;
-		public const int MAX_COUNT_REFLECT = 16;
+		public const int MAX_COUNT_RECAST  = 8;   // Bullet
+		public const int MAX_COUNT_REFLECT = 8;   // Laser
 
 		private const int RESOLUTION = 3600;
 
@@ -327,17 +327,18 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var pNewStart = traceResult.Item2;
 
 				var normal = traceResult.Item3;
-				var aIn = (rcEnd - rcStart).ToAngle() - normal.ToAngle();
+				var aIn = (rcStart - rcEnd).ToAngle() - normal.ToAngle();
 
 				// sin(aIn) / sin(aOut) = currRefractIdx / Glass.RefractIdx
 
 				var n = inGlassBlock ? (GlassBlockBlueprint.REFRACTION_INDEX / 1f) : (1f / GlassBlockBlueprint.REFRACTION_INDEX);
 
-				var sinaOut = FloatMath.Sin(aIn) / n;
+				var sinaOut = FloatMath.Sin(aIn) * n;
 
 				var dat = new List<Tuple<BulletPathBlueprint, float>>();
 
-				if (sinaOut < 1 && sinaOut > -1)
+				var isRefracting = sinaOut < 1 && sinaOut > -1;
+				if (isRefracting) // refraction
 				{
 					// refraction
 
@@ -357,6 +358,22 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 					var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pReflectVec.ToAngle(), cannonRadians, remainingRecasts - 1, !inGlassBlock);
 					dat.AddRange(sub);
+				}
+				else
+				{
+					if (isRefracting)
+					{
+						// no reflection in glass
+					}
+					else
+					{
+						// reflection
+
+						var pReflectVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
+
+						var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pReflectVec.ToAngle(), cannonRadians, remainingRecasts - 1, !inGlassBlock);
+						dat.AddRange(sub);
+					}
 				}
 
 				return dat;
