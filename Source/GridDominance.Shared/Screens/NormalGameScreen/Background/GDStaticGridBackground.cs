@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 {
@@ -58,10 +59,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				var rs = new FRectangle(-fextx,                    Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * fextx, fexty);
 				var rw = new FRectangle(-fextx,                    -fexty,                     fextx,                                 Owner.MapFullBounds.Height + 2 * fexty);
 
-				sbatch.DrawStretched(Textures.TexPixel, rn, Color.Black);
-				sbatch.DrawStretched(Textures.TexPixel, re, Color.Black);
-				sbatch.DrawStretched(Textures.TexPixel, rs, Color.Black);
-				sbatch.DrawStretched(Textures.TexPixel, rw, Color.Black);
+				sbatch.DrawStretched(Textures.TexPixel, rn, FlatColors.Clouds);
+				sbatch.DrawStretched(Textures.TexPixel, re, FlatColors.Clouds);
+				sbatch.DrawStretched(Textures.TexPixel, rs, FlatColors.Clouds);
+				sbatch.DrawStretched(Textures.TexPixel, rw, FlatColors.Clouds);
+
+				FlatRenderHelper.DrawForegroundDropShadow(sbatch, Owner.MapFullBounds, GDConstants.TILE_WIDTH / 2f, GDConstants.TILE_WIDTH / 2f);
+				
+				sbatch.DrawRectangle(Owner.MapFullBounds, Color.White, 3f);
 			}
 		}
 		

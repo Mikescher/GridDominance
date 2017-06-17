@@ -172,10 +172,27 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				var rs = new FRectangle(-fextx,                    Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * fextx, fexty);
 				var rw = new FRectangle(-fextx,                    -fexty,                     fextx,                                 Owner.MapFullBounds.Height + 2 * fexty);
 
-				sbatch.DrawStretched(Textures.TexPixel, rn, Color.Black);
-				sbatch.DrawStretched(Textures.TexPixel, re, Color.Black);
-				sbatch.DrawStretched(Textures.TexPixel, rs, Color.Black);
-				sbatch.DrawStretched(Textures.TexPixel, rw, Color.Black);
+				sbatch.DrawStretched(Textures.TexPixel, rn, FlatColors.Clouds);
+				sbatch.DrawStretched(Textures.TexPixel, re, FlatColors.Clouds);
+				sbatch.DrawStretched(Textures.TexPixel, rs, FlatColors.Clouds);
+				sbatch.DrawStretched(Textures.TexPixel, rw, FlatColors.Clouds);
+
+				FlatRenderHelper.DrawForegroundDropShadow(sbatch, Owner.MapFullBounds, GDConstants.TILE_WIDTH / 2f, GDConstants.TILE_WIDTH / 2f);
+				
+				for (int ox = 0; ox < Owner.MapFullBounds.Width / TILE_WIDTH; ox++)
+				{
+					var px = ox * TILE_WIDTH + TILE_WIDTH / 2f;
+
+					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(px,                          0), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_090);
+					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(px, Owner.MapFullBounds.Height), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_090);
+				}
+				for (int oy = 0; oy < Owner.MapFullBounds.Height / TILE_WIDTH; oy++)
+				{
+					var py = oy * TILE_WIDTH + TILE_WIDTH / 2f;
+
+					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(0,                         py), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_000);
+					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(Owner.MapFullBounds.Width, py), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_000);
+				}
 			}
 		}
 

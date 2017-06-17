@@ -125,6 +125,7 @@ namespace GridDominance.Shared.Resources
 		public static int CANNONCORE_COUNT = 6;
 
 		public static TextureRegion2D TexTileBorder;
+		public static TextureRegion2D TexDotLine;
 
 		public static TextureRegion2D TexCircle;
 		public static TextureRegion2D TexTriangle;
@@ -203,6 +204,8 @@ namespace GridDominance.Shared.Resources
 
 		public static TextureRegion2D TexPanelBlurEdge;
 		public static TextureRegion2D TexPanelBlurCorner;
+		public static TextureRegion2D TexScissorBlurEdge;
+		public static TextureRegion2D TexScissorBlurCorner;
 		public static TextureRegion2D TexPanelCorner;
 
 		public static TextureRegion2D TexGlassEdge;
@@ -275,6 +278,7 @@ namespace GridDominance.Shared.Resources
 			TexTitleNumber7          = AtlasExtraTextures["title_w7"];
 
 			TexTileBorder            = AtlasTextures["grid"];
+			TexDotLine               = AtlasTextures["dotline"];
 
 			TexCannonBody            = AtlasTextures["simple_circle"];
 			TexCannonBodyShadow      = AtlasTextures["cannonbody_shadow"];
@@ -346,9 +350,11 @@ namespace GridDominance.Shared.Resources
 
 			TexHUDFlags                   = new[] { AtlasTextures["flag_00"], AtlasTextures["flag_01"] };
 
-			TexPanelBlurEdge   = AtlasTextures["panel_blur_edge"];
-			TexPanelBlurCorner = AtlasTextures["panel_blur_corner"];
-			TexPanelCorner     = AtlasTextures["panel_corner"];
+			TexPanelBlurEdge     = AtlasTextures["panel_blur_edge"];
+			TexPanelBlurCorner   = AtlasTextures["panel_blur_corner"];
+			TexScissorBlurEdge   = AtlasTextures["scissor_blur_edge"];
+			TexScissorBlurCorner = AtlasTextures["scissor_blur_corner"];
+			TexPanelCorner       = AtlasTextures["panel_corner"];
 
 			TexPortalDropEnd1   = AtlasTextures["portalshadow_end1"];
 			TexPortalDropEnd2   = AtlasTextures["portalshadow_end2"];
@@ -390,10 +396,12 @@ namespace GridDominance.Shared.Resources
 			DebugFontSmall     = content.Load<SpriteFont>("fonts/debugFontSmall");
 #endif
 			
-			StaticTextures.SinglePixel     = TexPixel;
-			StaticTextures.PanelBlurCorner = TexPanelBlurCorner;
-			StaticTextures.PanelBlurEdge   = TexPanelBlurEdge;
-			StaticTextures.PanelCorner     = TexPanelCorner;
+			StaticTextures.SinglePixel           = TexPixel;
+			StaticTextures.PanelBlurCorner       = TexPanelBlurCorner;
+			StaticTextures.PanelBlurEdge         = TexPanelBlurEdge;
+			StaticTextures.PanelCorner           = TexPanelCorner;
+			StaticTextures.PanelBlurCornerPrecut = TexScissorBlurCorner;
+			StaticTextures.PanelBlurEdgePrecut   = TexScissorBlurEdge;
 
 			StaticTextures.KeyboardBackspace = TexHUDIconKeyboardBackspace;
 			StaticTextures.KeyboardEnter     = TexHUDIconKeyboardEnter;

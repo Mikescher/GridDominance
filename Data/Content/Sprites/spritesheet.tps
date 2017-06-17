@@ -297,6 +297,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">base_blocks/dotline.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,32,3,64</rect>
+                <key>scale9Paddings</key>
+                <rect>2,32,3,64</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">base_blocks/grid.png</key>
             <key type="filename">difficulty/difficulty_line_01.png</key>
             <key type="filename">difficulty/difficulty_line_02.png</key>
@@ -384,6 +397,8 @@
             </struct>
             <key type="filename">base_blocks/panel_blur_corner.png</key>
             <key type="filename">base_blocks/panel_blur_edge.png</key>
+            <key type="filename">base_blocks/scissor_blur_corner.png</key>
+            <key type="filename">base_blocks/scissor_blur_edge.png</key>
             <key type="filename">base_blocks/tile_debug.png</key>
             <key type="filename">hud/back.png</key>
             <key type="filename">hud/next.png</key>
