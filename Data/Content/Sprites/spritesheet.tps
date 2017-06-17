@@ -354,6 +354,7 @@
             <key type="filename">level/cannoncog_animated/cannoncog_033.png</key>
             <key type="filename">level/cannoncog_animated/cannoncog_034.png</key>
             <key type="filename">level/cannoncog_animated/cannoncog_035.png</key>
+            <key type="filename">level/laser/laser_flare.png</key>
             <key type="filename">level/vortex/vortex_circle_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -406,6 +407,8 @@
             </struct>
             <key type="filename">base_blocks/panel_corner.png</key>
             <key type="filename">level/glassblock/glass_fill.png</key>
+            <key type="filename">level/laser/laser_base.png</key>
+            <key type="filename">level/laser/laser_pointer.png</key>
             <key type="filename">particles/particle_00.png</key>
             <key type="filename">particles/particle_01.png</key>
             <key type="filename">particles/particle_02.png</key>
@@ -422,6 +425,7 @@
             <key type="filename">particles/particle_13.png</key>
             <key type="filename">particles/particle_14.png</key>
             <key type="filename">particles/particle_15.png</key>
+            <key type="filename">particles/particle_16.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

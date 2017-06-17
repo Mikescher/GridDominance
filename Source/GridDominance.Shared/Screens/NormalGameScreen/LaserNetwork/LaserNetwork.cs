@@ -31,7 +31,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public bool Dirty = false;     // calc everything new
 		public bool SemiDirty = false; // could be that something crossed a ray
 
-
 		private readonly GDGameScreen _screen;
 		private readonly World _world;
 		private readonly float _worldWidth;

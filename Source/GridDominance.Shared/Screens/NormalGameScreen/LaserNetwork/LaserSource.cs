@@ -16,6 +16,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public object UserData;
 
 		public readonly List<LaserRay> Lasers = new List<LaserRay>(LaserNetwork.MAX_LASER_PER_SOURCE);
+		
+		public float SpeckTravel = 0;
 
 		public LaserSource(LaserNetwork owner, FPoint position, Fraction fracNeutral, object userData)
 		{

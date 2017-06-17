@@ -140,6 +140,9 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexCannonCrosshair;
 		public static TextureRegion2D[] AnimCannonCog;
 		public static TextureRegion2D CannonCog;
+		public static TextureRegion2D TexLaserBase;
+		public static TextureRegion2D TexLaserPointer;
+		public static TextureRegion2D TexLaserFlare;
 
 		public static TextureRegion2D TexVoidCircle_FG;
 		public static TextureRegion2D TexVoidWall_FG_L1;
@@ -280,7 +283,10 @@ namespace GridDominance.Shared.Resources
 			TexCannonCoreShadow      = Enumerable.Range(1, CANNONCORE_COUNT).Select(p => AtlasTextures[$"cannoncore_shadow_{p:00}"]).ToArray();
 			TexCannonBarrelShadow    = AtlasTextures["cannonbarrel_shadow"];
 			TexCannonCrosshair       = AtlasTextures["cannoncrosshair"];
-			
+			TexLaserBase             = AtlasTextures["laser_base"];
+			TexLaserPointer          = AtlasTextures["laser_pointer"];
+			TexLaserFlare            = AtlasTextures["laser_flare"];
+
 			TexVoidCircle_FG      = AtlasTextures["voidcircle_fg"];
 			TexVoidWall_FG_L1     = AtlasTextures["voidwall_fg_1"];
 			TexVoidWall_FG_L2     = AtlasTextures["voidwall_fg_2"];
@@ -306,7 +312,7 @@ namespace GridDominance.Shared.Resources
 			TexCircleEmpty           = AtlasTextures["simple_circle_empty"];
 			TexPixel                 = AtlasTextures["simple_pixel"];
 			TexPixel                 = new TextureRegion2D(TexPixel.Texture, TexPixel.X + TexPixel.Width / 2, TexPixel.Y + TexPixel.Height / 2, 1, 1); // Anti-Antialising
-			TexParticle              = Enumerable.Range(0, 16).Select(p => AtlasTextures[$"particle_{p:00}"]).ToArray();
+			TexParticle              = Enumerable.Range(0, 17).Select(p => AtlasTextures[$"particle_{p:00}"]).ToArray();
 			TexGradient              = AtlasTextures["alphagradient"];
 
 			TexHUDButtonBase                      = AtlasTextures["hud_button_base"];

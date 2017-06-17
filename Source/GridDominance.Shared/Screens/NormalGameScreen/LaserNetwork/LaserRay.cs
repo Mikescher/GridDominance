@@ -26,7 +26,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public readonly object EndIgnoreObj;
 		public readonly float SourceDistance; // At [[Start]]
 
-		public float Length => (End - Start).Length();
+		private float? _length = null;
+		public float Length => _length ?? (_length = (End - Start).Length()) ?? 0;
+
+		private float? _angle = null;
+		public float Angle => _angle ?? (_angle = End.ToAngle(Start)) ?? 0;
 
 		public LaserRay(FPoint s, FPoint e, LaserRay src, LaserRayTerminator t, int d, bool g, object sign, object eign, float sd, Cannon tc)
 		{
@@ -47,6 +51,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		{
 			End = e;
 			Terminator = t;
+			_length = null;
+			_angle = null;
 
 			TerminatorRays.Add(Tuple.Create(otherRay, otherSource));
 		}
@@ -55,6 +61,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		{
 			End = e;
 			Terminator = t;
+			_length = null;
+			_angle = null;
 
 			TerminatorRays.Clear();
 		}
