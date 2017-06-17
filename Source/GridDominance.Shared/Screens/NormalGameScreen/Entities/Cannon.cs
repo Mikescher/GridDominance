@@ -58,8 +58,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float LASER_BOOSTER_LIFETIME = 0.1f;
 
 		protected const float LASER_CHARGE_COOLDOWN   = 0.8f;
-		protected const float LASER_DAMAGE_PER_SECOND = 0.25f;
-		protected const float LASER_BOOST_PER_SECOND  = 0.20f;
+		protected const float LASER_DAMAGE_PER_SECOND = 0.20f;
+		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
 
 		protected const float CROSSHAIR_TRANSPARENCY = 0.5f;
 		protected const float CROSSHAIR_GROW_SPEED = 3f;

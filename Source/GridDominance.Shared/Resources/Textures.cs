@@ -119,6 +119,8 @@ namespace GridDominance.Shared.Resources
 		#region Textures
 
 		public static int ANIMATION_CANNONCOG_SIZE = 128;
+		public static int ANIMATION_CANNONCOG_SEGMENTS = 4;
+		public static int ANIMATION_CANNONCOG_OVERLAP = 3;
 		public static int ANIMATION_HUDBUTTONPAUSE_SIZE = 16;
 		public static int CANNONCORE_COUNT = 6;
 
@@ -293,8 +295,8 @@ namespace GridDominance.Shared.Resources
 			TexLevelNodeStructure    = AtlasTextures["levelnode_structure"];
 			TexLevelNodeSegment      = AtlasTextures["levelnode_segment"];
 
-			AnimCannonCog            = Enumerable.Range(0, ANIMATION_CANNONCOG_SIZE).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
-			CannonCog                = AnimCannonCog.Last();
+			AnimCannonCog            = Enumerable.Range(0, 1 +ANIMATION_CANNONCOG_OVERLAP + ANIMATION_CANNONCOG_SIZE / ANIMATION_CANNONCOG_SEGMENTS).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
+			CannonCog                = AtlasTextures["cannoncog"];
 
 			TexBullet                = AtlasTextures["cannonball"];
 			TexBulletSplitter        = AtlasTextures["cannonball_piece"];

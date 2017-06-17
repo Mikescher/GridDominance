@@ -226,18 +226,43 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			if (health > 0.99) health = 1f;
 
 			sbatch.DrawScaled(
-				Textures.AnimCannonCog[Textures.ANIMATION_CANNONCOG_SIZE - 1],
+				Textures.CannonCog,
 				Position,
 				Scale,
 				FlatColors.Clouds,
-				cannonCogRotation + 3 * (FloatMath.PI / 2));
+				cannonCogRotation + FloatMath.RAD_POS_270);
 
-			sbatch.DrawScaled(
-				Textures.AnimCannonCog[(int)(health * (Textures.ANIMATION_CANNONCOG_SIZE - 1))],
-				Position,
-				Scale,
-				Fraction.Color,
-				cannonCogRotation + 3 * (FloatMath.PI / 2));
+			int aidx = (int) (health * (Textures.ANIMATION_CANNONCOG_SIZE - 1));
+
+			if (aidx == Textures.ANIMATION_CANNONCOG_SIZE - 1)
+			{
+				sbatch.DrawScaled(
+					Textures.CannonCog,
+					Position,
+					Scale,
+					Fraction.Color,
+					cannonCogRotation + FloatMath.RAD_POS_270);
+			}
+			else
+			{
+				int aniperseg = Textures.ANIMATION_CANNONCOG_SIZE / Textures.ANIMATION_CANNONCOG_SEGMENTS;
+				float radpersegm = (FloatMath.RAD_POS_360 * 1f / Textures.ANIMATION_CANNONCOG_SEGMENTS);
+				for (int i = 0; i < Textures.ANIMATION_CANNONCOG_SEGMENTS; i++)
+				{
+					if (aidx >= aniperseg * i)
+					{
+						var iidx = aidx - aniperseg * i;
+						if (iidx > aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP) iidx = aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP;
+
+						sbatch.DrawScaled(
+							Textures.AnimCannonCog[iidx],
+							Position,
+							Scale,
+							Fraction.Color,
+							cannonCogRotation + FloatMath.RAD_POS_270 + i * radpersegm);
+					}
+				}
+			}
 		}
 
 		#endregion
