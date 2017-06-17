@@ -146,7 +146,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 				if (size > 0)
 				{
-					sbatch.DrawScaled(_config.Texture, p.Position, size / _config.TextureSize, color * alpha, 0f);
+					sbatch.DrawScaled(_config.Texture, p.Position, size / (_config.TextureSize * sbatch.TextureScale), color * alpha, 0f);
 				}
 			}
 		}

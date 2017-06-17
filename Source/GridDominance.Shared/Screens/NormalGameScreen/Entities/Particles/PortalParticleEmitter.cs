@@ -39,7 +39,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 				ParticleLifetimeMin = 1f,
 				ParticleLifetimeMax = 2.5f,
 
-				ParticleSizeInitial = 32,
+				ParticleSizeInitial = 16,
 				ParticleSizeFinal   = 0,
 
 				Color = p.Color,

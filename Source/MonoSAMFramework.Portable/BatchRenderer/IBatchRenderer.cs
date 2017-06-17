@@ -55,6 +55,7 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		int LastDebugRenderTextCount { get; }
 #endif
 
+		float TextureScale { get; }
 		void OnBegin(float defaultTexScale);
 		void OnEnd();
 	}

@@ -45,6 +45,8 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		protected float TexScale; // SpriteBatch Default texturescale
 
+		public float TextureScale => TexScale;
+
 		public void OnBegin(float defaultTexScale)
 		{
 			TexScale = defaultTexScale;
