@@ -375,13 +375,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			if (source.IsNeutral)
 			{
-				ResetChargeAndBooster();
+				if (dmg > 0f)
+				{
+					ResetChargeAndBooster();
+				}
 			}
 			else if (Fraction.IsNeutral)
 			{
-				SetFraction(source);
-				CannonHealth.Set(dmg / Scale);
-				CannonHealth.Limit(0f, 1f);
+				if (dmg > 0f)
+				{
+					SetFraction(source);
+					CannonHealth.Set(dmg / Scale);
+					CannonHealth.Limit(0f, 1f);
+				}
 			}
 			else
 			{

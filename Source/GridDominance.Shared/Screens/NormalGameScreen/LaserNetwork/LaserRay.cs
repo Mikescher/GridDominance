@@ -5,7 +5,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
-	public enum LaserRayTerminator { OOB, VoidObject, Portal, Glass, Mirror, Target, LaserMultiTerm, LaserSelfTerm, LaserFaultTerm }
+	public enum LaserRayTerminator { OOB, VoidObject, Portal, Glass, Mirror, Target, LaserMultiTerm, LaserSelfTerm, LaserFaultTerm, BulletTerm }
 	
 	public sealed class LaserRay
 	{
@@ -14,7 +14,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 		public LaserRayTerminator Terminator;
 
-		public Cannon TerminatorCannon;
+		public Cannon TargetCannon;
 
 		public List<Tuple<LaserRay, LaserSource>> TerminatorRays;         // Rays that directcollide with this one
 		public List<LaserRay> SelfCollRays = new List<LaserRay>(); // Rays that [[LaserSelfTerm]] with this one
@@ -38,7 +38,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			End = e;
 			Source = src;
 			Terminator = t;
-			TerminatorCannon = tc;
+			TargetCannon = tc;
 			TerminatorRays = new List<Tuple<LaserRay, LaserSource>>();
 			SourceDistance = sd;
 		}
@@ -47,7 +47,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		{
 			End = e;
 			Terminator = t;
-			TerminatorCannon = null;
 
 			TerminatorRays.Add(Tuple.Create(otherRay, otherSource));
 		}
@@ -56,7 +55,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		{
 			End = e;
 			Terminator = t;
-			TerminatorCannon = null;
 
 			TerminatorRays.Clear();
 		}

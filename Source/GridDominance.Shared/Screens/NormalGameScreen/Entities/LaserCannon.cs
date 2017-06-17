@@ -187,22 +187,33 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void UpdateDamage(SAMTime gameTime)
 		{
-			if (!_laserSource.LaserPowered || !_laserSource.LaserActive) return;
+			if (!_laserSource.LaserActive) return;
 
 			foreach (var ray in _laserSource.Lasers)
 			{
-				if (ray.Terminator != LaserRayTerminator.Target) continue;
-				if (ray.TerminatorCannon == null) continue;
+				if (ray.Terminator != LaserRayTerminator.Target &&
+				    ray.Terminator != LaserRayTerminator.LaserSelfTerm &&
+				    ray.Terminator != LaserRayTerminator.LaserFaultTerm &&
+				    ray.Terminator != LaserRayTerminator.LaserMultiTerm &&
+				    ray.Terminator != LaserRayTerminator.BulletTerm) continue;
+				
+				if (ray.TargetCannon == null) continue;
 
-				if (ray.TerminatorCannon.Fraction == Fraction)
+				if (ray.TargetCannon.Fraction == Fraction)
 				{
-					if (ray.TerminatorCannon == this) continue; // stop touching yourself
+					if (ray.TargetCannon == this) continue; // stop touching yourself
+					
+					if (!_laserSource.LaserPowered) continue;
 
-					ray.TerminatorCannon.ApplyLaserBoost(this, Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_BOOST_PER_SECOND);
+					ray.TargetCannon.ApplyLaserBoost(this, Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_BOOST_PER_SECOND);
 				}
 				else
 				{
-					ray.TerminatorCannon.TakeLaserDamage(Fraction, ray, Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_DAMAGE_PER_SECOND);
+					var dmg = Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_DAMAGE_PER_SECOND;
+
+					if (!_laserSource.LaserPowered || ray.Terminator != LaserRayTerminator.Target) dmg = 0;
+					
+					ray.TargetCannon.TakeLaserDamage(Fraction, ray, dmg);
 				}
 				
 			}

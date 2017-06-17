@@ -7,9 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
-using GridDominance.Graphfileformat;
 using GridDominance.SAMScriptParser;
 
 namespace GridDominance.DSLEditor
@@ -140,8 +138,8 @@ namespace GridDominance.DSLEditor
 
 			var files1 = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gslevel").ToList();
 			var files2 = Directory.EnumerateFiles(folder).Where(p => Path.GetExtension(p).ToLower() == ".gsgraph").ToList();
-			var levels = files1.Select(f => ParseSpecificLevelFile(f, false)).ToList();
-			var worlds = files2.Select(f => DSLUtil.ParseGraphFromFile(f)).ToList();
+			var levels = files1.Select(f => ParseSpecificLevelFile(f, false)).OrderBy(p => p.UniqueID.ToString()).ToList();
+			var worlds = files2.Select(f => DSLUtil.ParseGraphFromFile(f)).OrderBy(p => p.ID.ToString()).ToList();
 			{
 				var f0 = Path.Combine(folder, @"..\..\..\GridDominance.Shared\Content\Content.mgcb");
 

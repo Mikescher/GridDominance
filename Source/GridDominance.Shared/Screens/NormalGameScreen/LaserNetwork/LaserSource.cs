@@ -9,8 +9,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public readonly FPoint Position;
 		public readonly LaserNetwork Owner;
 
-		public bool LaserActive;
-		public bool LaserPowered;
+		public bool LaserActive;    // Exists
+		public bool LaserPowered;   // CanDamage
 		public Fraction LaserFraction;
 		public float LaserRotation;
 		public object UserData;

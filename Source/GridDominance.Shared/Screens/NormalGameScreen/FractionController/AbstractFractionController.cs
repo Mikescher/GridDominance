@@ -12,7 +12,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		protected readonly GDGameScreen Owner;
 
 		private readonly float updateInterval;
-		private float timeSinceLastUpdate = 0;
+		private float timeSinceLastUpdate = 0.5f;
 
 		public readonly Cannon Cannon;
 		public readonly Fraction Fraction;
