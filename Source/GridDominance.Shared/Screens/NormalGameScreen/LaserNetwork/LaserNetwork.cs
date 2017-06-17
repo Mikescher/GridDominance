@@ -359,6 +359,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				if (resultBullet != null)
 				{
 					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.BulletTerm, depth, inglass, ignore, resultBullet, startdist, null);
+					ray.TerminatorBullet = resultBullet;
 					src.Lasers.Add(ray);
 					if (TestForLaserCollision(src, ray, nofault)) continue;
 

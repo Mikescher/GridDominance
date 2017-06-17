@@ -15,7 +15,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		public override bool DoBarrelRecharge() => doBarrelRecharge;
 
 		public NeutralKIController(GDGameScreen owner, Cannon cannon, Fraction fraction)
-			: base(NEUTRAL_UPDATE_TIME, owner, cannon, fraction)
+			: base(NEUTRAL_UPDATE_TIME, owner, cannon, fraction, 0f)
 		{
 			intelligence = new List<KIMethod>
 			{

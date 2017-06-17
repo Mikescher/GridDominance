@@ -8,6 +8,7 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Levelfileformat.Blueprint;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork

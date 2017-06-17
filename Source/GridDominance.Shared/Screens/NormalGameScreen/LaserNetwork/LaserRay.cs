@@ -18,7 +18,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 		public List<Tuple<LaserRay, LaserSource>> TerminatorRays;         // Rays that directcollide with this one
 		public List<LaserRay> SelfCollRays = new List<LaserRay>(); // Rays that [[LaserSelfTerm]] with this one
-
+		public Bullet TerminatorBullet;
+		
 		public readonly LaserRay Source;
 		public readonly int Depth;
 		public readonly bool InGlass;

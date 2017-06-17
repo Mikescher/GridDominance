@@ -22,7 +22,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
 	public class LaserCannon : Cannon
 	{
-		
+		private const float RAY_FORCE = 0.175f;
+
 		private readonly LaserCannonBlueprint Blueprint;
 		private readonly LaserSource _laserSource;
 		private readonly GDGameScreen _screen;
@@ -196,6 +197,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				    ray.Terminator != LaserRayTerminator.LaserFaultTerm &&
 				    ray.Terminator != LaserRayTerminator.LaserMultiTerm &&
 				    ray.Terminator != LaserRayTerminator.BulletTerm) continue;
+
+				if (ray.Terminator == LaserRayTerminator.BulletTerm && _laserSource.LaserPowered)
+				{
+					ray.TerminatorBullet.PhysicsBody.ApplyForce((ray.End - ray.Start).WithLength(RAY_FORCE));
+				}
 				
 				if (ray.TargetCannon == null) continue;
 

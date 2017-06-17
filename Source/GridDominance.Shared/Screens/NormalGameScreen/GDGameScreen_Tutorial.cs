@@ -58,7 +58,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 						return new PlayerController(this, cannon, f);
 
 				case FractionType.ComputerFraction:
-					return new StandardKIController(this, cannon, f);
+					return new StandardKIController(this, cannon, f, cannon is LaserCannon);
 
 				case FractionType.NeutralFraction:
 					return new NeutralKIController(this, cannon, f);

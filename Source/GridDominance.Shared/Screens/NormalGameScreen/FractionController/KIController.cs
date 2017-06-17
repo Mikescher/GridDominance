@@ -49,8 +49,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					var target = _runDirect();
 					if (target != null)
 					{
-						ki.Cannon.RotateTo(target);
+						var rot = FloatMath.PositiveAtan2(target.Position.Y - ki.Cannon.Position.Y, target.Position.X - ki.Cannon.Position.X);
 
+						if (ki.MinimumRotationalDelta > 0 && FloatMath.DiffRadiansAbs(rot, ki.Cannon.Rotation.TargetValue) < ki.MinimumRotationalDelta)
+						{
+							ki.LastKIFunction = "Ign["+Name+"]";
+							return true;
+						}
+
+						ki.Cannon.Rotation.Set(rot);
 						ki.LastKIFunction = Name;
 
 						return true;
@@ -61,8 +68,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					var target = _runPrecalc();
 					if (target != null)
 					{
-						ki.Cannon.Rotation.Set(target.CannonRotation);
+						if (ki.MinimumRotationalDelta > 0 && FloatMath.DiffRadiansAbs(target.CannonRotation, ki.Cannon.Rotation.TargetValue) < ki.MinimumRotationalDelta)
+						{
+							ki.LastKIFunction = "Ign[" + Name + "]";
+							return true;
+						}
 
+						ki.Cannon.Rotation.Set(target.CannonRotation);
 						ki.LastKIFunction = Name;
 
 						return true;
@@ -74,7 +86,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					if (ray != null)
 					{
 						var target = ki.Cannon.Position.MirrorAt(FPoint.MiddlePoint(ray.Start, ray.End));
-						ki.Cannon.Rotation.Set(target.ToAngle(ki.Cannon.Position));
+						var rot = target.ToAngle(ki.Cannon.Position);
+						if (ki.MinimumRotationalDelta > 0 && FloatMath.DiffRadiansAbs(rot, ki.Cannon.Rotation.TargetValue) < ki.MinimumRotationalDelta)
+						{
+							ki.LastKIFunction = "Ign[" + Name + "]";
+							return true;
+						}
+
+						ki.Cannon.Rotation.Set(rot);
 						ki.LastKIFunction = Name;
 
 						return true;
@@ -97,9 +116,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		private readonly ConstantRandom crng;
 		public string LastKIFunction = "None";
 
-		protected KIController(float interval, GDGameScreen owner, Cannon cannon, Fraction fraction) 
+		public readonly float MinimumRotationalDelta;
+		
+		protected KIController(float interval, GDGameScreen owner, Cannon cannon, Fraction fraction, float minRotDelta)
 			: base(interval, owner, cannon, fraction)
 		{
+			MinimumRotationalDelta = minRotDelta;
 			crng = new ConstantRandom(cannon);
 		}
 

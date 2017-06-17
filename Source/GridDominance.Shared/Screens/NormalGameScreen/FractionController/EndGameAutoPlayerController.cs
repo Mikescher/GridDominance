@@ -16,7 +16,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		private float last = 0f;
 
 		public EndGameAutoPlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction)
-			: base(STANDARD_UPDATE_TIME, owner, cannon, fraction)
+			: base(STANDARD_UPDATE_TIME, owner, cannon, fraction, 0f)
 		{
 			intelligence = new List<KIMethod>
 			{
