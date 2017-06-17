@@ -75,6 +75,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\VoidCircle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\GlassBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Portal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\BulletKIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\TutorialController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GameWrapMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
@@ -125,7 +126,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\NeutralKIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\PlayerController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\EndGameAutoPlayerController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\StandardKIController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\LaserKIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Fractions\Fraction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Fractions\FractionType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Fractions\FractionDifficulty.cs" />

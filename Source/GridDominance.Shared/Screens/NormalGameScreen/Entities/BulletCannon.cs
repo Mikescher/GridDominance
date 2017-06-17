@@ -282,5 +282,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		}
 
 		#endregion
+
+		public override KIController CreateKIController(GDGameScreen screen, Fraction fraction)
+		{
+			return new BulletKIController(screen, this, fraction);
+		}
 	}
 }

@@ -5,20 +5,17 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
-using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 {
-	class StandardKIController : KIController
+	class LaserKIController : KIController
 	{
-		private const float MIN_LASER_ROT = FloatMath.RAD_POS_002;
-		
 		private readonly List<KIMethod> intelligence;
 
 		public override bool DoBarrelRecharge() => true;
 
-		public StandardKIController(GDGameScreen owner, Cannon cannon, Fraction fraction, bool isLaser)
-			: base(STANDARD_UPDATE_TIME, owner, cannon, fraction, isLaser ? MIN_LASER_ROT : 0f)
+		public LaserKIController(GDGameScreen owner, Cannon cannon, Fraction fraction)
+			: base(LASER_UPDATE_TIME, owner, cannon, fraction, MIN_LASER_ROT)
 		{
 			if (owner.Blueprint.KIType == LevelBlueprint.KI_TYPE_RAYTRACE)
 			{
@@ -26,6 +23,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				{
 					KIMethod.CreateDefense("AttackingLaser",        FindTargetAttackingLaser),
 					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
+					KIMethod.CreateCustom( "KeepAttacking",         KeepAttackingEnemyCannon),
+					KIMethod.CreateCustom( "KeepSupporting",        KeepSupportingFriendlyCannon),
 					KIMethod.CreateRaycast("SupportCannon",         FindTargetSupportCannon),
 					KIMethod.CreateRaycast("NeutralCannon",         FindTargetNeutralCannon),
 					KIMethod.CreateRaycast("EnemyCannon",           FindTargetEnemyCannon),
@@ -41,6 +40,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				{
 					KIMethod.CreateDefense("AttackingLaser",        FindTargetAttackingLaser),
 					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
+					KIMethod.CreateCustom( "KeepAttacking",         KeepAttackingEnemyCannon),
+					KIMethod.CreateCustom( "KeepSupporting",        KeepSupportingFriendlyCannon),
 					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
 					KIMethod.CreatePrecalc("NeutralCannon",         FindTargetNeutralCannonPrecalc),
 					KIMethod.CreatePrecalc("EnemyCannon",           FindTargetEnemyCannonPrecalc),
@@ -56,6 +57,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				{
 					KIMethod.CreateDefense("AttackingLaser",        FindTargetAttackingLaser),
 					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
+					KIMethod.CreateCustom( "KeepAttacking",         KeepAttackingEnemyCannon),
+					KIMethod.CreateCustom( "KeepSupporting",        KeepSupportingFriendlyCannon),
 					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
 					KIMethod.CreatePrecalc("NeutralCannon",         FindTargetNeutralCannonPrecalc),
 					KIMethod.CreatePrecalc("EnemyCannon",           FindTargetEnemyCannonPrecalc),

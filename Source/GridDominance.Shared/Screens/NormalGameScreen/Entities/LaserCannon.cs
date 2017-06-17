@@ -24,8 +24,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 	{
 		private const float RAY_FORCE = 0.175f;
 
-		private readonly LaserCannonBlueprint Blueprint;
-		private readonly LaserSource _laserSource;
+		public readonly LaserCannonBlueprint Blueprint;
+		public readonly LaserSource LaserSource;
 		private readonly GDGameScreen _screen;
 
 		public readonly DeltaLimitedFloat CorePulse = new DeltaLimitedFloat(1, CORE_PULSE * CORE_PULSE_FREQ * 2);
@@ -40,7 +40,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Blueprint = bp;
 			_screen = scrn;
 
-			_laserSource = scrn.LaserNetwork.AddSource(this);
+			LaserSource = scrn.LaserNetwork.AddSource(this);
 
 			coreImage = FloatMath.GetRangedIntRandom(0, Textures.CANNONCORE_COUNT);
 			coreRotation = FloatMath.GetRangedRandom(FloatMath.RAD_POS_000, FloatMath.RAD_POS_360);
@@ -183,14 +183,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			bool active = CannonHealth.TargetValue >= 1 && controller.DoBarrelRecharge();
 
-			_laserSource.SetState(active, Fraction, Rotation.ActualValue, chargeTime > LASER_CHARGE_COOLDOWN);
+			LaserSource.SetState(active, Fraction, Rotation.ActualValue, chargeTime > LASER_CHARGE_COOLDOWN);
 		}
 
 		private void UpdateDamage(SAMTime gameTime)
 		{
-			if (!_laserSource.LaserActive) return;
+			if (!LaserSource.LaserActive) return;
 
-			foreach (var ray in _laserSource.Lasers)
+			foreach (var ray in LaserSource.Lasers)
 			{
 				if (ray.Terminator != LaserRayTerminator.Target &&
 				    ray.Terminator != LaserRayTerminator.LaserSelfTerm &&
@@ -198,7 +198,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				    ray.Terminator != LaserRayTerminator.LaserMultiTerm &&
 				    ray.Terminator != LaserRayTerminator.BulletTerm) continue;
 
-				if (ray.Terminator == LaserRayTerminator.BulletTerm && _laserSource.LaserPowered)
+				if (ray.Terminator == LaserRayTerminator.BulletTerm && LaserSource.LaserPowered)
 				{
 					ray.TerminatorBullet.PhysicsBody.ApplyForce((ray.End - ray.Start).WithLength(RAY_FORCE));
 				}
@@ -209,7 +209,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				{
 					if (ray.TargetCannon == this) continue; // stop touching yourself
 					
-					if (!_laserSource.LaserPowered) continue;
+					if (!LaserSource.LaserPowered) continue;
 
 					ray.TargetCannon.ApplyLaserBoost(this, Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_BOOST_PER_SECOND);
 				}
@@ -217,7 +217,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				{
 					var dmg = Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_DAMAGE_PER_SECOND;
 
-					if (!_laserSource.LaserPowered || ray.Terminator != LaserRayTerminator.Target) dmg = 0;
+					if (!LaserSource.LaserPowered || ray.Terminator != LaserRayTerminator.Target) dmg = 0;
 					
 					ray.TargetCannon.TakeLaserDamage(Fraction, ray, dmg);
 				}
@@ -233,6 +233,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override void ForceResetBarrelCharge()
 		{
 			chargeTime = 0f;
+		}
+
+		public override KIController CreateKIController(GDGameScreen screen, Fraction fraction)
+		{
+			return new LaserKIController(screen, this, fraction);
 		}
 	}
 }

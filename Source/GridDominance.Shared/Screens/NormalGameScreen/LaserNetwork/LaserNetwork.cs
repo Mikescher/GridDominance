@@ -469,7 +469,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					
 					FPoint intersect;
 					float u;
-					if (RayParallality(ray1.Start, ray1.End, ray1.SourceDistance, ray2.Start, ray2.End, ray2.SourceDistance, out intersect, out u))
+					if (RayParallality(ray1.Start, ray1.End, ray1.SourceDistance, ray2.Start, ray2.End, ray2.SourceDistance, src1 == src2, out intersect, out u))
 					{
 						if (u < minU)
 						{
@@ -603,7 +603,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		}
 
 		// test of rays hit each other
-		private bool RayParallality(FPoint v1s, FPoint v1e, float v1d, FPoint v2s, FPoint v2e, float v2d, out FPoint intersect, out float u)
+		private bool RayParallality(FPoint v1s, FPoint v1e, float v1d, FPoint v2s, FPoint v2e, float v2d, bool reflTolerant, out FPoint intersect, out float u)
 		{
 			//var dsq = Math2D.SegmentSegmentDistanceSquared(v1s, v1e, v2s, v2e, out _);
 			//
@@ -651,12 +651,29 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 //				return true;
 //			}
 
-			if (FloatMath.DiffRadiansAbs(a1, a2) < FloatMath.RAD_POS_090)
+			var maxAngle = reflTolerant ? FloatMath.RAD_POS_004 : FloatMath.RAD_POS_090;
+
+			if (FloatMath.DiffRadiansAbs(a1, a2) < maxAngle)
 			{
 				// same direction
 
+				var u1 = v2s.ProjectOntoLine(v1s, v1e);
+				var u2 = v1s.ProjectOntoLine(v2s, v2e);
+				
+				if (u1 > 0 && u1 < 1)
+				{
+					intersect = Math2D.PointOnLine(u1, v1s, v1e);
+					u = u1;
+					return true;
+				}
+				if (u2 > 0 && u2 < 1)
+				{
+					intersect = v1s;
+					u = 0;
+					return true;
+				}
 			}
-			else if (FloatMath.DiffRadiansAbs(a1 + FloatMath.RAD_POS_180, a2) < FloatMath.RAD_POS_090)
+			else if (FloatMath.DiffRadiansAbs(a1 + FloatMath.RAD_POS_180, a2) < maxAngle)
 			{
 				var u1s = FloatMath.Clamp(v2e.ProjectOntoLine(v1s, v1e), 0f, 1f);
 				var u1e = FloatMath.Clamp(v2s.ProjectOntoLine(v1s, v1e), 0f, 1f);

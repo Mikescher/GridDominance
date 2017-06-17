@@ -17,7 +17,7 @@ using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 {
-	abstract class KIController : AbstractFractionController
+	public abstract class KIController : AbstractFractionController
 	{
 		protected class KIMethod
 		{
@@ -27,20 +27,23 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			private readonly Func<BulletPath> _runPrecalc;
 			private readonly Func<LaserRay> _runAntiLaser;
 			private readonly Action<KIController> _runGeneric;
+			private readonly Func<float?> _runCustom;
 
-			private KIMethod(string n, Func<GameEntity> r1, Func<BulletPath> r2, Action<KIController> r3, Func<LaserRay> r4)
+			private KIMethod(string n, Func<GameEntity> r1, Func<BulletPath> r2, Action<KIController> r3, Func<LaserRay> r4, Func<float?> r5)
 			{
 				Name = n;
 				_runDirect = r1;
 				_runPrecalc = r2;
 				_runGeneric = r3;
 				_runAntiLaser = r4;
+				_runCustom = r5;
 			}
 
-			public static KIMethod CreateRaycast(string n, Func<GameEntity>     r) => new KIMethod(n, r,    null, null, null);
-			public static KIMethod CreatePrecalc(string n, Func<BulletPath>     r) => new KIMethod(n, null, r,    null, null);
-			public static KIMethod CreateGeneric(string n, Action<KIController> r) => new KIMethod(n, null, null, r,    null);
-			public static KIMethod CreateDefense(string n, Func<LaserRay>       r) => new KIMethod(n, null, null, null, r);
+			public static KIMethod CreateRaycast(string n, Func<GameEntity>     r) => new KIMethod(n, r,    null, null, null, null);
+			public static KIMethod CreatePrecalc(string n, Func<BulletPath>     r) => new KIMethod(n, null, r,    null, null, null);
+			public static KIMethod CreateGeneric(string n, Action<KIController> r) => new KIMethod(n, null, null, r,    null, null);
+			public static KIMethod CreateDefense(string n, Func<LaserRay>       r) => new KIMethod(n, null, null, null, r,    null);
+			public static KIMethod CreateCustom( string n, Func<float?>         r) => new KIMethod(n, null, null, null, null, r);
 
 			public bool Run(KIController ki)
 			{
@@ -87,7 +90,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					{
 						var target = ki.Cannon.Position.MirrorAt(FPoint.MiddlePoint(ray.Start, ray.End));
 						var rot = target.ToAngle(ki.Cannon.Position);
-						if (ki.MinimumRotationalDelta > 0 && FloatMath.DiffRadiansAbs(rot, ki.Cannon.Rotation.TargetValue) < ki.MinimumRotationalDelta)
+						
+						if (ki.MinimumRotationalDelta > 0 && FloatMath.DiffRadiansAbs(rot, ki.Cannon.Rotation.TargetValue) < ki.MinimumRotationalDelta/4f)
 						{
 							ki.LastKIFunction = "Ign[" + Name + "]";
 							return true;
@@ -105,13 +109,35 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					_runGeneric(ki);
 					return true;
 				}
+				else if (_runCustom != null)
+				{
+					var f =_runCustom();
+					if (f != null)
+					{
+						var rot = f.Value;
+
+						if (ki.MinimumRotationalDelta > 0 && FloatMath.DiffRadiansAbs(rot, ki.Cannon.Rotation.TargetValue) < ki.MinimumRotationalDelta / 4f)
+						{
+							ki.LastKIFunction = "Ign[" + Name + "]";
+							return true;
+						}
+
+						ki.Cannon.Rotation.Set(rot);
+						ki.LastKIFunction = Name;
+
+						return true;
+					}
+					return false;
+				}
 
 				return false;
 			}
 		}
 
 		protected const float STANDARD_UPDATE_TIME = 1.666f;
+		protected const float LASER_UPDATE_TIME    = 0.800f;
 		protected const float NEUTRAL_UPDATE_TIME  = 0.111f;
+		protected const float MIN_LASER_ROT        = FloatMath.RAD_POS_002;
 
 		private readonly ConstantRandom crng;
 		public string LastKIFunction = "None";
@@ -258,6 +284,30 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.Where(p => p.Fraction == Fraction)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
+		}
+
+		protected float? KeepAttackingEnemyCannon()
+		{
+			foreach (var ray in ((LaserCannon)Cannon).LaserSource.Lasers)
+			{
+				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction != Cannon.Fraction)
+				{
+					return Cannon.Rotation.TargetValue;
+				}
+			}
+			return null;
+		}
+
+		protected float? KeepSupportingFriendlyCannon()
+		{
+			foreach (var ray in ((LaserCannon)Cannon).LaserSource.Lasers)
+			{
+				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction == Cannon.Fraction && ray.TargetCannon.CannonHealth.TargetValue < 0.5f)
+				{
+					return Cannon.Rotation.TargetValue;
+				}
+			}
+			return null;
 		}
 
 		#endregion

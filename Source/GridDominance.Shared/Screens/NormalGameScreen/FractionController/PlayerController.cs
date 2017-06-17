@@ -52,7 +52,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.GamePointerPosition))
 			{
 				dragOrigin = Cannon.Position;
-				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.GamePointerPosition.Y - Cannon.Position.Y, istate.GamePointerPosition.X - Cannon.Position.X));
+				Cannon.Rotation.Set(istate.GamePointerPositionOnMap.ToAngle(Cannon.Position));
 
 				var dist = (istate.GamePointerPosition - Cannon.Position).Length();
 				if (dist > 0)

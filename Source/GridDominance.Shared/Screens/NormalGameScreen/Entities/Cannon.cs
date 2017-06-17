@@ -57,7 +57,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float HEALTH_HIT_GEN  = 0.27f; // on Hit from own fraction
 		protected const float LASER_BOOSTER_LIFETIME = 0.1f;
 
-		protected const float LASER_CHARGE_COOLDOWN   = 0.8f;
+		protected const float LASER_CHARGE_COOLDOWN   = 0.8f; // should be more than KI freq
 		protected const float LASER_DAMAGE_PER_SECOND = 0.20f;
 		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
 
@@ -439,5 +439,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public abstract void ForceResetBarrelCharge();
  
 		#endregion
+
+		public abstract KIController CreateKIController(GDGameScreen screen, Fraction fraction);
 	}
 }
