@@ -247,5 +247,15 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			return FloatMath.IsZero((a.X - b.X), eps) && FloatMath.IsZero((a.Y - b.Y), eps);
 		}
+
+		public static FPoint PointOnLine(float u, FPoint start, FPoint end)
+		{
+			return start + u * (end - start);
+		}
+
+		public static FPoint PointOnLine(float u, FPoint start, Vector2 vec)
+		{
+			return start + u * vec;
+		}
 	}
 }

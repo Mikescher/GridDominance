@@ -136,7 +136,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 							sbatch.DrawCentered(Textures.TexLaserFlare, ray.End, size, size, Color.White, _flareRotation);
 							break;
 						case LaserRayTerminator.LaserMultiTerm:
-							sbatch.DrawCentered(Textures.TexLaserFlare, ray.End, size, size, Color.White * 0.5f, _flareRotation);
+							sbatch.DrawCentered(Textures.TexLaserFlareHalf, ray.End, size, size, Color.White, _flareRotation);
 							break;
 						case LaserRayTerminator.LaserSelfTerm:
 						case LaserRayTerminator.LaserFaultTerm:

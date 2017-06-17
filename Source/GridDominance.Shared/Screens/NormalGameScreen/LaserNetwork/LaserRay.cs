@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
@@ -46,26 +48,61 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			TargetCannon = tc;
 			TerminatorRays = new List<Tuple<LaserRay, LaserSource>>();
 			SourceDistance = sd;
+
+#if DEBUG
+			if (!Start.IsValid) SAMLog.Error("ASSERT-LASERARY", "!Start.IsValid");
+			if (!End.IsValid) SAMLog.Error("ASSERT-LASERARY", "!End.IsValid");
+			if ((End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7) SAMLog.Error("ASSERT-LASERARY", "(End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7");
+#endif
 		}
 
-		public void SetLaserIntersect(FPoint e, LaserRay otherRay, LaserSource otherSource, LaserRayTerminator t)
+		public LaserRay SetLaserIntersect(LaserSource src, FPoint e, LaserRay otherRay, LaserSource otherSource, LaserRayTerminator t)
 		{
+			if ((Start - e).LengthSquared() < FloatMath.EPSILON4)
+			{
+				src.Lasers.Remove(this);
+				return Source?.SetLaserIntersect(src, Source.End, otherRay, otherSource, t);
+			}
+			
 			End = e;
 			Terminator = t;
 			_length = null;
 			_angle = null;
 
 			TerminatorRays.Add(Tuple.Create(otherRay, otherSource));
+
+#if DEBUG
+			if (!Start.IsValid) SAMLog.Error("ASSERT-LASERARY", "!Start.IsValid");
+			if (!End.IsValid) SAMLog.Error("ASSERT-LASERARY", "!End.IsValid");
+			if ((End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7) SAMLog.Error("ASSERT-LASERARY", "(End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7");
+#endif
+
+			return this;
 		}
 
-		public void SetLaserCollisionlessIntersect(FPoint e, LaserRay otherRay, LaserSource otherSource, LaserRayTerminator t)
+		public LaserRay SetLaserCollisionlessIntersect(LaserSource src, FPoint e, LaserRayTerminator t)
 		{
+			if ((Start - e).LengthSquared() < FloatMath.EPSILON4)
+			{
+				src.Lasers.Remove(this);
+
+				return Source?.SetLaserCollisionlessIntersect(src, Source.End, t);
+			}
+			
 			End = e;
 			Terminator = t;
 			_length = null;
 			_angle = null;
 
 			TerminatorRays.Clear();
+
+#if DEBUG
+			if (!Start.IsValid) SAMLog.Error("ASSERT-LASERARY", "!Start.IsValid");
+			if (!End.IsValid) SAMLog.Error("ASSERT-LASERARY", "!End.IsValid");
+			if ((End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7) SAMLog.Error("ASSERT-LASERARY", "(End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7");
+#endif
+
+			return this;
 		}
 	}
 }

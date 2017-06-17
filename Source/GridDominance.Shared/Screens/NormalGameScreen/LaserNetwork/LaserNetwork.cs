@@ -26,19 +26,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public const int MAX_LASER_PER_SOURCE      = 128; // 8 * 16
 		public const int MAX_BACKTRACE             = 4;
 		public const float RAY_WIDTH               = 4f;
-		public const float PARALLEL_ANGLE_EPSILON  = FloatMath.RAD_POS_004;
 
 		public bool Dirty = false;     // calc everything new
 		public bool SemiDirty = false; // could be that something crossed a ray
 
 		private readonly GDGameScreen _screen;
 		private readonly World _world;
-		private readonly float _worldWidth;
-		private readonly float _worldHeight;
 		private readonly float _rayLength;
 		private readonly GameWrapMode _wrapMode;
 
-		public List<LaserSource> Sources = new List<LaserSource>();
+		public readonly List<LaserSource> Sources = new List<LaserSource>();
 
 		private readonly List<Tuple<LaserRay, LaserSource>> _faultRays = new List<Tuple<LaserRay, LaserSource>>();
 		
@@ -47,9 +44,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			_screen = scrn;
 			_world = b2dworld;
 
-			_worldWidth  = scrn.Blueprint.LevelWidth;
-			_worldHeight = scrn.Blueprint.LevelHeight;
-			_rayLength = _worldWidth + _worldHeight;
+			_rayLength = scrn.Blueprint.LevelWidth + scrn.Blueprint.LevelHeight;
 			_wrapMode = wrap;
 		}
 
@@ -474,7 +469,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					
 					FPoint intersect;
 					float u;
-					if (LineParallality(ray1.Start, ray1.End, ray1.SourceDistance, ray2.Start, ray2.End, ray2.SourceDistance, out intersect, out u))
+					if (RayParallality(ray1.Start, ray1.End, ray1.SourceDistance, ray2.Start, ray2.End, ray2.SourceDistance, out intersect, out u))
 					{
 						if (u < minU)
 						{
@@ -489,11 +484,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 								minRay2 = ray2;
 								minSrc2 = src2;
 								minTermOther = true;
+								continue;
 							}
 							
 						}
 					}
-					else if (Math2D.LineIntersectionExt(ray1.Start, ray1.End, ray2.Start, ray2.End, -0.1f, out intersect, out u, out _))
+					
+					if (Math2D.LineIntersectionExt(ray1.Start, ray1.End, ray2.Start, ray2.End, -0.1f, out intersect, out u, out _))
 					{
 						if (u < minU)
 						{
@@ -508,6 +505,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 								minRay2 = ray2;
 								minSrc2 = src2;
 								minTermOther = true;
+								continue;
 							}
 						}
 					}
@@ -547,32 +545,52 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			{
 				if (!minTermOther)
 				{
-					ray1.SetLaserIntersect(minP1, minRay2, minSrc2, LaserRayTerminator.LaserMultiTerm);
-					foreach (var termray in minRay2.TerminatorRays) termray.Item1.TerminatorRays.Add(Tuple.Create(ray1, src1));
-					minRay2.TerminatorRays.Add(Tuple.Create(ray1, src1));
+					// we hit another ray intersection
+					
+					ray1 = ray1.SetLaserIntersect(src1, minP1, minRay2, minSrc2, LaserRayTerminator.LaserMultiTerm);
+					if (ray1 != null)
+					{
+						foreach (var termray in minRay2.TerminatorRays)
+						{
+							if (termray.Item2 != minSrc2) termray.Item1.TerminatorRays.Add(Tuple.Create(ray1, src1));
+						}
+						minRay2.TerminatorRays.Add(Tuple.Create(ray1, src1));
+					}
 
 					return true;
 				}
 				else if (nofault)
 				{
-					ray1.SetLaserCollisionlessIntersect(minP1, minRay2, minSrc2, LaserRayTerminator.LaserFaultTerm);
+					// nofault mode - just terminate this one
+					
+					ray1 = ray1.SetLaserCollisionlessIntersect(src1, minP1, LaserRayTerminator.LaserFaultTerm);
 
 					return true;
 				}
 				else if (src1 == minSrc2)
 				{
-					ray1.SetLaserCollisionlessIntersect(minP1, minRay2, minSrc2, LaserRayTerminator.LaserSelfTerm);
-					minRay2.SelfCollRays.Add(ray1);
-					foreach (var r in ray1.SelfCollRays) _faultRays.Add(Tuple.Create(r, src1));
-					ray1.SelfCollRays.Clear();
+					// we hit ourself
+					
+					ray1 = ray1.SetLaserCollisionlessIntersect(src1, minP1, LaserRayTerminator.LaserSelfTerm);
+					if (ray1 != null)
+					{
+						minRay2.SelfCollRays.Add(ray1);
+						foreach (var r in ray1.SelfCollRays) _faultRays.Add(Tuple.Create(r, src1));
+						ray1.SelfCollRays.Clear();
+					}
 
 					return true;
 				}
 				else
 				{
-					ray1.SetLaserIntersect(minP1, minRay2, minSrc2, LaserRayTerminator.LaserMultiTerm);
-					foreach (var r in ray1.SelfCollRays) _faultRays.Add(Tuple.Create(r, src1));
-					ray1.SelfCollRays.Clear();
+					// we hit someone else
+					
+					ray1 = ray1.SetLaserIntersect(src1, minP1, minRay2, minSrc2, LaserRayTerminator.LaserMultiTerm);
+					if (ray1 != null)
+					{
+						foreach (var r in ray1.SelfCollRays) _faultRays.Add(Tuple.Create(r, src1));
+						ray1.SelfCollRays.Clear();
+					}
 
 					CutRayAndUpdate(minSrc2, minRay2, minP2, src1, ray1);
 
@@ -584,54 +602,163 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			return false;
 		}
 
-		private bool LineParallality(FPoint v1s, FPoint v1e, float v1d, FPoint v2s, FPoint v2e, float v2d, out FPoint intersect, out float u)
+		// test of rays hit each other
+		private bool RayParallality(FPoint v1s, FPoint v1e, float v1d, FPoint v2s, FPoint v2e, float v2d, out FPoint intersect, out float u)
 		{
-			var dsq = Math2D.SegmentSegmentDistanceSquared(v1s, v1e, v2s, v2e, out _);
-			
-			if (dsq > RAY_WIDTH*RAY_WIDTH) { intersect = FPoint.Zero; u = float.NaN; return false; }
+			//var dsq = Math2D.SegmentSegmentDistanceSquared(v1s, v1e, v2s, v2e, out _);
+			//
+			//if (dsq > RAY_WIDTH*RAY_WIDTH) { intersect = FPoint.Zero; u = float.NaN; return false; }
 
 			var a1 = (v1e - v1s).ToAngle();
 			var a2 = (v2e - v2s).ToAngle();
 
-			if (FloatMath.DiffRadiansAbs(a1, a2) < PARALLEL_ANGLE_EPSILON)
+//			if (FloatMath.DiffRadiansAbs(a1, a2) < PARALLEL_ANGLE_EPSILON)
+//			{
+//				// same direction
+//
+//				var u1 = v2s.ProjectOntoLine(v1s, v1e);
+//				var u2 = v1s.ProjectOntoLine(v2s, v2e);
+//
+//				if (FloatMath.Abs(u1) < FloatMath.Abs(u2))
+//				{
+//					intersect = v2s;
+//					u = u1;
+//					return true;
+//				}
+//				else
+//				{
+//					intersect = v1s;
+//					u = 0;
+//					return true;
+//				}
+//			}
+//			else if (FloatMath.Abs(FloatMath.DiffModulo(a1, a2, FloatMath.RAD_POS_180)) < PARALLEL_ANGLE_EPSILON)
+//			{
+//				var pc = FPoint.MiddlePoint(v1s, v2s);
+//
+//				pc = pc + (v1s - v2s).WithLength((v1d - v2d)/2f);
+//
+//				var pcu1 = pc.ProjectOntoLine(v1s, v1e);
+//				if (pcu1 < 0) pc = v1s;
+//				if (pcu1 > 1) pc = v1e;
+//
+//				var pcu2 = pc.ProjectOntoLine(v2s, v2e);
+//				if (pcu2 < 0) pc = v2s;
+//				if (pcu2 > 1) pc = v2e;
+//
+//				intersect = pc;
+//				u = pc.ProjectOntoLine(v1s, v1e);
+//				return true;
+//			}
+
+			if (FloatMath.DiffRadiansAbs(a1, a2) < FloatMath.RAD_POS_090)
 			{
 				// same direction
 
-				var u1 = v2s.ProjectOntoLine(v1s, v1e);
-				var u2 = v1s.ProjectOntoLine(v2s, v2e);
-
-				if (FloatMath.Abs(u1) < FloatMath.Abs(u2))
-				{
-					intersect = v2s;
-					u = u1;
-					return true;
-				}
-				else
-				{
-					intersect = v1s;
-					u = 0;
-					return true;
-				}
 			}
-			else if (FloatMath.Abs(FloatMath.DiffModulo(a1, a2, FloatMath.RAD_POS_180)) < PARALLEL_ANGLE_EPSILON)
+			else if (FloatMath.DiffRadiansAbs(a1 + FloatMath.RAD_POS_180, a2) < FloatMath.RAD_POS_090)
 			{
-				var pc = FPoint.MiddlePoint(v1s, v2s);
+				var u1s = FloatMath.Clamp(v2e.ProjectOntoLine(v1s, v1e), 0f, 1f);
+				var u1e = FloatMath.Clamp(v2s.ProjectOntoLine(v1s, v1e), 0f, 1f);
+				var u2s = FloatMath.Clamp(v1e.ProjectOntoLine(v2s, v2e), 0f, 1f);
+				var u2e = FloatMath.Clamp(v1s.ProjectOntoLine(v2s, v2e), 0f, 1f);
+			
+				var v1rs = (u1s == 0) ? v1s : Math2D.PointOnLine(u1s, v1s, v1e);
+				var v1re = (u1e == 1) ? v1e : Math2D.PointOnLine(u1e, v1s, v1e);
+				var v2rs = (u2s == 0) ? v2s : Math2D.PointOnLine(u2s, v2s, v2e);
+				var v2re = (u1e == 1) ? v2e : Math2D.PointOnLine(u2e, v2s, v2e);
+			
+				var distStart = (v1rs - v2re).LengthSquared();
+				var distEnd   = (v1re - v2rs).LengthSquared();
+			
+				if (distStart < RAY_WIDTH * RAY_WIDTH && distEnd < RAY_WIDTH * RAY_WIDTH)
+				{
+					var pc = FPoint.MiddlePoint(v1s, v2s);
+			
+					pc = pc + (v1s - v2s).WithLength((v1d - v2d) / 2f);
+			
+					var pcu1 = pc.ProjectOntoLine(v1s, v1e);
+					if (pcu1 < 0) pc = v1s;
+					if (pcu1 > 1) pc = v1e;
+			
+					var pcu2 = pc.ProjectOntoLine(v2s, v2e);
+					if (pcu2 < 0) pc = v2s;
+					if (pcu2 > 1) pc = v2e;
+			
+					intersect = pc;
+					u = pc.ProjectOntoLine(v1s, v1e);
+					return true;
+				}
+				else if (distStart < RAY_WIDTH * RAY_WIDTH)
+				{
+					var drStart = FloatMath.Sqrt(distStart);
+					var drEnd = FloatMath.Sqrt(distEnd);
+					var perc = (RAY_WIDTH - drStart) / (drEnd - drStart);
 
-				pc = pc + (v1s - v2s).WithLength((v1d - v2d)/2f);
+					u1e = u1s + (u1e - u1s) * perc;
+					u2s = u2e + (u2s - u2e) * perc;
 
-				var pcu1 = pc.ProjectOntoLine(v1s, v1e);
-				if (pcu1 < 0) pc = v1s;
-				if (pcu1 > 1) pc = v1e;
+					v1re = Math2D.PointOnLine(u1e, v1s, v1e);
+					v2rs = Math2D.PointOnLine(u2s, v2s, v2e);
 
-				var pcu2 = pc.ProjectOntoLine(v2s, v2e);
-				if (pcu2 < 0) pc = v2s;
-				if (pcu2 > 1) pc = v2e;
+					var v1rd = v1d + u1s * (v1e - v1s).Length();
+					var v2rd = v2d + u2s * (v2e - v2s).Length();
 
-				intersect = pc;
-				u = pc.ProjectOntoLine(v1s, v1e);
-				return true;
+
+					
+					var pc = FPoint.MiddlePoint(v1rs, v2rs);
+
+					pc = pc + (v1rs - v2rs).WithLength((v1rd - v2rd) / 2f);
+
+					var pcu1 = pc.ProjectOntoLine(v1rs, v1re);
+					if (pcu1 < u1s) pc = v1rs;
+					if (pcu1 > u1e) pc = v1re;
+
+					var pcu2 = pc.ProjectOntoLine(v2rs, v2re);
+					if (pcu2 < u2s) pc = v2rs;
+					if (pcu2 > u2e) pc = v2re;
+
+					intersect = pc;
+					u = pc.ProjectOntoLine(v1rs, v1re);
+					return true;
+				}
+				else if (distEnd < RAY_WIDTH * RAY_WIDTH)
+				{
+					var drStart = FloatMath.Sqrt(distStart);
+					var drEnd = FloatMath.Sqrt(distEnd);
+					var perc = (RAY_WIDTH - drEnd) / (drStart - drEnd);
+
+					u1s = u1e + (u1s - u1e) * perc;
+					u2e = u2s + (u2e - u2s) * perc;
+
+					v1rs = Math2D.PointOnLine(u1s, v1s, v1e);
+					v2re = Math2D.PointOnLine(u2e, v2s, v2e);
+
+					var v1rd = v1d + u1s * (v1e - v1s).Length();
+					var v2rd = v2d + u2s * (v2e - v2s).Length();
+
+
+
+					var pc = FPoint.MiddlePoint(v1rs, v2rs);
+
+					pc = pc + (v1rs - v2rs).WithLength((v1rd - v2rd) / 2f);
+
+					var pcu1 = pc.ProjectOntoLine(v1rs, v1re);
+					if (pcu1 < u1s) pc = v1rs;
+					if (pcu1 > u1e) pc = v1re;
+
+					var pcu2 = pc.ProjectOntoLine(v2rs, v2re);
+					if (pcu2 < u2s) pc = v2rs;
+					if (pcu2 > u2e) pc = v2re;
+
+					intersect = pc;
+					u = pc.ProjectOntoLine(v1rs, v1re);
+					return true;
+				}
 			}
-
+			
+			
+			
 			intersect = FPoint.Zero;
 			u = float.NaN;
 			
@@ -642,17 +769,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		{
 			if (ray.Terminator == LaserRayTerminator.LaserMultiTerm)
 			{
-				foreach (var tray in ray.TerminatorRays) _faultRays.Add(tray);
+				foreach (var tray in ray.TerminatorRays) _faultRays.Add(tray); // Update Rays that hit this one later
 			}
 
-
-			ray.SetLaserIntersect(intersect, rayOther, srcOther, LaserRayTerminator.LaserMultiTerm);
+			// cut this ray
+			
+			ray.SetLaserIntersect(src, intersect, rayOther, srcOther, LaserRayTerminator.LaserMultiTerm);
 			foreach (var r in ray.SelfCollRays) _faultRays.Add(Tuple.Create(r, src));
 			ray.SelfCollRays.Clear();
 
+			// remove all child rays
+			
 			Stack<LaserRay> rem = new Stack<LaserRay>();
 			rem.Push(ray);
-
 			while (rem.Any())
 			{
 				var elim = rem.Pop();

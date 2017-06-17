@@ -367,6 +367,7 @@
             <key type="filename">level/cannoncog_animated/cannoncog_033.png</key>
             <key type="filename">level/cannoncog_animated/cannoncog_034.png</key>
             <key type="filename">level/cannoncog_animated/cannoncog_035.png</key>
+            <key type="filename">level/laser/half_laser_flare.png</key>
             <key type="filename">level/laser/laser_flare.png</key>
             <key type="filename">level/vortex/vortex_circle_1.png</key>
             <struct type="IndividualSpriteSettings">

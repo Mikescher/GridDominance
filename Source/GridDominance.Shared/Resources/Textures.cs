@@ -144,6 +144,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexLaserBase;
 		public static TextureRegion2D TexLaserPointer;
 		public static TextureRegion2D TexLaserFlare;
+		public static TextureRegion2D TexLaserFlareHalf;
 
 		public static TextureRegion2D TexVoidCircle_FG;
 		public static TextureRegion2D TexVoidWall_FG_L1;
@@ -290,6 +291,7 @@ namespace GridDominance.Shared.Resources
 			TexLaserBase             = AtlasTextures["laser_base"];
 			TexLaserPointer          = AtlasTextures["laser_pointer"];
 			TexLaserFlare            = AtlasTextures["laser_flare"];
+			TexLaserFlareHalf        = AtlasTextures["half_laser_flare"];
 
 			TexVoidCircle_FG      = AtlasTextures["voidcircle_fg"];
 			TexVoidWall_FG_L1     = AtlasTextures["voidwall_fg_1"];
