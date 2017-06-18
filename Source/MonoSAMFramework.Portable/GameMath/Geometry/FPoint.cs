@@ -32,7 +32,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		public Vector2 ToVec2D() => new Vector2(X, Y);
 
-		public bool IsOrigin() => Math.Abs(X) < FloatMath.EPSILON || Math.Abs(Y) < FloatMath.EPSILON;
+		public bool IsOrigin() => Math.Abs(X) < FloatMath.EPSILON && Math.Abs(Y) < FloatMath.EPSILON;
 		public bool IsValid => !float.IsInfinity(X) && !float.IsNaN(X) && !float.IsInfinity(Y) && !float.IsNaN(Y);
 
 		public static FPoint operator +(FPoint value1, Vector2 value2)
@@ -70,14 +70,22 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return !a.Equals(b);
 		}
 
+		[Pure]
 		public FPoint RelativeTo(FPoint value2)
 		{
 			return new FPoint(X - value2.X, Y - value2.Y);
 		}
 
+		[Pure]
 		public FPoint RelativeTo(float px, float py)
 		{
 			return new FPoint(X - px, Y - py);
+		}
+
+		[Pure]
+		public FPoint WithOrigin(FPoint origin)
+		{
+			return new FPoint(X + origin.X, Y + origin.Y);
 		}
 
 		public FPoint AsTranslated(float offx, float offy)
@@ -240,12 +248,6 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public float ToAngle(FPoint origin)
 		{
 			return (FloatMath.Atan2(Y - origin.Y, X - origin.X) + FloatMath.RAD_POS_360) % FloatMath.RAD_POS_360;
-		}
-
-		[Pure]
-		public FPoint WithOrigin(FPoint origin)
-		{
-			return new FPoint(X + origin.X, Y + origin.Y);
 		}
 
 		[Pure]

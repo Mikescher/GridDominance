@@ -614,11 +614,19 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
-		public FRectangle AsRelativeTo(FPoint origin)
+		public FRectangle RelativeTo(FPoint origin)
 		{
 			if (origin.IsOrigin()) return this;
 
 			return new FRectangle(X - origin.X, Y - origin.Y, Width, Height);
+		}
+		
+		[Pure]
+		public FRectangle WithOrigin(FPoint origin)
+		{
+			if (origin.IsOrigin()) return this;
+
+			return new FRectangle(X + origin.X, Y + origin.Y, Width, Height);
 		}
 	}
 }

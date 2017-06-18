@@ -16,8 +16,14 @@ namespace GridDominance.Shared.Resources
 		public const int VIEW_HEIGHT = DEFAULT_GRID_HEIGHT * TILE_WIDTH; //  640
 
 		public const bool USE_IAB = true;
-		public const string IAB_WORLD2 = AndroidBillingHelper.PID_PURCHASED; //@"gd_world_002";
-		public const string IAB_WORLD3 = AndroidBillingHelper.PID_PURCHASED; //@"gd_world_003";
+		
+#if DEBUG
+		public const string IAB_WORLD2 = AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_WORLD3 = AndroidBillingHelper.PID_PURCHASED; 
+#else
+		public const string IAB_WORLD2 = @"gd_world_002";
+		public const string IAB_WORLD3 = @"gd_world_003";
+#endif
 
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
 		public const string BFB_URL     = @"http://blackforestbytes.de/";
