@@ -48,16 +48,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 					sbatch.DrawStretched(Textures.TexTileBorder, new FRectangle(x * TILE_WIDTH - offX, y * TILE_WIDTH - offY, TILE_WIDTH, TILE_WIDTH), Color.White);
 				}
 			}
+		}
 
-			if (_wrapMode ==GameWrapMode.Donut || _wrapMode == GameWrapMode.Reflect)
+		public override void DrawOverlay(IBatchRenderer sbatch)
+		{
+			int extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH) + 2;
+			int extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH) + 2;
+
+			if (_wrapMode == GameWrapMode.Donut || _wrapMode == GameWrapMode.Reflect)
 			{
 				var fextx = extensionX * TILE_WIDTH;
 				var fexty = extensionY * TILE_WIDTH;
 
-				var rn = new FRectangle(-fextx,                    -fexty,                     Owner.MapFullBounds.Width + 2 * fextx, fexty);
-				var re = new FRectangle(Owner.MapFullBounds.Width, -fexty,                     fextx,                                 Owner.MapFullBounds.Height + 2 * fexty);
-				var rs = new FRectangle(-fextx,                    Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * fextx, fexty);
-				var rw = new FRectangle(-fextx,                    -fexty,                     fextx,                                 Owner.MapFullBounds.Height + 2 * fexty);
+				var rn = new FRectangle(-fextx, -fexty, Owner.MapFullBounds.Width + 2 * fextx, fexty);
+				var re = new FRectangle(Owner.MapFullBounds.Width, -fexty, fextx, Owner.MapFullBounds.Height + 2 * fexty);
+				var rs = new FRectangle(-fextx, Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * fextx, fexty);
+				var rw = new FRectangle(-fextx, -fexty, fextx, Owner.MapFullBounds.Height + 2 * fexty);
 
 				sbatch.DrawStretched(Textures.TexPixel, rn, FlatColors.Clouds);
 				sbatch.DrawStretched(Textures.TexPixel, re, FlatColors.Clouds);
@@ -65,7 +71,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				sbatch.DrawStretched(Textures.TexPixel, rw, FlatColors.Clouds);
 
 				FlatRenderHelper.DrawForegroundDropShadow(sbatch, Owner.MapFullBounds, GDConstants.TILE_WIDTH / 2f, GDConstants.TILE_WIDTH / 2f);
-				
+
 				sbatch.DrawRectangle(Owner.MapFullBounds, Color.White, 3f);
 			}
 		}

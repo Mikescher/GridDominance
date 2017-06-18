@@ -240,6 +240,7 @@ namespace MonoSAMFramework.Portable.Screens
 				Background.Draw(TranslatedBatch);
 				Entities.Draw(TranslatedBatch);
 				OnDrawGame(TranslatedBatch);
+				Background.DrawOverlay(TranslatedBatch);
 
 #if DEBUG
 				DrawScreenDebug(TranslatedBatch);

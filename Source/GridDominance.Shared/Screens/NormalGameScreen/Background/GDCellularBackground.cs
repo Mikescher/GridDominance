@@ -159,18 +159,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				}
 			}
 
+		}
+
+		public override void DrawOverlay(IBatchRenderer sbatch)
+		{
 			if (wrapMode == GameWrapMode.Donut || wrapMode == GameWrapMode.Reflect)
 			{
 				int real_extensionX = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH) + 2;
 				int real_extensionY = FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH) + 2;
-				
+
 				var fextx = real_extensionX * TILE_WIDTH;
 				var fexty = real_extensionY * TILE_WIDTH;
 
-				var rn = new FRectangle(-fextx,                    -fexty,                     Owner.MapFullBounds.Width + 2 * fextx, fexty);
-				var re = new FRectangle(Owner.MapFullBounds.Width, -fexty,                     fextx,                                 Owner.MapFullBounds.Height + 2 * fexty);
-				var rs = new FRectangle(-fextx,                    Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * fextx, fexty);
-				var rw = new FRectangle(-fextx,                    -fexty,                     fextx,                                 Owner.MapFullBounds.Height + 2 * fexty);
+				var rn = new FRectangle(-fextx, -fexty, Owner.MapFullBounds.Width + 2 * fextx, fexty);
+				var re = new FRectangle(Owner.MapFullBounds.Width, -fexty, fextx, Owner.MapFullBounds.Height + 2 * fexty);
+				var rs = new FRectangle(-fextx, Owner.MapFullBounds.Height, Owner.MapFullBounds.Width + 2 * fextx, fexty);
+				var rw = new FRectangle(-fextx, -fexty, fextx, Owner.MapFullBounds.Height + 2 * fexty);
 
 				sbatch.DrawStretched(Textures.TexPixel, rn, FlatColors.Clouds);
 				sbatch.DrawStretched(Textures.TexPixel, re, FlatColors.Clouds);
@@ -178,19 +182,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 				sbatch.DrawStretched(Textures.TexPixel, rw, FlatColors.Clouds);
 
 				FlatRenderHelper.DrawForegroundDropShadow(sbatch, Owner.MapFullBounds, GDConstants.TILE_WIDTH / 2f, GDConstants.TILE_WIDTH / 2f);
-				
+
 				for (int ox = 0; ox < Owner.MapFullBounds.Width / TILE_WIDTH; ox++)
 				{
 					var px = ox * TILE_WIDTH + TILE_WIDTH / 2f;
 
-					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(px,                          0), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_090);
+					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(px, 0), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_090);
 					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(px, Owner.MapFullBounds.Height), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_090);
 				}
 				for (int oy = 0; oy < Owner.MapFullBounds.Height / TILE_WIDTH; oy++)
 				{
 					var py = oy * TILE_WIDTH + TILE_WIDTH / 2f;
 
-					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(0,                         py), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_000);
+					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(0, py), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_000);
 					sbatch.DrawCentered(Textures.TexDotLine, new FPoint(Owner.MapFullBounds.Width, py), 3f, TILE_WIDTH, Color.White, FloatMath.RAD_POS_000);
 				}
 			}

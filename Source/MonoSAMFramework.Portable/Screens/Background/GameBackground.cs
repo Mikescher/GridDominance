@@ -18,5 +18,7 @@ namespace MonoSAMFramework.Portable.Screens.Background
 		
 		public abstract void Update(SAMTime gameTime, InputState istate);
 		public abstract void Draw(IBatchRenderer sbatch);
+		
+		public virtual void DrawOverlay(IBatchRenderer sbatch) { /* OVERRIDE ME */ }
 	}
 }

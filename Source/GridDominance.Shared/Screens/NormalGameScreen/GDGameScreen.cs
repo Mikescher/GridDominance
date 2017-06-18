@@ -26,6 +26,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using FarseerPhysics.Factories;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -152,19 +153,21 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			MapViewportCenterY = Blueprint.LevelViewY;
 			WrapMode = (GameWrapMode)Blueprint.WrapMode;
 
-			//TODO (evtl) Cellular background wrap around when donut
 			//TODO black Portal effect when wrap around
-			//TODO When not death:
-			//  - zoom 0.5TW out 
-			//  - black box around
-			//  - drop shadow for 3d high ground effect
-			//TODO test WrapMode
 
 			if (WrapMode == GameWrapMode.Donut || WrapMode == GameWrapMode.Reflect)
 			{
 				VAdapterGame.ChangeVirtualSize(GDConstants.VIEW_WIDTH + GDConstants.TILE_WIDTH, GDConstants.VIEW_HEIGHT + GDConstants.TILE_WIDTH);
 				MapViewportCenterX = Blueprint.LevelViewX;
 				MapViewportCenterY = Blueprint.LevelViewY;
+			}
+
+			if (MainGame.Inst.Profile.EffectsEnabled && WrapMode == GameWrapMode.Donut)
+			{
+				Entities.AddEntity(new DonutParticleEmitter(this, Blueprint, FlatAlign4.NN));
+				Entities.AddEntity(new DonutParticleEmitter(this, Blueprint, FlatAlign4.EE));
+				Entities.AddEntity(new DonutParticleEmitter(this, Blueprint, FlatAlign4.SS));
+				Entities.AddEntity(new DonutParticleEmitter(this, Blueprint, FlatAlign4.WW));
 			}
 
 			if (MainGame.Inst.Profile.EffectsEnabled)
