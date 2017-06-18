@@ -1,4 +1,5 @@
 ﻿using System;
+using MonoSAMFramework.Portable.DeviceBridge;
 
 namespace GridDominance.Shared.Resources
 {
@@ -15,12 +16,15 @@ namespace GridDominance.Shared.Resources
 		public const int VIEW_HEIGHT = DEFAULT_GRID_HEIGHT * TILE_WIDTH; //  640
 
 		public const bool USE_IAB = true;
+		public const string IAB_WORLD2 = AndroidBillingHelper.PID_PURCHASED; //@"gd_world_002";
+		public const string IAB_WORLD3 = AndroidBillingHelper.PID_PURCHASED; //@"gd_world_003";
 
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
 		public const string BFB_URL     = @"http://blackforestbytes.de/";
+		public const string PROFILE_FILENAME = "USERPROFILE";
 
-		public const string SERVER_URL = "http://localhost:666";
-//		public const string SERVER_URL = "http://gdapi.mikescher.com";
+//		public const string SERVER_URL = "http://localhost:666";
+		public const string SERVER_URL = "http://gdapi.mikescher.com";
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 
 		public const float PHYSICS_CONVERSION_FACTOR = 50;

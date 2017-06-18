@@ -9,9 +9,9 @@ function run() {
 
 	$userid        = getParamUIntOrError('userid');
 	$password      = getParamSHAOrError('password');
-	$resolution    = getParamStrOrError('screen_resolution');
+	$resolution    = getParamStrOrError('screen_resolution', true);
 	$appversion    = getParamStrOrError('app_version');
-	$identifier    = getParamStrOrError('exception_id');
+	$identifier    = getParamStrOrError('exception_id', true);
 	$message       = getParamDeflOrError('exception_message', true);
 	$stacktrace    = getParamDeflOrError('exception_stacktrace', true);
 	$additional    = getParamDeflOrError('additional_info', true);

@@ -95,7 +95,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f), 0).Rotate(Rotation.ActualValue);
 
 			sbatch.DrawScaled(
-				Textures.TexCannonBarrel,
+				Textures.TexCannonBarrel, //TODO Different barrel for laser cannon
 				barrelCenter,
 				Scale,
 				Color.White,

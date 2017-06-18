@@ -8,7 +8,6 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.OverworldScreen;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using Microsoft.Xna.Framework;
@@ -18,22 +17,14 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
-using MonoSAMFramework.Portable.Localization;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 
 namespace GridDominance.Shared
 {
-	/// <summary>
-	/// This is the main type for your game.
-	/// </summary>
 	public class MainGame : MonoSAMGame
 	{
-		public const string PROFILE_FILENAME = "USERPROFILE";
-
-		public const string IAB_WORLD2 = @"gd_world_002";
-		public const string IAB_WORLD3 = @"gd_world_003";
-		public static readonly string[] IABList = new[] 
+		public static readonly string[] IABList =
 		{
 #if DEBUG
 			AndroidBillingHelper.PID_CANCELED,
@@ -41,8 +32,8 @@ namespace GridDominance.Shared
 			AndroidBillingHelper.PID_REFUNDED,
 			AndroidBillingHelper.PID_UNAVAILABLE,
 #endif
-			IAB_WORLD2,
-			IAB_WORLD3,
+			GDConstants.IAB_WORLD2,
+			GDConstants.IAB_WORLD3,
 		};
 
 		public readonly PlayerProfile Profile;
@@ -62,7 +53,7 @@ namespace GridDominance.Shared
 
 			Profile = new PlayerProfile();
 
-			var sdata = FileHelper.Inst.ReadDataOrNull(PROFILE_FILENAME);
+			var sdata = FileHelper.Inst.ReadDataOrNull(GDConstants.PROFILE_FILENAME);
 			if (sdata != null)
 			{
 				try
@@ -230,7 +221,7 @@ namespace GridDominance.Shared
 		public void SaveProfile()
 		{
 			var sdata = Profile.SerializeToString();
-			FileHelper.Inst.WriteData(PROFILE_FILENAME, sdata);
+			FileHelper.Inst.WriteData(GDConstants.PROFILE_FILENAME, sdata);
 
 
 #if DEBUG

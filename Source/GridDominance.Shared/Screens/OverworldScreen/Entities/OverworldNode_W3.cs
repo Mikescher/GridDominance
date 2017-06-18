@@ -1,12 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using GridDominance.Shared.Resources;
-using MonoSAMFramework.Portable.BatchRenderer;
+﻿using GridDominance.Shared.Resources;
 using System.Linq;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.ColorHelper;
-using System.Collections.Generic;
 using GridDominance.Levelfileformat.Blueprint;
 using System;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
@@ -16,7 +13,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	class OverworldNode_W3 : OverworldNode_Graph
 	{
-		private const string IAB_CODE = MainGame.IAB_WORLD3;
+		private const string IAB_CODE = GDConstants.IAB_WORLD3;
 
 		public OverworldNode_W3(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, Levels.WORLD_003)
 		{

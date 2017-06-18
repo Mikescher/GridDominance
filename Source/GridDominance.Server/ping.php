@@ -9,10 +9,10 @@ function run() {
 	$userid            = getParamUIntOrError('userid');
 	$password          = getParamSHAOrError('password');
 	$appversion        = getParamStrOrError('app_version');
-	$devicename        = getParamStrOrError('device_name');
-	$deviceversion     = getParamStrOrError('device_version');
-	$unlocked_worlds   = getParamStrOrError('unlocked_worlds');
-	$device_resolution = getParamStrOrError('device_resolution');
+	$devicename        = getParamStrOrError('device_name', true);
+	$deviceversion     = getParamStrOrError('device_version', true);
+	$unlocked_worlds   = getParamStrOrError('unlocked_worlds', true);
+	$device_resolution = getParamStrOrError('device_resolution', true);
 
 	$signature     = getParamStrOrError('msgk');
 
