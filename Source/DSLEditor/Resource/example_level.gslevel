@@ -47,11 +47,13 @@ scale(TILE_WIDTH)
 init("0-exmpl", "Template", ::UUID::, KI_PRECALC_PATHTRACE)
 setwrap(WRAPMODE_SOLID)
 
-Laser(SIZE_SMALL, P1, [ 3,  5], ROT_E)
+Cannon(SIZE_SMALL, P1, [ 3,  5], ROT_E)
 
-Laser(SIZE_TINY, P1, [ 8,  9], ROT_E)
+#Laser(SIZE_TINY, P1, [ 8,  9], ROT_E)
 
 Laser(SIZE_SMALL, A3, [13,  5], ROT_W)
+
+VoidCircle([8, 5], SIZE_BIG)
 
 #Portal(PORTAL_1, PORTAL_IN,  [5, 5], 3, ROT_W)
 #Portal(PORTAL_1, PORTAL_OUT, [7, 5], 3, ROT_E)

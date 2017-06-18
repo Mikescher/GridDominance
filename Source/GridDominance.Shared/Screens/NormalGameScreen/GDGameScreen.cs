@@ -153,8 +153,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			MapViewportCenterY = Blueprint.LevelViewY;
 			WrapMode = (GameWrapMode)Blueprint.WrapMode;
 
-			//TODO black Portal effect when wrap around
-
 			if (WrapMode == GameWrapMode.Donut || WrapMode == GameWrapMode.Reflect)
 			{
 				VAdapterGame.ChangeVirtualSize(GDConstants.VIEW_WIDTH + GDConstants.TILE_WIDTH, GDConstants.VIEW_HEIGHT + GDConstants.TILE_WIDTH);

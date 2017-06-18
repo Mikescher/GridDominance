@@ -113,9 +113,9 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return result;
 		}
 
-		private static List<Tuple<List<Vector2>, CannonBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, int sourceID, FPoint spawnPoint, Vector2 spawnVeloc, List<Vector2> fullpath, float scale, float lifetime)
+		private static List<Tuple<List<Vector2>, ICannonBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, int sourceID, FPoint spawnPoint, Vector2 spawnVeloc, List<Vector2> fullpath, float scale, float lifetime)
 		{
-			var none = new List<Tuple<List<Vector2>, CannonBlueprint, float>>();
+			var none = new List<Tuple<List<Vector2>, ICannonBlueprint, float>>();
 
 			fullpath = fullpath.ToList();
 
@@ -174,7 +174,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 					if (!hit) return none;
 
-					var dat = new List<Tuple<List<Vector2>, CannonBlueprint, float>>();
+					var dat = new List<Tuple<List<Vector2>, ICannonBlueprint, float>>();
 					foreach (var outportal in lvl.BlueprintPortals.Where(p => p.Side != fPortal.Side && p.Group == fPortal.Group))
 					{
 						var stretch = outportal.Length / fPortal.Length;
@@ -199,21 +199,20 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 					return dat;
 				}
 
-				if (collisionUserObject is CannonBlueprint)
+				if (collisionUserObject is ICannonBlueprint)
 				{
 					world.RemoveBody(farseerBullet);
-					var tgcannon = (CannonBlueprint)collisionUserObject;
+					var tgcannon = (ICannonBlueprint)collisionUserObject;
 
 					if (tgcannon.CannonID == sourceID) return none;
 
 					var quality = Math2D.LinePointDistance(ConvertUnits2.ToDisplayUnitsPoint(farseerBullet.Position), ConvertUnits2.ToDisplayUnitsPoint(farseerBullet.Position) + ConvertUnits.ToDisplayUnits(farseerBullet.LinearVelocity), new FPoint(tgcannon.X, tgcannon.Y));
 
-					return new List<Tuple<List<Vector2>, CannonBlueprint, float>> { Tuple.Create(fullpath, tgcannon, quality) };
+					return new List<Tuple<List<Vector2>, ICannonBlueprint, float>> { Tuple.Create(fullpath, tgcannon, quality) };
 				}
-				
+
+
 				bool oow = (farseerBullet.Position.X < 0 - 64) || (farseerBullet.Position.Y < 0 - 64) || (farseerBullet.Position.X > ConvertUnits.ToSimUnits(lvl.LevelWidth) + 64) || (farseerBullet.Position.Y > ConvertUnits.ToSimUnits(lvl.LevelHeight) + 64);
-				bool don = false;
-				if (lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT) { oow = false; don = true; }
 				bool ool = (lifetime >= Bullet.MAXIMUM_LIFETIME);
 
 				//if (collisionUserObject != null || oow || ool)
@@ -228,12 +227,16 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				
 				if (oow || ool)                                 { world.RemoveBody(farseerBullet); return none; }
 
-				if (don)
+				if (lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT)
 				{
-					var nx = (farseerBullet.Position.X + ConvertUnits.ToSimUnits(lvl.LevelWidth)) % ConvertUnits.ToSimUnits(lvl.LevelWidth);
-					var ny = (farseerBullet.Position.Y + ConvertUnits.ToSimUnits(lvl.LevelHeight)) % ConvertUnits.ToSimUnits(lvl.LevelHeight);
-					farseerBullet.Position = new Vector2(nx, ny);
+					var pbullet = ConvertUnits.ToDisplayUnits(farseerBullet.Position);
+
+					pbullet.X = (pbullet.X + lvl.LevelWidth) % lvl.LevelWidth;
+					pbullet.Y = (pbullet.Y + lvl.LevelHeight) % lvl.LevelHeight;
+
+					farseerBullet.Position = ConvertUnits.ToSimUnits(pbullet);
 				}
+				
 			}
 		}
 		
@@ -243,7 +246,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(GDConstants.PHYSICS_CONVERSION_FACTOR);
 
-			foreach (var elem in lvl.BlueprintCannons)
+			foreach (var elem in lvl.AllCannons)
 			{
 				if (elem.Diameter < 0.01f) throw new Exception("Invalid Physics");
 
@@ -310,10 +313,10 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
 				var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
 
-				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.VecCenter), 0, BodyType.Static);
-				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.VecCenter), 0, BodyType.Static);
-				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.VecCenter), 0, BodyType.Static);
-				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.VecCenter), 0, BodyType.Static);
+				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.VecCenter), 0, BodyType.Static, dn);
+				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.VecCenter), 0, BodyType.Static, de);
+				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.VecCenter), 0, BodyType.Static, ds);
+				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.VecCenter), 0, BodyType.Static, dw);
 
 				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
 				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);

@@ -24,6 +24,11 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		private const float HITBOX_ENLARGE = 32;
 
+		private static MarkerCollisionBorder marker_dn = new MarkerCollisionBorder { Side = FlatAlign4.NN };
+		private static MarkerCollisionBorder marker_de = new MarkerCollisionBorder { Side = FlatAlign4.EE };
+		private static MarkerCollisionBorder marker_ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
+		private static MarkerCollisionBorder marker_dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
+
 		public static void Precalc(LevelBlueprint lvl)
 		{
 			foreach (var cannon in lvl.BlueprintCannons)
@@ -529,7 +534,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 			ConvertUnits.SetDisplayUnitToSimUnitRatio(1);
 
-			foreach (var elem in lvl.BlueprintCannons)
+			foreach (var elem in lvl.AllCannons)
 			{
 				if (elem.Diameter < 0.01f) throw new Exception("Invalid Physics");
 
@@ -622,7 +627,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				FixtureFactory.AttachCircle(cannonEnlarge * elem.Diameter / 2f + extend, 1, body, Vector2.Zero, elem);
 			}
 
-			if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID || lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT) //TODO DOES NOT WORK
+			if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID || lvl.WrapMode == LevelBlueprint.WRAPMODE_DONUT)
 			{
 				var mw = lvl.LevelWidth;
 				var mh = lvl.LevelHeight;
@@ -633,20 +638,15 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var rs = new FRectangle(-ex, +mh, mw + 2 * ex, ex);
 				var rw = new FRectangle(-ex, -ex, ex, mh + 2 * ex);
 
-				var dn = new MarkerCollisionBorder { Side = FlatAlign4.NN };
-				var de = new MarkerCollisionBorder { Side = FlatAlign4.EE };
-				var ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
-				var dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
+				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.VecCenter), 0, BodyType.Static, marker_dn);
+				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.VecCenter), 0, BodyType.Static, marker_de);
+				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.VecCenter), 0, BodyType.Static, marker_ds);
+				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.VecCenter), 0, BodyType.Static, marker_dw);
 
-				var bn = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rn.VecCenter), 0, BodyType.Static, dn);
-				var be = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(re.VecCenter), 0, BodyType.Static, de);
-				var bs = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rs.VecCenter), 0, BodyType.Static, ds);
-				var bw = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(rw.VecCenter), 0, BodyType.Static, dw);
-
-				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, dn);
-				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, de);
-				var fs = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rs.Width), ConvertUnits.ToSimUnits(rs.Height), 1, Vector2.Zero, bs, ds);
-				var fw = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rw.Width), ConvertUnits.ToSimUnits(rw.Height), 1, Vector2.Zero, bw, dw);
+				var fn = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rn.Width), ConvertUnits.ToSimUnits(rn.Height), 1, Vector2.Zero, bn, marker_dn);
+				var fe = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(re.Width), ConvertUnits.ToSimUnits(re.Height), 1, Vector2.Zero, be, marker_de);
+				var fs = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rs.Width), ConvertUnits.ToSimUnits(rs.Height), 1, Vector2.Zero, bs, marker_ds);
+				var fw = FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rw.Width), ConvertUnits.ToSimUnits(rw.Height), 1, Vector2.Zero, bw, marker_dw);
 			}
 
 			return world;
