@@ -51,7 +51,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public override AbstractFractionController CreateController(Fraction f, Cannon cannon)
 		{
 			if (HasFinished)
-				return new EndGameAutoPlayerController(this, cannon, f); //TODO only rotate when player won
+			{
+				if (PlayerWon)
+					return new EndGameAutoPlayerController(this, cannon, f);
+				else
+					return new EndGameAutoComputerController(this, cannon, f);
+			}
 			
 			switch (f.Type)
 			{

@@ -26,10 +26,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			private readonly Func<GameEntity> _runDirect;
 			private readonly Func<BulletPath> _runPrecalc;
 			private readonly Func<LaserRay> _runAntiLaser;
-			private readonly Action<KIController> _runGeneric;
+			private readonly Action _runGeneric;
 			private readonly Func<float?> _runCustom;
 
-			private KIMethod(string n, Func<GameEntity> r1, Func<BulletPath> r2, Action<KIController> r3, Func<LaserRay> r4, Func<float?> r5)
+			private KIMethod(string n, Func<GameEntity> r1, Func<BulletPath> r2, Action r3, Func<LaserRay> r4, Func<float?> r5)
 			{
 				Name = n;
 				_runDirect = r1;
@@ -39,11 +39,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				_runCustom = r5;
 			}
 
-			public static KIMethod CreateRaycast(string n, Func<GameEntity>     r) => new KIMethod(n, r,    null, null, null, null);
-			public static KIMethod CreatePrecalc(string n, Func<BulletPath>     r) => new KIMethod(n, null, r,    null, null, null);
-			public static KIMethod CreateGeneric(string n, Action<KIController> r) => new KIMethod(n, null, null, r,    null, null);
-			public static KIMethod CreateDefense(string n, Func<LaserRay>       r) => new KIMethod(n, null, null, null, r,    null);
-			public static KIMethod CreateCustom( string n, Func<float?>         r) => new KIMethod(n, null, null, null, null, r);
+			public static KIMethod CreateRaycast(string n, Func<GameEntity> r) => new KIMethod(n, r,    null, null, null, null);
+			public static KIMethod CreatePrecalc(string n, Func<BulletPath> r) => new KIMethod(n, null, r,    null, null, null);
+			public static KIMethod CreateGeneric(string n, Action           r) => new KIMethod(n, null, null, r,    null, null);
+			public static KIMethod CreateDefense(string n, Func<LaserRay>   r) => new KIMethod(n, null, null, null, r,    null);
+			public static KIMethod CreateCustom( string n, Func<float?>     r) => new KIMethod(n, null, null, null, null, r);
 
 			public bool Run(KIController ki)
 			{
@@ -106,7 +106,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				}
 				else if (_runGeneric != null)
 				{
-					_runGeneric(ki);
+					_runGeneric();
 					return true;
 				}
 				else if (_runCustom != null)

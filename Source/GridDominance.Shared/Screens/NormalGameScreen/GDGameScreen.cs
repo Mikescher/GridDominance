@@ -92,6 +92,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public          GameWrapMode WrapMode;
 
 		public bool HasFinished = false;
+		public bool PlayerWon = false; // [P] win or [C] win
 		public float LevelTime = 0f;
 
 		public readonly bool IsPreview;
@@ -325,6 +326,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private void EndGame(bool playerWon)
 		{
 			HasFinished = true;
+			PlayerWon = playerWon;
 
 			if (playerWon)
 			{

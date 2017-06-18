@@ -4,10 +4,11 @@ using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.Extensions;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 {
-	class EndGameAutoPlayerController : KIController
+	class EndGameAutoComputerController : KIController
 	{
 		private readonly List<KIMethod> intelligence;
 
@@ -15,22 +16,24 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		private float last = 0f;
 
-		public EndGameAutoPlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction)
+		public EndGameAutoComputerController(GDGameScreen owner, Cannon cannon, Fraction fraction)
 			: base(STANDARD_UPDATE_TIME, owner, cannon, fraction, 0f)
 		{
 			intelligence = new List<KIMethod>
 			{
-				KIMethod.CreateGeneric("IdleRotate", IdleRotate),
+				KIMethod.CreateCustom("RotCenter", RotCenter),
 			};
 
 			last = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 		}
 
-		private void IdleRotate()
+		private float? RotCenter()
 		{
-			Cannon.Rotation.Set(Cannon.Rotation.ActualValue + (MonoSAMGame.CurrentTime.ElapsedSeconds - last));
+			var p = Cannon.Owner.MapFullBounds.Center - Cannon.Position;
 
-			last = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
+			if (p.IsZero()) return 0f;
+
+			return p.ToAngle();
 		}
 
 		protected override void Calculate(InputState istate)

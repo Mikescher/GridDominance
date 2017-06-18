@@ -113,6 +113,7 @@ namespace MonoSAMFramework.Portable.GameMath
 
 		public static float Atan2(float y, float x)
 		{
+			// Fun Fact: Atan(0,0)=0, because the C standard says so
 			return (float)Math.Atan2(y, x);
 		}
 
