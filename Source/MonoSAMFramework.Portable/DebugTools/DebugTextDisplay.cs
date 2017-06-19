@@ -177,7 +177,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 						SpriteEffects.None,
 						0);
 
-					pos.X += 3*TEXT_OFFSET * Scale + size.X;
+					pos = new FPoint(pos.X + 3 * TEXT_OFFSET * Scale + size.X, pos.Y);
 				}
 				
 			}

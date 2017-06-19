@@ -71,8 +71,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 				}
 				else
 				{
-					particlePool[i].Position.X += particlePool[i].Velocity.X * gameTime.ElapsedSeconds;
-					particlePool[i].Position.Y += particlePool[i].Velocity.Y * gameTime.ElapsedSeconds;
+					particlePool[i].Position += particlePool[i].Velocity * gameTime.ElapsedSeconds;
 				}
 			}
 
@@ -100,8 +99,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles
 
 			if (!doSpawn) return;
 
-			particlePool[ParticleCount].StartPosition.X = particlePool[ParticleCount].Position.X;
-			particlePool[ParticleCount].StartPosition.Y = particlePool[ParticleCount].Position.Y;
+			particlePool[ParticleCount].StartPosition = particlePool[ParticleCount].Position;
 
 			_config.SetParticleVelocity(ref particlePool[ParticleCount].Velocity);
 

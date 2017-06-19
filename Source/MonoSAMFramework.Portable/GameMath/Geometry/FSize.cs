@@ -9,10 +9,10 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 	public struct FSize : IEquatable<FSize>
 	{
 		[DataMember]
-		public float Width;
+		public readonly float Width;
 
 		[DataMember]
-		public float Height;
+		public readonly float Height;
 
 		public static readonly FSize Empty = new FSize(0, 0);
 

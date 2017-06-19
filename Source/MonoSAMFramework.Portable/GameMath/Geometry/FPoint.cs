@@ -13,10 +13,10 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public static readonly FPoint Zero = new FPoint(0, 0);
 
 		[DataMember]
-		public float X;
+		public readonly float X;
 
 		[DataMember]
-		public float Y;
+		public readonly float Y;
 
 		public FPoint(float x, float y)
 		{
@@ -282,6 +282,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public FPoint MirrorAt(FPoint mirrorPoint)
 		{
 			return new FPoint(2 * mirrorPoint.X - X, 2 * mirrorPoint.Y - Y);
+		}
+
+		[Pure]
+		public FPoint ModuloToToSize(FSize bounds)
+		{
+			return new FPoint(FloatMath.PositiveModulo(X, bounds.Width), FloatMath.PositiveModulo(Y, bounds.Height));
 		}
 	}
 }

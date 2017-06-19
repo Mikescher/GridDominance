@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 {
@@ -48,8 +49,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			for (int i = 0; i < _nodes.Length; i++)
 			{
 				_values[i] = new AdaptionFloat(PADDING_X + i * DIST_X, FORCE, DRAG, MIN_SPEED);
-				_nodes[i].NodePos.X = _values[i].Value;
-				_nodes[i].NodePos.Y = POSITION_Y;
+				_nodes[i].NodePos = new FPoint(_values[i].Value, POSITION_Y);
 			}
 		}
 
@@ -213,8 +213,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 
 				if (_nodes[i].HasActiveOperation("OverworldNode::Shake")) continue;
 					
-				_nodes[i].NodePos.X = _values[i].Value;
-				_nodes[i].NodePos.Y = POSITION_Y;
+				_nodes[i].NodePos = new FPoint(_values[i].Value, POSITION_Y);
 			}
 		}
 	}

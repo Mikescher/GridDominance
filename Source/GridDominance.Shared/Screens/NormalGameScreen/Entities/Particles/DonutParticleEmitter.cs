@@ -69,8 +69,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 
 			particlePool[ParticleCount].Position = _portal.Position + _portal.VecDirection * u + v;
 
-			particlePool[ParticleCount].StartPosition.X = particlePool[ParticleCount].Position.X;
-			particlePool[ParticleCount].StartPosition.Y = particlePool[ParticleCount].Position.Y;
+			particlePool[ParticleCount].StartPosition = particlePool[ParticleCount].Position;
 
 			particlePool[ParticleCount].Velocity = v / -t;
 

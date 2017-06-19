@@ -388,8 +388,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void DonutWrap()
 		{
-			BulletPosition.X = (BulletPosition.X + GDOwner.MapFullBounds.Width) % GDOwner.MapFullBounds.Width;
-			BulletPosition.Y = (BulletPosition.Y + GDOwner.MapFullBounds.Height) % GDOwner.MapFullBounds.Height;
+			BulletPosition = BulletPosition.ModuloToToSize(GDOwner.MapFullBounds.Size);
 
 			PhysicsBody.Position = ConvertUnits2.ToSimUnits(BulletPosition);
 		}
