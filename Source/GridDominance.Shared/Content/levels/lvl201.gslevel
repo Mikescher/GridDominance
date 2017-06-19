@@ -12,6 +12,11 @@ Laser(SIZE_SMALL, N0, [ 8,  9], ROT_NE)
 
 Laser(SIZE_SMALL, A3, [14,  5], ROT_W)
 
+VoidCircle([5,  3], SIZE_SMALL)
+VoidCircle([11, 7], SIZE_SMALL)
+
+MirrorCircle([11, 3], SIZE_SMALL)
+MirrorCircle([5,  7], SIZE_SMALL)
 
 #<map>
 #
@@ -23,7 +28,7 @@ Laser(SIZE_SMALL, A3, [14,  5], ROT_W)
 #        1 #                                 #
 #                                             
 #        2 #                                 #
-#                                             
+#                    (X)         (#)          
 #        3 #                                 #
 #                                             
 #        4 #   / \                     / \   #
@@ -31,7 +36,7 @@ Laser(SIZE_SMALL, A3, [14,  5], ROT_W)
 #        5 #   \ /                     \ /   #
 #                                             
 #        6 #                                 #
-#                                             
+#                    (#)         (X)          
 #        7 #                                 #
 #                                             
 #        8 #                                 #
