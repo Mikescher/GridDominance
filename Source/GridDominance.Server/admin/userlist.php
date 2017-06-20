@@ -38,6 +38,12 @@
 	    foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }
 	    return $c;
 	}
+
+	if (empty($_GET['d']))
+		$users = getUsers();
+	else
+		$users = getActiveUsers($_GET['d']);
+
     ?>
 
     <div class="tablebox">
@@ -59,17 +65,17 @@
 
                 </tr>
             </thead>
-            <?php foreach (getUsers() as $entry): ?>
+            <?php foreach ($users as $entry): ?>
                 <tr>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-					<?php expansioncell($entry['password_hash']); ?>
+                    <?php expansioncell($entry['password_hash']); ?>
                     <td><?php echo $entry['is_auto_generated']; ?></td>
                     <td><?php echo $entry['score']; ?></td>
                     <td><?php echo $entry['revision_id']; ?></td>
                     <td><?php echo $entry['device_name']; ?></td>
                     <td><?php echo $entry['device_version']; ?></td>
                     <td><?php echo $entry['device_resolution']; ?></td>
-					<?php expansioncell3($entry['unlocked_worlds'], lc($entry['unlocked_worlds'])); ?>
+                    <?php expansioncell3($entry['unlocked_worlds'], lc($entry['unlocked_worlds'])); ?>
                     <td><?php echo strpos($entry['unlocked_worlds'], '{d34db335-0001-4000-7711-000000300001}') ? 'TRUE' : 'FALSE'; ?></td>
                     <td><?php echo $entry['last_online']; ?></td>
                     <td><?php echo $entry['app_version']; ?></td>

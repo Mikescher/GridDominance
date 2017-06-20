@@ -40,10 +40,10 @@
 			Total Users: <a href="userlist.php"><?php echo getUserCount(); ?></a>&nbsp;&nbsp;(<a href="statistics.php">stats</a>)
 		</div>
 		<div class="infodiv">
-			Active Users (week):  <?php echo getActiveUserCount(7); ?>
+			Active Users (week):  <a href="userlist.php?d=7"><?php echo getActiveUserCount(7); ?></a>
 		</div>
 		<div class="infodiv">
-			Active Users (today): <?php echo getActiveUserCount(1); ?>
+			Active Users (today): <a href="userlist.php?d=1"><?php echo getActiveUserCount(1); ?></a>
 		</div>
 	</div>
 

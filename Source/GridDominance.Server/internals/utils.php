@@ -68,6 +68,12 @@ function getUsers() {
 	return $pdo->query('SELECT * FROM users')->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getActiveUsers($days) {
+	global $pdo;
+
+	return $pdo->query('SELECT * FROM users WHERE last_online >= now() - INTERVAL ' . $days . ' DAY')->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getLevelHighscores() {
 	global $pdo;
 
