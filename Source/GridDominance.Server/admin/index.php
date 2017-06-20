@@ -33,6 +33,11 @@
 		echo "<a href='#' onclick='ShowRemoteExpandedColumn(" . $previd . ", \"" . $txt . "\");return false;'>show</a>";
 		echo "</td>";
 	}
+	function fmtLevelID($id) {
+	    if ($id == '{b16b00b5-0001-4000-9999-000000000002}') return "TUTORIAL";
+
+		return (int)substr($id, 25, 6) . " - " . (int)substr($id, 31, 6);
+    }
 	?>
 
 	<div class="infocontainer">
@@ -137,7 +142,7 @@
     <br/>
 
     <div class="tablebox">
-        <table class="sqltab pure-table pure-table-bordered">
+        <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
                 <th style='width: 250px'>Username</th>
@@ -158,7 +163,7 @@
 	<h2>Level highscores</h2>
 
     <div class="tablebox">
-        <table class="sqltab pure-table pure-table-bordered">
+        <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
                 <th>ID</th>
@@ -174,10 +179,10 @@
                     <td title="<?php echo $entry['levelid']; ?>" >
                         <?php if ($entry['difficulty'] == 0): ?>
                             <a href="levelscores.php?id=<?php echo $entry['levelid']; ?>">
-								<?php echo (int)substr($entry['levelid'], 25, 6) . " - " . (int)substr($entry['levelid'], 31, 6); ?>
+								<?php echo fmtLevelID($entry['levelid']); ?>
                             </a>
                         <?php else: ?>
-                            <?php echo (int)substr($entry['levelid'], 25, 6) . " - " . (int)substr($entry['levelid'], 31, 6); ?>
+                            <?php echo fmtLevelID($entry['levelid']); ?>
                         <?php endif; ?>
                     </td>
                     <td><?php echo $entry['difficulty']; ?></td>
@@ -186,7 +191,6 @@
                     <td><?php echo $entry['best_last_changed']; ?></td>
                     <td><?php echo $entry['completion_count']; ?></td>
                 </tr>
-                <tr class='tab_prev' id='tr_prev_<?php echo $previd; ?>'><td colspan='12' id='td_prev_<?php echo $previd; ?>' style='text-align: left;' ></td></tr>
 			<?php endforeach; ?>
         </table>
     </div>
@@ -194,5 +198,6 @@
     <script type="text/javascript">
         <?php echo file_get_contents('admin.js'); ?>
     </script>
+    <script src="sorttable.js"></script>
 </body>
 </html>

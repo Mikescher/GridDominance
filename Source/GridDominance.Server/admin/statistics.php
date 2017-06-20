@@ -74,7 +74,7 @@ function fmtw($w) {
 		?>
 
         <div class="tablebox">
-            <table class="sqltab pure-table pure-table-bordered">
+            <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
                     <th style='min-width: 300px'>Device</th>
@@ -102,7 +102,7 @@ function fmtw($w) {
 		?>
 
         <div class="tablebox">
-            <table class="sqltab pure-table pure-table-bordered">
+            <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
                     <th style='width: 350px'>Operating System</th>
@@ -129,7 +129,7 @@ function fmtw($w) {
 		?>
 
         <div class="tablebox">
-            <table class="sqltab pure-table pure-table-bordered">
+            <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
                     <th style='min-width: 200px'>Resolution</th>
@@ -161,7 +161,7 @@ function fmtw($w) {
 		?>
 
         <div class="tablebox">
-            <table class="sqltab pure-table pure-table-bordered">
+            <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
                     <th style='min-width: 170px'>App Version</th>
@@ -195,12 +195,20 @@ function fmtw($w) {
 			$u5[] = ['name' => $w, 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE unlocked_worlds LIKE '%" . $w . "%'")];
 		}
 
-		usort($u5, function ($a, $b) { return ($a['name'] <=> $b['name']); })
+		usort($u5, function ($a, $b) { return ($a['name'] <=> $b['name']); });
+
+		$_u5 = [];
+        foreach ($u5 as $u) {
+            $f = false;
+            foreach ($_u5 as $_u) $f = $f || ($_u['name'] == $u['name']);
+            if (!$f) $_u5 []= $u;
+        }
+		$u5 = $_u5;
 
 		?>
 
         <div class="tablebox">
-            <table class="sqltab pure-table pure-table-bordered">
+            <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
                     <th style='min-width: 220px'>World</th>
@@ -230,7 +238,7 @@ function fmtw($w) {
 		?>
 
         <div class="tablebox">
-            <table class="sqltab pure-table pure-table-bordered">
+            <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
                     <th>Anonymous User</th>
@@ -253,5 +261,6 @@ function fmtw($w) {
 <script type="text/javascript">
 	<?php echo file_get_contents('admin.js'); ?>
 </script>
+<script src="sorttable.js"></script>
 </body>
 </html>

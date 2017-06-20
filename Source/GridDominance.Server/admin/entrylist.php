@@ -16,8 +16,16 @@
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
 
+    <?php
+	function fmtLevelID($id) {
+		if ($id == '{b16b00b5-0001-4000-9999-000000000002}') return "TUTORIAL";
+
+		return (int)substr($id, 25, 6) . " - " . (int)substr($id, 31, 6);
+	}
+    ?>
+
     <div class="tablebox">
-        <table class="sqltab pure-table pure-table-bordered">
+        <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
                 <tr>
                     <th style='width: 170px'>Username</th>
@@ -32,7 +40,7 @@
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td title="<?php echo $entry['levelid']; ?>" >
                         <a href="levelscores.php?id=<?php echo $entry['levelid']; ?>">
-							<?php echo (int)substr($entry['levelid'], 25, 6) . " - " . (int)substr($entry['levelid'], 31, 6); ?>
+							<?php echo fmtLevelID($entry['levelid']); ?>
                         </a>
                     </td>
                     <td><?php echo $entry['difficulty']; ?></td>
@@ -42,5 +50,7 @@
             <?php endforeach; ?>
         </table>
     </div>
+
+    <script src="sorttable.js"></script>
 </body>
 </html>

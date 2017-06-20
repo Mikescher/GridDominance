@@ -19,7 +19,7 @@
     <h2><?php echo htmlspecialchars($_GET['id']); ?></h2>
 
     <div class="tablebox">
-        <table class="sqltab pure-table pure-table-bordered">
+        <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
                 <tr>
                     <th style='width: 250px'>Username</th>
@@ -36,5 +36,8 @@
 			<?php endforeach; ?>
         </table>
     </div>
+
+    <script src="sorttable.js"></script>
+
 </body>
 </html>
