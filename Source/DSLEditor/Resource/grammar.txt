@@ -1,3 +1,4 @@
+===============
 GSLevel Grammar
 ===============
 
@@ -18,6 +19,7 @@ voidwall_h({x, y}, len)
 voidwall_v({x, y}, len)
 voidwall_r({x, y}, len, rot)
 
+glasswall({x, y}, {x, y})
 glasswall_h({x, y}, len)
 glasswall_v({x, y}, len)
 glasswall_r({x, y}, len, rot)
@@ -30,6 +32,7 @@ whitehole({x, y}, diameter, [power])
 
 portal(group, side, {x, y}, length, normal)
 
+mirrorwall({x, y}, {x, y})
 mirrorwall_h({x, y}, len)
 mirrorwall_v({x, y}, len)
 mirrorwall_r({x, y}, len, rot)
@@ -38,3 +41,20 @@ mirrorblock({x, y}, width, height, [rot])
 mirrorcircle({x, y}, diameter)
 
 laser(size, player, {x, y}, [rotation], [id: cannonid])
+
+
+
+===============
+GSGraph Grammar
+===============
+
+alias(key, value)
+define(key, value)
+include(filename)
+scale(factor)
+
+node({x, y}, levelid)
+root({x, y}, worldid)
+warp({x, y}, worldid)
+
+connect(id, orientation<auto|lin|cw|ccw>, [priority])

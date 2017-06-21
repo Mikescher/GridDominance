@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.SAMScriptParser;
+using Microsoft.Xna.Framework;
 
 namespace GridDominance.Levelfileformat
 {
@@ -36,6 +37,7 @@ namespace GridDominance.Levelfileformat
 			DefineMethod("voidwall_v", AddVoidWallVert);
 			DefineMethod("voidwall_r", AddVoidWallRot);
 
+			DefineMethod("glasswall", AddGlassWall);
 			DefineMethod("glasswall_h", AddGlassWallHorz);
 			DefineMethod("glasswall_v", AddGlassWallVert);
 			DefineMethod("glasswall_r", AddGlassWallRot);
@@ -48,6 +50,7 @@ namespace GridDominance.Levelfileformat
 
 			DefineMethod("portal", AddPortal);
 
+			DefineMethod("mirrorwall", AddMirrorWall);
 			DefineMethod("mirrorwall_h", AddMirrorWallHorz);
 			DefineMethod("mirrorwall_v", AddMirrorWallVert);
 			DefineMethod("mirrorwall_r", AddMirrorWallRot);
@@ -176,6 +179,24 @@ namespace GridDominance.Levelfileformat
 			_result.BlueprintVoidCircles.Add(new VoidCircleBlueprint(pcx, pcy, dia));
 		}
 
+		private void AddGlassWall(List<string> methodParameter)
+		{
+			var pc1x = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pc1y = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var pc2x = ExtractVec2fParameter(methodParameter, 1).Item1 * _scaleFactor;
+			var pc2y = ExtractVec2fParameter(methodParameter, 1).Item2 * _scaleFactor;
+
+			var cx = (pc1x + pc2x) / 2f;
+			var cy = (pc1y + pc2y) / 2f;
+
+			var d = new Vector2(pc2x, pc2y) - new Vector2(pc1x, pc1y);
+
+			var r = (float)((Math.Atan2(d.Y, d.X) + Math.PI + Math.PI) % (Math.PI + Math.PI));
+			r *= 360f / (float)(Math.PI + Math.PI);
+
+			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(cx, cy, d.Length(), GlassBlockBlueprint.DEFAULT_WIDTH, r));
+		}
+
 		private void AddGlassWallHorz(List<string> methodParameter)
 		{
 			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
@@ -245,6 +266,24 @@ namespace GridDominance.Levelfileformat
 			var nrm = ExtractNumberParameter(methodParameter, 4);
 
 			_result.BlueprintPortals.Add(new PortalBlueprint(pcx, pcy, len, nrm, grp, sid));
+		}
+
+		private void AddMirrorWall(List<string> methodParameter)
+		{
+			var pc1x = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pc1y = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var pc2x = ExtractVec2fParameter(methodParameter, 1).Item1 * _scaleFactor;
+			var pc2y = ExtractVec2fParameter(methodParameter, 1).Item2 * _scaleFactor;
+
+			var cx = (pc1x + pc2x) / 2f;
+			var cy = (pc1y + pc2y) / 2f;
+
+			var d = new Vector2(pc2x, pc2y) - new Vector2(pc1x, pc1y);
+
+			var r = (float)((Math.Atan2(d.Y, d.X) + Math.PI + Math.PI) % (Math.PI + Math.PI));
+			r *= 360f / (float) (Math.PI + Math.PI);
+			
+			_result.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(cx, cy, d.Length(), MirrorBlockBlueprint.DEFAULT_WIDTH, r));
 		}
 
 		private void AddMirrorWallHorz(List<string> methodParameter)
