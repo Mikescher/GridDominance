@@ -40,6 +40,12 @@ define(PORTAL_2, 2)
 define(PORTAL_3, 3)
 define(PORTAL_4, 4)
 
+define(KI_CFG_TRACE_MAX_BULLETBOUNCE,  200)
+define(KI_CFG_TRACE_MAX_LASERREFLECT,  201)
+define(KI_CFG_TRACE_RESOULUTION,       202)
+define(KI_CFG_TRACE_HITBOX_ENLARGE,    203)
+define(KI_CFG_SIMULATION_RESOLUTION,   204)
+
 ###########################################
 
 scale(TILE_WIDTH)

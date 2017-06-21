@@ -15,6 +15,12 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const int WRAPMODE_DONUT = 102;
 		public const int WRAPMODE_SOLID = 103;
 
+		public const int KI_CONFIG_TRACE_MAX_BULLETBOUNCE = 200;
+		public const int KI_CONFIG_TRACE_MAX_LASERREFLECT = 201;
+		public const int KI_CONFIG_TRACE_RESOULUTION      = 202;
+		public const int KI_CONFIG_TRACE_HITBOX_ENLARGE   = 203;
+		public const int KI_CONFIG_SIMULATION_RESOLUTION  = 204;
+
 		public const byte SERIALIZE_ID_CANNON       = 0x01; 
 		public const byte SERIALIZE_ID_VOIDWALL     = 0x05;
 		public const byte SERIALIZE_ID_VOIDCIRCLE   = 0x06;
@@ -39,6 +45,8 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 		public IEnumerable<ICannonBlueprint> AllCannons => BlueprintCannons.Cast<ICannonBlueprint>().Concat(BlueprintLaserCannons);
 
+		public Dictionary<int, int> ParseConfiguration;
+		
 		public Guid UniqueID     = Guid.Empty;
 		public string Name       = "";
 		public string FullName   = "";

@@ -16,34 +16,37 @@ using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace GridDominance.Content.Pipeline.PreCalculation
 {
-	internal static class LevelKITracer
+	internal class LevelKITracer
 	{
-		public const int MAX_COUNT_RECAST  = 8;   // Bullet
-		public const int MAX_COUNT_REFLECT = 8;   // Laser
+		private int MAX_COUNT_RECAST  = 8;   // Bullet
+		private int MAX_COUNT_REFLECT = 8;   // Laser
 
-		private const int RESOLUTION = 3600;
+		private int RESOLUTION = 3600;
 
-		private const float HITBOX_ENLARGE = 32;
+		private float HITBOX_ENLARGE = 32;
 
-		private static MarkerCollisionBorder marker_dn = new MarkerCollisionBorder { Side = FlatAlign4.NN };
-		private static MarkerCollisionBorder marker_de = new MarkerCollisionBorder { Side = FlatAlign4.EE };
-		private static MarkerCollisionBorder marker_ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
-		private static MarkerCollisionBorder marker_dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
+		private MarkerCollisionBorder marker_dn = new MarkerCollisionBorder { Side = FlatAlign4.NN };
+		private MarkerCollisionBorder marker_de = new MarkerCollisionBorder { Side = FlatAlign4.EE };
+		private MarkerCollisionBorder marker_ds = new MarkerCollisionBorder { Side = FlatAlign4.SS };
+		private MarkerCollisionBorder marker_dw = new MarkerCollisionBorder { Side = FlatAlign4.WW };
 
+		private MarkerRefractionEdge marker_rn = new MarkerRefractionEdge { Side = FlatAlign4.NN };
+		private MarkerRefractionEdge marker_re = new MarkerRefractionEdge { Side = FlatAlign4.EE };
+		private MarkerRefractionEdge marker_rs = new MarkerRefractionEdge { Side = FlatAlign4.SS };
+		private MarkerRefractionEdge marker_rw = new MarkerRefractionEdge { Side = FlatAlign4.WW };
 
-		private static MarkerRefractionEdge marker_rn = new MarkerRefractionEdge { Side = FlatAlign4.NN };
-		private static MarkerRefractionEdge marker_re = new MarkerRefractionEdge { Side = FlatAlign4.EE };
-		private static MarkerRefractionEdge marker_rs = new MarkerRefractionEdge { Side = FlatAlign4.SS };
-		private static MarkerRefractionEdge marker_rw = new MarkerRefractionEdge { Side = FlatAlign4.WW };
-
-		private static MarkerRefractionCorner marker_rne = new MarkerRefractionCorner { Side = FlatAlign4C.NE };
-		private static MarkerRefractionCorner marker_rse = new MarkerRefractionCorner { Side = FlatAlign4C.SE };
-		private static MarkerRefractionCorner marker_rsw = new MarkerRefractionCorner { Side = FlatAlign4C.SW };
-		private static MarkerRefractionCorner marker_rnw = new MarkerRefractionCorner { Side = FlatAlign4C.NW };
-
-
-		public static void Precalc(LevelBlueprint lvl)
+		private MarkerRefractionCorner marker_rne = new MarkerRefractionCorner { Side = FlatAlign4C.NE };
+		private MarkerRefractionCorner marker_rse = new MarkerRefractionCorner { Side = FlatAlign4C.SE };
+		private MarkerRefractionCorner marker_rsw = new MarkerRefractionCorner { Side = FlatAlign4C.SW };
+		private MarkerRefractionCorner marker_rnw = new MarkerRefractionCorner { Side = FlatAlign4C.NW };
+		
+		public void Precalc(LevelBlueprint lvl)
 		{
+			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_TRACE_HITBOX_ENLARGE)) HITBOX_ENLARGE = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_TRACE_HITBOX_ENLARGE];
+			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_TRACE_MAX_BULLETBOUNCE)) MAX_COUNT_RECAST = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_TRACE_MAX_BULLETBOUNCE];
+			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_TRACE_MAX_LASERREFLECT)) MAX_COUNT_REFLECT = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_TRACE_MAX_LASERREFLECT];
+			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_TRACE_RESOULUTION)) RESOLUTION = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_TRACE_RESOULUTION];
+			
 			foreach (var cannon in lvl.BlueprintCannons)
 				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
 
@@ -51,7 +54,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
 		}
 
-		public static BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
+		private BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
 		{
 			var worldNormal = CreateRayWorld(lvl, 0, 1);
 			var worldExtend = CreateRayWorld(lvl, HITBOX_ENLARGE, 1.5f);
@@ -79,7 +82,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return resultRays.ToArray();
 		}
 
-		public static BulletPathBlueprint[] Precalc(LevelBlueprint lvl, LaserCannonBlueprint cannon)
+		public BulletPathBlueprint[] Precalc(LevelBlueprint lvl, LaserCannonBlueprint cannon)
 		{
 			var worldNormal = CreateRayWorld(lvl, 0, 1);
 			var worldExtend = CreateRayWorld(lvl, HITBOX_ENLARGE, 1.5f);
@@ -107,7 +110,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return resultRays.ToArray();
 		}
 
-		private static BulletPathBlueprint ExtractBestRay(List<Tuple<BulletPathBlueprint, float>>[] rayClock, int iStart, int cid)
+		private BulletPathBlueprint ExtractBestRay(List<Tuple<BulletPathBlueprint, float>>[] rayClock, int iStart, int cid)
 		{
 			float bestQuality = rayClock[iStart].First(p => p.Item1.TargetCannonID == cid).Item2;
 			BulletPathBlueprint bestRay = rayClock[iStart].First(p => p.Item1.TargetCannonID == cid).Item1;
@@ -143,12 +146,12 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return bestRay;
 		}
 
-		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, CannonBlueprint cannon, float deg)
+		private List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, CannonBlueprint cannon, float deg)
 		{
 			return FindBulletPaths(lvl, wBase, wCollision, cannon.CannonID, new FPoint(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, deg * FloatMath.DegRad, MAX_COUNT_RECAST);
 		}
 
-		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, FPoint rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, float cannonRadians, int remainingRecasts)
+		private List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, FPoint rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, float cannonRadians, int remainingRecasts)
 		{
 			var none = new List<Tuple<BulletPathBlueprint, float>>();
 			if (remainingRecasts <= 0) return none;
@@ -298,12 +301,12 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			throw new Exception("Unknown rayTrace resturn ficture: " + traceResult.Item1.UserData);
 		}
 
-		private static List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, LaserCannonBlueprint cannon, float deg)
+		private List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, LaserCannonBlueprint cannon, float deg)
 		{
 			return FindLaserPaths(lvl, wBase, wCollision, cannon.CannonID, new FPoint(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, deg * FloatMath.DegRad, MAX_COUNT_REFLECT, false, null);
 		}
 
-		private static List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, FPoint rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, float cannonRadians, int remainingRecasts, bool inGlassBlock, object objIgnore)
+		private List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, int sourceID, FPoint rcStart, List<Tuple<Vector2, Vector2>> sourcerays, float startRadians, float cannonRadians, int remainingRecasts, bool inGlassBlock, object objIgnore)
 		{
 			var none = new List<Tuple<BulletPathBlueprint, float>>();
 			if (remainingRecasts <= 0) return none;
@@ -517,7 +520,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			throw new Exception("Unknown rayTrace resturn ficture: " + traceResult.Item1.UserData);
 		}
 
-		private static Tuple<Fixture, FPoint, Vector2> RayCastBullet(World w, FPoint start, FPoint end)
+		private Tuple<Fixture, FPoint, Vector2> RayCastBullet(World w, FPoint start, FPoint end)
 		{
 			Tuple<Fixture, FPoint, Vector2> result = null;
 
@@ -539,7 +542,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return result;
 		}
 
-		private static Tuple<Fixture, FPoint, Vector2> RayCastLaser(World w, FPoint start, FPoint end, object objIgnore)
+		private Tuple<Fixture, FPoint, Vector2> RayCastLaser(World w, FPoint start, FPoint end, object objIgnore)
 		{
 			Tuple<Fixture, FPoint, Vector2> result = null;
 
@@ -563,7 +566,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return result;
 		}
 
-		private static World CreateRayWorld(LevelBlueprint lvl, float extend, float cannonEnlarge)
+		private World CreateRayWorld(LevelBlueprint lvl, float extend, float cannonEnlarge)
 		{
 			var world = new World(Vector2.Zero);
 

@@ -2,25 +2,21 @@
 #####################################
 include("stdvalues")
 
-init("3-2", "To Infinity... And Beyond!", {b16b00b5-0001-4000-0000-000003000002}, KI_DYNAMIC_RAYTRACE)
+init("3-2", "Reflections", {b16b00b5-0001-4000-0000-000003000002}, KI_DYNAMIC_RAYTRACE)
 
-setwrap(WRAPMODE_DONUT)
+Laser(SIZE_SMALL, P1, [ 2,  5], ROT_E)
 
-Laser(SIZE_SMALL, P1, [ 3,  5], ROT_E)
-
-Laser(SIZE_SMALL, N0, [ 8,  1.5], ROT_SW)
+Laser(SIZE_SMALL, N0, [ 8,  1], ROT_SW)
 Laser(SIZE_SMALL, N0, [ 8,  5], ROT_N)
-Laser(SIZE_SMALL, N0, [ 8,  8.5], ROT_NE)
+Laser(SIZE_SMALL, N0, [ 8,  9], ROT_NE)
 
-Laser(SIZE_SMALL, A3, [13,  5], ROT_W)
+Laser(SIZE_SMALL, A3, [14,  5], ROT_W)
 
-VoidCircle([5,  3.5], SIZE_SMALL)
-VoidCircle([11, 6.5], SIZE_SMALL)
-VoidCircle([11, 3.5], SIZE_SMALL)
-VoidCircle([5,  6.5], SIZE_SMALL)
+VoidCircle([5,  3], SIZE_SMALL)
+VoidCircle([11, 7], SIZE_SMALL)
 
-Voidwall_V([15, 5], 9)
-Voidwall_V([1,  5], 9)
+MirrorCircle([11, 3], SIZE_SMALL)
+MirrorCircle([5,  7], SIZE_SMALL)
 
 #<map>
 #
@@ -28,23 +24,23 @@ Voidwall_V([1,  5], 9)
 #          # # # # # # # # # # # # # # # # # #
 #                                             
 #        0 #                                 #
-#             |                           |   
-#        1 #  |            <+>            |  #
-#             |                           |   
-#        2 #  |                           |  #
-#             |                           |   
-#        3 #  |      (X)         (X)      |  #
-#             |                           |   
-#        4 #  |  / \                 / \  |  #
-#             |   +        <+>        +   |   
-#        5 #  |  \ /                 \ /  |  #
-#             |                           |   
-#        6 #  |      (X)         (X)      |  #
-#             |                           |   
-#        7 #  |                           |  #
-#             |                           |   
-#        8 #  |            <+>            |  #
-#             |                           |   
+#                          <+>                
+#        1 #                                 #
+#                                             
+#        2 #                                 #
+#                    (X)         (#)          
+#        3 #                                 #
+#                                             
+#        4 #   / \                     / \   #
+#               +          <+>          +     
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #                                 #
+#                    (#)         (X)          
+#        7 #                                 #
+#                                             
+#        8 #                                 #
+#                          <+>                
 #        9 #                                 #
 #                                             
 #          # # # # # # # # # # # # # # # # # #

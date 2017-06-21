@@ -1,0 +1,60 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-4", "The Law of Snell", {b16b00b5-0001-4000-0000-000003000004}, KI_DYNAMIC_RAYTRACE)
+
+setwrap(WRAPMODE_DEATH)
+config(KI_CFG_TRACE_MAX_LASERREFLECT, 4)
+
+Laser(SIZE_SMALL, P1, [ 3,  5], ROT_E)
+
+Laser(SIZE_SMALL, N0, [ 8,  1.5], ROT_SW)
+
+Glassblock([8,5], 3, 3, 45)
+
+Laser(SIZE_SMALL, N0, [ 8,  8.5], ROT_NE)
+
+Laser(SIZE_SMALL, A3, [13,  5], ROT_W)
+
+VoidCircle([5,  3], SIZE_SMALL)
+VoidCircle([11, 7], SIZE_SMALL)
+VoidCircle([11, 3], SIZE_SMALL)
+VoidCircle([5,  7], SIZE_SMALL)
+
+Laser(SIZE_TINY, N0, [  3,  8.5], ROT_NE)
+Laser(SIZE_TINY, N0, [ 13,  8.5], ROT_NE)
+Laser(SIZE_TINY, N0, [  3,  1.5], ROT_NE)
+Laser(SIZE_TINY, N0, [ 13,  1.5], ROT_NE)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #     <+>       <+>       <+>     #
+#                                             
+#        2 #                                 #
+#                    (X)         (X)          
+#        3 #                H                #
+#                          H H                
+#        4 #     / \      HHHHH      / \     #
+#                 +      H HHH H      +       
+#        5 #     \ /      HHHHH      \ /     #
+#                          H H                
+#        6 #                H                #
+#                    (X)         (X)          
+#        7 #                                 #
+#                                             
+#        8 #     <+>       <+>       <+>     #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

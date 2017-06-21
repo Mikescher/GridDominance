@@ -18,20 +18,22 @@ using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace GridDominance.Content.Pipeline.PreCalculation
 {
-	internal static class LevelKISimulator
+	internal class LevelKISimulator
 	{
-		private const int RESOLUTION = 720;
+		private int RESOLUTION = 720;
 
-		public static void Precalc(LevelBlueprint lvl)
+		public void Precalc(LevelBlueprint lvl)
 		{
+			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_SIMULATION_RESOLUTION)) RESOLUTION = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_SIMULATION_RESOLUTION];
+			
 			foreach (var cannon in lvl.BlueprintCannons)
 				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
 
 			foreach (var cannon in lvl.BlueprintLaserCannons)
-				cannon.PrecalculatedPaths = LevelKITracer.Precalc(lvl, cannon);
+				cannon.PrecalculatedPaths = new LevelKITracer().Precalc(lvl, cannon);
 		}
 
-		public static BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
+		private BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
 		{
 			var worldNormal = CreateRayWorld(lvl);
 
@@ -58,7 +60,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return resultRays.ToArray();
 		}
 
-		private static BulletPathBlueprint ExtractBestRay(List<Tuple<BulletPathBlueprint, float>>[] rayClock, int iStart, int cid)
+		private BulletPathBlueprint ExtractBestRay(List<Tuple<BulletPathBlueprint, float>>[] rayClock, int iStart, int cid)
 		{
 			float bestQuality = rayClock[iStart].First(p => p.Item1.TargetCannonID == cid).Item2;
 			BulletPathBlueprint bestRay = rayClock[iStart].First(p => p.Item1.TargetCannonID == cid).Item1;
@@ -94,7 +96,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return bestRay;
 		}
 
-		private static List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, CannonBlueprint cannon, float deg)
+		private List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, CannonBlueprint cannon, float deg)
 		{
 			float startRadians = deg * FloatMath.DegRad;
 			var scale = cannon.Diameter / Cannon.CANNON_DIAMETER;
@@ -113,7 +115,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return result;
 		}
 
-		private static List<Tuple<List<Vector2>, ICannonBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, int sourceID, FPoint spawnPoint, Vector2 spawnVeloc, List<Vector2> fullpath, float scale, float lifetime)
+		private List<Tuple<List<Vector2>, ICannonBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, int sourceID, FPoint spawnPoint, Vector2 spawnVeloc, List<Vector2> fullpath, float scale, float lifetime)
 		{
 			var none = new List<Tuple<List<Vector2>, ICannonBlueprint, float>>();
 
@@ -240,7 +242,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			}
 		}
 		
-		private static World CreateRayWorld(LevelBlueprint lvl)
+		private World CreateRayWorld(LevelBlueprint lvl)
 		{
 			var world = new World(Vector2.Zero);
 
@@ -327,7 +329,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return world;
 		}
 
-		private static Tuple<Vector2, Vector2>[] SimplifyRays(Vector2 cannonpos, List<Vector2> fullpath)
+		private Tuple<Vector2, Vector2>[] SimplifyRays(Vector2 cannonpos, List<Vector2> fullpath)
 		{
 			//return fullpath.Skip(1).Select(o => Tuple.Create(o.X, o.Y)).ToArray();
 
@@ -357,7 +359,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return outl.ToArray();
 		}
 
-		private static bool CanSimplify(Vector2 p1, Vector2 p2, IEnumerable<Vector2> test)
+		private bool CanSimplify(Vector2 p1, Vector2 p2, IEnumerable<Vector2> test)
 		{
 			foreach (var elem in test)
 			{
@@ -367,7 +369,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return true;
 		}
 
-		private static bool IsSplit(Vector2 p1, Vector2 p2)
+		private bool IsSplit(Vector2 p1, Vector2 p2)
 		{
 			return (p2 - p1).LengthSquared() > 16f * 16f;
 		}
