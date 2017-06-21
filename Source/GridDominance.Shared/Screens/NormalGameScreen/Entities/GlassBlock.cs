@@ -20,7 +20,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 	public class GlassBlock : GameEntity
 	{
 		public const float CORNER_SIZE = 4f;
-		private const float MARKER_WIDTH = 0.001f;
+		public const float MARKER_WIDTH = 0.001f;
+		public const float CORNER_WIDTH = 0.025f;
 		public const float REFRACTION_INDEX = GlassBlockBlueprint.REFRACTION_INDEX;
 
 		public override FPoint Position { get; }
@@ -73,6 +74,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var rs = new MarkerRefractionEdge { Source = this, Side = FlatAlign4.SS };
 			var rw = new MarkerRefractionEdge { Source = this, Side = FlatAlign4.WW };
 
+			var rne = new MarkerRefractionCorner { Source = this, Side = FlatAlign4C.NE };
+			var rse = new MarkerRefractionCorner { Source = this, Side = FlatAlign4C.SE };
+			var rsw = new MarkerRefractionCorner { Source = this, Side = FlatAlign4C.SW };
+			var rnw = new MarkerRefractionCorner { Source = this, Side = FlatAlign4C.NW };
+
 			var bodyN = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, rn);
 			FixtureFactory.AttachRectangle(w, MARKER_WIDTH, 1, new Vector2(0, -(h - MARKER_WIDTH) / 2f), bodyN, rn);
 
@@ -84,6 +90,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			var bodyW = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, rw);
 			FixtureFactory.AttachRectangle(MARKER_WIDTH, h, 1, new Vector2(-(w - MARKER_WIDTH) / 2f, 0), bodyW, rw);
+
+			
+			var bodyNE = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, rne);
+			FixtureFactory.AttachRectangle(CORNER_WIDTH, CORNER_WIDTH, 1, new Vector2(+w/2, -h/2), bodyNE, rne);
+
+			var bodySE = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, rse);
+			FixtureFactory.AttachRectangle(CORNER_WIDTH, CORNER_WIDTH, 1, new Vector2(+w/2, +h/2), bodySE, rse);
+
+			var bodySW = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, rsw);
+			FixtureFactory.AttachRectangle(CORNER_WIDTH, CORNER_WIDTH, 1, new Vector2(-w/2, +h/2), bodySW, rsw);
+
+			var bodyNW = BodyFactory.CreateBody(pw, p, _rotation, BodyType.Static, rnw);
+			FixtureFactory.AttachRectangle(CORNER_WIDTH, CORNER_WIDTH, 1, new Vector2(-w/2, -h/2), bodyNW, rnw);
 		}
 		
 		public override void OnRemove()

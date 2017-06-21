@@ -255,8 +255,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			#endregion
 
 			#region RefractionMarker
-			var otherRefractionMarker = fixtureB.UserData as MarkerRefractionEdge;
-			if (otherRefractionMarker != null) return false;
+			var otherRefractionMarker1 = fixtureB.UserData as MarkerRefractionEdge;
+			if (otherRefractionMarker1 != null) return false;
+			var otherRefractionMarker2 = fixtureB.UserData as MarkerRefractionCorner;
+			if (otherRefractionMarker2 != null) return false;
 			#endregion
 
 			#region BorderMarker

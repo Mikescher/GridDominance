@@ -220,6 +220,40 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				}
 				#endregion
 
+				#region GlassBlockRefraction (Corner)
+				var resultGlassCornerRefrac = result.Item1.UserData as MarkerRefractionCorner;
+				if (resultGlassCornerRefrac != null)
+				{
+					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.VoidObject, depth, inglass, ignore, resultGlassCornerRefrac, startdist, null);
+					src.Lasers.Add(ray);
+					if (TestForLaserCollision(src, ray, nofault)) continue;
+
+					// sin(aIn) / sin(aOut) = currRefractIdx / Glass.RefractIdx
+					var aIn = (start - end).ToAngle() - result.Item3.ToAngle();
+					var n = inglass ? (GlassBlock.REFRACTION_INDEX / 1f) : (1f / GlassBlock.REFRACTION_INDEX);
+
+					var sinaOut = FloatMath.Sin(aIn) * n;
+
+					var isRefracting = sinaOut < 1 && sinaOut > -1;
+					if (isRefracting) // refraction
+					{
+						// No refrac in corner
+					}
+
+					if (!inglass)
+					{
+						var reflect_end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(_rayLength);
+						remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object)resultGlassCornerRefrac, ray, startdist + ray.Length));
+						continue;
+					}
+					else
+					{
+						// No funtime in corner
+						continue;
+					}
+				}
+				#endregion
+
 				#region MirrorBlock
 				var resultMirrorBlock = result.Item1.UserData as MirrorBlock;
 				if (resultMirrorBlock != null)

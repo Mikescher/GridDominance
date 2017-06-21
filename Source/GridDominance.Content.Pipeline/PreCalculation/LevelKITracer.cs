@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
@@ -34,6 +35,11 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 		private static MarkerRefractionEdge marker_re = new MarkerRefractionEdge { Side = FlatAlign4.EE };
 		private static MarkerRefractionEdge marker_rs = new MarkerRefractionEdge { Side = FlatAlign4.SS };
 		private static MarkerRefractionEdge marker_rw = new MarkerRefractionEdge { Side = FlatAlign4.WW };
+
+		private static MarkerRefractionCorner marker_rne = new MarkerRefractionCorner { Side = FlatAlign4C.NE };
+		private static MarkerRefractionCorner marker_rse = new MarkerRefractionCorner { Side = FlatAlign4C.SE };
+		private static MarkerRefractionCorner marker_rsw = new MarkerRefractionCorner { Side = FlatAlign4C.SW };
+		private static MarkerRefractionCorner marker_rnw = new MarkerRefractionCorner { Side = FlatAlign4C.NW };
 
 
 		public static void Precalc(LevelBlueprint lvl)
@@ -361,7 +367,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 					dat.AddRange(sub);
 				}
 
-				if (! inGlassBlock)
+				if (!inGlassBlock)
 				{
 					// reflection
 
@@ -385,6 +391,28 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 						var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pReflectVec.ToAngle(), cannonRadians, remainingRecasts - 1, !inGlassBlock, fGlassBlock);
 						dat.AddRange(sub);
 					}
+				}
+
+				return dat;
+			}
+
+			var fGlassBlockCorner = traceResult.Item1.UserData as MarkerRefractionCorner;
+			if (fGlassBlockCorner != null)
+			{
+				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
+
+				var pNewStart = traceResult.Item2;
+
+				var dat = new List<Tuple<BulletPathBlueprint, float>>();
+
+				if (!inGlassBlock)
+				{
+					// reflection
+
+					var pReflectVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
+
+					var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pReflectVec.ToAngle(), cannonRadians, remainingRecasts - 1, !inGlassBlock, fGlassBlockCorner);
+					dat.AddRange(sub);
 				}
 
 				return dat;
@@ -562,8 +590,9 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var h = ConvertUnits.ToSimUnits(elem.Height);
 				var p = ConvertUnits2.ToSimUnits(new FPoint(elem.X, elem.Y));
 				var rot = FloatMath.ToRadians(elem.Rotation);
-				var mw = 0.001f;
-				
+				var mw = GlassBlock.MARKER_WIDTH;
+				var cw = 10*GlassBlock.CORNER_WIDTH;
+
 				var bodyN = BodyFactory.CreateBody(pw, p, rot, BodyType.Static, marker_rn);
 				FixtureFactory.AttachRectangle(w, mw, 1, new Vector2(0, -(h - mw) / 2f), bodyN, marker_rn);
 
@@ -575,6 +604,19 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 				var bodyW = BodyFactory.CreateBody(pw, p, rot, BodyType.Static, marker_rw);
 				FixtureFactory.AttachRectangle(mw, h, 1, new Vector2(-(w - mw) / 2f, 0), bodyW, marker_rw);
+
+
+				var bodyNE = BodyFactory.CreateBody(pw, p, rot, BodyType.Static, marker_rne);
+				FixtureFactory.AttachRectangle(cw, cw, 1, new Vector2(+w / 2, -h / 2), bodyNE, marker_rne);
+
+				var bodySE = BodyFactory.CreateBody(pw, p, rot, BodyType.Static, marker_rse);
+				FixtureFactory.AttachRectangle(cw, cw, 1, new Vector2(+w / 2, +h / 2), bodySE, marker_rse);
+
+				var bodySW = BodyFactory.CreateBody(pw, p, rot, BodyType.Static, marker_rsw);
+				FixtureFactory.AttachRectangle(cw, cw, 1, new Vector2(-w / 2, +h / 2), bodySW, marker_rsw);
+
+				var bodyNW = BodyFactory.CreateBody(pw, p, rot, BodyType.Static, marker_rnw);
+				FixtureFactory.AttachRectangle(cw, cw, 1, new Vector2(-w / 2, -h / 2), bodyNW, marker_rnw);
 			}
 
 			foreach (var elem in lvl.BlueprintVoidCircles)

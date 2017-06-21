@@ -96,6 +96,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\ConvertUnits2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\IPhysicsMarker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerCollisionBorder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerRefractionCorner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerRefractionEdge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\OverworldScrollAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Agents\ReappearTransitionAgent.cs" />

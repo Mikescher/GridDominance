@@ -61,6 +61,8 @@
     <Compile Include="GameMath\CircularDirection.cs" />
     <Compile Include="GameMath\Cryptography\KiddieCryptography.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
+    <Compile Include="GameMath\Geometry\Alignment\FlatAlign4C.cs" />
+    <Compile Include="GameMath\Geometry\Alignment\FlatAlign5C.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign9.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign8.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign5.cs" />
