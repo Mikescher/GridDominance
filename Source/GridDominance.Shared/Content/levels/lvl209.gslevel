@@ -1,0 +1,54 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-9", "Back To The Roots", {b16b00b5-0001-4000-0000-000003000009}, KI_DYNAMIC_RAYTRACE)
+
+setwrap(WRAPMODE_DONUT)
+config(KI_CFG_TRACE_MAX_BULLETBOUNCE, 2)
+
+Cannon(SIZE_SMALL, P1, [ 3,  5], ROT_E)
+
+Cannon(SIZE_SMALL, N0, [ 8,  1.5], ROT_SW)
+Cannon(SIZE_SMALL, N0, [ 8,  5], ROT_N)
+Cannon(SIZE_SMALL, N0, [ 8,  8.5], ROT_NE)
+
+Cannon(SIZE_SMALL, A3, [13,  5], ROT_W)
+
+VoidCircle([5,  3.5], SIZE_SMALL)
+VoidCircle([11, 6.5], SIZE_SMALL)
+VoidCircle([11, 3.5], SIZE_SMALL)
+VoidCircle([5,  6.5], SIZE_SMALL)
+
+#mirrorwall_V([15, 5], 9)
+#mirrorwall_V([1,  5], 9)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #               <O>               #
+#                                             
+#        2 #                                 #
+#                                             
+#        3 #         (X)         (X)         #
+#                                             
+#        4 #     / \                 / \     #
+#                 O        <O>        O       
+#        5 #     \ /                 \ /     #
+#                                             
+#        6 #         (X)         (X)         #
+#                                             
+#        7 #                                 #
+#                                             
+#        8 #               <O>               #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

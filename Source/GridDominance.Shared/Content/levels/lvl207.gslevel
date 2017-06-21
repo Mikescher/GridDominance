@@ -1,0 +1,63 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-7", "Knights Of Round II", {b16b00b5-0001-4000-0000-000003000007}, KI_DYNAMIC_RAYTRACE)
+
+setwrap(WRAPMODE_DEATH)
+config(KI_CFG_TRACE_MAX_LASERREFLECT, 4)
+
+Laser(SIZE_SMALL, P1, [8-4.000,  5+0.000])
+
+Laser(SIZE_SMALL, N0, [8-2.828,  5-2.828])
+
+Laser(SIZE_SMALL, A2, [8+0.000,  5-4.000])
+
+Laser(SIZE_SMALL, N0, [8+2.828,  5-2.828])
+
+Laser(SIZE_SMALL, A3, [8+4.000,  5+0.000])
+
+Laser(SIZE_SMALL, N0, [8+2.828,  5+2.828])
+
+Laser(SIZE_SMALL, A4, [8+0.000,  5+4.000])
+
+Laser(SIZE_SMALL, N0, [8-2.828,  5+2.828])
+
+
+mirrorcircle([8,5], 4)
+
+
+
+
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #               / \               #
+#                           +                 
+#        1 #               \ /               #
+#                    <+>         <+>          
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                                             
+#        4 #       / \             / \       #
+#                   +      (#)      +         
+#        5 #       \ /             \ /       #
+#                                             
+#        6 #                                 #
+#                                             
+#        7 #                                 #
+#                    <+>         <+>          
+#        8 #               / \               #
+#                           +                 
+#        9 #               \ /               #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+
