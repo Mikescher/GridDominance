@@ -65,6 +65,11 @@
 						FontFamily="Consolas"
 						FontSize="10pt"/>
 				</TabItem>
+				<TabItem Header="Grammar">
+					<ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+						<TextBox FontFamily="Consolas" FontSize="14" IsReadOnly="True" IsReadOnlyCaretVisible="True" AcceptsReturn="True" Text="{Binding GrammarText}" />
+					</ScrollViewer>
+				</TabItem>
 			</TabControl>
 
 			<prox:LegacyIntegerBinding Grid.Row="0" Grid.Column="0" Element="{Binding ., ElementName=Editor}" PropertyPath="SelectionStart"  ChangedEventPath="TextArea.SelectionChanged" TargetBinding="{Binding SelectionStart}" />

@@ -1,0 +1,40 @@
+GSLevel Grammar
+===============
+
+alias(key, value)
+define(key, value)
+include(filename)
+
+init(name, description, id, ki)
+scale(factor)
+setview(width, height, {x, y})
+setwrap(mode)
+config(identifier, value)
+
+cannon(size, player, {x, y}, [rotation], [id: cannonid])
+
+voidwall({x, y}, {x, y})
+voidwall_h({x, y}, len)
+voidwall_v({x, y}, len)
+voidwall_r({x, y}, len, rot)
+
+glasswall_h({x, y}, len)
+glasswall_v({x, y}, len)
+glasswall_r({x, y}, len, rot)
+glassblock({x, y}, width, height, [rot])
+
+voidcircle({x, y}, diameter)
+
+blackhole({x, y}, diameter, [power])
+whitehole({x, y}, diameter, [power])
+
+portal(group, side, {x, y}, length, normal)
+
+mirrorwall_h({x, y}, len)
+mirrorwall_v({x, y}, len)
+mirrorwall_r({x, y}, len, rot)
+mirrorblock({x, y}, width, height, [rot])
+
+mirrorcircle({x, y}, diameter)
+
+laser(size, player, {x, y}, [rotation], [id: cannonid])

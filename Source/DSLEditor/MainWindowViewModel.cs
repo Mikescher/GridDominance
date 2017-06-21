@@ -37,7 +37,7 @@ namespace GridDominance.DSLEditor
 
 		public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
 
-		public TabControl TabCtrl;
+		public TabControl TabCtrl; 
 
 		private string _filePath = "";
 		public string FilePath { get { return _filePath; } set {if (value != _filePath) {_filePath = value; OnPropertyChanged();} } }
@@ -45,6 +45,8 @@ namespace GridDominance.DSLEditor
 		private bool _codeDirty = false;
 		private string _code = "";
 		public string Code { get { return _code; } set { if (value != _code) { _code = value; OnPropertyChanged(); ResetTimer(); _codeDirty = true; } } }
+
+		public string GrammarText { get { return Resources.grammar; } set { /**/ } }
 
 		private int _progressValue = 0;
 		public int ProgressValue { get { return _progressValue; } set { _progressValue = value; OnPropertyChanged(); } }
@@ -220,9 +222,9 @@ namespace GridDominance.DSLEditor
 				tabs.Add(Tuple.Create("Binary", str));
 			}
 
-			if (TabCtrl.Items.Count != tabs.Count + 1)
+			if (TabCtrl.Items.Count != tabs.Count + 2)
 			{
-				while (TabCtrl.Items.Count > 1) TabCtrl.Items.RemoveAt(TabCtrl.Items.Count - 1);
+				while (TabCtrl.Items.Count > 2) TabCtrl.Items.RemoveAt(TabCtrl.Items.Count - 1);
 
 				for (int i = 0; i < tabs.Count; i++)
 				{
@@ -251,8 +253,8 @@ namespace GridDominance.DSLEditor
 			{
 				for (int i = 0; i < tabs.Count; i++)
 				{
-					((TabItem)TabCtrl.Items[i + 1]).Header = tabs[i].Item1;
-					((TextBox)((ScrollViewer)((TabItem)TabCtrl.Items[i + 1]).Content).Content).Text = tabs[i].Item2;
+					((TabItem)TabCtrl.Items[i + 2]).Header = tabs[i].Item1;
+					((TextBox)((ScrollViewer)((TabItem)TabCtrl.Items[i + 2]).Content).Content).Text = tabs[i].Item2;
 				}
 			}
 		}

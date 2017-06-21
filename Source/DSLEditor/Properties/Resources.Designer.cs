@@ -92,31 +92,59 @@ namespace GridDominance.DSLEditor.Properties {
         ///   Looks up a localized string similar to # Levelfile - Example  #
         ///########################
         ///
-        ///init(&quot;0-exmpl&quot;, &quot;Template&quot;, ::UUID::, 10)
-        ///
         ///define(N0, 0) # Neutral
         ///define(P1, 1) # Human
-        ///define(A2, 2) # PC
-        ///define(A3, 3) # PC
-        ///define(A4, 4) # PC
+        ///define(A2, 2) # PC 1
+        ///define(A3, 3) # PC 2
+        ///define(A4, 4) # PC 3
         ///
-        ///define(SIZE_NORMAL, 1.0 * 96)
-        ///define(CELL_W, 128)
-        ///define(CELL_H, 128)
+        ///define(ROT_E,  000)
+        ///define(ROT_SE, 045)
+        ///define(ROT_S,  090)
+        ///define(ROT_SW, 135)
+        ///define(ROT_W,  180)
+        ///define(ROT_NW, 225)
+        ///define(ROT_N,  270)
+        ///define(ROT_NE, 315)
         ///
-        ///scale(1, 1)
-        ///
-        ///########################################################################
-        ///
-        ///Cannon  (SIZE_NORMAL, P1, [1.5 * CELL_W, 1.5 * CELL_H])
-        ///
-        ///Cannon  (SIZE_NORMAL, N0, [2.5 * CELL_W, 3.5 * CELL_H])
-        ///
-        ///VoidWall([3.5 * CEL [rest of string was truncated]&quot;;.
+        ///define(SIZE_TINY,      0.750)  # 2/4 * CANNON_DIAMETER
+        ///define(SIZE_SMALL,     1.125)  # 3/4 * CANNON_DIAMETER
+        ///define(SIZE_NORMAL,    1.500)  # 4/4 * CANNON_DIAMETER
+        ///defi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string example_level {
             get {
                 return ResourceManager.GetString("example_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to # Levelfile - Example  #
+        ///########################
+        ///
+        ///define(N0, 0) # Neutral
+        ///define(P1, 1) # Human
+        ///define(A2, 2) # PC 1
+        ///define(A3, 3) # PC 2
+        ///define(A4, 4) # PC 3
+        ///
+        ///define(ROT_E,  000)
+        ///define(ROT_SE, 045)
+        ///define(ROT_S,  090)
+        ///define(ROT_SW, 135)
+        ///define(ROT_W,  180)
+        ///define(ROT_NW, 225)
+        ///define(ROT_N,  270)
+        ///define(ROT_NE, 315)
+        ///
+        ///define(SIZE_TINY,      0.750)  # 2/4 * CANNON_DIAMETER
+        ///define(SIZE_SMALL,     1.125)  # 3/4 * CANNON_DIAMETER
+        ///define(SIZE_NORMAL,    1.500)  # 4/4 * CANNON_DIAMETER
+        ///defi [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string grammar {
+            get {
+                return ResourceManager.GetString("grammar", resourceCulture);
             }
         }
     }
