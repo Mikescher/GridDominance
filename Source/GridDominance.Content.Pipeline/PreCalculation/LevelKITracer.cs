@@ -531,6 +531,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
 				if (f.UserData is MarkerRefractionEdge) return -1; // ignore
+				if (f.UserData is MarkerRefractionCorner) return -1; // ignore
 
 				result = Tuple.Create(f, pos.ToFPoint(), normal);
 
