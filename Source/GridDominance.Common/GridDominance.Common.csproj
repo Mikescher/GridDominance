@@ -50,6 +50,7 @@
     <Compile Include="Levelfileformat\Blueprint\MirrorBlockBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\MirrorCircleBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\PortalBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\BackgroundTextBlueprint.cs" />
     <Compile Include="Levelfileformat\LevelParser.cs" />
     <Compile Include="Levelfileformat\Blueprint\VoidCircleBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\GlassBlockBlueprint.cs" />

@@ -21,27 +21,29 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const int KI_CONFIG_TRACE_HITBOX_ENLARGE   = 203;
 		public const int KI_CONFIG_SIMULATION_RESOLUTION  = 204;
 
-		public const byte SERIALIZE_ID_CANNON       = 0x01; 
-		public const byte SERIALIZE_ID_VOIDWALL     = 0x05;
-		public const byte SERIALIZE_ID_VOIDCIRCLE   = 0x06;
-		public const byte SERIALIZE_ID_GLASSBLOCK   = 0x07;
-		public const byte SERIALIZE_ID_BLACKHOLE    = 0x09;
-		public const byte SERIALIZE_ID_PORTAL       = 0x10;
-		public const byte SERIALIZE_ID_LASERCANNON  = 0x11;
-		public const byte SERIALIZE_ID_MIRRORBLOCK  = 0x12;
-		public const byte SERIALIZE_ID_MIRRORCIRCLE = 0x13;
-		public const byte SERIALIZE_ID_META         = 0x80;
-		public const byte SERIALIZE_ID_EOF          = 0xFF;
+		public const byte SERIALIZE_ID_CANNON          = 0x01; 
+		public const byte SERIALIZE_ID_VOIDWALL        = 0x05;
+		public const byte SERIALIZE_ID_VOIDCIRCLE      = 0x06;
+		public const byte SERIALIZE_ID_GLASSBLOCK      = 0x07;
+		public const byte SERIALIZE_ID_BLACKHOLE       = 0x09;
+		public const byte SERIALIZE_ID_PORTAL          = 0x10;
+		public const byte SERIALIZE_ID_LASERCANNON     = 0x11;
+		public const byte SERIALIZE_ID_MIRRORBLOCK     = 0x12;
+		public const byte SERIALIZE_ID_MIRRORCIRCLE    = 0x13;
+		public const byte SERIALIZE_ID_BACKGROUNDTEXT  = 0x14;
+		public const byte SERIALIZE_ID_META            = 0x80;
+		public const byte SERIALIZE_ID_EOF             = 0xFF;
 
-		public readonly List<CannonBlueprint>       BlueprintCannons       = new List<CannonBlueprint>();
-		public readonly List<VoidWallBlueprint>     BlueprintVoidWalls     = new List<VoidWallBlueprint>();
-		public readonly List<VoidCircleBlueprint>   BlueprintVoidCircles   = new List<VoidCircleBlueprint>();
-		public readonly List<GlassBlockBlueprint>   BlueprintGlassBlocks   = new List<GlassBlockBlueprint>();
-		public readonly List<BlackHoleBlueprint>    BlueprintBlackHoles    = new List<BlackHoleBlueprint>();
-		public readonly List<PortalBlueprint>       BlueprintPortals       = new List<PortalBlueprint>();
-		public readonly List<LaserCannonBlueprint>  BlueprintLaserCannons  = new List<LaserCannonBlueprint>();
-		public readonly List<MirrorBlockBlueprint>  BlueprintMirrorBlocks  = new List<MirrorBlockBlueprint>();
-		public readonly List<MirrorCircleBlueprint> BlueprintMirrorCircles = new List<MirrorCircleBlueprint>();
+		public readonly List<CannonBlueprint>         BlueprintCannons        = new List<CannonBlueprint>();
+		public readonly List<VoidWallBlueprint>       BlueprintVoidWalls      = new List<VoidWallBlueprint>();
+		public readonly List<VoidCircleBlueprint>     BlueprintVoidCircles    = new List<VoidCircleBlueprint>();
+		public readonly List<GlassBlockBlueprint>     BlueprintGlassBlocks    = new List<GlassBlockBlueprint>();
+		public readonly List<BlackHoleBlueprint>      BlueprintBlackHoles     = new List<BlackHoleBlueprint>();
+		public readonly List<PortalBlueprint>         BlueprintPortals        = new List<PortalBlueprint>();
+		public readonly List<LaserCannonBlueprint>    BlueprintLaserCannons   = new List<LaserCannonBlueprint>();
+		public readonly List<MirrorBlockBlueprint>    BlueprintMirrorBlocks   = new List<MirrorBlockBlueprint>();
+		public readonly List<MirrorCircleBlueprint>   BlueprintMirrorCircles  = new List<MirrorCircleBlueprint>();
+		public readonly List<BackgroundTextBlueprint> BlueprintBackgroundText = new List<BackgroundTextBlueprint>();
 
 		public IEnumerable<ICannonBlueprint> AllCannons => BlueprintCannons.Cast<ICannonBlueprint>().Concat(BlueprintLaserCannons);
 
@@ -78,15 +80,16 @@ namespace GridDominance.Levelfileformat.Blueprint
 			bw.Write(LevelViewX);
 			bw.Write(LevelViewY);
 
-			for (int i = 0; i < BlueprintCannons.Count;       i++) BlueprintCannons[i].Serialize(bw);
-			for (int i = 0; i < BlueprintVoidWalls.Count;     i++) BlueprintVoidWalls[i].Serialize(bw);
-			for (int i = 0; i < BlueprintVoidCircles.Count;   i++) BlueprintVoidCircles[i].Serialize(bw);
-			for (int i = 0; i < BlueprintGlassBlocks.Count;   i++) BlueprintGlassBlocks[i].Serialize(bw);
-			for (int i = 0; i < BlueprintBlackHoles.Count;    i++) BlueprintBlackHoles[i].Serialize(bw);
-			for (int i = 0; i < BlueprintPortals.Count;       i++) BlueprintPortals[i].Serialize(bw);
-			for (int i = 0; i < BlueprintLaserCannons.Count;  i++) BlueprintLaserCannons[i].Serialize(bw);
-			for (int i = 0; i < BlueprintMirrorBlocks.Count;  i++) BlueprintMirrorBlocks[i].Serialize(bw);
-			for (int i = 0; i < BlueprintMirrorCircles.Count; i++) BlueprintMirrorCircles[i].Serialize(bw);
+			for (int i = 0; i < BlueprintCannons.Count;        i++) BlueprintCannons[i].Serialize(bw);
+			for (int i = 0; i < BlueprintVoidWalls.Count;      i++) BlueprintVoidWalls[i].Serialize(bw);
+			for (int i = 0; i < BlueprintVoidCircles.Count;    i++) BlueprintVoidCircles[i].Serialize(bw);
+			for (int i = 0; i < BlueprintGlassBlocks.Count;    i++) BlueprintGlassBlocks[i].Serialize(bw);
+			for (int i = 0; i < BlueprintBlackHoles.Count;     i++) BlueprintBlackHoles[i].Serialize(bw);
+			for (int i = 0; i < BlueprintPortals.Count;        i++) BlueprintPortals[i].Serialize(bw);
+			for (int i = 0; i < BlueprintLaserCannons.Count;   i++) BlueprintLaserCannons[i].Serialize(bw);
+			for (int i = 0; i < BlueprintMirrorBlocks.Count;   i++) BlueprintMirrorBlocks[i].Serialize(bw);
+			for (int i = 0; i < BlueprintMirrorCircles.Count;  i++) BlueprintMirrorCircles[i].Serialize(bw);
+			for (int i = 0; i < BlueprintBackgroundText.Count; i++) BlueprintBackgroundText[i].Serialize(bw);
 
 			bw.Write(SERIALIZE_ID_EOF);
 
@@ -137,6 +140,10 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 					case SERIALIZE_ID_MIRRORCIRCLE:
 						BlueprintMirrorCircles.Add(MirrorCircleBlueprint.Deserialize(br));
+						break;
+
+					case SERIALIZE_ID_BACKGROUNDTEXT:
+						BlueprintBackgroundText.Add(BackgroundTextBlueprint.Deserialize(br));
 						break;
 
 					case SERIALIZE_ID_META:
@@ -211,6 +218,12 @@ namespace GridDominance.Levelfileformat.Blueprint
 			{
 				if (b.Width <= 0) throw new Exception("Glassblock with width <= 0");
 				if (b.Height <= 0) throw new Exception("Glassblock with height <= 0");
+			}
+
+			foreach (var b in BlueprintBackgroundText)
+			{
+				if (b.Width <= 0) throw new Exception("Text with width <= 0");
+				if (b.Height <= 0) throw new Exception("Text with height <= 0");
 			}
 
 			foreach (var h in BlueprintBlackHoles)

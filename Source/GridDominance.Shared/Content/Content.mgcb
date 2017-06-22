@@ -537,3 +537,10 @@
 /processor:GDWorldGraphProcessor
 /build:levels/world_3.gsgraph
 
+#begin fonts/levelBackgroundFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/levelBackgroundFont.spritefont
+

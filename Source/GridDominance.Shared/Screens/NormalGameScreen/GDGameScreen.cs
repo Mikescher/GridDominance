@@ -238,6 +238,12 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				Entities.AddEntity(e);
 			}
 
+			foreach (var bPrint in Blueprint.BlueprintBackgroundText)
+			{
+				var e = new BackgroundText(this, bPrint);
+				Entities.AddEntity(e);
+			}
+
 			//----------------------------------------------------------------
 
 			if (laserworld) Entities.AddEntity(new LaserRenderer(this, LaserNetwork, Blueprint));

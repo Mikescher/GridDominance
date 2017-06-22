@@ -31,11 +31,13 @@ namespace GridDominance.Levelfileformat
 			DefineMethod("config", SetConfig);
 
 			DefineMethod("cannon", AddCannon);
+			DefineMethod("laser", AddLaserCannon);
 
 			DefineMethod("voidwall", AddVoidWallFull);
 			DefineMethod("voidwall_h", AddVoidWallHorz);
 			DefineMethod("voidwall_v", AddVoidWallVert);
 			DefineMethod("voidwall_r", AddVoidWallRot);
+			DefineMethod("voidcircle", AddVoidCircle);
 
 			DefineMethod("glasswall", AddGlassWall);
 			DefineMethod("glasswall_h", AddGlassWallHorz);
@@ -43,22 +45,20 @@ namespace GridDominance.Levelfileformat
 			DefineMethod("glasswall_r", AddGlassWallRot);
 			DefineMethod("glassblock", AddGlassBlock);
 
-			DefineMethod("voidcircle", AddVoidCircle);
+			DefineMethod("mirrorwall", AddMirrorWall);
+			DefineMethod("mirrorwall_h", AddMirrorWallHorz);
+			DefineMethod("mirrorwall_v", AddMirrorWallVert);
+			DefineMethod("mirrorwall_r", AddMirrorWallRot);
+			DefineMethod("mirrorblock", AddMirrorBlock);
+			DefineMethod("mirrorcircle", AddMirrorCircle);
 
 			DefineMethod("blackhole", AddBlackHole);
 			DefineMethod("whitehole", AddWhiteHole);
 
 			DefineMethod("portal", AddPortal);
 
-			DefineMethod("mirrorwall", AddMirrorWall);
-			DefineMethod("mirrorwall_h", AddMirrorWallHorz);
-			DefineMethod("mirrorwall_v", AddMirrorWallVert);
-			DefineMethod("mirrorwall_r", AddMirrorWallRot);
-			DefineMethod("mirrorblock", AddMirrorBlock);
 
-			DefineMethod("mirrorcircle", AddMirrorCircle);
-
-			DefineMethod("laser", AddLaserCannon);
+			DefineMethod("text", AddText);
 		}
 
 		public LevelBlueprint Parse(string fileName = "__root__")
@@ -372,6 +372,19 @@ namespace GridDominance.Levelfileformat
 		{
 			if (_result.ParseConfiguration == null) _result.ParseConfiguration = new Dictionary<int, int>();
 			_result.ParseConfiguration[ExtractIntegerParameter(methodParameter, 0)] = ExtractIntegerParameter(methodParameter, 1);
+		}
+
+		private void AddText(List<string> methodParameter)
+		{
+			var x = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var y = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var w = ExtractNumberParameter(methodParameter, 1) * _scaleFactor;
+			var h = ExtractNumberParameter(methodParameter, 2) * _scaleFactor;
+			var t = ExtractIntegerParameter(methodParameter, 3);
+			var c = ExtractBitOptions16Parameter(methodParameter, 4, 0);
+			var r = ExtractNumberParameter(methodParameter, 5, 0f);
+
+			_result.BlueprintBackgroundText.Add(new BackgroundTextBlueprint(x, y, w, h, r, t, c));
 		}
 	}
 }

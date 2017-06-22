@@ -9,6 +9,7 @@ using System;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
+#pragma warning disable 162
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	class OverworldNode_W2 : OverworldNode_Graph

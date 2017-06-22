@@ -243,6 +243,7 @@ namespace GridDominance.Shared.Resources
 
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
+		public static SpriteFont LevelBackgroundFont;
 
 		#endregion
 
@@ -390,8 +391,9 @@ namespace GridDominance.Shared.Resources
 			TexDifficultyLine2     = AtlasTextures["difficulty_line_03"];
 			TexDifficultyLine3     = AtlasTextures["difficulty_line_04"];
 
-			HUDFontRegular     = content.Load<SpriteFont>("fonts/hudFontRegular");
-			HUDFontBold        = content.Load<SpriteFont>("fonts/hudFontBold");
+			HUDFontRegular      = content.Load<SpriteFont>("fonts/hudFontRegular");
+			HUDFontBold         = content.Load<SpriteFont>("fonts/hudFontBold");
+			LevelBackgroundFont = content.Load<SpriteFont>("fonts/levelBackgroundFont");
 
 #if DEBUG
 			DebugFont          = content.Load<SpriteFont>("fonts/debugFont");

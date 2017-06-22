@@ -119,7 +119,9 @@ namespace GridDominance.Shared.Resources
 
 		public const int STR_PREV_BUYNOW        = 87;
 
-		private const int TEXT_COUNT = 97; // = next idx
+		public const int STR_HINT_001           = 97;
+
+		private const int TEXT_COUNT = 98; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -222,6 +224,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_IAB_BUYNOCONN,      "No connection to Google Play services",                       "Keine Verbindung zu Google Play services"                             );
 			L10N.Add(STR_IAB_BUYNOTREADY,    "Connection to Google Play services not ready",                "Verbindung zu Google Play services nicht bereit"                      );
 			L10N.Add(STR_IAB_BUYSUCESS,      "World sucesfully purchased",                                  "Levelpack wurde erfolgreich erworben"                                 );
+			L10N.Add(STR_HINT_001,           "Tip: Shoot stuff to win!",                                    "Tipp: Versuch auf die andere Kanone zu schiessen"                     );
 
 #if DEBUG
 			L10N.Verify();

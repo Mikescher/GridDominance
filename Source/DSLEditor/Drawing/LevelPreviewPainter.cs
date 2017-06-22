@@ -64,34 +64,25 @@ namespace GridDominance.DSLEditor.Drawing
 
 			using (Graphics g = Graphics.FromImage(GraphicsBuffer))
 			{
-				if (level == null)
-				{
-					g.SmoothingMode = SmoothingMode.AntiAlias;
-					g.Clear(Color.OrangeRed);
+				g.SmoothingMode = SmoothingMode.AntiAlias;
+				g.Clear(Color.Black);
 
-					g.DrawLine(new Pen(Color.DarkRed, 32), 0, 0, h, w);
-					g.DrawLine(new Pen(Color.DarkRed, 32), h, 0, 0, w);
-				}
-				else
-				{
-					g.SmoothingMode = SmoothingMode.AntiAlias;
-					g.Clear(Color.Black);
+				DrawGrid(g, w, h);
+				
+				DrawText(level, g);
 
-					DrawGrid(g, w, h);
+				DrawCannons(level, g);
+				DrawVoidwalls(level, g);
+				DrawVoidCircles(level, g);
+				DrawGlassBlocks(level, g);
+				DrawBlackHoles(level, g);
+				DrawPortals(level, g);
+				DrawMirrorBlocks(level, g);
+				DrawMirrorCircles(level, g);
+				DrawLaserCannons(level, g);
 
-					DrawCannons(level, g);
-					DrawVoidwalls(level, g);
-					DrawVoidCircles(level, g);
-					DrawGlassBlocks(level, g);
-					DrawBlackHoles(level, g);
-					DrawPortals(level, g);
-					DrawMirrorBlocks(level, g);
-					DrawMirrorCircles(level, g);
-					DrawLaserCannons(level, g);
-
-					DrawViewport(level, g, w, h);
-					DrawRays(level, highlightCannon, g);
-				}
+				DrawViewport(level, g, w, h);
+				DrawRays(level, highlightCannon, g);
 			}
 
 			return GraphicsBuffer;
@@ -325,10 +316,10 @@ namespace GridDominance.DSLEditor.Drawing
 					g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 0.032f), rectOuterCircle);
 
 					// Laser marker
-					g.DrawLine(new Pen(Color.Red, 0.05f), -0.25f, -0.25f, +0.25f, +0.25f);
-					g.DrawLine(new Pen(Color.Red, 0.05f), -0.25f, +0.25f, +0.25f, -0.25f);
-					g.DrawLine(new Pen(Color.Red, 0.05f), +0.00f, -0.35f, +0.00f, +0.35f);
-					g.DrawLine(new Pen(Color.Red, 0.05f), -0.35f, +0.00f, +0.35f, +0.00f);
+					g.DrawLine(new Pen(Color.Magenta, 0.05f), -0.25f, -0.25f, +0.25f, +0.25f);
+					g.DrawLine(new Pen(Color.Magenta, 0.05f), -0.25f, +0.25f, +0.25f, -0.25f);
+					g.DrawLine(new Pen(Color.Magenta, 0.05f), +0.00f, -0.35f, +0.00f, +0.35f);
+					g.DrawLine(new Pen(Color.Magenta, 0.05f), -0.35f, +0.00f, +0.35f, +0.00f);
 				}
 				g.Restore(save);
 			}
@@ -386,5 +377,21 @@ namespace GridDominance.DSLEditor.Drawing
 				g.DrawRectangle(redpen, Rectangle.Round(rect));
 			}
 		}
+
+		private static void DrawText(LevelBlueprint level, Graphics g)
+		{
+			var brush = new SolidBrush(Color.FromArgb(128, Color.DarkSlateGray));
+			foreach (var b in level.BlueprintBackgroundText)
+			{
+				var save = g.Save();
+				{
+					g.TranslateTransform(b.X, b.Y);
+					g.RotateTransform(b.Rotation);
+					g.FillRectangle(brush, -b.Width / 2, -b.Height / 2, b.Width, b.Height);
+				}
+				g.Restore(save);
+			}
+		}
+
 	}
 }

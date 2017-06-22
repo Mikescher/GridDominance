@@ -35,6 +35,7 @@ namespace GridDominance.Shared.Resources
 
 		public const float PHYSICS_CONVERSION_FACTOR = 50;
 
+		public const int ORDER_GAME_BACKGROUNDTEXT =  50;
 		public const int ORDER_GAME_BLACKHOLE      = 100;
 		public const int ORDER_GAME_LASER          = 150;
 		public const int ORDER_GAME_WALL           = 200;

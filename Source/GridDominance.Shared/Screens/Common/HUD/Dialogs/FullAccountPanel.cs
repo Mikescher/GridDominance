@@ -27,9 +27,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		private int _logOutCounter = 0;
 		private float _lastClickLogout;
 
-		private HUDTextButton btn1;
-		private HUDTextButton btn2;
-
 		public FullAccountPanel()
 		{
 			RelativePosition = FPoint.Zero;

@@ -46,6 +46,11 @@ define(KI_CFG_TRACE_RESOULUTION,       202)
 define(KI_CFG_TRACE_HITBOX_ENLARGE,    203)
 define(KI_CFG_SIMULATION_RESOLUTION,   204)
 
+define(TEXT_SHAKE,   001)
+define(TEXT_ONLY_D1, 002)
+
+define(HINT_001, 097)
+
 ###########################################
 
 scale(TILE_WIDTH)

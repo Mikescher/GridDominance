@@ -22,6 +22,7 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Localization;
 
+#pragma warning disable 162
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
 	public class WarpNode : GameEntity, IWorldNode

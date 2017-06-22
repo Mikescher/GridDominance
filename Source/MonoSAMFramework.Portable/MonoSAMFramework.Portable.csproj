@@ -178,6 +178,7 @@
     <Compile Include="Screens\Background\SolidColorBackground.cs" />
     <Compile Include="Screens\Entities\MouseArea\GameEntityMouseArea.cs" />
     <Compile Include="Screens\Entities\MouseArea\GameEntityMouseAreaLambdaAdapter.cs" />
+    <Compile Include="Screens\Entities\Operation\IntervalGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\Operation\DelayGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\Operation\GameEntityOperation.cs" />
     <Compile Include="Screens\Entities\MouseArea\IGameEntityMouseAreaListener.cs" />

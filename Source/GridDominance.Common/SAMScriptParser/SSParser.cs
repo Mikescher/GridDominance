@@ -97,7 +97,7 @@ namespace GridDominance.SAMScriptParser
 			_actions[identifier](parameter);
 		}
 
-		private string ParseComplexParam(string str, ref int idx)
+		private string ParseComplexParam(string str, ref int idx, char seperator = ',')
 		{
 			StringBuilder b = new StringBuilder();
 			int depth = 0;
@@ -112,6 +112,14 @@ namespace GridDominance.SAMScriptParser
 					continue;
 				}
 
+				if (str[idx] == seperator)
+				{
+					if (depth == 0) { idx++; return b.ToString(); }
+					b.Append(str[idx]);
+					idx++;
+					continue;
+				}
+				
 				switch (str[idx])
 				{
 					case '(':
@@ -130,11 +138,6 @@ namespace GridDominance.SAMScriptParser
 						b.Append(str[idx]);
 						idx++;
 						depth--;
-						continue;
-					case ',':
-						if (depth == 0) { idx++; return b.ToString(); }
-						b.Append(str[idx]);
-						idx++;
 						continue;
 					case '"':
 						b.Append(str[idx]);
@@ -297,7 +300,7 @@ namespace GridDominance.SAMScriptParser
 
 		protected Tuple<float, float> ExtractVec2fParameter(List<string> methodParameter, int idx)
 		{
-			var v = ExtractListParameter(methodParameter, idx, '[', ']');
+			var v = ExtractListParameter(methodParameter, idx, '[', ']', ',');
 
 			if (v.Count != 2) throw new Exception("Vec2f needs to have exactly 2 components");
 
@@ -309,7 +312,7 @@ namespace GridDominance.SAMScriptParser
 
 		protected Tuple<float, float> ExtractVec2fParameter(List<string> methodParameter, string name)
 		{
-			var v = ExtractListParameter(methodParameter, name, '[', ']');
+			var v = ExtractListParameter(methodParameter, name, '[', ']', ',');
 
 			if (v.Count != 2) throw new Exception("Vec2f needs to have exactly 2 components");
 
@@ -319,7 +322,7 @@ namespace GridDominance.SAMScriptParser
 			return Tuple.Create(t1, t2);
 		}
 
-		protected List<string> ExtractListParameter(List<string> methodParameter, int idx, char cstart, char cend)
+		protected List<string> ExtractListParameter(List<string> methodParameter, int idx, char cstart, char cend, char sep)
 		{
 			var v = ExtractValueParameter(methodParameter, idx);
 
@@ -329,14 +332,14 @@ namespace GridDominance.SAMScriptParser
 			List<string> list = new List<string>();
 			while (ipos < v.Length && v[ipos] != cend)
 			{
-				list.Add(ParseComplexParam(v, ref ipos).Trim());
+				list.Add(ParseComplexParam(v, ref ipos, sep).Trim());
 			}
 			if (ipos < v.Length) throw new Exception("Could not parse parameter sublist - content after last char");
 
 			return list;
 		}
 
-		protected List<string> ExtractListParameter(List<string> methodParameter, string name, char cstart, char cend)
+		protected List<string> ExtractListParameter(List<string> methodParameter, string name, char cstart, char cend, char sep)
 		{
 			var v = ExtractValueParameter(methodParameter, name);
 
@@ -346,11 +349,29 @@ namespace GridDominance.SAMScriptParser
 			List<string> list = new List<string>();
 			while (ipos < v.Length && v[ipos] != cend)
 			{
-				list.Add(ParseComplexParam(v, ref ipos).Trim());
+				list.Add(ParseComplexParam(v, ref ipos, sep).Trim());
 			}
 			if (ipos < v.Length) throw new Exception("Could not parse parameter sublist - content after last char");
 
 			return list;
+		}
+
+		protected UInt16 ExtractBitOptions16Parameter(List<string> methodParameter, int idx, UInt16? defaultValue = null)
+		{
+			if (idx >= methodParameter.Count)
+			{
+				if (defaultValue != null) return defaultValue.Value;
+				throw new Exception($"Not enough parameter (missing param {idx})");
+			}
+
+			var v = ExtractListParameter(methodParameter, idx, '{', '}', '|');
+
+			UInt16 b = 0;
+			foreach (var velem in v)
+			{
+				b |= (UInt16)EvaluateIntExpr(velem);
+			}
+			return b;
 		}
 
 		private float EvaluateFloatExpr(string expr)
@@ -382,6 +403,44 @@ namespace GridDominance.SAMScriptParser
 						break;
 					case '/':
 						value = value / float.Parse(DeRef(tokens[i + 1]), NumberStyles.Float, CultureInfo.InvariantCulture);
+						break;
+					default:
+						throw new Exception("Unkwon math symbol: " + tokens[i]);
+				}
+			}
+
+			return value;
+		}
+
+		private int EvaluateIntExpr(string expr)
+		{
+			var v = DeRef(expr);
+
+			int constResult;
+			if (int.TryParse(v, NumberStyles.Integer, CultureInfo.InvariantCulture, out constResult))
+				return constResult;
+
+			var tokens = REX_EXPRESSION.Matches(v).OfType<Match>().Select(p => p.Value).ToList();
+
+			int value = int.Parse(DeRef(tokens[0]), NumberStyles.Integer, CultureInfo.InvariantCulture);
+
+			// We don NOT support operator precedence - everythin is left to right
+			// this is not a full math parser, just a little convenience
+			for (int i = 1; i < tokens.Count; i += 2)
+			{
+				switch (tokens[i][0])
+				{
+					case '*':
+						value = value * int.Parse(DeRef(tokens[i + 1]), NumberStyles.Integer, CultureInfo.InvariantCulture);
+						break;
+					case '+':
+						value = value + int.Parse(DeRef(tokens[i + 1]), NumberStyles.Integer, CultureInfo.InvariantCulture);
+						break;
+					case '-':
+						value = value - int.Parse(DeRef(tokens[i + 1]), NumberStyles.Integer, CultureInfo.InvariantCulture);
+						break;
+					case '/':
+						value = value / int.Parse(DeRef(tokens[i + 1]), NumberStyles.Integer, CultureInfo.InvariantCulture);
 						break;
 					default:
 						throw new Exception("Unkwon math symbol: " + tokens[i]);

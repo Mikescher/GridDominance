@@ -1,6 +1,4 @@
 ﻿using MonoSAMFramework.Portable.LogProtocol;
-using System.Collections.Generic;
-using System;
 
 namespace MonoSAMFramework.Portable.Localization
 {

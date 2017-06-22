@@ -5,7 +5,9 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Language;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.RenderHelper
@@ -24,6 +26,13 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			if (!_fontHeight.TryGetValue(fnt, out y)) _fontHeight[fnt] = y = fnt.MeasureString("M").Y;
 
 			return targetSize / y;
+		}
+
+		public static float GetFontScale(SpriteFont fnt, string text, FSize targetSize)
+		{
+			var fsz = fnt.MeasureString(text);
+
+			return FloatMath.Min(targetSize.Width / fsz.X, targetSize.Height / fsz.Y);
 		}
 
 		public static float GetFontVCenterOffset(SpriteFont fnt)
@@ -102,6 +111,23 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0,
 				new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(font)),
 				GetFontScale(font, size),
+				SpriteEffects.None,
+				0);
+		}
+
+		public static void DrawTextCenteredWithScale(IBatchRenderer sbatch, SpriteFont font, float scale, string text, Color color, FPoint position, float rotation = 0f)
+		{
+			if (text == "") return;
+			var bounds = MeasureStringCached(font, text);
+
+			sbatch.DrawString(
+				font,
+				text,
+				position,
+				color,
+				rotation,
+				new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(font)),
+				scale,
 				SpriteEffects.None,
 				0);
 		}
