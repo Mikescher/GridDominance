@@ -27,6 +27,8 @@ namespace GridDominance.Shared.Resources
 			Tuple.Create("Freesound: LittleRobotSoundFactory (3)",  "http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270330/"),
 			Tuple.Create("Freesound: RunnerPack",                   "http://www.freesound.org/people/RunnerPack/sounds/87043/"),
 			Tuple.Create("Freesound: benjaminharveydesign",         "http://www.freesound.org/people/benjaminharveydesign/sounds/366092/"),
+
+			Tuple.Create("Comic Jens Font Family",                  "https://www.kutilek.de//comic-jens/"),
 		};
 	}
 }
