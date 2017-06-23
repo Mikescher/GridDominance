@@ -20,7 +20,7 @@ namespace GridDominance.DSLEditor.Drawing
 	{
 		private readonly ConcurrentDictionary<string, Tuple<byte[], LevelBlueprint>> _levelCache = new ConcurrentDictionary<string, Tuple<byte[], LevelBlueprint>>();
 
-		public Bitmap Draw(GraphBlueprint wgraph, string path, Action<string> logwrite)
+		public Bitmap Draw(GraphBlueprint wgraph, string path, Action<string> logwrite, Image last)
 		{
 			var idmap = MapLevels(path, logwrite);
 
@@ -32,13 +32,27 @@ namespace GridDominance.DSLEditor.Drawing
 			if (wgraph == null || wgraph.Nodes.Count == 0)
 			{
 				Bitmap gb = new Bitmap(1024, 640);
+				if (last != null) gb = new Bitmap(last.Width, last.Height);
+				
 				using (Graphics g = Graphics.FromImage(gb))
 				{
 					g.SmoothingMode = SmoothingMode.AntiAlias;
-					g.Clear(Color.OrangeRed);
 
-					g.DrawLine(new Pen(Color.DarkRed, 32), 0, 0, 1024, 640);
-					g.DrawLine(new Pen(Color.DarkRed, 32), 1024, 0, 0, 640);
+					if (last == null)
+					{
+						g.Clear(Color.OrangeRed);
+						g.DrawLine(new Pen(Color.DarkRed, 32), 0, 0, gb.Width, gb.Height);
+						g.DrawLine(new Pen(Color.DarkRed, 32), gb.Width, 0, 0, gb.Height);
+					}
+					else
+					{
+						g.DrawImageUnscaled(last, 0, 0);
+						g.FillRectangle(new SolidBrush(Color.FromArgb(32, Color.OrangeRed)), 0, 0, gb.Width, gb.Height);
+
+						g.DrawLine(new Pen(Color.FromArgb(64, Color.DarkRed), 32), 0, 0, gb.Width, gb.Height);
+						g.DrawLine(new Pen(Color.FromArgb(64, Color.DarkRed), 32), gb.Width, 0, 0, gb.Height);
+					}
+
 				}
 				return gb;
 			}

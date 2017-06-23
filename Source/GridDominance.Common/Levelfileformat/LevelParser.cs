@@ -127,17 +127,37 @@ namespace GridDominance.Levelfileformat
 
 		private void AddVoidWallFull(List<string> methodParameter)
 		{
-			var x1 = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
-			var y1 = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
-			var x2 = ExtractVec2fParameter(methodParameter, 1).Item1 * _scaleFactor;
-			var y2 = ExtractVec2fParameter(methodParameter, 1).Item2 * _scaleFactor;
+			var pc1x = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pc1y = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var pc2x = ExtractVec2fParameter(methodParameter, 1).Item1 * _scaleFactor;
+			var pc2y = ExtractVec2fParameter(methodParameter, 1).Item2 * _scaleFactor;
 
-			var pcx = (x1 + x2) / 2f;
-			var pcy = (y1 + y2) / 2f;
-			var len = (float)Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
-			var rot = (float)(360 + Math.Atan2(y2 - y1, x2 - x1) * (180 / Math.PI)) % 360;
+			var tstart = ExtractNumberParameter(methodParameter, "trim_start", 0) * _scaleFactor;
+			var tend = ExtractNumberParameter(methodParameter, "trim_end", 0) * _scaleFactor;
+			var offsetX = ExtractVec2fParameter(methodParameter, "offset", Tuple.Create(0f, 0f)).Item1 * _scaleFactor;
+			var offsetY = ExtractVec2fParameter(methodParameter, "offset", Tuple.Create(0f, 0f)).Item2 * _scaleFactor;
+			var superrot = ExtractNumberParameter(methodParameter, "rot", 0);
+			var offsetNorm = ExtractNumberParameter(methodParameter, "normal_offset", 0) * _scaleFactor;
 
-			_result.BlueprintVoidWalls.Add(new VoidWallBlueprint(pcx, pcy, len, rot));
+			var vs = new Vector2(pc1x, pc1y);
+			var ve = new Vector2(pc2x, pc2y);
+
+			var nrm = ve - vs;
+			nrm.Normalize();
+
+
+			vs = vs + nrm * tstart;
+			ve = ve - nrm * tend;
+
+			var d = ve - vs;
+			var c = (vs + ve) / 2;
+
+			var onn = new Vector2(-nrm.Y, nrm.X) * offsetNorm;
+
+			var r = (float)((Math.Atan2(d.Y, d.X) + Math.PI + Math.PI) % (Math.PI + Math.PI));
+			r *= 360f / (float)(Math.PI + Math.PI);
+
+			_result.BlueprintVoidWalls.Add(new VoidWallBlueprint(c.X + offsetX + onn.X, c.Y + offsetY + onn.Y, d.Length(), r + superrot));
 		}
 
 		private void AddVoidWallHorz(List<string> methodParameter)
@@ -186,15 +206,33 @@ namespace GridDominance.Levelfileformat
 			var pc2x = ExtractVec2fParameter(methodParameter, 1).Item1 * _scaleFactor;
 			var pc2y = ExtractVec2fParameter(methodParameter, 1).Item2 * _scaleFactor;
 
-			var cx = (pc1x + pc2x) / 2f;
-			var cy = (pc1y + pc2y) / 2f;
+			var tstart     = ExtractNumberParameter(methodParameter, "trim_start", 0) * _scaleFactor;
+			var tend       = ExtractNumberParameter(methodParameter, "trim_end", 0) * _scaleFactor;
+			var offsetX    = ExtractVec2fParameter(methodParameter,  "offset", Tuple.Create(0f, 0f)).Item1 * _scaleFactor;
+			var offsetY    = ExtractVec2fParameter(methodParameter,  "offset", Tuple.Create(0f, 0f)).Item2 * _scaleFactor;
+			var superrot   = ExtractNumberParameter(methodParameter, "rot", 0);
+			var width      = ExtractNumberParameter(methodParameter, "width", GlassBlockBlueprint.DEFAULT_WIDTH);
+			var offsetNorm = ExtractNumberParameter(methodParameter, "normal_offset", 0) * _scaleFactor;
 
-			var d = new Vector2(pc2x, pc2y) - new Vector2(pc1x, pc1y);
+			var vs = new Vector2(pc1x, pc1y);
+			var ve = new Vector2(pc2x, pc2y);
+
+			var nrm = ve - vs;
+			nrm.Normalize();
+
+
+			vs = vs + nrm * tstart;
+			ve = ve - nrm * tend;
+
+			var d = ve - vs;
+			var c = (vs + ve) / 2;
+
+			var onn = new Vector2(-nrm.Y, nrm.X) * offsetNorm;
 
 			var r = (float)((Math.Atan2(d.Y, d.X) + Math.PI + Math.PI) % (Math.PI + Math.PI));
 			r *= 360f / (float)(Math.PI + Math.PI);
 
-			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(cx, cy, d.Length(), GlassBlockBlueprint.DEFAULT_WIDTH, r));
+			_result.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(c.X + offsetX + onn.X, c.Y + offsetY + onn.Y, d.Length(), width, r + superrot));
 		}
 
 		private void AddGlassWallHorz(List<string> methodParameter)
@@ -267,25 +305,7 @@ namespace GridDominance.Levelfileformat
 
 			_result.BlueprintPortals.Add(new PortalBlueprint(pcx, pcy, len, nrm, grp, sid));
 		}
-
-		private void AddMirrorWall(List<string> methodParameter)
-		{
-			var pc1x = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
-			var pc1y = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
-			var pc2x = ExtractVec2fParameter(methodParameter, 1).Item1 * _scaleFactor;
-			var pc2y = ExtractVec2fParameter(methodParameter, 1).Item2 * _scaleFactor;
-
-			var cx = (pc1x + pc2x) / 2f;
-			var cy = (pc1y + pc2y) / 2f;
-
-			var d = new Vector2(pc2x, pc2y) - new Vector2(pc1x, pc1y);
-
-			var r = (float)((Math.Atan2(d.Y, d.X) + Math.PI + Math.PI) % (Math.PI + Math.PI));
-			r *= 360f / (float) (Math.PI + Math.PI);
-			
-			_result.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(cx, cy, d.Length(), MirrorBlockBlueprint.DEFAULT_WIDTH, r));
-		}
-
+		
 		private void AddMirrorWallHorz(List<string> methodParameter)
 		{
 			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
@@ -325,6 +345,42 @@ namespace GridDominance.Levelfileformat
 			_result.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(pcx, pcy, w, h, rot));
 		}
 
+		private void AddMirrorWall(List<string> methodParameter)
+		{
+			var pc1x = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;
+			var pc1y = ExtractVec2fParameter(methodParameter, 0).Item2 * _scaleFactor;
+			var pc2x = ExtractVec2fParameter(methodParameter, 1).Item1 * _scaleFactor;
+			var pc2y = ExtractVec2fParameter(methodParameter, 1).Item2 * _scaleFactor;
+
+			var tstart = ExtractNumberParameter(methodParameter, "trim_start", 0) * _scaleFactor;
+			var tend   = ExtractNumberParameter(methodParameter, "trim_end", 0) * _scaleFactor;
+			var offsetX = ExtractVec2fParameter(methodParameter, "offset", Tuple.Create(0f, 0f)).Item1 * _scaleFactor;
+			var offsetY = ExtractVec2fParameter(methodParameter, "offset", Tuple.Create(0f, 0f)).Item2 * _scaleFactor;
+			var superrot = ExtractNumberParameter(methodParameter, "rot", 0);
+			var width = ExtractNumberParameter(methodParameter, "width", MirrorBlockBlueprint.DEFAULT_WIDTH);
+			var offsetNorm = ExtractNumberParameter(methodParameter, "normal_offset", 0) * _scaleFactor;
+
+			var vs = new Vector2(pc1x, pc1y);
+			var ve = new Vector2(pc2x, pc2y);
+
+			var nrm = ve - vs;
+			nrm.Normalize();
+
+
+			vs = vs + nrm * tstart;
+			ve = ve - nrm * tend;
+
+			var d = ve - vs;
+			var c = (vs + ve) / 2;
+
+			var onn = new Vector2(-nrm.Y, nrm.X) * offsetNorm;
+
+			var r = (float)((Math.Atan2(d.Y, d.X) + Math.PI + Math.PI) % (Math.PI + Math.PI));
+			r *= 360f / (float)(Math.PI + Math.PI);
+
+			_result.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(c.X + offsetX + onn.X, c.Y + offsetY + onn.Y, d.Length(), width, r + superrot));
+		}
+		
 		private void AddMirrorCircle(List<string> methodParameter)
 		{
 			var pcx = ExtractVec2fParameter(methodParameter, 0).Item1 * _scaleFactor;

@@ -544,3 +544,48 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/levelBackgroundFont.spritefont
 
+#begin levels/lvl202.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl202.gslevel
+
+#begin levels/lvl203.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl203.gslevel
+
+#begin levels/lvl204.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl204.gslevel
+
+#begin levels/lvl205.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl205.gslevel
+
+#begin levels/lvl206.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl206.gslevel
+
+#begin levels/lvl207.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl207.gslevel
+
+#begin levels/lvl208.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl208.gslevel
+
+#begin levels/lvl209.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl209.gslevel
+
+#begin levels/lvl210.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl210.gslevel
+

@@ -1,0 +1,65 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-11", "Blocks Of Glass", {b16b00b5-0001-4000-0000-000003000011}, KI_DYNAMIC_RAYTRACE)
+
+setwrap(WRAPMODE_DEATH)
+config(KI_CFG_TRACE_MAX_LASERREFLECT, 4)
+
+Laser(SIZE_SMALL, P1, [ 2,  5])
+
+Laser(SIZE_TINY, N0, [ 8,  1.5])
+Laser(SIZE_TINY, N0, [ 8,  8.5])
+
+Laser(SIZE_SMALL, A3, [14,  5])
+
+MirrorWall_h([8, 0.25], 2)
+
+Laser(SIZE_NORMAL, N0, [ 3,  8.5])
+Laser(SIZE_NORMAL, N0, [ 13,  8.5])
+
+Laser(SIZE_TINY, N0, [ 2,  2])
+Laser(SIZE_TINY, N0, [ 14,  2])
+
+
+GlassBlock([5,   5], 1, 1, 0)
+GlassBlock([8,   5], 2, 2, 45)
+GlassBlock([11,  5], 1, 1, 0)
+
+MirrorWall([2, 5], [8,  1.5], trim_start: SIZE_SMALL, trim_end: SIZE_TINY)
+MirrorWall([2, 5], [8,  8.5], trim_start: SIZE_SMALL, trim_end: SIZE_TINY)
+
+MirrorWall([14, 5], [8,  1.5], trim_start: SIZE_SMALL, trim_end: SIZE_TINY)
+MirrorWall([14, 5], [8,  8.5], trim_start: SIZE_SMALL, trim_end: SIZE_TINY)
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #               <+>               #
+#              <+>       NN   N        <+>    
+#        2 #            N      NN            #
+#                     NN        NN            
+#        3 #        NN            NN         #
+#                 NN                NN        
+#        4 #   / \         HHH        N/ \   #
+#               +     H    HHH    H     +     
+#        5 #   \ /         HHH        N\ /   #
+#                 NN                NN        
+#        6 #        NN            NN         #
+#                     NN        NN            
+#        7 #            N      NN            #
+#                        NN   N               
+#        8 #     <+>       <+>       <+>     #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

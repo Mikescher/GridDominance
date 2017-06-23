@@ -4,8 +4,54 @@
 include("map_header")
 
 alias(LVL_01, {b16b00b5-0001-4000-0000-000003000001})
+alias(LVL_02, {b16b00b5-0001-4000-0000-000003000002})
+alias(LVL_03, {b16b00b5-0001-4000-0000-000003000003})
+alias(LVL_04, {b16b00b5-0001-4000-0000-000003000004})
+alias(LVL_05, {b16b00b5-0001-4000-0000-000003000005})
+alias(LVL_06, {b16b00b5-0001-4000-0000-000003000006})
+alias(LVL_07, {b16b00b5-0001-4000-0000-000003000007})
+alias(LVL_08, {b16b00b5-0001-4000-0000-000003000008})
+alias(LVL_09, {b16b00b5-0001-4000-0000-000003000009})
+alias(LVL_10, {b16b00b5-0001-4000-0000-000003000010})
+alias(LVL_11, {b16b00b5-0001-4000-0000-000003000011})
+alias(LVL_12, {b16b00b5-0001-4000-0000-000003000012})
 
 root([-7, 0], WORLD_3)
   connect(LVL_01, LIN)
 
 node([0, 0], LVL_01)
+  connect(LVL_02, LIN)
+
+node([5, 0], LVL_02)
+  connect(LVL_03, LIN, 1)
+  connect(LVL_04, CCW, 2)
+  connect(LVL_05,  CW, 3)
+
+node([10, 0], LVL_03)
+  connect(LVL_06, LIN)
+
+node([10, +5], LVL_04)
+
+node([10, -5], LVL_05)
+
+node([15, 0], LVL_06)
+  connect(LVL_07, LIN, 5)
+  connect(LVL_08, LIN, 6)
+  connect(LVL_09, CCW, 1)
+  connect(LVL_10,  CW, 2)
+
+node([15, +10], LVL_07)
+
+node([15, -10], LVL_08)
+
+node([20, -5], LVL_09)
+  connect(LVL_11, LIN, 6)
+
+node([20, +5], LVL_10)
+  connect(LVL_12, LIN, 6)
+
+
+
+node([20, -15], LVL_11)
+
+node([20, +15], LVL_12)

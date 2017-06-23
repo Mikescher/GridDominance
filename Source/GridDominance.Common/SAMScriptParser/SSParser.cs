@@ -11,7 +11,7 @@ namespace GridDominance.SAMScriptParser
 	public abstract class SSParser
 	{
 		private static readonly Regex REX_EXPRESSION = new Regex(@"(\d*\.\d+)|(\d+)|([A-Za-z_]+)|[\+\-\*/]");
-		private static readonly Regex REX_NAMEDPARAM = new Regex(@"^\s*(?<name>[a-zA-Z0-9_]+)\s*=\s*(?<value>[^\s]+)$");
+		private static readonly Regex REX_NAMEDPARAM = new Regex(@"^\s*(?<name>[a-zA-Z0-9_]+)\s*:\s*(?<value>.+)$");
 
 		private readonly Dictionary<string, Action<List<string>>> _actions;
 		private readonly Dictionary<string, string> _aliasDict = new Dictionary<string, string>();
@@ -272,9 +272,10 @@ namespace GridDominance.SAMScriptParser
 			return EvaluateFloatExpr(v);
 		}
 
-		protected float ExtractNumberParameter(List<string> methodParameter, string name)
+		protected float ExtractNumberParameter(List<string> methodParameter, string name, float? defaultValue = null)
 		{
-			var v = ExtractValueParameter(methodParameter, name);
+			var v = defaultValue.HasValue ? ExtractValueParameter(methodParameter, name, defaultValue.Value.ToString()) : ExtractValueParameter(methodParameter, name);
+			
 			return EvaluateFloatExpr(v);
 		}
 
@@ -322,6 +323,23 @@ namespace GridDominance.SAMScriptParser
 			return Tuple.Create(t1, t2);
 		}
 
+		protected Tuple<float, float> ExtractVec2fParameter(List<string> methodParameter, string name, Tuple<float, float> defaultValue = null)
+		{
+			List<string> v;
+			
+			if (defaultValue == null)
+				v = ExtractListParameter(methodParameter, name, '[', ']', ',');
+			else
+				v = ExtractListParameter(methodParameter, name, '[', ']', ',', new List<string>{defaultValue.Item1.ToString(CultureInfo.InvariantCulture), defaultValue.Item2.ToString(CultureInfo.InvariantCulture) });
+
+			if (v.Count != 2) throw new Exception("Vec2f needs to have exactly 2 components");
+
+			var t1 = EvaluateFloatExpr(v[0]);
+			var t2 = EvaluateFloatExpr(v[1]);
+
+			return Tuple.Create(t1, t2);
+		}
+
 		protected List<string> ExtractListParameter(List<string> methodParameter, int idx, char cstart, char cend, char sep)
 		{
 			var v = ExtractValueParameter(methodParameter, idx);
@@ -339,9 +357,13 @@ namespace GridDominance.SAMScriptParser
 			return list;
 		}
 
-		protected List<string> ExtractListParameter(List<string> methodParameter, string name, char cstart, char cend, char sep)
+		protected List<string> ExtractListParameter(List<string> methodParameter, string name, char cstart, char cend, char sep, List<string> defaultValue = null)
 		{
-			var v = ExtractValueParameter(methodParameter, name);
+			string v;
+			if (defaultValue == null)
+				v = ExtractValueParameter(methodParameter, name);
+			else
+				v = ExtractValueParameter(methodParameter, name, cstart + string.Join(sep.ToString(), defaultValue) + cend);
 
 			if (v[0] != cstart) throw new Exception("Syntax of sublist invalid");
 

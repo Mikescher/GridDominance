@@ -3,6 +3,7 @@ using GridDominance.DSLEditor.Helper;
 using GridDominance.Graphfileformat.Blueprint;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,8 @@ namespace GridDominance.DSLEditor
 
 		private GraphBlueprint _currentDisplayGraph = null;
 
+		private Image last;
+		
 		private ImageSource ReparseGraphFile(string input)
 		{
 			try
@@ -32,11 +35,13 @@ namespace GridDominance.DSLEditor
 
 				_currentDisplayGraph = lp;
 
-				var img = ImageHelper.CreateImageSource(graphPainter.Draw(lp, FilePath, AddLog));
+				var img = ImageHelper.CreateImageSource(graphPainter.Draw(lp, FilePath, AddLog, last));
 
 				AddLog("File parsed  in " + sw.ElapsedMilliseconds + "ms");
 
-				return img;
+				if (lp != null) last = img.Item2;
+				
+				return img.Item1;
 			}
 			catch (ParsingException pe)
 			{
@@ -44,7 +49,7 @@ namespace GridDominance.DSLEditor
 				Console.Out.WriteLine(pe.ToString());
 				_currentDisplayGraph = null;
 
-				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null, AddLog));
+				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null, AddLog, last)).Item1;
 			}
 			catch (Exception pe)
 			{
@@ -52,7 +57,7 @@ namespace GridDominance.DSLEditor
 				Console.Out.WriteLine(pe.ToString());
 				_currentDisplayGraph = null;
 
-				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null, AddLog));
+				return ImageHelper.CreateImageSource(graphPainter.Draw(null, null, AddLog, last)).Item1;
 			}
 		}
 

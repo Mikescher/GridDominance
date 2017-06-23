@@ -112,7 +112,7 @@
 [ ] minigun cannon with cooldown
 [ ] rotating + moving walls
 [ ] rotating and moving cannons
-
+[ ] Unlock Worlds when previous word is 100% (and remark in unlock screen)
 
 
 ----------------------------
@@ -130,6 +130,26 @@
  - W4:   0.49
  - MP:   0.99
  - FULL: 1.49
+
+---------- Music --------------
+
+Tutorial    Macaron Island
+W1          Cyber Factory
+W2          Spinning Gears
+W3          Tekno Labs
+W4          Mr Krabs
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

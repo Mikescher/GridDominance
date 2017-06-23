@@ -24,7 +24,7 @@ namespace GridDominance.DSLEditor
 	{
 		private int _currentHighlightedCannon = -1;
 		private LevelBlueprint _currentDisplayLevel = null;
-		private readonly ConcurrentDictionary<int, ImageSource> _imageCache = new ConcurrentDictionary<int, ImageSource>();
+		private readonly ConcurrentDictionary<int, Tuple<ImageSource, Image>> _imageCache = new ConcurrentDictionary<int, Tuple<ImageSource, Image>>();
 		private readonly LevelPreviewPainter levelPainter = new LevelPreviewPainter();
 
 		private ImageSource ReparseLevelFile(string input, bool sim)
@@ -56,7 +56,7 @@ namespace GridDominance.DSLEditor
 
 				AddLog("File parsed and map drawn in " + sw.ElapsedMilliseconds + "ms");
 
-				return img;
+				return img.Item1;
 			}
 			catch (ParsingException pe)
 			{
@@ -64,7 +64,12 @@ namespace GridDominance.DSLEditor
 				Console.Out.WriteLine(pe.ToString());
 				_currentDisplayLevel = null;
 
-				return ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
+				if (_imageCache.ContainsKey(-1))
+				{
+					return ImageHelper.CreateImageSource(levelPainter.DrawErrorOverlay(_imageCache[-1].Item2)).Item1;
+				}
+				
+				return ImageHelper.CreateImageSource(levelPainter.Draw(null, -1)).Item1;
 			}
 			catch (Exception pe)
 			{
@@ -72,7 +77,7 @@ namespace GridDominance.DSLEditor
 				Console.Out.WriteLine(pe.ToString());
 				_currentDisplayLevel = null;
 
-				return ImageHelper.CreateImageSource(levelPainter.Draw(null, -1));
+				return ImageHelper.CreateImageSource(levelPainter.DrawError()).Item1;
 			}
 		}
 
@@ -297,7 +302,7 @@ namespace GridDominance.DSLEditor
 			if (newHighlight != _currentHighlightedCannon)
 			{
 				_currentHighlightedCannon = newHighlight;
-				PreviewImage = _imageCache.ContainsKey(_currentHighlightedCannon) ? _imageCache[_currentHighlightedCannon] : _imageCache[-1];
+				PreviewImage = _imageCache.ContainsKey(_currentHighlightedCannon) ? _imageCache[_currentHighlightedCannon].Item1 : _imageCache[-1].Item1;
 			}
 		}
 	}

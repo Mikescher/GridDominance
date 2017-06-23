@@ -88,6 +88,46 @@ namespace GridDominance.DSLEditor.Drawing
 			return GraphicsBuffer;
 		}
 
+		public Bitmap DrawError()
+		{
+			var w = 16 * 64;
+			var h = 10 * 64;
+
+			Bitmap GraphicsBuffer = new Bitmap(w, h);
+
+			using (Graphics g = Graphics.FromImage(GraphicsBuffer))
+			{
+				g.SmoothingMode = SmoothingMode.AntiAlias;
+				g.Clear(Color.OrangeRed);
+
+				g.DrawLine(new Pen(Color.DarkRed, 32), 0, 0, w, h);
+				g.DrawLine(new Pen(Color.DarkRed, 32), w, 0, 0, h);
+			}
+
+			return GraphicsBuffer;
+		}
+
+		public Bitmap DrawErrorOverlay(Image img)
+		{
+			var w = img.Width;
+			var h = img.Height;
+
+			Bitmap GraphicsBuffer = new Bitmap(w, h);
+
+			using (Graphics g = Graphics.FromImage(GraphicsBuffer))
+			{
+				g.DrawImageUnscaled(img, 0, 0);
+				g.SmoothingMode = SmoothingMode.AntiAlias;
+
+				g.FillRectangle(new SolidBrush(Color.FromArgb(32, Color.OrangeRed)), 0, 0, w, h);
+
+				g.DrawLine(new Pen(Color.FromArgb(64, Color.DarkRed), 32), 0, 0, w, h);
+				g.DrawLine(new Pen(Color.FromArgb(64, Color.DarkRed), 32), w, 0, 0, h);
+			}
+
+			return GraphicsBuffer;
+		}
+
 		private static void DrawBlackHoles(LevelBlueprint level, Graphics g)
 		{
 			var penBH1 = new Pen(Color.White, 2);
