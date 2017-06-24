@@ -1,0 +1,80 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-30", "Battlefield", {b16b00b5-0001-4000-0000-000003000030}, KI_PRECALC_PATHTRACE)
+setwrap(WRAPMODE_DONUT)
+config(KI_CFG_SIMULATION_SCATTERTRUST, 0.5)
+config(KI_CFG_TRACE_MAX_LASERREFLECT, 3)
+
+Cannon(SIZE_SMALl,  N0, [5,  2], ROT_E)
+Laser(SIZE_SMALl,   N0, [2,  2], ROT_E)
+Cannon(SIZE_SMALl,  P1, [2,  5], ROT_E)
+Laser(SIZE_SMALl,   N0, [2,  8], ROT_E)
+Cannon(SIZE_SMALl,  N0, [5,  8], ROT_E)
+
+VoidCircle([0.5, 3.5], 1)
+VoidCircle([3.5, 3.5], 1)
+VoidCircle([3.5, 6.5], 1)
+VoidCircle([0.5, 6.5], 1)
+
+Portal(PORTAL_1, PORTAL_IN, [8+0.25, 2], 2.5, ROT_E)
+Portal(PORTAL_2, PORTAL_IN, [8-0.25, 2], 2.5, ROT_W)
+
+VoidCircle([8, 5], SIZE_TINY)
+
+Portal(PORTAL_2, PORTAL_OUT, [8+0.25, 8], 2.5, ROT_E)
+Portal(PORTAL_1, PORTAL_OUT, [8-0.25, 8], 2.5, ROT_W)
+
+
+VoidCircle([15.5, 3.5], 1)
+VoidCircle([12.5, 3.5], 1)
+VoidCircle([12.5, 6.5], 1)
+VoidCircle([15.5, 6.5], 1)
+
+Cannon(SIZE_SMALl,  N0, [11,  2], ROT_W)
+Laser(SIZE_SMALl,   N0, [14,  2], ROT_W)
+Cannon(SIZE_SMALl,  A3, [14,  5], ROT_W)
+Laser(SIZE_SMALl,   N0, [14,  8], ROT_W)
+Cannon(SIZE_SMALl,  N0, [11,  8], ROT_W)
+
+
+Portal(PORTAL_3, PORTAL_IN,  [00.25, 5], 1, ROT_E)
+Portal(PORTAL_3, PORTAL_OUT, [5,  0.25], 2, ROT_S)
+Portal(PORTAL_3, PORTAL_OUT, [5,  9.75], 2, ROT_N)
+
+
+
+Portal(PORTAL_4, PORTAL_IN,  [15.75,  5], 1, ROT_W)
+Portal(PORTAL_4, PORTAL_OUT, [11,  0.25], 2, ROT_S)
+Portal(PORTAL_4, PORTAL_OUT, [11,  9.75], 2, ROT_N)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                    &&&         &&&          
+#        0 #                                 #
+#                           &                 
+#        1 #                                 #
+#              <+>   <O>    &    <O>   <+>    
+#        2 #                                 #
+#                           &                 
+#        3 #(X)   (X)               (X)   (X)#
+#                                             
+#        4 #   / \                     / \   #
+#           &   O          (X)          O   & 
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #(X)   (X)               (X)   (X)#
+#                           &                 
+#        7 #                                 #
+#              <+>   <O>    &    <O>   <+>    
+#        8 #                                 #
+#                           &                 
+#        9 #                                 #
+#                    &&&         &&&          
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

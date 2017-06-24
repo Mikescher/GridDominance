@@ -32,6 +32,7 @@ alias(LVL_26, {b16b00b5-0001-4000-0000-000003000026})
 alias(LVL_27, {b16b00b5-0001-4000-0000-000003000027})
 alias(LVL_28, {b16b00b5-0001-4000-0000-000003000028})
 alias(LVL_29, {b16b00b5-0001-4000-0000-000003000029})
+alias(LVL_30, {b16b00b5-0001-4000-0000-000003000030})
 
 root([-7, 0], WORLD_3)
   connect(LVL_01, LIN)
@@ -112,3 +113,12 @@ node([45, +10], LVL_24)
   connect(LVL_25,  LIN)
 
 node([50, +10], LVL_25)
+  connect(LVL_26,  LIN)
+
+node([50, 000], LVL_26)
+
+
+#node([35, 000], LVL_30)
+#  connect(WORLD_4, LIN)
+
+#warpnode([30, 0], WORLD_4)

@@ -1,0 +1,49 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-26", "Modern Advantage", {b16b00b5-0001-4000-0000-000003000026}, KI_PRECALC_SIMULATE)
+config(KI_CFG_SIMULATION_SCATTERTRUST, 0.5)
+
+Laser(SIZE_NORMAL,  N0, [2,  2], ROT_E)
+Cannon(SIZE_NORMAL, P1, [2,  5], ROT_E)
+Laser(SIZE_NORMAL,  N0, [2,  8], ROT_E)
+
+VoidCircle([8, 5], SIZE_TINY)
+
+Laser(SIZE_NORMAL,  N0, [14,  2], ROT_W)
+Cannon(SIZE_NORMAL, A3, [14,  5], ROT_W)
+Laser(SIZE_NORMAL,  N0, [14,  8], ROT_W)
+
+BlackHole([8, 2], 3)
+BlackHole([8, 8], 3)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                         .....               
+#        1 #              .....              #
+#              <+>        ..@..        <+>    
+#        2 #              .....              #
+#                         .....               
+#        3 #                                 #
+#                                             
+#        4 #   / \                     / \   #
+#               O          (X)          O     
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #                                 #
+#                         .....               
+#        7 #              .....              #
+#              <+>        ..@..        <+>    
+#        8 #              .....              #
+#                         .....               
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+
