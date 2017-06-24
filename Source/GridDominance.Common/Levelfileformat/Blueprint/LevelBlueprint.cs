@@ -15,11 +15,15 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const int WRAPMODE_DONUT = 102;
 		public const int WRAPMODE_SOLID = 103;
 
-		public const int KI_CONFIG_TRACE_MAX_BULLETBOUNCE = 200;
-		public const int KI_CONFIG_TRACE_MAX_LASERREFLECT = 201;
-		public const int KI_CONFIG_TRACE_RESOULUTION      = 202;
-		public const int KI_CONFIG_TRACE_HITBOX_ENLARGE   = 203;
-		public const int KI_CONFIG_SIMULATION_RESOLUTION  = 204;
+		public const int KI_CONFIG_TRACE_MAX_BULLETBOUNCE        = 200;
+		public const int KI_CONFIG_TRACE_MAX_LASERREFLECT        = 201;
+		public const int KI_CONFIG_TRACE_RESOULUTION             = 202;
+		public const int KI_CONFIG_TRACE_HITBOX_ENLARGE          = 203;
+		public const int KI_CONFIG_SIMULATION_RESOLUTION         = 204;
+		public const int KI_CONFIG_SIMULATION_SCATTERTRUST       = 205;
+		public const int KI_CONFIG_SIMULATION_UPS                = 206;
+		public const int KI_CONFIG_SIMULATION_LIFETIME_FAC       = 207;
+		public const int KI_CONFIG_TRACE_NO_LASER_CORNER_REFLECT = 208;
 
 		public const byte SERIALIZE_ID_CANNON          = 0x01; 
 		public const byte SERIALIZE_ID_VOIDWALL        = 0x05;
@@ -47,7 +51,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 		public IEnumerable<ICannonBlueprint> AllCannons => BlueprintCannons.Cast<ICannonBlueprint>().Concat(BlueprintLaserCannons);
 
-		public Dictionary<int, int> ParseConfiguration;
+		public Dictionary<int, float> ParseConfiguration;
 		
 		public Guid UniqueID     = Guid.Empty;
 		public string Name       = "";
@@ -253,6 +257,24 @@ namespace GridDominance.Levelfileformat.Blueprint
 			{
 				if (c.Diameter <= 0) throw new Exception("Lasercannon with diameter <= 0");
 			}
+		}
+
+		public void GetConfig(int id, ref float d)
+		{
+			if (ParseConfiguration != null && ParseConfiguration.ContainsKey(id))
+				d = ParseConfiguration[id];
+		}
+
+		public void GetConfig(int id, ref int d)
+		{
+			if (ParseConfiguration != null && ParseConfiguration.ContainsKey(id))
+				d = (int)ParseConfiguration[id];
+		}
+
+		public void GetConfig(int id, ref bool d)
+		{
+			if (ParseConfiguration != null && ParseConfiguration.ContainsKey(id))
+				d = ((int)ParseConfiguration[id]) != 0;
 		}
 	}
 }

@@ -21,6 +21,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 		private int MAX_COUNT_RECAST  = 8;   // Bullet
 		private int MAX_COUNT_REFLECT = 8;   // Laser
 
+		private bool NO_LASER_CORNER_HITS = false;
+		
 		private int RESOLUTION = 3600;
 
 		private float HITBOX_ENLARGE = 32;
@@ -42,11 +44,13 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 		
 		public void Precalc(LevelBlueprint lvl)
 		{
-			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_TRACE_HITBOX_ENLARGE)) HITBOX_ENLARGE = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_TRACE_HITBOX_ENLARGE];
-			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_TRACE_MAX_BULLETBOUNCE)) MAX_COUNT_RECAST = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_TRACE_MAX_BULLETBOUNCE];
-			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_TRACE_MAX_LASERREFLECT)) MAX_COUNT_REFLECT = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_TRACE_MAX_LASERREFLECT];
-			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_TRACE_RESOULUTION)) RESOLUTION = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_TRACE_RESOULUTION];
-			
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_HITBOX_ENLARGE, ref HITBOX_ENLARGE);
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_MAX_BULLETBOUNCE, ref MAX_COUNT_RECAST);
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_MAX_LASERREFLECT, ref MAX_COUNT_REFLECT);
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_RESOULUTION, ref RESOLUTION);
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_MAX_LASERREFLECT, ref MAX_COUNT_REFLECT);
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_NO_LASER_CORNER_REFLECT, ref NO_LASER_CORNER_HITS);
+
 			foreach (var cannon in lvl.BlueprintCannons)
 				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
 
@@ -329,6 +333,15 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				return none;
 			}
 
+			foreach (var r in rays)
+			{
+				if (Math2D.LineIntersectionExt(rcStart, traceResult.Item2, r.Item1.ToFPoint(), r.Item2.ToFPoint(), -0.1f, out _, out _, out _))
+				{
+					return none;
+				}
+			}
+			
+			
 			var fCannon = traceResult.Item1.UserData as ICannonBlueprint;
 			if (fCannon != null)
 			{
@@ -402,6 +415,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			var fGlassBlockCorner = traceResult.Item1.UserData as MarkerRefractionCorner;
 			if (fGlassBlockCorner != null)
 			{
+				if (NO_LASER_CORNER_HITS) return none;
+				
 				rays.Add(Tuple.Create(rcStart.ToVec2D(), traceResult.Item2.ToVec2D()));
 
 				var pNewStart = traceResult.Item2;
@@ -590,8 +605,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				FixtureFactory.AttachRectangle(elem.Width + extend, elem.Height + extend, 1, Vector2.Zero, body, elem);
 
 				var pw = world;
-				var w = ConvertUnits.ToSimUnits(elem.Width);
-				var h = ConvertUnits.ToSimUnits(elem.Height);
+				var w = ConvertUnits.ToSimUnits(elem.Width + extend);
+				var h = ConvertUnits.ToSimUnits(elem.Height + extend);
 				var p = ConvertUnits2.ToSimUnits(new FPoint(elem.X, elem.Y));
 				var rot = FloatMath.ToRadians(elem.Rotation);
 				var mw = GlassBlock.MARKER_WIDTH;

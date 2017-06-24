@@ -21,6 +21,12 @@ namespace GridDominance.SAMScriptParser
 		protected SSParser()
 		{
 			_actions = new Dictionary<string, Action<List<string>>>();
+
+			AddAlias("TRUE",  "1");
+			AddAlias("FALSE", "0");
+			AddAlias("NULL",  "0");
+			AddAlias("PI",    "3.141592653589793");
+			AddAlias("TAU",   "6.283185307179586");
 		}
 
 		protected void DefineMethod(string id, Action<List<string>> a)

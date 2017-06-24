@@ -426,8 +426,8 @@ namespace GridDominance.Levelfileformat
 
 		private void SetConfig(List<string> methodParameter)
 		{
-			if (_result.ParseConfiguration == null) _result.ParseConfiguration = new Dictionary<int, int>();
-			_result.ParseConfiguration[ExtractIntegerParameter(methodParameter, 0)] = ExtractIntegerParameter(methodParameter, 1);
+			if (_result.ParseConfiguration == null) _result.ParseConfiguration = new Dictionary<int, float>();
+			_result.ParseConfiguration[ExtractIntegerParameter(methodParameter, 0)] = ExtractNumberParameter(methodParameter, 1);
 		}
 
 		private void AddText(List<string> methodParameter)

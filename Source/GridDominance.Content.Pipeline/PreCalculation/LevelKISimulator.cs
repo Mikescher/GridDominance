@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
@@ -21,11 +22,17 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 	internal class LevelKISimulator
 	{
 		private int RESOLUTION = 720;
+		private float TRUSTANGLE = 0;
+		private float SIMULATION_UPS = 24;
+		private float LIFETIME_FAC = 0.75f;
 
 		public void Precalc(LevelBlueprint lvl)
 		{
-			if (lvl.ParseConfiguration != null && lvl.ParseConfiguration.ContainsKey(LevelBlueprint.KI_CONFIG_SIMULATION_RESOLUTION)) RESOLUTION = lvl.ParseConfiguration[LevelBlueprint.KI_CONFIG_SIMULATION_RESOLUTION];
-			
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_SIMULATION_RESOLUTION, ref RESOLUTION);
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_SIMULATION_SCATTERTRUST, ref TRUSTANGLE);
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_SIMULATION_UPS, ref SIMULATION_UPS);
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_SIMULATION_LIFETIME_FAC, ref LIFETIME_FAC);
+
 			foreach (var cannon in lvl.BlueprintCannons)
 				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
 
@@ -47,6 +54,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				rayClock[ideg] = rays;
 			}
 
+			RemoveUntrusted(rayClock);
+			
 			List<BulletPathBlueprint> resultRays = new List<BulletPathBlueprint>();
 			for (;;)
 			{
@@ -58,6 +67,35 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			}
 
 			return resultRays.ToArray();
+		}
+
+		private void RemoveUntrusted(List<Tuple<BulletPathBlueprint, float>>[] rayClock)
+		{
+			List<Tuple<int, Tuple<BulletPathBlueprint, float>>> rems = new List<Tuple<int, Tuple<BulletPathBlueprint, float>>>(); 
+			
+			for (int ideg = 0; ideg < RESOLUTION; ideg++)
+			{
+				var ddeg = (ideg * 1f / RESOLUTION) * 360;
+				
+				foreach (var ray in rayClock[ideg])
+				{
+					bool fault = false;
+					for (int ideg2 = 0; ideg2 < RESOLUTION; ideg2++)
+					{
+						var ddeg2 = (ideg2 * 1f / RESOLUTION) * 360;
+
+						if (ideg2 == ideg || FloatMath.Abs(FloatMath.DiffModulo(ddeg, ddeg2, 360)) > TRUSTANGLE) continue;
+
+						if (rayClock[ideg2].All(r => r.Item1.TargetCannonID != ray.Item1.TargetCannonID)) fault = true;
+					}
+					if (fault) rems.Add(Tuple.Create(ideg, ray));
+				}
+			}
+
+			foreach (var rem in rems)
+			{
+				rayClock[rem.Item1].Remove(rem.Item2);
+			}
 		}
 
 		private BulletPathBlueprint ExtractBestRay(List<Tuple<BulletPathBlueprint, float>>[] rayClock, int iStart, int cid)
@@ -117,7 +155,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 		private List<Tuple<List<Vector2>, ICannonBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, int sourceID, FPoint spawnPoint, Vector2 spawnVeloc, List<Vector2> fullpath, float scale, float lifetime)
 		{
-			var none = new List<Tuple<List<Vector2>, ICannonBlueprint, float>>();
+			var none = new List<Tuple<List<Vector2>, ICannonBlueprint, float>>(); // path, cannon, quality
 
 			fullpath = fullpath.ToList();
 
@@ -157,8 +195,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 					farseerBullet.ApplyForce(ConvertUnits.ToSimUnits(vecForce));
 				}
 
-				world.Step(1 / 24f); // 24 UPS
-				lifetime += 1 / 24f;
+				world.Step(1 / SIMULATION_UPS); // x UPS
+				lifetime += 1 / SIMULATION_UPS;
 				fullpath.Add(ConvertUnits2.ToDisplayUnitsPoint(farseerBullet.Position).ToVec2D());
 
 				if (collisionUserObject is PortalBlueprint)
@@ -215,7 +253,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 
 				bool oow = (farseerBullet.Position.X < 0 - 64) || (farseerBullet.Position.Y < 0 - 64) || (farseerBullet.Position.X > ConvertUnits.ToSimUnits(lvl.LevelWidth) + 64) || (farseerBullet.Position.Y > ConvertUnits.ToSimUnits(lvl.LevelHeight) + 64);
-				bool ool = (lifetime >= Bullet.MAXIMUM_LIFETIME);
+				bool ool = (lifetime >= Bullet.MAXIMUM_LIFETIME * LIFETIME_FAC);
 
 				//if (collisionUserObject != null || oow || ool)
 				//{
