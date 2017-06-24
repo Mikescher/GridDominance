@@ -52,7 +52,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			DrawingBoundingBox = new FSize(DIAMETER, DIAMETER);
 			Blueprint = bp;
 
-			AddEntityOperation(new CyclicGameEntityOperation<RootNode>("LevelNode::OrbSpawn", LevelNode.ORB_SPAWN_TIME, false, SpawnOrb));
+			AddEntityOperation(new SimpleCyclicGameEntityOperation<RootNode>("LevelNode::OrbSpawn", LevelNode.ORB_SPAWN_TIME, false, SpawnOrb));
 		}
 
 		public override void OnInitialize(EntityManager manager)

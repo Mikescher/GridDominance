@@ -20,7 +20,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
-	public class LaserCannon : Cannon
+	public class LaserCannon : Cannon //TODO Laser sounds
 	{
 		private const float RAY_FORCE = 0.175f;
 

@@ -20,6 +20,8 @@ VoidCircle([11, 7], SIZE_SMALL)
 #MirrorCircle([11, 3], SIZE_SMALL)
 #MirrorCircle([5,  7], SIZE_SMALL)
 
+Text([12.5, 2], 6, 2, HINT_005, {TEXT_REDFLASH})
+
 #<map>
 #
 #            0 1 2 3 4 5 6 7 8 9 A B C D E F

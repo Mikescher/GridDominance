@@ -35,6 +35,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly float _scale;
 
 		public float SuperRotation = 0f;
+		public Color Color = FlatColors.Foreground;
 		
 		public BackgroundText(GDGameScreen scrn, BackgroundTextBlueprint blueprint) : base(scrn, GDConstants.ORDER_GAME_BACKGROUNDTEXT)
 		{
@@ -51,15 +52,25 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			_text = FontRenderHelper.MakeTextSafe(Textures.LevelBackgroundFont, L10N.T(blueprint.L10NText), '_');
 			_scale = FontRenderHelper.GetFontScale(Textures.LevelBackgroundFont, _text, _bounds.Size);
-
-			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_SHAKE) == BackgroundTextBlueprint.CONFIG_SHAKE)
-			{
-				if (scrn.Difficulty != FractionDifficulty.DIFF_0) Alive = false;
-			}
 			
 			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_SHAKE) == BackgroundTextBlueprint.CONFIG_SHAKE)
 			{
 				AddEntityOperation(new ShakeTextOperation());
+			}
+
+			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_ONLYD1) == BackgroundTextBlueprint.CONFIG_ONLYD1)
+			{
+				if (scrn.Difficulty != FractionDifficulty.DIFF_0) Alive = false;
+			}
+
+			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_ONLY_UNCLEARED) == BackgroundTextBlueprint.CONFIG_ONLY_UNCLEARED)
+			{
+				if (MainGame.Inst.Profile.GetLevelData(scrn.Blueprint).HasCompleted(scrn.Difficulty)) Alive = false;
+			}
+
+			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_REDFLASH) == BackgroundTextBlueprint.CONFIG_REDFLASH)
+			{
+				AddEntityOperation(new RedFlashTextOperation());
 			}
 		}
 
@@ -82,7 +93,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			if (!Alive) return;
 			
-			FontRenderHelper.DrawTextCenteredWithScale(sbatch, Textures.LevelBackgroundFont, _scale, _text, FlatColors.Foreground, Position, _rotation + SuperRotation);
+			FontRenderHelper.DrawTextCenteredWithScale(sbatch, Textures.LevelBackgroundFont, _scale, _text, Color, Position, _rotation + SuperRotation);
 		}
 	}
 }

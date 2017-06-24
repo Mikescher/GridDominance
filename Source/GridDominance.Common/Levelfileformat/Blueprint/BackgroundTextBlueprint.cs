@@ -4,8 +4,10 @@ namespace GridDominance.Levelfileformat.Blueprint
 {
 	public sealed class BackgroundTextBlueprint
 	{
-		public const byte CONFIG_SHAKE  = 0x01;
-		public const byte CONFIG_ONLYD1 = 0x02;
+		public const byte CONFIG_SHAKE          = 0x01;
+		public const byte CONFIG_ONLYD1         = 0x02;
+		public const byte CONFIG_ONLY_UNCLEARED = 0x04;
+		public const byte CONFIG_REDFLASH       = 0x08;
 
 		public readonly float X; // center
 		public readonly float Y;

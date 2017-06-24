@@ -186,7 +186,7 @@
     <Compile Include="Screens\Entities\EntityManager.cs" />
     <Compile Include="Screens\Entities\GameEntity.cs" />
     <Compile Include="Screens\Background\GameBackground.cs" />
-    <Compile Include="Screens\Entities\Operation\CyclicGameEntityOperation.cs" />
+    <Compile Include="Screens\Entities\Operation\SimpleCyclicGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\Operation\SimpleGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticle.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticleEmitter.cs" />

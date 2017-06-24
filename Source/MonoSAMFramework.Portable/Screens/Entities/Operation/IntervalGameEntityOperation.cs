@@ -1,22 +1,19 @@
-﻿using MonoSAMFramework.Portable.Input;
-using System;
+﻿
+using MonoSAMFramework.Portable.Input;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 {
-	public class CyclicGameEntityOperation<TEntity> : GameEntityOperation<TEntity> where TEntity : GameEntity
+	public abstract class IntervalGameEntityOperation<TEntity> : GameEntityOperation<TEntity> where TEntity : GameEntity
 	{
-		private readonly Action<TEntity, int> _cmd;
-		private readonly bool _reliable;
-		private readonly float _cyleTime;
+		private readonly float _delayTime;
+		private readonly float _cycleTime;
 
-		private int _cycleCounter = 0;
-		private float _timeSinceLastCycle = 0f;
+		private float _time = 0f;
 
-		public CyclicGameEntityOperation(string n, float cycleTime, bool reliable, Action<TEntity, int> command) : base(n, null)
+		public IntervalGameEntityOperation(string n, float delayTime, float cycleTime) : base(n, null)
 		{
-			_cyleTime = cycleTime;
-			_cmd = command;
-			_reliable = reliable;
+			_delayTime = delayTime;
+			_cycleTime = cycleTime;
 		}
 
 		protected override void OnStart(TEntity entity)
@@ -26,20 +23,23 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 
 		protected override void OnProgress(TEntity entity, float progress, SAMTime gameTime, InputState istate)
 		{
-			_timeSinceLastCycle += gameTime.ElapsedSeconds;
+			bool before_incycle = (_time > _delayTime) && (_time < _delayTime + _cycleTime);
 
-			if (_timeSinceLastCycle > _cyleTime)
-			{
-				_cmd(entity, _cycleCounter);
+			_time += gameTime.ElapsedSeconds;
+			while (_time > _delayTime + _cycleTime) _time -= _delayTime + _cycleTime;
 
-				if (_reliable)
-					_timeSinceLastCycle -= _cyleTime;
-				else
-					_timeSinceLastCycle = 0;
+			bool after_incycle = (_time > _delayTime) && (_time < _delayTime + _cycleTime);
 
-				_cycleCounter++;
-			}
+			if (!before_incycle && after_incycle) OnCycleStart(entity, gameTime, istate);
+
+			if (after_incycle) OnCycleProgress(entity, (_time - _delayTime) / _cycleTime, gameTime, istate);
+
+			if (before_incycle && !after_incycle) OnCycleEnd(entity, gameTime, istate);
 		}
+
+		protected abstract void OnCycleStart(TEntity entity, SAMTime gameTime, InputState istate);
+		protected abstract void OnCycleProgress(TEntity entity, float progress, SAMTime gameTime, InputState istate);
+		protected abstract void OnCycleEnd(TEntity entity, SAMTime gameTime, InputState istate);
 
 		protected override void OnEnd(TEntity entity)
 		{

@@ -107,7 +107,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			rectExpanderSouth = FRectangle.CreateByCenter(pos, 0, EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER);
 			rectExpanderWest  = FRectangle.CreateByCenter(pos, -EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER);
 
-			AddEntityOperation(new CyclicGameEntityOperation<LevelNode>("LevelNode::OrbSpawn", ORB_SPAWN_TIME, false, SpawnOrb));
+			AddEntityOperation(new SimpleCyclicGameEntityOperation<LevelNode>("LevelNode::OrbSpawn", ORB_SPAWN_TIME, false, SpawnOrb));
 		}
 
 		public override void OnInitialize(EntityManager manager)

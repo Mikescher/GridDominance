@@ -120,8 +120,12 @@ namespace GridDominance.Shared.Resources
 		public const int STR_PREV_BUYNOW        = 87;
 
 		public const int STR_HINT_001           = 97;
+		public const int STR_HINT_002           = 98;
+		public const int STR_HINT_003           = 99;
+		public const int STR_HINT_004           = 100;
+		public const int STR_HINT_005           = 101;
 
-		private const int TEXT_COUNT = 98; // = next idx
+		private const int TEXT_COUNT = 102; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -225,6 +229,10 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_IAB_BUYNOTREADY,    "Connection to Google Play services not ready",                "Verbindung zu Google Play services nicht bereit"                      );
 			L10N.Add(STR_IAB_BUYSUCESS,      "World sucesfully purchased",                                  "Levelpack wurde erfolgreich erworben"                                 );
 			L10N.Add(STR_HINT_001,           "Tip: Shoot stuff to win!",                                    "Tipp: Versuch auf die andere Kanone zu schiessen"                     );
+			L10N.Add(STR_HINT_002,           "Bigger Cannon",                                               "Größere Kanone"                                                       );
+			L10N.Add(STR_HINT_003,           "More Power",                                                  "Mehr Schaden"                                                         );
+			L10N.Add(STR_HINT_004,           "Black holes attract your bullets",                            "Schwarze Löcher saugen deine Kugeln ein"                              );
+			L10N.Add(STR_HINT_005,           "Lasers!",                                                     "Laser!"                                                               );
 
 #if DEBUG
 			L10N.Verify();

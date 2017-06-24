@@ -9,6 +9,8 @@ Cannon(SIZE_NORMAL, A3, [14,  5], ROT_N)
 
 BlackHole([8, 5], 3)
 
+Text([8, 1.5], 10, 2, HINT_004, {TEXT_ONLY_D1 | TEXT_ONLY_UNCLEARED})
+
 #<map>
 #
 #            0 1 2 3 4 5 6 7 8 9 A B C D E F

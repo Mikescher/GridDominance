@@ -290,7 +290,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			foreach (var ray in ((LaserCannon)Cannon).LaserSource.Lasers)
 			{
-				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction != Cannon.Fraction)
+				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction != Cannon.Fraction && ray.TargetCannon.CannonHealth.TargetValue < 0.8f)
 				{
 					return Cannon.Rotation.TargetValue;
 				}
