@@ -664,3 +664,33 @@
 /processor:GDLevelProcessor
 /build:levels/lvl225.gslevel
 
+#begin levels/lvl226.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl226.gslevel
+
+#begin levels/lvl227.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl227.gslevel
+
+#begin levels/lvl228.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl228.gslevel
+
+#begin levels/lvl229.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl229.gslevel
+
+#begin levels/lvl230.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl230.gslevel
+
+#begin levels/lvl231.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl231.gslevel
+

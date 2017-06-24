@@ -124,6 +124,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HINT_003           = 99;
 		public const int STR_HINT_004           = 100;
 		public const int STR_HINT_005           = 101;
+		public const int STR_HINT_006           = 102;
 
 		private const int TEXT_COUNT = 102; // = next idx
 
@@ -233,6 +234,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_HINT_003,           "More Power",                                                  "Mehr Schaden"                                                         );
 			L10N.Add(STR_HINT_004,           "Black holes attract your bullets",                            "Schwarze Löcher saugen deine Kugeln ein"                              );
 			L10N.Add(STR_HINT_005,           "Lasers!",                                                     "Laser!"                                                               );
+			L10N.Add(STR_HINT_006,           "Try dragging the level around",                               "Versuch mal das Level zu verschieben"                                 );
 
 #if DEBUG
 			L10N.Verify();

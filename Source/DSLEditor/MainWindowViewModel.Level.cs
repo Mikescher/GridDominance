@@ -286,8 +286,8 @@ namespace GridDominance.DSLEditor
 		{
 			if (_currentDisplayLevel == null) return;
 
-			double pX = (mousePos.X / displWidth) * 1024;
-			double pY = (mousePos.Y / displHeight) * 640;
+			double pX = (mousePos.X / displWidth) * _currentDisplayLevel.LevelWidth;
+			double pY = (mousePos.Y / displHeight) * _currentDisplayLevel.LevelHeight;
 
 			var vm = new Vector2((float)pX, (float)pY);
 

@@ -33,6 +33,7 @@ alias(LVL_27, {b16b00b5-0001-4000-0000-000003000027})
 alias(LVL_28, {b16b00b5-0001-4000-0000-000003000028})
 alias(LVL_29, {b16b00b5-0001-4000-0000-000003000029})
 alias(LVL_30, {b16b00b5-0001-4000-0000-000003000030})
+alias(LVL_31, {b16b00b5-0001-4000-0000-000003000031})
 
 root([-7, 0], WORLD_3)
   connect(LVL_01, LIN)
@@ -95,6 +96,15 @@ node([35, -10], LVL_21)
   connect(LVL_23,  LIN)
 
 node([40, -10], LVL_23)
+  connect(LVL_27,  LIN, 1)
+  connect(LVL_30,  LIN, 2)
+
+node([45, -10], LVL_27)
+  connect(LVL_28, LIN, 1)
+  connect(LVL_29, LIN, 2)
+
+node([50, -10], LVL_28)
+  connect(LVL_26,  LIN)
 
 
 node([25, +10], LVL_17)
@@ -107,18 +117,27 @@ node([35, +10], LVL_19)
   connect(LVL_22,  LIN)
 
 node([40, +10], LVL_22)
-  connect(LVL_24,  LIN)
+  connect(LVL_24,  LIN, 1)
+  connect(LVL_30,  LIN, 2)
 
 node([45, +10], LVL_24)
-  connect(LVL_25,  LIN)
+  connect(LVL_25, LIN, 1)
+  connect(LVL_29, LIN, 2)
 
 node([50, +10], LVL_25)
   connect(LVL_26,  LIN)
 
 node([50, 000], LVL_26)
+  connect(LVL_29, LIN, 1)
+  connect(LVL_31, LIN, 2)
 
 
-#node([35, 000], LVL_30)
-#  connect(WORLD_4, LIN)
+node([45, 000], LVL_29)
+  connect(LVL_30, LIN)
 
-#warpnode([30, 0], WORLD_4)
+node([40, 000], LVL_30)
+  connect(WORLD_4, LIN)
+
+warp([34, 0], WORLD_4)
+
+node([57, 000], LVL_31)
