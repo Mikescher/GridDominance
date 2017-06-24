@@ -694,3 +694,13 @@
 /processor:GDLevelProcessor
 /build:levels/lvl231.gslevel
 
+#begin levels/world_4.gsgraph
+/importer:GDWorldGraphImporter
+/processor:GDWorldGraphProcessor
+/build:levels/world_4.gsgraph
+
+#begin levels/lvl301.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl301.gslevel
+

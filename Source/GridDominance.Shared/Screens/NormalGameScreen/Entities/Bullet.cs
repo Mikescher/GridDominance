@@ -377,7 +377,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			if (GDOwner.WrapMode == GameWrapMode.Death && !Manager.BoundingBox.Contains(BulletPosition))
 			{
-				Remove();
+				if (!GDOwner.MapFullBounds.Contains(BulletPosition))
+				{
+					Remove();
+				}
 			}
 
 			if (GDOwner.WrapMode == GameWrapMode.Donut && !GDOwner.MapFullBounds.Contains(BulletPosition))

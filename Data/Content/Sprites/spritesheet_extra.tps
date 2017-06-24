@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet_extra.tps</string>
+        <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet_extra.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -282,7 +282,7 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra/description_w2.png</key>
+            <key type="filename">extra/description_w2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -295,7 +295,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra/logo.png</key>
+            <key type="filename">extra/description_w3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>312,99,624,197</rect>
+                <key>scale9Paddings</key>
+                <rect>312,99,624,197</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">extra/logo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -308,7 +321,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra/title_generic.png</key>
+            <key type="filename">extra/title_generic.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -321,7 +334,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra/title_w2.png</key>
+            <key type="filename">extra/title_w2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -334,11 +347,11 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra/title_w3.png</key>
-            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra/title_w4.png</key>
-            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra/title_w5.png</key>
-            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra/title_w6.png</key>
-            <key type="filename">../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra/title_w7.png</key>
+            <key type="filename">extra/title_w3.png</key>
+            <key type="filename">extra/title_w4.png</key>
+            <key type="filename">extra/title_w5.png</key>
+            <key type="filename">extra/title_w6.png</key>
+            <key type="filename">extra/title_w7.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

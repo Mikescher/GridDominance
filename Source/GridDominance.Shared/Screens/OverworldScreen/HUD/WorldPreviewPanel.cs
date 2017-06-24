@@ -36,11 +36,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private HUDSubScreenProxyRenderer _proxy;
 		private HUDTextButton _button;
 
-		public WorldPreviewPanel(LevelBlueprint[] bps, Guid unlockID, string iab)
+		private readonly int _worldNumber;
+		
+		public WorldPreviewPanel(LevelBlueprint[] bps, Guid unlockID, string iab, int worldnumber)
 		{
 			_blueprints = bps;
 			_id = unlockID;
 			_iabCode = iab;
+			_worldNumber = worldnumber;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -52,7 +55,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			base.OnInitialize();
 
-			var prev = new GDGameScreen_Preview(MainGame.Inst, MainGame.Inst.Graphics, this, _blueprints, 0);
+			var prev = new GDGameScreen_Preview(MainGame.Inst, MainGame.Inst.Graphics, this, _blueprints, 0, _worldNumber);
 
 			AddElement(_proxy = new HUDSubScreenProxyRenderer(prev)
 			{
@@ -110,7 +113,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		public void SetNextScreen(int idx)
 		{
-			var prev = new GDGameScreen_Preview(MainGame.Inst, MainGame.Inst.Graphics, this, _blueprints, idx);
+			var prev = new GDGameScreen_Preview(MainGame.Inst, MainGame.Inst.Graphics, this, _blueprints, idx, _worldNumber);
 
 			_proxy.ChangeScreen(prev);
 		}

@@ -233,13 +233,8 @@ namespace GridDominance.Shared.Resources
 
 		public static TextureRegion2D TexLogo;
 		public static TextureRegion2D TexGenericTitle;
-		public static TextureRegion2D TexDescription2;
-		public static TextureRegion2D TexTitleNumber2;
-		public static TextureRegion2D TexTitleNumber3;
-		public static TextureRegion2D TexTitleNumber4;
-		public static TextureRegion2D TexTitleNumber5;
-		public static TextureRegion2D TexTitleNumber6;
-		public static TextureRegion2D TexTitleNumber7;
+		public static TextureRegion2D[] TexDescription;
+		public static TextureRegion2D[] TexTitleNumber;
 
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
@@ -271,13 +266,24 @@ namespace GridDominance.Shared.Resources
 
 			TexLogo                  = AtlasExtraTextures["logo"];
 			TexGenericTitle          = AtlasExtraTextures["title_generic"];
-			TexDescription2          = AtlasExtraTextures["description_w2"];
-			TexTitleNumber2          = AtlasExtraTextures["title_w2"];
-			TexTitleNumber3          = AtlasExtraTextures["title_w3"];
-			TexTitleNumber4          = AtlasExtraTextures["title_w4"];
-			TexTitleNumber5          = AtlasExtraTextures["title_w5"];
-			TexTitleNumber6          = AtlasExtraTextures["title_w6"];
-			TexTitleNumber7          = AtlasExtraTextures["title_w7"];
+			TexDescription           = new[]
+			{
+				null,
+				null,
+				AtlasExtraTextures["description_w2"],
+				AtlasExtraTextures["description_w3"],
+			};
+			TexTitleNumber           = new[]
+			{
+				null,
+				null,
+				AtlasExtraTextures["title_w2"],
+				AtlasExtraTextures["title_w3"],
+				AtlasExtraTextures["title_w4"],
+				AtlasExtraTextures["title_w5"],
+				AtlasExtraTextures["title_w6"],
+				AtlasExtraTextures["title_w7"]
+			};
 
 			TexTileBorder            = AtlasTextures["grid"];
 			TexDotLine               = AtlasTextures["dotline"];

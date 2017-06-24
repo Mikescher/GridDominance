@@ -69,7 +69,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 						return UnlockState.NeedsPurchase;
 
 					default:
-						SAMLog.Error("EnumSwitch", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD2)) -> " + ip);
+						SAMLog.Error("EnumSwitch", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD3)) -> " + ip);
 						return UnlockState.NeedsPurchase;
 				}
 			}
@@ -91,10 +91,17 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			{
 				LevelBlueprint[] previews =
 				{
-					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000001")], //TODO Choose preview levels
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000001")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000004")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000009")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000025")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000007")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000017")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000003")],
+					Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000023")],
 				};
 
-				Owner.HUD.AddModal(new WorldPreviewPanel(previews, Blueprint.ID, IAB_CODE), true, 0.8f, 1f);
+				Owner.HUD.AddModal(new WorldPreviewPanel(previews, Blueprint.ID, IAB_CODE, 3), true, 0.8f, 1f);
 			}
 		}
 	}

@@ -58,7 +58,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			this.GDOwner().GDBackground.RegisterBlockedBlock(_bounds.WithNoRotation(), _rotation);
 		}
 
-		public override void OnInitialize(EntityManager manager) //TODO prevent strange refraction effects in corner (perhaps prevent refraction in corners all together)
+		public override void OnInitialize(EntityManager manager)
 		{
 			var pw = this.GDManager().PhysicsWorld;
 

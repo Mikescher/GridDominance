@@ -2,7 +2,7 @@
 
 {
 	"filename": "description_w2.png",
-	"frame": {"x":2,"y":29,"w":90,"h":25},
+	"frame": {"x":2,"y":37,"w":90,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":25},
@@ -10,8 +10,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "description_w3.png",
+	"frame": {"x":79,"y":2,"w":78,"h":25},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":78,"h":25},
+	"sourceSize": {"w":78,"h":25},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "logo.png",
-	"frame": {"x":95,"y":29,"w":74,"h":32},
+	"frame": {"x":2,"y":2,"w":74,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":32},
@@ -20,7 +29,7 @@
 },
 {
 	"filename": "title_generic.png",
-	"frame": {"x":2,"y":2,"w":67,"h":24},
+	"frame": {"x":95,"y":30,"w":67,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":24},
@@ -29,7 +38,7 @@
 },
 {
 	"filename": "title_w2.png",
-	"frame": {"x":72,"y":2,"w":17,"h":24},
+	"frame": {"x":160,"y":2,"w":17,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":24},
@@ -38,7 +47,7 @@
 },
 {
 	"filename": "title_w3.png",
-	"frame": {"x":92,"y":2,"w":17,"h":24},
+	"frame": {"x":165,"y":29,"w":17,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":24},
@@ -47,7 +56,7 @@
 },
 {
 	"filename": "title_w4.png",
-	"frame": {"x":112,"y":2,"w":17,"h":24},
+	"frame": {"x":180,"y":2,"w":17,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":24},
@@ -56,7 +65,7 @@
 },
 {
 	"filename": "title_w5.png",
-	"frame": {"x":132,"y":2,"w":17,"h":24},
+	"frame": {"x":185,"y":29,"w":17,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":24},
@@ -65,7 +74,7 @@
 },
 {
 	"filename": "title_w6.png",
-	"frame": {"x":152,"y":2,"w":17,"h":24},
+	"frame": {"x":200,"y":2,"w":17,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":24},
@@ -74,7 +83,7 @@
 },
 {
 	"filename": "title_w7.png",
-	"frame": {"x":172,"y":2,"w":17,"h":24},
+	"frame": {"x":205,"y":29,"w":17,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":24},
@@ -86,8 +95,8 @@
 	"version": "1.0",
 	"image": "spritesheet_extra_fd.png",
 	"format": "RGBA8888",
-	"size": {"w":191,"h":63},
+	"size": {"w":224,"h":64},
 	"scale": "0.0625",
-	"smartupdate": "$TexturePacker:SmartUpdate:13bb49c84dca247527e7bbe20301e0c1:3de256817f77932c28b6f8a2318d3612:105496a1bc7420e8d84e4f2492a724d1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:bd867e46857c06573aa32afe3469d8f2:3bd17ecbafdf572bb194f34f0cc6a9c8:105496a1bc7420e8d84e4f2492a724d1$"
 }
 }

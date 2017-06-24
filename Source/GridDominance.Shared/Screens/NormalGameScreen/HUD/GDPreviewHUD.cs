@@ -17,16 +17,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		private HUDImage header1;
 		private HUDImage header2;
 
-		public GDPreviewHUD(GDGameScreen_Preview scrn) : base(scrn, Textures.HUDFontRegular)
+		public GDPreviewHUD(GDGameScreen_Preview scrn, int tnum) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(new HUDImage
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
-				Image = Textures.TexDescription2,
-				Size = Textures.TexDescription2.Size().ScaleToHeight(4 * GDConstants.TILE_WIDTH),
+				Image = Textures.TexDescription[tnum],
+				Size = Textures.TexDescription[tnum].Size().ScaleToHeight(4 * GDConstants.TILE_WIDTH),
 			});
 
-			AddElement(CreateHeader());
+			AddElement(CreateHeader(tnum));
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
@@ -35,7 +35,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			header2.Color = Color.White * FloatMath.PercSin(gameTime.TotalElapsedSeconds * 2);
 		}
 
-		private HUDLayoutContainer CreateHeader()
+		private HUDLayoutContainer CreateHeader(int n)
 		{
 			header1 = new HUDImage
 			{
@@ -46,8 +46,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			header2 = new HUDImage
 			{
 				Alignment = HUDAlignment.TOPRIGHT,
-				Image = Textures.TexTitleNumber2,
-				Size = Textures.TexTitleNumber2.Size().ScaleToHeight(3 * GDConstants.TILE_WIDTH),
+				Image = Textures.TexTitleNumber[n],
+				Size = Textures.TexTitleNumber[n].Size().ScaleToHeight(3 * GDConstants.TILE_WIDTH),
 			};
 
 			float w = header1.Size.Width + header2.Size.Width;

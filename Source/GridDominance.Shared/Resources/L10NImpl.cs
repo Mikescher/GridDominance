@@ -103,6 +103,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_WORLD_W1           = 80;
 		public const int STR_WORLD_W2           = 81;
 		public const int STR_WORLD_W3           = 92;
+		public const int STR_WORLD_W4           = 103;
 
 		public const int STR_INF_YOU            = 72;
 		public const int STR_INF_GLOBAL         = 73;
@@ -112,10 +113,10 @@ namespace GridDominance.Shared.Resources
 		public const int STR_IAB_TESTNOCONN     = 83;
 		public const int STR_IAB_TESTINPROGRESS = 84;
 
-		public const int STR_IAB_BUYERR        = 88;
-		public const int STR_IAB_BUYNOCONN     = 89;
-		public const int STR_IAB_BUYNOTREADY   = 90;
-		public const int STR_IAB_BUYSUCESS     = 91;
+		public const int STR_IAB_BUYERR         = 88;
+		public const int STR_IAB_BUYNOCONN      = 89;
+		public const int STR_IAB_BUYNOTREADY    = 90;
+		public const int STR_IAB_BUYSUCESS      = 91;
 
 		public const int STR_PREV_BUYNOW        = 87;
 
@@ -126,7 +127,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HINT_005           = 101;
 		public const int STR_HINT_006           = 102;
 
-		private const int TEXT_COUNT = 102; // = next idx
+		private const int TEXT_COUNT = 104; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -219,6 +220,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_W1,           "Basic",                                                       "Grundlagen"                                                           );
 			L10N.Add(STR_WORLD_W2,           "Professional",                                                "Fortgeschritten"                                                      );
 			L10N.Add(STR_WORLD_W3,           "Futuristic",                                                  "Futuristisch"                                                         );
+			L10N.Add(STR_WORLD_W4,           "Toy Box",                                                     "Spielzeugkiste"                                                       );
 			L10N.Add(STR_IAB_TESTERR,        "Error connecting to Google Play services",                    "Fehler beim Versuch mit Google Play zu verbinden"                     );
 			L10N.Add(STR_IAB_TESTNOCONN,     "No connection to Google Play services",                       "Keine Verbindung zu Google Play services"                             );
 			L10N.Add(STR_IAB_TESTINPROGRESS, "Payment in progress",                                         "Zahlung wird verarbeitet"                                             );

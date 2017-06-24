@@ -14,6 +14,7 @@ namespace GridDominance.Shared.Resources
 		public static GraphBlueprint WORLD_001;
 		public static GraphBlueprint WORLD_002;
 		public static GraphBlueprint WORLD_003;
+		public static GraphBlueprint WORLD_004;
 
 		public static LevelBlueprint LEVEL_TUTORIAL;
 		public static LevelBlueprint LEVEL_DBG;
@@ -106,16 +107,20 @@ namespace GridDominance.Shared.Resources
 			LoadLevel(content, "levels/lvl229");
 			LoadLevel(content, "levels/lvl230");
 			LoadLevel(content, "levels/lvl231");
+
+			LoadLevel(content, "levels/lvl301");
 			/* [MARK_LOAD_LEVEL] */
 
 			WORLD_001 = LoadWorld(content, "levels/world_1");
 			WORLD_002 = LoadWorld(content, "levels/world_2");
 			WORLD_003 = LoadWorld(content, "levels/world_3");
+			WORLD_004 = LoadWorld(content, "levels/world_4");
 
 			WORLD_NAMES[LEVEL_TUTORIAL.UniqueID] = L10NImpl.STR_WORLD_TUTORIAL;
 			WORLD_NAMES[WORLD_001.ID]            = L10NImpl.STR_WORLD_W1;
 			WORLD_NAMES[WORLD_002.ID]            = L10NImpl.STR_WORLD_W2;
 			WORLD_NAMES[WORLD_003.ID]            = L10NImpl.STR_WORLD_W3;
+			WORLD_NAMES[WORLD_004.ID]            = L10NImpl.STR_WORLD_W4;
 
 #if DEBUG
 			Test();

@@ -20,7 +20,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 	{
 		private const float PREVIEW_TIME = 7f;
 
-		protected override GameHUD CreateHUD() => new GDPreviewHUD(this);
+		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular);
 
 		private readonly LevelBlueprint[] _blueprints;
 		private readonly int _blueprintIndex;
@@ -28,13 +28,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		private float _runtime = 0;
 
-		public GDGameScreen_Preview(MainGame game, GraphicsDeviceManager gdm, WorldPreviewPanel pnl, LevelBlueprint[] bps, int idx) : base(game, gdm, bps[idx], FractionDifficulty.DIFF_3, true)
+		public GDGameScreen_Preview(MainGame game, GraphicsDeviceManager gdm, WorldPreviewPanel pnl, LevelBlueprint[] bps, int idx, int worldnumber) 
+			: base(game, gdm, bps[idx], FractionDifficulty.DIFF_3, true)
 		{
 			GameSpeed = GAMESPEED_SEMIFAST;
 
 			_blueprints     = bps;
 			_blueprintIndex = idx;
 			_parent         = pnl;
+
+			GameHUD = new GDPreviewHUD(this, worldnumber);
 		}
 
 		public override void ExitToMap()

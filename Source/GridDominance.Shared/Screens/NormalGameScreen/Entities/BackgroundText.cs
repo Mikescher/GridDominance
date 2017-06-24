@@ -72,6 +72,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				AddEntityOperation(new RedFlashTextOperation());
 			}
+
+			if (scrn.IsPreview) Alive = false;
 		}
 
 		public override void OnInitialize(EntityManager manager)

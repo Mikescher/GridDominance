@@ -1,0 +1,5 @@
+Calibri, 52, bold, white
+
+outline radius=3, full strength, black
+
+second layer, #00FF00, gauss:8

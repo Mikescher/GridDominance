@@ -10,6 +10,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "description_w3.png",
+	"frame": {"x":302,"y":2,"w":312,"h":99},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":312,"h":99},
+	"sourceSize": {"w":312,"h":99},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "logo.png",
 	"frame": {"x":2,"y":2,"w":297,"h":128},
 	"rotated": false,
@@ -20,7 +29,7 @@
 },
 {
 	"filename": "title_generic.png",
-	"frame": {"x":2,"y":235,"w":268,"h":96},
+	"frame": {"x":364,"y":104,"w":268,"h":96},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":268,"h":96},
@@ -29,7 +38,7 @@
 },
 {
 	"filename": "title_w2.png",
-	"frame": {"x":302,"y":2,"w":67,"h":96},
+	"frame": {"x":617,"y":2,"w":67,"h":96},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":96},
@@ -38,7 +47,7 @@
 },
 {
 	"filename": "title_w3.png",
-	"frame": {"x":273,"y":235,"w":66,"h":96},
+	"frame": {"x":635,"y":101,"w":66,"h":96},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":96},
@@ -47,7 +56,7 @@
 },
 {
 	"filename": "title_w4.png",
-	"frame": {"x":342,"y":235,"w":66,"h":96},
+	"frame": {"x":687,"y":2,"w":66,"h":96},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":96},
@@ -56,7 +65,7 @@
 },
 {
 	"filename": "title_w5.png",
-	"frame": {"x":364,"y":101,"w":66,"h":96},
+	"frame": {"x":704,"y":101,"w":66,"h":96},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":96},
@@ -65,7 +74,7 @@
 },
 {
 	"filename": "title_w6.png",
-	"frame": {"x":372,"y":2,"w":66,"h":96},
+	"frame": {"x":756,"y":2,"w":66,"h":96},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":96},
@@ -74,7 +83,7 @@
 },
 {
 	"filename": "title_w7.png",
-	"frame": {"x":411,"y":200,"w":66,"h":96},
+	"frame": {"x":773,"y":101,"w":66,"h":96},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":96},
@@ -86,8 +95,8 @@
 	"version": "1.0",
 	"image": "spritesheet_extra_ld.png",
 	"format": "RGBA8888",
-	"size": {"w":479,"h":333},
+	"size": {"w":841,"h":234},
 	"scale": "0.25",
-	"smartupdate": "$TexturePacker:SmartUpdate:13bb49c84dca247527e7bbe20301e0c1:3de256817f77932c28b6f8a2318d3612:105496a1bc7420e8d84e4f2492a724d1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:bd867e46857c06573aa32afe3469d8f2:3bd17ecbafdf572bb194f34f0cc6a9c8:105496a1bc7420e8d84e4f2492a724d1$"
 }
 }

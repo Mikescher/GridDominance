@@ -20,9 +20,11 @@ namespace GridDominance.Shared.Resources
 #if DEBUG
 		public const string IAB_WORLD2 = AndroidBillingHelper.PID_PURCHASED;
 		public const string IAB_WORLD3 = AndroidBillingHelper.PID_PURCHASED; 
+		public const string IAB_WORLD4 = AndroidBillingHelper.PID_PURCHASED;
 #else
 		public const string IAB_WORLD2 = @"gd_world_002";
 		public const string IAB_WORLD3 = @"gd_world_003";
+		public const string IAB_WORLD4 = @"gd_world_004";
 #endif
 
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
