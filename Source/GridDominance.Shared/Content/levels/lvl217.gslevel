@@ -1,0 +1,95 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-17", "Multiplicator", {b16b00b5-0001-4000-0000-000003000017}, KI_PRECALC_PATHTRACE)
+
+setwrap(WRAPMODE_DEATH)
+
+cannon(SIZE_SMALL, P1, [2,  5])
+
+cannon(SIZE_TINY, N0, [2,  2])
+cannon(SIZE_TINY, N0, [2,  8])
+
+voidwall_h([2, 3.5], 3.5)
+voidwall_h([2, 6.5], 3.5)
+
+portal(PORTAL_1, PORTAL_IN, [4, 5], 1.5, ROT_W)
+
+portal(PORTAL_1, PORTAL_OUT, [4.5, 1], 1.5, ROT_E)
+portal(PORTAL_1, PORTAL_OUT, [4.5, 3], 1.5, ROT_E)
+portal(PORTAL_1, PORTAL_OUT, [4.5, 5], 1.5, ROT_E)
+portal(PORTAL_1, PORTAL_OUT, [4.5, 7], 1.5, ROT_E)
+portal(PORTAL_1, PORTAL_OUT, [4.5, 9], 1.5, ROT_E)
+
+portal(PORTAL_1, PORTAL_OUT, [4, 2], 1.5, ROT_W)
+portal(PORTAL_1, PORTAL_OUT, [4, 8], 1.5, ROT_W)
+
+
+
+
+cannon(SIZE_SMALL, A2, [14, 5])
+
+cannon(SIZE_TINY, N0, [14,  2])
+cannon(SIZE_TINY, N0, [14,  8])
+
+voidwall_h([14, 3.5], 3.5)
+voidwall_h([14, 6.5], 3.5)
+
+portal(PORTAL_2, PORTAL_IN, [12, 5], 1.5, ROT_E)
+
+portal(PORTAL_2, PORTAL_OUT, [11.5, 1], 1.5, ROT_W)
+portal(PORTAL_2, PORTAL_OUT, [11.5, 3], 1.5, ROT_W)
+portal(PORTAL_2, PORTAL_OUT, [11.5, 5], 1.5, ROT_W)
+portal(PORTAL_2, PORTAL_OUT, [11.5, 7], 1.5, ROT_W)
+portal(PORTAL_2, PORTAL_OUT, [11.5, 9], 1.5, ROT_W)
+
+portal(PORTAL_2, PORTAL_OUT, [12, 2], 1.5, ROT_E)
+portal(PORTAL_2, PORTAL_OUT, [12, 8], 1.5, ROT_E)
+
+
+
+cannon(SIZE_SMALL, N0, [8, 3])
+
+portal(PORTAL_4, PORTAL_OUT, [2,  0.2], 2, ROT_S)
+portal(PORTAL_4, PORTAL_IN,  [8,  0.2], 2, ROT_S)
+portal(PORTAL_4, PORTAL_OUT, [14, 0.2], 2, ROT_S)
+
+
+cannon(SIZE_SMALL, N0, [8, 7])
+
+portal(PORTAL_3, PORTAL_OUT, [2,  9.8], 2, ROT_N)
+portal(PORTAL_3, PORTAL_IN,  [8,  9.8], 2, ROT_N)
+portal(PORTAL_3, PORTAL_OUT, [14, 9.8], 2, ROT_N)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#              &&&         &&&         &&&    
+#        0 #                                 #
+#                    &             &          
+#        1 #                                 #
+#              <O>  &               &  <O>    
+#        2 #                                 #
+#                    &     <O>     &          
+#        3 #  - - -                   - - -  #
+#                                             
+#        4 #   / \                     / \   #
+#               O   &&             &&   O     
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #  - - -                   - - -  #
+#                    &     <O>     &          
+#        7 #                                 #
+#              <O>  &               &  <O>    
+#        8 #                                 #
+#                    &             &          
+#        9 #                                 #
+#              &&&         &&&         &&&    
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

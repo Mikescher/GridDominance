@@ -299,6 +299,23 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				body.Rotation = FloatMath.DegRad * (elem.Normal+90);
 			}
 
+			foreach (var elem in lvl.BlueprintMirrorBlocks)
+			{
+				if (elem.Width < 0.01f) throw new Exception("Invalid Physics");
+				if (elem.Height < 0.01f) throw new Exception("Invalid Physics");
+
+				var body = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(new Vector2(elem.X, elem.Y)), FloatMath.ToRadians(elem.Rotation), BodyType.Static, elem);
+				FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(elem.Width), ConvertUnits.ToSimUnits(elem.Height), 1, Vector2.Zero, body, elem);
+			}
+
+			foreach (var elem in lvl.BlueprintMirrorCircles)
+			{
+				if (elem.Diameter < 0.01f) throw new Exception("Invalid Physics");
+
+				var body = BodyFactory.CreateBody(world, ConvertUnits.ToSimUnits(new Vector2(elem.X, elem.Y)), 0, BodyType.Static, elem);
+				FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(elem.Diameter / 2f), 1, body, Vector2.Zero, elem);
+			}
+
 			if (lvl.WrapMode == LevelBlueprint.WRAPMODE_SOLID)
 			{
 				var mw = lvl.LevelWidth;

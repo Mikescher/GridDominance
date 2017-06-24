@@ -1,0 +1,55 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-21", "The Block IV", {b16b00b5-0001-4000-0000-000003000021}, KI_PRECALC_PATHTRACE)
+config(KI_CFG_TRACE_MAX_LASERREFLECT, 4)
+
+setwrap(WRAPMODE_DEATH)
+
+Laser(SIZE_SMALL, P1, [ 4, 1])
+VoidCircle([ 8, 1], SIZE_NORMAL)
+Laser(SIZE_SMALL, A2, [12, 1])
+
+Laser(SIZE_SMALL, N0, [1, 5])
+VoidCircle([ 4, 5], SIZE_NORMAL)
+
+Glassblock([8, 5], 5, 5)
+
+VoidCircle([12, 5], SIZE_NORMAL)
+Laser(SIZE_SMALL, N0, [15, 5])
+
+Laser(SIZE_SMALL, A3, [ 4, 9])
+VoidCircle([ 8, 9], SIZE_NORMAL)
+Laser(SIZE_SMALL, A4, [12, 9])
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #       / \             / \       #
+#                   +      (X)      +         
+#        1 #       \ /             \ /       #
+#                                             
+#        2 #                                 #
+#                       HHHHHHHHH             
+#        3 #            HHHHHHHHH            #
+#                       HHHHHHHHH             
+#        4 #            HHHHHHHHH            #
+#            <+>   (X)  HHHHHHHHH  (X)   <+>  
+#        5 #            HHHHHHHHH            #
+#                       HHHHHHHHH             
+#        6 #            HHHHHHHHH            #
+#                       HHHHHHHHH             
+#        7 #                                 #
+#                                             
+#        8 #       / \             / \       #
+#                   +      (X)      +         
+#        9 #       \ /             \ /       #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

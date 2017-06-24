@@ -1,0 +1,55 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-23", "Torus Gravity", {b16b00b5-0001-4000-0000-000003000023}, KI_PRECALC_SIMULATE)
+
+#config(KI_CFG_SIMULATION_RESOLUTION, 90)
+setwrap(WRAPMODE_DONUT)
+
+Cannon(SIZE_SMALL,  N0, [2,  1.5])
+Cannon(SIZE_NORMAL, P1, [2,    5])
+Cannon(SIZE_SMALL,  N0, [2,  8.5])
+
+Cannon(SIZE_SMALL,  N0, [14,  1.5])
+Cannon(SIZE_NORMAL, A3, [14,   5])
+Cannon(SIZE_SMALL,  N0, [14,  8.5])
+
+BlackHole([8, 5], 3)
+
+
+voidCircle([8, 2], 2)
+voidCircle([8, 8], 2)
+
+voidwall_v([0.5, 5], 9.5)
+voidwall_v([15.5, 5], 9.5)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#            |                             |  
+#        1 #   <O>                     <O>   #
+#            |             (X)             |  
+#        2 #                                 #
+#            |                             |  
+#        3 #                                 #
+#            |            .....            |  
+#        4 #   / \        .....        / \   #
+#            |  O         ..@..         O  |  
+#        5 #   \ /        .....        \ /   #
+#            |            .....            |  
+#        6 #                                 #
+#            |                             |  
+#        7 #                                 #
+#            |             (X)             |  
+#        8 #   <O>                     <O>   #
+#            |                             |  
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

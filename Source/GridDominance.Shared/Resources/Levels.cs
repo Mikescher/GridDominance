@@ -85,6 +85,21 @@ namespace GridDominance.Shared.Resources
 			LoadLevel(content, "levels/lvl208");
 			LoadLevel(content, "levels/lvl209");
 			LoadLevel(content, "levels/lvl210");
+			LoadLevel(content, "levels/lvl211");
+			LoadLevel(content, "levels/lvl212");
+			LoadLevel(content, "levels/lvl213");
+			LoadLevel(content, "levels/lvl214");
+			LoadLevel(content, "levels/lvl215");
+			LoadLevel(content, "levels/lvl216");
+			LoadLevel(content, "levels/lvl217");
+			LoadLevel(content, "levels/lvl218");
+			LoadLevel(content, "levels/lvl219");
+			LoadLevel(content, "levels/lvl220");
+			LoadLevel(content, "levels/lvl221");
+			LoadLevel(content, "levels/lvl222");
+			LoadLevel(content, "levels/lvl223");
+			LoadLevel(content, "levels/lvl224");
+			LoadLevel(content, "levels/lvl225");
 			/* [MARK_LOAD_LEVEL] */
 
 			WORLD_001 = LoadWorld(content, "levels/world_1");

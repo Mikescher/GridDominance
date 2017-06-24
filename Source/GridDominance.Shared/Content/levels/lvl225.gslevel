@@ -1,0 +1,55 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-25", "Orbital Mechanics II", {b16b00b5-0001-4000-0000-000003000025}, KI_PRECALC_SIMULATE)
+
+#config(KI_CFG_SIMULATION_RESOLUTION, 90)
+setwrap(WRAPMODE_DONUT)
+
+Cannon(SIZE_NORMAL, P1, [6.5,  2.5], ROT_W)
+Cannon(SIZE_NORMAL, P1, [9.5,  2.5], ROT_E)
+
+Voidwall_h([8, 0.25], 8)
+Voidwall_h([8, 9.75], 8)
+
+Voidwall_h([8, 5], 6)
+Voidwall([8, 5-3], [8, 0.25])
+Voidwall_v([8, 5], 4)
+Voidwall([8, 5+3], [8, 9.75])
+
+Cannon(SIZE_NORMAL, A3, [6.5, 7.5], ROT_W)
+Cannon(SIZE_NORMAL, A3, [9.5, 7.5], ROT_E)
+
+Blackhole([8+4.75, 5], SIZE_BIG, 250*1000)
+Whitehole([8-4.75, 5], SIZE_BIG, 50*1000)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                    ---------------          
+#        0 #                                 #
+#                           |                 
+#        1 #                                 #
+#                       / \ | / \             
+#        2 #             O     O             #
+#                       \ /   \ /             
+#        3 #                |                #
+#                           |                 
+#        4 #     ....       |       ....     #
+#                .@..  -----|-----  ..@.      
+#        5 #     ....       |       ....     #
+#                           |                 
+#        6 #                |                #
+#                       / \   / \             
+#        7 #             O     O             #
+#                       \ /   \ /             
+#        8 #                |                #
+#                           |                 
+#        9 #                |                #
+#                    ---------------          
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

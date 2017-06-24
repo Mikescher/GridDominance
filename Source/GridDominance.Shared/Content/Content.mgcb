@@ -589,3 +589,78 @@
 /processor:GDLevelProcessor
 /build:levels/lvl210.gslevel
 
+#begin levels/lvl211.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl211.gslevel
+
+#begin levels/lvl212.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl212.gslevel
+
+#begin levels/lvl213.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl213.gslevel
+
+#begin levels/lvl214.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl214.gslevel
+
+#begin levels/lvl215.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl215.gslevel
+
+#begin levels/lvl216.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl216.gslevel
+
+#begin levels/lvl217.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl217.gslevel
+
+#begin levels/lvl218.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl218.gslevel
+
+#begin levels/lvl219.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl219.gslevel
+
+#begin levels/lvl220.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl220.gslevel
+
+#begin levels/lvl221.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl221.gslevel
+
+#begin levels/lvl222.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl222.gslevel
+
+#begin levels/lvl223.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl223.gslevel
+
+#begin levels/lvl224.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl224.gslevel
+
+#begin levels/lvl225.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl225.gslevel
+
