@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("3-1", "New Toys", {b16b00b5-0001-4000-0000-000003000001}, KI_DYNAMIC_RAYTRACE)
+init("3-1", "New Toys", {b16b00b5-0001-4000-0000-000003000001}, KI_PRECALC_PATHTRACE)
 
 Laser(SIZE_SMALL, P1, [ 2,  5])
 Laser(SIZE_TINY,  N0, [ 3,  2])

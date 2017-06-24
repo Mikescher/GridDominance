@@ -1,0 +1,81 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-16", "Command Center", {b16b00b5-0001-4000-0000-000003000016}, KI_PRECALC_PATHTRACE)
+
+setwrap(WRAPMODE_DEATH)
+
+cannon(SIZE_SMALL, P1, [2,  5])
+
+portal(PORTAL_1, PORTAL_IN, [4,  5], 2, ROT_W)
+portal(PORTAL_1, PORTAL_OUT, [2,  3], 2, ROT_N)
+portal(PORTAL_6, PORTAL_IN, [0.1,  5], 2, ROT_E)
+voidcircle([4, 3], SIZE_NORMAL)
+
+mirrorwall_r([1.8, 0.8], 4, -45)
+mirrorwall_r([5.8, 0.8], 4, +45)
+
+portal(PORTAL_2, PORTAL_IN, [2,  7], 2, ROT_N)
+voidcircle([4, 7], SIZE_NORMAL)
+portal(PORTAL_2, PORTAL_OUT, [5,  5], 2, ROT_E)
+
+cannon(SIZE_SMALL, N0, [6,  9])
+portal(PORTAL_5, PORTAL_OUT, [8,  9], 2, ROT_W)
+
+voidcircle([7, 3], SIZE_TINY)
+
+portal(PORTAL_7, PORTAL_OUT, [1,  9], 1, ROT_E)
+
+##########################
+
+cannon(SIZE_SMALL, A2, [14, 5])
+
+portal(PORTAL_3, PORTAL_IN, [12,  5], 2, ROT_E)
+portal(PORTAL_3, PORTAL_OUT, [14,  7], 2, ROT_S)
+portal(PORTAL_5, PORTAL_IN, [15.9,  5], 2, ROT_W)
+voidcircle([12, 7], SIZE_NORMAL)
+
+mirrorwall_r([14.2, 9.2], 4, -45)
+mirrorwall_r([10.2,  9.2], 4, +45)
+
+portal(PORTAL_4, PORTAL_IN, [14,  3], 2, ROT_S)
+voidcircle([12, 3], SIZE_NORMAL)
+portal(PORTAL_4, PORTAL_OUT, [11,  5], 2, ROT_W)
+
+cannon(SIZE_SMALL, N0, [10,  1])
+portal(PORTAL_6, PORTAL_OUT, [8,  1], 2, ROT_E)
+
+voidcircle([9, 7], SIZE_TINY)
+
+portal(PORTAL_7, PORTAL_IN, [15,  1], 1, ROT_W)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                &                #
+#                           &  <O>        &   
+#        1 #                &                #
+#                                             
+#        2 #                                 #
+#              &&& (X)   (X)       (X) &&&    
+#        3 #                                 #
+#                                             
+#        4 #&  / \  & &           & &  / \  &#
+#           &   O   & &           & &   O   & 
+#        5 #&  \ /  & &           & &  \ /  &#
+#                                             
+#        6 #                                 #
+#              &&& (X)       (X)   (X) &&&    
+#        7 #                                 #
+#                                             
+#        8 #                &                #
+#             &        <O>  &                 
+#        9 #                &                #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

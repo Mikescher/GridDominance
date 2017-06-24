@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("3-9", "Back To The Roots", {b16b00b5-0001-4000-0000-000003000009}, KI_DYNAMIC_RAYTRACE)
+init("3-9", "Back To The Roots", {b16b00b5-0001-4000-0000-000003000009}, KI_PRECALC_PATHTRACE)
 
 setwrap(WRAPMODE_DONUT)
 config(KI_CFG_TRACE_MAX_BULLETBOUNCE, 2)

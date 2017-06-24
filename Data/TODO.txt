@@ -113,6 +113,7 @@
 [ ] rotating + moving walls
 [ ] rotating and moving cannons
 [ ] Unlock Worlds when previous word is 100% (and remark in unlock screen)
+[ ] Pipes darker when powered 
 
 
 ----------------------------

@@ -1,0 +1,53 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-15", "Overcoming Gravity", {b16b00b5-0001-4000-0000-000003000015}, KI_PRECALC_SIMULATE)
+
+setwrap(WRAPMODE_DEATH)
+
+cannon(SIZE_SMALL, P1, [2,  5])
+cannon(SIZE_SMALL, A2, [14, 5])
+
+portal(PORTAL_1, PORTAL_IN,  [6,  5], 4, ROT_W)
+portal(PORTAL_1, PORTAL_OUT, [10, 5], 4, ROT_E)
+
+cannon(SIZE_NORMAL, N0, [8, 1.5])
+BlackHole([8, 5], SIZE_TINY)
+cannon(SIZE_NORMAL, N0, [8, 8.5])
+
+WhiteHole([14,  8.5], SIZE_NORMAL)
+WhiteHole([ 2,  1.5], SIZE_NORMAL)
+
+cannon(SIZE_TINY, N0, [14,  1])
+cannon(SIZE_TINY, N0, [ 2,  9])
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#              ...                     <O>    
+#        1 #   .@.         <O>               #
+#              ...                            
+#        2 #                                 #
+#                                             
+#        3 #            &       &            #
+#                       &       &             
+#        4 #   / \      &       &      / \   #
+#               O       &   @   &       O     
+#        5 #   \ /      &       &      \ /   #
+#                       &       &             
+#        6 #            &       &            #
+#                                             
+#        7 #                                 #
+#                                      ...    
+#        8 #               <O>         .@.   #
+#              <O>                     ...    
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

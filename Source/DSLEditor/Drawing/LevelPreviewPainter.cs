@@ -313,7 +313,7 @@ namespace GridDominance.DSLEditor.Drawing
 			foreach (var port in level.BlueprintPortals)
 			{
 				var basepen = new Pen(Color.Silver, 8);
-				var portalcolor = new[] { Color.Yellow, Color.Cyan, Color.Pink, Color.Blue, Color.Red, Color.Lime, Color.Purple}[port.Group%7];
+				var portalcolor = new[] { Color.Yellow, Color.Cyan, Color.Pink, Color.Blue, Color.Red, Color.Lime, Color.Purple, Color.MediumOrchid}[port.Group%8];
 				var portalpen = new Pen(portalcolor, 8);
 				var highpen = new Pen(Color.Black, 2);
 

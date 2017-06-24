@@ -1,0 +1,54 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("3-13", "A Rift In Space", {b16b00b5-0001-4000-0000-000003000013}, KI_PRECALC_PATHTRACE)
+
+setwrap(WRAPMODE_DEATH)
+
+cannon(SIZE_SMALL, P1, [2,  5])
+cannon(SIZE_SMALL, A2, [14, 5])
+
+portal(PORTAL_1, PORTAL_IN,  [6,  5], 2, ROT_W)
+portal(PORTAL_1, PORTAL_OUT, [10, 5], 2, ROT_E)
+
+cannon(SIZE_SMALL, N0, [8, 1.5])
+cannon(SIZE_SMALL, N0, [8, 5])
+cannon(SIZE_SMALL, N0, [8, 8.5])
+
+VoidCircle([6,  7.5], SIZE_SMALL)
+VoidCircle([10, 2.5], SIZE_SMALL)
+
+MirrorCircle([14,  8.5], SIZE_NORMAL)
+MirrorCircle([ 2,  1.5], SIZE_NORMAL)
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #   (#)         <O>               #
+#                                             
+#        2 #                   (X)           #
+#                                             
+#        3 #                                 #
+#                                             
+#        4 #   / \      &       &      / \   #
+#               O       &  <O>  &       O     
+#        5 #   \ /      &       &      \ /   #
+#                                             
+#        6 #                                 #
+#                                             
+#        7 #           (X)                   #
+#                                             
+#        8 #               <O>         (#)   #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

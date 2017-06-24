@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("3-10", "Same, Same ... But Different", {b16b00b5-0001-4000-0000-000003000010}, KI_DYNAMIC_RAYTRACE)
+init("3-10", "Same, Same ... But Different", {b16b00b5-0001-4000-0000-000003000010}, KI_PRECALC_PATHTRACE)
 
 setwrap(WRAPMODE_SOLID)
 config(KI_CFG_TRACE_MAX_BULLETBOUNCE, 2)
