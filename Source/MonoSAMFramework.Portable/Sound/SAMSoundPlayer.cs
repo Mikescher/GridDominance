@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.Sound
@@ -19,6 +20,7 @@ namespace MonoSAMFramework.Portable.Sound
 		protected SoundEffect ButtonClickEffect = null;
 		protected SoundEffect ButtonKeyboardClickEffect = null;
 
+		private readonly List<SAMEffectWrapper> _activeEffects = new List<SAMEffectWrapper>();
 
 		private MPState _state = MPState.Stopped;
 		private Song[] _currentSet = null;
@@ -100,6 +102,32 @@ namespace MonoSAMFramework.Portable.Sound
 		public abstract void Initialize(ContentManager content);
 
 		public void Update(SAMTime gameTime)
+		{
+			UpdateEffects(gameTime);
+			UpdateMusic(gameTime);
+		}
+
+		private void UpdateEffects(SAMTime gameTime)
+		{
+			for (int i = _activeEffects.Count - 1; i >= 0; i--)
+			{
+				if (!_activeEffects[i].Owner.Alive)
+				{
+					_activeEffects[i].TryDispose();
+					_activeEffects.RemoveAt(i);
+				}
+			}
+
+			if (IsEffectsMuted)
+			{
+				foreach (var e in _activeEffects)
+				{
+					if (e.IsPlaying) e.Stop();
+				}
+			}
+		}
+
+		private void UpdateMusic(SAMTime gameTime)
 		{
 			if (MediaPlayer.IsMuted != IsMusicMuted) MediaPlayer.IsMuted = IsMusicMuted;
 
@@ -199,7 +227,12 @@ namespace MonoSAMFramework.Portable.Sound
 			if (ButtonKeyboardClickEffect != null) PlaySoundeffect(ButtonKeyboardClickEffect);
 		}
 
-		public string GetStringState()
+		public string GetEffectsStringState()
+		{
+			return $"{_activeEffects.Count} active soundeffects";
+		}
+
+		public string GetMusicStringState()
 		{
 			var perc = 0d;
 			var song = "NONE";
@@ -228,6 +261,13 @@ namespace MonoSAMFramework.Portable.Sound
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+		}
+
+		public SAMEffectWrapper CreateEffect(ILifetimeObject owner, SoundEffect effect)
+		{
+			var e = new SAMEffectWrapper(this, owner, effect);
+			_activeEffects.Add(e);
+			return e;
 		}
 	}
 }

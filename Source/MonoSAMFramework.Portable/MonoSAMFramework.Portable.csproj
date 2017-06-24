@@ -264,6 +264,7 @@
     <Compile Include="Screens\ViewportAdapters\TolerantBoxingProxyViewportAdapter.cs" />
     <Compile Include="Screens\ViewportAdapters\SAMViewportAdapter.cs" />
     <Compile Include="Screens\ViewportAdapters\TolerantBoxingViewportAdapter.cs" />
+    <Compile Include="Sound\SAMEffectWrapper.cs" />
     <Compile Include="Sound\SAMSoundPlayer.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {
-	public abstract class GameEntity : ISAMDrawable, ISAMUpdateable
+	public abstract class GameEntity : ISAMDrawable, ISAMUpdateable, ILifetimeObject
 	{
 		public readonly GameScreen Owner;
 		public EntityManager Manager = null; // only set after Add - use only in Update() and Render()
@@ -31,6 +31,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public bool Alive = true;
 		public float Lifetime = 0;
 		public readonly int Order;
+
+		bool ILifetimeObject.Alive => Alive && (Owner != null && Owner.Alive) && (Owner.Game != null && Owner.Game.Alive);
 
 		protected GameEntity(GameScreen scrn, int order)
 		{

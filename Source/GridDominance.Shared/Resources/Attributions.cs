@@ -22,13 +22,16 @@ namespace GridDominance.Shared.Resources
 			Tuple.Create("Freesound: original_sound",               "http://www.freesound.org/people/original_sound/sounds/376338/"),
 			Tuple.Create("Freesound: unfa",                         "http://www.freesound.org/people/unfa/sounds/244266/"),
 			Tuple.Create("Freesound: Quonux",                       "http://www.freesound.org/people/Quonux/sounds/166418/"),
-			Tuple.Create("Freesound: LittleRobotSoundFactory (1)",  "http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270310/"),
-			Tuple.Create("Freesound: LittleRobotSoundFactory (2)",  "http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270326/"),
-			Tuple.Create("Freesound: LittleRobotSoundFactory (3)",  "http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270330/"),
+			Tuple.Create("Freesound: LittleRobotSoundFactory",      "http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270310/"),
+//			Tuple.Create("Freesound: LittleRobotSoundFactory (1)",  "http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270310/"),
+//			Tuple.Create("Freesound: LittleRobotSoundFactory (2)",  "http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270326/"),
+//			Tuple.Create("Freesound: LittleRobotSoundFactory (3)",  "http://www.freesound.org/people/LittleRobotSoundFactory/sounds/270330/"),
 			Tuple.Create("Freesound: RunnerPack",                   "http://www.freesound.org/people/RunnerPack/sounds/87043/"),
 			Tuple.Create("Freesound: benjaminharveydesign",         "http://www.freesound.org/people/benjaminharveydesign/sounds/366092/"),
 
 			Tuple.Create("Comic Jens Font Family",                  "https://www.kutilek.de//comic-jens/"),
+			
+			Tuple.Create("Freesound: Lazer_01_LOOP",                "http://freesound.org/people/Koops/sounds/12505/")
 		};
 	}
 }

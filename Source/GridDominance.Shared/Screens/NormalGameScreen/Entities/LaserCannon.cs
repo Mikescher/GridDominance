@@ -11,12 +11,14 @@ using GridDominance.Shared.Screens.NormalGameScreen.EntityOperations;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Sound;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
@@ -34,6 +36,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly float coreRotation;
 		private float chargeTime = 0f;
 
+		private readonly SAMEffectWrapper _soundeffect;
+		
 		public LaserCannon(GDGameScreen scrn, LaserCannonBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
@@ -44,6 +48,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			coreImage = FloatMath.GetRangedIntRandom(0, Textures.CANNONCORE_COUNT);
 			coreRotation = FloatMath.GetRangedRandom(FloatMath.RAD_POS_000, FloatMath.RAD_POS_360);
+
+			_soundeffect = MainGame.Inst.GDSound.GetEffectLaser(this);
+			_soundeffect.IsLooped = true;
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
@@ -184,6 +191,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			bool active = CannonHealth.TargetValue >= 1 && controller.DoBarrelRecharge();
 
 			LaserSource.SetState(active, Fraction, Rotation.ActualValue, chargeTime > LASER_CHARGE_COOLDOWN);
+
+			if (MainGame.Inst.Profile.EffectsEnabled)
+			{
+				if ( LaserSource.LaserPowered && !_soundeffect.IsPlaying) _soundeffect.Play();
+				if (!LaserSource.LaserPowered &&  _soundeffect.IsPlaying) _soundeffect.Stop();
+			}
 		}
 
 		private void UpdateDamage(SAMTime gameTime)

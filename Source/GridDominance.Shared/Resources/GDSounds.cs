@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Sound;
 
 namespace GridDominance.Shared.Resources
@@ -20,6 +21,7 @@ namespace GridDominance.Shared.Resources
 		private SoundEffect effectZoomOut;
 		private SoundEffect effectError;
 		private SoundEffect effectReflect;
+		private SoundEffect effectLaser;
 
 		public override void Initialize(ContentManager content)
 		{
@@ -37,6 +39,8 @@ namespace GridDominance.Shared.Resources
 			effectZoomOut       = content.Load<SoundEffect>("sounds/zoomout");
 			effectError         = content.Load<SoundEffect>("sounds/error");
 			effectReflect       = content.Load<SoundEffect>("sounds/reflect");
+			effectLaser         = content.Load<SoundEffect>("sounds/laser");
+
 
 			this.ButtonClickEffect         = effectButton;
 			this.ButtonKeyboardClickEffect = effectKeyboardClick;
@@ -54,5 +58,7 @@ namespace GridDominance.Shared.Resources
 		public void PlayEffectZoomOut()   => PlaySoundeffect(effectZoomOut);
 		public void PlayEffectError()     => PlaySoundeffect(effectError);
 		public void PlayEffectReflect()   => PlaySoundeffect(effectReflect);
+		
+		public SAMEffectWrapper GetEffectLaser(ILifetimeObject owner) => CreateEffect(owner, effectLaser);
 	}
 }
