@@ -21,6 +21,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		private const float SPEED_BLEND = 2.0f;
 		private const float TAB_SWITCHTIME = 2.0f;
 
+
+		private const float WIDTH         = 350;
+		private const float HEIGHT        = 280;
+		private const float HEADER_HEIGHT = 32;
+		private const float ROW_HEIGHT    = 48;
+
+		private static FRectangle _rectHeader1 = new FRectangle(0 * WIDTH/3f, 0, WIDTH/3f, HEADER_HEIGHT);
+		private static FRectangle _rectHeader2 = new FRectangle(1 * WIDTH/3f, 0, WIDTH/3f, HEADER_HEIGHT);
+		private static FRectangle _rectHeader3 = new FRectangle(2 * WIDTH/3f, 0, WIDTH/3f, HEADER_HEIGHT);
+		private static FRectangle _rectRow1    = new FRectangle(0, HEADER_HEIGHT + 16 + 0 * 56, WIDTH, ROW_HEIGHT);
+		private static FRectangle _rectRow2    = new FRectangle(0, HEADER_HEIGHT + 16 + 1 * 56, WIDTH, ROW_HEIGHT);
+		private static FRectangle _rectRow3    = new FRectangle(0, HEADER_HEIGHT + 16 + 2 * 56, WIDTH, ROW_HEIGHT);
+		private static FRectangle _rectRow4    = new FRectangle(0, HEADER_HEIGHT + 16 + 3 * 56, WIDTH, ROW_HEIGHT);
+
 		public override int Depth => 0;
 
 		private LevelNode node;
@@ -30,14 +44,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		private int tab = 0;
 
 		private readonly int _header1 = L10NImpl.STR_INF_YOU;
-		private readonly int _header2 = L10NImpl.STR_INF_GLOBAL;
-		private readonly int _header3 = L10NImpl.STR_INF_HIGHSCORE;
+		private readonly int _header2 = L10NImpl.STR_INF_HIGHSCORE;
+		private readonly int _header3 = L10NImpl.STR_INF_GLOBAL;
 
 		public InformationDisplay()
 		{
 			Alignment = HUDAlignment.BOTTOMRIGHT;
 			RelativePosition = FPoint.Zero;
-			Size = new FSize(350, 280);
+			Size = new FSize(WIDTH, HEIGHT);
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
@@ -46,14 +60,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color.Black * 0.8f * progressDisplay, true, false, false, false, 16);
 
-			sbatch.DrawLine(Position + new Vector2(0, 32), Position + new Vector2(Width, 32), FlatColors.MidnightBlue * progressDisplay, 2);
+			sbatch.DrawLine(Position + new Vector2(0, HEADER_HEIGHT), Position + new Vector2(Width, HEADER_HEIGHT), FlatColors.MidnightBlue * progressDisplay, 2);
 
 			sbatch.DrawLine(Position + new Vector2(1 * (Width/3f), 0), Position + new Vector2(1 * (Width / 3f), 32), FlatColors.MidnightBlue * progressDisplay, 2);
 			sbatch.DrawLine(Position + new Vector2(2 * (Width/3f), 0), Position + new Vector2(2 * (Width / 3f), 32), FlatColors.MidnightBlue * progressDisplay, 2);
 
-			FontRenderHelper.DrawTextCentered(sbatch, (tab == 0 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, L10N.T(_header1), (tab == 0 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(1 * (Width / 6f), 16));
-			FontRenderHelper.DrawTextCentered(sbatch, (tab == 1 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, L10N.T(_header2), (tab == 1 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(3 * (Width / 6f), 16));
-			FontRenderHelper.DrawTextCentered(sbatch, (tab == 2 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, L10N.T(_header3), (tab == 2 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(5 * (Width / 6f), 16));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 0 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, L10N.T(_header1), (tab == 0 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(1 * (Width / 6f), HEADER_HEIGHT / 2f));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 1 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, L10N.T(_header2), (tab == 1 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(3 * (Width / 6f), HEADER_HEIGHT / 2f));
+			FontRenderHelper.DrawTextCentered(sbatch, (tab == 2 ? Textures.HUDFontBold : Textures.HUDFontRegular), 32, L10N.T(_header3), (tab == 2 ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay, Position + new Vector2(5 * (Width / 6f), HEADER_HEIGHT / 2f));
 
 			if (tab == 0)
 			{
@@ -66,6 +80,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 			else if (tab == 1)
 			{
+				// Best time global
+				
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalBestTime), true);
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalBestTime), true);
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalBestTime), true);
@@ -73,6 +89,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 			else if (tab == 2)
 			{
+				// global count
+				
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalCompletionCount), false);
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalCompletionCount), false);
 				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalCompletionCount), false);
@@ -84,9 +102,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		private void DrawInfoLine(IBatchRenderer sbatch, FractionDifficulty d, int idx, string strTime, bool colorize)
 		{
-			var p1 = Position + new Vector2(32,  72 + 56 * idx);
-			var p2 = Position + new Vector2(64,  72 + 56 * idx);
-			var p3 = Position + new Vector2(224, 72 + 56 * idx);
+			var p1 = Position + new Vector2(32,  HEADER_HEIGHT + 40 + 56 * idx);
+			var p2 = Position + new Vector2(64,  HEADER_HEIGHT + 40 + 56 * idx);
+			var p3 = Position + new Vector2(224, HEADER_HEIGHT + 40 + 56 * idx);
 
 			var ic = (node.LevelData.HasCompleted(d) ? FractionDifficultyHelper.GetColor(d) : FlatColors.Concrete) * progressDisplay;
 			var tc = (node.LevelData.HasCompleted(d) ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay;
@@ -145,10 +163,118 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
-			var tabNext = (int)(tabTimer  / TAB_SWITCHTIME + 1) % 3;
-			tabTimer = tabNext * TAB_SWITCHTIME;
+			if (_rectHeader1.Contains(relPositionPoint))
+			{
+				var tabNext = 0;
+				tabTimer = tabNext * TAB_SWITCHTIME;
+			}
+			else if (_rectHeader2.Contains(relPositionPoint))
+			{
+				var tabNext = 1;
+				tabTimer = tabNext * TAB_SWITCHTIME;
+			}
+			else if (_rectHeader3.Contains(relPositionPoint))
+			{
+				var tabNext = 2;
+				tabTimer = tabNext * TAB_SWITCHTIME;
+			}
+			else if (_rectRow1.Contains(relPositionPoint))
+			{
+				switch (tab)
+				{
+					case 0:
+						if (node.LevelData.HasCompleted(FractionDifficulty.DIFF_0))
+							Toast(L10N.TF(L10NImpl.INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_0)));
+						else
+							Toast(L10N.TF(L10NImpl.INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_0)));
+						break;
+						
+					case 1:
+						Toast(L10N.TF(L10NImpl.INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalBestTime)));
+						break;
+
+					case 2:
+						Toast(L10N.TF(L10NImpl.INFOTOAST_3, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalCompletionCount), FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_0)));
+						break;
+
+				}
+			}
+			else if (_rectRow2.Contains(relPositionPoint))
+			{
+				switch (tab)
+				{
+					case 0:
+						if (node.LevelData.HasCompleted(FractionDifficulty.DIFF_1))
+							Toast(L10N.TF(L10NImpl.INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_1)));
+						else
+							Toast(L10N.TF(L10NImpl.INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_1)));
+						break;
+						
+					case 1:
+						Toast(L10N.TF(L10NImpl.INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalBestTime)));
+						break;
+
+					case 2:
+						Toast(L10N.TF(L10NImpl.INFOTOAST_3, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalCompletionCount), FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_1)));
+						break;
+
+				}
+			}
+			else if (_rectRow3.Contains(relPositionPoint))
+			{
+				switch (tab)
+				{
+					case 0:
+						if (node.LevelData.HasCompleted(FractionDifficulty.DIFF_2))
+							Toast(L10N.TF(L10NImpl.INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_2)));
+						else
+							Toast(L10N.TF(L10NImpl.INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_2)));
+						break;
+						
+					case 1:
+						Toast(L10N.TF(L10NImpl.INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalBestTime)));
+						break;
+
+					case 2:
+						Toast(L10N.TF(L10NImpl.INFOTOAST_3, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalCompletionCount), FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_2)));
+						break;
+
+				}
+			}
+			else if (_rectRow4.Contains(relPositionPoint))
+			{
+				switch (tab)
+				{
+					case 0:
+						if (node.LevelData.HasCompleted(FractionDifficulty.DIFF_3))
+							Toast(L10N.TF(L10NImpl.INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_3)));
+						else
+							Toast(L10N.TF(L10NImpl.INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_3)));
+						break;
+						
+					case 1:
+						Toast(L10N.TF(L10NImpl.INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_3].GlobalBestTime)));
+						break;
+
+					case 2:
+						Toast(L10N.TF(L10NImpl.INFOTOAST_3, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_3].GlobalCompletionCount), FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_3)));
+						break;
+
+				}
+			}
+			else
+			{
+				var tabNext = (int)(tabTimer / TAB_SWITCHTIME + 1) % 3;
+				tabTimer = tabNext * TAB_SWITCHTIME;
+			}
+
 		}
 
+		private void Toast(string txt)
+		{
+			HUD.ShowToast(txt, 32, FlatColors.Silver, FlatColors.Foreground, 3f);
+		}
+		
 		public void ResetCycle()
 		{
 			tabTimer = 0;
