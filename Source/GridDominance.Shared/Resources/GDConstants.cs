@@ -47,7 +47,8 @@ namespace GridDominance.Shared.Resources
 		public const int ORDER_GAME_CANNON         = 500;
 		public const int ORDER_GAME_BULLETPARTICLE = 600;
 
-		public const int ORDER_MAP_PIPE          = 100;
+		public const int ORDER_MAP_PIPE_OFF      = 101;
+		public const int ORDER_MAP_PIPE_ON       = 102;
 		public const int ORDER_MAP_ORB           = 110;
 		public const int ORDER_MAP_NODE          = 200;
 		public const int ORDER_MAP_NODEPARTICLES = 210;

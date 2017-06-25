@@ -21,7 +21,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		// foreground elements get rendered last (on top)
 		private readonly AlwaysSortList<GameEntity> entities = new AlwaysSortList<GameEntity>(new EntityManagerEntityComparer());
 		private readonly List<ISAMPostDrawable> postDrawEntities = new List<ISAMPostDrawable>();
-
+		
 		public readonly GameScreen Owner;
 
 		public FRectangle BoundingBox;
@@ -43,9 +43,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			OnBeforeUpdate(gameTime, state);
 
+			List<GameEntity> orderChangedEntities = new List<GameEntity>();
 			foreach (var entity in entities.ToList()) //TODO CopyOnRead vs remember new|rem entities and applying after ??
 			{
 				entity.Update(gameTime, state);
+				if (entity.OrderDirty) orderChangedEntities.Add(entity);
 				if (!entity.Alive)
 				{
 					entities.Remove(entity);
@@ -56,6 +58,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 				}
 			}
 
+			foreach (var oce in orderChangedEntities)
+			{
+				entities.Remove(oce);
+				entities.Add(oce);
+				oce.OrderDirty = false;
+			}
+			
 			OnAfterUpdate(gameTime, state);
 		}
 

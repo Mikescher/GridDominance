@@ -17,7 +17,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 	public class LevelNodePipe : GameEntity
 	{
 		private const float THICKNESS = 0.275f * GDConstants.TILE_WIDTH;
-		private static readonly Color COLOR = FlatColors.Silver;
+		private static readonly Color COLOR_ON  = FlatColors.Silver;
+		private static readonly Color COLOR_OFF = ColorMath.Blend(COLOR_ON, FlatColors.Background, 0.5f);
 
 		public readonly IWorldNode NodeSource;
 		public readonly IWorldNode NodeSink;
@@ -35,7 +36,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
-		public LevelNodePipe(GameScreen scrn, IWorldNode start, IWorldNode end, PipeBlueprint.Orientation orientation) : base(scrn, GDConstants.ORDER_MAP_PIPE)
+		public LevelNodePipe(GameScreen scrn, IWorldNode start, IWorldNode end, PipeBlueprint.Orientation orientation)
+			: base(scrn, GDConstants.ORDER_MAP_PIPE_ON)
 		{
 			NodeSource = start;
 			NodeSink = end;
@@ -233,13 +235,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
-			//
+			ChangeOrder(NodeSource.NodeEnabled ? GDConstants.ORDER_MAP_PIPE_ON : GDConstants.ORDER_MAP_PIPE_OFF);
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			if (rectHorz != null) sbatch.FillRectangle(rectHorz.Value, COLOR);
-			if (rectVert != null) sbatch.FillRectangle(rectVert.Value, COLOR);
+			if (rectHorz != null) sbatch.FillRectangle(rectHorz.Value, NodeSource.NodeEnabled ? COLOR_ON : COLOR_OFF);
+			if (rectVert != null) sbatch.FillRectangle(rectVert.Value, NodeSource.NodeEnabled ? COLOR_ON : COLOR_OFF);
 		}
 
 		public FPoint GetOrbPosition(float distance)

@@ -30,7 +30,9 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public bool IsInViewport = true; // is in viewport and is therefore rendered
 		public bool Alive = true;
 		public float Lifetime = 0;
-		public readonly int Order;
+		
+		public int Order { get; private set; }
+		public bool OrderDirty = false;
 
 		bool ILifetimeObject.Alive => Alive && (Owner != null && Owner.Alive && !Owner.IsRemoved) && (Owner.Game != null && Owner.Game.Alive);
 
@@ -73,6 +75,13 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			{
 				area.Update(gameTime, istate);
 			}
+		}
+
+		public void ChangeOrder(int neworder)
+		{
+			if (Order == neworder) return;
+			Order = neworder;
+			OrderDirty = true;
 		}
 
 		public IGameEntityOperation AddEntityOperation(IGameEntityOperation op)
