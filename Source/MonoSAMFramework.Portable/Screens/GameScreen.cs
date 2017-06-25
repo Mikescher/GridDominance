@@ -18,8 +18,14 @@ using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.Screens
 {
-	public abstract class GameScreen : Screen
+	public abstract class GameScreen : ILifetimeObject
 	{
+		public bool IsShown { get; private set; }
+		public bool IsRemoved { get; private set; }
+
+		public bool Alive => !IsRemoved;
+
+		
 		private float _mapOffsetX = 0f;
 		private float _mapOffsetY = 0f;
 
@@ -82,6 +88,25 @@ namespace MonoSAMFramework.Portable.Screens
 			Initialize();
 		}
 
+		public void Show()
+		{
+#if DEBUG
+			if (IsRemoved) throw new Exception("You cannot reuse screens");
+#endif
+
+			IsShown = true;
+
+			OnShow();
+		}
+
+		public void Remove()
+		{
+			IsRemoved = true;
+			IsShown = false;
+
+			OnRemove();
+		}
+
 		private void Initialize()
 		{
 			MapFullBounds = CreateMapFullBounds();
@@ -111,15 +136,15 @@ namespace MonoSAMFramework.Portable.Screens
 #endif
 		}
 
-		protected override void OnRemove()
+		protected virtual void OnShow() { }
+		
+		protected virtual void OnRemove()
 		{
-			base.OnRemove();
-
 			FixedBatch.Dispose();
 			TranslatedBatch.Dispose();
 		}
 
-		public override void Update(SAMTime gameTime)
+		public virtual void Update(SAMTime gameTime)
 		{
 #if DEBUG
 			UPSCounter.StartCycle(gameTime);
@@ -202,7 +227,7 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 		}
 
-		public override void Draw(SAMTime gameTime)
+		public virtual void Draw(SAMTime gameTime)
 		{
 			InternalDraw(gameTime, null);
 		}
@@ -330,10 +355,8 @@ namespace MonoSAMFramework.Portable.Screens
 		}
 #endif
 
-		public override void Resize(int width, int height)
+		public virtual void Resize(int width, int height)
 		{
-			base.Resize(width, height);
-
 			GameHUD.RecalculateAllElementPositions();
 		}
 
@@ -381,6 +404,9 @@ namespace MonoSAMFramework.Portable.Screens
 		{
 			_proxyScreens.Remove(p);
 		}
+
+		public virtual void Pause() { }
+		public virtual void Resume() { }
 
 		protected abstract void OnUpdate(SAMTime gameTime, InputState istate);
 

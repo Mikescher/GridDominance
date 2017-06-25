@@ -17,6 +17,9 @@ using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.Localization;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
+using GridDominance.Shared.Screens.WorldMapScreen;
+using MonoSAMFramework.Portable.DeviceBridge;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -24,15 +27,20 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 	{ 
 		protected enum UnlockState { Locked, Unlocked, NeedsPurchase }
 		
+		public readonly GraphBlueprint PreviousWorld;
 		public readonly GraphBlueprint Blueprint;
+		public readonly string IABCode;
 
 		private readonly Dictionary<FractionDifficulty, float> solvedPerc = new Dictionary<FractionDifficulty, float>();
 
 		private readonly float _swingPeriode = 4f;
 
-		public OverworldNode_Graph(GDOverworldScreen scrn, FPoint pos, GraphBlueprint world) : base(scrn, pos, Levels.WORLD_NAMES[world.ID], world.ID)
+		public OverworldNode_Graph(GDOverworldScreen scrn, FPoint pos, GraphBlueprint world, GraphBlueprint prev, string iab) 
+			: base(scrn, pos, Levels.WORLD_NAMES[world.ID], world.ID)
 		{
+			PreviousWorld = prev;
 			Blueprint = world;
+			IABCode = iab;
 
 			solvedPerc[FractionDifficulty.DIFF_0] = GetSolvePercentage(FractionDifficulty.DIFF_0);
 			solvedPerc[FractionDifficulty.DIFF_1] = GetSolvePercentage(FractionDifficulty.DIFF_1);
@@ -176,12 +184,73 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			}
 		}
 
-		protected abstract UnlockState IsUnlocked();
+		protected bool? _isWorldReachable = null;
+		protected bool? _isWorldManuallyUnlocked = null;
 
+		protected virtual UnlockState IsUnlocked()
+		{
+			_isWorldReachable = _isWorldReachable ?? BlueprintAnalyzer.IsWorldReachable(PreviousWorld, Blueprint);
+			_isWorldManuallyUnlocked = _isWorldManuallyUnlocked ?? BlueprintAnalyzer.IsWorld100Percent(PreviousWorld);
+
+			if (GDConstants.USE_IAB)
+			{
+				// LIGHT VERSION
+
+				if (_isWorldReachable ==  false) return UnlockState.Locked;
+
+				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID)) return UnlockState.Unlocked;
+
+				if (_isWorldManuallyUnlocked == true) return UnlockState.Unlocked;
+				
+				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(IABCode);
+
+				switch (ip)
+				{
+					case PurchaseQueryResult.Purchased:
+						MainGame.Inst.Profile.PurchasedWorlds.Add(Blueprint.ID);
+						MainGame.Inst.SaveProfile();
+						return UnlockState.Unlocked;
+
+					case PurchaseQueryResult.NotPurchased:
+					case PurchaseQueryResult.Cancelled:
+						return UnlockState.NeedsPurchase;
+
+					case PurchaseQueryResult.Error:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						return UnlockState.NeedsPurchase;
+
+					case PurchaseQueryResult.Refunded:
+						MainGame.Inst.Profile.PurchasedWorlds.Remove(Blueprint.ID);
+						MainGame.Inst.SaveProfile();
+						return UnlockState.Locked;
+
+					case PurchaseQueryResult.NotConnected:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						return UnlockState.NeedsPurchase;
+
+					case PurchaseQueryResult.CurrentlyInitializing:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						return UnlockState.NeedsPurchase;
+
+					default:
+						SAMLog.Error("EnumSwitch", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD3)) -> " + ip);
+						return UnlockState.NeedsPurchase;
+				}
+			}
+			else
+			{
+				// FULL VERSION
+
+				return _isWorldReachable.Value ? UnlockState.Unlocked : UnlockState.Locked;
+			}
+		}
+		
 		protected override void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
 		{
 #if DEBUG
 			if (DebugSettings.Get("UnlockNode")) { OnClickAccept(); return; }
+
+			if (DebugSettings.Get("WorldPreview")) { MainGame.Inst.Profile.PurchasedWorlds.Clear(); ShowPreview(); return; }
 #endif
 
 			if (IsUnlocked() == UnlockState.Unlocked)
@@ -215,5 +284,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			AddEntityOperation(new ShakeNodeOperation());
 		}
+		
+		protected virtual void ShowPreview() { }
 	}
 }

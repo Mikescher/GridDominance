@@ -29,17 +29,25 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 		}
 
-		private Screen _currentScreen;
-		public Screen CurrentScreen
+		private GameScreen _currentScreen;
+		public GameScreen CurrentScreen
 		{
 			get { return _currentScreen; }
 			set
 			{
-				_currentScreen?.Remove();
-
-				_currentScreen = value;
-
-				_currentScreen?.Show();
+				if (_currentScreen != null)
+				{
+					_currentScreen.Remove();
+					var phud = _currentScreen.HUD;
+					_currentScreen = value;
+					_currentScreen?.Show();
+					if (phud != null) _currentScreen?.HUD?.CopyToast(phud);
+				}
+				else
+				{
+					_currentScreen = value;
+					_currentScreen?.Show();
+				}
 			}
 		}
 

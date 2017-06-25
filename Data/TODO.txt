@@ -112,7 +112,7 @@
 [ ] minigun cannon with cooldown
 [ ] rotating + moving walls
 [ ] rotating and moving cannons
-[ ] Unlock Worlds when previous word is 100% (and remark in unlock screen -> button+move to world+toast)
+[X] Unlock Worlds when previous word is 100% (and remark in unlock screen -> button+move to world+toast)
 [X] Pipes darker when powered 
 [X] Toast description when clikcing on number in info panel
 

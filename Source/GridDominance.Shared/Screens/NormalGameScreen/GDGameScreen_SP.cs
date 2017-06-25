@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void ExitToMap()
 		{
-			MainGame.Inst.SetWorldMapScreenZoomedOut(WorldBlueprint, Blueprint.UniqueID);
+			MainGame.Inst.SetWorldMapScreenZoomedOut(WorldBlueprint);
 		}
 
 		public override AbstractFractionController CreateController(Fraction f, Cannon cannon)

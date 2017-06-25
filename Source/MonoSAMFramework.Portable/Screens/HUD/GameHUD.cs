@@ -71,6 +71,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			OnUpdate(gameTime, istate);
 
 			if (FocusedElement != null && !FocusedElement.Alive) FocusedElement = null;
+			
+			if (_toast != null && !_toast.Alive) _toast.Remove();
 		}
 
 		protected virtual void OnUpdate(SAMTime gameTime, InputState istate)
@@ -163,6 +165,17 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public void Validate()
 		{
 			root.ValidateRecursive();
+		}
+
+		public void CopyToast(GameHUD phud)
+		{
+			if (_toast != null && _toast.Alive) return;
+			if (phud._toast == null || !phud._toast.Alive) return;
+
+			var copy = HUDToast.Copy(phud._toast);
+			
+			AddElement(copy);
+			_toast = copy;
 		}
 	}
 }

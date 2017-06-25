@@ -16,8 +16,8 @@ namespace GridDominance.Shared.Resources
 		public const int VIEW_HEIGHT = DEFAULT_GRID_HEIGHT * TILE_WIDTH; //  640
 
 		public const bool USE_IAB = true;
-		
-#if DEBUG
+
+#if __ANDROID__ && DEBUG
 		public const string IAB_WORLD2 = AndroidBillingHelper.PID_PURCHASED;
 		public const string IAB_WORLD3 = AndroidBillingHelper.PID_PURCHASED; 
 		public const string IAB_WORLD4 = AndroidBillingHelper.PID_PURCHASED;

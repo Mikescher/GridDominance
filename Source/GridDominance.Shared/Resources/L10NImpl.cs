@@ -119,6 +119,9 @@ namespace GridDominance.Shared.Resources
 		public const int STR_IAB_BUYSUCESS      = 91;
 
 		public const int STR_PREV_BUYNOW        = 87;
+		public const int STR_PREV_FINISHWORLD   = 108;
+		public const int STR_PREV_OR            = 109;
+		public const int STR_PREV_MISS_TOAST    = 110;
 
 		public const int STR_HINT_001           = 97;
 		public const int STR_HINT_002           = 98;
@@ -132,7 +135,7 @@ namespace GridDominance.Shared.Resources
 		public const int INFOTOAST_3            = 106;
 		public const int INFOTOAST_4            = 107;
 
-		private const int TEXT_COUNT = 108; // = next idx
+		private const int TEXT_COUNT = 111; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -246,6 +249,9 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(INFOTOAST_2,            "The global best time is {0}",                                 "Versuch mal das Level zu verschieben"                                 );
 			L10N.Add(INFOTOAST_3,            "{0} users have completed this level on {1}",                  "{0} Spieler haben dieses Level auf {1} geschafft"                     );
 			L10N.Add(INFOTOAST_4,            "You have not completed this level on {0}",                    "Du hast dieses Level auf {0} noch nicht geschafft"                    );
+			L10N.Add(STR_PREV_FINISHWORLD,   "Finish World {0}",                                            "Welt {0}"                                                             );
+			L10N.Add(STR_PREV_OR,            "OR",                                                          "ODER"                                                                 );
+			L10N.Add(STR_PREV_MISS_TOAST,    "You are missing {0} points ({1} levels) to unlock world {2}", "Dir fehlen noch {0} Punkte ({1} level) um Welt {2} freizuschalten"    );
 
 #if DEBUG
 			L10N.Verify();

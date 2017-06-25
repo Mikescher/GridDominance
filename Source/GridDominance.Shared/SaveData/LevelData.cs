@@ -39,10 +39,19 @@ namespace GridDominance.Shared.SaveData
 
 		public bool HasAnyCompleted()
 		{
-			return 
-				Data[FractionDifficulty.DIFF_0].HasCompleted || 
-				Data[FractionDifficulty.DIFF_1].HasCompleted || 
-				Data[FractionDifficulty.DIFF_2].HasCompleted || 
+			return
+				Data[FractionDifficulty.DIFF_0].HasCompleted ||
+				Data[FractionDifficulty.DIFF_1].HasCompleted ||
+				Data[FractionDifficulty.DIFF_2].HasCompleted ||
+				Data[FractionDifficulty.DIFF_3].HasCompleted;
+		}
+
+		public bool HasAllCompleted()
+		{
+			return
+				Data[FractionDifficulty.DIFF_0].HasCompleted &&
+				Data[FractionDifficulty.DIFF_1].HasCompleted &&
+				Data[FractionDifficulty.DIFF_2].HasCompleted &&
 				Data[FractionDifficulty.DIFF_3].HasCompleted;
 		}
 

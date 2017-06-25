@@ -200,9 +200,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				MainGame.Inst.Backend.CreateUser(MainGame.Inst.Profile).ContinueWith(t => MainGame.Inst.Backend.DownloadHighscores(MainGame.Inst.Profile)).EnsureNoError();
 
+				HUD.ShowToast(L10N.T(L10NImpl.STR_FAP_LOGOUT_SUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 1.5f);
 				MainGame.Inst.SetOverworldScreen();
-				var screen = MainGame.Inst.GetCurrentScreen() as GameScreen;
-				screen?.HUD?.ShowToast(L10N.T(L10NImpl.STR_FAP_LOGOUT_SUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 1.5f);
 			}
 		}
 	}

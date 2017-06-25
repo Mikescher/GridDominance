@@ -111,8 +111,8 @@ namespace GridDominance.Shared.Screens
 			if (scrn is GDWorldMapScreen)  DebugSettings.AddTrigger("TRUE", "ZoomOut",          scrn, SKeys.Z,         KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
 
 			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "UnlockNode",       scrn, SKeys.A,         KeyModifier.None);
-			
-			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger(   "TRUE", "ReuploadProfile",       scrn, SKeys.O,         KeyModifier.Control, x => MainGame.Inst.Backend.Reupload(MainGame.Inst.Profile).RunAsync() );
+			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "WorldPreview",     scrn, SKeys.P,         KeyModifier.None);
+			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger("TRUE", "ReuploadProfile",  scrn, SKeys.O,         KeyModifier.Control, x => MainGame.Inst.Backend.Reupload(MainGame.Inst.Profile).RunAsync() );
 		}
 
 #endif

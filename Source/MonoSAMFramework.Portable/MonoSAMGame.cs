@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using MonoSAMFramework.Portable.GameAgents;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.Agents;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
 namespace MonoSAMFramework.Portable
 {
@@ -98,7 +99,7 @@ namespace MonoSAMFramework.Portable
 			screens.CurrentScreen = gdGameScreen;
 		}
 
-		public Screen GetCurrentScreen()
+		public GameScreen GetCurrentScreen()
 		{
 			return screens?.CurrentScreen;
 		}
@@ -214,6 +215,11 @@ namespace MonoSAMFramework.Portable
 		public IEnumerable<T> GetAgents<T>()
 		{
 			return agents.OfType<T>();
+		}
+
+		public void ShowToast(string text, int size, Color background, Color foreground, float lifetime)
+		{
+			screens.CurrentScreen?.HUD?.ShowToast(text, size, background, foreground, lifetime);
 		}
 
 		protected abstract void OnAfterInitialize();

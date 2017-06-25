@@ -10,7 +10,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 	{
 		public int ForceClickCounter = 0;
 
-		public OverworldNode_W1(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, Levels.WORLD_001)
+		public OverworldNode_W1(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, Levels.WORLD_001, null, null)
 		{
 			//
 		}

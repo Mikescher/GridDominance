@@ -79,5 +79,34 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		{
 			return g.AllNodes.FirstOrDefault(n => n.ConnectionID == id);
 		}
+
+		public static void ListUnfinishedCount(GraphBlueprint g, out int missPoints, out int missLevel)
+		{
+			missPoints = 0;
+			missLevel = 0;
+
+			var p = MainGame.Inst.Profile;
+			
+			foreach (var levelnode in g.Nodes)
+			{
+				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_0)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_0); }
+				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_1)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_1); }
+				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_2)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_2); }
+				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_3)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_3); }
+			}
+
+		}
+
+		public static bool? IsWorldReachable(GraphBlueprint world, GraphBlueprint target)
+		{
+			var supplyNodes = world.Nodes.Where(n => n.OutgoingPipes.Any(p => p.Target == target.ID));
+
+			return supplyNodes.Any(l => MainGame.Inst.Profile.GetLevelData(l).HasAnyCompleted());
+		}
+
+		public static bool? IsWorld100Percent(GraphBlueprint world)
+		{
+			return world.Nodes.All(n => MainGame.Inst.Profile.GetLevelData(n).HasAllCompleted());
+		}
 	}
 }

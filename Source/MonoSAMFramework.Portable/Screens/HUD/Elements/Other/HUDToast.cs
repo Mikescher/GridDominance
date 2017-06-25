@@ -97,6 +97,29 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			};
 		}
 
+		public static HUDToast Copy(HUDToast other)
+		{
+			var t = new HUDToast(other._toastTime);
+
+			t._lifetime = other._lifetime;
+			t.Alignment = other.Alignment;
+			t.RelativePosition = other.RelativePosition;
+			t.Text = other.Text;
+			t.TextColor = other.TextColor;
+			t.Font = other.Font;
+			t.FontSize = other.FontSize;
+			t.Alpha = other.Alpha;
+			t.WordWrap = other.WordWrap;
+			t.TextPadding = other.TextPadding;
+			t.MaxWidth = other.MaxWidth;
+			t.ColorBackground = other.ColorBackground;
+			t.BackgroundType = other.BackgroundType;
+			t.BackgoundCornerSize = other.BackgoundCornerSize;
+			t.CloseOnClick = other.CloseOnClick;
+
+			return t;
+		}
+
 		public override void OnInitialize()
 		{
 			AddElement(internalLabel);

@@ -255,7 +255,6 @@
     <Compile Include="Screens\HUD\Operations\HUDTimedElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\IHUDElementOperation.cs" />
     <Compile Include="Screens\SAMTime.cs" />
-    <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\HUD\HUDElement.cs" />
     <Compile Include="Screens\HUD\Enums\HUDAlignment.cs" />
