@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
@@ -13,13 +14,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public bool LaserPowered;   // CanDamage
 		public Fraction LaserFraction;
 		public float LaserRotation;
-		public object UserData;
+		public readonly Cannon UserData;
 
 		public readonly List<LaserRay> Lasers = new List<LaserRay>(LaserNetwork.MAX_LASER_PER_SOURCE);
 		
 		public float SpeckTravel = 0;
 
-		public LaserSource(LaserNetwork owner, FPoint position, Fraction fracNeutral, object userData)
+		public LaserSource(LaserNetwork owner, FPoint position, Fraction fracNeutral, Cannon userData)
 		{
 			Owner = owner;
 			Position = position;

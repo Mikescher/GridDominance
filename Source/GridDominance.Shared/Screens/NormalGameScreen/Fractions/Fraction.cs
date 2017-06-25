@@ -28,6 +28,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 
 		public readonly FractionDifficulty Difficulty;
 
+		public ulong LastKiCycle = 0;
+		
 		public bool IsNeutral  => (Type == FractionType.NeutralFraction);
 		public bool IsPlayer   => (Type == FractionType.PlayerFraction);
 		public bool IsComputer => (Type == FractionType.ComputerFraction);

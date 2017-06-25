@@ -2,6 +2,7 @@
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens;
 
@@ -12,6 +13,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		protected readonly GDGameScreen Owner;
 
 		private readonly float updateInterval;
+		private readonly bool onlySingleUpdate;
 		private float timeSinceLastUpdate = 0.5f;
 
 		public readonly Cannon Cannon;
@@ -19,13 +21,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		protected readonly FCircle innerBoundings;
 
-		protected AbstractFractionController(float interval, GDGameScreen owner, Cannon cannon, Fraction fraction)
+		protected AbstractFractionController(float interval, GDGameScreen owner, Cannon cannon, Fraction fraction, bool singleUpdatePerCycle)
 		{
 			updateInterval = interval;
+			onlySingleUpdate = singleUpdatePerCycle;
 			Cannon = cannon;
 			Fraction = fraction;
 			Owner = owner;
-			
+
 			innerBoundings = new FCircle(Cannon.Position, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
 		}
 
@@ -40,8 +43,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			timeSinceLastUpdate -= gameTime.ElapsedSeconds;
 			if (timeSinceLastUpdate <= 0)
 			{
+				if (onlySingleUpdate && Fraction.LastKiCycle == MonoSAMGame.GameCycleCounter) return;
+				
 				timeSinceLastUpdate = updateInterval;
 
+				Fraction.LastKiCycle = MonoSAMGame.GameCycleCounter;
 				Calculate(istate);
 			}
 		}

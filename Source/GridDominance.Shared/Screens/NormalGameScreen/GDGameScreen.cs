@@ -377,6 +377,11 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			return GDEntities.PhysicsWorld;
 		}
 
+		public LaserNetwork GetLaserNetwork()
+		{
+			return LaserNetwork;
+		}
+
 		public override void Resize(int width, int height)
 		{
 			base.Resize(width, height);

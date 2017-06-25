@@ -32,7 +32,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public float Lifetime = 0;
 		public readonly int Order;
 
-		bool ILifetimeObject.Alive => Alive && (Owner != null && Owner.Alive) && (Owner.Game != null && Owner.Game.Alive);
+		bool ILifetimeObject.Alive => Alive && (Owner != null && Owner.Alive && !Owner.IsRemoved) && (Owner.Game != null && Owner.Game.Alive);
 
 		protected GameEntity(GameScreen scrn, int order)
 		{

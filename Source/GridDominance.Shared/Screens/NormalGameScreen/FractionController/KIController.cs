@@ -145,7 +145,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		public readonly float MinimumRotationalDelta;
 		
 		protected KIController(float interval, GDGameScreen owner, Cannon cannon, Fraction fraction, float minRotDelta)
-			: base(interval, owner, cannon, fraction)
+			: base(interval, owner, cannon, fraction, true)
 		{
 			MinimumRotationalDelta = minRotDelta;
 			crng = new ConstantRandom(cannon);
@@ -493,6 +493,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				Owner.GetPhysicsWorld().RayCast(callback, ray.Item1, ray.Item2);
 
 				if (result != null) return false;
+
+				foreach (var lsource in Owner.GetLaserNetwork().Sources)
+				{
+					if (lsource.UserData != Cannon)
+					{
+						foreach (var lray in lsource.Lasers)
+						{
+							if (Math2D.LineIntersection(lray.Start, lray.End, ray.Item1.ToFPoint(), ray.Item2.ToFPoint(), out _))
+							{
+								return false;
+							}
+						}
+					}
+				}
 			}
 
 			return true;

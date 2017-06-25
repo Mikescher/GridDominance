@@ -9,7 +9,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		public bool RechargeBarrel = false;
 
 		public TutorialController(GDGameScreen owner, Cannon cannon) 
-			: base(0.1f, owner, cannon, cannon.Fraction)
+			: base(0.1f, owner, cannon, cannon.Fraction, false)
 		{
 		}
 

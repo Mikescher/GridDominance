@@ -109,7 +109,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			}
 		}
 
-		public LaserSource AddSource(GameEntity e)
+		public LaserSource AddSource(Cannon e)
 		{
 			var src = new LaserSource(this, e.Position, _screen.GetNeutralFraction(), e);
 			Sources.Add(src);

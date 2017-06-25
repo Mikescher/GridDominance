@@ -19,7 +19,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		private const float FLARE_SIZE_SMALL     = 16f;
 		private const float FLARE_SIZE_BIG       = 32f;
 		private const float FLARE_ROTATION_SPEED = 0.1f; // rot/sec
-		private const float SPECK_TRAVEL_SPEED   = 1024f;
+		private const float SPECK_TRAVEL_SPEED   = 900f;
 		private const float SPECK_DISTANCE       = 128f;
 		private const float FLARE_PULSE_TIME     = 0.4f;
 		private const float FLARE_PULSE_SCALE    = 2f;
