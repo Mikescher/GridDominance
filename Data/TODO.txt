@@ -134,6 +134,7 @@
 
 ---------- Music --------------
 
+Menu        Spirit Forge
 Tutorial    Macaron Island
 W1          Cyber Factory
 W2          Spinning Gears
