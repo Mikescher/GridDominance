@@ -1,6 +1,7 @@
 ﻿using System;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
@@ -72,6 +73,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+		}
+
+		protected override void OnShow()
+		{
+			MainGame.Inst.GDSound.PlayMusicLevel(Levels.WORLD_NUMBERS[WorldBlueprint.ID]);
 		}
 	}
 }

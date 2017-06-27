@@ -710,3 +710,39 @@
 /processorParam:Quality=Best
 /build:sounds/laser.mp3
 
+#begin music/cyber-factory.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/cyber-factory.mp3
+
+#begin music/macaron-island.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/macaron-island.mp3
+
+#begin music/mr-krabs.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/mr-krabs.mp3
+
+#begin music/spinning-gears.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/spinning-gears.mp3
+
+#begin music/spirit-forge.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/spirit-forge.mp3
+
+#begin music/tekno-labs.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/tekno-labs.mp3
+

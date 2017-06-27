@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens;
@@ -12,7 +13,7 @@ namespace MonoSAMFramework.Portable.Sound
 {
 	public abstract class SAMSoundPlayer
 	{
-		private enum MPState { Stopped, Play, TransitionOut, TransitionIn }
+		private enum MPState { Stopped, Play, TransitionOut, TransitionInFromNew, TransitionInFromSame }
 
 		public bool IsEffectsMuted = false;
 		public bool IsMusicMuted = false;
@@ -29,6 +30,7 @@ namespace MonoSAMFramework.Portable.Sound
 
 		private float _fadeIn = 0f;
 		private float _fadeOut = 0f;
+		private float _fadeChange = 0f;
 		private float _fadeTime = 0f;
 
 		private int _playIndex = 0;
@@ -47,13 +49,24 @@ namespace MonoSAMFramework.Portable.Sound
 			e.Play();
 		}
 
-		protected void PlaySong(IEnumerable<Song> s, float fadeOut, float fadeIn, bool loop = true) => PlaySong(s.ToArray(), fadeOut, fadeIn, loop);
-		protected void PlaySong(Song s, float fadeOut, float fadeIn, bool loop = true) => PlaySong(new[]{s}, fadeOut, fadeIn, loop);
+		protected void PlaySong(IEnumerable<Song> s, float fadeOut, float fadeIn, float fadeChange, bool loop = true) => PlaySong(s.ToArray(), fadeOut, fadeIn, fadeChange, loop);
 
-		protected void PlaySong(Song[] s, float fadeIn, float fadeOut, bool loop = true)
+		protected void PlaySong(Song s, float fadeOut, float fadeIn, float fadeChange, bool loop = true, bool noreset = false)
+		{
+			if (noreset && _state == MPState.Play && _nextSet == null && _currentSet != null && _currentSet.Length == 1 && _currentSet[0] == s)
+			{
+				return;
+			}
+			
+			PlaySong(new[] { s }, fadeOut, fadeIn, fadeChange, loop);
+		}
+
+		protected void PlaySong(Song[] s, float fadeIn, float fadeOut, float fadeChange, bool loop = true)
 		{
 			_fadeIn = fadeIn;
 			_fadeOut = fadeOut;
+			_fadeChange = fadeChange;
+
 
 			if (_state == MPState.Play)
 			{
@@ -65,7 +78,7 @@ namespace MonoSAMFramework.Portable.Sound
 			{
 				MediaPlayer.Volume = 0f;
 				MediaPlayer.Play(s[0]);
-				_state = MPState.TransitionIn;
+				_state = MPState.TransitionInFromNew;
 				_fadeTime = 0f;
 				_playIndex = 0;
 				_currentSet = s;
@@ -153,7 +166,7 @@ namespace MonoSAMFramework.Portable.Sound
 						MediaPlayer.Volume = 1 - (_fadeTime / _fadeOut);
 					}
 					break;
-				case MPState.TransitionIn:
+				case MPState.TransitionInFromNew:
 					_fadeTime += gameTime.ElapsedSeconds;
 					if (_fadeTime > _fadeIn)
 					{
@@ -163,6 +176,18 @@ namespace MonoSAMFramework.Portable.Sound
 					else
 					{
 						MediaPlayer.Volume = (_fadeTime / _fadeIn);
+					}
+					break;
+				case MPState.TransitionInFromSame:
+					_fadeTime += gameTime.ElapsedSeconds;
+					if (_fadeTime > _fadeChange)
+					{
+						_state = MPState.Play;
+						MediaPlayer.Volume = 1f;
+					}
+					else
+					{
+						MediaPlayer.Volume = (_fadeTime / _fadeChange);
 					}
 					break;
 				default:
@@ -204,11 +229,21 @@ namespace MonoSAMFramework.Portable.Sound
 
 			if (_playIndex < _currentSet.Length)
 			{
-				MediaPlayer.Volume = 0;
-				MediaPlayer.Stop();
-				MediaPlayer.Play(_currentSet[_playIndex]);
-				_fadeTime = 0f;
-				_state = MPState.TransitionIn;
+				if (FloatMath.IsZero(_fadeChange))
+				{
+					MediaPlayer.Volume = 1;
+					MediaPlayer.Stop();
+					MediaPlayer.Play(_currentSet[_playIndex]);
+					_state = MPState.Play;
+				}
+				else
+				{
+					MediaPlayer.Volume = 0;
+					MediaPlayer.Stop();
+					MediaPlayer.Play(_currentSet[_playIndex]);
+					_fadeTime = 0f;
+					_state = MPState.TransitionInFromSame;
+				}
 			}
 			else
 			{
@@ -256,7 +291,9 @@ namespace MonoSAMFramework.Portable.Sound
 					return $"Play[{_playIndex} : {song}] ({perc:00.00}%) {add}";
 				case MPState.TransitionOut:
 					return $"TransitionOut[{song}] ({_fadeTime * 100f / _fadeOut:00.00}%) {add}";
-				case MPState.TransitionIn:
+				case MPState.TransitionInFromSame:
+					return $"TransitionIn[{song}] ({_fadeTime * 100f / _fadeChange:00.00}%) {add}";
+				case MPState.TransitionInFromNew:
 					return $"TransitionIn[{song}] ({_fadeTime * 100f / _fadeIn:00.00}%) {add}";
 				default:
 					throw new ArgumentOutOfRangeException();

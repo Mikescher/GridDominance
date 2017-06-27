@@ -23,12 +23,14 @@ namespace GridDominance.Shared.Resources
 		public static Dictionary<Guid, GraphBlueprint> WORLDS;
 		public static Dictionary<Guid, LevelBlueprint> LEVELS;
 		public static Dictionary<Guid, int> WORLD_NAMES;
+		public static Dictionary<Guid, int> WORLD_NUMBERS;
 
 		public static void LoadContent(ContentManager content)
 		{
-			LEVELS      = new Dictionary<Guid, LevelBlueprint>();
-			WORLDS      = new Dictionary<Guid, GraphBlueprint>();
-			WORLD_NAMES = new Dictionary<Guid, int>();
+			LEVELS        = new Dictionary<Guid, LevelBlueprint>();
+			WORLDS        = new Dictionary<Guid, GraphBlueprint>();
+			WORLD_NAMES   = new Dictionary<Guid, int>();
+			WORLD_NUMBERS = new Dictionary<Guid, int>();
 
 			LEVEL_DBG      = LoadLevel(content, "levels/lvl_debug");
 			LEVEL_TUTORIAL = LoadLevel(content, "levels/lvl_tutorial");
@@ -121,6 +123,11 @@ namespace GridDominance.Shared.Resources
 			WORLD_NAMES[WORLD_002.ID]            = L10NImpl.STR_WORLD_W2;
 			WORLD_NAMES[WORLD_003.ID]            = L10NImpl.STR_WORLD_W3;
 			WORLD_NAMES[WORLD_004.ID]            = L10NImpl.STR_WORLD_W4;
+
+			WORLD_NUMBERS[WORLD_001.ID] = 0;
+			WORLD_NUMBERS[WORLD_002.ID] = 1;
+			WORLD_NUMBERS[WORLD_003.ID] = 2;
+			WORLD_NUMBERS[WORLD_004.ID] = 3;
 
 #if DEBUG
 			Test();

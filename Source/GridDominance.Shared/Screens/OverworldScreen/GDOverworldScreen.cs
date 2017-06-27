@@ -121,5 +121,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		{
 
 		}
+
+		protected override void OnShow()
+		{
+			MainGame.Inst.GDSound.PlayMusicBackground();
+		}
 	}
 }

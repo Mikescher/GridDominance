@@ -10,6 +10,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_SSB_MUTE           = 03;
 		public const int STR_SSB_EFFECTS        = 04;
 		public const int STR_SSB_LANGUAGE       = 69;
+		public const int STR_SSB_MUSIC          = 111;
 
 		public const int STR_HSP_GLOBALRANKING  = 05;
 		public const int STR_HSP_RANKINGFOR     = 06;
@@ -135,7 +136,7 @@ namespace GridDominance.Shared.Resources
 		public const int INFOTOAST_3            = 106;
 		public const int INFOTOAST_4            = 107;
 
-		private const int TEXT_COUNT = 111; // = next idx
+		private const int TEXT_COUNT = 112; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -146,6 +147,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_SSB_HIGHSCORE,      "Highscore",                                                   "Bestenliste"                                                          );
 			L10N.Add(STR_SSB_MUTE,           "Mute",                                                        "Stumm"                                                                );
 			L10N.Add(STR_SSB_EFFECTS,        "Effects",                                                     "Effekte"                                                              );
+			L10N.Add(STR_SSB_MUSIC,          "Music",                                                       "Musik"                                                                );
 			L10N.Add(STR_HSP_GLOBALRANKING,  "Global Ranking",                                              "Globale Bestenliste"                                                  );
 			L10N.Add(STR_HSP_RANKINGFOR,     "Ranking for \"{0}\"",                                         "Bestenliste für \"{0}\""                                              );
 			L10N.Add(STR_TAB_NAME,           "Name",                                                        "Name"                                                                 );

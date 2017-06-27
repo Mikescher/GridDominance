@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Screens.OverworldScreen;
+using Microsoft.Xna.Framework.Media;
 using MonoSAMFramework.Portable.Extensions;
 
 namespace GridDominance.Shared.Screens
@@ -35,6 +36,7 @@ namespace GridDominance.Shared.Screens
 			debugDisp.AddLine(() => $"OGL Sprites = {scrn.LastReleaseRenderSpriteCount:0000} (+ {scrn.LastDebugRenderSpriteCount:0000}); OGL Text = {scrn.LastReleaseRenderTextCount:0000} (+ {scrn.LastDebugRenderTextCount:0000})");
 			debugDisp.AddLine(() => $"Map Offset = {scrn.MapOffset} (Map Center = {scrn.MapViewportCenter})");
 			debugDisp.AddLine(() => $"SamSound = [Effects]: {MainGame.Inst.GDSound.GetEffectsStringState()} | [Music]: {MainGame.Inst.GDSound.GetMusicStringState()}");
+			debugDisp.AddLine(() => $"Mediaplayer[{MediaPlayer.State}] = (Volume: {MediaPlayer.Volume:0.00}) ({MediaPlayer.PlayPosition.TotalSeconds:0}s) {{{string.Join(",", new[] { MediaPlayer.IsMuted ? "IsMuted" : "", MediaPlayer.GameHasControl ? "GameHasControl" : "", MediaPlayer.IsShuffled ? "IsShuffled" : "", MediaPlayer.IsVisualizationEnabled ? "IsVisualizationEnabled" : "IsRepeating", MediaPlayer.IsRepeating ? "" : "" }.Where(p => !string.IsNullOrWhiteSpace(p)))}}}");
 			if (gdg != null) debugDisp.AddLine(() => $"LevelTime = {gdg.LevelTime:000.000} (finished={gdg.HasFinished})");
 
 			if (scrn is GDWorldMapScreen) debugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD)scrn.HUD).SelectedNode?.Blueprint?.Name ?? "NULL"}; FocusedHUDElement = {scrn.HUD.FocusedElement}; ZoomState = {((GDWorldMapScreen)scrn).ZoomState}");

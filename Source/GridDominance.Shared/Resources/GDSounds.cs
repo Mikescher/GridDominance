@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Media;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Sound;
 
@@ -7,6 +8,12 @@ namespace GridDominance.Shared.Resources
 {
 	public class GDSounds : SAMSoundPlayer
 	{
+		private const float MUSIC_LEVEL_FADEIN = 1.0f;
+		private const float MUSIC_FADEOUT      = 0.5f;
+		private const float MUSIC_FADENEXT     = 0.0f;
+		
+		private const float MUSIC_BACKGROUND_FADEIN = 2.5f;
+
 		private SoundEffect effectButton;
 		private SoundEffect effectKeyboardClick;
 		private SoundEffect effectOpen;
@@ -23,6 +30,10 @@ namespace GridDominance.Shared.Resources
 		private SoundEffect effectReflect;
 		private SoundEffect effectLaser;
 
+		private Song music_background;
+		private Song music_tutorial;
+		private Song[] music_level;
+		
 		public override void Initialize(ContentManager content)
 		{
 			effectButton        = content.Load<SoundEffect>("sounds/button");
@@ -41,6 +52,15 @@ namespace GridDominance.Shared.Resources
 			effectReflect       = content.Load<SoundEffect>("sounds/reflect");
 			effectLaser         = content.Load<SoundEffect>("sounds/laser");
 
+			music_background = content.Load<Song>("music/spirit-forge");
+			music_tutorial = content.Load<Song>("music/macaron-island");
+			music_level = new[]
+			{
+				content.Load<Song>("music/spinning-gears"),
+				content.Load<Song>("music/cyber-factory"),
+				content.Load<Song>("music/tekno-labs"),
+				content.Load<Song>("music/mr-krabs"),
+			};
 
 			this.ButtonClickEffect         = effectButton;
 			this.ButtonKeyboardClickEffect = effectKeyboardClick;
@@ -60,5 +80,9 @@ namespace GridDominance.Shared.Resources
 		public void PlayEffectReflect()   => PlaySoundeffect(effectReflect);
 		
 		public SAMEffectWrapper GetEffectLaser(ILifetimeObject owner) => CreateEffect(owner, effectLaser);
+
+		public void PlayMusicTutorial() => PlaySong(music_tutorial, MUSIC_LEVEL_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT);
+		public void PlayMusicBackground() => PlaySong(music_background, MUSIC_BACKGROUND_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT, true, true);
+		public void PlayMusicLevel(int i) => PlaySong(music_level[i], MUSIC_LEVEL_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT, true, true);
 	}
 }

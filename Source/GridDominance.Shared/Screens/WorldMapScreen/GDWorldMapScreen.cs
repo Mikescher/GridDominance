@@ -208,5 +208,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			return Graph.InitialNode; // fallback
 		}
+
+		protected override void OnShow()
+		{
+			MainGame.Inst.GDSound.PlayMusicBackground();
+		}
 	}
 }

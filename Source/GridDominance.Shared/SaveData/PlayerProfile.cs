@@ -30,6 +30,7 @@ namespace GridDominance.Shared.SaveData
 
 		public bool SoundsEnabled;
 		public bool EffectsEnabled;
+		public bool MusicEnabled;
 
 		public bool SkipTutorial;
 
@@ -113,6 +114,8 @@ namespace GridDominance.Shared.SaveData
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "sounds",    o => o.SoundsEnabled,      (o, v) => o.SoundsEnabled      = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "effect",    o => o.EffectsEnabled,     (o, v) => o.EffectsEnabled     = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "lang",      o => o.Language,           (o, v) => o.Language = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "music",     o => o.MusicEnabled,       (o, v) => o.MusicEnabled = v);
+
 
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "skiptut",   o => o.SkipTutorial,       (o, v) => o.SkipTutorial       = v);
 

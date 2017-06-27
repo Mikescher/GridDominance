@@ -72,5 +72,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 					throw new ArgumentOutOfRangeException();
 			}
 		}
+
+		protected override void OnShow()
+		{
+			MainGame.Inst.GDSound.PlayMusicTutorial();
+		}
 	}
 }

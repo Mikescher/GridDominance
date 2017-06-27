@@ -17,10 +17,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
 	public abstract class SubSettingButton : HUDEllipseButton
 	{
-		private const float DIAMETER  = 96 * 0.8f;
-		private const float SIZE_ICON = 56 * 0.8f;
-		private const float MARGIN_X  = 0  * 0.8f;
-		private const float MARGIN_Y  = 6  * 0.8f;
+		private const float DIAMETER  =  96 * 0.8f;
+		private const float SIZE_ICON =  56 * 0.8f;
+		private const float MARGIN_Y  =  6  * 0.8f;
+		private const float DIST_Y    = -4  * 0.8f;
 
 		public override int Depth => 1;
 
@@ -84,7 +84,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			var py = master.RelativeCenter.Y + SettingsButton.DIAMETER / 2 - DIAMETER;
 
 			py += MARGIN_Y;
-			py += (position + 1) * (DIAMETER + MARGIN_X / 2) * OffsetProgress;
+			py += (position + 1) * (DIAMETER + DIST_Y) * OffsetProgress;
 
 			RelativePosition = new FPoint(px, py);
 
@@ -171,9 +171,23 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		}
 	}
 
+	class ButtonMusic : SubSettingButton
+	{
+		public ButtonMusic(SettingsButton master) : base(master, 4, 1f) { }
+
+		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.MusicEnabled ? Textures.TexHUDButtonIconMusicOn : Textures.TexHUDButtonIconMusicOff;
+		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_MUSIC);
+
+		protected override void OnPress(InputState istate)
+		{
+			MainGame.Inst.Profile.MusicEnabled = !MainGame.Inst.Profile.MusicEnabled;
+			MainGame.Inst.SaveProfile();
+		}
+	}
+
 	class ButtonEffects : SubSettingButton
 	{
-		public ButtonEffects(SettingsButton master) : base(master, 4, 1f) { }
+		public ButtonEffects(SettingsButton master) : base(master, 5, 1f) { }
 
 		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.EffectsEnabled ? Textures.TexHUDButtonIconEffectsOn : Textures.TexHUDButtonIconEffectsOff;
 		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_EFFECTS);
@@ -187,7 +201,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 	class ButtonLanguage : SubSettingButton
 	{
-		public ButtonLanguage(SettingsButton master) : base(master, 5, 0.85f) { }
+		public ButtonLanguage(SettingsButton master) : base(master, 6, 0.85f) { }
 
 		protected override TextureRegion2D GetIcon() => Textures.TexHUDFlags[FloatMath.IClamp(MainGame.Inst.Profile.Language, 0, L10N.LANG_COUNT)];
 		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_LANGUAGE);
