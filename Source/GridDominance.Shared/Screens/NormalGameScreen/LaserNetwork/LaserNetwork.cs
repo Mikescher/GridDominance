@@ -493,14 +493,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			LaserSource minSrc2 = null;
 			bool minTermOther = false;
 
-			// Direct (parallel) Collision 
 			
 			foreach (var src2 in Sources)
 			{
 				foreach (var ray2 in src2.Lasers)
 				{
 					if (src1 == src2 && ray1 == ray2) continue;
-					
+
+					// (Not only) Direct (parallel) Collision 
 					FPoint intersect;
 					float u;
 					if (RayParallality(ray1.Start, ray1.End, ray1.SourceDistance, ray2.Start, ray2.End, ray2.SourceDistance, src1 == src2, out intersect, out u))
@@ -524,6 +524,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 						}
 					}
 					
+					// Normal intersection collision
 					if (Math2D.LineIntersectionExt(ray1.Start, ray1.End, ray2.Start, ray2.End, -0.1f, out intersect, out u, out _))
 					{
 						if (u < minU)
@@ -639,51 +640,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		// test of rays hit each other
 		private bool RayParallality(FPoint v1s, FPoint v1e, float v1d, FPoint v2s, FPoint v2e, float v2d, bool reflTolerant, out FPoint intersect, out float u)
 		{
-			//var dsq = Math2D.SegmentSegmentDistanceSquared(v1s, v1e, v2s, v2e, out _);
-			//
-			//if (dsq > RAY_WIDTH*RAY_WIDTH) { intersect = FPoint.Zero; u = float.NaN; return false; }
 
 			var a1 = (v1e - v1s).ToAngle();
 			var a2 = (v2e - v2s).ToAngle();
-
-//			if (FloatMath.DiffRadiansAbs(a1, a2) < PARALLEL_ANGLE_EPSILON)
-//			{
-//				// same direction
-//
-//				var u1 = v2s.ProjectOntoLine(v1s, v1e);
-//				var u2 = v1s.ProjectOntoLine(v2s, v2e);
-//
-//				if (FloatMath.Abs(u1) < FloatMath.Abs(u2))
-//				{
-//					intersect = v2s;
-//					u = u1;
-//					return true;
-//				}
-//				else
-//				{
-//					intersect = v1s;
-//					u = 0;
-//					return true;
-//				}
-//			}
-//			else if (FloatMath.Abs(FloatMath.DiffModulo(a1, a2, FloatMath.RAD_POS_180)) < PARALLEL_ANGLE_EPSILON)
-//			{
-//				var pc = FPoint.MiddlePoint(v1s, v2s);
-//
-//				pc = pc + (v1s - v2s).WithLength((v1d - v2d)/2f);
-//
-//				var pcu1 = pc.ProjectOntoLine(v1s, v1e);
-//				if (pcu1 < 0) pc = v1s;
-//				if (pcu1 > 1) pc = v1e;
-//
-//				var pcu2 = pc.ProjectOntoLine(v2s, v2e);
-//				if (pcu2 < 0) pc = v2s;
-//				if (pcu2 > 1) pc = v2e;
-//
-//				intersect = pc;
-//				u = pc.ProjectOntoLine(v1s, v1e);
-//				return true;
-//			}
 
 			var maxAngle = reflTolerant ? FloatMath.RAD_POS_004 : FloatMath.RAD_POS_090;
 
@@ -770,7 +729,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					if (pcu2 > u2e) pc = v2re;
 
 					intersect = pc;
-					u = pc.ProjectOntoLine(v1rs, v1re);
+					u = pc.ProjectOntoLine(v1s, v1e);
 					return true;
 				}
 				else if (distEnd < RAY_WIDTH * RAY_WIDTH)
@@ -803,7 +762,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					if (pcu2 > u2e) pc = v2re;
 
 					intersect = pc;
-					u = pc.ProjectOntoLine(v1rs, v1re);
+					u = pc.ProjectOntoLine(v1s, v1e);
 					return true;
 				}
 			}
