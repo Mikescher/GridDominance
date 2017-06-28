@@ -181,6 +181,14 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 			return lineStart + (lineEnd - lineStart) * u;
 		}
+		
+		[Pure]
+		public FPoint ProjectPointOntoLineSegment(FPoint lineStart, FPoint lineEnd)
+		{
+			float u = FloatMath.Clamp(ProjectOntoLine(lineStart, lineEnd), 0f, 1f);
+
+			return lineStart + (lineEnd - lineStart) * u;
+		}
 
 		/// <summary>
 		///https://stackoverflow.com/a/6177788/1761622

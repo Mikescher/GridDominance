@@ -507,8 +507,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					{
 						if (u < minU)
 						{
-							var pp1 = intersect.ProjectPointOntoLine(ray1.Start, ray1.End);
-							var pp2 = intersect.ProjectPointOntoLine(ray2.Start, ray2.End);
+							var pp1 = intersect.ProjectPointOntoLineSegment(ray1.Start, ray1.End);
+							var pp2 = intersect.ProjectPointOntoLineSegment(ray2.Start, ray2.End);
 
 							if ((pp1 - pp2).LengthSquared() < RAY_WIDTH * RAY_WIDTH)
 							{
@@ -529,14 +529,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					{
 						if (u < minU)
 						{
-							var pp1 = intersect.ProjectPointOntoLine(ray1.Start, ray1.End);
-							var pp2 = intersect.ProjectPointOntoLine(ray2.Start, ray2.End);
+							var pp1 = intersect.ProjectPointOntoLineSegment(ray1.Start, ray1.End);
+							var pp2 = intersect.ProjectPointOntoLineSegment(ray2.Start, ray2.End);
 
 							if ((pp1 - pp2).LengthSquared() < RAY_WIDTH * RAY_WIDTH)
 							{
 								minU = u;
-								minP1 = intersect.ProjectPointOntoLine(ray1.Start, ray1.End);
-								minP2 = intersect.ProjectPointOntoLine(ray2.Start, ray2.End);
+								minP1 = pp1;
+								minP2 = pp2;
 								minRay2 = ray2;
 								minSrc2 = src2;
 								minTermOther = true;
