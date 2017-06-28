@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using GridDominance.Levelfileformat.Blueprint;
+﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
@@ -11,13 +9,9 @@ using GridDominance.Shared.Screens.NormalGameScreen.EntityOperations;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Sound;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
@@ -224,17 +218,28 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					
 					if (!LaserSource.LaserPowered) continue;
 
-					ray.TargetCannon.ApplyLaserBoost(this, Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_BOOST_PER_SECOND);
+					ray.TargetCannon.ApplyLaserBoost(this, Fraction.LaserMultiplicator * Scale * gameTime.ElapsedSeconds * LASER_BOOST_PER_SECOND);
 				}
 				else
 				{
-					var dmg = Fraction.Multiplicator * Scale * gameTime.ElapsedSeconds * LASER_DAMAGE_PER_SECOND;
+					var dmg = Fraction.LaserMultiplicator * Scale * gameTime.ElapsedSeconds * LASER_DAMAGE_PER_SECOND;
 
 					if (!LaserSource.LaserPowered || ray.Terminator != LaserRayTerminator.Target) dmg = 0;
 					
 					ray.TargetCannon.TakeLaserDamage(Fraction, ray, dmg);
 				}
 				
+			}
+		}
+		
+		public override void ApplyBoost()
+		{
+			if (Fraction.IsNeutral) return;
+
+			CannonHealth.Inc(HEALTH_HIT_GEN);
+			if (CannonHealth.Limit(0f, 1f) == 1)
+			{
+				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.LaserMultiplicator)));
 			}
 		}
 

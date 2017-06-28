@@ -135,7 +135,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		}
 
 		protected const float STANDARD_UPDATE_TIME = 1.666f;
-		protected const float LASER_UPDATE_TIME    = 0.800f;
+		protected const float LASER_UPDATE_TIME    = 0.400f;
 		protected const float NEUTRAL_UPDATE_TIME  = 0.111f;
 		protected const float MIN_LASER_ROT        = FloatMath.RAD_POS_002;
 
@@ -290,7 +290,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			foreach (var ray in ((LaserCannon)Cannon).LaserSource.Lasers)
 			{
-				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction != Cannon.Fraction && ray.TargetCannon.CannonHealth.TargetValue < 0.8f)
+				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction != Cannon.Fraction && ray.TargetCannon.CannonHealth.TargetValue < 0.85f)
 				{
 					return Cannon.Rotation.TargetValue;
 				}
@@ -302,7 +302,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			foreach (var ray in ((LaserCannon)Cannon).LaserSource.Lasers)
 			{
-				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction == Cannon.Fraction && ray.TargetCannon.CannonHealth.TargetValue < 0.5f)
+				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction == Cannon.Fraction && ray.TargetCannon.CannonHealth.TargetValue < 0.90f)
 				{
 					return Cannon.Rotation.TargetValue;
 				}

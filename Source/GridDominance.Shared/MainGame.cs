@@ -160,9 +160,9 @@ namespace GridDominance.Shared
 			SetCurrentScreen(new GDWorldMapScreen(this, Graphics, g, focus));
 		}
 
-		public void SetWorldMapScreenZoomedOut(GraphBlueprint g)
+		public void SetWorldMapScreenZoomedOut(GraphBlueprint g, LevelBlueprint initFocus = null)
 		{
-			var screen = new GDWorldMapScreen(this, Graphics, g, null);
+			var screen = new GDWorldMapScreen(this, Graphics, g, initFocus?.UniqueID);
 			SetCurrentScreen(screen);
 //			screen.ZoomInstantOut();
 			screen.ZoomOut();

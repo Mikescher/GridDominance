@@ -26,42 +26,77 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 
 	public static class FractionDifficultyHelper
 	{
-		public const float MULTIPLICATOR_PLAYER     = GDConstants.MULTIPLICATOR_PLAYER;
-		public const float MULTIPLICATOR_NEUTRAL    = GDConstants.MULTIPLICATOR_NEUTRAL;
-		public const float MULTIPLICATOR_COMPUTER_0 = GDConstants.MULTIPLICATOR_COMPUTER_0;
-		public const float MULTIPLICATOR_COMPUTER_1 = GDConstants.MULTIPLICATOR_COMPUTER_1;
-		public const float MULTIPLICATOR_COMPUTER_2 = GDConstants.MULTIPLICATOR_COMPUTER_2;
-		public const float MULTIPLICATOR_COMPUTER_3 = GDConstants.MULTIPLICATOR_COMPUTER_3;
+		public const float MULTIPLICATOR_B_PLAYER     = GDConstants.MULTIPLICATOR_BULLET_PLAYER;
+		public const float MULTIPLICATOR_B_NEUTRAL    = GDConstants.MULTIPLICATOR_BULLET_NEUTRAL;
+		public const float MULTIPLICATOR_B_COMPUTER_0 = GDConstants.MULTIPLICATOR_BULLET_COMPUTER_0;
+		public const float MULTIPLICATOR_B_COMPUTER_1 = GDConstants.MULTIPLICATOR_BULLET_COMPUTER_1;
+		public const float MULTIPLICATOR_B_COMPUTER_2 = GDConstants.MULTIPLICATOR_BULLET_COMPUTER_2;
+		public const float MULTIPLICATOR_B_COMPUTER_3 = GDConstants.MULTIPLICATOR_BULLET_COMPUTER_3;
+
+		public const float MULTIPLICATOR_L_PLAYER     = GDConstants.MULTIPLICATOR_LASER_PLAYER;
+		public const float MULTIPLICATOR_L_NEUTRAL    = GDConstants.MULTIPLICATOR_LASER_NEUTRAL;
+		public const float MULTIPLICATOR_L_COMPUTER_0 = GDConstants.MULTIPLICATOR_LASER_COMPUTER_0;
+		public const float MULTIPLICATOR_L_COMPUTER_1 = GDConstants.MULTIPLICATOR_LASER_COMPUTER_1;
+		public const float MULTIPLICATOR_L_COMPUTER_2 = GDConstants.MULTIPLICATOR_LASER_COMPUTER_2;
+		public const float MULTIPLICATOR_L_COMPUTER_3 = GDConstants.MULTIPLICATOR_LASER_COMPUTER_3;
 
 		private const int SCORE_DIFF_0 = GDConstants.SCORE_DIFF_0;
 		private const int SCORE_DIFF_1 = GDConstants.SCORE_DIFF_1;
 		private const int SCORE_DIFF_2 = GDConstants.SCORE_DIFF_2;
 		private const int SCORE_DIFF_3 = GDConstants.SCORE_DIFF_3;
 
-		public static float GetMultiplicator(FractionDifficulty d)
+		public static float GetBulletMultiplicator(FractionDifficulty d)
 		{
 			switch (d)
 			{
 				case FractionDifficulty.PLAYER:
-					return MULTIPLICATOR_PLAYER;
+					return MULTIPLICATOR_B_PLAYER;
 
 				case FractionDifficulty.NEUTRAL:
-					return MULTIPLICATOR_NEUTRAL;
+					return MULTIPLICATOR_B_NEUTRAL;
 
 				case FractionDifficulty.KI_EASY:
-					return MULTIPLICATOR_COMPUTER_0;
+					return MULTIPLICATOR_B_COMPUTER_0;
 
 				case FractionDifficulty.KI_NORMAL:
-					return MULTIPLICATOR_COMPUTER_1;
+					return MULTIPLICATOR_B_COMPUTER_1;
 
 				case FractionDifficulty.KI_HARD:
-					return MULTIPLICATOR_COMPUTER_2;
+					return MULTIPLICATOR_B_COMPUTER_2;
 
 				case FractionDifficulty.KI_IMPOSSIBLE:
-					return MULTIPLICATOR_COMPUTER_3;
+					return MULTIPLICATOR_B_COMPUTER_3;
 
 				default:
-					SAMLog.Error("EnumSwitch", "GetScore()", "FractionDifficultyHelper.GetMultiplicator -> " + d);
+					SAMLog.Error("EnumSwitch", "GetBulletMultiplicator()", "FractionDifficultyHelper.GetMultiplicator -> " + d);
+					throw new ArgumentOutOfRangeException(nameof(d), d, null);
+			}
+		}
+
+		public static float GetLaserMultiplicator(FractionDifficulty d)
+		{
+			switch (d)
+			{
+				case FractionDifficulty.PLAYER:
+					return MULTIPLICATOR_L_PLAYER;
+
+				case FractionDifficulty.NEUTRAL:
+					return MULTIPLICATOR_L_NEUTRAL;
+
+				case FractionDifficulty.KI_EASY:
+					return MULTIPLICATOR_L_COMPUTER_0;
+
+				case FractionDifficulty.KI_NORMAL:
+					return MULTIPLICATOR_L_COMPUTER_1;
+
+				case FractionDifficulty.KI_HARD:
+					return MULTIPLICATOR_L_COMPUTER_2;
+
+				case FractionDifficulty.KI_IMPOSSIBLE:
+					return MULTIPLICATOR_L_COMPUTER_3;
+
+				default:
+					SAMLog.Error("EnumSwitch", "GetBulletMultiplicator()", "FractionDifficultyHelper.GetMultiplicator -> " + d);
 					throw new ArgumentOutOfRangeException(nameof(d), d, null);
 			}
 		}

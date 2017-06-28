@@ -56,8 +56,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float HEALTH_HIT_DROP = 0.27f; // on Hit
 		protected const float HEALTH_HIT_GEN  = 0.27f; // on Hit from own fraction
 		protected const float LASER_BOOSTER_LIFETIME = 0.1f;
+		protected const float MIN_REGEN_HEALTH = 0.05f;
 
-		protected const float LASER_CHARGE_COOLDOWN   = 0.8f; // should be more than KI freq
+		protected const float LASER_CHARGE_COOLDOWN   = 0.4f; // should be more than KI freq
 		protected const float LASER_DAMAGE_PER_SECOND = 0.20f;
 		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
 
@@ -181,7 +182,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			CannonHealth.Update(gameTime);
 
-			if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > 0)
+			if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > MIN_REGEN_HEALTH)
 			{
 				var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
 
@@ -301,16 +302,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public abstract void ResetChargeAndBooster();
 
-		public void ApplyBoost()
-		{
-			if (Fraction.IsNeutral) return;
-
-			CannonHealth.Inc(HEALTH_HIT_GEN);
-			if (CannonHealth.Limit(0f, 1f) == 1)
-			{
-				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1/(BOOSTER_LIFETIME_MULTIPLIER * Fraction.Multiplicator)));
-			}
-		}
+		public abstract void ApplyBoost();
 
 		public void TakeDamage(Fraction source, float sourceScale)
 		{
@@ -384,6 +376,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				if (dmg > 0f)
 				{
+					_attackingRaysCollector.Add(ray);
+					
 					SetFraction(source);
 					CannonHealth.Set(dmg / Scale);
 					CannonHealth.Limit(0f, 1f);

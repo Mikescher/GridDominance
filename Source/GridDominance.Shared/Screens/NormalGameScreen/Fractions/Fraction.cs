@@ -20,7 +20,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 
 
 		private readonly Fraction neutralFraction;
-		public readonly float Multiplicator;
+		public readonly float BulletMultiplicator;
+		public readonly float LaserMultiplicator;
 
 		public readonly Color Color;
 		public readonly Color BackgroundColor;
@@ -34,29 +35,48 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 		public bool IsPlayer   => (Type == FractionType.PlayerFraction);
 		public bool IsComputer => (Type == FractionType.ComputerFraction);
 
-		private Fraction(Color c, Fraction nfrac, FractionType type, float mult, FractionDifficulty diff)
+		private Fraction(Color c, Fraction nfrac, FractionType type, float multBullet, float multLaser, FractionDifficulty diff)
 		{
 			Color = c;
 			Type = type;
 			Difficulty = diff;
 			neutralFraction = (Type == FractionType.NeutralFraction) ? this : nfrac;
-			Multiplicator = mult;
+			BulletMultiplicator = multBullet;
+			LaserMultiplicator = multLaser;
 			BackgroundColor = IsNeutral ? Color.Magenta : ColorMath.Blend(FlatColors.Background, c, 0.25f);
 		}
 		
 		public static Fraction CreatePlayerFraction(Fraction neutral)
 		{
-			return new Fraction(COLOR_PLAYER, neutral, FractionType.PlayerFraction, FractionDifficultyHelper.MULTIPLICATOR_PLAYER, FractionDifficulty.PLAYER);
+			return new Fraction(
+				COLOR_PLAYER, 
+				neutral, 
+				FractionType.PlayerFraction, 
+				FractionDifficultyHelper.MULTIPLICATOR_B_PLAYER, 
+				FractionDifficultyHelper.MULTIPLICATOR_L_PLAYER, 
+				FractionDifficulty.PLAYER);
 		}
 
 		public static Fraction CreateComputerFraction(Color c, Fraction neutral, FractionDifficulty diff)
 		{
-			return new Fraction(c, neutral, FractionType.ComputerFraction, FractionDifficultyHelper.GetMultiplicator(diff), diff);
+			return new Fraction(
+				c, 
+				neutral, 
+				FractionType.ComputerFraction, 
+				FractionDifficultyHelper.GetBulletMultiplicator(diff), 
+				FractionDifficultyHelper.GetLaserMultiplicator(diff), 
+				diff);
 		}
 
 		public static Fraction CreateNeutralFraction()
 		{
-			return new Fraction(COLOR_NEUTRAL, null, FractionType.NeutralFraction, FractionDifficultyHelper.MULTIPLICATOR_NEUTRAL, FractionDifficulty.NEUTRAL);
+			return new Fraction(
+				COLOR_NEUTRAL,
+				null, 
+				FractionType.NeutralFraction, 
+				FractionDifficultyHelper.MULTIPLICATOR_B_NEUTRAL, 
+				FractionDifficultyHelper.MULTIPLICATOR_L_NEUTRAL,
+				FractionDifficulty.NEUTRAL);
 		}
 
 		public Fraction GetNeutral()

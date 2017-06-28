@@ -56,13 +56,20 @@ namespace GridDominance.Shared.Resources
 		public const int ORDER_WORLD_NODE = 100;
 		public const int ORDER_WORLD_LOGO = 200;
 
+		
+		public const float MULTIPLICATOR_BULLET_PLAYER     = 1.000f;
+		public const float MULTIPLICATOR_BULLET_NEUTRAL    = 0.600f;
+		public const float MULTIPLICATOR_BULLET_COMPUTER_0 = 0.800f;  // Easy
+		public const float MULTIPLICATOR_BULLET_COMPUTER_1 = 0.875f;  // Normal
+		public const float MULTIPLICATOR_BULLET_COMPUTER_2 = 0.950f;  // Hard
+		public const float MULTIPLICATOR_BULLET_COMPUTER_3 = 1.000f;  // Impossible
 
-		public const float MULTIPLICATOR_PLAYER     = 1.000f;
-		public const float MULTIPLICATOR_NEUTRAL    = 0.600f;
-		public const float MULTIPLICATOR_COMPUTER_0 = 0.800f;  // Easy
-		public const float MULTIPLICATOR_COMPUTER_1 = 0.875f;  // Normal
-		public const float MULTIPLICATOR_COMPUTER_2 = 0.950f;  // Hard
-		public const float MULTIPLICATOR_COMPUTER_3 = 1.000f;  // Impossible
+		public const float MULTIPLICATOR_LASER_PLAYER      = 1.000f;
+		public const float MULTIPLICATOR_LASER_NEUTRAL     = 0.300f;
+		public const float MULTIPLICATOR_LASER_COMPUTER_0  = 0.500f;  // Easy
+		public const float MULTIPLICATOR_LASER_COMPUTER_1  = 0.650f;  // Normal
+		public const float MULTIPLICATOR_LASER_COMPUTER_2  = 0.800f;  // Hard
+		public const float MULTIPLICATOR_LASER_COMPUTER_3  = 1.000f;  // Impossible
 
 		public const int SCORE_DIFF_0 = 11; // also specified in SQL (server)
 		public const int SCORE_DIFF_1 = 13;

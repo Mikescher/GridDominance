@@ -78,7 +78,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral) && controller.DoBarrelRecharge())
 			{
-				float chargeDelta = BARREL_CHARGE_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds;
+				float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
 				if (Scale > 2.5f) chargeDelta /= Scale;
 
 				BarrelCharge += chargeDelta;
@@ -93,7 +93,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			if (barrelRecoil < 1)
 			{
-				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds, 1f);
+				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds, 1f);
 			}
 		}
 		
@@ -101,7 +101,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			if (CannonHealth.ActualValue >= 1 || (CannonHealth.ActualValue <= 0 && Fraction.IsNeutral))
 			{
-				var rotInc = BASE_COG_ROTATION_SPEED * Fraction.Multiplicator * RealBoost * gameTime.ElapsedSeconds;
+				var rotInc = BASE_COG_ROTATION_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
 
 				cannonCogRotation = (cannonCogRotation + rotInc) % (FloatMath.PI / 2);
 			}
@@ -109,7 +109,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				if (FloatMath.FloatInequals(cannonCogRotation, FloatMath.PI / 2))
 				{
-					var rotInc = BASE_COG_ROTATION_SPEED * Fraction.GetNeutral().Multiplicator * RealBoost * gameTime.ElapsedSeconds;
+					var rotInc = BASE_COG_ROTATION_SPEED * Fraction.GetNeutral().BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
 
 					bool isLimited;
 					cannonCogRotation = FloatMath.LimitedInc(cannonCogRotation, rotInc, FloatMath.PI / 2, out isLimited);
@@ -279,6 +279,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override void ForceResetBarrelCharge()
 		{
 			BarrelCharge = 0f;
+		}
+
+		public override void ApplyBoost()
+		{
+			if (Fraction.IsNeutral) return;
+
+			CannonHealth.Inc(HEALTH_HIT_GEN);
+			if (CannonHealth.Limit(0f, 1f) == 1)
+			{
+				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.BulletMultiplicator)));
+			}
 		}
 
 		#endregion
