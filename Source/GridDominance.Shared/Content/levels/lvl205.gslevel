@@ -10,22 +10,22 @@ mirrorwall_v([8,5], 6)
 mirrorwall([8,1], [8,-5])
 mirrorwall([8,9], [8,15])
 
-Cannon(SIZE_SMALL, P1, [2, 1.5], ROT_S)
-Cannon(SIZE_TINY,  N0, [4, 1.5], ROT_S)
-Cannon(SIZE_SMALL, P1, [6, 1.5], ROT_S)
+Laser(SIZE_SMALL, P1, [2, 1.5], ROT_E)
+Laser(SIZE_TINY,  N0, [4, 1.5], ROT_S)
+Laser(SIZE_SMALL, P1, [6, 1.5], ROT_W)
 
-Laser(SIZE_SMALL, A3, [2, 8.5], ROT_N)
-Laser(SIZE_SMALL, A3, [6, 8.5], ROT_N)
-
+Cannon(SIZE_SMALL, A3, [2, 8.5], ROT_N)
+Cannon(SIZE_SMALL, A3, [6, 8.5], ROT_N)
 
 
 
 Cannon(SIZE_SMALL, P1, [10, 8.5], ROT_N)
-Cannon(SIZE_TINY,  N0, [12, 8.5], ROT_N)
 Cannon(SIZE_SMALL, P1, [14, 8.5], ROT_N)
 
-Laser(SIZE_SMALL, A3, [10, 1.5], ROT_N)
-Laser(SIZE_SMALL, A3, [14, 1.5], ROT_N)
+Laser(SIZE_SMALL, A3, [10, 1.5], ROT_E)
+Laser(SIZE_TINY,  N0, [12, 1.5], ROT_S)
+Laser(SIZE_SMALL, A3, [14, 1.5], ROT_W)
+
 
 #<map>
 #
@@ -34,7 +34,7 @@ Laser(SIZE_SMALL, A3, [14, 1.5], ROT_N)
 #                           N                 
 #        0 #                N                #
 #              / \     / \     / \     / \    
-#        1 #    O  <O>  O       +       +    #
+#        1 #    +  <+>  +       +  <+>  +    #
 #              \ /     \ /     \ /     \ /    
 #        2 #                N                #
 #                           N                 
@@ -48,7 +48,7 @@ Laser(SIZE_SMALL, A3, [14, 1.5], ROT_N)
 #                           N                 
 #        7 #                N                #
 #              / \     / \     / \     / \    
-#        8 #    +       +       O  <O>  O    #
+#        8 #    O       O       O       O    #
 #              \ /     \ /     \ /     \ /    
 #        9 #                N                #
 #                           N                 
