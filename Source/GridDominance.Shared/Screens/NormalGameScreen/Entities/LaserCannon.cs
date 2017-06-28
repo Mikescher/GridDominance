@@ -218,11 +218,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					
 					if (!LaserSource.LaserPowered) continue;
 
-					ray.TargetCannon.ApplyLaserBoost(this, Fraction.LaserMultiplicator * Scale * gameTime.ElapsedSeconds * LASER_BOOST_PER_SECOND);
+					ray.TargetCannon.ApplyLaserBoost(this, Fraction.LaserMultiplicator * gameTime.ElapsedSeconds * LASER_BOOST_PER_SECOND);
 				}
 				else
 				{
-					var dmg = Fraction.LaserMultiplicator * Scale * gameTime.ElapsedSeconds * LASER_DAMAGE_PER_SECOND;
+					var dmg = Fraction.LaserMultiplicator * gameTime.ElapsedSeconds * LASER_DAMAGE_PER_SECOND;
 
 					if (!LaserSource.LaserPowered || ray.Terminator != LaserRayTerminator.Target) dmg = 0;
 					
