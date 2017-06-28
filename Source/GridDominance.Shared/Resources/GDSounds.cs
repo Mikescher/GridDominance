@@ -62,8 +62,8 @@ namespace GridDominance.Shared.Resources
 				content.Load<Song>("music/mr-krabs"),
 			};
 
-			this.ButtonClickEffect         = effectButton;
-			this.ButtonKeyboardClickEffect = effectKeyboardClick;
+			ButtonClickEffect         = effectButton;
+			ButtonKeyboardClickEffect = effectKeyboardClick;
 		}
 
 		public void PlayEffectOpen()      => PlaySoundeffect(effectOpen);
