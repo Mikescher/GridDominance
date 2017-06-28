@@ -29,6 +29,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			Fraction = fraction;
 			Owner = owner;
 
+			if (fraction.IsPlayer) timeSinceLastUpdate = 0f;
+
 			innerBoundings = new FCircle(Cannon.Position, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
 		}
 
