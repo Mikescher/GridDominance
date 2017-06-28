@@ -29,7 +29,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly int coreImage;
 		private readonly float coreRotation;
 		private float chargeTime = 0f;
-
+		private float laserPowerDistanceValue = 0f; // neg is better, 0 is max
+		
 		private readonly SAMEffectWrapper _soundeffect;
 		
 		public LaserCannon(GDGameScreen scrn, LaserCannonBlueprint bp, Fraction[] fractions) : 
@@ -135,7 +136,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			controller.Update(gameTime, istate);
 
 			bool change = Rotation.CUpdate(gameTime);
-			if (change) {_screen.LaserNetwork.SemiDirty = true; chargeTime = 0; }
+			if (change) {_screen.LaserNetwork.SemiDirty = true; chargeTime = 0; laserPowerDistanceValue = 0f; }
 
 			CrosshairSize.Update(gameTime);
 
@@ -146,6 +147,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			UpdateCore(gameTime);
 			UpdateDamage(gameTime);
 
+			_attLaserFriends = 0;
+			_attLaserEnemy = 0;
+			
 #if DEBUG
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
 			{
@@ -177,14 +181,25 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			chargeTime += gameTime.ElapsedSeconds;
 
-			if (CannonHealth.ActualValue < 1) chargeTime = 0;
+			if (CannonHealth.ActualValue < 1) { chargeTime = 0; laserPowerDistanceValue = 0f; }
 		}
 
 		private void UpdateNetwork(SAMTime gameTime)
 		{
 			bool active = CannonHealth.TargetValue >= 1 && controller.DoBarrelRecharge();
 
-			LaserSource.SetState(active, Fraction, Rotation.ActualValue, chargeTime > LASER_CHARGE_COOLDOWN);
+			if (!LaserSource.LaserPowered || _attLaserFriends == 0 && _attLaserEnemy == 0)
+			{
+				laserPowerDistanceValue += gameTime.ElapsedSeconds * LASER_BOOSTDIST_DECAY_PER_SECOND;
+			}
+			else
+			{
+				laserPowerDistanceValue -= (_attLaserFriends - _attLaserEnemy) * gameTime.ElapsedSeconds * LASER_BOOSTDIST_PER_SECOND;
+			}
+			if (laserPowerDistanceValue > 0) laserPowerDistanceValue = 0;
+			
+			LaserSource.SetState(active, Fraction, Rotation.ActualValue, laserPowerDistanceValue, chargeTime > LASER_CHARGE_COOLDOWN);
+
 
 			if (MainGame.Inst.Profile.EffectsEnabled)
 			{

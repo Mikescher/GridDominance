@@ -61,6 +61,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float LASER_CHARGE_COOLDOWN   = 0.4f; // should be more than KI freq
 		protected const float LASER_DAMAGE_PER_SECOND = 0.20f;
 		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
+		protected const float LASER_BOOSTDIST_PER_SECOND       = 48f;
+		protected const float LASER_BOOSTDIST_DECAY_PER_SECOND = 96f;
 
 		protected const float CROSSHAIR_TRANSPARENCY = 0.5f;
 		protected const float CROSSHAIR_GROW_SPEED = 3f;
@@ -92,6 +94,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public Fixture PhysicsFixtureBase;
 		public Fixture PhysicsFixtureBarrel;
 
+		protected int _attLaserFriends = 0;
+		protected int _attLaserEnemy = 0;
+		
 		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, int cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
 			Fraction = fractions[player];
@@ -309,7 +314,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 #if DEBUG
 			if (DebugSettings.Get("ImmortalCannons")) return;
 #endif
-
 			if (source.IsNeutral)
 			{
 				ResetChargeAndBooster();
@@ -344,6 +348,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			if (Fraction.IsNeutral) return;
 
+			if (pwr > 0) _attLaserFriends++;
+
 			CannonHealth.Inc(pwr);
 			if (CannonHealth.Limit(0f, 1f) == 1)
 			{
@@ -364,6 +370,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 #if DEBUG
 			if (DebugSettings.Get("ImmortalCannons")) { _attackingRaysCollector.Add(ray); return;}
 #endif
+
+			if (dmg > 0) _attLaserEnemy++;
 
 			if (source.IsNeutral)
 			{

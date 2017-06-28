@@ -14,6 +14,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public bool LaserPowered;   // CanDamage
 		public Fraction LaserFraction;
 		public float LaserRotation;
+		public float StartDistance;
 		public readonly Cannon UserData;
 
 		public readonly List<LaserRay> Lasers = new List<LaserRay>(LaserNetwork.MAX_LASER_PER_SOURCE);
@@ -30,15 +31,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			LaserFraction = fracNeutral;
 			LaserRotation = 0f;
 			UserData = userData;
+			StartDistance = 0f;
 		}
 
-		public void SetState(bool active, Fraction fraction, float rotation, bool powered)
+		public void SetState(bool active, Fraction fraction, float rotation, float startDist, bool powered)
 		{
-			if (active   != LaserActive)   { LaserActive   = active;   Owner.Dirty = true; }
-			if (rotation != LaserRotation) { LaserRotation = rotation; Owner.Dirty = true; }
+			// ReSharper disable CompareOfFloatsByEqualityOperator
+			if (active    != LaserActive)   { LaserActive   = active;    Owner.Dirty = true; }
+			if (rotation  != LaserRotation) { LaserRotation = rotation;  Owner.Dirty = true; }
+			if (startDist != StartDistance) { StartDistance = startDist; Owner.Dirty = true; }
 
 			LaserPowered = powered;
 			LaserFraction = fraction;
+			// ReSharper restore CompareOfFloatsByEqualityOperator
 		}
 	}
 }

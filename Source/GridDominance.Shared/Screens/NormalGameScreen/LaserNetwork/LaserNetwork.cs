@@ -123,7 +123,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			FPoint istart = src.Position;
 			FPoint iend   = src.Position + new Vector2(_rayLength, 0).Rotate(src.LaserRotation);
 
-			RecalcFromRay(src, istart, iend, 0, false, src.UserData, null, 0, false);
+			RecalcFromRay(src, istart, iend, 0, false, src.UserData, null, src.StartDistance, false);
 		}
 
 		private void RecalcFromRay(LaserSource src, FPoint istart, FPoint iend, int idepth, bool iinglass, object iignore, LaserRay isrc, float idist, bool nofault)

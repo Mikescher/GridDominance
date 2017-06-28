@@ -53,6 +53,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			UpdateCog(gameTime);
 			UpdateBarrel(gameTime);
 
+			_attLaserFriends = 0;
+			_attLaserEnemy = 0;
+			
 #if DEBUG
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
 			{
