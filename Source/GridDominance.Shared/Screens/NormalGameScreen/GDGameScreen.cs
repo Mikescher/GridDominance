@@ -395,7 +395,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 #endif
 		}
 
-		private void UpdateGameSpeed()
+		public void UpdateGameSpeed()
 		{
 			if (IsPaused)
 			{

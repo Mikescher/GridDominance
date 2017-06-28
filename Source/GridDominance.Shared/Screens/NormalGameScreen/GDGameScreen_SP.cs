@@ -26,7 +26,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void RestartLevel()
 		{
-			GDOwner.SetLevelScreen(Blueprint, Difficulty, WorldBlueprint);
+			GDOwner.SetLevelScreen(Blueprint, Difficulty, WorldBlueprint, GameSpeedMode);
 		}
 
 		public override void ReplayLevel(FractionDifficulty diff)
