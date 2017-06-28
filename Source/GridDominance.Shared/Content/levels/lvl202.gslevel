@@ -7,7 +7,7 @@ init("3-2", "Reflections II", {b16b00b5-0001-4000-0000-000003000002}, KI_PRECALC
 Laser(SIZE_SMALL, P1, [ 2,  5], ROT_E)
 
 Laser(SIZE_SMALL, N0, [ 8,  1], ROT_SW)
-Laser(SIZE_SMALL, N0, [ 8,  5], ROT_N)
+Laser(SIZE_BIG, N0, [ 8,  5], ROT_N)
 Laser(SIZE_SMALL, N0, [ 8,  9], ROT_NE)
 
 Laser(SIZE_SMALL, A3, [14,  5], ROT_W)
@@ -15,8 +15,11 @@ Laser(SIZE_SMALL, A3, [14,  5], ROT_W)
 VoidCircle([5,  3], SIZE_SMALL)
 VoidCircle([11, 7], SIZE_SMALL)
 
+Laser(SIZE_TINY, N0, [13, 1])
 MirrorCircle([11, 3], SIZE_SMALL)
+
 MirrorCircle([5,  7], SIZE_SMALL)
+Laser(SIZE_TINY, N0, [3,  9])
 
 #<map>
 #
@@ -24,7 +27,7 @@ MirrorCircle([5,  7], SIZE_SMALL)
 #          # # # # # # # # # # # # # # # # # #
 #                                             
 #        0 #                                 #
-#                          <+>                
+#                          <+>       <+>      
 #        1 #                                 #
 #                                             
 #        2 #                                 #
@@ -40,7 +43,7 @@ MirrorCircle([5,  7], SIZE_SMALL)
 #        7 #                                 #
 #                                             
 #        8 #                                 #
-#                          <+>                
+#                <+>       <+>                
 #        9 #                                 #
 #                                             
 #          # # # # # # # # # # # # # # # # # #
