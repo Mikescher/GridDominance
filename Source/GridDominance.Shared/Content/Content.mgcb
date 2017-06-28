@@ -68,66 +68,6 @@
 /processor:GDLevelProcessor
 /build:levels/lvl002.gslevel
 
-#begin sounds/button.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/button.mp3
-
-#begin sounds/click.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/click.mp3
-
-#begin sounds/open.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/open.mp3
-
-#begin sounds/shoot.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/shoot.mp3
-
-#begin sounds/close.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/close.mp3
-
-#begin sounds/collision.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/collision.mp3
-
-#begin sounds/hit.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/hit.mp3
-
-#begin sounds/boost.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/boost.mp3
-
-#begin sounds/gameover.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/gameover.mp3
-
-#begin sounds/gamewon.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/gamewon.mp3
-
 #begin levels/world_1.gsgraph
 /importer:GDWorldGraphImporter
 /processor:GDWorldGraphProcessor
@@ -137,12 +77,6 @@
 /importer:GDLevelImporter
 /processor:GDLevelProcessor
 /build:levels/lvl004.gslevel
-
-#begin sounds/zoomin.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/zoomin.mp3
 
 #begin levels/lvl005.gslevel
 /importer:GDLevelImporter
@@ -193,12 +127,6 @@
 /importer:GDLevelImporter
 /processor:GDLevelProcessor
 /build:levels/lvl014.gslevel
-
-#begin sounds/zoomout.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/zoomout.mp3
 
 #begin levels/lvl_tutorial.gslevel
 /importer:GDLevelImporter
@@ -344,18 +272,6 @@
 /importer:GDLevelImporter
 /processor:GDLevelProcessor
 /build:levels/lvl127.gslevel
-
-#begin sounds/error.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/error.mp3
-
-#begin sounds/reflect.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/reflect.mp3
 
 #begin textures/spritesheet_default_bd.png
 /importer:TextureImporter
@@ -704,12 +620,6 @@
 /processor:GDLevelProcessor
 /build:levels/lvl301.gslevel
 
-#begin sounds/laser.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/laser.mp3
-
 #begin music/cyber-factory.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -745,4 +655,94 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:music/tekno-labs.mp3
+
+#begin sounds/boost.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/boost.ogg
+
+#begin sounds/button.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/button.ogg
+
+#begin sounds/click.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/click.ogg
+
+#begin sounds/close.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/close.ogg
+
+#begin sounds/collision.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/collision.ogg
+
+#begin sounds/error.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/error.ogg
+
+#begin sounds/gameover.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/gameover.ogg
+
+#begin sounds/gamewon.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/gamewon.ogg
+
+#begin sounds/hit.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/hit.ogg
+
+#begin sounds/laser.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/laser.ogg
+
+#begin sounds/open.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/open.ogg
+
+#begin sounds/reflect.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/reflect.ogg
+
+#begin sounds/shoot.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/shoot.ogg
+
+#begin sounds/zoomin.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/zoomin.ogg
+
+#begin sounds/zoomout.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/zoomout.ogg
 
