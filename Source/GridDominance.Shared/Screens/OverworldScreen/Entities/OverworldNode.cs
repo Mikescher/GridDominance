@@ -30,7 +30,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public float FlickerTime = 0f;
 
-		public OverworldNode(GDOverworldScreen scrn, FPoint pos, int l10ntext, Guid id) : base(scrn, GDConstants.ORDER_WORLD_NODE)
+		public abstract bool IsNodeEnabled { get; }
+		
+		protected OverworldNode(GDOverworldScreen scrn, FPoint pos, int l10ntext, Guid id) : base(scrn, GDConstants.ORDER_WORLD_NODE)
 		{
 			_l10ndescription = l10ntext;
 			NodePos = pos;

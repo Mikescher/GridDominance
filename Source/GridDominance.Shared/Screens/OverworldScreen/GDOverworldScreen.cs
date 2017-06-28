@@ -54,7 +54,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 #endif
 			AddAgent(new ExitAgent(this));
 
-			OverworldNode[] nodes =
+			OverworldNode[] nodes = //TODO Scroll to last unlocked node
 			{
 				new OverworldNode_Tutorial(this, FPoint.Zero),
 				new OverworldNode_W1(this, FPoint.Zero),

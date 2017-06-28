@@ -20,6 +20,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public int ForceClickCounter = 0;
 
+		public override bool IsNodeEnabled => true;
+
 		public OverworldNode_Tutorial(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_TUTORIAL, Levels.LEVEL_TUTORIAL.UniqueID)
 		{
 			//

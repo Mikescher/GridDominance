@@ -35,6 +35,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private readonly float _swingPeriode = 4f;
 
+		public override bool IsNodeEnabled => IsUnlocked() == UnlockState.Unlocked;
+
 		public OverworldNode_Graph(GDOverworldScreen scrn, FPoint pos, GraphBlueprint world, GraphBlueprint prev, string iab) 
 			: base(scrn, pos, Levels.WORLD_NAMES[world.ID], world.ID)
 		{

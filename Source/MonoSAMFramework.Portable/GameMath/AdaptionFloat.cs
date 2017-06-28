@@ -67,6 +67,12 @@ namespace MonoSAMFramework.Portable.GameMath
 			TargetValue = v;
 		}
 
+		public void Set(float v, bool direct)
+		{
+			if (direct) Value = v;
+			TargetValue = v;
+		}
+
 		public void SetDirect(float v)
 		{
 			Value = v;

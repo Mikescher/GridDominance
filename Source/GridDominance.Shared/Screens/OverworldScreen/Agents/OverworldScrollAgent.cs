@@ -46,11 +46,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 		{
 			_nodes = nodes;
 			_values = new AdaptionFloat[_nodes.Length];
+
+			int focus = 0;
+			for (int i = 0; i < nodes.Length; i++)
+			{
+				if (!nodes[i].IsNodeEnabled) break;
+				focus = i;
+			}
+
+			var offset0 = PADDING_X - focus * DIST_X;
 			for (int i = 0; i < _nodes.Length; i++)
 			{
-				_values[i] = new AdaptionFloat(PADDING_X + i * DIST_X, FORCE, DRAG, MIN_SPEED);
+				_values[i] = new AdaptionFloat(offset0 + i * DIST_X, FORCE, DRAG, MIN_SPEED);
 				_nodes[i].NodePos = new FPoint(_values[i].Value, POSITION_Y);
 			}
+			CLeanUpPositions(true);
 		}
 
 		public override void Update(SAMTime gameTime, InputState istate)
@@ -170,21 +180,28 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				_values[i].ValueMax = float.MaxValue;
 			}
 
+			CLeanUpPositions(false);
+		}
+
+		private void CLeanUpPositions(bool direct)
+		{
 			if (_values[0].TargetValue > PADDING_X)
 			{
 				for (int i = 0; i < _nodes.Length; i++)
 				{
-					_values[i].Set(PADDING_X + i * DIST_X);
+					_values[i].Set(PADDING_X + i * DIST_X, direct);
 				}
+				_sleep = false;
 			}
-			else if (_values[_values.Length-1].TargetValue < GDConstants.VIEW_WIDTH - PADDING_X)
+			else if (_values[_values.Length - 1].TargetValue < GDConstants.VIEW_WIDTH - PADDING_X)
 			{
 				var n0 = GDConstants.VIEW_WIDTH - PADDING_X - ((_values.Length - 1) * DIST_X);
 
 				for (int i = 0; i < _nodes.Length; i++)
 				{
-					_values[i].Set(n0 + i * DIST_X);
+					_values[i].Set(n0 + i * DIST_X, direct);
 				}
+				_sleep = false;
 			}
 		}
 
