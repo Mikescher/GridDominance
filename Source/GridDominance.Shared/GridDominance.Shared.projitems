@@ -46,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\Agents\ExitAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\DebugUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AnonymousAccountPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\SubSettingsButtonShakeOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\UnlockSucessOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\UnlockErrorOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\UnlockPanel.cs" />

@@ -23,7 +23,7 @@
 			}
 
 			uint d = 0;
-			for (uint i = len - 1; i >= 0; i--)
+			for (int i = (int)len - 1; i >= 0; i--)
 			{
 				d *= revbase;
 				d += digits[i];

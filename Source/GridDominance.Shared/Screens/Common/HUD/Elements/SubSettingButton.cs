@@ -1,5 +1,7 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD;
+using GridDominance.Shared.Screens.Common.HUD.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
@@ -30,8 +32,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public float OffsetProgress = 0;
 		public float ScaleProgress = 1;
-		public float IconScale = 1;
 		public float FontProgress = 0;
+		public float IconRotation = 0f;
+		
+		public readonly float IconScale;
 
 		protected SubSettingButton(SettingsButton master, int position, float icscale)
 		{
@@ -52,7 +56,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			sbatch.DrawCentered(Textures.TexHUDButtonBase, Center, DIAMETER * ScaleProgress, DIAMETER * ScaleProgress, ColorMath.Blend(FlatColors.Asbestos, FlatColors.Alizarin, OffsetProgress*ScaleProgress));
 
-			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * ScaleProgress * IconScale, SIZE_ICON * ScaleProgress * IconScale, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds);
+			sbatch.DrawCentered(GetIcon(), Center, SIZE_ICON * ScaleProgress * IconScale, SIZE_ICON * ScaleProgress * IconScale, IsPressed ? FlatColors.WetAsphalt : FlatColors.Clouds, IconRotation);
 
 			FontRenderHelper.DrawTextVerticallyCenteredWithBackground(sbatch, Textures.HUDFontRegular, SIZE_ICON, ButtonText, FlatColors.Clouds * FontProgress, new FPoint(CenterX + SIZE_ICON, CenterY), Color.Black * 0.5f * FontProgress);
 		}
@@ -129,7 +133,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 	class ButtonAccount : SubSettingButton
 	{
-		public ButtonAccount(SettingsButton master) : base(master, 1, 1f) { }
+		public ButtonAccount(SettingsButton master) : base(master, 1, 1f)
+		{
+			if (MainGame.Inst.Profile.AccountType == AccountType.Anonymous) AddHUDOperation(new SubSettingsButtonShakeOperation());
+		}
 
 		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconAccount;
 		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_ACCOUNT);
