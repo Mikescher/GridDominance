@@ -24,7 +24,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 	public class Portal : GameEntity
 	{
 		public const           float   WIDTH  = PortalBlueprint.DEFAULT_WIDTH;
-		public static readonly Color[] COLORS = { Color.Magenta, FlatColors.SunFlower, FlatColors.Alizarin, FlatColors.Wisteria, FlatColors.Emerald, FlatColors.PeterRiver, FlatColors.Clouds, FlatColors.MidnightBlue, FlatColors.Turquoise };
+		public static readonly Color[] COLORS = { Color.Magenta, FlatColors.SunFlower, FlatColors.Alizarin, FlatColors.Wisteria, FlatColors.Emerald, FlatColors.PeterRiver, FlatColors.Nephritis, FlatColors.Turquoise, FlatColors.Silver };
 
 		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
