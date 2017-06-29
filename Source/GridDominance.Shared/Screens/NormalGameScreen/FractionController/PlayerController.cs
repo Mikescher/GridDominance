@@ -33,7 +33,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			isMouseDragging = true;
 			Cannon.CrosshairSize.SetForce(CROSSHAIR_START_SCALE);
-			dragOrigin = istate.GamePointerPosition;
+			dragOrigin = istate.GamePointerPositionOnMap;
 		}
 
 		protected override void Calculate(InputState istate)
@@ -49,12 +49,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 				//SAMLog.Debug($"Cannon :: target({FloatMath.ToDegree(Cannon.Rotation.TargetValue):000}°)");
 			}
-			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.GamePointerPosition))
+			else if (isMouseDragging && istate.IsRealDown && !innerBoundings.Contains(istate.GamePointerPositionOnMap))
 			{
 				dragOrigin = Cannon.Position;
 				Cannon.Rotation.Set(istate.GamePointerPositionOnMap.ToAngle(Cannon.Position));
 
-				var dist = (istate.GamePointerPosition - Cannon.Position).Length();
+				var dist = (istate.GamePointerPositionOnMap - Cannon.Position).Length();
 				if (dist > 0)
 				{
 					var crosshairScale = FloatMath.Min(dist / CROSSHAIR_CENTER_DISTANCE, 1f);
@@ -62,9 +62,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					Cannon.CrosshairSize.Set(crosshairScale);
 				}
 			}
-			else if (isMouseDragging && istate.IsRealDown && (istate.GamePointerPosition - dragOrigin).LengthSquared() > (GDConstants.TILE_WIDTH / 2f) * (GDConstants.TILE_WIDTH / 2f))
+			else if (isMouseDragging && istate.IsRealDown && (istate.GamePointerPositionOnMap - dragOrigin).LengthSquared() > (GDConstants.TILE_WIDTH / 2f) * (GDConstants.TILE_WIDTH / 2f))
 			{
-				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.GamePointerPosition.Y - dragOrigin.Y, istate.GamePointerPosition.X - dragOrigin.X));
+				Cannon.Rotation.Set(FloatMath.PositiveAtan2(istate.GamePointerPositionOnMap.Y - dragOrigin.Y, istate.GamePointerPositionOnMap.X - dragOrigin.X));
 			}
 		}
 	}
