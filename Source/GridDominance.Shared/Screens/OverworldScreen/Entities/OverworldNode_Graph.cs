@@ -162,11 +162,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			if (solvedPerc[d] < 0.5f)
 			{
-				active = idx < FloatMath.Ceiling(solvedPerc[d] * 20);
+				active = idx < FloatMath.Ceiling(solvedPerc[d] * 15);
 			}
 			else
 			{
-				active = idx <= FloatMath.Floor(solvedPerc[d] * 20);
+				active = idx <= FloatMath.Floor(solvedPerc[d] * 15);
 			}
 
 			if (FlickerTime > COLLAPSE_TIME)
