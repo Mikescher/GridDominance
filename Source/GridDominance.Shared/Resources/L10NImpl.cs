@@ -130,13 +130,15 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HINT_004           = 100;
 		public const int STR_HINT_005           = 101;
 		public const int STR_HINT_006           = 102;
-		
+		public const int STR_HINT_007           = 112;
+		public const int STR_HINT_008           = 113;
+
 		public const int INFOTOAST_1            = 104;
 		public const int INFOTOAST_2            = 105;
 		public const int INFOTOAST_3            = 106;
 		public const int INFOTOAST_4            = 107;
 
-		private const int TEXT_COUNT = 112; // = next idx
+		private const int TEXT_COUNT = 114; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -247,6 +249,8 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_HINT_004,           "Black holes attract your bullets",                            "Schwarze Löcher saugen deine Kugeln ein"                              );
 			L10N.Add(STR_HINT_005,           "Lasers!",                                                     "Laser!"                                                               );
 			L10N.Add(STR_HINT_006,           "Try dragging the level around",                               "Versuch mal das Level zu verschieben"                                 );
+			L10N.Add(STR_HINT_007,           "Speedy thing goes in,",                                       "Speedy thing goes in,"                                        );
+			L10N.Add(STR_HINT_008,           "speedy thing comes out.",                                     "speedy thing comes out.");
 			L10N.Add(INFOTOAST_1,            "Your best time is {0}",                                       "Deine Bestzeit ist {0}"                                               );
 			L10N.Add(INFOTOAST_2,            "The global best time is {0}",                                 "Versuch mal das Level zu verschieben"                                 );
 			L10N.Add(INFOTOAST_3,            "{0} users have completed this level on {1}",                  "{0} Spieler haben dieses Level auf {1} geschafft"                     );

@@ -5,6 +5,7 @@ include("stdvalues")
 init("3-13", "A Rift In Space", {b16b00b5-0001-4000-0000-000003000013}, KI_PRECALC_PATHTRACE)
 
 setwrap(WRAPMODE_DEATH)
+config(KI_CFG_SIMULATION_SCATTERTRUST, 3)
 
 cannon(SIZE_SMALL, P1, [2,  5])
 cannon(SIZE_SMALL, A2, [14, 5])
@@ -22,6 +23,8 @@ VoidCircle([10, 2.5], SIZE_SMALL)
 MirrorCircle([14,  8.5], SIZE_NORMAL)
 MirrorCircle([ 2,  1.5], SIZE_NORMAL)
 
+text([12.3, 1.1], 7, 1.8, HINT_007)
+text([03.7, 8.9], 7, 1.8, HINT_008)
 
 #<map>
 #
