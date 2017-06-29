@@ -18,7 +18,7 @@ Laser(SIZE_SMALL, N0, [5, 8.5])
 VoidCircle([8, 8.5], SIZE_GIGANTIC)
 Laser(SIZE_SMALL, N0, [11, 8.5])
 
-Laser(SIZE_BIG, A3, [14, 5])
+Cannon(SIZE_BIG, A3, [14, 5])
 
 
 
@@ -36,7 +36,7 @@ Laser(SIZE_BIG, A3, [14, 5])
 #        3 #                                 #
 #                                             
 #        4 #   / \                     / \   #
-#               O                       +     
+#               O                       O     
 #        5 #   \ /                     \ /   #
 #                                             
 #        6 #                                 #
