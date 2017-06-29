@@ -219,7 +219,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_GLOB_EXITTOAST,     "Click again to exit game",                                    "Drücke \"Zurück\" nochmal um das Spiel zu beenden"                    );
 			L10N.Add(STR_GLOB_UNLOCKTOAST1,  "Click two times more to unlock",                              "Noch zweimal drücken um die Welt freizuschalten"                      );
 			L10N.Add(STR_GLOB_UNLOCKTOAST2,  "Click again to unlock",                                       "Nochmal drücken um die Welt freizuschalten"                           );
-			L10N.Add(STR_GLOB_UNLOCKTOAST3,  "World unlocked",                                              "Welt freigeschaltet"                                                  ); 
+			L10N.Add(STR_GLOB_UNLOCKTOAST3,  "World unlocked",                                              "Welt freigeschaltet"                                                  );
 			L10N.Add(STR_GLOB_WORLDLOCK,     "World locked",                                                "Welt noch nicht freigespielt"                                         );
 			L10N.Add(STR_GLOB_LEVELLOCK,     "Level locked",                                                "Level noch nicht freigespielt"                                        );
 			L10N.Add(STR_INF_YOU,            "You",                                                         "Du"                                                                   );
@@ -248,9 +248,9 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_HINT_003,           "More Power",                                                  "Mehr Schaden"                                                         );
 			L10N.Add(STR_HINT_004,           "Black holes attract your bullets",                            "Schwarze Löcher saugen deine Kugeln ein"                              );
 			L10N.Add(STR_HINT_005,           "Lasers!",                                                     "Laser!"                                                               );
-			L10N.Add(STR_HINT_006,           "Try dragging the level around",                               "Versuch mal das Level zu verschieben"                                 );
-			L10N.Add(STR_HINT_007,           "Speedy thing goes in,",                                       "Speedy thing goes in,"                                        );
-			L10N.Add(STR_HINT_008,           "speedy thing comes out.",                                     "speedy thing comes out.");
+			L10N.Add(STR_HINT_006,           "Try dragging the map around",                                 "Versuch mal die Karte zu verschieben"                                 );
+			L10N.Add(STR_HINT_007,           "Speedy thing goes in,",                                       "Speedy thing goes in,"                                                );
+			L10N.Add(STR_HINT_008,           "speedy thing comes out.",                                     "speedy thing comes out."                                              );
 			L10N.Add(INFOTOAST_1,            "Your best time is {0}",                                       "Deine Bestzeit ist {0}"                                               );
 			L10N.Add(INFOTOAST_2,            "The global best time is {0}",                                 "Versuch mal das Level zu verschieben"                                 );
 			L10N.Add(INFOTOAST_3,            "{0} users have completed this level on {1}",                  "{0} Spieler haben dieses Level auf {1} geschafft"                     );
