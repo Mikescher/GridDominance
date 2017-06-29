@@ -57,6 +57,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float HEALTH_HIT_GEN  = 0.27f; // on Hit from own fraction
 		protected const float LASER_BOOSTER_LIFETIME = 0.1f;
 		protected const float MIN_REGEN_HEALTH = 0.05f;
+		protected const float FULL_LASER_HEALTH = 0.97f; // Health per sec bei 1HP
 
 		protected const float LASER_CHARGE_COOLDOWN   = 0.4f; // should be more than KI freq
 		protected const float LASER_DAMAGE_PER_SECOND = 0.20f;
@@ -91,6 +92,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public Body PhysicsBody;
 		public Fixture PhysicsFixtureBase;
 		public Fixture PhysicsFixtureBarrel;
+
+		public int LastAttackingLasersFriends = 0;
+		public int LastAttackingLasersEnemy = 0;
+		
+		protected int counterAttackingLasersFriends = 0;
+		protected int counterAttackingLasersEnemy   = 0;
 
 		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, int cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
@@ -180,9 +187,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		
 		protected void UpdateHealth(SAMTime gameTime)
 		{
+			LastAttackingLasersEnemy = counterAttackingLasersEnemy;
+			LastAttackingLasersFriends = counterAttackingLasersFriends;
+			counterAttackingLasersEnemy = 0;
+			counterAttackingLasersFriends = 0;
+
 			CannonHealth.Update(gameTime);
 
-			if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > MIN_REGEN_HEALTH)
+			if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > MIN_REGEN_HEALTH && (LastAttackingLasersEnemy <= LastAttackingLasersFriends))
 			{
 				var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
 
@@ -344,6 +356,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			if (Fraction.IsNeutral) return;
 
+			if (pwr > 0) counterAttackingLasersFriends++;
+			
 			CannonHealth.Inc(pwr);
 			if (CannonHealth.Limit(0f, 1f) == 1)
 			{
@@ -376,6 +390,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				if (dmg > 0f)
 				{
+					counterAttackingLasersFriends++;
+
 					_attackingRaysCollector.Add(ray);
 					
 					SetFraction(source);
@@ -385,6 +401,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			}
 			else
 			{
+				if (dmg > 0) counterAttackingLasersEnemy++;
+
 				_attackingRaysCollector.Add(ray);
 
 				CannonHealth.Dec(dmg / Scale);

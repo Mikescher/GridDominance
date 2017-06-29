@@ -55,7 +55,7 @@ namespace GridDominance.Shared.SaveData
 
 			SoundsEnabled = true;
 			EffectsEnabled = true;
-			MusicEnabled
+			MusicEnabled = true;
 
 			SkipTutorial = false;
 

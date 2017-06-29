@@ -169,7 +169,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void UpdateCore(SAMTime gameTime)
 		{
-			if (CannonHealth.ActualValue < 1 || Fraction.IsNeutral)
+			if (CannonHealth.ActualValue < FULL_LASER_HEALTH || Fraction.IsNeutral)
 				CorePulse.Set(1);
 			else
 				CorePulse.Set(1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * CORE_PULSE_FREQ) * CORE_PULSE);
@@ -182,7 +182,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void UpdateNetwork(SAMTime gameTime)
 		{
-			bool active = CannonHealth.TargetValue >= 1 && controller.DoBarrelRecharge();
+			bool active = CannonHealth.TargetValue >= FULL_LASER_HEALTH && controller.DoBarrelRecharge();
 
 			LaserSource.SetState(active, Fraction, Rotation.ActualValue, chargeTime > LASER_CHARGE_COOLDOWN);
 
