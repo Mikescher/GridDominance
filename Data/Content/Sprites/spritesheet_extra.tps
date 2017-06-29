@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet_extra.tps</string>
+        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet_extra.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -367,7 +367,7 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>../../../../../../../../../Symlinks/GridDominance/Data/Content/Sprites/extra</filename>
+            <filename>extra</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
