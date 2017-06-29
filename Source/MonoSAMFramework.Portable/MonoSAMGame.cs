@@ -142,8 +142,6 @@ namespace MonoSAMFramework.Portable
 				base.Draw(gameTime);
 
 				if (IsInitializationLag) UpdateInitLag(gameTime);
-
-				GC.Collect(0); // small collect after every tick
 			}
 			catch (Exception e)
 			{
