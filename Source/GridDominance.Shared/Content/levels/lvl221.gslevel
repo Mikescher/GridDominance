@@ -4,24 +4,27 @@ include("stdvalues")
 
 init("3-21", "The Block IV", {b16b00b5-0001-4000-0000-000003000021}, KI_PRECALC_PATHTRACE)
 config(KI_CFG_TRACE_MAX_LASERREFLECT, 4)
+config(KI_CFG_TRACE_HITBOX_ENLARGE, 24)
 
 setwrap(WRAPMODE_DEATH)
 
-Laser(SIZE_SMALL, P1, [ 4, 1])
-VoidCircle([ 8, 1], SIZE_NORMAL)
-Laser(SIZE_SMALL, A2, [12, 1])
+Laser(SIZE_SMALL, A2, [ 4, 1])
+Laser(SIZE_TINY, N0, [ 8, 1])
+Laser(SIZE_SMALL, A4, [12, 1])
 
 Laser(SIZE_SMALL, N0, [1, 5])
-VoidCircle([ 4, 5], SIZE_NORMAL)
+VoidCircle([ 4, 4], SIZE_SMALL)
+VoidCircle([ 4, 6], SIZE_SMALL)
 
 Glassblock([8, 5], 5, 5)
 
-VoidCircle([12, 5], SIZE_NORMAL)
+VoidCircle([12, 4], SIZE_SMALL)
+VoidCircle([12, 6], SIZE_SMALL)
 Laser(SIZE_SMALL, N0, [15, 5])
 
-Laser(SIZE_SMALL, A3, [ 4, 9])
-VoidCircle([ 8, 9], SIZE_NORMAL)
-Laser(SIZE_SMALL, A4, [12, 9])
+Laser(SIZE_SMALL, P1, [ 4, 9])
+Laser(SIZE_TINY, N0, [ 8, 9])
+Laser(SIZE_SMALL, A3, [12, 9])
 
 
 #<map>
@@ -30,23 +33,23 @@ Laser(SIZE_SMALL, A4, [12, 9])
 #          # # # # # # # # # # # # # # # # # #
 #                                             
 #        0 #       / \             / \       #
-#                   +      (X)      +         
+#                   +      <+>      +         
 #        1 #       \ /             \ /       #
 #                                             
 #        2 #                                 #
 #                       HHHHHHHHH             
 #        3 #            HHHHHHHHH            #
-#                       HHHHHHHHH             
+#                  (X)  HHHHHHHHH  (X)        
 #        4 #            HHHHHHHHH            #
-#            <+>   (X)  HHHHHHHHH  (X)   <+>  
+#            <+>        HHHHHHHHH        <+>  
 #        5 #            HHHHHHHHH            #
-#                       HHHHHHHHH             
+#                  (X)  HHHHHHHHH  (X)        
 #        6 #            HHHHHHHHH            #
 #                       HHHHHHHHH             
 #        7 #                                 #
 #                                             
 #        8 #       / \             / \       #
-#                   +      (X)      +         
+#                   +      <+>      +         
 #        9 #       \ /             \ /       #
 #                                             
 #          # # # # # # # # # # # # # # # # # #
