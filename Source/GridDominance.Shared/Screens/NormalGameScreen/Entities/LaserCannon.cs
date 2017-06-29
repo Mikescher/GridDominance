@@ -24,7 +24,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public readonly LaserSource LaserSource;
 		private readonly GDGameScreen _screen;
 
-		public readonly DeltaLimitedFloat CorePulse = new DeltaLimitedFloat(1, CORE_PULSE * CORE_PULSE_FREQ * 2);
+		public readonly DeltaLimitedFloat CorePulse  = new DeltaLimitedFloat(1, CORE_PULSE * CORE_PULSE_FREQ * 2);
+		public float LaserPulseTime = 0f;
 
 		private readonly int coreImage;
 		private readonly float coreRotation;
@@ -170,11 +171,24 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private void UpdateCore(SAMTime gameTime)
 		{
 			if (CannonHealth.ActualValue < FULL_LASER_HEALTH || Fraction.IsNeutral)
+			{
 				CorePulse.Set(1);
+			}
 			else
+			{
 				CorePulse.Set(1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * CORE_PULSE_FREQ) * CORE_PULSE);
+			}
 			CorePulse.Update(gameTime);
 
+			if (CannonHealth.ActualValue < FULL_LASER_HEALTH || Fraction.IsNeutral || !LaserSource.LaserPowered)
+			{
+				if (LaserPulseTime > 0f) LaserPulseTime = FloatMath.LimitedDec(LaserPulseTime, gameTime.ElapsedSeconds, 0f);
+			}
+			else
+			{
+				LaserPulseTime += gameTime.ElapsedSeconds;
+			}
+			
 			chargeTime += gameTime.ElapsedSeconds;
 
 			if (CannonHealth.ActualValue < 1) chargeTime = 0;

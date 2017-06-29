@@ -14,13 +14,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public bool LaserPowered;   // CanDamage
 		public Fraction LaserFraction;
 		public float LaserRotation;
-		public readonly Cannon UserData;
+		public readonly LaserCannon UserData;
 
 		public readonly List<LaserRay> Lasers = new List<LaserRay>(LaserNetwork.MAX_LASER_PER_SOURCE);
 		
-		public float SpeckTravel = 0;
-
-		public LaserSource(LaserNetwork owner, FPoint position, Fraction fracNeutral, Cannon userData)
+		public LaserSource(LaserNetwork owner, FPoint position, Fraction fracNeutral, LaserCannon userData)
 		{
 			Owner = owner;
 			Position = position;

@@ -37,6 +37,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected const float CORE_PULSE_FREQ = 2f;
 		protected const float CORE_PULSE = 0.06f; // perc
+		public    const float LASER_GLOW_FREQ = 0.20f;
 
 		protected const float BARREL_CHARGE_SPEED = 0.9f;
 		public    const float CANNON_DIAMETER = 96;		 // only diameter of base circle

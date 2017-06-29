@@ -142,6 +142,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D[] AnimCannonCog;
 		public static TextureRegion2D CannonCog;
 		public static TextureRegion2D TexLaserBase;
+		public static TextureRegion2D TexLaserGlow;
 		public static TextureRegion2D TexLaserPointer;
 		public static TextureRegion2D TexLaserFlare;
 		public static TextureRegion2D TexLaserFlareHalf;
@@ -298,6 +299,7 @@ namespace GridDominance.Shared.Resources
 			TexCannonBarrelShadow    = AtlasTextures["cannonbarrel_shadow"];
 			TexCannonCrosshair       = AtlasTextures["cannoncrosshair"];
 			TexLaserBase             = AtlasTextures["laser_base"];
+			TexLaserGlow             = AtlasTextures["laser_glow"];
 			TexLaserPointer          = AtlasTextures["laser_pointer"];
 			TexLaserFlare            = AtlasTextures["laser_flare"];
 			TexLaserFlareHalf        = AtlasTextures["half_laser_flare"];

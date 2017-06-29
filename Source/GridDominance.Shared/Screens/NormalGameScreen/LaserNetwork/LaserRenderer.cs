@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
@@ -19,8 +20,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		private const float FLARE_SIZE_SMALL     = 16f;
 		private const float FLARE_SIZE_BIG       = 32f;
 		private const float FLARE_ROTATION_SPEED = 0.1f; // rot/sec
-		private const float SPECK_TRAVEL_SPEED   = 900f;
-		private const float SPECK_DISTANCE       = 128f;
 		private const float FLARE_PULSE_TIME     = 0.4f;
 		private const float FLARE_PULSE_SCALE    = 2f;
 
@@ -58,14 +57,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			_flareRotation = (_flareRotation + (FLARE_ROTATION_SPEED * FloatMath.TAU) * gameTime.ElapsedSeconds) % FloatMath.RAD_POS_360;
 
 			_flareScale += gameTime.ElapsedSeconds * (FLARE_PULSE_TIME * FloatMath.TAU);
-
-			foreach (var src in _network.Sources)
-			{
-				if (src.LaserPowered)
-					src.SpeckTravel += SPECK_TRAVEL_SPEED * gameTime.ElapsedSeconds;
-				else
-					src.SpeckTravel = 0;
-			}
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
@@ -88,32 +79,41 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				{
 					if (src.LaserPowered)
 					{
-						sbatch.DrawCentered(Textures.TexLaserBase, FPoint.MiddlePoint(ray.Start, ray.End), ray.Length + RAY_WIDTH / 4f, RAY_WIDTH, Color.White, ray.Angle);
+						sbatch.DrawCentered(
+							Textures.TexLaserBase, 
+							FPoint.MiddlePoint(ray.Start, ray.End), 
+							ray.Length + RAY_WIDTH / 4f, 
+							RAY_WIDTH, 
+							Color.White, 
+							ray.Angle);
 					}
 					else
 					{
-						sbatch.DrawCentered(Textures.TexLaserPointer, FPoint.MiddlePoint(ray.Start, ray.End), ray.Length, RAY_WIDTH, Color.White, ray.Angle);
+						sbatch.DrawCentered(
+							Textures.TexLaserPointer, 
+							FPoint.MiddlePoint(ray.Start, ray.End), 
+							ray.Length, RAY_WIDTH,
+							Color.White, 
+							ray.Angle);
 					}
 				}
 			}
 
 			foreach (var src in _network.Sources)
 			{
-				foreach (var ray in src.Lasers)
+				if (src.LaserPowered)
 				{
-					if (src.LaserPowered)
+					var pwr = FloatMath.AbsSin(src.UserData.LaserPulseTime * FloatMath.TAU * Cannon.LASER_GLOW_FREQ);
+
+					foreach (var ray in src.Lasers)
 					{
-						float d = SPECK_DISTANCE * (int)(ray.SourceDistance / SPECK_DISTANCE) - SPECK_DISTANCE + src.SpeckTravel % SPECK_DISTANCE;
-						for (;; d += SPECK_DISTANCE)
-						{
-							if (d < ray.SourceDistance) continue;
-							if (d > ray.SourceDistance + ray.Length) break;
-							if (d > src.SpeckTravel) break;
-
-							var p = ray.Start + (ray.End - ray.Start) * ((d - ray.SourceDistance) / ray.Length);
-
-							sbatch.DrawCentered(Textures.TexParticle[16], p, 2*RAY_WIDTH, 2*RAY_WIDTH, src.LaserFraction.Color);
-						}
+						sbatch.DrawCentered(
+							Textures.TexLaserGlow, 
+							FPoint.MiddlePoint(ray.Start, ray.End), 
+							ray.Length + RAY_WIDTH / 4f, 
+							2*RAY_WIDTH, 
+							src.LaserFraction.Color * pwr, 
+							ray.Angle);
 					}
 				}
 			}
