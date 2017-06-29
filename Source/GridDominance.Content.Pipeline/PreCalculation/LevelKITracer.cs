@@ -10,6 +10,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
@@ -372,6 +373,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var dat = new List<Tuple<BulletPathBlueprint, float>>();
 
 				var isRefracting = sinaOut < 1 && sinaOut > -1;
+				var isReflecting = FloatMath.Abs(aIn) > LaserNetwork.MIN_REFRACT_ANGLE && (!inGlassBlock || (inGlassBlock && !isRefracting));
+				
 				if (isRefracting) // refraction
 				{
 					// refraction
@@ -383,7 +386,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 					dat.AddRange(sub);
 				}
 
-				if (!inGlassBlock)
+				if (isReflecting)
 				{
 					// reflection
 
@@ -391,22 +394,6 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 
 					var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pReflectVec.ToAngle(), cannonRadians, remainingRecasts - 1, !inGlassBlock, fGlassBlock);
 					dat.AddRange(sub);
-				}
-				else
-				{
-					if (isRefracting)
-					{
-						// no reflection in glass
-					}
-					else
-					{
-						// reflection
-
-						var pReflectVec = Vector2.Reflect(rcEnd - rcStart, traceResult.Item3);
-
-						var sub = FindLaserPaths(lvl, wBase, wCollision, sourceID, pNewStart, rays, pReflectVec.ToAngle(), cannonRadians, remainingRecasts - 1, !inGlassBlock, fGlassBlock);
-						dat.AddRange(sub);
-					}
 				}
 
 				return dat;

@@ -26,6 +26,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public const int MAX_LASER_PER_SOURCE      = 128; // 8 * 16
 		public const int MAX_BACKTRACE             = 4;
 		public const float RAY_WIDTH               = 4f;
+		public const float MIN_REFRACT_ANGLE       = FloatMath.RAD_POS_005;
 
 		public bool Dirty = false;     // calc everything new
 		public bool SemiDirty = false; // could be that something crossed a ray
@@ -190,6 +191,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					var sinaOut = FloatMath.Sin(aIn) * n;
 
 					var isRefracting = sinaOut < 1 && sinaOut > -1;
+					var isReflecting = FloatMath.Abs(aIn) > MIN_REFRACT_ANGLE && (!inglass || (inglass && !isRefracting));
+					
 					if (isRefracting) // refraction
 					{
 						var aOut = FloatMath.Asin(sinaOut);
@@ -198,25 +201,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 						remaining.Push(Tuple.Create(result.Item2, result.Item2 + new Vector2(_rayLength, 0).Rotate(pRefractAngle), depth + 1, !inglass, (object) resultGlassBlockRefrac, ray, startdist + ray.Length));
 					}
 
-					if (!inglass)
+					if (isReflecting)
 					{
 						var reflect_end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(_rayLength);
 						remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultGlassBlockRefrac, ray, startdist + ray.Length));
-						continue;
 					}
-					else
-					{
-						if (isRefracting)
-						{
-							continue; // no reflection in glass
-						}
-						else
-						{
-							var reflect_end = result.Item2 + Vector2.Reflect(end - start, result.Item3).WithLength(_rayLength);
-							remaining.Push(Tuple.Create(result.Item2, reflect_end, depth + 1, inglass, (object) resultGlassBlockRefrac, ray, startdist + ray.Length));
-							continue;
-						}
-					}
+
+					continue;
 				}
 				#endregion
 
