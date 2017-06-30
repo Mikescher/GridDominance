@@ -229,6 +229,13 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconLock;
 		public static TextureRegion2D TexIconLockOpen;
 
+		public static TextureRegion2D TexIconNetworkBase;
+		public static TextureRegion2D TexIconNetworkVertex1;
+		public static TextureRegion2D TexIconNetworkVertex2;
+		public static TextureRegion2D TexIconNetworkVertex3;
+		public static TextureRegion2D TexIconNetworkVertex4;
+		public static TextureRegion2D TexIconNetworkVertex5;
+
 		public static TextureRegion2D TexDifficultyLine0;
 		public static TextureRegion2D TexDifficultyLine1;
 		public static TextureRegion2D TexDifficultyLine2;
@@ -402,6 +409,13 @@ namespace GridDominance.Shared.Resources
 			TexDifficultyLine1     = AtlasTextures["difficulty_line_02"];
 			TexDifficultyLine2     = AtlasTextures["difficulty_line_03"];
 			TexDifficultyLine3     = AtlasTextures["difficulty_line_04"];
+
+			TexIconNetworkBase    = AtlasTextures["network_base"];
+			TexIconNetworkVertex1 = AtlasTextures["network_vertex1"];
+			TexIconNetworkVertex2 = AtlasTextures["network_vertex2"];
+			TexIconNetworkVertex3 = AtlasTextures["network_vertex3"];
+			TexIconNetworkVertex4 = AtlasTextures["network_vertex4"];
+			TexIconNetworkVertex5 = AtlasTextures["network_vertex5"];
 
 			HUDFontRegular      = content.Load<SpriteFont>("fonts/hudFontRegular");
 			HUDFontBold         = content.Load<SpriteFont>("fonts/hudFontBold");

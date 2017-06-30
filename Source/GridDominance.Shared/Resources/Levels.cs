@@ -5,6 +5,7 @@ using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using Microsoft.Xna.Framework.Content;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper;
 
 // ReSharper disable NotAccessedField.Global
 namespace GridDominance.Shared.Resources
@@ -24,6 +25,11 @@ namespace GridDominance.Shared.Resources
 		public static Dictionary<Guid, LevelBlueprint> LEVELS;
 		public static Dictionary<Guid, int> WORLD_NAMES;
 		public static Dictionary<Guid, int> WORLD_NUMBERS;
+
+		public static Guid WORLD_ID_NONE        = new Guid("{d34db335-0001-4000-7711-000000100002}");
+		public static Guid WORLD_ID_TUTORIAL    = new Guid("{d34db335-0001-4000-7711-000000100001}");
+		public static Guid WORLD_ID_MULTIPLAYER = new Guid("{d34db335-0001-4000-7711-000000300001}");
+
 
 		public static void LoadContent(ContentManager content)
 		{

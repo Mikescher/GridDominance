@@ -105,6 +105,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_WORLD_W2           = 81;
 		public const int STR_WORLD_W3           = 92;
 		public const int STR_WORLD_W4           = 103;
+		public const int STR_WORLD_MULTIPLAYER  = 114;
 
 		public const int STR_INF_YOU            = 72;
 		public const int STR_INF_GLOBAL         = 73;
@@ -138,7 +139,7 @@ namespace GridDominance.Shared.Resources
 		public const int INFOTOAST_3            = 106;
 		public const int INFOTOAST_4            = 107;
 
-		private const int TEXT_COUNT = 114; // = next idx
+		private const int TEXT_COUNT = 115; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -233,6 +234,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_W2,           "Professional",                                                "Fortgeschritten"                                                      );
 			L10N.Add(STR_WORLD_W3,           "Futuristic",                                                  "Futuristisch"                                                         );
 			L10N.Add(STR_WORLD_W4,           "Toy Box",                                                     "Spielzeugkiste"                                                       );
+			L10N.Add(STR_WORLD_MULTIPLAYER,  "Multiplayer",                                                 "Mehrspieler"                                                          );
 			L10N.Add(STR_IAB_TESTERR,        "Error connecting to Google Play services",                    "Fehler beim Versuch mit Google Play zu verbinden"                     );
 			L10N.Add(STR_IAB_TESTNOCONN,     "No connection to Google Play services",                       "Keine Verbindung zu Google Play services"                             );
 			L10N.Add(STR_IAB_TESTINPROGRESS, "Payment in progress",                                         "Zahlung wird verarbeitet"                                             );

@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
+        <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -316,7 +316,6 @@
             <key type="filename">difficulty/difficulty_line_03.png</key>
             <key type="filename">difficulty/difficulty_line_04.png</key>
             <key type="filename">hud/jewels.png</key>
-            <key type="filename">hud/tutorial.png</key>
             <key type="filename">level/cannon/cannoncog.png</key>
             <key type="filename">level/cannon/cannoncore_01.png</key>
             <key type="filename">level/cannon/cannoncore_02.png</key>
@@ -370,6 +369,7 @@
             <key type="filename">level/laser/half_laser_flare.png</key>
             <key type="filename">level/laser/laser_flare.png</key>
             <key type="filename">level/vortex/vortex_circle_1.png</key>
+            <key type="filename">overworld/tutorial.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -931,6 +931,24 @@
                 <rect>39,39,78,78</rect>
                 <key>scale9Paddings</key>
                 <rect>39,39,78,78</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">overworld/network_base.png</key>
+            <key type="filename">overworld/network_vertex1.png</key>
+            <key type="filename">overworld/network_vertex2.png</key>
+            <key type="filename">overworld/network_vertex3.png</key>
+            <key type="filename">overworld/network_vertex4.png</key>
+            <key type="filename">overworld/network_vertex5.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>40,40,80,80</rect>
+                <key>scale9Paddings</key>
+                <rect>40,40,80,80</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

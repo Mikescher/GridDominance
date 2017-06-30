@@ -18,11 +18,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public const float ICONSIZE = 1.5f * GDConstants.TILE_WIDTH;
 		public const float ICONSIZESWIGGLE = 0.125f * GDConstants.TILE_WIDTH;
 
-		public int ForceClickCounter = 0;
-
 		public override bool IsNodeEnabled => true;
 
-		public OverworldNode_Tutorial(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_TUTORIAL, Levels.LEVEL_TUTORIAL.UniqueID)
+		public OverworldNode_Tutorial(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_TUTORIAL, Levels.WORLD_ID_TUTORIAL)
 		{
 			//
 		}
