@@ -21,6 +21,8 @@ using GridDominance.Shared.Screens.WorldMapScreen;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
 
+// ReSharper disable HeuristicUnreachableCode
+#pragma warning disable 162
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	public abstract class OverworldNode_Graph : OverworldNode
@@ -224,7 +226,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 					case PurchaseQueryResult.Refunded:
 						MainGame.Inst.Profile.PurchasedWorlds.Remove(Blueprint.ID);
 						MainGame.Inst.SaveProfile();
-						return UnlockState.Locked;
+						return UnlockState.NeedsPurchase;
 
 					case PurchaseQueryResult.NotConnected:
 						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
@@ -235,7 +237,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 						return UnlockState.NeedsPurchase;
 
 					default:
-						SAMLog.Error("EnumSwitch", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD3)) -> " + ip);
+						SAMLog.Error("EnumSwitch", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD " + Blueprint?.ID + ")) -> " + ip);
 						return UnlockState.NeedsPurchase;
 				}
 			}

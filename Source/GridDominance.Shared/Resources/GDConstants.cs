@@ -1,6 +1,4 @@
 ﻿using System;
-using MonoSAMFramework.Portable.DeviceBridge;
-
 namespace GridDominance.Shared.Resources
 {
 	public static class GDConstants
@@ -18,13 +16,15 @@ namespace GridDominance.Shared.Resources
 		public const bool USE_IAB = true;
 
 #if __ANDROID__ && DEBUG
-		public const string IAB_WORLD2 = AndroidBillingHelper.PID_PURCHASED;
-		public const string IAB_WORLD3 = AndroidBillingHelper.PID_PURCHASED; 
-		public const string IAB_WORLD4 = AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_WORLD2      = AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_WORLD3      = AndroidBillingHelper.PID_PURCHASED; 
+		public const string IAB_WORLD4      = AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_MULTIPLAYER = AndroidBillingHelper.PID_PURCHASED;
 #else
-		public const string IAB_WORLD2 = @"gd_world_002";
-		public const string IAB_WORLD3 = @"gd_world_003";
-		public const string IAB_WORLD4 = @"gd_world_004";
+		public const string IAB_WORLD2      = @"gd_world_002";
+		public const string IAB_WORLD3      = @"gd_world_003";
+		public const string IAB_WORLD4      = @"gd_world_004";
+		public const string IAB_MULTIPLAYER = @"gd_multiplayer";
 #endif
 
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
