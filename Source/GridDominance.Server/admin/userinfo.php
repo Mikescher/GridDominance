@@ -83,7 +83,7 @@
             Unlocks: <?php echo lc($userdata['unlocked_worlds']); ?>
         </div>
         <div class="infodiv">
-            App Version: <?php echo lc($userdata['app_version']); ?>
+            App Version: <?php echo $userdata['app_version']; ?>
         </div>
         <div class="infodiv">
             Last Online: <?php echo $userdata['last_online']; ?>
