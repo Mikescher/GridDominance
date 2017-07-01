@@ -97,7 +97,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			var ownr = ((GDOverworldScreen)Owner);
 			if (ownr.IsTransitioning) return;
 			
-			Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f);
+			Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f, 1f);
 		}
 
 		private bool IsUnlocked()

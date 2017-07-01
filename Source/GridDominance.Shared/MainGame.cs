@@ -4,6 +4,7 @@ using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.GlobalAgents;
 using GridDominance.Shared.Network;
+using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.OverworldScreen;
@@ -211,6 +212,12 @@ namespace GridDominance.Shared
 		public void SetDebugLevelScreen()
 		{
 			SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
+		}
+
+		public void SetMultiplayerServerLevelScreen(LevelBlueprint level, GameSpeedModes speed, int music, GDMultiplayerServer server)
+		{
+			var scrn = new GDGameScreen_MPServer(this, Graphics, level, speed, music, server);
+			SetCurrentScreen(scrn);
 		}
 		
 		protected override void LoadContent()

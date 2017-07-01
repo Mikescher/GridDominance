@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath.Cryptography;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Network.Multiplayer;
@@ -18,7 +20,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
-    class MultiplayerLobbyPanel : HUDRoundedPanel
+    class MultiplayerServerLobbyPanel : HUDRoundedPanel
 	{
 		public const float WIDTH = 14.0f * GDConstants.TILE_WIDTH;
 		public const float HEIGHT = 8.0f * GDConstants.TILE_WIDTH;
@@ -29,13 +31,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private bool _doNotStop = false;
 
 		private HUDLabel _statusLabel;
+		private HUDLabel _infoLabel;
 
-		public MultiplayerLobbyPanel(GDMultiplayerServer server)
+		public MultiplayerServerLobbyPanel(GDMultiplayerServer server)
 		{
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
-			Background = FlatColors.Asbestos;
+			Background = FlatColors.BackgroundHUD;
 
 			_server = server;
 		}
@@ -51,6 +54,19 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Size = new FSize(WIDTH, 48),
 
 				Text = "Offline", //TODO L10N
+				TextColor = Color.White,
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				TextAlignment = HUDAlignment.CENTERLEFT,
+			});
+
+			AddElement(_infoLabel = new HUDLabel
+			{
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(32, 128),
+				Size = new FSize(WIDTH, 48),
+
+				Text = "?", //TODO L10N
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
@@ -87,6 +103,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			else
 				_statusLabel.Text = "Connection lost"; //TODO L10N
 
+			_infoLabel.Text = KiddieCryptography.SpiralHexEncode(_server.SessionID, _server.SessionSecret);
 
 			if (_server.Mode == SAMNetworkServer.ServerMode.Error)
 			{
@@ -96,6 +113,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			}
 			
 			if (_server.Mode == SAMNetworkServer.ServerMode.Stopped) Remove();
+
+			if (_server.SessionCount == _server.SessionCapacity)
+			{
+				MainGame.Inst.SetMultiplayerServerLevelScreen(Levels.LEVELS[Levels.WORLD_001.Nodes[3].LevelID], GameSpeedModes.NORMAL, 2, _server);
+			}
 		}
 	}
 }

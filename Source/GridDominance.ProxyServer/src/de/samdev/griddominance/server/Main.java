@@ -197,12 +197,14 @@ public class Main {
 
                 // ======== already joined ========
 
-                // [8: RET] [16: SessionID] [4: _ ] [4: UserID] [8: SessionSize]
+                // [8: RET] [16: SessionID]  [12: SessionSecret] [4: _ ] [4: UserID] [8: Size]
                 sendDataSmall[0] = RET_SESSIONJOINED;
                 sendDataSmall[1] = (byte)((session.SessionID >> 8) & 0xFF);
                 sendDataSmall[2] = (byte)((session.SessionID) & 0xFF);
-                sendDataSmall[3] = (byte)i;
-                sendDataSmall[4] = (byte)session.UserAddr.size();
+                sendDataSmall[3] = (byte)((session.SessionSecret >> 8) & 0xFF);
+                sendDataSmall[4] = (byte)((session.SessionSecret) & 0xFF);
+                sendDataSmall[5] = (byte)i;
+                sendDataSmall[6] = (byte)session.MaxSize;
 
                 _log.Info("User " + host.getHostAddress() + " : " + port + " double-joined session " + sessionid + "(uid="+i+";  capacity=" + session.MaxSize + ")");
 
@@ -211,16 +213,18 @@ public class Main {
             }
         }
 
-        byte uid = (byte)session.UserAddr.size();
+        int uid = session.UserAddr.size();
         session.UserAddr.add(host);
         session.UserPorts.add(port);
 
-        // [8: RET] [16: SessionID] [4: _ ] [4: UserID] [8: SessionSize]
+        // [8: RET] [16: SessionID]  [12: SessionSecret] [4: _ ] [4: UserID] [8: Size]
         sendDataSmall[0] = RET_SESSIONJOINED;
         sendDataSmall[1] = (byte)((session.SessionID) & 0xFF);
         sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
-        sendDataSmall[3] = uid;
-        sendDataSmall[4] = (byte)session.UserAddr.size();
+        sendDataSmall[3] = (byte)((session.SessionSecret >> 8) & 0xFF);
+        sendDataSmall[4] = (byte)((session.SessionSecret) & 0xFF);
+        sendDataSmall[5] = (byte)uid;
+        sendDataSmall[6] = (byte)session.MaxSize;
 
         _log.Info("User " + host.getHostAddress() + " : " + port + " joined session " + sessionid + "(uid="+uid+";  capacity=" + session.MaxSize + ")");
 

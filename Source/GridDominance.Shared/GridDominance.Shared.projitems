@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResult\QueryResultUserData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\UpgradeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\VerifyResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Animations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Attributions.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\TutorialController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GameWrapMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_MPServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_SP.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\GDPreviewHUD.cs" />
@@ -119,7 +121,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerLobbyPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerJoinLobbyScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerServerLobbyPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerHostPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerMainPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\OverworldHUD.cs" />

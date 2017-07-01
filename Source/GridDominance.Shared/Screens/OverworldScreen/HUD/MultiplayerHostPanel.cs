@@ -35,7 +35,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
-			Background = FlatColors.Asbestos;
+			Background = FlatColors.BackgroundHUD;
 
 			_server = new GDMultiplayerServer();
 		}
@@ -105,7 +105,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				_doNotStop = true;
 				Remove();
-				Owner.HUD.AddModal(new MultiplayerLobbyPanel(_server), true, 0.5f);
+				Owner.HUD.AddModal(new MultiplayerServerLobbyPanel(_server), true, 0.5f);
 			}
 
 			if (_server.Mode == SAMNetworkServer.ServerMode.Error)

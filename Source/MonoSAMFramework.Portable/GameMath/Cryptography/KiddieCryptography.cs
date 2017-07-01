@@ -1,4 +1,6 @@
-﻿namespace MonoSAMFramework.Portable.GameMath.Cryptography
+﻿using System;
+
+namespace MonoSAMFramework.Portable.GameMath.Cryptography
 {
 	public static class KiddieCryptography
 	{
@@ -133,6 +135,55 @@
 				}
 				return d;
 			}
+		}
+
+		public static string SpiralHexEncode(ushort a, ushort b)
+		{
+			ulong l = 0;
+
+			for (int i = 0; i < 16; i++)
+			{
+				var m1 = (1 << i);
+				var m2 = (1 << (15 - i));
+
+				var b1 = ((a & m1) != 0);
+				var b2 = ((b & m2) != 0);
+
+				l <<= 1;
+				l |= b1 ? 1ul : 0ul;
+				l <<= 1;
+				l |= b2 ? 1ul : 0ul;
+			}
+
+			l ^= 0b11011011_10011110_00101001_01110100;
+			
+			return $"{l:X8}";
+		}
+
+		public static Tuple<ushort, ushort> SpiralHexDecode(string x)
+		{
+			ulong l = Convert.ToUInt64(x, 16);
+
+			l ^= 0b11011011_10011110_00101001_01110100;
+			
+			ushort s1 = 0;
+			ushort s2 = 0;
+
+			for (int i = 15; i >= 0; i--)
+			{
+				var m1 = (1 << i);
+				var m2 = (1 << (15 - i));
+
+				var b2 = ((l & 0x01) != 0);
+				l >>= 1;
+				var b1 = ((l & 0x01) != 0);
+				l >>= 1;
+
+				if (b1) s1 |= (ushort)m1;
+				if (b2) s2 |= (ushort)m2;
+			}
+
+			return Tuple.Create(s1, s2);
 		}
 	}
 }

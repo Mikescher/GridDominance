@@ -18,7 +18,11 @@ namespace GridDominance.Generic.Impl
 		
 		public XamarinUDPClient()
 		{
+#if __DESKTOP__
+			_client = new UdpClient(new Random().Next(5000, 27000));
+#else
 			_client = new UdpClient();
+#endif
 		}
 
 		public void Connect(string host, int port)
