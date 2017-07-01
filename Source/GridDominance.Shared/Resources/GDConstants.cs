@@ -1,4 +1,6 @@
 ﻿using System;
+using MonoSAMFramework.Portable.DeviceBridge;
+
 namespace GridDominance.Shared.Resources
 {
 	public static class GDConstants

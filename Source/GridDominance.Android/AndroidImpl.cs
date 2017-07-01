@@ -8,6 +8,7 @@ using System.Threading;
 using Android.Content;
 using Android.App;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Android
 {
@@ -15,6 +16,7 @@ namespace GridDominance.Android
 	{
 		public FileHelper FileHelper { get; } = new AndroidFileHelper();
 		public IBillingAdapter IAB => _iab;
+		public IBluetoothAdapter Bluetooth => _bt;
 
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);
@@ -24,6 +26,7 @@ namespace GridDominance.Android
 		private readonly SHA256 sha256 = SHA256.Create();
 		private readonly MainActivity _activity;
 		private readonly AndroidBilling _iab;
+		private readonly AndroidBluetoothAdapter _bt;
 
 		public void OnDestroy()
 		{
@@ -35,6 +38,7 @@ namespace GridDominance.Android
 			_activity = a;
 
 			_iab = new AndroidBilling(a);
+			_bt = new AndroidBluetoothAdapter();
 		}
 
 		private static string GenerateInfoStr()
