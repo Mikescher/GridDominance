@@ -6,10 +6,10 @@ import java.util.List;
 
 public class GameSession {
 
-    public short SessionID;
-    public short SessionSecret;
+    public int SessionID;
+    public int SessionSecret;
     public long LastActivity;
-    public byte MaxSize;
+    public int MaxSize;
 
     public List<InetAddress> UserAddr = new ArrayList<>();
     public List<Integer> UserPorts = new ArrayList<>();

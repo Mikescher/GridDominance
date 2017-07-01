@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\QueryResult\QueryResultUserData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\UpgradeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\VerifyResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Animations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Attributions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSounds.cs" />
@@ -118,6 +119,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerLobbyPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerHostPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerMainPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\OverworldHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\WorldPreviewPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\OverworldEntityManager.cs" />

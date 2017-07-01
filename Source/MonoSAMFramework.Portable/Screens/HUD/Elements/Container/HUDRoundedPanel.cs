@@ -29,5 +29,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 		{
 			//
 		}
+
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => IsVisible;
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => IsVisible;
 	}
 }

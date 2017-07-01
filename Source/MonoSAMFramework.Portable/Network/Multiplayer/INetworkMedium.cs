@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
-	public interface INetworkMedium
+	public interface INetworkMedium : IDisposable
 	{
+		byte[] RecieveOrNull();
+		void Send(byte[] data);
 	}
 }

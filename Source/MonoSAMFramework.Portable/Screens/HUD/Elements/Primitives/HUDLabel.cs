@@ -29,14 +29,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		public int L10NText
 		{
 			get { return _l10ntext; }
-			set { _l10ntext = value; _text = ""; recalcText = true; }
+			set { if (_l10ntext != value) { _l10ntext = value; _text = ""; recalcText = true; } }
 		}
 
 		private string _text = "";
 		public string Text
 		{
 			get { return _text; }
-			set { _l10ntext = -1; _text = value; recalcText = true; }
+			set { if (_l10ntext != -1 || _text != value) { _l10ntext = -1; _text = value; recalcText = true; } }
 		}
 
 		public string DisplayText => _l10ntext >= 0 ? L10N.T(_l10ntext) : _text;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
+using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using MonoSAMFramework.Portable.Screens;
@@ -96,7 +97,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			var ownr = ((GDOverworldScreen)Owner);
 			if (ownr.IsTransitioning) return;
 			
-			
+			Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f);
 		}
 
 		private bool IsUnlocked()

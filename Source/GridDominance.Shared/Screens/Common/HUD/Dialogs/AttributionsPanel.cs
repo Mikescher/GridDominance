@@ -81,9 +81,5 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				AddElement(btn);
 			}
 		}
-
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
-
 	}
 }

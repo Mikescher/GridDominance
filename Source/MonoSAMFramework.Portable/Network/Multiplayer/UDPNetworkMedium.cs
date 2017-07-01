@@ -1,9 +1,8 @@
-﻿using System;
-using MonoSAMFramework.Portable.DeviceBridge;
+﻿using MonoSAMFramework.Portable.DeviceBridge;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
-	class UDPNetworkMedium : INetworkMedium, IDisposable
+	public class UDPNetworkMedium : INetworkMedium
 	{
 		private readonly IUDPClient _client;
 		
@@ -11,6 +10,16 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		{
 			_client = MonoSAMGame.CurrentInst.Bridge.CreateUPDClient();
 			_client.Connect(ip, port);
+		}
+
+		public byte[] RecieveOrNull()
+		{
+			return _client.RecieveOrNull();
+		}
+
+		public void Send(byte[] data)
+		{
+			_client.Send(data, data.Length);
 		}
 
 		public void Dispose()

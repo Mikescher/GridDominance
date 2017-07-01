@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using MonoSAMFramework.Portable.DeviceBridge;
+using MonoSAMFramework.Portable.LogProtocol;
 
 // ReSharper disable once CheckNamespace
 namespace GridDominance.Generic.Impl
@@ -10,17 +11,19 @@ namespace GridDominance.Generic.Impl
 	{
 		private readonly UdpClient _client;
 
-		private IPAddress _addr;
+		private string _addr;
 		private int _port;
 
+		private IPEndPoint tmp = new IPEndPoint(IPAddress.None, 0);
+		
 		public XamarinUDPClient()
 		{
 			_client = new UdpClient();
 		}
 
-		public void Connect(string ip, int port)
+		public void Connect(string host, int port)
 		{
-			_addr = IPAddress.Parse(ip);
+			_addr = host;
 			_port = port;
 			_client.Connect(_addr, _port);
 		}
@@ -37,8 +40,25 @@ namespace GridDominance.Generic.Impl
 
 		public void EndRecieve(IAsyncResult callback)
 		{
-			var ep = new IPEndPoint(_addr, _port);
+			var ep = new IPEndPoint(IPAddress.None, 0);
 			_client.EndReceive(callback, ref ep);
+		}
+
+		public byte[] RecieveOrNull()
+		{
+			if (_client.Available > 0)
+			{
+				try
+				{
+					return _client.Receive(ref tmp);
+				}
+				catch (Exception e)
+				{
+					SAMLog.Debug(e.Message);
+					return null;
+				}
+			}
+			return null;
 		}
 
 		public int Send(byte[] data, int length)

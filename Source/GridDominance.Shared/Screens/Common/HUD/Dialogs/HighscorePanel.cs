@@ -111,9 +111,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			LoadHighscore().EnsureNoError();
 		}
 
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
-
 		private async Task LoadHighscore()
 		{
 			try

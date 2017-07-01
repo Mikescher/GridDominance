@@ -123,6 +123,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
+			if (!IsVisible) return false;
 			if (!IsCursorOnButton(istate)) return false;
 
 			pointerDownTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
@@ -133,6 +134,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)
 		{
+			if (!IsVisible) return false;
 			if (!IsPointerDownOnElement) return true;
 			if (!isHoldingDown) return true;
 			if (!IsCursorOnButton(istate)) return false;

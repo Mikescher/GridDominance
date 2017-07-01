@@ -112,9 +112,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			});
 		}
 
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
-
 		private void OnClickBFB(TimesheetAnimationPresenter sender, EventArgs e)
 		{
 			MainGame.Inst.Bridge.OpenURL(GDConstants.BFB_URL);

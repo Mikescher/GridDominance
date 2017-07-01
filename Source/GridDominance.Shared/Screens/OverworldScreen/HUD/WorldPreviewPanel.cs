@@ -121,9 +121,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			});
 		}
 
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
-
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			base.DoUpdate(gameTime, istate);
