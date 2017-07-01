@@ -20,6 +20,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public const byte CMD_QUERYSESSION = 103;
 		public const byte CMD_PING = 104;
 		public const byte CMD_FORWARD = 125;
+		public const byte CMD_FORWARDLOBBYSYNC = 126;
 
 		public const byte ACK_SESSIONCREATED = 50;
 		public const byte ACK_SESSIONJOINED = 51;
@@ -29,16 +30,36 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public const byte ACK_SESSIONNOTFOUND = 61;
 		public const byte ACK_SESSIONFULL = 62;
 		public const byte ACK_SESSIONSECRETWRONG = 63;
+		
 		public const byte MSG_SESSIONTERMINATED = 71;
+		
+		public const byte ANS_FORWARDLOBBYSYNC = 81;
 
 		public enum ConnectionState { Offline, Connected }
-		public enum ServerMode { Base, CreatingSession, JoiningSession, InLobby, Error, Stopped }
 
-		private static readonly byte[] MSG_PING          = { CMD_PING,          0             };
-		private static readonly byte[] MSG_CREATESESSION = { CMD_CREATESESSION, 0, 0          };
-		private static readonly byte[] MSG_JOINSESSION   = { CMD_JOINSESSION,   0, 0, 0, 0, 0 };
-		private static readonly byte[] MSG_QUITSESSION   = { CMD_QUITSESSION,   0, 0, 0, 0, 0 };
-		private static readonly byte[] MSG_QUERYLOBBY    = { CMD_QUERYSESSION,  0, 0, 0, 0, 0 };
+		public enum ServerMode
+		{
+			Base,                    // Initial
+			
+			CreatingSession,         // Server
+			JoiningSession,          // Client
+			
+			InLobby,                 // Server|Client
+			
+			SyncingAfterLobby,       // Server
+
+			InGame,                  // Server|Client
+
+			Error,                   // See ErrorMessage, superset of [Stopped]
+			Stopped,                 // medium is dry
+		}
+
+		private readonly byte[] MSG_PING          = { CMD_PING,             0             };
+		private readonly byte[] MSG_CREATESESSION = { CMD_CREATESESSION,    0, 0          };
+		private readonly byte[] MSG_JOINSESSION   = { CMD_JOINSESSION,      0, 0, 0, 0, 0 };
+		private readonly byte[] MSG_QUITSESSION   = { CMD_QUITSESSION,      0, 0, 0, 0, 0 };
+		private readonly byte[] MSG_QUERYLOBBY    = { CMD_QUERYSESSION,     0, 0, 0, 0, 0 };
+		private          byte[] MSG_LOBBYSYNC     = { CMD_FORWARDLOBBYSYNC, 0, 0, 0, 0, 0 };
 
 		public ConnectionState ConnState = ConnectionState.Offline;
 		public ServerMode Mode = ServerMode.Base;
@@ -53,6 +74,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		private float _lastSendPing = 0f;
 		private float _lastSendJoinOrCreateSession = 0f;
 		private float _lastSendLobbyQuery = 0f;
+		private float _lastSendLobbySync = 0f;
+		private bool[] _lobbySyncAck;
 
 		private bool _stopped = false;
 
@@ -65,7 +88,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public readonly PingCounter Ping = new PingCounter(8);
 		public float PackageLossPerc = 0;
 
-		private readonly INetworkMedium _medium;
+		protected readonly INetworkMedium _medium;
 		
 		protected SAMNetworkConnection(INetworkMedium medium)
 		{
@@ -98,6 +121,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					UpdateJoinSession(gameTime);
 				else if (Mode == ServerMode.InLobby)
 					UpdateInLobby(gameTime);
+				else if (Mode == ServerMode.SyncingAfterLobby)
+					UpdateAfterLobbySync(gameTime);
 			}
 			catch (Exception e)
 			{
@@ -204,7 +229,40 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 		}
 
-		private void SetSequenceCounter(ref byte target)
+		private void UpdateAfterLobbySync(SAMTime gameTime)
+		{
+			if (gameTime.TotalElapsedSeconds - _lastSendPing > TIME_BETWEEN_PINGS && gameTime.TotalElapsedSeconds - _lastServerResponse > TIME_BETWEEN_PINGS)
+			{
+				SetSequenceCounter(ref MSG_PING[1]);
+				_medium.Send(MSG_PING);
+
+				_lastSendPing = gameTime.TotalElapsedSeconds;
+			}
+
+			ConnState = (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT) ? ConnectionState.Offline : ConnectionState.Connected;
+
+			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
+			{
+				Mode = ServerMode.Error;
+				ErrorMessage = "Timeout"; //TODO L10N
+				Stop();
+				return;
+			}
+
+			if (gameTime.TotalElapsedSeconds - _lastSendLobbySync > RESEND_TIME_RELIABLE)
+			{
+				SetSequenceCounter(ref MSG_LOBBYSYNC[1]);
+				_medium.Send(MSG_LOBBYSYNC);
+				_lastSendLobbySync = gameTime.TotalElapsedSeconds;
+			}
+
+			if (_lobbySyncAck.All(p => p))
+			{
+				Mode = ServerMode.InGame;
+			}
+		}
+
+		protected void SetSequenceCounter(ref byte target)
 		{
 			target = msgId;
 			msgAcks[msgId] = false;
@@ -228,7 +286,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 		}
 
-		private void RecieveAck(byte seq)
+		protected void RecieveAck(byte seq)
 		{
 			_lastServerResponse = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 			
@@ -372,7 +430,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					break;
 
 				case ACK_SESSIONJOINED:
-					
+
 					if (Mode == ServerMode.JoiningSession)
 					{
 						RecieveAck(d[1]);
@@ -383,14 +441,62 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 						SessionUserID = d[6];
 						SessionCapacity = d[7];
 
-						SAMLog.Debug($"Session created: {SessionID}:[{SessionSecret}]   (capacity: {SessionCapacity})");
+						SAMLog.Debug($"Session joined: {SessionID}:[{SessionSecret}]   (capacity: {SessionCapacity})");
+
+						return;
+					}
+					break;
+
+				case ANS_FORWARDLOBBYSYNC:
+
+					if (Mode == ServerMode.SyncingAfterLobby)
+					{
+						RecieveAck(d[1]);
+
+						var rec_sessionID = (ushort)(((d[2] << 8) & 0xFF00) | (d[3] & 0xFF));
+						var rec_sessionSecret = (ushort)((((d[4] << 8) & 0xFF00) | (d[5] & 0xFF)) & 0x0FFF);
+						var rec_sessionUserID = d[6];
+
+						if (rec_sessionID == SessionID && rec_sessionSecret == SessionSecret && rec_sessionUserID < SessionCount)
+						{
+							SAMLog.Debug($"LobbySync Ack: {SessionID}:[{SessionSecret}]   {SessionUserID})");
+							_lobbySyncAck[rec_sessionUserID] = true;
+						}
+						else
+						{
+							SAMLog.Error("SNS", $"Wrong Validation in ACK_FORWARDLOBBYSYNC   #   Session: {rec_sessionID}:[{rec_sessionSecret}] (real= {SessionID}:[{SessionSecret}]) by user {rec_sessionUserID}");
+						}
+						
 
 						return;
 					}
 					break;
 			}
-			
+
+			if (ProcessSpecificMessage(d[0], d)) return;
+
 			SAMLog.Error("SNS", "Unknown Server command: " + d[0] + " in mode " + Mode);
+		}
+
+		protected abstract bool ProcessSpecificMessage(byte cmd, byte[] data);
+		
+		public void StartLobbySync(byte[] binData)
+		{
+			if (Mode == ServerMode.SyncingAfterLobby) return;
+
+			MSG_LOBBYSYNC = new byte[6 + binData.Length];
+			MSG_LOBBYSYNC[0] = CMD_FORWARDLOBBYSYNC;
+			MSG_LOBBYSYNC[2] = (byte)((SessionID >> 8) & 0xFF);
+			MSG_LOBBYSYNC[3] = (byte)(SessionID & 0xFF);
+			MSG_LOBBYSYNC[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+			MSG_LOBBYSYNC[5] = (byte)(SessionSecret & 0xFF);
+
+			for (int i = 0; i < binData.Length; i++) MSG_LOBBYSYNC[6 + i] = binData[i];
+
+			_lobbySyncAck = new bool[SessionCount];
+			_lobbySyncAck[SessionUserID] = true;
+			
+			Mode = ServerMode.SyncingAfterLobby;
 		}
 
 		public void Stop()

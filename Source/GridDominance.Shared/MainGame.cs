@@ -219,7 +219,13 @@ namespace GridDominance.Shared
 			var scrn = new GDGameScreen_MPServer(this, Graphics, level, speed, music, server);
 			SetCurrentScreen(scrn);
 		}
-		
+
+		public void SetMultiplayerClientLevelScreen(LevelBlueprint level, GameSpeedModes speed, int music, GDMultiplayerClient server)
+		{
+			var scrn = new GDGameScreen_MPClient(this, Graphics, level, speed, music, server);
+			SetCurrentScreen(scrn);
+		}
+
 		protected override void LoadContent()
 		{
 			Textures.Initialize(Content, GraphicsDevice);

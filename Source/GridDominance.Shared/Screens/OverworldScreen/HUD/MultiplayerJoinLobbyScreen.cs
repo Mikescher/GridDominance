@@ -196,7 +196,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				_doNotStop = true;
 				Remove();
-				//TODO
+				Owner.HUD.AddModal(new MultiplayerClientLobbyPanel(_server), true, 0.5f);
 			}
 		}
 	}

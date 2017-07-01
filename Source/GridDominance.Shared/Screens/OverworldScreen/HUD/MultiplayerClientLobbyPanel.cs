@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
-using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
@@ -22,34 +20,25 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
-    class MultiplayerServerLobbyPanel : HUDRoundedPanel
+    class MultiplayerClientLobbyPanel : HUDRoundedPanel
 	{
 		public const float WIDTH = 14.0f * GDConstants.TILE_WIDTH;
 		public const float HEIGHT = 8.0f * GDConstants.TILE_WIDTH;
 
 		public override int Depth => 0;
 
-		private readonly GDMultiplayerServer _server;
+		private readonly GDMultiplayerClient _server;
 		private bool _doNotStop = false;
 
 		private HUDLabel _statusLabel;
 		private HUDLabel _infoLabel;
 
-
-		private readonly LevelBlueprint _level;
-		private readonly GameSpeedModes _speed;
-		private readonly int _musicIndex;
-
-		public MultiplayerServerLobbyPanel(GDMultiplayerServer server)
+		public MultiplayerClientLobbyPanel(GDMultiplayerClient server)
 		{
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
-
-			_level = Levels.LEVELS[Levels.WORLD_001.Nodes[3].LevelID];
-			_speed = GameSpeedModes.NORMAL;
-			_musicIndex = 2;
 
 			_server = server;
 		}
@@ -125,26 +114,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
 
-			if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby && _server.SessionCount == _server.SessionCapacity)
-			{
-				byte[] binData;
-				using (var ms = new MemoryStream())
-				using (var bw = new BinaryWriter(ms))
-				{
-					bw.Write(_level.UniqueID.ToByteArray());
-					bw.Write((byte)_speed);
-					bw.Write((byte)_musicIndex);
-
-					binData = ms.ToArray();
-				}
-
-				_server.StartLobbySync(binData);
-			}
-
-			if (_server.Mode == SAMNetworkConnection.ServerMode.InGame)
-			{
-				MainGame.Inst.SetMultiplayerServerLevelScreen(_level, _speed, _musicIndex, _server);
-			}
+			//if (_server.SessionCount == _server.SessionCapacity)
+			//{
+			//	MainGame.Inst.SetMultiplayerClientLevelScreen(Levels.LEVELS[Levels.WORLD_001.Nodes[3].LevelID], GameSpeedModes.NORMAL, 2, _server);
+			//}
 		}
 	}
 }

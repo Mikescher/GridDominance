@@ -86,6 +86,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\EndGameAutoComputerController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\TutorialController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GameWrapMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_MPClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_MPServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerJoinLobbyScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerClientLobbyPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerServerLobbyPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerHostPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\MultiplayerMainPanel.cs" />
