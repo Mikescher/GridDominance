@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using Android.Content;
 using Android.App;
+using GridDominance.Generic.Impl;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 
@@ -17,6 +18,7 @@ namespace GridDominance.Android
 		public FileHelper FileHelper { get; } = new AndroidFileHelper();
 		public IBillingAdapter IAB => _iab;
 		public IBluetoothAdapter Bluetooth => _bt;
+		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);

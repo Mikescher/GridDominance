@@ -13,6 +13,7 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		FileHelper FileHelper { get; }
 		IBillingAdapter IAB { get; }
 		IBluetoothAdapter Bluetooth { get; }
+		IUDPClient CreateUPDClient();
 
 		string DoSHA256(string input);
 		void OpenURL(string url);

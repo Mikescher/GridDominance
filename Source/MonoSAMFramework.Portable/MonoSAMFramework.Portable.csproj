@@ -47,9 +47,9 @@
     <Compile Include="DebugTools\GCMonitor.cs" />
     <Compile Include="DebugTools\IDebugTextDisplayLineProvider.cs" />
     <Compile Include="DebugTools\StandardDebugMinimapImplementation.cs" />
-    <Compile Include="DeviceBridge\DummyDeviceBridge.cs" />
     <Compile Include="DeviceBridge\IBillingAdapter.cs" />
     <Compile Include="DeviceBridge\IOperatingSystemBridge.cs" />
+    <Compile Include="DeviceBridge\IUDPClient.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
@@ -101,6 +101,9 @@
     <Compile Include="LogProtocol\SAMLogEntry.cs" />
     <Compile Include="LogProtocol\SAMLogLevel.cs" />
     <Compile Include="Network\Multiplayer\IBluetoothAdapter.cs" />
+    <Compile Include="Network\Multiplayer\INetworkMedium.cs" />
+    <Compile Include="Network\Multiplayer\SAMNetworkServer.cs" />
+    <Compile Include="Network\Multiplayer\UDPNetworkMedium.cs" />
     <Compile Include="Network\REST\RestConnectionException.cs" />
     <Compile Include="Network\REST\RestParameterSet.cs" />
     <Compile Include="Network\REST\SAMRestAPI.cs" />

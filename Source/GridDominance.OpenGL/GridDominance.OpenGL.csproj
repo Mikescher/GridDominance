@@ -42,14 +42,17 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\GridDominance.DirectX\WindowsBillingAdapter.cs">
-      <Link>WindowsBillingAdapter.cs</Link>
+    <Compile Include="..\GridDominance.Android\Impl\XamarinUDPClient.cs">
+      <Link>Impl\XamarinUDPClient.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.DirectX\WindowsFileHelper.cs">
-      <Link>WindowsFileHelper.cs</Link>
+    <Compile Include="..\GridDominance.DirectX\Impl\WindowsBillingAdapter.cs">
+      <Link>Impl\WindowsBillingAdapter.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.DirectX\WindowsImpl.cs">
-      <Link>WindowsImpl.cs</Link>
+    <Compile Include="..\GridDominance.DirectX\Impl\WindowsFileHelper.cs">
+      <Link>Impl\WindowsFileHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.DirectX\Impl\WindowsImpl.cs">
+      <Link>Impl\WindowsImpl.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

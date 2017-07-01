@@ -5,7 +5,9 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using GridDominance.Generic.Impl;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Network.Multiplayer;
 
 // ReSharper disable once CheckNamespace
 namespace GridDominance.Windows
@@ -14,6 +16,9 @@ namespace GridDominance.Windows
 	{
 		public FileHelper FileHelper { get; } = new WindowsFileHelper();
 		public IBillingAdapter IAB { get; } = new WindowsEmulatingBillingAdapter();
+		public IBluetoothAdapter Bluetooth { get; } = null; //TODO Win BT Dummy
+		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
+		
 		private readonly SHA256 sha256 = SHA256.Create();
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 

@@ -68,9 +68,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AndroidBilling.cs" />
-    <Compile Include="AndroidFileHelper.cs" />
-    <Compile Include="AndroidImpl.cs" />
+    <Compile Include="Impl\AndroidBilling.cs" />
+    <Compile Include="Impl\AndroidBluetoothAdapter.cs" />
+    <Compile Include="Impl\AndroidFileHelper.cs" />
+    <Compile Include="Impl\AndroidImpl.cs" />
+    <Compile Include="Impl\XamarinUDPClient.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="MainActivity.cs" />
   </ItemGroup>
@@ -105,6 +107,9 @@
       <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
       <Name>MonoSAMFramework.Portable</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
   </ItemGroup>
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" Condition="Exists('..\GridDominance.Shared\GridDominance.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
