@@ -78,7 +78,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			if (!_doNotStop)
 			{
-				if (_server.Mode == SAMNetworkServer.ServerMode.InLobby)
+				if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby)
 				{
 					_server.KillSession();
 				}
@@ -98,21 +98,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			_server.Update(gameTime, istate);
 
-			if (_server.ConnState == SAMNetworkServer.ConnectionState.Connected)
+			if (_server.ConnState == SAMNetworkConnection.ConnectionState.Connected)
 				_statusLabel.Text = _server.SessionCount + " / " + _server.SessionCapacity; //TODO L10N
 			else
 				_statusLabel.Text = "Connection lost"; //TODO L10N
 
 			_infoLabel.Text = KiddieCryptography.SpiralHexEncode(_server.SessionID, _server.SessionSecret);
 
-			if (_server.Mode == SAMNetworkServer.ServerMode.Error)
+			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
 				Remove();
 
 				Owner.HUD.ShowToast(_server.ErrorMessage, 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 			}
 			
-			if (_server.Mode == SAMNetworkServer.ServerMode.Stopped) Remove();
+			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
 
 			if (_server.SessionCount == _server.SessionCapacity)
 			{

@@ -3,7 +3,7 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
-	public class GDMultiplayerServer : SAMNetworkServer
+	public class GDMultiplayerServer : SAMNetworkConnection
 	{
 		
 		public GDMultiplayerServer() 

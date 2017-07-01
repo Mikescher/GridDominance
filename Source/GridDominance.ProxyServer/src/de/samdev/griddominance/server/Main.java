@@ -22,15 +22,15 @@ public class Main {
     public static final byte CMD_PING          = 104;
     public static final byte CMD_FORWARD       = 125;
 
-    public static final byte RET_SESSIONCREATED     = 50;
-    public static final byte RET_SESSIONJOINED      = 51;
-    public static final byte RET_QUERYANSWER        = 52;
-    public static final byte RET_SESSIONQUITSUCCESS = 53;
-    public static final byte RET_PINGRESULT         = 54;
-    public static final byte RET_SESSIONNOTFOUND    = 61;
-    public static final byte RET_SESSIONFULL        = 62;
-    public static final byte RET_SESSIONSECRETWRONG = 63;
-    public static final byte RET_SESSIONTERMINATED  = 71;
+    public static final byte ACK_SESSIONCREATED     = 50;
+    public static final byte ACK_SESSIONJOINED      = 51;
+    public static final byte ACK_QUERYANSWER        = 52;
+    public static final byte ACK_SESSIONQUITSUCCESS = 53;
+    public static final byte ACK_PINGRESULT         = 54;
+    public static final byte ACK_SESSIONNOTFOUND    = 61;
+    public static final byte ACK_SESSIONFULL        = 62;
+    public static final byte ACK_SESSIONSECRETWRONG = 63;
+    public static final byte MSG_SESSIONTERMINATED  = 71;
 
     private static final SimpleLog _log = new SimpleLog("proxyserver.log");
     private static final Random _random = new Random(System.currentTimeMillis());
@@ -42,6 +42,7 @@ public class Main {
     public static DatagramSocket Socket;
 
     public static Short sid = 0;
+    public static byte msgIdx = 0;
 
     public static void main(String[] args) {
 
@@ -67,11 +68,11 @@ public class Main {
         {
             try {
 
-                // FORWARD =   [8: CMD] [16: SessionID] [4: UserID] [12: SessionSecret] [24: _] [440: Payload]
-                // CREATE  =   [8: CMD] [4: SessionSize]
-                // JOIN    =   [8: CMD] [16: SessionID] [12: SessionSecret]
-                // QUIT    =   [8: CMD] [16: SessionID] [12: SessionSecret]
-                // QUERY   =   [8: CMD] [16: SessionID] [4: UserID] [12: SessionSecret]
+                // FORWARD =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [24: _] [440: Payload]
+                // CREATE  =   [8: CMD] [8:seq] [4: SessionSize]
+                // JOIN    =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
+                // QUIT    =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
+                // QUERY   =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret]
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, PACKAGE_SIZE);
 
                 try {
@@ -84,36 +85,42 @@ public class Main {
 
                 switch (receiveData[0]) {
                     case CMD_CREATESESSION:
-                        int create_sessionsize = (receiveData[1] & 0x0F);
-                        CreateNewSession(receivePacket.getAddress(), receivePacket.getPort(), create_sessionsize);
+                        byte create_seq = receiveData[1];
+                        int create_sessionsize = (receiveData[2] & 0x0F);
+                        CreateNewSession(receivePacket.getAddress(), receivePacket.getPort(), create_seq, create_sessionsize);
                         break;
                     case CMD_JOINSESSION:
-                        int join_sessionid = (((receiveData[1]&0xFF)<<8) | (receiveData[2]&0xFF));
-                        int join_sessionsecret = ((((receiveData[3]&0xFF)<<8) | (receiveData[4]&0xFF)) & 0x0FFF);
-                        JoinExistingSession(receivePacket.getAddress(), receivePacket.getPort(), join_sessionid, join_sessionsecret);
+                        byte join_seq = receiveData[1];
+                        int join_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
+                        int join_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
+                        JoinExistingSession(receivePacket.getAddress(), receivePacket.getPort(), join_seq, join_sessionid, join_sessionsecret);
                         break;
                     case CMD_QUITSESSION:
-                        int quit_sessionid = (((receiveData[1]&0xFF)<<8) | (receiveData[2]&0xFF));
-                        int quit_sessionsecret = ((((receiveData[3]&0xFF)<<8) | (receiveData[4]&0xFF)) & 0x0FFF);
-                        QuitSession(receivePacket.getAddress(), receivePacket.getPort(), quit_sessionid, quit_sessionsecret);
+                        byte quit_seq = receiveData[1];
+                        int quit_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
+                        int quit_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
+                        QuitSession(receivePacket.getAddress(), receivePacket.getPort(), quit_seq, quit_sessionid, quit_sessionsecret);
                         break;
                     case CMD_FORWARD:
-                        int fwd_sessionid = (((receiveData[1]&0xFF)<<8) | (receiveData[2]&0xFF));
-                        int fwd_sessionsecret = ((((receiveData[3]&0xFF)<<8) | (receiveData[4]&0xFF)) & 0x0FFF);
-                        int fwd_userid = ((receiveData[3] & 0xF0) >> 4);
+                        byte fwd_seq = receiveData[1];
+                        int fwd_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
+                        int fwd_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
+                        int fwd_userid = ((receiveData[4] & 0xF0) >> 4);
                         if (fwd_userid == 0)
-                            ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), fwd_sessionid, fwd_sessionsecret);
+                            ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), fwd_seq, fwd_sessionid, fwd_sessionsecret);
                         else
-                            ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), fwd_sessionid, fwd_sessionsecret);
+                            ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), fwd_seq, fwd_sessionid, fwd_sessionsecret);
                         break;
                     case CMD_QUERYSESSION:
-                        int query_sessionid = (((receiveData[1]&0xFF)<<8) | (receiveData[2]&0xFF));
-                        int query_sessionsecret = ((((receiveData[3]&0xFF)<<8) | (receiveData[4]&0xFF)) & 0x0FFF);
-                        int query_userid = ((receiveData[3] & 0xF0) >> 4);
-                        QuerySession(receivePacket.getAddress(), receivePacket.getPort(), query_sessionid, query_sessionsecret, query_userid);
+                        byte query_seq = receiveData[1];
+                        int query_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
+                        int query_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
+                        int query_userid = ((receiveData[4] & 0xF0) >> 4);
+                        QuerySession(receivePacket.getAddress(), receivePacket.getPort(), query_seq, query_sessionid, query_sessionsecret, query_userid);
                         break;
                     case CMD_PING:
-                        Ping(receivePacket.getAddress(), receivePacket.getPort());
+                        byte ping_seq = receiveData[1];
+                        Ping(receivePacket.getAddress(), receivePacket.getPort(), ping_seq);
                         break;
                     default:
                         _log.Error("Unknown Command: " + receiveData[0]);
@@ -124,7 +131,7 @@ public class Main {
         }
     }
 
-    private static void CreateNewSession(InetAddress host, int port, int size) throws IOException {
+    private static void CreateNewSession(InetAddress host, int port, byte seq, int size) throws IOException {
         sid++;
 
         GameSession session = new GameSession();
@@ -139,25 +146,27 @@ public class Main {
 
         _log.Info("Session " + session.SessionID + ":["  + session.SessionSecret + "] created for " + host.getHostAddress() + " : " + port + "  (Capacity="+session.MaxSize + ")");
 
-        // [8: RET] [16: SessionID] [4: _ ] [12: SessionSecret] [8: Size]
-        sendDataSmall[0] = RET_SESSIONCREATED;
-        sendDataSmall[1] = (byte)((session.SessionID >> 8) & 0xFF);
-        sendDataSmall[2] = (byte)((session.SessionID) & 0xFF);
-        sendDataSmall[3] = (byte)((session.SessionSecret >> 8) & 0xFF);
-        sendDataSmall[4] = (byte)((session.SessionSecret) & 0xFF);
-        sendDataSmall[5] = (byte)session.MaxSize;
+        // [8: RET] [8:seq] [16: SessionID] [4: _ ] [12: SessionSecret] [8: Size]
+        sendDataSmall[0] = ACK_SESSIONCREATED;
+        sendDataSmall[1] = seq;
+        sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
+        sendDataSmall[3] = (byte)((session.SessionID) & 0xFF);
+        sendDataSmall[4] = (byte)((session.SessionSecret >> 8) & 0xFF);
+        sendDataSmall[5] = (byte)((session.SessionSecret) & 0xFF);
+        sendDataSmall[6] = (byte)session.MaxSize;
 
 
         DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
         Socket.send(sendPacket);
     }
 
-    private static void JoinExistingSession(InetAddress host, int port, int sessionid, int sessionsecret) throws IOException {
+    private static void JoinExistingSession(InetAddress host, int port, byte seq, int sessionid, int sessionsecret) throws IOException {
 
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
-            sendDataSmall[0] = RET_SESSIONNOTFOUND;
+            sendDataSmall[0] = ACK_SESSIONNOTFOUND;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -168,7 +177,8 @@ public class Main {
         }
 
         if ((session.SessionSecret & 0x0FFF) != (sessionsecret & 0x0FFF)) {
-            sendDataSmall[0] = RET_SESSIONSECRETWRONG;
+            sendDataSmall[0] = ACK_SESSIONSECRETWRONG;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -179,7 +189,8 @@ public class Main {
         }
 
         if (session.UserAddr.size() >= session.MaxSize) {
-            sendDataSmall[0] = RET_SESSIONFULL;
+            sendDataSmall[0] = ACK_SESSIONFULL;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -197,14 +208,15 @@ public class Main {
 
                 // ======== already joined ========
 
-                // [8: RET] [16: SessionID]  [12: SessionSecret] [4: _ ] [4: UserID] [8: Size]
-                sendDataSmall[0] = RET_SESSIONJOINED;
-                sendDataSmall[1] = (byte)((session.SessionID >> 8) & 0xFF);
-                sendDataSmall[2] = (byte)((session.SessionID) & 0xFF);
-                sendDataSmall[3] = (byte)((session.SessionSecret >> 8) & 0xFF);
-                sendDataSmall[4] = (byte)((session.SessionSecret) & 0xFF);
-                sendDataSmall[5] = (byte)i;
-                sendDataSmall[6] = (byte)session.MaxSize;
+                // [8: RET] [8:seq] [16: SessionID]  [12: SessionSecret] [4: _ ] [4: UserID] [8: Size]
+                sendDataSmall[0] = ACK_SESSIONJOINED;
+                sendDataSmall[1] = seq;
+                sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
+                sendDataSmall[3] = (byte)((session.SessionID) & 0xFF);
+                sendDataSmall[4] = (byte)((session.SessionSecret >> 8) & 0xFF);
+                sendDataSmall[5] = (byte)((session.SessionSecret) & 0xFF);
+                sendDataSmall[6] = (byte)i;
+                sendDataSmall[7] = (byte)session.MaxSize;
 
                 _log.Info("User " + host.getHostAddress() + " : " + port + " double-joined session " + sessionid + "(uid="+i+";  capacity=" + session.MaxSize + ")");
 
@@ -217,14 +229,15 @@ public class Main {
         session.UserAddr.add(host);
         session.UserPorts.add(port);
 
-        // [8: RET] [16: SessionID]  [12: SessionSecret] [4: _ ] [4: UserID] [8: Size]
-        sendDataSmall[0] = RET_SESSIONJOINED;
-        sendDataSmall[1] = (byte)((session.SessionID) & 0xFF);
-        sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
-        sendDataSmall[3] = (byte)((session.SessionSecret >> 8) & 0xFF);
-        sendDataSmall[4] = (byte)((session.SessionSecret) & 0xFF);
-        sendDataSmall[5] = (byte)uid;
-        sendDataSmall[6] = (byte)session.MaxSize;
+        // [8: RET] [8:seq] [16: SessionID]  [12: SessionSecret] [4: _ ] [4: UserID] [8: Size]
+        sendDataSmall[0] = ACK_SESSIONJOINED;
+        sendDataSmall[1] = seq;
+        sendDataSmall[2] = (byte)((session.SessionID) & 0xFF);
+        sendDataSmall[3] = (byte)((session.SessionID >> 8) & 0xFF);
+        sendDataSmall[4] = (byte)((session.SessionSecret >> 8) & 0xFF);
+        sendDataSmall[5] = (byte)((session.SessionSecret) & 0xFF);
+        sendDataSmall[6] = (byte)uid;
+        sendDataSmall[7] = (byte)session.MaxSize;
 
         _log.Info("User " + host.getHostAddress() + " : " + port + " joined session " + sessionid + "(uid="+uid+";  capacity=" + session.MaxSize + ")");
 
@@ -232,11 +245,12 @@ public class Main {
         Socket.send(sendPacket);
     }
 
-    private static void QuerySession(InetAddress host, int port, int sessionid, int sessionsecret, int uid) throws IOException {
+    private static void QuerySession(InetAddress host, int port, byte seq, int sessionid, int sessionsecret, int uid) throws IOException {
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
-            sendDataSmall[0] = RET_SESSIONNOTFOUND;
+            sendDataSmall[0] = ACK_SESSIONNOTFOUND;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -247,7 +261,8 @@ public class Main {
         }
 
         if ((session.SessionSecret & 0x0FFF) != (sessionsecret & 0x0FFF)) {
-            sendDataSmall[0] = RET_SESSIONSECRETWRONG;
+            sendDataSmall[0] = ACK_SESSIONSECRETWRONG;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -269,13 +284,14 @@ public class Main {
 
 
         // [8: RET] [16: SessionID] [8: SessionContainsUser ] [8: UserID] [8: SessionSize] [8: SessionCapacity]
-        sendDataSmall[0] = RET_QUERYANSWER;
-        sendDataSmall[1] = (byte)((session.SessionID >> 8) & 0xFF);
-        sendDataSmall[2] = (byte)((session.SessionID) & 0xFF);
-        sendDataSmall[3] = (byte)(userInSession?1:0);
-        sendDataSmall[4] = (byte)uid;
-        sendDataSmall[5] = (byte)session.UserAddr.size();
-        sendDataSmall[6] = (byte)session.MaxSize;
+        sendDataSmall[0] = ACK_QUERYANSWER;
+        sendDataSmall[1] = seq;
+        sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
+        sendDataSmall[3] = (byte)((session.SessionID) & 0xFF);
+        sendDataSmall[4] = (byte)(userInSession?1:0);
+        sendDataSmall[5] = (byte)uid;
+        sendDataSmall[6] = (byte)session.UserAddr.size();
+        sendDataSmall[7] = (byte)session.MaxSize;
 
         _log.Debug("User " + host.getHostAddress() + " : " + port + " queried session " + sessionid);
 
@@ -283,7 +299,7 @@ public class Main {
         Socket.send(sendPacket);
     }
 
-    private static void QuitSession(InetAddress host, int port, int sessionid, int sessionsecret) throws IOException {
+    private static void QuitSession(InetAddress host, int port, byte seq, int sessionid, int sessionsecret) throws IOException {
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
@@ -291,9 +307,10 @@ public class Main {
             // ======= Already killed =========
 
             // [8: RET] [16: SessionID]
-            sendDataSmall[0] = RET_SESSIONQUITSUCCESS;
-            sendDataSmall[1] = (byte)((sessionid >> 8) & 0xFF);
-            sendDataSmall[2] = (byte)((sessionid) & 0xFF);
+            sendDataSmall[0] = ACK_SESSIONQUITSUCCESS;
+            sendDataSmall[1] = seq;
+            sendDataSmall[2] = (byte)((sessionid >> 8) & 0xFF);
+            sendDataSmall[3] = (byte)((sessionid) & 0xFF);
 
             _log.Info("Session " + sessionid + ":["  + sessionsecret + "] double-terminating by " + host.getHostAddress() + " : " + port);
 
@@ -304,7 +321,8 @@ public class Main {
         }
 
         if ((session.SessionSecret & 0x0FFF) != (sessionsecret & 0x0FFF)) {
-            sendDataSmall[0] = RET_SESSIONSECRETWRONG;
+            sendDataSmall[0] = ACK_SESSIONSECRETWRONG;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -319,30 +337,33 @@ public class Main {
         _log.Info("Session " + session.SessionID + ":["  + session.SessionSecret + "] terminating by " + host.getHostAddress() + " : " + port);
 
         for (int i = 0; i < session.UserAddr.size(); i++) {
-            // [8: RET] [16: SessionID] [8: UserID]
-            sendDataSmall[0] = RET_SESSIONTERMINATED;
-            sendDataSmall[1] = (byte)((session.SessionID >> 8) & 0xFF);
-            sendDataSmall[2] = (byte)((session.SessionID) & 0xFF);
-            sendDataSmall[3] = (byte)i;
+            // [8: RET] [8:seq] [16: SessionID] [8: UserID]
+            sendDataSmall[0] = MSG_SESSIONTERMINATED;
+            sendDataSmall[1] = msgIdx++;
+            sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
+            sendDataSmall[3] = (byte)((session.SessionID) & 0xFF);
+            sendDataSmall[4] = (byte)i;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, session.UserAddr.get(i), session.UserPorts.get(i));
             Socket.send(sendPacket);
         }
 
-        // [8: RET] [16: SessionID]
-        sendDataSmall[0] = RET_SESSIONQUITSUCCESS;
-        sendDataSmall[1] = (byte)((session.SessionID >> 8) & 0xFF);
-        sendDataSmall[2] = (byte)((session.SessionID) & 0xFF);
+        // [8: RET] [8:seq] [16: SessionID]
+        sendDataSmall[0] = ACK_SESSIONQUITSUCCESS;
+        sendDataSmall[1] = seq;
+        sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
+        sendDataSmall[3] = (byte)((session.SessionID) & 0xFF);
 
         DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
         Socket.send(sendPacket);
     }
 
-    private static void ForwardToServer(InetAddress host, int port, int sessionid, int sessionsecret) throws IOException {
+    private static void ForwardToServer(InetAddress host, int port, byte seq, int sessionid, int sessionsecret) throws IOException {
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
-            sendDataSmall[0] = RET_SESSIONNOTFOUND;
+            sendDataSmall[0] = ACK_SESSIONNOTFOUND;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -353,7 +374,8 @@ public class Main {
         }
 
         if ((session.SessionSecret & 0x0FFF) != (sessionsecret & 0x0FFF)) {
-            sendDataSmall[0] = RET_SESSIONSECRETWRONG;
+            sendDataSmall[0] = ACK_SESSIONSECRETWRONG;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -369,11 +391,12 @@ public class Main {
         Socket.send(sendPacket);
     }
 
-    private static void ForwardToClients(InetAddress host, int port, int sessionid, int sessionsecret) throws IOException {
+    private static void ForwardToClients(InetAddress host, int port, byte seq, int sessionid, int sessionsecret) throws IOException {
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
-            sendDataSmall[0] = RET_SESSIONNOTFOUND;
+            sendDataSmall[0] = ACK_SESSIONNOTFOUND;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -384,7 +407,8 @@ public class Main {
         }
 
         if ((session.SessionSecret & 0x0FFF) != (sessionsecret & 0x0FFF)) {
-            sendDataSmall[0] = RET_SESSIONSECRETWRONG;
+            sendDataSmall[0] = ACK_SESSIONSECRETWRONG;
+            sendDataSmall[1] = seq;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
             Socket.send(sendPacket);
@@ -403,10 +427,11 @@ public class Main {
 
     }
 
-    private static void Ping(InetAddress host, int port) throws IOException {
+    private static void Ping(InetAddress host, int port, byte seq) throws IOException {
 
         // [8: RET]
-        sendDataSmall[0] = RET_PINGRESULT;
+        sendDataSmall[0] = ACK_PINGRESULT;
+        sendDataSmall[1] = seq;
 
         _log.Debug("Ping " + host.getHostAddress() + " : " + port);
 

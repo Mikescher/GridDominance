@@ -101,21 +101,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			_statusLabel.Text = _server.ConnState.ToString();
 
-			if (_server.Mode == SAMNetworkServer.ServerMode.InLobby)
+			if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby)
 			{
 				_doNotStop = true;
 				Remove();
 				Owner.HUD.AddModal(new MultiplayerServerLobbyPanel(_server), true, 0.5f);
 			}
 
-			if (_server.Mode == SAMNetworkServer.ServerMode.Error)
+			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
 				Remove();
 
 				Owner.HUD.ShowToast(_server.ErrorMessage, 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 			}
 
-			if (_server.Mode == SAMNetworkServer.ServerMode.Stopped) Remove();
+			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
 		}
 	}
 }

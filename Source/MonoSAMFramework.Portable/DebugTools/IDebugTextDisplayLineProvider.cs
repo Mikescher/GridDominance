@@ -8,5 +8,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		void Update();
 		bool RemoveZombies();
+		
+		int Order { get; }
 	}
 }

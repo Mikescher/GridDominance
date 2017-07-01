@@ -22,7 +22,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public const float TEXT_SPACING = 1.15f;
 
 		private readonly ConcurrentQueue<DebugTextDisplayLine> asyncBacklog = new ConcurrentQueue<DebugTextDisplayLine>();
-		private readonly List<IDebugTextDisplayLineProvider> lines = new List<IDebugTextDisplayLineProvider>();
+		private List<IDebugTextDisplayLineProvider> lines = new List<IDebugTextDisplayLineProvider>();
 
 		private readonly IBatchRenderer debugBatch;
 
@@ -48,6 +48,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			lines.Add(l);
 
+			lines = lines.OrderBy(n => n.Order).ToList();
+			
 			return l;
 		}
 

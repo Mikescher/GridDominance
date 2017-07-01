@@ -33,6 +33,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public float PositionY = 0f;
 		public bool IsDecaying => lifetime < 1000;
 
+		public int Order => 0;
+		
 		public DebugTextDisplayLine(Func<string> text)
 			: this(text, ActionTrue)
 		{
