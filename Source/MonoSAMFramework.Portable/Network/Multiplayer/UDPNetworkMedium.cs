@@ -22,6 +22,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			_client.Send(data, data.Length);
 		}
 
+		public void Send(byte[] data, int len)
+		{
+			_client.Send(data, len);
+		}
+
 		public void Dispose()
 		{
 			_client.Disconnect();

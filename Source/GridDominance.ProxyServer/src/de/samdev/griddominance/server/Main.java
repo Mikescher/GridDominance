@@ -73,7 +73,7 @@ public class Main {
         {
             try {
 
-                // FORWARD =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [24: _] [440: Payload]
+                // FORWARD =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [440: Payload]
                 // CREATE  =   [8: CMD] [8:seq] [4: SessionSize]
                 // JOIN    =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
                 // QUIT    =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]

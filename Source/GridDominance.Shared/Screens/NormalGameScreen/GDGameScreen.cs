@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using GridDominance.Levelfileformat.Blueprint;
@@ -27,6 +28,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -85,12 +87,14 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		private Fraction fractionComputer1;
 		private Fraction fractionComputer2;
 		private Fraction fractionComputer3;
+		private Fraction[] fractionIDList;
 
 		public readonly LevelBlueprint Blueprint;
 		public readonly FractionDifficulty Difficulty;
 		public readonly LaserNetwork LaserNetwork;
 		public          GameWrapMode WrapMode;
-
+		public          Dictionary<byte, Cannon> CannonMap;
+		
 		public bool HasFinished = false;
 		public bool PlayerWon = false; // [P] win or [C] win
 		public float LevelTime = 0f;
@@ -114,6 +118,25 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			return fractionPlayer;
 		}
 #endif
+
+		public byte GetFractionID(Fraction f)
+		{
+			for (byte i = 0; i < fractionIDList.Length; i++)
+			{
+				if (fractionIDList[i] == f) return i;
+			}
+
+			SAMLog.Error("GetFractionID", $"Fraction not found: {f}");
+			return 0;
+		}
+
+		public Fraction GetFractionByID(byte id)
+		{
+			if (id >= 0 && id < fractionIDList.Length) return fractionIDList[id];
+
+			SAMLog.Error("GetFractionByID", $"Fraction not found: {id}");
+			return fractionNeutral;
+		}
 
 		public Fraction GetNeutralFraction()
 		{
@@ -178,13 +201,18 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			var cannonList = new List<Cannon>();
 			var portalList = new List<Portal>();
+			var FractionList = new List<Fraction>();
 			var laserworld = false;
-			
+
+			FractionList.Add(fractionNeutral);
+
 			foreach (var bPrint in Blueprint.BlueprintCannons)
 			{
 				var e = new BulletCannon(this, bPrint, fracList);
 				Entities.AddEntity(e);
 				cannonList.Add(e);
+				
+				if (!FractionList.Contains(e.Fraction)) FractionList.Add(e.Fraction);
 			}
 
 			foreach (var bPrint in Blueprint.BlueprintVoidWalls)
@@ -224,6 +252,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				Entities.AddEntity(e);
 				cannonList.Add(e);
 				laserworld = true;
+
+				if (!FractionList.Contains(e.Fraction)) FractionList.Add(e.Fraction);
 			}
 
 			foreach (var bPrint in Blueprint.BlueprintMirrorBlocks)
@@ -259,6 +289,10 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			foreach (var portal in portalList)
 				portal.OnAfterLevelLoad(portalList);
 
+			CannonMap = cannonList.ToDictionary(p => p.BlueprintCannonID, p => p);
+
+			fractionIDList = fracList.ToArray();
+			
 			//----------------------------------------------------------------
 
 			if (!IsPreview && (Blueprint.LevelWidth > GDConstants.VIEW_WIDTH || Blueprint.LevelHeight > GDConstants.VIEW_HEIGHT) ) AddAgent(new GameDragAgent(this));

@@ -6,5 +6,6 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 	{
 		byte[] RecieveOrNull();
 		void Send(byte[] data);
+		void Send(byte[] data, int len);
 	}
 }

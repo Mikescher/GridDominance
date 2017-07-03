@@ -86,7 +86,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
-		public readonly int BlueprintCannonID;
+		public readonly byte BlueprintCannonID;
 		private readonly BulletPathBlueprint[] bulletPathBlueprints;
 		public List<BulletPath> BulletPaths;
 
@@ -100,7 +100,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected int counterAttackingLasersFriends = 0;
 		protected int counterAttackingLasersEnemy   = 0;
 
-		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, int cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
+		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, byte cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
 			Fraction = fractions[player];
 			GDOwner = scrn;

@@ -63,11 +63,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		{
 			_screen = scrn;
 
-			_cannon1 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 1001);
-			_cannon2 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 1002);
-			_cannon3 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 3000);
-			_cannon4 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 2002);
-			_cannon5 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 2001);
+			_cannon1 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 11);
+			_cannon2 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 12);
+			_cannon3 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 30);
+			_cannon4 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 22);
+			_cannon5 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 21);
 
 			_controller5 = new TutorialController(_screen, _cannon5);
 			_cannon5.ForceSetController(_controller5);

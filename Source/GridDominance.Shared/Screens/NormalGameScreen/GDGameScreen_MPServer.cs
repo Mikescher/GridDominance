@@ -14,7 +14,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
 {
-	class GDGameScreen_MPServer : GDGameScreen
+	public class GDGameScreen_MPServer : GDGameScreen
 	{
 		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular);
 
@@ -27,6 +27,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			musicIdx = music;
 			GameSpeedMode = speed;
 			_server = server;
+
+			_server.Screen = this;
+
+
+#if DEBUG
+			_server.AddDebugLine(this);
+#endif
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

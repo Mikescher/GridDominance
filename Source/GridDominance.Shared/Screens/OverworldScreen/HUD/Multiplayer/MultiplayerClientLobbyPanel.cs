@@ -114,10 +114,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
 
-			//if (_server.SessionCount == _server.SessionCapacity)
-			//{
-			//	MainGame.Inst.SetMultiplayerClientLevelScreen(Levels.LEVELS[Levels.WORLD_001.Nodes[3].LevelID], GameSpeedModes.NORMAL, 2, _server);
-			//}
+			if (_server.Mode == SAMNetworkConnection.ServerMode.InGame)
+			{
+				MainGame.Inst.SetMultiplayerClientLevelScreen(Levels.LEVELS[Levels.WORLD_001.Nodes[3].LevelID], GameSpeedModes.NORMAL, 2, _server);
+			}
 		}
 	}
 }
