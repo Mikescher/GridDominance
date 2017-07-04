@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerCommon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\RemoteBulletHint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Animations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Attributions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\GDSounds.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SubSettingClickZone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\GameDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\TutorialAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BaseBullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\RemoteBullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BulletCannon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BulletPath.cs" />

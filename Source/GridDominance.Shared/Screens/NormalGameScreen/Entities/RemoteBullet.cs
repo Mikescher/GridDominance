@@ -4,6 +4,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen.EntityOperations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
@@ -13,28 +14,22 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
-	public class RemoteBullet : GameEntity
+	public class RemoteBullet : BaseBullet
 	{
-		public enum RemoteBulletState { Normal = 0, Dying_Explosion = 1, Dying_Shrink = 2, Dying_Fade = 3, Dead = 4 }
+		public enum RemoteBulletState { Normal = 0, Dying_Explosion = 1, Dying_ShrinkFast = 2, Dying_ShrinkSlow = 3, Dying_Fade = 4, Dying_Instant = 5 } // max=15
 
-		public Fraction Fraction;
-
-		public FPoint BulletPosition;
+		public const int POST_DEATH_TRANSMITIONCOUNT = 8;
+		
 		public Vector2 BulletVelocity;
-		public float BulletRotation = 0f;
-		public float BulletAlpha = 1f;
-		public float BulletExtraScale = 1f;
 
 		public long LastUpdateBigSeq;
 		
-		public readonly ushort BulletID;
 		public RemoteBulletState RemoteState = RemoteBulletState.Normal;
-		public Body PhysicsBody;
-		public float Scale;
 		public readonly GDGameScreen GDOwner;
 
 		public override FPoint Position => BulletPosition;
@@ -42,12 +37,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override Color DebugIdentColor => Fraction.Color;
 
 		public RemoteBullet(GDGameScreen scrn, FPoint pos, Vector2 velo, ushort id, float entityScale, Fraction frac, long seq) 
-			: base(scrn, GDConstants.ORDER_GAME_BULLETS)
+			: base(scrn, frac, entityScale)
 		{
 			BulletPosition = pos;
 			BulletVelocity = velo;
-			Fraction = frac;
-			Scale = entityScale;
 			GDOwner = scrn;
 			BulletID = id;
 			LastUpdateBigSeq = seq;
@@ -113,6 +106,35 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			RemoteState = state;
 
 			LastUpdateBigSeq = seq;
+		}
+
+		public void RemoteKill(RemoteBulletState state)
+		{
+			switch (state)
+			{
+				case RemoteBulletState.Dying_Explosion:
+					if (MainGame.Inst.Profile.EffectsEnabled)
+					{
+						for (int i = 0; i < 8; i++)
+							Manager.AddEntity(new BulletSplitter(Owner, this, (FlatAlign8)i));
+					}
+					Alive = false;
+					break;
+				case RemoteBulletState.Dying_ShrinkFast:
+					AddEntityOperation(new BulletShrinkAndDieOperation(0.15f));
+					break;
+				case RemoteBulletState.Dying_ShrinkSlow:
+					AddEntityOperation(new BulletShrinkAndDieOperation(0.35f));
+					break;
+				case RemoteBulletState.Dying_Fade:
+					AddEntityOperation(new BulletFadeAndDieOperation(0.05f));
+					break;
+				case RemoteBulletState.Dying_Instant:
+					Alive = false;
+					break;
+			}
+
+			if (GDOwner.RemoteBulletMapping[BulletID] == this) GDOwner.RemoteBulletMapping[BulletID] = null;
 		}
 	}
 }

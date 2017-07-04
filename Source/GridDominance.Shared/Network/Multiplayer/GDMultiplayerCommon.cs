@@ -155,12 +155,14 @@ namespace GridDominance.Shared.Network.Multiplayer
 						}
 						break;
 					case RemoteBullet.RemoteBulletState.Dying_Explosion:
-						break;
-					case RemoteBullet.RemoteBulletState.Dying_Shrink:
-						break;
+					case RemoteBullet.RemoteBulletState.Dying_ShrinkSlow:
+					case RemoteBullet.RemoteBulletState.Dying_ShrinkFast:
 					case RemoteBullet.RemoteBulletState.Dying_Fade:
-						break;
-					case RemoteBullet.RemoteBulletState.Dead:
+					case RemoteBullet.RemoteBulletState.Dying_Instant:
+						if (bullet != null && bullet.RemoteState == RemoteBullet.RemoteBulletState.Normal)
+						{
+							bullet.RemoteKill(state);
+						}
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();
@@ -257,12 +259,19 @@ namespace GridDominance.Shared.Network.Multiplayer
 			int i = 0;
 			for (int bid = 0; bid < GDGameScreen.MAX_BULLET_ID; bid++)
 			{
-				if (Screen.BulletMapping[bid] == null) continue;
+				if (Screen.BulletMapping[bid].Bullet == null) continue;
+				if (Screen.BulletMapping[bid].State != RemoteBullet.RemoteBulletState.Normal && Screen.BulletMapping[bid].RemainingPostDeathTransmitions <= 0)
+				{
+					Screen.BulletMapping[bid].Bullet = null; // for GC
+					continue;
+				}
+
+				Screen.BulletMapping[bid].RemainingPostDeathTransmitions--;
 
 				// [12: ID] [4: State] [16: PosX] [16: PosY] [10: VecRot] [11: VecLen] [3: Fraction] [8: Scale]
 
-				var b = Screen.BulletMapping[bid];
-				var state = RemoteBullet.RemoteBulletState.Normal;
+				var b = Screen.BulletMapping[bid].Bullet;
+				var state = Screen.BulletMapping[bid].State;
 				var veloc = b.Velocity;
 				ushort px, py;
 				Screen.PositionTo2Byte(b.Position, out px, out py);

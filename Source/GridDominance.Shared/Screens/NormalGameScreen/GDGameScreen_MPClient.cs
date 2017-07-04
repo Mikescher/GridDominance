@@ -27,7 +27,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public override Fraction LocalPlayerFraction => _localPlayerFraction;
 
 		public GDGameScreen_MPClient(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, GameSpeedModes speed, int music, GDMultiplayerClient server) 
-			: base(game, gdm, bp, FractionDifficulty.KI_NORMAL, false)
+			: base(game, gdm, bp, FractionDifficulty.KI_NORMAL, false, true)
 		{
 			musicIdx = music;
 			GameSpeedMode = speed;

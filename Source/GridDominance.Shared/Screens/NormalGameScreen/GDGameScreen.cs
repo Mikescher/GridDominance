@@ -27,6 +27,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using FarseerPhysics.Factories;
+using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.GameMath;
@@ -98,7 +99,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public readonly LaserNetwork LaserNetwork;
 		public          GameWrapMode WrapMode;
 		public          Dictionary<byte, Cannon> CannonMap;
-		public readonly Bullet[] BulletMapping = new Bullet[MAX_BULLET_ID];
+		public readonly RemoteBulletHint[] BulletMapping = new RemoteBulletHint[MAX_BULLET_ID];
 		public readonly RemoteBullet[] RemoteBulletMapping = new RemoteBullet[MAX_BULLET_ID];
 		public ushort lastBulletID = 0;
 
@@ -107,14 +108,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public float LevelTime = 0f;
 
 		public readonly bool IsPreview;
+		public readonly bool IsNetwork;
 
 		public abstract Fraction LocalPlayerFraction { get; }
 
-		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, bool prev) : base(game, gdm)
+		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, bool prev, bool netw) : base(game, gdm)
 		{
 			Blueprint = bp;
 			Difficulty = diff;
 			IsPreview = prev;
+			IsNetwork = netw;
 
 			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this, (GameWrapMode)bp.WrapMode);
 
@@ -178,26 +181,68 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		{
 			lastBulletID = (ushort)((lastBulletID + 1) % MAX_BULLET_ID);
 
+			if (!IsNetwork) return lastBulletID;
+
 			for (ushort i = 0; i < MAX_BULLET_ID; i++)
 			{
 				var ti = (ushort)((lastBulletID + i) % MAX_BULLET_ID);
-				if (BulletMapping[ti] == null)
+				if (BulletMapping[ti].Bullet == null || (BulletMapping[ti].State != RemoteBullet.RemoteBulletState.Normal && BulletMapping[ti].RemainingPostDeathTransmitions <= 0))
 				{
-					BulletMapping[ti] = bullet;
+					BulletMapping[ti].Bullet = bullet;
+					BulletMapping[ti].State = RemoteBullet.RemoteBulletState.Normal;
+					BulletMapping[ti].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
+
+					lastBulletID = ti;
+					return ti;
+				}
+			}
+
+			SAMLog.Info("GDGS", "Too many bullets+artifacts, no free fully-dead BulletID");
+
+			for (ushort i = 0; i < MAX_BULLET_ID; i++)
+			{
+				var ti = (ushort)((lastBulletID + i) % MAX_BULLET_ID);
+				if (BulletMapping[ti].Bullet == null || BulletMapping[ti].State != RemoteBullet.RemoteBulletState.Normal)
+				{
+					BulletMapping[ti].Bullet = bullet;
+					BulletMapping[ti].State = RemoteBullet.RemoteBulletState.Normal;
+					BulletMapping[ti].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
+
 					lastBulletID = ti;
 					return ti;
 				}
 			}
 
 			SAMLog.Error("GDGS", "Too many bullets, no free BulletID");
-			BulletMapping[lastBulletID] = bullet;
+			BulletMapping[lastBulletID].Bullet = bullet;
+			BulletMapping[lastBulletID].State = RemoteBullet.RemoteBulletState.Normal;
+			BulletMapping[lastBulletID].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
 
 			return lastBulletID;
 		}
 		
 		public void UnassignBulletID(ushort id, Bullet bullet)
 		{
-			if (BulletMapping[id] == bullet) BulletMapping[id] = null;
+			if (!IsNetwork) return;
+			
+			if (BulletMapping[id].Bullet == bullet)
+			{
+				if (BulletMapping[id].State == RemoteBullet.RemoteBulletState.Normal) BulletMapping[id].State = RemoteBullet.RemoteBulletState.Dying_Instant;
+			}
+		}
+
+		public void ChangeBulletID(RemoteBullet.RemoteBulletState state, ushort id, Bullet bullet)
+		{
+			if (!IsNetwork) return;
+			
+			if (BulletMapping[id].Bullet == bullet)
+			{
+				if (BulletMapping[id].State == RemoteBullet.RemoteBulletState.Normal)
+				{
+					BulletMapping[id].State = state;
+					BulletMapping[id].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
+				}
+			}
 		}
 
 		private void Initialize()
@@ -521,6 +566,5 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public abstract void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints);
 		public abstract void ExitToMap();
 		public abstract AbstractFractionController CreateController(Fraction f, Cannon cannon);
-
 	}
 }

@@ -23,28 +23,14 @@ using GridDominance.Shared.Screens.ScreenGame;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
-	public class Bullet : GameEntity
+	public class Bullet : BaseBullet
 	{
 		private sealed class CollisionIgnorePortal { public Portal Entity; public ulong LastCollidedCycle; }
 		private const int CollisionIgnoreObjectDecayCycles = 16;
 
-		public  const float BULLET_DIAMETER = 25;
-		public  const float MAXIMUM_LIFETIME = 25;
-
-		public readonly Fraction Fraction;
-
-		public bool IsDying;
-
-		public FPoint BulletPosition;
-		public float BulletRotation = 0f;
-		public float BulletAlpha = 1f;
-		public float BulletExtraScale = 1f;
 		public Vector2 Velocity => ConvertUnits.ToDisplayUnits(PhysicsBody.LinearVelocity);
 
-		public readonly ushort BulletID;
-		public Body PhysicsBody;
 		public readonly Cannon Source;
-		public readonly float Scale;
 		public readonly GDGameScreen GDOwner;
 
 		private readonly Vector2 initialVelocity;
@@ -55,13 +41,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private List<CollisionIgnorePortal> _ignoredPortals = new List<CollisionIgnorePortal>();
 
-		public Bullet(GDGameScreen scrn, Cannon shooter, FPoint pos, Vector2 velo, float entityScale, Fraction frac) : base(scrn, GDConstants.ORDER_GAME_BULLETS)
+		public Bullet(GDGameScreen scrn, Cannon shooter, FPoint pos, Vector2 velo, float entityScale, Fraction frac) : base(scrn, frac, entityScale)
 		{
 			BulletPosition = pos;
 			initialVelocity = velo;
 			Source = shooter;
-			Fraction = frac;
-			Scale = entityScale;
 			GDOwner = scrn;
 			BulletID = scrn.AssignBulletID(this);
 
@@ -321,6 +305,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			}
 
 			Alive = false;
+
+			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Instant, BulletID, this);
 		}
 
 		private void DisintegrateIntoEnemy()
@@ -329,6 +315,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			AddEntityOperation(new BulletFadeAndDieOperation(0.05f));
 			IsDying = true;
+
+			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Fade, BulletID, this);
 		}
 
 		public void DisintegrateIntoVortex()
@@ -339,6 +327,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			AddEntityOperation(new BulletShrinkAndDieOperation(0.35f));
 			IsDying = true;
+
+			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_ShrinkSlow, BulletID, this);
 		}
 
 		private void DisintegrateIntoFriend()
@@ -347,6 +337,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			AddEntityOperation(new BulletShrinkAndDieOperation(0.15f));
 			IsDying = true;
+
+			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_ShrinkFast, BulletID, this);
 		}
 
 		private void DisintegrateIntoPortal()
@@ -355,6 +347,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			AddEntityOperation(new BulletShrinkAndDieOperation(0.15f));
 			IsDying = true;
+
+			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_ShrinkFast, BulletID, this);
 		}
 
 		public override void OnRemove()

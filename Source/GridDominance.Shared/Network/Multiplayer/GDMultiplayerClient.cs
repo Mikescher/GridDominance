@@ -115,7 +115,15 @@ namespace GridDominance.Shared.Network.Multiplayer
 				return;
 			}
 
-			ProcessStateData(d, msgUserID);
+
+			if (IsSeqGreater(UserConn[msgUserID].LastRecievedSeq, seq))
+			{
+				ProcessStateData(d, msgUserID);
+			}
+			else
+			{
+				SAMLog.Debug("Ignore Out-Of-Order Message");
+			}
 
 			RecieveMsg(msgUserID, seq);
 		}
