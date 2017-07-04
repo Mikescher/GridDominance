@@ -16,12 +16,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		private bool isMouseDragging = false;
 		private FPoint dragOrigin;
 
-		public override bool DoBarrelRecharge() => true;
+		private readonly bool _dbc;
+		public override bool DoBarrelRecharge() => _dbc;
 
-		public PlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction) 
+		public PlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction, bool doBarrelRecharge = true) 
 			: base(0f, owner, cannon, fraction, false)
 		{
-			//
+			_dbc = doBarrelRecharge;
 		}
 
 		public override void OnRemove()

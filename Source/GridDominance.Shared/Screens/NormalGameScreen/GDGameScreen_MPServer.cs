@@ -21,6 +21,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		private readonly int musicIdx;
 		private readonly GDMultiplayerServer _server;
 
+		private readonly Fraction _localPlayerFraction;
+		public override Fraction LocalPlayerFraction => _localPlayerFraction;
+
 		public GDGameScreen_MPServer(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, GameSpeedModes speed, int music, GDMultiplayerServer server) 
 			: base(game, gdm, bp, FractionDifficulty.KI_NORMAL, false)
 		{
@@ -30,7 +33,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			_server.Screen = this;
 
+			_localPlayerFraction = GetFractionByID(1);
 
+			foreach (var c in GetEntities<Cannon>()) c.ForceUpdateController();
+			
 #if DEBUG
 			_server.AddDebugLine(this);
 #endif
@@ -65,25 +71,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override AbstractFractionController CreateController(Fraction f, Cannon cannon)
 		{
-			if (HasFinished)
-			{
-				return new EndGameAutoPlayerController(this, cannon, f);
-			}
-			
-			switch (f.Type)
-			{
-				case FractionType.PlayerFraction:
-					return new PlayerController(this, cannon, f);
+			if (HasFinished) return new EndGameAutoPlayerController(this, cannon, f);
 
-				case FractionType.ComputerFraction:
-					return cannon.CreateKIController(this, f);
+			if (f == LocalPlayerFraction) return new PlayerController(this, cannon, f);
 
-				case FractionType.NeutralFraction:
-					return new NeutralKIController(this, cannon, f);
+			if (f.Type == FractionType.NeutralFraction) return new NeutralKIController(this, cannon, f);
 
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+			return new RemoteController(this, cannon, f, true);
 		}
 
 		protected override void OnShow()

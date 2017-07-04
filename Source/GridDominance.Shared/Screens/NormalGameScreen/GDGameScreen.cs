@@ -29,6 +29,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -41,6 +42,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public const float GAMESPEED_FAST      = 2f;
 		public const float GAMESPEED_SUPERFAST = 4f;
 
+		public const int MAX_BULLET_ID = 1 << 12; // 12bit = [0..4095]
+
 		//-----------------------------------------------------------------
 
 		public MainGame GDOwner => (MainGame)Game;
@@ -51,6 +54,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
 		protected override GameBackground CreateBackground() => new SolidColorBackground(this, Color.Gainsboro);
+
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, 1, 1);
@@ -82,11 +86,11 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			}
 		}
 
-		private Fraction fractionNeutral;
-		private Fraction fractionPlayer;
-		private Fraction fractionComputer1;
-		private Fraction fractionComputer2;
-		private Fraction fractionComputer3;
+		protected Fraction fractionNeutral;
+		protected Fraction fractionPlayer;
+		protected Fraction fractionComputer1;
+		protected Fraction fractionComputer2;
+		protected Fraction fractionComputer3;
 		private Fraction[] fractionIDList;
 
 		public readonly LevelBlueprint Blueprint;
@@ -94,13 +98,18 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public readonly LaserNetwork LaserNetwork;
 		public          GameWrapMode WrapMode;
 		public          Dictionary<byte, Cannon> CannonMap;
-		
+		public readonly Bullet[] BulletMapping = new Bullet[MAX_BULLET_ID];
+		public readonly RemoteBullet[] RemoteBulletMapping = new RemoteBullet[MAX_BULLET_ID];
+		public ushort lastBulletID = 0;
+
 		public bool HasFinished = false;
 		public bool PlayerWon = false; // [P] win or [C] win
 		public float LevelTime = 0f;
 
 		public readonly bool IsPreview;
-		
+
+		public abstract Fraction LocalPlayerFraction { get; }
+
 		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, bool prev) : base(game, gdm)
 		{
 			Blueprint = bp;
@@ -110,6 +119,28 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this, (GameWrapMode)bp.WrapMode);
 
 			Initialize();
+		}
+
+		public void PositionTo2Byte(FPoint pos, out ushort x, out ushort y)
+		{
+			var xmin = MapFullBounds.Left - MapFullBounds.Width / 2f;
+			var xmax = MapFullBounds.Right + MapFullBounds.Width / 2f;
+			var ymin = MapFullBounds.Top - MapFullBounds.Height / 2f;
+			var ymax = MapFullBounds.Bottom + MapFullBounds.Height / 2f;
+
+			x = (ushort)FloatMath.IClamp(FloatMath.Round(((pos.X - xmin) / (xmax - xmin)) * 65535), 0, 65535);
+			y = (ushort)FloatMath.IClamp(FloatMath.Round(((pos.Y - ymin) / (ymax - ymin)) * 65535), 0, 65535);
+		}
+
+		public void DoubleByteToPosition(ushort bx, ushort by, out float px, out float py)
+		{
+			var xmin = MapFullBounds.Left - MapFullBounds.Width / 2f;
+			var xmax = MapFullBounds.Right + MapFullBounds.Width / 2f;
+			var ymin = MapFullBounds.Top - MapFullBounds.Height / 2f;
+			var ymax = MapFullBounds.Bottom + MapFullBounds.Height / 2f;
+
+			px = xmin + (bx / 65535f) * (xmax - xmin);
+			py = ymin + (by / 65535f) * (ymax - ymin);
 		}
 
 #if DEBUG
@@ -141,6 +172,32 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public Fraction GetNeutralFraction()
 		{
 			return fractionNeutral;
+		}
+
+		public ushort AssignBulletID(Bullet bullet)
+		{
+			lastBulletID = (ushort)((lastBulletID + 1) % MAX_BULLET_ID);
+
+			for (ushort i = 0; i < MAX_BULLET_ID; i++)
+			{
+				var ti = (ushort)((lastBulletID + i) % MAX_BULLET_ID);
+				if (BulletMapping[ti] == null)
+				{
+					BulletMapping[ti] = bullet;
+					lastBulletID = ti;
+					return ti;
+				}
+			}
+
+			SAMLog.Error("GDGS", "Too many bullets, no free BulletID");
+			BulletMapping[lastBulletID] = bullet;
+
+			return lastBulletID;
+		}
+		
+		public void UnassignBulletID(ushort id, Bullet bullet)
+		{
+			if (BulletMapping[id] == bullet) BulletMapping[id] = null;
 		}
 
 		private void Initialize()
@@ -201,10 +258,10 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			var cannonList = new List<Cannon>();
 			var portalList = new List<Portal>();
-			var FractionList = new List<Fraction>();
+			var fractionList = new List<Fraction>();
 			var laserworld = false;
 
-			FractionList.Add(fractionNeutral);
+			fractionList.Add(fractionNeutral);
 
 			foreach (var bPrint in Blueprint.BlueprintCannons)
 			{
@@ -212,7 +269,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				Entities.AddEntity(e);
 				cannonList.Add(e);
 				
-				if (!FractionList.Contains(e.Fraction)) FractionList.Add(e.Fraction);
+				if (!fractionList.Contains(e.Fraction)) fractionList.Add(e.Fraction);
 			}
 
 			foreach (var bPrint in Blueprint.BlueprintVoidWalls)
@@ -253,7 +310,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				cannonList.Add(e);
 				laserworld = true;
 
-				if (!FractionList.Contains(e.Fraction)) FractionList.Add(e.Fraction);
+				if (!fractionList.Contains(e.Fraction)) fractionList.Add(e.Fraction);
 			}
 
 			foreach (var bPrint in Blueprint.BlueprintMirrorBlocks)
@@ -291,7 +348,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			CannonMap = cannonList.ToDictionary(p => p.BlueprintCannonID, p => p);
 
-			fractionIDList = fracList.ToArray();
+			foreach (var f in fracList) if (!fractionList.Contains(f)) fractionList.Add(f);
+			fractionIDList = fractionList.ToArray();
 			
 			//----------------------------------------------------------------
 
@@ -463,5 +521,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public abstract void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints);
 		public abstract void ExitToMap();
 		public abstract AbstractFractionController CreateController(Fraction f, Cannon cannon);
+
 	}
 }

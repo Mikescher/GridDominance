@@ -253,7 +253,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			CannonHealth.Inc(HEALTH_HIT_GEN);
 			if (CannonHealth.Limit(0f, 1f) == 1)
 			{
-				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.LaserMultiplicator)));
+				AddEntityOperation(new CannonBooster(1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.LaserMultiplicator)));
 			}
 		}
 

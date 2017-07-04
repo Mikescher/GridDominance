@@ -161,7 +161,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 #if DEBUG
 			// ASSERTION
-			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBulletBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
+			if (ActiveOperations.Count(p => p is CannonBooster) != BulletBoostCount) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
 		}
 
@@ -288,7 +288,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			CannonHealth.Inc(HEALTH_HIT_GEN);
 			if (CannonHealth.Limit(0f, 1f) == 1)
 			{
-				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.BulletMultiplicator)));
+				AddEntityOperation(new CannonBooster(1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.BulletMultiplicator)));
 			}
 		}
 

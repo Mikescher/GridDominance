@@ -116,7 +116,7 @@ public class Main {
                         else
                             ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), fwd1_seq, fwd1_userid, fwd1_sessionid, fwd1_sessionsecret);
 
-                        _log.Debug("ForwardLobbySync from "+fwd1_userid+" (cmd="+receiveData[0]+")");
+                        //_log.Debug("Forward from "+fwd1_userid+" (cmd="+receiveData[0]+")");
                         break;
                     case CMD_FORWARDLOBBYSYNC:
                         byte fwd2_seq = receiveData[1];
@@ -185,7 +185,12 @@ public class Main {
 
     private static void JoinExistingSession(InetAddress host, int port, byte seq, int sessionid, int sessionsecret) throws IOException {
 
+
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
+
+        //TODO REMOVE ME !!!
+        if (session == null && Sessions.size() > 0) {session = Sessions.entrySet().stream().findFirst().get().getValue(); sessionid = session.SessionID; sessionsecret = session.SessionSecret;  } //TODO REMOVE ME
+        //TODO REMOVE ME !!!
 
         if (session == null) {
             sendDataSmall[0] = ACK_SESSIONNOTFOUND;

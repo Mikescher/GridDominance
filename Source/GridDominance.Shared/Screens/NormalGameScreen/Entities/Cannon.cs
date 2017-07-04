@@ -69,14 +69,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public  Fraction Fraction { get; private set; }
 		protected AbstractFractionController controller;
-		public float TotalBulletBoost = 0f;
+		public int BulletBoostCount = 0;
+		public int ManualBoost = 0;
 		private readonly List<CannonLaserBoost> _laserBoosts = new List<CannonLaserBoost>();
 		public readonly GDGameScreen GDOwner;
 		
 		public  readonly List<LaserRay> AttackingRays = new List<LaserRay>();
 		private readonly List<LaserRay> _attackingRaysCollector = new List<LaserRay>();
 
-		public float RealBoost => 1 + Math.Min(TotalBulletBoost + _laserBoosts.Count * BOOSTER_POWER, MAX_BOOST);
+		public int IntegerBoost => BulletBoostCount + _laserBoosts.Count + ManualBoost;
+
+		public float RealBoost => 1 + Math.Min(IntegerBoost * BOOSTER_POWER, MAX_BOOST);
 
 		public readonly DeltaLimitedFloat CannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
@@ -222,7 +225,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			DrawDebugView(sbatch);
 
 			// ASSERTION
-			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBulletBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
+			if (ActiveOperations.Count(p => p is CannonBooster) != BulletBoostCount) throw new Exception("Assertion failed TotalBoost == Boosters");
 		}
 
 		private void DrawDebugView(IBatchRenderer sbatch)

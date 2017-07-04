@@ -102,6 +102,8 @@ namespace GridDominance.Shared
 		{
 			if (args.Level == SAMLogLevel.ERROR || args.Level == SAMLogLevel.FATAL_ERROR)
 			{
+				//TODO Prevent sending logs after (perhaps 3 msg in 30s)
+				//TODO send a few extra infos (current screen, current level, difficulty)
 				Backend.LogClient(Profile, args.Entry).EnsureNoError();
 			}
 		}

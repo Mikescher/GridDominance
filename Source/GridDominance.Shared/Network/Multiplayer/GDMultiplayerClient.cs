@@ -8,16 +8,15 @@ using MonoSAMFramework.Portable;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
-	public class GDMultiplayerClient : SAMNetworkConnection
+	public class GDMultiplayerClient : GDMultiplayerCommon
 	{
 		public Guid LevelID;
 		public GameSpeedModes Speed;
 		public int MusicIndex;
-
-		public GDGameScreen_MPClient Screen;
 
 		private int packageCount = 0;
 		private int packageModSize = 0;
@@ -33,7 +32,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 #if DEBUG
 		public void AddDebugLine(GameScreen s)
 		{
-			s.DebugDisp.AddLine(() => $"CONN(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})");
+			s.DebugDisp.AddLine(() => $"CLIENT(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})");
 		}
 #endif
 		
@@ -82,6 +81,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				LevelID = new Guid(reader.ReadBytes(16));
 				Speed = (GameSpeedModes) reader.ReadByte();
 				MusicIndex = reader.ReadByte();
+				//TODO Level Checksum
 			}
 
 			SAMLog.Debug($"[[CMD_FORWARDLOBBYSYNC]]: {LevelID} | {Speed} | {MusicIndex}");
@@ -115,66 +115,9 @@ namespace GridDominance.Shared.Network.Multiplayer
 				return;
 			}
 
-			int p = 6;
-			for (;;)
-			{
-				byte cmd = d[p];
-				p++;
-
-				if (p >= GDMultiplayerCodes.BYTE_SIZE)
-				{
-					SAMLog.Error("SNS-Client", "OOB: " + p);
-					break;
-				}
-				else if (cmd == GDMultiplayerCodes.AREA_BCANNONS)
-				{
-					ProcessForwardBulletCannons(ref p, d);
-				}
-				else if (cmd == GDMultiplayerCodes.AREA_END)
-				{
-					break;
-				}
-				else
-				{
-					SAMLog.Error("SNS-Client", "Unknown AREA: " + cmd);
-					break;
-				}
-			}
-
+			ProcessStateData(d, msgUserID);
 
 			RecieveMsg(msgUserID, seq);
-		}
-
-		private void ProcessForwardBulletCannons(ref int p, byte[] d)
-		{
-			int count = d[p];
-			p++;
-
-			for (int i = 0; i < count; i++)
-			{
-				var id = d[p];
-				p++;
-				var frac = Screen.GetFractionByID(d[p]);
-				p++;
-				var rot = (d[p] / 256f) * FloatMath.TAU;
-				p++;
-				var hp = (d[p] / 255f);
-				p++;
-
-				if (frac == Screen.LocalPlayerFraction) continue;
-
-				Cannon c;
-				if (Screen.CannonMap.TryGetValue(id, out c))
-				{
-					BulletCannon bc = c as BulletCannon;
-					if (bc != null)
-					{
-						if (bc.Fraction != frac) bc.SetFraction(frac);
-						bc.Rotation.Set(rot);
-						bc.CannonHealth.Set(hp);
-					}
-				}
-			}
 		}
 
 		protected override void SendGameStateNow()
@@ -193,64 +136,10 @@ namespace GridDominance.Shared.Network.Multiplayer
 			SendAndReset(ref p);
 		}
 
-		private void SendAndReset(ref int idx)
-		{
-			SetSequenceCounter(ref MSG_FORWARD[1]);
-			MSG_FORWARD[idx] = GDMultiplayerCodes.AREA_END;
-			idx++;
-			
-			_medium.Send(MSG_FORWARD, idx);
-			packageModSize = idx;
+		protected override bool ShouldRecieveData(Fraction f, BulletCannon c) => true;
+		protected override bool ShouldRecieveRotationData(Fraction f, BulletCannon c) => f != Screen.LocalPlayerFraction;
+		protected override bool ShouldRecieveStateData(Fraction f, BulletCannon c) => true;
 
-			idx = 6;
-
-			packageCount++;
-		}
-
-		private void SendForwardBulletCannons(ref int idx)
-		{
-			if (idx + 2 >= GDMultiplayerCodes.BYTE_SIZE) SendAndReset(ref idx);
-
-			MSG_FORWARD[idx] = GDMultiplayerCodes.AREA_BCANNONS;
-			idx++;
-
-			byte arrsize = (byte) ((GDMultiplayerCodes.BYTE_SIZE - idx - 2) / GDMultiplayerCodes.SIZE_BCANNON_DEF);
-
-			int posSize = idx;
-
-			MSG_FORWARD[posSize] = 0xFF;
-			idx++;
-
-			int i = 0;
-			foreach (var cannon in Screen.GetEntities<BulletCannon>())
-			{
-				if (cannon.Fraction != Screen.LocalPlayerFraction) continue;
-
-				MSG_FORWARD[idx] = cannon.BlueprintCannonID;
-				idx++;
-				MSG_FORWARD[idx] = Screen.GetFractionID(cannon.Fraction);
-				idx++;
-				MSG_FORWARD[idx] = (byte) ((cannon.Rotation.TargetValue / FloatMath.TAU) * 256);
-				idx++;
-				MSG_FORWARD[idx] = (byte) (FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
-				idx++;
-
-
-				i++;
-				if (i >= arrsize)
-				{
-					MSG_FORWARD[posSize] = (byte) i;
-					SendAndReset(ref idx);
-					MSG_FORWARD[idx] = GDMultiplayerCodes.AREA_BCANNONS;
-					idx++;
-					i -= arrsize;
-					arrsize = (byte) ((GDMultiplayerCodes.BYTE_SIZE - idx - 2) / GDMultiplayerCodes.SIZE_BCANNON_DEF);
-					posSize = idx;
-					MSG_FORWARD[posSize] = 0xFF;
-					idx++;
-				}
-			}
-			MSG_FORWARD[posSize] = (byte) i;
-		}
+		protected override bool ShouldSendData(BulletCannon c) => c.Fraction == Screen.LocalPlayerFraction;
 	}
 }

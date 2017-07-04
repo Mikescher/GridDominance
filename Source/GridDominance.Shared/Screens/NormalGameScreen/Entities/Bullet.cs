@@ -39,7 +39,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public float BulletRotation = 0f;
 		public float BulletAlpha = 1f;
 		public float BulletExtraScale = 1f;
+		public Vector2 Velocity => ConvertUnits.ToDisplayUnits(PhysicsBody.LinearVelocity);
 
+		public readonly ushort BulletID;
 		public Body PhysicsBody;
 		public readonly Cannon Source;
 		public readonly float Scale;
@@ -61,6 +63,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Fraction = frac;
 			Scale = entityScale;
 			GDOwner = scrn;
+			BulletID = scrn.AssignBulletID(this);
 
 			DrawingBoundingBox = new FSize(Scale * BULLET_DIAMETER, Scale * BULLET_DIAMETER);
 		}
@@ -357,6 +360,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override void OnRemove()
 		{
 			this.GDManager().PhysicsWorld.RemoveBody(PhysicsBody);
+			GDOwner.UnassignBulletID(BulletID, this);
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

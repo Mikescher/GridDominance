@@ -31,7 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\UpgradeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\VerifyResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerCodes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerCommon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Multiplayer\GDMultiplayerServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Animations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Attributions.cs" />
@@ -67,6 +67,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SubSettingClickZone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\GameDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\TutorialAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\RemoteBullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BulletCannon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BulletPath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BlackHole.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Portal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\BulletKIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\EndGameAutoComputerController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\RemoteController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\TutorialController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GameWrapMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_MPClient.cs" />

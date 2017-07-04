@@ -23,7 +23,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		private readonly int musicIdx;
 		private readonly GDMultiplayerClient _server;
 
-		public readonly Fraction LocalPlayerFraction;
+		private readonly Fraction _localPlayerFraction;
+		public override Fraction LocalPlayerFraction => _localPlayerFraction;
 
 		public GDGameScreen_MPClient(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, GameSpeedModes speed, int music, GDMultiplayerClient server) 
 			: base(game, gdm, bp, FractionDifficulty.KI_NORMAL, false)
@@ -34,10 +35,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			_server.Screen = this;
 
-			if (server.SessionUserID == 1) LocalPlayerFraction = GetFractionByID(2);
-			else if (server.SessionUserID == 2) LocalPlayerFraction = GetFractionByID(3);
-			else if (server.SessionUserID == 3) LocalPlayerFraction = GetFractionByID(4);
+			if (server.SessionUserID == 1) _localPlayerFraction = GetFractionByID(2);
+			else if (server.SessionUserID == 2) _localPlayerFraction = GetFractionByID(3);
+			else if (server.SessionUserID == 3) _localPlayerFraction = GetFractionByID(4);
 			else SAMLog.Error("GDGSMPC", "Client with SSID: " + server.SessionUserID);
+
+			foreach (var c in GetEntities<Cannon>()) c.ForceUpdateController();
 
 #if DEBUG
 			_server.AddDebugLine(this);
@@ -50,7 +53,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			
 			_server.Update(gameTime, istate);
 		}
-		
+
+		protected override void TestForGameEndingCondition()
+		{
+			// NOP
+		}
+
 		public override void RestartLevel()
 		{
 			//TODO
@@ -73,25 +81,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override AbstractFractionController CreateController(Fraction f, Cannon cannon)
 		{
-			if (HasFinished)
-			{
-				return new EndGameAutoPlayerController(this, cannon, f);
-			}
-			
-			switch (f.Type)
-			{
-				case FractionType.PlayerFraction:
-					return new PlayerController(this, cannon, f);
+			if (HasFinished) return new EndGameAutoPlayerController(this, cannon, f);
 
-				case FractionType.ComputerFraction:
-					return cannon.CreateKIController(this, f);
+			if (f == LocalPlayerFraction) return new PlayerController(this, cannon, f, false);
 
-				case FractionType.NeutralFraction:
-					return new NeutralKIController(this, cannon, f);
-
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+			return new RemoteController(this, cannon, f, false);
 		}
 
 		protected override void OnShow()
