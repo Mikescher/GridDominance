@@ -77,7 +77,7 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
@@ -93,18 +93,18 @@ namespace GridDominance.Shared.Network
 					}
 					else
 					{
-						SAMLog.Error("Backend", $"Ping: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::PingError", $"Ping: Error {response.errorid}: {response.errormessage}");
 					}
 				}
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::PingRCE", e); // probably no internet
 				ShowErrorConnection();
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::PingE", e);
 				ShowErrorCommunication();
 			}
 		}
@@ -127,7 +127,7 @@ namespace GridDominance.Shared.Network
 
 				if (response == null)
 				{
-					SAMLog.Error("Backend", "CreateUser returned NULL");
+					SAMLog.Error("Backend::CU_Null", "CreateUser returned NULL");
 					ShowErrorCommunication();
 				}
 				else if (response.result == "success")
@@ -147,18 +147,18 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
-					SAMLog.Error("Backend", $"CreateUser: Error {response.errorid}: {response.errormessage}");
+					SAMLog.Error("Backend::CU_Err", $"CreateUser: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 				}
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::CU_RCE", e); // probably no internet
 				ShowErrorConnection();
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::CU_E", e);
 				ShowErrorCommunication();
 			}
 		}
@@ -208,7 +208,7 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::SS_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
@@ -219,13 +219,13 @@ namespace GridDominance.Shared.Network
 					}
 					else
 					{
-						SAMLog.Error("Backend", $"SetScore: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::SS_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
 					}
 				}
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::SS_RCE", e); // probably no internet
 				ShowErrorConnection();
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
@@ -237,7 +237,7 @@ namespace GridDominance.Shared.Network
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::SS_E", e);
 				ShowErrorCommunication();
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
@@ -288,7 +288,7 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::DD_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
@@ -299,19 +299,19 @@ namespace GridDominance.Shared.Network
 					}
 					else
 					{
-						SAMLog.Error("Backend", $"SetScore: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::DD_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
 						ShowErrorCommunication();
 					}
 				}
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::DD_RCE", e); // probably no internet
 				ShowErrorConnection();
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::DD_E", e);
 				ShowErrorCommunication();
 			}
 		}
@@ -360,7 +360,7 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::RU_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
@@ -371,13 +371,13 @@ namespace GridDominance.Shared.Network
 					}
 					else
 					{
-						SAMLog.Error("Backend", $"SetScore: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::RU_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
 					}
 				}
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::RU_RCE", e); // probably no internet
 				ShowErrorConnection();
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
@@ -389,7 +389,7 @@ namespace GridDominance.Shared.Network
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::RU_E", e);
 				ShowErrorCommunication();
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
@@ -419,22 +419,22 @@ namespace GridDominance.Shared.Network
 
 				if (response == null)
 				{
-					SAMLog.Warning("Log_Upload", "response == null");
+					SAMLog.Warning("Log_Upload_LC_NULL", "response == null");
 				}
 				else if (response.result == "error")
 				{
-					SAMLog.Warning("Log_Upload", response.errormessage);
+					SAMLog.Warning("Log_Upload_LC_ERR", response.errormessage);
 				}
 			}
 			catch (RestConnectionException e)
 			{
 				// well, that sucks
 				// probably no internet
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::LC_RCE", e); // probably no internet
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::LC_E", e);
 			}
 		}
 		
@@ -446,7 +446,7 @@ namespace GridDominance.Shared.Network
 
 				if (response == null)
 				{
-					SAMLog.Warning("Backend", $"DownloadHighscores: Error response == null");
+					SAMLog.Warning("Backend::DH_NULL", $"DownloadHighscores: Error response == null");
 					ShowErrorCommunication();
 				}
 				else if (response.result == "success")
@@ -471,18 +471,18 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
-					SAMLog.Warning("Backend", $"DownloadHighscores: Error {response.errorid}: {response.errormessage}");
+					SAMLog.Warning("Backend::DH_ERR", $"DownloadHighscores: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 				}
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::DH_RCE", e); // probably no internet
 				ShowErrorConnection();
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::DH_E", e);
 				ShowErrorCommunication();
 			}
 		}
@@ -527,7 +527,7 @@ namespace GridDominance.Shared.Network
 					else
 					{
 						ShowErrorCommunication();
-						SAMLog.Error("Backend", $"Verify: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::V_ERR", $"Verify: Error {response.errorid}: {response.errormessage}");
 						return Tuple.Create(VerifyResult.InternalError, -1, response.errormessage);
 					}
 				}
@@ -538,13 +538,13 @@ namespace GridDominance.Shared.Network
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::V_RCE", e); // probably no internet
 				ShowErrorConnection();
 				return Tuple.Create(VerifyResult.NoConnection, -1, string.Empty);
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::V_E", e);
 				ShowErrorCommunication();
 				return Tuple.Create(VerifyResult.InternalError, -1, "Internal server exception");
 			}
@@ -603,7 +603,7 @@ namespace GridDominance.Shared.Network
 					if (response.errorid == BackendCodes.UPGRADE_USER_DUPLICATE_USERNAME)
 						return Tuple.Create(UpgradeResult.UsernameTaken, string.Empty);
 
-					SAMLog.Error("Backend", $"UpgradeUser: Error {response.errorid}: {response.errormessage}");
+					SAMLog.Error("Backend::UU_ERR", $"UpgradeUser: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return Tuple.Create(UpgradeResult.InternalError, response.errormessage);
 
@@ -616,13 +616,13 @@ namespace GridDominance.Shared.Network
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::UU_RCE", e); // probably no internet
 				ShowErrorConnection();
 				return Tuple.Create(UpgradeResult.NoConnection, string.Empty);
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::UU_E", e);
 				ShowErrorCommunication();
 				return Tuple.Create(UpgradeResult.InternalError, "Internal server error");
 			}
@@ -672,7 +672,7 @@ namespace GridDominance.Shared.Network
 					if (response.errorid == BackendCodes.WRONG_PASSWORD)
 						return Tuple.Create(ChangePasswordResult.AuthError, string.Empty);
 					
-					SAMLog.Error("Backend", $"ChangePassword: Error {response.errorid}: {response.errormessage}");
+					SAMLog.Error("Backend::CP_ERR", $"ChangePassword: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return Tuple.Create(ChangePasswordResult.InternalError, response.errormessage);
 
@@ -684,13 +684,13 @@ namespace GridDominance.Shared.Network
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::CP_RCE", e); // probably no internet
 				ShowErrorConnection();
 				return Tuple.Create(ChangePasswordResult.NoConnection, string.Empty);
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::CP_E", e);
 				ShowErrorCommunication();
 				return Tuple.Create(ChangePasswordResult.InternalError, "Internal server error");
 			}
@@ -723,13 +723,13 @@ namespace GridDominance.Shared.Network
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::GR_RCE", e); // probably no internet
 				ShowErrorConnection();
 				return null;
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::GR_E", e);
 				ShowErrorCommunication();
 				return null;
 			}
@@ -792,7 +792,7 @@ namespace GridDominance.Shared.Network
 					else
 					{
 						ShowErrorCommunication();
-						SAMLog.Error("Backend", $"Verify: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::ML_ERR", $"Verify: Error {response.errorid}: {response.errormessage}");
 						return Tuple.Create(VerifyResult.InternalError, response.errormessage);
 					}
 				}
@@ -803,13 +803,13 @@ namespace GridDominance.Shared.Network
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend", e); // probably no internet
+				SAMLog.Warning("Backend::ML_RCE", e); // probably no internet
 				ShowErrorConnection();
 				return Tuple.Create(VerifyResult.NoConnection, string.Empty);
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend", e);
+				SAMLog.Error("Backend::ML_E", e);
 				ShowErrorCommunication();
 				return Tuple.Create(VerifyResult.InternalError, "Internal server exception");
 			}

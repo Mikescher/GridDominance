@@ -367,7 +367,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					}
 					else
 					{
-						SAMLog.Error("LSR-NTW", "Unknown wrapmode: " + _wrapMode);
+						SAMLog.Error("LASER::UnknownWrap", "Unknown wrapmode: " + _wrapMode);
 					}
 
 					continue;
@@ -388,7 +388,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				#endregion
 
 				// wud ???
-				SAMLog.Error("LaserNetwork", string.Format("Ray collided with unkown fixture: {0}", result?.Item1?.UserData ?? "<NULL>"));
+				SAMLog.Error("LASER::UnknownFixture", string.Format("Ray collided with unkown fixture: {0}", result?.Item1?.UserData ?? "<NULL>"));
 			}
 		}
 

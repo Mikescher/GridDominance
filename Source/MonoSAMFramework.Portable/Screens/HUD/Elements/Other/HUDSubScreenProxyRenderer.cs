@@ -69,6 +69,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void OnAfterRecalculatePosition()
 		{
+			base.OnAfterRecalculatePosition();
+			
 			_boundsBackup = HUD.Screen.VAdapterHUD.ScreenToRect(BoundingRectangle);
 			_child.VAdapterGame.Update();
 			_child.VAdapterHUD.Update();

@@ -25,6 +25,7 @@ namespace GridDominance.Windows
 		public string FullDeviceInfoString { get; } = "?";
 		public string DeviceName { get; } = "PC";
 		public string DeviceVersion { get; } = Environment.OSVersion.VersionString;
+		public string EnvironmentStackTrace => Environment.StackTrace;
 
 		public string DoSHA256(string input) => ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
 		public void OpenURL(string url) => Process.Start(url);

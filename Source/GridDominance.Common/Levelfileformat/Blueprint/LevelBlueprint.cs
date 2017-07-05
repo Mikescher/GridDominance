@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GridDominance.Common.Helper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -101,6 +102,16 @@ namespace GridDominance.Levelfileformat.Blueprint
 			bw.Write((byte)0x6B);
 			bw.Write((byte)0x00);
 			bw.Write((byte)0xB5);
+		}
+
+		public ulong CalcCheckSum()
+		{
+			using (var ms = new MemoryStream())
+			using (var bw = new BinaryWriter(ms))
+			{
+				BinarySerialize(bw);
+				return BitConverter.ToUInt64(MD5.GetHash(ms.ToArray()), 0);
+			}
 		}
 
 		public void BinaryDeserialize(BinaryReader br)

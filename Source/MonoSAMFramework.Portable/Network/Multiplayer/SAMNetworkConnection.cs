@@ -56,17 +56,27 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			Stopped,                 // medium is dry
 		}
 
-		private   readonly byte[] MSG_PING          = { CMD_PING,             0             };
-		private   readonly byte[] MSG_CREATESESSION = { CMD_CREATESESSION,    0, 0          };
-		private   readonly byte[] MSG_JOINSESSION   = { CMD_JOINSESSION,      0, 0, 0, 0, 0 };
-		private   readonly byte[] MSG_QUITSESSION   = { CMD_QUITSESSION,      0, 0, 0, 0, 0 };
-		private   readonly byte[] MSG_QUERYLOBBY    = { CMD_QUERYSESSION,     0, 0, 0, 0, 0 };
-		private            byte[] MSG_LOBBYSYNC     = { CMD_FORWARDLOBBYSYNC, 0, 0, 0, 0, 0 };
+		public enum ErrorType
+		{
+			None,
+			ProxyServerTimeout, UserTimeout,
+			NotInLobby, SessionNotFound, AuthentificationFailed, LobbyFull,
+			GameVersionMismatch, LevelNotFound, LevelVersionMismatch,
+			UserDisconnect, ServerDisconnect,
+		};
+
+		private   readonly byte[] MSG_PING          = { CMD_PING,             0                };
+		private   readonly byte[] MSG_CREATESESSION = { CMD_CREATESESSION,    0, 0             };
+		private   readonly byte[] MSG_JOINSESSION   = { CMD_JOINSESSION,      0, 0, 0, 0, 0    };
+		private   readonly byte[] MSG_QUITSESSION   = { CMD_QUITSESSION,      0, 0, 0, 0, 0, 0 };
+		private   readonly byte[] MSG_QUERYLOBBY    = { CMD_QUERYSESSION,     0, 0, 0, 0, 0    };
+		private            byte[] MSG_LOBBYSYNC     = { CMD_FORWARDLOBBYSYNC, 0, 0, 0, 0, 0    };
 		protected readonly byte[] MSG_FORWARD       = new byte[61];
 
 		public ConnectionState ConnState = ConnectionState.Offline;
 		public ServerMode Mode = ServerMode.Base;
-		public string ErrorMessage = "";
+		public ErrorType Error = ErrorType.None;
+		public object ErrorData;
 
 		protected byte msgId = 0;
 		protected int msgIdWraps = 0;
@@ -134,7 +144,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("SNS", e);
+				SAMLog.Error("SNS::U-E", e);
 			}
 		}
 
@@ -165,9 +175,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
 			{
-				Mode = ServerMode.Error;
-				ErrorMessage = "Timeout"; //TODO L10N
-				Stop();
+				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
 			}
 
@@ -194,9 +202,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
 			{
-				Mode = ServerMode.Error;
-				ErrorMessage = "Timeout"; //TODO L10N
-				Stop();
+				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
 			}
 
@@ -230,9 +236,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
 			{
-				Mode = ServerMode.Error;
-				ErrorMessage = "Timeout"; //TODO L10N
-				Stop();
+				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
 			}
 		}
@@ -251,9 +255,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
 			{
-				Mode = ServerMode.Error;
-				ErrorMessage = "Timeout"; //TODO L10N
-				Stop();
+				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
 			}
 
@@ -291,9 +293,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
 			{
-				Mode = ServerMode.Error;
-				ErrorMessage = "Timeout"; //TODO L10N
-				Stop();
+				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
 			}
 
@@ -303,9 +303,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 				if (gameTime.TotalElapsedSeconds - UserConn[i].LastResponse > TIMEOUT_FINAL)
 				{
-					Mode = ServerMode.Error;
-					ErrorMessage = "Timeout from User " + i; //TODO L10N
-					Stop();
+					ErrorStop(ErrorType.UserTimeout, i);
 					return;
 				}
 			}
@@ -386,12 +384,15 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		public void KillSession()
 		{
+			if (_stopped) return;
+
 			SetSequenceCounter(ref MSG_QUITSESSION[1]);
 			MSG_QUITSESSION[2] = (byte)((SessionID >> 8) & 0xFF);
 			MSG_QUITSESSION[3] = (byte)(SessionID & 0xFF);
 			MSG_QUITSESSION[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
 			MSG_QUITSESSION[5] = (byte)(SessionSecret & 0xFF);
-			
+			MSG_QUITSESSION[6] = (byte)(SessionUserID);
+
 			_medium.Send(MSG_QUITSESSION);
 		}
 		
@@ -433,9 +434,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 						if (!insession)
 						{
-							Mode = ServerMode.Error;
-							ErrorMessage = "You are not part of the lobby"; //TODO L10N
-							Stop();
+							ErrorStop(ErrorType.NotInLobby, null);
 							return;
 						}
 
@@ -449,18 +448,14 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					{
 						RecieveAck(d[1]);
 
-						Mode = ServerMode.Error;
-						ErrorMessage = "Could not find session on server"; //TODO L10N
-						Stop();
+						ErrorStop(ErrorType.SessionNotFound, null);
 						return;
 					}
 					else if (Mode == ServerMode.JoiningSession)
 					{
 						RecieveAck(d[1]);
 
-						Mode = ServerMode.Error;
-						ErrorMessage = "Could not find session on server"; //TODO L10N
-						Stop();
+						ErrorStop(ErrorType.SessionNotFound, null);
 						return;
 					}
 					break;
@@ -470,19 +465,15 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					if (Mode == ServerMode.InLobby)
 					{
 						RecieveAck(d[1]);
-
-						Mode = ServerMode.Error;
-						ErrorMessage = "Session Authentification failed"; //TODO L10N
-						Stop();
+						
+						ErrorStop(ErrorType.AuthentificationFailed, null);
 						return;
 					}
 					else if (Mode == ServerMode.JoiningSession)
 					{
 						RecieveAck(d[1]);
 
-						Mode = ServerMode.Error;
-						ErrorMessage = "Could not find session on server"; //TODO L10N
-						Stop();
+						ErrorStop(ErrorType.SessionNotFound, null);
 						return;
 					}
 					break;
@@ -493,9 +484,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					{
 						RecieveAck(d[1]);
 
-						Mode = ServerMode.Error;
-						ErrorMessage = "Game lobby already full"; //TODO L10N
-						Stop();
+						ErrorStop(ErrorType.LobbyFull, null);
 						return;
 					}
 					break;
@@ -538,10 +527,67 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 						}
 						else
 						{
-							SAMLog.Error("SNS", $"Wrong Validation in ACK_FORWARDLOBBYSYNC   #   Session: {rec_sessionID}:[{rec_sessionSecret}] (real= {SessionID}:[{SessionSecret}]) by user {rec_sessionUserID}");
+							SAMLog.Error("SNS::PM-VALIDATION", $"Wrong Validation in ACK_FORWARDLOBBYSYNC   #   Session: {rec_sessionID}:[{rec_sessionSecret}] (real= {SessionID}:[{SessionSecret}]) by user {rec_sessionUserID}");
 						}
 						
 
+						return;
+					}
+					else if (Mode == ServerMode.InGame)
+					{
+						SAMLog.Debug("IgnoredLobbySyncAck");
+						return;
+					}
+					break;
+
+				case CMD_QUITSESSION:
+
+					var remoteUserID = d[6];
+
+					if (Mode == ServerMode.Base)
+					{
+						// Ignore
+						return;
+					}
+					else if (Mode == ServerMode.CreatingSession)
+					{
+						// Ignore
+						return;
+					}
+					else if (Mode == ServerMode.Error)
+					{
+						// Ignore
+						return;
+					}
+					else if (Mode == ServerMode.InGame)
+					{
+						ErrorStop(ErrorType.UserDisconnect, remoteUserID);
+						return;
+					}
+					else if (Mode == ServerMode.InLobby)
+					{
+						if (SessionUserID == 0)
+							ErrorStop(ErrorType.UserDisconnect, remoteUserID);
+						else
+							ErrorStop(ErrorType.ServerDisconnect, remoteUserID);
+						return;
+					}
+					else if (Mode == ServerMode.JoiningSession)
+					{
+						ErrorStop(ErrorType.ServerDisconnect, remoteUserID);
+						return;
+					}
+					else if (Mode == ServerMode.Stopped)
+					{
+						// ignore
+						return;
+					}
+					else if (Mode == ServerMode.SyncingAfterLobby)
+					{
+						if (SessionUserID == 0)
+							ErrorStop(ErrorType.UserDisconnect, remoteUserID);
+						else
+							ErrorStop(ErrorType.ServerDisconnect, remoteUserID);
 						return;
 					}
 					break;
@@ -549,7 +595,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (ProcessSpecificMessage(d[0], d)) return;
 
-			SAMLog.Error("SNS", "Unknown Server command: " + d[0] + " in mode " + Mode);
+			SAMLog.Error("SNS::PM-MISS_CMD", "Unknown Server command: " + d[0] + " in mode " + Mode);
 		}
 
 		protected abstract bool ProcessSpecificMessage(byte cmd, byte[] data);
@@ -578,9 +624,25 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		{
 			if (_stopped) return;
 
+			KillSession();
+
 			if (Mode != ServerMode.Error) Mode = ServerMode.Stopped;
-			
+
 			_stopped = true;
+			_medium.Dispose();
+		}
+
+		public void ErrorStop(ErrorType t, object d)
+		{
+			if (_stopped) return;
+			
+			KillSession();
+
+			_stopped = true;
+			Mode = ServerMode.Error;
+			Error = t;
+			ErrorData = d;
+
 			_medium.Dispose();
 		}
 	}

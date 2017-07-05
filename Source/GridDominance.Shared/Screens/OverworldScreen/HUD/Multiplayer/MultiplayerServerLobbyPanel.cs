@@ -120,24 +120,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				Remove();
 
-				Owner.HUD.ShowToast(_server.ErrorMessage, 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+				Owner.HUD.ShowToast(L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 			}
 			
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby && _server.SessionCount == _server.SessionCapacity)
 			{
-				byte[] binData;
-				using (var ms = new MemoryStream())
-				using (var bw = new BinaryWriter(ms))
-				{
-					bw.Write(_level.UniqueID.ToByteArray());
-					bw.Write((byte)_speed);
-					bw.Write((byte)_musicIndex);
-
-					binData = ms.ToArray();
-				}
-
+				byte[] binData = _server.GetLobbySyncData(_level, _speed, _musicIndex);
 				_server.StartLobbySync(binData);
 			}
 

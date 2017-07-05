@@ -142,5 +142,15 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 
 			foreach (var child in children) child.ValidateRecursive();
 		}
+
+		protected override void OnAfterRecalculatePosition()
+		{
+			base.OnAfterRecalculatePosition();
+
+			foreach (var child in children)
+			{
+				child.Revalidate();
+			}
+		}
 	}
 }

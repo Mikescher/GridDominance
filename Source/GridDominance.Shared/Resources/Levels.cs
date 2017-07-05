@@ -166,17 +166,17 @@ namespace GridDominance.Shared.Resources
 				{
 					if (!LEVELS.ContainsKey(n.LevelID))
 					{
-						SAMLog.Error("ResourceTest", $"Could not find level with ID: {n.LevelID}");
+						SAMLog.Error("ResourceTest-1", $"Could not find level with ID: {n.LevelID}");
 					}
 					else
 					{
-						if (!ids.Add(n.LevelID)) SAMLog.Error("ResourceTest", $"Duplicate LevelID: {n.LevelID}");
-						if (!names.Add(LEVELS[n.LevelID].Name)) SAMLog.Error("ResourceTest", $"Duplicate LevelName: {LEVELS[n.LevelID].Name}");
-						if (!fnames.Add(LEVELS[n.LevelID].FullName)) SAMLog.Error("ResourceTest", $"Duplicate LevelFullName: {LEVELS[n.LevelID].FullName}");
+						if (!ids.Add(n.LevelID)) SAMLog.Error("ResourceTest-2", $"Duplicate LevelID: {n.LevelID}");
+						if (!names.Add(LEVELS[n.LevelID].Name)) SAMLog.Error("ResourceTest-3", $"Duplicate LevelName: {LEVELS[n.LevelID].Name}");
+						if (!fnames.Add(LEVELS[n.LevelID].FullName)) SAMLog.Error("ResourceTest-4", $"Duplicate LevelFullName: {LEVELS[n.LevelID].FullName}");
 
 						foreach (var p in n.OutgoingPipes)
 						{
-							if (!LEVELS.ContainsKey(p.Target) && !WORLDS.ContainsKey(p.Target)) SAMLog.Error("ResourceTest", $"Could not find level with ID: {p.Target}");
+							if (!LEVELS.ContainsKey(p.Target) && !WORLDS.ContainsKey(p.Target)) SAMLog.Error("ResourceTest-5", $"Could not find level with ID: {p.Target}");
 						}
 					}
 				}
@@ -185,7 +185,7 @@ namespace GridDominance.Shared.Resources
 				{
 					if (!WORLDS.ContainsKey(n.TargetWorld))
 					{
-						SAMLog.Error("ResourceTest", $"Could not find world with ID: {n.TargetWorld}");
+						SAMLog.Error("ResourceTest-6", $"Could not find world with ID: {n.TargetWorld}");
 					}
 				}
 			}

@@ -22,7 +22,7 @@ namespace MonoSAMFramework.Portable
 		private const int NOLAGFRAMES_FOR_INITLAG = 6;
 		private const float MAX_DELTA_FOR_NOLAGFRAME = 1/30f;
 
-		private ScreenManager screens;
+		protected ScreenManager screens;
 		private readonly CustomDispatcher gameDispatcher = new CustomDispatcher();
 		private readonly List<MonoSAMGameAgent> agents = new List<MonoSAMGameAgent>();
 		private static int _initialNoLagFrameCounter= 0;

@@ -91,8 +91,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public void RemoteUpdate(RemoteBulletState state, float px, float py, Vector2 veloc, Fraction fraction, float scale, long seq)
 		{
-			if (Math.Abs(Scale - scale) > 0.01f) SAMLog.Error("REMBULL", $"Remote changed scale from {Scale} to {scale} ");
-			if (fraction != Fraction) SAMLog.Error("REMBULL", $"Remote changed fraction from {Fraction} to {fraction} ");
+			if (Math.Abs(Scale - scale) > 0.01f) SAMLog.Error("REMBULL-CHANGE-SCALE", $"Remote changed scale from {Scale} to {scale} ");
+			if (fraction != Fraction) SAMLog.Error("REMBULL-CHANGE-FRAC", $"Remote changed fraction from {Fraction} to {fraction} ");
 			
 			Scale = scale;
 			Fraction = fraction;
@@ -110,6 +110,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public void RemoteKill(RemoteBulletState state)
 		{
+			RemoteState = state;
+			
 			switch (state)
 			{
 				case RemoteBulletState.Dying_Explosion:

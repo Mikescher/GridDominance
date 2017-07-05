@@ -42,6 +42,7 @@
     <Compile Include="Graphfileformat\Blueprint\GraphBlueprint.cs" />
     <Compile Include="Graphfileformat\GraphParser.cs" />
     <Compile Include="Graphfileformat\Pipeline\GDWorldGraphReader.cs" />
+    <Compile Include="Helper\MD5.cs" />
     <Compile Include="Levelfileformat\Blueprint\BulletPathBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\ICannonBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\LaserCannonBlueprint.cs" />

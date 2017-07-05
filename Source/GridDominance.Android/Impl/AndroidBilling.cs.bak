@@ -57,7 +57,7 @@ namespace GridDominance.Android
 			}
 			catch (Exception e)
 			{
-				SAMLog.Info("IAB::Connect", e);
+				SAMLog.Info("IAB-Connect", e);
 				return false;
 			}
 		}
@@ -81,12 +81,12 @@ namespace GridDominance.Android
 				if (result == AndroidBillingHelper.STATE_CANCELLED) return PurchaseQueryResult.Cancelled;
 				if (result == AndroidBillingHelper.STATE_REFUNDED) return PurchaseQueryResult.Refunded;
 
-				SAMLog.Error("IAB::IsPurchased-Inv", "result has invalid value: " + result);
+				SAMLog.Error("IAB-IsPurchased-Inv", "result has invalid value: " + result);
 				return PurchaseQueryResult.Error;
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("IAB::IsPurchased-Ex", e);
+				SAMLog.Error("IAB-IsPurchased-Ex", e);
 				return PurchaseQueryResult.Error;
 			}
 		}
@@ -117,7 +117,7 @@ namespace GridDominance.Android
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("IAB::Disconnect", e);
+				SAMLog.Error("IAB-Disconnect", e);
 			}
 		}
 
@@ -143,7 +143,7 @@ namespace GridDominance.Android
 			}
 			catch (Exception e)
 			{
-				SAMLog.Info("IAB::OnConnected", e);
+				SAMLog.Info("IAB-OnConnected", e);
 				_serviceConnection = null;
 			}
 			finally
@@ -154,23 +154,23 @@ namespace GridDominance.Android
 
 		private void QueryInventoryError(int responseCode, Bundle skuDetails)
 		{
-			SAMLog.Info("IAB::QueryInventoryError", $"QueryInventoryError error code={responseCode}");
+			SAMLog.Info("IAB-QueryInventoryError", $"QueryInventoryError error code={responseCode}");
 			Disconnect();
 		}
 
 		private void BuyProductError(int responseCode, string sku)
 		{
-			SAMLog.Info("IAB::BuyProductError", $"BuyProductError error code={responseCode}");
+			SAMLog.Info("IAB-BuyProductError", $"BuyProductError error code={responseCode}");
 		}
 
 		private void OnProductPurchasedError(int responseCode, string sku)
 		{
-			SAMLog.Info("IAB::OnProductPurchasedError", $"OnProductPurchasedError error code={responseCode}");
+			SAMLog.Info("IAB-OnProductPurchasedError", $"OnProductPurchasedError error code={responseCode}");
 		}
 
 		private void OnPurchaseFailedValidation(Purchase purchase, string purchaseData, string purchaseSignature)
 		{
-			SAMLog.Info("IAB::OnPurchaseFailedValidation", $"OnPurchaseFailedValidation error id={purchase.ProductId}");
+			SAMLog.Info("IAB-OnPurchaseFailedValidation", $"OnPurchaseFailedValidation error id={purchase.ProductId}");
 		}
 
 		private void OnProductPurchased(int response, Purchase purchase, string purchaseData, string purchaseSignature)

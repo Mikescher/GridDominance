@@ -7,8 +7,6 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Network.Multiplayer
@@ -52,7 +50,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				if (p >= BYTE_SIZE)
 				{
-					SAMLog.Error("SNS-COMMON", "OOB: " + p);
+					SAMLog.Error("SNS-COMMON::OOB", "OOB: " + p);
 					break;
 				}
 				else if (cmd == AREA_BCANNONS)
@@ -69,7 +67,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				}
 				else
 				{
-					SAMLog.Error("SNS-COMMON", "Unknown AREA: " + cmd);
+					SAMLog.Error("SNS-COMMON::UA", "Unknown AREA: " + cmd);
 					break;
 				}
 			}
@@ -126,8 +124,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				var ipx = (ushort)((d[p + 2] << 8) | (d[p + 3]));
 				var ipy = (ushort)((d[p + 4] << 8) | (d[p + 5]));
-				float px, py;
-				Screen.DoubleByteToPosition(ipx, ipy, out px, out py);
+				Screen.DoubleByteToPosition(ipx, ipy, out float px, out float py);
 
 				var irot = (ushort)((d[p + 6] << 2) | ((d[p + 7] >> 6) & 0b0011));
 				var rot = (irot / 1024f) * FloatMath.TAU;
@@ -176,6 +173,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			{
 				if (Screen.RemoteBulletMapping[i] != null && bseq - Screen.RemoteBulletMapping[i].LastUpdateBigSeq > REMOTE_BULLET_UPDATELESS_LIFETIME)
 				{
+					SAMLog.Debug("Mercykill Bullet: " + i);
 					Screen.RemoteBulletMapping[i].Alive = false;
 				}
 			}

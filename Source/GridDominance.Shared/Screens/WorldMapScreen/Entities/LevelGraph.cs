@@ -54,7 +54,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				}
 				else
 				{
-					SAMLog.Error("LevelGraph", $"Cannot find id {bpNode.LevelID:B} for graph");
+					SAMLog.Error("LevelGraph::IE", $"Cannot find id {bpNode.LevelID:B} for graph");
 				}
 			}
 
@@ -79,7 +79,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 				if (sinknode == null)
 				{
-					SAMLog.Error("LevelGraph", $"Cannot find node with id {pipe.Target:B} in graph for pipe sink");
+					SAMLog.Error("LevelGraph::IP_1", $"Cannot find node with id {pipe.Target:B} in graph for pipe sink");
 					continue;
 				}
 
@@ -91,7 +91,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				var sourcenode = Nodes.FirstOrDefault(n => n.ConnectionID == bpNode.LevelID);
 				if (sourcenode == null)
 				{
-					SAMLog.Error("LevelGraph", $"Cannot find node with id {bpNode.LevelID:B} in graph for pipe source");
+					SAMLog.Error("LevelGraph::IP_2", $"Cannot find node with id {bpNode.LevelID:B} in graph for pipe source");
 					continue;
 				}
 
@@ -101,7 +101,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 					if (sinknode == null)
 					{
-						SAMLog.Error("LevelGraph", $"Cannot find node with id {pipe.Target:B} in graph for pipe sink");
+						SAMLog.Error("LevelGraph::IP_3", $"Cannot find node with id {pipe.Target:B} in graph for pipe sink");
 						continue;
 					}
 

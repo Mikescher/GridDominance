@@ -24,6 +24,8 @@ namespace GridDominance.Android
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);
 		public string DeviceVersion { get; } = string.Format("Android {0} sdk-{1}", Build.VERSION.Release, Build.VERSION.Sdk);
 		public FSize DeviceResolution { get; } = ScreenRes();
+		public string EnvironmentStackTrace => System.Environment.StackTrace;
+
 
 		private readonly SHA256 sha256 = SHA256.Create();
 		private readonly MainActivity _activity;

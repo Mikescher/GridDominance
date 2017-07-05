@@ -50,9 +50,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			SourceDistance = sd;
 
 #if DEBUG
-			if (!Start.IsValid) SAMLog.Error("ASSERT-LASERARY", "!Start.IsValid");
-			if (!End.IsValid) SAMLog.Error("ASSERT-LASERARY", "!End.IsValid");
-			if ((End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7) SAMLog.Error("ASSERT-LASERARY", "(End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7");
+			if (!Start.IsValid) SAMLog.Error("LASER::Assert_1-SV", "!Start.IsValid");
+			if (!End.IsValid) SAMLog.Error("LASER::Assert_1-EV", "!End.IsValid");
+			if ((End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7) SAMLog.Error("LASER::Assert_1-ESV", "(End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7");
 #endif
 		}
 
@@ -72,9 +72,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			TerminatorRays.Add(Tuple.Create(otherRay, otherSource));
 
 #if DEBUG
-			if (!Start.IsValid) SAMLog.Error("ASSERT-LASERARY", "!Start.IsValid");
-			if (!End.IsValid) SAMLog.Error("ASSERT-LASERARY", "!End.IsValid");
-			if ((End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7) SAMLog.Error("ASSERT-LASERARY", "(End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7");
+			if (!Start.IsValid) SAMLog.Error("LASER::Assert_2-SV", "!Start.IsValid");
+			if (!End.IsValid) SAMLog.Error("LASER::Assert_2-EV", "!End.IsValid");
+			if ((End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7) SAMLog.Error("LASER::Assert_2-ESV", "(End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7");
 #endif
 
 			return this;
@@ -97,9 +97,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			TerminatorRays.Clear();
 
 #if DEBUG
-			if (!Start.IsValid) SAMLog.Error("ASSERT-LASERARY", "!Start.IsValid");
-			if (!End.IsValid) SAMLog.Error("ASSERT-LASERARY", "!End.IsValid");
-			if ((End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7) SAMLog.Error("ASSERT-LASERARY", "(End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7");
+			if (!Start.IsValid) SAMLog.Error("LASER::Assert_3-SV", "!Start.IsValid");
+			if (!End.IsValid) SAMLog.Error("LASER::Assert_3-EV", "!End.IsValid");
+			if ((End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7) SAMLog.Error("LASER::Assert_3-ESV", "(End - Start).LengthSquared() < FloatMath.EPSILON7 * FloatMath.EPSILON7");
 #endif
 
 			return this;

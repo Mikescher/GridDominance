@@ -237,7 +237,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 						return UnlockState.NeedsPurchase;
 
 					default:
-						SAMLog.Error("EnumSwitch", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD " + Blueprint?.ID + ")) -> " + ip);
+						SAMLog.Error("EnumSwitch-IU", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD " + Blueprint?.ID + ")) -> " + ip);
 						return UnlockState.NeedsPurchase;
 				}
 			}

@@ -36,7 +36,7 @@ namespace MonoSAMFramework.Portable.Localization
 			{
 				for (int l = 0; l < LANG_COUNT; l++)
 				{
-					if (string.IsNullOrWhiteSpace(Dictionary[t, l])) SAMLog.Error("L10N", $"Missing translation {t} for lang={l}");
+					if (string.IsNullOrWhiteSpace(Dictionary[t, l])) SAMLog.Error("L10N::Verify", $"Missing translation {t} for lang={l}");
 				}
 			}
 		}
@@ -45,7 +45,7 @@ namespace MonoSAMFramework.Portable.Localization
 		{
 			if (id < 0 || id >= TEXT_COUNT)
 			{
-				SAMLog.Error("L10N", $"Missing translation {id} for lang={LANGUAGE}");
+				SAMLog.Error("L10N::T", $"Missing translation {id} for lang={LANGUAGE}");
 				return $"\"{id}\"";
 			}
 			

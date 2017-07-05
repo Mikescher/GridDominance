@@ -139,7 +139,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 						return false;
 
 					default:
-						SAMLog.Error("EnumSwitch", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_MULTIPLAYER)) -> " + ip);
+						SAMLog.Error("EnumSwitch-IU_MP", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_MULTIPLAYER)) -> " + ip);
 						return false;
 				}
 			}

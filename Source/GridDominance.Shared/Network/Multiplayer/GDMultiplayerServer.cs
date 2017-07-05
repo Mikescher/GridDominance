@@ -3,16 +3,20 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable;
-using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.Screens;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Levelfileformat.Blueprint;
+using System.IO;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
 	public class GDMultiplayerServer : GDMultiplayerCommon
 	{
+		public Guid LevelID;
+		public GameSpeedModes Speed;
+		public int MusicIndex;
 
 		public GDMultiplayerServer() 
 			: base(new UDPNetworkMedium(GDConstants.MULTIPLAYER_SERVER_HOST, GDConstants.MULTIPLAYER_SERVER_PORT))
@@ -87,6 +91,26 @@ namespace GridDominance.Shared.Network.Multiplayer
 			SendForwardBulletCannons(ref p);
 			SendForwardBullets(ref p);
 			SendAndReset(ref p);
+		}
+
+		public byte[] GetLobbySyncData(LevelBlueprint l, GameSpeedModes s, int m)
+		{
+			LevelID = l.UniqueID;
+			Speed = s;
+			MusicIndex = m;
+
+			using (var ms = new MemoryStream())
+			using (var bw = new BinaryWriter(ms))
+			{
+				bw.Write(l.UniqueID.ToByteArray());
+				bw.Write((byte)s);
+				bw.Write((byte)m);
+
+				bw.Write(GDConstants.IVersion);
+				bw.Write(l.CalcCheckSum());
+
+				return ms.ToArray();
+			}
 		}
 
 		protected override bool ShouldRecieveData(Fraction f, BulletCannon c) => !f.IsNeutral && f != Screen.LocalPlayerFraction;

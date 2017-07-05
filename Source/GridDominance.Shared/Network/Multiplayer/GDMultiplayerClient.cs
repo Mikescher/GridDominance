@@ -9,6 +9,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Levelfileformat.Blueprint;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
@@ -17,9 +18,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 		public Guid LevelID;
 		public GameSpeedModes Speed;
 		public int MusicIndex;
-
-		private int packageCount = 0;
-		private int packageModSize = 0;
+		public ulong ServerGameVersion;
+		public ulong ServerLevelHash;
 
 		public GDMultiplayerClient()
 			: base(new UDPNetworkMedium(GDConstants.MULTIPLAYER_SERVER_HOST, GDConstants.MULTIPLAYER_SERVER_PORT))
@@ -81,10 +81,33 @@ namespace GridDominance.Shared.Network.Multiplayer
 				LevelID = new Guid(reader.ReadBytes(16));
 				Speed = (GameSpeedModes) reader.ReadByte();
 				MusicIndex = reader.ReadByte();
-				//TODO Level Checksum
+				ServerGameVersion = reader.ReadUInt64();
+				ServerLevelHash = reader.ReadUInt64();
 			}
 
 			SAMLog.Debug($"[[CMD_FORWARDLOBBYSYNC]]: {LevelID} | {Speed} | {MusicIndex}");
+
+			if (ServerGameVersion != GDConstants.IVersion)
+			{
+				ErrorStop(ErrorType.GameVersionMismatch, null);
+				return;
+			}
+
+			LevelBlueprint blueprint;
+			if (! Levels.LEVELS.TryGetValue(LevelID, out blueprint))
+			{
+				ErrorStop(ErrorType.LevelNotFound, null);
+				SAMLog.Error("GDMC::LNF", "ProcessForwardLobbySync -> LevelNotFound: " + LevelID);
+				return;
+			}
+
+			var correctCS = blueprint.CalcCheckSum();
+			if (ServerLevelHash != correctCS)
+			{
+				ErrorStop(ErrorType.LevelVersionMismatch, null);
+				SAMLog.Error("GDMC::LVM", "ProcessForwardLobbySync -> LevelVersionMismatch: " + ServerLevelHash + " <> " + correctCS);
+				return;
+			}
 
 			byte[] answer = new byte[8];
 

@@ -160,7 +160,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				if (fractionIDList[i] == f) return i;
 			}
 
-			SAMLog.Error("GetFractionID", $"Fraction not found: {f}");
+			SAMLog.Error("GDGS::GetFractionID", $"Fraction not found: {f}");
 			return 0;
 		}
 
@@ -168,7 +168,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		{
 			if (id >= 0 && id < fractionIDList.Length) return fractionIDList[id];
 
-			SAMLog.Error("GetFractionByID", $"Fraction not found: {id}");
+			SAMLog.Error("GDGS::GetFractionByID", $"Fraction not found: {id}");
 			return fractionNeutral;
 		}
 
@@ -197,7 +197,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				}
 			}
 
-			SAMLog.Info("GDGS", "Too many bullets+artifacts, no free fully-dead BulletID");
+			SAMLog.Info("GDGS::TMB1", "Too many bullets+artifacts, no free fully-dead BulletID");
 
 			for (ushort i = 0; i < MAX_BULLET_ID; i++)
 			{
@@ -213,7 +213,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				}
 			}
 
-			SAMLog.Error("GDGS", "Too many bullets, no free BulletID");
+			SAMLog.Error("GDGS::TMB2", "Too many bullets, no free BulletID");
 			BulletMapping[lastBulletID].Bullet = bullet;
 			BulletMapping[lastBulletID].State = RemoteBullet.RemoteBulletState.Normal;
 			BulletMapping[lastBulletID].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;

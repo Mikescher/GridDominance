@@ -11,6 +11,8 @@ using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD;
+using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
 {
@@ -47,8 +49,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			base.OnUpdate(gameTime, istate);
 			
 			_server.Update(gameTime, istate);
+
+			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
+			{
+				MainGame.Inst.SetOverworldScreen(); //TODO Perhaps not kill so suddenly ??
+
+				HUD.ShowToast(L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+			}
 		}
-		
+
+		protected override void OnRemove()
+		{
+			base.OnRemove();
+
+			_server.Stop();
+		}
+
 		public override void RestartLevel()
 		{
 			//TODO

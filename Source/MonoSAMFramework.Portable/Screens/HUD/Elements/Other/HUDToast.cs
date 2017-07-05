@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
@@ -13,6 +14,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 {
 	public class HUDToast : HUDContainer
 	{
+		public const float MOVEMENT_DELTA = 256f;
+		public const float PAD_BOTTOM = 16f;
+		public const float PAD_VERT   = 12f;
+
 		public override int Depth => 9 * 1000 * 1000;
 
 		#region Properties
@@ -82,10 +87,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		private float _lifetime = 0;
 		private readonly float _toastTime;
 
-		public HUDToast(float lifetime)
+		public DeltaLimitedFloat PositionY;
+
+		public HUDToast(float lifetime, float py)
 		{
 			_toastTime = lifetime;
 
+			PositionY = new DeltaLimitedFloat(py, MOVEMENT_DELTA);
 			Alignment = HUDAlignment.CENTER;
 
 			internalLabel = new HUDLabel
@@ -99,11 +107,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		public static HUDToast Copy(HUDToast other)
 		{
-			var t = new HUDToast(other._toastTime);
+			var t = new HUDToast(other._toastTime, other.PositionY.TargetValue);
 
 			t._lifetime = other._lifetime;
 			t.Alignment = other.Alignment;
 			t.RelativePosition = other.RelativePosition;
+			t.PositionY.FullSet(t.PositionY);
 			t.Text = other.Text;
 			t.TextColor = other.TextColor;
 			t.Font = other.Font;
@@ -151,6 +160,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 			if (!MonoSAMGame.IsInitializationLag) _lifetime += gameTime.ElapsedSeconds;
 
+			PositionY.Update(gameTime);
+			if (FloatMath.EpsilonInequals(PositionY.ActualValue, RelativePosition.Y))
+			{
+				RelativePosition = new FPoint(0, PositionY.ActualValue);
+			}
+
 			var p = _lifetime / _toastTime;
 
 			if (p < 0.15f)
@@ -183,7 +198,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
-			if (CloseOnClick) Remove();
+			if (CloseOnClick)
+			{
+				_lifetime = FloatMath.Max(_lifetime, _toastTime * 0.85f);
+			}
 		}
 	}
 }
