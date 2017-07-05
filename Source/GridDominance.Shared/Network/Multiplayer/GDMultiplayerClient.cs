@@ -32,7 +32,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 #if DEBUG
 		public void AddDebugLine(GameScreen s)
 		{
-			s.DebugDisp.AddLine(() => $"CLIENT(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})");
+			s.DebugDisp.AddLine("DebugMultiplayer", () => $"CLIENT(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})");
 		}
 #endif
 		

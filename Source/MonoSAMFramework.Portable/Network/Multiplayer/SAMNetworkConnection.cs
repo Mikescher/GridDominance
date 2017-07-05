@@ -440,6 +440,16 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 						return;
 					}
+					else if (Mode == ServerMode.SyncingAfterLobby)
+					{
+						SAMLog.Debug("Ignored ACK_QUERYANSWER (SyncingAfterLobby)");
+						return;
+					}
+					else if (Mode == ServerMode.InGame)
+					{
+						SAMLog.Debug("Ignored ACK_QUERYANSWER (InGame)");
+						return;
+					}
 					break;
 
 				case ACK_SESSIONNOTFOUND:
@@ -591,6 +601,10 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 						return;
 					}
 					break;
+
+				case MSG_SESSIONTERMINATED:
+					ErrorStop(ErrorType.ServerDisconnect, null);
+					return;
 			}
 
 			if (ProcessSpecificMessage(d[0], d)) return;

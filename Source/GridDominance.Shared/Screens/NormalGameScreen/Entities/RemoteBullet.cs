@@ -14,6 +14,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.LogProtocol;
 
@@ -25,8 +26,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public const int POST_DEATH_TRANSMITIONCOUNT = 8;
 		
+		public FPoint LastRemotePosition = FPoint.Zero;
+		
 		public Vector2 BulletVelocity;
-
+		
 		public long LastUpdateBigSeq;
 		
 		public RemoteBulletState RemoteState = RemoteBulletState.Normal;
@@ -40,6 +43,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			: base(scrn, frac, entityScale)
 		{
 			BulletPosition = pos;
+			LastRemotePosition = pos;
 			BulletVelocity = velo;
 			GDOwner = scrn;
 			BulletID = id;
@@ -84,9 +88,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			sbatch.DrawCentered(
 				Textures.TexBullet, 
 				BulletPosition, 
-				Scale * BulletExtraScale * Bullet.BULLET_DIAMETER,
-				Scale * BulletExtraScale * Bullet.BULLET_DIAMETER,
+				Scale * BulletExtraScale * BULLET_DIAMETER,
+				Scale * BulletExtraScale * BULLET_DIAMETER,
 				Fraction.Color * BulletAlpha, BulletRotation);
+
+#if DEBUG
+			if (DebugSettings.Get("DebugMultiplayer"))
+			{
+				sbatch.DrawCircle(LastRemotePosition, Scale * BulletExtraScale * BULLET_DIAMETER / 2f, 6, Color.DeepSkyBlue, 2*Owner.PixelWidth);
+				sbatch.DrawLine(LastRemotePosition, BulletPosition, Color.DeepSkyBlue, Owner.PixelWidth);
+			}
+
+#endif
 		}
 
 		public void RemoteUpdate(RemoteBulletState state, float px, float py, Vector2 veloc, Fraction fraction, float scale, long seq)
@@ -98,6 +111,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Fraction = fraction;
 
 			BulletPosition = new FPoint(px, py);
+			LastRemotePosition = BulletPosition;
 			PhysicsBody.Position = ConvertUnits2.ToSimUnits(BulletPosition);
 
 			BulletVelocity = veloc;

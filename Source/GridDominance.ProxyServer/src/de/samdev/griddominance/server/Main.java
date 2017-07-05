@@ -189,7 +189,15 @@ public class Main {
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         //TODO REMOVE ME !!!
-        if (session == null && Sessions.size() > 0) {session = Sessions.entrySet().stream().findFirst().get().getValue(); sessionid = session.SessionID; sessionsecret = session.SessionSecret;  } //TODO REMOVE ME
+        //TODO REMOVE ME !!!
+        //TODO REMOVE ME !!!
+        //TODO REMOVE ME !!!
+        //TODO REMOVE ME !!!
+        if (session == null && Sessions.size() > 0) {session = Sessions.entrySet().stream().reduce((first, second) -> second).get().getValue(); sessionid = session.SessionID; sessionsecret = session.SessionSecret;  } //TODO REMOVE ME
+        //TODO REMOVE ME !!!
+        //TODO REMOVE ME !!!
+        //TODO REMOVE ME !!!
+        //TODO REMOVE ME !!!
         //TODO REMOVE ME !!!
 
         if (session == null) {

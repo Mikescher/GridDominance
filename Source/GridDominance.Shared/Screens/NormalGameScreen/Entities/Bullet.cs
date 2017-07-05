@@ -292,6 +292,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			Manager.AddEntity(new Bullet(GDOwner, Source, p1, v1, newScale, Fraction));
 			Manager.AddEntity(new Bullet(GDOwner, Source, p2, v2, newScale, Fraction));
+
+			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Instant, BulletID, this);
 		}
 
 		private void DisintegrateIntoVoidObject()
@@ -306,7 +308,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			Alive = false;
 
-			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Instant, BulletID, this);
+			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Explosion, BulletID, this);
 		}
 
 		private void DisintegrateIntoEnemy()

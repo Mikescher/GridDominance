@@ -125,7 +125,7 @@ namespace GridDominance.Shared
 
 				for (int i = 0; i < MAX_LOG_SEND_COUNT-1; i++)
 				{
-					LastSendLogTimes[i] = LastSendLogTimes[i - 1];
+					LastSendLogTimes[i] = LastSendLogTimes[i + 1];
 				}
 				LastSendLogTimes[MAX_LOG_SEND_COUNT - 1] = CurrentTime.TotalElapsedSeconds;
 			}
