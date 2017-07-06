@@ -53,7 +53,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			var seq = NetworkDataTools.GetByte(d[1]);
 			var msgSessionID = NetworkDataTools.GetSplitBits(d[2], d[3], 8, 8);
-			var msgUserID = NetworkDataTools.GetLowBits(d[4], 4);
+			var msgUserID = NetworkDataTools.GetHighBits(d[4], 4);
 			var msgSessionSecret = NetworkDataTools.GetSplitBits(d[4], d[5], 4, 8);
 			var msgTime = NetworkDataTools.GetSingle(d[6], d[7], d[8], d[9]);
 

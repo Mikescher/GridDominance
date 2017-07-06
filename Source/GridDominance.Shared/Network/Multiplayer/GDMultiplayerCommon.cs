@@ -13,8 +13,6 @@ namespace GridDominance.Shared.Network.Multiplayer
 {
 	public abstract class GDMultiplayerCommon : SAMNetworkConnection
 	{
-		public static int BYTE_SIZE = 61;
-
 		public static byte AREA_BCANNONS = 0xC0;
 		public static byte AREA_BULLETS = 0xC1;
 		public static byte AREA_END = 0x77;
@@ -50,7 +48,9 @@ namespace GridDominance.Shared.Network.Multiplayer
 				byte cmd = d[p];
 				p++;
 
-				if (p >= BYTE_SIZE)
+				if (cmd == AREA_END) break;
+
+				if (p >= MAX_PACKAGE_SIZE_BYTES)
 				{
 					SAMLog.Error("SNS-COMMON::OOB", "OOB: " + p);
 					break;
@@ -62,10 +62,6 @@ namespace GridDominance.Shared.Network.Multiplayer
 				else if (cmd == AREA_BULLETS)
 				{
 					ProcessForwardBullets(ref p, d, bseq);
-				}
-				else if (cmd == AREA_END)
-				{
-					break;
 				}
 				else
 				{
@@ -191,12 +187,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 		protected void SendForwardBulletCannons(ref int idx)
 		{
-			if (idx + 2 >= BYTE_SIZE) SendAndReset(ref idx);
+			if (idx + 2 >= MAX_PACKAGE_SIZE_BYTES) SendAndReset(ref idx);
 
 			MSG_FORWARD[idx] = AREA_BCANNONS;
 			idx++;
 
-			byte arrsize = (byte)((BYTE_SIZE - idx - 2) / SIZE_BCANNON_DEF);
+			byte arrsize = (byte)((MAX_PACKAGE_SIZE_BYTES - idx - 2) / SIZE_BCANNON_DEF);
 
 			int posSize = idx;
 
@@ -225,7 +221,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 					MSG_FORWARD[idx] = AREA_BCANNONS;
 					idx++;
 					i -= arrsize;
-					arrsize = (byte)((BYTE_SIZE - idx - 2) / SIZE_BCANNON_DEF);
+					arrsize = (byte)((MAX_PACKAGE_SIZE_BYTES - idx - 2) / SIZE_BCANNON_DEF);
 					posSize = idx;
 					MSG_FORWARD[posSize] = 0xFF;
 					idx++;
@@ -236,12 +232,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 		protected void SendForwardBullets(ref int idx)
 		{
-			if (idx + 2 >= BYTE_SIZE) SendAndReset(ref idx);
+			if (idx + 2 >= MAX_PACKAGE_SIZE_BYTES) SendAndReset(ref idx);
 
 			MSG_FORWARD[idx] = AREA_BULLETS;
 			idx++;
 
-			byte arrsize = (byte)((BYTE_SIZE - idx - 2) / SIZE_BULLET_DEF);
+			byte arrsize = (byte)((MAX_PACKAGE_SIZE_BYTES - idx - 2) / SIZE_BULLET_DEF);
 
 			int posSize = idx;
 
@@ -291,7 +287,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 					MSG_FORWARD[idx] = AREA_BULLETS;
 					idx++;
 					i -= arrsize;
-					arrsize = (byte)((BYTE_SIZE - idx - 2) / SIZE_BULLET_DEF);
+					arrsize = (byte)((MAX_PACKAGE_SIZE_BYTES - idx - 2) / SIZE_BULLET_DEF);
 					posSize = idx;
 					MSG_FORWARD[posSize] = 0xFF;
 					idx++;

@@ -9,6 +9,10 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
 	public abstract class SAMNetworkConnection : ISAMUpdateable
 	{
+		public const int MAX_PACKAGE_SIZE_BYTES = 61; //TODO Set me to [[1450]]   // https://stackoverflow.com/a/15003663/1761622
+
+
+
 		public const float TIME_BETWEEN_PINGS = 1f;
 		public const float TIME_BETWEEN_INGAME_PINGS = 3f;
 		public const float TIMEOUT = 10f;
@@ -71,7 +75,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		private   readonly byte[] MSG_QUITSESSION   = { CMD_QUITSESSION,      0, 0, 0, 0, 0, 0 };
 		private   readonly byte[] MSG_QUERYLOBBY    = { CMD_QUERYSESSION,     0, 0, 0, 0, 0    };
 		private            byte[] MSG_LOBBYSYNC     = { CMD_FORWARDLOBBYSYNC, 0, 0, 0, 0, 0    };
-		protected readonly byte[] MSG_FORWARD       = new byte[61];
+		protected readonly byte[] MSG_FORWARD       = new byte[MAX_PACKAGE_SIZE_BYTES];
 
 		public ConnectionState ConnState = ConnectionState.Offline;
 		public ServerMode Mode = ServerMode.Base;
