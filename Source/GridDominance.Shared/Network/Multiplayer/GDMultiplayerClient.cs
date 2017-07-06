@@ -21,6 +21,9 @@ namespace GridDominance.Shared.Network.Multiplayer
 		public ulong ServerGameVersion;
 		public ulong ServerLevelHash;
 
+		public ushort LastServerPackageSeq;
+		public float LastServerPackageTime;
+
 		public GDMultiplayerClient()
 			: base(new UDPNetworkMedium(GDConstants.MULTIPLAYER_SERVER_HOST, GDConstants.MULTIPLAYER_SERVER_PORT))
 		{
@@ -33,6 +36,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 		public void AddDebugLine(GameScreen s)
 		{
 			s.DebugDisp.AddLine("DebugMultiplayer", () => $"CLIENT(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})");
+			s.DebugDisp.AddLine("DebugMultiplayer", () => $"CLIENT(ServerSeq={LastServerPackageSeq} | ServerTime={LastServerPackageTime:000.00}s)");
 		}
 #endif
 		
@@ -125,19 +129,22 @@ namespace GridDominance.Shared.Network.Multiplayer
 		{
 			if (Screen == null) return;
 
-			// [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [~: Payload]
+			// [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [32:Time] [~: Payload]
 
-			byte seq = d[1];
-			ushort msgSessionID = (ushort) (((d[2] << 8) & 0xFF00) | (d[3] & 0xFF));
-			ushort msgSessionSecret = (ushort) ((((d[4] << 8) & 0xFF00) | (d[5] & 0xFF)) & 0x0FFF);
-			byte msgUserID = (byte) ((d[4] >> 4) & 0x0F);
+			var seq = NetworkDataTools.GetByte(d[1]);
+			var msgSessionID = NetworkDataTools.GetSplitBits(d[2], d[3], 8, 8);
+			var msgUserID = NetworkDataTools.GetLowBits(d[4], 4);
+			var msgSessionSecret = NetworkDataTools.GetSplitBits(d[4], d[5], 4, 8);
+			var msgTime = NetworkDataTools.GetSingle(d[6], d[7], d[8], d[9]);
+
+			LastServerPackageSeq = seq;
+			LastServerPackageTime = msgTime;
 
 			if (msgSessionID != SessionID || msgSessionSecret != SessionSecret || msgUserID != 0)
 			{
 				SAMLog.Warning("SNS-Client", $"Invalid server message: ({msgSessionID} != {SessionID} || {msgSessionSecret} != {SessionSecret} || {msgUserID} != {0})");
 				return;
 			}
-
 
 			if (IsSeqGreater(UserConn[msgUserID].LastRecievedSeq, seq))
 			{
@@ -157,12 +164,13 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			packageCount = 0;
 
-			MSG_FORWARD[2] = (byte) ((SessionID >> 8) & 0xFF);
-			MSG_FORWARD[3] = (byte) (SessionID & 0xFF);
-			MSG_FORWARD[4] = (byte) (((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
-			MSG_FORWARD[5] = (byte) (SessionSecret & 0xFF);
+			NetworkDataTools.SetByteWithHighBits(out MSG_FORWARD[2], SessionID, 16);
+			NetworkDataTools.SetByteWithLowBits(out MSG_FORWARD[3], SessionID, 16);
+			NetworkDataTools.SetSplitByte(out MSG_FORWARD[4], SessionUserID, SessionSecret, 4, 12, 4, 4);
+			NetworkDataTools.SetByteWithLowBits(out MSG_FORWARD[5], SessionSecret, 12);
+			NetworkDataTools.SetSingle(out MSG_FORWARD[6], out MSG_FORWARD[7], out MSG_FORWARD[8], out MSG_FORWARD[9], Screen.LevelTime);
 
-			int p = 6;
+			int p = PACKAGE_FORWARD_HEADER_SIZE;
 			SendForwardBulletCannons(ref p);
 			SendAndReset(ref p);
 		}

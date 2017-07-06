@@ -1,9 +1,20 @@
-﻿using MonoSAMFramework.Portable.GameMath;
+﻿using System.Runtime.InteropServices;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
 	public static class NetworkDataTools
 	{
+		[StructLayout(LayoutKind.Explicit)]
+		private struct UIntFloat
+		{
+			[FieldOffset(0)]
+			public float FloatValue;
+
+			[FieldOffset(0)]
+			public uint IntValue;
+		}
+
 		public static ushort GetUInt16(byte b1, byte b2)
 		{
 			return (ushort) ((b1 << 8) | b2);
@@ -84,10 +95,61 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			b = (byte)(value >> (bitsize - 8));
 		}
 
+		public static void SetByteWithLowBits(out byte b, int value, int bitsize)
+		{
+			b = (byte)(value & 0xFF);
+		}
+
 		public static void SetUInt16(out byte b1, out byte b2, ushort v)
 		{
 			b1 = (byte) ((v >> 8) & 0xFF);
 			b2 = (byte) ((v     ) & 0xFF);
+		}
+
+		public static unsafe byte[] GetBytes(float value)
+		{
+			uint val = *((uint*)&value);
+			return GetBytes(val);
+		}
+
+		public static unsafe float ToSingle(byte[] value, int index)
+		{
+			uint i = ToUInt32(value, index);
+			return *(((float*)&i));
+		}
+
+		public static uint ToUInt32(byte[] value, int index)
+		{
+			return (uint)(
+				value[0 + index] << 0 |
+				value[1 + index] << 8 |
+				value[2 + index] << 16 |
+				value[3 + index] << 24);
+		}
+
+		public static byte[] GetBytes(uint value)
+		{
+			return new byte[4] {
+				(byte)(value & 0xFF),
+				(byte)((value >> 8) & 0xFF),
+				(byte)((value >> 16) & 0xFF),
+				(byte)((value >> 24) & 0xFF) };
+		}
+
+		public static void SetSingle(out byte b1, out byte b2, out byte b3, out byte b4, float data)
+		{
+			var cv = new UIntFloat{FloatValue = data};
+
+			b1 = (byte)((cv.IntValue >>  0) & 0xFF);
+			b2 = (byte)((cv.IntValue >>  8) & 0xFF);
+			b3 = (byte)((cv.IntValue >> 16) & 0xFF);
+			b4 = (byte)((cv.IntValue >> 24) & 0xFF);
+		}
+
+		public static float GetSingle(byte b1, byte b2, byte b3, byte b4)
+		{
+			var cv = new UIntFloat { IntValue = (uint)((b3 << 24) | (b2 << 16) | (b3 << 8) | b4) };
+			return cv.FloatValue;
 		}
 	}
 }

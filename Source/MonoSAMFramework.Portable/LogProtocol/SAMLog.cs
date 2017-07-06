@@ -98,6 +98,7 @@ namespace MonoSAMFramework.Portable.LogProtocol
 		{
 			StringBuilder b = new StringBuilder();
 
+			b.AppendLine(e.ToString());
 			b.AppendLine(b.ToString());
 			try
 			{

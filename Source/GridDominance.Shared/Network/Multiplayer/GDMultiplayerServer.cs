@@ -50,12 +50,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 		private void ProcessForward(byte[] d)
 		{
 			if (Screen == null) return;
-			
 
-			byte seq = d[1];
-			ushort msgSessionID = (ushort)(((d[2] << 8) & 0xFF00) | (d[3] & 0xFF));
-			ushort msgSessionSecret = (ushort)((((d[4] << 8) & 0xFF00) | (d[5] & 0xFF)) & 0x0FFF);
-			byte msgUserID = (byte)((d[4] >> 4) & 0x0F);
+			var seq = NetworkDataTools.GetByte(d[1]);
+			var msgSessionID = NetworkDataTools.GetSplitBits(d[2], d[3], 8, 8);
+			var msgUserID = NetworkDataTools.GetLowBits(d[4], 4);
+			var msgSessionSecret = NetworkDataTools.GetSplitBits(d[4], d[5], 4, 8);
+			var msgTime = NetworkDataTools.GetSingle(d[6], d[7], d[8], d[9]);
 
 			if (msgSessionID != SessionID || msgSessionSecret != SessionSecret || msgUserID == 0)
 			{
@@ -82,12 +82,13 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			packageCount = 0;
 
-			MSG_FORWARD[2] = (byte)((SessionID >> 8) & 0xFF);
-			MSG_FORWARD[3] = (byte)(SessionID & 0xFF);
-			MSG_FORWARD[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
-			MSG_FORWARD[5] = (byte)(SessionSecret & 0xFF);
+			NetworkDataTools.SetByteWithHighBits(out MSG_FORWARD[2], SessionID, 16);
+			NetworkDataTools.SetByteWithLowBits(out MSG_FORWARD[3], SessionID, 16);
+			NetworkDataTools.SetSplitByte(out MSG_FORWARD[4], SessionUserID, SessionSecret, 4, 12, 4, 4);
+			NetworkDataTools.SetByteWithLowBits(out MSG_FORWARD[5], SessionSecret, 12);
+			NetworkDataTools.SetSingle(out MSG_FORWARD[6], out MSG_FORWARD[7], out MSG_FORWARD[8], out MSG_FORWARD[9], Screen.LevelTime);
 
-			int p = 6;
+			int p = PACKAGE_FORWARD_HEADER_SIZE;
 			SendForwardBulletCannons(ref p);
 			SendForwardBullets(ref p);
 			SendAndReset(ref p);

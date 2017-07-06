@@ -24,6 +24,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 		public static int REMOTE_BULLET_UPDATELESS_LIFETIME = 8;
 		
+		public static int PACKAGE_FORWARD_HEADER_SIZE = 10;
+
 		public readonly long[] RecieveBigSeq = new long[32];
 
 		public GDGameScreen Screen;
@@ -31,18 +33,18 @@ namespace GridDominance.Shared.Network.Multiplayer
 		protected int packageCount = 0;
 		protected int packageModSize = 0;
 
-		public GDMultiplayerCommon(INetworkMedium medium) : base(medium)
+		protected GDMultiplayerCommon(INetworkMedium medium) : base(medium)
 		{
 		}
 
 		protected void ProcessStateData(byte[] d, byte euid)
 		{
-			// [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [~: Payload]
+			// [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [32:time] [~: Payload]
 
 			RecieveBigSeq[euid]++;
 			var bseq = RecieveBigSeq[euid];
 
-			int p = 6;
+			int p = PACKAGE_FORWARD_HEADER_SIZE;
 			for (;;)
 			{
 				byte cmd = d[p];
@@ -182,7 +184,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			_medium.Send(MSG_FORWARD);
 			packageModSize = idx;
 
-			idx = 6;
+			idx = PACKAGE_FORWARD_HEADER_SIZE;
 
 			packageCount++;
 		}
