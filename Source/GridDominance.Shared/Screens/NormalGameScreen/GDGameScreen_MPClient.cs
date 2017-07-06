@@ -57,9 +57,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
-				MainGame.Inst.SetOverworldScreen(); //TODO Perhaps not kill so suddenly ??
-
 				HUD.ShowToast(L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+
+				MainGame.Inst.SetOverworldScreen(); //TODO Perhaps not kill so suddenly ??
 			}
 		}
 

@@ -468,6 +468,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 						ErrorStop(ErrorType.SessionNotFound, null);
 						return;
 					}
+					else if (Mode == ServerMode.InGame)
+					{
+						ErrorStop(ErrorType.ServerDisconnect, null);
+						return;
+					}
 					break;
 
 				case ACK_SESSIONSECRETWRONG:
@@ -483,6 +488,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					{
 						RecieveAck(d[1]);
 
+						ErrorStop(ErrorType.SessionNotFound, null);
+						return;
+					}
+					else if (Mode == ServerMode.InGame)
+					{
 						ErrorStop(ErrorType.SessionNotFound, null);
 						return;
 					}

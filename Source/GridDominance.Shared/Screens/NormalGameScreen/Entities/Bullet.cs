@@ -311,6 +311,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Explosion, BulletID, this);
 		}
 
+		private void VanishOutOfBounds()
+		{
+			Alive = false;
+			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Instant, BulletID, this);
+		}
+
 		private void DisintegrateIntoEnemy()
 		{
 			// After Bullet-Cannon Collision
@@ -379,7 +385,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				if (!GDOwner.MapFullBounds.Contains(BulletPosition))
 				{
-					Remove();
+					VanishOutOfBounds();
 				}
 			}
 

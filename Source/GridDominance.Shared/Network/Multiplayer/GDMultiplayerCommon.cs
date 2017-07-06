@@ -80,16 +80,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			for (int i = 0; i < count; i++)
 			{
-				var id = d[p];
-				p++;
-				var frac  = Screen.GetFractionByID((byte)((d[p] >> 5) & 0b111));
-				var boost = (d[p]) & 0b11111;
-				p++;
-				var rot = (d[p] / 256f) * FloatMath.TAU;
-				p++;
-				var hp = (d[p] / 255f);
-				p++;
-				
+				var id = NetworkDataTools.GetByte(d[p + 0]);
+				var frac = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
+				var boost = NetworkDataTools.GetLowBits(d[p + 1], 5);
+				var rot = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
+				var hp = NetworkDataTools.GetByte(d[p + 3]) / 255f;
+
 				Cannon c;
 				if (Screen.CannonMap.TryGetValue(id, out c))
 				{
@@ -109,6 +105,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 						}
 					}
 				}
+
+				p += SIZE_BCANNON_DEF;
 			}
 		}
 
@@ -119,20 +117,18 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			for (int i = 0; i < count; i++)
 			{
-				var id = (ushort)(((d[p+0] << 4) & 0b111111110000) | ((d[p + 1] >> 4) & 0b000000001111));
-				var state = (RemoteBullet.RemoteBulletState)(d[p + 1] & 0b000000001111);
+				var id = NetworkDataTools.GetSplitBits(d[p + 0], d[p + 1], 8, 4);
+				var state = (RemoteBullet.RemoteBulletState)NetworkDataTools.GetLowBits(d[p + 1], 4);
 
-				var ipx = (ushort)((d[p + 2] << 8) | (d[p + 3]));
-				var ipy = (ushort)((d[p + 4] << 8) | (d[p + 5]));
+				var ipx = NetworkDataTools.GetUInt16(d[p + 2], d[p + 3]);
+				var ipy = NetworkDataTools.GetUInt16(d[p + 4], d[p + 5]);
 				Screen.DoubleByteToPosition(ipx, ipy, out float px, out float py);
 
-				var irot = (ushort)((d[p + 6] << 2) | ((d[p + 7] >> 6) & 0b0011));
-				var rot = (irot / 1024f) * FloatMath.TAU;
-				var ilen = (ushort)(((d[p + 7] << 5) & 0b11111100000) | ((d[p + 8] >> 3) | 0b00000011111));
-				var len = ilen / 8f;
+				var rot = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetSplitBits(d[p + 6], d[p + 7], 8, 2), 10);
+				var len = NetworkDataTools.GetSplitBits(d[p + 7], d[p + 8], 6, 5) / 8f;
 				var veloc = new Vector2(len, 0).Rotate(rot);
 
-				var fraction = Screen.GetFractionByID((byte)(d[p + 8] & 0b00000111));
+				var fraction = Screen.GetFractionByID(NetworkDataTools.GetLowBits(d[p + 8], 3));
 				var scale = 16 * (d[p + 9] / 255f);
 
 				var bullet = Screen.RemoteBulletMapping[id];
@@ -165,7 +161,6 @@ namespace GridDominance.Shared.Network.Multiplayer
 						throw new ArgumentOutOfRangeException();
 				}
 				
-
 				p +=SIZE_BULLET_DEF;
 			}
 
@@ -213,15 +208,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				// [8: ID] [3: Fraction] [5: Boost] [8: Rotation] [8: Health]
 
-				MSG_FORWARD[idx] = cannon.BlueprintCannonID;
-				idx++;
-				MSG_FORWARD[idx] = (byte)((Screen.GetFractionID(cannon.Fraction) << 5) | (cannon.IntegerBoost));
-				idx++;
-				MSG_FORWARD[idx] = (byte)((cannon.Rotation.TargetValue / FloatMath.TAU) * 256);
-				idx++;
-				MSG_FORWARD[idx] = (byte)(FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
-				idx++;
+				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 0], cannon.BlueprintCannonID);
+				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], Screen.GetFractionID(cannon.Fraction), cannon.IntegerBoost, 3, 5, 3, 5);
+				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 2], NetworkDataTools.ConvertFromRadians(cannon.Rotation.TargetValue, 8));
+				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 3], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
 
+				idx += SIZE_BCANNON_DEF;
 
 				i++;
 				if (i >= arrsize)
@@ -277,27 +269,17 @@ namespace GridDominance.Shared.Network.Multiplayer
 				ushort len = (ushort)FloatMath.IClamp(FloatMath.Round(veloc.Length() * 8), 0, 2048); // 11bit (fac=8)
 				byte frac = Screen.GetFractionID(b.Fraction);
 
-				MSG_FORWARD[idx] = (byte)((bid >> 4) & 0xFF);
-				idx++;
-				MSG_FORWARD[idx] = (byte)(((bid << 4) & 0xF0) | ((int)state));
-				idx++;
-				MSG_FORWARD[idx] = (byte)((px >> 8) & 0xFF);
-				idx++;
-				MSG_FORWARD[idx] = (byte)(px & 0xFF);
-				idx++;
-				MSG_FORWARD[idx] = (byte)((py >> 8) & 0xFF);
-				idx++;
-				MSG_FORWARD[idx] = (byte)(py & 0xFF);
-				idx++;
-				MSG_FORWARD[idx] = (byte)((rot >> 2) & 0xFF);
-				idx++;
-				MSG_FORWARD[idx] = (byte)(((rot << 8) & 0b11000000) | ((len >> 5) & 0b00111111));
-				idx++;
-				MSG_FORWARD[idx] = (byte)(((len << 3) & 0b11111000) | (frac & 0b00000111));
-				idx++;
-				MSG_FORWARD[idx] = (byte)FloatMath.IClamp((int)((b.Scale / 16f) * 255), 0, 255);
-				idx++;
 
+				NetworkDataTools.SetByteWithHighBits(out MSG_FORWARD[idx + 0], bid, 12);
+				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], bid, (int)state, 12, 4, 4, 4);
+				NetworkDataTools.SetUInt16(out MSG_FORWARD[idx + 2], out MSG_FORWARD[idx + 3], px);
+				NetworkDataTools.SetUInt16(out MSG_FORWARD[idx + 4], out MSG_FORWARD[idx + 5], py);
+				NetworkDataTools.SetByteWithHighBits(out MSG_FORWARD[idx + 6], rot, 10);
+				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 7], rot, len, 10, 11, 2, 6);
+				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 8], len, frac, 11, 3, 5, 3);
+				NetworkDataTools.SetByteClamped(out MSG_FORWARD[idx + 9], (int)((b.Scale / 16f) * 255));
+
+				idx += SIZE_BULLET_DEF;
 
 				i++;
 				if (i >= arrsize)
