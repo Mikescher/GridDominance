@@ -1,20 +1,21 @@
 package de.samdev.griddominance.server;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Main {
 
-    public static final int PORT_SERVER = 28023;
-    public static final int PACKAGE_SIZE = 448;
-    public static final int PACKAGE_SIZE_SMALL = 32;
+    public static final int PORT_SERVER             = 28023;
+    public static final int PACKAGE_SIZE            = 1500;
+    public static final int PACKAGE_SIZE_SMALL      = 32;
 
-    public static final int GAME_SESSION_TIMEOUT = 90 * 1000;
-    public static final int GAME_USER_TIMEOUT    = 15 * 1000;
+    public static final int GAME_SESSION_TIMEOUT    = 16 * 1000;
+    public static final int GAME_USER_TIMEOUT       =  8 * 1000;
+    public static final int STATE_OUTPUT_FREQ       = 45 * 1000;
 
     public static final byte CMD_CREATESESSION      = 100;
     public static final byte CMD_JOINSESSION        = 101;
@@ -23,6 +24,7 @@ public class Main {
     public static final byte CMD_PING               = 104;
     public static final byte CMD_FORWARD            = 125;
     public static final byte CMD_FORWARDLOBBYSYNC   = 126;
+    public static final byte CMD_AUTOJOIN           =  23;
 
     public static final byte ACK_SESSIONCREATED      = 50;
     public static final byte ACK_SESSIONJOINED       = 51;
@@ -37,7 +39,7 @@ public class Main {
 
     public static final byte ANS_FORWARDLOBBYSYNC    = 81;
 
-    private static final SimpleLog _log = new SimpleLog("proxyserver.log");
+    private static final SimpleLog _log = new SimpleLog();
     private static final Random _random = new Random(System.currentTimeMillis());
 
     public static HashMap<Short, GameSession> Sessions;
@@ -49,25 +51,41 @@ public class Main {
     public static Short sid = 0;
     public static byte msgIdx = 0;
 
-    public static void main(String[] args) {
+    public static long lastStateOuput;
+
+    public static String logfileError = "";
+    public static String stateFile = "";
+
+    public static void main(String[] args) throws Exception {
 
         try  {
-
             run();
         } catch (Exception e) {
             _log.FatalError("Fatal Error in run:\n" + e.toString());
+        } finally {
+            _log.PersistantInfo("Server stopped");
         }
 
     }
 
-    private static void run() throws SocketException {
+    private static void run() throws Exception {
 
         Socket = new DatagramSocket(PORT_SERVER);
         Sessions = new HashMap<>();
 
         Socket.setSoTimeout(40 * 1000);
 
-        _log.Debug("Server started");
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("gdproxy.properties"));
+
+        logfileError = properties.getProperty("logfile_error");
+        stateFile    = properties.getProperty("statefile");
+
+        _log.PersistantInfo("Server started");
+        _log.PersistantInfo("Logfile:  " + logfileError);
+        _log.PersistantInfo("StateFile: " + stateFile);
+
+        OutputState();
 
         while(true)
         {
@@ -100,6 +118,10 @@ public class Main {
                         int join_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
                         JoinExistingSession(receivePacket.getAddress(), receivePacket.getPort(), join_seq, join_sessionid, join_sessionsecret);
                         break;
+                    case CMD_AUTOJOIN:
+                        byte ajoin_seq = receiveData[1];
+                        AutoJoinSession(receivePacket.getAddress(), receivePacket.getPort(), ajoin_seq);
+                        break;
                     case CMD_QUITSESSION:
                         byte quit_seq = receiveData[1];
                         int quit_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
@@ -112,9 +134,9 @@ public class Main {
                         int fwd1_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
                         int fwd1_userid = ((receiveData[4] & 0xF0) >> 4);
                         if (fwd1_userid == 0)
-                            ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), fwd1_seq, fwd1_sessionid, fwd1_sessionsecret);
+                            ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd1_seq, fwd1_sessionid, fwd1_sessionsecret);
                         else
-                            ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), fwd1_seq, fwd1_userid, fwd1_sessionid, fwd1_sessionsecret);
+                            ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd1_seq, fwd1_userid, fwd1_sessionid, fwd1_sessionsecret);
 
                         //_log.Debug("Forward from "+fwd1_userid+" (cmd="+receiveData[0]+")");
                         break;
@@ -123,7 +145,7 @@ public class Main {
                         int fwd2_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
                         int fwd2_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
                         int fwd2_userid = ((receiveData[4] & 0xF0) >> 4);
-                        ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), fwd2_seq, fwd2_sessionid, fwd2_sessionsecret);
+                        ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd2_seq, fwd2_sessionid, fwd2_sessionsecret);
 
                         _log.Debug("ForwardLobbySync from "+fwd2_userid+" (cmd="+receiveData[0]+")");
                         break;
@@ -132,7 +154,7 @@ public class Main {
                         int fwd3_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
                         int fwd3_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
                         int fwd3_userid = ((receiveData[4] & 0xF0) >> 4);
-                        ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), fwd3_seq, fwd3_userid, fwd3_sessionid, fwd3_sessionsecret);
+                        ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd3_seq, fwd3_userid, fwd3_sessionid, fwd3_sessionsecret);
 
                         _log.Debug("AnswerLobbySync from "+fwd3_userid+" (cmd="+receiveData[0]+")");
                         break;
@@ -152,6 +174,9 @@ public class Main {
                 }
 
                 CleanUpSessions();
+
+                if (System.currentTimeMillis() - lastStateOuput > STATE_OUTPUT_FREQ) OutputState();
+
             } catch (Exception e) {
                 _log.Error("Error in mainloop:\n" + e.toString());
             }
@@ -181,24 +206,12 @@ public class Main {
 
         DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
         Socket.send(sendPacket);
+
+        OutputState();
     }
 
     private static void JoinExistingSession(InetAddress host, int port, byte seq, int sessionid, int sessionsecret) throws IOException {
-
-
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
-
-        //TODO REMOVE ME !!!
-        //TODO REMOVE ME !!!
-        //TODO REMOVE ME !!!
-        //TODO REMOVE ME !!!
-        //TODO REMOVE ME !!!
-        if (session == null && Sessions.size() > 0) {session = Sessions.entrySet().stream().reduce((first, second) -> second).get().getValue(); sessionid = session.SessionID; sessionsecret = session.SessionSecret;  } //TODO REMOVE ME
-        //TODO REMOVE ME !!!
-        //TODO REMOVE ME !!!
-        //TODO REMOVE ME !!!
-        //TODO REMOVE ME !!!
-        //TODO REMOVE ME !!!
 
         if (session == null) {
             sendDataSmall[0] = ACK_SESSIONNOTFOUND;
@@ -273,6 +286,69 @@ public class Main {
         sendDataSmall[7] = (byte)session.MaxSize;
 
         _log.Info("User " + host.getHostAddress() + " : " + port + " joined session " + sessionid + "(uid="+user.UserID+";  capacity=" + session.MaxSize + ")");
+
+        DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
+        Socket.send(sendPacket);
+    }
+
+    private static void AutoJoinSession(InetAddress host, int port, byte seq) throws IOException {
+
+        GameSession session = null;
+
+        for (Map.Entry<Short, GameSession> mentry : Sessions.entrySet()) {
+            GameSession entry = mentry.getValue();
+            if (entry.isFull() || entry.GameActive) continue;
+
+            if (System.currentTimeMillis() - entry.LastActivity < 1500) session = entry;
+        }
+
+        if (session == null) {
+            sendDataSmall[0] = ACK_SESSIONNOTFOUND;
+            sendDataSmall[1] = seq;
+
+            DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
+            Socket.send(sendPacket);
+
+            return;
+        }
+
+        GameSessionUser user = session.FindUser(host, port);
+        if (user != null) {
+            // ======== already joined ========
+
+            session.SetLastActivity(user.UserID);
+
+            // [8: RET] [8:seq] [16: SessionID]  [12: SessionSecret] [4: _ ] [4: UserID] [8: Size]
+            sendDataSmall[0] = ACK_SESSIONJOINED;
+            sendDataSmall[1] = seq;
+            sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
+            sendDataSmall[3] = (byte)((session.SessionID) & 0xFF);
+            sendDataSmall[4] = (byte)((session.SessionSecret >> 8) & 0xFF);
+            sendDataSmall[5] = (byte)((session.SessionSecret) & 0xFF);
+            sendDataSmall[6] = (byte)user.UserID;
+            sendDataSmall[7] = (byte)session.MaxSize;
+
+            _log.Info("User " + host.getHostAddress() + " : " + port + " double-joined session " + session.SessionID + "(uid="+user.UserID+";  capacity=" + session.MaxSize + ")");
+
+            DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
+            Socket.send(sendPacket);
+        }
+
+        user = session.AddClientUser(host, port);
+
+        session.SetLastActivity(user.UserID);
+
+        // [8: RET] [8:seq] [16: SessionID]  [12: SessionSecret] [4: _ ] [4: UserID] [8: Size]
+        sendDataSmall[0] = ACK_SESSIONJOINED;
+        sendDataSmall[1] = seq;
+        sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
+        sendDataSmall[3] = (byte)((session.SessionID) & 0xFF);
+        sendDataSmall[4] = (byte)((session.SessionSecret >> 8) & 0xFF);
+        sendDataSmall[5] = (byte)((session.SessionSecret) & 0xFF);
+        sendDataSmall[6] = (byte)user.UserID;
+        sendDataSmall[7] = (byte)session.MaxSize;
+
+        _log.Info("User " + host.getHostAddress() + " : " + port + " joined session " + session.SessionID + "(uid="+user.UserID+";  capacity=" + session.MaxSize + ")");
 
         DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
         Socket.send(sendPacket);
@@ -386,7 +462,7 @@ public class Main {
         Socket.send(sendPacket);
     }
 
-    private static void ForwardToServer(InetAddress host, int port, byte seq, int userid, int sessionid, int sessionsecret) throws IOException {
+    private static void ForwardToServer(InetAddress host, int port, int len, byte seq, int userid, int sessionid, int sessionsecret) throws IOException {
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
@@ -415,11 +491,11 @@ public class Main {
 
         session.SetLastActivity(userid);
 
-        DatagramPacket sendPacket = new DatagramPacket(receiveData, PACKAGE_SIZE, session.Users[0].Adress, session.Users[0].Port);
+        DatagramPacket sendPacket = new DatagramPacket(receiveData, len, session.Users[0].Adress, session.Users[0].Port);
         Socket.send(sendPacket);
     }
 
-    private static void ForwardToClients(InetAddress host, int port, byte seq, int sessionid, int sessionsecret) throws IOException {
+    private static void ForwardToClients(InetAddress host, int port, int len, byte seq, int sessionid, int sessionsecret) throws IOException {
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
@@ -446,11 +522,12 @@ public class Main {
             return;
         }
 
+        session.GameActive = true;
         session.SetLastActivity(0);
 
         for (int i = 1; i < session.MaxSize; i++) {
             if (session.Users[i] == null) continue;
-            DatagramPacket sendPacket = new DatagramPacket(receiveData, PACKAGE_SIZE, session.Users[i].Adress, session.Users[i].Port);
+            DatagramPacket sendPacket = new DatagramPacket(receiveData, len, session.Users[i].Adress, session.Users[i].Port);
             Socket.send(sendPacket);
         }
 
@@ -489,5 +566,24 @@ public class Main {
                 }
             }
         }
+    }
+
+    private static void OutputState() throws FileNotFoundException {
+
+        lastStateOuput = System.currentTimeMillis();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("{\"sessions\":[");
+        boolean f = true;
+        for (Map.Entry<Short, GameSession> mentry : Sessions.entrySet()) {
+            GameSession e = mentry.getValue();
+
+            if (!f) builder.append(",");
+            builder.append("{\"sid\":"+e.SessionID+",\"sec\":"+e.SessionSecret+",\"usr\":"+e.CountUsers()+",\"cap\":"+e.MaxSize+"}");
+            f = false;
+        }
+        builder.append("]}");
+
+        try (PrintWriter out = new PrintWriter(stateFile)) { out.write(builder.toString()); }
     }
 }

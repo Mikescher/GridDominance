@@ -1,30 +1,50 @@
 package de.samdev.griddominance.server;
 
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SimpleLog {
 
-    public final String Path;
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    public SimpleLog(String path) {
-        Path = path;
-    }
+    public SimpleLog() { }
 
     public void Debug(String msg) {
-        System.out.println("[DEBUG] " + msg);
+        String s = "[DEBUG] " + sdf.format(new Date()) + ": " + msg;
+        System.out.println(s);
     }
 
     public void Info(String msg) {
-        System.out.println("[INFO] " + msg);
+        String s = "[INFO] " + sdf.format(new Date()) + ": " + msg;
+        System.out.println(s);
     }
 
     public void Warn(String msg) {
-        System.out.println("[WARN] " + msg);
+        String s = "[WARN] " + sdf.format(new Date()) + ": " + msg;
+        System.out.println(s);
     }
 
-    public void Error(String msg) {
-        System.out.println("[ERROR] " + msg);
+    public void PersistantInfo(String msg) {
+        String s = "[INFO] " + sdf.format(new Date()) + ": " + msg;
+        System.out.println(s);
     }
 
-    public void FatalError(String msg) {
-        System.out.println("[FATAL_ERROR] " + msg);
+    public void Error(String msg) throws Exception {
+        String s = "[ERROR] " + sdf.format(new Date()) + ": " + msg;
+        System.out.println(s);
+        FileAppend(s, Main.logfileError);
+    }
+
+    public void FatalError(String msg) throws Exception {
+        String s = "[FATAL_ERROR] " + sdf.format(new Date()) + ": " + msg;
+        System.out.println(s);
+        FileAppend(s, Main.logfileError);
+    }
+
+    public static void FileAppend(String line, String filename) throws Exception {
+        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)))) {
+            out.println(line);
+        }
     }
 }

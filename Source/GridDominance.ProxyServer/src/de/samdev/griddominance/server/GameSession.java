@@ -3,6 +3,7 @@ package de.samdev.griddominance.server;
 import java.net.InetAddress;
 
 public class GameSession {
+    public boolean GameActive;
 
     public final int SessionID;
     public final int SessionSecret;
@@ -15,6 +16,7 @@ public class GameSession {
         SessionID = sid;
         SessionSecret = ssc;
         MaxSize = ssz;
+        GameActive = false;
 
         Users = new GameSessionUser[ssz];
 
@@ -69,5 +71,9 @@ public class GameSession {
             }
         }
         return null;
+    }
+
+    public boolean isFull() {
+        return CountUsers() == MaxSize;
     }
 }

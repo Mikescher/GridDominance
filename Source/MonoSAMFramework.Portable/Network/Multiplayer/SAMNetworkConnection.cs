@@ -11,35 +11,36 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 	{
 		public const int MAX_PACKAGE_SIZE_BYTES = 61; //TODO Set me to [[1450]]   // https://stackoverflow.com/a/15003663/1761622
 
-
-
-		public const float TIME_BETWEEN_PINGS = 1f;
+		public const float TIME_BETWEEN_PINGS        = 1f;
 		public const float TIME_BETWEEN_INGAME_PINGS = 3f;
-		public const float TIMEOUT = 10f;
-		public const float TIMEOUT_FINAL = 20f;
-		public const float RESEND_TIME_RELIABLE = 0.75f;
-		public const float TIME_BETWEEN_GAMESTATE = 0.2f;
+		public const float TIMEOUT                   = 10f;
+		public const float TIMEOUT_FINAL             = 20f;
+		public const float RESEND_TIME_RELIABLE      = 0.75f;
+		public const float TIME_BETWEEN_GAMESTATE    = 0.2f;
 
-		public const byte CMD_CREATESESSION = 100;
-		public const byte CMD_JOINSESSION = 101;
-		public const byte CMD_QUITSESSION = 102;
-		public const byte CMD_QUERYSESSION = 103;
-		public const byte CMD_PING = 104;
-		public const byte CMD_FORWARD = 125;
-		public const byte CMD_FORWARDLOBBYSYNC = 126;
+		public const byte CMD_CREATESESSION      = 100;
+		public const byte CMD_JOINSESSION        = 101;
+		public const byte CMD_QUITSESSION        = 102;
+		public const byte CMD_QUERYSESSION       = 103;
+		public const byte CMD_PING               = 104;
+		public const byte CMD_FORWARD            = 125;
+		public const byte CMD_FORWARDLOBBYSYNC   = 126;
+#if DEBUG
+		public const byte CMD_AUTOJOINSESSION    = 23;
+#endif
 
-		public const byte ACK_SESSIONCREATED = 50;
-		public const byte ACK_SESSIONJOINED = 51;
-		public const byte ACK_QUERYANSWER = 52;
+		public const byte ACK_SESSIONCREATED     = 50;
+		public const byte ACK_SESSIONJOINED      = 51;
+		public const byte ACK_QUERYANSWER        = 52;
 		public const byte ACK_SESSIONQUITSUCCESS = 53;
-		public const byte ACK_PINGRESULT = 54;
-		public const byte ACK_SESSIONNOTFOUND = 61;
-		public const byte ACK_SESSIONFULL = 62;
+		public const byte ACK_PINGRESULT         = 54;
+		public const byte ACK_SESSIONNOTFOUND    = 61;
+		public const byte ACK_SESSIONFULL        = 62;
 		public const byte ACK_SESSIONSECRETWRONG = 63;
 		
-		public const byte MSG_SESSIONTERMINATED = 71;
+		public const byte MSG_SESSIONTERMINATED  = 71;
 		
-		public const byte ANS_FORWARDLOBBYSYNC = 81;
+		public const byte ANS_FORWARDLOBBYSYNC   = 81;
 
 		public enum ConnectionState { Offline, Connected }
 
@@ -212,6 +213,17 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (gameTime.TotalElapsedSeconds - _lastSendJoinOrCreateSession > RESEND_TIME_RELIABLE)
 			{
+#if DEBUG
+				if (SessionID == 55586 && SessionSecret == 10721)
+				{
+					MSG_JOINSESSION[0] = CMD_AUTOJOINSESSION;
+				}
+				else
+				{
+					MSG_JOINSESSION[0] = CMD_JOINSESSION;
+				}
+#endif
+
 				SetSequenceCounter(ref MSG_JOINSESSION[1]);
 				MSG_JOINSESSION[2] = (byte)((SessionID >> 8) & 0xFF);
 				MSG_JOINSESSION[3] = (byte)(SessionID & 0xFF);
