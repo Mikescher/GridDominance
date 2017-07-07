@@ -148,7 +148,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		public static float GetSingle(byte b1, byte b2, byte b3, byte b4)
 		{
-			var cv = new UIntFloat { IntValue = (uint)((b3 << 24) | (b2 << 16) | (b3 << 8) | b4) };
+			var cv = new UIntFloat { IntValue = (uint)((b4 << 24) | (b3 << 16) | (b2 << 8) | b1) };
 			return cv.FloatValue;
 		}
 	}

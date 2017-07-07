@@ -7,8 +7,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 {
 	class BulletShrinkAndDieOperation : GameEntityOperation<BaseBullet>
 	{
-		public BulletShrinkAndDieOperation(float time) : base("BulletShrinkAndDieOperation", time)
+		public const string NAME = "BulletShrinkAndDie";
+
+		private readonly bool _realKill;
+
+		public BulletShrinkAndDieOperation(float time, bool kill = true) : base(NAME, time)
 		{
+			_realKill = kill;
 		}
 
 		protected override void OnStart(BaseBullet entity)
@@ -25,7 +30,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 		protected override void OnEnd(BaseBullet entity)
 		{
 			entity.BulletExtraScale = 0;
-			entity.Alive = false;
+			entity.BulletAlpha = 0;
+			if (_realKill) entity.Alive = false;
 		}
 
 		protected override void OnAbort(BaseBullet entity)

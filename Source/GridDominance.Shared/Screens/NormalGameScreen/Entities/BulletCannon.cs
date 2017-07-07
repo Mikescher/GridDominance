@@ -15,6 +15,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using System;
 using System.Linq;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Extensions;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
@@ -297,6 +298,39 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override KIController CreateKIController(GDGameScreen screen, Fraction fraction)
 		{
 			return new BulletKIController(screen, this, fraction);
+		}
+
+		public void RemoteUpdate(Fraction frac, float hp, byte boost, float sendertime)
+		{
+			if (frac != Fraction) SetFraction(frac);
+
+			ManualBoost = boost;
+
+			var delta = GDOwner.LevelTime - sendertime;
+
+			CannonHealth.Set(hp);
+
+			var ups = delta / (1 / 30f);
+
+			if (ups > 1)
+			{
+				var gt30 = new SAMTime(1/30f, MonoSAMGame.CurrentTime.TotalElapsedSeconds);
+
+				for (int i = 0; i < FloatMath.Round(ups); i++)
+				{
+					CannonHealth.Update(gt30);
+
+					if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > MIN_REGEN_HEALTH && (LastAttackingLasersEnemy <= LastAttackingLasersFriends))
+					{
+						var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
+
+						bonus /= Scale;
+
+						CannonHealth.Inc(bonus * gt30.ElapsedSeconds);
+						CannonHealth.Limit(0f, 1f);
+					}
+				}
+			}
 		}
 	}
 }

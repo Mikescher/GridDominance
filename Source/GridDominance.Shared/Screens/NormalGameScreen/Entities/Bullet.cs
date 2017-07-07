@@ -293,7 +293,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Manager.AddEntity(new Bullet(GDOwner, Source, p1, v1, newScale, Fraction));
 			Manager.AddEntity(new Bullet(GDOwner, Source, p2, v2, newScale, Fraction));
 
-			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Instant, BulletID, this);
+			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_Instant, BulletID, this);
 		}
 
 		private void DisintegrateIntoVoidObject()
@@ -308,13 +308,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			Alive = false;
 
-			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Explosion, BulletID, this);
+			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_Explosion, BulletID, this);
 		}
 
 		private void VanishOutOfBounds()
 		{
 			Alive = false;
-			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Instant, BulletID, this);
+			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_Instant, BulletID, this);
+		}
+
+		private void VanishOutOfTime()
+		{
+			AddEntityOperation(new BulletFadeAndDieOperation(1.0f));
+			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_FadeSlow, BulletID, this);
 		}
 
 		private void DisintegrateIntoEnemy()
@@ -324,7 +330,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			AddEntityOperation(new BulletFadeAndDieOperation(0.05f));
 			IsDying = true;
 
-			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_Fade, BulletID, this);
+			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_Fade, BulletID, this);
 		}
 
 		public void DisintegrateIntoVortex()
@@ -336,7 +342,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			AddEntityOperation(new BulletShrinkAndDieOperation(0.35f));
 			IsDying = true;
 
-			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_ShrinkSlow, BulletID, this);
+			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_ShrinkSlow, BulletID, this);
 		}
 
 		private void DisintegrateIntoFriend()
@@ -346,7 +352,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			AddEntityOperation(new BulletShrinkAndDieOperation(0.15f));
 			IsDying = true;
 
-			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_ShrinkFast, BulletID, this);
+			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_ShrinkFast, BulletID, this);
 		}
 
 		private void DisintegrateIntoPortal()
@@ -356,7 +362,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			AddEntityOperation(new BulletShrinkAndDieOperation(0.15f));
 			IsDying = true;
 
-			GDOwner.ChangeBulletID(RemoteBullet.RemoteBulletState.Dying_ShrinkFast, BulletID, this);
+			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_ShrinkFast, BulletID, this);
 		}
 
 		public override void OnRemove()
@@ -379,7 +385,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				}
 			}
 
-			if (Lifetime > MAXIMUM_LIFETIME) AddEntityOperation(new BulletFadeAndDieOperation(1.0f));
+			if (Lifetime > MAXIMUM_LIFETIME) VanishOutOfTime();
 
 			if (GDOwner.WrapMode == GameWrapMode.Death && !Manager.BoundingBox.Contains(BulletPosition))
 			{

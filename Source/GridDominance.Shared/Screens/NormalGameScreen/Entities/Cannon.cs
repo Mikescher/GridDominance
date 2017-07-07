@@ -16,6 +16,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -60,7 +61,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float MIN_REGEN_HEALTH = 0.05f;
 		protected const float FULL_LASER_HEALTH = 0.97f; // Health per sec bei 1HP
 
-		protected const float LASER_CHARGE_COOLDOWN   = 0.4f; // should be more than KI freq
+		public    const float LASER_CHARGE_COOLDOWN     = 0.4f; // should be more than KI freq
+		public    const float LASER_CHARGE_COOLDOWN_MAX = LASER_CHARGE_COOLDOWN + 0.1f;
 		protected const float LASER_DAMAGE_PER_SECOND = 0.20f;
 		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
 
@@ -457,5 +459,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		#endregion
 
 		public abstract KIController CreateKIController(GDGameScreen screen, Fraction fraction);
+
+		public void RemoteRotationUpdate(float ra, float rt, float sendertime)
+		{
+			var delta = GDOwner.LevelTime - sendertime;
+
+			Rotation.SetFull(ra, rt);
+			Rotation.Update(new SAMTime(delta, MonoSAMGame.CurrentTime.TotalElapsedSeconds));
+		}
 	}
 }

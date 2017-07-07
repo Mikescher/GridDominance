@@ -5,33 +5,27 @@ using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 {
-	class BulletFadeAndDieOperation : GameEntityOperation<BaseBullet>
+	class BulletDelayedDieOperation : GameEntityOperation<BaseBullet>
 	{
-		public const string NAME = "BulletFadeAndDie";
+		public const string NAME = "BulletDelayedDie";
 
-		private readonly bool _realKill;
-
-		public BulletFadeAndDieOperation(float time, bool kill = true) : base(NAME, time)
+		public BulletDelayedDieOperation(float time) : base(NAME, time)
 		{
-			_realKill = kill;
 		}
 
 		protected override void OnStart(BaseBullet entity)
 		{
-			entity.BulletAlpha = 1;
 			entity.IsDying = true;
 		}
 
 		protected override void OnProgress(BaseBullet entity, float progress, SAMTime gameTime, InputState istate)
 		{
-			entity.BulletAlpha = 1 - progress;
+
 		}
 
 		protected override void OnEnd(BaseBullet entity)
 		{
-			entity.BulletExtraScale = 0;
-			entity.BulletAlpha = 0;
-			if (_realKill) entity.Alive = false;
+			entity.Alive = false;
 		}
 
 		protected override void OnAbort(BaseBullet entity)

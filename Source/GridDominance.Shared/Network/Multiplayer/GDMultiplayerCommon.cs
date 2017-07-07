@@ -7,18 +7,23 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using System;
+using System.Diagnostics;
+using System.Linq;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
 	public abstract class GDMultiplayerCommon : SAMNetworkConnection
 	{
 		public static byte AREA_BCANNONS = 0xC0;
-		public static byte AREA_BULLETS = 0xC1;
+		public static byte AREA_BULLETS  = 0xC1;
+		public static byte AREA_LCANNONS = 0xC2;
 		public static byte AREA_END = 0x77;
 
-		public static int SIZE_BCANNON_DEF = 4;
-		public static int SIZE_BULLET_DEF = 10;
+		public static int SIZE_BCANNON_DEF =  5;
+		public static int SIZE_LCANNON_DEF = 12;
+		public static int SIZE_BULLET_DEF  = 10;
 
 		public static int REMOTE_BULLET_UPDATELESS_LIFETIME = 8;
 		
@@ -30,6 +35,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 		protected int packageCount = 0;
 		protected int packageModSize = 0;
+		protected float lagBehindTime = 0f;
 
 		protected GDMultiplayerCommon(INetworkMedium medium) : base(medium)
 		{
@@ -41,6 +47,16 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			RecieveBigSeq[euid]++;
 			var bseq = RecieveBigSeq[euid];
+
+			var sendertime = NetworkDataTools.GetSingle(d[6], d[7], d[8], d[9]);
+
+			if (sendertime - 0.05f > Screen.LevelTime)
+			{
+				SAMLog.Warning("GDMPC::FFWD", $"Fastforward level by {sendertime - Screen.LevelTime}s ({Screen.LevelTime} --> {sendertime})");
+				Screen.FastForward(sendertime);
+			}
+
+			lagBehindTime = Screen.LevelTime - sendertime;
 
 			int p = PACKAGE_FORWARD_HEADER_SIZE;
 			for (;;)
@@ -57,11 +73,15 @@ namespace GridDominance.Shared.Network.Multiplayer
 				}
 				else if (cmd == AREA_BCANNONS)
 				{
-					ProcessForwardBulletCannons(ref p, d, bseq);
+					ProcessForwardBulletCannons(ref p, d, bseq, sendertime);
 				}
 				else if (cmd == AREA_BULLETS)
 				{
-					ProcessForwardBullets(ref p, d, bseq);
+					ProcessForwardBullets(ref p, d, bseq, sendertime);
+				}
+				else if (cmd == AREA_LCANNONS)
+				{
+					ProcessForwardLaserCannons(ref p, d, bseq, sendertime);
 				}
 				else
 				{
@@ -71,7 +91,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			}
 		}
 
-		private void ProcessForwardBulletCannons(ref int p, byte[] d, long bseq)
+		private void ProcessForwardBulletCannons(ref int p, byte[] d, long bseq, float sendertime)
 		{
 			int count = d[p];
 			p++;
@@ -81,8 +101,9 @@ namespace GridDominance.Shared.Network.Multiplayer
 				var id = NetworkDataTools.GetByte(d[p + 0]);
 				var frac = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
 				var boost = NetworkDataTools.GetLowBits(d[p + 1], 5);
-				var rot = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
-				var hp = NetworkDataTools.GetByte(d[p + 3]) / 255f;
+				var rotA = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
+				var rotT = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
+				var hp = NetworkDataTools.GetByte(d[p + 4]) / 255f;
 
 				Cannon c;
 				if (Screen.CannonMap.TryGetValue(id, out c))
@@ -92,14 +113,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 					{
 						if (ShouldRecieveRotationData(frac, bc))
 						{
-							bc.Rotation.Set(rot);
+							bc.RemoteRotationUpdate(rotA, rotT, sendertime);
 						}
 
 						if (ShouldRecieveStateData(frac, bc))
 						{
-							if (bc.Fraction != frac) bc.SetFraction(frac);
-							bc.CannonHealth.Set(hp);
-							bc.ManualBoost = boost;
+							bc.RemoteUpdate(frac, hp, boost, sendertime);
 						}
 					}
 				}
@@ -108,7 +127,44 @@ namespace GridDominance.Shared.Network.Multiplayer
 			}
 		}
 
-		private void ProcessForwardBullets(ref int p, byte[] d, long bseq)
+		private void ProcessForwardLaserCannons(ref int p, byte[] d, long bseq, float sendertime)
+		{
+			int count = d[p];
+			p++;
+
+			for (int i = 0; i < count; i++)
+			{
+				var id = NetworkDataTools.GetByte(d[p + 0]);
+				var frac = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
+				var boost = NetworkDataTools.GetLowBits(d[p + 1], 5);
+				var rotA = NetworkDataTools.GetSingle(d[p + 2], d[p + 3], d[p + 4], d[p + 5]);
+				var rotT = NetworkDataTools.GetSingle(d[p + 6], d[p + 7], d[p + 8], d[p + 9]);
+				var hp = NetworkDataTools.GetByte(d[p + 10]) / 255f;
+				var ct = (NetworkDataTools.GetByte(d[p + 11]) / 255f) * Cannon.LASER_CHARGE_COOLDOWN_MAX;
+
+				Cannon c;
+				if (Screen.CannonMap.TryGetValue(id, out c))
+				{
+					LaserCannon bc = c as LaserCannon;
+					if (bc != null && ShouldRecieveData(frac, bc))
+					{
+						if (ShouldRecieveRotationData(frac, bc))
+						{
+							bc.RemoteRotationUpdate(rotA, rotT, sendertime);
+						}
+
+						if (ShouldRecieveStateData(frac, bc))
+						{
+							bc.RemoteUpdate(frac, hp, boost, ct, sendertime);
+						}
+					}
+				}
+
+				p += SIZE_LCANNON_DEF;
+			}
+		}
+
+		private void ProcessForwardBullets(ref int p, byte[] d, long bseq, float sendertime)
 		{
 			int count = d[p];
 			p++;
@@ -136,13 +192,15 @@ namespace GridDominance.Shared.Network.Multiplayer
 					case RemoteBullet.RemoteBulletState.Normal:
 						if (bullet != null)
 						{
-							bullet.RemoteUpdate(state, px, py, veloc, fraction, scale, bseq);
+							bullet.RemoteUpdate(state, px, py, veloc, fraction, scale, bseq, sendertime);
 						}
 						else
 						{
 							Screen.RemoteBulletMapping[id] = new RemoteBullet(Screen, new FPoint(px, py), veloc, id, scale, fraction, bseq);
 							Screen.RemoteBulletMapping[id].RemoteState = state;
 							Screen.Entities.AddEntity(Screen.RemoteBulletMapping[id]);
+
+							Screen.RemoteBulletMapping[id].RemoteUpdate(state, px, py, veloc, fraction, scale, bseq, sendertime);
 						}
 						break;
 					case RemoteBullet.RemoteBulletState.Dying_Explosion:
@@ -150,13 +208,15 @@ namespace GridDominance.Shared.Network.Multiplayer
 					case RemoteBullet.RemoteBulletState.Dying_ShrinkFast:
 					case RemoteBullet.RemoteBulletState.Dying_Fade:
 					case RemoteBullet.RemoteBulletState.Dying_Instant:
-						if (bullet != null && bullet.RemoteState == RemoteBullet.RemoteBulletState.Normal)
+					case RemoteBullet.RemoteBulletState.Dying_FadeSlow:
+						if (bullet != null && bullet.RemoteState != state)
 						{
-							bullet.RemoteKill(state);
+							bullet.RemoteUpdate(state, px, py, veloc, fraction, scale, bseq, sendertime);
 						}
 						break;
 					default:
-						throw new ArgumentOutOfRangeException();
+						SAMLog.Error("GDMC::EnumSwitch_PFB", "Unknown enum value: " + state);
+						break;
 				}
 				
 				p +=SIZE_BULLET_DEF;
@@ -166,8 +226,15 @@ namespace GridDominance.Shared.Network.Multiplayer
 			{
 				if (Screen.RemoteBulletMapping[i] != null && bseq - Screen.RemoteBulletMapping[i].LastUpdateBigSeq > REMOTE_BULLET_UPDATELESS_LIFETIME)
 				{
-					SAMLog.Debug("Mercykill Bullet: " + i);
-					Screen.RemoteBulletMapping[i].Alive = false;
+					if (Screen.RemoteBulletMapping[i].RemoteState == RemoteBullet.RemoteBulletState.Normal)
+					{
+						SAMLog.Debug("Mercykill Bullet: " + i);
+						Screen.RemoteBulletMapping[i].Alive = false;
+					}
+					else
+					{
+						// all ok - its dying
+					}
 				}
 			}
 		}
@@ -187,6 +254,9 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 		protected void SendForwardBulletCannons(ref int idx)
 		{
+			var data = Screen.GetEntities<BulletCannon>().ToList();
+			if (data.Count == 0) return;
+
 			if (idx + 2 >= MAX_PACKAGE_SIZE_BYTES) SendAndReset(ref idx);
 
 			MSG_FORWARD[idx] = AREA_BCANNONS;
@@ -200,16 +270,17 @@ namespace GridDominance.Shared.Network.Multiplayer
 			idx++;
 
 			int i = 0;
-			foreach (var cannon in Screen.GetEntities<BulletCannon>())
+			foreach (var cannon in data)
 			{
 				if (!ShouldSendData(cannon)) continue;
 
-				// [8: ID] [3: Fraction] [5: Boost] [8: Rotation] [8: Health]
+				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8: Health]
 
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 0], cannon.BlueprintCannonID);
 				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], Screen.GetFractionID(cannon.Fraction), cannon.IntegerBoost, 3, 5, 3, 5);
-				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 2], NetworkDataTools.ConvertFromRadians(cannon.Rotation.TargetValue, 8));
-				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 3], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
+				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 2], NetworkDataTools.ConvertFromRadians(cannon.Rotation.ActualValue, 8));
+				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 3], NetworkDataTools.ConvertFromRadians(cannon.Rotation.TargetValue, 8));
+				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 4], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
 
 				idx += SIZE_BCANNON_DEF;
 
@@ -222,6 +293,56 @@ namespace GridDominance.Shared.Network.Multiplayer
 					idx++;
 					i -= arrsize;
 					arrsize = (byte)((MAX_PACKAGE_SIZE_BYTES - idx - 2) / SIZE_BCANNON_DEF);
+					posSize = idx;
+					MSG_FORWARD[posSize] = 0xFF;
+					idx++;
+				}
+			}
+			MSG_FORWARD[posSize] = (byte)i;
+		}
+
+		protected void SendForwardLaserCannons(ref int idx)
+		{
+			var data = Screen.GetEntities<LaserCannon>().ToList();
+			if (data.Count == 0) return;
+
+			if (idx + 2 >= MAX_PACKAGE_SIZE_BYTES) SendAndReset(ref idx);
+
+			MSG_FORWARD[idx] = AREA_LCANNONS;
+			idx++;
+
+			byte arrsize = (byte)((MAX_PACKAGE_SIZE_BYTES - idx - 2) / SIZE_LCANNON_DEF);
+
+			int posSize = idx;
+
+			MSG_FORWARD[posSize] = 0xFF;
+			idx++;
+
+			int i = 0;
+			foreach (var cannon in data)
+			{
+				if (!ShouldSendData(cannon)) continue;
+
+				// [8: ID] [3: Fraction] [5: Boost] [32: RotationActual] [32: RotationTarget] [8: Health] [8:ChargeTime]
+
+				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 0], cannon.BlueprintCannonID);
+				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], Screen.GetFractionID(cannon.Fraction), cannon.IntegerBoost, 3, 5, 3, 5);
+				NetworkDataTools.SetSingle(out MSG_FORWARD[idx + 2], out MSG_FORWARD[idx + 3], out MSG_FORWARD[idx + 4], out MSG_FORWARD[idx + 5], cannon.Rotation.ActualValue);
+				NetworkDataTools.SetSingle(out MSG_FORWARD[idx + 6], out MSG_FORWARD[idx + 7], out MSG_FORWARD[idx + 8], out MSG_FORWARD[idx + 9], cannon.Rotation.TargetValue);
+				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 10], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
+				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 11], FloatMath.Clamp(cannon.ChargeTime / Cannon.LASER_CHARGE_COOLDOWN_MAX, 0f, 1f) * 255);
+
+				idx += SIZE_LCANNON_DEF;
+
+				i++;
+				if (i >= arrsize)
+				{
+					MSG_FORWARD[posSize] = (byte)i;
+					SendAndReset(ref idx);
+					MSG_FORWARD[idx] = AREA_LCANNONS;
+					idx++;
+					i -= arrsize;
+					arrsize = (byte)((MAX_PACKAGE_SIZE_BYTES - idx - 2) / SIZE_LCANNON_DEF);
 					posSize = idx;
 					MSG_FORWARD[posSize] = 0xFF;
 					idx++;
@@ -296,9 +417,10 @@ namespace GridDominance.Shared.Network.Multiplayer
 			MSG_FORWARD[posSize] = (byte)i;
 		}
 
-		protected abstract bool ShouldRecieveData(Fraction f, BulletCannon c);
-		protected abstract bool ShouldRecieveRotationData(Fraction f, BulletCannon c);
-		protected abstract bool ShouldRecieveStateData(Fraction f, BulletCannon c);
+		protected abstract bool ShouldRecieveData(Fraction f, Cannon c);
+		protected abstract bool ShouldRecieveRotationData(Fraction f, Cannon c);
+		protected abstract bool ShouldRecieveStateData(Fraction f, Cannon c);
 		protected abstract bool ShouldSendData(BulletCannon c);
+		protected abstract bool ShouldSendData(LaserCannon c);
 	}
 }

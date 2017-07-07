@@ -57,5 +57,11 @@ namespace MonoSAMFramework.Portable.GameMath
 			TargetValue = v;
 			ActualValue = v;
 		}
+
+		public void SetFull(float va, float vt)
+		{
+			TargetValue = vt;
+			ActualValue = va;
+		}
 	}
 }

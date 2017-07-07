@@ -227,11 +227,15 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			
 			if (BulletMapping[id].Bullet == bullet)
 			{
-				if (BulletMapping[id].State == RemoteBullet.RemoteBulletState.Normal) BulletMapping[id].State = RemoteBullet.RemoteBulletState.Dying_Instant;
+				if (BulletMapping[id].State == RemoteBullet.RemoteBulletState.Normal)
+				{
+					BulletMapping[id].State = RemoteBullet.RemoteBulletState.Dying_Instant;
+					BulletMapping[id].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
+				}
 			}
 		}
 
-		public void ChangeBulletID(RemoteBullet.RemoteBulletState state, ushort id, Bullet bullet)
+		public void ChangeBulletMapping(RemoteBullet.RemoteBulletState state, ushort id, Bullet bullet)
 		{
 			if (!IsNetwork) return;
 			
@@ -437,6 +441,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			if (!IsPaused && !HasFinished) LevelTime += gameTime.RealtimeElapsedSeconds;
 
 			TestForGameEndingCondition();
+		}
+
+		public void FastForward(float sendertime)
+		{
+			var delta = LevelTime - sendertime;
+			LevelTime = sendertime;
+
+			if (delta < 1 / 30f) return; // idgaf
+
+			Entities.Update(new SAMTime(delta, MonoSAMGame.CurrentTime.TotalElapsedSeconds), InputStateMan.GetCurrentState());
 		}
 
 		protected override void OnDrawGame(IBatchRenderer sbatch)

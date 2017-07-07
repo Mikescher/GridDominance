@@ -29,7 +29,9 @@ namespace GridDominance.Shared.Network.Multiplayer
 #if DEBUG
 		public void AddDebugLine(GameScreen s)
 		{
-			s.DebugDisp.AddLine(() => $"SERVER(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})");
+			s.DebugDisp.AddLine("DebugMultiplayer", () => 
+				$"SERVER(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})\n" + 
+				$"LagBehind={lagBehindTime})");
 		}
 #endif
 
@@ -90,6 +92,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			int p = PACKAGE_FORWARD_HEADER_SIZE;
 			SendForwardBulletCannons(ref p);
+			SendForwardLaserCannons(ref p);
 			SendForwardBullets(ref p);
 			SendAndReset(ref p);
 		}
@@ -114,11 +117,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 			}
 		}
 
-		protected override bool ShouldRecieveData(Fraction f, BulletCannon c) => !f.IsNeutral && f != Screen.LocalPlayerFraction;
-		protected override bool ShouldRecieveRotationData(Fraction f, BulletCannon c) => !f.IsNeutral && f != Screen.LocalPlayerFraction;
-		protected override bool ShouldRecieveStateData(Fraction f, BulletCannon c) => false;
+		protected override bool ShouldRecieveData(Fraction f, Cannon c) => !f.IsNeutral && f != Screen.LocalPlayerFraction && !Screen.HasFinished;
+		protected override bool ShouldRecieveRotationData(Fraction f, Cannon c) => !f.IsNeutral && f != Screen.LocalPlayerFraction;
+		protected override bool ShouldRecieveStateData(Fraction f, Cannon c) => false;
 
 		protected override bool ShouldSendData(BulletCannon c) => true;
-
+		protected override bool ShouldSendData(LaserCannon c) => true;
 	}
 }
