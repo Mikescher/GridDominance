@@ -222,6 +222,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			int p = PACKAGE_FORWARD_HEADER_SIZE;
 			SendForwardBulletCannons(ref p);
+			SendForwardLaserCannons(ref p);
 			SendAndReset(ref p);
 		}
 

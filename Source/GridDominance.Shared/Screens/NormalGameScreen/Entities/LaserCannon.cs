@@ -199,7 +199,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void UpdateNetwork(SAMTime gameTime)
 		{
-			bool active = CannonHealth.TargetValue >= FULL_LASER_HEALTH && controller.DoBarrelRecharge();
+			bool active = CannonHealth.TargetValue >= FULL_LASER_HEALTH;
 
 			LaserSource.SetState(active, Fraction, Rotation.ActualValue, ChargeTime > LASER_CHARGE_COOLDOWN);
 
