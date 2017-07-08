@@ -21,7 +21,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 		public static byte AREA_LCANNONS = 0xC2;
 		public static byte AREA_END = 0x77;
 
-		public static int SIZE_BCANNON_DEF =  5;
+		public static int SIZE_BCANNON_DEF =  6;
 		public static int SIZE_LCANNON_DEF = 12;
 		public static int SIZE_BULLET_DEF  = 10;
 
@@ -104,6 +104,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				var rotA = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
 				var rotT = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
 				var hp = NetworkDataTools.GetByte(d[p + 4]) / 255f;
+				var chrg = NetworkDataTools.GetByte(d[p + 5]) / 255f;
 
 				Cannon c;
 				if (Screen.CannonMap.TryGetValue(id, out c))
@@ -118,7 +119,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 						if (ShouldRecieveStateData(frac, bc))
 						{
-							bc.RemoteUpdate(frac, hp, boost, sendertime);
+							bc.RemoteUpdate(frac, hp, boost, chrg, sendertime);
 						}
 					}
 				}
@@ -201,6 +202,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 							Screen.Entities.AddEntity(Screen.RemoteBulletMapping[id]);
 
 							Screen.RemoteBulletMapping[id].RemoteUpdate(state, px, py, veloc, fraction, scale, bseq, sendertime);
+							Screen.RemoteBulletMapping[id].ClientPredictionMiss = false;
 						}
 						break;
 					case RemoteBullet.RemoteBulletState.Dying_Explosion:
@@ -274,13 +276,14 @@ namespace GridDominance.Shared.Network.Multiplayer
 			{
 				if (!ShouldSendData(cannon)) continue;
 
-				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8: Health]
+				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8: Health] [8:Charge]
 
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 0], cannon.BlueprintCannonID);
 				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], Screen.GetFractionID(cannon.Fraction), cannon.IntegerBoost, 3, 5, 3, 5);
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 2], NetworkDataTools.ConvertFromRadians(cannon.Rotation.ActualValue, 8));
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 3], NetworkDataTools.ConvertFromRadians(cannon.Rotation.TargetValue, 8));
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 4], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
+				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 5], FloatMath.Clamp(cannon.BarrelCharge, 0f, 1f) * 255);
 
 				idx += SIZE_BCANNON_DEF;
 

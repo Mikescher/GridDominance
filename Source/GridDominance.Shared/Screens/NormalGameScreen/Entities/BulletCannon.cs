@@ -80,19 +80,37 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void UpdateBarrel(SAMTime gameTime)
 		{
-			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral) && controller.DoBarrelRecharge())
+			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral))
 			{
-				float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
-				if (Scale > 2.5f) chargeDelta /= Scale;
-
-				BarrelCharge += chargeDelta;
-
-				if (BarrelCharge >= 1f)
+				if (controller.DoBarrelRecharge())
 				{
-					BarrelCharge -= 1f;
+					float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
+					if (Scale > 2.5f) chargeDelta /= Scale;
 
-					Shoot();
+					BarrelCharge += chargeDelta;
+
+					if (BarrelCharge >= 1f)
+					{
+						BarrelCharge -= 1f;
+
+						Shoot();
+					}
 				}
+				else if (controller.SimulateBarrelRecharge())
+				{
+					float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
+					if (Scale > 2.5f) chargeDelta /= Scale;
+
+					BarrelCharge += chargeDelta;
+
+					if (BarrelCharge >= 1f)
+					{
+						BarrelCharge -= 1f;
+
+						barrelRecoil = 0f;
+					}
+				}
+
 			}
 
 			if (barrelRecoil < 1)
@@ -303,11 +321,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			return new BulletKIController(screen, this, fraction);
 		}
 
-		public void RemoteUpdate(Fraction frac, float hp, byte boost, float sendertime)
+		public void RemoteUpdate(Fraction frac, float hp, byte boost, float charge, float sendertime)
 		{
 			if (frac != Fraction) SetFraction(frac);
 
 			ManualBoost = boost;
+			BarrelCharge = charge;
 
 			var delta = GDOwner.LevelTime - sendertime;
 
@@ -331,6 +350,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 						CannonHealth.Inc(bonus * gt30.ElapsedSeconds);
 						CannonHealth.Limit(0f, 1f);
+					}
+
+					if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral))
+					{
+						float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gt30.ElapsedSeconds;
+						if (Scale > 2.5f) chargeDelta /= Scale;
+
+						BarrelCharge += chargeDelta;
+
+						if (BarrelCharge >= 1f)
+						{
+							BarrelCharge -= 1f;
+
+							barrelRecoil = 0f;
+						}
 					}
 				}
 			}

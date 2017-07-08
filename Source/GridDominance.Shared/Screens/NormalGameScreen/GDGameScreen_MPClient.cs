@@ -97,9 +97,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		{
 			if (HasFinished) return new EndGameAutoPlayerController(this, cannon, f);
 
-			if (f == LocalPlayerFraction) return new PlayerController(this, cannon, f, false);
+			if (f == LocalPlayerFraction) return new PlayerController(this, cannon, f, false, true);
 
-			return new RemoteController(this, cannon, f, false);
+			return new RemoteController(this, cannon, f, false, true);
 		}
 
 		protected override void OnShow()

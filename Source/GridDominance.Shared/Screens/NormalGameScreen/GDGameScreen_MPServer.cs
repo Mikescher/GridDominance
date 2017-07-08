@@ -93,7 +93,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			if (f.Type == FractionType.NeutralFraction) return new NeutralKIController(this, cannon, f);
 
-			return new RemoteController(this, cannon, f, true);
+			return new RemoteController(this, cannon, f, true, false);
 		}
 
 		protected override void OnShow()

@@ -11,6 +11,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		private readonly List<KIMethod> intelligence;
 
 		private bool doBarrelRecharge = false;
+		public override bool SimulateBarrelRecharge() => false;
 
 		public override bool DoBarrelRecharge() => doBarrelRecharge;
 
