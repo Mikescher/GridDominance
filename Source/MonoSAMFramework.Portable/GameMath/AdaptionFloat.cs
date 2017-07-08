@@ -78,5 +78,14 @@ namespace MonoSAMFramework.Portable.GameMath
 			Value = v;
 			TargetValue = v;
 		}
+
+		public void SetFull(AdaptionFloat v)
+		{
+			Value = v.Value;
+			TargetValue = v.TargetValue;
+			Speed = v.Speed;
+			ValueMin = v.ValueMin;
+			ValueMax = v.ValueMax;
+		}
 	}
 }

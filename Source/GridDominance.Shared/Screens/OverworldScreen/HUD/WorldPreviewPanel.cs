@@ -130,7 +130,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			if (MainGame.Inst.Profile.PurchasedWorlds.Contains(_id))
 			{
 				HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYSUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2.5f);
-				MainGame.Inst.SetOverworldScreen();
+				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 
 			if (MainGame.Inst.Bridge.IAB.IsPurchased(_iabCode) == PurchaseQueryResult.Purchased)
@@ -139,7 +139,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				MainGame.Inst.SaveProfile();
 
 				HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYSUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2.5f);
-				MainGame.Inst.SetOverworldScreen();
+				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 		}
 

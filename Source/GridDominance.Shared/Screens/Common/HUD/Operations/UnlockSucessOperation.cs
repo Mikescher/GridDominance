@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Operations;
@@ -38,8 +39,8 @@ namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 		{
 			element.Remove();
 
-			MainGame.Inst.SetOverworldScreen();
-			
+			MainGame.Inst.SetOverworldScreenCopy(element.HUD.Screen as GDOverworldScreen);
+
 			element.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_UNLOCKSUCCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 3f);
 
 			foreach (var w in Levels.WORLDS) MainGame.Inst.Profile.PurchasedWorlds.Add(w.Key);

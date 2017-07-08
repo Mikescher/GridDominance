@@ -4,6 +4,7 @@ using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
+using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -223,7 +224,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				{
 					spinner.Remove();
 
-					MainGame.Inst.SetOverworldScreen();
+					MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 					var screen = MainGame.Inst.GetCurrentScreen() as GameScreen;
 					screen?.HUD?.AddModal(new HUDFadeOutInfoBox(3, 1, 0.3f)
 					{

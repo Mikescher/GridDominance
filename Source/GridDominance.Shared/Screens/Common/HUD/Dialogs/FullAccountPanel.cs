@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -198,7 +199,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				MainGame.Inst.Backend.CreateUser(MainGame.Inst.Profile).ContinueWith(t => MainGame.Inst.Backend.DownloadHighscores(MainGame.Inst.Profile)).EnsureNoError();
 
 				HUD.ShowToast(L10N.T(L10NImpl.STR_FAP_LOGOUT_SUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 1.5f);
-				MainGame.Inst.SetOverworldScreen();
+				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 		}
 	}

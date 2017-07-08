@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.GlobalAgents;
@@ -220,6 +221,21 @@ namespace GridDominance.Shared
 					node.FlickerTime = OverworldNode.COLLAPSE_TIME * 10; // no flicker - for sure
 				}
 			}
+		}
+
+		public void SetOverworldScreenCopy(GDOverworldScreen s)
+		{
+			if (s == null) { SetOverworldScreen(); return; }
+
+			var ovs = new GDOverworldScreen(this, Graphics);
+			SetCurrentScreen(ovs);
+
+			foreach (var node in ovs.GetEntities<OverworldNode>())
+			{
+				node.FlickerTime = OverworldNode.COLLAPSE_TIME * 10; // no flicker - for sure
+			}
+
+			ovs.ScrollAgent.CopyState(s.ScrollAgent);
 		}
 
 		public void SetOverworldScreenWithTransition(GraphBlueprint bp)
