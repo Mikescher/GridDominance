@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen
@@ -107,6 +108,15 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public static bool? IsWorld100Percent(GraphBlueprint world)
 		{
 			return world.Nodes.All(n => MainGame.Inst.Profile.GetLevelData(n).HasAllCompleted());
+		}
+
+		public static int PlayerCount(LevelBlueprint lvl)
+		{
+			int pc = 1;
+			if (lvl.AllCannons.Any(c => c.Fraction == 2)) pc++;
+			if (lvl.AllCannons.Any(c => c.Fraction == 3)) pc++;
+			if (lvl.AllCannons.Any(c => c.Fraction == 4)) pc++;
+			return pc;
 		}
 	}
 }

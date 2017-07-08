@@ -6,6 +6,7 @@ using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
+using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -412,7 +413,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			if (_speed4.Selected) _server.Speed = _speed4.Speed;
 			if (_speed5.Selected) _server.Speed = _speed5.Speed;
 
-			_server.CreateSession(2);
+			_server.CreateSession(BlueprintAnalyzer.PlayerCount(_currentLevel));
 
 			_btnCreate.Icon = Textures.CannonCog;
 		}

@@ -5,7 +5,9 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Language;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
@@ -228,6 +230,9 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		{
 			if (wrap == HUDWordWrap.NoWrap) return new List<string>{text};
 
+			if (wrap == HUDWordWrap.CropText) return CropTextToLength(text, font, fontSize, maxWidth, "");
+			if (wrap == HUDWordWrap.Ellipsis) return CropTextToLength(text, font, fontSize, maxWidth, "...");
+
 			var sz = MeasureStringCached(font, text, fontSize);
 
 			if (sz.Width < maxWidth) return new List<string> { text };
@@ -300,13 +305,34 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				}
 				lines.Add(line.Trim());
 
-				while (remText.Length > 0 && (remText[0] == ' ' || remText[0] == '\t'))
+				while (remText.Length > 0 && (remText[0] == ' ' || remText[0] == '\t' || remText[0] == '\r' || remText[0] == '\n'))
 				{
 					remText = remText.Substring(1);
 				}
 			}
 
 			return lines;
+		}
+
+		private static List<string> CropTextToLength(string text, SpriteFont font, float fontSize, float maxWidth, string ellipsis)
+		{
+			return Regex.Split(text, @"\r?\n").Select(l => CropLineToLength(l, font, fontSize, maxWidth, ellipsis)).ToList();
+		}
+
+		private static string CropLineToLength(string text, SpriteFont font, float fontSize, float maxWidth, string ellipsis)
+		{
+			var sz = MeasureStringCached(font, text, fontSize);
+
+			if (sz.Width < maxWidth) return text;
+
+			for (int i = 2; i < text.Length; i++)
+			{
+				var newlen = MeasureStringUncached(font, text.Substring(0, i)+ellipsis, fontSize).Width;
+
+				if (newlen > maxWidth) return text.Substring(0, i - 1).TrimEnd() + ellipsis;
+			}
+
+			return text;
 		}
 
 		public static string MakeTextSafe(SpriteFont font, string s, char c)

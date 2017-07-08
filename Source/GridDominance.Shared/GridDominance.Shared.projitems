@@ -138,6 +138,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerServerLobbyPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerHostPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerMainPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Operations\CharacterControlWaveOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Operations\JoinErrorOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\OverworldHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\WorldPreviewPanel.cs" />

@@ -165,12 +165,18 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MENU_MP_CREATE         = 137;
 		public const int STR_MENU_MP_GAMESPEED      = 139;
 		public const int STR_MENU_MP_MUSIC          = 140;
+		public const int STR_MENU_MP_LOBBYINFO      = 141;
+		public const int STR_MENU_MP_LOBBY_USER     = 142;
+		public const int STR_MENU_MP_LOBBY_LEVEL    = 143;
+		public const int STR_MENU_MP_LOBBY_MUSIC    = 144;
+		public const int STR_MENU_MP_LOBBY_SPEED    = 145;
+		public const int STR_MENU_MP_LOBBY_PING    = 146;
 
 		public const int STR_MP_ONLINE              = 129;
 		public const int STR_MP_OFFLINE             = 130;
 		public const int STR_MP_CONNECTING          = 131;
 
-		private const int TEXT_COUNT = 141; // = next idx
+		private const int TEXT_COUNT = 147; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -317,6 +323,12 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_CAP_AUTH,        "Enter lobby code",                                            "Lobby Code eingeben");
 			L10N.Add(STR_MENU_MP_GAMESPEED,    "Game speed:",                                                 "Spielgeschwindigkeit:");
 			L10N.Add(STR_MENU_MP_MUSIC,        "Background music:",                                           "Hintergrundmusik:");
+			L10N.Add(STR_MENU_MP_LOBBYINFO,    "Enter this code on another phone to join this session.",  "Gib diesen Code auf einem anderen Smartphones ein um diesem Spiel beizutreten");
+			L10N.Add(STR_MENU_MP_LOBBY_USER,   "Users:",                                                      "Mitspieler:");
+			L10N.Add(STR_MENU_MP_LOBBY_LEVEL,  "Level:",                                                      "Level:");
+			L10N.Add(STR_MENU_MP_LOBBY_MUSIC,  "Background music:",                                           "Hintergrundmusik:");
+			L10N.Add(STR_MENU_MP_LOBBY_SPEED,  "Game speed:",                                                 "Spielgeschwindigkeit:");
+			L10N.Add(STR_MENU_MP_LOBBY_PING,   "Ping",                                                        "Ping");
 
 #if DEBUG
 			L10N.Verify();

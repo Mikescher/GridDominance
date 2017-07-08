@@ -19,6 +19,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		float ICannonBlueprint.Y => Y;
 		float ICannonBlueprint.Diameter => Diameter;
 		BulletPathBlueprint[] ICannonBlueprint.PrecalculatedPaths => PrecalculatedPaths;
+		int ICannonBlueprint.Fraction => Player;
 
 		public CannonBlueprint(float x, float y, float d, int p, float rot, byte cid, BulletPathBlueprint[] bp)
 		{

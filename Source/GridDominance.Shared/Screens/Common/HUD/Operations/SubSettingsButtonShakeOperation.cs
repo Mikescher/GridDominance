@@ -16,7 +16,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.Operations
 
 		public override string Name => "SubSettingsButtonShake";
 
-		public SubSettingsButtonShakeOperation() : base(DELAY, CYCLE)
+		public SubSettingsButtonShakeOperation() : base(DELAY, CYCLE, DELAY)
 		{
 		}
 		
