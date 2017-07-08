@@ -161,6 +161,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MENU_CAP_AUTH          = 136;
 		public const int STR_MENU_MP_JOIN           = 132;
 		public const int STR_MENU_MP_HOST           = 133;
+		public const int STR_MENU_MP_START          = 149;
 		public const int STR_MENU_MP_ONLINE         = 135;
 		public const int STR_MENU_MP_LOCAL          = 134;
 		public const int STR_MENU_MP_CREATE         = 137;
@@ -172,13 +173,13 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MENU_MP_LOBBY_LEVEL    = 143;
 		public const int STR_MENU_MP_LOBBY_MUSIC    = 144;
 		public const int STR_MENU_MP_LOBBY_SPEED    = 145;
-		public const int STR_MENU_MP_LOBBY_PING    = 146;
+		public const int STR_MENU_MP_LOBBY_PING     = 146;
 
 		public const int STR_MP_ONLINE              = 129;
 		public const int STR_MP_OFFLINE             = 130;
 		public const int STR_MP_CONNECTING          = 131;
 
-		private const int TEXT_COUNT = 149; // = next idx
+		private const int TEXT_COUNT = 150; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -333,6 +334,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_MP_LOBBY_MUSIC,    "Background music:",                                           "Hintergrundmusik:");
 			L10N.Add(STR_MENU_MP_LOBBY_SPEED,    "Game speed:",                                                 "Spielgeschwindigkeit:");
 			L10N.Add(STR_MENU_MP_LOBBY_PING,     "Ping",                                                        "Ping");
+			L10N.Add(STR_MENU_MP_START, "Start", "Start");
 
 #if DEBUG
 			L10N.Verify();

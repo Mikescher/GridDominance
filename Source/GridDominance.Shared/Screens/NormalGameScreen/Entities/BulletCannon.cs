@@ -30,11 +30,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private float barrelRecoil = 0f;
 		private float cannonCogRotation;
 
+		private readonly bool _muted;
+
 		public BulletCannon(GDGameScreen scrn, CannonBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
 			Blueprint = bp;
 			_screen = scrn;
+			_muted = scrn.IsPreview;
 		}
 
 		#region Update
@@ -129,7 +132,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			barrelRecoil = 0f;
 
 			Manager.AddEntity(new Bullet(GDOwner, this, position, velocity, Scale, Fraction));
-			MainGame.Inst.GDSound.PlayEffectShoot();
+			if (!_muted) MainGame.Inst.GDSound.PlayEffectShoot();
 		}
 
 		public FPoint GetBulletSpawnPoint()

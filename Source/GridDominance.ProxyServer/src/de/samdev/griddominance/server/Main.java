@@ -24,6 +24,7 @@ public class Main {
     public static final byte CMD_PING               = 104;
     public static final byte CMD_FORWARD            = 125;
     public static final byte CMD_FORWARDLOBBYSYNC   = 126;
+    public static final byte CMD_FORWARDHOSTINFO    = 127;
     public static final byte CMD_AUTOJOIN           =  23;
 
     public static final byte ACK_SESSIONCREATED      = 50;
@@ -140,7 +141,7 @@ public class Main {
                         int fwd1_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
                         int fwd1_userid = ((receiveData[4] & 0xF0) >> 4);
                         if (fwd1_userid == 0)
-                            ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd1_seq, fwd1_sessionid, fwd1_sessionsecret);
+                            ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd1_seq, fwd1_sessionid, fwd1_sessionsecret, true);
                         else
                             ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd1_seq, fwd1_userid, fwd1_sessionid, fwd1_sessionsecret);
 
@@ -151,7 +152,7 @@ public class Main {
                         int fwd2_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
                         int fwd2_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
                         int fwd2_userid = ((receiveData[4] & 0xF0) >> 4);
-                        ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd2_seq, fwd2_sessionid, fwd2_sessionsecret);
+                        ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd2_seq, fwd2_sessionid, fwd2_sessionsecret, false);
 
                         _log.Debug("ForwardLobbySync from "+fwd2_userid+" (cmd="+receiveData[0]+")");
                         break;
@@ -163,6 +164,15 @@ public class Main {
                         ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd3_seq, fwd3_userid, fwd3_sessionid, fwd3_sessionsecret);
 
                         _log.Debug("AnswerLobbySync from "+fwd3_userid+" (cmd="+receiveData[0]+")");
+                        break;
+                    case CMD_FORWARDHOSTINFO:
+                        byte fwd4_seq = receiveData[1];
+                        int fwd4_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
+                        int fwd4_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
+                        int fwd4_userid = ((receiveData[4] & 0xF0) >> 4);
+                        ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd4_seq, fwd4_sessionid, fwd4_sessionsecret, false);
+
+                        _log.Debug("ForwardHostInfo from "+fwd4_userid+" (cmd="+receiveData[0]+")");
                         break;
                     case CMD_QUERYSESSION:
                         byte query_seq = receiveData[1];
@@ -501,7 +511,7 @@ public class Main {
         Socket.send(sendPacket);
     }
 
-    private static void ForwardToClients(InetAddress host, int port, int len, byte seq, int sessionid, int sessionsecret) throws IOException {
+    private static void ForwardToClients(InetAddress host, int port, int len, byte seq, int sessionid, int sessionsecret, boolean setActive) throws IOException {
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
@@ -528,7 +538,7 @@ public class Main {
             return;
         }
 
-        session.GameActive = true;
+        if (setActive) session.GameActive = true;
         session.SetLastActivity(0);
 
         for (int i = 1; i < session.MaxSize; i++) {

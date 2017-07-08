@@ -5,6 +5,7 @@ using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Cryptography;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -38,6 +39,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private bool _doNotStop = false;
 
 		public readonly HUDCharacterControl[] CharDisp = new HUDCharacterControl[8];
+		private HUDTextButton _btnStart;
 
 		public MultiplayerServerLobbyPanel(GDMultiplayerServer server)
 		{
@@ -282,6 +284,27 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 				Click = OnClickCancel,
 			});
+
+			AddElement(_btnStart = new HUDTextButton(2)
+			{
+				Alignment = HUDAlignment.BOTTOMRIGHT,
+				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH),
+				Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
+
+				L10NText = L10NImpl.STR_MENU_MP_START,
+				TextColor = Color.White,
+				Font = Textures.HUDFontBold,
+				FontSize = 55,
+				TextAlignment = HUDAlignment.CENTER,
+				TextPadding = 8,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Emerald, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Nephritis, 16),
+
+				IsVisible = false,
+
+				Click = OnClickStart,
+			});
 		}
 
 		private string Fmt(GameSpeedModes s)
@@ -311,6 +334,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			Remove();
 		}
 
+		private void OnClickStart(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby && _server.SessionCount == _server.SessionCapacity)
+			{
+				byte[] binData = _server.GetLobbySyncData();
+				_server.StartLobbySync(binData);
+			}
+		}
+
 		public override void OnRemove()
 		{
 			if (!_doNotStop)
@@ -327,7 +359,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			_server.Update(gameTime, istate);
-			
+
+			_btnStart.BackgroundNormal = _btnStart.BackgroundNormal.WithColor(ColorMath.Blend(FlatColors.Emerald, FlatColors.GreenSea, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 5)));
+
+
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
 				Remove();
@@ -339,8 +374,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby && _server.SessionCount == _server.SessionCapacity)
 			{
-				byte[] binData = _server.GetLobbySyncData();
-				_server.StartLobbySync(binData);
+				_btnStart.IsVisible = true;
 			}
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.InGame)

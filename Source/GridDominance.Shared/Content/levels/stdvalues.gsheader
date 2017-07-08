@@ -1,11 +1,13 @@
 ﻿#  STANDARD DEFINES    #
 ########################
 
-define(N0, 0) # Neutral
-define(P1, 1) # Human
-define(A2, 2) # PC 1
-define(A3, 3) # PC 2
-define(A4, 4) # PC 3
+define(N0, 0)  # Neutral
+define(P1, 1)  # Human
+define(A2, 2)  # PC 1
+define(A3, 3)  # PC 2
+define(A4, 4)  # PC 3
+#define(A5, 5) # PC 4
+#define(A6, 6) # PC 5
 
 define(ROT_E,  000)
 define(ROT_SE, 045)

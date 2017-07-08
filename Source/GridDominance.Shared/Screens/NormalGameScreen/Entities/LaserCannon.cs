@@ -33,12 +33,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public float ChargeTime = 0f;
 
 		private readonly SAMEffectWrapper _soundeffect;
-		
+		private readonly bool _muted;
+
 		public LaserCannon(GDGameScreen scrn, LaserCannonBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
 			Blueprint = bp;
 			_screen = scrn;
+			_muted = scrn.IsPreview;
 
 			LaserSource = scrn.LaserNetwork.AddSource(this);
 
@@ -201,7 +203,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			LaserSource.SetState(active, Fraction, Rotation.ActualValue, ChargeTime > LASER_CHARGE_COOLDOWN);
 
-			if (MainGame.Inst.Profile.EffectsEnabled)
+			if (!_muted && MainGame.Inst.Profile.EffectsEnabled)
 			{
 				if ( LaserSource.LaserPowered && !_soundeffect.IsPlaying) _soundeffect.Play();
 				if (!LaserSource.LaserPowered &&  _soundeffect.IsPlaying) _soundeffect.Stop();

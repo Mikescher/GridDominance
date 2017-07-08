@@ -1,18 +1,21 @@
-﻿using GridDominance.Shared.Network.Multiplayer;
+﻿using System;
+using System.Collections.Generic;
+using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
 using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.GameMath.Cryptography;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
@@ -25,13 +28,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		public const float FOOTER_HEIGHT = 2.0f * GDConstants.TILE_WIDTH;
 
+		public const float INFO_C1_LEFT = 58;
+		public const float INFO_C1_WIDTH = 260;
+		public const float INFO_C2_LEFT = 320;
+		public const float INFO_C2_WIDTH = 225;
+
 		public override int Depth => 0;
 
 		private readonly GDMultiplayerClient _server;
 		private bool _doNotStop = false;
 
-		private HUDLabel _statusLabel;
-		private HUDLabel _infoLabel;
+		private HUDImage _cog;
+		private Guid _lastLevelID;
 
 		public MultiplayerClientLobbyPanel(GDMultiplayerClient server)
 		{
@@ -67,7 +75,140 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(16, 16)
 			});
 
-			AddElement(new HUDImage
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C1_LEFT, 208 + 0 * 32),
+				Size = new FSize(INFO_C1_WIDTH, 32),
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				L10NText = L10NImpl.STR_MENU_MP_LOBBY_PING,
+				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C1_LEFT, 208 + 1 * 32),
+				Size = new FSize(INFO_C1_WIDTH, 32),
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				L10NText = L10NImpl.STR_MENU_MP_LOBBY_USER,
+				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C1_LEFT, 208 + 2 * 32),
+				Size = new FSize(INFO_C1_WIDTH, 32),
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				L10NText = L10NImpl.STR_MENU_MP_LOBBY_LEVEL,
+				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C1_LEFT, 208 + 3 * 32),
+				Size = new FSize(INFO_C1_WIDTH, 32),
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				L10NText = L10NImpl.STR_MENU_MP_LOBBY_MUSIC,
+				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C1_LEFT, 208 + 4 * 32),
+				Size = new FSize(INFO_C1_WIDTH, 32),
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				L10NText = L10NImpl.STR_MENU_MP_LOBBY_SPEED,
+				TextColor = FlatColors.Clouds,
+			});
+
+
+
+			AddElement(new HUDLambdaLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C2_LEFT, 208 + 0 * 32),
+				Size = new FSize(INFO_C2_WIDTH, 32),
+				MaxWidth = INFO_C2_WIDTH,
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				Lambda = () => $"{(int)(_server.Ping.Value * 1000)}ms",
+				WordWrap = HUDWordWrap.Ellipsis,
+				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(new HUDLambdaLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C2_LEFT, 208 + 1 * 32),
+				Size = new FSize(INFO_C2_WIDTH, 32),
+				MaxWidth = INFO_C2_WIDTH,
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				Lambda = () => $"{_server.SessionCount} / {_server.SessionCapacity}",
+				WordWrap = HUDWordWrap.Ellipsis,
+				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(new HUDLambdaLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C2_LEFT, 208 + 2 * 32),
+				Size = new FSize(INFO_C2_WIDTH, 32),
+				MaxWidth = INFO_C2_WIDTH,
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				Lambda = () => _server.LevelID != null ? Levels.LEVELS[_server.LevelID.Value].FullName : ("?"),
+				WordWrap = HUDWordWrap.Ellipsis,
+				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(new HUDLambdaLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C2_LEFT, 208 + 3 * 32),
+				Size = new FSize(INFO_C2_WIDTH, 32),
+				MaxWidth = INFO_C2_WIDTH,
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				Lambda = () => _server.MusicIndex != null ? (_server.MusicIndex.Value + 1).ToString() : "?",
+				WordWrap = HUDWordWrap.Ellipsis,
+				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(new HUDLambdaLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C2_LEFT, 208 + 4 * 32),
+				Size = new FSize(INFO_C2_WIDTH, 32),
+				MaxWidth = INFO_C2_WIDTH,
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				Lambda = () => _server.Speed != null ? Fmt(_server.Speed.Value) : "?",
+				WordWrap = HUDWordWrap.Ellipsis,
+				TextColor = FlatColors.Clouds,
+			});
+
+
+			AddElement(_cog = new HUDImage
 			{
 				Image = Textures.CannonCog,
 				RotationSpeed = 0.3f,
@@ -76,21 +217,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Size = new FSize(196, 196),
 
 				Alignment = HUDAlignment.CENTER,
-				RelativePosition = new FPoint(0, -64)
-			});
-
-			AddElement(new HUDLambdaLabel
-			{
-				TextAlignment = HUDAlignment.CENTER,
-				Alignment = HUDAlignment.CENTER,
-				RelativePosition = new FPoint(0, 80),
-				Size = new FSize(WIDTH, 64),
-
-				Font = Textures.HUDFontBold,
-				FontSize = 64,
-
-				Lambda = () => $"{_server.SessionCount} / {_server.SessionCapacity}",
-				TextColor = FlatColors.Clouds,
+				RelativePosition = new FPoint(WIDTH/4f, -64)
 			});
 
 			AddElement(new HUDRectangle(0)
@@ -121,6 +248,26 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			});
 		}
 
+		private string Fmt(GameSpeedModes s)
+		{
+			switch (s)
+			{
+				case GameSpeedModes.SUPERSLOW:
+					return "-2";
+				case GameSpeedModes.SLOW:
+					return "-1";
+				case GameSpeedModes.NORMAL:
+					return "0";
+				case GameSpeedModes.FAST:
+					return "+1";
+				case GameSpeedModes.SUPERFAST:
+					return "+2";
+				default:
+					SAMLog.Error("MPCLP::EnumSwitch_FMT", "Value = " + s);
+					return "?";
+			}
+		}
+
 		private void OnClickCancel(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			_server.KillSession();
@@ -145,6 +292,17 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			_server.Update(gameTime, istate);
 
+			if (_server.LevelID != null && _server.LevelID.Value != _lastLevelID)
+			{
+				_lastLevelID = _server.LevelID.Value;
+
+				LevelBlueprint bp;
+				if (Levels.LEVELS.TryGetValue(_server.LevelID.Value, out bp))
+				{
+					_cog.Color = GetFractionColorByID(bp, _server.SessionUserID + 1);
+				}
+			}
+
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
 				Remove();
@@ -156,8 +314,50 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.InGame)
 			{
-				MainGame.Inst.SetMultiplayerClientLevelScreen(Levels.LEVELS[_server.LevelID], _server.Speed, _server.MusicIndex, _server);
+				MainGame.Inst.SetMultiplayerClientLevelScreen(Levels.LEVELS[_server.LevelID.Value], _server.Speed.Value, _server.MusicIndex.Value, _server);
 			}
+		}
+
+		public Color GetFractionColorByID(LevelBlueprint lvl, int id)
+		{
+			var fractionIDList = new List<int>();
+			fractionIDList.Add(0);
+
+			foreach (var bPrint in lvl.BlueprintCannons)
+			{
+				if (!fractionIDList.Contains(bPrint.Player)) fractionIDList.Add(bPrint.Player);
+			}
+			foreach (var bPrint in lvl.BlueprintLaserCannons)
+			{
+				if (!fractionIDList.Contains(bPrint.Player)) fractionIDList.Add(bPrint.Player);
+			}
+
+			if (!fractionIDList.Contains(0)) fractionIDList.Add(0);
+			if (!fractionIDList.Contains(1)) fractionIDList.Add(1);
+			if (!fractionIDList.Contains(2)) fractionIDList.Add(2);
+			if (!fractionIDList.Contains(3)) fractionIDList.Add(3);
+			if (!fractionIDList.Contains(4)) fractionIDList.Add(4);
+			if (!fractionIDList.Contains(5)) fractionIDList.Add(5);
+			if (!fractionIDList.Contains(6)) fractionIDList.Add(6);
+
+			if (id < 0 || id >= fractionIDList.Count)
+			{
+				SAMLog.Error("MPCLP::GetFractionByID_1", $"Fraction not found: {id}");
+				return FlatColors.BackgroundHUD2;
+			}
+
+			var fid = fractionIDList[id];
+
+			if (fid == 0) return Fraction.COLOR_NEUTRAL;
+			if (fid == 1) return Fraction.COLOR_PLAYER;
+			if (fid == 2) return Fraction.COLOR_COMPUTER_01;
+			if (fid == 3) return Fraction.COLOR_COMPUTER_02;
+			if (fid == 4) return Fraction.COLOR_COMPUTER_03;
+			if (fid == 5) return Fraction.COLOR_COMPUTER_04;
+			if (fid == 6) return Fraction.COLOR_COMPUTER_05;
+
+			SAMLog.Error("MPCLP::GetFractionByID_2", $"Fraction not found: {id}");
+			return FlatColors.BackgroundHUD2;
 		}
 	}
 }

@@ -15,9 +15,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 {
 	public class GDMultiplayerClient : GDMultiplayerCommon
 	{
-		public Guid LevelID;
-		public GameSpeedModes Speed;
-		public int MusicIndex;
+		public bool _lobbySyncRecieved = false;
+
+		public Guid? LevelID = null;
+		public GameSpeedModes? Speed = null;
+		public int? MusicIndex = null;
 		public ulong ServerGameVersion;
 		public ulong ServerLevelHash;
 
@@ -47,6 +49,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			{
 				if (Mode == ServerMode.InLobby)
 				{
+					_lobbySyncRecieved = true;
 					ProcessForwardLobbySync(data);
 					return true;
 				}
@@ -65,6 +68,24 @@ namespace GridDominance.Shared.Network.Multiplayer
 					return true;
 				}
 			}
+			else if (cmd == CMD_FORWARDHOSTINFO)
+			{
+				if (Mode == ServerMode.InLobby)
+				{
+					ProcessForwardHostData(data);
+					return true;
+				}
+				if (Mode == ServerMode.SyncingAfterLobby)
+				{
+					//ignore
+					return true;
+				}
+				if (Mode == ServerMode.InGame)
+				{
+					//ignore
+					return true;
+				}
+			}
 
 			return false;
 		}
@@ -74,7 +95,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			// [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret]
 
 			UserConn[0].LastResponse = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
-			
+
 			using (BinaryReader reader = new BinaryReader(new MemoryStream(data)))
 			{
 				reader.ReadByte(); // CMD
@@ -99,7 +120,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			}
 
 			LevelBlueprint blueprint;
-			if (! Levels.LEVELS.TryGetValue(LevelID, out blueprint))
+			if (! Levels.LEVELS.TryGetValue(LevelID.Value, out blueprint))
 			{
 				ErrorStop(ErrorType.LevelNotFound, null);
 				SAMLog.Error("GDMC::LNF", "ProcessForwardLobbySync -> LevelNotFound: " + LevelID);
@@ -124,6 +145,35 @@ namespace GridDominance.Shared.Network.Multiplayer
 			answer[5] = (byte) (SessionSecret & 0xFF);
 			answer[6] = (byte) SessionUserID;
 			_medium.Send(answer);
+		}
+
+		private void ProcessForwardHostData(byte[] data)
+		{
+			// [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret]
+
+			UserConn[0].LastResponse = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
+
+			if (_lobbySyncRecieved) return;
+
+			using (BinaryReader reader = new BinaryReader(new MemoryStream(data)))
+			{
+				reader.ReadByte(); // CMD
+				reader.ReadByte(); // SEQ
+				reader.ReadByte(); // SID
+				reader.ReadByte(); // SID
+				reader.ReadByte(); // SSC
+				reader.ReadByte(); // SSC
+				LevelID = new Guid(reader.ReadBytes(16));
+				Speed = (GameSpeedModes)reader.ReadByte();
+				MusicIndex = reader.ReadByte();
+				ServerGameVersion = reader.ReadUInt64();
+				ServerLevelHash = reader.ReadUInt64();
+			}
+
+			SAMLog.Debug($"[[CMD_FORWARDHOSTDATA]]: {LevelID} | {Speed} | {MusicIndex}");
+
+			LevelBlueprint blueprint;
+			if (!Levels.LEVELS.TryGetValue(LevelID.Value, out blueprint)) LevelID = null;
 		}
 
 		private void ProcessForward(byte[] d)
@@ -174,6 +224,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 			int p = PACKAGE_FORWARD_HEADER_SIZE;
 			SendForwardBulletCannons(ref p);
 			SendAndReset(ref p);
+		}
+
+		protected override byte[] GetHostInfoData()
+		{
+			return new byte[0]; //no
 		}
 
 		protected override bool ShouldRecieveData(Fraction f, Cannon c) => !Screen.HasFinished;

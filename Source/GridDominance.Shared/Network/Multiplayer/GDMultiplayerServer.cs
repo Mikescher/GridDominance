@@ -113,6 +113,22 @@ namespace GridDominance.Shared.Network.Multiplayer
 			}
 		}
 
+		protected override byte[] GetHostInfoData()
+		{
+			using (var ms = new MemoryStream())
+			using (var bw = new BinaryWriter(ms))
+			{
+				bw.Write(LevelID.ToByteArray());
+				bw.Write((byte)Speed);
+				bw.Write((byte)MusicIndex);
+
+				bw.Write(GDConstants.IVersion);
+				bw.Write(Levels.LEVELS[LevelID].CalcCheckSum());
+
+				return ms.ToArray();
+			}
+		}
+
 		protected override bool ShouldRecieveData(Fraction f, Cannon c) => !f.IsNeutral && f != Screen.LocalPlayerFraction && !Screen.HasFinished;
 		protected override bool ShouldRecieveRotationData(Fraction f, Cannon c) => !f.IsNeutral && f != Screen.LocalPlayerFraction;
 		protected override bool ShouldRecieveStateData(Fraction f, Cannon c) => false;

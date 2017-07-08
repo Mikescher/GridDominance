@@ -1,6 +1,4 @@
-﻿using System;
-using GridDominance.Graphfileformat.Blueprint;
-using GridDominance.Levelfileformat.Blueprint;
+﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
