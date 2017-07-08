@@ -1,7 +1,13 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System;
+using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
@@ -16,12 +22,16 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		public override int Depth => 0;
 
+		private bool _unlocked;
+
 		public MultiplayerMainPanel()
 		{
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
+
+			_unlocked = IsUnlocked();
 		}
 
 		public override void OnInitialize()
@@ -38,17 +48,51 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = "**Multiplayer**",
+				L10NText = L10NImpl.STR_MENU_CAP_MULTIPLAYER,
 				TextColor = FlatColors.Clouds,
 			});
-			
+
+			AddElement(new HUDSeperator(HUDOrientation.Horizontal)
+			{
+				Alignment = HUDAlignment.TOPCENTER,
+				RelativePosition = new FPoint(0, 100),
+				Size = new FSize(WIDTH, 1),
+				SeperatorWidth = 2,
+				Color = FlatColors.BackgroundHUD2,
+			});
+
+			AddElement(new HUDSeperator(HUDOrientation.Vertical)
+			{
+				Alignment = HUDAlignment.CENTER,
+				RelativePosition = new FPoint(0, 50),
+				Size = new FSize(1, HEIGHT - 100),
+				SeperatorWidth = 2,
+				Color = FlatColors.BackgroundHUD2,
+			});
+
+			AddElement(new HUDImage
+			{
+				Alignment = HUDAlignment.TOPCENTER,
+				Image = Textures.TexIconBluetooth,
+				Size = new FSize(128, 128),
+				RelativePosition = new FPoint(-WIDTH / 4f, 100 + (HEIGHT - 100 - (32 + 64 + 32 + 64 + 32)) / 2 - 64)
+			});
+
+			AddElement(new HUDImage
+			{
+				Alignment = HUDAlignment.TOPCENTER,
+				Image = Textures.TexIconInternet,
+				Size = new FSize(128, 128),
+				RelativePosition = new FPoint(+WIDTH / 4f, 100 + (HEIGHT - 100 - (32 + 64 + 32 + 64 + 32)) / 2 - 64)
+			});
+
 			AddElement(new HUDTextButton
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
-				RelativePosition = new FPoint(32, 128),
+				RelativePosition = new FPoint((WIDTH / 2 - 320) / 2, 128),
 				Size = new FSize(320, 64),
 
-				Text = "**Join**",
+				L10NText = L10NImpl.STR_MENU_MP_JOIN,
 				TextColor = Color.White,
 				Font = Textures.HUDFontBold,
 				FontSize = 55,
@@ -56,37 +100,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				TextPadding = 8,
 				BackgoundType = HUDBackgroundType.RoundedBlur,
 				Color = FlatColors.PeterRiver,
-				ColorPressed = FlatColors.Wisteria,
+				ColorPressed = FlatColors.BelizeHole,
 
 				Click = OnClickJoinBluetooth,
 			});
 
 			AddElement(new HUDTextButton
 			{
-				Alignment = HUDAlignment.BOTTOMLEFT,
-				RelativePosition = new FPoint(32, 32),
-				Size = new FSize(320, 64),
-
-				Text = "**Host**",
-				TextColor = Color.White,
-				Font = Textures.HUDFontBold,
-				FontSize = 55,
-				TextAlignment = HUDAlignment.CENTER,
-				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.PeterRiver,
-				ColorPressed = FlatColors.Wisteria,
-
-				Click = OnClickHostBluetooth,
-			});
-			
-			AddElement(new HUDTextButton
-			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(32, 128),
+				RelativePosition = new FPoint((WIDTH / 2 - 320) / 2, 128),
 				Size = new FSize(320, 64),
 
-				Text = "**Join**",
+				L10NText = L10NImpl.STR_MENU_MP_JOIN,
 				TextColor = Color.White,
 				Font = Textures.HUDFontBold,
 				FontSize = 55,
@@ -98,25 +123,87 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 				Click = OnClickJoinOnline,
 			});
-			
-			AddElement(new HUDTextButton
+
+			if (_unlocked)
 			{
-				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(32, 32),
-				Size = new FSize(320, 64),
+				AddElement(new HUDTextButton
+				{
+					Alignment = HUDAlignment.BOTTOMLEFT,
+					RelativePosition = new FPoint((WIDTH / 2 - 320) / 2, 32),
+					Size = new FSize(320, 64),
 
-				Text = "**Host**",
-				TextColor = Color.White,
-				Font = Textures.HUDFontBold,
-				FontSize = 55,
-				TextAlignment = HUDAlignment.CENTER,
-				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.PeterRiver,
-				ColorPressed = FlatColors.BelizeHole,
+					L10NText = L10NImpl.STR_MENU_MP_HOST,
+					TextColor = Color.White,
+					Font = Textures.HUDFontBold,
+					FontSize = 55,
+					TextAlignment = HUDAlignment.CENTER,
+					TextPadding = 8,
+					BackgoundType = HUDBackgroundType.RoundedBlur,
+					Color = FlatColors.Wisteria,
+					ColorPressed = FlatColors.Amethyst,
 
-				Click = OnClickHostOnline,
-			});
+					Click = OnClickHostBluetooth,
+				});
+
+				AddElement(new HUDTextButton
+				{
+					Alignment = HUDAlignment.BOTTOMRIGHT,
+					RelativePosition = new FPoint((WIDTH / 2 - 320) / 2, 32),
+					Size = new FSize(320, 64),
+
+					L10NText = L10NImpl.STR_MENU_MP_HOST,
+					TextColor = Color.White,
+					Font = Textures.HUDFontBold,
+					FontSize = 55,
+					TextAlignment = HUDAlignment.CENTER,
+					TextPadding = 8,
+					BackgoundType = HUDBackgroundType.RoundedBlur,
+					Color = FlatColors.Wisteria,
+					ColorPressed = FlatColors.Amethyst,
+
+					Click = OnClickHostOnline,
+				});
+			}
+			else
+			{
+				AddElement(new HUDTextButton
+				{
+					Alignment = HUDAlignment.BOTTOMLEFT,
+					RelativePosition = new FPoint((WIDTH / 2 - 320) / 2, 32),
+					Size = new FSize(320, 64),
+
+					L10NText = L10NImpl.STR_MENU_MP_HOST,
+					TextColor = Color.White,
+					Font = Textures.HUDFontBold,
+					FontSize = 55,
+					TextAlignment = HUDAlignment.CENTER,
+					TextPadding = 8,
+					BackgoundType = HUDBackgroundType.Rounded,
+					Color = FlatColors.Asbestos,
+					ColorPressed = FlatColors.WetAsphalt,
+
+					Click = OnClickUnlock,
+				});
+
+				AddElement(new HUDTextButton
+				{
+					Alignment = HUDAlignment.BOTTOMRIGHT,
+					RelativePosition = new FPoint((WIDTH / 2 - 320) / 2, 32),
+					Size = new FSize(320, 64),
+
+					L10NText = L10NImpl.STR_MENU_MP_HOST,
+					TextColor = Color.White,
+					Font = Textures.HUDFontBold,
+					FontSize = 55,
+					TextAlignment = HUDAlignment.CENTER,
+					TextPadding = 8,
+					BackgoundType = HUDBackgroundType.Rounded,
+					Color = FlatColors.Asbestos,
+					ColorPressed = FlatColors.WetAsphalt,
+
+					Click = OnClickUnlock,
+				});
+			}
 		}
 
 		private void OnClickJoinBluetooth(HUDTextButton sender, HUDButtonEventArgs e)
@@ -129,15 +216,125 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			//TODO
 		}
 
+		private void OnClickUnlock(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			try
+			{
+				var r = MainGame.Inst.Bridge.IAB.StartPurchase(GDConstants.IAB_MULTIPLAYER);
+				switch (r)
+				{
+					case PurchaseResult.ProductNotFound:
+						SAMLog.Error("MMP::IAB-PNF", "Product not found", "_iabCode -> " + GDConstants.IAB_MULTIPLAYER);
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						break;
+					case PurchaseResult.NotConnected:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYNOCONN), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
+						break;
+					case PurchaseResult.CurrentlyInitializing:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYNOTREADY), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
+						break;
+					case PurchaseResult.PurchaseStarted:
+						SAMLog.Info("MMP::IAB-BUY", "PurchaseStarted");
+						break;
+					default:
+						SAMLog.Error("MMP::EnumSwitch-OCU", "OnClickBuy()", "r -> " + r);
+						break;
+				}
+			}
+			catch (Exception ex)
+			{
+				SAMLog.Error("MMP::IAB_CALL", ex);
+			}
+		}
+
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
+		{
+			base.DoUpdate(gameTime, istate);
+
+			if (!_unlocked)
+			{
+				if (IsUnlocked())
+				{
+					Remove();
+					Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f);
+				}
+			}
+		}
+
 		private void OnClickJoinOnline(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			Remove();
 			HUD.AddModal(new MultiplayerJoinLobbyScreen(), true, 0.5f);
 		}
+
 		private void OnClickHostOnline(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			Remove();
 			HUD.AddModal(new MultiplayerHostPanel(), true, 0.5f);
+		}
+
+		private bool IsUnlocked()
+		{
+			if (GDConstants.USE_IAB)
+			{
+				// LIGHT VERSION
+
+				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(GDConstants.IAB_MULTIPLAYER);
+
+				if (ip == PurchaseQueryResult.Refunded)
+				{
+					if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
+					{
+						MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
+						MainGame.Inst.SaveProfile();
+					}
+					return false;
+				}
+
+				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER)) return true;
+
+				switch (ip)
+				{
+					case PurchaseQueryResult.Purchased:
+						MainGame.Inst.Profile.PurchasedWorlds.Add(Levels.WORLD_ID_MULTIPLAYER);
+						MainGame.Inst.SaveProfile();
+						return true;
+
+					case PurchaseQueryResult.NotPurchased:
+					case PurchaseQueryResult.Cancelled:
+						return false;
+
+					case PurchaseQueryResult.Error:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						return false;
+
+					case PurchaseQueryResult.Refunded:
+						if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
+						{
+							MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
+							MainGame.Inst.SaveProfile();
+						}
+						return false;
+
+					case PurchaseQueryResult.NotConnected:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						return false;
+
+					case PurchaseQueryResult.CurrentlyInitializing:
+						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						return false;
+
+					default:
+						SAMLog.Error("EnumSwitch-IU_MP", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_MULTIPLAYER)) -> " + ip);
+						return false;
+				}
+			}
+			else
+			{
+				// FULL VERSION
+
+				return true;
+			}
 		}
 	}
 }

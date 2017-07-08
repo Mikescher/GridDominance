@@ -4,6 +4,9 @@ string PATH = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\So
 void Main()
 {
 	var lines = File.ReadAllLines(PATH);
+
+	for (int i = 0; i < lines.Length; i++) lines[i] = lines[i].TrimEnd();
+	
 	for (int i = 0; i < lines.Length; i++)
 	{
 		var split = GrammarSplit(lines[i], ',');

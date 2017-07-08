@@ -26,10 +26,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			switch (Orientation)
 			{
 				case HUDOrientation.Horizontal:
-					Size = new FSize(Size.Width, SeperatorWidth ?? HUD.PixelWidth);
+					Size = new FSize(Size.Width, (SeperatorWidth ?? 1) * HUD.PixelWidth);
 					break;
 				case HUDOrientation.Vertical:
-					Size = new FSize(SeperatorWidth ?? HUD.PixelWidth, Size.Height);
+					Size = new FSize((SeperatorWidth ?? 1) * HUD.PixelWidth, Size.Height);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

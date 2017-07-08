@@ -106,9 +106,19 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			{
 				// LIGHT VERSION
 
-				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER)) return true;
-
 				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(GDConstants.IAB_MULTIPLAYER);
+
+				if (ip == PurchaseQueryResult.Refunded)
+				{
+					if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
+					{
+						MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
+						MainGame.Inst.SaveProfile();
+					}
+					return false;
+				}
+
+				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER)) return true;
 
 				switch (ip)
 				{
@@ -126,8 +136,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 						return false;
 
 					case PurchaseQueryResult.Refunded:
-						MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
-						MainGame.Inst.SaveProfile();
+						if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
+						{
+							MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
+							MainGame.Inst.SaveProfile();
+						}
 						return false;
 
 					case PurchaseQueryResult.NotConnected:

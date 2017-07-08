@@ -103,6 +103,7 @@ public class Main {
                 } catch (SocketTimeoutException e) {
                     _log.Debug("Server idle (recieve timeout)");
                     CleanUpSessions();
+                    if (System.currentTimeMillis() - lastStateOuput > STATE_OUTPUT_FREQ) OutputState();
                     continue;
                 }
 

@@ -228,6 +228,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconTutorial;
 		public static TextureRegion2D TexIconLock;
 		public static TextureRegion2D TexIconLockOpen;
+		public static TextureRegion2D TexIconInternet;
+		public static TextureRegion2D TexIconBluetooth;
 
 		public static TextureRegion2D TexIconNetworkBase;
 		public static TextureRegion2D TexIconNetworkVertex1;
@@ -393,17 +395,19 @@ namespace GridDominance.Shared.Resources
 
 
 
-			TexVortex0         = AtlasTextures["vortex_circle_0"];
-			TexVortex1         = AtlasTextures["vortex_circle_1"];
-			TexVortex2         = AtlasTextures["vortex_circle_2"];
+			TexVortex0          = AtlasTextures["vortex_circle_0"];
+			TexVortex1          = AtlasTextures["vortex_circle_1"];
+			TexVortex2          = AtlasTextures["vortex_circle_2"];
 
-			TexIconBack        = AtlasTextures["back"];
-			TexIconNext        = AtlasTextures["next"];
-			TexIconRedo        = AtlasTextures["redo"];
-			TexIconScore       = AtlasTextures["jewels"];
-			TexIconTutorial    = AtlasTextures["tutorial"];
-			TexIconLock        = AtlasTextures["lock"];
-			TexIconLockOpen    = AtlasTextures["lock_open"];
+			TexIconBack         = AtlasTextures["back"];
+			TexIconNext         = AtlasTextures["next"];
+			TexIconRedo         = AtlasTextures["redo"];
+			TexIconScore        = AtlasTextures["jewels"];
+			TexIconTutorial     = AtlasTextures["tutorial"];
+			TexIconLock         = AtlasTextures["lock"];
+			TexIconLockOpen     = AtlasTextures["lock_open"];
+			TexIconInternet     = AtlasTextures["internet"];
+			TexIconBluetooth    = AtlasTextures["bluetooth"];
 
 			TexDifficultyLine0     = AtlasTextures["difficulty_line_01"];
 			TexDifficultyLine1     = AtlasTextures["difficulty_line_02"];

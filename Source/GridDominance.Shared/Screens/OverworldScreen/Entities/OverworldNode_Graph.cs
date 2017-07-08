@@ -202,11 +202,22 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				if (_isWorldReachable ==  false) return UnlockState.Locked;
 
+				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(IABCode);
+
+				if (ip == PurchaseQueryResult.Refunded)
+				{
+					if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID))
+					{
+						MainGame.Inst.Profile.PurchasedWorlds.Remove(Blueprint.ID);
+						MainGame.Inst.SaveProfile();
+					}
+					return UnlockState.NeedsPurchase;
+				}
+
 				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID)) return UnlockState.Unlocked;
 
 				if (_isWorldManuallyUnlocked == true) return UnlockState.Unlocked;
 				
-				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(IABCode);
 
 				switch (ip)
 				{
@@ -224,8 +235,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 						return UnlockState.NeedsPurchase;
 
 					case PurchaseQueryResult.Refunded:
-						MainGame.Inst.Profile.PurchasedWorlds.Remove(Blueprint.ID);
-						MainGame.Inst.SaveProfile();
+						if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID))
+						{
+							MainGame.Inst.Profile.PurchasedWorlds.Remove(Blueprint.ID);
+							MainGame.Inst.SaveProfile();
+						}
 						return UnlockState.NeedsPurchase;
 
 					case PurchaseQueryResult.NotConnected:
