@@ -385,13 +385,13 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			{
 				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
-			}
+			} 
 
 			for (int i = 0; i < SessionCount; i++)
 			{
 				if (i == SessionUserID) continue;
 
-				var deltaLUR = gameTime.TotalElapsedSeconds - _lastServerResponse;
+				var deltaLUR = gameTime.TotalElapsedSeconds - UserConn[i].LastResponse;
 
 
 				if (deltaLUR < TIMEOUT_PAUSE)

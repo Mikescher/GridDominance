@@ -386,7 +386,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					// all good
 
 					BulletVelocity = veloc;
-					var newpos = new FPoint(px, py) + BulletVelocity * delta;
+					var newpos = new FPoint(px, py) + BulletVelocity * delta * GDOwner.GameSpeed;
 
 					ClientPredictionMiss = (newpos - BulletPosition).LengthSquared() > 1f;
 
@@ -411,7 +411,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 						BulletExtraScale = 1f;
 
 						BulletVelocity = veloc;
-						BulletPosition = new FPoint(px, py) + BulletVelocity * delta;
+						BulletPosition = new FPoint(px, py) + BulletVelocity * delta * GDOwner.GameSpeed;
 
 						ClientPredictionMiss = true;
 

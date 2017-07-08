@@ -465,7 +465,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var delta = GDOwner.LevelTime - sendertime;
 
 			Rotation.SetFull(ra, rt);
-			Rotation.Update(new SAMTime(delta, MonoSAMGame.CurrentTime.TotalElapsedSeconds));
+			Rotation.Update(new SAMTime(delta * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds));
 		}
 	}
 }
