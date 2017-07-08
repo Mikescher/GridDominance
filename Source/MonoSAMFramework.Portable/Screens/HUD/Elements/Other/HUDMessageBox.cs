@@ -69,7 +69,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		public Color ColorBackground = Color.White;
 
-		public HUDBackgroundType BackgoundType = HUDBackgroundType.Rounded;
+		public HUDBackgroundType BackgroundType = HUDBackgroundType.Rounded;
 		public float BackgroundCornerSize = 16f;
 
 		public bool CloseOnClick = true;
@@ -101,7 +101,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, ColorBackground * Alpha, BackgroundCornerSize);
+			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgroundType, bounds, ColorBackground * Alpha, BackgroundCornerSize);
 		}
 
 		public override void OnRemove()

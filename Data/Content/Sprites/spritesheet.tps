@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
+        <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -408,6 +408,10 @@
             <key type="filename">hud/user.png</key>
             <key type="filename">level/glassblock/glass_corner.png</key>
             <key type="filename">level/vortex/vortex_circle_0.png</key>
+            <key type="filename">overworld/state_conn_bg.png</key>
+            <key type="filename">overworld/state_conn_fg.png</key>
+            <key type="filename">overworld/state_err.png</key>
+            <key type="filename">overworld/state_ok.png</key>
             <key type="filename">tutorial/arrow.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

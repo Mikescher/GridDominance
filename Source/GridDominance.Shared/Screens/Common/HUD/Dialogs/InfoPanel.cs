@@ -65,7 +65,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				TextColor = Color.White,
 
-				BackgoundType = HUDBackgroundType.Rounded,
+				BackgroundType = HUDBackgroundType.Rounded,
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 				TextPadding = 16,
@@ -91,7 +91,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				TextColor = Color.White,
 
-				BackgoundType = HUDBackgroundType.Rounded,
+				BackgroundType = HUDBackgroundType.Rounded,
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 				TextPadding = 16,

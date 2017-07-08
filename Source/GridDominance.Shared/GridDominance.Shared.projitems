@@ -128,11 +128,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerConnectionStateControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerJoinLobbyScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerClientLobbyPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerServerLobbyPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerHostPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerMainPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Operations\JoinErrorOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\OverworldHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\WorldPreviewPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\OverworldEntityManager.cs" />
@@ -334,6 +336,5 @@
     <Folder Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Elements\" />
     <Folder Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\" />
     <Folder Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\" />
   </ItemGroup>
 </Project>

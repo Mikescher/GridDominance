@@ -128,7 +128,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
+				BackgroundType = HUDBackgroundType.RoundedBlur,
 				Color = FlatColors.PeterRiver,
 				ColorPressed = FlatColors.BelizeHole,
 
@@ -147,7 +147,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
+				BackgroundType = HUDBackgroundType.RoundedBlur,
 				Color = FlatColors.PeterRiver,
 				ColorPressed = FlatColors.BelizeHole,
 
@@ -168,7 +168,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					FontSize = 55,
 					TextAlignment = HUDAlignment.CENTER,
 					TextPadding = 8,
-					BackgoundType = HUDBackgroundType.RoundedBlur,
+					BackgroundType = HUDBackgroundType.RoundedBlur,
 					Color = FlatColors.Wisteria,
 					ColorPressed = FlatColors.Amethyst,
 
@@ -187,7 +187,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					FontSize = 55,
 					TextAlignment = HUDAlignment.CENTER,
 					TextPadding = 8,
-					BackgoundType = HUDBackgroundType.RoundedBlur,
+					BackgroundType = HUDBackgroundType.RoundedBlur,
 					Color = FlatColors.Wisteria,
 					ColorPressed = FlatColors.Amethyst,
 
@@ -208,7 +208,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					FontSize = 55,
 					TextAlignment = HUDAlignment.CENTER,
 					TextPadding = 8,
-					BackgoundType = HUDBackgroundType.Rounded,
+					BackgroundType = HUDBackgroundType.Rounded,
 					Color = FlatColors.Asbestos,
 					ColorPressed = FlatColors.WetAsphalt,
 
@@ -227,7 +227,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					FontSize = 55,
 					TextAlignment = HUDAlignment.CENTER,
 					TextPadding = 8,
-					BackgoundType = HUDBackgroundType.Rounded,
+					BackgroundType = HUDBackgroundType.Rounded,
 					Color = FlatColors.Asbestos,
 					ColorPressed = FlatColors.WetAsphalt,
 
@@ -280,6 +280,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			base.DoUpdate(gameTime, istate);
+
+			if (!Alive) return;
 
 			if (!_unlocked)
 			{

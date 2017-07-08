@@ -4,6 +4,7 @@ using MonoSAMFramework.Portable.Language;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 {
@@ -25,6 +26,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 		public override int DeepInclusiveCount => children.Sum(p => p.DeepInclusiveCount) + 1;
 		public int ChildrenMinDepth => children.Any() ? children.Min(c => c.Depth) : -1;
 		public int ChildrenMaxDepth => children.Any() ? children.Max(c => c.Depth) : +1;
+		public int NonToastChildrenMaxDepth => children.Any() ? children.Where(c => !(c is HUDToast)).Max(c => c.Depth) : +1;
+		public IEnumerable<HUDElement> Children => children;
 
 		public override void DrawForeground(IBatchRenderer sbatch)
 		{
@@ -46,8 +49,22 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			base.Remove();
 			foreach (var child in children)
 			{
-				if (child.IsVisible) child.Remove();
+				child.Remove();
 			}
+		}
+
+		public void ClearChildren()
+		{
+			foreach (var child in children)
+			{
+				child.Remove();
+			}
+			children.Clear();
+		}
+
+		public void RemoveChild(HUDElement c)
+		{
+			children.Remove(c);
 		}
 
 		public override void Update(SAMTime gameTime, InputState istate)
@@ -58,7 +75,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			{
 				while (queuedChildren.Count > 0) AddElement(queuedChildren.Dequeue());
 			}
-			
+
+			bool childrenChanged = false;
 			foreach (var element in children.ToList())
 			{
 				element.Update(gameTime, istate);
@@ -67,8 +85,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 				{
 					children.Remove(element);
 					element.OnRemove();
+					childrenChanged = true;
 				}
 			}
+			if (childrenChanged) OnChildrenChanged();
 		}
 
 		public override bool InternalPointerDown(InputState istate)
@@ -103,9 +123,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			e.HUD = HUD;
 			children.Add(e);
 			e.Initialize();
+
+			OnChildrenChanged();
 		}
 
-		public void AddElements(IEnumerable<HUDElement> es)
+		public virtual void AddElements(IEnumerable<HUDElement> es)
 		{
 			foreach (var e in es)
 				AddElement(e);
@@ -151,6 +173,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			{
 				child.Revalidate();
 			}
+		}
+
+		protected virtual void OnChildrenChanged()
+		{
+			// OVERRIDE ME
 		}
 	}
 }

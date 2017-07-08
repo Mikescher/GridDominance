@@ -20,7 +20,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 {
 	public class GDGameScreen_MPClient : GDGameScreen
 	{
-		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular);
+		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular); //TODO Countdown 3 2 1 before game (but in leveltime, for sync and ui reasons)
 
 		private readonly int musicIdx;
 		private readonly GDMultiplayerClient _server;

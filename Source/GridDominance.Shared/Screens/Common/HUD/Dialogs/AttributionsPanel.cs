@@ -64,7 +64,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 					TextColor = FlatColors.Foreground,
 
-					BackgoundType = HUDBackgroundType.SimpleBlur,
+					BackgroundType = HUDBackgroundType.SimpleBlur,
 					Color = FlatColors.TextHUD,
 					ColorPressed = FlatColors.ControlHighlight,
 					TextPadding = 16,

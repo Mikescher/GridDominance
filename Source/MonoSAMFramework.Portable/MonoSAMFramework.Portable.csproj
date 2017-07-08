@@ -70,6 +70,7 @@
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign4.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatCurve13.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatCurve12.cs" />
+    <Compile Include="GameMath\Geometry\DPoint.cs" />
     <Compile Include="GameMath\Geometry\FCircle.cs" />
     <Compile Include="GameMath\Geometry\DSize.cs" />
     <Compile Include="GameMath\Geometry\FRotatedRectangle.cs" />
@@ -218,7 +219,9 @@
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDImageButton.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDTextButton.cs" />
+    <Compile Include="Screens\HUD\Elements\Container\HUDFixedUniformGrid.cs" />
     <Compile Include="Screens\HUD\Elements\Container\HUDLayoutContainer.cs" />
+    <Compile Include="Screens\HUD\Elements\Container\HUDWrapperContainer.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDIconTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDSimpleTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDTextBox.cs" />
@@ -227,6 +230,7 @@
     <Compile Include="Screens\HUD\Elements\Keyboard\HUDKeyboardButtonType.cs" />
     <Compile Include="Screens\HUD\Elements\Keyboard\IKeyboardListener.cs" />
     <Compile Include="Screens\HUD\Elements\Keyboard\KeyboardLayout.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDKeypad.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDSubScreenProxyRenderer.cs" />
     <Compile Include="Screens\HUD\Elements\Presenter\HUDCharacterControl.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />

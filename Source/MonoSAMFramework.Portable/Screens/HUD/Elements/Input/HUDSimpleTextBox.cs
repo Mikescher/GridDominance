@@ -12,7 +12,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		public int BorderThickness = 2;
 
 		public float BackgoundCornerSize = 16f;
-		public HUDBackgroundType BackgoundType = HUDBackgroundType.Simple;
+		public HUDBackgroundType BackgroundType = HUDBackgroundType.Simple;
 
 		public HUDSimpleTextBox(int depth) : base(depth)
 		{
@@ -22,9 +22,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		{
 			var bg = IsFocused ? ColorBackground : ColorFocused;
 
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, bg, BackgoundCornerSize);
+			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgroundType, bounds, bg, BackgoundCornerSize);
 
-			if (BackgoundType == HUDBackgroundType.Simple && ColorBorder != Color.Transparent && BorderThickness > 0)
+			if (BackgroundType == HUDBackgroundType.Simple && ColorBorder != Color.Transparent && BorderThickness > 0)
 			{
 				SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, BorderThickness, ColorBorder);
 			}

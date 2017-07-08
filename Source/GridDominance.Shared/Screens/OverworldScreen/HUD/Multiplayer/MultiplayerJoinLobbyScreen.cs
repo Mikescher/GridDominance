@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -11,28 +13,17 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
-    class MultiplayerJoinLobbyScreen : HUDRoundedPanel
+	class MultiplayerJoinLobbyScreen : HUDRoundedPanel
 	{
-		public const float DISP_WIDTH = 64;
-		public const float DISP_PAD   = 10;
-		public const float DISP_OFFX  = (WIDTH - (DISP_WIDTH * 8 + DISP_PAD * 7)) / 2;
-		
 		public const float WIDTH = 14.0f * GDConstants.TILE_WIDTH;
 		public const float HEIGHT = 8.0f * GDConstants.TILE_WIDTH;
-
-		public const float BTN_WIDTH = 64;
-		public const float BTN_PADY = (HEIGHT - 84 - DISP_WIDTH - 4 * BTN_WIDTH) / 5;
-		public const float BTN_PADX = BTN_PADY;
-		public const float BTN_OFFSET_X = (WIDTH - (4 * BTN_WIDTH + 3 * BTN_PADX)) / 2;
-		public const float BTN_OFFSET_Y = BTN_PADY;
-
-		public static readonly char[] BTN_TXT = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 		public override int Depth => 0;
 
@@ -42,8 +33,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		public int CharIndex = 0;
 		public readonly HUDCharacterControl[] CharDisp = new HUDCharacterControl[8];
 
-		private HUDLabel _statusLabel;
-		
+		private bool _isDying = false;
+
 		public MultiplayerJoinLobbyScreen()
 		{
 			RelativePosition = FPoint.Zero;
@@ -68,32 +59,33 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = "**Enter codeZ**",
+				L10NText = L10NImpl.STR_MENU_CAP_AUTH,
 				TextColor = FlatColors.Clouds,
 			});
 
-			AddElement(_statusLabel = new HUDLabel
+			AddElement(new MultiplayerConnectionStateControl(_server)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
-				RelativePosition = new FPoint(32, 130),
-				Size = new FSize(WIDTH, 48),
-
-				Text = "Offline", //TODO L10N
-				TextColor = Color.White,
-				Font = Textures.HUDFontRegular,
-				FontSize = 32,
-				TextAlignment = HUDAlignment.CENTERLEFT,
+				RelativePosition = new FPoint(16, 16)
 			});
+
+			var gridDisplay = new HUDFixedUniformGrid
+			{
+				Alignment = HUDAlignment.TOPCENTER,
+				RelativePosition = new FPoint(0, 84),
+				GridWidth = 8,
+				GridHeight = 1,
+				ColumnWidth = 64,
+				RowHeight = 64,
+				Padding = 16,
+			};
+			AddElement(gridDisplay);
 
 			for (int i = 0; i < 8; i++)
 			{
 				CharDisp[i] = new HUDCharacterControl(1)
 				{
-					Alignment = HUDAlignment.TOPLEFT,
-					RelativePosition = new FPoint(DISP_OFFX + i * (DISP_PAD + DISP_WIDTH), 84),
-					Size = new FSize(DISP_WIDTH, DISP_WIDTH),
-
-					BackgoundType = HUDBackgroundType.Simple,
+					BackgroundType = HUDBackgroundType.Simple,
 					BackgroundColor = FlatColors.Clouds,
 
 					BorderWidth = 4,
@@ -102,37 +94,53 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					TextPadding = 2,
 					TextColor = Color.Black
 				};
-				AddElement(CharDisp[i]);
+
+				gridDisplay.AddElement(i, 0, CharDisp[i]);
 			}
 
-			for (int x = 0; x < 4; x++)
+			var pad = new HUDKeypad(6, 4, 64, 16)
 			{
-				for (int y = 0; y < 4; y++)
-				{
-					int idx = x + y * 4;
+				Alignment = HUDAlignment.CENTER,
+				RelativePosition = new FPoint(0, 164 / 2f),
 
-					AddElement(new HUDTextButton(1)
-					{
-						TextAlignment = HUDAlignment.CENTER,
-						Alignment = HUDAlignment.BOTTOMLEFT,
-						RelativePosition = new FPoint(BTN_OFFSET_X + (BTN_WIDTH + BTN_PADX) * x, BTN_OFFSET_Y + (BTN_WIDTH + BTN_PADY) * (3 - y)),
-						Size = new FSize(BTN_WIDTH, BTN_WIDTH),
+				ButtonTextAlignment = HUDAlignment.CENTER,
 
-						Font = Textures.HUDFontBold,
-						FontSize = 48,
+				ButtonFont = Textures.HUDFontBold,
+				ButtonFontSize = 48,
 
-						Text = BTN_TXT[x + y * 4].ToString(),
-						TextColor = FlatColors.Foreground,
+				ButtonTextColor = FlatColors.Foreground,
 
-						Color = FlatColors.ControlHighlight,
-						ColorPressed = FlatColors.Background,
-						BackgoundType = HUDBackgroundType.RoundedBlur,
-						BackgoundCornerSize = 4f,
+				ButtonColor = FlatColors.ControlHighlight,
+				ButtonColorPressed = FlatColors.Background,
+				ButtonBackgroundType = HUDBackgroundType.RoundedBlur,
+				ButtonBackgoundCornerSize = 4f,
+			};
+			AddElement(pad);
 
-						Click = (s, e) => DoClick(BTN_TXT[idx]),
-					});
-				}
-			}
+			pad.AddKey('1', 0, 0);
+			pad.AddKey('2', 1, 0);
+			pad.AddKey('3', 2, 0);
+
+			pad.AddKey('4', 0, 1);
+			pad.AddKey('5', 1, 1);
+			pad.AddKey('6', 2, 1);
+
+			pad.AddKey('7', 0, 2);
+			pad.AddKey('8', 1, 2);
+			pad.AddKey('9', 2, 2);
+
+			//pad.AddKey('#', 0, 3);
+			pad.AddKey('0', 1, 3);
+			//pad.AddKey('*', 2, 3);
+
+			pad.AddKey('A', 4, 0);
+			pad.AddKey('B', 5, 0);
+			pad.AddKey('C', 4, 1);
+			pad.AddKey('D', 5, 1);
+			pad.AddKey('E', 4, 2);
+			pad.AddKey('F', 5, 2);
+
+			pad.PadClick += DoClick;
 		}
 
 		public override void OnRemove()
@@ -155,11 +163,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			//
 		}
 
-		private void DoClick(char c)
+		private void DoClick(HUDKeypad source, HUDKeypad.HUDKeypadEventArgs args)
 		{
 			if (CharIndex >= 8) return;
 
-			CharDisp[CharIndex].Character = c;
+			CharDisp[CharIndex].Character = args.Character;
 
 			CharIndex++;
 			if (CharIndex == 8)
@@ -176,18 +184,30 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
+			if (_isDying || !Alive) return;
+
 			_server.Update(gameTime, istate);
 
-			if (_server.ConnState == SAMNetworkConnection.ConnectionState.Connected)
-				_statusLabel.Text = _server.SessionCount + " / " + _server.SessionCapacity; //TODO L10N
-			else
-				_statusLabel.Text = "Connection lost"; //TODO L10N
+			//todo status
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
-				Remove();
-
 				Owner.HUD.ShowToast(L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+
+				switch (_server.Error)
+				{
+					case SAMNetworkConnection.ErrorType.SessionNotFound:
+					case SAMNetworkConnection.ErrorType.AuthentificationFailed:
+					case SAMNetworkConnection.ErrorType.LobbyFull:
+					case SAMNetworkConnection.ErrorType.GameVersionMismatch:
+						_isDying = true;
+						AddHUDOperation(new JoinErrorOperation());
+						return;
+					default:
+						Remove();
+						return;
+				}
+
 			}
 			
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();

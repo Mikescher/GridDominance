@@ -44,7 +44,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter
 		}
 
 		public Color BackgroundColor = Color.Transparent;
-		public HUDBackgroundType BackgoundType = HUDBackgroundType.Simple;
+		public HUDBackgroundType BackgroundType = HUDBackgroundType.Simple;
 		public float BackgoundCornerSize = 16f;
 
 		public float BorderWidth = 0f;
@@ -84,7 +84,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, BackgroundColor, BackgoundCornerSize);
+			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgroundType, bounds, BackgroundColor, BackgoundCornerSize);
 
 			if (BorderWidth > 0f && BorderColor.A > 0)
 				sbatch.DrawRectangle(bounds, BorderColor, BorderWidth);

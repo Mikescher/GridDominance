@@ -70,7 +70,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
+				BackgroundType = HUDBackgroundType.RoundedBlur,
 				Color = FlatColors.PeterRiver,
 				ColorPressed = FlatColors.BelizeHole,
 

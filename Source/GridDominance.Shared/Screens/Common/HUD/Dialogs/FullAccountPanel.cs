@@ -130,7 +130,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
+				BackgroundType = HUDBackgroundType.RoundedBlur,
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 
@@ -149,7 +149,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
+				BackgroundType = HUDBackgroundType.RoundedBlur,
 				Color = FlatColors.ButtonHUD,
 				ColorPressed = FlatColors.ButtonPressedHUD,
 

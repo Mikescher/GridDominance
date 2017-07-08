@@ -13,8 +13,9 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		public const float TIME_BETWEEN_PINGS        = 1f;
 		public const float TIME_BETWEEN_INGAME_PINGS = 3f;
-		public const float TIMEOUT                   = 10f;
-		public const float TIMEOUT_FINAL             = 20f;
+		public const float TIMEOUT_PAUSE             = 1.5f;
+		public const float TIMEOUT_OFFLINE           = 10f;
+		public const float TIMEOUT_ERRORSTOP         = 20f;
 		public const float RESEND_TIME_RELIABLE      = 0.75f;
 		public const float TIME_BETWEEN_GAMESTATE    = 0.2f;
 
@@ -42,7 +43,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		
 		public const byte ANS_FORWARDLOBBYSYNC   = 81;
 
-		public enum ConnectionState { Offline, Connected }
+		public enum ConnectionState { Offline = 0, Reconnecting = 1, Connected = 2 }
 
 		public enum ServerMode
 		{
@@ -91,7 +92,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public readonly float[] MsgSendTime = new float[256];
 		public readonly bool[] MsgAcks = new bool[256];
 
-		public readonly PingCounter Ping = new PingCounter(8);
+		public readonly PingCounter Ping = new PingCounter(3);
 		public float PackageLossPerc = 0;
 
 		private float _lastSendPing = 0f;
@@ -135,7 +136,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				}
 
 				if (Mode == ServerMode.Base)
-					UpdatePing(gameTime);
+					UpdateBase(gameTime);
 				else if (Mode == ServerMode.CreatingSession)
 					UpdateCreateSession(gameTime);
 				else if (Mode == ServerMode.JoiningSession)
@@ -153,7 +154,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 		}
 
-		private void UpdatePing(SAMTime gameTime)
+		private void UpdateBase(SAMTime gameTime)
 		{
 			if (gameTime.TotalElapsedSeconds - _lastSendPing > TIME_BETWEEN_PINGS && gameTime.TotalElapsedSeconds - _lastServerResponse > TIME_BETWEEN_PINGS)
 			{
@@ -163,7 +164,20 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				_lastSendPing = gameTime.TotalElapsedSeconds;
 			}
 
-			ConnState = (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT) ? ConnectionState.Offline : ConnectionState.Connected;
+			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
+
+			if (deltaLSR < TIMEOUT_PAUSE)
+			{
+				ConnState = ConnectionState.Connected;
+			}
+			else if (deltaLSR < TIMEOUT_OFFLINE)
+			{
+				ConnState = ConnectionState.Reconnecting;
+			}
+			else if (deltaLSR < TIMEOUT_ERRORSTOP)
+			{
+				ConnState = ConnectionState.Offline;
+			}
 		}
 
 		private void UpdateCreateSession(SAMTime gameTime)
@@ -176,9 +190,21 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				_lastSendPing = gameTime.TotalElapsedSeconds;
 			}
 
-			ConnState = (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT) ? ConnectionState.Offline : ConnectionState.Connected;
+			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
 
-			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
+			if (deltaLSR < TIMEOUT_PAUSE)
+			{
+				ConnState = ConnectionState.Connected;
+			}
+			else if (deltaLSR < TIMEOUT_OFFLINE)
+			{
+				ConnState = ConnectionState.Reconnecting;
+			}
+			else if (deltaLSR < TIMEOUT_ERRORSTOP)
+			{
+				ConnState = ConnectionState.Offline;
+			}
+			else
 			{
 				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
@@ -203,9 +229,21 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				_lastSendPing = gameTime.TotalElapsedSeconds;
 			}
 
-			ConnState = (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT) ? ConnectionState.Offline : ConnectionState.Connected;
+			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
 
-			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
+			if (deltaLSR < TIMEOUT_PAUSE)
+			{
+				ConnState = ConnectionState.Connected;
+			}
+			else if (deltaLSR < TIMEOUT_OFFLINE)
+			{
+				ConnState = ConnectionState.Reconnecting;
+			}
+			else if (deltaLSR < TIMEOUT_ERRORSTOP)
+			{
+				ConnState = ConnectionState.Offline;
+			}
+			else
 			{
 				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
@@ -248,9 +286,21 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				_lastSendLobbyQuery = gameTime.TotalElapsedSeconds;
 			}
 
-			ConnState = (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT) ? ConnectionState.Offline : ConnectionState.Connected;
+			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
 
-			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
+			if (deltaLSR < TIMEOUT_PAUSE)
+			{
+				ConnState = ConnectionState.Connected;
+			}
+			else if (deltaLSR < TIMEOUT_OFFLINE)
+			{
+				ConnState = ConnectionState.Reconnecting;
+			}
+			else if (deltaLSR < TIMEOUT_ERRORSTOP)
+			{
+				ConnState = ConnectionState.Offline;
+			}
+			else
 			{
 				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
@@ -267,9 +317,21 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				_lastSendPing = gameTime.TotalElapsedSeconds;
 			}
 
-			ConnState = (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT) ? ConnectionState.Offline : ConnectionState.Connected;
+			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
 
-			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
+			if (deltaLSR < TIMEOUT_PAUSE)
+			{
+				ConnState = ConnectionState.Connected;
+			}
+			else if (deltaLSR < TIMEOUT_OFFLINE)
+			{
+				ConnState = ConnectionState.Reconnecting;
+			}
+			else if (deltaLSR < TIMEOUT_ERRORSTOP)
+			{
+				ConnState = ConnectionState.Offline;
+			}
+			else
 			{
 				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
@@ -304,10 +366,22 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 				_lastSendPing = gameTime.TotalElapsedSeconds;
 			}
-			
-			ConnState = (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT) ? ConnectionState.Offline : ConnectionState.Connected;
 
-			if (gameTime.TotalElapsedSeconds - _lastServerResponse > TIMEOUT_FINAL)
+			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
+
+			if (deltaLSR < TIMEOUT_PAUSE)
+			{
+				ConnState = ConnectionState.Connected;
+			}
+			else if (deltaLSR < TIMEOUT_OFFLINE)
+			{
+				ConnState = ConnectionState.Reconnecting;
+			}
+			else if (deltaLSR < TIMEOUT_ERRORSTOP)
+			{
+				ConnState = ConnectionState.Offline;
+			}
+			else
 			{
 				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
@@ -317,7 +391,22 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			{
 				if (i == SessionUserID) continue;
 
-				if (gameTime.TotalElapsedSeconds - UserConn[i].LastResponse > TIMEOUT_FINAL)
+				var deltaLUR = gameTime.TotalElapsedSeconds - _lastServerResponse;
+
+
+				if (deltaLUR < TIMEOUT_PAUSE)
+				{
+					if (ConnState > ConnectionState.Connected) ConnState = ConnectionState.Connected;
+				}
+				else if (deltaLUR < TIMEOUT_OFFLINE)
+				{
+					if (ConnState > ConnectionState.Reconnecting) ConnState = ConnectionState.Reconnecting;
+				}
+				else if (deltaLUR < TIMEOUT_ERRORSTOP)
+				{
+					if (ConnState > ConnectionState.Offline) ConnState = ConnectionState.Offline;
+				}
+				else
 				{
 					ErrorStop(ErrorType.UserTimeout, i);
 					return;

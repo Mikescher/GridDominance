@@ -28,6 +28,7 @@
 				Value = sum / count;
 
 				count = 0;
+				sum = 0;
 			}
 		}
 	}

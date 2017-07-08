@@ -32,7 +32,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		public Color ColorPressed = Color.Transparent;
 
-		public HUDBackgroundType BackgoundType = HUDBackgroundType.Simple;
+		public HUDBackgroundType BackgroundType = HUDBackgroundType.Simple;
 
 		public float BackgoundCornerSize = 16f;
 
@@ -79,7 +79,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		{
 			var btnColor = IsPointerDownOnElement ? ColorPressed : Color;
 			
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, btnColor, BackgoundCornerSize);
+			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgroundType, bounds, btnColor, BackgoundCornerSize);
 		}
 
 		public override void OnRemove()

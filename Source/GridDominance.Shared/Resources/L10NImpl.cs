@@ -159,12 +159,13 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MENU_MP_HOST           = 133;
 		public const int STR_MENU_MP_LOCAL          = 134;
 		public const int STR_MENU_MP_ONLINE         = 135;
+		public const int STR_MENU_CAP_AUTH          = 136;
 
 		public const int STR_MP_ONLINE              = 129;
 		public const int STR_MP_OFFLINE             = 130;
 		public const int STR_MP_CONNECTING          = 131;
 
-		private const int TEXT_COUNT = 136; // = next idx
+		private const int TEXT_COUNT = 137; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -306,6 +307,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_MP_HOST,         "Host",                                                        "Erstellen");
 			L10N.Add(STR_MENU_MP_LOCAL,        "Local (Bluetooth)",                                           "Lokal (Bluetooth)");
 			L10N.Add(STR_MENU_MP_ONLINE,       "Online (UDP/IP)",                                             "Internet (UDP/IP)");
+			L10N.Add(STR_MENU_CAP_AUTH,        "Enter lobby code",                                            "Lobby Code eingeben");
 
 #if DEBUG
 			L10N.Verify();

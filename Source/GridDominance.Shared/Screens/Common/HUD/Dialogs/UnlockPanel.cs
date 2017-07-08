@@ -3,34 +3,20 @@ using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using System;
 using System.Linq;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
 	class UnlockPanel : HUDRoundedPanel
 	{
-		public const float DISP_WIDTH = 64;
-		public const float DISP_PAD   = 10;
-
-		public const float WIDTH = 8 * DISP_WIDTH + 9 * DISP_PAD;
+		public const float WIDTH = 602;
 		public const float HEIGHT = 9 * GDConstants.TILE_WIDTH;
-
-		public const float BTN_WIDTH    = 64;
-		public const float BTN_PADY     = (HEIGHT - 84 - DISP_WIDTH - 4 * BTN_WIDTH) / 5;
-		public const float BTN_PADX     = BTN_PADY;
-		public const float BTN_OFFSET_X = (WIDTH - (3 * BTN_WIDTH + 2 * BTN_PADX)) / 2;
-		public const float BTN_OFFSET_Y = BTN_PADY;
-
-		public static readonly char[] BTN_TXT = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '#', '0', '*', };
 
 		public override int Depth => 0;
 
@@ -63,15 +49,23 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				TextColor = FlatColors.Clouds,
 			});
 
+			var gridDisplay = new HUDFixedUniformGrid
+			{
+				Alignment = HUDAlignment.TOPCENTER,
+				RelativePosition = new FPoint(0, 96),
+				GridWidth = 8,
+				GridHeight = 1,
+				ColumnWidth = 64,
+				RowHeight = 64,
+				Padding = 10,
+			};
+			AddElement(gridDisplay);
+
 			for (int i = 0; i < 8; i++)
 			{
 				CharDisp[i] = new HUDCharacterControl(1)
 				{
-					Alignment = HUDAlignment.TOPLEFT,
-					RelativePosition = new FPoint(DISP_PAD + i * (DISP_PAD + DISP_WIDTH), 84),
-					Size = new FSize(DISP_WIDTH, DISP_WIDTH),
-
-					BackgoundType = HUDBackgroundType.Simple,
+					BackgroundType = HUDBackgroundType.Simple,
 					BackgroundColor = FlatColors.Clouds,
 
 					BorderWidth = 4,
@@ -80,44 +74,53 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					TextPadding = 2,
 					TextColor = Color.Black
 				};
-				AddElement(CharDisp[i]);
+
+				gridDisplay.AddElement(i, 0, CharDisp[i]);
 			}
 
-			for (int x = 0; x < 3; x++)
+			var pad = new HUDKeypad(3, 4, 64, 24)
 			{
-				for (int y = 0; y < 4; y++)
-				{
-					int idx = x + y * 3;
+				Alignment = HUDAlignment.CENTER,
+				RelativePosition = new FPoint(0, 176 / 2f),
 
-					AddElement(new HUDTextButton(1)
-					{
-						TextAlignment = HUDAlignment.CENTER,
-						Alignment = HUDAlignment.BOTTOMLEFT,
-						RelativePosition = new FPoint(BTN_OFFSET_X + (BTN_WIDTH + BTN_PADX) * x, BTN_OFFSET_Y + (BTN_WIDTH + BTN_PADY) * (3-y)),
-						Size = new FSize(BTN_WIDTH, BTN_WIDTH),
+				ButtonTextAlignment = HUDAlignment.CENTER,
 
-						Font = Textures.HUDFontBold,
-						FontSize = 48,
+				ButtonFont = Textures.HUDFontBold,
+				ButtonFontSize = 48,
 
-						Text = BTN_TXT[x+y*3].ToString(),
-						TextColor = FlatColors.Foreground,
+				ButtonTextColor = FlatColors.Foreground,
 
-						Color = FlatColors.ControlHighlight,
-						ColorPressed = FlatColors.Background,
-						BackgoundType = HUDBackgroundType.RoundedBlur,
-						BackgoundCornerSize = 4f,
+				ButtonColor = FlatColors.ControlHighlight,
+				ButtonColorPressed = FlatColors.Background,
+				ButtonBackgroundType = HUDBackgroundType.RoundedBlur,
+				ButtonBackgoundCornerSize = 4f,
+			};
+			AddElement(pad);
 
-						Click = (s,e) => DoClick(BTN_TXT[idx]),
-					});
-				}
-			}
+			pad.AddKey('1', 0, 0);
+			pad.AddKey('2', 1, 0);
+			pad.AddKey('3', 2, 0);
+
+			pad.AddKey('4', 0, 1);
+			pad.AddKey('5', 1, 1);
+			pad.AddKey('6', 2, 1);
+
+			pad.AddKey('7', 0, 2);
+			pad.AddKey('8', 1, 2);
+			pad.AddKey('9', 2, 2);
+
+			pad.AddKey('#', 0, 3);
+			pad.AddKey('0', 1, 3);
+			pad.AddKey('*', 2, 3);
+
+			pad.PadClick += DoClick;
 		}
 
-		private void DoClick(char c)
+		private void DoClick(HUDKeypad source, HUDKeypad.HUDKeypadEventArgs args)
 		{
 			if (CharIndex >= 8) return;
 			
-			CharDisp[CharIndex].Character = c;
+			CharDisp[CharIndex].Character = args.Character;
 
 			CharIndex++;
 			if (CharIndex == 8)
