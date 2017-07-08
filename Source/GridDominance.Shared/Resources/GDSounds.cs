@@ -60,6 +60,8 @@ namespace GridDominance.Shared.Resources
 				content.Load<Song>("music/cyber-factory"),
 				content.Load<Song>("music/tekno-labs"),
 				content.Load<Song>("music/mr-krabs"),
+				music_tutorial,
+				music_background,
 			};
 
 			ButtonClickEffect         = effectButton;

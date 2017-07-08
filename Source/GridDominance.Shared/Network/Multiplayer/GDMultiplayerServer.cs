@@ -14,9 +14,9 @@ namespace GridDominance.Shared.Network.Multiplayer
 {
 	public class GDMultiplayerServer : GDMultiplayerCommon
 	{
-		public Guid LevelID;
-		public GameSpeedModes Speed;
-		public int MusicIndex;
+		public Guid LevelID = Levels.LEVEL_1_1.UniqueID;
+		public GameSpeedModes Speed = GameSpeedModes.NORMAL;
+		public int MusicIndex = 0;
 
 		public GDMultiplayerServer() 
 			: base(new UDPNetworkMedium(GDConstants.MULTIPLAYER_SERVER_HOST, GDConstants.MULTIPLAYER_SERVER_PORT))
@@ -97,21 +97,17 @@ namespace GridDominance.Shared.Network.Multiplayer
 			SendAndReset(ref p);
 		}
 
-		public byte[] GetLobbySyncData(LevelBlueprint l, GameSpeedModes s, int m)
+		public byte[] GetLobbySyncData()
 		{
-			LevelID = l.UniqueID;
-			Speed = s;
-			MusicIndex = m;
-
 			using (var ms = new MemoryStream())
 			using (var bw = new BinaryWriter(ms))
 			{
-				bw.Write(l.UniqueID.ToByteArray());
-				bw.Write((byte)s);
-				bw.Write((byte)m);
+				bw.Write(LevelID.ToByteArray());
+				bw.Write((byte)Speed);
+				bw.Write((byte)MusicIndex);
 
 				bw.Write(GDConstants.IVersion);
-				bw.Write(l.CalcCheckSum());
+				bw.Write(Levels.LEVELS[LevelID].CalcCheckSum());
 
 				return ms.ToArray();
 			}

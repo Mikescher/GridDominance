@@ -1,10 +1,15 @@
-﻿using GridDominance.Shared.Network.Multiplayer;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Network.Multiplayer;
@@ -34,7 +39,23 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private HUDLabel _lblLevelID1;
 		private HUDLabel _lblLevelID2;
 
-		private GDGameScreen_Display _displayScreen;
+		private GraphBlueprint _currentWorld = Levels.WORLD_001;
+		private LevelBlueprint _currentLevel = Levels.LEVEL_1_3;
+
+		private HUDSubScreenProxyRenderer _displayScreen;
+
+		private HUDRadioSpeedButton _speed1;
+		private HUDRadioSpeedButton _speed2;
+		private HUDRadioSpeedButton _speed3;
+		private HUDRadioSpeedButton _speed4;
+		private HUDRadioSpeedButton _speed5;
+
+		private HUDRadioMusicButton _music1;
+		private HUDRadioMusicButton _music2;
+		private HUDRadioMusicButton _music3;
+		private HUDRadioMusicButton _music4;
+		private HUDRadioMusicButton _music5;
+		private HUDRadioMusicButton _music6;
 
 		public MultiplayerHostPanel()
 		{
@@ -70,14 +91,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(16, 16)
 			});
 
-			_displayScreen = new GDGameScreen_Display(MainGame.Inst, MainGame.Inst.Graphics, Levels.LEVEL_1_1);
-			AddElement(new HUDSubScreenProxyRenderer(_displayScreen)
+			var screen = new GDGameScreen_Display(MainGame.Inst, MainGame.Inst.Graphics, _currentLevel);
+			AddElement(_displayScreen = new HUDSubScreenProxyRenderer(screen)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				RelativePosition = new FPoint((2/3f) * GDConstants.TILE_WIDTH, 3.25f * GDConstants.TILE_WIDTH),
 				Size = new FSize(6 * GDConstants.TILE_WIDTH, 3.75f * GDConstants.TILE_WIDTH),
 			});
-
 
 
 			AddElement(new HUDImageButton
@@ -89,11 +109,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Image=Textures.TexHUDIconChevronLeft,
 				ImagePadding = 4,
 
-				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 4f, true, false, false, true),
-				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 4f, true, false, false, true),
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 8f, true, false, true, false),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 8f, true, false, true, false),
+
+				Click = (s, a) => ChangeID1(-1),
 			});
 
-			AddElement(_lblLevelID1 = new HUDLabel
+			AddElement(_lblLevelID1 = new HUDClickableLabel
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				RelativePosition = new FPoint((8 / 6f) * GDConstants.TILE_WIDTH, 2.25f * GDConstants.TILE_WIDTH),
@@ -107,6 +129,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				TextColor = FlatColors.Clouds,
 
 				Background = HUDBackgroundDefinition.CreateSimple(FlatColors.BackgroundHUD2),
+
+				Click = (s, a) => ChangeID1(+1),
+				ClickSound = true,
 			});
 
 			AddElement(new HUDImageButton
@@ -118,11 +143,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Image = Textures.TexHUDIconChevronRight,
 				ImagePadding = 4,
 
-				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 4f, false, true, true, false),
-				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 4f, false, true, true, false),
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 8f, false, true, false, true),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 8f, false, true, false, true),
+
+				Click = (s, a) => ChangeID1(+1),
 			});
-
-
+			
 
 			AddElement(new HUDImageButton
 			{
@@ -133,11 +159,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Image = Textures.TexHUDIconChevronLeft,
 				ImagePadding = 4,
 
-				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 4f, true, false, false, true),
-				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 4f, true, false, false, true),
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 8f, true, false, true, false),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 8f, true, false, true, false),
+
+				Click = (s,a) => ChangeID2(-1),
 			});
 
-			AddElement(_lblLevelID2 = new HUDLabel
+			AddElement(_lblLevelID2 = new HUDClickableLabel
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				RelativePosition = new FPoint((27 / 6f) * GDConstants.TILE_WIDTH, 2.25f * GDConstants.TILE_WIDTH),
@@ -146,11 +174,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 48,
 				Font = Textures.HUDFontRegular,
 
-				Text = "1",
+				Text = "3",
 				TextAlignment = HUDAlignment.CENTER,
 				TextColor = FlatColors.Clouds,
 
 				Background = HUDBackgroundDefinition.CreateSimple(FlatColors.BackgroundHUD2),
+
+				Click = (s, a) => ChangeID2(+1),
+				ClickSound = true,
 			});
 
 			AddElement(new HUDImageButton
@@ -162,11 +193,156 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Image = Textures.TexHUDIconChevronRight,
 				ImagePadding = 4,
 
-				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 4f, false, true, true, false),
-				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 4f, false, true, true, false),
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 8f, false, true, false, true),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 8f, false, true, false, true),
+
+				Click = (s, a) => ChangeID2(+1),
 			});
 
 
+
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.BOTTOMLEFT,
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(100 + 8, 331),
+				Size = new FSize(200, 32),
+
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+
+				L10NText = L10NImpl.STR_MENU_MP_MUSIC,
+				TextColor = Color.White,
+			});
+
+			int initialMusic = FloatMath.GetRangedIntRandom(5);
+
+			AddElement(_music1 = new HUDRadioMusicButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(37, 261),
+				Size = new FSize(62, 62),
+				MusicIndex = 0,
+				Selected = initialMusic == 0,
+			});
+
+			AddElement(_music2 = new HUDRadioMusicButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(109, 261),
+				Size = new FSize(62, 62),
+				MusicIndex = 1,
+				Selected = initialMusic == 1,
+			});
+
+			AddElement(_music3 = new HUDRadioMusicButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(179, 261),
+				Size = new FSize(62, 62),
+				MusicIndex = 2,
+				Selected = initialMusic == 2,
+			});
+
+			AddElement(_music4 = new HUDRadioMusicButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(249, 261),
+				Size = new FSize(62, 62),
+				MusicIndex = 3,
+				Selected = initialMusic == 3,
+			});
+
+			AddElement(_music5 = new HUDRadioMusicButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(319, 261),
+				Size = new FSize(62, 62),
+				MusicIndex = 4,
+				Selected = initialMusic == 4,
+			});
+
+			AddElement(_music6 = new HUDRadioMusicButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(389, 261),
+				Size = new FSize(62, 62),
+				MusicIndex = 5,
+				Selected = initialMusic == 5,
+			});
+
+			_music1.RadioGroup = new List<HUDRadioMusicButton> { _music1, _music2, _music3, _music4, _music5, _music6 };
+			_music2.RadioGroup = new List<HUDRadioMusicButton> { _music1, _music2, _music3, _music4, _music5, _music6 };
+			_music3.RadioGroup = new List<HUDRadioMusicButton> { _music1, _music2, _music3, _music4, _music5, _music6 };
+			_music4.RadioGroup = new List<HUDRadioMusicButton> { _music1, _music2, _music3, _music4, _music5, _music6 };
+			_music5.RadioGroup = new List<HUDRadioMusicButton> { _music1, _music2, _music3, _music4, _music5, _music6 };
+			_music6.RadioGroup = new List<HUDRadioMusicButton> { _music1, _music2, _music3, _music4, _music5, _music6 };
+
+
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.BOTTOMLEFT,
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(100 + 8, 221),
+				Size = new FSize(200, 32),
+
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+
+				L10NText = L10NImpl.STR_MENU_MP_GAMESPEED,
+				TextColor = Color.White,
+			});
+
+			AddElement(_speed1 = new HUDRadioSpeedButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(37, 150),
+				Size = new FSize(62, 62),
+				Speed = GameSpeedModes.SUPERSLOW,
+				Selected = false,
+			});
+
+			AddElement(_speed2 = new HUDRadioSpeedButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(109, 150),
+				Size = new FSize(62, 62),
+				Speed = GameSpeedModes.SLOW,
+				Selected = false,
+			});
+
+			AddElement(_speed3 = new HUDRadioSpeedButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(179, 150),
+				Size = new FSize(62, 62),
+				Speed = GameSpeedModes.NORMAL,
+				Selected = true,
+			});
+
+			AddElement(_speed4 = new HUDRadioSpeedButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(249, 150),
+				Size = new FSize(62, 62),
+				Speed = GameSpeedModes.FAST,
+				Selected = false,
+			});
+
+			AddElement(_speed5 = new HUDRadioSpeedButton
+			{
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(319, 150),
+				Size = new FSize(62, 62),
+				Speed = GameSpeedModes.SUPERFAST,
+				Selected = false,
+			});
+
+			_speed1.RadioGroup = new List<HUDRadioSpeedButton> { _speed1, _speed2, _speed3, _speed4, _speed5 };
+			_speed2.RadioGroup = new List<HUDRadioSpeedButton> { _speed1, _speed2, _speed3, _speed4, _speed5 };
+			_speed3.RadioGroup = new List<HUDRadioSpeedButton> { _speed1, _speed2, _speed3, _speed4, _speed5 };
+			_speed4.RadioGroup = new List<HUDRadioSpeedButton> { _speed1, _speed2, _speed3, _speed4, _speed5 };
+			_speed5.RadioGroup = new List<HUDRadioSpeedButton> { _speed1, _speed2, _speed3, _speed4, _speed5 };
 
 			AddElement(new HUDRectangle(0)
 			{
@@ -221,6 +397,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		private void OnClickCreateLobby(HUDIconTextButton sender, HUDButtonEventArgs e)
 		{
+			_server.LevelID = _currentLevel.UniqueID;
+
+			if (_music1.Selected) _server.MusicIndex = _music1.MusicIndex;
+			if (_music2.Selected) _server.MusicIndex = _music2.MusicIndex;
+			if (_music3.Selected) _server.MusicIndex = _music3.MusicIndex;
+			if (_music4.Selected) _server.MusicIndex = _music4.MusicIndex;
+			if (_music5.Selected) _server.MusicIndex = _music5.MusicIndex;
+			if (_music6.Selected) _server.MusicIndex = _music6.MusicIndex;
+
+			if (_speed1.Selected) _server.Speed = _speed1.Speed;
+			if (_speed2.Selected) _server.Speed = _speed2.Speed;
+			if (_speed3.Selected) _server.Speed = _speed3.Speed;
+			if (_speed4.Selected) _server.Speed = _speed4.Speed;
+			if (_speed5.Selected) _server.Speed = _speed5.Speed;
+
 			_server.CreateSession(2);
 
 			_btnCreate.Icon = Textures.CannonCog;
@@ -263,6 +454,57 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			}
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
+		}
+
+		private void ChangeID1(int delta)
+		{
+			int i1 = Levels.WORLDS_MULTIPLAYER.ToList().IndexOf(_currentWorld);
+
+			bool succ = false;
+			for (int i = 0; i < Levels.WORLDS_MULTIPLAYER.Length; i++)
+			{
+				i1 = (i1 + delta + Levels.WORLDS_MULTIPLAYER.Length) % Levels.WORLDS_MULTIPLAYER.Length;
+				_currentWorld = Levels.WORLDS_MULTIPLAYER[i1];
+
+				if (_currentWorld.Nodes.Any(n => MainGame.Inst.Profile.GetLevelData(n).HasAnyCompleted()))
+				{
+					succ = true;
+					break;
+				}
+			}
+
+			if (!succ)
+			{
+				_currentWorld = Levels.WORLD_001;
+				_currentLevel = Levels.LEVEL_1_1;
+				UpdateLabels();
+			}
+			else
+			{
+				_currentLevel = Levels.LEVELS[_currentWorld.Nodes.First().LevelID];
+				UpdateLabels();
+			}
+		}
+
+		private void ChangeID2(int delta)
+		{
+			var data = _currentWorld.Nodes.Select(n => Levels.LEVELS[n.LevelID]).OrderBy(n => n.Name.Split('-').Last().PadLeft(3, '0')).ToList();
+			var idx = data.IndexOf(_currentLevel);
+
+			idx = (idx + data.Count + delta) % data.Count;
+
+			_currentLevel = data[idx];
+
+			UpdateLabels();
+		}
+
+		private void UpdateLabels()
+		{
+			_lblLevelID1.Text = _currentLevel.Name.Split('-').First();
+			_lblLevelID2.Text = _currentLevel.Name.Split('-').Last();
+
+			var screen = new GDGameScreen_Display(MainGame.Inst, MainGame.Inst.Graphics, _currentLevel);
+			_displayScreen.ChangeScreen(screen);
 		}
 	}
 }

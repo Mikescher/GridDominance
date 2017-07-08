@@ -1,5 +1,4 @@
-﻿using System;
-using GridDominance.Levelfileformat.Blueprint;
+﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
@@ -8,13 +7,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen.HUD;
-using GridDominance.Shared.Screens.OverworldScreen.HUD;
-using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens.Background;
+using GridDominance.Shared.Screens.NormalGameScreen.Background;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
 {
@@ -27,7 +20,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public GDGameScreen_Display(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint b) 
 			: base(game, gdm, b, FractionDifficulty.DIFF_3, true, false)
 		{
-			Background = new SolidColorBackground(this, FlatColors.Background);
+			Background = new GDEmptyGridBackground(this, (GameWrapMode)b.WrapMode);
 		}
 
 		public override void ExitToMap()

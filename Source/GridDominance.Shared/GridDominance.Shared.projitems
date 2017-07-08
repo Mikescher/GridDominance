@@ -68,6 +68,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SubSettingClickZone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\GameDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Agents\TutorialAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\GDEmptyGridBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BaseBullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletDelayedDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\RemoteBullet.cs" />
@@ -129,6 +130,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\HUDRadioMusicButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\HUDRadioSpeedButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerConnectionStateControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerJoinLobbyScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\HUD\Multiplayer\MultiplayerClientLobbyPanel.cs" />

@@ -36,20 +36,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private HUDLabel _infoLabel;
 
 
-		private readonly LevelBlueprint _level;
-		private readonly GameSpeedModes _speed;
-		private readonly int _musicIndex;
-
 		public MultiplayerServerLobbyPanel(GDMultiplayerServer server)
 		{
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
-
-			_level = Levels.LEVELS[Levels.WORLD_001.Nodes[3].LevelID];
-			_speed = GameSpeedModes.NORMAL;
-			_musicIndex = 2;
 
 			_server = server;
 		}
@@ -127,13 +119,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby && _server.SessionCount == _server.SessionCapacity)
 			{
-				byte[] binData = _server.GetLobbySyncData(_level, _speed, _musicIndex);
+				byte[] binData = _server.GetLobbySyncData();
 				_server.StartLobbySync(binData);
 			}
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.InGame)
 			{
-				MainGame.Inst.SetMultiplayerServerLevelScreen(_level, _speed, _musicIndex, _server);
+				MainGame.Inst.SetMultiplayerServerLevelScreen(Levels.LEVELS[_server.LevelID], _server.Speed, _server.MusicIndex, _server);
 			}
 		}
 	}

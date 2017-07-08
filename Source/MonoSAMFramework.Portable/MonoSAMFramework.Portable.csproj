@@ -239,6 +239,7 @@
     <Compile Include="Screens\HUD\Elements\Presenter\HUDRotatingImage.cs" />
     <Compile Include="RenderHelper\TimesheetAnimation\TimesheetAnimation.cs" />
     <Compile Include="Screens\HUD\Elements\Presenter\TimesheetAnimationPresenter.cs" />
+    <Compile Include="Screens\HUD\Elements\Primitives\HUDClickableLabel.cs" />
     <Compile Include="Screens\HUD\Elements\Table\HUDScrollTable.cs" />
     <Compile Include="Screens\HUD\Elements\Table\HUDScrollTableSingleRowPresenter.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDToast.cs" />

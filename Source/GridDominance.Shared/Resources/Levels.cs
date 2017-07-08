@@ -20,11 +20,15 @@ namespace GridDominance.Shared.Resources
 		public static LevelBlueprint LEVEL_TUTORIAL;
 		public static LevelBlueprint LEVEL_DBG;
 		public static LevelBlueprint LEVEL_1_1;
+		public static LevelBlueprint LEVEL_1_2;
+		public static LevelBlueprint LEVEL_1_3;
 
 		public static Dictionary<Guid, GraphBlueprint> WORLDS;
 		public static Dictionary<Guid, LevelBlueprint> LEVELS;
 		public static Dictionary<Guid, int> WORLD_NAMES;
 		public static Dictionary<Guid, int> WORLD_NUMBERS;
+
+		public static GraphBlueprint[] WORLDS_MULTIPLAYER;
 
 		public static Guid WORLD_ID_NONE        = new Guid("{d34db335-0001-4000-7711-000000100002}");
 		public static Guid WORLD_ID_TUTORIAL    = new Guid("{d34db335-0001-4000-7711-000000100001}");
@@ -42,8 +46,8 @@ namespace GridDominance.Shared.Resources
 			LEVEL_TUTORIAL = LoadLevel(content, "levels/lvl_tutorial");
 
 			LEVEL_1_1 = LoadLevel(content, "levels/lvl001");
-			LoadLevel(content, "levels/lvl002");
-			LoadLevel(content, "levels/lvl003");
+			LEVEL_1_2 = LoadLevel(content, "levels/lvl002");
+			LEVEL_1_3 = LoadLevel(content, "levels/lvl003");
 			LoadLevel(content, "levels/lvl004");
 			LoadLevel(content, "levels/lvl005");
 			LoadLevel(content, "levels/lvl006");
@@ -134,6 +138,8 @@ namespace GridDominance.Shared.Resources
 			WORLD_NUMBERS[WORLD_002.ID] = 1;
 			WORLD_NUMBERS[WORLD_003.ID] = 2;
 			WORLD_NUMBERS[WORLD_004.ID] = 3;
+
+			WORLDS_MULTIPLAYER = new[]{ WORLD_001, WORLD_002, WORLD_003, WORLD_004};
 
 #if DEBUG
 			Test();
