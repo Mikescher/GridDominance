@@ -38,7 +38,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			base.OnInitialize();
 
-			AddElement(new HUDLabel(1)
+			AddElement(new HUDLabel
 			{
 				TextAlignment = HUDAlignment.CENTER,
 				Alignment = HUDAlignment.TOPLEFT,
@@ -70,12 +70,41 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Color = FlatColors.BackgroundHUD2,
 			});
 
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.TOPLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(12, 112),
+				Size = new FSize(300, 32),
+
+				Font = Textures.HUDFontBold,
+				FontSize = 32,
+
+				L10NText = L10NImpl.STR_MENU_MP_LOCAL,
+				TextColor = Color.White,
+			});
+
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.TOPLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(WIDTH/2 + 12, 112),
+				Size = new FSize(300, 32),
+
+				Font = Textures.HUDFontBold,
+				FontSize = 32,
+
+				L10NText = L10NImpl.STR_MENU_MP_ONLINE,
+				TextColor = Color.White,
+			});
+
 			AddElement(new HUDImage
 			{
 				Alignment = HUDAlignment.TOPCENTER,
 				Image = Textures.TexIconBluetooth,
 				Size = new FSize(128, 128),
-				RelativePosition = new FPoint(-WIDTH / 4f, 100 + (HEIGHT - 100 - (32 + 64 + 32 + 64 + 32)) / 2 - 64)
+				Color = ColorMath.Blend(Color.White, FlatColors.BackgroundHUD, 0.5f),
+				RelativePosition = new FPoint(-WIDTH / 4f, (100 + 12 + 32 + 12) + (HEIGHT - (100 + 12 + 32 + 12) - (32 + 64 + 32 + 64 + 32)) / 2 - 64)
 			});
 
 			AddElement(new HUDImage
@@ -83,7 +112,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Alignment = HUDAlignment.TOPCENTER,
 				Image = Textures.TexIconInternet,
 				Size = new FSize(128, 128),
-				RelativePosition = new FPoint(+WIDTH / 4f, 100 + (HEIGHT - 100 - (32 + 64 + 32 + 64 + 32)) / 2 - 64)
+				Color = ColorMath.Blend(Color.White, FlatColors.BackgroundHUD, 0.5f),
+				RelativePosition = new FPoint(+WIDTH / 4f, (100 + 12 + 32 + 12) + (HEIGHT - (100 + 12 + 32 + 12) - (32 + 64 + 32 + 64 + 32)) / 2 - 64)
 			});
 
 			AddElement(new HUDTextButton
