@@ -13,6 +13,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
@@ -41,7 +42,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private HUDLabel _lblLevelID2;
 
 		private GraphBlueprint _currentWorld = Levels.WORLD_001;
-		private LevelBlueprint _currentLevel = Levels.LEVEL_1_3;
+		private LevelBlueprint _currentLevel = Levels.LEVELS[Levels.WORLD_001.Nodes.First().LevelID];
+		private int _levelUserCount = 2;
 
 		private HUDSubScreenProxyRenderer _displayScreen;
 
@@ -125,7 +127,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 48,
 				Font = Textures.HUDFontRegular,
 
-				Text = "1",
+				Text = "?",
 				TextAlignment = HUDAlignment.CENTER,
 				TextColor = FlatColors.Clouds,
 
@@ -175,7 +177,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 48,
 				Font = Textures.HUDFontRegular,
 
-				Text = "3",
+				Text = "?",
 				TextAlignment = HUDAlignment.CENTER,
 				TextColor = FlatColors.Clouds,
 
@@ -201,6 +203,19 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			});
 
 
+			AddElement(new HUDLambdaLabel
+			{
+				TextAlignment = HUDAlignment.BOTTOMLEFT,
+				Alignment = HUDAlignment.BOTTOMCENTER,
+				RelativePosition = new FPoint(100 + 8, 375),
+				Size = new FSize(200, 32),
+
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+
+				Lambda = () => L10N.TF(L10NImpl.STR_MENU_MP_LOBBY_USER_FMT, _levelUserCount),
+				TextColor = Color.White,
+			});
 
 			AddElement(new HUDLabel
 			{
@@ -279,6 +294,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			_music5.RadioGroup = new List<HUDRadioMusicButton> { _music1, _music2, _music3, _music4, _music5, _music6 };
 			_music6.RadioGroup = new List<HUDRadioMusicButton> { _music1, _music2, _music3, _music4, _music5, _music6 };
 
+			var initialSpeed = MainGame.Inst.Profile.LastMultiplayerHostedSpeed;
 
 			AddElement(new HUDLabel
 			{
@@ -300,7 +316,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(37, 150),
 				Size = new FSize(62, 62),
 				Speed = GameSpeedModes.SUPERSLOW,
-				Selected = false,
+				Selected = initialSpeed == GameSpeedModes.SUPERSLOW,
 			});
 
 			AddElement(_speed2 = new HUDRadioSpeedButton
@@ -309,7 +325,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(109, 150),
 				Size = new FSize(62, 62),
 				Speed = GameSpeedModes.SLOW,
-				Selected = false,
+				Selected = initialSpeed == GameSpeedModes.SLOW,
 			});
 
 			AddElement(_speed3 = new HUDRadioSpeedButton
@@ -318,7 +334,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(179, 150),
 				Size = new FSize(62, 62),
 				Speed = GameSpeedModes.NORMAL,
-				Selected = true,
+				Selected = initialSpeed == GameSpeedModes.NORMAL,
 			});
 
 			AddElement(_speed4 = new HUDRadioSpeedButton
@@ -327,7 +343,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(249, 150),
 				Size = new FSize(62, 62),
 				Speed = GameSpeedModes.FAST,
-				Selected = false,
+				Selected = initialSpeed == GameSpeedModes.FAST,
 			});
 
 			AddElement(_speed5 = new HUDRadioSpeedButton
@@ -336,7 +352,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(319, 150),
 				Size = new FSize(62, 62),
 				Speed = GameSpeedModes.SUPERFAST,
-				Selected = false,
+				Selected = initialSpeed == GameSpeedModes.SUPERFAST,
 			});
 
 			_speed1.RadioGroup = new List<HUDRadioSpeedButton> { _speed1, _speed2, _speed3, _speed4, _speed5 };
@@ -394,6 +410,19 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Click = OnClickCancel,
 			});
 
+			//---------------------
+
+			if (!Levels.LEVELS.TryGetValue(MainGame.Inst.Profile.LastMultiplayerHostedLevel, out _currentLevel))
+				_currentLevel = Levels.LEVELS[Levels.LEVELID_1_3];
+
+			_currentWorld = Levels.WORLDS_MULTIPLAYER.FirstOrDefault(w => w.AllNodes.Any(n => n.ConnectionID == _currentLevel.UniqueID));
+			if (_currentWorld == null)
+			{
+				_currentWorld = Levels.WORLD_001;
+				_currentLevel = Levels.LEVELS[Levels.LEVELID_1_3];
+			}
+
+			UpdateLabels();
 		}
 
 		private void OnClickCreateLobby(HUDIconTextButton sender, HUDButtonEventArgs e)
@@ -415,6 +444,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			_server.CreateSession(BlueprintAnalyzer.PlayerCount(_currentLevel));
 
+			MainGame.Inst.Profile.LastMultiplayerHostedLevel = _server.LevelID;
+			MainGame.Inst.Profile.LastMultiplayerHostedSpeed = _server.Speed;
+			MainGame.Inst.SaveProfile();
+
 			_btnCreate.Icon = Textures.CannonCog;
 		}
 
@@ -427,13 +460,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		public override void OnRemove()
 		{
 			if (!_doNotStop)_server.Stop();
-		}
-
-		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
-		{
-			base.DoDraw(sbatch, bounds);
-			
-			//
 		}
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
@@ -474,17 +500,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				}
 			}
 
-			if (!succ)
-			{
-				_currentWorld = Levels.WORLD_001;
-				_currentLevel = Levels.LEVEL_1_1;
-				UpdateLabels();
-			}
-			else
-			{
-				_currentLevel = Levels.LEVELS[_currentWorld.Nodes.First().LevelID];
-				UpdateLabels();
-			}
+			if (!succ) _currentWorld = Levels.WORLD_001;
+
+			_currentLevel = Levels.LEVELS[_currentWorld.Nodes.First().LevelID];
+			UpdateLabels();
 		}
 
 		private void ChangeID2(int delta)
@@ -503,6 +522,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			_lblLevelID1.Text = _currentLevel.Name.Split('-').First();
 			_lblLevelID2.Text = _currentLevel.Name.Split('-').Last();
+			_levelUserCount = BlueprintAnalyzer.PlayerCount(_currentLevel);
 
 			var screen = new GDGameScreen_Display(MainGame.Inst, MainGame.Inst.Graphics, _currentLevel);
 			_displayScreen.ChangeScreen(screen);

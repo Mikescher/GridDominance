@@ -718,7 +718,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					break;
 
 				case MSG_SESSIONTERMINATED:
-					ErrorStop(ErrorType.ServerDisconnect, null);
+					var terminatingUserID = d[4];
+					if (terminatingUserID == 0)
+						ErrorStop(ErrorType.ServerDisconnect, terminatingUserID);
+					else
+						ErrorStop(ErrorType.UserDisconnect, terminatingUserID);
 					return;
 			}
 

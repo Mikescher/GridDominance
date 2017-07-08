@@ -5,7 +5,6 @@ using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using Microsoft.Xna.Framework.Content;
 using MonoSAMFramework.Portable.LogProtocol;
-using MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper;
 
 // ReSharper disable NotAccessedField.Global
 namespace GridDominance.Shared.Resources
@@ -19,9 +18,6 @@ namespace GridDominance.Shared.Resources
 
 		public static LevelBlueprint LEVEL_TUTORIAL;
 		public static LevelBlueprint LEVEL_DBG;
-		public static LevelBlueprint LEVEL_1_1;
-		public static LevelBlueprint LEVEL_1_2;
-		public static LevelBlueprint LEVEL_1_3;
 
 		public static Dictionary<Guid, GraphBlueprint> WORLDS;
 		public static Dictionary<Guid, LevelBlueprint> LEVELS;
@@ -34,6 +30,9 @@ namespace GridDominance.Shared.Resources
 		public static Guid WORLD_ID_TUTORIAL    = new Guid("{d34db335-0001-4000-7711-000000100001}");
 		public static Guid WORLD_ID_MULTIPLAYER = new Guid("{d34db335-0001-4000-7711-000000300001}");
 
+		public static Guid LEVELID_1_1 = new Guid("{b16b00b5-0001-4000-0000-000001000001}");
+		public static Guid LEVELID_1_2 = new Guid("{b16b00b5-0001-4000-0000-000001000002}");
+		public static Guid LEVELID_1_3 = new Guid("{b16b00b5-0001-4000-0000-000001000003}");
 
 		public static void LoadContent(ContentManager content)
 		{
@@ -45,9 +44,9 @@ namespace GridDominance.Shared.Resources
 			LEVEL_DBG      = LoadLevel(content, "levels/lvl_debug");
 			LEVEL_TUTORIAL = LoadLevel(content, "levels/lvl_tutorial");
 
-			LEVEL_1_1 = LoadLevel(content, "levels/lvl001");
-			LEVEL_1_2 = LoadLevel(content, "levels/lvl002");
-			LEVEL_1_3 = LoadLevel(content, "levels/lvl003");
+			LoadLevel(content, "levels/lvl001");
+			LoadLevel(content, "levels/lvl002");
+			LoadLevel(content, "levels/lvl003");
 			LoadLevel(content, "levels/lvl004");
 			LoadLevel(content, "levels/lvl005");
 			LoadLevel(content, "levels/lvl006");

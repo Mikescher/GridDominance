@@ -76,9 +76,9 @@ CREATE TABLE IF NOT EXISTS error_log
   app_version           varchar(24)   NOT NULL,
   exception_id          varchar(256)  NOT NULL,
   exception_message     varchar(4096) NOT NULL,
-  exception_stacktrace  varchar(4096) NOT NULL,
+  exception_stacktrace  varchar(8192) NOT NULL,
   timestamp             timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  additional_info       varchar(4096) NOT NULL,
+  additional_info       varchar(8192) NOT NULL,
   acknowledged          boolean       NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY (error_id)

@@ -14,7 +14,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 {
 	public class GDMultiplayerServer : GDMultiplayerCommon
 	{
-		public Guid LevelID = Levels.LEVEL_1_1.UniqueID;
+		public Guid LevelID = Levels.LEVELID_1_1;
 		public GameSpeedModes Speed = GameSpeedModes.NORMAL;
 		public int MusicIndex = 0;
 

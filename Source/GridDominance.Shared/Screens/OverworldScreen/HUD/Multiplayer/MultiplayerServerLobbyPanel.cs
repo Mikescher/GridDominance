@@ -32,7 +32,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		public const float INFO_C2_LEFT  = 320;
 		public const float INFO_C2_WIDTH = 225;
 
-
 		public override int Depth => 0;
 
 		private readonly GDMultiplayerServer _server;
@@ -269,9 +268,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
 				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH),
-				Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
+				Size = new FSize(6.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
 
-				L10NText = L10NImpl.STR_MENU_CANCEL,
+				L10NText = L10NImpl.STR_MENU_DISCONNECT,
 				TextColor = Color.White,
 				Font = Textures.HUDFontBold,
 				FontSize = 55,

@@ -37,7 +37,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		private readonly GraphBlueprint _focus;
 
-		private HUDRotatingImage _loader;
+		private HUDImage _loader;
 		private HUDScrollTable _table;
 
 		public HighscorePanel(GraphBlueprint focus)
@@ -68,7 +68,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				TextColor = FlatColors.Clouds,
 			});
 
-			_loader = new HUDRotatingImage
+			_loader = new HUDImage
 			{
 				RelativePosition = new FPoint(0, TEXT_HEIGHT / 2f),
 				Alignment = HUDAlignment.CENTER,

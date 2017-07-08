@@ -236,7 +236,6 @@
     <Compile Include="Screens\HUD\Elements\Presenter\HUDCharacterControl.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDFadeOutInfoBox.cs" />
-    <Compile Include="Screens\HUD\Elements\Presenter\HUDRotatingImage.cs" />
     <Compile Include="RenderHelper\TimesheetAnimation\TimesheetAnimation.cs" />
     <Compile Include="Screens\HUD\Elements\Presenter\TimesheetAnimationPresenter.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDClickableLabel.cs" />
