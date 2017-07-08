@@ -75,11 +75,15 @@ public class Main {
 
         Socket.setSoTimeout(40 * 1000);
 
-        Properties properties = new Properties();
-        properties.load(new FileInputStream("gdproxy.properties"));
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("gdproxy.properties"));
 
-        logfileError = properties.getProperty("logfile_error");
-        stateFile    = properties.getProperty("statefile");
+            logfileError = properties.getProperty("logfile_error");
+            stateFile    = properties.getProperty("statefile");
+        } catch (FileNotFoundException e) {
+            _log.Error(e.toString());
+        }
 
         _log.PersistantInfo("Server started");
         _log.PersistantInfo("Logfile:  " + logfileError);
@@ -127,7 +131,8 @@ public class Main {
                         byte quit_seq = receiveData[1];
                         int quit_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
                         int quit_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
-                        QuitSession(receivePacket.getAddress(), receivePacket.getPort(), quit_seq, quit_sessionid, quit_sessionsecret);
+                        int quit_userid = (receiveData[6] & 0xFF);
+                        QuitSession(receivePacket.getAddress(), receivePacket.getPort(), quit_seq, quit_sessionid, quit_sessionsecret, quit_userid);
                         break;
                     case CMD_FORWARD:
                         byte fwd1_seq = receiveData[1];
@@ -402,7 +407,7 @@ public class Main {
         Socket.send(sendPacket);
     }
 
-    private static void QuitSession(InetAddress host, int port, byte seq, int sessionid, int sessionsecret) throws IOException {
+    private static void QuitSession(InetAddress host, int port, byte seq, int sessionid, int sessionsecret, int uid) throws IOException {
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
@@ -447,7 +452,7 @@ public class Main {
             sendDataSmall[1] = msgIdx++;
             sendDataSmall[2] = (byte)((session.SessionID >> 8) & 0xFF);
             sendDataSmall[3] = (byte)((session.SessionID) & 0xFF);
-            sendDataSmall[4] = (byte)i;
+            sendDataSmall[4] = (byte)uid;
 
             DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, session.Users[i].Adress, session.Users[i].Port);
             Socket.send(sendPacket);
@@ -570,8 +575,9 @@ public class Main {
     }
 
     private static void OutputState() throws FileNotFoundException {
-
         lastStateOuput = System.currentTimeMillis();
+
+        if (stateFile.length() == 0) return;
 
         StringBuilder builder = new StringBuilder();
         builder.append("{\"sessions\":[");

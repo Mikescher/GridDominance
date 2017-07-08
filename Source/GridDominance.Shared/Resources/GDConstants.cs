@@ -34,8 +34,8 @@ namespace GridDominance.Shared.Resources
 		public const string BFB_URL     = @"http://blackforestbytes.de/";
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
-		public const string MULTIPLAYER_SERVER_HOST = "mikescher.com";
-		//public const string MULTIPLAYER_SERVER_HOST = "localhost";
+//		public const string MULTIPLAYER_SERVER_HOST = "mikescher.com";
+		public const string MULTIPLAYER_SERVER_HOST = "localhost";
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 
 		//		public const string SERVER_URL = "http://localhost:666";

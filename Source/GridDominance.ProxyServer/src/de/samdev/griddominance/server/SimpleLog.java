@@ -43,8 +43,10 @@ public class SimpleLog {
     }
 
     public static void FileAppend(String line, String filename) throws Exception {
-        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)))) {
-            out.println(line);
+        if (filename.length()>0) {
+            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)))) {
+                out.println(line);
+            }
         }
     }
 }

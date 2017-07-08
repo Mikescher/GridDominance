@@ -385,31 +385,34 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			{
 				ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
-			} 
+			}
 
-			for (int i = 0; i < SessionCount; i++)
+			if (SessionID == 0)
 			{
-				if (i == SessionUserID) continue;
+				for (int i = 0; i < SessionCount; i++)
+				{
+					if (i == SessionUserID) continue;
 
-				var deltaLUR = gameTime.TotalElapsedSeconds - UserConn[i].LastResponse;
+					var deltaLUR = gameTime.TotalElapsedSeconds - UserConn[i].LastResponse;
 
 
-				if (deltaLUR < TIMEOUT_PAUSE)
-				{
-					if (ConnState > ConnectionState.Connected) ConnState = ConnectionState.Connected;
-				}
-				else if (deltaLUR < TIMEOUT_OFFLINE)
-				{
-					if (ConnState > ConnectionState.Reconnecting) ConnState = ConnectionState.Reconnecting;
-				}
-				else if (deltaLUR < TIMEOUT_ERRORSTOP)
-				{
-					if (ConnState > ConnectionState.Offline) ConnState = ConnectionState.Offline;
-				}
-				else
-				{
-					ErrorStop(ErrorType.UserTimeout, i);
-					return;
+					if (deltaLUR < TIMEOUT_PAUSE)
+					{
+						if (ConnState > ConnectionState.Connected) ConnState = ConnectionState.Connected;
+					}
+					else if (deltaLUR < TIMEOUT_OFFLINE)
+					{
+						if (ConnState > ConnectionState.Reconnecting) ConnState = ConnectionState.Reconnecting;
+					}
+					else if (deltaLUR < TIMEOUT_ERRORSTOP)
+					{
+						if (ConnState > ConnectionState.Offline) ConnState = ConnectionState.Offline;
+					}
+					else
+					{
+						ErrorStop(ErrorType.UserTimeout, i);
+						return;
+					}
 				}
 			}
 		}
