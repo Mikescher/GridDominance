@@ -4,6 +4,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
 	static class GDHudExtension
 	{
-		public static GDGameHUD GDHUD(this HUDElement e) => (GDGameHUD) e.HUD;
+		public static IGDGameHUD GDHUD(this HUDElement e) => (IGDGameHUD) e.HUD;
 	}
 }

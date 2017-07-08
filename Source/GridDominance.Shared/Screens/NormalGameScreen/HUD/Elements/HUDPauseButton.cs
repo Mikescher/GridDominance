@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System.Collections.Generic;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
@@ -29,13 +30,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		private HUDPauseMenuButton[] subMenu = null;
 
-		public HUDPauseButton()
+		private bool _showResume;
+		private bool _showRestart;
+		private bool _showExit;
+
+		public HUDPauseButton(bool resume, bool restart, bool exit)
 		{
 			RelativePosition = new FPoint(12, 12);
 			Size = new FSize(DIAMETER, DIAMETER);
 			Alignment = HUDAlignment.TOPRIGHT;
 
 			OverrideEllipseSize = new FSize(DIAMETER + 12 + 12, DIAMETER + 12 + 12);
+
+			_showResume = resume;
+			_showRestart = restart;
+			_showExit = exit;
 
 #if DEBUG
 			ClickMode = HUDButtonClickMode.Single | HUDButtonClickMode.InstantHold;
@@ -99,7 +108,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		{
 			isOpened = false;
 
-			this.GDHUD().GDOwner.IsPaused = false;
+			if (this.GDHUD().GDOwner.CanPause) this.GDHUD().GDOwner.IsPaused = false;
 
 			foreach (var button in subMenu)
 			{
@@ -112,7 +121,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		{
 			isOpened = true;
 
-			this.GDHUD().GDOwner.IsPaused = true;
+			if (this.GDHUD().GDOwner.CanPause) this.GDHUD().GDOwner.IsPaused = true;
 
 			var t1 = L10N.T(L10NImpl.STR_PAUS_RESUME);
 			var t2 = L10N.T(L10NImpl.STR_PAUS_RESTART);
@@ -124,12 +133,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			var w = FloatMath.Max(w1.Width, w2.Width, w3.Width);
 
-			subMenu = new[]
-			{
-				new HUDPauseMenuButton(this, t1, w, -1, 0, 3, OnResume),
-				new HUDPauseMenuButton(this, t2, w, -2, 1, 3, OnRestart),
-				new HUDPauseMenuButton(this, t3, w, -3, 2, 3, OnExit),
-			};
+			int cnt = (_showResume ? 1 : 0) + (_showRestart ? 1 : 0) + (_showExit ? 1 : 0);
+
+			var m  = new List<HUDPauseMenuButton>();
+			int idx = 0;
+			int dep = -1;
+			
+			if (_showResume)  m.Add(new HUDPauseMenuButton(this, t1, w, dep--, idx++, cnt, OnResume));
+			if (_showRestart) m.Add(new HUDPauseMenuButton(this, t2, w, dep--, idx++, cnt, OnRestart));
+			if (_showExit)    m.Add(new HUDPauseMenuButton(this, t3, w, dep--, idx++, cnt, OnExit));
+
+			subMenu = m.ToArray();
 
 			Owner.AddElements(subMenu);
 		}

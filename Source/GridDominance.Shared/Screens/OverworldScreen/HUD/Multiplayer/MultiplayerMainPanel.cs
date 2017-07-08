@@ -360,7 +360,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						return false;
 
 					default:
-						SAMLog.Error("EnumSwitch-IU_MP", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_MULTIPLAYER)) -> " + ip);
+						SAMLog.Error("MMP::EnumSwitch-IU_MP", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_MULTIPLAYER)) -> " + ip);
 						return false;
 				}
 			}

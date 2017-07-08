@@ -7,17 +7,15 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
-	public class GDGameHUD : GameHUD, IGDGameHUD
+	public class GDMultiplayerGameHUD : GameHUD, IGDGameHUD
 	{
 		public GDGameScreen GDOwner => (GDGameScreen)Screen;
 		
 		public readonly HUDPauseButton BtnPause;
-		public readonly HUDSpeedBaseButton BtnSpeed;
 
-		public GDGameHUD(GDGameScreen scrn) : base(scrn, Textures.HUDFontRegular)
+		public GDMultiplayerGameHUD(GDGameScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
-			AddElement(BtnPause = new HUDPauseButton(true, true, true));
-			AddElement(BtnSpeed = new HUDSpeedBaseButton());
+			AddElement(BtnPause = new HUDPauseButton(false, false, true));
 		}
 		
 #if DEBUG

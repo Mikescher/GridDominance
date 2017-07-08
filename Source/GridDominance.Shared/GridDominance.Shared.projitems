@@ -99,8 +99,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_MPServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\GDGameScreen_SP.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\GDMultiplayerGameHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\GDPreviewHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDArrowAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\IGDGameHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Operations\HUDBlinkingTutorialDifficultyButtonIconOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDTouchAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDTutorialDifficultyButton.cs" />

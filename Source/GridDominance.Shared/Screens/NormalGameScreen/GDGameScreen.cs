@@ -63,6 +63,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		//-----------------------------------------------------------------
 
+		public bool CanPause = true;
+
 		private bool _isPaused = false;
 		public bool IsPaused
 		{

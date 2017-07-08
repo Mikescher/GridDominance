@@ -7,6 +7,7 @@ using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
+using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
@@ -18,7 +19,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 {
 	public class GDGameScreen_MPClient : GDGameScreen
 	{
-		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular); //TODO Countdown 3 2 1 before game (but in leveltime, for sync and ui reasons)
+		protected override GameHUD CreateHUD() => new GDMultiplayerGameHUD(this);
 
 		private readonly int musicIdx;
 		private readonly GDMultiplayerClient _server;
@@ -32,6 +33,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			musicIdx = music;
 			GameSpeedMode = speed;
 			_server = server;
+			CanPause = false;
 
 			_server.Screen = this;
 
@@ -75,12 +77,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void RestartLevel()
 		{
-			//TODO
+			SAMLog.Error("GDGSC::Restart", "Try restart level");
 		}
 
 		public override void ReplayLevel(FractionDifficulty diff)
 		{
-			//TODO
+			SAMLog.Error("GDGSC::Replay", "Try replay level");
 		}
 
 		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
@@ -90,7 +92,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void ExitToMap()
 		{
-			//TODO
+			_server.KillSession();
+			_server.Stop();
+			MainGame.Inst.SetOverworldScreen();
 		}
 
 		public override AbstractFractionController CreateController(Fraction f, Cannon cannon)
