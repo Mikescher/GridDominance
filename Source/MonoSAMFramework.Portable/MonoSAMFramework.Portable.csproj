@@ -173,6 +173,8 @@
     <Compile Include="RenderHelper\DebugRenderHelper.cs" />
     <Compile Include="RenderHelper\FlatRenderHelper.cs" />
     <Compile Include="RenderHelper\FontRenderHelper.cs" />
+    <Compile Include="RenderHelper\HUDBackgroundDefinition.cs" />
+    <Compile Include="RenderHelper\HUDRenderHelper.cs" />
     <Compile Include="RenderHelper\SimpleRenderHelper.cs" />
     <Compile Include="RenderHelper\StaticTextures.cs" />
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
@@ -215,7 +217,6 @@
     <Compile Include="Screens\Entities\Particles\GPUParticles\PointGPUParticleEmitter.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventArgs.cs" />
-    <Compile Include="Screens\HUD\Elements\Button\HUDBackgroundType.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDImageButton.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDTextButton.cs" />
@@ -259,7 +260,6 @@
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRawText.cs" />
     <Compile Include="Screens\HUD\Elements\Container\HUDRootContainer.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRectangle.cs" />
-    <Compile Include="Screens\HUD\Elements\Primitives\HUDRoundedRectangle.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDSeperator.cs" />
     <Compile Include="Screens\HUD\Operations\HUDElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\HUDIntervalElementOperation.cs" />

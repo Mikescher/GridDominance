@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -63,11 +64,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					Text = dd.Item1,
 
 					TextColor = FlatColors.Foreground,
-
-					BackgroundType = HUDBackgroundType.SimpleBlur,
-					Color = FlatColors.TextHUD,
-					ColorPressed = FlatColors.ControlHighlight,
 					TextPadding = 16,
+
+					BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleBlur(FlatColors.TextHUD, 16),
+					BackgroundPressed = HUDBackgroundDefinition.CreateSimpleBlur(FlatColors.ControlHighlight, 16),
 
 					ClickMode = HUDButton.HUDButtonClickMode.Single,
 				};

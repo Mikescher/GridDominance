@@ -1,5 +1,7 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
@@ -14,6 +16,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		}
 
 		public int? SeperatorWidth = null;
+
+		public Color Color { set => Definition = HUDBackgroundDefinition.CreateSimple(value); }
 
 		public HUDSeperator(HUDOrientation orientation, int depth = 0)
 			: base(depth)

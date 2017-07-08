@@ -208,6 +208,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				{
 					if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID))
 					{
+						SAMLog.Debug("Level refunded: " + Blueprint.ID);
 						MainGame.Inst.Profile.PurchasedWorlds.Remove(Blueprint.ID);
 						MainGame.Inst.SaveProfile();
 					}
@@ -237,6 +238,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 					case PurchaseQueryResult.Refunded:
 						if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID))
 						{
+							SAMLog.Debug("Level refunded: " + Blueprint.ID);
 							MainGame.Inst.Profile.PurchasedWorlds.Remove(Blueprint.ID);
 							MainGame.Inst.SaveProfile();
 						}

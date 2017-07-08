@@ -4,7 +4,6 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
@@ -25,8 +24,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		
 		public Color TextColor
 		{
-			get { return internalLabel.TextColor; }
-			set { internalLabel.TextColor = value; }
+			get => internalLabel.TextColor;
+			set => internalLabel.TextColor = value;
 		}
 
 		public SpriteFont Font
@@ -43,8 +42,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		public float Alpha
 		{
-			get { return internalLabel.Alpha; }
-			set { internalLabel.Alpha = value; }
+			get => internalLabel.Alpha;
+			set => internalLabel.Alpha = value;
 		}
 
 		public HUDWordWrap WordWrap
@@ -67,10 +66,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			set { _maxWidth = value; innerSizeCache = FSize.Empty; }
 		}
 
-		public Color ColorBackground = Color.White;
-
-		public HUDBackgroundType BackgroundType = HUDBackgroundType.Rounded;
-		public float BackgoundCornerSize = 16f;
+		public HUDBackgroundDefinition Background = HUDBackgroundDefinition.DUMMY;
 
 		public bool CloseOnClick = true;
 
@@ -90,7 +86,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 				Alignment = HUDAlignment.CENTER,
 				TextAlignment = HUDAlignment.CENTER,
 				FontSize = 96,
-				BackgroundColor = Color.Transparent,
+				Background = HUDBackgroundDefinition.NONE,
 			};
 		}
 
@@ -101,7 +97,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgroundType, bounds, ColorBackground * Alpha, BackgoundCornerSize);
+			HUDRenderHelper.DrawAlphaBackground(sbatch, bounds, Background, Alpha);
 		}
 
 		public override void OnRemove()

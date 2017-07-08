@@ -24,7 +24,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 		{
 			realPos = element.RelativePosition;
 
-			for (int i = 0; i < element.CharDisp.Length; i++) element.CharDisp[i].BackgroundColor = FlatColors.Alizarin;
+			for (int i = 0; i < element.CharDisp.Length; i++) element.CharDisp[i].Background = element.CharDisp[i].Background.WithColor(FlatColors.Alizarin);
 		}
 
  		protected override void OnProgress(MultiplayerJoinLobbyScreen element, float progress, InputState istate)

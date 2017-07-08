@@ -6,9 +6,8 @@ using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
@@ -40,16 +39,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			base.OnInitialize();
 
-			AddElement(new HUDRoundedRectangle(0)
+			AddElement(new HUDRectangle(0)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				Size = new FSize(WIDTH, FOOTER_HEIGHT),
 
-				Color = FlatColors.BackgroundHUD2,
-				RoundCornerTL = false,
-				RoundCornerTR = false,
-				RoundCornerBL = true,
-				RoundCornerBR = true,
+				Definition = HUDBackgroundDefinition.CreateRounded(FlatColors.BackgroundHUD2, 16, false, false, true, true),
 			});
 
 			AddElement(new HUDLabel(1)
@@ -130,9 +125,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgroundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.ButtonHUD,
-				ColorPressed = FlatColors.ButtonPressedHUD,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonPressedHUD, 16),
 
 				Click = OnLogout,
 			});
@@ -149,9 +144,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgroundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.ButtonHUD,
-				ColorPressed = FlatColors.ButtonPressedHUD,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonPressedHUD, 16),
 
 				Click = OnChangePassword,
 			});

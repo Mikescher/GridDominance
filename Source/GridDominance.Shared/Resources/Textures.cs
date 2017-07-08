@@ -204,6 +204,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDIconTouchUp;
 		public static TextureRegion2D TexHUDIconTouchDown;
 		public static TextureRegion2D TexHUDIconArrow;
+		public static TextureRegion2D TexHUDIconChevronLeft;
+		public static TextureRegion2D TexHUDIconChevronRight;
 		public static TextureRegion2D[] TexHUDFlags;
 
 		public static TextureRegion2D TexPanelBlurEdge;
@@ -375,6 +377,8 @@ namespace GridDominance.Shared.Resources
 			TexHUDIconTouchUp             = AtlasTextures["touch_up"];
 			TexHUDIconTouchDown           = AtlasTextures["touch_down"];
 			TexHUDIconArrow               = AtlasTextures["arrow"];
+			TexHUDIconChevronLeft         = AtlasTextures["chevron_left"];
+			TexHUDIconChevronRight        = AtlasTextures["chevron_right"];
 
 			TexHUDFlags                   = new[] { AtlasTextures["flag_00"], AtlasTextures["flag_01"] };
 

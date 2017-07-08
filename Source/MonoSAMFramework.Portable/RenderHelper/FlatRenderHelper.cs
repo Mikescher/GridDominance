@@ -14,6 +14,14 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, color, cornerSize);
 		}
 
+		public static void DrawRoundedBlurPanel(IBatchRenderer sbatch, FRectangle bounds, Color color, bool tl, bool tr, bool bl, bool br, float cornerSize = 16f)
+		{
+			StaticTextures.ThrowIfNotInitialized();
+
+			DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, cornerSize);
+			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, color, tl, tr, bl, br, cornerSize);
+		}
+
 		public static void DrawRoundedAlphaBlurPanel(IBatchRenderer sbatch, FRectangle bounds, Color color, float cornerSize, float alpha)
 		{
 			StaticTextures.ThrowIfNotInitialized();
@@ -21,7 +29,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			DrawRoundedBlurPanelBackgroundPart(sbatch, bounds, cornerSize, alpha);
 			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, color * alpha, cornerSize);
 		}
-
+		
 		public static void DrawSimpleBlurPanel(IBatchRenderer sbatch, FRectangle bounds, Color color, float cornerSize = 16f)
 		{
 			StaticTextures.ThrowIfNotInitialized();

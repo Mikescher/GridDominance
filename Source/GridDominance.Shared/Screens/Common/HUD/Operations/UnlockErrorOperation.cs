@@ -23,7 +23,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 		{
 			realPos = element.RelativePosition;
 
-			for (int i = 0; i < 8; i++) element.CharDisp[i].BackgroundColor = FlatColors.Alizarin;
+			for (int i = 0; i < 8; i++) element.CharDisp[i].Background = element.CharDisp[i].Background.WithColor(FlatColors.Alizarin);
 		}
 
  		protected override void OnProgress(UnlockPanel element, float progress, InputState istate)
@@ -42,7 +42,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 			element.CharIndex = 0;
 			for (int i = 0; i < 8; i++) element.CharDisp[i].Character = ' ';
 
-			for (int i = 0; i < 8; i++) element.CharDisp[i].BackgroundColor = FlatColors.Clouds;
+			for (int i = 0; i < 8; i++) element.CharDisp[i].Background = element.CharDisp[i].Background.WithColor(FlatColors.Clouds);
 		}
 	}
 }

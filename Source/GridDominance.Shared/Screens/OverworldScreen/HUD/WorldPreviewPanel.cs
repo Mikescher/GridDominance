@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -81,9 +82,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgroundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.PeterRiver,
-				ColorPressed = FlatColors.BelizeHole,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.PeterRiver, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.BelizeHole, 16),
 
 				Click = OnClickBuy,
 			});
@@ -100,9 +101,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgroundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.Turquoise,
-				ColorPressed = FlatColors.GreenSea,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Turquoise, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.GreenSea, 16),
 
 				Click = OnClickFinishPrev,
 			});
@@ -125,7 +126,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			base.DoUpdate(gameTime, istate);
 
-			_button.Color = ColorMath.Blend(FlatColors.BelizeHole, FlatColors.WetAsphalt, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 5));
+			_button.BackgroundNormal = _button.BackgroundNormal.WithColor(ColorMath.Blend(FlatColors.BelizeHole, FlatColors.WetAsphalt, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 5)));
 
 			if (MainGame.Inst.Profile.PurchasedWorlds.Contains(_id))
 			{

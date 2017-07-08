@@ -112,6 +112,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				{
 					if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
 					{
+						SAMLog.Debug("Level refunded: " + Levels.WORLD_ID_MULTIPLAYER);
 						MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
 						MainGame.Inst.SaveProfile();
 					}
@@ -138,6 +139,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 					case PurchaseQueryResult.Refunded:
 						if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
 						{
+							SAMLog.Debug("Level refunded: " + Levels.WORLD_ID_MULTIPLAYER);
 							MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
 							MainGame.Inst.SaveProfile();
 						}

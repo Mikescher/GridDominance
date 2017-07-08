@@ -31,7 +31,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 			{
 				if (i >= 8) continue;
 
-				element.CharDisp[i].BackgroundColor = FlatColors.Emerald;
+				element.CharDisp[i].Background = element.CharDisp[i].Background.WithColor(FlatColors.Emerald);
 			}
 		}
 

@@ -528,7 +528,16 @@ namespace MonoSAMFramework.Portable.GameMath
 
 			if (value < 0) return max - (value % max);
 
-			return value%max;
+			return value % max;
+		}
+
+		public static float IncRadians(float value, float add)
+		{
+			value += add;
+
+			if (value < 0) return TAU - (value % TAU);
+
+			return value % TAU;
 		}
 
 		/// no easing, no acceleration

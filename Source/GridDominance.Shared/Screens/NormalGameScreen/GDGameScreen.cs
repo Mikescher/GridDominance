@@ -118,7 +118,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			Difficulty = diff;
 			IsPreview = prev;
 			IsNetwork = netw;
-
+			
 			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this, (GameWrapMode)bp.WrapMode);
 
 			Initialize();

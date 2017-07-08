@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System.Linq;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 
@@ -65,11 +66,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				CharDisp[i] = new HUDCharacterControl(1)
 				{
-					BackgroundType = HUDBackgroundType.Simple,
-					BackgroundColor = FlatColors.Clouds,
-
-					BorderWidth = 4,
-					BorderColor = Color.Black,
+					Background = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, 4f),
 
 					TextPadding = 2,
 					TextColor = Color.Black
@@ -90,10 +87,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				ButtonTextColor = FlatColors.Foreground,
 
-				ButtonColor = FlatColors.ControlHighlight,
-				ButtonColorPressed = FlatColors.Background,
-				ButtonBackgroundType = HUDBackgroundType.RoundedBlur,
-				ButtonBackgoundCornerSize = 4f,
+				ButtonBackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ControlHighlight, 4f),
+				ButtonBackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Background, 4f),
 			};
 			AddElement(pad);
 

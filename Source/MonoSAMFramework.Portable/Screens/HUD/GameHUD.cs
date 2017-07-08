@@ -13,6 +13,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -177,11 +178,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			toast.FontSize = size;
 			toast.Font = DefaultFont;
 			toast.TextColor = foreground;
-			toast.ColorBackground = background;
+			toast.Background =HUDBackgroundDefinition.CreateSimpleBlur(background, size/4f);
 			toast.TextPadding = new FSize(size / 5f, size / 5f);
-			toast.BackgroundType = HUDBackgroundType.SimpleBlur;
 			toast.MaxWidth = Width * 0.8f;
-			toast.BackgoundCornerSize = size/4f;
 			toast.WordWrap = HUDWordWrap.WrapByWordTrusted;
 
 			AddElement(toast);

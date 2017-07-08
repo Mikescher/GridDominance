@@ -10,6 +10,7 @@ using MonoSAMFramework.Portable.GameMath.Cryptography;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Network.Multiplayer;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -85,11 +86,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				CharDisp[i] = new HUDCharacterControl(1)
 				{
-					BackgroundType = HUDBackgroundType.Simple,
-					BackgroundColor = FlatColors.Clouds,
-
-					BorderWidth = 4,
-					BorderColor = Color.Black,
+					Background = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, 4f),
 
 					TextPadding = 2,
 					TextColor = Color.Black
@@ -110,10 +107,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 				ButtonTextColor = FlatColors.Foreground,
 
-				ButtonColor = FlatColors.ControlHighlight,
-				ButtonColorPressed = FlatColors.Background,
-				ButtonBackgroundType = HUDBackgroundType.RoundedBlur,
-				ButtonBackgoundCornerSize = 4f,
+				ButtonBackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ControlHighlight, 4f),
+				ButtonBackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Background, 4f),
 			};
 			AddElement(pad);
 
@@ -176,7 +171,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 				var d = KiddieCryptography.SpiralHexDecode(code);
 
-				for (int i = 0; i < 8; i++) CharDisp[i].BackgroundColor = FlatColors.Concrete;
+				for (int i = 0; i < 8; i++) CharDisp[i].Background = CharDisp[i].Background.WithColor(FlatColors.Concrete);
 
 				_server.JoinSession(d.Item1, d.Item2);
 			}

@@ -14,6 +14,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
@@ -57,16 +58,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			#region Footer
 
-			AddElement(new HUDRoundedRectangle(0)
+			AddElement(new HUDRectangle(0)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				Size = new FSize(WIDTH, FOOTER_HEIGHT - 10),
 
-				Color = FlatColors.BackgroundHUD2,
-				RoundCornerTL = false,
-				RoundCornerTR = false,
-				RoundCornerBL = true,
-				RoundCornerBR = true,
+				Definition = HUDBackgroundDefinition.CreateRounded(FlatColors.BackgroundHUD2, 16, false, false, true, true),
 			});
 
 
@@ -76,7 +73,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
 				Size = new FSize(WIDTH / 3f, FOOTER_COLBAR_HEIGHT),
 
-				Color = FlatColors.Nephritis,
+				Definition = HUDBackgroundDefinition.CreateSimple(FlatColors.Nephritis),
 			});
 
 			AddElement(new HUDRectangle(1)
@@ -85,7 +82,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
 				Size = new FSize(WIDTH / 2f, FOOTER_COLBAR_HEIGHT),
 
-				Color = FlatColors.PeterRiver,
+				Definition = HUDBackgroundDefinition.CreateSimple(FlatColors.PeterRiver),
 			});
 
 			AddElement(new HUDRectangle(2)
@@ -94,7 +91,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
 				Size = new FSize(WIDTH / 3f, FOOTER_COLBAR_HEIGHT),
 
-				Color = FlatColors.Pomegranate,
+				Definition = HUDBackgroundDefinition.CreateSimple(FlatColors.Pomegranate),
 			});
 
 			AddElement(new HUDSeperator(HUDOrientation.Vertical, 3)
@@ -209,9 +206,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
 				Icon = Textures.TexIconBack,
-				BackgroundType = HUDBackgroundType.Rounded,
-				Color = FlatColors.ButtonHUD,
-				ColorPressed = FlatColors.ButtonPressedHUD,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
 
 				Click = (s, a) => GDScreen.ExitToMap(),
 			});
@@ -235,9 +232,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 						TextAlignment = HUDAlignment.CENTER,
 						TextPadding = 8,
 						Icon = Textures.TexIconNext,
-						BackgroundType = HUDBackgroundType.Rounded,
-						Color = FlatColors.Nephritis,
-						ColorPressed = FlatColors.Emerald,
+
+						BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Nephritis, 16),
+						BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.Emerald, 16),
 
 						Click = (s, a) => MainGame.Inst.SetLevelScreen(next.Item1, next.Item2, GDScreen.WorldBlueprint),
 					});
@@ -258,9 +255,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 					TextAlignment = HUDAlignment.CENTER,
 					TextPadding = 8,
 					Icon = Textures.TexIconRedo,
-					BackgroundType = HUDBackgroundType.Rounded,
-					Color = FlatColors.Orange,
-					ColorPressed = FlatColors.SunFlower,
+
+					BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Orange, 16),
+					BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.SunFlower, 16),
 
 					Click = (s, a) => ((GDGameScreen)HUD.Screen).RestartLevel(),
 				});

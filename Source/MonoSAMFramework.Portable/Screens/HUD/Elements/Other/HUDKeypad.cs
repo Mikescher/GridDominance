@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
@@ -49,32 +50,18 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			set { if (_fontSize != value) { _fontSize = value; InvalidateButtonState(); } }
 		}
 
-		private Color _color = Color.White;
-		public Color ButtonColor
+		private HUDBackgroundDefinition _buttonBackgroundNormal = HUDBackgroundDefinition.DUMMY;
+		public HUDBackgroundDefinition ButtonBackgroundNormal
 		{
-			get => _color;
-			set { if (_color != value) { _color = value; InvalidateButtonState(); } }
+			get => _buttonBackgroundNormal;
+			set { if (_buttonBackgroundNormal != value) { _buttonBackgroundNormal = value; InvalidateButtonState(); } }
 		}
 
-		private Color _colorPressed = Color.Magenta;
-		public Color ButtonColorPressed
+		private HUDBackgroundDefinition _buttonBackgroundPressed = HUDBackgroundDefinition.DUMMY;
+		public HUDBackgroundDefinition ButtonBackgroundPressed
 		{
-			get => _colorPressed;
-			set { if (_colorPressed != value) { _colorPressed = value; InvalidateButtonState(); } }
-		}
-
-		private HUDBackgroundType _backgroundType = HUDBackgroundType.Simple;
-		public HUDBackgroundType ButtonBackgroundType
-		{
-			get => _backgroundType;
-			set { if (_backgroundType != value) { _backgroundType = value; InvalidateButtonState(); } }
-		}
-
-		private float _backgoundCornerSize = 16f;
-		public float ButtonBackgoundCornerSize
-		{
-			get => _backgoundCornerSize;
-			set { if (_backgoundCornerSize != value) { _backgoundCornerSize = value; InvalidateButtonState(); } }
+			get => _buttonBackgroundPressed;
+			set { if (_buttonBackgroundPressed != value) { _buttonBackgroundPressed = value; InvalidateButtonState(); } }
 		}
 
 		private readonly int _rows;
@@ -131,10 +118,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 				btn.TextColor = ButtonTextColor;
 
-				btn.Color = ButtonColor;
-				btn.ColorPressed = ButtonColorPressed;
-				btn.BackgroundType = ButtonBackgroundType;
-				btn.BackgroundCornerSize = ButtonBackgoundCornerSize;
+				btn.BackgroundNormal = _buttonBackgroundNormal;
+				btn.BackgroundPressed = _buttonBackgroundPressed;
 			}
 
 			_buttonsInvalidated = false;
@@ -152,10 +137,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 				Text = c.ToString(),
 				TextColor = ButtonTextColor,
 
-				Color = ButtonColor,
-				ColorPressed = ButtonColorPressed,
-				BackgroundType = ButtonBackgroundType,
-				BackgroundCornerSize = ButtonBackgoundCornerSize,
+				BackgroundNormal = _buttonBackgroundNormal,
+				BackgroundPressed = _buttonBackgroundPressed,
 
 				Click = (s, e) => OnClickEvt(c),
 			});

@@ -72,6 +72,7 @@ namespace MonoSAMFramework.Portable.Screens
 		private readonly List<GameScreenAgent> agents = new List<GameScreenAgent>();
 		private readonly List<IProxyScreenProvider> _proxyScreens = new List<IProxyScreenProvider>();
 		private bool _clearScreenOnDraw = true;
+		private bool _updateDebugSettings = true;
 		
 #if DEBUG
 		public int LastDebugRenderSpriteCount   => FixedBatch.LastDebugRenderSpriteCount   + TranslatedBatch.LastDebugRenderSpriteCount + DebugDisp.LastRenderSpriteCount;
@@ -152,7 +153,7 @@ namespace MonoSAMFramework.Portable.Screens
 			var state = InputStateMan.GetNewState(MapOffsetX, MapOffsetY);
 			
 #if DEBUG
-			DebugSettings.Update(state);
+			if (_updateDebugSettings) DebugSettings.Update(state);
 			GCMonitor.Update(gameTime, state);
 #endif
 
@@ -323,6 +324,7 @@ namespace MonoSAMFramework.Portable.Screens
 			{
 				if (proxy.ProxyTargetBounds.IsEmpty) continue;
 				proxy.Proxy._clearScreenOnDraw = false;
+				proxy.Proxy._updateDebugSettings = false;
 
 				proxy.Proxy.InternalDraw(gameTime, proxy.ProxyTargetBounds.CeilOutwards());
 			}

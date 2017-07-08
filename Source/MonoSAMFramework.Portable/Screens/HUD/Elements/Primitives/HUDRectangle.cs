@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.BatchRenderer;
+﻿using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
@@ -10,7 +9,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 	{
 		public override int Depth { get; }
 
-		public Color Color = Color.Transparent;
+		public HUDBackgroundDefinition Definition = HUDBackgroundDefinition.DUMMY;
 
 		public HUDRectangle(int depth = 0)
 		{
@@ -19,9 +18,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			if (Color == Color.Transparent) return;
-
-			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, Color);
+			HUDRenderHelper.DrawBackground(sbatch, bounds, Definition);
 		}
 
 		public override void OnInitialize()

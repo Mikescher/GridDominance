@@ -938,6 +938,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">overworld/chevron_left.png</key>
+            <key type="filename">overworld/chevron_right.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,33,64,66</rect>
+                <key>scale9Paddings</key>
+                <rect>32,33,64,66</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">overworld/lock.png</key>
             <key type="filename">overworld/lock_open.png</key>
             <struct type="IndividualSpriteSettings">

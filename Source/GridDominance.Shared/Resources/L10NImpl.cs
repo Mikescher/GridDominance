@@ -152,20 +152,23 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MP_USERDISCONNECT      = 124;
 		public const int STR_MP_SERVERDISCONNECT    = 125;
 
+		public const int STR_MENU_CANCEL            = 138;
+
 		public const int STR_MENU_CAP_MULTIPLAYER   = 126;
 		public const int STR_MENU_CAP_LOBBY         = 127;
 		public const int STR_MENU_CAP_CGAME         = 128;
+		public const int STR_MENU_CAP_AUTH          = 136;
 		public const int STR_MENU_MP_JOIN           = 132;
 		public const int STR_MENU_MP_HOST           = 133;
-		public const int STR_MENU_MP_LOCAL          = 134;
 		public const int STR_MENU_MP_ONLINE         = 135;
-		public const int STR_MENU_CAP_AUTH          = 136;
+		public const int STR_MENU_MP_LOCAL          = 134;
+		public const int STR_MENU_MP_CREATE         = 137;
 
 		public const int STR_MP_ONLINE              = 129;
 		public const int STR_MP_OFFLINE             = 130;
 		public const int STR_MP_CONNECTING          = 131;
 
-		private const int TEXT_COUNT = 137; // = next idx
+		private const int TEXT_COUNT = 139; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -305,6 +308,8 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_CONNECTING,        "Connecting",                                                  "Verbinden");
 			L10N.Add(STR_MENU_MP_JOIN,         "Join",                                                        "Beitreten");
 			L10N.Add(STR_MENU_MP_HOST,         "Host",                                                        "Erstellen");
+			L10N.Add(STR_MENU_MP_CREATE,       "Create",                                                      "Start");
+			L10N.Add(STR_MENU_CANCEL,          "Cancel",                                                      "Abbrechen");
 			L10N.Add(STR_MENU_MP_LOCAL,        "Local (Bluetooth)",                                           "Lokal (Bluetooth)");
 			L10N.Add(STR_MENU_MP_ONLINE,       "Online (UDP/IP)",                                             "Internet (UDP/IP)");
 			L10N.Add(STR_MENU_CAP_AUTH,        "Enter lobby code",                                            "Lobby Code eingeben");

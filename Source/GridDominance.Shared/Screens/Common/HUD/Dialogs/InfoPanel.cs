@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
@@ -64,12 +65,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				L10NText = L10NImpl.STR_ATTRIBUTIONS,
 
 				TextColor = Color.White,
-
-				BackgroundType = HUDBackgroundType.Rounded,
-				Color = FlatColors.ButtonHUD,
-				ColorPressed = FlatColors.ButtonPressedHUD,
 				TextPadding = 16,
 
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
+				
 				ClickMode = HUDButton.HUDButtonClickMode.Single,
 				Click = OnClickAttributions,
 			});
@@ -90,11 +90,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				L10NText = L10NImpl.STR_UNLOCK,
 
 				TextColor = Color.White,
-
-				BackgroundType = HUDBackgroundType.Rounded,
-				Color = FlatColors.ButtonHUD,
-				ColorPressed = FlatColors.ButtonPressedHUD,
 				TextPadding = 16,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
 
 				ClickMode = HUDButton.HUDButtonClickMode.Single,
 				Click = OnClickUnlock,

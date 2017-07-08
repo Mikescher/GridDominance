@@ -8,7 +8,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
-using System.Collections.Generic;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
@@ -47,7 +47,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { internalText.TextColor = value; }
 		}
 
-		public Color BackgroundColor = Color.Transparent;
+		public HUDBackgroundDefinition Background = HUDBackgroundDefinition.NONE;
 
 		public SpriteFont Font
 		{
@@ -94,10 +94,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			if (BackgroundColor != Color.Transparent)
-			{
-				SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, BackgroundColor * Alpha);
-			}
+			HUDRenderHelper.DrawAlphaBackground(sbatch, bounds, Background, Alpha);
 		}
 
 		public override void OnInitialize()

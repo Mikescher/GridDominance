@@ -10,6 +10,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
@@ -63,7 +64,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				Text = "Contacting server",
 				TextColor = FlatColors.TextHUD,
-				ColorBackground = FlatColors.BelizeHole,
+
+				Background = HUDBackgroundDefinition.CreateRounded(FlatColors.BelizeHole, 16),
 
 				IconColor = FlatColors.Clouds,
 				Icon = Textures.CannonCog,
