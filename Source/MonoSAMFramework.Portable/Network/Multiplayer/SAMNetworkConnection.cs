@@ -10,7 +10,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
 	public abstract class SAMNetworkConnection : ISAMUpdateable, ILifetimeObject //TODO SendFreq ist strangely high (22 pack per sec)
 	{
-		public const int MAX_PACKAGE_SIZE_BYTES = 61; //TODO Set me to [[1450]]   // https://stackoverflow.com/a/15003663/1761622
+		public const int MAX_PACKAGE_SIZE_BYTES = 1450; // https://stackoverflow.com/a/15003663/1761622
 
 		public const float TIME_BETWEEN_PINGS            = 1f; 
 		public const float TIME_BETWEEN_INGAME_PINGS     = 3f;

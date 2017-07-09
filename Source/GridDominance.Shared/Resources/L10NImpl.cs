@@ -334,7 +334,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_MP_LOBBY_MUSIC,    "Background music:",                                           "Hintergrundmusik:");
 			L10N.Add(STR_MENU_MP_LOBBY_SPEED,    "Game speed:",                                                 "Spielgeschwindigkeit:");
 			L10N.Add(STR_MENU_MP_LOBBY_PING,     "Ping",                                                        "Ping");
-			L10N.Add(STR_MENU_MP_START, "Start", "Start");
+			L10N.Add(STR_MENU_MP_START,          "Start",                                                       "Start");
 
 #if DEBUG
 			L10N.Verify();
