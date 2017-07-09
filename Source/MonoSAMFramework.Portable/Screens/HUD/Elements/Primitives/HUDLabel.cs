@@ -81,8 +81,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { _wordWrap = value; recalcText = true; }
 		}
 
+		public bool AutoSize = false;
+
 		public FSize InnerLabelSize => internalText.Size;
-		
+
 		private bool recalcText = false;
 
 		public HUDLabel(int depth = 0)
@@ -129,6 +131,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 					internalText.Text = string.Join(Environment.NewLine, FontRenderHelper.WrapLinesIntoWidth(DisplayText, Font, FontSize, MaxWidth.Value, WordWrap));
 				}
 			}
+
+			if (AutoSize) Size = internalText.Size;
 		}
 	}
 }

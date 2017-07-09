@@ -51,6 +51,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer
 				FontSize = 32,
 				Font = Textures.HUDFontBold,
 				TextColor = FlatColors.Foreground,
+				AutoSize = true,
 				Text = "?",
 			};
 
@@ -75,6 +76,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer
 			}
 
 			_rotation += gameTime.ElapsedSeconds * ROTATION_SPEED * FloatMath.TAU;
+
+			Size = new FSize(_label.RelativeRight, 32);
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
