@@ -351,6 +351,9 @@ namespace GridDominance.Shared.Resources
 				case SAMNetworkConnection.ErrorType.ProxyServerTimeout:
 					return L10N.T(STR_MP_TIMEOUT);
 
+				case SAMNetworkConnection.ErrorType.ServerUserTimeout:
+					return L10N.T(STR_MP_TIMEOUT);
+
 				case SAMNetworkConnection.ErrorType.UserTimeout:
 					return L10N.TF(STR_MP_TIMEOUT_USER, data);
 

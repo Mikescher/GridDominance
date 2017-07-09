@@ -160,6 +160,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 				return;
 			}
 
+			RecieveMsg(0, data[1]);
+
 			byte[] answer = new byte[8];
 
 			answer[0] = ANS_FORWARDLOBBYSYNC;
@@ -194,6 +196,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 				ServerGameVersion = reader.ReadUInt64();
 				ServerLevelHash = reader.ReadUInt64();
 			}
+
+			RecieveMsg(0, data[1]);
 
 			SAMLog.Debug($"[[CMD_FORWARDHOSTDATA]]: {LevelID} | {Speed} | {MusicIndex}");
 

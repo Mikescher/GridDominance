@@ -75,7 +75,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public enum ErrorType
 		{
 			None,
-			ProxyServerTimeout, UserTimeout,
+			ProxyServerTimeout, UserTimeout, ServerUserTimeout,
 			NotInLobby, SessionNotFound, AuthentificationFailed, LobbyFull,
 			GameVersionMismatch, LevelNotFound, LevelVersionMismatch,
 			UserDisconnect, ServerDisconnect,
@@ -343,17 +343,42 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 			else
 			{
-				if (errorOnTimeout) ErrorStop(ErrorType.ProxyServerTimeout, null);
+				if (errorOnTimeout && _lastPingResponse > 0) ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
 			}
 
-			if (InOrAfterGame && SessionID == 0)
+			if (InOrAfterGame)
 			{
-				for (int i = 0; i < SessionCount; i++)
+				if (SessionID == 0)
 				{
-					if (i == SessionUserID) continue;
+					for (int i = 0; i < SessionCount; i++)
+					{
+						if (i == SessionUserID) continue;
 
-					var deltaLUR = gameTime.TotalElapsedSeconds - UserConn[i].LastResponse;
+						var deltaLUR = gameTime.TotalElapsedSeconds - UserConn[i].LastResponse;
+
+						if (deltaLUR < TIMEOUT_PAUSE)
+						{
+							if (ConnState > ConnectionState.Connected) ConnState = ConnectionState.Connected;
+						}
+						else if (deltaLUR < TIMEOUT_OFFLINE)
+						{
+							if (ConnState > ConnectionState.Reconnecting) ConnState = ConnectionState.Reconnecting;
+						}
+						else if (deltaLUR < TIMEOUT_ERRORSTOP)
+						{
+							if (ConnState > ConnectionState.Offline) ConnState = ConnectionState.Offline;
+						}
+						else
+						{
+							if (errorOnTimeout && UserConn[i].LastResponse > 0) ErrorStop(ErrorType.UserTimeout, i);
+							return;
+						}
+					}
+				}
+				else
+				{
+					var deltaLUR = gameTime.TotalElapsedSeconds - UserConn[0].LastResponse;
 
 					if (deltaLUR < TIMEOUT_PAUSE)
 					{
@@ -369,7 +394,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					}
 					else
 					{
-						ErrorStop(ErrorType.UserTimeout, i);
+						if (errorOnTimeout && UserConn[0].LastResponse > 0) ErrorStop(ErrorType.ServerUserTimeout, 0);
 						return;
 					}
 				}
