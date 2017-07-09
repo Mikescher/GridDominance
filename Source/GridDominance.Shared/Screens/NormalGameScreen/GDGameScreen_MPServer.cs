@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
@@ -82,7 +83,54 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
 		{
-			//TODO
+			GameSpeedMode = GameSpeedModes.NORMAL;
+			HUD.AddModal(new HUDMultiplayerScorePanel(lvl, profile, playerHasWon), false);
+		}
+
+		protected override void TestForGameEndingCondition()
+		{
+			if (HasFinished) return;
+
+			Fraction winner = null;
+
+			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
+			{
+				if (cannon.Fraction.IsNeutral) continue;
+
+				if (winner != null && winner != cannon.Fraction) return;
+				winner = cannon.Fraction;
+			}
+
+			if (winner == LocalPlayerFraction)
+			{
+				HasFinished = true;
+				PlayerWon = true;
+				MainGame.Inst.GDSound.PlayEffectGameWon();
+				ShowScorePanel(Blueprint, GDOwner.Profile, null, true, 0);
+			}
+			else
+			{
+				HasFinished = true;
+				PlayerWon = false;
+				MainGame.Inst.GDSound.PlayEffectGameOver();
+				ShowScorePanel(Blueprint, GDOwner.Profile, null, false, 0);
+			}
+
+			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
+			{
+				cannon.ForceUpdateController();
+			}
+
+			byte winnerUID = 0;
+			int winnerFracID = GetFractionID(winner);
+
+			if (winnerFracID == 2) winnerUID = 1;
+			if (winnerFracID == 3) winnerUID = 2;
+			if (winnerFracID == 4) winnerUID = 3;
+			if (winnerFracID == 5) winnerUID = 4;
+			if (winnerFracID == 6) winnerUID = 5;
+
+			_server.StartBroadcastAfterGame(winnerUID);
 		}
 
 		public override void ExitToMap()

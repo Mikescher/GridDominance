@@ -1,10 +1,8 @@
-﻿using System;
-using GridDominance.Levelfileformat.Blueprint;
+﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
-using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -16,7 +14,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
-	class HUDScorePanel : HUDRoundedPanel
+	class HUDMultiplayerScorePanel : HUDRoundedPanel
 	{
 		public const float WIDTH = 11 * GDConstants.TILE_WIDTH;
 		public const float HEIGHT = 7 * GDConstants.TILE_WIDTH;
@@ -26,22 +24,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		public const float ICON_MARGIN = GDConstants.TILE_WIDTH * (3/8f);
 		public const float ICON_SIZE = GDConstants.TILE_WIDTH * 2;
 
-		private GDGameScreen_SP GDScreen => (GDGameScreen_SP)HUD.Screen;
+		private GDGameScreen GDScreen => (GDGameScreen)HUD.Screen;
 
 		public override int Depth => 0;
 
-		private readonly FractionDifficulty? gainLevel;
 		private readonly bool successScreen;
 		private readonly PlayerProfile profile;
 		private readonly LevelBlueprint Level;
-		private readonly int increasePoints;
 		
-		public HUDScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon, int pointInc)
+		public HUDMultiplayerScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, bool playerHasWon)
 		{
-			gainLevel = newDifficulty;
 			successScreen = playerHasWon;
 			profile = playerprofile;
-			increasePoints = pointInc;
 			Level = lvl;
 
 			RelativePosition = FPoint.Zero;
@@ -50,7 +44,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			Background = FlatColors.BackgroundHUD;
 		}
 
-		public override void OnInitialize()
+		public override void OnInitialize() //TODO a little bit ... empty
 		{
 			base.OnInitialize();
 
@@ -162,18 +156,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				FontSize = 57,
 			});
 
-			AddElement(new HUDIncrementIndicatorLabel(profile.TotalPoints.ToString(), increasePoints == 0 ? "" : "+" + increasePoints, 2)
-			{
-				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 15),
-				Size = new FSize(WIDTH / 3f, 60),
-
-				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				TextColor = FlatColors.TextHUD,
-				Font = Textures.HUDFontBold,
-				FontSize = 57,
-			});
-
 			AddElement(new HUDLabel(2)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
@@ -211,56 +193,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Click = (s, a) => GDScreen.ExitToMap(),
 			});
 
-			if (successScreen)
-			{
-				var next = GetNextNode();
-
-				if (next != null)
-				{
-					AddElement(new HUDIconTextButton(2)
-					{
-						Alignment = HUDAlignment.BOTTOMRIGHT,
-						RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-						Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
-
-						L10NText = L10NImpl.STR_HSP_NEXT,
-						TextColor = Color.White,
-						Font = Textures.HUDFontRegular,
-						FontSize = 55,
-						TextAlignment = HUDAlignment.CENTER,
-						TextPadding = 8,
-						Icon = Textures.TexIconNext,
-
-						BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Nephritis, 16),
-						BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.Emerald, 16),
-
-						Click = (s, a) => MainGame.Inst.SetLevelScreen(next.Item1, next.Item2, GDScreen.WorldBlueprint),
-					});
-				}
-			}
-			else
-			{
-				AddElement(new HUDIconTextButton(2)
-				{
-					Alignment = HUDAlignment.BOTTOMRIGHT,
-					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-					Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
-
-					L10NText = L10NImpl.STR_HSP_AGAIN,
-					TextColor = Color.White,
-					Font = Textures.HUDFontRegular,
-					FontSize = 55,
-					TextAlignment = HUDAlignment.CENTER,
-					TextPadding = 8,
-					Icon = Textures.TexIconRedo,
-
-					BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Orange, 16),
-					BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.SunFlower, 16),
-
-					Click = (s, a) => ((GDGameScreen)HUD.Screen).RestartLevel(),
-				});
-			}
-
 			#endregion
 
 			#region Icons
@@ -270,33 +202,24 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			var finDiff2 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompleted(FractionDifficulty.KI_HARD);
 			var finDiff3 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompleted(FractionDifficulty.KI_IMPOSSIBLE);
 
-
 			var modeDiff0 =
 				finDiff0 ?
-					(gainLevel == FractionDifficulty.KI_EASY ?
-						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
-						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
+					HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			var modeDiff1 =
 				finDiff1 ?
-					(gainLevel == FractionDifficulty.KI_NORMAL ?
-						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
-						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
+					HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			var modeDiff2 =
 				finDiff2 ?
-					(gainLevel == FractionDifficulty.KI_HARD ?
-						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
-						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
+					HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			var modeDiff3 =
 				finDiff3 ?
-					(gainLevel == FractionDifficulty.KI_IMPOSSIBLE ?
-						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
-						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
+					HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_EASY, modeDiff0)
@@ -328,14 +251,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			});
 
 			#endregion
-		}
-
-		private Tuple<LevelBlueprint, FractionDifficulty> GetNextNode()
-		{
-			var x = BlueprintAnalyzer.FindNextNode(GDScreen.WorldBlueprint, GDScreen.Blueprint.UniqueID, GDScreen.Difficulty);
-			if (x == null) return null;
-			
-			return Tuple.Create(Levels.LEVELS[x.Value.LevelID], GDScreen.Difficulty);
 		}
 	}
 }

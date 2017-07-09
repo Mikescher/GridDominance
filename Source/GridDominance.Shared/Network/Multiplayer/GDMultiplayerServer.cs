@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.Screens;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Levelfileformat.Blueprint;
 using System.IO;
+using System.Linq;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
@@ -31,7 +32,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 		{
 			s.DebugDisp.AddLine("DebugMultiplayer", () => 
 				$"SERVER(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})\n" + 
-				$"LagBehind={lagBehindTime})");
+				$"      (LagBehind={lagBehindTime} | SendFreq={SendFreq.Frequency} | UserPings=[{string.Join(",", UserConn.Select(u => u.InGamePing.Value.ToString("F1")))}])", this);
 		}
 #endif
 
@@ -42,6 +43,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 				if (Mode == ServerMode.InGame)
 				{
 					ProcessForward(data);
+					return true;
+				}
+				if (Mode == ServerMode.BroadcastAfterGame)
+				{
+					//ignore
 					return true;
 				}
 			}

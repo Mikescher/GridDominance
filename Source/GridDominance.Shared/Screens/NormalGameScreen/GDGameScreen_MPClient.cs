@@ -1,4 +1,5 @@
-﻿using GridDominance.Levelfileformat.Blueprint;
+﻿using System.Linq;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
@@ -40,6 +41,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			if (server.SessionUserID == 1) _localPlayerFraction = GetFractionByID(2);
 			else if (server.SessionUserID == 2) _localPlayerFraction = GetFractionByID(3);
 			else if (server.SessionUserID == 3) _localPlayerFraction = GetFractionByID(4);
+			else if (server.SessionUserID == 4) _localPlayerFraction = GetFractionByID(5);
+			else if (server.SessionUserID == 5) _localPlayerFraction = GetFractionByID(6);
 			else SAMLog.Error("GDGSMPC", "Client with SSID: " + server.SessionUserID);
 
 			foreach (var c in GetEntities<Cannon>()) c.ForceUpdateController();
@@ -74,7 +77,30 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		protected override void TestForGameEndingCondition()
 		{
-			// NOP
+			if (HasFinished) return;
+
+			if (_server.Mode == SAMNetworkConnection.ServerMode.IdleAfterGame)
+			{
+				if (_server.WinnerID == _server.SessionUserID)
+				{
+					HasFinished = true;
+					PlayerWon = true;
+					MainGame.Inst.GDSound.PlayEffectGameWon();
+					ShowScorePanel(Blueprint, GDOwner.Profile, null, true, 0);
+				}
+				else
+				{
+					HasFinished = true;
+					PlayerWon = false;
+					MainGame.Inst.GDSound.PlayEffectGameOver();
+					ShowScorePanel(Blueprint, GDOwner.Profile, null, false, 0);
+				}
+
+				foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
+				{
+					cannon.ForceUpdateController();
+				}
+			}
 		}
 
 		public override void RestartLevel()
@@ -89,7 +115,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
 		{
-			//TODO
+			GameSpeedMode = GameSpeedModes.NORMAL;
+			HUD.AddModal(new HUDMultiplayerScorePanel(lvl, profile, playerHasWon), false);
 		}
 
 		public override void ExitToMap()

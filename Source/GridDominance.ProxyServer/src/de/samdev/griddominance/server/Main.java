@@ -24,6 +24,7 @@ public class Main {
     public static final byte CMD_QUITSESSION        = 102;
     public static final byte CMD_QUERYSESSION       = 103;
     public static final byte CMD_PING               = 104;
+    public static final byte CMD_AFTERGAME          = 105;
     public static final byte CMD_FORWARD            = 125;
     public static final byte CMD_FORWARDLOBBYSYNC   = 126;
     public static final byte CMD_FORWARDHOSTINFO    = 127;
@@ -98,12 +99,13 @@ public class Main {
         {
             try {
 
-                // USERPING =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [8:UserSender] [8:UserTarget] [8:PingID]
-                // FORWARD  =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [440: Payload]
-                // CREATE   =   [8: CMD] [8:seq] [4: SessionSize]
-                // JOIN     =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
-                // QUIT     =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
-                // QUERY    =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret]
+                // USERPING  =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [8:UserSender] [8:UserTarget] [8:PingID]
+                // FORWARD   =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [440: Payload]
+                // CREATE    =   [8: CMD] [8:seq] [4: SessionSize]
+                // JOIN      =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
+                // QUIT      =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
+                // QUERY     =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret]
+                // AFTERGAME =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [8:WinnerUID]
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, PACKAGE_SIZE);
 
                 try {
@@ -166,6 +168,15 @@ public class Main {
                         ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd2_seq, fwd2_sessionid, fwd2_sessionsecret, false);
 
                         _log.Debug("ForwardLobbySync from "+fwd2_userid+" (cmd="+receiveData[0]+")");
+                        break;
+                    case CMD_AFTERGAME:
+                        byte ag_seq = receiveData[1];
+                        int ag_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
+                        int ag_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
+                        int ag_userid = ((receiveData[4] & 0xF0) >> 4);
+                        ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), ag_seq, ag_sessionid, ag_sessionsecret, true);
+
+                        _log.Debug("IdleAfterGame from "+ag_userid+" (cmd="+receiveData[0]+")");
                         break;
                     case ANS_FORWARDLOBBYSYNC:
                         byte fwd3_seq = receiveData[1];

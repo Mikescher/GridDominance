@@ -522,7 +522,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			{
 				cannon.ForceUpdateController();
 			}
-
 		}
 
 		public World GetPhysicsWorld()

@@ -79,6 +79,11 @@ namespace MonoSAMFramework.Portable.DebugTools
 			return AddLine(new DebugTextDisplayLine(text, () => DebugSettings.Get(debugSettingsKey)));
 		}
 
+		public DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text, ILifetimeObject owner)
+		{
+			return AddLine(new DebugTextDisplayLine(text, () => DebugSettings.Get(debugSettingsKey)) {Owner = owner});
+		}
+
 		public DebugTextDisplayLine AddTabularLine(string debugSettingsKey, Func<List<string>> texts)
 		{
 			return AddLine(new DebugTextDisplayLine(texts, () => DebugSettings.Get(debugSettingsKey)));

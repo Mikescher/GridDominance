@@ -21,9 +21,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 		public int? MusicIndex = null;
 		public ulong ServerGameVersion;
 		public ulong ServerLevelHash;
-
+		
 		public ushort LastServerPackageSeq;
 		public float LastServerPackageTime;
+
+		public byte WinnerID = 0xFF;
 
 		public GDMultiplayerClient()
 			: base(new UDPNetworkMedium(GDConstants.MULTIPLAYER_SERVER_HOST, GDConstants.MULTIPLAYER_SERVER_PORT))
@@ -38,7 +40,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 		{
 			s.DebugDisp.AddLine("DebugMultiplayer", () => 
 				$"CLIENT(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})\n" + 
-				$"CLIENT(ServerSeq={LastServerPackageSeq} | ServerTime={LastServerPackageTime:000.00}s | LagBehind={lagBehindTime})");
+				$"      (ServerSeq={LastServerPackageSeq} | ServerTime={LastServerPackageTime:000.00}s | LagBehind={lagBehindTime} | SendFreq={SendFreq.Frequency})", this);
 		}
 #endif
 		
@@ -61,9 +63,14 @@ namespace GridDominance.Shared.Network.Multiplayer
 					ProcessForward(data);
 					return true;
 				}
-				else if (Mode == ServerMode.InGame)
+				if (Mode == ServerMode.InGame)
 				{
 					ProcessForward(data);
+					return true;
+				}
+				if (Mode == ServerMode.IdleAfterGame)
+				{
+					//ignore
 					return true;
 				}
 			}
@@ -80,6 +87,25 @@ namespace GridDominance.Shared.Network.Multiplayer
 					return true;
 				}
 				if (Mode == ServerMode.InGame)
+				{
+					//ignore
+					return true;
+				}
+				if (Mode == ServerMode.IdleAfterGame)
+				{
+					//ignore
+					return true;
+				}
+			}
+			else if (cmd == CMD_AFTERGAME)
+			{
+				if (Mode == ServerMode.InGame)
+				{
+					Mode = ServerMode.IdleAfterGame;
+					WinnerID = data[6];
+					return true;
+				}
+				else if (Mode == ServerMode.IdleAfterGame)
 				{
 					//ignore
 					return true;
