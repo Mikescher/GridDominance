@@ -246,7 +246,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			SetSequenceCounter(ref MSG_FORWARD[1]);
 
 			MSG_FORWARD[idx] = AREA_END;
-			_medium.Send(MSG_FORWARD);
+			Send(MSG_FORWARD);
 			packageModSize = idx;
 
 			idx = PACKAGE_FORWARD_HEADER_SIZE;

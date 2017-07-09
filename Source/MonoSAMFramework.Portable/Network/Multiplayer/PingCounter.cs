@@ -31,5 +31,13 @@
 				sum = 0;
 			}
 		}
+
+		public void SetDirect(float v)
+		{
+			Value = v;
+
+			count = 0;
+			sum = 0;
+		}
 	}
 }

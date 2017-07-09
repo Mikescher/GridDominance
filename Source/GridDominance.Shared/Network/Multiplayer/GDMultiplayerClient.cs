@@ -143,7 +143,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			answer[4] = (byte) (((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
 			answer[5] = (byte) (SessionSecret & 0xFF);
 			answer[6] = (byte) SessionUserID;
-			_medium.Send(answer);
+			Send(answer);
 		}
 
 		private void ProcessForwardHostData(byte[] data)

@@ -19,7 +19,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 {
 	public class GDGameScreen_MPClient : GDGameScreen
 	{
-		protected override GameHUD CreateHUD() => new GDMultiplayerGameHUD(this);
+		protected override GameHUD CreateHUD() => new EmptyGameHUD(this, Textures.HUDFontRegular);
 
 		private readonly int musicIdx;
 		private readonly GDMultiplayerClient _server;
@@ -43,6 +43,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			else SAMLog.Error("GDGSMPC", "Client with SSID: " + server.SessionUserID);
 
 			foreach (var c in GetEntities<Cannon>()) c.ForceUpdateController();
+
+			GameHUD = new GDMultiplayerGameHUD(this, server);
 
 #if DEBUG
 			_server.AddDebugLine(this);

@@ -25,6 +25,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer
 
 		private readonly GDMultiplayerCommon _connection;
 
+		public Color TextColor
+		{
+			get => _label.TextColor;
+			set => _label.TextColor = value;
+		}
+
 		private readonly HUDLabel _label;
 
 		private float _rotation = 0f;
@@ -45,7 +51,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer
 				FontSize = 32,
 				Font = Textures.HUDFontBold,
 				TextColor = FlatColors.Foreground,
-				Text = "Hello World",
+				Text = "?",
 			};
 
 			AddElement(_label);

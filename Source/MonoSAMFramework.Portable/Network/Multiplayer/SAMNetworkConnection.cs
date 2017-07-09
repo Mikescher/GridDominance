@@ -11,39 +11,42 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 	{
 		public const int MAX_PACKAGE_SIZE_BYTES = 61; //TODO Set me to [[1450]]   // https://stackoverflow.com/a/15003663/1761622
 
-		public const float TIME_BETWEEN_PINGS        = 1f; 
-		public const float TIME_BETWEEN_INGAME_PINGS = 3f;
-		public const float TIME_BETWEEN_HOSTINFO     = 1f;
-		public const float TIMEOUT_PAUSE             = 1.5f;
-		public const float TIMEOUT_OFFLINE           = 10f;
-		public const float TIMEOUT_ERRORSTOP         = 20f;
-		public const float RESEND_TIME_RELIABLE      = 0.75f;
-		public const float TIME_BETWEEN_GAMESTATE    = 0.2f;
+		public const float TIME_BETWEEN_PINGS            = 1f; 
+		public const float TIME_BETWEEN_INGAME_PINGS     = 3f;
+		public const float TIME_BETWEEN_INGAME_USERPINGS = 1f;
+		public const float TIME_BETWEEN_HOSTINFO         = 1f;
+		public const float TIMEOUT_PAUSE                 = 1.5f;
+		public const float TIMEOUT_OFFLINE               = 10f;
+		public const float TIMEOUT_ERRORSTOP             = 20f;
+		public const float RESEND_TIME_RELIABLE          = 0.75f;
+		public const float TIME_BETWEEN_GAMESTATE        = 0.2f;
 
-		public const byte CMD_CREATESESSION      = 100;
-		public const byte CMD_JOINSESSION        = 101;
-		public const byte CMD_QUITSESSION        = 102;
-		public const byte CMD_QUERYSESSION       = 103;
-		public const byte CMD_PING               = 104;
-		public const byte CMD_FORWARD            = 125;
-		public const byte CMD_FORWARDLOBBYSYNC   = 126;
-		public const byte CMD_FORWARDHOSTINFO    = 127;
+		public const byte CMD_USERPING                  =  91;
+		public const byte CMD_USERPING_ACK              =  92;
+		public const byte CMD_CREATESESSION             = 100;
+		public const byte CMD_JOINSESSION               = 101;
+		public const byte CMD_QUITSESSION               = 102;
+		public const byte CMD_QUERYSESSION              = 103;
+		public const byte CMD_PING                      = 104;
+		public const byte CMD_FORWARD                   = 125;
+		public const byte CMD_FORWARDLOBBYSYNC          = 126;
+		public const byte CMD_FORWARDHOSTINFO           = 127;
 #if DEBUG
-		public const byte CMD_AUTOJOINSESSION    = 23;
+		public const byte CMD_AUTOJOINSESSION           = 23;
 #endif
 
-		public const byte ACK_SESSIONCREATED     = 50;
-		public const byte ACK_SESSIONJOINED      = 51;
-		public const byte ACK_QUERYANSWER        = 52;
-		public const byte ACK_SESSIONQUITSUCCESS = 53;
-		public const byte ACK_PINGRESULT         = 54;
-		public const byte ACK_SESSIONNOTFOUND    = 61;
-		public const byte ACK_SESSIONFULL        = 62;
-		public const byte ACK_SESSIONSECRETWRONG = 63;
+		public const byte ACK_SESSIONCREATED            = 50;
+		public const byte ACK_SESSIONJOINED             = 51;
+		public const byte ACK_QUERYANSWER               = 52;
+		public const byte ACK_SESSIONQUITSUCCESS        = 53;
+		public const byte ACK_PINGRESULT                = 54;
+		public const byte ACK_SESSIONNOTFOUND           = 61;
+		public const byte ACK_SESSIONFULL               = 62;
+		public const byte ACK_SESSIONSECRETWRONG        = 63;
 		
-		public const byte MSG_SESSIONTERMINATED  = 71;
+		public const byte MSG_SESSIONTERMINATED         = 71;
 		
-		public const byte ANS_FORWARDLOBBYSYNC   = 81;
+		public const byte ANS_FORWARDLOBBYSYNC          = 81;
 
 		public enum ConnectionState { Offline = 0, Reconnecting = 1, Connected = 2 }
 
@@ -73,13 +76,15 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			UserDisconnect, ServerDisconnect,
 		};
 
-		private   readonly byte[] MSG_PING          = { CMD_PING,             0                };
-		private   readonly byte[] MSG_CREATESESSION = { CMD_CREATESESSION,    0, 0             };
-		private   readonly byte[] MSG_JOINSESSION   = { CMD_JOINSESSION,      0, 0, 0, 0, 0    };
-		private   readonly byte[] MSG_QUITSESSION   = { CMD_QUITSESSION,      0, 0, 0, 0, 0, 0 };
-		private   readonly byte[] MSG_QUERYLOBBY    = { CMD_QUERYSESSION,     0, 0, 0, 0, 0    };
-		private            byte[] MSG_LOBBYSYNC     = { CMD_FORWARDLOBBYSYNC, 0, 0, 0, 0, 0    };
-		private            byte[] MSG_HOSTINFO      = { CMD_FORWARDHOSTINFO,  0, 0, 0, 0, 0    };
+		private   readonly byte[] MSG_PING          = { CMD_PING,             0                      };
+		private   readonly byte[] MSG_CREATESESSION = { CMD_CREATESESSION,    0, 0                   };
+		private   readonly byte[] MSG_JOINSESSION   = { CMD_JOINSESSION,      0, 0, 0, 0, 0          };
+		private   readonly byte[] MSG_QUITSESSION   = { CMD_QUITSESSION,      0, 0, 0, 0, 0, 0       };
+		private   readonly byte[] MSG_QUERYLOBBY    = { CMD_QUERYSESSION,     0, 0, 0, 0, 0          };
+		private            byte[] MSG_LOBBYSYNC     = { CMD_FORWARDLOBBYSYNC, 0, 0, 0, 0, 0          };
+		private            byte[] MSG_HOSTINFO      = { CMD_FORWARDHOSTINFO,  0, 0, 0, 0, 0          };
+		private   readonly byte[] MSG_USERPING_REQ  = { CMD_USERPING,         0, 0, 0, 0, 0, 0, 0, 0 };
+		private   readonly byte[] MSG_USERPING_ACK  = { CMD_USERPING_ACK,     0, 0, 0, 0, 0, 0, 0, 0 };
 		protected readonly byte[] MSG_FORWARD       = new byte[MAX_PACKAGE_SIZE_BYTES];
 
 		public ConnectionState ConnState = ConnectionState.Offline;
@@ -91,6 +96,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		protected int msgIdWraps = 0;
 		public readonly NetworkUserConn[] UserConn = new NetworkUserConn[32];
 		private float _lastServerResponse = 0f;
+		private float _lastPingResponse = 0f;
 
 		public readonly float[] MsgSendTime = new float[256];
 		public readonly bool[] MsgAcks = new bool[256];
@@ -160,103 +166,33 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		private void UpdateBase(SAMTime gameTime)
 		{
-			if (gameTime.TotalElapsedSeconds - _lastSendPing > TIME_BETWEEN_PINGS && gameTime.TotalElapsedSeconds - _lastServerResponse > TIME_BETWEEN_PINGS)
-			{
-				SetSequenceCounter(ref MSG_PING[1]);
-				_medium.Send(MSG_PING);
-				
-				_lastSendPing = gameTime.TotalElapsedSeconds;
-			}
-
-			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
-
-			if (deltaLSR < TIMEOUT_PAUSE)
-			{
-				ConnState = ConnectionState.Connected;
-			}
-			else if (deltaLSR < TIMEOUT_OFFLINE)
-			{
-				ConnState = ConnectionState.Reconnecting;
-			}
-			else if (deltaLSR < TIMEOUT_ERRORSTOP)
-			{
-				ConnState = ConnectionState.Offline;
-			}
+			UpdateConnStateByPing(gameTime, false);
+			SendPingIfNeeded(gameTime);
 		}
 
 		private void UpdateCreateSession(SAMTime gameTime)
 		{
-			if (gameTime.TotalElapsedSeconds - _lastSendPing > TIME_BETWEEN_PINGS && gameTime.TotalElapsedSeconds - _lastServerResponse > TIME_BETWEEN_PINGS)
-			{
-				SetSequenceCounter(ref MSG_PING[1]);
-				_medium.Send(MSG_PING);
-				
-				_lastSendPing = gameTime.TotalElapsedSeconds;
-			}
-
-			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
-
-			if (deltaLSR < TIMEOUT_PAUSE)
-			{
-				ConnState = ConnectionState.Connected;
-			}
-			else if (deltaLSR < TIMEOUT_OFFLINE)
-			{
-				ConnState = ConnectionState.Reconnecting;
-			}
-			else if (deltaLSR < TIMEOUT_ERRORSTOP)
-			{
-				ConnState = ConnectionState.Offline;
-			}
-			else
-			{
-				ErrorStop(ErrorType.ProxyServerTimeout, null);
-				return;
-			}
+			UpdateConnStateByPing(gameTime, true);
+			SendPingIfNeeded(gameTime);
 
 			if (gameTime.TotalElapsedSeconds - _lastSendJoinOrCreateSession > RESEND_TIME_RELIABLE)
 			{
 				SetSequenceCounter(ref MSG_CREATESESSION[1]);
 				MSG_CREATESESSION[2] = SessionCapacity;
-				_medium.Send(MSG_CREATESESSION);
+				Send(MSG_CREATESESSION);
 				_lastSendJoinOrCreateSession = gameTime.TotalElapsedSeconds;
 			}
 		}
 
 		private void UpdateJoinSession(SAMTime gameTime)
 		{
-			if (gameTime.TotalElapsedSeconds - _lastSendPing > TIME_BETWEEN_PINGS && gameTime.TotalElapsedSeconds - _lastServerResponse > TIME_BETWEEN_PINGS)
-			{
-				SetSequenceCounter(ref MSG_PING[1]);
-				_medium.Send(MSG_PING);
-				
-				_lastSendPing = gameTime.TotalElapsedSeconds;
-			}
-
-			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
-
-			if (deltaLSR < TIMEOUT_PAUSE)
-			{
-				ConnState = ConnectionState.Connected;
-			}
-			else if (deltaLSR < TIMEOUT_OFFLINE)
-			{
-				ConnState = ConnectionState.Reconnecting;
-			}
-			else if (deltaLSR < TIMEOUT_ERRORSTOP)
-			{
-				ConnState = ConnectionState.Offline;
-			}
-			else
-			{
-				ErrorStop(ErrorType.ProxyServerTimeout, null);
-				return;
-			}
+			UpdateConnStateByPing(gameTime, true);
+			SendPingIfNeeded(gameTime);
 
 			if (gameTime.TotalElapsedSeconds - _lastSendJoinOrCreateSession > RESEND_TIME_RELIABLE)
 			{
 #if DEBUG
-				if (SessionID == 55586 && SessionSecret == 10721)
+				if (SessionID == 55586 && SessionSecret == 10721) // FF FF FF FF
 				{
 					MSG_JOINSESSION[0] = CMD_AUTOJOINSESSION;
 				}
@@ -271,13 +207,16 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				MSG_JOINSESSION[3] = (byte)(SessionID & 0xFF);
 				MSG_JOINSESSION[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
 				MSG_JOINSESSION[5] = (byte)(SessionSecret & 0xFF);
-				_medium.Send(MSG_JOINSESSION);
+				Send(MSG_JOINSESSION);
 				_lastSendJoinOrCreateSession = gameTime.TotalElapsedSeconds;
 			}
 		}
 
 		private void UpdateInLobby(SAMTime gameTime)
 		{
+			UpdateConnStateByPing(gameTime, true);
+			SendPingIfNeeded(gameTime);
+
 			if (gameTime.TotalElapsedSeconds - _lastSendLobbyQuery > TIME_BETWEEN_PINGS)
 			{
 				SetSequenceCounter(ref MSG_QUERYLOBBY[1]);
@@ -286,7 +225,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				MSG_QUERYLOBBY[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
 				MSG_QUERYLOBBY[5] = (byte)(SessionSecret & 0xFF);
 
-				_medium.Send(MSG_QUERYLOBBY);
+				Send(MSG_QUERYLOBBY);
 				_lastSendLobbyQuery = gameTime.TotalElapsedSeconds;
 			}
 
@@ -306,66 +245,21 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					for (int i = 0; i < binData.Length; i++) MSG_HOSTINFO[6 + i] = binData[i];
 
 					SetSequenceCounter(ref MSG_HOSTINFO[1]);
-					_medium.Send(MSG_HOSTINFO);
+					Send(MSG_HOSTINFO);
 					_lastSendHostInfo = gameTime.TotalElapsedSeconds;
 				}
-			}
-
-			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
-
-			if (deltaLSR < TIMEOUT_PAUSE)
-			{
-				ConnState = ConnectionState.Connected;
-			}
-			else if (deltaLSR < TIMEOUT_OFFLINE)
-			{
-				ConnState = ConnectionState.Reconnecting;
-			}
-			else if (deltaLSR < TIMEOUT_ERRORSTOP)
-			{
-				ConnState = ConnectionState.Offline;
-			}
-			else
-			{
-				ErrorStop(ErrorType.ProxyServerTimeout, null);
-				return;
 			}
 		}
 
 		private void UpdateAfterLobbySync(SAMTime gameTime)
 		{
-			if (gameTime.TotalElapsedSeconds - _lastSendPing > TIME_BETWEEN_PINGS && gameTime.TotalElapsedSeconds - _lastServerResponse > TIME_BETWEEN_PINGS)
-			{
-				SetSequenceCounter(ref MSG_PING[1]);
-				_medium.Send(MSG_PING);
-
-				_lastSendPing = gameTime.TotalElapsedSeconds;
-			}
-
-			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
-
-			if (deltaLSR < TIMEOUT_PAUSE)
-			{
-				ConnState = ConnectionState.Connected;
-			}
-			else if (deltaLSR < TIMEOUT_OFFLINE)
-			{
-				ConnState = ConnectionState.Reconnecting;
-			}
-			else if (deltaLSR < TIMEOUT_ERRORSTOP)
-			{
-				ConnState = ConnectionState.Offline;
-			}
-			else
-			{
-				ErrorStop(ErrorType.ProxyServerTimeout, null);
-				return;
-			}
+			UpdateConnStateByPing(gameTime, true);
+			SendPingIfNeeded(gameTime);
 
 			if (gameTime.TotalElapsedSeconds - _lastSendLobbySync > RESEND_TIME_RELIABLE)
 			{
 				SetSequenceCounter(ref MSG_LOBBYSYNC[1]);
-				_medium.Send(MSG_LOBBYSYNC);
+				Send(MSG_LOBBYSYNC);
 				_lastSendLobbySync = gameTime.TotalElapsedSeconds;
 			}
 
@@ -377,22 +271,23 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		private void UpdateInGame(SAMTime gameTime)
 		{
+			UpdateConnStateByPing(gameTime, true);
+			SendPingIfNeeded(gameTime);
+
 			if (gameTime.TotalElapsedSeconds - _lastSendGameState > TIME_BETWEEN_GAMESTATE)
 			{
 				SendGameStateNow();
 
 				_lastSendGameState = gameTime.TotalElapsedSeconds;
 			}
+		}
 
-			if (gameTime.TotalElapsedSeconds - _lastSendPing > TIME_BETWEEN_INGAME_PINGS && gameTime.TotalElapsedSeconds - _lastServerResponse > TIME_BETWEEN_PINGS)
-			{
-				SetSequenceCounter(ref MSG_PING[1]);
-				_medium.Send(MSG_PING);
+		private void UpdateConnStateByPing(SAMTime gameTime, bool errorOnTimeout)
+		{
+			var freq = TIME_BETWEEN_PINGS;
+			if (Mode == ServerMode.InGame) freq = TIME_BETWEEN_INGAME_PINGS;
 
-				_lastSendPing = gameTime.TotalElapsedSeconds;
-			}
-
-			var deltaLSR = gameTime.TotalElapsedSeconds - _lastServerResponse;
+			var deltaLSR = _lastSendPing - _lastPingResponse - freq;
 
 			if (deltaLSR < TIMEOUT_PAUSE)
 			{
@@ -408,18 +303,17 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 			else
 			{
-				ErrorStop(ErrorType.ProxyServerTimeout, null);
+				if (errorOnTimeout) ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
 			}
 
-			if (SessionID == 0)
+			if (Mode == ServerMode.InGame && SessionID == 0)
 			{
 				for (int i = 0; i < SessionCount; i++)
 				{
 					if (i == SessionUserID) continue;
 
 					var deltaLUR = gameTime.TotalElapsedSeconds - UserConn[i].LastResponse;
-
 
 					if (deltaLUR < TIMEOUT_PAUSE)
 					{
@@ -437,6 +331,62 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					{
 						ErrorStop(ErrorType.UserTimeout, i);
 						return;
+					}
+				}
+			}
+
+			if (deltaLSR > 3 * freq)
+			{
+				Ping.SetDirect(deltaLSR);
+			}
+		}
+
+		private void SendPingIfNeeded(SAMTime gameTime)
+		{
+			var freq = TIME_BETWEEN_PINGS;
+			if (Mode == ServerMode.InGame) freq = TIME_BETWEEN_INGAME_PINGS;
+
+			if (gameTime.TotalElapsedSeconds - _lastSendPing > freq && gameTime.TotalElapsedSeconds - _lastPingResponse > TIME_BETWEEN_PINGS)
+			{
+				SetSequenceCounter(ref MSG_PING[1]);
+				Send(MSG_PING);
+
+				_lastSendPing = gameTime.TotalElapsedSeconds;
+			}
+
+			if (Mode == ServerMode.InGame)
+			{
+				if (SessionUserID == 0)
+				{
+					for (int i = 1; i < SessionCapacity; i++)
+					{
+						if (gameTime.TotalElapsedSeconds - UserConn[i].LastSendPingTime > TIME_BETWEEN_INGAME_USERPINGS)
+						{
+							SetSequenceCounter(ref MSG_USERPING_REQ[1]);
+							MSG_USERPING_REQ[2] = (byte)((SessionID >> 8) & 0xFF);
+							MSG_USERPING_REQ[3] = (byte)(SessionID & 0xFF);
+							MSG_USERPING_REQ[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+							MSG_USERPING_REQ[5] = (byte)(SessionSecret & 0xFF);
+							MSG_USERPING_REQ[6] = (byte)(SessionUserID);
+							MSG_USERPING_REQ[7] = (byte)i;
+							UserConn[i].SetPingSequenceCounterAndInvalidateLastPing(ref MSG_USERPING_REQ[8]);
+							Send(MSG_USERPING_REQ);
+						}
+					}
+				}
+				else
+				{
+					if (gameTime.TotalElapsedSeconds - UserConn[0].LastSendPingTime > TIME_BETWEEN_INGAME_USERPINGS)
+					{
+						SetSequenceCounter(ref MSG_USERPING_REQ[1]);
+						MSG_USERPING_REQ[2] = (byte) ((SessionID >> 8) & 0xFF);
+						MSG_USERPING_REQ[3] = (byte) (SessionID & 0xFF);
+						MSG_USERPING_REQ[4] = (byte) (((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+						MSG_USERPING_REQ[5] = (byte) (SessionSecret & 0xFF);
+						MSG_USERPING_REQ[6] = (byte) (SessionUserID);
+						MSG_USERPING_REQ[7] = 0;
+						UserConn[0].SetPingSequenceCounterAndInvalidateLastPing(ref MSG_USERPING_REQ[8]);
+						Send(MSG_USERPING_REQ);
 					}
 				}
 			}
@@ -468,14 +418,19 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 		}
 
-		protected void RecieveAck(byte seq)
+		protected void RecieveAck(byte seq, bool isPing = false)
 		{
 			if (! MsgAcks[seq])
 			{
 				_lastServerResponse = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
 				MsgAcks[seq] = true;
-				Ping.Inc(_lastServerResponse - MsgSendTime[seq]);
+
+				if (isPing)
+				{
+					_lastPingResponse = _lastServerResponse;
+					Ping.Inc(_lastPingResponse - MsgSendTime[seq]);
+				}
 			}
 		}
 		
@@ -526,22 +481,49 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			MSG_QUITSESSION[5] = (byte)(SessionSecret & 0xFF);
 			MSG_QUITSESSION[6] = (byte)(SessionUserID);
 
-			_medium.Send(MSG_QUITSESSION);
+			Send(MSG_QUITSESSION);
 		}
 		
 		private void ProcessMessage(SAMTime gameTime, byte[] d)
 		{
-			switch (d[0])
+			var cmd = d[0];
+			var seq = d[1];
+
+			switch (cmd)
 			{
 				case ACK_PINGRESULT:
-					RecieveAck(d[1]);
-					
+					RecieveAck(seq, true);
 					return;
-				
+
+				case CMD_USERPING:
+
+					SetSequenceCounter(ref MSG_USERPING_ACK[1]);
+					MSG_USERPING_ACK[2] = (byte)((SessionID >> 8) & 0xFF);
+					MSG_USERPING_ACK[3] = (byte)(SessionID & 0xFF);
+					MSG_USERPING_ACK[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+					MSG_USERPING_ACK[5] = (byte)(SessionSecret & 0xFF);
+					MSG_USERPING_ACK[6] = (byte)(SessionUserID);
+					MSG_USERPING_ACK[7] = d[6];
+					MSG_USERPING_ACK[8] = d[8];
+					Send(MSG_USERPING_ACK);
+
+					return;
+
+				case CMD_USERPING_ACK:
+
+					if (d[6] >= 0 && d[6] < SessionCapacity)
+					{
+						var pingseq = d[8];
+
+						UserConn[d[6]].RecievePingAck(d[8]);
+					}
+
+					return;
+
 				case ACK_SESSIONCREATED:
 					if (Mode == ServerMode.CreatingSession)
 					{
-						RecieveAck(d[1]);
+						RecieveAck(seq);
 
 						Mode = ServerMode.InLobby;
 						SessionID = (ushort)(((d[2] << 8) & 0xFF00) | (d[3] & 0xFF));
@@ -559,7 +541,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 					if (Mode == ServerMode.InLobby)
 					{
-						RecieveAck(d[1]);
+						RecieveAck(seq);
 
 						bool insession = (d[4] == 1);
 						SessionCount = d[6];
@@ -589,14 +571,14 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 					if (Mode == ServerMode.InLobby)
 					{
-						RecieveAck(d[1]);
+						RecieveAck(seq);
 
 						ErrorStop(ErrorType.SessionNotFound, null);
 						return;
 					}
 					else if (Mode == ServerMode.JoiningSession)
 					{
-						RecieveAck(d[1]);
+						RecieveAck(seq);
 
 						ErrorStop(ErrorType.SessionNotFound, null);
 						return;
@@ -612,14 +594,14 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 					if (Mode == ServerMode.InLobby)
 					{
-						RecieveAck(d[1]);
+						RecieveAck(seq);
 						
 						ErrorStop(ErrorType.AuthentificationFailed, null);
 						return;
 					}
 					else if (Mode == ServerMode.JoiningSession)
 					{
-						RecieveAck(d[1]);
+						RecieveAck(seq);
 
 						ErrorStop(ErrorType.SessionNotFound, null);
 						return;
@@ -635,7 +617,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 					if (Mode == ServerMode.JoiningSession)
 					{
-						RecieveAck(d[1]);
+						RecieveAck(seq);
 
 						ErrorStop(ErrorType.LobbyFull, null);
 						return;
@@ -646,7 +628,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 					if (Mode == ServerMode.JoiningSession)
 					{
-						RecieveAck(d[1]);
+						RecieveAck(seq);
 
 						Mode = ServerMode.InLobby;
 						SessionID = (ushort)(((d[2] << 8) & 0xFF00) | (d[3] & 0xFF));
@@ -671,7 +653,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 						UserConn[rec_sessionUserID].LastResponse = gameTime.TotalElapsedSeconds;
 
 
-						RecieveAck(d[1]);
+						RecieveAck(seq);
 
 						if (rec_sessionID == SessionID && rec_sessionSecret == SessionSecret && rec_sessionUserID < SessionCount)
 						{
@@ -806,6 +788,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			ErrorData = d;
 
 			_medium.Dispose();
+		}
+
+		protected void Send(byte[] data)
+		{
+			if (!_stopped) _medium.Send(data);
 		}
 	}
 }

@@ -17,6 +17,8 @@ public class Main {
     public static final int GAME_USER_TIMEOUT       =  8 * 1000;
     public static final int STATE_OUTPUT_FREQ       = 45 * 1000;
 
+    public static final byte CMD_USERPING           =  91;
+    public static final byte CMD_USERPING_ACK       =  92;
     public static final byte CMD_CREATESESSION      = 100;
     public static final byte CMD_JOINSESSION        = 101;
     public static final byte CMD_QUITSESSION        = 102;
@@ -96,11 +98,12 @@ public class Main {
         {
             try {
 
-                // FORWARD =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [440: Payload]
-                // CREATE  =   [8: CMD] [8:seq] [4: SessionSize]
-                // JOIN    =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
-                // QUIT    =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
-                // QUERY   =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret]
+                // USERPING =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [8:UserSender] [8:UserTarget] [8:PingID]
+                // FORWARD  =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret] [440: Payload]
+                // CREATE   =   [8: CMD] [8:seq] [4: SessionSize]
+                // JOIN     =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
+                // QUIT     =   [8: CMD] [8:seq] [16: SessionID] [12: SessionSecret]
+                // QUERY    =   [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret]
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, PACKAGE_SIZE);
 
                 try {
@@ -113,6 +116,14 @@ public class Main {
                 }
 
                 switch (receiveData[0]) {
+                    case CMD_USERPING:
+                    case CMD_USERPING_ACK:
+                        int uping_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
+                        int uping_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
+                        int uping_sender   = receiveData[6] & 0xFF;
+                        int uping_reciever = receiveData[7] & 0xFF;
+                        ForwardUserping(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), uping_sessionid, uping_sessionsecret, uping_sender, uping_reciever);
+                        break;
                     case CMD_CREATESESSION:
                         byte create_seq = receiveData[1];
                         int create_sessionsize = (receiveData[2] & 0x0F);
@@ -558,6 +569,30 @@ public class Main {
         _log.Debug("Ping " + host.getHostAddress() + " : " + port);
 
         DatagramPacket sendPacket = new DatagramPacket(sendDataSmall, PACKAGE_SIZE_SMALL, host, port);
+        Socket.send(sendPacket);
+    }
+
+    private static void ForwardUserping(InetAddress host, int port, int len, int sessionid, int sessionsecret, int sender, int target) throws IOException {
+        GameSession session = Sessions.getOrDefault((short)sessionid, null);
+
+        if (session == null) {
+            _log.Warn("Cannot forward ping from " + host.getHostAddress() + " : " + port + " - Session " + sessionid + " not found");
+            return;
+        }
+
+        if ((session.SessionSecret & 0x0FFF) != (sessionsecret & 0x0FFF)) {
+            _log.Warn("Cannot forward ping from " + host.getHostAddress() + " : " + port + " - Session " + sessionid + " not authenticated");
+            return;
+        }
+
+        if (target < 0 || target >= session.Users.length || session.Users[target] == null) {
+            _log.Warn("Cannot forward ping from " + host.getHostAddress() + " : " + port + " - TargetUser " + target + " not found");
+            return;
+        }
+
+        session.SetLastActivity(sender);
+
+        DatagramPacket sendPacket = new DatagramPacket(receiveData, len, session.Users[target].Adress, session.Users[target].Port);
         Socket.send(sendPacket);
     }
 
