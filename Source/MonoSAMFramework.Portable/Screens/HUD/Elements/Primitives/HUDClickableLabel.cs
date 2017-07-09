@@ -13,8 +13,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		public LabelEventHandler Click { set => LabelClick += value; }
 		public bool ClickSound = false;
 
-		private bool recalcText = false;
-
 		public HUDClickableLabel(int depth = 0) : base(depth)
 		{ 
 

@@ -895,7 +895,9 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		{
 			if (!_stopped) _medium.Send(data);
 
+#if DEBUG
 			SendFreq.Inc(MonoSAMGame.CurrentTime.TotalElapsedSeconds);
+#endif
 		}
 	}
 }
