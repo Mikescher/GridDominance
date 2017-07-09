@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet_extra.tps</string>
+        <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet_extra.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -334,19 +334,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">extra/title_w2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>67,96,133,192</rect>
-                <key>scale9Paddings</key>
-                <rect>67,96,133,192</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
+            <key type="filename">extra/title_w1.png</key>
             <key type="filename">extra/title_w3.png</key>
             <key type="filename">extra/title_w4.png</key>
             <key type="filename">extra/title_w5.png</key>
@@ -361,6 +349,19 @@
                 <rect>66,96,132,192</rect>
                 <key>scale9Paddings</key>
                 <rect>66,96,132,192</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">extra/title_w2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>67,96,133,192</rect>
+                <key>scale9Paddings</key>
+                <rect>67,96,133,192</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

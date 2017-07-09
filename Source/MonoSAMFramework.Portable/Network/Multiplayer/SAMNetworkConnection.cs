@@ -8,7 +8,7 @@ using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
-	public abstract class SAMNetworkConnection : ISAMUpdateable, ILifetimeObject
+	public abstract class SAMNetworkConnection : ISAMUpdateable, ILifetimeObject //TODO SendFreq ist strangely high (22 pack per sec)
 	{
 		public const int MAX_PACKAGE_SIZE_BYTES = 61; //TODO Set me to [[1450]]   // https://stackoverflow.com/a/15003663/1761622
 
@@ -832,6 +832,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public void StartBroadcastAfterGame(byte winnerID)
 		{
 			Mode = ServerMode.BroadcastAfterGame;
+
+			MSG_AFTERGAME[2] = (byte)((SessionID >> 8) & 0xFF);
+			MSG_AFTERGAME[3] = (byte)(SessionID & 0xFF);
+			MSG_AFTERGAME[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+			MSG_AFTERGAME[5] = (byte)(SessionSecret & 0xFF);
 			MSG_AFTERGAME[6] = winnerID;
 		}
 

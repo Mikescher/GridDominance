@@ -9,8 +9,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 	{
 		private readonly bool _dbc;
 		private readonly bool _sbc;
-		public override bool DoBarrelRecharge() => _dbc;
-		public override bool SimulateBarrelRecharge() => _sbc;
+		public override bool DoBarrelRecharge() => _dbc && !Owner.IsCountdown;
+		public override bool SimulateBarrelRecharge() => _sbc && !Owner.IsCountdown;
 
 		public RemoteController(GDGameScreen owner, Cannon cannon, Fraction fraction, bool recharge, bool recoilSim) 
 			: base(0f, owner, cannon, fraction, false)

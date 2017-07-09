@@ -108,6 +108,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public bool HasFinished = false;
 		public bool PlayerWon = false; // [P] win or [C] win
 		public float LevelTime = 0f;
+		public bool IsCountdown = false;
 
 		public readonly bool IsPreview;
 		public readonly bool IsNetwork;

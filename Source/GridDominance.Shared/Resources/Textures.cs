@@ -294,7 +294,7 @@ namespace GridDominance.Shared.Resources
 			TexTitleNumber           = new[]
 			{
 				null,
-				null,
+				AtlasExtraTextures["title_w1"],
 				AtlasExtraTextures["title_w2"],
 				AtlasExtraTextures["title_w3"],
 				AtlasExtraTextures["title_w4"],

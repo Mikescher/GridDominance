@@ -25,6 +25,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		private List<HUDElement> _cornerElements = new List<HUDElement>();
 		private HUDRectangle _backgroundRect;
 
+		private HUDImage _countdown;
+
 		public GDMultiplayerGameHUD(GDGameScreen scrn, GDMultiplayerCommon mp) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(new HUDPauseButton(false, false, true));
@@ -112,6 +114,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				_cornerElements.Add(lbl);
 			}
 
+			_countdown = new HUDImage(100)
+			{
+				Alignment = HUDAlignment.CENTER,
+				Image = Textures.TexTitleNumber[3],
+				ImageAlignment = HUDImageAlignment.UNDERSCALE,
+
+				Size = new FSize(320, 320),
+				
+			};
+			AddElement(_countdown);
+
 			var x = _cornerElements.Max(e => e.Right);
 			var y = _cornerElements.Max(e => e.Bottom);
 			_backgroundRect.Size = new FSize(x + 4f, y + 4f);
@@ -126,6 +139,27 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			var x = _cornerElements.Max(e => e.RelativeRight);
 			var y = _cornerElements.Max(e => e.RelativeBottom);
 			_backgroundRect.Size = new FSize(x+4f, y+4f);
+
+			if (GDOwner.LevelTime / GDOwner.GameSpeed < 0.5f)
+			{
+				_countdown.Image = Textures.TexTitleNumber[3];
+				GDOwner.IsCountdown = true;
+			}
+			else if (GDOwner.LevelTime / GDOwner.GameSpeed < 1.0f)
+			{
+				_countdown.Image = Textures.TexTitleNumber[2];
+				GDOwner.IsCountdown = true;
+			}
+			else if (GDOwner.LevelTime / GDOwner.GameSpeed < 1.5f)
+			{
+				_countdown.Image = Textures.TexTitleNumber[1];
+				GDOwner.IsCountdown = true;
+			}
+			else
+			{
+				_countdown.IsVisible = false;
+				GDOwner.IsCountdown = false;
+			}
 		}
 	}
 }
