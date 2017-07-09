@@ -19,19 +19,31 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		public TextureRegion2D Icon
 		{
 			get { return internalIcon.Image; }
-			set { internalIcon.Image = value; InvalidatePosition(); }
+			set { if (internalIcon.Image != value) { internalIcon.Image = value; InvalidatePosition(); } }
+		}
+
+		public float IconRotation
+		{
+			get => internalIcon.Rotation;
+			set => internalIcon.Rotation = value;
+		}
+
+		public float IconRotationSpeed
+		{
+			get => internalIcon.RotationSpeed;
+			set => internalIcon.RotationSpeed = value;
 		}
 
 		public int L10NText
 		{
 			get { return internalLabel.L10NText; }
-			set { internalLabel.L10NText = value; InvalidatePosition(); }
+			set { if (internalLabel.L10NText != value) { internalLabel.L10NText = value; InvalidatePosition(); } }
 		}
 
 		public string Text
 		{
 			get { return internalLabel.Text; }
-			set { internalLabel.Text = value; InvalidatePosition(); }
+			set { if (internalLabel.L10NText != -1 ||internalLabel.Text != value) { internalLabel.Text = value; InvalidatePosition(); } }
 		}
 
 		public HUDAlignment TextAlignment
@@ -42,43 +54,38 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		public Color TextColor
 		{
-			get { return internalLabel.TextColor; }
-			set { internalLabel.TextColor = value; }
+			get => internalLabel.TextColor;
+			set => internalLabel.TextColor = value;
 		}
 		
 		public SpriteFont Font
 		{
-			get { return internalLabel.Font; }
-			set { internalLabel.Font = value; }
+			get => internalLabel.Font;
+			set => internalLabel.Font = value;
 		}
 
 		public float FontSize
 		{
 			get { return internalLabel.FontSize; }
-			set { internalLabel.FontSize = value; InvalidatePosition(); }
+			set { if (internalLabel.FontSize != value) { internalLabel.FontSize = value; InvalidatePosition(); } }
 		}
 
 		private int _iconPadding = 8;
 		public int IconPadding
 		{
 			get { return _iconPadding; }
-			set { _iconPadding = value; InvalidatePosition(); }
+			set { if (_iconPadding != value) { _iconPadding = value; InvalidatePosition(); } }
 		}
 
 		private int _textPadding = 0;
 		public int TextPadding
 		{
 			get { return _textPadding; }
-			set { _textPadding = value; InvalidatePosition(); }
+			set { if (_textPadding != value) { _textPadding = value; InvalidatePosition(); } }
 		}
 
-		public Color Color = Color.Transparent;
-
-		public Color ColorPressed = Color.Transparent;
-
-		public HUDBackgroundType BackgoundType = HUDBackgroundType.Simple;
-
-		public float BackgoundCornerSize = 16f;
+		public HUDBackgroundDefinition BackgroundNormal  = HUDBackgroundDefinition.DUMMY;
+		public HUDBackgroundDefinition BackgroundPressed = HUDBackgroundDefinition.DUMMY;
 
 		#endregion
 
@@ -133,9 +140,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			var btnColor = IsPointerDownOnElement ? ColorPressed : Color;
-			
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, btnColor, BackgoundCornerSize);
+			if (IsPointerDownOnElement)
+				HUDRenderHelper.DrawBackground(sbatch, bounds, BackgroundPressed);
+			else
+				HUDRenderHelper.DrawBackground(sbatch, bounds, BackgroundNormal);
 		}
 
 		public override void OnRemove()

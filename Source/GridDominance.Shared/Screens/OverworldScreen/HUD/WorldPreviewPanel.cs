@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -81,9 +82,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.PeterRiver,
-				ColorPressed = FlatColors.BelizeHole,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.PeterRiver, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.BelizeHole, 16),
 
 				Click = OnClickBuy,
 			});
@@ -100,9 +101,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.Turquoise,
-				ColorPressed = FlatColors.GreenSea,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Turquoise, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.GreenSea, 16),
 
 				Click = OnClickFinishPrev,
 			});
@@ -121,19 +122,16 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			});
 		}
 
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
-
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			base.DoUpdate(gameTime, istate);
 
-			_button.Color = ColorMath.Blend(FlatColors.BelizeHole, FlatColors.WetAsphalt, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 5));
+			_button.BackgroundNormal = _button.BackgroundNormal.WithColor(ColorMath.Blend(FlatColors.BelizeHole, FlatColors.WetAsphalt, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 5)));
 
 			if (MainGame.Inst.Profile.PurchasedWorlds.Contains(_id))
 			{
 				HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYSUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2.5f);
-				MainGame.Inst.SetOverworldScreen();
+				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 
 			if (MainGame.Inst.Bridge.IAB.IsPurchased(_iabCode) == PurchaseQueryResult.Purchased)
@@ -142,7 +140,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				MainGame.Inst.SaveProfile();
 
 				HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYSUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2.5f);
-				MainGame.Inst.SetOverworldScreen();
+				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 		}
 
@@ -174,7 +172,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						SAMLog.Info("IAB-BUY", "PurchaseStarted");
 						break;
 					default:
-						SAMLog.Error("EnumSwitch", "OnClickBuy()", "r -> " + r);
+						SAMLog.Error("EnumSwitch-OCB", "OnClickBuy()", "r -> " + r);
 						break;
 				}
 			}

@@ -204,6 +204,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDIconTouchUp;
 		public static TextureRegion2D TexHUDIconTouchDown;
 		public static TextureRegion2D TexHUDIconArrow;
+		public static TextureRegion2D TexHUDIconChevronLeft;
+		public static TextureRegion2D TexHUDIconChevronRight;
 		public static TextureRegion2D[] TexHUDFlags;
 
 		public static TextureRegion2D TexPanelBlurEdge;
@@ -228,6 +230,19 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconTutorial;
 		public static TextureRegion2D TexIconLock;
 		public static TextureRegion2D TexIconLockOpen;
+		public static TextureRegion2D TexIconInternet;
+		public static TextureRegion2D TexIconBluetooth;
+		public static TextureRegion2D TexIconConnection0;
+		public static TextureRegion2D TexIconConnection1;
+		public static TextureRegion2D TexIconConnection2;
+		public static TextureRegion2D TexIconConnection3;
+
+		public static TextureRegion2D TexIconNetworkBase;
+		public static TextureRegion2D TexIconNetworkVertex1;
+		public static TextureRegion2D TexIconNetworkVertex2;
+		public static TextureRegion2D TexIconNetworkVertex3;
+		public static TextureRegion2D TexIconNetworkVertex4;
+		public static TextureRegion2D TexIconNetworkVertex5;
 
 		public static TextureRegion2D TexDifficultyLine0;
 		public static TextureRegion2D TexDifficultyLine1;
@@ -279,7 +294,7 @@ namespace GridDominance.Shared.Resources
 			TexTitleNumber           = new[]
 			{
 				null,
-				null,
+				AtlasExtraTextures["title_w1"],
 				AtlasExtraTextures["title_w2"],
 				AtlasExtraTextures["title_w3"],
 				AtlasExtraTextures["title_w4"],
@@ -362,6 +377,8 @@ namespace GridDominance.Shared.Resources
 			TexHUDIconTouchUp             = AtlasTextures["touch_up"];
 			TexHUDIconTouchDown           = AtlasTextures["touch_down"];
 			TexHUDIconArrow               = AtlasTextures["arrow"];
+			TexHUDIconChevronLeft         = AtlasTextures["chevron_left"];
+			TexHUDIconChevronRight        = AtlasTextures["chevron_right"];
 
 			TexHUDFlags                   = new[] { AtlasTextures["flag_00"], AtlasTextures["flag_01"] };
 
@@ -386,22 +403,37 @@ namespace GridDominance.Shared.Resources
 
 
 
-			TexVortex0         = AtlasTextures["vortex_circle_0"];
-			TexVortex1         = AtlasTextures["vortex_circle_1"];
-			TexVortex2         = AtlasTextures["vortex_circle_2"];
+			TexVortex0          = AtlasTextures["vortex_circle_0"];
+			TexVortex1          = AtlasTextures["vortex_circle_1"];
+			TexVortex2          = AtlasTextures["vortex_circle_2"];
 
-			TexIconBack        = AtlasTextures["back"];
-			TexIconNext        = AtlasTextures["next"];
-			TexIconRedo        = AtlasTextures["redo"];
-			TexIconScore       = AtlasTextures["jewels"];
-			TexIconTutorial    = AtlasTextures["tutorial"];
-			TexIconLock        = AtlasTextures["lock"];
-			TexIconLockOpen    = AtlasTextures["lock_open"];
+			TexIconBack         = AtlasTextures["back"];
+			TexIconNext         = AtlasTextures["next"];
+			TexIconRedo         = AtlasTextures["redo"];
+			TexIconScore        = AtlasTextures["jewels"];
+			TexIconTutorial     = AtlasTextures["tutorial"];
+			TexIconLock         = AtlasTextures["lock"];
+			TexIconLockOpen     = AtlasTextures["lock_open"];
+			TexIconInternet     = AtlasTextures["internet"];
+			TexIconBluetooth    = AtlasTextures["bluetooth"];
+			TexIconConnection0  = AtlasTextures["state_err"];
+			TexIconConnection1  = AtlasTextures["state_ok"];
+			TexIconConnection2  = AtlasTextures["state_conn_bg"];
+			TexIconConnection3  = AtlasTextures["state_conn_fg"];
+
+
 
 			TexDifficultyLine0     = AtlasTextures["difficulty_line_01"];
 			TexDifficultyLine1     = AtlasTextures["difficulty_line_02"];
 			TexDifficultyLine2     = AtlasTextures["difficulty_line_03"];
 			TexDifficultyLine3     = AtlasTextures["difficulty_line_04"];
+
+			TexIconNetworkBase    = AtlasTextures["network_base"];
+			TexIconNetworkVertex1 = AtlasTextures["network_vertex1"];
+			TexIconNetworkVertex2 = AtlasTextures["network_vertex2"];
+			TexIconNetworkVertex3 = AtlasTextures["network_vertex3"];
+			TexIconNetworkVertex4 = AtlasTextures["network_vertex4"];
+			TexIconNetworkVertex5 = AtlasTextures["network_vertex5"];
 
 			HUDFontRegular      = content.Load<SpriteFont>("fonts/hudFontRegular");
 			HUDFontBold         = content.Load<SpriteFont>("fonts/hudFontBold");

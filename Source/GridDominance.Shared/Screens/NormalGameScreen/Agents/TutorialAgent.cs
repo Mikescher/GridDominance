@@ -17,6 +17,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 {
@@ -63,11 +64,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		{
 			_screen = scrn;
 
-			_cannon1 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 1001);
-			_cannon2 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 1002);
-			_cannon3 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 3000);
-			_cannon4 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 2002);
-			_cannon5 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 2001);
+			_cannon1 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 11);
+			_cannon2 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 12);
+			_cannon3 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 30);
+			_cannon4 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 22);
+			_cannon5 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 21);
 
 			_controller5 = new TutorialController(_screen, _cannon5);
 			_cannon5.ForceSetController(_controller5);
@@ -105,12 +106,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 						_cannon2.CannonHealth.SetForce(0f);
 						_cannon2.SetFraction(_fracNeutral);
 					}
-					_infobox.ColorBackground = ColorMath.Blend(FlatColors.Concrete, FlatColors.Orange, FloatMath.PercSin(_s1_blinkTimer*4f));
+					_infobox.Background = _infobox.Background.WithColor(ColorMath.Blend(FlatColors.Concrete, FlatColors.Orange, FloatMath.PercSin(_s1_blinkTimer*4f)));
 					if (FloatMath.DiffRadiansAbs(_cannon1.Rotation.ActualValue, FloatMath.RAD_POS_270) < FloatMath.RAD_POS_060) Transition_2_ShootingFirstNeutral();
 					break;
 
 				case TutorialState.ShootingFirstNeutral:
-					_infobox.ColorBackground = FlatColors.Concrete;
+					_infobox.Background = _infobox.Background.WithColor(FlatColors.Concrete);
 					if (FloatMath.IsOne(_cannon2.CannonHealth.ActualValue)) Transition_3_TargetCenter();
 					break;
 
@@ -139,13 +140,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					break;
 
 				case TutorialState.CaptureEnemy:
-					_infobox.ColorBackground = ColorMath.Blend(FlatColors.Alizarin, FlatColors.SunFlower, FloatMath.PercSin(_s1_blinkTimer * 6f));
+					_infobox.Background = _infobox.Background.WithColor(ColorMath.Blend(FlatColors.Alizarin, FlatColors.SunFlower, FloatMath.PercSin(_s1_blinkTimer * 6f)));
 					if (FloatMath.IsOne(_cannon4.CannonHealth.ActualValue) && _cannon4.Fraction == _fracPlayer) Transition_8_WinGame();
 					break;
 
 				case TutorialState.WinGame:
-					_infobox.ColorBackground = FlatColors.Concrete;
-					_infobox.ColorBackground = ColorMath.Blend(FlatColors.Emerald, FlatColors.Concrete, FloatMath.PercSin(_s1_blinkTimer * 4f));
+					_infobox.Background = _infobox.Background.WithColor(ColorMath.Blend(FlatColors.Emerald, FlatColors.Concrete, FloatMath.PercSin(_s1_blinkTimer * 4f)));
 					break;
 
 				default:
@@ -271,13 +271,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 				FontSize = 40,
 				Font = Textures.HUDFontRegular,
 				TextColor = Color.Black,
-				ColorBackground = FlatColors.Concrete,
 				Alpha = 1f,
 				TextPadding = new FSize(8, 8),
-				BackgroundType = HUDBackgroundType.RoundedBlur,
 				MaxWidth = 8 * GDConstants.TILE_WIDTH,
-				BackgoundCornerSize = 4f,
 				WordWrap = HUDWordWrap.WrapByWordTrusted,
+
+				Background = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Concrete, 4f),
 			});
 		}
 

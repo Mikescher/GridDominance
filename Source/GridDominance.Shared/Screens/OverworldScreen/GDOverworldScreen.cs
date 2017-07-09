@@ -39,6 +39,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		private readonly ParticleBanner _banner;
 		public bool IsTransitioning = false;
 
+		public OverworldScrollAgent ScrollAgent;
+
 		public GDOverworldScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
 		{
 			_banner = new ParticleBanner(this, Textures.TexParticle, GDConstants.ORDER_WORLD_LOGO);
@@ -54,18 +56,19 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 #endif
 			AddAgent(new ExitAgent(this));
 
-			OverworldNode[] nodes = //TODO Scroll to last unlocked node
+			OverworldNode[] nodes =
 			{
 				new OverworldNode_Tutorial(this, FPoint.Zero),
 				new OverworldNode_W1(this, FPoint.Zero),
 				new OverworldNode_W2(this, FPoint.Zero),
 				new OverworldNode_W3(this, FPoint.Zero),
 				new OverworldNode_W4(this, FPoint.Zero),
+				new OverworldNode_MP(this, FPoint.Zero),
 			};
 
 			foreach (var node in nodes) Entities.AddEntity(node);
 
-			AddAgent(new OverworldScrollAgent(this, nodes));
+			AddAgent(ScrollAgent = new OverworldScrollAgent(this, nodes));
 
 			_banner.TargetRect = new FRectangle(0 * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH, 16 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH).AsDeflated(0.25f * GDConstants.TILE_WIDTH);
 			_banner.Text = GDConstants.LOGO_STRING;

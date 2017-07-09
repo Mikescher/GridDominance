@@ -5,6 +5,7 @@ using MonoSAMFramework.Portable.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {
@@ -29,10 +30,13 @@ namespace MonoSAMFramework.Portable.DebugTools
 		private double spawntime = 0;
 
 		public Color Background = Color.White;
+		public ILifetimeObject Owner = null;
 
 		public float PositionY = 0f;
 		public bool IsDecaying => lifetime < 1000;
 
+		public int Order => 0;
+		
 		public DebugTextDisplayLine(Func<string> text)
 			: this(text, ActionTrue)
 		{
@@ -62,7 +66,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public void Update()
 		{
-			// NOP
+			if (Owner != null && !Owner.Alive) IsAlive = false;
 		}
 
 		public void UpdateDecay(SAMTime gameTime, bool first)

@@ -13,6 +13,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 		private readonly List<DebugTextDisplayLine> _lines;
 		private static SAMLogEntry _lastReadEntry = null;
 
+		public int Order => 999;
+		
 		public DebugTextLogLine()
 		{
 			_lines = new List<DebugTextDisplayLine>();

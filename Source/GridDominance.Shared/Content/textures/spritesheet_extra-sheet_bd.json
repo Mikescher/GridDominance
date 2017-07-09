@@ -2,7 +2,7 @@
 
 {
 	"filename": "description_w2.png",
-	"frame": {"x":2,"y":69,"w":180,"h":49},
+	"frame": {"x":153,"y":2,"w":180,"h":49},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":180,"h":49},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "description_w3.png",
-	"frame": {"x":153,"y":2,"w":156,"h":49},
+	"frame": {"x":175,"y":54,"w":156,"h":49},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":156,"h":49},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "title_generic.png",
-	"frame": {"x":185,"y":54,"w":134,"h":48},
+	"frame": {"x":2,"y":69,"w":134,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":48},
@@ -37,8 +37,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "title_w1.png",
+	"frame": {"x":139,"y":69,"w":33,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":48},
+	"sourceSize": {"w":33,"h":48},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "title_w2.png",
-	"frame": {"x":312,"y":2,"w":33,"h":48},
+	"frame": {"x":334,"y":54,"w":33,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":48},
@@ -47,7 +56,7 @@
 },
 {
 	"filename": "title_w3.png",
-	"frame": {"x":322,"y":53,"w":33,"h":48},
+	"frame": {"x":336,"y":2,"w":33,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":48},
@@ -56,7 +65,7 @@
 },
 {
 	"filename": "title_w4.png",
-	"frame": {"x":348,"y":2,"w":33,"h":48},
+	"frame": {"x":370,"y":53,"w":33,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":48},
@@ -65,7 +74,7 @@
 },
 {
 	"filename": "title_w5.png",
-	"frame": {"x":358,"y":53,"w":33,"h":48},
+	"frame": {"x":372,"y":2,"w":33,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":48},
@@ -74,7 +83,7 @@
 },
 {
 	"filename": "title_w6.png",
-	"frame": {"x":384,"y":2,"w":33,"h":48},
+	"frame": {"x":408,"y":2,"w":33,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":48},
@@ -83,7 +92,7 @@
 },
 {
 	"filename": "title_w7.png",
-	"frame": {"x":394,"y":53,"w":33,"h":48},
+	"frame": {"x":406,"y":53,"w":33,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":48},
@@ -95,8 +104,8 @@
 	"version": "1.0",
 	"image": "spritesheet_extra_bd.png",
 	"format": "RGBA8888",
-	"size": {"w":429,"h":120},
+	"size": {"w":443,"h":119},
 	"scale": "0.125",
-	"smartupdate": "$TexturePacker:SmartUpdate:bd867e46857c06573aa32afe3469d8f2:3bd17ecbafdf572bb194f34f0cc6a9c8:105496a1bc7420e8d84e4f2492a724d1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:535afbe683575a0b7cdb4bc203b9dca1:fbcccd41049b1125f9905f898ab2244c:105496a1bc7420e8d84e4f2492a724d1$"
 }
 }

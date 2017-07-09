@@ -15,6 +15,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using System;
 using System.Linq;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Extensions;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
@@ -29,11 +30,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private float barrelRecoil = 0f;
 		private float cannonCogRotation;
 
+		private readonly bool _muted;
+
 		public BulletCannon(GDGameScreen scrn, CannonBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
 			Blueprint = bp;
 			_screen = scrn;
+			_muted = scrn.IsPreview;
 		}
 
 		#region Update
@@ -76,19 +80,37 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void UpdateBarrel(SAMTime gameTime)
 		{
-			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral) && controller.DoBarrelRecharge())
+			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral))
 			{
-				float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
-				if (Scale > 2.5f) chargeDelta /= Scale;
-
-				BarrelCharge += chargeDelta;
-
-				if (BarrelCharge >= 1f)
+				if (controller.DoBarrelRecharge())
 				{
-					BarrelCharge -= 1f;
+					float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
+					if (Scale > 2.5f) chargeDelta /= Scale;
 
-					Shoot();
+					BarrelCharge += chargeDelta;
+
+					if (BarrelCharge >= 1f)
+					{
+						BarrelCharge -= 1f;
+
+						Shoot();
+					}
 				}
+				else if (controller.SimulateBarrelRecharge())
+				{
+					float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
+					if (Scale > 2.5f) chargeDelta /= Scale;
+
+					BarrelCharge += chargeDelta;
+
+					if (BarrelCharge >= 1f)
+					{
+						BarrelCharge -= 1f;
+
+						barrelRecoil = 0f;
+					}
+				}
+
 			}
 
 			if (barrelRecoil < 1)
@@ -128,7 +150,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			barrelRecoil = 0f;
 
 			Manager.AddEntity(new Bullet(GDOwner, this, position, velocity, Scale, Fraction));
-			MainGame.Inst.GDSound.PlayEffectShoot();
+			if (!_muted) MainGame.Inst.GDSound.PlayEffectShoot();
 		}
 
 		public FPoint GetBulletSpawnPoint()
@@ -161,7 +183,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 #if DEBUG
 			// ASSERTION
-			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBulletBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
+			if (ActiveOperations.Count(p => p is CannonBooster) != BulletBoostCount) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
 		}
 
@@ -288,7 +310,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			CannonHealth.Inc(HEALTH_HIT_GEN);
 			if (CannonHealth.Limit(0f, 1f) == 1)
 			{
-				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.BulletMultiplicator)));
+				AddEntityOperation(new CannonBooster(1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.BulletMultiplicator)));
 			}
 		}
 
@@ -297,6 +319,55 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override KIController CreateKIController(GDGameScreen screen, Fraction fraction)
 		{
 			return new BulletKIController(screen, this, fraction);
+		}
+
+		public void RemoteUpdate(Fraction frac, float hp, byte boost, float charge, float sendertime)
+		{
+			if (frac != Fraction) SetFraction(frac);
+
+			ManualBoost = boost;
+			BarrelCharge = charge;
+
+			var delta = GDOwner.LevelTime - sendertime;
+
+			CannonHealth.Set(hp);
+
+			var ups = delta / (1 / 30f);
+
+			if (ups > 1)
+			{
+				var gt30 = new SAMTime((1/30f) * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds);
+
+				for (int i = 0; i < FloatMath.Round(ups); i++)
+				{
+					CannonHealth.Update(gt30);
+
+					if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > MIN_REGEN_HEALTH && (LastAttackingLasersEnemy <= LastAttackingLasersFriends))
+					{
+						var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
+
+						bonus /= Scale;
+
+						CannonHealth.Inc(bonus * gt30.ElapsedSeconds);
+						CannonHealth.Limit(0f, 1f);
+					}
+
+					if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral))
+					{
+						float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gt30.ElapsedSeconds;
+						if (Scale > 2.5f) chargeDelta /= Scale;
+
+						BarrelCharge += chargeDelta;
+
+						if (BarrelCharge >= 1f)
+						{
+							BarrelCharge -= 1f;
+
+							barrelRecoil = 0f;
+						}
+					}
+				}
+			}
 		}
 	}
 }

@@ -32,6 +32,18 @@ namespace MonoSAMFramework.Portable.GameMath
 			}
 		}
 
+		public void FullSet(float t, float a)
+		{
+			TargetValue = t;
+			ActualValue = a;
+		}
+
+		public void FullSet(DeltaLimitedFloat other)
+		{
+			TargetValue = other.TargetValue;
+			ActualValue = other.ActualValue;
+		}
+
 		public void Set(float v)
 		{
 			TargetValue = v;

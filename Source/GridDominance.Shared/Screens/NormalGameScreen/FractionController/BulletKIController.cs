@@ -13,7 +13,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 	{
 		private readonly List<KIMethod> intelligence;
 
-		public override bool DoBarrelRecharge() => true;
+		public override bool DoBarrelRecharge() => !Owner.IsCountdown;
+		public override bool SimulateBarrelRecharge() => false;
 
 		public BulletKIController(GDGameScreen owner, Cannon cannon, Fraction fraction)
 			: base(STANDARD_UPDATE_TIME, owner, cannon, fraction, 0f)

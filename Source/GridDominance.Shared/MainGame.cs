@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.GlobalAgents;
 using GridDominance.Shared.Network;
+using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.OverworldScreen;
@@ -19,6 +21,8 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
+using System.Text;
+using GridDominance.Shared.Screens.ScreenGame;
 
 namespace GridDominance.Shared
 {
@@ -36,6 +40,9 @@ namespace GridDominance.Shared
 			GDConstants.IAB_WORLD3,
 		};
 
+		public const float MAX_LOG_SEND_DELTA = 25f; // Max send 5 logs in 25sec
+		public const int   MAX_LOG_SEND_COUNT = 5;
+
 		public readonly PlayerProfile Profile;
 		public readonly IGDServerAPI Backend;
 
@@ -43,6 +50,8 @@ namespace GridDominance.Shared
 
 		public readonly GDSounds GDSound = new GDSounds();
 		public override SAMSoundPlayer Sound => GDSound;
+
+		public float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
 
 		public MainGame(IOperatingSystemBridge b) : base(b)
 		{
@@ -80,6 +89,9 @@ namespace GridDominance.Shared
 			}
 
 			SAMLog.LogEvent += SAMLogOnLogEvent;
+			SAMLog.AdditionalLogInfo.Add(GetLogInfo);
+
+			for (int i = 0; i < MAX_LOG_SEND_COUNT; i++) LastSendLogTimes[i] = float.MinValue;
 
 			L10NImpl.Init(Profile.Language);
 			
@@ -101,7 +113,22 @@ namespace GridDominance.Shared
 		{
 			if (args.Level == SAMLogLevel.ERROR || args.Level == SAMLogLevel.FATAL_ERROR)
 			{
+				//Prevent sending logs too fast
+				if (CurrentTime.TotalElapsedSeconds - LastSendLogTimes[0] < MAX_LOG_SEND_DELTA)
+				{
+					SAMLog.Info("Backend::LogSpam", $"Do not send log '{args.Entry.MessageShort}', cause too many online logs in last time");
+					return;
+				}
+
+
 				Backend.LogClient(Profile, args.Entry).EnsureNoError();
+
+
+				for (int i = 0; i < MAX_LOG_SEND_COUNT-1; i++)
+				{
+					LastSendLogTimes[i] = LastSendLogTimes[i + 1];
+				}
+				LastSendLogTimes[MAX_LOG_SEND_COUNT - 1] = CurrentTime.TotalElapsedSeconds;
 			}
 		}
 
@@ -196,6 +223,21 @@ namespace GridDominance.Shared
 			}
 		}
 
+		public void SetOverworldScreenCopy(GDOverworldScreen s)
+		{
+			if (s == null) { SetOverworldScreen(); return; }
+
+			var ovs = new GDOverworldScreen(this, Graphics);
+			SetCurrentScreen(ovs);
+
+			foreach (var node in ovs.GetEntities<OverworldNode>())
+			{
+				node.FlickerTime = OverworldNode.COLLAPSE_TIME * 10; // no flicker - for sure
+			}
+
+			ovs.ScrollAgent.CopyState(s.ScrollAgent);
+		}
+
 		public void SetOverworldScreenWithTransition(GraphBlueprint bp)
 		{
 			var screen = new GDOverworldScreen(this, Graphics);
@@ -212,7 +254,19 @@ namespace GridDominance.Shared
 		{
 			SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
 		}
-		
+
+		public void SetMultiplayerServerLevelScreen(LevelBlueprint level, GameSpeedModes speed, int music, GDMultiplayerServer server)
+		{
+			var scrn = new GDGameScreen_MPServer(this, Graphics, level, speed, music, server);
+			SetCurrentScreen(scrn);
+		}
+
+		public void SetMultiplayerClientLevelScreen(LevelBlueprint level, GameSpeedModes speed, int music, GDMultiplayerClient server)
+		{
+			var scrn = new GDGameScreen_MPClient(this, Graphics, level, speed, music, server);
+			SetCurrentScreen(scrn);
+		}
+
 		protected override void LoadContent()
 		{
 			Textures.Initialize(Content, GraphicsDevice);
@@ -242,16 +296,58 @@ namespace GridDominance.Shared
 
 				if (sdata2 != sdata)
 				{
-					SAMLog.Error("Serialization", "Serialization test mismatch", $"Data_1:\n{sdata}\n\n----------------\n\nData_2:\n{sdata2}");
-					Debugger.Break();
+					SAMLog.Error("Serialization_mismatch", "Serialization test mismatch", $"Data_1:\n{sdata}\n\n----------------\n\nData_2:\n{sdata2}");
 				}
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Serialization", "Serialization test mismatch", e.ToString());
-				Debugger.Break();
+				SAMLog.Error("Serialization-Ex", "Serialization test mismatch", e.ToString());
 			}
 #endif
+		}
+
+		public string GetLogInfo()
+		{
+			StringBuilder b = new StringBuilder();
+
+			b.AppendLine("GameCycleCounter: " + GameCycleCounter);
+			b.AppendLine("IsInitializationLag: " + IsInitializationLag);
+			b.AppendLine("MainGame.Alive: " + Alive);
+
+			var scrn = screens?.CurrentScreen;
+			b.AppendLine("MainGame.CurrentScreen: " + scrn.GetType());
+
+			if (scrn != null)
+			{
+				b.AppendLine("GameScreen.Entities.Count: " + scrn.Entities?.Count());
+				b.AppendLine("GameScreen.HUD.DeepCount: " + scrn.HUD?.DeepCount());
+				b.AppendLine("GameScreen.IsRemoved: " + scrn.IsRemoved);
+				b.AppendLine("GameScreen.IsShown: " + scrn.IsShown);
+				b.AppendLine("GameScreen.GameSpeed: " + scrn.GameSpeed);
+			}
+
+			if (scrn is GDGameScreen)
+			{
+				b.AppendLine("GDGameScreen.HasFinished: " + ((GDGameScreen)scrn).HasFinished);
+				b.AppendLine("GDGameScreen.Blueprint.ID: " + ((GDGameScreen)scrn).Blueprint?.UniqueID);
+				b.AppendLine("GDGameScreen.Difficulty: " + ((GDGameScreen)scrn).Difficulty);
+				b.AppendLine("GDGameScreen.IsPaused: " + ((GDGameScreen)scrn).IsPaused);
+			}
+
+			if (scrn is GDWorldMapScreen)
+			{
+				b.AppendLine("GDWorldMapScreen.GraphBlueprint.ID: " + ((GDWorldMapScreen)scrn)?.GraphBlueprint?.ID);
+			}
+
+
+			b.AppendLine("Profile.Language: " + Profile.Language);
+			b.AppendLine("Profile.MusicEnabled: " + Profile.MusicEnabled);
+			b.AppendLine("Profile.SoundsEnabled: " + Profile.SoundsEnabled);
+			b.AppendLine("Profile.NeedsReupload: " + Profile.NeedsReupload);
+			b.AppendLine("Profile.EffectsEnabled: " + Profile.EffectsEnabled);
+			b.AppendLine("Profile.AccountType: " + Profile.AccountType);
+
+			return b.ToString();
 		}
 
 #if DEBUG

@@ -60,5 +60,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		protected abstract void Calculate(InputState istate);
 		public abstract bool DoBarrelRecharge();
+		public abstract bool SimulateBarrelRecharge();
 	}
 }

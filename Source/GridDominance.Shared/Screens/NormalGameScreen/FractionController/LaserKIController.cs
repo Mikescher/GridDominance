@@ -12,7 +12,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 	{
 		private readonly List<KIMethod> intelligence;
 
-		public override bool DoBarrelRecharge() => true;
+		public override bool DoBarrelRecharge() => !Owner.IsCountdown;
+		public override bool SimulateBarrelRecharge() => false;
 
 		public LaserKIController(GDGameScreen owner, Cannon cannon, Fraction fraction)
 			: base(LASER_UPDATE_TIME, owner, cannon, fraction, MIN_LASER_ROT)

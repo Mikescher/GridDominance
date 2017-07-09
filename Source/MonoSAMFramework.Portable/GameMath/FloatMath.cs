@@ -56,12 +56,14 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float RAD_POS_060 = +60  * DegRad;
 		public const float RAD_POS_090 = +90  * DegRad;
 		public const float RAD_POS_120 = +120 * DegRad;
+		public const float RAD_POS_135 = +135 * DegRad;
 		public const float RAD_POS_180 = +180 * DegRad;
 		public const float RAD_POS_225 = +225 * DegRad;
 		public const float RAD_POS_240 = +240 * DegRad;
 		public const float RAD_POS_270 = +270 * DegRad;
 		public const float RAD_POS_288 = +288 * DegRad;
 		public const float RAD_POS_306 = +306 * DegRad;
+		public const float RAD_POS_315 = +315 * DegRad;
 		public const float RAD_POS_324 = +324 * DegRad;
 		public const float RAD_POS_342 = +342 * DegRad;
 		public const float RAD_POS_360 = +360 * DegRad;
@@ -460,7 +462,12 @@ namespace MonoSAMFramework.Portable.GameMath
 
 		public static int GetRangedIntRandom(int min, int max)
 		{
-			return min + Random.Next() % (max - min);
+			return min + Random.Next(max - min);
+		}
+
+		public static int GetRangedIntRandom(int max)
+		{
+			return Random.Next(max);
 		}
 
 		public static int GetRandomSign()
@@ -521,7 +528,16 @@ namespace MonoSAMFramework.Portable.GameMath
 
 			if (value < 0) return max - (value % max);
 
-			return value%max;
+			return value % max;
+		}
+
+		public static float IncRadians(float value, float add)
+		{
+			value += add;
+
+			if (value < 0) return TAU - (value % TAU);
+
+			return value % TAU;
 		}
 
 		/// no easing, no acceleration
@@ -619,6 +635,14 @@ namespace MonoSAMFramework.Portable.GameMath
 			return (1 - FloatMath.Pow(2, -p * (2 * t - 1)) / 2 - s) / (e - s);
 		}
 
+		public static float FunctionCustomBounce(float t)
+		{
+			var t2 = t  * t;
+			var t4 = t2 * t2;
+			var t8 = t4 * t4;
+			return (20.5f * t8 * t2 + -69 * t8 + 87 * t4 * t2 + -50 * t4 + 12.5f * t2);
+		}
+		
 		/// <summary>
 		/// 
 		///         ^
@@ -648,10 +672,17 @@ namespace MonoSAMFramework.Portable.GameMath
 			else
 				return radians;
 		}
-		
+
 		public static void Swap(ref float a, ref float b)
 		{
 			float tmp = a;
+			a = b;
+			b = tmp;
+		}
+
+		public static void Swap(ref int a, ref int b)
+		{
+			int tmp = a;
 			a = b;
 			b = tmp;
 		}
@@ -669,5 +700,19 @@ namespace MonoSAMFramework.Portable.GameMath
 		}
 
 		public static float PythSquared(float a, float b) => a*a + b*b;
+
+		public static float GetNearestAngleRepresentation(float reference, float angle)
+		{
+			reference = NormalizeAngle(reference);
+			angle = NormalizeAngle(angle);
+
+			var dn0 = Abs(reference - angle);
+			var dp1 = Abs(reference - (angle + TAU));
+			var dn1 = Abs(reference - (angle - TAU));
+
+			if (dp1 < dn0 && dp1 < dn1) return angle + TAU;
+			if (dn1 < dn0 && dn1 < dp1) return angle - TAU;
+			return angle;
+		}
 	}
 }

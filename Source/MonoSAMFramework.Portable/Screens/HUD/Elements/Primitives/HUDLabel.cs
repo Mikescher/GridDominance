@@ -8,7 +8,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
-using System.Collections.Generic;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
@@ -29,14 +29,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		public int L10NText
 		{
 			get { return _l10ntext; }
-			set { _l10ntext = value; _text = ""; recalcText = true; }
+			set { if (_l10ntext != value) { _l10ntext = value; _text = ""; recalcText = true; } }
 		}
 
 		private string _text = "";
 		public string Text
 		{
 			get { return _text; }
-			set { _l10ntext = -1; _text = value; recalcText = true; }
+			set { if (_l10ntext != -1 || _text != value) { _l10ntext = -1; _text = value; recalcText = true; } }
 		}
 
 		public string DisplayText => _l10ntext >= 0 ? L10N.T(_l10ntext) : _text;
@@ -47,7 +47,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { internalText.TextColor = value; }
 		}
 
-		public Color BackgroundColor = Color.Transparent;
+		public HUDBackgroundDefinition Background = HUDBackgroundDefinition.NONE;
 
 		public SpriteFont Font
 		{
@@ -81,8 +81,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { _wordWrap = value; recalcText = true; }
 		}
 
+		public bool AutoSize = false;
+
 		public FSize InnerLabelSize => internalText.Size;
-		
+
 		private bool recalcText = false;
 
 		public HUDLabel(int depth = 0)
@@ -94,10 +96,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			if (BackgroundColor != Color.Transparent)
-			{
-				SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, BackgroundColor * Alpha);
-			}
+			HUDRenderHelper.DrawAlphaBackground(sbatch, bounds, Background, Alpha);
 		}
 
 		public override void OnInitialize()
@@ -132,6 +131,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 					internalText.Text = string.Join(Environment.NewLine, FontRenderHelper.WrapLinesIntoWidth(DisplayText, Font, FontSize, MaxWidth.Value, WordWrap));
 				}
 			}
+
+			if (AutoSize) Size = internalText.Size;
 		}
 	}
 }

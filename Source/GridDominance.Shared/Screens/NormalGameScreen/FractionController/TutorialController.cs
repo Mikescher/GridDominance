@@ -19,5 +19,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		}
 
 		public override bool DoBarrelRecharge() => RechargeBarrel;
+		public override bool SimulateBarrelRecharge() => false;
 	}
 }

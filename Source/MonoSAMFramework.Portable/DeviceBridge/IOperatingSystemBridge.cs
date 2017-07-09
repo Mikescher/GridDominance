@@ -1,5 +1,5 @@
-﻿using System;
-using MonoSAMFramework.Portable.GameMath.Geometry;
+﻿using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace MonoSAMFramework.Portable.DeviceBridge
 {
@@ -12,6 +12,10 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 
 		FileHelper FileHelper { get; }
 		IBillingAdapter IAB { get; }
+		IBluetoothAdapter Bluetooth { get; }
+		string EnvironmentStackTrace { get; }
+
+		IUDPClient CreateUPDClient();
 
 		string DoSHA256(string input);
 		void OpenURL(string url);

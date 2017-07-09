@@ -243,7 +243,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::root", TOTAL_EXPANSION_TIME, (n, p) => RootExpansionProgress = p));
 			if (progress != null) o.ForceSetProgress(1 - progress.Value);
 
-			if (Blueprint == Levels.LEVEL_1_1 && !LevelData.HasCompleted(FractionDifficulty.DIFF_0))
+			if (Blueprint.UniqueID == Levels.LEVELID_1_1 && !LevelData.HasCompleted(FractionDifficulty.DIFF_0))
 			{
 				OpenExtender(FractionDifficulty.DIFF_0);
 			}

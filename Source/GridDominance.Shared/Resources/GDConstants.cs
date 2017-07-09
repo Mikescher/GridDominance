@@ -6,6 +6,7 @@ namespace GridDominance.Shared.Resources
 	public static class GDConstants
 	{
 		public static readonly Version Version = new Version(0,23,0,0);
+		public static ulong IVersion => (ulong)((((((Version.Major << 12) | Version.Minor) << 12) | Version.Build) << 12) | Version.Revision);
 
 		public const int TILE_WIDTH = 64;
 
@@ -18,20 +19,26 @@ namespace GridDominance.Shared.Resources
 		public const bool USE_IAB = true;
 
 #if __ANDROID__ && DEBUG
-		public const string IAB_WORLD2 = AndroidBillingHelper.PID_PURCHASED;
-		public const string IAB_WORLD3 = AndroidBillingHelper.PID_PURCHASED; 
-		public const string IAB_WORLD4 = AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_WORLD2      = AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_WORLD3      = AndroidBillingHelper.PID_PURCHASED; 
+		public const string IAB_WORLD4      = AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_MULTIPLAYER = AndroidBillingHelper.PID_PURCHASED;
 #else
-		public const string IAB_WORLD2 = @"gd_world_002";
-		public const string IAB_WORLD3 = @"gd_world_003";
-		public const string IAB_WORLD4 = @"gd_world_004";
+		public const string IAB_WORLD2      = @"gd_world_002";
+		public const string IAB_WORLD3      = @"gd_world_003";
+		public const string IAB_WORLD4      = @"gd_world_004";
+		public const string IAB_MULTIPLAYER = @"gd_multiplayer";
 #endif
 
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
 		public const string BFB_URL     = @"http://blackforestbytes.de/";
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
-//		public const string SERVER_URL = "http://localhost:666";
+		public const string MULTIPLAYER_SERVER_HOST = "mikescher.com";
+//		public const string MULTIPLAYER_SERVER_HOST = "localhost";
+		public const int    MULTIPLAYER_SERVER_PORT = 28023;
+
+		//		public const string SERVER_URL = "http://localhost:666";
 		public const string SERVER_URL = "http://gdapi.mikescher.com";
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 

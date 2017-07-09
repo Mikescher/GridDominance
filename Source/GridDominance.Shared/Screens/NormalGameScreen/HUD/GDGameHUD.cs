@@ -1,7 +1,4 @@
-﻿using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Resources;
-using GridDominance.Shared.SaveData;
-using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
@@ -10,7 +7,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
-	public class GDGameHUD : GameHUD
+	public class GDGameHUD : GameHUD, IGDGameHUD
 	{
 		public GDGameScreen GDOwner => (GDGameScreen)Screen;
 		
@@ -19,7 +16,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		public GDGameHUD(GDGameScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
-			AddElement(BtnPause = new HUDPauseButton());
+			AddElement(BtnPause = new HUDPauseButton(true, true, true));
 			AddElement(BtnSpeed = new HUDSpeedBaseButton());
 		}
 		

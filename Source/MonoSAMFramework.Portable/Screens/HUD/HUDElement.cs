@@ -193,7 +193,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			PositionInvalidated = true;
 		}
 
-		public virtual void Revalidate() // Manual RecalculatePosition
+		public virtual void Revalidate() // Manual RecalculatePosition | RecalculatePosition of Container children
 		{
 			RecalculatePosition();
 		}

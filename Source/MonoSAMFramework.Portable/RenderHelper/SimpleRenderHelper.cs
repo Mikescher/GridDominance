@@ -23,10 +23,9 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			if (!tl && !tr && !bl && !br)
 			{
 				DrawSimpleRect(sbatch, bounds, color);
-
 				return;
 			}
-			
+
 			#region Fill Center
 
 			if (color.A == 255)
@@ -143,22 +142,22 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 			if (br)
 			{
-				sbatch.DrawCirclePiece(new FPoint(bounds.Right - cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_000, FloatMath.RAD_POS_090, 8, color, lineWidth);
+				sbatch.DrawCirclePiece(new FPoint(bounds.Right - cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_000, FloatMath.RAD_POS_090, sides, color, lineWidth);
 			}
 
 			if (bl)
 			{
-				sbatch.DrawCirclePiece(new FPoint(bounds.Left + cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_090, FloatMath.RAD_POS_180, 8, color, lineWidth);
+				sbatch.DrawCirclePiece(new FPoint(bounds.Left + cornerSize, bounds.Bottom - cornerSize), cornerSize, FloatMath.RAD_POS_090, FloatMath.RAD_POS_180, sides, color, lineWidth);
 			}
 
 			if (tl)
 			{
-				sbatch.DrawCirclePiece(new FPoint(bounds.Left + cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_180, FloatMath.RAD_POS_270, 8, color, lineWidth);
+				sbatch.DrawCirclePiece(new FPoint(bounds.Left + cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_180, FloatMath.RAD_POS_270, sides, color, lineWidth);
 			}
 
 			if (tr)
 			{
-				sbatch.DrawCirclePiece(new FPoint(bounds.Right - cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_270, FloatMath.RAD_POS_360, 8, color, lineWidth);
+				sbatch.DrawCirclePiece(new FPoint(bounds.Right - cornerSize, bounds.Top + cornerSize), cornerSize, FloatMath.RAD_POS_270, FloatMath.RAD_POS_360, sides, color, lineWidth);
 			}
 		}
 
@@ -174,84 +173,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 		public static void DrawSimpleRectOutline(IBatchRenderer sbatch, FRectangle bounds, float bsize, Color color)
 		{
-			StaticTextures.ThrowIfNotInitialized();
-			
-			// LEFT
-			sbatch.DrawStretched(
-				StaticTextures.SinglePixel,
-				new FRectangle(bounds.Left, bounds.Top, bsize, bounds.Height),
-				color);
-
-			// TOP
-			sbatch.DrawStretched(
-				StaticTextures.SinglePixel,
-				new FRectangle(bounds.Left, bounds.Top, bounds.Width, bsize),
-				color);
-
-			// RIGHT
-			sbatch.DrawStretched(
-				StaticTextures.SinglePixel,
-				new FRectangle(bounds.Right - bsize, bounds.Top, bsize, bounds.Height),
-				color);
-
-			// BOTTOM
-			sbatch.DrawStretched(
-				StaticTextures.SinglePixel,
-				new FRectangle(bounds.Left, bounds.Bottom - bsize, bounds.Width, bsize),
-				color);
-		}
-
-		public static void DrawHUDBackground(IBatchRenderer sbatch, HUDBackgroundType type, FRectangle bounds, Color col, float cornerSize)
-		{
-			if (col == Color.Transparent) return;
-
-			switch (type)
-			{
-				case HUDBackgroundType.None:
-					// Do nothing
-					break;
-				case HUDBackgroundType.Simple:
-					DrawSimpleRect(sbatch, bounds, col);
-					break;
-				case HUDBackgroundType.Rounded:
-					DrawRoundedRect(sbatch, bounds, col, cornerSize);
-					break;
-				case HUDBackgroundType.RoundedBlur:
-					FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, col, cornerSize);
-					break;
-				case HUDBackgroundType.SimpleBlur:
-					FlatRenderHelper.DrawSimpleBlurPanel(sbatch, bounds, col, cornerSize);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
-
-		public static void DrawAlphaHUDBackground(IBatchRenderer sbatch, HUDBackgroundType type, FRectangle bounds, Color col, float cornerSize, float alpha)
-		{
-			if (col == Color.Transparent) return;
-			if (FloatMath.IsZero(alpha)) return;
-
-			switch (type)
-			{
-				case HUDBackgroundType.None:
-					// Do nothing
-					break;
-				case HUDBackgroundType.Simple:
-					DrawSimpleRect(sbatch, bounds, col * alpha);
-					break;
-				case HUDBackgroundType.Rounded:
-					DrawRoundedRect(sbatch, bounds, col * alpha, cornerSize);
-					break;
-				case HUDBackgroundType.RoundedBlur:
-					FlatRenderHelper.DrawRoundedAlphaBlurPanel(sbatch, bounds, col, cornerSize, alpha);
-					break;
-				case HUDBackgroundType.SimpleBlur:
-					FlatRenderHelper.DrawSimpleAlphaBlurPanel(sbatch, bounds, col, cornerSize, alpha);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+			sbatch.DrawRectangle(bounds, color, bsize);
 		}
 
 		public static void Draw9Patch(IBatchRenderer sbatch, FRotatedRectangle bounds, Color colEdge, Color colCorner, Color colFill, TextureRegion2D texEdge, TextureRegion2D texCorner, TextureRegion2D texFill, float cornerSize)

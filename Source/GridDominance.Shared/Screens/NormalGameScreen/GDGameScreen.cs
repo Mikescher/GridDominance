@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using GridDominance.Levelfileformat.Blueprint;
@@ -26,7 +27,10 @@ using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using FarseerPhysics.Factories;
+using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles;
+using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Shared.Screens.ScreenGame
 {
@@ -39,6 +43,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public const float GAMESPEED_FAST      = 2f;
 		public const float GAMESPEED_SUPERFAST = 4f;
 
+		public const int MAX_BULLET_ID = 1 << 12; // 12bit = [0..4095]
+
 		//-----------------------------------------------------------------
 
 		public MainGame GDOwner => (MainGame)Game;
@@ -49,12 +55,15 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		protected override EntityManager CreateEntityManager() => new GDEntityManager(this);
 		protected override GameBackground CreateBackground() => new SolidColorBackground(this, Color.Gainsboro);
+
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, 1, 1);
 		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
 		//-----------------------------------------------------------------
+
+		public bool CanPause = true;
 
 		private bool _isPaused = false;
 		public bool IsPaused
@@ -80,32 +89,64 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			}
 		}
 
-		private Fraction fractionNeutral;
-		private Fraction fractionPlayer;
-		private Fraction fractionComputer1;
-		private Fraction fractionComputer2;
-		private Fraction fractionComputer3;
+		protected Fraction fractionNeutral;
+		protected Fraction fractionPlayer;
+		protected Fraction fractionComputer1;
+		protected Fraction fractionComputer2;
+		protected Fraction fractionComputer3;
+		private Fraction[] fractionIDList;
 
 		public readonly LevelBlueprint Blueprint;
 		public readonly FractionDifficulty Difficulty;
 		public readonly LaserNetwork LaserNetwork;
 		public          GameWrapMode WrapMode;
+		public          Dictionary<byte, Cannon> CannonMap;
+		public readonly RemoteBulletHint[] BulletMapping = new RemoteBulletHint[MAX_BULLET_ID];
+		public readonly RemoteBullet[] RemoteBulletMapping = new RemoteBullet[MAX_BULLET_ID];
+		public ushort lastBulletID = 0;
 
 		public bool HasFinished = false;
 		public bool PlayerWon = false; // [P] win or [C] win
 		public float LevelTime = 0f;
+		public bool IsCountdown = false;
 
 		public readonly bool IsPreview;
-		
-		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, bool prev) : base(game, gdm)
+		public readonly bool IsNetwork;
+
+		public abstract Fraction LocalPlayerFraction { get; }
+
+		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, bool prev, bool netw) : base(game, gdm)
 		{
 			Blueprint = bp;
 			Difficulty = diff;
 			IsPreview = prev;
-
+			IsNetwork = netw;
+			
 			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this, (GameWrapMode)bp.WrapMode);
 
 			Initialize();
+		}
+
+		public void PositionTo2Byte(FPoint pos, out ushort x, out ushort y)
+		{
+			var xmin = MapFullBounds.Left - MapFullBounds.Width / 2f;
+			var xmax = MapFullBounds.Right + MapFullBounds.Width / 2f;
+			var ymin = MapFullBounds.Top - MapFullBounds.Height / 2f;
+			var ymax = MapFullBounds.Bottom + MapFullBounds.Height / 2f;
+
+			x = (ushort)FloatMath.IClamp(FloatMath.Round(((pos.X - xmin) / (xmax - xmin)) * 65535), 0, 65535);
+			y = (ushort)FloatMath.IClamp(FloatMath.Round(((pos.Y - ymin) / (ymax - ymin)) * 65535), 0, 65535);
+		}
+
+		public void DoubleByteToPosition(ushort bx, ushort by, out float px, out float py)
+		{
+			var xmin = MapFullBounds.Left - MapFullBounds.Width / 2f;
+			var xmax = MapFullBounds.Right + MapFullBounds.Width / 2f;
+			var ymin = MapFullBounds.Top - MapFullBounds.Height / 2f;
+			var ymax = MapFullBounds.Bottom + MapFullBounds.Height / 2f;
+
+			px = xmin + (bx / 65535f) * (xmax - xmin);
+			py = ymin + (by / 65535f) * (ymax - ymin);
 		}
 
 #if DEBUG
@@ -115,9 +156,100 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		}
 #endif
 
+		public byte GetFractionID(Fraction f)
+		{
+			for (byte i = 0; i < fractionIDList.Length; i++)
+			{
+				if (fractionIDList[i] == f) return i;
+			}
+
+			SAMLog.Error("GDGS::GetFractionID", $"Fraction not found: {f}");
+			return 0;
+		}
+
+		public Fraction GetFractionByID(byte id)
+		{
+			if (id >= 0 && id < fractionIDList.Length) return fractionIDList[id];
+
+			SAMLog.Error("GDGS::GetFractionByID", $"Fraction not found: {id}");
+			return fractionNeutral;
+		}
+
 		public Fraction GetNeutralFraction()
 		{
 			return fractionNeutral;
+		}
+
+		public ushort AssignBulletID(Bullet bullet)
+		{
+			lastBulletID = (ushort)((lastBulletID + 1) % MAX_BULLET_ID);
+
+			if (!IsNetwork) return lastBulletID;
+
+			for (ushort i = 0; i < MAX_BULLET_ID; i++)
+			{
+				var ti = (ushort)((lastBulletID + i) % MAX_BULLET_ID);
+				if (BulletMapping[ti].Bullet == null || (BulletMapping[ti].State != RemoteBullet.RemoteBulletState.Normal && BulletMapping[ti].RemainingPostDeathTransmitions <= 0))
+				{
+					BulletMapping[ti].Bullet = bullet;
+					BulletMapping[ti].State = RemoteBullet.RemoteBulletState.Normal;
+					BulletMapping[ti].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
+
+					lastBulletID = ti;
+					return ti;
+				}
+			}
+
+			SAMLog.Info("GDGS::TMB1", "Too many bullets+artifacts, no free fully-dead BulletID");
+
+			for (ushort i = 0; i < MAX_BULLET_ID; i++)
+			{
+				var ti = (ushort)((lastBulletID + i) % MAX_BULLET_ID);
+				if (BulletMapping[ti].Bullet == null || BulletMapping[ti].State != RemoteBullet.RemoteBulletState.Normal)
+				{
+					BulletMapping[ti].Bullet = bullet;
+					BulletMapping[ti].State = RemoteBullet.RemoteBulletState.Normal;
+					BulletMapping[ti].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
+
+					lastBulletID = ti;
+					return ti;
+				}
+			}
+
+			SAMLog.Error("GDGS::TMB2", "Too many bullets, no free BulletID");
+			BulletMapping[lastBulletID].Bullet = bullet;
+			BulletMapping[lastBulletID].State = RemoteBullet.RemoteBulletState.Normal;
+			BulletMapping[lastBulletID].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
+
+			return lastBulletID;
+		}
+		
+		public void UnassignBulletID(ushort id, Bullet bullet)
+		{
+			if (!IsNetwork) return;
+			
+			if (BulletMapping[id].Bullet == bullet)
+			{
+				if (BulletMapping[id].State == RemoteBullet.RemoteBulletState.Normal)
+				{
+					BulletMapping[id].State = RemoteBullet.RemoteBulletState.Dying_Instant;
+					BulletMapping[id].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
+				}
+			}
+		}
+
+		public void ChangeBulletMapping(RemoteBullet.RemoteBulletState state, ushort id, Bullet bullet)
+		{
+			if (!IsNetwork) return;
+			
+			if (BulletMapping[id].Bullet == bullet)
+			{
+				if (BulletMapping[id].State == RemoteBullet.RemoteBulletState.Normal)
+				{
+					BulletMapping[id].State = state;
+					BulletMapping[id].RemainingPostDeathTransmitions = RemoteBullet.POST_DEATH_TRANSMITIONCOUNT;
+				}
+			}
 		}
 
 		private void Initialize()
@@ -178,13 +310,18 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			var cannonList = new List<Cannon>();
 			var portalList = new List<Portal>();
+			var fractionList = new List<Fraction>();
 			var laserworld = false;
-			
+
+			fractionList.Add(fractionNeutral);
+
 			foreach (var bPrint in Blueprint.BlueprintCannons)
 			{
 				var e = new BulletCannon(this, bPrint, fracList);
 				Entities.AddEntity(e);
 				cannonList.Add(e);
+				
+				if (!fractionList.Contains(e.Fraction)) fractionList.Add(e.Fraction);
 			}
 
 			foreach (var bPrint in Blueprint.BlueprintVoidWalls)
@@ -224,6 +361,8 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				Entities.AddEntity(e);
 				cannonList.Add(e);
 				laserworld = true;
+
+				if (!fractionList.Contains(e.Fraction)) fractionList.Add(e.Fraction);
 			}
 
 			foreach (var bPrint in Blueprint.BlueprintMirrorBlocks)
@@ -259,6 +398,11 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			foreach (var portal in portalList)
 				portal.OnAfterLevelLoad(portalList);
 
+			CannonMap = cannonList.ToDictionary(p => p.BlueprintCannonID, p => p);
+
+			foreach (var f in fracList) if (!fractionList.Contains(f)) fractionList.Add(f);
+			fractionIDList = fractionList.ToArray();
+			
 			//----------------------------------------------------------------
 
 			if (!IsPreview && (Blueprint.LevelWidth > GDConstants.VIEW_WIDTH || Blueprint.LevelHeight > GDConstants.VIEW_HEIGHT) ) AddAgent(new GameDragAgent(this));
@@ -300,6 +444,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			if (!IsPaused && !HasFinished) LevelTime += gameTime.RealtimeElapsedSeconds;
 
 			TestForGameEndingCondition();
+		}
+
+		public void FastForward(float sendertime)
+		{
+			var delta = LevelTime - sendertime;
+			LevelTime = sendertime;
+
+			if (delta < 1 / 30f) return; // idgaf
+
+			Entities.Update(new SAMTime(delta, MonoSAMGame.CurrentTime.TotalElapsedSeconds), InputStateMan.GetCurrentState());
 		}
 
 		protected override void OnDrawGame(IBatchRenderer sbatch)
@@ -369,7 +523,6 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			{
 				cannon.ForceUpdateController();
 			}
-
 		}
 
 		public World GetPhysicsWorld()

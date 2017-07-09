@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
+        <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -316,7 +316,6 @@
             <key type="filename">difficulty/difficulty_line_03.png</key>
             <key type="filename">difficulty/difficulty_line_04.png</key>
             <key type="filename">hud/jewels.png</key>
-            <key type="filename">hud/tutorial.png</key>
             <key type="filename">level/cannon/cannoncog.png</key>
             <key type="filename">level/cannon/cannoncore_01.png</key>
             <key type="filename">level/cannon/cannoncore_02.png</key>
@@ -370,6 +369,7 @@
             <key type="filename">level/laser/half_laser_flare.png</key>
             <key type="filename">level/laser/laser_flare.png</key>
             <key type="filename">level/vortex/vortex_circle_1.png</key>
+            <key type="filename">overworld/tutorial.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -408,6 +408,10 @@
             <key type="filename">hud/user.png</key>
             <key type="filename">level/glassblock/glass_corner.png</key>
             <key type="filename">level/vortex/vortex_circle_0.png</key>
+            <key type="filename">overworld/state_conn_bg.png</key>
+            <key type="filename">overworld/state_conn_fg.png</key>
+            <key type="filename">overworld/state_err.png</key>
+            <key type="filename">overworld/state_ok.png</key>
             <key type="filename">tutorial/arrow.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -920,6 +924,34 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">overworld/bluetooth.png</key>
+            <key type="filename">overworld/internet.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">overworld/chevron_left.png</key>
+            <key type="filename">overworld/chevron_right.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,33,64,66</rect>
+                <key>scale9Paddings</key>
+                <rect>32,33,64,66</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">overworld/lock.png</key>
             <key type="filename">overworld/lock_open.png</key>
             <struct type="IndividualSpriteSettings">
@@ -931,6 +963,24 @@
                 <rect>39,39,78,78</rect>
                 <key>scale9Paddings</key>
                 <rect>39,39,78,78</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">overworld/network_base.png</key>
+            <key type="filename">overworld/network_vertex1.png</key>
+            <key type="filename">overworld/network_vertex2.png</key>
+            <key type="filename">overworld/network_vertex3.png</key>
+            <key type="filename">overworld/network_vertex4.png</key>
+            <key type="filename">overworld/network_vertex5.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>40,40,80,80</rect>
+                <key>scale9Paddings</key>
+                <rect>40,40,80,80</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

@@ -9,6 +9,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.EntityOperations;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
@@ -29,15 +30,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private readonly int coreImage;
 		private readonly float coreRotation;
-		private float chargeTime = 0f;
+		public float ChargeTime = 0f;
 
 		private readonly SAMEffectWrapper _soundeffect;
-		
+		private readonly bool _muted;
+
 		public LaserCannon(GDGameScreen scrn, LaserCannonBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
 			Blueprint = bp;
 			_screen = scrn;
+			_muted = scrn.IsPreview;
 
 			LaserSource = scrn.LaserNetwork.AddSource(this);
 
@@ -136,7 +139,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			controller.Update(gameTime, istate);
 
 			bool change = Rotation.CUpdate(gameTime);
-			if (change) {_screen.LaserNetwork.SemiDirty = true; chargeTime = 0; }
+			if (change) {_screen.LaserNetwork.SemiDirty = true; ChargeTime = 0; }
 
 			CrosshairSize.Update(gameTime);
 
@@ -189,18 +192,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				LaserPulseTime += gameTime.ElapsedSeconds;
 			}
 			
-			chargeTime += gameTime.ElapsedSeconds;
+			ChargeTime += gameTime.ElapsedSeconds;
 
-			if (CannonHealth.ActualValue < 1) chargeTime = 0;
+			if (CannonHealth.ActualValue < 1) ChargeTime = 0;
 		}
 
 		private void UpdateNetwork(SAMTime gameTime)
 		{
-			bool active = CannonHealth.TargetValue >= FULL_LASER_HEALTH && controller.DoBarrelRecharge();
+			bool active = CannonHealth.TargetValue >= FULL_LASER_HEALTH;
 
-			LaserSource.SetState(active, Fraction, Rotation.ActualValue, chargeTime > LASER_CHARGE_COOLDOWN);
+			LaserSource.SetState(active, Fraction, Rotation.ActualValue, ChargeTime > LASER_CHARGE_COOLDOWN);
 
-			if (MainGame.Inst.Profile.EffectsEnabled)
+			if (!_muted && MainGame.Inst.Profile.EffectsEnabled)
 			{
 				if ( LaserSource.LaserPowered && !_soundeffect.IsPlaying) _soundeffect.Play();
 				if (!LaserSource.LaserPowered &&  _soundeffect.IsPlaying) _soundeffect.Stop();
@@ -253,7 +256,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			CannonHealth.Inc(HEALTH_HIT_GEN);
 			if (CannonHealth.Limit(0f, 1f) == 1)
 			{
-				AddEntityOperation(new CannonBooster(BOOSTER_POWER, 1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.LaserMultiplicator)));
+				AddEntityOperation(new CannonBooster(1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.LaserMultiplicator)));
 			}
 		}
 
@@ -264,12 +267,47 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void ForceResetBarrelCharge()
 		{
-			chargeTime = 0f;
+			ChargeTime = 0f;
 		}
 
 		public override KIController CreateKIController(GDGameScreen screen, Fraction fraction)
 		{
 			return new LaserKIController(screen, this, fraction);
+		}
+
+		public void RemoteUpdate(Fraction frac, float hp, byte boost, float chrg, float sendertime)
+		{
+			if (frac != Fraction) SetFraction(frac);
+
+			ManualBoost = boost;
+
+			var delta = GDOwner.LevelTime - sendertime;
+
+			ChargeTime = chrg + delta;
+
+			CannonHealth.Set(hp);
+
+			var ups = delta / (1 / 30f);
+
+			if (ups > 1)
+			{
+				var gt30 = new SAMTime((1/30f) * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds);
+
+				for (int i = 0; i < FloatMath.Round(ups); i++)
+				{
+					CannonHealth.Update(gt30);
+
+					if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > MIN_REGEN_HEALTH && (LastAttackingLasersEnemy <= LastAttackingLasersFriends))
+					{
+						var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
+
+						bonus /= Scale;
+
+						CannonHealth.Inc(bonus * gt30.ElapsedSeconds);
+						CannonHealth.Limit(0f, 1f);
+					}
+				}
+			}
 		}
 	}
 }

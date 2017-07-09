@@ -1,13 +1,13 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
@@ -39,16 +39,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			base.OnInitialize();
 
-			AddElement(new HUDRoundedRectangle(0)
+			AddElement(new HUDRectangle(0)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				Size = new FSize(WIDTH, FOOTER_HEIGHT),
 
-				Color = FlatColors.BackgroundHUD2,
-				RoundCornerTL = false,
-				RoundCornerTR = false,
-				RoundCornerBL = true,
-				RoundCornerBR = true,
+				Definition = HUDBackgroundDefinition.CreateRounded(FlatColors.BackgroundHUD2, 16, false, false, true, true),
 			});
 
 			AddElement(new HUDLabel(1)
@@ -129,9 +125,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.ButtonHUD,
-				ColorPressed = FlatColors.ButtonPressedHUD,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonPressedHUD, 16),
 
 				Click = OnLogout,
 			});
@@ -148,16 +144,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.ButtonHUD,
-				ColorPressed = FlatColors.ButtonPressedHUD,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonPressedHUD, 16),
 
 				Click = OnChangePassword,
 			});
 		}
-
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
 
 		private void OnChangePassword(HUDTextButton sender, HUDButtonEventArgs e)
 		{
@@ -201,7 +194,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				MainGame.Inst.Backend.CreateUser(MainGame.Inst.Profile).ContinueWith(t => MainGame.Inst.Backend.DownloadHighscores(MainGame.Inst.Profile)).EnsureNoError();
 
 				HUD.ShowToast(L10N.T(L10NImpl.STR_FAP_LOGOUT_SUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 1.5f);
-				MainGame.Inst.SetOverworldScreen();
+				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 		}
 	}

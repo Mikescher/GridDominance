@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading;
 using Android.Content;
 using Android.App;
+using GridDominance.Generic.Impl;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Android
 {
@@ -15,15 +17,20 @@ namespace GridDominance.Android
 	{
 		public FileHelper FileHelper { get; } = new AndroidFileHelper();
 		public IBillingAdapter IAB => _iab;
+		public IBluetoothAdapter Bluetooth => _bt;
+		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);
 		public string DeviceVersion { get; } = string.Format("Android {0} sdk-{1}", Build.VERSION.Release, Build.VERSION.Sdk);
 		public FSize DeviceResolution { get; } = ScreenRes();
+		public string EnvironmentStackTrace => System.Environment.StackTrace;
+
 
 		private readonly SHA256 sha256 = SHA256.Create();
 		private readonly MainActivity _activity;
 		private readonly AndroidBilling _iab;
+		private readonly AndroidBluetoothAdapter _bt;
 
 		public void OnDestroy()
 		{
@@ -35,6 +42,7 @@ namespace GridDominance.Android
 			_activity = a;
 
 			_iab = new AndroidBilling(a);
+			_bt = new AndroidBluetoothAdapter();
 		}
 
 		private static string GenerateInfoStr()

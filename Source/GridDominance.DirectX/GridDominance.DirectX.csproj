@@ -44,10 +44,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GridDominance.Android\Impl\XamarinUDPClient.cs">
+      <Link>Impl\XamarinUDPClient.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="WindowsBillingAdapter.cs" />
-    <Compile Include="WindowsFileHelper.cs" />
-    <Compile Include="WindowsImpl.cs" />
+    <Compile Include="Impl\WindowsBillingAdapter.cs" />
+    <Compile Include="Impl\WindowsFileHelper.cs" />
+    <Compile Include="Impl\WindowsImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -61,6 +64,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <ItemGroup>
+    <Folder Include="Content\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

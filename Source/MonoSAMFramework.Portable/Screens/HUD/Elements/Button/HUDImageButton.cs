@@ -28,13 +28,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			set { _imagePadding = value; InvalidatePosition(); }
 		}
 
-		public Color Color = Color.Transparent;
+		public HUDImageAlignment ImageAlignment
+		{
+			get => internalIcon.ImageAlignment;
+			set => internalIcon.ImageAlignment = value;
+		}
 
-		public Color ColorPressed = Color.Transparent;
-
-		public HUDBackgroundType BackgoundType = HUDBackgroundType.Simple;
-
-		public float BackgoundCornerSize = 16f;
+		public HUDBackgroundDefinition BackgroundNormal = HUDBackgroundDefinition.DUMMY;
+		public HUDBackgroundDefinition BackgroundPressed = HUDBackgroundDefinition.DUMMY;
 
 		#endregion
 
@@ -45,7 +46,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		public event ButtonEventHandler ButtonTripleClick;
 		public event ButtonEventHandler ButtonHold;
 
-		public ButtonEventHandler Click { set { ButtonClick += value; } }
+		public ButtonEventHandler Click { set => ButtonClick += value; }
 
 		private readonly HUDImage internalIcon;
 
@@ -55,8 +56,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 			internalIcon = new HUDImage
 			{
-				Alignment = HUDAlignment.TOPLEFT,
-				ImageAlignment = HUDImageAlignment.SCALE_Y,
+				Alignment = HUDAlignment.CENTER,
+				RelativePosition = FPoint.Zero,
+				ImageAlignment = HUDImageAlignment.UNDERSCALE,
 			};
 		}
 
@@ -69,17 +71,18 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		{
 			base.OnAfterRecalculatePosition();
 			
-			var isize = internalIcon.CalculateRealBounds(new FRectangle(0, 0, Width - 2 * ImagePadding, Height - 2 * ImagePadding)).Size;
+			internalIcon.RelativePosition = FPoint.Zero;
+			internalIcon.Alignment = HUDAlignment.CENTER;
 
-			internalIcon.RelativePosition = new FPoint(ImagePadding, ImagePadding);
-			internalIcon.Size = new FSize(isize.Width, Height - 2 * ImagePadding);
+			internalIcon.Size = new FSize(Width - 2 * ImagePadding, Height - 2 * ImagePadding);
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			var btnColor = IsPointerDownOnElement ? ColorPressed : Color;
-			
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, btnColor, BackgoundCornerSize);
+			if (IsPointerDownOnElement)
+				HUDRenderHelper.DrawBackground(sbatch, bounds, BackgroundPressed);
+			else
+				HUDRenderHelper.DrawBackground(sbatch, bounds, BackgroundNormal);
 		}
 
 		public override void OnRemove()

@@ -10,7 +10,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public readonly float Diameter;
 		public readonly int Player;
 		public readonly float Rotation; // in degree
-		public readonly int CannonID;
+		public readonly byte CannonID;
 
 		public BulletPathBlueprint[] PrecalculatedPaths;
 
@@ -19,8 +19,9 @@ namespace GridDominance.Levelfileformat.Blueprint
 		float ICannonBlueprint.Y => Y;
 		float ICannonBlueprint.Diameter => Diameter;
 		BulletPathBlueprint[] ICannonBlueprint.PrecalculatedPaths => PrecalculatedPaths;
+		int ICannonBlueprint.Fraction => Player;
 
-		public CannonBlueprint(float x, float y, float d, int p, float rot, int cid, BulletPathBlueprint[] bp)
+		public CannonBlueprint(float x, float y, float d, int p, float rot, byte cid, BulletPathBlueprint[] bp)
 		{
 			X = x;
 			Y = y;
@@ -35,7 +36,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 				Rotation = rot;
 		}
 
-		public CannonBlueprint(float x, float y, float d, int p, float rot, int cid)
+		public CannonBlueprint(float x, float y, float d, int p, float rot, byte cid)
 		{
 			X = x;
 			Y = y;
@@ -53,7 +54,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public void Serialize(BinaryWriter bw)
 		{
 			bw.Write(LevelBlueprint.SERIALIZE_ID_CANNON);
-			bw.Write(CannonID);
+			bw.Write((int)CannonID);
 			bw.Write(Player);
 			bw.Write(X);
 			bw.Write(Y);
@@ -77,7 +78,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			var b = new BulletPathBlueprint[pathCount];
 			for (int j = 0; j < pathCount; j++) b[j] = BulletPathBlueprint.Deserialize(br);
 
-			return new CannonBlueprint(x, y, d, p, a, i, b);
+			return new CannonBlueprint(x, y, d, p, a, (byte)i, b);
 		}
 	}
 }

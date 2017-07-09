@@ -8,7 +8,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 {
-	class OverworldScrollAgent : GameScreenAgent
+	public class OverworldScrollAgent : GameScreenAgent
 	{
 		private const float MIN_DRAG   = 0.2f * GDConstants.TILE_WIDTH;
 		
@@ -61,6 +61,25 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				_nodes[i].NodePos = new FPoint(_values[i].Value, POSITION_Y);
 			}
 			CLeanUpPositions(true);
+		}
+
+		public void CopyState(OverworldScrollAgent other)
+		{
+			if (this._nodes.Length != other._nodes.Length) return;
+
+			for (int i = 0; i < _nodes.Length; i++)
+			{
+				_values[i].SetFull(other._values[i]);
+				_nodes[i].NodePos = other._nodes[i].NodePos;
+			}
+
+			dragStartTime = other.dragStartTime;
+			isDragging = other.isDragging;
+			isActiveDragging = other.isActiveDragging;
+			mouseStartPos = other.mouseStartPos;
+			offsetStart = other.offsetStart;
+			dragAnchor = other.dragAnchor;
+			dragMode = other.dragMode;
 		}
 
 		public override void Update(SAMTime gameTime, InputState istate)

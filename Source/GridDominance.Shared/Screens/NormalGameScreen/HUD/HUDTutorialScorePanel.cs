@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GridDominance.Graphfileformat.Blueprint;
-using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
-using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -17,7 +11,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
@@ -56,16 +50,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			#region Footer
 
-			AddElement(new HUDRoundedRectangle(0)
+			AddElement(new HUDRectangle(0)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				Size = new FSize(WIDTH, FOOTER_HEIGHT - 10),
 
-				Color = FlatColors.BackgroundHUD2,
-				RoundCornerTL = false,
-				RoundCornerTR = false,
-				RoundCornerBL = true,
-				RoundCornerBR = true,
+				Definition = HUDBackgroundDefinition.CreateRounded(FlatColors.BackgroundHUD2, 16, false, false, true, true),
 			});
 
 
@@ -75,7 +65,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
 				Size = new FSize(WIDTH / 3f, FOOTER_COLBAR_HEIGHT),
 
-				Color = FlatColors.Nephritis,
+				Definition = HUDBackgroundDefinition.CreateSimple(FlatColors.Nephritis),
 			});
 
 			AddElement(new HUDRectangle(1)
@@ -84,7 +74,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
 				Size = new FSize(WIDTH / 2f, FOOTER_COLBAR_HEIGHT),
 
-				Color = FlatColors.PeterRiver,
+				Definition = HUDBackgroundDefinition.CreateSimple(FlatColors.PeterRiver),
 			});
 
 			AddElement(new HUDRectangle(2)
@@ -93,7 +83,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, FOOTER_HEIGHT - FOOTER_COLBAR_HEIGHT),
 				Size = new FSize(WIDTH / 3f, FOOTER_COLBAR_HEIGHT),
 
-				Color = FlatColors.Pomegranate,
+				Definition = HUDBackgroundDefinition.CreateSimple(FlatColors.Pomegranate),
 			});
 
 
@@ -209,7 +199,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			//	TextAlignment = HUDAlignment.CENTER,
 			//	TextPadding = 8,
 			//	Icon = Textures.TexIconBack,
-			//	BackgoundType = HUDBackgroundType.Rounded,
+			//	BackgroundType = HUDBackgroundType.Rounded,
 			//	Color = FlatColors.ButtonHUD,
 			//	ColorPressed = FlatColors.ButtonPressedHUD,
 			//});
@@ -229,9 +219,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
 				Icon = Textures.TexIconNext,
-				BackgoundType = HUDBackgroundType.Rounded,
-				Color = FlatColors.Nephritis,
-				ColorPressed = FlatColors.Emerald,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Nephritis, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.Emerald, 16),
 
 				Click = (s, a) => MainGame.Inst.SetWorldMapScreenWithTransition(Levels.WORLD_001),
 			});
@@ -275,7 +265,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		{
 			base.Update(gameTime, istate);
 
-			btnPlay.Color = ColorMath.Blend(FlatColors.Nephritis, FlatColors.GreenSea, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 3));
+			btnPlay.BackgroundNormal = btnPlay.BackgroundNormal.WithColor(ColorMath.Blend(FlatColors.Nephritis, FlatColors.GreenSea, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 3)));
 		}
 	}
 }

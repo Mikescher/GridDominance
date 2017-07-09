@@ -34,10 +34,16 @@
 		echo "</td>";
 	}
 	function fmtLevelID($id) {
-	    if ($id == '{b16b00b5-0001-4000-9999-000000000002}') return "TUTORIAL";
+		if ($id == '{b16b00b5-0001-4000-9999-000000000002}') return "TUTORIAL";
 
 		return (int)substr($id, 25, 6) . " - " . (int)substr($id, 31, 6);
-    }
+	}
+	function getSessionCount() {
+		$string = file_get_contents("/var/log/gdapi_log/proxystate.json");
+		$json = json_decode($string, true);
+
+		return count($json['sessions']);
+	}
 	?>
 
 	<div class="infocontainer">
@@ -47,9 +53,12 @@
 		<div class="infodiv">
 			Active Users (week):  <a href="userlist.php?d=7"><?php echo getActiveUserCount(7); ?></a>
 		</div>
-		<div class="infodiv">
-			Active Users (today): <a href="userlist.php?d=1"><?php echo getActiveUserCount(1); ?></a>
-		</div>
+        <div class="infodiv">
+            Active Users (today): <a href="userlist.php?d=1"><?php echo getActiveUserCount(1); ?></a>
+        </div>
+        <div class="infodiv">
+            Online Sessions: <a href="proxylist.php"><?php echo getSessionCount(); ?></a>
+        </div>
 	</div>
 
 	<div class="infocontainer">

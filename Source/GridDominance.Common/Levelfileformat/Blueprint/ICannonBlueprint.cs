@@ -7,5 +7,6 @@
 		float Y { get; }
 		float Diameter { get; }
 		BulletPathBlueprint[] PrecalculatedPaths { get; }
+		int Fraction { get; }
 	}
 }

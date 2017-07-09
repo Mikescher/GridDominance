@@ -92,15 +92,19 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		{
 			base.OnBeforeRecalculatePosition();
 
+			bool fschanged = false;
+
 			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			if (_fsizeCache != _fontSize)
 			{
 				_fontScale = FontRenderHelper.GetFontScale(Font, FontSize);
 				
 				_fsizeCache = _fontSize;
+
+				fschanged = true;
 			}
 
-			if (_textCache != _text)
+			if (_textCache != _text || fschanged)
 			{
 				Size = (Font.MeasureString(_text) * _fontScale).ToFSize();
 

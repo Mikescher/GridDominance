@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,9 +48,9 @@
     <Compile Include="DebugTools\GCMonitor.cs" />
     <Compile Include="DebugTools\IDebugTextDisplayLineProvider.cs" />
     <Compile Include="DebugTools\StandardDebugMinimapImplementation.cs" />
-    <Compile Include="DeviceBridge\DummyDeviceBridge.cs" />
     <Compile Include="DeviceBridge\IBillingAdapter.cs" />
     <Compile Include="DeviceBridge\IOperatingSystemBridge.cs" />
+    <Compile Include="DeviceBridge\IUDPClient.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign4.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatCurve13.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatCurve12.cs" />
+    <Compile Include="GameMath\Geometry\DPoint.cs" />
     <Compile Include="GameMath\Geometry\FCircle.cs" />
     <Compile Include="GameMath\Geometry\DSize.cs" />
     <Compile Include="GameMath\Geometry\FRotatedRectangle.cs" />
@@ -100,6 +102,13 @@
     <Compile Include="LogProtocol\SAMLog.cs" />
     <Compile Include="LogProtocol\SAMLogEntry.cs" />
     <Compile Include="LogProtocol\SAMLogLevel.cs" />
+    <Compile Include="Network\Multiplayer\NetworkDataTools.cs" />
+    <Compile Include="Network\Multiplayer\NetworkUserConn.cs" />
+    <Compile Include="Network\Multiplayer\PingCounter.cs" />
+    <Compile Include="Network\Multiplayer\IBluetoothAdapter.cs" />
+    <Compile Include="Network\Multiplayer\INetworkMedium.cs" />
+    <Compile Include="Network\Multiplayer\SAMNetworkConnection.cs" />
+    <Compile Include="Network\Multiplayer\UDPNetworkMedium.cs" />
     <Compile Include="Network\REST\RestConnectionException.cs" />
     <Compile Include="Network\REST\RestParameterSet.cs" />
     <Compile Include="Network\REST\SAMRestAPI.cs" />
@@ -164,6 +173,8 @@
     <Compile Include="RenderHelper\DebugRenderHelper.cs" />
     <Compile Include="RenderHelper\FlatRenderHelper.cs" />
     <Compile Include="RenderHelper\FontRenderHelper.cs" />
+    <Compile Include="RenderHelper\HUDBackgroundDefinition.cs" />
+    <Compile Include="RenderHelper\HUDRenderHelper.cs" />
     <Compile Include="RenderHelper\SimpleRenderHelper.cs" />
     <Compile Include="RenderHelper\StaticTextures.cs" />
     <Compile Include="RenderHelper\StaticTexturesInitializationException.cs" />
@@ -186,6 +197,7 @@
     <Compile Include="Screens\Entities\EntityManager.cs" />
     <Compile Include="Screens\Entities\GameEntity.cs" />
     <Compile Include="Screens\Background\GameBackground.cs" />
+    <Compile Include="Screens\Entities\Operation\CyclicGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\Operation\SimpleCyclicGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\Operation\SimpleGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticle.cs" />
@@ -205,11 +217,12 @@
     <Compile Include="Screens\Entities\Particles\GPUParticles\PointGPUParticleEmitter.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventArgs.cs" />
-    <Compile Include="Screens\HUD\Elements\Button\HUDBackgroundType.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDImageButton.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDTextButton.cs" />
+    <Compile Include="Screens\HUD\Elements\Container\HUDFixedUniformGrid.cs" />
     <Compile Include="Screens\HUD\Elements\Container\HUDLayoutContainer.cs" />
+    <Compile Include="Screens\HUD\Elements\Container\HUDWrapperContainer.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDIconTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDSimpleTextBox.cs" />
     <Compile Include="Screens\HUD\Elements\Input\HUDTextBox.cs" />
@@ -218,13 +231,15 @@
     <Compile Include="Screens\HUD\Elements\Keyboard\HUDKeyboardButtonType.cs" />
     <Compile Include="Screens\HUD\Elements\Keyboard\IKeyboardListener.cs" />
     <Compile Include="Screens\HUD\Elements\Keyboard\KeyboardLayout.cs" />
+    <Compile Include="Screens\HUD\Elements\Other\HUDKeypad.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDSubScreenProxyRenderer.cs" />
     <Compile Include="Screens\HUD\Elements\Presenter\HUDCharacterControl.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDIconMessageBox.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDFadeOutInfoBox.cs" />
-    <Compile Include="Screens\HUD\Elements\Presenter\HUDRotatingImage.cs" />
     <Compile Include="RenderHelper\TimesheetAnimation\TimesheetAnimation.cs" />
     <Compile Include="Screens\HUD\Elements\Presenter\TimesheetAnimationPresenter.cs" />
+    <Compile Include="Screens\HUD\Elements\Primitives\HUDClickableLabel.cs" />
+    <Compile Include="Screens\HUD\Elements\Primitives\HUDLambdaLabel.cs" />
     <Compile Include="Screens\HUD\Elements\Table\HUDScrollTable.cs" />
     <Compile Include="Screens\HUD\Elements\Table\HUDScrollTableSingleRowPresenter.cs" />
     <Compile Include="Screens\HUD\Elements\Other\HUDToast.cs" />
@@ -246,7 +261,6 @@
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRawText.cs" />
     <Compile Include="Screens\HUD\Elements\Container\HUDRootContainer.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRectangle.cs" />
-    <Compile Include="Screens\HUD\Elements\Primitives\HUDRoundedRectangle.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDSeperator.cs" />
     <Compile Include="Screens\HUD\Operations\HUDElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\HUDIntervalElementOperation.cs" />

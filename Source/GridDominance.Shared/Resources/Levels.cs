@@ -18,12 +18,21 @@ namespace GridDominance.Shared.Resources
 
 		public static LevelBlueprint LEVEL_TUTORIAL;
 		public static LevelBlueprint LEVEL_DBG;
-		public static LevelBlueprint LEVEL_1_1;
 
 		public static Dictionary<Guid, GraphBlueprint> WORLDS;
 		public static Dictionary<Guid, LevelBlueprint> LEVELS;
 		public static Dictionary<Guid, int> WORLD_NAMES;
 		public static Dictionary<Guid, int> WORLD_NUMBERS;
+
+		public static GraphBlueprint[] WORLDS_MULTIPLAYER;
+
+		public static Guid WORLD_ID_NONE        = new Guid("{d34db335-0001-4000-7711-000000100002}");
+		public static Guid WORLD_ID_TUTORIAL    = new Guid("{d34db335-0001-4000-7711-000000100001}");
+		public static Guid WORLD_ID_MULTIPLAYER = new Guid("{d34db335-0001-4000-7711-000000300001}");
+
+		public static Guid LEVELID_1_1 = new Guid("{b16b00b5-0001-4000-0000-000001000001}");
+		public static Guid LEVELID_1_2 = new Guid("{b16b00b5-0001-4000-0000-000001000002}");
+		public static Guid LEVELID_1_3 = new Guid("{b16b00b5-0001-4000-0000-000001000003}");
 
 		public static void LoadContent(ContentManager content)
 		{
@@ -35,7 +44,7 @@ namespace GridDominance.Shared.Resources
 			LEVEL_DBG      = LoadLevel(content, "levels/lvl_debug");
 			LEVEL_TUTORIAL = LoadLevel(content, "levels/lvl_tutorial");
 
-			LEVEL_1_1 = LoadLevel(content, "levels/lvl001");
+			LoadLevel(content, "levels/lvl001");
 			LoadLevel(content, "levels/lvl002");
 			LoadLevel(content, "levels/lvl003");
 			LoadLevel(content, "levels/lvl004");
@@ -129,6 +138,8 @@ namespace GridDominance.Shared.Resources
 			WORLD_NUMBERS[WORLD_003.ID] = 2;
 			WORLD_NUMBERS[WORLD_004.ID] = 3;
 
+			WORLDS_MULTIPLAYER = new[]{ WORLD_001, WORLD_002, WORLD_003, WORLD_004};
+
 #if DEBUG
 			Test();
 #endif
@@ -160,17 +171,17 @@ namespace GridDominance.Shared.Resources
 				{
 					if (!LEVELS.ContainsKey(n.LevelID))
 					{
-						SAMLog.Error("ResourceTest", $"Could not find level with ID: {n.LevelID}");
+						SAMLog.Error("ResourceTest-1", $"Could not find level with ID: {n.LevelID}");
 					}
 					else
 					{
-						if (!ids.Add(n.LevelID)) SAMLog.Error("ResourceTest", $"Duplicate LevelID: {n.LevelID}");
-						if (!names.Add(LEVELS[n.LevelID].Name)) SAMLog.Error("ResourceTest", $"Duplicate LevelName: {LEVELS[n.LevelID].Name}");
-						if (!fnames.Add(LEVELS[n.LevelID].FullName)) SAMLog.Error("ResourceTest", $"Duplicate LevelFullName: {LEVELS[n.LevelID].FullName}");
+						if (!ids.Add(n.LevelID)) SAMLog.Error("ResourceTest-2", $"Duplicate LevelID: {n.LevelID}");
+						if (!names.Add(LEVELS[n.LevelID].Name)) SAMLog.Error("ResourceTest-3", $"Duplicate LevelName: {LEVELS[n.LevelID].Name}");
+						if (!fnames.Add(LEVELS[n.LevelID].FullName)) SAMLog.Error("ResourceTest-4", $"Duplicate LevelFullName: {LEVELS[n.LevelID].FullName}");
 
 						foreach (var p in n.OutgoingPipes)
 						{
-							if (!LEVELS.ContainsKey(p.Target) && !WORLDS.ContainsKey(p.Target)) SAMLog.Error("ResourceTest", $"Could not find level with ID: {p.Target}");
+							if (!LEVELS.ContainsKey(p.Target) && !WORLDS.ContainsKey(p.Target)) SAMLog.Error("ResourceTest-5", $"Could not find level with ID: {p.Target}");
 						}
 					}
 				}
@@ -179,7 +190,7 @@ namespace GridDominance.Shared.Resources
 				{
 					if (!WORLDS.ContainsKey(n.TargetWorld))
 					{
-						SAMLog.Error("ResourceTest", $"Could not find world with ID: {n.TargetWorld}");
+						SAMLog.Error("ResourceTest-6", $"Could not find world with ID: {n.TargetWorld}");
 					}
 				}
 			}

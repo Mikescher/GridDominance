@@ -2,6 +2,7 @@
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using System;
+using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {
@@ -19,6 +20,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		DebugTextDisplayLine AddLine(Func<string> text);
 		DebugTextDisplayLine AddLine(Func<string> text, Color background, Color foreground);
 		DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text);
+		DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text, ILifetimeObject owner);
 		DebugTextDisplayLine AddLine(string text);
 		DebugTextDisplayLine AddDecayLine(string text, float lifetime = 2f, float decaytime = 0.15f, float spawntime = 0.25f);
 		DebugTextDisplayLine AddLine(string text, Color background, Color foreground);

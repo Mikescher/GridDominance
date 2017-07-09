@@ -6,10 +6,9 @@ namespace GridDominance.Shared.Resources
 	{
 		public static readonly Tuple<string, string>[] LINK_BACK = 
 		{
-			Tuple.Create("Flaticon: android-app",                   "http://www.flaticon.com/packs/android-app"),
-			Tuple.Create("Flaticon: amusement-park",                "http://www.flaticon.com/packs/amusement-park"),
-			Tuple.Create("Flaticon: camera-interface",              "http://www.flaticon.com/packs/camera-interface"),
-			Tuple.Create("Flaticon: camera-5",                      "http://www.flaticon.com/packs/gaming-5"),
+			Tuple.Create("Flaticon: Flaticons",                     "http://www.flaticon.com/authors/flat-icons"),
+			Tuple.Create("Flaticon: Freepik",                       "http://www.freepik.com"),
+			Tuple.Create("Flaticon: Iconnice",                      "http://www.flaticon.com/authors/iconnice"),
 
 			Tuple.Create("material.io",                             "https://material.io/icons/"),
 			Tuple.Create("icons8",                                  "http://icons8.com"),

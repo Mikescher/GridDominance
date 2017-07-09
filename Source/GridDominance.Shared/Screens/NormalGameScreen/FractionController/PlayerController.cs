@@ -16,12 +16,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		private bool isMouseDragging = false;
 		private FPoint dragOrigin;
 
-		public override bool DoBarrelRecharge() => true;
+		private readonly bool _dbc;
+		private readonly bool _sbc;
+		public override bool DoBarrelRecharge() => _dbc && !Owner.IsCountdown;
+		public override bool SimulateBarrelRecharge() => _sbc && !Owner.IsCountdown;
 
-		public PlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction) 
+		public PlayerController(GDGameScreen owner, Cannon cannon, Fraction fraction, bool doBarrelRecharge = true, bool simulateBarrelRecharge = false) 
 			: base(0f, owner, cannon, fraction, false)
 		{
-			//
+			_dbc = doBarrelRecharge;
+			_sbc = simulateBarrelRecharge;
 		}
 
 		public override void OnRemove()
@@ -31,6 +35,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		protected override void OnExclusiveDown(InputState istate)
 		{
+			if (Owner.IsCountdown) return;
+
 			isMouseDragging = true;
 			Cannon.CrosshairSize.SetForce(CROSSHAIR_START_SCALE);
 			dragOrigin = istate.GamePointerPositionOnMap;

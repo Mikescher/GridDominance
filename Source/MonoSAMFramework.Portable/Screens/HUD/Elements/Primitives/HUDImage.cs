@@ -6,6 +6,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
@@ -39,6 +40,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		private FRectangle imageBounds = FRectangle.Empty;
 
 		public float Rotation = 0f;
+		public float RotationSpeed = 0f; // = rot/sec
 
 		public HUDImage(int depth = 0)
 		{
@@ -174,7 +176,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			// NOP
+			if (RotationSpeed > 0f) Rotation = FloatMath.IncRadians(Rotation, gameTime.ElapsedSeconds * RotationSpeed * FloatMath.TAU);
 		}
 	}
 }

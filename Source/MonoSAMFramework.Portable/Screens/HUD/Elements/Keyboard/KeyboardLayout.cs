@@ -45,13 +45,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 			var w = _virtualWidth - x - _padEW;
 			var h = _rowHeight;
 
-			var pnl = new HUDRoundedRectangle(1)
+			var pnl = new HUDRectangle(1)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				RelativePosition = new FPoint(x * scale, y * scale),
 				Size = new FSize(w * scale, h * scale),
-				CornerSize = scale * 0.1f,
-				Color = HUDKeyboard.COLOR_PREVIEW_BG,
+
+				Definition = HUDBackgroundDefinition.CreateRounded(HUDKeyboard.COLOR_PREVIEW_BG, scale * 0.1f),
 
 			};
 			_target.AddElement(pnl);

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using GridDominance.Common.Helper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace GridDominance.Levelfileformat.Blueprint
 {
@@ -103,6 +105,16 @@ namespace GridDominance.Levelfileformat.Blueprint
 			bw.Write((byte)0xB5);
 		}
 
+		public ulong CalcCheckSum()
+		{
+			using (var ms = new MemoryStream())
+			using (var bw = new BinaryWriter(ms))
+			{
+				BinarySerialize(bw);
+				return BitConverter.ToUInt64(MD5.GetHash(ms.ToArray()), 0);
+			}
+		}
+
 		public void BinaryDeserialize(BinaryReader br)
 		{
 			byte[] id = new byte[1];
@@ -194,6 +206,9 @@ namespace GridDominance.Levelfileformat.Blueprint
 		{
 			if (string.IsNullOrWhiteSpace(Name))
 				throw new Exception("Level needs a valid name");
+
+			if (!new Regex(@"^[A-Za-z0-9]+\-[A-Za-z0-9]+$").IsMatch(Name))
+				throw new Exception("Levelname has invalid format");
 
 			if (UniqueID == Guid.Empty)
 				throw new Exception("Level needs a valid UUID");

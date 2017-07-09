@@ -58,11 +58,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			set { _textPadding = value; InvalidatePosition(); }
 		}
 
-		public Color Color = Color.Transparent;
-		public Color ColorPressed = Color.Transparent;
-		public HUDBackgroundType BackgoundType = HUDBackgroundType.Simple;
+		public HUDBackgroundDefinition BackgroundNormal = HUDBackgroundDefinition.DUMMY;
+		public HUDBackgroundDefinition BackgroundPressed = HUDBackgroundDefinition.DUMMY;
 
-		public float BackgoundCornerSize = 16f;
+		public float BackgroundCornerSize = 16f;
 
 		#endregion
 
@@ -103,9 +102,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			var btnColor = IsPointerDownOnElement ? ColorPressed : Color;
-
-			SimpleRenderHelper.DrawHUDBackground(sbatch, BackgoundType, bounds, btnColor, BackgoundCornerSize);
+			if (IsPointerDownOnElement)
+				HUDRenderHelper.DrawBackground(sbatch, bounds, BackgroundPressed);
+			else
+				HUDRenderHelper.DrawBackground(sbatch, bounds, BackgroundNormal);
 		}
 
 		public override void OnRemove()

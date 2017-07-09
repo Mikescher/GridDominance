@@ -28,15 +28,8 @@ namespace GridDominance.Shared.Screens.Common.HUD
 			_master.SlavePress(istate);
 		}
 
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
-		{
-			return true;
-		}
-
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)
-		{
-			return true;
-		}
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{

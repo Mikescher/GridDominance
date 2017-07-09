@@ -16,6 +16,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -60,7 +61,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float MIN_REGEN_HEALTH = 0.05f;
 		protected const float FULL_LASER_HEALTH = 0.97f; // Health per sec bei 1HP
 
-		protected const float LASER_CHARGE_COOLDOWN   = 0.4f; // should be more than KI freq
+		public    const float LASER_CHARGE_COOLDOWN     = 0.4f; // should be more than KI freq
+		public    const float LASER_CHARGE_COOLDOWN_MAX = LASER_CHARGE_COOLDOWN + 0.1f;
 		protected const float LASER_DAMAGE_PER_SECOND = 0.20f;
 		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
 
@@ -69,14 +71,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public  Fraction Fraction { get; private set; }
 		protected AbstractFractionController controller;
-		public float TotalBulletBoost = 0f;
+		public int BulletBoostCount = 0;
+		public int ManualBoost = 0;
 		private readonly List<CannonLaserBoost> _laserBoosts = new List<CannonLaserBoost>();
 		public readonly GDGameScreen GDOwner;
 		
 		public  readonly List<LaserRay> AttackingRays = new List<LaserRay>();
 		private readonly List<LaserRay> _attackingRaysCollector = new List<LaserRay>();
 
-		public float RealBoost => 1 + Math.Min(TotalBulletBoost + _laserBoosts.Count * BOOSTER_POWER, MAX_BOOST);
+		public int IntegerBoost => BulletBoostCount + _laserBoosts.Count + ManualBoost;
+
+		public float RealBoost => 1 + Math.Min(IntegerBoost * BOOSTER_POWER, MAX_BOOST);
 
 		public readonly DeltaLimitedFloat CannonHealth = new DeltaLimitedFloat(1f, HEALTH_PROGRESS_SPEED);
 
@@ -86,7 +91,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override FPoint Position { get; }
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
-		public readonly int BlueprintCannonID;
+		public readonly byte BlueprintCannonID;
 		private readonly BulletPathBlueprint[] bulletPathBlueprints;
 		public List<BulletPath> BulletPaths;
 
@@ -100,7 +105,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected int counterAttackingLasersFriends = 0;
 		protected int counterAttackingLasersEnemy   = 0;
 
-		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, int cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
+		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, byte cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
 			Fraction = fractions[player];
 			GDOwner = scrn;
@@ -222,7 +227,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			DrawDebugView(sbatch);
 
 			// ASSERTION
-			if (ActiveOperations.Count(p => p is CannonBooster) != FloatMath.Round(TotalBulletBoost / BOOSTER_POWER)) throw new Exception("Assertion failed TotalBoost == Boosters");
+			if (ActiveOperations.Count(p => p is CannonBooster) != BulletBoostCount) throw new Exception("Assertion failed TotalBoost == Boosters");
 		}
 
 		private void DrawDebugView(IBatchRenderer sbatch)
@@ -454,5 +459,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		#endregion
 
 		public abstract KIController CreateKIController(GDGameScreen screen, Fraction fraction);
+
+		public void RemoteRotationUpdate(float ra, float rt, float sendertime)
+		{
+			var delta = GDOwner.LevelTime - sendertime;
+
+			Rotation.SetFull(ra, rt);
+			Rotation.Update(new SAMTime(delta * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds));
+		}
 	}
 }

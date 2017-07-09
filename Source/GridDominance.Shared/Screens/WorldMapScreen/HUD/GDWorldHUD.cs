@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -88,7 +89,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				L10NText = L10NImpl.STR_GLOB_WAITFORSERVER,
 				TextColor = FlatColors.TextHUD,
-				ColorBackground = FlatColors.BelizeHole,
+				Background = HUDBackgroundDefinition.CreateRounded(FlatColors.BelizeHole, 16),
 
 				IconColor = FlatColors.Clouds,
 				Icon = Textures.CannonCog,

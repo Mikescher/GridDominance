@@ -28,8 +28,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		private float _runtime = 0;
 
+		public override Fraction LocalPlayerFraction => null;
+
 		public GDGameScreen_Preview(MainGame game, GraphicsDeviceManager gdm, WorldPreviewPanel pnl, LevelBlueprint[] bps, int idx, int worldnumber) 
-			: base(game, gdm, bps[idx], FractionDifficulty.DIFF_3, true)
+			: base(game, gdm, bps[idx], FractionDifficulty.DIFF_3, true, false)
 		{
 			GameSpeed = GAMESPEED_SEMIFAST;
 

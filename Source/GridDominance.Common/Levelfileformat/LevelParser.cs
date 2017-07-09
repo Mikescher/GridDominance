@@ -94,7 +94,7 @@ namespace GridDominance.Levelfileformat
 
 			_nextCannonID = Math.Max(cannonid + 1, _nextCannonID);
 
-			_result.BlueprintCannons.Add(new CannonBlueprint(posX, posY, size, player, rotation, cannonid));
+			_result.BlueprintCannons.Add(new CannonBlueprint(posX, posY, size, player, rotation, (byte)cannonid));
 		}
 
 		private void IncludeSource(List<string> methodParameter)
@@ -401,7 +401,7 @@ namespace GridDominance.Levelfileformat
 
 			_nextCannonID = Math.Max(cannonid + 1, _nextCannonID);
 
-			_result.BlueprintLaserCannons.Add(new LaserCannonBlueprint(posX, posY, size, player, rotation, cannonid));
+			_result.BlueprintLaserCannons.Add(new LaserCannonBlueprint(posX, posY, size, player, rotation, (byte)cannonid));
 		}
 
 		private void SetView(List<string> methodParameter)

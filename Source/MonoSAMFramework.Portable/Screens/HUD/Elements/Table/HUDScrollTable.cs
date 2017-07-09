@@ -181,6 +181,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 
 		protected override void OnAfterRecalculatePosition()
 		{
+			base.OnAfterRecalculatePosition();
+			
 			RecalcTabData();
 		}
 

@@ -4,34 +4,38 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 {
 	public abstract class HUDIntervalElementOperation<TElement> : HUDElementOperation<TElement> where TElement : HUDElement
 	{
-		private readonly float _delayTime;
-		private readonly float _cycleTime;
+		private readonly float _actionTime;
+		private readonly float _sleepTime;
 
 		private float _time = 0f;
 
 		public bool Finished = false;
 
-		protected HUDIntervalElementOperation(float delayTime, float cycleTime)
+		protected HUDIntervalElementOperation(float startDelay, float actionTime, float sleepTime)
 		{
-			_delayTime = delayTime;
-			_cycleTime = cycleTime;
+			_time = -startDelay;
+
+			_actionTime = actionTime;
+			_sleepTime = sleepTime;
 		}
 
 		public override bool Update(TElement entity, SAMTime gameTime, InputState istate)
 		{
 			if (Finished) return false;
-
 			
-			bool before_incycle = (_time > _delayTime) && (_time < _delayTime + _cycleTime);
+			bool before_incycle = (_time >= 0) && (_time < _actionTime);
 
 			_time += gameTime.ElapsedSeconds;
-			while (_time > _delayTime + _cycleTime) _time -= _delayTime + _cycleTime;
 
-			bool after_incycle = (_time > _delayTime) && (_time < _delayTime + _cycleTime);
+			if (_time < 0) return true; // initial delay
+
+			while (_time > _actionTime + _sleepTime) _time -= _actionTime + _sleepTime;
+
+			bool after_incycle = (_time >= 0) && (_time < _actionTime);
 
 			if (!before_incycle && after_incycle) OnCycleStart(entity, gameTime, istate);
 
-			if (after_incycle) OnCycleProgress(entity, (_time - _delayTime) / _cycleTime, gameTime, istate);
+			if (after_incycle) OnCycleProgress(entity, _time / _actionTime, gameTime, istate);
 
 			if (before_incycle && !after_incycle) OnCycleEnd(entity, gameTime, istate);
 

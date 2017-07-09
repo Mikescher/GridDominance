@@ -22,7 +22,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public const float TEXT_SPACING = 1.15f;
 
 		private readonly ConcurrentQueue<DebugTextDisplayLine> asyncBacklog = new ConcurrentQueue<DebugTextDisplayLine>();
-		private readonly List<IDebugTextDisplayLineProvider> lines = new List<IDebugTextDisplayLineProvider>();
+		private List<IDebugTextDisplayLineProvider> lines = new List<IDebugTextDisplayLineProvider>();
 
 		private readonly IBatchRenderer debugBatch;
 
@@ -48,6 +48,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			lines.Add(l);
 
+			lines = lines.OrderBy(n => n.Order).ToList();
+			
 			return l;
 		}
 
@@ -75,6 +77,11 @@ namespace MonoSAMFramework.Portable.DebugTools
 		public DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text)
 		{
 			return AddLine(new DebugTextDisplayLine(text, () => DebugSettings.Get(debugSettingsKey)));
+		}
+
+		public DebugTextDisplayLine AddLine(string debugSettingsKey, Func<string> text, ILifetimeObject owner)
+		{
+			return AddLine(new DebugTextDisplayLine(text, () => DebugSettings.Get(debugSettingsKey)) {Owner = owner});
 		}
 
 		public DebugTextDisplayLine AddTabularLine(string debugSettingsKey, Func<List<string>> texts)

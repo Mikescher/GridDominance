@@ -7,28 +7,26 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 {
 	class CannonBooster : GameEntityOperation<Cannon>
 	{
-		private readonly float boostPower;
-
-		public CannonBooster(float boost, float lifetime) : base("CannonBooster", lifetime)
+		public CannonBooster(float lifetime) : base("CannonBooster", lifetime)
 		{
-			boostPower = boost;
+			//
 		}
 
 		protected override void OnStart(Cannon entity)
 		{
-			entity.TotalBulletBoost += boostPower;
+			entity.BulletBoostCount++;
 		}
 
 		protected override void OnProgress(Cannon entity, float progress, SAMTime gameTime, InputState istate) { }
 
 		protected override void OnEnd(Cannon entity)
 		{
-			entity.TotalBulletBoost -= boostPower;
+			entity.BulletBoostCount--;
 		}
 
 		protected override void OnAbort(Cannon entity)
 		{
-			entity.TotalBulletBoost -= boostPower;
+			entity.BulletBoostCount--;
 		}
 	}
 }

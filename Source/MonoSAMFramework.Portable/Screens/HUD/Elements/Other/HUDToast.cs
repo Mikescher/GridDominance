@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
@@ -13,6 +13,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 {
 	public class HUDToast : HUDContainer
 	{
+		public const float MOVEMENT_DELTA = 256f;
+		public const float PAD_BOTTOM = 16f;
+		public const float PAD_VERT   = 12f;
+
 		public override int Depth => 9 * 1000 * 1000;
 
 		#region Properties
@@ -25,8 +29,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		
 		public Color TextColor
 		{
-			get { return internalLabel.TextColor; }
-			set { internalLabel.TextColor = value; }
+			get => internalLabel.TextColor;
+			set => internalLabel.TextColor = value;
 		}
 
 		public SpriteFont Font
@@ -43,8 +47,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		public float Alpha
 		{
-			get { return internalLabel.Alpha; }
-			set { internalLabel.Alpha = value; }
+			get => internalLabel.Alpha;
+			set => internalLabel.Alpha = value;
 		}
 
 		public HUDWordWrap WordWrap
@@ -67,10 +71,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			set { _maxWidth = value; innerSizeCache = FSize.Empty; }
 		}
 
-		public Color ColorBackground = Color.White;
-
-		public HUDBackgroundType BackgroundType = HUDBackgroundType.Rounded;
-		public float BackgoundCornerSize = 16f;
+		public HUDBackgroundDefinition Background = HUDBackgroundDefinition.DUMMY;
 
 		public bool CloseOnClick = true;
 
@@ -82,10 +83,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		private float _lifetime = 0;
 		private readonly float _toastTime;
 
-		public HUDToast(float lifetime)
+		public DeltaLimitedFloat PositionY;
+
+		public HUDToast(float lifetime, float py)
 		{
 			_toastTime = lifetime;
 
+			PositionY = new DeltaLimitedFloat(py, MOVEMENT_DELTA);
 			Alignment = HUDAlignment.CENTER;
 
 			internalLabel = new HUDLabel
@@ -93,17 +97,18 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 				Alignment = HUDAlignment.CENTER,
 				TextAlignment = HUDAlignment.CENTER,
 				FontSize = 96,
-				BackgroundColor = Color.Transparent,
+				Background = HUDBackgroundDefinition.NONE,
 			};
 		}
 
 		public static HUDToast Copy(HUDToast other)
 		{
-			var t = new HUDToast(other._toastTime);
+			var t = new HUDToast(other._toastTime, other.PositionY.TargetValue);
 
 			t._lifetime = other._lifetime;
 			t.Alignment = other.Alignment;
 			t.RelativePosition = other.RelativePosition;
+			t.PositionY.FullSet(t.PositionY);
 			t.Text = other.Text;
 			t.TextColor = other.TextColor;
 			t.Font = other.Font;
@@ -112,9 +117,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			t.WordWrap = other.WordWrap;
 			t.TextPadding = other.TextPadding;
 			t.MaxWidth = other.MaxWidth;
-			t.ColorBackground = other.ColorBackground;
-			t.BackgroundType = other.BackgroundType;
-			t.BackgoundCornerSize = other.BackgoundCornerSize;
+			t.Background = other.Background;
 			t.CloseOnClick = other.CloseOnClick;
 
 			return t;
@@ -127,9 +130,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			if (bounds.IsEmpty) return;
-
-			SimpleRenderHelper.DrawAlphaHUDBackground(sbatch, BackgroundType, bounds, ColorBackground, BackgoundCornerSize, Alpha);
+			HUDRenderHelper.DrawAlphaBackground(sbatch, bounds, Background, Alpha);
 		}
 
 		public override void OnRemove()
@@ -150,6 +151,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			}
 
 			if (!MonoSAMGame.IsInitializationLag) _lifetime += gameTime.ElapsedSeconds;
+
+			PositionY.Update(gameTime);
+			if (FloatMath.EpsilonInequals(PositionY.ActualValue, RelativePosition.Y))
+			{
+				RelativePosition = new FPoint(0, PositionY.ActualValue);
+			}
 
 			var p = _lifetime / _toastTime;
 
@@ -183,7 +190,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
-			if (CloseOnClick) Remove();
+			if (CloseOnClick)
+			{
+				_lifetime = FloatMath.Max(_lifetime, _toastTime * 0.85f);
+			}
 		}
 	}
 }

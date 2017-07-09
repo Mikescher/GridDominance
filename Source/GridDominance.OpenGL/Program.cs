@@ -1,6 +1,6 @@
 ﻿using GridDominance.Shared;
-using GridDominance.Windows;
 using System;
+using GridDominance.Windows;
 
 namespace GridDominance.OpenGL
 {

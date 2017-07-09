@@ -47,7 +47,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override FSize DrawingBoundingBox { get; }
 		public override Color DebugIdentColor => Fraction.Color;
 
-		public BulletSplitter(GameScreen scrn, Bullet b, FlatAlign8 d) : base(scrn, GDConstants.ORDER_GAME_BULLETPARTICLE)
+		public BulletSplitter(GameScreen scrn, BaseBullet b, FlatAlign8 d) : base(scrn, GDConstants.ORDER_GAME_BULLETPARTICLE)
 		{
 			scale = b.Scale;
 			ShapePosition = b.BulletPosition;
@@ -58,7 +58,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			ShapeRotation = FloatMath.ToRadians((int) d * 45f);
 			rotationSpeed = FloatMath.GetRangedRandom(-FloatMath.TAU, FloatMath.TAU);
 
-			DrawingBoundingBox = new FSize(Bullet.BULLET_DIAMETER, Bullet.BULLET_DIAMETER) * scale;
+			DrawingBoundingBox = new FSize(BaseBullet.BULLET_DIAMETER, BaseBullet.BULLET_DIAMETER) * scale;
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -86,8 +86,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			sbatch.DrawCentered(
 				Textures.TexBulletSplitter,
 				ShapePosition,
-				scale * Bullet.BULLET_DIAMETER,
-				scale * Bullet.BULLET_DIAMETER,
+				scale * BaseBullet.BULLET_DIAMETER,
+				scale * BaseBullet.BULLET_DIAMETER,
 				Fraction.Color * ShapeAlpha, ShapeRotation);
 		}
 	}

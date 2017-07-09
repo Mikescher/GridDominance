@@ -4,12 +4,12 @@ using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
+using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
@@ -19,7 +19,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -47,16 +47,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			base.OnInitialize();
 
-			AddElement(new HUDRoundedRectangle(0)
+			AddElement(new HUDRectangle(0)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				Size = new FSize(WIDTH, FOOTER_HEIGHT),
 
-				Color = FlatColors.BackgroundHUD2,
-				RoundCornerTL = false,
-				RoundCornerTR = false,
-				RoundCornerBL = true,
-				RoundCornerBR = true,
+				Definition = HUDBackgroundDefinition.CreateRounded(FlatColors.BackgroundHUD2, 16, false, false, true, true),
 			});
 
 			AddElement(new HUDLabel(1)
@@ -125,9 +121,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.ButtonHUD,
-				ColorPressed = FlatColors.ButtonPressedHUD,
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonHUD, 16f),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonPressedHUD, 16f),
 
 				Click = OnCreateAccount,
 			});
@@ -144,16 +139,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				BackgoundType = HUDBackgroundType.RoundedBlur,
-				Color = FlatColors.ButtonHUD,
-				ColorPressed = FlatColors.ButtonPressedHUD,
+				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonHUD, 16f),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.ButtonPressedHUD, 16f),
 
 				Click = OnLogin,
 			});
 		}
-
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
 
 		private void OnLogin(HUDTextButton sender, HUDButtonEventArgs e)
 		{
@@ -173,7 +164,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				L10NText = L10NImpl.STR_AAP_LOGGINGIN,
 				TextColor = FlatColors.TextHUD,
-				ColorBackground = FlatColors.BelizeHole,
+				Background = HUDBackgroundDefinition.CreateRounded(FlatColors.BelizeHole, 16),
 
 				IconColor = FlatColors.Clouds,
 				Icon = Textures.CannonCog,
@@ -211,7 +202,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 						{
 							Text = text,
 							TextColor = FlatColors.Clouds,
-							ColorBackground = FlatColors.Alizarin,
+							Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
 
 							CloseOnClick = true,
 
@@ -226,13 +217,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				{
 					spinner.Remove();
 
-					MainGame.Inst.SetOverworldScreen();
-					var screen = MainGame.Inst.GetCurrentScreen() as GameScreen;
+					MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
+					var screen = MainGame.Inst.GetCurrentScreen();
 					screen?.HUD?.AddModal(new HUDFadeOutInfoBox(3, 1, 0.3f)
 					{
 						L10NText = L10NImpl.STR_AAP_LOGINSUCCESS,
 						TextColor = FlatColors.TextHUD,
-						ColorBackground = FlatColors.Nephritis,
+						Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Nephritis, 16),
 
 						CloseOnClick = true,
 
@@ -252,7 +243,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					{
 						L10NText = L10NImpl.STR_AAP_NOLOGIN,
 						TextColor = FlatColors.Clouds,
-						ColorBackground = FlatColors.Alizarin,
+						Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
 
 						CloseOnClick = true,
 
@@ -273,7 +264,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				L10NText = L10NImpl.STR_AAP_ACCCREATING,
 				TextColor = FlatColors.TextHUD,
-				ColorBackground = FlatColors.BelizeHole,
+				Background = HUDBackgroundDefinition.CreateRounded(FlatColors.BelizeHole, 16),
 
 				IconColor = FlatColors.Clouds,
 				Icon = Textures.CannonCog,
@@ -306,7 +297,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							{
 								L10NText = L10NImpl.STR_AAP_ACCCREATED,
 								TextColor = FlatColors.TextHUD,
-								ColorBackground = FlatColors.Nephritis,
+								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Nephritis, 16),
 								CloseOnClick = true,
 							}, true);
 
@@ -321,7 +312,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							{
 								L10NText = L10NImpl.STR_AAP_USERTAKEN,
 								TextColor = FlatColors.Clouds,
-								ColorBackground = FlatColors.Alizarin,
+								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
 								CloseOnClick = true,
 							}, true);
 						});
@@ -334,7 +325,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							{
 								L10NText = L10NImpl.STR_AAP_ALREADYCREATED,
 								TextColor = FlatColors.Clouds,
-								ColorBackground = FlatColors.Alizarin,
+								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
 								CloseOnClick = true,
 							}, true);
 							Remove();
@@ -348,7 +339,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							{
 								Text = r.Item2,
 								TextColor = FlatColors.Clouds,
-								ColorBackground = FlatColors.Alizarin,
+								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
 								CloseOnClick = true,
 							}, true);
 							Remove();
@@ -362,7 +353,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							{
 								L10NText = L10NImpl.STR_AAP_NOCOM,
 								TextColor = FlatColors.Clouds,
-								ColorBackground = FlatColors.Alizarin,
+								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
 								CloseOnClick = true,
 							}, true);
 							Remove();
@@ -376,7 +367,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 							{
 								L10NText = L10NImpl.STR_AAP_AUTHERROR,
 								TextColor = FlatColors.Clouds,
-								ColorBackground = FlatColors.Alizarin,
+								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
 								CloseOnClick = true,
 							}, true);
 							Remove();
@@ -397,7 +388,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					{
 						L10NText = L10NImpl.STR_AAP_COULDNOTCREATE,
 						TextColor = FlatColors.Clouds,
-						ColorBackground = FlatColors.Alizarin,
+						Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
 						CloseOnClick = true,
 					}, true);
 
