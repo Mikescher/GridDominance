@@ -40,8 +40,8 @@
                     <th style='width: 170px'>username</th>
                     <th>anon</th>
                     <th>resolution</th>
-                    <th>app version</th>
-                    <th>exception id</th>
+                    <th>version</th>
+                    <th style="width: 170px;">exception id</th>
                     <th>msg</th>
                     <th>trace</th>
                     <th style='width: 160px'>timestamp</th>

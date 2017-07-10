@@ -84,15 +84,15 @@
         <table class="sqltab pure-table pure-table-bordered">
             <thead>
                 <tr>
-                    <th>error id</th>
+                    <th>id</th>
                     <th style='width: 250px'>Username</th>
-                    <th>password verified</th>
-                    <th>screen resolution</th>
-                    <th>app version</th>
-                    <th>exception id</th>
-                    <th>exception message</th>
-                    <th>exception stacktrace</th>
-                    <th>timestamp</th>
+                    <th>anon</th>
+                    <th>resolution</th>
+                    <th>version</th>
+                    <th style="width: 170px;">exception id</th>
+                    <th>msg</th>
+                    <th>trace</th>
+                    <th style='width: 160px'>timestamp</th>
                     <th>additional info</th>
                     <th>acknowledged</th>
                 </tr>
@@ -101,8 +101,8 @@
                 <tr>
                     <td><?php echo $entry['error_id']; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-                    <td><?php echo $entry['password_verified']; ?></td>
-                    <td style='max-width: 256px'><?php echo $entry['screen_resolution']; ?></td>
+                    <td><?php echo $entry['password_verified']?0:1; ?></td>
+                    <td><?php echo $entry['screen_resolution']; ?></td>
                     <td><?php echo $entry['app_version']; ?></td>
                     <td><?php echo $entry['exception_id']; ?></td>
 					<?php expansioncell($entry['exception_message']); ?>
