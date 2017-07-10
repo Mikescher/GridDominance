@@ -231,7 +231,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 				AddEntityOperation(new ScreenShakeAndCenterOperation(this, GDOwner));
 
-				Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_LEVELLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+				Owner.HUD.ShowToast("LN::LOCKED", L10N.T(L10NImpl.STR_GLOB_LEVELLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 
 				return;
 			}

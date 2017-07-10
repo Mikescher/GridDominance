@@ -1,5 +1,4 @@
 ﻿using System;
-using MonoSAMFramework.Portable.DeviceBridge;
 
 namespace GridDominance.Shared.Resources
 {
@@ -38,7 +37,7 @@ namespace GridDominance.Shared.Resources
 //		public const string MULTIPLAYER_SERVER_HOST = "localhost";
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 
-		//		public const string SERVER_URL = "http://localhost:666";
+//		public const string SERVER_URL = "http://localhost:666";
 		public const string SERVER_URL = "http://gdapi.mikescher.com";
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 

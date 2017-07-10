@@ -10,7 +10,7 @@ import java.util.*;
 public class Main {
 
     public static final int PORT_SERVER             = 28023;
-    public static final int PACKAGE_SIZE            = 1500;
+    public static final int PACKAGE_SIZE            = 2048;
     public static final int PACKAGE_SIZE_SMALL      = 32;
 
     public static final int GAME_SESSION_TIMEOUT    = 16 * 1000;
@@ -25,6 +25,7 @@ public class Main {
     public static final byte CMD_QUERYSESSION       = 103;
     public static final byte CMD_PING               = 104;
     public static final byte CMD_AFTERGAME          = 105;
+    public static final byte CMD_NEWGAME            = 106;
     public static final byte CMD_FORWARD            = 125;
     public static final byte CMD_FORWARDLOBBYSYNC   = 126;
     public static final byte CMD_FORWARDHOSTINFO    = 127;
@@ -42,6 +43,7 @@ public class Main {
     public static final byte MSG_SESSIONTERMINATED   = 71;
 
     public static final byte ANS_FORWARDLOBBYSYNC    = 81;
+    public static final byte ANS_NEWGAME             = 82;
 
     private static final SimpleLog _log = new SimpleLog();
     private static final Random _random = new Random(System.currentTimeMillis());
@@ -176,7 +178,16 @@ public class Main {
                         int ag_userid = ((receiveData[4] & 0xF0) >> 4);
                         ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), ag_seq, ag_sessionid, ag_sessionsecret, true);
 
-                        _log.Debug("IdleAfterGame from "+ag_userid+" (cmd="+receiveData[0]+")");
+                        _log.Debug("BroadcastAfterGame from "+ag_userid+" (cmd="+receiveData[0]+")");
+                        break;
+                    case CMD_NEWGAME:
+                        byte ng_seq = receiveData[1];
+                        int ng_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
+                        int ng_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
+                        int ng_userid = ((receiveData[4] & 0xF0) >> 4);
+                        ForwardToClients(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), ng_seq, ng_sessionid, ng_sessionsecret, true);
+
+                        _log.Debug("BroadcastNewGame from "+ng_userid+" (cmd="+receiveData[0]+")");
                         break;
                     case ANS_FORWARDLOBBYSYNC:
                         byte fwd3_seq = receiveData[1];
@@ -186,6 +197,15 @@ public class Main {
                         ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), fwd3_seq, fwd3_userid, fwd3_sessionid, fwd3_sessionsecret);
 
                         _log.Debug("AnswerLobbySync from "+fwd3_userid+" (cmd="+receiveData[0]+")");
+                        break;
+                    case ANS_NEWGAME:
+                        byte ang_seq = receiveData[1];
+                        int ang_sessionid = (((receiveData[2]&0xFF)<<8) | (receiveData[3]&0xFF));
+                        int ang_sessionsecret = ((((receiveData[4]&0xFF)<<8) | (receiveData[5]&0xFF)) & 0x0FFF);
+                        int ang_userid = ((receiveData[4] & 0xF0) >> 4);
+                        ForwardToServer(receivePacket.getAddress(), receivePacket.getPort(), receivePacket.getLength(), ang_seq, ang_userid, ang_sessionid, ang_sessionsecret);
+
+                        _log.Debug("AnswerNewGame from "+ang_userid+" (cmd="+receiveData[0]+")");
                         break;
                     case CMD_FORWARDHOSTINFO:
                         byte fwd4_seq = receiveData[1];

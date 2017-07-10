@@ -166,7 +166,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			if (_logOutCounter == 0)
 			{
-				HUD.ShowToast(L10N.T(L10NImpl.STR_FAP_WARN1), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				HUD.ShowToast(null, L10N.T(L10NImpl.STR_FAP_WARN1), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
 				_lastClickLogout = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 				_logOutCounter++;
 				return;
@@ -175,7 +175,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				if (delta < 0.5f) return;
 				
-				HUD.ShowToast(L10N.T(L10NImpl.STR_FAP_WARN2), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				HUD.ShowToast(null, L10N.T(L10NImpl.STR_FAP_WARN2), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
 				_lastClickLogout = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 				_logOutCounter++;
 				return;
@@ -193,7 +193,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				MainGame.Inst.Backend.CreateUser(MainGame.Inst.Profile).ContinueWith(t => MainGame.Inst.Backend.DownloadHighscores(MainGame.Inst.Profile)).EnsureNoError();
 
-				HUD.ShowToast(L10N.T(L10NImpl.STR_FAP_LOGOUT_SUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 1.5f);
+				HUD.ShowToast(null, L10N.T(L10NImpl.STR_FAP_LOGOUT_SUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 1.5f);
 				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 		}

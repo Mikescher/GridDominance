@@ -5,6 +5,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using System;
 using System.Collections.Concurrent;
@@ -17,7 +18,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 	{
 		public const int OVERFLOW_MAX = 32;
 
-		public const float INERTIA_SPEED = 256f;
+		public const float INERTIA_SPEED = 2048f;
 		public const float TEXT_OFFSET = 5;
 		public const float TEXT_SPACING = 1.15f;
 
@@ -162,8 +163,10 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 				var pos = new FPoint(TEXT_OFFSET * Scale, line.PositionY * Scale);
 
-				foreach (var text in columns)
+				foreach (var _text in columns)
 				{
+					var text = FontRenderHelper.MakeTextSafeWithWarn(font, _text, '_');
+
 					var size = font.MeasureString(text) * Scale;
 
 					var bg = line.Background;

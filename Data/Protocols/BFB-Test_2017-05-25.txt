@@ -1,0 +1,31 @@
+CC (Bugs)
+
+X Logo particles are always on top
+X With effects=off logo is not shown
+* Android: after long idle running (overworld): extreme lag
+X ZoomOut Map->Overworld flicker effect
+X wheel-Menu click on text 
+X wheel-menu misaligned background rect
+X music disabled by default
+X 4diff = Extreme
+X errid:1 = RunSynchronously does not work
+X errid:2
+X last level not showing diff circles
+X back from level (menu or scorepanel) -> zoom out
+X next button last level -> next unslved level anywhere
+X improv last level (crossover)
+   - impossible as is
+   - ghost balls (no self coll) ??
+X update global count when solved
+X Create Account flash red when no pw/bn entered
+X higher quality splash
+X canno conquest from enemy while drag - croshair stays
+X effects on->off->on logo has wrong preset
+X lag level end in score panel (when all cannon become auto ??)
+X short stutter on song change
+X world2: remove 2-4 to 2-5 connection
+X no double-back agent in mapscreen, should leave not exit
+X logo hits score display (armin tablet)
+* double click between nodes as zoom out (?)
+X no index gdapi
+X level with multi enemies -> not loosing when you dead and 2 enemies alive

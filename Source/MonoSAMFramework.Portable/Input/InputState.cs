@@ -31,12 +31,6 @@ namespace MonoSAMFramework.Portable.Input
 		public bool IsRealJustDown => isJustDown;
 		public bool IsRealJustUp => isJustUp;
 
-		public void Swallow(InputConsumer ic)
-		{
-			isUpDownSwallowed = true;
-			SwallowConsumer = ic;
-		}
-
 		public readonly FPoint HUDPointerPosition;
 
 		public readonly FPoint   GamePointerPosition;
@@ -45,6 +39,7 @@ namespace MonoSAMFramework.Portable.Input
 
 		private readonly Dictionary<SKeys, bool> lastKeyState;
 		private readonly Dictionary<SKeys, bool> currentKeyState;
+		private List<Tuple<SKeys, InputConsumer>> _consumedKeyEvts = null; // justup + justdown
 
 		private readonly float? _pinchStartDistance = null;
 		public readonly bool IsGesturePinching = false;
@@ -148,6 +143,24 @@ namespace MonoSAMFramework.Portable.Input
 
 			currentKeyState = new Dictionary<SKeys, bool>(0);
 		}
+		
+		public void Swallow(InputConsumer ic)
+		{
+			isUpDownSwallowed = true;
+			SwallowConsumer = ic;
+		}
+
+		public void SwallowKey(SKeys s, InputConsumer ic)
+		{
+			if (_consumedKeyEvts == null) _consumedKeyEvts = new List<Tuple<SKeys, InputConsumer>>();
+			_consumedKeyEvts.Add(Tuple.Create(s, ic));
+		}
+
+		public void SwallowKey(KeyCombination s, InputConsumer ic)
+		{
+			if (_consumedKeyEvts == null) _consumedKeyEvts = new List<Tuple<SKeys, InputConsumer>>();
+			_consumedKeyEvts.Add(Tuple.Create(s.Key, ic));
+		}
 
 		private static bool IsKeyDown(SKeys key, KeyboardState ks, GamePadState gs)
 		{
@@ -204,10 +217,11 @@ namespace MonoSAMFramework.Portable.Input
 			}
 		}
 
-		public bool IsKeyJustDown(SKeys key)
+		public bool IsKeyExclusiveJustDown(SKeys key)
 		{
-			bool v;
+			if (_consumedKeyEvts != null && _consumedKeyEvts.Any(e => e.Item1 == key)) return false;
 
+			bool v;
 			if (currentKeyState.TryGetValue(key, out v))
 			{
 				return v && !lastKeyState[key];
@@ -236,14 +250,14 @@ namespace MonoSAMFramework.Portable.Input
 			return down;
 		}
 
-		public bool IsShortcutJustPressed(KeyModifier mod, SKeys key)
+		public bool IsShortcutExclusiveJustPressed(KeyModifier mod, SKeys key)
 		{
-			return IsModifierDown(mod) && IsKeyJustDown(key);
+			return IsModifierDown(mod) && IsKeyExclusiveJustDown(key);
 		}
 
-		public bool IsShortcutJustPressed(KeyCombination key)
+		public bool IsShortcutExclusiveJustPressed(KeyCombination key)
 		{
-			return IsModifierDown(key.Mod) && IsKeyJustDown(key.Key);
+			return IsModifierDown(key.Mod) && IsKeyExclusiveJustDown(key.Key);
 		}
 
 		public bool IsShortcutPressed(KeyModifier mod, SKeys key)
@@ -279,27 +293,27 @@ namespace MonoSAMFramework.Portable.Input
 
 		}
 
-		public char? GetCharJustDown()
+		public char? GetCharExclusiveJustDownAndSwallow(InputConsumer ic)
 		{
 			var shift = IsKeyDown(SKeys.ShiftAny);
 
-			if (IsKeyJustDown(SKeys.Space)) return ' ';
+			if (IsKeyExclusiveJustDown(SKeys.Space)) { SwallowKey(SKeys.Space, ic); return ' '; }
 
 			for (SKeys chr = SKeys.A; chr < SKeys.Z; chr++)
 			{
-				if (IsKeyJustDown(chr)) return (char)(chr - SKeys.A + (shift ? 'A' : 'a'));
+				if (IsKeyExclusiveJustDown(chr)) { SwallowKey(chr, ic); return (char)(chr - SKeys.A + (shift ? 'A' : 'a')); }
 			}
 
-			if (IsKeyJustDown(SKeys.D0)) return '0';
-			if (IsKeyJustDown(SKeys.D1)) return '1';
-			if (IsKeyJustDown(SKeys.D2)) return '2';
-			if (IsKeyJustDown(SKeys.D3)) return '3';
-			if (IsKeyJustDown(SKeys.D4)) return '4';
-			if (IsKeyJustDown(SKeys.D5)) return '5';
-			if (IsKeyJustDown(SKeys.D6)) return '6';
-			if (IsKeyJustDown(SKeys.D7)) return '7';
-			if (IsKeyJustDown(SKeys.D8)) return '8';
-			if (IsKeyJustDown(SKeys.D9)) return '9';
+			if (IsKeyExclusiveJustDown(SKeys.D0)) { SwallowKey(SKeys.D0, ic); return '0'; }
+			if (IsKeyExclusiveJustDown(SKeys.D1)) { SwallowKey(SKeys.D1, ic); return '1'; }
+			if (IsKeyExclusiveJustDown(SKeys.D2)) { SwallowKey(SKeys.D2, ic); return '2'; }
+			if (IsKeyExclusiveJustDown(SKeys.D3)) { SwallowKey(SKeys.D3, ic); return '3'; }
+			if (IsKeyExclusiveJustDown(SKeys.D4)) { SwallowKey(SKeys.D4, ic); return '4'; }
+			if (IsKeyExclusiveJustDown(SKeys.D5)) { SwallowKey(SKeys.D5, ic); return '5'; }
+			if (IsKeyExclusiveJustDown(SKeys.D6)) { SwallowKey(SKeys.D6, ic); return '6'; }
+			if (IsKeyExclusiveJustDown(SKeys.D7)) { SwallowKey(SKeys.D7, ic); return '7'; }
+			if (IsKeyExclusiveJustDown(SKeys.D8)) { SwallowKey(SKeys.D8, ic); return '8'; }
+			if (IsKeyExclusiveJustDown(SKeys.D9)) { SwallowKey(SKeys.D9, ic); return '9'; }
 
 			return null;
 		}

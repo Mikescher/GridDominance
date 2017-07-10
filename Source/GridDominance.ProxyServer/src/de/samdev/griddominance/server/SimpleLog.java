@@ -11,8 +11,8 @@ public class SimpleLog {
     public SimpleLog() { }
 
     public void Debug(String msg) {
-        String s = "[DEBUG] " + sdf.format(new Date()) + ": " + msg;
-        System.out.println(s);
+        //String s = "[DEBUG] " + sdf.format(new Date()) + ": " + msg; //TODO rm
+        //System.out.println(s);
     }
 
     public void Info(String msg) {

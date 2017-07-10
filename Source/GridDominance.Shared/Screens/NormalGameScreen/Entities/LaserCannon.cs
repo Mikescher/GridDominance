@@ -291,9 +291,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			if (ups > 1)
 			{
-				var gt30 = new SAMTime((1/30f) * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds);
+				var iups = FloatMath.Min(FloatMath.Round(ups), 10);
+				var gt30 = new SAMTime((delta / iups) * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds);
 
-				for (int i = 0; i < FloatMath.Round(ups); i++)
+				for (int i = 0; i < iups; i++)
 				{
 					CannonHealth.Update(gt30);
 

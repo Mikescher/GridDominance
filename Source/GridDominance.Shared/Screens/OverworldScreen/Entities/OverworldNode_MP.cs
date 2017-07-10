@@ -31,7 +31,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		
 		public override bool IsNodeEnabled => true;
 
-		private float _pulseTimer = FloatMath.PI * 0.25f;
+		private float _pulseTimer = 0;
 		
 		public OverworldNode_MP(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER)
 		{
@@ -106,57 +106,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			{
 				// LIGHT VERSION
 
-				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(GDConstants.IAB_MULTIPLAYER);
-
-				if (ip == PurchaseQueryResult.Refunded)
-				{
-					if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
-					{
-						SAMLog.Debug("Level refunded: " + Levels.WORLD_ID_MULTIPLAYER);
-						MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
-						MainGame.Inst.SaveProfile();
-					}
-					return false;
-				}
-
-				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER)) return true;
-
-				switch (ip)
-				{
-					case PurchaseQueryResult.Purchased:
-						MainGame.Inst.Profile.PurchasedWorlds.Add(Levels.WORLD_ID_MULTIPLAYER);
-						MainGame.Inst.SaveProfile();
-						return true;
-
-					case PurchaseQueryResult.NotPurchased:
-					case PurchaseQueryResult.Cancelled:
-						return false;
-
-					case PurchaseQueryResult.Error:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-						return false;
-
-					case PurchaseQueryResult.Refunded:
-						if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
-						{
-							SAMLog.Debug("Level refunded: " + Levels.WORLD_ID_MULTIPLAYER);
-							MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
-							MainGame.Inst.SaveProfile();
-						}
-						return false;
-
-					case PurchaseQueryResult.NotConnected:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-						return false;
-
-					case PurchaseQueryResult.CurrentlyInitializing:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-						return false;
-
-					default:
-						SAMLog.Error("ONMP::EnumSwitch-IU_MP", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_MULTIPLAYER)) -> " + ip);
-						return false;
-				}
+				return MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER);
 			}
 			else
 			{

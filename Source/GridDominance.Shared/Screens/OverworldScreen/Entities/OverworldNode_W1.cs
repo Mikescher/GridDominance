@@ -16,7 +16,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		}
 
 		private bool? _isUnlocked = null;
-		protected override UnlockState IsUnlocked()
+		protected override UnlockState IsUnlocked(bool toast)
 		{
 			if (_isUnlocked == null)
 				_isUnlocked = MainGame.Inst.Profile.SkipTutorial || MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted();
@@ -28,7 +28,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		{
 			if (ForceClickCounter == 0)
 			{
-				Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST1), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+				Owner.HUD.ShowToast("ONW1::UNLOCK(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST1), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 				ForceClickCounter++;
 
 				MainGame.Inst.GDSound.PlayEffectError();
@@ -36,7 +36,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			}
 			else if (ForceClickCounter == 1)
 			{
-				Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST2), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+				Owner.HUD.ShowToast("ONW1::UNLOCK(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST2), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 				ForceClickCounter++;
 
 				MainGame.Inst.GDSound.PlayEffectError();
@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			}
 			else if (ForceClickCounter == 2)
 			{
-				Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST3), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+				Owner.HUD.ShowToast("ONW1::UNLOCK(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST3), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 
 				MainGame.Inst.Profile.SkipTutorial = true;
 				MainGame.Inst.SaveProfile();

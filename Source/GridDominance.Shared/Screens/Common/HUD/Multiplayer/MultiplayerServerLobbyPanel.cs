@@ -1,6 +1,7 @@
 ﻿using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.Operations;
 using Microsoft.Xna.Framework;
@@ -24,7 +25,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
     class MultiplayerServerLobbyPanel : HUDRoundedPanel
 	{
 		public const float WIDTH = 14.0f * GDConstants.TILE_WIDTH;
-		public const float HEIGHT = 8.0f * GDConstants.TILE_WIDTH;
+		public const float HEIGHT = 8.5f * GDConstants.TILE_WIDTH;
 
 		public const float FOOTER_HEIGHT = 2.0f * GDConstants.TILE_WIDTH;
 
@@ -168,6 +169,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				TextColor = FlatColors.Clouds,
 			});
 
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C1_LEFT, 208 + 5 * 32),
+				Size = new FSize(INFO_C1_WIDTH, 32),
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				L10NText = L10NImpl.STR_MENU_MP_LOBBY_COLOR,
+				TextColor = FlatColors.Clouds,
+			});
+
 
 
 			AddElement(new HUDLambdaLabel
@@ -238,6 +251,20 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Text = Fmt(_server.Speed),
 				WordWrap = HUDWordWrap.Ellipsis,
 				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C2_LEFT, 208 + 5 * 32),
+				Size = new FSize(INFO_C2_WIDTH, 32),
+				MaxWidth = INFO_C2_WIDTH,
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				L10NText = Fraction.NAME_PLAYER,
+				WordWrap = HUDWordWrap.Ellipsis,
+				TextColor = Fraction.COLOR_PLAYER,
 			});
 
 
@@ -367,7 +394,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				Remove();
 
-				Owner.HUD.ShowToast(L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+				Owner.HUD.ShowToast(null, L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 			}
 			
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();

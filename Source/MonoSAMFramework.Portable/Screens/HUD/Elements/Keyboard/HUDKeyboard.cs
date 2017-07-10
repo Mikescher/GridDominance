@@ -112,7 +112,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			if (istate.IsKeyJustDown(SKeys.AndroidBack)) Remove();
+			if (istate.IsKeyExclusiveJustDown(SKeys.AndroidBack))
+			{
+				istate.SwallowKey(SKeys.AndroidBack, InputConsumer.HUDElement);
+				Remove();
+			}
 
 			if (_prevLabel.Text != _owner.GetPreviewText()) _prevLabel.Text = _owner.GetPreviewText();
 		}

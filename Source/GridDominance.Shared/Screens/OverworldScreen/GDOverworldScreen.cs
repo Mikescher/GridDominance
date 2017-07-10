@@ -85,7 +85,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 #endif
 
 #if (DEBUG && __DESKTOP__)
-			if (istate.IsKeyJustDown(SKeys.R))
+			if (istate.IsKeyExclusiveJustDown(SKeys.R))
 			{
 				var xcfg = XConfigFile.LoadFromString(System.IO.File.ReadAllText(@"F:\Symlinks\GridDominance\Data\presets\green_gas.xconf"));
 				var pcfg = ParticleEmitterConfig.ParticleEmitterConfigBuilder.LoadFromXConfig(xcfg);

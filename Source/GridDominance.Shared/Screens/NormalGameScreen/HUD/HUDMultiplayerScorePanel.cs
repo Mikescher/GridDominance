@@ -11,6 +11,12 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.RenderHelper;
+using GridDominance.Shared.Network.Multiplayer;
+using MonoSAMFramework.Portable.Network.Multiplayer;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
+using GridDominance.Shared.Screens.OverworldScreen.HUD;
+using System;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
@@ -31,12 +37,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		private readonly bool successScreen;
 		private readonly PlayerProfile profile;
 		private readonly LevelBlueprint Level;
-		
-		public HUDMultiplayerScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, bool playerHasWon)
+
+		private readonly GDMultiplayerCommon _server;
+		private readonly Action _preventStopOnRem;
+
+		private HUDIconTextButton _btnNext;
+		private HUDImage _loadingCog;
+
+		public HUDMultiplayerScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, bool playerHasWon, GDMultiplayerCommon srv, Action preventStopOnRem)
 		{
 			successScreen = playerHasWon;
 			profile = playerprofile;
 			Level = lvl;
+			_server = srv;
+			_preventStopOnRem = preventStopOnRem;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -119,32 +133,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			AddElement(new HUDLabel(2)
 			{
-				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 77),
-				Size = new FSize(WIDTH / 3f, 40),
-
-				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				L10NText = L10NImpl.STR_HSP_POINTS,
-				TextColor = FlatColors.TextHUD,
-				Font = Textures.HUDFontRegular,
-				FontSize = 35,
-			});
-
-			AddElement(new HUDLabel(2)
-			{
-				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(0, 77),
-				Size = new FSize(WIDTH / 3f, 40),
-
-				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				L10NText = L10NImpl.STR_HSP_PROGRESS,
-				TextColor = FlatColors.TextHUD,
-				Font = Textures.HUDFontRegular,
-				FontSize = 35,
-			});
-
-			AddElement(new HUDLabel(2)
-			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
@@ -156,17 +144,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				FontSize = 57,
 			});
 
-			AddElement(new HUDLabel(2)
+			AddElement(_loadingCog = new HUDImage(2)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(0, 15),
-				Size = new FSize(WIDTH / 3f, 60),
+				RelativePosition = new FPoint(0, 16),
+				Size = new FSize(WIDTH / 3f, 80),
 
-				Text = profile.GetLevelData(Level.UniqueID).CompletionCount + " / 4",
-				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				TextColor = FlatColors.TextHUD,
-				Font = Textures.HUDFontBold,
-				FontSize = 57,
+				Image = Textures.CannonCog,
+				RotationSpeed = 0.3f,
+				Color = FlatColors.TextHUD,
+				ImageAlignment = HUDImageAlignment.UNDERSCALE,
+
+				IsVisible = false,
 			});
 
 			#endregion
@@ -192,6 +181,29 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 				Click = (s, a) => GDScreen.ExitToMap(),
 			});
+
+			if (_server.SessionUserID== 0 && _server.Mode != SAMNetworkConnection.ServerMode.Stopped && _server.Mode != SAMNetworkConnection.ServerMode.Error)
+			{
+				AddElement(_btnNext = new HUDIconTextButton(2)
+				{
+					Alignment = HUDAlignment.BOTTOMRIGHT,
+					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
+					Size = new FSize(6f * GDConstants.TILE_WIDTH, 60),
+
+					L10NText = L10NImpl.STR_HSP_NEWGAME,
+					TextColor = Color.White,
+					Font = Textures.HUDFontRegular,
+					FontSize = 55,
+					TextAlignment = HUDAlignment.CENTER,
+					TextPadding = 8,
+					Icon = Textures.TexIconRedo,
+
+					BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.SunFlower, 16),
+					BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.Orange, 16),
+
+					Click = (s, a) => OnNextLevel(),
+				});
+			}
 
 			#endregion
 
@@ -226,31 +238,86 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
-				RelativePosition = new FPoint(1 * ICON_MARGIN + 0 * ICON_SIZE, ICON_MARGIN)
+				RelativePosition = new FPoint(1 * ICON_MARGIN + 0 * ICON_SIZE, ICON_MARGIN),
+				IsEnabled = false,
 			});
 
 			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_NORMAL, modeDiff1)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
-				RelativePosition = new FPoint(3 * ICON_MARGIN + 1 * ICON_SIZE, ICON_MARGIN)
+				RelativePosition = new FPoint(3 * ICON_MARGIN + 1 * ICON_SIZE, ICON_MARGIN),
+				IsEnabled = false,
 			});
 
 			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_HARD, modeDiff2)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
-				RelativePosition = new FPoint(5 * ICON_MARGIN + 2 * ICON_SIZE, ICON_MARGIN)
+				RelativePosition = new FPoint(5 * ICON_MARGIN + 2 * ICON_SIZE, ICON_MARGIN),
+				IsEnabled = false,
 			});
 
 			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_IMPOSSIBLE, modeDiff3)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
-				RelativePosition = new FPoint(7 * ICON_MARGIN + 3 * ICON_SIZE, ICON_MARGIN)
+				RelativePosition = new FPoint(7 * ICON_MARGIN + 3 * ICON_SIZE, ICON_MARGIN),
+				IsEnabled = false,
 			});
 
 			#endregion
+		}
+
+		public override void Update(SAMTime gameTime, InputState istate)
+		{
+			base.Update(gameTime, istate);
+
+			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped || _server.Mode == SAMNetworkConnection.ServerMode.Error)
+			{
+				if (_btnNext != null)
+				{
+					_btnNext.BackgroundNormal  = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
+					_btnNext.BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
+					_btnNext.IsEnabled = false;
+				}
+			}
+
+			if (_server.Mode == SAMNetworkConnection.ServerMode.BroadcastNewGame ||_server.Mode == SAMNetworkConnection.ServerMode.BeforeNewGame)
+			{
+				_loadingCog.IsVisible = true;
+			}
+
+			if (_server.SessionUserID == 0)
+			{
+				if (_server.Mode == SAMNetworkConnection.ServerMode.CreatingNewGame)
+				{
+					_preventStopOnRem();
+
+					Remove();
+					HUD.AddModal(new MultiplayerRehostPanel(_server as GDMultiplayerServer), false, 0.5f, 0.5f);
+				}
+			}
+			else
+			{
+				if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby)
+				{
+					_preventStopOnRem();
+
+					Remove();
+					HUD.AddModal(new MultiplayerClientLobbyPanel(_server as GDMultiplayerClient), false, 0.5f, 0.5f);
+				}
+			}
+		}
+
+		private void OnNextLevel()
+		{
+			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped || _server.Mode == SAMNetworkConnection.ServerMode.Error) return;
+
+			if (_server.Mode != SAMNetworkConnection.ServerMode.BroadcastNewGame)
+			{
+				_server.StartBroadcastNewGame();
+			}
 		}
 	}
 }

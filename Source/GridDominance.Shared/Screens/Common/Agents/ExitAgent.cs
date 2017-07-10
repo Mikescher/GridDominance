@@ -20,7 +20,19 @@ namespace GridDominance.Shared.Screens.Common.Agents
 
 		public override void Update(SAMTime gameTime, InputState istate)
 		{
-			if (istate.IsKeyJustDown(SKeys.AndroidBack) || istate.IsKeyJustDown(SKeys.Backspace))
+			bool trigger = false;
+			if (istate.IsKeyExclusiveJustDown(SKeys.AndroidBack))
+			{
+				istate.SwallowKey(SKeys.AndroidBack, InputConsumer.ScreenAgent);
+				trigger = true;
+			}
+			else if (istate.IsKeyExclusiveJustDown(SKeys.Backspace))
+			{
+				istate.SwallowKey(SKeys.Backspace, InputConsumer.ScreenAgent);
+				trigger = true;
+			}
+
+			if (trigger)
 			{
 				var delta = gameTime.TotalElapsedSeconds - _lastBackClick;
 
@@ -31,7 +43,7 @@ namespace GridDominance.Shared.Screens.Common.Agents
 				}
 				else
 				{
-					Screen.HUD.ShowToast(L10N.T(L10NImpl.STR_GLOB_EXITTOAST), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+					Screen.HUD.ShowToast(null, L10N.T(L10NImpl.STR_GLOB_EXITTOAST), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 				}
 
 				_lastBackClick = gameTime.TotalElapsedSeconds;

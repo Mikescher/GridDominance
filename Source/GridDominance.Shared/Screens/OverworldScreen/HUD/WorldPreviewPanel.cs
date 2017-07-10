@@ -130,7 +130,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			if (MainGame.Inst.Profile.PurchasedWorlds.Contains(_id))
 			{
-				HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYSUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2.5f);
+				HUD.ShowToast("WPP::SUCC1", L10N.T(L10NImpl.STR_IAB_BUYSUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2.5f);
 				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 
@@ -139,7 +139,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				MainGame.Inst.Profile.PurchasedWorlds.Add(_id);
 				MainGame.Inst.SaveProfile();
 
-				HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYSUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2.5f);
+				HUD.ShowToast("WPP::SUCC2", L10N.T(L10NImpl.STR_IAB_BUYSUCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2.5f);
 				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 		}
@@ -160,13 +160,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				{
 					case PurchaseResult.ProductNotFound:
 						SAMLog.Error("IAB-PNF", "Product not found", "_iabCode -> " + _iabCode);
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						Owner.HUD.ShowToast("WPP::ERR1", L10N.T(L10NImpl.STR_IAB_BUYERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						break;
 					case PurchaseResult.NotConnected:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYNOCONN), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
+						Owner.HUD.ShowToast("WPP::ERR2", L10N.T(L10NImpl.STR_IAB_BUYNOCONN), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
 						break;
 					case PurchaseResult.CurrentlyInitializing:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYNOTREADY), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
+						Owner.HUD.ShowToast("WPP::ERR3", L10N.T(L10NImpl.STR_IAB_BUYNOTREADY), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
 						break;
 					case PurchaseResult.PurchaseStarted:
 						SAMLog.Info("IAB-BUY", "PurchaseStarted");
@@ -189,7 +189,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			int missLevel = 0;
 			BlueprintAnalyzer.ListUnfinishedCount(_prevWorld, out missPoints, out missLevel);
 			
-			HUD.ShowToast(L10N.TF(L10NImpl.STR_PREV_MISS_TOAST, missPoints, missLevel, _worldNumber), 32, FlatColors.Orange, FlatColors.Foreground, 4f);
+			//TODO Better text?
+			HUD.ShowToast("WPP::HINT", L10N.TF(L10NImpl.STR_PREV_MISS_TOAST, missPoints, missLevel, _worldNumber), 32, FlatColors.Orange, FlatColors.Foreground, 4f);
 
 			MainGame.Inst.SetWorldMapScreenZoomedOut(_prevWorld);
 		}

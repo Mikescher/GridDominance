@@ -215,9 +215,9 @@ namespace MonoSAMFramework.Portable
 			return agents.OfType<T>();
 		}
 
-		public void ShowToast(string text, int size, Color background, Color foreground, float lifetime)
+		public void ShowToast(string id, string text, int size, Color background, Color foreground, float lifetime)
 		{
-			screens.CurrentScreen?.HUD?.ShowToast(text, size, background, foreground, lifetime);
+			screens.CurrentScreen?.HUD?.ShowToast(id, text, size, background, foreground, lifetime);
 		}
 
 		protected abstract void OnAfterInitialize();

@@ -6,11 +6,10 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
-using System;
-using System.Diagnostics;
 using System.Linq;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
@@ -39,6 +38,14 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 		protected GDMultiplayerCommon(INetworkMedium medium) : base(medium)
 		{
+		}
+
+		public override void Update(SAMTime gameTime, InputState istate)
+		{
+			base.Update(gameTime, istate);
+
+			if (Mode == ServerMode.CreatingNewGame) Screen = null;
+			if (Mode == ServerMode.BeforeNewGame) Screen = null;
 		}
 
 		protected void ProcessStateData(byte[] d, byte euid)

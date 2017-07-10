@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
@@ -24,7 +25,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		public string Text
 		{
 			get { return internalLabel.Text; }
-			set { internalLabel.Text = value; innerSizeCache = FSize.Empty; }
+			set { if (internalLabel.Text != value) { internalLabel.Text = value; innerSizeCache = FSize.Empty; } }
 		}
 		
 		public Color TextColor
@@ -81,12 +82,16 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		private FSize innerSizeCache = FSize.Empty;
 
 		private float _lifetime = 0;
-		private readonly float _toastTime;
+		private float _toastTime;
 
 		public DeltaLimitedFloat PositionY;
 
-		public HUDToast(float lifetime, float py)
+		public readonly string ToastID;
+
+		public HUDToast(string tid, float lifetime, float py)
 		{
+			ToastID = tid;
+
 			_toastTime = lifetime;
 
 			PositionY = new DeltaLimitedFloat(py, MOVEMENT_DELTA);
@@ -103,7 +108,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 		public static HUDToast Copy(HUDToast other)
 		{
-			var t = new HUDToast(other._toastTime, other.PositionY.TargetValue);
+			var t = new HUDToast(other.ToastID, other._toastTime, other.PositionY.TargetValue);
 
 			t._lifetime = other._lifetime;
 			t.Alignment = other.Alignment;
@@ -136,6 +141,16 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		public override void OnRemove()
 		{
 			//
+		}
+
+		public void Reset(string text, Color background, Color foreground, float lifetime)
+		{
+			if (Text != text) Text = text;
+			if (Background.Color != background) Background = HUDBackgroundDefinition.CreateSimpleBlur(background, FontSize / 4f);
+			if (TextColor != foreground) TextColor = foreground;
+
+			_toastTime =  lifetime  / 0.85f;
+			_lifetime  = _toastTime * 0.15f;
 		}
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)

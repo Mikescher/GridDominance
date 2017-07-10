@@ -1,10 +1,6 @@
-﻿using System;
-using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
-using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Resources;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 {
@@ -18,6 +14,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 		public static readonly Color COLOR_COMPUTER_04 = FlatColors.Orange;
 		public static readonly Color COLOR_COMPUTER_05 = FlatColors.GreenSea;
 
+		public static readonly int NAME_NEUTRAL     = L10NImpl.STR_FRAC_N0;
+		public static readonly int NAME_PLAYER      = L10NImpl.STR_FRAC_P1;
+		public static readonly int NAME_COMPUTER_01 = L10NImpl.STR_FRAC_A2;
+		public static readonly int NAME_COMPUTER_02 = L10NImpl.STR_FRAC_A3;
+		public static readonly int NAME_COMPUTER_03 = L10NImpl.STR_FRAC_A4;
+		public static readonly int NAME_COMPUTER_04 = L10NImpl.STR_FRAC_A5;
+		public static readonly int NAME_COMPUTER_05 = L10NImpl.STR_FRAC_A6;
 
 		private readonly Fraction neutralFraction;
 		public readonly float BulletMultiplicator;

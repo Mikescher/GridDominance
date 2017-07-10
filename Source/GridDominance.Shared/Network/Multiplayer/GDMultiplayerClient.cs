@@ -14,8 +14,6 @@ namespace GridDominance.Shared.Network.Multiplayer
 {
 	public class GDMultiplayerClient : GDMultiplayerCommon
 	{
-		public bool _lobbySyncRecieved = false;
-
 		public Guid? LevelID = null;
 		public GameSpeedModes? Speed = null;
 		public int? MusicIndex = null;
@@ -43,79 +41,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 				$"      (ServerSeq={LastServerPackageSeq} | ServerTime={LastServerPackageTime:000.00}s | LagBehind={lagBehindTime} | SendFreq={SendFreq.Frequency})", this);
 		}
 #endif
-		
-		protected override bool ProcessSpecificMessage(byte cmd, byte[] data)
+		protected override void ProcessAfterGameData(byte[] data)
 		{
-			if (cmd == CMD_FORWARDLOBBYSYNC)
-			{
-				if (Mode == ServerMode.InLobby)
-				{
-					_lobbySyncRecieved = true;
-					ProcessForwardLobbySync(data);
-					return true;
-				}
-			}
-			else if (cmd == CMD_FORWARD)
-			{
-				if (Mode == ServerMode.InLobby)
-				{
-					Mode = ServerMode.InGame;
-					ProcessForward(data);
-					return true;
-				}
-				if (Mode == ServerMode.InGame)
-				{
-					ProcessForward(data);
-					return true;
-				}
-				if (Mode == ServerMode.IdleAfterGame)
-				{
-					//ignore
-					return true;
-				}
-			}
-			else if (cmd == CMD_FORWARDHOSTINFO)
-			{
-				if (Mode == ServerMode.InLobby)
-				{
-					ProcessForwardHostData(data);
-					return true;
-				}
-				if (Mode == ServerMode.SyncingAfterLobby)
-				{
-					//ignore
-					return true;
-				}
-				if (Mode == ServerMode.InGame)
-				{
-					//ignore
-					return true;
-				}
-				if (Mode == ServerMode.IdleAfterGame)
-				{
-					//ignore
-					return true;
-				}
-			}
-			else if (cmd == CMD_AFTERGAME)
-			{
-				if (Mode == ServerMode.InGame)
-				{
-					Mode = ServerMode.IdleAfterGame;
-					WinnerID = data[6];
-					return true;
-				}
-				else if (Mode == ServerMode.IdleAfterGame)
-				{
-					//ignore
-					return true;
-				}
-			}
-
-			return false;
+			WinnerID = data[6];
 		}
 
-		private void ProcessForwardLobbySync(byte[] data)
+		protected override void ProcessForwardLobbySync(byte[] data)
 		{
 			// [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret]
 
@@ -174,13 +105,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 			Send(answer);
 		}
 
-		private void ProcessForwardHostData(byte[] data)
+		protected override void ProcessForwardHostData(byte[] data)
 		{
 			// [8: CMD] [8:seq] [16: SessionID] [4: UserID] [12: SessionSecret]
 
 			UserConn[0].LastResponse = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
-
-			if (_lobbySyncRecieved) return;
 
 			using (BinaryReader reader = new BinaryReader(new MemoryStream(data)))
 			{
@@ -199,13 +128,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			RecieveMsg(0, data[1]);
 
-			SAMLog.Debug($"[[CMD_FORWARDHOSTDATA]]: {LevelID} | {Speed} | {MusicIndex}");
-
 			LevelBlueprint blueprint;
 			if (!Levels.LEVELS.TryGetValue(LevelID.Value, out blueprint)) LevelID = null;
 		}
 
-		private void ProcessForward(byte[] d)
+		protected override void ProcessForwardData(byte[] d)
 		{
 			if (Screen == null) return;
 

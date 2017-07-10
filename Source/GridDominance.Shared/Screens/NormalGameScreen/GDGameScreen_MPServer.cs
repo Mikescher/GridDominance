@@ -25,6 +25,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		private readonly int musicIdx;
 		private readonly GDMultiplayerServer _server;
+		private bool _doNotStop = false;
 
 		private readonly Fraction _localPlayerFraction;
 		public override Fraction LocalPlayerFraction => _localPlayerFraction;
@@ -58,7 +59,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
-				HUD.ShowToast(L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+				HUD.ShowToast("SCRNSS::ERR", L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 
 				MainGame.Inst.SetOverworldScreen(); //TODO Perhaps not kill so suddenly ??
 			}
@@ -68,7 +69,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		{
 			base.OnRemove();
 
-			_server.Stop();
+			if (!_doNotStop)_server.Stop();
 		}
 
 		public override void RestartLevel()
@@ -84,7 +85,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
 		{
 			GameSpeedMode = GameSpeedModes.NORMAL;
-			HUD.AddModal(new HUDMultiplayerScorePanel(lvl, profile, playerHasWon), false);
+			HUD.AddModal(new HUDMultiplayerScorePanel(lvl, profile, playerHasWon, _server, () => { _doNotStop = true; }), false);
 		}
 
 		protected override void TestForGameEndingCondition()
@@ -135,8 +136,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void ExitToMap()
 		{
-			_server.KillSession();
-			_server.Stop();
+			if (!_doNotStop)
+			{
+				_server.KillSession();
+				_server.Stop();
+			}
 			MainGame.Inst.SetOverworldScreen();
 		}
 

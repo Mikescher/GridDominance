@@ -61,8 +61,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 
 			Lifetime += gameTime.ElapsedSeconds;
 
-			if (_removeOnBackKey && istate.IsKeyJustDown(SKeys.AndroidBack)) Remove();
-			if (_removeOnBackKey && istate.IsKeyJustDown(SKeys.Escape)) Remove();
+			if (_removeOnBackKey && istate.IsKeyExclusiveJustDown(SKeys.AndroidBack)) { istate.SwallowKey(SKeys.AndroidBack, InputConsumer.HUDElement); Remove(); }
+			if (_removeOnBackKey && istate.IsKeyExclusiveJustDown(SKeys.Backspace)) { istate.SwallowKey(SKeys.Backspace, InputConsumer.HUDElement); Remove(); }
 		}
 
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;

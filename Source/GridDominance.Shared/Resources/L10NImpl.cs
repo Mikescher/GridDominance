@@ -73,6 +73,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HSP_TUTORIAL           = 49;
 		public const int STR_HSP_GETSTARTED         = 50;
 		public const int STR_HSP_CONERROR           = 65;
+		public const int STR_HSP_NEWGAME            = 158;
 
 		public const int STR_DIFF_0                 = 51;
 		public const int STR_DIFF_1                 = 52;
@@ -174,12 +175,21 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MENU_MP_LOBBY_MUSIC    = 144;
 		public const int STR_MENU_MP_LOBBY_SPEED    = 145;
 		public const int STR_MENU_MP_LOBBY_PING     = 146;
+		public const int STR_MENU_MP_LOBBY_COLOR    = 157;
 
 		public const int STR_MP_ONLINE              = 129;
 		public const int STR_MP_OFFLINE             = 130;
 		public const int STR_MP_CONNECTING          = 131;
 
-		private const int TEXT_COUNT = 150; // = next idx
+		public const int STR_FRAC_N0                = 150;
+		public const int STR_FRAC_P1                = 151;
+		public const int STR_FRAC_A2                = 152;
+		public const int STR_FRAC_A3                = 153;
+		public const int STR_FRAC_A4                = 154;
+		public const int STR_FRAC_A5                = 155;
+		public const int STR_FRAC_A6                = 156;
+
+		private const int TEXT_COUNT = 159; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -335,6 +345,15 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_MP_LOBBY_SPEED,    "Game speed:",                                                 "Spielgeschwindigkeit:");
 			L10N.Add(STR_MENU_MP_LOBBY_PING,     "Ping",                                                        "Ping");
 			L10N.Add(STR_MENU_MP_START,          "Start",                                                       "Start");
+			L10N.Add(STR_FRAC_N0,                "Gray",                                                        "Gray");
+			L10N.Add(STR_FRAC_P1,                "Green",                                                       "Grün");
+			L10N.Add(STR_FRAC_A2,                "Red",                                                         "Rot");
+			L10N.Add(STR_FRAC_A3,                "Blue",                                                        "Blau");
+			L10N.Add(STR_FRAC_A4,                "Purple",                                                      "LIla");
+			L10N.Add(STR_FRAC_A5,                "Orange",                                                      "Orange");
+			L10N.Add(STR_FRAC_A6,                "Teal",                                                        "BlauGrün");
+			L10N.Add(STR_MENU_MP_LOBBY_COLOR,    "Color",                                                       "Farbe");
+			L10N.Add(STR_HSP_NEWGAME,            "New Game",                                                    "Neues Spiel");
 
 #if DEBUG
 			L10N.Verify();

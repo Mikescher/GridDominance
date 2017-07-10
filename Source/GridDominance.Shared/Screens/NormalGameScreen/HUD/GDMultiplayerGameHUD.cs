@@ -22,6 +22,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 	{
 		public GDGameScreen GDOwner => (GDGameScreen)Screen;
 
+		public const float COUNTDOWN_TIME = 3f; // sec
+
 		private List<HUDElement> _cornerElements = new List<HUDElement>();
 		private HUDRectangle _backgroundRect;
 
@@ -140,17 +142,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			var y = _cornerElements.Max(e => e.RelativeBottom);
 			_backgroundRect.Size = new FSize(x+4f, y+4f);
 
-			if (GDOwner.LevelTime / GDOwner.GameSpeed < 0.5f)
+			if (GDOwner.LevelTime / GDOwner.GameSpeed < COUNTDOWN_TIME * (1/3f))
 			{
 				_countdown.Image = Textures.TexTitleNumber[3];
 				GDOwner.IsCountdown = true;
 			}
-			else if (GDOwner.LevelTime / GDOwner.GameSpeed < 1.0f)
+			else if (GDOwner.LevelTime / GDOwner.GameSpeed < COUNTDOWN_TIME * (2 / 3f))
 			{
 				_countdown.Image = Textures.TexTitleNumber[2];
 				GDOwner.IsCountdown = true;
 			}
-			else if (GDOwner.LevelTime / GDOwner.GameSpeed < 1.5f)
+			else if (GDOwner.LevelTime / GDOwner.GameSpeed < COUNTDOWN_TIME * (3 / 3f))
 			{
 				_countdown.Image = Textures.TexTitleNumber[1];
 				GDOwner.IsCountdown = true;

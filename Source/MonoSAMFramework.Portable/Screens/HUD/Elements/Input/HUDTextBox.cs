@@ -117,9 +117,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 			if (IsFocused)
 			{
-				if (istate.IsKeyJustDown(SKeys.Delete) || istate.IsKeyJustDown(SKeys.Backspace)) PressBackspace();
+				if (istate.IsKeyExclusiveJustDown(SKeys.Delete)) { istate.SwallowKey(SKeys.Delete, InputConsumer.HUDElement); PressBackspace(); }
+				if (istate.IsKeyExclusiveJustDown(SKeys.Backspace)) { istate.SwallowKey(SKeys.Delete, InputConsumer.HUDElement); PressBackspace(); }
 
-				char? c = istate.GetCharJustDown();
+				char? c = istate.GetCharExclusiveJustDownAndSwallow(InputConsumer.HUDElement);
 				if (c != null) PressChar(c.Value);
 			}
 

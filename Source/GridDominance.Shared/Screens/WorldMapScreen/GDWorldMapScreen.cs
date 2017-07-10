@@ -113,10 +113,19 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 				ZoomIn(istate.GamePointerPositionOnMap);
 			}
 
-			if (istate.IsKeyJustDown(SKeys.AndroidBack) || istate.IsKeyJustDown(SKeys.Backspace))
+			bool trigger = false;
+			if (istate.IsKeyExclusiveJustDown(SKeys.AndroidBack))
 			{
-				MainGame.Inst.SetOverworldScreen();
+				istate.SwallowKey(SKeys.AndroidBack, InputConsumer.ScreenAgent);
+				trigger = true;
 			}
+			else if (istate.IsKeyExclusiveJustDown(SKeys.Backspace))
+			{
+				istate.SwallowKey(SKeys.Backspace, InputConsumer.ScreenAgent);
+				trigger = true;
+			}
+
+			if (trigger) MainGame.Inst.SetOverworldScreen();
 
 #if DEBUG
 			if (DebugSettings.Get("LeaveScreen"))

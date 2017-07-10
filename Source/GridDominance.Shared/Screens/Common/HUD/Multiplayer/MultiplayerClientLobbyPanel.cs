@@ -18,13 +18,14 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
     class MultiplayerClientLobbyPanel : HUDRoundedPanel
 	{
 		public const float WIDTH = 14.0f * GDConstants.TILE_WIDTH;
-		public const float HEIGHT = 8.0f * GDConstants.TILE_WIDTH;
+		public const float HEIGHT = 8.5f * GDConstants.TILE_WIDTH;
 
 		public const float FOOTER_HEIGHT = 2.0f * GDConstants.TILE_WIDTH;
 
@@ -38,8 +39,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private readonly GDMultiplayerClient _server;
 		private bool _doNotStop = false;
 
-		private HUDImage _cog;
 		private Guid _lastLevelID;
+		private string fracName = null;
+
+		private HUDLabel _lblFraction;
 
 		public MultiplayerClientLobbyPanel(GDMultiplayerClient server)
 		{
@@ -135,6 +138,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				TextColor = FlatColors.Clouds,
 			});
 
+			AddElement(new HUDLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C1_LEFT, 208 + 5 * 32),
+				Size = new FSize(INFO_C1_WIDTH, 32),
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				L10NText = L10NImpl.STR_MENU_MP_LOBBY_COLOR,
+				TextColor = FlatColors.Clouds,
+			});
+
 
 
 			AddElement(new HUDLambdaLabel
@@ -207,8 +222,22 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				TextColor = FlatColors.Clouds,
 			});
 
+			AddElement(_lblFraction = new HUDLambdaLabel
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(INFO_C2_LEFT, 208 + 5 * 32),
+				Size = new FSize(INFO_C2_WIDTH, 32),
+				MaxWidth = INFO_C2_WIDTH,
+				Font = Textures.HUDFontRegular,
+				FontSize = 32,
+				Lambda = () => fracName != null ? fracName : "?",
+				WordWrap = HUDWordWrap.Ellipsis,
+				TextColor = FlatColors.Clouds,
+			});
 
-			AddElement(_cog = new HUDImage
+
+			AddElement(new HUDImage
 			{
 				Image = Textures.CannonCog,
 				RotationSpeed = 0.3f,
@@ -285,6 +314,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				}
 
 				_server.Stop();
+
+				if (!(MainGame.Inst.GetCurrentScreen() is GDOverworldScreen)) MainGame.Inst.SetOverworldScreen();
 			}
 		}
 
@@ -299,7 +330,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				LevelBlueprint bp;
 				if (Levels.LEVELS.TryGetValue(_server.LevelID.Value, out bp))
 				{
-					_cog.Color = GetFractionColorByID(bp, _server.SessionUserID + 1);
+					var d = GetFractionColorByID(bp, _server.SessionUserID + 1);
+					fracName = d.Item1;
+					_lblFraction.TextColor = d.Item2;
 				}
 			}
 
@@ -307,7 +340,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				Remove();
 
-				Owner.HUD.ShowToast(L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+				Owner.HUD.ShowToast(null, L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 			}
 			
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
@@ -318,7 +351,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			}
 		}
 
-		public Color GetFractionColorByID(LevelBlueprint lvl, int id)
+		public Tuple<string, Color> GetFractionColorByID(LevelBlueprint lvl, int id)
 		{
 			var fractionIDList = new List<int>();
 			fractionIDList.Add(0);
@@ -343,21 +376,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			if (id < 0 || id >= fractionIDList.Count)
 			{
 				SAMLog.Error("MPCLP::GetFractionByID_1", $"Fraction not found: {id}");
-				return FlatColors.BackgroundHUD2;
+				return Tuple.Create("1", Color.Magenta);
 			}
 
 			var fid = fractionIDList[id];
 
-			if (fid == 0) return Fraction.COLOR_NEUTRAL;
-			if (fid == 1) return Fraction.COLOR_PLAYER;
-			if (fid == 2) return Fraction.COLOR_COMPUTER_01;
-			if (fid == 3) return Fraction.COLOR_COMPUTER_02;
-			if (fid == 4) return Fraction.COLOR_COMPUTER_03;
-			if (fid == 5) return Fraction.COLOR_COMPUTER_04;
-			if (fid == 6) return Fraction.COLOR_COMPUTER_05;
+			if (fid == 0) return Tuple.Create(L10N.T(Fraction.NAME_NEUTRAL),     Fraction.COLOR_NEUTRAL);
+			if (fid == 1) return Tuple.Create(L10N.T(Fraction.NAME_PLAYER),      Fraction.COLOR_PLAYER);
+			if (fid == 2) return Tuple.Create(L10N.T(Fraction.NAME_COMPUTER_01), Fraction.COLOR_COMPUTER_01);
+			if (fid == 3) return Tuple.Create(L10N.T(Fraction.NAME_COMPUTER_02), Fraction.COLOR_COMPUTER_02);
+			if (fid == 4) return Tuple.Create(L10N.T(Fraction.NAME_COMPUTER_03), Fraction.COLOR_COMPUTER_03);
+			if (fid == 5) return Tuple.Create(L10N.T(Fraction.NAME_COMPUTER_04), Fraction.COLOR_COMPUTER_04);
+			if (fid == 6) return Tuple.Create(L10N.T(Fraction.NAME_COMPUTER_05), Fraction.COLOR_COMPUTER_05);
 
 			SAMLog.Error("MPCLP::GetFractionByID_2", $"Fraction not found: {id}");
-			return FlatColors.BackgroundHUD2;
+			return Tuple.Create("1", Color.Magenta);
 		}
 	}
 }

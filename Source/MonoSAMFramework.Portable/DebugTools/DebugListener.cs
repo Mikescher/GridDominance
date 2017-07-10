@@ -78,8 +78,10 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			foreach (var key in keys)
 			{
-				if (istate.IsShortcutJustPressed(key))
+				if (istate.IsShortcutExclusiveJustPressed(key))
 				{
+					istate.SwallowKey(key, InputConsumer.DebugDisplay);
+
 					_active = !Active;
 
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => triggerEvent?.Invoke(this));
@@ -104,8 +106,10 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			foreach (var key in keys)
 			{
-				if (istate.IsShortcutJustPressed(key))
+				if (istate.IsShortcutExclusiveJustPressed(key))
 				{
+					istate.SwallowKey(key, InputConsumer.DebugDisplay);
+
 					_active = true;
 
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => triggerEvent?.Invoke(this));

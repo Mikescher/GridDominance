@@ -1,0 +1,26 @@
+CC (Bugs-2)
+
+
+  -[X] someone can join lobby - and afail cause full - but then kill session??
+  -[X] (kill) when too far behind (no mass fwd)
+  -[ ] cant connect to play services 
+  -[X] cant connect to play services spam
+  -[ ] armin handy crash startup
+  -[X] unlock code does not unlock mp-hosting
+  -[X] overworld -> highscorepanel -> back key -> toast
+  -[ ] server exit menu button ??
+  -[X] play next level after multiplayer end
+  -[X] show player color (not in cog) (also on server) as colored text
+  -[X] after game user disconnect kills all users
+  -[X] Toasts have id and dont show same toast two times (eg world locked)
+  -[X] gdapi_admin: Ack error by id
+
+Exceptions:  
+  -[X] System.Net.Sockets.SocketException (0x80004005): Network is unreachable
+  -[ ] IAb ProductNotFound
+  -[X] Unknown Server command: 50 in mode InLobby
+  -[ ] RunSynchronously may not be called on a task not bound to a delegate, such as the task returned from an asynchronous method.
+  -[ ] NullRef: OverworldScreen.HUD.MultiplayerMainPanel.IsUnlocked () 
+  -[ ] Backend.ShowErrorCommunication -> NulLRef
+  -[ ] ping: device_name not set
+  -[X] DebugTextDisplayLine.UpdatePosition: Text contains non spritefont chars

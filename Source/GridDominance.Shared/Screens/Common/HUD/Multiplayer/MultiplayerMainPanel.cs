@@ -32,7 +32,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 
-			_unlocked = IsUnlocked();
+			_unlocked = IsUnlocked(true);
 		}
 
 		public override void OnInitialize()
@@ -256,13 +256,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				{
 					case PurchaseResult.ProductNotFound:
 						SAMLog.Error("MMP::IAB-PNF", "Product not found", "_iabCode -> " + GDConstants.IAB_MULTIPLAYER);
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						Owner.HUD.ShowToast("MMP:ERR1", L10N.T(L10NImpl.STR_IAB_BUYERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						break;
 					case PurchaseResult.NotConnected:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYNOCONN), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
+						Owner.HUD.ShowToast("MMP:ERR2", L10N.T(L10NImpl.STR_IAB_BUYNOCONN), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
 						break;
 					case PurchaseResult.CurrentlyInitializing:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_BUYNOTREADY), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
+						Owner.HUD.ShowToast("MMP:ERR3", L10N.T(L10NImpl.STR_IAB_BUYNOTREADY), 40, FlatColors.Orange, FlatColors.Foreground, 2.5f);
 						break;
 					case PurchaseResult.PurchaseStarted:
 						SAMLog.Info("MMP::IAB-BUY", "PurchaseStarted");
@@ -286,7 +286,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			if (!_unlocked)
 			{
-				if (IsUnlocked())
+				if (IsUnlocked(false))
 				{
 					Remove();
 					Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f);
@@ -306,7 +306,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			HUD.AddModal(new MultiplayerHostPanel(), true, 0.5f);
 		}
 
-		private bool IsUnlocked()
+		private bool IsUnlocked(bool toast)
 		{
 			if (GDConstants.USE_IAB)
 			{
@@ -339,7 +339,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						return false;
 
 					case PurchaseQueryResult.Error:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						if (toast) Owner.HUD.ShowToast("MMP_IU::ERR1", L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						return false;
 
 					case PurchaseQueryResult.Refunded:
@@ -352,11 +352,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						return false;
 
 					case PurchaseQueryResult.NotConnected:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						if (toast) Owner.HUD.ShowToast("MMP_IU::ERR2", L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						return false;
 
 					case PurchaseQueryResult.CurrentlyInitializing:
-						Owner.HUD.ShowToast(L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						if (toast) Owner.HUD.ShowToast("MMP_IU::ERR3", L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						return false;
 
 					default:

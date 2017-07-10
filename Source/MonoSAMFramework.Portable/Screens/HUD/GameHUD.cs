@@ -155,12 +155,24 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			}
 		}
 
-		public HUDToast ShowToast(string text, int size, Color background, Color foreground, float lifetime)
+		public HUDToast ShowToast(string id, string text, int size, Color background, Color foreground, float lifetime)
 		{
 			while (_toasts.Count >= MAX_TOAST_COUNT)
 			{
 				_toasts[0].Alive = false;
 				_toasts.RemoveAt(0);
+			}
+
+			if (id != null)
+			{
+				foreach (var xtoast in _toasts)
+				{
+					if (xtoast.ToastID == id)
+					{
+						xtoast.Reset(text, background, foreground, lifetime);
+						return xtoast;
+					}
+				}
 			}
 
 			float px = HUDToast.PAD_BOTTOM;
@@ -170,7 +182,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				px += xtoast.Height + HUDToast.PAD_VERT;
 			}
 
-			var toast = new HUDToast(lifetime, px);
+			var toast = new HUDToast(id, lifetime, px);
 
 			toast.Text = text;
 			toast.Alignment = HUDAlignment.BOTTOMCENTER;
@@ -178,7 +190,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			toast.FontSize = size;
 			toast.Font = DefaultFont;
 			toast.TextColor = foreground;
-			toast.Background =HUDBackgroundDefinition.CreateSimpleBlur(background, size/4f);
+			toast.Background = HUDBackgroundDefinition.CreateSimpleBlur(background, size/4f);
 			toast.TextPadding = new FSize(size / 5f, size / 5f);
 			toast.MaxWidth = Width * 0.8f;
 			toast.WordWrap = HUDWordWrap.WrapByWordTrusted;

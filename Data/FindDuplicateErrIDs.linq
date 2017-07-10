@@ -2,7 +2,8 @@
 
 string PATH = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\Source\");
 
-Regex REX = new Regex(@"SAMLog\.(Error|FatalError|Info)\(""([^""]+)""");
+Regex REX1 = new Regex(@"SAMLog\.(Error|FatalError|Info)\(""([^""]+)""");
+Regex REX2 = new Regex(@"\.Show(Toast)\(""([^""]+)""");
 
 void Main()
 {
@@ -10,9 +11,11 @@ void Main()
 		.GroupBy(p => p.Item1)
 		.Where(p => p.Count() > 1)
 		.Dump();
-		
+
 	EnumerateErrorIDs()
-		.Dump();
+		.GroupBy(p => p.Item2)
+		.ToList()
+		.ForEach(p => p.ToList().Dump());
 }
 
 IEnumerable<(string, string, int, string)> EnumerateErrorIDs()
@@ -24,10 +27,16 @@ IEnumerable<(string, string, int, string)> EnumerateErrorIDs()
 		{
 			ln++;
 			
-			var m = REX.Match(line);
-			if (m.Success)
+			var m1 = REX1.Match(line);
+			if (m1.Success)
 			{
-				yield return (m.Groups[2].Value, m.Groups[1].Value, ln, file.Replace(PATH, ""));
+				yield return (m1.Groups[2].Value, m1.Groups[1].Value, ln, file.Replace(PATH, ""));
+			}
+
+			var m2 = REX2.Match(line);
+			if (m2.Success)
+			{
+				yield return (m2.Groups[2].Value, m2.Groups[1].Value, ln, file.Replace(PATH, ""));
 			}
 		}
 	}

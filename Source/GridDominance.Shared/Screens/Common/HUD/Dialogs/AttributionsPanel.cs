@@ -74,7 +74,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				btn.ButtonClick += (s, a) =>
 				{
-					HUD.ShowToast(dd.Item2, 32, FlatColors.Silver, FlatColors.Foreground, 3f);
+					HUD.ShowToast(null, dd.Item2, 32, FlatColors.Silver, FlatColors.Foreground, 3f);
 					MainGame.Inst.Bridge.OpenURL(dd.Item2);
 				};
 

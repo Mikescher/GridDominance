@@ -39,6 +39,8 @@
 		return (int)substr($id, 25, 6) . " - " . (int)substr($id, 31, 6);
 	}
 	function getSessionCount() {
+	    if (! file_exists("/var/log/gdapi_log/proxystate.json")) return "?";
+
 		$string = file_get_contents("/var/log/gdapi_log/proxystate.json");
 		$json = json_decode($string, true);
 

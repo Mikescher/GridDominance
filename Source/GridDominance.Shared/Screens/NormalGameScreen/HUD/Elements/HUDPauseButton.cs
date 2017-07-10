@@ -89,9 +89,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			if (!isOpened && FloatMath.IsZero(animationProgress) && (istate.IsKeyJustDown(SKeys.AndroidBack) || istate.IsKeyJustDown(SKeys.Backspace)))
+			if (!isOpened && FloatMath.IsZero(animationProgress))
 			{
-				Open();
+				bool trigger = false;
+				if (istate.IsKeyExclusiveJustDown(SKeys.AndroidBack))
+				{
+					istate.SwallowKey(SKeys.AndroidBack, InputConsumer.ScreenAgent);
+					trigger = true;
+				}
+				else if (istate.IsKeyExclusiveJustDown(SKeys.Backspace))
+				{
+					istate.SwallowKey(SKeys.Backspace, InputConsumer.ScreenAgent);
+					trigger = true;
+				}
+
+				if (trigger) Open();
 			}
 
 			if (isOpened && FloatMath.IsNotOne(animationProgress))

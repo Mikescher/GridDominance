@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
@@ -340,7 +341,25 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			char[] cc = new char[s.Length];
 			for (int i = 0; i < s.Length; i++)
 			{
-				if (!font.Characters.Contains(s[i])) cc[i] = c; else cc[i] = s[i];
+				if (!font.Characters.Contains(s[i]) && s[i] != 0x0A && s[i] != 0x0D) cc[i] = c; else cc[i] = s[i];
+			}
+			return new string(cc);
+		}
+
+		public static string MakeTextSafeWithWarn(SpriteFont font, string s, char c)
+		{
+			char[] cc = new char[s.Length];
+			for (int i = 0; i < s.Length; i++)
+			{
+				if (!font.Characters.Contains(s[i]) && s[i] != 0x0A && s[i] != 0x0D)
+				{
+					SAMLog.Warning("FRH::MC", $"Cant render char with font: 0x{((int)s[i]):X2}");
+					cc[i] = c;
+				}
+				else
+				{
+					cc[i] = s[i];
+				}
 			}
 			return new string(cc);
 		}

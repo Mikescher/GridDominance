@@ -7,7 +7,6 @@ using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.Screens;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Levelfileformat.Blueprint;
 using System.IO;
 using System.Linq;
 
@@ -36,26 +35,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 		}
 #endif
 
-		protected override bool ProcessSpecificMessage(byte cmd, byte[] data)
-		{
-			if (cmd == CMD_FORWARD)
-			{
-				if (Mode == ServerMode.InGame)
-				{
-					ProcessForward(data);
-					return true;
-				}
-				if (Mode == ServerMode.BroadcastAfterGame)
-				{
-					//ignore
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		private void ProcessForward(byte[] d)
+		protected override void ProcessForwardData(byte[] d)
 		{
 			if (Screen == null) return;
 
@@ -141,5 +121,20 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 		protected override bool ShouldSendData(BulletCannon c) => true;
 		protected override bool ShouldSendData(LaserCannon c) => true;
+
+		protected override void ProcessForwardLobbySync(byte[] data)
+		{
+			SAMLog.Warning("GDMS::PFLS", "ProcessForwardLobbySync called for server");
+		}
+
+		protected override void ProcessForwardHostData(byte[] data)
+		{
+			SAMLog.Warning("GDMS::PFHD", "ProcessForwardHostData called for server");
+		}
+
+		protected override void ProcessAfterGameData(byte[] data)
+		{
+			SAMLog.Warning("GDMS::PAGD", "ProcessAfterGameData called for server");
+		}
 	}
 }

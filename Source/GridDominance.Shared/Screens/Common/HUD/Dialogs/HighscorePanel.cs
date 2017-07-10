@@ -125,7 +125,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					else
 					{
 						_loader.Color = FlatColors.Pomegranate;
-						HUD.ShowToast(L10N.T(L10NImpl.STR_HSP_CONERROR), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+						HUD.ShowToast(null, L10N.T(L10NImpl.STR_HSP_CONERROR), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
 					}
 				});
 			}

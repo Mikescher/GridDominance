@@ -4,8 +4,11 @@
 	{
 		None,
 
+		ScreenAgent,
 		HUDElement,
 		GameEntity,
 		GameBackground,
+		
+		DebugDisplay,
 	}
 }
