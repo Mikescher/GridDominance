@@ -8,7 +8,9 @@ using MonoSAMFramework.Portable.LogProtocol;
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
 	public enum LaserRayTerminator { OOB, VoidObject, Portal, Glass, Mirror, Target, LaserMultiTerm, LaserSelfTerm, LaserFaultTerm, BulletTerm }
-	
+
+	public enum RayType { Laser, Shield }
+
 	public sealed class LaserRay
 	{
 		public FPoint Start;
@@ -21,7 +23,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		public List<Tuple<LaserRay, LaserSource>> TerminatorRays;         // Rays that directcollide with this one
 		public List<LaserRay> SelfCollRays = new List<LaserRay>(); // Rays that [[LaserSelfTerm]] with this one
 		public Bullet TerminatorBullet;
-		
+
+		public readonly RayType RayType;
 		public readonly LaserRay Source;
 		public readonly int Depth;
 		public readonly bool InGlass;
@@ -35,7 +38,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 		private float? _angle = null;
 		public float Angle => _angle ?? (_angle = End.ToAngle(Start)) ?? 0;
 
-		public LaserRay(FPoint s, FPoint e, LaserRay src, LaserRayTerminator t, int d, bool g, object sign, object eign, float sd, Cannon tc)
+		public LaserRay(FPoint s, FPoint e, LaserRay src, LaserRayTerminator t, int d, bool g, object sign, object eign, float sd, Cannon tc, RayType rt)
 		{
 			Depth = d;
 			InGlass = g;
@@ -48,6 +51,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			TargetCannon = tc;
 			TerminatorRays = new List<Tuple<LaserRay, LaserSource>>();
 			SourceDistance = sd;
+			RayType = rt;
 
 #if DEBUG
 			if (!Start.IsValid) SAMLog.Error("LASER::Assert_1-SV", "!Start.IsValid");

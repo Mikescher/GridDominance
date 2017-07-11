@@ -115,14 +115,15 @@
 [X] Unlock Worlds when previous word is 100% (and remark in unlock screen -> button+move to world+toast)
 [X] Pipes darker when powered 
 [X] Toast description when clikcing on number in info panel
+[ ] Cannon that only barrel charges when boosted
 
 ----------------------------
 
  - World 0 := Tutorial
  - World 1 := Basic, Free (evtl move some more maps from other worlds here)
  - World 2 := Black Holes, Mirror Walls, Multiple Enemies
- - World 3 := Laser, Portals, Wrap around maps
- - World 4 := Bigger Maps, Movables, Shield cannons
+ - World 3 := Laser, Portals, Wrap around maps, Bigger Maps
+ - World 4 := Movables, Shield cannons, Minigun cannons, Relay cannons, Trishot cannons
  - World 5 := Multiplayer (only one needs to have unlocked), Lidgren?
 
  Pricing:

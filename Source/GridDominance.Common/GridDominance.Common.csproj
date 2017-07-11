@@ -44,6 +44,10 @@
     <Compile Include="Graphfileformat\Pipeline\GDWorldGraphReader.cs" />
     <Compile Include="Helper\MD5.cs" />
     <Compile Include="Levelfileformat\Blueprint\BulletPathBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\TrishotCannonBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\RelayCannonBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\ShieldProjectorBlueprint.cs" />
+    <Compile Include="Levelfileformat\Blueprint\MinigunBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\ICannonBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\LaserCannonBlueprint.cs" />
     <Compile Include="Levelfileformat\Blueprint\LevelBlueprint.cs" />

@@ -80,6 +80,10 @@ namespace GridDominance.DSLEditor.Drawing
 				DrawMirrorBlocks(level, g);
 				DrawMirrorCircles(level, g);
 				DrawLaserCannons(level, g);
+				DrawRelayCannons(level, g);
+				DrawTrishotCannons(level, g);
+				DrawMinigunCannons(level, g);
+				DrawShieldProjectorCannons(level, g);
 
 				DrawViewport(level, g, w, h);
 				DrawRays(level, highlightCannon, g);
@@ -283,6 +287,159 @@ namespace GridDominance.DSLEditor.Drawing
 					// Barrel
 					g.RotateTransform(c.Rotation);
 					g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), rectBarrel);
+
+					// Base
+					g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectBaseCircle);
+					g.DrawEllipse(new Pen(Color.Black, 0.008f), rectBaseCircle);
+
+					// Radius
+					g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 0.032f), rectOuterCircle);
+
+				}
+				g.Restore(save);
+			}
+		}
+
+		private static void DrawTrishotCannons(LevelBlueprint level, Graphics g)
+		{
+			foreach (var c in level.BlueprintTrishotCannon)
+			{
+				var rectBaseCircle = new RectangleF(-0.500f, -0.500f, 1.000f, 1.000f);
+				var rectOuterCircle = new RectangleF(-0.833f, -0.833f, 1.666f, 1.666f);
+				var rectMidArea = new RectangleF(-0.666f, -0.666f, 1.333f, 1.333f);
+				var rectBarrel = new RectangleF(+0.166f, -0.166f, 0.666f, 0.333f);
+
+				var save = g.Save();
+				{
+					g.TranslateTransform(c.X, c.Y);
+					g.ScaleTransform(c.Diameter, c.Diameter);
+
+					// Mid Area Alpha
+					g.FillRectangle(new SolidBrush(Color.FromArgb(64, CANNON_COLORS[c.Player])), rectMidArea);
+
+					// Barrel center
+					g.RotateTransform(c.Rotation);
+					g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), rectBarrel);
+
+					// barrel left
+					g.RotateTransform(20);
+					g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), rectBarrel);
+
+					// barrel right
+					g.RotateTransform(-40);
+					g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), rectBarrel);
+
+					// Base
+					g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectBaseCircle);
+					g.DrawEllipse(new Pen(Color.Black, 0.008f), rectBaseCircle);
+
+					// Radius
+					g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 0.032f), rectOuterCircle);
+
+				}
+				g.Restore(save);
+			}
+		}
+
+		private static void DrawRelayCannons(LevelBlueprint level, Graphics g)
+		{
+			foreach (var c in level.BlueprintRelayCannon)
+			{
+				var rectCoreCircle = new RectangleF(-0.200f, -0.200f, 0.400f, 0.400f);
+				var rectBaseCircle = new RectangleF(-0.500f, -0.500f, 1.000f, 1.000f);
+				var rectOuterCircle = new RectangleF(-0.833f, -0.833f, 1.666f, 1.666f);
+				var rectMidArea = new RectangleF(-0.666f, -0.666f, 1.333f, 1.333f);
+				var rectBarrel = new RectangleF(+0.166f, -0.166f, 0.666f, 0.333f);
+
+				var save = g.Save();
+				{
+					g.TranslateTransform(c.X, c.Y);
+					g.ScaleTransform(c.Diameter, c.Diameter);
+
+					// Mid Area Alpha
+					g.FillRectangle(new SolidBrush(Color.FromArgb(64, CANNON_COLORS[c.Player])), rectMidArea);
+
+					// Barrel
+					g.RotateTransform(c.Rotation);
+					g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), rectBarrel);
+
+					// Base
+					g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectBaseCircle);
+					g.DrawEllipse(new Pen(Color.Black, 0.008f), rectBaseCircle);
+
+					// Radius
+					g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 0.032f), rectOuterCircle);
+
+					// Core
+					g.FillEllipse(new SolidBrush(Color.WhiteSmoke), rectCoreCircle);
+
+				}
+				g.Restore(save);
+			}
+		}
+
+		private static void DrawShieldProjectorCannons(LevelBlueprint level, Graphics g)
+		{
+			foreach (var c in level.BlueprintShieldProjector)
+			{
+				var rectCoreCircle = new RectangleF(-0.200f, -0.200f, 0.400f, 0.400f);
+				var rectBaseCircle = new RectangleF(-0.500f, -0.500f, 1.000f, 1.000f);
+				var rectOuterCircle = new RectangleF(-0.833f, -0.833f, 1.666f, 1.666f);
+				var rectMidArea = new RectangleF(-0.666f, -0.666f, 1.333f, 1.333f);
+				var rectBarrel = new RectangleF(+0.166f, -0.166f, 0.666f, 0.333f);
+
+				var save = g.Save();
+				{
+					g.TranslateTransform(c.X, c.Y);
+					g.ScaleTransform(c.Diameter, c.Diameter);
+
+					// Mid Area Alpha
+					g.FillRectangle(new SolidBrush(Color.FromArgb(64, CANNON_COLORS[c.Player])), rectMidArea);
+
+					// Barrel
+					g.RotateTransform(c.Rotation);
+					g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), rectBarrel);
+
+					// Base
+					g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectBaseCircle);
+					g.DrawEllipse(new Pen(Color.Black, 0.008f), rectBaseCircle);
+
+					// Radius
+					g.DrawEllipse(new Pen(CANNON_COLORS[c.Player], 0.032f), rectOuterCircle);
+
+					// Core
+					g.RotateTransform(45);
+					g.FillRectangle(new SolidBrush(Color.AliceBlue), rectCoreCircle);
+
+				}
+				g.Restore(save);
+			}
+		}
+
+		private static void DrawMinigunCannons(LevelBlueprint level, Graphics g)
+		{
+			foreach (var c in level.BlueprintMinigun)
+			{
+				var rectBaseCircle = new RectangleF(-0.500f, -0.500f, 1.000f, 1.000f);
+				var rectOuterCircle = new RectangleF(-0.833f, -0.833f, 1.666f, 1.666f);
+				var rectMidArea = new RectangleF(-0.666f, -0.666f, 1.333f, 1.333f);
+				var rectBarrel = new RectangleF(+0.166f, -0.166f, 0.666f, 0.333f);
+
+				var save = g.Save();
+				{
+					g.TranslateTransform(c.X, c.Y);
+					g.ScaleTransform(c.Diameter, c.Diameter);
+
+					// Mid Area Alpha
+					g.FillRectangle(new SolidBrush(Color.FromArgb(64, CANNON_COLORS[c.Player])), rectMidArea);
+
+					// Barrel
+					g.RotateTransform(c.Rotation);
+					g.FillRectangle(new SolidBrush(CANNON_COLORS[c.Player]), rectBarrel);
+					g.DrawLine(new Pen(Color.Black, 0.008f), rectBarrel.Right - 1*0.05f, rectBarrel.Top, rectBarrel.Right - 1*0.05f, rectBarrel.Bottom);
+					g.DrawLine(new Pen(Color.Black, 0.008f), rectBarrel.Right - 2*0.05f, rectBarrel.Top, rectBarrel.Right - 2*0.05f, rectBarrel.Bottom);
+					g.DrawLine(new Pen(Color.Black, 0.008f), rectBarrel.Right - 3*0.05f, rectBarrel.Top, rectBarrel.Right - 3*0.05f, rectBarrel.Bottom);
+					g.DrawLine(new Pen(Color.Black, 0.008f), rectBarrel.Right - 4*0.05f, rectBarrel.Top, rectBarrel.Right - 4*0.05f, rectBarrel.Bottom);
 
 					// Base
 					g.FillEllipse(new SolidBrush(CANNON_COLORS[c.Player]), rectBaseCircle);

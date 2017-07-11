@@ -180,6 +180,10 @@ namespace GridDominance.Shared.Network.Multiplayer
 			int p = PACKAGE_FORWARD_HEADER_SIZE;
 			SendForwardBulletCannons(ref p);
 			SendForwardLaserCannons(ref p);
+			SendForwardMiniguns(ref p);
+			SendForwardShieldProjectors(ref p);
+			SendForwardRelayCannons(ref p);
+			SendForwardTrishotCannons(ref p);
 			SendAndReset(ref p);
 		}
 
@@ -191,8 +195,6 @@ namespace GridDominance.Shared.Network.Multiplayer
 		protected override bool ShouldRecieveData(Fraction f, Cannon c) => !Screen.HasFinished;
 		protected override bool ShouldRecieveRotationData(Fraction f, Cannon c) => f != Screen.LocalPlayerFraction;
 		protected override bool ShouldRecieveStateData(Fraction f, Cannon c) => true;
-
-		protected override bool ShouldSendData(BulletCannon c) => c.Fraction == Screen.LocalPlayerFraction;
-		protected override bool ShouldSendData(LaserCannon c) => c.Fraction == Screen.LocalPlayerFraction;
+		protected override bool ShouldSendData(Cannon c) => c.Fraction == Screen.LocalPlayerFraction;
 	}
 }

@@ -14,10 +14,16 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Sound;
+using FarseerPhysics;
+using FarseerPhysics.Factories;
+using FarseerPhysics.Dynamics;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
+using System;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
-	public class LaserCannon : Cannon
+	public class LaserCannon : Cannon, ILaserCannon
 	{
 		private const float RAY_FORCE = 0.175f;
 
@@ -35,6 +41,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly SAMEffectWrapper _soundeffect;
 		private readonly bool _muted;
 
+		float ILaserCannon.LaserPulseTime => LaserPulseTime;
+
 		public LaserCannon(GDGameScreen scrn, LaserCannonBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
@@ -49,6 +57,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			_soundeffect = MainGame.Inst.GDSound.GetEffectLaser(this);
 			_soundeffect.IsLooped = true;
+		}
+
+		protected override void CreatePhysics()
+		{
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits2.ToSimUnits(Position), 0, BodyType.Static);
+
+			PhysicsFixtureBase = FixtureFactory.AttachCircle(
+				ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1,
+				PhysicsBody,
+				Vector2.Zero, this);
+
+			FixtureFactory.AttachRectangle(
+				ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH), ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT), 1,
+				new Vector2(ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 0),
+				PhysicsBody, this);
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)

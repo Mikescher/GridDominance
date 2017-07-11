@@ -37,21 +37,36 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const byte SERIALIZE_ID_MIRRORBLOCK     = 0x12;
 		public const byte SERIALIZE_ID_MIRRORCIRCLE    = 0x13;
 		public const byte SERIALIZE_ID_BACKGROUNDTEXT  = 0x14;
+		public const byte SERIALIZE_ID_MINIGUN         = 0x15;
+		public const byte SERIALIZE_ID_SHIELDPROJECTOR = 0x16;
+		public const byte SERIALIZE_ID_RELAY           = 0x17;
+		public const byte SERIALIZE_ID_TRISHOT         = 0x18;
 		public const byte SERIALIZE_ID_META            = 0x80;
 		public const byte SERIALIZE_ID_EOF             = 0xFF;
 
-		public readonly List<CannonBlueprint>         BlueprintCannons        = new List<CannonBlueprint>();
-		public readonly List<VoidWallBlueprint>       BlueprintVoidWalls      = new List<VoidWallBlueprint>();
-		public readonly List<VoidCircleBlueprint>     BlueprintVoidCircles    = new List<VoidCircleBlueprint>();
-		public readonly List<GlassBlockBlueprint>     BlueprintGlassBlocks    = new List<GlassBlockBlueprint>();
-		public readonly List<BlackHoleBlueprint>      BlueprintBlackHoles     = new List<BlackHoleBlueprint>();
-		public readonly List<PortalBlueprint>         BlueprintPortals        = new List<PortalBlueprint>();
-		public readonly List<LaserCannonBlueprint>    BlueprintLaserCannons   = new List<LaserCannonBlueprint>();
-		public readonly List<MirrorBlockBlueprint>    BlueprintMirrorBlocks   = new List<MirrorBlockBlueprint>();
-		public readonly List<MirrorCircleBlueprint>   BlueprintMirrorCircles  = new List<MirrorCircleBlueprint>();
-		public readonly List<BackgroundTextBlueprint> BlueprintBackgroundText = new List<BackgroundTextBlueprint>();
+		public readonly List<CannonBlueprint>          BlueprintCannons         = new List<CannonBlueprint>();
+		public readonly List<VoidWallBlueprint>        BlueprintVoidWalls       = new List<VoidWallBlueprint>();
+		public readonly List<VoidCircleBlueprint>      BlueprintVoidCircles     = new List<VoidCircleBlueprint>();
+		public readonly List<GlassBlockBlueprint>      BlueprintGlassBlocks     = new List<GlassBlockBlueprint>();
+		public readonly List<BlackHoleBlueprint>       BlueprintBlackHoles      = new List<BlackHoleBlueprint>();
+		public readonly List<PortalBlueprint>          BlueprintPortals         = new List<PortalBlueprint>();
+		public readonly List<LaserCannonBlueprint>     BlueprintLaserCannons    = new List<LaserCannonBlueprint>();
+		public readonly List<MirrorBlockBlueprint>     BlueprintMirrorBlocks    = new List<MirrorBlockBlueprint>();
+		public readonly List<MirrorCircleBlueprint>    BlueprintMirrorCircles   = new List<MirrorCircleBlueprint>();
+		public readonly List<BackgroundTextBlueprint>  BlueprintBackgroundText  = new List<BackgroundTextBlueprint>();
+		public readonly List<MinigunBlueprint>         BlueprintMinigun         = new List<MinigunBlueprint>();
+		public readonly List<ShieldProjectorBlueprint> BlueprintShieldProjector = new List<ShieldProjectorBlueprint>();
+		public readonly List<RelayCannonBlueprint>     BlueprintRelayCannon     = new List<RelayCannonBlueprint>();
+		public readonly List<TrishotCannonBlueprint>   BlueprintTrishotCannon   = new List<TrishotCannonBlueprint>();
 
-		public IEnumerable<ICannonBlueprint> AllCannons => BlueprintCannons.Cast<ICannonBlueprint>().Concat(BlueprintLaserCannons);
+		public IEnumerable<ICannonBlueprint> AllCannons => 
+			Enumerable.Empty<ICannonBlueprint>()
+			.Concat(BlueprintCannons)
+			.Concat(BlueprintLaserCannons)
+			.Concat(BlueprintMinigun)
+			.Concat(BlueprintShieldProjector)
+			.Concat(BlueprintRelayCannon)
+			.Concat(BlueprintTrishotCannon);
 
 		public Dictionary<int, float> ParseConfiguration;
 		
@@ -86,16 +101,20 @@ namespace GridDominance.Levelfileformat.Blueprint
 			bw.Write(LevelViewX);
 			bw.Write(LevelViewY);
 
-			for (int i = 0; i < BlueprintCannons.Count;        i++) BlueprintCannons[i].Serialize(bw);
-			for (int i = 0; i < BlueprintVoidWalls.Count;      i++) BlueprintVoidWalls[i].Serialize(bw);
-			for (int i = 0; i < BlueprintVoidCircles.Count;    i++) BlueprintVoidCircles[i].Serialize(bw);
-			for (int i = 0; i < BlueprintGlassBlocks.Count;    i++) BlueprintGlassBlocks[i].Serialize(bw);
-			for (int i = 0; i < BlueprintBlackHoles.Count;     i++) BlueprintBlackHoles[i].Serialize(bw);
-			for (int i = 0; i < BlueprintPortals.Count;        i++) BlueprintPortals[i].Serialize(bw);
-			for (int i = 0; i < BlueprintLaserCannons.Count;   i++) BlueprintLaserCannons[i].Serialize(bw);
-			for (int i = 0; i < BlueprintMirrorBlocks.Count;   i++) BlueprintMirrorBlocks[i].Serialize(bw);
-			for (int i = 0; i < BlueprintMirrorCircles.Count;  i++) BlueprintMirrorCircles[i].Serialize(bw);
-			for (int i = 0; i < BlueprintBackgroundText.Count; i++) BlueprintBackgroundText[i].Serialize(bw);
+			for (int i = 0; i < BlueprintCannons.Count;         i++) BlueprintCannons[i].Serialize(bw);
+			for (int i = 0; i < BlueprintVoidWalls.Count;       i++) BlueprintVoidWalls[i].Serialize(bw);
+			for (int i = 0; i < BlueprintVoidCircles.Count;     i++) BlueprintVoidCircles[i].Serialize(bw);
+			for (int i = 0; i < BlueprintGlassBlocks.Count;     i++) BlueprintGlassBlocks[i].Serialize(bw);
+			for (int i = 0; i < BlueprintBlackHoles.Count;      i++) BlueprintBlackHoles[i].Serialize(bw);
+			for (int i = 0; i < BlueprintPortals.Count;         i++) BlueprintPortals[i].Serialize(bw);
+			for (int i = 0; i < BlueprintLaserCannons.Count;    i++) BlueprintLaserCannons[i].Serialize(bw);
+			for (int i = 0; i < BlueprintMirrorBlocks.Count;    i++) BlueprintMirrorBlocks[i].Serialize(bw);
+			for (int i = 0; i < BlueprintMirrorCircles.Count;   i++) BlueprintMirrorCircles[i].Serialize(bw);
+			for (int i = 0; i < BlueprintBackgroundText.Count;  i++) BlueprintBackgroundText[i].Serialize(bw);
+			for (int i = 0; i < BlueprintMinigun.Count;         i++) BlueprintMinigun[i].Serialize(bw);
+			for (int i = 0; i < BlueprintShieldProjector.Count; i++) BlueprintShieldProjector[i].Serialize(bw);
+			for (int i = 0; i < BlueprintRelayCannon.Count;     i++) BlueprintRelayCannon[i].Serialize(bw);
+			for (int i = 0; i < BlueprintTrishotCannon.Count;   i++) BlueprintTrishotCannon[i].Serialize(bw);
 
 			bw.Write(SERIALIZE_ID_EOF);
 
@@ -162,6 +181,22 @@ namespace GridDominance.Levelfileformat.Blueprint
 						BlueprintBackgroundText.Add(BackgroundTextBlueprint.Deserialize(br));
 						break;
 
+					case SERIALIZE_ID_MINIGUN:
+						BlueprintMinigun.Add(MinigunBlueprint.Deserialize(br));
+						break;
+
+					case SERIALIZE_ID_SHIELDPROJECTOR:
+						BlueprintShieldProjector.Add(ShieldProjectorBlueprint.Deserialize(br));
+						break;
+
+					case SERIALIZE_ID_RELAY:
+						BlueprintRelayCannon.Add(RelayCannonBlueprint.Deserialize(br));
+						break;
+
+					case SERIALIZE_ID_TRISHOT:
+						BlueprintTrishotCannon.Add(TrishotCannonBlueprint.Deserialize(br));
+						break;
+
 					case SERIALIZE_ID_META:
 						Name        = br.ReadString();
 						FullName    = br.ReadString();
@@ -218,7 +253,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 			if (! new[]{ KI_TYPE_PRECALC, KI_TYPE_PRESIMULATE, KI_TYPE_RAYTRACE }.Contains(KIType)) throw new Exception("Unknown KIType");
 			if (! new[]{ WRAPMODE_DEATH, WRAPMODE_DONUT, WRAPMODE_SOLID }.Contains(WrapMode)) throw new Exception("Unknown WrapMode");
 
-			foreach (var c in BlueprintCannons)
+			foreach (var c in AllCannons)
 			{
 				if (c.Diameter <= 0) throw new Exception("Cannon with diameter <= 0");
 			}
@@ -266,11 +301,6 @@ namespace GridDominance.Levelfileformat.Blueprint
 			{
 				if (b.Width <= 0) throw new Exception("Mirrorblock with width <= 0");
 				if (b.Height <= 0) throw new Exception("Mirrorblock with height <= 0");
-			}
-
-			foreach (var c in BlueprintLaserCannons)
-			{
-				if (c.Diameter <= 0) throw new Exception("Lasercannon with diameter <= 0");
 			}
 		}
 

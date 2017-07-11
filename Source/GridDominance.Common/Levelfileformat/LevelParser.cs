@@ -30,8 +30,12 @@ namespace GridDominance.Levelfileformat
 			DefineMethod("setwrap", SetWrapMode);
 			DefineMethod("config", SetConfig);
 
-			DefineMethod("cannon", AddCannon);
-			DefineMethod("laser", AddLaserCannon);
+			DefineMethod("cannon",  AddCannon);
+			DefineMethod("laser",   AddLaserCannon);
+			DefineMethod("minigun", AddMinigun);
+			DefineMethod("shielder", AddShieldProjector);
+			DefineMethod("relay", AddRelayCannon);
+			DefineMethod("trishot", AddTrishotCannon);
 
 			DefineMethod("voidwall", AddVoidWallFull);
 			DefineMethod("voidwall_h", AddVoidWallHorz);
@@ -404,6 +408,20 @@ namespace GridDominance.Levelfileformat
 			_result.BlueprintLaserCannons.Add(new LaserCannonBlueprint(posX, posY, size, player, rotation, (byte)cannonid));
 		}
 
+		private void AddShieldProjector(List<string> methodParameter)
+		{
+			var size = ExtractNumberParameter(methodParameter, 0) * _scaleFactor;
+			var player = ExtractIntegerParameter(methodParameter, 1);
+			var posX = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactor;
+			var posY = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
+			var rotation = ExtractNumberParameter(methodParameter, 3, -1);
+			var cannonid = ExtractIntegerParameter(methodParameter, "id", _nextCannonID);
+
+			_nextCannonID = Math.Max(cannonid + 1, _nextCannonID);
+
+			_result.BlueprintShieldProjector.Add(new ShieldProjectorBlueprint(posX, posY, size, player, rotation, (byte)cannonid));
+		}
+
 		private void SetView(List<string> methodParameter)
 		{
 			var width  = ExtractNumberParameter(methodParameter, 0) * _scaleFactor;
@@ -441,6 +459,48 @@ namespace GridDominance.Levelfileformat
 			var r = ExtractNumberParameter(methodParameter, 5, 0f);
 
 			_result.BlueprintBackgroundText.Add(new BackgroundTextBlueprint(x, y, w, h, r, t, c));
+		}
+
+		private void AddMinigun(List<string> methodParameter)
+		{
+			var size = ExtractNumberParameter(methodParameter, 0) * _scaleFactor;
+			var player = ExtractIntegerParameter(methodParameter, 1);
+			var posX = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactor;
+			var posY = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
+			var rotation = ExtractNumberParameter(methodParameter, 3, -1);
+			var cannonid = ExtractIntegerParameter(methodParameter, "id", _nextCannonID);
+
+			_nextCannonID = Math.Max(cannonid + 1, _nextCannonID);
+
+			_result.BlueprintMinigun.Add(new MinigunBlueprint(posX, posY, size, player, rotation, (byte)cannonid));
+		}
+
+		private void AddRelayCannon(List<string> methodParameter)
+		{
+			var size = ExtractNumberParameter(methodParameter, 0) * _scaleFactor;
+			var player = ExtractIntegerParameter(methodParameter, 1);
+			var posX = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactor;
+			var posY = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
+			var rotation = ExtractNumberParameter(methodParameter, 3, -1);
+			var cannonid = ExtractIntegerParameter(methodParameter, "id", _nextCannonID);
+
+			_nextCannonID = Math.Max(cannonid + 1, _nextCannonID);
+
+			_result.BlueprintRelayCannon.Add(new RelayCannonBlueprint(posX, posY, size, player, rotation, (byte)cannonid));
+		}
+
+		private void AddTrishotCannon(List<string> methodParameter)
+		{
+			var size = ExtractNumberParameter(methodParameter, 0) * _scaleFactor;
+			var player = ExtractIntegerParameter(methodParameter, 1);
+			var posX = ExtractVec2fParameter(methodParameter, 2).Item1 * _scaleFactor;
+			var posY = ExtractVec2fParameter(methodParameter, 2).Item2 * _scaleFactor;
+			var rotation = ExtractNumberParameter(methodParameter, 3, -1);
+			var cannonid = ExtractIntegerParameter(methodParameter, "id", _nextCannonID);
+
+			_nextCannonID = Math.Max(cannonid + 1, _nextCannonID);
+
+			_result.BlueprintTrishotCannon.Add(new TrishotCannonBlueprint(posX, posY, size, player, rotation, (byte)cannonid));
 		}
 	}
 }

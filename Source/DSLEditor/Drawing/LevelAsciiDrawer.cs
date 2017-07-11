@@ -34,37 +34,48 @@ namespace GridDominance.DSLEditor.Drawing
 			chrmap = new char[MAPWIDTH, MAPHEIGHT];
 			for (var x = 0; x < MAPWIDTH; x++) for (var y = 0; y < MAPHEIGHT; y++) chrmap[x, y] = ' ';
 
-			foreach (var c in level.BlueprintCannons)       DrawCannon(c);
-			foreach (var w in level.BlueprintVoidWalls)     DrawVoidWall(w);
-			foreach (var c in level.BlueprintVoidCircles)   DrawVoidCircle(c);
-			foreach (var c in level.BlueprintGlassBlocks)   DrawGlassBlock(c);
-			foreach (var h in level.BlueprintBlackHoles)    DrawBlackHole(h);
-			foreach (var p in level.BlueprintPortals)       DrawPortal(p);
-			foreach (var b in level.BlueprintMirrorBlocks)  DrawMirrorBlock(b);
-			foreach (var c in level.BlueprintMirrorCircles) DrawMirrorCircle(c);
-			foreach (var c in level.BlueprintLaserCannons)  DrawLaserCannon(c);
+			foreach (var c in level.BlueprintCannons)         DrawCannon(c);
+			foreach (var w in level.BlueprintVoidWalls)       DrawVoidWall(w);
+			foreach (var c in level.BlueprintVoidCircles)     DrawVoidCircle(c);
+			foreach (var c in level.BlueprintGlassBlocks)     DrawGlassBlock(c);
+			foreach (var h in level.BlueprintBlackHoles)      DrawBlackHole(h);
+			foreach (var p in level.BlueprintPortals)         DrawPortal(p);
+			foreach (var b in level.BlueprintMirrorBlocks)    DrawMirrorBlock(b);
+			foreach (var c in level.BlueprintMirrorCircles)   DrawMirrorCircle(c);
+			foreach (var c in level.BlueprintLaserCannons)    DrawLaserCannon(c);
+			foreach (var c in level.BlueprintRelayCannon)     DrawRelayCannon(c);
+			foreach (var c in level.BlueprintTrishotCannon)   DrawTrishotCannon(c);
+			foreach (var c in level.BlueprintShieldProjector) DrawShieldProjector(c);
+			foreach (var c in level.BlueprintMinigun)         DrawMinigun(c);
 		}
 
-		private void DrawCannon(CannonBlueprint c)
+		private void DrawCannon(CannonBlueprint c)                   { DrawGenericCannon('O', c); }
+		private void DrawLaserCannon(LaserCannonBlueprint c)         { DrawGenericCannon('+', c); }
+		private void DrawRelayCannon(RelayCannonBlueprint c)         { DrawGenericCannon('R', c); }
+		private void DrawTrishotCannon(TrishotCannonBlueprint c)     { DrawGenericCannon('T', c); }
+		private void DrawShieldProjector(ShieldProjectorBlueprint c) { DrawGenericCannon('§', c); }
+		private void DrawMinigun(MinigunBlueprint c)                 { DrawGenericCannon('Z', c); }
+
+		private void DrawGenericCannon(char chr, ICannonBlueprint c)
 		{
 			var x = c.X / 64;
 			var y = c.Y / 64;
 
-			if (c.Player == 0)
+			if (c.Fraction == 0)
 			{
-				SetMap(x-0.5f, y, '<');
-				SetMap(x,      y, 'O');
-				SetMap(x+0.5f, y, '>');
+				SetMap(x - 0.5f, y, '<');
+				SetMap(x, y, chr);
+				SetMap(x + 0.5f, y, '>');
 			}
 			else
 			{
 				if (c.Diameter <= 48)
 				{
-					SetMap(x, y, 'O');
+					SetMap(x, y, chr);
 				}
 				else
 				{
-					SetMap(x, y, 'O');
+					SetMap(x, y, chr);
 
 					SetMap(x - 0.5f, y - 0.5f, '/');
 					SetMap(x + 0.5f, y - 0.5f, '\\');
@@ -141,35 +152,6 @@ namespace GridDominance.DSLEditor.Drawing
 			SetMap(x - 0.5f, y, '(');
 			SetMap(x + 0.0f, y, '#');
 			SetMap(x + 0.5f, y, ')');
-		}
-
-		private void DrawLaserCannon(LaserCannonBlueprint c)
-		{
-			var x = c.X / 64;
-			var y = c.Y / 64;
-
-			if (c.Player == 0)
-			{
-				SetMap(x - 0.5f, y, '<');
-				SetMap(x, y, '+');
-				SetMap(x + 0.5f, y, '>');
-			}
-			else
-			{
-				if (c.Diameter <= 48)
-				{
-					SetMap(x, y, '+');
-				}
-				else
-				{
-					SetMap(x, y, '+');
-
-					SetMap(x - 0.5f, y - 0.5f, '/');
-					SetMap(x + 0.5f, y - 0.5f, '\\');
-					SetMap(x - 0.5f, y + 0.5f, '\\');
-					SetMap(x + 0.5f, y + 0.5f, '/');
-				}
-			}
 		}
 
 		private void DrawLine(float cx, float cy, float len, double rot, char c)

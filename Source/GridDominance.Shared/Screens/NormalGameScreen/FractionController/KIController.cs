@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			public static KIMethod CreatePrecalc(string n, Func<BulletPath> r) => new KIMethod(n, null, r,    null, null, null);
 			public static KIMethod CreateGeneric(string n, Action           r) => new KIMethod(n, null, null, r,    null, null);
 			public static KIMethod CreateDefense(string n, Func<LaserRay>   r) => new KIMethod(n, null, null, null, r,    null);
-			public static KIMethod CreateCustom( string n, Func<float?>     r) => new KIMethod(n, null, null, null, null, r);
+			public static KIMethod CreateCustom( string n, Func<float?>     r) => new KIMethod(n, null, null, null, null, r   );
 
 			public bool Run(KIController ki)
 			{
@@ -135,6 +135,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		}
 
 		protected const float STANDARD_UPDATE_TIME = 1.666f;
+		protected const float RELAY_UPDATE_TIME    = 0.600f;
 		protected const float LASER_UPDATE_TIME    = 0.400f;
 		protected const float NEUTRAL_UPDATE_TIME  = 0.111f;
 		protected const float MIN_LASER_ROT        = FloatMath.RAD_POS_002;

@@ -35,18 +35,27 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float BASE_COG_ROTATION_SPEED = FloatMath.TAU / 3; // 2.1 rad/sec
 		protected const float BARREL_RECOIL_SPEED = 4; // 250ms for full recovery (on normal boost and normal fraction mult)
 		protected const float BARREL_RECOIL_LENGTH = 32;
+		protected const float TRISHOT_BARREL_ANGLE = FloatMath.RAD_POS_020;
 
 		protected const float CORE_PULSE_FREQ = 2f;
 		protected const float CORE_PULSE = 0.06f; // perc
 		public    const float LASER_GLOW_FREQ = 0.20f;
 
-		protected const float BARREL_CHARGE_SPEED = 0.9f;
+		protected const float BARREL_CHARGE_SPEED         = 0.9f;
+		protected const float BARREL_CHARGE_SPEED_TRISHOT = 0.6f;
+		protected const float BARREL_CHARGE_SPEED_MINIGUN = 0.3f;
 		public    const float CANNON_DIAMETER = 96;		 // only diameter of base circle
+		public    const float CANNON_FOUNDATION_DIAMETER = 128;
 		public    const float CANNON_OUTER_DIAMETER = 160; // includes fully extended barrel
 		public    const float BARREL_HEIGHT = 32;
 		public    const float BARREL_WIDTH = 64;
 		protected const float BULLET_ANGLE_VARIANCE = FloatMath.RAD_POS_002;
+		protected const float MG_BULLET_ANGLE_VARIANCE = FloatMath.RAD_POS_001/2;
 		public    const float BULLET_INITIAL_SPEED = 100f;
+		public    const float MG_BULLET_INITIAL_SPEED = 175f;
+
+		protected const int   MINIGUN_BULLET_COUNT = 0;
+		protected const float MINIGUN_BULLET_DELAY = 0.2f;
 
 		protected const float START_HEALTH_REGEN = 0.015f; // Health per sec bei 0HP
 		protected const float END_HEALTH_REGEN   = 0.105f; // Health per sec bei 1HP
@@ -61,9 +70,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float MIN_REGEN_HEALTH = 0.05f;
 		protected const float FULL_LASER_HEALTH = 0.97f; // Health per sec bei 1HP
 
-		public    const float LASER_CHARGE_COOLDOWN     = 0.4f; // should be more than KI freq
-		public    const float LASER_CHARGE_COOLDOWN_MAX = LASER_CHARGE_COOLDOWN + 0.1f;
+		public    const float LASER_CHARGE_COOLDOWN      = 0.40f; // should be more than KI freq
+		public    const float LASER_CHARGE_COOLDOWN_MAX  = LASER_CHARGE_COOLDOWN + 0.1f;
+		public    const float SHIELD_CHARGE_COOLDOWN     = 0.05f;
+		public    const float SHIELD_CHARGE_COOLDOWN_MAX = SHIELD_CHARGE_COOLDOWN + 0.1f;
 		protected const float LASER_DAMAGE_PER_SECOND = 0.20f;
+		protected const float SHIELDPROJECTOR_DAMAGE_PER_SECOND = 0.02f;
 		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
 
 		protected const float CROSSHAIR_TRANSPARENCY = 0.5f;
@@ -76,8 +88,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly List<CannonLaserBoost> _laserBoosts = new List<CannonLaserBoost>();
 		public readonly GDGameScreen GDOwner;
 		
-		public  readonly List<LaserRay> AttackingRays = new List<LaserRay>();
-		private readonly List<LaserRay> _attackingRaysCollector = new List<LaserRay>();
+		public    readonly List<LaserRay> AttackingRays = new List<LaserRay>();
+		protected readonly List<LaserRay> _attackingRaysCollector = new List<LaserRay>();
 
 		public int IntegerBoost => BulletBoostCount + _laserBoosts.Count + ManualBoost;
 
@@ -97,7 +109,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public Body PhysicsBody;
 		public Fixture PhysicsFixtureBase;
-		public Fixture PhysicsFixtureBarrel;
 
 		public int LastAttackingLasersFriends = 0;
 		public int LastAttackingLasersEnemy = 0;
@@ -129,18 +140,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			controller = this.GDOwner().CreateController(Fraction, this);
 
-			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits2.ToSimUnits(Position), 0, BodyType.Static);
-
-			PhysicsFixtureBase = FixtureFactory.AttachCircle(
-				ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1,
-				PhysicsBody,
-				Vector2.Zero, this);
-
-			PhysicsFixtureBarrel = FixtureFactory.AttachRectangle(
-				ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH), ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT), 1, 
-				new Vector2(ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 0),
-				PhysicsBody, this);
+			CreatePhysics();
 		}
+
+		protected abstract void CreatePhysics();
 
 		public void OnAfterLevelLoad()
 		{
@@ -243,6 +246,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
 				sbatch.DrawRectangle(rectChargeFull, Color.Black);
 			}
+			else if (this is TrishotCannon)
+			{
+				var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
+				var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * ((TrishotCannon)this).BarrelCharge, 8);
+
+				sbatch.FillRectangle(rectChargeFull, Color.White);
+				sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
+				sbatch.DrawRectangle(rectChargeFull, Color.Black);
+			}
 			else if (this is LaserCannon)
 			{
 				var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
@@ -322,7 +334,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public abstract void ApplyBoost();
 
-		public void TakeDamage(Fraction source, float sourceScale)
+		public virtual void TakeDamage(Fraction source, float sourceScale)
 		{
 #if DEBUG
 			if (DebugSettings.Get("ImmortalCannons")) return;
@@ -358,7 +370,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			}
 		}
 
-		public void ApplyLaserBoost(LaserCannon src, float pwr)
+		public virtual void ApplyLaserBoost(LaserCannon src, float pwr)
 		{
 			if (Fraction.IsNeutral) return;
 
@@ -379,7 +391,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			}
 		}
 
-		public void TakeLaserDamage(Fraction source, LaserRay ray, float dmg)
+		public virtual void TakeLaserDamage(Fraction source, LaserRay ray, float dmg)
 		{
 #if DEBUG
 			if (DebugSettings.Get("ImmortalCannons")) { _attackingRaysCollector.Add(ray); return;}

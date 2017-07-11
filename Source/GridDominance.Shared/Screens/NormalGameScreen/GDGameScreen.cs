@@ -324,6 +324,33 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				if (!fractionList.Contains(e.Fraction)) fractionList.Add(e.Fraction);
 			}
 
+			foreach (var bPrint in Blueprint.BlueprintMinigun)
+			{
+				var e = new MinigunCannon(this, bPrint, fracList);
+				Entities.AddEntity(e);
+				cannonList.Add(e);
+
+				if (!fractionList.Contains(e.Fraction)) fractionList.Add(e.Fraction);
+			}
+
+			foreach (var bPrint in Blueprint.BlueprintRelayCannon)
+			{
+				var e = new RelayCannon(this, bPrint, fracList);
+				Entities.AddEntity(e);
+				cannonList.Add(e);
+
+				if (!fractionList.Contains(e.Fraction)) fractionList.Add(e.Fraction);
+			}
+
+			foreach (var bPrint in Blueprint.BlueprintTrishotCannon)
+			{
+				var e = new TrishotCannon(this, bPrint, fracList);
+				Entities.AddEntity(e);
+				cannonList.Add(e);
+
+				if (!fractionList.Contains(e.Fraction)) fractionList.Add(e.Fraction);
+			}
+
 			foreach (var bPrint in Blueprint.BlueprintVoidWalls)
 			{
 				var e = new VoidWall(this, bPrint);
@@ -358,6 +385,16 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			foreach (var bPrint in Blueprint.BlueprintLaserCannons)
 			{
 				var e = new LaserCannon(this, bPrint, fracList);
+				Entities.AddEntity(e);
+				cannonList.Add(e);
+				laserworld = true;
+
+				if (!fractionList.Contains(e.Fraction)) fractionList.Add(e.Fraction);
+			}
+
+			foreach (var bPrint in Blueprint.BlueprintShieldProjector)
+			{
+				var e = new ShieldProjectorCannon(this, bPrint, fracList);
 				Entities.AddEntity(e);
 				cannonList.Add(e);
 				laserworld = true;

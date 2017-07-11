@@ -6,38 +6,52 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using System;
 using System.Linq;
-using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Extensions;
+using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
+using FarseerPhysics.Factories;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
-	public class BulletCannon : Cannon
+	public class RelayCannon : Cannon
 	{
-		private readonly CannonBlueprint Blueprint;
+		private readonly RelayCannonBlueprint Blueprint;
 		private readonly GDGameScreen _screen;
 
-		public float BarrelCharge = 0f;
-		
 		private float barrelRecoil = 0f;
-		private float cannonCogRotation;
 
 		private readonly bool _muted;
 
-		public BulletCannon(GDGameScreen scrn, CannonBlueprint bp, Fraction[] fractions) : 
+		public RelayCannon(GDGameScreen scrn, RelayCannonBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
 			Blueprint = bp;
 			_screen = scrn;
 			_muted = scrn.IsPreview;
+		}
+
+		protected override void CreatePhysics()
+		{
+			PhysicsBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits2.ToSimUnits(Position), 0, BodyType.Static);
+
+			PhysicsFixtureBase = FixtureFactory.AttachCircle(
+				ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 1,
+				PhysicsBody,
+				Vector2.Zero, this);
+
+			FixtureFactory.AttachRectangle(
+				ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH), ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT), 1,
+				new Vector2(ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 0),
+				PhysicsBody, this);
 		}
 
 		#region Update
@@ -54,7 +68,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			UpdatePhysicBodies();
 			UpdateHealth(gameTime);
 			UpdateBoost(gameTime);
-			UpdateCog(gameTime);
 			UpdateBarrel(gameTime);
 
 #if DEBUG
@@ -80,63 +93,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void UpdateBarrel(SAMTime gameTime)
 		{
-			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral))
-			{
-				if (controller.DoBarrelRecharge())
-				{
-					float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
-					if (Scale > 2.5f) chargeDelta /= Scale;
-
-					BarrelCharge += chargeDelta;
-
-					if (BarrelCharge >= 1f)
-					{
-						BarrelCharge -= 1f;
-
-						Shoot();
-					}
-				}
-				else if (controller.SimulateBarrelRecharge())
-				{
-					float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
-					if (Scale > 2.5f) chargeDelta /= Scale;
-
-					BarrelCharge += chargeDelta;
-
-					if (BarrelCharge >= 1f)
-					{
-						BarrelCharge -= 1f;
-
-						barrelRecoil = 0f;
-					}
-				}
-
-			}
-
 			if (barrelRecoil < 1)
 			{
 				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds, 1f);
-			}
-		}
-		
-		private void UpdateCog(SAMTime gameTime)
-		{
-			if (CannonHealth.ActualValue >= 1 || (CannonHealth.ActualValue <= 0 && Fraction.IsNeutral))
-			{
-				var rotInc = BASE_COG_ROTATION_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
-
-				cannonCogRotation = (cannonCogRotation + rotInc) % (FloatMath.PI / 2);
-			}
-			else
-			{
-				if (FloatMath.FloatInequals(cannonCogRotation, FloatMath.PI / 2))
-				{
-					var rotInc = BASE_COG_ROTATION_SPEED * Fraction.GetNeutral().BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
-
-					bool isLimited;
-					cannonCogRotation = FloatMath.LimitedInc(cannonCogRotation, rotInc, FloatMath.PI / 2, out isLimited);
-					if (isLimited) cannonCogRotation = FloatMath.PI / 2;
-				}
 			}
 		}
 
@@ -248,43 +207,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			if (health > 0.99) health = 1f;
 
 			sbatch.DrawScaled(
-				Textures.CannonCog,
+				Textures.TexCircle,
 				Position,
 				Scale,
-				FlatColors.Clouds,
-				cannonCogRotation + FloatMath.RAD_POS_270);
-
-			int aidx = (int) (health * (Textures.ANIMATION_CANNONCOG_SIZE - 1));
-
-			if (aidx == Textures.ANIMATION_CANNONCOG_SIZE - 1)
-			{
-				sbatch.DrawScaled(
-					Textures.CannonCog,
-					Position,
-					Scale,
-					Fraction.Color,
-					cannonCogRotation + FloatMath.RAD_POS_270);
-			}
-			else
-			{
-				int aniperseg = Textures.ANIMATION_CANNONCOG_SIZE / Textures.ANIMATION_CANNONCOG_SEGMENTS;
-				float radpersegm = (FloatMath.RAD_POS_360 * 1f / Textures.ANIMATION_CANNONCOG_SEGMENTS);
-				for (int i = 0; i < Textures.ANIMATION_CANNONCOG_SEGMENTS; i++)
-				{
-					if (aidx >= aniperseg * i)
-					{
-						var iidx = aidx - aniperseg * i;
-						if (iidx > aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP) iidx = aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP;
-
-						sbatch.DrawScaled(
-							Textures.AnimCannonCog[iidx],
-							Position,
-							Scale,
-							Fraction.Color,
-							cannonCogRotation + FloatMath.RAD_POS_270 + i * radpersegm);
-					}
-				}
-			}
+				Fraction.Color);
 		}
 
 		#endregion
@@ -293,24 +219,84 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void ResetChargeAndBooster()
 		{
-			BarrelCharge = 0f;
-
 			FinishAllOperations(o => o is CannonBooster);
 		}
 
 		public override void ForceResetBarrelCharge()
 		{
-			BarrelCharge = 0f;
+			//
+		}
+
+		public override void TakeDamage(Fraction source, float sourceScale)
+		{
+			if (Fraction.IsNeutral && !source.IsNeutral)
+			{
+				CannonHealth.Set(1);
+				SetFraction(source);
+			}
+			else if (!Fraction.IsNeutral && source != Fraction)
+			{
+				if (counterAttackingLasersFriends > 0)
+				{
+					// ignore 
+				}
+				else
+				{
+					CannonHealth.Set(0);
+					SetFraction(Fraction.GetNeutral());
+				}
+
+			}
+		}
+
+		public override void TakeLaserDamage(Fraction source, LaserRay ray, float dmg)
+		{
+			if (dmg > 0f)
+			{
+				if (Fraction.IsNeutral && !source.IsNeutral)
+				{
+					CannonHealth.Set(1);
+					SetFraction(source);
+				}
+				else if (!Fraction.IsNeutral && source != Fraction)
+				{
+					CannonHealth.Set(0);
+					SetFraction(Fraction.GetNeutral());
+				}
+			}
+
+			if (!source.IsNeutral && !Fraction.IsNeutral)
+			{
+				if (dmg > 0) counterAttackingLasersEnemy++;
+				_attackingRaysCollector.Add(ray);
+			}
 		}
 
 		public override void ApplyBoost()
 		{
 			if (Fraction.IsNeutral) return;
 
-			CannonHealth.Inc(HEALTH_HIT_GEN);
-			if (CannonHealth.Limit(0f, 1f) == 1)
+			Shoot();
+		}
+
+		public override void ApplyLaserBoost(LaserCannon src, float pwr)
+		{
+			if (Fraction.IsNeutral) return;
+
+			if (pwr > 0)
 			{
-				AddEntityOperation(new CannonBooster(1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.BulletMultiplicator)));
+				counterAttackingLasersFriends++;
+
+				if (Fraction.IsNeutral && !src.Fraction.IsNeutral)
+				{
+					CannonHealth.Set(1);
+					SetFraction(src.Fraction);
+				}
+				else if (!Fraction.IsNeutral && src.Fraction != Fraction)
+				{
+					CannonHealth.Set(0);
+					SetFraction(Fraction.GetNeutral());
+				}
 			}
 		}
 
@@ -318,57 +304,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override KIController CreateKIController(GDGameScreen screen, Fraction fraction)
 		{
-			return new BulletKIController(screen, this, fraction);
+			return new RelayKIController(screen, this, fraction);
 		}
 
-		public void RemoteUpdate(Fraction frac, float hp, byte boost, float charge, float sendertime)
+		public void RemoteUpdate(Fraction frac, float sendertime)
 		{
 			if (frac != Fraction) SetFraction(frac);
 
-			ManualBoost = boost;
-			BarrelCharge = charge;
+			ManualBoost = 0;
 
 			var delta = GDOwner.LevelTime - sendertime;
 
-			CannonHealth.Set(hp);
-
-			var ups = delta / (1 / 30f);
-
-			if (ups > 1)
-			{
-				var iups = FloatMath.Min(FloatMath.Round(ups), 10);
-				var gt30 = new SAMTime((delta / iups) * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds);
-
-				for (int i = 0; i < iups; i++)
-				{
-					CannonHealth.Update(gt30);
-
-					if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > MIN_REGEN_HEALTH && (LastAttackingLasersEnemy <= LastAttackingLasersFriends))
-					{
-						var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
-
-						bonus /= Scale;
-
-						CannonHealth.Inc(bonus * gt30.ElapsedSeconds);
-						CannonHealth.Limit(0f, 1f);
-					}
-
-					if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral))
-					{
-						float chargeDelta = BARREL_CHARGE_SPEED * Fraction.BulletMultiplicator * RealBoost * gt30.ElapsedSeconds;
-						if (Scale > 2.5f) chargeDelta /= Scale;
-
-						BarrelCharge += chargeDelta;
-
-						if (BarrelCharge >= 1f)
-						{
-							BarrelCharge -= 1f;
-
-							barrelRecoil = 0f;
-						}
-					}
-				}
-			}
+			CannonHealth.Set(frac.IsNeutral ? 0 : 1);
 		}
 	}
 }
