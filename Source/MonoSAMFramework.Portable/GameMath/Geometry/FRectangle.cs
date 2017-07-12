@@ -473,6 +473,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public float CenterY => Y + Height / 2;
 		public FPoint Center => new FPoint(CenterX, CenterY);
 		public Vector2 VecCenter => new Vector2(CenterX, CenterY);
+		public Vector2 VecSize => new Vector2(Width, Height);
 
 		[Pure]
 		public Rectangle Truncate()

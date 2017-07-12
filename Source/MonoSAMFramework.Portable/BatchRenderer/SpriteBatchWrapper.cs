@@ -309,6 +309,25 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 				0);
 		}
 
+
+		public void FillRectangleRot(FRectangle rectangle, Color color, float rotation)
+		{
+#if DEBUG
+			IncRenderSpriteCount();
+#endif
+
+			internalBatch.Draw(
+				StaticTextures.SinglePixel.Texture,
+				rectangle.VecCenter,
+				StaticTextures.SinglePixel.Bounds,
+				color,
+				rotation,
+				StaticTextures.SinglePixel.VecCenter(),
+				rectangle.VecSize,
+				SpriteEffects.None,
+				0);
+		}
+
 		public void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f)
 		{
 #if DEBUG

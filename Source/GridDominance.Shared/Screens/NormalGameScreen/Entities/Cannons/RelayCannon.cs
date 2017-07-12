@@ -203,13 +203,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void DrawCog(IBatchRenderer sbatch)
 		{
-			var health = CannonHealth.ActualValue;
-			if (health > 0.99) health = 1f;
-
-			sbatch.DrawScaled(
+			sbatch.DrawCentered(
 				Textures.TexCircle,
 				Position,
-				Scale,
+				Scale * CANNON_DIAMETER * 0.5f,
+				Scale * CANNON_DIAMETER * 0.5f,
 				Fraction.Color);
 		}
 

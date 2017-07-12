@@ -60,8 +60,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				var width = ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH);
 				var height = ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT);
 
-				Vertices rectangleVertices = PolygonTools.CreateRectangle(width / 2, height / 2, -offset, -TRISHOT_BARREL_ANGLE);
-				rectangleVertices.Translate(ref offset);
+				Vertices rectangleVertices = PolygonTools.CreateRectangle(width / 2, height / 2, Vector2.Zero, -TRISHOT_BARREL_ANGLE);
+				var r = offset.Rotate(-TRISHOT_BARREL_ANGLE);
+				rectangleVertices.Translate(ref r);
 				PolygonShape rectangleShape = new PolygonShape(rectangleVertices, density);
 
 				PhysicsBody.CreateFixture(rectangleShape, this);
@@ -73,8 +74,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				var width = ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH);
 				var height = ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT);
 
-				Vertices rectangleVertices = PolygonTools.CreateRectangle(width / 2, height / 2, -offset, 0);
-				rectangleVertices.Translate(ref offset);
+				Vertices rectangleVertices = PolygonTools.CreateRectangle(width / 2, height / 2, Vector2.Zero, 0);
+				var r = offset;
+				rectangleVertices.Translate(ref r);
 				PolygonShape rectangleShape = new PolygonShape(rectangleVertices, density);
 
 				PhysicsBody.CreateFixture(rectangleShape, this);
@@ -86,8 +88,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				var width = ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH);
 				var height = ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT);
 
-				Vertices rectangleVertices = PolygonTools.CreateRectangle(width / 2, height / 2, -offset, +TRISHOT_BARREL_ANGLE);
-				rectangleVertices.Translate(ref offset);
+				Vertices rectangleVertices = PolygonTools.CreateRectangle(width / 2, height / 2, Vector2.Zero, +TRISHOT_BARREL_ANGLE);
+				var r = offset.Rotate(+TRISHOT_BARREL_ANGLE);
+				rectangleVertices.Translate(ref r);
 				PolygonShape rectangleShape = new PolygonShape(rectangleVertices, density);
 
 				PhysicsBody.CreateFixture(rectangleShape, this);
@@ -301,7 +304,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			var recoil = (1 - barrelRecoil) * BARREL_RECOIL_LENGTH;
 
-			var barrelCenter1 = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue);
+			var barrelCenter1 = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue - TRISHOT_BARREL_ANGLE);
 			var barrelCenter2 = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue);
 			var barrelCenter3 = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue + TRISHOT_BARREL_ANGLE);
 

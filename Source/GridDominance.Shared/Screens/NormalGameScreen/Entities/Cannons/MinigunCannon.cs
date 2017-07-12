@@ -102,7 +102,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void UpdateBarrel(SAMTime gameTime)
 		{
-			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral))
+			if (CannonHealth.TargetValue >= 1)
 			{
 				if (_remainingBullets > 0)
 				{
@@ -162,7 +162,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		
 		private void UpdateCog(SAMTime gameTime)
 		{
-			if (CannonHealth.ActualValue >= 1 || (CannonHealth.ActualValue <= 0 && Fraction.IsNeutral))
+			if (CannonHealth.ActualValue >= 1)
 			{
 				var rotInc = BASE_COG_ROTATION_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
 
@@ -299,43 +299,42 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var health = CannonHealth.ActualValue;
 			if (health > 0.99) health = 1f;
 
-			sbatch.DrawScaled(
-				Textures.CannonCog,
+			sbatch.DrawCentered(
+				Textures.TexPixel, 
 				Position,
-				Scale,
+				Scale * MINIGUNSTRUCT_DIAMETER,
+				Scale * MINIGUNSTRUCT_DIAMETER,
 				FlatColors.Clouds,
-				cannonCogRotation + FloatMath.RAD_POS_270);
+				FloatMath.RAD_POS_000 - cannonCogRotation);
 
-			int aidx = (int) (health * (Textures.ANIMATION_CANNONCOG_SIZE - 1));
+			sbatch.DrawCentered(
+				Textures.TexPixel,
+				Position,
+				Scale * MINIGUNSTRUCT_DIAMETER,
+				Scale * MINIGUNSTRUCT_DIAMETER,
+				FlatColors.Clouds,
+				FloatMath.RAD_POS_000 + cannonCogRotation);
 
-			if (aidx == Textures.ANIMATION_CANNONCOG_SIZE - 1)
+			if (health < 0.01)
 			{
-				sbatch.DrawScaled(
-					Textures.CannonCog,
-					Position,
-					Scale,
-					Fraction.Color,
-					cannonCogRotation + FloatMath.RAD_POS_270);
+				// nothing
+			}
+			else if (health < 1)
+			{
+				var r = FRectangle.CreateByCenter(Position, health * Scale * MINIGUNSTRUCT_DIAMETER, health * Scale * MINIGUNSTRUCT_DIAMETER);
+
+				sbatch.FillRectangleRot(r, Fraction.Color * (1 - health), FloatMath.RAD_POS_000 + cannonCogRotation);
+				sbatch.FillRectangleRot(r, Fraction.Color * (1 - health), FloatMath.RAD_POS_000 - cannonCogRotation);
+
+				sbatch.DrawRectangleRot(r, Fraction.Color, FloatMath.RAD_POS_000 + cannonCogRotation, 2f);
+				sbatch.DrawRectangleRot(r, Fraction.Color, FloatMath.RAD_POS_000 - cannonCogRotation, 2f);
 			}
 			else
 			{
-				int aniperseg = Textures.ANIMATION_CANNONCOG_SIZE / Textures.ANIMATION_CANNONCOG_SEGMENTS;
-				float radpersegm = (FloatMath.RAD_POS_360 * 1f / Textures.ANIMATION_CANNONCOG_SEGMENTS);
-				for (int i = 0; i < Textures.ANIMATION_CANNONCOG_SEGMENTS; i++)
-				{
-					if (aidx >= aniperseg * i)
-					{
-						var iidx = aidx - aniperseg * i;
-						if (iidx > aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP) iidx = aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP;
+				var r = FRectangle.CreateByCenter(Position, Scale * MINIGUNSTRUCT_DIAMETER, Scale * MINIGUNSTRUCT_DIAMETER);
 
-						sbatch.DrawScaled(
-							Textures.AnimCannonCog[iidx],
-							Position,
-							Scale,
-							Fraction.Color,
-							cannonCogRotation + FloatMath.RAD_POS_270 + i * radpersegm);
-					}
-				}
+				sbatch.DrawRectangleRot(r, Fraction.Color, FloatMath.RAD_POS_000 + cannonCogRotation, 2f);
+				sbatch.DrawRectangleRot(r, Fraction.Color, FloatMath.RAD_POS_000 - cannonCogRotation, 2f);
 			}
 		}
 
@@ -412,7 +411,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				CannonHealth.Limit(0f, 1f);
 			}
 
-			if ((CannonHealth.TargetValue >= 1 || Fraction.IsNeutral))
+			if (CannonHealth.TargetValue >= 1)
 			{
 				float chargeDelta = BARREL_CHARGE_SPEED_MINIGUN * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
 				if (Scale > 2.5f) chargeDelta /= Scale;

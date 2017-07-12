@@ -35,7 +35,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float BASE_COG_ROTATION_SPEED = FloatMath.TAU / 3; // 2.1 rad/sec
 		protected const float BARREL_RECOIL_SPEED = 4; // 250ms for full recovery (on normal boost and normal fraction mult)
 		protected const float BARREL_RECOIL_LENGTH = 32;
-		protected const float TRISHOT_BARREL_ANGLE = FloatMath.RAD_POS_020;
+		protected const float TRISHOT_BARREL_ANGLE = FloatMath.RAD_POS_030;
 
 		protected const float CORE_PULSE_FREQ = 2f;
 		protected const float CORE_PULSE = 0.06f; // perc
@@ -47,6 +47,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public    const float CANNON_DIAMETER = 96;		 // only diameter of base circle
 		public    const float CANNON_FOUNDATION_DIAMETER = 128;
 		public    const float CANNON_OUTER_DIAMETER = 160; // includes fully extended barrel
+		public    const float CANNONCOG_DIAMETER = (128f / 194f) * CANNON_DIAMETER;
+		public    const float MINIGUNSTRUCT_DIAMETER = CANNONCOG_DIAMETER / FloatMath.SQRT_TWO;
 		public    const float BARREL_HEIGHT = 32;
 		public    const float BARREL_WIDTH = 64;
 		protected const float BULLET_ANGLE_VARIANCE = FloatMath.RAD_POS_002;
@@ -54,7 +56,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public    const float BULLET_INITIAL_SPEED = 100f;
 		public    const float MG_BULLET_INITIAL_SPEED = 175f;
 
-		protected const int   MINIGUN_BULLET_COUNT = 0;
+		protected const int   MINIGUN_BULLET_COUNT = 5;
 		protected const float MINIGUN_BULLET_DELAY = 0.2f;
 
 		protected const float START_HEALTH_REGEN = 0.015f; // Health per sec bei 0HP
@@ -250,6 +252,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
 				var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * ((TrishotCannon)this).BarrelCharge, 8);
+
+				sbatch.FillRectangle(rectChargeFull, Color.White);
+				sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
+				sbatch.DrawRectangle(rectChargeFull, Color.Black);
+			}
+			else if (this is MinigunCannon)
+			{
+				var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
+				var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * ((MinigunCannon)this).BarrelCharge, 8);
 
 				sbatch.FillRectangle(rectChargeFull, Color.White);
 				sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
