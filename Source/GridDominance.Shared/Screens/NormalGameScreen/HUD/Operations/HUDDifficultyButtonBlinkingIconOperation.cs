@@ -6,7 +6,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Operations;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUDOperations
 {
-	public class HUDBlinkingDifficultyButtonIconOperation : HUDInfiniteElementOperation<HUDDifficultyButton>
+	public class HUDDifficultyButtonBlinkingIconOperation : HUDInfiniteElementOperation<HUDDifficultyButton>
 	{
 		private const float BLINK_LENGTH = 1.5f;
 		

@@ -14,6 +14,7 @@ namespace GridDominance.Shared.Network
 		Task Ping(PlayerProfile profile);
 		Task CreateUser(PlayerProfile profile);
 		Task SetScore(PlayerProfile profile, Guid levelid, FractionDifficulty diff, int time);
+		Task SetMultiplayerScore(PlayerProfile profile, int score);
 		Task DownloadData(PlayerProfile profile);
 		Task Reupload(PlayerProfile profile);
 		Task LogClient(PlayerProfile profile, SAMLogEntry entry);
@@ -42,6 +43,11 @@ namespace GridDominance.Shared.Network
 		}
 
 		public async Task SetScore(PlayerProfile profile, Guid levelid, FractionDifficulty diff, int time)
+		{
+			//
+		}
+
+		public async Task SetMultiplayerScore(PlayerProfile profile, int score)
 		{
 			//
 		}

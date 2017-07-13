@@ -12,7 +12,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
-	public class HUDTutorialDifficultyButton : HUDEllipseButton
+	public class HUDMultiplayerDifficultyButton : HUDEllipseButton
 	{
 		public override int Depth { get; }
 
@@ -22,15 +22,26 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		public Color ForegroundColor;
 		public float IconScale = 1f;
 
-		public HUDTutorialDifficultyButton(int depth)
+		public HUDMultiplayerDifficultyButton(int depth, bool active, int idx)
 		{
 			Depth = depth;
 
-			icon = Textures.TexIconTutorial;
+			icon = Textures.TexIconInternet;
 
-			BackgroundColor = FlatColors.BackgroundHUD2;
-			ForegroundColor = FlatColors.SunFlower;
-			AddHUDOperation(new HUDTutorialDifficultyButtonBlinkingIconOperation());
+			if (active)
+			{
+				BackgroundColor = FlatColors.ButtonHUD;
+				ForegroundColor = FlatColors.SunFlower;
+				IconScale = 0f;
+
+				AddHUDOperationDelayed(new HUDMultiplayerDifficultyButtonGainOperation(), 0.75f + idx * 0.6f);
+				AddHUDOperationDelayed(new HUDMultiplayerDifficultyButtonBlinkingIconOperation(), 0.75f + idx * 0.6f);
+			}
+			else
+			{
+				BackgroundColor = FlatColors.ButtonHUD;
+				ForegroundColor = FlatColors.BackgroundHUD;
+			}
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
@@ -61,7 +72,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			// nothing in tutorial
+			// nothing in multiplayer
 		}
 
 		protected override void OnDoublePress(InputState istate)

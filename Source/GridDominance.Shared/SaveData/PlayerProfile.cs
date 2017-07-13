@@ -18,6 +18,7 @@ namespace GridDominance.Shared.SaveData
 		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_0;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
+		public int MultiplayerPoints;
 
 		public Dictionary<Guid, LevelData> LevelData;
 		public HashSet<Guid> PurchasedWorlds;
@@ -50,6 +51,8 @@ namespace GridDominance.Shared.SaveData
 		{
 			LevelData = new Dictionary<Guid, LevelData>();
 			PurchasedWorlds = new HashSet<Guid>();
+
+			MultiplayerPoints = 0;
 
 			AccountType = AccountType.Local;
 			OnlineUserID = -1;
@@ -103,6 +106,36 @@ namespace GridDominance.Shared.SaveData
 			}
 		}
 
+		public int IncMultiplayerScore(int add, bool upload)
+		{
+			if (add == 0) return 0;
+
+			MultiplayerPoints += add;
+
+			if (upload)
+			{
+				MainGame.Inst.Backend.SetMultiplayerScore(this, MultiplayerPoints).EnsureNoError();
+			}
+
+			return add;
+		}
+
+		public int DecMultiplayerScore(int sub, bool upload)
+		{
+			sub = Math.Min(sub, MultiplayerPoints);
+
+			if (sub == 0) return 0;
+
+			MultiplayerPoints -= sub;
+
+			if (upload)
+			{
+				MainGame.Inst.Backend.SetMultiplayerScore(this, MultiplayerPoints).EnsureNoError();
+			}
+
+			return -sub;
+		}
+
 		public void SetNotCompleted(Guid levelid, FractionDifficulty d)
 		{
 			GetLevelData(levelid).SetBestTime(d, null);
@@ -122,11 +155,12 @@ namespace GridDominance.Shared.SaveData
 
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "sounds",    o => o.SoundsEnabled,              (o, v) => o.SoundsEnabled      = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "effect",    o => o.EffectsEnabled,             (o, v) => o.EffectsEnabled     = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "lang",      o => o.Language,                   (o, v) => o.Language = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "music",     o => o.MusicEnabled,               (o, v) => o.MusicEnabled = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "lang",      o => o.Language,                   (o, v) => o.Language           = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "music",     o => o.MusicEnabled,               (o, v) => o.MusicEnabled       = v);
 
+			RegisterProperty<PlayerProfile, GameSpeedModes>(SemVersion.VERSION_1_0_0, "mp_speed",  o => o.LastMultiplayerHostedSpeed, (o, v) => o.LastMultiplayerHostedSpeed = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_level",  o => o.LastMultiplayerHostedLevel, (o, v) => o.LastMultiplayerHostedLevel = v);
-			RegisterProperty<PlayerProfile, GameSpeedModes>(SemVersion.VERSION_1_0_0, "mp_level",  o => o.LastMultiplayerHostedSpeed, (o, v) => o.LastMultiplayerHostedSpeed = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_score",  o => o.MultiplayerPoints,          (o, v) => o.MultiplayerPoints = v);
 
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "skiptut",   o => o.SkipTutorial,               (o, v) => o.SkipTutorial       = v);
 

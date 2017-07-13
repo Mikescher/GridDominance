@@ -86,6 +86,12 @@ function getGlobalHighscores() {
 	return $pdo->query(loadSQL("get-ranking_global_top100"))->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getMultiplayerHighscores() {
+	global $pdo;
+
+	return $pdo->query("SELECT * FROM users WHERE is_auto_generated=0 ORDER BY mpscore DESC LIMIT 100")->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getAllEntries() {
 	global $pdo;
 

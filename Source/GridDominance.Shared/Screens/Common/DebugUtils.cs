@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework.Media;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens
 {
@@ -105,6 +106,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab, KeyModifier.None);
 			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,   KeyModifier.None);
 			DebugSettings.AddPush("TRUE", "HideHUD",                scrn, SKeys.H,   KeyModifier.None);
+			DebugSettings.AddTrigger("DBG", "HideHUD",              scrn, SKeys.L,   KeyModifier.Control, RotateLang);
 
 			if (scrn is GDGameScreen)      DebugSettings.AddSwitch( "DBG",  "ImmortalCannons",  scrn, SKeys.I,         KeyModifier.Control, false);
 			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AssimilateCannon", scrn, SKeys.A,         KeyModifier.None);
@@ -117,6 +119,13 @@ namespace GridDominance.Shared.Screens
 			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "UnlockNode",       scrn, SKeys.A,         KeyModifier.None);
 			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "WorldPreview",     scrn, SKeys.P,         KeyModifier.None);
 			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger("TRUE", "ReuploadProfile",  scrn, SKeys.O,         KeyModifier.Control, x => MainGame.Inst.Backend.Reupload(MainGame.Inst.Profile).RunAsync() );
+		}
+
+		private static void RotateLang(DebugListener obj)
+		{
+			MainGame.Inst.Profile.Language = (MainGame.Inst.Profile.Language + 1) % L10N.LANG_COUNT;
+			MainGame.Inst.SaveProfile();
+			L10N.ChangeLanguage(MainGame.Inst.Profile.Language);
 		}
 
 #endif

@@ -225,13 +225,15 @@ namespace GridDominance.Shared.Resources
 
 		public static TextureRegion2D TexIconBack;
 		public static TextureRegion2D TexIconNext;
-		public static TextureRegion2D TexIconRedo;
+		public static TextureRegion2D TexIconRedo; 
 		public static TextureRegion2D TexIconScore;
+		public static TextureRegion2D TexIconMPScore;
 		public static TextureRegion2D TexIconTutorial;
 		public static TextureRegion2D TexIconLock;
 		public static TextureRegion2D TexIconLockOpen;
 		public static TextureRegion2D TexIconInternet;
 		public static TextureRegion2D TexIconBluetooth;
+		public static TextureRegion2D TexIconDice;
 		public static TextureRegion2D TexIconConnection0;
 		public static TextureRegion2D TexIconConnection1;
 		public static TextureRegion2D TexIconConnection2;
@@ -409,8 +411,9 @@ namespace GridDominance.Shared.Resources
 
 			TexIconBack         = AtlasTextures["back"];
 			TexIconNext         = AtlasTextures["next"];
-			TexIconRedo         = AtlasTextures["redo"];
+			TexIconRedo         = AtlasTextures["redo"]; 
 			TexIconScore        = AtlasTextures["jewels"];
+			TexIconMPScore      = AtlasTextures["pokerchip"];
 			TexIconTutorial     = AtlasTextures["tutorial"];
 			TexIconLock         = AtlasTextures["lock"];
 			TexIconLockOpen     = AtlasTextures["lock_open"];
@@ -420,6 +423,7 @@ namespace GridDominance.Shared.Resources
 			TexIconConnection1  = AtlasTextures["state_ok"];
 			TexIconConnection2  = AtlasTextures["state_conn_bg"];
 			TexIconConnection3  = AtlasTextures["state_conn_fg"];
+			TexIconDice         = AtlasTextures["dice"];
 
 
 

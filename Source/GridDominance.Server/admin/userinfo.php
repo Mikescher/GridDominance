@@ -65,6 +65,9 @@
         <div class="infodiv">
             Score: <?php echo $user->Score; ?>
         </div>
+        <div class="infodiv">
+            Score(MP): <?php echo $user->MultiplayerScore; ?>
+        </div>
     </div>
 
     <div class="infocontainer">

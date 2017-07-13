@@ -206,6 +206,25 @@
         </table>
     </div>
 
+	<h2>Multiplayer highscore</h2>
+
+    <div class="tablebox">
+        <table class="sqltab pure-table pure-table-bordered sortable">
+            <thead>
+            <tr>
+                <th style='width: 250px'>Username</th>
+                <th>MultiplayerScore</th>
+            </tr>
+            </thead>
+			<?php foreach (getMultiplayerHighscores() as $entry): ?>
+                <tr>
+                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                    <td><?php echo $entry['mpscore']; ?></td>
+                </tr>
+			<?php endforeach; ?>
+        </table>
+    </div>
+
     <script type="text/javascript">
         <?php echo file_get_contents('admin.js'); ?>
     </script>

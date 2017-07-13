@@ -108,14 +108,15 @@
 [X] True mirror walls for lasers
 [X] endless level (donut)
 [ ] shoot 4 way cannon
-[ ] spreadshot cannon
-[ ] minigun cannon with cooldown
+[X] spreadshot cannon
+[X] minigun cannon with cooldown
 [ ] rotating + moving walls
 [ ] rotating and moving cannons
 [X] Unlock Worlds when previous word is 100% (and remark in unlock screen -> button+move to world+toast)
 [X] Pipes darker when powered 
 [X] Toast description when clikcing on number in info panel
-[ ] Cannon that only barrel charges when boosted
+[X] Cannon that only barrel charges when boosted
+[ ] Level 2-22::  background looks strange (no background blocking for neutral cannons ??)
 
 ----------------------------
 

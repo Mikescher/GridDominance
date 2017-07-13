@@ -20,7 +20,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public const float TIMEOUT_OFFLINE               = 10f;
 		public const float TIMEOUT_ERRORSTOP             = 20f;
 		public const float RESEND_TIME_RELIABLE          = 0.75f;
-		public const float TIME_BETWEEN_GAMESTATE        = 0.2f;
+		public const float TIME_BETWEEN_GAMESTATE        = 0.1f;
 
 		public const byte CMD_USERPING                  =  91;
 		public const byte CMD_USERPING_ACK              =  92;
@@ -884,6 +884,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 						{
 							Mode = ServerMode.InLobby;
 							ProcessForwardLobbySync(d);
+							return;
 						}
 					}
 					break;

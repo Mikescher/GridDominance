@@ -316,6 +316,7 @@
             <key type="filename">difficulty/difficulty_line_03.png</key>
             <key type="filename">difficulty/difficulty_line_04.png</key>
             <key type="filename">hud/jewels.png</key>
+            <key type="filename">hud/pokerchip.png</key>
             <key type="filename">level/cannon/cannoncog.png</key>
             <key type="filename">level/cannon/cannoncore_01.png</key>
             <key type="filename">level/cannon/cannoncore_02.png</key>
@@ -925,6 +926,7 @@
                 <false/>
             </struct>
             <key type="filename">overworld/bluetooth.png</key>
+            <key type="filename">overworld/dice.png</key>
             <key type="filename">overworld/internet.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

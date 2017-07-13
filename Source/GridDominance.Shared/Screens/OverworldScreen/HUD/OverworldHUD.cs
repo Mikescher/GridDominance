@@ -11,6 +11,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.RenderHelper;
+using System;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
@@ -19,11 +20,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		public GDOverworldScreen GDOwner => (GDOverworldScreen) Screen;
 
 		public readonly SettingsButton Settings;
+		public readonly ScoreDisplay ScoreDisplay;
 
 		public OverworldHUD(GDOverworldScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(Settings = new SettingsButton());
-			AddElement(new ScoreDisplay());
+			AddElement(ScoreDisplay = new ScoreDisplay());
+			AddElement(new MultiplayerScoreDisplay(ScoreDisplay));
 		}
 
 		public void ShowAccountPanel()

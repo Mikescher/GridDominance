@@ -25,11 +25,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public readonly TopLevelDisplay TopLevelDisplay;
 		public readonly InformationDisplay InfoDisplay;
 		public readonly SettingsButton Settings;
+		public readonly ScoreDisplay ScoreDisplay;
 
 		public GDWorldHUD(GDWorldMapScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(Settings = new SettingsButton());
-			AddElement(new ScoreDisplay());
+			AddElement(ScoreDisplay = new ScoreDisplay());
+			AddElement(new MultiplayerScoreDisplay(ScoreDisplay));
 			AddElement(TopLevelDisplay = new TopLevelDisplay());
 			AddElement(InfoDisplay = new InformationDisplay());
 		}

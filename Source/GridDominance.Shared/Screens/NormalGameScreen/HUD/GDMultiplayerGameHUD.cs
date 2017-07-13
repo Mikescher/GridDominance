@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FarseerPhysics.Common;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;

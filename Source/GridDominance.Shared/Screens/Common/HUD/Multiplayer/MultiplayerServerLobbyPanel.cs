@@ -380,6 +380,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				}
 
 				_server.Stop();
+
+
+				if (!(MainGame.Inst.GetCurrentScreen() is GDOverworldScreen)) MainGame.Inst.SetOverworldScreen();
 			}
 		}
 

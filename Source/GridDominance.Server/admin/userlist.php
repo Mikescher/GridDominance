@@ -54,6 +54,7 @@
                     <th>Password</th>
                     <th>Anon</th>
                     <th>Score</th>
+                    <th>Score(MP)</th>
                     <th>Rev ID</th>
                     <th style='width: 200px'>Devicename</th>
                     <th style='width: 350px'>Deviceversion</th>
@@ -71,6 +72,7 @@
                     <?php expansioncell($entry['password_hash']); ?>
                     <td><?php echo $entry['is_auto_generated']; ?></td>
                     <td><?php echo $entry['score']; ?></td>
+                    <td><?php echo $entry['mpscore']; ?></td>
                     <td><?php echo $entry['revision_id']; ?></td>
                     <td><?php echo $entry['device_name']; ?></td>
                     <td><?php echo $entry['device_version']; ?></td>

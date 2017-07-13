@@ -66,6 +66,7 @@ namespace GridDominance.Shared.Resources
 
 		public const int STR_HSP_LEVEL              = 43;
 		public const int STR_HSP_POINTS             = 44;
+		public const int STR_HSP_MPPOINTS           = 160;
 		public const int STR_HSP_PROGRESS           = 45;
 		public const int STR_HSP_BACK               = 46;
 		public const int STR_HSP_NEXT               = 47;
@@ -74,6 +75,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HSP_GETSTARTED         = 50;
 		public const int STR_HSP_CONERROR           = 65;
 		public const int STR_HSP_NEWGAME            = 158;
+		public const int STR_HSP_RANDOMGAME         = 159;
 
 		public const int STR_DIFF_0                 = 51;
 		public const int STR_DIFF_1                 = 52;
@@ -189,7 +191,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_FRAC_A5                = 155;
 		public const int STR_FRAC_A6                = 156;
 
-		private const int TEXT_COUNT = 159; // = next idx
+		private const int TEXT_COUNT = 161; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -349,11 +351,13 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_FRAC_P1,                "Green",                                                       "Grün");
 			L10N.Add(STR_FRAC_A2,                "Red",                                                         "Rot");
 			L10N.Add(STR_FRAC_A3,                "Blue",                                                        "Blau");
-			L10N.Add(STR_FRAC_A4,                "Purple",                                                      "LIla");
+			L10N.Add(STR_FRAC_A4,                "Purple",                                                      "Lila");
 			L10N.Add(STR_FRAC_A5,                "Orange",                                                      "Orange");
 			L10N.Add(STR_FRAC_A6,                "Teal",                                                        "BlauGrün");
 			L10N.Add(STR_MENU_MP_LOBBY_COLOR,    "Color",                                                       "Farbe");
 			L10N.Add(STR_HSP_NEWGAME,            "New Game",                                                    "Neues Spiel");
+			L10N.Add(STR_HSP_RANDOMGAME,         "Random level",                                                "Zufälliges Level");
+			L10N.Add(STR_HSP_MPPOINTS,           "Multiplayer score",                                           "Mehrspieler Punkte");
 
 #if DEBUG
 			L10N.Verify();

@@ -13,17 +13,19 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	public class ScoreDisplay : HUDContainer
+	public class MultiplayerScoreDisplay : HUDContainer
 	{
 		public override int Depth => 0;
+
+		private readonly ScoreDisplay _ref;
 
 		private readonly HUDImage icon;
 		private readonly HUDRawText text;
 
-		private readonly DeltaLimitedFloat offset = new DeltaLimitedFloat(0, 40f);
-
-		public ScoreDisplay()
+		public MultiplayerScoreDisplay(ScoreDisplay reference)
 		{
+			_ref = reference;
+
 			text = new HUDRawText
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
@@ -35,15 +37,19 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			icon = new HUDImage
 			{
-				Image = Textures.TexIconScore,
+				Image = Textures.TexIconMPScore,
+				Color = FlatColors.Amethyst,
 				Alignment = HUDAlignment.CENTERLEFT,
 				RelativePosition = new FPoint(10, 0),
-				Size = new FSize(40, 40)
+				Size = new FSize(40, 40),
+				RotationSpeed = 0.05f,
 			};
 
 			Alignment = HUDAlignment.TOPRIGHT;
 			RelativePosition = new FPoint(10, 10);
 			Size = new FSize(250, 60);
+
+			IsVisible = MainGame.Inst.Profile.MultiplayerPoints != 0;
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
@@ -65,21 +71,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			var whud = HUD as GDWorldHUD;
-
-			text.Text = MainGame.Inst.Profile.TotalPoints.ToString();
+			text.Text = MainGame.Inst.Profile.MultiplayerPoints.ToString();
 
 			icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
 
-			if (whud != null)
-				offset.Set(whud.TopLevelDisplay.RelativeBottom);
-			else
-				offset.Set(0);
+			var rp = new FPoint(_ref.RelativePosition.X, _ref.RelativePosition.Y + _ref.Height + 10);
 
-			offset.Update(gameTime);
-			if (offset.ActualValue < offset.TargetValue) offset.SetForce(offset.TargetValue);
-
-			var rp = new FPoint(10, offset.ActualValue + 10);
 			if (rp != RelativePosition)
 			{
 				RelativePosition = rp;

@@ -249,6 +249,86 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
+		public async Task SetMultiplayerScore(PlayerProfile profile, int score)
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterInt("mpscore", score);
+
+				var response = await QueryAsync<QueryResultSetMPScore>("set-mpscore", ps, RETRY_SETSCORE);
+
+				if (response == null)
+				{
+					return; // meh - internal server error
+				}
+				else if (response.result == "success")
+				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						profile.OnlineRevisionID = response.user.RevID;
+
+						MainGame.Inst.SaveProfile();
+
+						if (profile.NeedsReupload) Reupload(profile).EnsureNoError();
+					});
+				}
+				else if (response.result == "error")
+				{
+					ShowErrorCommunication();
+
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						return; // meh
+					}
+					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
+					{
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+						{
+							SAMLog.Error("Backend::SS_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+
+							// something went horribly wrong
+							// create new user on next run
+							profile.OnlineUserID = -1;
+
+							MainGame.Inst.SaveProfile();
+						});
+					}
+					else
+					{
+						SAMLog.Error("Backend::SS_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
+					}
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend::SS_RCE", e); // probably no internet
+				ShowErrorConnection();
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					profile.NeedsReupload = true;
+
+					MainGame.Inst.SaveProfile();
+				});
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend::SS_E", e);
+				ShowErrorCommunication();
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					profile.NeedsReupload = true;
+
+					MainGame.Inst.SaveProfile();
+				});
+			}
+		}
+
 		public async Task DownloadData(PlayerProfile profile)
 		{
 			try
@@ -274,6 +354,8 @@ namespace GridDominance.Shared.Network
 						{
 							profile.SetCompleted(Guid.Parse(scdata.levelid), (FractionDifficulty)scdata.difficulty, scdata.best_time, false);
 						}
+
+						profile.MultiplayerPoints = response.user.MultiplayerScore;
 
 						MainGame.Inst.SaveProfile();
 					});

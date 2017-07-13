@@ -43,12 +43,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 					BackgroundColor = FlatColors.ButtonHUD;
 					ForegroundColor = GDColors.GetColorForDifficulty(diff);
 					AddHUDOperation(new HUDDifficultyButtonGainOperation());
-					AddHUDOperation(new HUDBlinkingDifficultyButtonIconOperation());
+					AddHUDOperation(new HUDDifficultyButtonBlinkingIconOperation());
 					break;
 				case HUDDifficultyButtonMode.ACTIVATED:
 					BackgroundColor = FlatColors.BackgroundHUD2;
 					ForegroundColor = GDColors.GetColorForDifficulty(diff);
-					AddHUDOperation(new HUDBlinkingDifficultyButtonIconOperation());
+					AddHUDOperation(new HUDDifficultyButtonBlinkingIconOperation());
 					break;
 			}
 		}

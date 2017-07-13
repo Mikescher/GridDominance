@@ -315,10 +315,10 @@ namespace GridDominance.Shared
 			b.AppendLine("MainGame.Alive: " + Alive);
 
 			var scrn = screens?.CurrentScreen;
-			b.AppendLine("MainGame.CurrentScreen: " + scrn.GetType());
 
 			if (scrn != null)
 			{
+				b.AppendLine("MainGame.CurrentScreen: " + scrn.GetType());
 				b.AppendLine("GameScreen.Entities.Count: " + scrn.Entities?.Count());
 				b.AppendLine("GameScreen.HUD.DeepCount: " + scrn.HUD?.DeepCount());
 				b.AppendLine("GameScreen.IsRemoved: " + scrn.IsRemoved);

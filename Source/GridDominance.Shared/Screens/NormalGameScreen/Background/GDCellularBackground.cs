@@ -55,6 +55,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 		private const float CELL_DECAY_SPEED       = 0.70f; // power per second
 		private const float CELL_NEUTRALIZE_SPEED  = 0.20f; // power per second
 
+		private GDGameScreen GDOwner => (GDGameScreen) Owner;
+
 		private readonly GridCellMembership[,] _grid;
 
 		private readonly int tileCountX;
@@ -202,6 +204,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		public override void Update(SAMTime gameTime, InputState state)
 		{
+			if (GDOwner.IsCountdown) return;
+
 			for (int x = 0; x < tileCountX; x++)
 			{
 				for (int y = 0; y < tileCountY; y++)

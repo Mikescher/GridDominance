@@ -24,6 +24,9 @@ class GDUser
 	/** @var $Score int */
 	public $Score = 0;
 
+	/** @var $MultiplayerScore int */
+	public $MultiplayerScore = 0;
+
 	/** @var $RevID int */
 	public $RevID = 0;
 
@@ -53,7 +56,7 @@ class GDUser
 	 */
 	public static function QueryOrFailByName($pdo, $pw, $username)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, revision_id FROM users WHERE username=:name");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id FROM users WHERE username=:name");
 		$stmt->bindValue(':name', $username, PDO::PARAM_STR);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -75,7 +78,7 @@ class GDUser
 	 */
 	public static function QueryOrFail($pdo, $pw, $userid)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, revision_id FROM users WHERE userid=:id");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -97,7 +100,7 @@ class GDUser
 	 */
 	public static function QueryByIDOrNull($pdo, $userid)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, revision_id FROM users WHERE userid=:id");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -117,7 +120,7 @@ class GDUser
 	 */
 	public static function QueryOrNull($pdo, $pw, $userid)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, revision_id FROM users WHERE userid=:id");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -138,12 +141,13 @@ class GDUser
 	public static function CreateFromSQL($row)
 	{
 		$r = new GDUser();
-		$r->ID            = $row['userid'];
-		$r->Username      = $row['username'];
-		$r->Score         = $row['score'];
-		$r->AutoUser      = (bool)$row['is_auto_generated'];
-		$r->PasswordHash  = $row['password_hash'];
-		$r->RevID         = $row['revision_id'];
+		$r->ID               = $row['userid'];
+		$r->Username         = $row['username'];
+		$r->Score            = $row['score'];
+		$r->MultiplayerScore = $row['mpscore'];
+		$r->AutoUser         = (bool)$row['is_auto_generated'];
+		$r->PasswordHash     = $row['password_hash'];
+		$r->RevID            = $row['revision_id'];
 		return $r;
 	}
 
@@ -236,6 +240,22 @@ class GDUser
 		executeOrFail($stmt);
 
 		$this->Score = $score;
+		$this->RevID++;
+	}
+
+	/**
+	 * @param int $score
+	 * @param string $app_version
+	 */
+	public function SetMPScore($score, $app_version) {
+		global $pdo;
+		$stmt = $pdo->prepare("UPDATE users SET mpscore=:scr, last_online=CURRENT_TIMESTAMP(), app_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
+		$stmt->bindValue(':id', $this->ID, PDO::PARAM_INT);
+		$stmt->bindValue(':av', $app_version, PDO::PARAM_STR);
+		$stmt->bindValue(':scr', $score, PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		$this->MultiplayerScore = $score;
 		$this->RevID++;
 	}
 

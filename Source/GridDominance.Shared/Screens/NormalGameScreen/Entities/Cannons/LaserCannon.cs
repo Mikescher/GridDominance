@@ -215,7 +215,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				LaserPulseTime += gameTime.ElapsedSeconds;
 			}
 			
-			ChargeTime += gameTime.ElapsedSeconds;
+			if (controller.DoBarrelRecharge()) ChargeTime += gameTime.ElapsedSeconds;
 
 			if (CannonHealth.ActualValue < 1) ChargeTime = 0;
 		}

@@ -281,6 +281,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			op.OnStart(this);
 		}
 
+		public void AddHUDOperationDelayed<TElement>(HUDElementOperation<TElement> op, float delay) where TElement : HUDElement
+		{
+			var seqop = new HUDDelayedElementOperation<TElement>(op, delay);
+			ActiveOperations.Add(seqop);
+			seqop.OnStart(this);
+		}
+		
 		public void AddHUDOperationSequence<TElement>(IHUDElementOperation op1, params IHUDElementOperation[] ops) where TElement : HUDElement
 		{
 			var seqop = new HUDSequenceElementOperation<TElement>(op1, ops);

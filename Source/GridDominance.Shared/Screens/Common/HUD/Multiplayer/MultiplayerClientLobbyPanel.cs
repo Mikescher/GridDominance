@@ -41,6 +41,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		private Guid _lastLevelID;
 		private string fracName = null;
+		private bool skipUpdate = false;
 
 		private HUDLabel _lblFraction;
 
@@ -323,6 +324,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			_server.Update(gameTime, istate);
 
+			if (skipUpdate) return;
+
 			if (_server.LevelID != null && _server.LevelID.Value != _lastLevelID)
 			{
 				_lastLevelID = _server.LevelID.Value;
@@ -341,6 +344,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Remove();
 
 				Owner.HUD.ShowToast(null, L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+				skipUpdate = true;
 			}
 			
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
@@ -348,6 +352,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			if (_server.Mode == SAMNetworkConnection.ServerMode.InGame)
 			{
 				MainGame.Inst.SetMultiplayerClientLevelScreen(Levels.LEVELS[_server.LevelID.Value], _server.Speed.Value, _server.MusicIndex.Value, _server);
+				skipUpdate = true;
 			}
 		}
 

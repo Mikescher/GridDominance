@@ -85,7 +85,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
 		{
 			GameSpeedMode = GameSpeedModes.NORMAL;
-			HUD.AddModal(new HUDMultiplayerScorePanel(lvl, profile, playerHasWon, _server, () => { _doNotStop = true; }), false);
+			HUD.AddModal(new HUDMultiplayerScorePanel(lvl, profile, playerHasWon, addPoints, _server, () => { _doNotStop = true; }), false);
 		}
 
 		protected override void TestForGameEndingCondition()
@@ -107,14 +107,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				HasFinished = true;
 				PlayerWon = true;
 				MainGame.Inst.GDSound.PlayEffectGameWon();
-				ShowScorePanel(Blueprint, GDOwner.Profile, null, true, 0);
+
+				int inc = MainGame.Inst.Profile.IncMultiplayerScore(_server.SessionCapacity - 1, true);
+
+				ShowScorePanel(Blueprint, GDOwner.Profile, null, true, inc);
 			}
 			else
 			{
 				HasFinished = true;
 				PlayerWon = false;
 				MainGame.Inst.GDSound.PlayEffectGameOver();
-				ShowScorePanel(Blueprint, GDOwner.Profile, null, false, 0);
+
+				int inc = MainGame.Inst.Profile.DecMultiplayerScore(1, true);
+
+				ShowScorePanel(Blueprint, GDOwner.Profile, null, false, inc);
 			}
 
 			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
