@@ -339,7 +339,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						return false;
 
 					case PurchaseQueryResult.Error:
-						if (toast) Owner.HUD.ShowToast("MMP_IU::ERR1", L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						if (toast) MainGame.Inst.ShowToast("MMP_IU::ERR1", L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						return false;
 
 					case PurchaseQueryResult.Refunded:
@@ -352,11 +352,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						return false;
 
 					case PurchaseQueryResult.NotConnected:
-						if (toast) Owner.HUD.ShowToast("MMP_IU::ERR2", L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						if (toast) MainGame.Inst.ShowToast("MMP_IU::ERR2", L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						return false;
 
 					case PurchaseQueryResult.CurrentlyInitializing:
-						if (toast) Owner.HUD.ShowToast("MMP_IU::ERR3", L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
+						if (toast) MainGame.Inst.ShowToast("MMP_IU::ERR3", L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
 						return false;
 
 					default:

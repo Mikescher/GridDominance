@@ -907,7 +907,7 @@ namespace GridDominance.Shared.Network
 
 		private void ShowErrorCommunication()
 		{
-			MainGame.Inst.ShowToast("SAPI::COMERR", L10N.T(L10NImpl.STR_API_COMERR), 40, FlatColors.Flamingo, FlatColors.Foreground, 1.5f);
+			MainGame.Inst?.ShowToast("SAPI::COMERR", L10N.T(L10NImpl.STR_API_COMERR), 40, FlatColors.Flamingo, FlatColors.Foreground, 1.5f);
 		}
 
 		private object CreateScoreArray(PlayerProfile profile)

@@ -21,7 +21,14 @@ namespace GridDominance.Generic.Impl
 #if __DESKTOP__
 			_client = new UdpClient(new Random().Next(5000, 27000));
 #else
-			_client = new UdpClient();
+			try
+			{
+				_client = new UdpClient();
+			}
+			catch (SocketException e)
+			{
+				throw new Exception($"SocketException thrown ({e.Message}) with SocketErrorCode={e.SocketErrorCode}", e);
+			}
 #endif
 		}
 
