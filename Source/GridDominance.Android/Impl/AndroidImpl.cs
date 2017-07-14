@@ -42,7 +42,7 @@ namespace GridDominance.Android
 			_activity = a;
 
 			_iab = new AndroidBilling(a);
-			_bt = new AndroidBluetoothAdapter();
+			_bt = new AndroidBluetoothAdapter(a);
 		}
 
 		private static string GenerateInfoStr()
@@ -92,6 +92,7 @@ namespace GridDominance.Android
 		public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			_iab.HandleActivityResult(requestCode, resultCode, data);
+			_bt.HandleActivityResult(requestCode, resultCode, data);
 		}
 
 		private static FSize ScreenRes()
