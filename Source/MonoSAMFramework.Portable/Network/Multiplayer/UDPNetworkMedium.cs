@@ -5,11 +5,22 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 	public class UDPNetworkMedium : INetworkMedium
 	{
 		private readonly IUDPClient _client;
-		
+
+		private readonly string _ip;
+		private readonly int _port;
+
 		public UDPNetworkMedium(string ip, int port)
 		{
 			_client = MonoSAMGame.CurrentInst.Bridge.CreateUPDClient();
-			_client.Connect(ip, port);
+
+			_ip = ip;
+			_port = port;
+		}
+
+		public void Init(out SAMNetworkConnection.ErrorType error)
+		{
+			_client.Connect(_ip, _port);
+			error = SAMNetworkConnection.ErrorType.None;
 		}
 
 		public byte[] RecieveOrNull()

@@ -1,7 +1,9 @@
-﻿using Android.Bluetooth;
+﻿using System;
+using Android.Bluetooth;
 using Java.Lang;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
+using Exception = Java.Lang.Exception;
 
 namespace GridDominance.Android.Impl
 {
@@ -26,6 +28,18 @@ namespace GridDominance.Android.Impl
 		public override void Run()
 		{
 			Name = "AcceptThread";
+			try
+			{
+				ThreadRun();
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("ABTA::AcceptThread_Run", e);
+			}
+		}
+
+		private void ThreadRun()
+		{
 			BluetoothSocket socket = null;
 
 			// Listen to the server socket if we're not connected
@@ -66,6 +80,17 @@ namespace GridDominance.Android.Impl
 								{
 									SAMLog.Warning("ABTA::CNC", "Could not close unwanted socket", e.Message);
 								}
+								break;
+							case BluetoothAdapterState.AdapterNotFound:
+							case BluetoothAdapterState.Created:
+							case BluetoothAdapterState.RequestingEnable:
+							case BluetoothAdapterState.NotEnabledByUser:
+							case BluetoothAdapterState.Scanning:
+							case BluetoothAdapterState.ConnectionLost:
+							case BluetoothAdapterState.ConnectionFailed:
+							case BluetoothAdapterState.Error:
+							default:
+								SAMLog.Warning("ABTA::EnumSwitch_TR", "value: " + _adapter.State);
 								break;
 						}
 					}

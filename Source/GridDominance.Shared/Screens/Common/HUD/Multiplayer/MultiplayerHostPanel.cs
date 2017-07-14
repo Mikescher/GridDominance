@@ -60,14 +60,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private HUDRadioMusicButton _music5;
 		private HUDRadioMusicButton _music6;
 
-		public MultiplayerHostPanel()
+		public MultiplayerHostPanel(MultiplayerConnectionType t)
 		{
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 
-			_server = new GDMultiplayerServer();
+			_server = new GDMultiplayerServer(t);
 		}
 
 		public override void OnInitialize()

@@ -164,6 +164,7 @@ namespace MonoSAMFramework.Portable.Input
 
 		private static bool IsKeyDown(SKeys key, KeyboardState ks, GamePadState gs)
 		{
+			// ReSharper disable once SwitchStatementMissingSomeCases
 			switch (key)
 			{
 				case SKeys.ShiftAny:

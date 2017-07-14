@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -197,6 +198,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 						Toast_3(L10N.TF(L10NImpl.STR_INFOTOAST_3, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalCompletionCount), FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_0)));
 						break;
 
+					default:
+						SAMLog.Error("INFD::EnumSwitch_OPC1", "value: " + tab);
+						break;
 				}
 			}
 			else if (_rectRow2.Contains(relPositionPoint))
@@ -218,6 +222,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 						Toast_3(L10N.TF(L10NImpl.STR_INFOTOAST_3, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalCompletionCount), FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_1)));
 						break;
 
+
+					default:
+						SAMLog.Error("INFD::EnumSwitch_OPC2", "value: " + tab);
+						break;
 				}
 			}
 			else if (_rectRow3.Contains(relPositionPoint))
@@ -239,6 +247,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 						Toast_2(L10N.TF(L10NImpl.STR_INFOTOAST_3, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalCompletionCount), FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_2)));
 						break;
 
+
+					default:
+						SAMLog.Error("INFD::EnumSwitch_OPC3", "value: " + tab);
+						break;
 				}
 			}
 			else if (_rectRow4.Contains(relPositionPoint))
@@ -260,6 +272,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 						Toast_3(L10N.TF(L10NImpl.STR_INFOTOAST_3, PositiveOrZero(node.LevelData.Data[FractionDifficulty.DIFF_3].GlobalCompletionCount), FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_3)));
 						break;
 
+
+					default:
+						SAMLog.Error("INFD::EnumSwitch_OPC4", "value: " + tab);
+						break;
 				}
 			}
 			else

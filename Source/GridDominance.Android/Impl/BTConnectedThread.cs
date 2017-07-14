@@ -34,6 +34,19 @@ namespace GridDominance.Android.Impl
 
 		public override void Run()
 		{
+			Name = "ConnectedThread";
+			try
+			{
+				ThreadRun();
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("ABTA::ConnectedThread_Run", e);
+			}
+		}
+
+		private void ThreadRun()
+		{
 			byte[] buffer = new byte[SAMNetworkConnection.MAX_PACKAGE_SIZE_BYTES];
 
 			// Keep listening to the InputStream while connected

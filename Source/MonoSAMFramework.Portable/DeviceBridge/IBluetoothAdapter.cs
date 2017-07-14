@@ -34,8 +34,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		void StartAdapter();
 
 		void StartScan();
-		void EnsureDiscoverable(int seconds);
+		void StartWaiting();
+
 		Tuple<byte[], int> RecieveOrNull();
 		void Write(byte[] data);
+
+		void Reset();
 	}
 }

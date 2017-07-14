@@ -1,10 +1,12 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content.PM;
 using Android.Views;
 using Android.OS;
 using GridDominance.Shared;
 using Microsoft.Xna.Framework;
 using Android.Content;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Android
 {
@@ -16,6 +18,7 @@ namespace GridDominance.Android
 		ScreenOrientation = ScreenOrientation.Landscape,
 		ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.Keyboard | ConfigChanges.ScreenSize)]
 
+	// ReSharper disable once ClassNeverInstantiated.Global
 	public class MainActivity : AndroidGameActivity
 	{
 		private AndroidImpl _impl;
@@ -32,14 +35,28 @@ namespace GridDominance.Android
 
 		protected override void OnDestroy()
 		{
-			_impl.OnDestroy();
+			try
+			{
+				_impl.OnDestroy();
 
-			base.OnDestroy();
+				base.OnDestroy();
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("AMA::OnDestroy", e);
+			}
 		}
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			_impl.HandleActivityResult(requestCode, resultCode, data);
+			try
+			{
+				_impl.HandleActivityResult(requestCode, resultCode, data);
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("AMA::OnActivityResult", e);
+			}
 		}
 	}
 }

@@ -103,13 +103,15 @@
     <Compile Include="LogProtocol\SAMLog.cs" />
     <Compile Include="LogProtocol\SAMLogEntry.cs" />
     <Compile Include="LogProtocol\SAMLogLevel.cs" />
-    <Compile Include="Network\Multiplayer\IBluetoothDevice.cs" />
+    <Compile Include="DeviceBridge\IBluetoothDevice.cs" />
+    <Compile Include="Network\Multiplayer\MultiplayerConnectionType.cs" />
     <Compile Include="Network\Multiplayer\NetworkDataTools.cs" />
     <Compile Include="Network\Multiplayer\NetworkUserConn.cs" />
     <Compile Include="Network\Multiplayer\PingCounter.cs" />
-    <Compile Include="Network\Multiplayer\IBluetoothAdapter.cs" />
+    <Compile Include="DeviceBridge\IBluetoothAdapter.cs" />
     <Compile Include="Network\Multiplayer\INetworkMedium.cs" />
     <Compile Include="Network\Multiplayer\SAMNetworkConnection.cs" />
+    <Compile Include="Network\Multiplayer\BluetoothNetworkMedium.cs" />
     <Compile Include="Network\Multiplayer\UDPNetworkMedium.cs" />
     <Compile Include="Network\REST\RestConnectionException.cs" />
     <Compile Include="Network\REST\RestParameterSet.cs" />

@@ -14,6 +14,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Content.Pipeline.PreCalculation
 {
@@ -285,6 +286,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 						case FlatAlign4.EE: pNewStartX -= lvl.LevelWidth; break;
 						case FlatAlign4.SS: pNewStartY -= lvl.LevelHeight; break;
 						case FlatAlign4.WW: pNewStartX += lvl.LevelWidth; break;
+						default:
+							throw new ArgumentOutOfRangeException();
 					}
 					var pVec = rcEnd - rcStart;
 					var pNewStart = new FPoint(pNewStartX, pNewStartY);
@@ -501,6 +504,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 						case FlatAlign4.EE: pNewStartX -= lvl.LevelWidth; break;
 						case FlatAlign4.SS: pNewStartY -= lvl.LevelHeight; break;
 						case FlatAlign4.WW: pNewStartX += lvl.LevelWidth; break;
+						default:
+							throw new ArgumentOutOfRangeException();
 					}
 					var pVec = rcEnd - rcStart;
 					var pNewStart = new FPoint(pNewStartX, pNewStartY);

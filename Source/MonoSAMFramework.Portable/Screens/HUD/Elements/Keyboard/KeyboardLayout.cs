@@ -3,6 +3,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 {
@@ -209,6 +210,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 					break;
 				case HUDKeyboard.HUDKeyboardKeyMode.Alt:
 					if (keyAlt != null) _target.AppendChar(keyAlt.Value);
+					break;
+				default:
+					SAMLog.Error("HUDKB::EnumSwitch_PKN", "KeyMode = " + _target.KeyMode);
 					break;
 			}
 		}

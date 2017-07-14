@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
@@ -239,12 +240,26 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		private void OnClickJoinBluetooth(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			//TODO
+			Remove();
+			HUD.AddModal(new MultiplayerJoinLobbyScreen(MultiplayerConnectionType.P2P), true, 0.5f);
 		}
 
 		private void OnClickHostBluetooth(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			//TODO
+			Remove();
+			HUD.AddModal(new MultiplayerHostPanel(MultiplayerConnectionType.P2P), true, 0.5f);
+		}
+
+		private void OnClickJoinOnline(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			Remove();
+			HUD.AddModal(new MultiplayerJoinLobbyScreen(MultiplayerConnectionType.PROXY), true, 0.5f);
+		}
+
+		private void OnClickHostOnline(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			Remove();
+			HUD.AddModal(new MultiplayerHostPanel(MultiplayerConnectionType.PROXY), true, 0.5f);
 		}
 
 		private void OnClickUnlock(HUDTextButton sender, HUDButtonEventArgs e)
@@ -268,7 +283,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						SAMLog.Info("MMP::IAB-BUY", "PurchaseStarted");
 						break;
 					default:
-						SAMLog.Error("MMP::EnumSwitch-OCU", "OnClickBuy()", "r -> " + r);
+						SAMLog.Error("MMP::EnumSwitch_OCU", "OnClickBuy()", "r -> " + r);
 						break;
 				}
 			}
@@ -292,18 +307,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f);
 				}
 			}
-		}
-
-		private void OnClickJoinOnline(HUDTextButton sender, HUDButtonEventArgs e)
-		{
-			Remove();
-			HUD.AddModal(new MultiplayerJoinLobbyScreen(), true, 0.5f);
-		}
-
-		private void OnClickHostOnline(HUDTextButton sender, HUDButtonEventArgs e)
-		{
-			Remove();
-			HUD.AddModal(new MultiplayerHostPanel(), true, 0.5f);
 		}
 
 		private bool IsUnlocked(bool toast)
@@ -360,7 +363,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						return false;
 
 					default:
-						SAMLog.Error("MMP::EnumSwitch-IU_MP", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_MULTIPLAYER)) -> " + ip);
+						SAMLog.Error("MMP::EnumSwitch_IU-MP", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_MULTIPLAYER)) -> " + ip);
 						return false;
 				}
 			}

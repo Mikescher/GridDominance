@@ -6,12 +6,8 @@ using System.Runtime.CompilerServices;
 using Android.App;
 using Android.Bluetooth;
 using Android.Content;
-using Android.OS;
-using Android.Util;
-using Android.Views;
-using Android.Views.InputMethods;
-using Android.Widget;
 using GridDominance.Android.Impl;
+using GridDominance.Shared.Resources;
 using Java.Util;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
@@ -23,8 +19,8 @@ namespace GridDominance.Android
 	{
 		private const int REQUEST_ENABLE_BT = 2;
 
-		public const string NAME = "GridDominance.BluetoothSocket";
-		public static readonly UUID UUID = UUID.FromString("4748a5f0-0ac7-44f7-be49-30f5fd2a08ed");
+		public const string NAME = GDConstants.BLUETOOTH_NAME;
+		public static readonly UUID UUID = UUID.FromString(GDConstants.BLUETOOTH_UUID);
 
 		public BluetoothAdapterState State { get; set; } = BluetoothAdapterState.Created;
 		public IBluetoothDevice RemoteDevice { get; set; }
@@ -39,18 +35,15 @@ namespace GridDominance.Android
 		private BTAcceptThread _acceptThread;
 		private BTConnectThread _connectThread;
 		private BTConnectedThread _connectedThread;
-		private int _btstate;
-
-		private BTScanReciever _scanReciever;
 
 		public AndroidBluetoothAdapter(MainActivity a)
 		{
 			Adapter = BluetoothAdapter.DefaultAdapter;
 			_activity = a;
 
-			_scanReciever = new BTScanReciever(this);
-			_activity.RegisterReceiver(_scanReciever, new IntentFilter(BluetoothDevice.ActionFound));
-			_activity.RegisterReceiver(_scanReciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
+			var rec = new BTScanReciever(this);
+			_activity.RegisterReceiver(rec, new IntentFilter(BluetoothDevice.ActionFound));
+			_activity.RegisterReceiver(rec, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
 
 			if (Adapter == null) State = BluetoothAdapterState.AdapterNotFound;
 		}
@@ -59,13 +52,12 @@ namespace GridDominance.Android
 		{
 			CancelAllThreads();
 			lock (_foundDevices) { _foundDevices.Clear(); }
-			if (Adapter != null && Adapter.IsDiscovering) Adapter.CancelDiscovery();
+			if (Adapter.IsDiscovering) Adapter.CancelDiscovery();
 			State = BluetoothAdapterState.Created;
 
 			if (Adapter.IsEnabled)
 			{
 				State = BluetoothAdapterState.Active;
-				StartInternal();
 			}
 			else
 			{
@@ -77,12 +69,24 @@ namespace GridDominance.Android
 		}
 
 		[MethodImpl(MethodImplOptions.Synchronized)]
-		private void StartInternal()
+		public void StartWaiting()
 		{
 			CancelAllThreads();
 
-			_acceptThread = new BTAcceptThread(this);
-			_acceptThread.Start();
+			EnsureDiscoverable(300);
+
+			try
+			{
+				_acceptThread = new BTAcceptThread(this);
+				_acceptThread.Start();
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("ABTA::CantCreateAcceptThread", e);
+				State = BluetoothAdapterState.Error;
+				CancelAllThreads();
+				return;
+			}
 
 			State = BluetoothAdapterState.Listen;
 		}
@@ -96,7 +100,6 @@ namespace GridDominance.Android
 					SAMLog.Debug("Bluetooth enabled");
 
 					State = BluetoothAdapterState.Active;
-					StartInternal();
 				}
 				else
 				{
@@ -185,8 +188,18 @@ namespace GridDominance.Android
 		{
 			CancelAllThreads();
 
-			_connectThread = new BTConnectThread(device, this);
-			_connectThread.Start();
+			try
+			{
+				_connectThread = new BTConnectThread(device, this);
+				_connectThread.Start();
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("ABTA::CantCreateConnectThread", e);
+				State = BluetoothAdapterState.Error;
+				CancelAllThreads();
+				return;
+			}
 
 			State = BluetoothAdapterState.Connecting;
 		}
@@ -203,7 +216,6 @@ namespace GridDominance.Android
 
 			try
 			{
-				// Start the thread to manage the connection and perform transmissions
 				_connectedThread = new BTConnectedThread(socket, this);
 				_connectedThread.Start();
 			}
@@ -250,6 +262,18 @@ namespace GridDominance.Android
 		public void ThreadMessage_DiscoveryFinished()
 		{
 			State = BluetoothAdapterState.Active;
+		}
+
+		public void OnDestroy()
+		{
+			CancelAllThreads();
+		}
+
+		public void Reset()
+		{
+			CancelAllThreads();
+			if (Adapter != null && Adapter.IsDiscovering) Adapter.CancelDiscovery();
+			State = BluetoothAdapterState.Created;
 		}
 	}
 }

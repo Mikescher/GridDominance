@@ -418,6 +418,7 @@ namespace GridDominance.DSLEditor
 					case MessageBoxResult.Cancel:
 						return false;
 					case MessageBoxResult.Yes:
+					case MessageBoxResult.OK:
 						Save();
 						return true;
 					case MessageBoxResult.No:

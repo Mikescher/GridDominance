@@ -138,14 +138,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			switch (y)
 			{
-				case 0: return IsCellActive(FractionDifficulty.DIFF_0, 0 + x) ? GDColors.COLOR_DIFFICULTY_0 : bc;
-				case 1: return IsCellActive(FractionDifficulty.DIFF_0, 8 + x) ? GDColors.COLOR_DIFFICULTY_0 : bc;
-				case 2: return IsCellActive(FractionDifficulty.DIFF_1, 0 + x) ? GDColors.COLOR_DIFFICULTY_1 : bc;
-				case 3: return IsCellActive(FractionDifficulty.DIFF_1, 8 + x) ? GDColors.COLOR_DIFFICULTY_1 : bc;
-				case 4: return IsCellActive(FractionDifficulty.DIFF_2, 0 + x) ? GDColors.COLOR_DIFFICULTY_2 : bc;
-				case 5: return IsCellActive(FractionDifficulty.DIFF_2, 8 + x) ? GDColors.COLOR_DIFFICULTY_2 : bc;
-				case 6: return IsCellActive(FractionDifficulty.DIFF_3, 0 + x) ? GDColors.COLOR_DIFFICULTY_3 : bc;
-				case 7: return IsCellActive(FractionDifficulty.DIFF_3, 8 + x) ? GDColors.COLOR_DIFFICULTY_3 : bc;
+				case 0: return IsCellActive(FractionDifficulty.DIFF_0, 0 + x) ? FractionDifficultyHelper.COLOR_DIFFICULTY_0 : bc;
+				case 1: return IsCellActive(FractionDifficulty.DIFF_0, 8 + x) ? FractionDifficultyHelper.COLOR_DIFFICULTY_0 : bc;
+				case 2: return IsCellActive(FractionDifficulty.DIFF_1, 0 + x) ? FractionDifficultyHelper.COLOR_DIFFICULTY_1 : bc;
+				case 3: return IsCellActive(FractionDifficulty.DIFF_1, 8 + x) ? FractionDifficultyHelper.COLOR_DIFFICULTY_1 : bc;
+				case 4: return IsCellActive(FractionDifficulty.DIFF_2, 0 + x) ? FractionDifficultyHelper.COLOR_DIFFICULTY_2 : bc;
+				case 5: return IsCellActive(FractionDifficulty.DIFF_2, 8 + x) ? FractionDifficultyHelper.COLOR_DIFFICULTY_2 : bc;
+				case 6: return IsCellActive(FractionDifficulty.DIFF_3, 0 + x) ? FractionDifficultyHelper.COLOR_DIFFICULTY_3 : bc;
+				case 7: return IsCellActive(FractionDifficulty.DIFF_3, 8 + x) ? FractionDifficultyHelper.COLOR_DIFFICULTY_3 : bc;
+
+				default:
+					SAMLog.Error("ONG::EnumSwitch_GCC", "value: " + y);
+					break;
 			}
 
 			throw new ArgumentOutOfRangeException(nameof(y), y, null);
@@ -253,7 +257,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 						return UnlockState.NeedsPurchase;
 
 					default:
-						SAMLog.Error("EnumSwitch-IU", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD " + Blueprint?.ID + ")) -> " + ip);
+						SAMLog.Error("EnumSwitch_IU", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD " + Blueprint?.ID + ")) -> " + ip);
 						return UnlockState.NeedsPurchase;
 				}
 			}

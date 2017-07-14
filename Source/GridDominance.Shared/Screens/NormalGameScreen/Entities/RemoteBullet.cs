@@ -288,7 +288,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				case RemoteBulletState.Dying_Instant:
 					Alive = false;
 					break;
-
+					
+				case RemoteBulletState.Normal:
 				default:
 					SAMLog.Error("RBULL::EnumSwitch_MPKR", "Invalid value: " + state);
 					break;
@@ -341,7 +342,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 						BulletAlpha = 0f;
 
 					break;
-
+					
+				case RemoteBulletState.Normal:
 				default:
 					SAMLog.Error("RBULL::EnumSwitch_PK", "Invalid value: " + prediction);
 					break;

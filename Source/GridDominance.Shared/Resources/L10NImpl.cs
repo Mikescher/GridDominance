@@ -1,4 +1,5 @@
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Shared.Resources
@@ -154,6 +155,8 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MP_LEVELMISMATCH       = 123;
 		public const int STR_MP_USERDISCONNECT      = 124;
 		public const int STR_MP_SERVERDISCONNECT    = 125;
+		public const int STR_MP_INTERNAL            = 161; 
+		public const int STR_MP_BTADAPTERNULL       = 162;
 
 		public const int STR_MENU_CANCEL            = 138;
 		public const int STR_MENU_DISCONNECT        = 147;
@@ -191,7 +194,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_FRAC_A5                = 155;
 		public const int STR_FRAC_A6                = 156;
 
-		private const int TEXT_COUNT = 161; // = next idx
+		private const int TEXT_COUNT = 163; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -323,6 +326,8 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_LEVELMISMATCH,       "Server has different version of level",                       "Level auf dem Server unterscheidet sich von lokaler Version");
 			L10N.Add(STR_MP_USERDISCONNECT,      "User {0} has disconnected",                                   "Der Benutzer {0} hat die Verbindung getrennt");
 			L10N.Add(STR_MP_SERVERDISCONNECT,    "Server has closed this session",                              "Spiel wurde vom Server geschlossen");
+			L10N.Add(STR_MP_INTERNAL,            "Internal multiplayer error",                                  "Interner Fehler im Mehrspielermodul");
+			L10N.Add(STR_MP_BTADAPTERNULL,       "No bluetooth hardware found",                                   "Bluetooth Hardware nicht gefunden");
 			L10N.Add(STR_MENU_CAP_MULTIPLAYER,   "Multiplayer",                                                 "Mehrspieler");
 			L10N.Add(STR_MENU_CAP_LOBBY,         "Online Lobby",                                                "Internetlobby");
 			L10N.Add(STR_MENU_CAP_CGAME,         "Create Online Game",                                          "Onlinespiel erstellen");
@@ -407,7 +412,14 @@ namespace GridDominance.Shared.Resources
 				case SAMNetworkConnection.ErrorType.ServerDisconnect:
 					return L10N.T(STR_MP_SERVERDISCONNECT);
 
+				case SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound:
+					return L10N.T(STR_MP_BTADAPTERNULL);
+
+				case SAMNetworkConnection.ErrorType.BluetoothInternalError:
+					return L10N.T(STR_MP_INTERNAL);
+
 				default:
+					SAMLog.Error("L10NI::EnumSwitch_FNEM", "type = "+ type);
 					return string.Empty;
 			}
 		}

@@ -7,8 +7,8 @@ using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 {
@@ -49,6 +49,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 					_direction = new Vector2(0, -bp.LevelHeight);
 					_normal = new Vector2(1, 0);
 					break;
+				default:
+					SAMLog.Error("PPE::EnumSwitch_DPE", "value = " + a);
+					break;
 			}
 
 			DrawingBoundingBox = new FSize(bp.LevelWidth, bp.LevelHeight);
@@ -66,6 +69,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 				case FlatAlign4.LEFT:
 				case FlatAlign4.RIGHT:
 					w = bp.LevelHeight;
+					break;
+				default:
+					SAMLog.Error("PPE::EnumSwitch_CC", "value = " + a);
 					break;
 			}
 			

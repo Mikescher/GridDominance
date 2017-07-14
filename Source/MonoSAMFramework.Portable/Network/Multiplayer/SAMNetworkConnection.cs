@@ -3,6 +3,7 @@ using System.Linq;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 
@@ -86,6 +87,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			NotInLobby, SessionNotFound, AuthentificationFailed, LobbyFull,
 			GameVersionMismatch, LevelNotFound, LevelVersionMismatch,
 			UserDisconnect, ServerDisconnect,
+
+			BluetoothAdapterNotFound, BluetoothInternalError
 		};
 
 		private   readonly byte[] MSG_PING          = { CMD_PING,             0                      };
@@ -156,6 +159,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			MSG_FORWARD[0] = CMD_FORWARD;
 
 			for (int i = 0; i < 32; i++) UserConn[i] = new NetworkUserConn();
+
+
+			ErrorType err;
+			medium.Init(out err);
+			if (err != ErrorType.None) ErrorStop(err, null);
 		}
 
 		public virtual void Update(SAMTime gameTime, InputState istate)
@@ -1035,9 +1043,13 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 							ErrorStop(ErrorType.UserDisconnect, terminatingUserID);
 					}
 					return;
+
+				default:
+					SAMLog.Error("SNS::PM-MISS_CMD", "Unknown Server command: " + d[0] + " in mode " + Mode + " for user " + SessionUserID);
+					break;
+
 			}
 
-			SAMLog.Error("SNS::PM-MISS_CMD", "Unknown Server command: " + d[0] + " in mode " + Mode + " for user " + SessionUserID);
 		}
 
 		protected abstract void SendGameStateNow();

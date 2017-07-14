@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Text;
+using MonoSAMFramework.Portable.LogProtocol;
 using Newtonsoft.Json;
 
 namespace MonoSAMFramework.Portable.Network.REST
@@ -61,7 +62,6 @@ namespace MonoSAMFramework.Portable.Network.REST
 			string result = "";
 			foreach (var elem in dict)
 			{
-				
 				switch (elem.Value.Item2)
 				{
 					case RestParameterSetType.String:
@@ -114,6 +114,10 @@ namespace MonoSAMFramework.Portable.Network.REST
 							post.Add(new StringContent(dataComp), elem.Key);
 						else
 							result += "&" + elem.Key + "=" + dataComp;
+						break;
+
+					default:
+						SAMLog.Error("RPS::EnumSwitch_CPS", "type = " + elem.Value.Item2);
 						break;
 				}
 			}

@@ -35,6 +35,7 @@ namespace GridDominance.Android
 		public void OnDestroy()
 		{
 			_iab.Disconnect();
+			_bt.OnDestroy();
 		}
 
 		public AndroidImpl(MainActivity a)

@@ -26,7 +26,18 @@ namespace GridDominance.Android.Impl
 		public override void Run()
 		{
 			Name = "ConnectThread";
+			try
+			{
+				ThreadRun();
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("ABTA::ConnectThread_Run", e);
+			}
+		}
 
+		private void ThreadRun()
+		{
 			// Always cancel discovery because it will slow down a connection
 			_adapter.Adapter.CancelDiscovery();
 

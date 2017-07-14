@@ -11,6 +11,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 {
@@ -144,6 +145,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 							break;
 						case LaserRayTerminator.BulletTerm:
 							sbatch.DrawCentered(Textures.TexLaserFlare, ray.End, size, size, Color.White, _flareRotation);
+							break;
+
+						case LaserRayTerminator.OOB:
+						case LaserRayTerminator.Portal:
+						case LaserRayTerminator.Glass:
+						case LaserRayTerminator.Mirror:
+							//no draw
+							break;
+
+						default:
+							SAMLog.Error("LASER::EnumSwitch_DN", "value: " + ray.Terminator);
 							break;
 					}
 				}

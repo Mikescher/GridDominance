@@ -363,6 +363,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 							case FlatAlign4.EE: pNewStartX -= _screen.Blueprint.LevelWidth; break;
 							case FlatAlign4.SS: pNewStartY -= _screen.Blueprint.LevelHeight; break;
 							case FlatAlign4.WW: pNewStartX += _screen.Blueprint.LevelWidth; break;
+
+							default:
+								SAMLog.Error("LASER::EnumSwitch_RFR", "value: " + resultBorderMarker.Side);
+								break;
 						}
 
 						var newStart = new FPoint(pNewStartX, pNewStartY);

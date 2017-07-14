@@ -19,6 +19,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
@@ -111,6 +112,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				case 1: d = FractionDifficulty.DIFF_1; break;
 				case 2: d = FractionDifficulty.DIFF_2; break;
 				case 3: d = FractionDifficulty.DIFF_3; break;
+
+				default:
+					SAMLog.Error("RN::EnumSwitch_SO", "value: " + (cycle%4));
+					break;
 			}
 
 			foreach (var t in OutgoingPipes)

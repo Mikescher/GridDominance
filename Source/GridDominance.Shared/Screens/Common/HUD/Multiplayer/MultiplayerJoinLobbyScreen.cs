@@ -36,14 +36,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		private bool _isDying = false;
 
-		public MultiplayerJoinLobbyScreen()
+		public readonly MultiplayerConnectionType ConnType;
+
+		public MultiplayerJoinLobbyScreen(MultiplayerConnectionType t)
 		{
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 
-			_server = new GDMultiplayerClient();
+			ConnType = t;
+
+			_server = new GDMultiplayerClient(t);
 		}
 
 		public override void OnInitialize()
@@ -183,8 +187,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			_server.Update(gameTime, istate);
 
-			//todo status
-
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
 				Owner.HUD.ShowToast(null, L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
@@ -198,6 +200,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						_isDying = true;
 						AddHUDOperation(new JoinErrorOperation());
 						return;
+
+					case SAMNetworkConnection.ErrorType.BluetoothInternalError:
+					case SAMNetworkConnection.ErrorType.None:
+					case SAMNetworkConnection.ErrorType.ProxyServerTimeout:
+					case SAMNetworkConnection.ErrorType.UserTimeout:
+					case SAMNetworkConnection.ErrorType.ServerUserTimeout:
+					case SAMNetworkConnection.ErrorType.NotInLobby:
+					case SAMNetworkConnection.ErrorType.LevelNotFound:
+					case SAMNetworkConnection.ErrorType.LevelVersionMismatch:
+					case SAMNetworkConnection.ErrorType.UserDisconnect:
+					case SAMNetworkConnection.ErrorType.ServerDisconnect:
+					case SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound:
 					default:
 						Remove();
 						return;

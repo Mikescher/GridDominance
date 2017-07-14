@@ -172,13 +172,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						SAMLog.Info("IAB-BUY", "PurchaseStarted");
 						break;
 					default:
-						SAMLog.Error("EnumSwitch-OCB", "OnClickBuy()", "r -> " + r);
+						SAMLog.Error("WPP::EnumSwitch_OCB", "OnClickBuy()", "r -> " + r);
 						break;
 				}
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("IAB_CALL", e);
+				SAMLog.Error("WPP::IAB_CALL", e);
 				
 			}
 		}

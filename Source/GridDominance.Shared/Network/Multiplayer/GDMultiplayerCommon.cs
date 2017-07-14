@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using System.Linq;
+using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -44,8 +45,24 @@ namespace GridDominance.Shared.Network.Multiplayer
 		protected int packageModSize = 0;
 		protected float lagBehindTime = 0f;
 
-		protected GDMultiplayerCommon(INetworkMedium medium) : base(medium)
+		protected GDMultiplayerCommon(MultiplayerConnectionType t) : base(GetMedium(t))
 		{
+		}
+
+		private static INetworkMedium GetMedium(MultiplayerConnectionType t)
+		{
+			switch (t)
+			{
+				case MultiplayerConnectionType.PROXY:
+					return new UDPNetworkMedium(GDConstants.MULTIPLAYER_SERVER_HOST, GDConstants.MULTIPLAYER_SERVER_PORT);
+
+				case MultiplayerConnectionType.P2P:
+					return new BluetoothNetworkMedium();
+
+				default:
+					SAMLog.Error("GDMPC::EnumSwitch_GM", "t = " + t);
+					return null;
+			}
 		}
 
 		public override void Update(SAMTime gameTime, InputState istate)

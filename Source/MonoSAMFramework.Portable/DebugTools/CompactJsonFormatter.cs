@@ -205,6 +205,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 							maxindent = Math.Max(indent, maxindent);
 						}
 						break;
+
 					case '}':
 					case ']':
 						if (!quoted)
@@ -213,6 +214,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 							if (indent <= 0) return maxindent;
 						}
 						break;
+
 					case '"':
 						bool escaped = false;
 						var index = i;
@@ -220,6 +222,9 @@ namespace MonoSAMFramework.Portable.DebugTools
 							escaped = !escaped;
 						if (!escaped)
 							quoted = !quoted;
+						break;
+
+					default:
 						break;
 				}
 			}

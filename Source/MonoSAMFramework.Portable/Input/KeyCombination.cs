@@ -36,6 +36,7 @@
 
 		private string FormatKey(SKeys k)
 		{
+			// ReSharper disable once SwitchStatementMissingSomeCases
 			switch (k)
 			{
 				case SKeys.D0:

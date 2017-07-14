@@ -2,6 +2,7 @@
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Localization;
 
@@ -26,6 +27,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 
 	public static class FractionDifficultyHelper
 	{
+		public static readonly Color COLOR_DIFFICULTY_0 = FlatColors.PeterRiver;
+		public static readonly Color COLOR_DIFFICULTY_1 = FlatColors.Nephritis;
+		public static readonly Color COLOR_DIFFICULTY_2 = FlatColors.SunFlower;
+		public static readonly Color COLOR_DIFFICULTY_3 = FlatColors.Pomegranate;
+
 		public const float MULTIPLICATOR_B_PLAYER     = GDConstants.MULTIPLICATOR_BULLET_PLAYER;
 		public const float MULTIPLICATOR_B_NEUTRAL    = GDConstants.MULTIPLICATOR_BULLET_NEUTRAL;
 		public const float MULTIPLICATOR_B_COMPUTER_0 = GDConstants.MULTIPLICATOR_BULLET_COMPUTER_0;
@@ -68,7 +74,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return MULTIPLICATOR_B_COMPUTER_3;
 
 				default:
-					SAMLog.Error("EnumSwitch-GBM", "GetBulletMultiplicator()", "FractionDifficultyHelper.GetMultiplicator -> " + d);
+					SAMLog.Error("EnumSwitch_GBM", "GetBulletMultiplicator()", "FractionDifficultyHelper.GetMultiplicator -> " + d);
 					throw new ArgumentOutOfRangeException(nameof(d), d, null);
 			}
 		}
@@ -96,7 +102,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return MULTIPLICATOR_L_COMPUTER_3;
 
 				default:
-					SAMLog.Error("EnumSwitch-GLM", "GetBulletMultiplicator()", "FractionDifficultyHelper.GetMultiplicator -> " + d);
+					SAMLog.Error("EnumSwitch_GLM", "GetBulletMultiplicator()", "FractionDifficultyHelper.GetMultiplicator -> " + d);
 					throw new ArgumentOutOfRangeException(nameof(d), d, null);
 			}
 		}
@@ -118,7 +124,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 				case FractionDifficulty.KI_IMPOSSIBLE:
 					return "C3";
 				default:
-					SAMLog.Error("EnumSwitch-GSI", "GetScore()", "FractionDifficultyHelper.GetShortIdentifier -> " + d);
+					SAMLog.Error("EnumSwitch_GSI", "GetScore()", "FractionDifficultyHelper.GetShortIdentifier -> " + d);
 					throw new ArgumentOutOfRangeException(nameof(d), d, null);
 			}
 		}
@@ -135,9 +141,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return Textures.TexDifficultyLine2;
 				case FractionDifficulty.KI_IMPOSSIBLE:
 					return Textures.TexDifficultyLine3;
+				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("FRACDIFF::EnumSwitch_GI", "value = " + d);
+					break;
 			}
 
-			SAMLog.Error("EnumSwitch-GI", "GetScore()", "FractionDifficultyHelper.GetIcon -> " + d);
+			SAMLog.Error("EnumSwitch_GI", "GetScore()", "FractionDifficultyHelper.GetIcon -> " + d);
 			return null;
 		}
 
@@ -146,19 +157,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 			switch (d)
 			{
 				case FractionDifficulty.KI_EASY:
-					return GDColors.COLOR_DIFFICULTY_0;
+					return COLOR_DIFFICULTY_0;
 				case FractionDifficulty.KI_NORMAL:
-					return GDColors.COLOR_DIFFICULTY_1;
+					return COLOR_DIFFICULTY_1;
 				case FractionDifficulty.KI_HARD:
-					return GDColors.COLOR_DIFFICULTY_2;
+					return COLOR_DIFFICULTY_2;
 				case FractionDifficulty.KI_IMPOSSIBLE:
-					return GDColors.COLOR_DIFFICULTY_3;
+					return COLOR_DIFFICULTY_3;
 				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("FRACDIFF::EnumSwitch_GC", "value = " + d);
 					return Color.Magenta;
 			}
-
-			SAMLog.Error("EnumSwitch-GC", "GetScore()", "FractionDifficultyHelper.GetColor -> " + d);
-			return Color.Magenta;
 		}
 
 		public static string GetDescription(FractionDifficulty d)
@@ -173,10 +184,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return L10N.T(L10NImpl.STR_DIFF_2);
 				case FractionDifficulty.DIFF_3:
 					return L10N.T(L10NImpl.STR_DIFF_3);
+				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("FRACDIFF::EnumSwitch_GD", "value = " + d);
+					return "?";
 			}
-
-			SAMLog.Error("EnumSwitch-GD", "GetScore()", "FractionDifficultyHelper.GetDescription -> " + d);
-			return null;
 		}
 
 		public static int GetScore(FractionDifficulty d)
@@ -191,10 +204,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return SCORE_DIFF_2;
 				case FractionDifficulty.KI_IMPOSSIBLE:
 					return SCORE_DIFF_3;
+				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("FRACDIFF::EnumSwitch_GS", "value = " + d);
+					return 0;
 			}
-
-			SAMLog.Error("EnumSwitch-GS", "GetScore()", "FractionDifficultyHelper.GetScore -> " + d);
-			return 0;
 		}
 	}
 }

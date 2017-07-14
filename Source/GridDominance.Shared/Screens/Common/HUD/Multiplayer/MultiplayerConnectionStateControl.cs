@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -73,6 +74,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer
 				case SAMNetworkConnection.ConnectionState.Reconnecting:
 					_label.L10NText = L10NImpl.STR_MP_CONNECTING;
 					break;
+				default:
+					SAMLog.Error("MCSC::EnumSwitch_DU", "value = " + _connection.ConnState);
+					break;
 			}
 
 			_rotation += gameTime.ElapsedSeconds * ROTATION_SPEED * FloatMath.TAU;
@@ -95,6 +99,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer
 				case SAMNetworkConnection.ConnectionState.Reconnecting:
 					sbatch.DrawCentered(Textures.TexIconConnection2, bounds.TopLeft + new Vector2(4 + 12, 4 + 12), 24, 24, Color.White);
 					sbatch.DrawCentered(Textures.TexIconConnection3, bounds.TopLeft + new Vector2(4 + 12, 4 + 12), 24, 24, Color.White, _rotation);
+					break;
+				default:
+					SAMLog.Error("MCSC::EnumSwitch_DD", "value = " + _connection.ConnState);
 					break;
 			}
 

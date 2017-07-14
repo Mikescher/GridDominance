@@ -610,6 +610,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 					case GameSpeedModes.SUPERFAST:
 						GameSpeed = GAMESPEED_SUPERFAST;
 						break;
+					default:
+						SAMLog.Error("GDGS::EnumSwitch_UGSS", "value: " + GameSpeedMode);
+						break;
 				}
 			}
 		}

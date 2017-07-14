@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
@@ -63,6 +61,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				case 5:
 					//
 					break;
+				default:
+					SAMLog.Error("HTA::EnumSwitch_DD", "value: " + _mode);
+					break;
 			}
 
 		}
@@ -109,6 +110,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				case 5:
 					_progress += gameTime.ElapsedSeconds / TIME_DEAD;
 					if (_progress >= 1) { _progress = 0; _mode = 0; }
+					break;
+				default:
+					SAMLog.Error("HTA::EnumSwitch_DU", "value: " + _mode);
 					break;
 			}
 		}

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Resources
@@ -61,8 +62,10 @@ namespace GridDominance.Shared.Resources
 						return TEXTURE_SCALE_BD;
 					case TextureQuality.FD:
 						return TEXTURE_SCALE_FD;
+					case TextureQuality.UNSPECIFIED:
 					default:
-						throw new ArgumentException();
+						SAMLog.Error("TEX::EnumSwitch_DTS", "value = " + TEXTURE_QUALITY);
+						return TEXTURE_SCALE_MD;
 				}
 			}
 		}
@@ -83,8 +86,10 @@ namespace GridDominance.Shared.Resources
 						return TEXTURE_ASSETNAME_BD;
 					case TextureQuality.FD:
 						return TEXTURE_ASSETNAME_FD;
+					case TextureQuality.UNSPECIFIED:
 					default:
-						throw new ArgumentException();
+						SAMLog.Error("TEX::EnumSwitch_TA", "value = " + TEXTURE_QUALITY);
+						return TEXTURE_ASSETNAME_MD;
 				}
 			}
 		}
@@ -105,8 +110,10 @@ namespace GridDominance.Shared.Resources
 						return TEXTURE_ASSETNAME_2_BD;
 					case TextureQuality.FD:
 						return TEXTURE_ASSETNAME_2_FD;
+					case TextureQuality.UNSPECIFIED:
 					default:
-						throw new ArgumentException();
+						SAMLog.Error("TEX::EnumSwitch_TA2", "value = " + TEXTURE_QUALITY);
+						return TEXTURE_ASSETNAME_2_MD;
 				}
 			}
 		}

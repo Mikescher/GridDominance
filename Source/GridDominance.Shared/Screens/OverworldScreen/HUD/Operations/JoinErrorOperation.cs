@@ -39,7 +39,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 		protected override void OnEnd(MultiplayerJoinLobbyScreen element)
 		{
 			element.Remove();
-			element.HUD.AddModal(new MultiplayerJoinLobbyScreen(), true, 0.5f);
+			element.HUD.AddModal(new MultiplayerJoinLobbyScreen(element.ConnType), true, 0.5f);
 		}
 	}
 }

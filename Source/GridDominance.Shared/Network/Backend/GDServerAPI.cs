@@ -288,7 +288,7 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend::SS_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::SMPS_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
@@ -299,13 +299,13 @@ namespace GridDominance.Shared.Network
 					}
 					else
 					{
-						SAMLog.Error("Backend::SS_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::SMPS_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
 					}
 				}
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend::SS_RCE", e); // probably no internet
+				SAMLog.Warning("Backend::SMPS_RCE", e); // probably no internet
 				ShowErrorConnection();
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
@@ -317,7 +317,7 @@ namespace GridDominance.Shared.Network
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend::SS_E", e);
+				SAMLog.Error("Backend::SMPS_E", e);
 				ShowErrorCommunication();
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>

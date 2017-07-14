@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
@@ -41,14 +42,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 					break;
 				case HUDDifficultyButtonMode.UNLOCKANIMATION:
 					BackgroundColor = FlatColors.ButtonHUD;
-					ForegroundColor = GDColors.GetColorForDifficulty(diff);
+					ForegroundColor = FractionDifficultyHelper.GetColor(diff);
 					AddHUDOperation(new HUDDifficultyButtonGainOperation());
 					AddHUDOperation(new HUDDifficultyButtonBlinkingIconOperation());
 					break;
 				case HUDDifficultyButtonMode.ACTIVATED:
 					BackgroundColor = FlatColors.BackgroundHUD2;
-					ForegroundColor = GDColors.GetColorForDifficulty(diff);
+					ForegroundColor = FractionDifficultyHelper.GetColor(diff);
 					AddHUDOperation(new HUDDifficultyButtonBlinkingIconOperation());
+					break;
+				default:
+					SAMLog.Error("HDB::EnumSwitch_CTR", "value: " + mode);
 					break;
 			}
 		}

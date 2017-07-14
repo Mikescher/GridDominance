@@ -6,6 +6,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 using System;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 {
@@ -61,6 +62,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 
 				case HUDKeyboard.HUDKeyboardKeyMode.Alt:
 					InternalDraw(sbatch, bounds, TextAlt ?? Text, null);
+					break;
+
+				default:
+					SAMLog.Error("HUDKB::EnumSwitch_DD", "KeyMode = " + _owner.KeyMode);
 					break;
 			}
 
