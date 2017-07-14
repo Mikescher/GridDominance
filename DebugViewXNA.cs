@@ -434,6 +434,15 @@ namespace FarseerPhysics.DebugView
 				case JointType.Gear:
 					DrawSegment(x1, x2, color);
 					break;
+				case JointType.Unknown:
+				case JointType.Prismatic:
+				case JointType.Wheel:
+				case JointType.Weld:
+				case JointType.Friction:
+				case JointType.Rope:
+				case JointType.Motor:
+				case JointType.Angle:
+				case JointType.FixedFriction:
 				default:
 					DrawSegment(x1, p1, color);
 					DrawSegment(p1, p2, color);
@@ -494,6 +503,10 @@ namespace FarseerPhysics.DebugView
 							DrawSegment(v1, v2, color);
 						}
 					}
+					break;
+				case ShapeType.Unknown:
+				case ShapeType.TypeCount:
+				default:
 					break;
 			}
 		}
