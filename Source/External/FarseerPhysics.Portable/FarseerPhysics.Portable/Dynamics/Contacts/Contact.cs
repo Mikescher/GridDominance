@@ -402,7 +402,10 @@ namespace FarseerPhysics.Dynamics.Contacts
                 case ContactType.Circle:
                     Collision.Collision.CollideCircles(ref manifold, (CircleShape)FixtureA.Shape, ref transformA, (CircleShape)FixtureB.Shape, ref transformB);
                     break;
-            }
+	            case ContactType.NotSupported:
+	            default:
+		            break;
+			}
         }
 
         internal static Contact Create(Fixture fixtureA, int indexA, Fixture fixtureB, int indexB)

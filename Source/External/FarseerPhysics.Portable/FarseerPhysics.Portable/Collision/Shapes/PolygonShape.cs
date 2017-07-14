@@ -366,31 +366,33 @@ namespace FarseerPhysics.Collision.Shapes
                 }
                 lastSubmerged = isSubmerged;
             }
-            switch (diveCount)
-            {
-                case 0:
-                    if (lastSubmerged)
-                    {
-                        //Completely submerged
-                        sc = MathUtils.Mul(ref xf, MassData.Centroid);
-                        return MassData.Mass / Density;
-                    }
+			switch (diveCount)
+			{
+				case 0:
+					if (lastSubmerged)
+					{
+						//Completely submerged
+						sc = MathUtils.Mul(ref xf, MassData.Centroid);
+						return MassData.Mass / Density;
+					}
 
-                    //Completely dry
-                    return 0;
-                case 1:
-                    if (intoIndex == -1)
-                    {
-                        intoIndex = Vertices.Count - 1;
-                    }
-                    else
-                    {
-                        outoIndex = Vertices.Count - 1;
-                    }
-                    break;
-            }
+					//Completely dry
+					return 0;
+				case 1:
+					if (intoIndex == -1)
+					{
+						intoIndex = Vertices.Count - 1;
+					}
+					else
+					{
+						outoIndex = Vertices.Count - 1;
+					}
+					break;
+				default:
+					break;
+			}
 
-            int intoIndex2 = (intoIndex + 1) % Vertices.Count;
+			int intoIndex2 = (intoIndex + 1) % Vertices.Count;
             int outoIndex2 = (outoIndex + 1) % Vertices.Count;
 
             float intoLambda = (0 - depths[intoIndex]) / (depths[intoIndex2] - depths[intoIndex]);
@@ -440,9 +442,9 @@ namespace FarseerPhysics.Collision.Shapes
             sc = MathUtils.Mul(ref xf, center);
 
             return area;
-        }
+		}
 
-        public bool CompareTo(PolygonShape shape)
+		public bool CompareTo(PolygonShape shape)
         {
             if (Vertices.Count != shape.Vertices.Count)
                 return false;
@@ -467,5 +469,5 @@ namespace FarseerPhysics.Collision.Shapes
             clone.MassData = MassData;
             return clone;
         }
-    }
+	}
 }

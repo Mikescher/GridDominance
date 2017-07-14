@@ -92,7 +92,9 @@ namespace FarseerPhysics.Collision
                     }
                     break;
 
-                default:
+	            case ShapeType.Unknown:
+	            case ShapeType.TypeCount:
+	            default:
                     Debug.Assert(false);
                     break;
             }

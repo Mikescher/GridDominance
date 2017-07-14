@@ -918,7 +918,10 @@ namespace FarseerPhysics.Dynamics.Contacts
                             normal = -normal;
                         }
                         break;
-                }
+
+	                default:
+		                break;
+				}
             }
         }
 

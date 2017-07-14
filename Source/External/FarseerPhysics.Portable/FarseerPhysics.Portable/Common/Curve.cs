@@ -175,6 +175,8 @@ namespace FarseerPhysics.Common
                             virtualPos = last.Position - position + first.Position +
                                          (cycle*(last.Position - first.Position));
                         return GetCurvePosition(virtualPos);
+	                default:
+		                break;
                 }
             }
             else if (position > last.Position)
@@ -213,7 +215,9 @@ namespace FarseerPhysics.Common
                             virtualPos = last.Position - position + first.Position +
                                          (cycle*(last.Position - first.Position));
                         return GetCurvePosition(virtualPos);
-                }
+	                default:
+		                break;
+				}
             }
 
             //in curve

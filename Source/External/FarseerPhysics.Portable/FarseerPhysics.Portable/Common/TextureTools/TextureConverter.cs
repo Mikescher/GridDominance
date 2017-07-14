@@ -375,7 +375,9 @@ namespace FarseerPhysics.Common.TextureTools
 
                                                 polygon.Holes.Add(holePolygon);
                                                 break;
-                                        }
+	                                        default:
+		                                        break;
+										}
                                     }
                                 }
                                 else
@@ -1223,7 +1225,10 @@ namespace FarseerPhysics.Common.TextureTools
 
                         case -1:
                             return 7;
-                    }
+
+	                    default:
+		                    break;
+					}
                     break;
 
                 case 0:
@@ -1234,7 +1239,10 @@ namespace FarseerPhysics.Common.TextureTools
 
                         case -1:
                             return 6;
-                    }
+
+	                    default:
+		                    break;
+					}
                     break;
 
                 case -1:
@@ -1248,9 +1256,15 @@ namespace FarseerPhysics.Common.TextureTools
 
                         case -1:
                             return 5;
-                    }
+
+	                    default:
+		                    break;
+					}
                     break;
-            }
+
+	            default:
+		            break;
+			}
 
             return 0;
         }

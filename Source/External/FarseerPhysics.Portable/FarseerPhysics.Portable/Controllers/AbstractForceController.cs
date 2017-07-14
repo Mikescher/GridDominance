@@ -131,7 +131,9 @@ namespace FarseerPhysics.Controllers
                 case TimingModes.Curve:
                     Enabled = false;
                     break;
-            }
+	            default:
+		            break;
+			}
         }
 
         /// <summary>
@@ -311,7 +313,9 @@ namespace FarseerPhysics.Controllers
                         }
                         break;
                     }
-            }
+	            default:
+		            break;
+			}
         }
 
         /// <summary>
