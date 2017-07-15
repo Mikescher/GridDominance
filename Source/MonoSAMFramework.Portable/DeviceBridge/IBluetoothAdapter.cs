@@ -35,6 +35,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		void StartScan();
 		void StartWaiting();
+		void Connect(IBluetoothDevice d);
 
 		Tuple<byte[], int> RecieveOrNull();
 		void Write(byte[] data);

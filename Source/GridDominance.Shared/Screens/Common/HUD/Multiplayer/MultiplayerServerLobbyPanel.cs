@@ -76,38 +76,58 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(16, 16)
 			});
 
-			var gridDisplay = new HUDFixedUniformGrid
+			if (_server.ConnType == MultiplayerConnectionType.PROXY)
 			{
-				Alignment = HUDAlignment.TOPCENTER,
-				RelativePosition = new FPoint(0, 100),
-				GridWidth = 8,
-				GridHeight = 1,
-				ColumnWidth = 84,
-				RowHeight = 84,
-				Padding = 16,
-			};
-			AddElement(gridDisplay);
 
-			for (int i = 0; i < 8; i++)
-			{
-				CharDisp[i] = new HUDCharacterControl(1)
+				var gridDisplay = new HUDFixedUniformGrid
 				{
-					Background = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, 4f),
-
-					TextPadding = 2,
-					TextColor = Color.Black
+					Alignment = HUDAlignment.TOPCENTER,
+					RelativePosition = new FPoint(0, 100),
+					GridWidth = 8,
+					GridHeight = 1,
+					ColumnWidth = 84,
+					RowHeight = 84,
+					Padding = 16,
 				};
+				AddElement(gridDisplay);
 
-				gridDisplay.AddElement(i, 0, CharDisp[i]);
+				for (int i = 0; i < 8; i++)
+				{
+					CharDisp[i] = new HUDCharacterControl(1)
+					{
+						Background = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, 4f),
+
+						TextPadding = 2,
+						TextColor = Color.Black
+					};
+
+					gridDisplay.AddElement(i, 0, CharDisp[i]);
+				}
+
+				var scode = KiddieCryptography.SpiralHexEncode(_server.SessionID, _server.SessionSecret);
+				for (int i = 0; i < 8; i++)
+				{
+					if (i < scode.Length) CharDisp[i].Character = scode[i];
+				}
+
+				AddHUDOperation(new CharacterControlWaveOperation(CharDisp));
+
+				AddElement(new HUDLabel
+				{
+					TextAlignment = HUDAlignment.BOTTOMRIGHT,
+					Alignment = HUDAlignment.BOTTOMRIGHT,
+					RelativePosition = new FPoint(16, FOOTER_HEIGHT + 16),
+					Size = new FSize(320, 128),
+					MaxWidth = 320,
+					WordWrap = HUDWordWrap.WrapByWordTrusted,
+
+					Font = Textures.HUDFontRegular,
+					FontSize = 32,
+
+					L10NText = L10NImpl.STR_MENU_MP_LOBBYINFO,
+					TextColor = ColorMath.Blend(FlatColors.Clouds, FlatColors.Background, 0.5f),
+				});
 			}
-
-			var scode = KiddieCryptography.SpiralHexEncode(_server.SessionID, _server.SessionSecret);
-			for (int i = 0; i < 8; i++)
-			{
-				if (i < scode.Length) CharDisp[i].Character = scode[i];
-			}
-
-			AddHUDOperation(new CharacterControlWaveOperation(CharDisp));
 
 			AddElement(new HUDLabel
 			{
@@ -269,21 +289,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 
 
-			AddElement(new HUDLabel
-			{
-				TextAlignment = HUDAlignment.BOTTOMRIGHT,
-				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(16, FOOTER_HEIGHT + 16),
-				Size = new FSize(320, 128),
-				MaxWidth = 320,
-				WordWrap = HUDWordWrap.WrapByWordTrusted,
-
-				Font = Textures.HUDFontRegular,
-				FontSize = 32,
-
-				L10NText = L10NImpl.STR_MENU_MP_LOBBYINFO,
-				TextColor = ColorMath.Blend(FlatColors.Clouds, FlatColors.Background, 0.5f),
-			});
 
 			AddElement(new HUDRectangle(0)
 			{

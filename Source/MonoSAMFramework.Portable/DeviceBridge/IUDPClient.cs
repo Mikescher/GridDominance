@@ -4,6 +4,8 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 {
 	public interface IUDPClient
 	{
+		string DebugDisplayString { get; }
+
 		void Connect(string host, int port);
 		void Disconnect();
 

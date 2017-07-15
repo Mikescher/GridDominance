@@ -117,6 +117,7 @@
 [X] Toast description when clikcing on number in info panel
 [X] Cannon that only barrel charges when boosted
 [ ] Level 2-22::  background looks strange (no background blocking for neutral cannons ??)
+[ ] inAppBilling Regression ??
 
 ----------------------------
 

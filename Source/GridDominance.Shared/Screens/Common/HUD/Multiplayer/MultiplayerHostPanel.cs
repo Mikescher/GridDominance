@@ -513,6 +513,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			idx = (idx + data.Count + delta) % data.Count;
 
+			if (_server.ConnType == MultiplayerConnectionType.P2P)
+			{
+				for (int i = 0; i < 128; i++)
+				{
+					if (BlueprintAnalyzer.PlayerCount(data[idx]) != 2) { idx++; continue; }
+					break;
+				}
+			}
+
 			_currentLevel = data[idx];
 
 			UpdateLabels();

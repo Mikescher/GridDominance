@@ -37,7 +37,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 		{
 			s.DebugDisp.AddLine("DebugMultiplayer", () => 
 				$"CLIENT(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})\n" + 
-				$"      (ServerSeq={LastServerPackageSeq} | ServerTime={LastServerPackageTime:000.00}s | LagBehind={lagBehindTime} | SendFreq={SendFreq.Frequency})", this);
+				$"      (ServerSeq={LastServerPackageSeq} | ServerTime={LastServerPackageTime:000.00}s | LagBehind={lagBehindTime} | SendFreq={SendFreq.Frequency})\n" + 
+				$"      {_medium.DebugDisplayString}", this);
 		}
 #endif
 		protected override void ProcessAfterGameData(byte[] data)

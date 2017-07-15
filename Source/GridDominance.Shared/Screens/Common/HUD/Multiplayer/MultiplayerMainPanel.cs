@@ -241,7 +241,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private void OnClickJoinBluetooth(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			Remove();
-			HUD.AddModal(new MultiplayerJoinLobbyScreen(MultiplayerConnectionType.P2P), true, 0.5f);
+			HUD.AddModal(new MultiplayerFindLobbyScreen(MultiplayerConnectionType.P2P), true, 0.5f);
 		}
 
 		private void OnClickHostBluetooth(HUDTextButton sender, HUDButtonEventArgs e)

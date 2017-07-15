@@ -15,7 +15,9 @@ namespace GridDominance.Generic.Impl
 		private int _port;
 
 		private IPEndPoint tmp = new IPEndPoint(IPAddress.None, 0);
-		
+
+		public string DebugDisplayString => $"XUDP[Available:{_client.Available} Addr:{_client.Client.AddressFamily} Protocol:{_client.Client.ProtocolType}]";
+
 		public XamarinUDPClient()
 		{
 #if __DESKTOP__

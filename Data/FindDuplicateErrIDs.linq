@@ -10,6 +10,15 @@ void Main()
 	EnumerateErrorIDs()
 		.GroupBy(p => p.Item1)
 		.Where(p => p.Count() > 1)
+		.Where(p => !p.Key.Contains("(MULTI)"))
+		.Dump();
+
+	EnumerateErrorIDs()
+		.Where(p => p.Item1.Contains("::"))
+		.Select(p => p.Item1.Split(':').First())
+		.GroupBy(p => p)
+		.Select(p => new {Value = p.Key, Count = p.Count()})
+		.OrderByDescending(p => p.Count)
 		.Dump();
 
 	EnumerateErrorIDs()

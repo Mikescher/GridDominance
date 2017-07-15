@@ -41,8 +41,8 @@ namespace GridDominance.Shared.Resources
 		public const string BLUETOOTH_NAME = "GridDominance.BluetoothSocket";
 		public const string BLUETOOTH_UUID = "4748A5F0-0AC7-44F7-BE49-30F5FD2A08ED";
 
-		public const string SERVER_URL = "http://localhost:666";
-//		public const string SERVER_URL = "http://gdapi.mikescher.com";
+//		public const string SERVER_URL = "http://localhost:666";
+		public const string SERVER_URL = "http://gdapi.mikescher.com";
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 
 		public const float PHYSICS_CONVERSION_FACTOR = 50;

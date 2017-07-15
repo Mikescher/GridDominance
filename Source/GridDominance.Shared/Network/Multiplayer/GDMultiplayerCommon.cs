@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 		protected int packageModSize = 0;
 		protected float lagBehindTime = 0f;
 
-		protected GDMultiplayerCommon(MultiplayerConnectionType t) : base(GetMedium(t))
+		protected GDMultiplayerCommon(MultiplayerConnectionType t) : base(GetMedium(t), t)
 		{
 		}
 

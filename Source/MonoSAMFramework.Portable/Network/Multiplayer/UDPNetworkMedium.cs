@@ -6,6 +6,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 	{
 		private readonly IUDPClient _client;
 
+		public string DebugDisplayString => _client.DebugDisplayString;
+
+		public bool IsP2PConnected => false;
+		public bool IsP2PListening => false;
+
 		private readonly string _ip;
 		private readonly int _port;
 
@@ -21,6 +26,21 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		{
 			_client.Connect(_ip, _port);
 			error = SAMNetworkConnection.ErrorType.None;
+		}
+
+		public void Update(out SAMNetworkConnection.ErrorType err)
+		{
+			err = SAMNetworkConnection.ErrorType.None;
+		}
+
+		public void StartServer()
+		{
+			//
+		}
+
+		public void StartClient()
+		{
+			//
 		}
 
 		public byte[] RecieveOrNull()

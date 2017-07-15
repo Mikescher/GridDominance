@@ -36,14 +36,16 @@ namespace GridDominance.Android
 		private BTConnectThread _connectThread;
 		private BTConnectedThread _connectedThread;
 
+		private BroadcastReceiver _reciever;
+
 		public AndroidBluetoothAdapter(MainActivity a)
 		{
 			Adapter = BluetoothAdapter.DefaultAdapter;
 			_activity = a;
 
-			var rec = new BTScanReciever(this);
-			_activity.RegisterReceiver(rec, new IntentFilter(BluetoothDevice.ActionFound));
-			_activity.RegisterReceiver(rec, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
+			_reciever = new BTScanReciever(this);
+			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothDevice.ActionFound));
+			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
 
 			if (Adapter == null) State = BluetoothAdapterState.AdapterNotFound;
 		}
@@ -267,6 +269,8 @@ namespace GridDominance.Android
 		public void OnDestroy()
 		{
 			CancelAllThreads();
+
+			_activity.UnregisterReceiver(_reciever);
 		}
 
 		public void Reset()

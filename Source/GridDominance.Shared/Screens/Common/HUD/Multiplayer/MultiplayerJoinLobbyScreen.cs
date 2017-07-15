@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Cryptography;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
@@ -28,15 +29,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		public override int Depth => 0;
 
-		private readonly GDMultiplayerClient _server;
+		public readonly GDMultiplayerClient Server;
 		private bool _doNotStop = false;
 
 		public int CharIndex = 0;
 		public readonly HUDCharacterControl[] CharDisp = new HUDCharacterControl[8];
 
 		private bool _isDying = false;
-
-		public readonly MultiplayerConnectionType ConnType;
 
 		public MultiplayerJoinLobbyScreen(MultiplayerConnectionType t)
 		{
@@ -45,9 +44,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 
-			ConnType = t;
-
-			_server = new GDMultiplayerClient(t);
+			Server = new GDMultiplayerClient(t);
 		}
 
 		public override void OnInitialize()
@@ -68,7 +65,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				TextColor = FlatColors.Clouds,
 			});
 
-			AddElement(new MultiplayerConnectionStateControl(_server)
+			AddElement(new MultiplayerConnectionStateControl(Server)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				RelativePosition = new FPoint(16, 16)
@@ -146,20 +143,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			if (!_doNotStop)
 			{
-				if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby)
+				if (Server.Mode == SAMNetworkConnection.ServerMode.InLobby)
 				{
-					_server.KillSession();
+					Server.KillSession();
 				}
 
-				_server.Stop();
+				Server.Stop();
 			}
-		}
-
-		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
-		{
-			base.DoDraw(sbatch, bounds);
-
-			//
 		}
 
 		private void DoClick(HUDKeypad source, HUDKeypad.HUDKeypadEventArgs args)
@@ -177,7 +167,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 				for (int i = 0; i < 8; i++) CharDisp[i].Background = CharDisp[i].Background.WithColor(FlatColors.Concrete);
 
-				_server.JoinSession(d.Item1, d.Item2);
+				Server.JoinSession(d.Item1, d.Item2);
 			}
 		}
 
@@ -185,13 +175,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			if (_isDying || !Alive) return;
 
-			_server.Update(gameTime, istate);
+			Server.Update(gameTime, istate);
 
-			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
+			if (Server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
-				Owner.HUD.ShowToast(null, L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+				Owner.HUD.ShowToast(null, L10NImpl.FormatNetworkErrorMessage(Server.Error, Server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 
-				switch (_server.Error)
+				switch (Server.Error)
 				{
 					case SAMNetworkConnection.ErrorType.SessionNotFound:
 					case SAMNetworkConnection.ErrorType.AuthentificationFailed:
@@ -201,8 +191,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 						AddHUDOperation(new JoinErrorOperation());
 						return;
 
+					case SAMNetworkConnection.ErrorType.BluetoothNotEnabled:
+					case SAMNetworkConnection.ErrorType.P2PConnectionFailed:
+					case SAMNetworkConnection.ErrorType.P2PConnectionLost:
 					case SAMNetworkConnection.ErrorType.BluetoothInternalError:
-					case SAMNetworkConnection.ErrorType.None:
 					case SAMNetworkConnection.ErrorType.ProxyServerTimeout:
 					case SAMNetworkConnection.ErrorType.UserTimeout:
 					case SAMNetworkConnection.ErrorType.ServerUserTimeout:
@@ -212,20 +204,24 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					case SAMNetworkConnection.ErrorType.UserDisconnect:
 					case SAMNetworkConnection.ErrorType.ServerDisconnect:
 					case SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound:
-					default:
 						Remove();
 						return;
+
+					case SAMNetworkConnection.ErrorType.None:
+					default:
+						SAMLog.Error("MJLS::EnumSwitch_DU", "value = " + Server.Error);
+						break;
 				}
 
 			}
 			
-			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
+			if (Server.Mode == SAMNetworkConnection.ServerMode.Stopped) Remove();
 
-			if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby)
+			if (Server.Mode == SAMNetworkConnection.ServerMode.InLobby)
 			{
 				_doNotStop = true;
 				Remove();
-				Owner.HUD.AddModal(new MultiplayerClientLobbyPanel(_server), true, 0.5f);
+				Owner.HUD.AddModal(new MultiplayerClientLobbyPanel(Server), true, 0.5f);
 			}
 		}
 	}

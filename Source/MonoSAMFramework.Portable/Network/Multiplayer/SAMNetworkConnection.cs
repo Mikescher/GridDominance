@@ -88,7 +88,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			GameVersionMismatch, LevelNotFound, LevelVersionMismatch,
 			UserDisconnect, ServerDisconnect,
 
-			BluetoothAdapterNotFound, BluetoothInternalError
+			BluetoothAdapterNotFound, BluetoothInternalError, BluetoothNotEnabled,
+			P2PConnectionFailed, P2PConnectionLost,
 		};
 
 		private   readonly byte[] MSG_PING          = { CMD_PING,             0                      };
@@ -151,19 +152,28 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public ushort SessionUserID = 0;
 
 		protected readonly INetworkMedium _medium;
+		public readonly MultiplayerConnectionType ConnType;
 		
-		protected SAMNetworkConnection(INetworkMedium medium)
+		protected SAMNetworkConnection(INetworkMedium medium, MultiplayerConnectionType t)
 		{
 			_medium = medium;
+			ConnType = t;
 
 			MSG_FORWARD[0] = CMD_FORWARD;
 
 			for (int i = 0; i < 32; i++) UserConn[i] = new NetworkUserConn();
 
-
-			ErrorType err;
-			medium.Init(out err);
-			if (err != ErrorType.None) ErrorStop(err, null);
+			try
+			{
+				ErrorType err;
+				medium.Init(out err);
+				if (err != ErrorType.None) ErrorStop(err, null);
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("SNS::InitEx", e);
+				ErrorStop(ErrorType.BluetoothInternalError, null);
+			}
 		}
 
 		public virtual void Update(SAMTime gameTime, InputState istate)
@@ -202,6 +212,10 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					UpdateBeforeNewGame(gameTime);
 				else if (Mode == ServerMode.CreatingNewGame)
 					UpdateCreateNewGame(gameTime);
+
+				ErrorType updateError;
+				_medium.Update(out updateError);
+				if (updateError != ErrorType.None) ErrorStop(updateError, null);
 			}
 			catch (Exception e)
 			{
@@ -220,13 +234,31 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			UpdateConnStateByPing(gameTime, true);
 			SendPingIfNeeded(gameTime);
 
-			if (gameTime.TotalElapsedSeconds - _lastSendJoinOrCreateSession > RESEND_TIME_RELIABLE)
+			if (ConnType == MultiplayerConnectionType.PROXY)
 			{
-				SetSequenceCounter(ref MSG_CREATESESSION[1]);
-				MSG_CREATESESSION[2] = SessionCapacity;
-				Send(MSG_CREATESESSION);
-				_lastSendJoinOrCreateSession = gameTime.TotalElapsedSeconds;
+				if (gameTime.TotalElapsedSeconds - _lastSendJoinOrCreateSession > RESEND_TIME_RELIABLE)
+				{
+					SetSequenceCounter(ref MSG_CREATESESSION[1]);
+					MSG_CREATESESSION[2] = SessionCapacity;
+					Send(MSG_CREATESESSION);
+					_lastSendJoinOrCreateSession = gameTime.TotalElapsedSeconds;
+				}
 			}
+			else if (ConnType == MultiplayerConnectionType.P2P)
+			{
+				_medium.StartServer();
+
+				if (_medium.IsP2PListening)
+				{
+					Mode = ServerMode.InLobby;
+					SessionID = 0;
+					SessionSecret = 0;
+					SessionUserID = 0;//server
+					SessionCapacity = 2;
+					SessionCount = 1;
+				}
+			} 
+
 		}
 
 		private void UpdateJoinSession(SAMTime gameTime)
@@ -234,26 +266,44 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			UpdateConnStateByPing(gameTime, true);
 			SendPingIfNeeded(gameTime);
 
-			if (gameTime.TotalElapsedSeconds - _lastSendJoinOrCreateSession > RESEND_TIME_RELIABLE)
+
+			if (ConnType == MultiplayerConnectionType.PROXY)
 			{
+				if (gameTime.TotalElapsedSeconds - _lastSendJoinOrCreateSession > RESEND_TIME_RELIABLE)
+				{
 #if DEBUG
-				if (SessionID == 55586 && SessionSecret == 10721) // FF FF FF FF
-				{
-					MSG_JOINSESSION[0] = CMD_AUTOJOINSESSION;
-				}
-				else
-				{
-					MSG_JOINSESSION[0] = CMD_JOINSESSION;
-				}
+					if (SessionID == 55586 && SessionSecret == 10721) // FF FF FF FF
+					{
+						MSG_JOINSESSION[0] = CMD_AUTOJOINSESSION;
+					}
+					else
+					{
+						MSG_JOINSESSION[0] = CMD_JOINSESSION;
+					}
 #endif
 
-				SetSequenceCounter(ref MSG_JOINSESSION[1]);
-				MSG_JOINSESSION[2] = (byte)((SessionID >> 8) & 0xFF);
-				MSG_JOINSESSION[3] = (byte)(SessionID & 0xFF);
-				MSG_JOINSESSION[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
-				MSG_JOINSESSION[5] = (byte)(SessionSecret & 0xFF);
-				Send(MSG_JOINSESSION);
-				_lastSendJoinOrCreateSession = gameTime.TotalElapsedSeconds;
+					SetSequenceCounter(ref MSG_JOINSESSION[1]);
+					MSG_JOINSESSION[2] = (byte)((SessionID >> 8) & 0xFF);
+					MSG_JOINSESSION[3] = (byte)(SessionID & 0xFF);
+					MSG_JOINSESSION[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+					MSG_JOINSESSION[5] = (byte)(SessionSecret & 0xFF);
+					Send(MSG_JOINSESSION);
+					_lastSendJoinOrCreateSession = gameTime.TotalElapsedSeconds;
+				}
+			}
+			else if (ConnType == MultiplayerConnectionType.P2P)
+			{
+				_medium.StartClient();
+
+				if (_medium.IsP2PConnected)
+				{
+					Mode = ServerMode.InLobby;
+					SessionID = 0;
+					SessionSecret = 0;
+					SessionUserID = 1;//client
+					SessionCapacity = 2;
+					SessionCount = 2;
+				}
 			}
 		}
 
@@ -262,38 +312,65 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			UpdateConnStateByPing(gameTime, true);
 			SendPingIfNeeded(gameTime);
 
-			if (gameTime.TotalElapsedSeconds - _lastSendLobbyQuery > TIME_BETWEEN_PINGS)
+			if (ConnType == MultiplayerConnectionType.PROXY)
 			{
-				SetSequenceCounter(ref MSG_QUERYLOBBY[1]);
-				MSG_QUERYLOBBY[2] = (byte)((SessionID >> 8) & 0xFF);
-				MSG_QUERYLOBBY[3] = (byte)(SessionID & 0xFF);
-				MSG_QUERYLOBBY[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
-				MSG_QUERYLOBBY[5] = (byte)(SessionSecret & 0xFF);
-
-				Send(MSG_QUERYLOBBY);
-				_lastSendLobbyQuery = gameTime.TotalElapsedSeconds;
-			}
-
-			if (SessionUserID == 0)
-			{
-				if (gameTime.TotalElapsedSeconds - _lastSendHostInfo > TIME_BETWEEN_HOSTINFO)
+				if (gameTime.TotalElapsedSeconds - _lastSendLobbyQuery > TIME_BETWEEN_PINGS)
 				{
-					var binData = GetHostInfoData();
+					SetSequenceCounter(ref MSG_QUERYLOBBY[1]);
+					MSG_QUERYLOBBY[2] = (byte) ((SessionID >> 8) & 0xFF);
+					MSG_QUERYLOBBY[3] = (byte) (SessionID & 0xFF);
+					MSG_QUERYLOBBY[4] = (byte) (((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+					MSG_QUERYLOBBY[5] = (byte) (SessionSecret & 0xFF);
 
-					MSG_HOSTINFO = new byte[6 + binData.Length];
-					MSG_HOSTINFO[0] = CMD_FORWARDHOSTINFO;
-					MSG_HOSTINFO[2] = (byte)((SessionID >> 8) & 0xFF);
-					MSG_HOSTINFO[3] = (byte)(SessionID & 0xFF);
-					MSG_HOSTINFO[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
-					MSG_HOSTINFO[5] = (byte)(SessionSecret & 0xFF);
+					Send(MSG_QUERYLOBBY);
+					_lastSendLobbyQuery = gameTime.TotalElapsedSeconds;
+				}
 
-					for (int i = 0; i < binData.Length; i++) MSG_HOSTINFO[6 + i] = binData[i];
+				if (SessionUserID == 0)
+				{
+					if (gameTime.TotalElapsedSeconds - _lastSendHostInfo > TIME_BETWEEN_HOSTINFO)
+					{
+						var binData = GetHostInfoData();
 
-					SetSequenceCounter(ref MSG_HOSTINFO[1]);
-					Send(MSG_HOSTINFO);
-					_lastSendHostInfo = gameTime.TotalElapsedSeconds;
+						MSG_HOSTINFO = new byte[6 + binData.Length];
+						MSG_HOSTINFO[0] = CMD_FORWARDHOSTINFO;
+						MSG_HOSTINFO[2] = (byte)((SessionID >> 8) & 0xFF);
+						MSG_HOSTINFO[3] = (byte)(SessionID & 0xFF);
+						MSG_HOSTINFO[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+						MSG_HOSTINFO[5] = (byte)(SessionSecret & 0xFF);
+
+						for (int i = 0; i < binData.Length; i++) MSG_HOSTINFO[6 + i] = binData[i];
+
+						SetSequenceCounter(ref MSG_HOSTINFO[1]);
+						Send(MSG_HOSTINFO);
+						_lastSendHostInfo = gameTime.TotalElapsedSeconds;
+					}
 				}
 			}
+			else if (ConnType == MultiplayerConnectionType.P2P)
+			{
+				if (SessionUserID == 0 && _medium.IsP2PConnected)
+				{
+					if (gameTime.TotalElapsedSeconds - _lastSendHostInfo > TIME_BETWEEN_HOSTINFO)
+					{
+						var binData = GetHostInfoData();
+
+						MSG_HOSTINFO = new byte[6 + binData.Length];
+						MSG_HOSTINFO[0] = CMD_FORWARDHOSTINFO;
+						MSG_HOSTINFO[2] = (byte)((SessionID >> 8) & 0xFF);
+						MSG_HOSTINFO[3] = (byte)(SessionID & 0xFF);
+						MSG_HOSTINFO[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+						MSG_HOSTINFO[5] = (byte)(SessionSecret & 0xFF);
+
+						for (int i = 0; i < binData.Length; i++) MSG_HOSTINFO[6 + i] = binData[i];
+
+						SetSequenceCounter(ref MSG_HOSTINFO[1]);
+						Send(MSG_HOSTINFO);
+						_lastSendHostInfo = gameTime.TotalElapsedSeconds;
+					}
+				}
+			}
+
 		}
 
 		private void UpdateAfterLobbySync(SAMTime gameTime)
@@ -410,6 +487,13 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			var freq = TIME_BETWEEN_PINGS;
 			if (InOrAfterGame) freq = TIME_BETWEEN_INGAME_PINGS;
 
+			if (ConnType == MultiplayerConnectionType.P2P)
+			{
+				Ping.SetDirect(0);
+				ConnState = _medium.IsP2PConnected ? ConnectionState.Connected : ConnectionState.Reconnecting;
+				return;
+			}
+
 			var deltaLSR = _lastSendPing - _lastPingResponse - freq;
 
 			if (deltaLSR < TIMEOUT_PAUSE)
@@ -493,6 +577,9 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		{
 			var freq = TIME_BETWEEN_PINGS;
 			if (InOrAfterGame) freq = TIME_BETWEEN_INGAME_PINGS;
+
+
+			if (ConnType == MultiplayerConnectionType.P2P) return;
 
 			if (gameTime.TotalElapsedSeconds - _lastSendPing > freq && gameTime.TotalElapsedSeconds - _lastPingResponse > TIME_BETWEEN_PINGS)
 			{
@@ -626,14 +713,32 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			if (Mode == ServerMode.JoiningSession) return;
 			if (Mode == ServerMode.CreatingSession) return;
 
-			SetSequenceCounter(ref MSG_QUITSESSION[1]);
-			MSG_QUITSESSION[2] = (byte)((SessionID >> 8) & 0xFF);
-			MSG_QUITSESSION[3] = (byte)(SessionID & 0xFF);
-			MSG_QUITSESSION[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
-			MSG_QUITSESSION[5] = (byte)(SessionSecret & 0xFF);
-			MSG_QUITSESSION[6] = (byte)(SessionUserID);
+			if (ConnType == MultiplayerConnectionType.PROXY)
+			{
+				SetSequenceCounter(ref MSG_QUITSESSION[1]);
+				MSG_QUITSESSION[2] = (byte)((SessionID >> 8) & 0xFF);
+				MSG_QUITSESSION[3] = (byte)(SessionID & 0xFF);
+				MSG_QUITSESSION[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+				MSG_QUITSESSION[5] = (byte)(SessionSecret & 0xFF);
+				MSG_QUITSESSION[6] = (byte)(SessionUserID);
 
-			Send(MSG_QUITSESSION);
+				Send(MSG_QUITSESSION);
+			}
+			else if (ConnType == MultiplayerConnectionType.P2P)
+			{
+				if (_medium.IsP2PConnected)
+				{
+					SetSequenceCounter(ref MSG_QUITSESSION[1]);
+					MSG_QUITSESSION[2] = (byte)((SessionID >> 8) & 0xFF);
+					MSG_QUITSESSION[3] = (byte)(SessionID & 0xFF);
+					MSG_QUITSESSION[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+					MSG_QUITSESSION[5] = (byte)(SessionSecret & 0xFF);
+					MSG_QUITSESSION[6] = (byte)(SessionUserID);
+
+					Send(MSG_QUITSESSION);
+				}
+			}
+
 		}
 		
 		private void ProcessMessage(SAMTime gameTime, byte[] d)
