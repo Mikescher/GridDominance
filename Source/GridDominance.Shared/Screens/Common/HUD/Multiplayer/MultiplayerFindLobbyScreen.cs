@@ -35,8 +35,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		private bool _isDying = false;
 
-		public readonly MultiplayerConnectionType ConnType;
-
 		private HUDImage _cog;
 
 		public MultiplayerFindLobbyScreen(MultiplayerConnectionType t)
@@ -46,9 +44,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 
-			ConnType = t;
-
 			_server = new GDMultiplayerClient(t);
+
+			_server.JoinLocalSession();
 		}
 
 		public override void OnInitialize()

@@ -25,6 +25,12 @@ namespace GridDominance.Android
 		public BluetoothAdapterState State { get; set; } = BluetoothAdapterState.Created;
 		public IBluetoothDevice RemoteDevice { get; set; }
 		public List<IBluetoothDevice> FoundDevices { get { lock(_foundDevices) { return _foundDevices.ToList(); } } }
+		public string AdapterState => Adapter.State.ToString();
+		public string AdapterScanMode => Adapter.ScanMode.ToString();
+		public bool IsEnabled => Adapter.IsEnabled;
+		public string AdapterName => Adapter.Name;
+		public bool IsDiscovering => Adapter.IsDiscovering;
+		public string DebugThreadState => $"Acc: {_acceptThread?.IsAlive ?? false}; Conn: {_connectThread?.IsAlive ?? false}; Trans: {_transferThread?.IsAlive ?? false}";
 
 		private readonly MainActivity _activity;
 		public readonly BluetoothAdapter Adapter;
@@ -34,9 +40,9 @@ namespace GridDominance.Android
 
 		private BTAcceptThread _acceptThread;
 		private BTConnectThread _connectThread;
-		private BTConnectedThread _connectedThread;
+		private BTTransferThread _transferThread;
 
-		private BroadcastReceiver _reciever;
+		private readonly BroadcastReceiver _reciever;
 
 		public AndroidBluetoothAdapter(MainActivity a)
 		{
@@ -125,6 +131,7 @@ namespace GridDominance.Android
 				foreach (var device in Adapter.BondedDevices)
 				{
 					_foundDevices.Add(new BTDeviceWrapper(device));
+					SAMLog.Debug($"StartScan:BondDevice: {device.Name}");
 				}
 			}
 		}
@@ -148,7 +155,7 @@ namespace GridDominance.Android
 
 		public void Write(byte[] data)
 		{
-			_connectedThread.Write(data);
+			_transferThread.Write(data);
 		}
 
 		public void Connect(IBluetoothDevice d)
@@ -167,10 +174,10 @@ namespace GridDominance.Android
 					_connectThread = null;
 				}
 
-				if (_connectedThread != null)
+				if (_transferThread != null)
 				{
-					_connectedThread.Cancel();
-					_connectedThread = null;
+					_transferThread.Cancel();
+					_transferThread = null;
 				}
 
 				if (_acceptThread != null)
@@ -218,8 +225,8 @@ namespace GridDominance.Android
 
 			try
 			{
-				_connectedThread = new BTConnectedThread(socket, this);
-				_connectedThread.Start();
+				_transferThread = new BTTransferThread(socket, this);
+				_transferThread.Start();
 			}
 			catch (Exception e)
 			{

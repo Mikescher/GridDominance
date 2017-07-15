@@ -10,14 +10,14 @@ namespace GridDominance.Android.Impl
 	/// This thread runs during a connection with a remote device.
 	/// It handles all incoming and outgoing transmissions.
 	/// </summary>
-	class BTConnectedThread : Thread
+	class BTTransferThread : Thread
 	{
 		private readonly BluetoothSocket mmSocket;
 		private readonly Stream mmInStream;
 		private readonly Stream mmOutStream;
 		private readonly AndroidBluetoothAdapter _adapter;
 
-		public BTConnectedThread(BluetoothSocket socket, AndroidBluetoothAdapter a)
+		public BTTransferThread(BluetoothSocket socket, AndroidBluetoothAdapter a)
 		{
 			mmSocket = socket;
 			_adapter = a;

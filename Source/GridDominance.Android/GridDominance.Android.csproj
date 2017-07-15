@@ -74,7 +74,7 @@
     <Compile Include="Impl\AndroidFileHelper.cs" />
     <Compile Include="Impl\AndroidImpl.cs" />
     <Compile Include="Impl\BTAcceptThread.cs" />
-    <Compile Include="Impl\BTConnectedThread.cs" />
+    <Compile Include="Impl\BTTransferThread.cs" />
     <Compile Include="Impl\BTConnectThread.cs" />
     <Compile Include="Impl\BTDeviceWrapper.cs" />
     <Compile Include="Impl\BTScanReciever.cs" />

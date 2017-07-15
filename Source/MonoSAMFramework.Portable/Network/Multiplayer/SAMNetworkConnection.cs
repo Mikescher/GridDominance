@@ -705,6 +705,16 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			SessionSecret = sec;
 		}
 
+		public void JoinLocalSession()
+		{
+			if (Mode == ServerMode.CreatingSession) return;
+			if (Mode == ServerMode.JoiningSession) return;
+
+			Mode = ServerMode.JoiningSession;
+			SessionID = 0;
+			SessionSecret = 0;
+		}
+
 		public void KillSession()
 		{
 			if (_stopped) return;

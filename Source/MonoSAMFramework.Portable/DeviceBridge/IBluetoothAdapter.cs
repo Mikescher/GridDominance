@@ -30,6 +30,12 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		BluetoothAdapterState State { get; }
 		IBluetoothDevice RemoteDevice { get; }
 		List<IBluetoothDevice> FoundDevices { get; }
+		string DebugThreadState { get; }
+		string AdapterState { get; }
+		string AdapterScanMode { get; }
+		string AdapterName { get; }
+		bool IsEnabled { get; }
+		bool IsDiscovering { get; }
 
 		void StartAdapter();
 
