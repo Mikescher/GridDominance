@@ -119,6 +119,7 @@
 [ ] Level 2-22::  background looks strange (no background blocking for neutral cannons ??)
 [ ] inAppBilling Regression ??
 [ ] viewport stretched with onscreen hardkeys
+[ ] Unlock lower difficulties when solving higher ones
 
 ----------------------------
 
