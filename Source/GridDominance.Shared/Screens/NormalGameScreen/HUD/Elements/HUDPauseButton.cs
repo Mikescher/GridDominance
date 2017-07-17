@@ -120,6 +120,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		{
 			isOpened = false;
 
+			if (subMenu == null) return;
+
 			if (this.GDHUD().GDOwner.CanPause) this.GDHUD().GDOwner.IsPaused = false;
 
 			foreach (var button in subMenu)

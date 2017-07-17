@@ -67,13 +67,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			var col = FractionDifficultyHelper.GetColor(_diff);
+			Color col;
 
 			float alpha = 1;
 			if (_diff == FractionDifficulty.NEUTRAL)
 			{
-				if (_spawnPercentage >= 1) alpha = 1 - (_movementTime * SPEED / (_pipe.Length/2));
+				if (_spawnPercentage >= 1) alpha = 1 - (_movementTime * SPEED / (_pipe.Length / 2));
 				col = FlatColors.Asbestos;
+			}
+			else
+			{
+				col = FractionDifficultyHelper.GetColor(_diff);
 			}
 
 			if (alpha < 0) return;
