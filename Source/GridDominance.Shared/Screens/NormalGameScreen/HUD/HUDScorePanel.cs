@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
@@ -30,15 +31,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		public override int Depth => 0;
 
-		private readonly FractionDifficulty? gainLevel;
+		private readonly HashSet<FractionDifficulty> gainLevel;
 		private readonly bool successScreen;
 		private readonly PlayerProfile profile;
 		private readonly LevelBlueprint Level;
 		private readonly int increasePoints;
 		
-		public HUDScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, FractionDifficulty? newDifficulty, bool playerHasWon, int pointInc)
+		public HUDScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int pointInc)
 		{
-			gainLevel = newDifficulty;
+			gainLevel = newDifficulties;
 			successScreen = playerHasWon;
 			profile = playerprofile;
 			increasePoints = pointInc;
@@ -273,28 +274,28 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			var modeDiff0 =
 				finDiff0 ?
-					(gainLevel == FractionDifficulty.KI_EASY ?
+					(gainLevel.Contains(FractionDifficulty.KI_EASY) ?
 						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			var modeDiff1 =
 				finDiff1 ?
-					(gainLevel == FractionDifficulty.KI_NORMAL ?
+					(gainLevel.Contains(FractionDifficulty.KI_NORMAL) ?
 						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			var modeDiff2 =
 				finDiff2 ?
-					(gainLevel == FractionDifficulty.KI_HARD ?
+					(gainLevel.Contains(FractionDifficulty.KI_HARD) ?
 						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			var modeDiff3 =
 				finDiff3 ?
-					(gainLevel == FractionDifficulty.KI_IMPOSSIBLE ?
+					(gainLevel.Contains(FractionDifficulty.KI_IMPOSSIBLE) ?
 						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
@@ -90,7 +91,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 					int inc = MainGame.Inst.Profile.IncMultiplayerScore(_server.SessionCapacity - 1, true);
 
-					ShowScorePanel(Blueprint, GDOwner.Profile, null, true, inc);
+					ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), true, inc);
 				}
 				else
 				{
@@ -100,7 +101,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 					int inc = MainGame.Inst.Profile.DecMultiplayerScore(1, true);
 
-					ShowScorePanel(Blueprint, GDOwner.Profile, null, false, inc);
+					ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, inc);
 				}
 
 				foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
@@ -120,7 +121,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			SAMLog.Error("GDGSC::Replay", "Try replay level");
 		}
 
-		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
+		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints)
 		{
 			GameSpeedMode = GameSpeedModes.NORMAL;
 			HUD.AddModal(new HUDMultiplayerScorePanel(lvl, profile, playerHasWon, addPoints, _server, () => { _doNotStop = true; }), false);

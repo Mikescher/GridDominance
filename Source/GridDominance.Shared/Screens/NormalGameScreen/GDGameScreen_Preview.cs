@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
@@ -57,7 +58,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			//
 		}
 
-		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
+		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints)
 		{
 			//
 		}

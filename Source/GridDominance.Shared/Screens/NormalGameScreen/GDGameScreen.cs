@@ -527,26 +527,39 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			if (playerWon)
 			{
-				if (GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(Difficulty))
-				{
-					ShowScorePanel(Blueprint, GDOwner.Profile, null, true, 0);
-				}
-				else
-				{
-					var ctime = (int) (LevelTime * 1000);
+				var ctime = (int)(LevelTime * 1000);
 
-					int p = FractionDifficultyHelper.GetScore(Difficulty);
-					GDOwner.Profile.SetCompleted(Blueprint.UniqueID, Difficulty, ctime, true);
+				int scoreGain = 0;
+				HashSet<FractionDifficulty> gains = new HashSet<FractionDifficulty>();
+
+				for (FractionDifficulty diff = FractionDifficulty.DIFF_0; diff <= Difficulty; diff++)
+				{
+					if (!GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(diff))
+					{
+						scoreGain += FractionDifficultyHelper.GetScore(diff);
+						GDOwner.Profile.SetCompleted(Blueprint.UniqueID, diff, ctime, true);
+						gains.Add(diff);
+					}
+					var localdata = GDOwner.Profile.LevelData[Blueprint.UniqueID].Data[diff];
+
+					if (ctime < localdata.BestTime)
+					{
+						// update PB
+						GDOwner.Profile.SetCompleted(Blueprint.UniqueID, diff, ctime, true);
+					}
 
 					// Fake the online data until next sync
-					var localdata = GDOwner.Profile.LevelData[Blueprint.UniqueID].Data[Difficulty];
 					localdata.GlobalCompletionCount++;
-					if (ctime < localdata.BestTime) {localdata.GlobalBestTime = ctime; localdata.GlobalBestUserID = GDOwner.Profile.OnlineUserID; }
-
-					GDOwner.SaveProfile();
-					ShowScorePanel(Blueprint, GDOwner.Profile, Difficulty, true, p);
+					if (ctime < localdata.GlobalBestTime || localdata.GlobalBestTime == -1)
+					{
+						localdata.GlobalBestTime = ctime;
+						localdata.GlobalBestUserID = 
+							GDOwner.Profile.OnlineUserID;
+					}
 				}
 
+				GDOwner.SaveProfile();
+				ShowScorePanel(Blueprint, GDOwner.Profile, gains, true, scoreGain);
 				MainGame.Inst.GDSound.PlayEffectGameWon();
 			}
 			else
@@ -619,7 +632,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public abstract void RestartLevel();
 		public abstract void ReplayLevel(FractionDifficulty diff);
-		public abstract void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints);
+		public abstract void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints);
 		public abstract void ExitToMap();
 		public abstract AbstractFractionController CreateController(Fraction f, Cannon cannon);
 	}

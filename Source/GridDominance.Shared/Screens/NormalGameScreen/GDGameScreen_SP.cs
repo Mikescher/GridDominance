@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
@@ -37,14 +38,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			GDOwner.SetLevelScreen(Blueprint, diff, WorldBlueprint);
 		}
 
-		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
+		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints)
 		{
 			((GDGameHUD)HUD).BtnPause.IsEnabled = false;
 			((GDGameHUD)HUD).BtnSpeed.IsEnabled = false;
 
 			GameSpeedMode = GameSpeedModes.NORMAL;
 
-			HUD.AddModal(new HUDScorePanel(lvl, profile, newDifficulty, playerHasWon, addPoints), false);
+			HUD.AddModal(new HUDScorePanel(lvl, profile, newDifficulties, playerHasWon, addPoints), false);
 		}
 
 		public override void ExitToMap()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
@@ -35,7 +36,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			GDOwner.SetTutorialLevelScreen();
 		}
 
-		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, FractionDifficulty? newDifficulty, bool playerHasWon, int addPoints)
+		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints)
 		{
 			((GDGameHUD)HUD).BtnPause.IsEnabled = false;
 			((GDGameHUD)HUD).BtnSpeed.IsEnabled = false;
