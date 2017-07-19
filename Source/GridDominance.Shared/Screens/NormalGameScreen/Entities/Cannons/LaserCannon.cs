@@ -69,7 +69,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				Vector2.Zero, this);
 
 			FixtureFactory.AttachRectangle(
-				ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH), ConvertUnits.ToSimUnits(Scale * BARREL_HEIGHT), 1,
+				ConvertUnits.ToSimUnits(Scale * BARREL_WIDTH), ConvertUnits.ToSimUnits(Scale * LASER_BARREL_HEIGHT), 1,
 				new Vector2(ConvertUnits.ToSimUnits(Scale * CANNON_DIAMETER / 2), 0),
 				PhysicsBody, this);
 		}
@@ -104,7 +104,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f), 0).Rotate(Rotation.ActualValue);
 
 			sbatch.DrawScaled(
-				Textures.TexCannonBarrelShadow,
+				Textures.TexLaserBarrelShadow,
 				barrelCenter,
 				Scale,
 				Color.White,
@@ -123,7 +123,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f), 0).Rotate(Rotation.ActualValue);
 
 			sbatch.DrawScaled(
-				Textures.TexCannonBarrel, //TODO Different barrel for laser cannon
+				Textures.TexLaserBarrel,
 				barrelCenter,
 				Scale,
 				Color.White,

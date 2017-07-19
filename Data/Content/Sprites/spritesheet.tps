@@ -696,6 +696,7 @@
                 <false/>
             </struct>
             <key type="filename">level/cannon/cannonbarrel.png</key>
+            <key type="filename">level/laser/laserbarrel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -709,6 +710,7 @@
                 <false/>
             </struct>
             <key type="filename">level/cannon/cannonbarrel_shadow.png</key>
+            <key type="filename">level/laser/laserbarrel_shadow.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

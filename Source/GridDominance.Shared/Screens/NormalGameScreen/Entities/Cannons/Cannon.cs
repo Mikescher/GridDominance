@@ -50,6 +50,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public    const float CANNONCOG_DIAMETER = (128f / 194f) * CANNON_DIAMETER;
 		public    const float MINIGUNSTRUCT_DIAMETER = CANNONCOG_DIAMETER / FloatMath.SQRT_TWO;
 		public    const float BARREL_HEIGHT = 32;
+		public    const float LASER_BARREL_HEIGHT = 16;
 		public    const float BARREL_WIDTH = 64;
 		protected const float BULLET_ANGLE_VARIANCE = FloatMath.RAD_POS_002;
 		protected const float MG_BULLET_ANGLE_VARIANCE = FloatMath.RAD_POS_001/2;

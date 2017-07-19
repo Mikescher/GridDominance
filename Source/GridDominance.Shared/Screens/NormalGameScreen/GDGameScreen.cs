@@ -564,7 +564,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			}
 			else
 			{
-				ShowScorePanel(Blueprint, GDOwner.Profile, null, false, 0);
+				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, 0);
 
 				MainGame.Inst.GDSound.PlayEffectGameOver();
 			}

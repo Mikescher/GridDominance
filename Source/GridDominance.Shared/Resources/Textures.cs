@@ -142,9 +142,11 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexCannonBody;
 		public static TextureRegion2D TexCannonBodyShadow;
 		public static TextureRegion2D TexCannonBarrel;
+		public static TextureRegion2D TexCannonBarrelShadow;
+		public static TextureRegion2D TexLaserBarrel;
+		public static TextureRegion2D TexLaserBarrelShadow;
 		public static TextureRegion2D[] TexCannonCore;
 		public static TextureRegion2D[] TexCannonCoreShadow;
-		public static TextureRegion2D TexCannonBarrelShadow;
 		public static TextureRegion2D TexCannonCrosshair;
 		public static TextureRegion2D[] AnimCannonCog;
 		public static TextureRegion2D CannonCog;
@@ -318,9 +320,11 @@ namespace GridDominance.Shared.Resources
 			TexCannonBody            = AtlasTextures["simple_circle"];
 			TexCannonBodyShadow      = AtlasTextures["cannonbody_shadow"];
 			TexCannonBarrel          = AtlasTextures["cannonbarrel"];
+			TexCannonBarrelShadow    = AtlasTextures["cannonbarrel_shadow"];
+			TexLaserBarrel           = AtlasTextures["laserbarrel"];
+			TexLaserBarrelShadow     = AtlasTextures["laserbarrel_shadow"];
 			TexCannonCore            = Enumerable.Range(1, CANNONCORE_COUNT).Select(p => AtlasTextures[$"cannoncore_{p:00}"]).ToArray();
 			TexCannonCoreShadow      = Enumerable.Range(1, CANNONCORE_COUNT).Select(p => AtlasTextures[$"cannoncore_shadow_{p:00}"]).ToArray();
-			TexCannonBarrelShadow    = AtlasTextures["cannonbarrel_shadow"];
 			TexCannonCrosshair       = AtlasTextures["cannoncrosshair"];
 			TexLaserBase             = AtlasTextures["laser_base"];
 			TexLaserGlow             = AtlasTextures["laser_glow"];
