@@ -193,6 +193,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		protected Bullet FindTargetAttackingBullet()
 		{
+			if (Cannon.IsShielded) return null;
+
 			return Owner
 				.GetEntities<Bullet>()
 				.Where(p => p.Fraction != Fraction)
@@ -206,9 +208,23 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			return Owner
 				.GetEntities<Cannon>()
+				.Where(p => !p.IsShielded)
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
 				.Where(p => p.CannonHealth.TargetValue < 0.5f)
+				.Where(IsReachable)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		protected Cannon FindTargetShieldCannon()
+		{
+			return Owner
+				.GetEntities<Cannon>()
+				.Where(p => !p.IsShielded)
+				.Where(p => p.Fraction == Fraction)
+				.Where(p => p != Cannon)
+				.Where(p => p.CannonHealth.TargetValue > 0.8f)
 				.Where(IsReachable)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
@@ -228,6 +244,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			return Owner
 				.GetEntities<Cannon>()
+				.Where(p => !p.IsShielded)
 				.Where(p => !p.Fraction.IsNeutral)
 				.Where(p => p.Fraction != Fraction)
 				.Where(IsReachable)
@@ -239,6 +256,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			return Owner
 				.GetEntities<Cannon>()
+				.Where(p => !p.IsShielded)
+				.Where(p => !p.IsShielded)
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
 				.Where(IsReachable)
@@ -250,6 +269,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			return Owner
 				.GetEntities<Cannon>()
+				.Where(p => !p.IsShielded)
 				.Where(p => !p.Fraction.IsNeutral)
 				.Where(p => p.Fraction != Fraction)
 				.Where(IsBulletBlockedReachable)
@@ -261,6 +281,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			return Owner
 				.GetEntities<Cannon>()
+				.Where(p => !p.IsShielded)
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
 				.Where(IsBulletBlockedReachable)
@@ -272,6 +293,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			return Owner
 				.GetEntities<Cannon>()
+				.Where(p => !p.IsShielded)
 				.Where(p => !p.Fraction.IsNeutral)
 				.Where(p => p.Fraction != Fraction)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
@@ -282,6 +304,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			return Owner
 				.GetEntities<Cannon>()
+				.Where(p => !p.IsShielded)
 				.Where(p => p.Fraction == Fraction)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
@@ -318,6 +341,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		protected BulletPath FindTargetSupportCannonPrecalc()
 		{
 			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.IsShielded)
 				.Where(p => p.TargetCannon.Fraction == Fraction)
 				.Where(p => p.TargetCannon != Cannon)
 				.Where(p => p.TargetCannon.CannonHealth.TargetValue < 0.5f)
@@ -326,9 +350,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.RandomOrDefault(crng);
 		}
 
+		protected BulletPath FindTargetShieldCannonPrecalc()
+		{
+			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.IsShielded)
+				.Where(p => p.TargetCannon.Fraction == Fraction)
+				.Where(p => p.TargetCannon != Cannon)
+				.Where(p => p.TargetCannon.CannonHealth.TargetValue > 0.8f)
+				.Where(IsReachablePrecalc)
+				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
 		protected BulletPath FindTargetNeutralCannonPrecalc()
 		{
 			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.IsShielded)
 				.Where(p => p.TargetCannon.Fraction.IsNeutral)
 				.Where(IsReachablePrecalc)
 				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), 2 * GDConstants.TILE_WIDTH)
@@ -338,6 +375,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		protected BulletPath FindTargetEnemyCannonPrecalc()
 		{
 			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.IsShielded)
 				.Where(p => !p.TargetCannon.Fraction.IsNeutral)
 				.Where(p => p.TargetCannon.Fraction != Fraction)
 				.Where(IsReachablePrecalc)
@@ -348,6 +386,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		protected BulletPath FindTargetFriendlyCannonPrecalc()
 		{
 			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.IsShielded)
 				.Where(p => p.TargetCannon.Fraction == Fraction)
 				.Where(p => p.TargetCannon != Cannon)
 				.Where(IsReachablePrecalc)
@@ -358,6 +397,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		protected BulletPath FindTargetBlockedEnemyCannonPrecalc()
 		{
 			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.IsShielded)
 				.Where(p => !p.TargetCannon.Fraction.IsNeutral)
 				.Where(p => p.TargetCannon.Fraction != Fraction)
 				.Where(IsBulletBlockedReachablePrecalc)
@@ -368,6 +408,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		protected BulletPath FindTargetBlockedFriendlyCannonPrecalc()
 		{
 			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.IsShielded)
 				.Where(p => p.TargetCannon.Fraction == Fraction)
 				.Where(p => p.TargetCannon != Cannon)
 				.Where(IsBulletBlockedReachablePrecalc)

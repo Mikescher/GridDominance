@@ -336,5 +336,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				}
 			}
 		}
+
+		public override void ApplyShield(SAMTime gameTime)
+		{
+			ShieldTime = 0; // no recursive shielding
+		}
 	}
 }

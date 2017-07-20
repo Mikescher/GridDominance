@@ -24,9 +24,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				{
 					KIMethod.CreateDefense("AttackingLaser",        FindTargetAttackingLaser),
 					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
-					KIMethod.CreateCustom( "KeepSupporting",        KeepSupportingFriendlyCannon),
-					KIMethod.CreateRaycast("SupportCannon",         FindTargetSupportCannon),
+					KIMethod.CreateRaycast("ShieldCannon",         FindTargetShieldCannon),
 					KIMethod.CreateRaycast("FriendlyCannon",        FindTargetFriendlyCannon),
+					KIMethod.CreateRaycast("SupportCannon",         FindTargetSupportCannon),
 					KIMethod.CreateRaycast("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannon),
 				};
 			}
@@ -36,9 +36,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				{
 					KIMethod.CreateDefense("AttackingLaser",        FindTargetAttackingLaser),
 					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
-					KIMethod.CreateCustom( "KeepSupporting",        KeepSupportingFriendlyCannon),
-					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
+					KIMethod.CreatePrecalc("ShieldCannon",          FindTargetShieldCannonPrecalc),
 					KIMethod.CreatePrecalc("FriendlyCannon",        FindTargetFriendlyCannonPrecalc),
+					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
 				};
 			}
 			else if (owner.Blueprint.KIType == LevelBlueprint.KI_TYPE_PRESIMULATE)
@@ -47,9 +47,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				{
 					KIMethod.CreateDefense("AttackingLaser",        FindTargetAttackingLaser),
 					KIMethod.CreateRaycast("AttackingBullet,",      FindTargetAttackingBullet),
-					KIMethod.CreateCustom( "KeepSupporting",        KeepSupportingFriendlyCannon),
-					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
+					KIMethod.CreatePrecalc("ShieldCannon",          FindTargetShieldCannonPrecalc),
 					KIMethod.CreatePrecalc("FriendlyCannon",        FindTargetFriendlyCannonPrecalc),
+					KIMethod.CreatePrecalc("SupportCannon",         FindTargetSupportCannonPrecalc),
 					KIMethod.CreatePrecalc("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannonPrecalc),
 				};
 			}

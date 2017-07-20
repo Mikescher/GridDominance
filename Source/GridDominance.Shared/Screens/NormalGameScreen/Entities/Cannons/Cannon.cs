@@ -128,6 +128,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected float _shieldRotation;
 		protected float _shieldGlowProcess;
 		public float ShieldTime = 0f;
+		public bool IsShielded => ShieldTime > 0f;
 
 		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, byte cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
@@ -528,7 +529,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			Rotation.Update(new SAMTime(delta * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds));
 		}
 
-		public void ApplyShield(SAMTime gameTime)
+		public virtual void ApplyShield(SAMTime gameTime)
 		{
 			if (ShieldTime < 0) ShieldTime = 0;
 			ShieldTime += (SHIELD_CHARGE_SPEED + SHIELD_DISCHARGE_SPEED) * gameTime.ElapsedSeconds;
