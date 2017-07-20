@@ -53,7 +53,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 		public void Serialize(BinaryWriter bw)
 		{
-			bw.Write(LevelBlueprint.SERIALIZE_ID_LASERCANNON);
+			bw.Write(LevelBlueprint.SERIALIZE_ID_SHIELDPROJECTOR);
 			bw.Write((int)CannonID);
 			bw.Write(Player);
 			bw.Write(X);

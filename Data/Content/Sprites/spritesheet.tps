@@ -369,6 +369,8 @@
             <key type="filename">level/cannoncog_animated/cannoncog_035.png</key>
             <key type="filename">level/laser/half_laser_flare.png</key>
             <key type="filename">level/laser/laser_flare.png</key>
+            <key type="filename">level/shield/half_shieldlaser_flare.png</key>
+            <key type="filename">level/shield/shieldlaser_flare.png</key>
             <key type="filename">level/vortex/vortex_circle_1.png</key>
             <key type="filename">overworld/tutorial.png</key>
             <struct type="IndividualSpriteSettings">
@@ -430,6 +432,8 @@
             <key type="filename">level/glassblock/glass_fill.png</key>
             <key type="filename">level/laser/laser_base.png</key>
             <key type="filename">level/laser/laser_pointer.png</key>
+            <key type="filename">level/shield/shieldlaser_base.png</key>
+            <key type="filename">level/shield/shieldlaser_pointer.png</key>
             <key type="filename">particles/particle_00.png</key>
             <key type="filename">particles/particle_01.png</key>
             <key type="filename">particles/particle_02.png</key>
@@ -697,6 +701,7 @@
             </struct>
             <key type="filename">level/cannon/cannonbarrel.png</key>
             <key type="filename">level/laser/laserbarrel.png</key>
+            <key type="filename">level/shield/shieldlaserbarrel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -841,6 +846,20 @@
                 <rect>12,8,24,16</rect>
                 <key>scale9Paddings</key>
                 <rect>12,8,24,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">level/shield/cannonshield_border.png</key>
+            <key type="filename">level/shield/cannonshield_overlay.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>74,74,148,148</rect>
+                <key>scale9Paddings</key>
+                <rect>74,74,148,148</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

@@ -45,7 +45,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float BARREL_CHARGE_SPEED_TRISHOT = 0.6f;
 		protected const float BARREL_CHARGE_SPEED_MINIGUN = 0.3f;
 		public    const float CANNON_DIAMETER = 96;		 // only diameter of base circle
-		public    const float CANNON_FOUNDATION_DIAMETER = 128;
 		public    const float CANNON_OUTER_DIAMETER = 160; // includes fully extended barrel
 		public    const float CANNONCOG_DIAMETER = (128f / 194f) * CANNON_DIAMETER;
 		public    const float MINIGUNSTRUCT_DIAMETER = CANNONCOG_DIAMETER / FloatMath.SQRT_TWO;
@@ -81,8 +80,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float SHIELDPROJECTOR_DAMAGE_PER_SECOND = 0.02f;
 		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
 
+		public    const float SHIELD_ROTSPEED         = 0.03f; // rot/sec
+		public    const float SHIELD_GLOWSPEED        = 0.3f;  // cycle/sec
+		public    const float MAX_SHIELD_TIME         = 0.5f;
+		public    const float SHIELD_CHARGE_SPEED     = 0.5f;
+		public    const float SHIELD_DISCHARGE_SPEED  = 0.5f;
+
 		protected const float CROSSHAIR_TRANSPARENCY = 0.5f;
 		protected const float CROSSHAIR_GROW_SPEED = 3f;
+
 
 		public  Fraction Fraction { get; private set; }
 		protected AbstractFractionController controller;
@@ -118,6 +124,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		
 		protected int counterAttackingLasersFriends = 0;
 		protected int counterAttackingLasersEnemy   = 0;
+
+		protected float _shieldRotation;
+		protected float _shieldGlowProcess;
+		public float ShieldTime = 0f;
 
 		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, byte cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
@@ -222,7 +232,33 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			PhysicsBody.Rotation = Rotation.ActualValue;
 		}
 
+		protected void UpdateShield(SAMTime gameTime)
+		{
+			_shieldRotation += gameTime.ElapsedSeconds * FloatMath.TAU * SHIELD_ROTSPEED;
+			_shieldGlowProcess += gameTime.ElapsedSeconds * FloatMath.TAU * SHIELD_GLOWSPEED;
+			ShieldTime -= gameTime.ElapsedSeconds * SHIELD_DISCHARGE_SPEED;
+		}
+
 		#endregion
+
+		protected void DrawShield(IBatchRenderer sbatch)
+		{
+			if (ShieldTime <= 0) return;
+
+			sbatch.DrawScaled(
+				Textures.TexCannonShieldInner,
+				Position,
+				Scale,
+				Color.White * (ShieldTime / MAX_SHIELD_TIME),
+				Rotation.ActualValue);
+
+			sbatch.DrawScaled(
+				Textures.TexCannonShieldOuter,
+				Position,
+				Scale,
+				Color.White * (ShieldTime / MAX_SHIELD_TIME) * (FloatMath.PercSin(_shieldGlowProcess)*0.4f + 0.6f),
+				Rotation.ActualValue + _shieldRotation);
+		}
 
 #if DEBUG
 
@@ -490,6 +526,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			Rotation.SetFull(ra, rt);
 			Rotation.Update(new SAMTime(delta * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds));
+		}
+
+		public void ApplyShield(SAMTime gameTime)
+		{
+			if (ShieldTime < 0) ShieldTime = 0;
+			ShieldTime += (SHIELD_CHARGE_SPEED + SHIELD_DISCHARGE_SPEED) * gameTime.ElapsedSeconds;
+			if (ShieldTime > MAX_SHIELD_TIME) ShieldTime = MAX_SHIELD_TIME;
 		}
 	}
 }

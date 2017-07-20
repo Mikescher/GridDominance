@@ -36,11 +36,23 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			foreach (var cannon in lvl.BlueprintCannons)
 				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
 
+			foreach (var cannon in lvl.BlueprintRelayCannon)
+				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
+
+			foreach (var cannon in lvl.BlueprintMinigun)
+				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
+
+			foreach (var cannon in lvl.BlueprintTrishotCannon)
+				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
+
 			foreach (var cannon in lvl.BlueprintLaserCannons)
-				cannon.PrecalculatedPaths = new LevelKITracer().Precalc(lvl, cannon);
+				cannon.PrecalculatedPaths = new LevelKITracer().PrecalcLaser(lvl, cannon);
+
+			foreach (var cannon in lvl.BlueprintShieldProjector)
+				cannon.PrecalculatedPaths = new LevelKITracer().PrecalcLaser(lvl, cannon);
 		}
 
-		private BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
+		private BulletPathBlueprint[] Precalc(LevelBlueprint lvl, ICannonBlueprint cannon)
 		{
 			var worldNormal = CreateRayWorld(lvl);
 
@@ -134,7 +146,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return bestRay;
 		}
 
-		private List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, CannonBlueprint cannon, float deg)
+		private List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World world, ICannonBlueprint cannon, float deg)
 		{
 			float startRadians = deg * FloatMath.DegRad;
 			var scale = cannon.Diameter / Cannon.CANNON_DIAMETER;

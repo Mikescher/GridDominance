@@ -44,7 +44,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 		private MarkerRefractionCorner marker_rsw = new MarkerRefractionCorner { Side = FlatAlign4C.SW };
 		private MarkerRefractionCorner marker_rnw = new MarkerRefractionCorner { Side = FlatAlign4C.NW };
 		
-		public void Precalc(LevelBlueprint lvl)
+		public void PrecalcLaser(LevelBlueprint lvl)
 		{
 			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_HITBOX_ENLARGE, ref HITBOX_ENLARGE);
 			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_MAX_BULLETBOUNCE, ref MAX_COUNT_RECAST);
@@ -54,13 +54,25 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_NO_LASER_CORNER_REFLECT, ref NO_LASER_CORNER_HITS);
 
 			foreach (var cannon in lvl.BlueprintCannons)
-				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
+				cannon.PrecalculatedPaths = PrecalcBullet(lvl, cannon);
+
+			foreach (var cannon in lvl.BlueprintMinigun)
+				cannon.PrecalculatedPaths = PrecalcBullet(lvl, cannon);
+
+			foreach (var cannon in lvl.BlueprintRelayCannon)
+				cannon.PrecalculatedPaths = PrecalcBullet(lvl, cannon);
+
+			foreach (var cannon in lvl.BlueprintTrishotCannon)
+				cannon.PrecalculatedPaths = PrecalcBullet(lvl, cannon);
 
 			foreach (var cannon in lvl.BlueprintLaserCannons)
-				cannon.PrecalculatedPaths = Precalc(lvl, cannon);
+				cannon.PrecalculatedPaths = PrecalcLaser(lvl, cannon);
+
+			foreach (var cannon in lvl.BlueprintShieldProjector)
+				cannon.PrecalculatedPaths = PrecalcLaser(lvl, cannon);
 		}
 
-		private BulletPathBlueprint[] Precalc(LevelBlueprint lvl, CannonBlueprint cannon)
+		private BulletPathBlueprint[] PrecalcBullet(LevelBlueprint lvl, ICannonBlueprint cannon)
 		{
 			var worldNormal = CreateRayWorld(lvl, 0, 1);
 			var worldExtend = CreateRayWorld(lvl, HITBOX_ENLARGE, 1.5f);
@@ -88,7 +100,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return resultRays.ToArray();
 		}
 
-		public BulletPathBlueprint[] Precalc(LevelBlueprint lvl, LaserCannonBlueprint cannon)
+		public BulletPathBlueprint[] PrecalcLaser(LevelBlueprint lvl, ICannonBlueprint cannon)
 		{
 			var worldNormal = CreateRayWorld(lvl, 0, 1);
 			var worldExtend = CreateRayWorld(lvl, HITBOX_ENLARGE, 1.5f);
@@ -152,7 +164,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			return bestRay;
 		}
 
-		private List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, CannonBlueprint cannon, float deg)
+		private List<Tuple<BulletPathBlueprint, float>> FindBulletPaths(LevelBlueprint lvl, World wBase, World wCollision, ICannonBlueprint cannon, float deg)
 		{
 			return FindBulletPaths(lvl, wBase, wCollision, cannon.CannonID, new FPoint(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, deg * FloatMath.DegRad, MAX_COUNT_RECAST);
 		}
@@ -309,7 +321,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			throw new Exception("Unknown rayTrace resturn ficture: " + traceResult.Item1.UserData);
 		}
 
-		private List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, LaserCannonBlueprint cannon, float deg)
+		private List<Tuple<BulletPathBlueprint, float>> FindLaserPaths(LevelBlueprint lvl, World wBase, World wCollision, ICannonBlueprint cannon, float deg)
 		{
 			return FindLaserPaths(lvl, wBase, wCollision, cannon.CannonID, new FPoint(cannon.X, cannon.Y), new List<Tuple<Vector2, Vector2>>(), deg * FloatMath.DegRad, deg * FloatMath.DegRad, MAX_COUNT_REFLECT, false, null);
 		}

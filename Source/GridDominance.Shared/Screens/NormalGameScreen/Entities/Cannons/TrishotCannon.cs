@@ -113,6 +113,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			UpdateBoost(gameTime);
 			UpdateCog(gameTime);
 			UpdateBarrel(gameTime);
+			UpdateShield(gameTime);
 
 #if DEBUG
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
@@ -243,6 +244,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			DrawCrosshair(sbatch);
 			DrawBodyAndBarrel_FG(sbatch);
 			DrawCog(sbatch);
+
+			DrawShield(sbatch);
 
 #if DEBUG
 			// ASSERTION

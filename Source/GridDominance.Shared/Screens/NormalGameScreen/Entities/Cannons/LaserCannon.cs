@@ -84,6 +84,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			DrawCrosshair(sbatch);
 			DrawBodyAndBarrel_FG(sbatch);
 			DrawCore(sbatch);
+
+			DrawShield(sbatch);
 		}
 
 		private void DrawCrosshair(IBatchRenderer sbatch)
@@ -172,6 +174,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			UpdateNetwork(gameTime);
 			UpdateCore(gameTime);
 			UpdateDamage(gameTime);
+			UpdateShield(gameTime);
 
 #if DEBUG
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))

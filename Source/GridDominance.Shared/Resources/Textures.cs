@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -145,6 +144,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexCannonBarrelShadow;
 		public static TextureRegion2D TexLaserBarrel;
 		public static TextureRegion2D TexLaserBarrelShadow;
+		public static TextureRegion2D TexShieldBarrel;
+		public static TextureRegion2D TexShieldBarrelShadow;
 		public static TextureRegion2D[] TexCannonCore;
 		public static TextureRegion2D[] TexCannonCoreShadow;
 		public static TextureRegion2D TexCannonCrosshair;
@@ -155,6 +156,11 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexLaserPointer;
 		public static TextureRegion2D TexLaserFlare;
 		public static TextureRegion2D TexLaserFlareHalf;
+		public static TextureRegion2D TexShieldLaserBase;
+		public static TextureRegion2D TexShieldLaserGlow;
+		public static TextureRegion2D TexShieldLaserPointer;
+		public static TextureRegion2D TexShieldLaserFlare;
+		public static TextureRegion2D TexShieldLaserFlareHalf;
 
 		public static TextureRegion2D TexVoidCircle_FG;
 		public static TextureRegion2D TexVoidWall_FG_L1;
@@ -226,6 +232,9 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexGlassEdge;
 		public static TextureRegion2D TexGlassCorner;
 		public static TextureRegion2D TexGlassFill;
+
+		public static TextureRegion2D TexCannonShieldOuter;
+		public static TextureRegion2D TexCannonShieldInner;
 
 		public static TextureRegion2D TexMirrorBlockEdge;
 		public static TextureRegion2D TexMirrorBlockCorner;
@@ -323,6 +332,8 @@ namespace GridDominance.Shared.Resources
 			TexCannonBarrelShadow    = AtlasTextures["cannonbarrel_shadow"];
 			TexLaserBarrel           = AtlasTextures["laserbarrel"];
 			TexLaserBarrelShadow     = AtlasTextures["laserbarrel_shadow"];
+			TexShieldBarrel          = AtlasTextures["shieldlaserbarrel"];
+			TexShieldBarrelShadow    = AtlasTextures["laserbarrel_shadow"];
 			TexCannonCore            = Enumerable.Range(1, CANNONCORE_COUNT).Select(p => AtlasTextures[$"cannoncore_{p:00}"]).ToArray();
 			TexCannonCoreShadow      = Enumerable.Range(1, CANNONCORE_COUNT).Select(p => AtlasTextures[$"cannoncore_shadow_{p:00}"]).ToArray();
 			TexCannonCrosshair       = AtlasTextures["cannoncrosshair"];
@@ -331,6 +342,11 @@ namespace GridDominance.Shared.Resources
 			TexLaserPointer          = AtlasTextures["laser_pointer"];
 			TexLaserFlare            = AtlasTextures["laser_flare"];
 			TexLaserFlareHalf        = AtlasTextures["half_laser_flare"];
+			TexShieldLaserBase       = AtlasTextures["shieldlaser_base"];
+			TexShieldLaserGlow       = AtlasTextures["laser_glow"];
+			TexShieldLaserPointer    = AtlasTextures["shieldlaser_pointer"];
+			TexShieldLaserFlare      = AtlasTextures["shieldlaser_flare"];
+			TexShieldLaserFlareHalf  = AtlasTextures["half_shieldlaser_flare"];
 
 			TexVoidCircle_FG      = AtlasTextures["voidcircle_fg"];
 			TexVoidWall_FG_L1     = AtlasTextures["voidwall_fg_1"];
@@ -342,6 +358,9 @@ namespace GridDominance.Shared.Resources
 			TexVoidWall_BG_L2     = AtlasTextures["voidwall_bg_2"];
 			TexVoidWall_BG_End    = AtlasTextures["voidwall_bg_outer"];
 			TexVoidWall_BG_Middle = AtlasTextures["voidwall_bg_inner"];
+
+			TexCannonShieldOuter  = AtlasTextures["cannonshield_border"];
+			TexCannonShieldInner  = AtlasTextures["cannonshield_overlay"];
 
 			TexLevelNodeStructure    = AtlasTextures["levelnode_structure"];
 			TexLevelNodeSegment      = AtlasTextures["levelnode_segment"];

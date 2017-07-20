@@ -7,8 +7,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 	{
 		public static void ProcessLevel(LevelBlueprint lvl)
 		{
-			if (lvl.KIType == LevelBlueprint.KI_TYPE_RAYTRACE)    new LevelKITracer().Precalc(lvl);
-			if (lvl.KIType == LevelBlueprint.KI_TYPE_PRECALC)     new LevelKITracer().Precalc(lvl);
+			if (lvl.KIType == LevelBlueprint.KI_TYPE_RAYTRACE)    new LevelKITracer().PrecalcLaser(lvl);
+			if (lvl.KIType == LevelBlueprint.KI_TYPE_PRECALC)     new LevelKITracer().PrecalcLaser(lvl);
 			if (lvl.KIType == LevelBlueprint.KI_TYPE_PRESIMULATE) new LevelKISimulator().Precalc(lvl);
 		}
 

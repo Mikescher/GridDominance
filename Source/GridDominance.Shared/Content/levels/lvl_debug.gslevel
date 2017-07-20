@@ -15,7 +15,9 @@ Cannon(SIZE_SMALL, A3, [14,  5], ROT_W)
 
 MirrorBlock([8, 8], 5, 2, -10)
 
-GlassBlock([2, 2], 1.75, 1.75, 65)
+Shielder(SIZE_TINY, N0, [1,1])
+
+GlassBlock([3, 2.5], 1.75, 1.75, 65)
 
 MirrorCircle([1.5, 8], SIZE_BIG)
 

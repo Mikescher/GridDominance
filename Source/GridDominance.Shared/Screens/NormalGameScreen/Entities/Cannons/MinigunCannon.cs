@@ -78,6 +78,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			UpdateBoost(gameTime);
 			UpdateCog(gameTime);
 			UpdateBarrel(gameTime);
+			UpdateShield(gameTime);
 
 #if DEBUG
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
@@ -211,8 +212,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			DrawFoundation(sbatch);
-
 			DrawBodyAndBarrel_BG(sbatch);
 		}
 
@@ -221,6 +220,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			DrawCrosshair(sbatch);
 			DrawBodyAndBarrel_FG(sbatch);
 			DrawCog(sbatch);
+
+			DrawShield(sbatch);
 
 #if DEBUG
 			// ASSERTION
@@ -258,17 +259,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				Textures.TexCannonBodyShadow,
 				Position,
 				Scale,
-				Color.White,
-				Rotation.ActualValue);
-		}
-
-		private void DrawFoundation(IBatchRenderer sbatch)
-		{
-			//TODO evtl with dropshadow ??
-			sbatch.DrawScaled(
-				Textures.TexPixel,
-				Position,
-				Scale * CANNON_FOUNDATION_DIAMETER,
 				Color.White,
 				Rotation.ActualValue);
 		}

@@ -1,4 +1,5 @@
-﻿using MonoSAMFramework.Portable.Screens.Entities;
+﻿using System.Linq;
+using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -81,7 +82,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					if (src.LaserPowered)
 					{
 						sbatch.DrawCentered(
-							Textures.TexLaserBase, 
+							(src.Type == RayType.Laser) ? Textures.TexLaserBase : Textures.TexShieldLaserBase, 
 							FPoint.MiddlePoint(ray.Start, ray.End), 
 							ray.Length + RAY_WIDTH / 4f, 
 							RAY_WIDTH, 
@@ -91,7 +92,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					else
 					{
 						sbatch.DrawCentered(
-							Textures.TexLaserPointer, 
+							(src.Type == RayType.Laser) ? Textures.TexLaserPointer : Textures.TexShieldLaserPointer, 
 							FPoint.MiddlePoint(ray.Start, ray.End), 
 							ray.Length, RAY_WIDTH,
 							Color.White, 
@@ -109,7 +110,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					foreach (var ray in src.Lasers)
 					{
 						sbatch.DrawCentered(
-							Textures.TexLaserGlow, 
+							(src.Type == RayType.Laser) ? Textures.TexLaserGlow : Textures.TexShieldLaserGlow, 
 							FPoint.MiddlePoint(ray.Start, ray.End), 
 							ray.Length + RAY_WIDTH / 4f, 
 							2*RAY_WIDTH, 
@@ -131,20 +132,23 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 					switch (ray.Terminator)
 					{
 						case LaserRayTerminator.VoidObject:
-							sbatch.DrawCentered(Textures.TexLaserFlare, ray.End, size, size, Color.White, _flareRotation);
+							sbatch.DrawCentered(ray.RayType == RayType.Laser ? Textures.TexLaserFlare : Textures.TexShieldLaserFlare, ray.End, size, size, Color.White, _flareRotation);
 							break;
 						case LaserRayTerminator.Target:
-							sbatch.DrawCentered(Textures.TexLaserFlare, ray.End, size, size, Color.White, _flareRotation);
+							if (ray.RayType == RayType.Laser) sbatch.DrawCentered(Textures.TexLaserFlare, ray.End, size, size, Color.White, _flareRotation);
 							break;
 						case LaserRayTerminator.LaserMultiTerm:
-							sbatch.DrawCentered(Textures.TexLaserFlareHalf, ray.End, size, size, Color.White, _flareRotation);
+
+							var lsr = ray.RayType == RayType.Laser || ray.TerminatorRays.Any(r => r.Item1.RayType == RayType.Laser);
+
+							sbatch.DrawCentered(lsr ? Textures.TexLaserFlareHalf : Textures.TexShieldLaserFlareHalf, ray.End, size, size, Color.White, _flareRotation);
 							break;
 						case LaserRayTerminator.LaserSelfTerm:
 						case LaserRayTerminator.LaserFaultTerm:
-							sbatch.DrawCentered(Textures.TexLaserFlare, ray.End, size, size, Color.White, _flareRotation);
+							sbatch.DrawCentered(ray.RayType == RayType.Laser ? Textures.TexLaserFlare : Textures.TexShieldLaserFlare, ray.End, size, size, Color.White, _flareRotation);
 							break;
 						case LaserRayTerminator.BulletTerm:
-							sbatch.DrawCentered(Textures.TexLaserFlare, ray.End, size, size, Color.White, _flareRotation);
+							sbatch.DrawCentered(ray.RayType == RayType.Laser ? Textures.TexLaserFlare : Textures.TexShieldLaserFlare, ray.End, size, size, Color.White, _flareRotation);
 							break;
 
 						case LaserRayTerminator.OOB:

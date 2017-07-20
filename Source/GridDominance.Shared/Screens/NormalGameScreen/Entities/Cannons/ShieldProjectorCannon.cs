@@ -84,6 +84,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			DrawCrosshair(sbatch);
 			DrawBodyAndBarrel_FG(sbatch);
 			DrawCore(sbatch);
+
+			//DrawShield(sbatch);
 		}
 
 		private void DrawCrosshair(IBatchRenderer sbatch)
@@ -104,7 +106,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f), 0).Rotate(Rotation.ActualValue);
 
 			sbatch.DrawScaled(
-				Textures.TexLaserBarrelShadow,
+				Textures.TexShieldBarrelShadow,
 				barrelCenter,
 				Scale,
 				Color.White,
@@ -123,7 +125,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f), 0).Rotate(Rotation.ActualValue);
 
 			sbatch.DrawScaled(
-				Textures.TexLaserBarrel,
+				Textures.TexShieldBarrel,
 				barrelCenter,
 				Scale,
 				Color.White,
@@ -139,21 +141,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void DrawCore(IBatchRenderer sbatch)
 		{
-			sbatch.DrawScaled(
-				Textures.TexCannonCoreShadow[coreImage],
+			sbatch.DrawCentered(
+				Textures.TexCircle,
 				Position,
-				Scale * CorePulse.ActualValue,
-				Color.White,
-				coreRotation);
+				Scale * CANNON_DIAMETER * 0.5f,
+				Scale * CANNON_DIAMETER * 0.5f,
+				Color.White);
 
 			if (!Fraction.IsNeutral && CannonHealth.ActualValue > 0)
 			{
-				sbatch.DrawScaled(
-					Textures.TexCannonCore[coreImage],
+				sbatch.DrawCentered(
+					Textures.TexCircle,
 					Position,
-					Scale * CorePulse.ActualValue * FloatMath.Sqrt(CannonHealth.ActualValue),
-					Fraction.Color,
-					coreRotation);
+					Scale * CANNON_DIAMETER * 0.5f,
+					Scale * CANNON_DIAMETER * 0.5f,
+					Fraction.Color);
 			}
 		}
 		
@@ -172,6 +174,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			UpdateNetwork(gameTime);
 			UpdateCore(gameTime);
 			UpdateDamage(gameTime);
+			UpdateShield(gameTime);
 
 #if DEBUG
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
@@ -258,7 +261,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					
 					if (!LaserSource.LaserPowered) continue;
 
-					//TODO SHIELD
+					ray.TargetCannon.ApplyShield(gameTime);
 				}
 				else
 				{
