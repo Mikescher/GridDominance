@@ -110,6 +110,7 @@ namespace GridDominance.Shared.Screens
 
 			if (scrn is GDGameScreen)      DebugSettings.AddSwitch( "DBG",  "ImmortalCannons",  scrn, SKeys.I,         KeyModifier.Control, false);
 			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AssimilateCannon", scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "LooseCannon",      scrn, SKeys.E,         KeyModifier.None);
 			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AbandonCannon",    scrn, SKeys.S,         KeyModifier.None);
 
 			if (scrn is GDWorldMapScreen)  DebugSettings.AddPush(   "TRUE", "UnlockNode",       scrn, SKeys.A,         KeyModifier.None);

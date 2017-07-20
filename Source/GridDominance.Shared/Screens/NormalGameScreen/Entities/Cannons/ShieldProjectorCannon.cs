@@ -20,6 +20,7 @@ using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using System;
+using MonoSAMFramework.Portable.ColorHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
@@ -34,14 +35,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public readonly DeltaLimitedFloat CorePulse  = new DeltaLimitedFloat(1, CORE_PULSE * CORE_PULSE_FREQ * 2);
 		public float LaserPulseTime = 0f;
 
-		private readonly int coreImage;
-		private readonly float coreRotation;
+		private float _coreRotation = 0f;
 		public float ChargeTime = 0f;
 
 		private readonly SAMEffectWrapper _soundeffect;
 		private readonly bool _muted;
 
 		float ILaserCannon.LaserPulseTime => LaserPulseTime;
+
+		public readonly DeltaLimitedFloat SatelliteExpansion = new DeltaLimitedFloat(0f, SHIELD_SATELLITE_EXPANSIONSPEED);
 
 		public ShieldProjectorCannon(GDGameScreen scrn, ShieldProjectorBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
@@ -51,9 +53,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			_muted = scrn.IsPreview;
 
 			LaserSource = scrn.LaserNetwork.AddSource(this);
-
-			coreImage = FloatMath.GetRangedIntRandom(0, Textures.CANNONCORE_COUNT);
-			coreRotation = FloatMath.GetRangedRandom(FloatMath.RAD_POS_000, FloatMath.RAD_POS_360);
 
 			_soundeffect = MainGame.Inst.GDSound.GetEffectLaser(this);
 			_soundeffect.IsLooped = true;
@@ -141,21 +140,51 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void DrawCore(IBatchRenderer sbatch)
 		{
-			sbatch.DrawCentered(
-				Textures.TexCircle,
-				Position,
-				Scale * CANNON_DIAMETER * 0.5f,
-				Scale * CANNON_DIAMETER * 0.5f,
-				Color.White);
-
-			if (!Fraction.IsNeutral && CannonHealth.ActualValue > 0)
+			if (SatelliteExpansion.ActualValue <= 0)
 			{
 				sbatch.DrawCentered(
 					Textures.TexCircle,
 					Position,
 					Scale * CANNON_DIAMETER * 0.5f,
 					Scale * CANNON_DIAMETER * 0.5f,
-					Fraction.Color);
+					FlatColors.Clouds);
+
+				if (!Fraction.IsNeutral && CannonHealth.ActualValue > 0)
+				{
+					sbatch.DrawCentered(
+						Textures.TexCircle,
+						Position,
+						Scale * CANNON_DIAMETER * 0.5f * CannonHealth.ActualValue,
+						Scale * CANNON_DIAMETER * 0.5f * CannonHealth.ActualValue,
+						Fraction.Color);
+				}
+			}
+			else
+			{
+				if (Fraction.IsNeutral)
+				{
+					sbatch.DrawCentered(
+						Textures.TexCircle,
+						Position,
+						Scale * CANNON_DIAMETER * 0.5f,
+						Scale * CANNON_DIAMETER * 0.5f,
+						FlatColors.Clouds);
+				}
+				else
+				{
+					var p1 = Position + new Vector2(Scale * CANNON_DIAMETER * 0.2f * SatelliteExpansion.ActualValue, 0).Rotate(_coreRotation + FloatMath.RAD_POS_000);
+					var p2 = Position + new Vector2(Scale * CANNON_DIAMETER * 0.2f * SatelliteExpansion.ActualValue, 0).Rotate(_coreRotation + FloatMath.RAD_POS_120);
+					var p3 = Position + new Vector2(Scale * CANNON_DIAMETER * 0.2f * SatelliteExpansion.ActualValue, 0).Rotate(_coreRotation + FloatMath.RAD_POS_240);
+
+					var ws = Scale * CANNON_DIAMETER * 0.5f;
+					var we = Scale * CANNON_DIAMETER * 0.5f / 2f;
+
+					var diam = ws + (we - ws) * SatelliteExpansion.ActualValue;
+
+					sbatch.DrawCentered(Textures.TexCircle, p1, diam, diam, Fraction.Color);
+					sbatch.DrawCentered(Textures.TexCircle, p2, diam, diam, Fraction.Color);
+					sbatch.DrawCentered(Textures.TexCircle, p3, diam, diam, Fraction.Color);
+				}
 			}
 		}
 		
@@ -175,7 +204,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			UpdateCore(gameTime);
 			UpdateDamage(gameTime);
 			UpdateShield(gameTime);
-
+			
 #if DEBUG
 			if (IsMouseDownOnThis(istate) && DebugSettings.Get("AssimilateCannon"))
 			{
@@ -184,6 +213,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 				while (Fraction.Type != FractionType.PlayerFraction)
 					TakeDamage(this.GDOwner().GetPlayerFraction(), 1);
+
+				DebugSettings.SetManual("ImmortalCannons", bckp);
+
+				CannonHealth.SetForce(1f);
+			}
+			if (IsMouseDownOnThis(istate) && DebugSettings.Get("LooseCannon"))
+			{
+				var bckp = DebugSettings.Get("ImmortalCannons");
+				DebugSettings.SetManual("ImmortalCannons", false);
+
+				while (Fraction.Type != FractionType.ComputerFraction)
+					TakeDamage(this.GDOwner().GetComputerFraction(), 1);
 
 				DebugSettings.SetManual("ImmortalCannons", bckp);
 
@@ -221,6 +262,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			ChargeTime += gameTime.ElapsedSeconds;
 
 			if (CannonHealth.ActualValue < 1) ChargeTime = 0;
+
+			if (CannonHealth.ActualValue < 1)
+			{
+				SatelliteExpansion.Set(0);
+			}
+			else
+			{
+				SatelliteExpansion.Set(1);
+			}
+
+			SatelliteExpansion.Update(gameTime);
+
+			if (SatelliteExpansion.ActualValue > 0) CannonHealth.SetActual(1);
+
+			_coreRotation += gameTime.ElapsedSeconds * FloatMath.TAU * SHIELD_SATELLITE_SPEED;
 		}
 
 		private void UpdateNetwork(SAMTime gameTime)

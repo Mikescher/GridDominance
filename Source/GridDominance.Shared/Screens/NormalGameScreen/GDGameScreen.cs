@@ -154,6 +154,10 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		{
 			return fractionPlayer;
 		}
+		public Fraction GetComputerFraction() // Only DEBUG
+		{
+			return fractionComputer1;
+		}
 #endif
 
 		public byte GetFractionID(Fraction f)

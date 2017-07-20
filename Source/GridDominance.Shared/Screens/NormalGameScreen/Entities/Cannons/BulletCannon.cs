@@ -82,9 +82,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				var bckp = DebugSettings.Get("ImmortalCannons");
 				DebugSettings.SetManual("ImmortalCannons", false);
-				
+
 				while (Fraction.Type != FractionType.PlayerFraction)
 					TakeDamage(this.GDOwner().GetPlayerFraction(), 1);
+
+				DebugSettings.SetManual("ImmortalCannons", bckp);
+
+				CannonHealth.SetForce(1f);
+			}
+			if (IsMouseDownOnThis(istate) && DebugSettings.Get("LooseCannon"))
+			{
+				var bckp = DebugSettings.Get("ImmortalCannons");
+				DebugSettings.SetManual("ImmortalCannons", false);
+
+				while (Fraction.Type != FractionType.ComputerFraction)
+					TakeDamage(this.GDOwner().GetComputerFraction(), 1);
 
 				DebugSettings.SetManual("ImmortalCannons", bckp);
 

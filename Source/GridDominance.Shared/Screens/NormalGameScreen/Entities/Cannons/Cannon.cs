@@ -72,13 +72,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float MIN_REGEN_HEALTH = 0.05f;
 		protected const float FULL_LASER_HEALTH = 0.97f; // Health per sec bei 1HP
 
-		public    const float LASER_CHARGE_COOLDOWN      = 0.40f; // should be more than KI freq
-		public    const float LASER_CHARGE_COOLDOWN_MAX  = LASER_CHARGE_COOLDOWN + 0.1f;
-		public    const float SHIELD_CHARGE_COOLDOWN     = 0.05f;
-		public    const float SHIELD_CHARGE_COOLDOWN_MAX = SHIELD_CHARGE_COOLDOWN + 0.1f;
-		protected const float LASER_DAMAGE_PER_SECOND = 0.20f;
+		public    const float LASER_CHARGE_COOLDOWN             = 0.40f; // should be more than KI freq
+		public    const float LASER_CHARGE_COOLDOWN_MAX         = LASER_CHARGE_COOLDOWN + 0.1f;
+		public    const float SHIELD_CHARGE_COOLDOWN            = 0.05f;
+		public    const float SHIELD_CHARGE_COOLDOWN_MAX        = SHIELD_CHARGE_COOLDOWN + 0.1f;
+		protected const float LASER_DAMAGE_PER_SECOND           = 0.20f;
 		protected const float SHIELDPROJECTOR_DAMAGE_PER_SECOND = 0.02f;
-		protected const float LASER_BOOST_PER_SECOND  = 0.25f;
+		protected const float LASER_BOOST_PER_SECOND            = 0.25f;
+		public    const float SHIELD_SATELLITE_SPEED            = 0.25f; // rot/sec
+		public    const float SHIELD_SATELLITE_EXPANSIONSPEED   = 2.00f;
 
 		public    const float SHIELD_ROTSPEED         = 0.03f; // rot/sec
 		public    const float SHIELD_GLOWSPEED        = 0.3f;  // cycle/sec
