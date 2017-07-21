@@ -19,6 +19,7 @@ namespace GridDominance.Shared.SaveData
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 		public int MultiplayerPoints;
+		public bool HasMultiplayerGames;
 
 		public Dictionary<Guid, LevelData> LevelData;
 		public HashSet<Guid> PurchasedWorlds;
@@ -111,6 +112,7 @@ namespace GridDominance.Shared.SaveData
 			if (add == 0) return 0;
 
 			MultiplayerPoints += add;
+			HasMultiplayerGames = true;
 
 			if (upload)
 			{
@@ -127,6 +129,7 @@ namespace GridDominance.Shared.SaveData
 			if (sub == 0) return 0;
 
 			MultiplayerPoints -= sub;
+			HasMultiplayerGames = true;
 
 			if (upload)
 			{
@@ -161,6 +164,7 @@ namespace GridDominance.Shared.SaveData
 			RegisterProperty<PlayerProfile, GameSpeedModes>(SemVersion.VERSION_1_0_0, "mp_speed",  o => o.LastMultiplayerHostedSpeed, (o, v) => o.LastMultiplayerHostedSpeed = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_level",  o => o.LastMultiplayerHostedLevel, (o, v) => o.LastMultiplayerHostedLevel = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_score",  o => o.MultiplayerPoints,          (o, v) => o.MultiplayerPoints = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_alive",  o => o.HasMultiplayerGames,        (o, v) => o.HasMultiplayerGames = v);
 
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "skiptut",   o => o.SkipTutorial,               (o, v) => o.SkipTutorial       = v);
 

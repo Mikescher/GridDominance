@@ -24,6 +24,15 @@ function run() {
 		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 		executeOrFail($stmt);
 		$rank = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	} else if ($worldid == '@') {
+		$stmt = $pdo->prepare(loadSQL("get-ranking_multiplayer_top100"));
+		executeOrFail($stmt);
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$stmt = $pdo->prepare(loadSQL("get-ranking_multiplayer_playerrank"));
+		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
+		executeOrFail($stmt);
+		$rank = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	} else {
 		$condition = ' WHERE (';
 		$ccfirst = true;

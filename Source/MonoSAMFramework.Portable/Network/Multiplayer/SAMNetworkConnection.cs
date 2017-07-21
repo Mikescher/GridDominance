@@ -1230,6 +1230,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			_stopped = true;
 			_medium.Dispose();
+
+			ConnState = ConnectionState.Offline;
 		}
 
 		public void ErrorStop(ErrorType t, object d)
@@ -1244,6 +1246,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			ErrorData = d;
 
 			_medium.Dispose();
+
+			ConnState = ConnectionState.Offline;
 		}
 
 		protected void Send(byte[] data)

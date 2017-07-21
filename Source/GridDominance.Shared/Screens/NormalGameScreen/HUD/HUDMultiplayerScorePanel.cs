@@ -306,9 +306,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			{
 				if (_btnNext != null)
 				{
-					_btnNext.BackgroundNormal  = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
+					_btnNext.BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
 					_btnNext.BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
 					_btnNext.IsEnabled = false;
+					
+				}
+				if (_btnRand != null)
+				{
+					_btnRand.BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
+					_btnRand.BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
+					_btnRand.IsEnabled = false;
 				}
 			}
 

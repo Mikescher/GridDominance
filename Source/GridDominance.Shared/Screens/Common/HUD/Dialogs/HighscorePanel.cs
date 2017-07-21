@@ -16,6 +16,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Table;
 
@@ -36,13 +37,16 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public override int Depth => 0;
 
 		private readonly GraphBlueprint _focus;
+		private readonly bool _showMultiplayer;
 
 		private HUDImage _loader;
 		private HUDScrollTable _table;
+		private HUDTextButton _btn;
 
-		public HighscorePanel(GraphBlueprint focus)
+		public HighscorePanel(GraphBlueprint focus, bool mp)
 		{
 			_focus = focus;
+			_showMultiplayer = mp;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -54,19 +58,51 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			base.OnInitialize();
 
+			string txt = "?";
+			if (_showMultiplayer)
+				txt = L10N.T(L10NImpl.STR_HSP_MULTIPLAYERRANKING);
+			else if (_focus == null)
+				txt = L10N.T(L10NImpl.STR_HSP_GLOBALRANKING);
+			else
+				txt = L10N.TF(L10NImpl.STR_HSP_RANKINGFOR, L10N.T(Levels.WORLD_NAMES[_focus.ID]));
+
 			AddElement(new HUDLabel(1)
 			{
-				TextAlignment = HUDAlignment.CENTER,
-				Alignment = HUDAlignment.TOPLEFT,
+				TextAlignment = (_showMultiplayer || _focus==null) ? HUDAlignment.CENTER : HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPCENTER,
 				RelativePosition = new FPoint(0, 0),
-				Size = new FSize(WIDTH, TEXT_HEIGHT_REAL),
+				Size = new FSize(TAB_WIDTH, TEXT_HEIGHT_REAL),
 
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				Text = _focus == null ? L10N.T(L10NImpl.STR_HSP_GLOBALRANKING) : L10N.TF(L10NImpl.STR_HSP_RANKINGFOR, L10N.T(Levels.WORLD_NAMES[_focus.ID])),
+				Text = txt,
 				TextColor = FlatColors.Clouds,
 			});
+
+			if (!_showMultiplayer && MainGame.Inst.Profile.HasMultiplayerGames)
+			{
+				AddElement(_btn = new HUDTextButton(1)
+				{
+					Alignment = HUDAlignment.TOPRIGHT,
+					RelativePosition = FPoint.Zero,
+					Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 48),
+
+					L10NText = L10NImpl.STR_WORLD_MULTIPLAYER,
+					TextColor = FlatColors.Foreground,
+					Font = Textures.HUDFontBold,
+					FontSize = 42,
+					TextAlignment = HUDAlignment.CENTER,
+					TextPadding = 8,
+
+					BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Amethyst, 16, false, true, false, false),
+					BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Wisteria, 16, false, true, false, false),
+
+					Click = ShowMultiplayer,
+
+					IsVisible = false,
+				});
+			}
 
 			_loader = new HUDImage
 			{
@@ -106,16 +142,22 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			_table.AddColumn("", 64);
 			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
 			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 128);
-			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175);
+			if (!_showMultiplayer) _table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175);
 
 			LoadHighscore().EnsureNoError();
+		}
+
+		private void ShowMultiplayer(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			Remove();
+			HUD.AddModal(new HighscorePanel(null, true), true);
 		}
 
 		private async Task LoadHighscore()
 		{
 			try
 			{
-				var data = await MainGame.Inst.Backend.GetRanking(MainGame.Inst.Profile, _focus);
+				var data = await MainGame.Inst.Backend.GetRanking(MainGame.Inst.Profile, _focus, _showMultiplayer);
 				MainGame.Inst.DispatchBeginInvoke(() =>
 				{
 					if (data != null)
@@ -139,6 +181,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			_table.IsVisible = true;
 			_loader.IsVisible = false;
+			if (_btn != null) _btn.IsVisible = true;
 
 			bool foundyourself = false;
 

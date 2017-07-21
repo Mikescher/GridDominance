@@ -74,7 +74,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			SelectNode(null);
 			Settings.Close();
 
-			AddModal(new HighscorePanel(GDOwner.GraphBlueprint), true);
+			AddModal(new HighscorePanel(GDOwner.GraphBlueprint, false), true);
 		}
 
 		public void ShowAboutPanel()

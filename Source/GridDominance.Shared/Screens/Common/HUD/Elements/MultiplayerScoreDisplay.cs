@@ -49,7 +49,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			RelativePosition = new FPoint(10, 10);
 			Size = new FSize(250, 60);
 
-			IsVisible = MainGame.Inst.Profile.MultiplayerPoints != 0;
+			IsVisible = MainGame.Inst.Profile.HasMultiplayerGames;
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)

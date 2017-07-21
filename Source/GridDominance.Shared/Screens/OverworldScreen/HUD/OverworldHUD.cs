@@ -52,7 +52,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		public void ShowHighscorePanel()
 		{
 			Settings.Close();
-			AddModal(new HighscorePanel(null), true);
+			AddModal(new HighscorePanel(null, false), true);
 		}
 
 		public void ShowAboutPanel()

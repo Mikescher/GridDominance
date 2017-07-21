@@ -356,6 +356,7 @@ namespace GridDominance.Shared.Network
 						}
 
 						profile.MultiplayerPoints = response.user.MultiplayerScore;
+						profile.HasMultiplayerGames |= response.user.MultiplayerScore>0;
 
 						MainGame.Inst.SaveProfile();
 					});
@@ -778,13 +779,19 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
-		public async Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit)
+		public async Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit, bool multiplayer)
 		{
 			try
 			{
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
-				ps.AddParameterString("world_id", limit?.ID.ToString("B") ?? "*");
+
+				if (multiplayer)
+					ps.AddParameterString("world_id", "@");
+				else if (limit == null)
+					ps.AddParameterString("world_id", "*");
+				else
+					ps.AddParameterString("world_id", limit.ID.ToString("B"));
 
 				var response = await QueryAsync<QueryResultRanking>("get-ranking", ps, RETRY_GETRANKING);
 

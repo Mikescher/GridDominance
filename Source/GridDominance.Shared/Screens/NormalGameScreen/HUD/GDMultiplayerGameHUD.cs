@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD;
@@ -65,7 +66,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 						TextColor = FlatColors.Clouds,
 						AutoSize = true,
 
-						Lambda = () => $"Ping: {(int) (mp.UserConn[1].InGamePing.Value * 1000)}ms",
+						Lambda = () => (mp.ConnState == SAMNetworkConnection.ConnectionState.Offline) ? "Ping: -" : $"Ping: {(int) (mp.UserConn[1].InGamePing.Value * 1000)}ms",
 					};
 					AddElement(lbl);
 					_cornerElements.Add(lbl);
