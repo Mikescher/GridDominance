@@ -162,7 +162,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				MaxWidth = INFO_C2_WIDTH,
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
-				Lambda = () => $"{(int)(_server.Ping.Value * 1000)}ms",
+				Lambda = () => $"{(int)(_server.ProxyPing.Value * 1000)}ms",
 				WordWrap = HUDWordWrap.Ellipsis,
 				TextColor = FlatColors.Clouds,
 			});

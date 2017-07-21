@@ -9,7 +9,7 @@ using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
-	public abstract class SAMNetworkConnection : ISAMUpdateable, ILifetimeObject //TODO SendFreq ist strangely high (22 pack per sec)
+	public abstract class SAMNetworkConnection : ISAMUpdateable, ILifetimeObject
 	{
 		public const int MAX_PACKAGE_SIZE_BYTES          = 1024; // https://stackoverflow.com/a/15003663/1761622
 
@@ -114,7 +114,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public bool InOrAfterGame => Mode == ServerMode.InGame || Mode == ServerMode.BroadcastAfterGame || Mode == ServerMode.IdleAfterGame;
 
 #if DEBUG
-		public FrequencyCounter SendFreq = new FrequencyCounter(2f, 16);
+		public readonly ExtendedFrequencyCounter<string> SendFreq = new ExtendedFrequencyCounter<string>(2f, 16);
 #endif
 
 		protected byte msgId = 0;
@@ -126,8 +126,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public readonly float[] MsgSendTime = new float[256];
 		public readonly bool[] MsgAcks = new bool[256];
 
-		public readonly PingCounter Ping = new PingCounter(3);
-		public float PackageLossPerc = 0;
+		public readonly PingCounter ProxyPing = new PingCounter(3);
+		public float ProxyPackageLossPerc = 0;
 
 		bool ILifetimeObject.Alive => !_stopped;
 
@@ -489,7 +489,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (ConnType == MultiplayerConnectionType.P2P)
 			{
-				Ping.SetDirect(0);
+				ProxyPing.SetDirect(0);
 				ConnState = _medium.IsP2PConnected ? ConnectionState.Connected : ConnectionState.Reconnecting;
 				return;
 			}
@@ -569,7 +569,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (deltaLSR > 3 * freq)
 			{
-				Ping.SetDirect(deltaLSR);
+				ProxyPing.SetDirect(deltaLSR);
 			}
 		}
 
@@ -643,13 +643,13 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				int c = 0;
 				int m = 0;
 				for (int i = 0; i < msgId - 32; i++) { c += MsgAcks[i] ? 0 : 1; m++; }
-				PackageLossPerc = c / (m * 1f);
+				ProxyPackageLossPerc = c / (m * 1f);
 			}
 			else
 			{
 				int c = 0;
 				for (int i = 0; i < 128; i++) c += MsgAcks[(msgId + i) % 256] ? 0 : 1;
-				PackageLossPerc = c / 128f;
+				ProxyPackageLossPerc = c / 128f;
 			}
 		}
 
@@ -664,7 +664,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				if (isPing)
 				{
 					_lastPingResponse = _lastServerResponse;
-					Ping.Inc(_lastPingResponse - MsgSendTime[seq]);
+					ProxyPing.Inc(_lastPingResponse - MsgSendTime[seq]);
 				}
 			}
 		}
@@ -1258,7 +1258,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 
 #if DEBUG
-			SendFreq.Inc(MonoSAMGame.CurrentTime.TotalElapsedSeconds);
+			SendFreq.Inc(MonoSAMGame.CurrentTime.TotalElapsedSeconds, NetworkCommandCodesHelper.CodeToString(data[0]));
 #endif
 		}
 	}

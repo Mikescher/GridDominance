@@ -44,8 +44,9 @@
     <Compile Include="DebugTools\CompactJsonFormatter.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="DebugTools\DebugTextLogLine.cs" />
-    <Compile Include="DebugTools\TimingCounter.cs" />
     <Compile Include="DebugTools\FrequencyCounter.cs" />
+    <Compile Include="DebugTools\TimingCounter.cs" />
+    <Compile Include="DebugTools\ExtendedFrequencyCounter.cs" />
     <Compile Include="DebugTools\GCMonitor.cs" />
     <Compile Include="DebugTools\IDebugTextDisplayLineProvider.cs" />
     <Compile Include="DebugTools\StandardDebugMinimapImplementation.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="LogProtocol\SAMLogLevel.cs" />
     <Compile Include="DeviceBridge\IBluetoothDevice.cs" />
     <Compile Include="Network\Multiplayer\MultiplayerConnectionType.cs" />
+    <Compile Include="Network\Multiplayer\NetworkCommandCodes.cs" />
     <Compile Include="Network\Multiplayer\NetworkDataTools.cs" />
     <Compile Include="Network\Multiplayer\NetworkUserConn.cs" />
     <Compile Include="Network\Multiplayer\PingCounter.cs" />

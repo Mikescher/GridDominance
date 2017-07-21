@@ -29,8 +29,9 @@ namespace GridDominance.Shared.Network.Multiplayer
 		public void AddDebugLine(GameScreen s)
 		{
 			s.DebugDisp.AddLine("DebugMultiplayer", () => 
-				$"SERVER(Ping={Ping.Value:0.0000} | Loss={PackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})\n" + 
-				$"      (LagBehind={lagBehindTime} | SendFreq={SendFreq.Frequency} | UserPings=[{string.Join(",", UserConn.Take(SessionCapacity).Select(u => (u.InGamePing.Value*1000).ToString("F0")))}])\n" +
+				$"SERVER(Ping={ProxyPing.Value:0.0000} | Loss={ProxyPackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})\n" + 
+				$"      (LagBehind={lagBehindTime} | SendFreq={SendFreq.Frequency:00.0} | UserPings=[{string.Join(",", UserConn.Take(SessionCapacity).Select(u => (u.InGamePing.Value*1000).ToString("F0")))}])\n" +
+				$"      (Packages={SendFreq.HistoryStr})\n" +
 				$"      {_medium.DebugDisplayString}", this);
 		}
 #endif

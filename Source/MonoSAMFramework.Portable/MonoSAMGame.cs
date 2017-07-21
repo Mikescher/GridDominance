@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using MonoSAMFramework.Portable.GameAgents;
@@ -56,6 +57,9 @@ namespace MonoSAMFramework.Portable
 
 				Graphics = new GraphicsDeviceManager(this);
 				Content.RootDirectory = "Content";
+
+				CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+				CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 			}
 			catch (Exception e)
 			{
