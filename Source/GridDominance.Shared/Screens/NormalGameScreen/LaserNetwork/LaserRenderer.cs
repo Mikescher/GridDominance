@@ -73,7 +73,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 #endif
 		}
 
-		private void DrawNetwork(IBatchRenderer sbatch) //TODO Draw Shield rays|raycol|forcefield|etc
+		private void DrawNetwork(IBatchRenderer sbatch)
 		{
 			foreach (var src in _network.Sources)
 			{

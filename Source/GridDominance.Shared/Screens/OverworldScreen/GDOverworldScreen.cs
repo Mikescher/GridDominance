@@ -74,6 +74,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			_banner.Text = GDConstants.LOGO_STRING;
 			_banner.UseCPUParticles = false;
 			_banner.AnimationTime = 4f;
+			_banner.AnimationStartDelay= 1f;
 			_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas());
 		}
 		

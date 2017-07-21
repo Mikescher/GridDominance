@@ -189,7 +189,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			int missLevel = 0;
 			BlueprintAnalyzer.ListUnfinishedCount(_prevWorld, out missPoints, out missLevel);
 			
-			//TODO Better text?
 			HUD.ShowToast("WPP::HINT", L10N.TF(L10NImpl.STR_PREV_MISS_TOAST, missPoints, missLevel, _worldNumber), 32, FlatColors.Orange, FlatColors.Foreground, 4f);
 
 			MainGame.Inst.SetWorldMapScreenZoomedOut(_prevWorld);

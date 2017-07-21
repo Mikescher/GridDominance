@@ -27,6 +27,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 		public string Text;
 		public bool UseCPUParticles = false;
 		public float AnimationTime = 0f;
+		public float AnimationStartDelay = 0f;
 
 		public ParticleBanner(GameScreen screen, TextureRegion2D[] particleArray, int order)
 		{
@@ -65,7 +66,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 					var emitterConfig = cfg.Build(_tex, scale, chr.Length);
 
-					AddLetter(chr, emitterConfig, px + scale * chr.Boundings.Width / 2f, py + scale/2f, scale, animLen * (idx/2f) + y * ANIMATION_LINEBREAK_PAUSE, animLen);
+					AddLetter(chr, emitterConfig, px + scale * chr.Boundings.Width / 2f, py + scale/2f, scale, AnimationStartDelay + animLen * (idx/2f) + y * ANIMATION_LINEBREAK_PAUSE, animLen);
 					idx++;
 
 					px += scale * (chr.Boundings.Width + CHAR_SPACING);

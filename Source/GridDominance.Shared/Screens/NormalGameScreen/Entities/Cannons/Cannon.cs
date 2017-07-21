@@ -45,7 +45,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float BARREL_CHARGE_SPEED_TRISHOT = 0.6f;
 		protected const float BARREL_CHARGE_SPEED_MINIGUN = 0.3f;
 		public    const float CANNON_DIAMETER = 96;      // only diameter of base circle
-		public    const float CANNON_SHIELD_DIAMETER = 128;     // TODO correct value
+		public    const float CANNON_SHIELD_DIAMETER = 120;
 		public    const float CANNON_OUTER_DIAMETER = 160; // includes fully extended barrel
 		public    const float CANNONCOG_DIAMETER = (128f / 194f) * CANNON_DIAMETER;
 		public    const float MINIGUNSTRUCT_DIAMETER = CANNONCOG_DIAMETER / FloatMath.SQRT_TWO;

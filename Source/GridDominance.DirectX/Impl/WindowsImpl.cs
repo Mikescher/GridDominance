@@ -16,7 +16,7 @@ namespace GridDominance.Windows
 	{
 		public FileHelper FileHelper { get; } = new WindowsFileHelper();
 		public IBillingAdapter IAB { get; } = new WindowsEmulatingBillingAdapter();
-		public IBluetoothAdapter Bluetooth { get; } = null; //TODO Win BT Dummy
+		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		
 		private readonly SHA256 sha256 = SHA256.Create();

@@ -430,12 +430,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		// ignore all bullets
 		private bool IsHoming(Bullet b)
 		{
-			//TODO: Optimize IsHoming()
-			// We could cache the target cannon in every bullet
-			// and update it on collision or creation
-			// would be faster (?) - optimization opportunity for later
-			// i should measure how expensive ray tracing is
-
 			GameEntity result = null;
 
 			float velo = b.PhysicsBody.LinearVelocity.Length();
