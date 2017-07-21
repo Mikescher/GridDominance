@@ -44,7 +44,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float BARREL_CHARGE_SPEED         = 0.9f;
 		protected const float BARREL_CHARGE_SPEED_TRISHOT = 0.6f;
 		protected const float BARREL_CHARGE_SPEED_MINIGUN = 0.3f;
-		public    const float CANNON_DIAMETER = 96;		 // only diameter of base circle
+		public    const float CANNON_DIAMETER = 96;      // only diameter of base circle
+		public    const float CANNON_SHIELD_DIAMETER = 128;     // TODO correct value
 		public    const float CANNON_OUTER_DIAMETER = 160; // includes fully extended barrel
 		public    const float CANNONCOG_DIAMETER = (128f / 194f) * CANNON_DIAMETER;
 		public    const float MINIGUNSTRUCT_DIAMETER = CANNONCOG_DIAMETER / FloatMath.SQRT_TWO;
@@ -74,8 +75,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public    const float LASER_CHARGE_COOLDOWN             = 0.40f; // should be more than KI freq
 		public    const float LASER_CHARGE_COOLDOWN_MAX         = LASER_CHARGE_COOLDOWN + 0.1f;
-		public    const float SHIELD_CHARGE_COOLDOWN            = 0.05f;
-		public    const float SHIELD_CHARGE_COOLDOWN_MAX        = SHIELD_CHARGE_COOLDOWN + 0.1f;
+		public    const float SHIELDLASER_CHARGE_COOLDOWN       = 0.66f;
+		public    const float SHIELDLASER_CHARGE_COOLDOWN_MAX   = SHIELDLASER_CHARGE_COOLDOWN + 0.1f;
 		protected const float LASER_DAMAGE_PER_SECOND           = 0.20f;
 		protected const float SHIELDPROJECTOR_DAMAGE_PER_SECOND = 0.02f;
 		protected const float LASER_BOOST_PER_SECOND            = 0.25f;
@@ -120,17 +121,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public Body PhysicsBody;
 		public Fixture PhysicsFixtureBase;
+		public Body PhysicsShieldBody;
 
 		public int LastAttackingLasersFriends = 0;
 		public int LastAttackingLasersEnemy = 0;
-		
+		public int LastAttackingShieldLaser = 0;
+
 		protected int counterAttackingLasersFriends = 0;
 		protected int counterAttackingLasersEnemy   = 0;
+		protected int counterAttackingShieldLaser   = 0;
 
 		protected float _shieldRotation;
 		protected float _shieldGlowProcess;
 		public float ShieldTime = 0f;
 		public bool IsShielded => ShieldTime > 0f;
+
+		public abstract bool IsLaser { get; }
 
 		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, byte cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
@@ -157,9 +163,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			controller = this.GDOwner().CreateController(Fraction, this);
 
 			CreatePhysics();
+			CreateShieldPhysics();
 		}
 
 		protected abstract void CreatePhysics();
+
+		protected virtual void CreateShieldPhysics()
+		{
+			var shieldObj = new ShieldCollisionMarker(this);
+
+			PhysicsShieldBody = BodyFactory.CreateBody(this.GDManager().PhysicsWorld, ConvertUnits2.ToSimUnits(Position), 0, BodyType.Static);
+			FixtureFactory.AttachCircle(
+				ConvertUnits.ToSimUnits(Scale * CANNON_SHIELD_DIAMETER / 2), 1,
+				PhysicsBody,
+				Vector2.Zero, shieldObj);
+		}
 
 		public void OnAfterLevelLoad()
 		{
@@ -175,7 +193,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void OnRemove()
 		{
-			this.GDManager().PhysicsWorld.RemoveBody(PhysicsBody);
+			if (PhysicsBody != null) this.GDManager().PhysicsWorld.RemoveBody(PhysicsBody);
+			if (PhysicsShieldBody != null) this.GDManager().PhysicsWorld.RemoveBody(PhysicsShieldBody);
 		}
 
 		private void FindParticleSpawns()
@@ -214,6 +233,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			LastAttackingLasersEnemy = counterAttackingLasersEnemy;
 			LastAttackingLasersFriends = counterAttackingLasersFriends;
+			LastAttackingShieldLaser = counterAttackingShieldLaser;
 			counterAttackingLasersEnemy = 0;
 			counterAttackingLasersFriends = 0;
 
@@ -533,9 +553,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public virtual void ApplyShield(SAMTime gameTime)
 		{
-			if (ShieldTime < 0) ShieldTime = 0;
+			if (ShieldTime <= 0)
+			{
+				ShieldTime = 0;
+				GDOwner.LaserNetwork.SemiDirty = true;
+			}
+
 			ShieldTime += (SHIELD_CHARGE_SPEED + SHIELD_DISCHARGE_SPEED) * gameTime.ElapsedSeconds;
 			if (ShieldTime > MAX_SHIELD_TIME) ShieldTime = MAX_SHIELD_TIME;
+
+			counterAttackingShieldLaser++;
 		}
 	}
 }

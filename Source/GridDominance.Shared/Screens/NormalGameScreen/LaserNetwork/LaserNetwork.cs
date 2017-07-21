@@ -303,6 +303,33 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				}
 				#endregion
 
+				#region Shield
+				var resultShield = result.Item1.UserData as ShieldCollisionMarker;
+				if (resultShield != null)
+				{
+					if (resultShield.Active)
+					{
+						var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Target, depth, inglass, ignore, resultShield, startdist, resultShield.Source, src.Type);
+						src.Lasers.Add(ray);
+						if (TestForLaserCollision(src, ray, nofault)) continue;
+
+						continue;
+					}
+					else if (src.Type == RayType.Shield && src.LaserFraction == resultShield.Source.Fraction)
+					{
+						var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.Target, depth, inglass, ignore, resultShield, startdist, resultShield.Source, src.Type);
+						src.Lasers.Add(ray);
+						if (TestForLaserCollision(src, ray, nofault)) continue;
+
+						continue;
+					}
+					else
+					{
+						continue;
+					}
+				}
+				#endregion
+
 				#region Portal
 				var resultPortal = result.Item1.UserData as Portal;
 				if (resultPortal != null)
@@ -417,6 +444,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				if (udIgnore != null && udIgnore == f.UserData) return -1; // ignore
 
 				if (_wrapMode == GameWrapMode.Death && f.UserData is MarkerCollisionBorder) return -1; // ignore
+
+				if (f.UserData is ShieldCollisionMarker)
+				{
+					var scm = (ShieldCollisionMarker) f.UserData;
+					if (!scm.Active) return -1; // ignore
+					if (!scm.Active) return -1; // ignore
+				}
 
 				result = Tuple.Create(f, ConvertUnits.ToDisplayUnits(pos).ToFPoint(), normal);
 

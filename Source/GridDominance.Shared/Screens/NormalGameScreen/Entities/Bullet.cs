@@ -113,9 +113,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					// if Source barrel then ignore collision
 					if (otherCannon != Source || fixtureB == otherCannon.PhysicsFixtureBase)
 					{
-						DisintegrateIntoFriend();
-						otherCannon.ApplyBoost();
-						MainGame.Inst.GDSound.PlayEffectBoost();
+						if (otherCannon.IsLaser && otherCannon.CannonHealth.ActualValue >= 1f)
+						{
+							MainGame.Inst.GDSound.PlayEffectReflect();
+							return true;
+						}
+						else
+						{
+							DisintegrateIntoFriend();
+							otherCannon.ApplyBoost();
+							MainGame.Inst.GDSound.PlayEffectBoost();
+						}
 					}
 				}
 				else // if (otherCannon.Fraction != this.Fraction)
@@ -143,6 +151,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherVoidCircle = fixtureB.UserData as VoidCircle;
 			if (otherVoidCircle != null)
 			{
+				DisintegrateIntoVoidObject();
+				MainGame.Inst.GDSound.PlayEffectCollision();
+				return false;
+			}
+			#endregion
+
+			#region Shield
+			var otherShield = fixtureB.UserData as ShieldCollisionMarker;
+			if (otherShield != null)
+			{
+				if (otherShield.Source == Source) return false;
+				if (!otherShield.Active) return false;
+
 				DisintegrateIntoVoidObject();
 				MainGame.Inst.GDSound.PlayEffectCollision();
 				return false;

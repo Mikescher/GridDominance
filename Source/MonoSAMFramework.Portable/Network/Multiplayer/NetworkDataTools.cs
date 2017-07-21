@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using MonoSAMFramework.Portable.GameMath;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
@@ -40,6 +41,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			return b;
 		}
 
+		public static bool GetBit(byte b, int bitIndex) // lowest bit is bit_0
+		{
+			return (b & (1 << bitIndex)) != 0;
+		}
+
 		public static float ConvertToRadians(int data, int bitsize)
 		{
 			return (data / ((1 << bitsize) * 1f)) * FloatMath.TAU;
@@ -53,6 +59,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public static void SetByte(out byte target, byte v)
 		{
 			target = v;
+		}
+
+		public static void SetBit(out byte target, int bitIndex, bool v)
+		{
+			target = (byte)( (v?1:0)<<bitIndex ); // lowest bit is bit_0
 		}
 
 		public static void SetByteClamped(out byte target, int v)
@@ -88,6 +99,16 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public static void SetByteFloor(out byte target, float v)
 		{
 			target = (byte)v;
+		}
+
+		public static void SetByteFloorRange(out byte target, float min, float max, float v)
+		{
+			SetByteFloor(out target, FloatMath.Clamp((v - min) / (max - min), 0f, 1f) * 255);
+		}
+
+		public static float GetByteFloorRange(byte b, float min, float max)
+		{
+			return min + (b / 255f) * (max - min);
 		}
 
 		public static void SetByteWithHighBits(out byte b, int value, int bitsize)

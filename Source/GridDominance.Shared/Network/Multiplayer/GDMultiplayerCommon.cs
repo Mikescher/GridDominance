@@ -25,11 +25,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 		public static byte AREA_TRISHOTCANNONS   = 0xC6;
 		public static byte AREA_END              = 0x77;
 
-		public static int PLEN_BULLETCANNON    =  6;
-		public static int PLEN_RELAYCANNON     =  4;
-		public static int PLEN_LASERCANNON     = 12;
-		public static int PLEN_TRISHOTCANNON   =  6;
-		public static int PLEN_MINIGUN         =  6;
+		public static int PLEN_BULLETCANNON    =  7;
+		public static int PLEN_RELAYCANNON     =  5;
+		public static int PLEN_LASERCANNON     = 13;
+		public static int PLEN_TRISHOTCANNON   =  7;
+		public static int PLEN_MINIGUN         =  7;
 		public static int PLEN_SHIELDPROJECTOR = 12;
 		public static int PLEN_BULLETS         = 10;
 
@@ -146,13 +146,14 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			for (int i = 0; i < count; i++)
 			{
-				var id = NetworkDataTools.GetByte(d[p + 0]);
-				var frac = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
-				var boost = NetworkDataTools.GetLowBits(d[p + 1], 5);
-				var rotA = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
-				var rotT = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
-				var hp = NetworkDataTools.GetByte(d[p + 4]) / 255f;
-				var chrg = NetworkDataTools.GetByte(d[p + 5]) / 255f;
+				var id     = NetworkDataTools.GetByte(d[p + 0]);
+				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
+				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
+				var rotA   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
+				var rotT   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
+				var hp     = NetworkDataTools.GetByte(d[p + 4]) / 255f;
+				var chrg   = NetworkDataTools.GetByte(d[p + 5]) / 255f;
+				var shield = NetworkDataTools.GetByteFloorRange(d[p + 6], 0, Cannon.MAX_SHIELD_TIME);
 
 				Cannon c;
 				if (Screen.CannonMap.TryGetValue(id, out c))
@@ -167,7 +168,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 						if (ShouldRecieveStateData(frac, bc))
 						{
-							bc.RemoteUpdate(frac, hp, boost, chrg, sendertime);
+							bc.RemoteUpdate(frac, hp, boost, chrg, shield, sendertime);
 						}
 					}
 				}
@@ -183,11 +184,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			for (int i = 0; i < count; i++)
 			{
-				var id = NetworkDataTools.GetByte(d[p + 0]);
-				var frac = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
-				var boost = NetworkDataTools.GetLowBits(d[p + 1], 5);
-				var rotA = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
-				var rotT = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
+				var id     = NetworkDataTools.GetByte(d[p + 0]);
+				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
+				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
+				var rotA   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
+				var rotT   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
+				var shield = NetworkDataTools.GetByteFloorRange(d[p + 4], 0, Cannon.MAX_SHIELD_TIME);
 
 				Cannon c;
 				if (Screen.CannonMap.TryGetValue(id, out c))
@@ -202,7 +204,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 						if (ShouldRecieveStateData(frac, rc))
 						{
-							rc.RemoteUpdate(frac, sendertime);
+							rc.RemoteUpdate(frac, sendertime, shield);
 						}
 					}
 				}
@@ -218,13 +220,14 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			for (int i = 0; i < count; i++)
 			{
-				var id = NetworkDataTools.GetByte(d[p + 0]);
-				var frac = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
-				var boost = NetworkDataTools.GetLowBits(d[p + 1], 5);
-				var rotA = NetworkDataTools.GetSingle(d[p + 2], d[p + 3], d[p + 4], d[p + 5]);
-				var rotT = NetworkDataTools.GetSingle(d[p + 6], d[p + 7], d[p + 8], d[p + 9]);
-				var hp = NetworkDataTools.GetByte(d[p + 10]) / 255f;
-				var ct = (NetworkDataTools.GetByte(d[p + 11]) / 255f) * Cannon.LASER_CHARGE_COOLDOWN_MAX;
+				var id     = NetworkDataTools.GetByte(d[p + 0]);
+				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
+				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
+				var rotA   = NetworkDataTools.GetSingle(d[p + 2], d[p + 3], d[p + 4], d[p + 5]);
+				var rotT   = NetworkDataTools.GetSingle(d[p + 6], d[p + 7], d[p + 8], d[p + 9]);
+				var hp     = NetworkDataTools.GetByte(d[p + 10]) / 255f;
+				var ct     = NetworkDataTools.GetByteFloorRange(d[p + 11], 0, Cannon.LASER_CHARGE_COOLDOWN_MAX);
+				var shield = NetworkDataTools.GetByteFloorRange(d[p + 12], 0, Cannon.MAX_SHIELD_TIME);
 
 				Cannon c;
 				if (Screen.CannonMap.TryGetValue(id, out c))
@@ -239,7 +242,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 						if (ShouldRecieveStateData(frac, bc))
 						{
-							bc.RemoteUpdate(frac, hp, boost, ct, sendertime);
+							bc.RemoteUpdate(frac, hp, boost, ct, shield, sendertime);
 						}
 					}
 				}
@@ -255,13 +258,14 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			for (int i = 0; i < count; i++)
 			{
-				var id = NetworkDataTools.GetByte(d[p + 0]);
-				var frac = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
-				var boost = NetworkDataTools.GetLowBits(d[p + 1], 5);
-				var rotA = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
-				var rotT = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
-				var hp = NetworkDataTools.GetByte(d[p + 4]) / 255f;
-				var chrg = NetworkDataTools.GetByte(d[p + 5]) / 255f;
+				var id     = NetworkDataTools.GetByte(d[p + 0]);
+				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
+				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
+				var rotA   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
+				var rotT   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
+				var hp     = NetworkDataTools.GetByte(d[p + 4]) / 255f;
+				var chrg   = NetworkDataTools.GetByte(d[p + 5]) / 255f;
+				var shield = NetworkDataTools.GetByteFloorRange(d[p + 6], 0, Cannon.MAX_SHIELD_TIME);
 
 				Cannon c;
 				if (Screen.CannonMap.TryGetValue(id, out c))
@@ -276,7 +280,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 						if (ShouldRecieveStateData(frac, bc))
 						{
-							bc.RemoteUpdate(frac, hp, boost, chrg, sendertime);
+							bc.RemoteUpdate(frac, hp, boost, chrg, shield, sendertime);
 						}
 					}
 				}
@@ -292,13 +296,14 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			for (int i = 0; i < count; i++)
 			{
-				var id = NetworkDataTools.GetByte(d[p + 0]);
-				var frac = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
-				var boost = NetworkDataTools.GetLowBits(d[p + 1], 5);
-				var rotA = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
-				var rotT = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
-				var hp = NetworkDataTools.GetByte(d[p + 4]) / 255f;
-				var chrg = NetworkDataTools.GetByte(d[p + 5]) / 255f;
+				var id     = NetworkDataTools.GetByte(d[p + 0]);
+				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3));
+				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
+				var rotA   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
+				var rotT   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
+				var hp     = NetworkDataTools.GetByte(d[p + 4]) / 255f;
+				var chrg   = NetworkDataTools.GetByte(d[p + 5]) / 255f;
+				var shield = NetworkDataTools.GetByteFloorRange(d[p + 6], 0, Cannon.MAX_SHIELD_TIME);
 
 				Cannon c;
 				if (Screen.CannonMap.TryGetValue(id, out c))
@@ -313,7 +318,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 						if (ShouldRecieveStateData(frac, bc))
 						{
-							bc.RemoteUpdate(frac, hp, boost, chrg, sendertime);
+							bc.RemoteUpdate(frac, hp, boost, chrg, shield, sendertime);
 						}
 					}
 				}
@@ -335,7 +340,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				var rotA = NetworkDataTools.GetSingle(d[p + 2], d[p + 3], d[p + 4], d[p + 5]);
 				var rotT = NetworkDataTools.GetSingle(d[p + 6], d[p + 7], d[p + 8], d[p + 9]);
 				var hp = NetworkDataTools.GetByte(d[p + 10]) / 255f;
-				var ct = (NetworkDataTools.GetByte(d[p + 11]) / 255f) * Cannon.SHIELD_CHARGE_COOLDOWN_MAX;
+				var ct = (NetworkDataTools.GetByte(d[p + 11]) / 255f) * Cannon.SHIELDLASER_CHARGE_COOLDOWN_MAX;
 
 				Cannon c;
 				if (Screen.CannonMap.TryGetValue(id, out c))
@@ -470,12 +475,13 @@ namespace GridDominance.Shared.Network.Multiplayer
 			{
 				if (!ShouldSendData(cannon)) continue;
 
-				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget]
+				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8:Shield]
 
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 0], cannon.BlueprintCannonID);
 				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], Screen.GetFractionID(cannon.Fraction), cannon.IntegerBoost, 3, 5, 3, 5);
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 2], NetworkDataTools.ConvertFromRadians(cannon.Rotation.ActualValue, 8));
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 3], NetworkDataTools.ConvertFromRadians(cannon.Rotation.TargetValue, 8));
+				NetworkDataTools.SetByteFloorRange(out MSG_FORWARD[idx + 4], 0, Cannon.MAX_SHIELD_TIME, cannon.ShieldTime);
 
 				idx += PLEN_RELAYCANNON;
 
@@ -518,7 +524,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			{
 				if (!ShouldSendData(cannon)) continue;
 
-				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8: Health] [8:Charge]
+				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8: Health] [8:Charge] [8:Shield]
 
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 0], cannon.BlueprintCannonID);
 				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], Screen.GetFractionID(cannon.Fraction), cannon.IntegerBoost, 3, 5, 3, 5);
@@ -526,6 +532,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 3], NetworkDataTools.ConvertFromRadians(cannon.Rotation.TargetValue, 8));
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 4], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 5], FloatMath.Clamp(cannon.BarrelCharge, 0f, 1f) * 255);
+				NetworkDataTools.SetByteFloorRange(out MSG_FORWARD[idx + 6], 0, Cannon.MAX_SHIELD_TIME, cannon.ShieldTime);
 
 				idx += PLEN_BULLETCANNON;
 
@@ -568,7 +575,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			{
 				if (!ShouldSendData(cannon)) continue;
 
-				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8: Health] [8:Charge]
+				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8: Health] [8:Charge] [8:Shield]
 
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 0], cannon.BlueprintCannonID);
 				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], Screen.GetFractionID(cannon.Fraction), cannon.IntegerBoost, 3, 5, 3, 5);
@@ -576,6 +583,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 3], NetworkDataTools.ConvertFromRadians(cannon.Rotation.TargetValue, 8));
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 4], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 5], FloatMath.Clamp(cannon.BarrelCharge, 0f, 1f) * 255);
+				NetworkDataTools.SetByteFloorRange(out MSG_FORWARD[idx + 6], 0, Cannon.MAX_SHIELD_TIME, cannon.ShieldTime);
 
 				idx += PLEN_TRISHOTCANNON;
 
@@ -618,7 +626,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			{
 				if (!ShouldSendData(cannon)) continue;
 
-				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8: Health] [8:Charge]
+				// [8: ID] [3: Fraction] [5: Boost] [8: RotationActual] [8: RotationTarget] [8: Health] [8:Charge] [8:Shield]
 
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 0], cannon.BlueprintCannonID);
 				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], Screen.GetFractionID(cannon.Fraction), cannon.IntegerBoost, 3, 5, 3, 5);
@@ -626,6 +634,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 3], NetworkDataTools.ConvertFromRadians(cannon.Rotation.TargetValue, 8));
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 4], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 5], FloatMath.Clamp(cannon.BarrelCharge, 0f, 1f) * 255);
+				NetworkDataTools.SetByteFloorRange(out MSG_FORWARD[idx + 6], 0, Cannon.MAX_SHIELD_TIME, cannon.ShieldTime);
 
 				idx += PLEN_MINIGUN;
 
@@ -668,14 +677,15 @@ namespace GridDominance.Shared.Network.Multiplayer
 			{
 				if (!ShouldSendData(cannon)) continue;
 
-				// [8: ID] [3: Fraction] [5: Boost] [32: RotationActual] [32: RotationTarget] [8: Health] [8:ChargeTime]
+				// [8: ID] [3: Fraction] [5: Boost] [32: RotationActual] [32: RotationTarget] [8: Health] [8:ChargeTime] [8:Shield]
 
 				NetworkDataTools.SetByte(out MSG_FORWARD[idx + 0], cannon.BlueprintCannonID);
 				NetworkDataTools.SetSplitByte(out MSG_FORWARD[idx + 1], Screen.GetFractionID(cannon.Fraction), cannon.IntegerBoost, 3, 5, 3, 5);
 				NetworkDataTools.SetSingle(out MSG_FORWARD[idx + 2], out MSG_FORWARD[idx + 3], out MSG_FORWARD[idx + 4], out MSG_FORWARD[idx + 5], cannon.Rotation.ActualValue);
 				NetworkDataTools.SetSingle(out MSG_FORWARD[idx + 6], out MSG_FORWARD[idx + 7], out MSG_FORWARD[idx + 8], out MSG_FORWARD[idx + 9], cannon.Rotation.TargetValue);
-				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 10], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
-				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 11], FloatMath.Clamp(cannon.ChargeTime / Cannon.LASER_CHARGE_COOLDOWN_MAX, 0f, 1f) * 255);
+				NetworkDataTools.SetByteFloorRange(out MSG_FORWARD[idx + 10], 0, 1, cannon.CannonHealth.TargetValue);
+				NetworkDataTools.SetByteFloorRange(out MSG_FORWARD[idx + 11], 0, Cannon.LASER_CHARGE_COOLDOWN_MAX, cannon.ChargeTime);
+				NetworkDataTools.SetByteFloorRange(out MSG_FORWARD[idx + 12], 0, Cannon.MAX_SHIELD_TIME, cannon.ShieldTime);
 
 				idx += PLEN_LASERCANNON;
 
@@ -725,7 +735,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				NetworkDataTools.SetSingle(out MSG_FORWARD[idx + 2], out MSG_FORWARD[idx + 3], out MSG_FORWARD[idx + 4], out MSG_FORWARD[idx + 5], cannon.Rotation.ActualValue);
 				NetworkDataTools.SetSingle(out MSG_FORWARD[idx + 6], out MSG_FORWARD[idx + 7], out MSG_FORWARD[idx + 8], out MSG_FORWARD[idx + 9], cannon.Rotation.TargetValue);
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 10], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
-				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 11], FloatMath.Clamp(cannon.ChargeTime / Cannon.SHIELD_CHARGE_COOLDOWN_MAX, 0f, 1f) * 255);
+				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 11], FloatMath.Clamp(cannon.ChargeTime / Cannon.SHIELDLASER_CHARGE_COOLDOWN_MAX, 0f, 1f) * 255);
 
 				idx += PLEN_LASERCANNON;
 

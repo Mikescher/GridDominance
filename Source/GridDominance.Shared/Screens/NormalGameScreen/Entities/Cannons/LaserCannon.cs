@@ -43,6 +43,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		float ILaserCannon.LaserPulseTime => LaserPulseTime;
 
+		public override bool IsLaser => true;
+
 		public LaserCannon(GDGameScreen scrn, LaserCannonBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
@@ -313,7 +315,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			return new LaserKIController(screen, this, fraction);
 		}
 
-		public void RemoteUpdate(Fraction frac, float hp, byte boost, float chrg, float sendertime)
+		public void RemoteUpdate(Fraction frac, float hp, byte boost, float chrg, float shield, float sendertime)
 		{
 			if (frac != Fraction) SetFraction(frac);
 
@@ -324,6 +326,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			ChargeTime = chrg + delta;
 
 			CannonHealth.Set(hp);
+			ShieldTime = shield;
 
 			var ups = delta / (1 / 30f);
 
@@ -334,18 +337,34 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 				for (int i = 0; i < iups; i++)
 				{
-					CannonHealth.Update(gt30);
-
-					if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > MIN_REGEN_HEALTH && (LastAttackingLasersEnemy <= LastAttackingLasersFriends))
-					{
-						var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
-
-						bonus /= Scale;
-
-						CannonHealth.Inc(bonus * gt30.ElapsedSeconds);
-						CannonHealth.Limit(0f, 1f);
-					}
+					RemoteUpdateSim(gt30);
 				}
+			}
+		}
+
+		private void RemoteUpdateSim(SAMTime gameTime)
+		{
+			CannonHealth.Update(gameTime);
+
+			if (CannonHealth.TargetValue < 1 && CannonHealth.TargetValue > MIN_REGEN_HEALTH && (LastAttackingLasersEnemy <= LastAttackingLasersFriends))
+			{
+				var bonus = START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * CannonHealth.TargetValue;
+
+				bonus /= Scale;
+
+				CannonHealth.Inc(bonus * gameTime.ElapsedSeconds);
+				CannonHealth.Limit(0f, 1f);
+			}
+
+			if (LastAttackingShieldLaser > 0)
+			{
+				ShieldTime += (SHIELD_CHARGE_SPEED) * gameTime.ElapsedSeconds;
+				if (ShieldTime > MAX_SHIELD_TIME) ShieldTime = MAX_SHIELD_TIME;
+			}
+			else
+			{
+				ShieldTime -= (SHIELD_DISCHARGE_SPEED) * gameTime.ElapsedSeconds;
+				if (ShieldTime < 0) ShieldTime = 0;
 			}
 		}
 	}

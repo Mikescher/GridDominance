@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
@@ -69,6 +70,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 					return new PlayerController(this, cannon, f);
 
 				case FractionType.ComputerFraction:
+#if DEBUG
+					if (DebugSettings.Get("ControlEnemies")) return new PlayerController(this, cannon, f);
+#endif
 					return cannon.CreateKIController(this, f);
 
 				case FractionType.NeutralFraction:

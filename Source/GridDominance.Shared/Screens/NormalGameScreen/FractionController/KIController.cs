@@ -186,6 +186,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		protected LaserRay FindTargetAttackingLaser()
 		{
+			if (Cannon.IsShielded) return null;
+
 			return Cannon
 				.AttackingRays
 				.RandomOrDefault(crng);
@@ -260,6 +262,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.Where(p => !p.IsShielded)
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
+				.Where(p => !p.IsLaser && p.CannonHealth.TargetValue >= 1f)
 				.Where(IsReachable)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
@@ -284,6 +287,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.Where(p => !p.IsShielded)
 				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
+				.Where(p => !p.IsLaser && p.CannonHealth.TargetValue >= 1f)
 				.Where(IsBulletBlockedReachable)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
@@ -306,6 +310,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.GetEntities<Cannon>()
 				.Where(p => !p.IsShielded)
 				.Where(p => p.Fraction == Fraction)
+				.Where(p => !p.IsLaser && p.CannonHealth.TargetValue >= 1f)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}
@@ -389,6 +394,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.Where(p => !p.TargetCannon.IsShielded)
 				.Where(p => p.TargetCannon.Fraction == Fraction)
 				.Where(p => p.TargetCannon != Cannon)
+				.Where(p => !p.TargetCannon.IsLaser && p.TargetCannon.CannonHealth.TargetValue >= 1f)
 				.Where(IsReachablePrecalc)
 				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
@@ -411,6 +417,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.Where(p => !p.TargetCannon.IsShielded)
 				.Where(p => p.TargetCannon.Fraction == Fraction)
 				.Where(p => p.TargetCannon != Cannon)
+				.Where(p => !p.TargetCannon.IsLaser && p.TargetCannon.CannonHealth.TargetValue >= 1f)
 				.Where(IsBulletBlockedReachablePrecalc)
 				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
@@ -435,20 +442,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 			if (Math.Abs(velo) < FloatMath.EPSILON6) return false;
 
-			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
+			float cbFunc(Fixture f, Vector2 pos, Vector2 normal, float frac)
 			{
 				if (f.UserData is Bullet) return -1; // ignore _all_ Bullets
 
 				if (f.UserData is IPhysicsMarker) return -1; // ignore
+				if (f.UserData is ShieldCollisionMarker) return -1; // ignore
 
-				result = (GameEntity)f.UserData;
+				result = (GameEntity) f.UserData;
 				return frac; // limit to this length
-			};
+			}
 
 			var rayStart = b.PhysicsBody.Position;
 			var rayEnd = rayStart + b.PhysicsBody.LinearVelocity * ConvertUnits.ToSimUnits(GDConstants.VIEW_WIDTH) / b.PhysicsBody.LinearVelocity.Length();
 
-			Owner.GetPhysicsWorld().RayCast(callback, rayStart, rayEnd);
+			Owner.GetPhysicsWorld().RayCast(cbFunc, rayStart, rayEnd);
 
 			return (result == Cannon);
 		}
@@ -466,6 +474,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 				var bulletData = f.UserData as Bullet;
 				if (bulletData != null && bulletData.Source == Cannon) return -1; // ignore own Bullets
+
+				var shieldData = f.UserData as ShieldCollisionMarker;
+				if (shieldData != null && !shieldData.Active) return -1; // ignore deactivated shields
 
 				if (f.UserData is IPhysicsMarker) return -1; // ignore
 
@@ -487,25 +498,28 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			GameEntity result = null;
 
-			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
+			float cbFunc(Fixture f, Vector2 pos, Vector2 normal, float frac)
 			{
 				if (f.UserData == Cannon) return -1; // ignore self;
 
 				if (f.UserData == c) return frac; // limit
-				
-				if (f.UserData is Bullet) return -1;// ignore _all_ Bullets
-				
+
+				if (f.UserData is Bullet) return -1; // ignore _all_ Bullets
+
+				var shieldData = f.UserData as ShieldCollisionMarker;
+				if (shieldData != null && !shieldData.Active) return -1; // ignore deactivated shields
+
 				if (f.UserData is IPhysicsMarker) return -1; // ignore
 
-				result = (GameEntity)f.UserData;
+				result = (GameEntity) f.UserData;
 
 				return 0; // terminate
-			};
+			}
 
 			var rayStart = Cannon.PhysicsBody.Position;
 			var rayEnd = c.PhysicsBody.Position;
 
-			Owner.GetPhysicsWorld().RayCast(callback, rayStart, rayEnd);
+			Owner.GetPhysicsWorld().RayCast(cbFunc, rayStart, rayEnd);
 
 			return (result == null);
 		}
@@ -524,6 +538,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 					var bulletData = f.UserData as Bullet;
 					if (bulletData != null && bulletData.Source == Cannon) return -1; // ignore own Bullets
+
+					var shieldData = f.UserData as ShieldCollisionMarker;
+					if (shieldData != null && !shieldData.Active) return -1; // ignore deactivated shields
 
 					if (f.UserData is IPhysicsMarker) return -1; // ignore
 
@@ -569,6 +586,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					if (f.UserData is Bullet) return -1;// ignore _all_ Bullets
 
 					if (f.UserData is IPhysicsMarker) return -1; // ignore
+
+					var shieldData = f.UserData as ShieldCollisionMarker;
+					if (shieldData != null && !shieldData.Active) return -1; // ignore deactivated shields
 
 					result = (GameEntity)f.UserData;
 

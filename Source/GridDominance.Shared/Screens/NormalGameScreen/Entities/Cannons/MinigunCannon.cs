@@ -39,6 +39,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private readonly bool _muted;
 
+		public override bool IsLaser => false;
+
 		public MinigunCannon(GDGameScreen scrn, MinigunBlueprint bp, Fraction[] fractions) : 
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
@@ -366,7 +368,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				AddEntityOperation(new CannonBooster(1 / (BOOSTER_LIFETIME_MULTIPLIER * Fraction.BulletMultiplicator)));
 			}
 		}
-
+		
 		#endregion
 
 		public override KIController CreateKIController(GDGameScreen screen, Fraction fraction)
@@ -374,7 +376,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			return new BulletKIController(screen, this, fraction);
 		}
 
-		public void RemoteUpdate(Fraction frac, float hp, byte boost, float charge, float sendertime)
+		public void RemoteUpdate(Fraction frac, float hp, byte boost, float charge, float shield, float sendertime)
 		{
 			if (frac != Fraction) SetFraction(frac);
 
@@ -384,6 +386,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var delta = GDOwner.LevelTime - sendertime;
 
 			CannonHealth.Set(hp);
+			ShieldTime = shield;
 
 			var ups = delta / (1 / 30f);
 
@@ -443,6 +446,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 						_remainingBullets = MINIGUN_BULLET_COUNT;
 					}
 				}
+			}
+
+			if (LastAttackingShieldLaser > 0)
+			{
+				ShieldTime += (SHIELD_CHARGE_SPEED) * gameTime.ElapsedSeconds;
+				if (ShieldTime > MAX_SHIELD_TIME) ShieldTime = MAX_SHIELD_TIME;
+			}
+			else
+			{
+				ShieldTime -= (SHIELD_DISCHARGE_SPEED) * gameTime.ElapsedSeconds;
+				if (ShieldTime < 0) ShieldTime = 0;
 			}
 		}
 	}

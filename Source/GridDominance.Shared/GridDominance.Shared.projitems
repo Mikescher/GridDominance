@@ -127,6 +127,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\LaserNetwork\LaserSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\ConvertUnits2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\IPhysicsMarker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\ShieldCollisionMarker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerCollisionBorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerRefractionCorner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerRefractionEdge.cs" />

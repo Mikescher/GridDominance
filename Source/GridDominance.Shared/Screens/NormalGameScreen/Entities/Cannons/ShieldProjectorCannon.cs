@@ -43,6 +43,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		float ILaserCannon.LaserPulseTime => LaserPulseTime;
 
+		public override bool IsLaser => true;
+
 		public readonly DeltaLimitedFloat SatelliteExpansion = new DeltaLimitedFloat(0f, SHIELD_SATELLITE_EXPANSIONSPEED);
 
 		public ShieldProjectorCannon(GDGameScreen scrn, ShieldProjectorBlueprint bp, Fraction[] fractions) : 
@@ -73,7 +75,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				PhysicsBody, this);
 		}
 
-		protected override void OnDraw(IBatchRenderer sbatch) //TODO Draw different (ShieldCannon)
+		protected override void OnDraw(IBatchRenderer sbatch)
 		{
 			DrawBodyAndBarrel_BG(sbatch);
 		}
@@ -283,7 +285,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			bool active = CannonHealth.TargetValue >= FULL_LASER_HEALTH;
 
-			LaserSource.SetState(active, Fraction, Rotation.ActualValue, ChargeTime > SHIELD_CHARGE_COOLDOWN);
+			LaserSource.SetState(active, Fraction, Rotation.ActualValue, ChargeTime > SHIELDLASER_CHARGE_COOLDOWN);
 
 			if (!_muted && MainGame.Inst.Profile.EffectsEnabled)
 			{
@@ -296,39 +298,26 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			if (!LaserSource.LaserActive) return;
 
+			bool hit = false;
+
 			foreach (var ray in LaserSource.Lasers)
 			{
-				if (ray.Terminator != LaserRayTerminator.Target &&
-				    ray.Terminator != LaserRayTerminator.LaserSelfTerm &&
-				    ray.Terminator != LaserRayTerminator.LaserFaultTerm &&
-				    ray.Terminator != LaserRayTerminator.LaserMultiTerm &&
-				    ray.Terminator != LaserRayTerminator.BulletTerm) continue;
-
-				if (ray.Terminator == LaserRayTerminator.BulletTerm && LaserSource.LaserPowered)
-				{
-					ray.TerminatorBullet.PhysicsBody.ApplyForce((ray.End - ray.Start).WithLength(RAY_FORCE));
-				}
+				if (ray.Terminator != LaserRayTerminator.Target) continue;
 				
 				if (ray.TargetCannon == null) continue;
 
 				if (ray.TargetCannon.Fraction == Fraction)
 				{
 					if (ray.TargetCannon == this) continue; // stop touching yourself
-					
-					if (!LaserSource.LaserPowered) continue;
 
+					hit = true;
+
+					if (!LaserSource.LaserPowered) continue;
 					ray.TargetCannon.ApplyShield(gameTime);
 				}
-				else
-				{
-					var dmg = Fraction.LaserMultiplicator * gameTime.ElapsedSeconds * SHIELDPROJECTOR_DAMAGE_PER_SECOND;
-
-					if (!LaserSource.LaserPowered || ray.Terminator != LaserRayTerminator.Target) dmg = 0;
-					
-					ray.TargetCannon.TakeLaserDamage(Fraction, ray, dmg);
-				}
-				
 			}
+
+			if (!hit) ChargeTime = 0f;
 		}
 		
 		public override void ApplyBoost()
@@ -396,6 +385,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override void ApplyShield(SAMTime gameTime)
 		{
 			ShieldTime = 0; // no recursive shielding
+		}
+
+		protected override void CreateShieldPhysics()
+		{
+			// NO SHIELD
 		}
 	}
 }

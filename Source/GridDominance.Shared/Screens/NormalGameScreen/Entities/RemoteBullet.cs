@@ -120,9 +120,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					// stupid approximation to prevent source cannon coll (lifetime > 0.5s)
 					if (Lifetime > 0.5f || fixtureB == otherCannon.PhysicsFixtureBase)
 					{
-						PredictKill(RemoteBulletState.Dying_ShrinkFast);
-						otherCannon.ApplyBoost();
-						MainGame.Inst.GDSound.PlayEffectBoost();
+						if (otherCannon.IsLaser && otherCannon.CannonHealth.TargetValue >= 1f)
+						{
+							MainGame.Inst.GDSound.PlayEffectReflect();
+							return true;
+						}
+						else
+						{
+							PredictKill(RemoteBulletState.Dying_ShrinkFast);
+							otherCannon.ApplyBoost();
+							MainGame.Inst.GDSound.PlayEffectBoost();
+						}
+
 					}
 				}
 				else // if (otherCannon.Fraction != this.Fraction)
@@ -150,6 +159,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherVoidCircle = fixtureB.UserData as VoidCircle;
 			if (otherVoidCircle != null)
 			{
+				PredictKill(RemoteBulletState.Dying_Explosion);
+				MainGame.Inst.GDSound.PlayEffectCollision();
+				return false;
+			}
+			#endregion
+
+			#region Shield
+			var otherShield = fixtureB.UserData as ShieldCollisionMarker;
+			if (otherShield != null)
+			{
+				if (!otherShield.Active) return false;
+
 				PredictKill(RemoteBulletState.Dying_Explosion);
 				MainGame.Inst.GDSound.PlayEffectCollision();
 				return false;

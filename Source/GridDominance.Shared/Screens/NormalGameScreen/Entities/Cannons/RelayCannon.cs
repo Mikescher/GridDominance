@@ -19,6 +19,7 @@ using FarseerPhysics.Factories;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
@@ -31,7 +32,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private readonly bool _muted;
 
-		public RelayCannon(GDGameScreen scrn, RelayCannonBlueprint bp, Fraction[] fractions) : 
+		public override bool IsLaser => false;
+
+		public RelayCannon(GDGameScreen scrn, RelayCannonBlueprint bp, Fraction[] fractions) :
 			base(scrn, fractions, bp.Player, bp.X, bp.Y, bp.Diameter, bp.CannonID, bp.Rotation, bp.PrecalculatedPaths)
 		{
 			Blueprint = bp;
@@ -76,7 +79,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				var bckp = DebugSettings.Get("ImmortalCannons");
 				DebugSettings.SetManual("ImmortalCannons", false);
-				
+
 				while (Fraction.Type != FractionType.PlayerFraction)
 					TakeDamage(this.GDOwner().GetPlayerFraction(), 1);
 
@@ -320,7 +323,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			return new RelayKIController(screen, this, fraction);
 		}
 
-		public void RemoteUpdate(Fraction frac, float sendertime)
+		public void RemoteUpdate(Fraction frac, float shield, float sendertime)
 		{
 			if (frac != Fraction) SetFraction(frac);
 
@@ -329,6 +332,34 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var delta = GDOwner.LevelTime - sendertime;
 
 			CannonHealth.Set(frac.IsNeutral ? 0 : 1);
+			ShieldTime = shield;
+
+			var ups = delta / (1 / 30f);
+
+			if (ups > 1)
+			{
+				var iups = FloatMath.Min(FloatMath.Round(ups), 10);
+				var gt30 = new SAMTime((delta / iups) * GDOwner.GameSpeed, MonoSAMGame.CurrentTime.TotalElapsedSeconds);
+
+				for (int i = 0; i < iups; i++)
+				{
+					RemoteUpdateSim(gt30);
+				}
+			}
+		}
+
+		private void RemoteUpdateSim(SAMTime gameTime)
+		{
+			if (LastAttackingShieldLaser > 0)
+			{
+				ShieldTime += (SHIELD_CHARGE_SPEED) * gameTime.ElapsedSeconds;
+				if (ShieldTime > MAX_SHIELD_TIME) ShieldTime = MAX_SHIELD_TIME;
+			}
+			else
+			{
+				ShieldTime -= (SHIELD_DISCHARGE_SPEED) * gameTime.ElapsedSeconds;
+				if (ShieldTime < 0) ShieldTime = 0;
+			}
 		}
 	}
 }
