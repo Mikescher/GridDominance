@@ -38,7 +38,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		public override int Depth => 0;
 
 		private readonly bool successScreen;
-		private readonly int _plusPoints;
+		private readonly int _deltaPoints;
 		private readonly PlayerProfile profile;
 		private readonly LevelBlueprint Level;
 
@@ -59,7 +59,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			_server = srv;
 			_serverHost = srv as GDMultiplayerServer;
 			_preventStopOnRem = preventStopOnRem;
-			_plusPoints = successScreen ? addPoints : 0;
+			_deltaPoints = addPoints;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -166,7 +166,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				FontSize = 35,
 			});
 
-			AddElement(new HUDIncrementIndicatorLabel(profile.MultiplayerPoints.ToString(), (successScreen ? "+" : "-") + Math.Abs(_plusPoints), 2)
+			AddElement(new HUDIncrementIndicatorLabel(profile.MultiplayerPoints.ToString(), (successScreen ? "+" : "-") + Math.Abs(_deltaPoints), 2)
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 15),
