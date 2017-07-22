@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+﻿using System;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
@@ -8,9 +9,12 @@ using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using System.Linq;
 using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
@@ -71,6 +75,34 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			if (Mode == ServerMode.CreatingNewGame) Screen = null;
 			if (Mode == ServerMode.BeforeNewGame) Screen = null;
+
+			if (ConnType == MultiplayerConnectionType.P2P)
+			{
+				var btm = (BluetoothNetworkMedium) _medium;
+
+				if (btm.Events.Count > 0)
+				{
+					var evt = btm.Events.Dequeue();
+					switch (evt.Type)
+					{
+						case BluetoothMediumEvent.BTEvent.TryConnection:
+							MainGame.Inst.ShowToast(null, L10N.TF(L10NImpl.STR_MP_TOAST_CONN_TRY, evt.Param), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+							break;
+
+						case BluetoothMediumEvent.BTEvent.ConnectionFailed:
+							MainGame.Inst.ShowToast(null, L10N.TF(L10NImpl.STR_MP_TOAST_CONN_FAIL, evt.Param), 40, FlatColors.Orange, FlatColors.Foreground, 2f);
+							break;
+
+						case BluetoothMediumEvent.BTEvent.ConnectionSucceeded:
+							MainGame.Inst.ShowToast(null, L10N.TF(L10NImpl.STR_MP_TOAST_CONN_SUCC, evt.Param), 40, FlatColors.Emerald, FlatColors.Foreground, 2f);
+							break;
+
+						default:
+							SAMLog.Error("GDMPC::Update_Evt", "type = " + evt.Type);
+							break;
+					}
+				}
+			}
 		}
 
 		protected void ProcessStateData(byte[] d, byte euid)

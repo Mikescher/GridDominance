@@ -106,6 +106,7 @@
     <Compile Include="LogProtocol\SAMLogEntry.cs" />
     <Compile Include="LogProtocol\SAMLogLevel.cs" />
     <Compile Include="DeviceBridge\IBluetoothDevice.cs" />
+    <Compile Include="Network\Multiplayer\BluetoothMediumEvent.cs" />
     <Compile Include="Network\Multiplayer\MultiplayerConnectionType.cs" />
     <Compile Include="Network\Multiplayer\NetworkCommandCodes.cs" />
     <Compile Include="Network\Multiplayer\NetworkDataTools.cs" />
