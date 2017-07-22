@@ -14,7 +14,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public const int MAX_PACKAGE_SIZE_BYTES          = 1024; // https://stackoverflow.com/a/15003663/1761622
 
 		public const float TIME_BETWEEN_PINGS            = 1f; 
-		public const float TIME_BETWEEN_INGAME_PINGS     = 3f;
+		public const float TIME_BETWEEN_INGAME_PINGS     = 2f;
 		public const float TIME_BETWEEN_INGAME_USERPINGS = 1f;
 		public const float TIME_BETWEEN_HOSTINFO         = 1f;
 		public const float TIMEOUT_PAUSE                 = 1.5f;
@@ -92,18 +92,18 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			P2PConnectionFailed, P2PConnectionLost,
 		};
 
-		private   readonly byte[] MSG_PING          = { CMD_PING,             0                      };
-		private   readonly byte[] MSG_CREATESESSION = { CMD_CREATESESSION,    0, 0                   };
-		private   readonly byte[] MSG_JOINSESSION   = { CMD_JOINSESSION,      0, 0, 0, 0, 0          };
-		private   readonly byte[] MSG_QUITSESSION   = { CMD_QUITSESSION,      0, 0, 0, 0, 0, 0       };
-		private   readonly byte[] MSG_QUERYLOBBY    = { CMD_QUERYSESSION,     0, 0, 0, 0, 0          };
-		private            byte[] MSG_LOBBYSYNC     = { CMD_FORWARDLOBBYSYNC, 0, 0, 0, 0, 0          };
-		private            byte[] MSG_HOSTINFO      = { CMD_FORWARDHOSTINFO,  0, 0, 0, 0, 0          };
-		private   readonly byte[] MSG_USERPING_REQ  = { CMD_USERPING,         0, 0, 0, 0, 0, 0, 0, 0 };
-		private   readonly byte[] MSG_USERPING_ACK  = { CMD_USERPING_ACK,     0, 0, 0, 0, 0, 0, 0, 0 };
-		private   readonly byte[] MSG_AFTERGAME     = { CMD_AFTERGAME,        0, 0, 0, 0, 0, 0, 0, 0 };
-		private   readonly byte[] MSG_NEWGAME       = { CMD_NEWGAME,          0, 0, 0, 0, 0          };
-		private   readonly byte[] MSG_NEWGAME_ACK   = { ANS_NEWGAME,          0, 0, 0, 0, 0, 0       };
+		private   readonly byte[] MSG_PING          = { CMD_PING,             0                         };
+		private   readonly byte[] MSG_CREATESESSION = { CMD_CREATESESSION,    0, 0                      };
+		private   readonly byte[] MSG_JOINSESSION   = { CMD_JOINSESSION,      0, 0, 0, 0, 0             };
+		private   readonly byte[] MSG_QUITSESSION   = { CMD_QUITSESSION,      0, 0, 0, 0, 0, 0          };
+		private   readonly byte[] MSG_QUERYLOBBY    = { CMD_QUERYSESSION,     0, 0, 0, 0, 0             };
+		private            byte[] MSG_LOBBYSYNC     = { CMD_FORWARDLOBBYSYNC, 0, 0, 0, 0, 0             };
+		private            byte[] MSG_HOSTINFO      = { CMD_FORWARDHOSTINFO,  0, 0, 0, 0, 0             };
+		private   readonly byte[] MSG_USERPING_REQ  = { CMD_USERPING,         0, 0, 0, 0, 0, 0, 0, 0    };
+		private   readonly byte[] MSG_USERPING_ACK  = { CMD_USERPING_ACK,     0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		private   readonly byte[] MSG_AFTERGAME     = { CMD_AFTERGAME,        0, 0, 0, 0, 0, 0, 0, 0    };
+		private   readonly byte[] MSG_NEWGAME       = { CMD_NEWGAME,          0, 0, 0, 0, 0             };
+		private   readonly byte[] MSG_NEWGAME_ACK   = { ANS_NEWGAME,          0, 0, 0, 0, 0, 0          };
 		protected readonly byte[] MSG_FORWARD       = new byte[MAX_PACKAGE_SIZE_BYTES];
 
 		public ConnectionState ConnState = ConnectionState.Offline;
@@ -491,15 +491,54 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		private void UpdateConnStateByPing(SAMTime gameTime, bool errorOnTimeout)
 		{
+			if (ConnType == MultiplayerConnectionType.P2P)
+			{
+				if (Mode == ServerMode.InLobby) errorOnTimeout = false;
+
+				UpdateConnStateByPing_P2P(gameTime, errorOnTimeout);
+			}
+			else
+			{
+				UpdateConnStateByPing_Proxy(gameTime, errorOnTimeout);
+			}
+		}
+
+
+		private void UpdateConnStateByPing_P2P(SAMTime gameTime, bool errorOnTimeout)
+		{
 			var freq = TIME_BETWEEN_PINGS;
 			if (InOrAfterGame) freq = TIME_BETWEEN_INGAME_PINGS;
 
-			if (ConnType == MultiplayerConnectionType.P2P)
+			var deltaLSR = _lastSendPing - _lastPingResponse - freq;
+
+			if (deltaLSR < TIMEOUT_PAUSE)
 			{
-				ProxyPing.SetDirect(0);
-				ConnState = _medium.IsP2PConnected ? ConnectionState.Connected : ConnectionState.Reconnecting;
+				ConnState = ConnectionState.Connected;
+			}
+			else if (deltaLSR < TIMEOUT_OFFLINE)
+			{
+				ConnState = ConnectionState.Reconnecting;
+			}
+			else if (deltaLSR < TIMEOUT_ERRORSTOP)
+			{
+				ConnState = ConnectionState.Offline;
+			}
+			else
+			{
+				if (errorOnTimeout && _lastPingResponse > 0) ErrorStop(ErrorType.ProxyServerTimeout, null);
 				return;
 			}
+
+			if (deltaLSR > 3 * freq)
+			{
+				ProxyPing.SetDirect(deltaLSR);
+			}
+		}
+
+		private void UpdateConnStateByPing_Proxy(SAMTime gameTime, bool errorOnTimeout)
+		{
+			var freq = TIME_BETWEEN_PINGS;
+			if (InOrAfterGame) freq = TIME_BETWEEN_INGAME_PINGS;
 
 			var deltaLSR = _lastSendPing - _lastPingResponse - freq;
 
@@ -582,11 +621,39 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		private void SendPingIfNeeded(SAMTime gameTime)
 		{
+			if (ConnType == MultiplayerConnectionType.P2P)
+			{
+				SendPingIfNeeded_P2P(gameTime);
+			}
+			else
+			{
+				SendPingIfNeeded_Proxy(gameTime);
+			}
+		}
+
+		private void SendPingIfNeeded_P2P(SAMTime gameTime)
+		{
+			var otherUser = (SessionUserID == 0) ? 1 : 0;
+
+			if (_medium.IsP2PConnected && gameTime.TotalElapsedSeconds - UserConn[otherUser].LastSendPingTime > TIME_BETWEEN_INGAME_USERPINGS)
+			{
+				SetSequenceCounter(ref MSG_USERPING_REQ[1]);
+				MSG_USERPING_REQ[2] = (byte)((SessionID >> 8) & 0xFF);
+				MSG_USERPING_REQ[3] = (byte)(SessionID & 0xFF);
+				MSG_USERPING_REQ[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+				MSG_USERPING_REQ[5] = (byte)(SessionSecret & 0xFF);
+				MSG_USERPING_REQ[6] = (byte)(SessionUserID);
+				MSG_USERPING_REQ[7] = (byte)otherUser;
+				UserConn[otherUser].SetPingSequenceCounterAndInvalidateLastPing(ref MSG_USERPING_REQ[8]);
+				_lastSendPing = gameTime.TotalElapsedSeconds;
+				Send(MSG_USERPING_REQ);
+			}
+		}
+
+		private void SendPingIfNeeded_Proxy(SAMTime gameTime)
+		{
 			var freq = TIME_BETWEEN_PINGS;
 			if (InOrAfterGame) freq = TIME_BETWEEN_INGAME_PINGS;
-
-
-			if (ConnType == MultiplayerConnectionType.P2P) return;
 
 			if (gameTime.TotalElapsedSeconds - _lastSendPing > freq && gameTime.TotalElapsedSeconds - _lastPingResponse > TIME_BETWEEN_PINGS)
 			{
@@ -621,11 +688,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					if (gameTime.TotalElapsedSeconds - UserConn[0].LastSendPingTime > TIME_BETWEEN_INGAME_USERPINGS)
 					{
 						SetSequenceCounter(ref MSG_USERPING_REQ[1]);
-						MSG_USERPING_REQ[2] = (byte) ((SessionID >> 8) & 0xFF);
-						MSG_USERPING_REQ[3] = (byte) (SessionID & 0xFF);
-						MSG_USERPING_REQ[4] = (byte) (((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
-						MSG_USERPING_REQ[5] = (byte) (SessionSecret & 0xFF);
-						MSG_USERPING_REQ[6] = (byte) (SessionUserID);
+						MSG_USERPING_REQ[2] = (byte)((SessionID >> 8) & 0xFF);
+						MSG_USERPING_REQ[3] = (byte)(SessionID & 0xFF);
+						MSG_USERPING_REQ[4] = (byte)(((SessionUserID & 0xF) << 4) | ((SessionSecret >> 8) & 0x0F));
+						MSG_USERPING_REQ[5] = (byte)(SessionSecret & 0xFF);
+						MSG_USERPING_REQ[6] = (byte)(SessionUserID);
 						MSG_USERPING_REQ[7] = 0;
 						UserConn[0].SetPingSequenceCounterAndInvalidateLastPing(ref MSG_USERPING_REQ[8]);
 						Send(MSG_USERPING_REQ);
@@ -763,8 +830,6 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			var cmd = d[0];
 			var seq = d[1];
 
-			if (cmd == 0) return; //TODO Ignore NOPs ??
-
 			switch (cmd)
 			{
 				case ACK_PINGRESULT:
@@ -781,6 +846,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					MSG_USERPING_ACK[6] = (byte)(SessionUserID);
 					MSG_USERPING_ACK[7] = d[6];
 					MSG_USERPING_ACK[8] = d[8];
+					MSG_USERPING_ACK[9] = seq;
 					Send(MSG_USERPING_ACK);
 
 					return;
@@ -790,8 +856,18 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					if (d[6] >= 0 && d[6] < SessionCapacity)
 					{
 						var pingseq = d[8];
+						var sendseq = d[9];
 
-						UserConn[d[6]].RecievePingAck(d[8]);
+						UserConn[d[6]].RecievePingAck(pingseq);
+
+						if (ConnType == MultiplayerConnectionType.P2P)
+						{
+							_lastServerResponse = gameTime.TotalElapsedSeconds;
+							MsgAcks[sendseq] = true;
+
+							_lastPingResponse = gameTime.TotalElapsedSeconds;
+							ProxyPing.Inc(_lastPingResponse - MsgSendTime[sendseq]);
+						}
 					}
 
 					return;
@@ -1243,7 +1319,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			ConnState = ConnectionState.Offline;
 		}
 
-		public void ErrorStop(ErrorType t, object d)
+		protected void ErrorStop(ErrorType t, object d)
 		{
 			if (_stopped) return;
 			
