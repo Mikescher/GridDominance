@@ -88,7 +88,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			GameVersionMismatch, LevelNotFound, LevelVersionMismatch,
 			UserDisconnect, ServerDisconnect,
 
-			BluetoothAdapterNotFound, BluetoothInternalError, BluetoothNotEnabled,
+			BluetoothAdapterNotFound, BluetoothAdapterNotPermission, BluetoothInternalError, BluetoothNotEnabled,
 			P2PConnectionFailed, P2PConnectionLost,
 		};
 

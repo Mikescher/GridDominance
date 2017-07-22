@@ -10,9 +10,9 @@ namespace GridDominance.Android.Impl
 
 	class BTScanReciever : BroadcastReceiver
 	{
-		private readonly AndroidBluetoothAdapter _adapter;
+		private readonly XamarinBluetooth _adapter;
 
-		public BTScanReciever(AndroidBluetoothAdapter a)
+		public BTScanReciever(XamarinBluetooth a)
 		{
 			_adapter = a;
 		}
@@ -21,6 +21,8 @@ namespace GridDominance.Android.Impl
 		{
 			try
 			{
+				SAMLog.Debug("BTScanReciever::OnRecieve(" + intent.Action + ")");
+
 				string action = intent.Action;
 
 				if (action == BluetoothDevice.ActionFound)

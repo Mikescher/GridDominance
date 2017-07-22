@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content.PM;
 using Android.Views;
@@ -6,11 +7,12 @@ using Android.OS;
 using GridDominance.Shared;
 using Microsoft.Xna.Framework;
 using Android.Content;
+using GridDominance.Android.Impl;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Android
 {
-	[Activity(Label = "GridDominance.Android", 
+	[Activity(Label = "GridDominance.Android",
 		MainLauncher = true,
 		Icon = "@drawable/icon",
 		Theme = "@style/Theme.Splash",
@@ -51,6 +53,8 @@ namespace GridDominance.Android
 		{
 			try
 			{
+				SAMLog.Debug("BTScanReciever::OnActivityResult(" + data.Action + ")");
+
 				_impl.HandleActivityResult(requestCode, resultCode, data);
 			}
 			catch (Exception e)

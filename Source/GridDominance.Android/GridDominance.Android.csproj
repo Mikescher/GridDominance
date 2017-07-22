@@ -16,7 +16,7 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <AssemblyName>GridDominance.Android</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Impl\AndroidBilling.cs" />
-    <Compile Include="Impl\AndroidBluetoothAdapter.cs" />
+    <Compile Include="Impl\XamarinBluetooth.cs" />
     <Compile Include="Impl\AndroidFileHelper.cs" />
     <Compile Include="Impl\AndroidImpl.cs" />
     <Compile Include="Impl\BTAcceptThread.cs" />

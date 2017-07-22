@@ -1,8 +1,8 @@
-using MonoSAMFramework.Portable.DeviceBridge;
 using System.IO;
 using System.IO.IsolatedStorage;
+using MonoSAMFramework.Portable.DeviceBridge;
 
-namespace GridDominance.Android
+namespace GridDominance.Android.Impl
 {
 	class AndroidFileHelper : FileHelper
 	{

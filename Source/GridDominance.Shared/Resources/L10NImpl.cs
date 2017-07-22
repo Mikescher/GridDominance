@@ -158,6 +158,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MP_SERVERDISCONNECT    = 125;
 		public const int STR_MP_INTERNAL            = 161;
 		public const int STR_MP_BTADAPTERNULL       = 162;
+		public const int STR_MP_BTADAPTERPERMDENIED = 168;
 		public const int STR_MP_BTDISABLED          = 163;
 		public const int STR_MP_DIRECTCONNLOST      = 164;
 		public const int STR_MP_DIRECTCONNFAIL      = 165;
@@ -199,7 +200,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_FRAC_A5                = 155;
 		public const int STR_FRAC_A6                = 156;
 
-		private const int TEXT_COUNT = 168; // = next idx
+		private const int TEXT_COUNT = 169; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -334,13 +335,14 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_SERVERDISCONNECT,    "Server has closed this session",                                                    "Spiel wurde vom Server geschlossen");
 			L10N.Add(STR_MP_INTERNAL,            "Internal multiplayer error",                                                        "Interner Fehler im Mehrspielermodul");
 			L10N.Add(STR_MP_BTADAPTERNULL,       "No bluetooth hardware found",                                                       "Bluetooth Hardware nicht gefunden");
+			L10N.Add(STR_MP_BTADAPTERPERMDENIED, "Missing bluetooth permission",                                                      "Bluetooth Berechtigung wurde nicht gewährt");
 			L10N.Add(STR_MP_BTDISABLED,          "Bluetooth is disabled",                                                             "Bluetooth ist deaktiviert");
 			L10N.Add(STR_MP_DIRECTCONNFAIL,      "Bluetooth connection failed",                                                       "Bluetooth Verbindungsaufbau fehlgeschlagen");
 			L10N.Add(STR_MP_DIRECTCONNLOST,      "Bluetooth connection lost",                                                         "Bluetooth Verbindung verloren");
 			L10N.Add(STR_MENU_CAP_MULTIPLAYER,   "Multiplayer",                                                                       "Mehrspieler");
 			L10N.Add(STR_MENU_CAP_LOBBY,         "Online Lobby",                                                                      "Internetlobby");
 			L10N.Add(STR_MENU_CAP_CGAME,         "Create Online Game",                                                                "Onlinespiel erstellen");
-			L10N.Add(STR_MENU_CAP_SEARCH,        "Search for local server",                                                           "Suche nach lokalem Spiel");
+			L10N.Add(STR_MENU_CAP_SEARCH,        "Search for local devices",                                                          "Suche nach lokalem Spiel");
 			L10N.Add(STR_MP_ONLINE,              "Online",                                                                            "Online");
 			L10N.Add(STR_MP_OFFLINE,             "Offline",                                                                           "Offline");
 			L10N.Add(STR_MP_CONNECTING,          "Connecting",                                                                        "Verbinden");
@@ -424,6 +426,9 @@ namespace GridDominance.Shared.Resources
 
 				case SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound:
 					return L10N.T(STR_MP_BTADAPTERNULL);
+
+				case SAMNetworkConnection.ErrorType.BluetoothAdapterNotPermission:
+					return L10N.T(STR_MP_BTADAPTERPERMDENIED);
 
 				case SAMNetworkConnection.ErrorType.BluetoothInternalError:
 					return L10N.T(STR_MP_INTERNAL);

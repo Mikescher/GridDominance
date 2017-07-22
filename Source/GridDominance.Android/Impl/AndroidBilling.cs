@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Xamarin.InAppBilling;
-using MonoSAMFramework.Portable.DeviceBridge;
-using MonoSAMFramework.Portable.LogProtocol;
-using Android.OS;
-using System;
 using Android.App;
 using Android.Content;
+using Android.OS;
 using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable.DeviceBridge;
+using MonoSAMFramework.Portable.LogProtocol;
+using Xamarin.InAppBilling;
 
-namespace GridDominance.Android
+namespace GridDominance.Android.Impl
 {
 	// https://components.xamarin.com/gettingstarted/xamarin.inappbilling
 	class AndroidBilling : IBillingAdapter

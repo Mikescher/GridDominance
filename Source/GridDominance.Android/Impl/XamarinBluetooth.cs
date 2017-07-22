@@ -3,19 +3,24 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Android;
 using Android.App;
 using Android.Bluetooth;
 using Android.Content;
-using GridDominance.Android.Impl;
+using Android.Content.PM;
+using Android.OS;
 using GridDominance.Shared.Resources;
 using Java.Util;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using Exception = Java.Lang.Exception;
 
-namespace GridDominance.Android
+namespace GridDominance.Android.Impl
 {
-	class AndroidBluetoothAdapter : IBluetoothAdapter
+	/// <summary>
+	/// https://developer.android.com/guide/topics/connectivity/bluetooth.html
+	/// </summary>
+	class XamarinBluetooth : IBluetoothAdapter
 	{
 		private const int REQUEST_ENABLE_BT = 2;
 
@@ -38,19 +43,23 @@ namespace GridDominance.Android
 		private readonly ConcurrentQueue<Tuple<byte[], int>> _messageQueue = new ConcurrentQueue<Tuple<byte[], int>>();
 		private readonly List<IBluetoothDevice> _foundDevices = new List<IBluetoothDevice>();
 
-		private BTAcceptThread _acceptThread;
-		private BTConnectThread _connectThread;
-		private BTTransferThread _transferThread;
+		private BTAcceptThread _acceptThread;      // SERVER
+		private BTConnectThread _connectThread;    //
+		private BTTransferThread _transferThread;  //
 
 		private readonly BroadcastReceiver _reciever;
 
-		public AndroidBluetoothAdapter(MainActivity a)
+		public XamarinBluetooth(MainActivity a)
 		{
 			Adapter = BluetoothAdapter.DefaultAdapter;
 			_activity = a;
 
 			_reciever = new BTScanReciever(this);
 			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothDevice.ActionFound));
+			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionRequestDiscoverable));
+			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionRequestEnable));
+			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionStateChanged));
+			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryStarted));
 			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
 
 			if (Adapter == null) State = BluetoothAdapterState.AdapterNotFound;
@@ -62,6 +71,29 @@ namespace GridDominance.Android
 			lock (_foundDevices) { _foundDevices.Clear(); }
 			if (Adapter.IsDiscovering) Adapter.CancelDiscovery();
 			State = BluetoothAdapterState.Created;
+
+			if ((int) Build.VERSION.SdkInt < 23)
+			{
+				var missingPermissions = new List<string>();
+				if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.AccessCoarseLocation) != Permission.Granted)
+					missingPermissions.Add(Manifest.Permission.AccessCoarseLocation);
+				if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted)
+					missingPermissions.Add(Manifest.Permission.AccessFineLocation);
+				if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.Bluetooth) != Permission.Granted)
+					missingPermissions.Add(Manifest.Permission.Bluetooth);
+				if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.BluetoothAdmin) != Permission.Granted)
+					missingPermissions.Add(Manifest.Permission.BluetoothAdmin);
+
+				if (missingPermissions.Any())
+				{
+					SAMLog.Warning("ABTA::MissingPerms", string.Join("|", missingPermissions.Select(p =>p.Split('.').Last())));
+
+					// With API>23 I could request them here
+					// https://blog.xamarin.com/requesting-runtime-permissions-in-android-marshmallow/
+					State = BluetoothAdapterState.PermissionNotGranted;
+					return;
+				}
+			}
 
 			if (Adapter.IsEnabled)
 			{
@@ -121,8 +153,13 @@ namespace GridDominance.Android
 		{
 			State = BluetoothAdapterState.Scanning;
 
+			SAMLog.Debug($"StartDiscovery (1)");
+
 			if (Adapter.IsDiscovering) Adapter.CancelDiscovery();
-			Adapter.StartDiscovery();
+			bool s = Adapter.StartDiscovery();
+
+			SAMLog.Debug($"StartDiscovery (2 => {s})");
+
 
 			lock (_foundDevices)
 			{

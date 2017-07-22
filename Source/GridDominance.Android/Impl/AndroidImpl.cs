@@ -1,17 +1,17 @@
-using Android.Content.Res;
-using Android.OS;
-using MonoSAMFramework.Portable.DeviceBridge;
-using MonoSAMFramework.Portable.Language;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using Android.Content;
 using Android.App;
+using Android.Content;
+using Android.Content.Res;
+using Android.OS;
 using GridDominance.Generic.Impl;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 
-namespace GridDominance.Android
+namespace GridDominance.Android.Impl
 {
 	class AndroidImpl : IOperatingSystemBridge
 	{
@@ -30,7 +30,7 @@ namespace GridDominance.Android
 		private readonly SHA256 sha256 = SHA256.Create();
 		private readonly MainActivity _activity;
 		private readonly AndroidBilling _iab;
-		private readonly AndroidBluetoothAdapter _bt;
+		private readonly XamarinBluetooth _bt;
 
 		public void OnDestroy()
 		{
@@ -43,7 +43,7 @@ namespace GridDominance.Android
 			_activity = a;
 
 			_iab = new AndroidBilling(a);
-			_bt = new AndroidBluetoothAdapter(a);
+			_bt = new XamarinBluetooth(a);
 		}
 
 		private static string GenerateInfoStr()

@@ -8,9 +8,9 @@ namespace GridDominance.Android.Impl
 	{
 		private readonly BluetoothSocket mmSocket;
 		private readonly BluetoothDevice mmDevice;
-		private readonly AndroidBluetoothAdapter _adapter;
+		private readonly XamarinBluetooth _adapter;
 
-		public BTConnectThread(BluetoothDevice device, AndroidBluetoothAdapter a)
+		public BTConnectThread(BluetoothDevice device, XamarinBluetooth a)
 		{
 			mmDevice = device;
 			_adapter = a;
@@ -18,7 +18,7 @@ namespace GridDominance.Android.Impl
 
 			// Get a BluetoothSocket for a connection with the
 			// given BluetoothDevice
-			tmp = device.CreateRfcommSocketToServiceRecord(AndroidBluetoothAdapter.UUID);
+			tmp = device.CreateRfcommSocketToServiceRecord(XamarinBluetooth.UUID);
 
 			mmSocket = tmp;
 		}
@@ -47,6 +47,7 @@ namespace GridDominance.Android.Impl
 				// This is a blocking call and will only return on a
 				// successful connection or an exception
 				mmSocket.Connect();
+				SAMLog.Debug("ABTA::Connect()=>true");
 			}
 			catch (Java.IO.IOException e)
 			{

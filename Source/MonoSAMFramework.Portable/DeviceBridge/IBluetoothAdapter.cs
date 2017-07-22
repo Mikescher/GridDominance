@@ -5,8 +5,10 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
 	public enum BluetoothAdapterState
 	{
-		AdapterNotFound,
 		Created,
+
+		AdapterNotFound,
+		PermissionNotGranted,
 
 		RequestingEnable,
 

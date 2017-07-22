@@ -150,7 +150,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D[] TexCannonCoreShadow;
 		public static TextureRegion2D TexCannonCrosshair;
 		public static TextureRegion2D[] AnimCannonCog;
-		public static TextureRegion2D CannonCog;
+		public static TextureRegion2D CannonCog; // TODO single cog in higher res (for progress in dialogs)
 		public static TextureRegion2D TexLaserBase;
 		public static TextureRegion2D TexLaserGlow;
 		public static TextureRegion2D TexLaserPointer;

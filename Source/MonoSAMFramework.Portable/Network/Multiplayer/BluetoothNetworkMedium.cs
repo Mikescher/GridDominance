@@ -32,6 +32,10 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			{
 				error = SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound;
 			}
+			else if (_client.State == BluetoothAdapterState.AdapterNotFound)
+			{
+				error = SAMNetworkConnection.ErrorType.BluetoothAdapterNotPermission;
+			}
 			else if (_client.State == BluetoothAdapterState.Error)
 			{
 				error = SAMNetworkConnection.ErrorType.BluetoothInternalError;
@@ -47,6 +51,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			if (_client.State == BluetoothAdapterState.AdapterNotFound)
 			{
 				error = SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound;
+				return;
+			}
+			else if (_client.State == BluetoothAdapterState.PermissionNotGranted)
+			{
+				error = SAMNetworkConnection.ErrorType.BluetoothAdapterNoPermission;
 				return;
 			}
 			else if (_client.State == BluetoothAdapterState.Error)
@@ -94,6 +103,9 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			if (_isScanning && _client.State == BluetoothAdapterState.Active)
 			{
 				_lastScanDevices = _client.FoundDevices;
+
+				SAMLog.Debug($"Scanning finished {_lastScanDevices.Count} devices found");
+
 				if (_lastScanDevices.Any())
 				{
 					foreach (var dd in _lastScanDevices) SAMLog.Debug($"Device found: {dd.Name} ({dd.Address}|{dd.DeviceClass}|{dd.Type})");

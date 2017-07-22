@@ -11,16 +11,16 @@ namespace GridDominance.Android.Impl
 	{
 		// The local server socket
 		private readonly BluetoothServerSocket mmServerSocket;
-		private readonly AndroidBluetoothAdapter _adapter;
+		private readonly XamarinBluetooth _adapter;
 
-		public BTAcceptThread(AndroidBluetoothAdapter a)
+		public BTAcceptThread(XamarinBluetooth a)
 		{
 			_adapter = a;
 			BluetoothServerSocket tmp = null;
 
 			// Create a new listening server socket
 
-			tmp = _adapter.Adapter.ListenUsingRfcommWithServiceRecord(AndroidBluetoothAdapter.NAME, AndroidBluetoothAdapter.UUID);
+			tmp = _adapter.Adapter.ListenUsingRfcommWithServiceRecord(XamarinBluetooth.NAME, XamarinBluetooth.UUID);
 
 			mmServerSocket = tmp;
 		}
@@ -62,12 +62,22 @@ namespace GridDominance.Android.Impl
 				{
 					lock (this)
 					{
+						SAMLog.Debug("ABTA::Accept()=>" + _adapter.State);
+
 						switch (_adapter.State)
 						{
 							case BluetoothAdapterState.Listen:
 							case BluetoothAdapterState.Connecting:
 								// Situation normal. Start the connected thread.
 								_adapter.ThreadMessage_Connected(socket, socket.RemoteDevice);
+								try
+								{
+									socket.Close();
+								}
+								catch (Java.IO.IOException e)
+								{
+									SAMLog.Warning("ABTA::CNC", "Could not close finished socket", e.Message);
+								}
 								break;
 							case BluetoothAdapterState.Active:
 							case BluetoothAdapterState.Connected:
@@ -82,6 +92,7 @@ namespace GridDominance.Android.Impl
 								}
 								break;
 							case BluetoothAdapterState.AdapterNotFound:
+							case BluetoothAdapterState.PermissionNotGranted:
 							case BluetoothAdapterState.Created:
 							case BluetoothAdapterState.RequestingEnable:
 							case BluetoothAdapterState.NotEnabledByUser:

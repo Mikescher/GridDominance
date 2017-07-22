@@ -15,9 +15,9 @@ namespace GridDominance.Android.Impl
 		private readonly BluetoothSocket mmSocket;
 		private readonly Stream mmInStream;
 		private readonly Stream mmOutStream;
-		private readonly AndroidBluetoothAdapter _adapter;
+		private readonly XamarinBluetooth _adapter;
 
-		public BTTransferThread(BluetoothSocket socket, AndroidBluetoothAdapter a)
+		public BTTransferThread(BluetoothSocket socket, XamarinBluetooth a)
 		{
 			mmSocket = socket;
 			_adapter = a;
@@ -37,6 +37,7 @@ namespace GridDominance.Android.Impl
 			Name = "ConnectedThread";
 			try
 			{
+				SAMLog.Debug("ABTA::StartTransferThread()");
 				ThreadRun();
 			}
 			catch (Exception e)
