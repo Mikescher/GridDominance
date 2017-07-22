@@ -453,7 +453,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			MainGame.Inst.Profile.LastMultiplayerHostedSpeed = _server.Speed;
 			MainGame.Inst.SaveProfile();
 
-			_btnCreate.Icon = Textures.CannonCog;
+			_btnCreate.Icon = Textures.CannonCogBig;
 
 			_speed1.IsEnabled = false;
 			_speed2.IsEnabled = false;

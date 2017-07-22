@@ -150,7 +150,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D[] TexCannonCoreShadow;
 		public static TextureRegion2D TexCannonCrosshair;
 		public static TextureRegion2D[] AnimCannonCog;
-		public static TextureRegion2D CannonCog; // TODO single cog in higher res (for progress in dialogs)
+		public static TextureRegion2D CannonCog;
+		public static TextureRegion2D CannonCogBig;
 		public static TextureRegion2D TexLaserBase;
 		public static TextureRegion2D TexLaserGlow;
 		public static TextureRegion2D TexLaserPointer;
@@ -367,6 +368,7 @@ namespace GridDominance.Shared.Resources
 
 			AnimCannonCog            = Enumerable.Range(0, 1 +ANIMATION_CANNONCOG_OVERLAP + ANIMATION_CANNONCOG_SIZE / ANIMATION_CANNONCOG_SEGMENTS).Select(p => AtlasTextures[$"cannoncog_{p:000}"]).ToArray();
 			CannonCog                = AtlasTextures["cannoncog"];
+			CannonCogBig             = AtlasTextures["cannoncog_big"];
 
 			TexBullet                = AtlasTextures["cannonball"];
 			TexBulletSplitter        = AtlasTextures["cannonball_piece"];

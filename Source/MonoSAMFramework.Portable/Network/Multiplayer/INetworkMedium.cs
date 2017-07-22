@@ -1,4 +1,5 @@
 ﻿using System;
+using MonoSAMFramework.Portable.DebugTools;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
@@ -17,6 +18,6 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		void Send(byte[] data);
 		void Send(byte[] data, int len);
 
-		string DebugDisplayString { get; }
+		BufferedLambdaString DebugDisplayString { get; }
 	}
 }

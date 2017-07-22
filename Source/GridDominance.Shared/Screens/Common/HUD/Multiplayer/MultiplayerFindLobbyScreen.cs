@@ -77,7 +77,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				Alignment = HUDAlignment.CENTER,
 				RelativePosition = new FPoint(0, (-FOOTER_HEIGHT/2) + (96/2f)),
-				Image = Textures.CannonCog,
+				Image = Textures.CannonCogBig,
 				RotationSpeed = 0.35f,
 				Color = FlatColors.Clouds,
 				Size = new FSize(192, 192)

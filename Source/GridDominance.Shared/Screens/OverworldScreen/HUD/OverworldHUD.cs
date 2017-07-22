@@ -71,7 +71,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Background = HUDBackgroundDefinition.CreateRounded(FlatColors.BelizeHole, 16),
 
 				IconColor = FlatColors.Clouds,
-				Icon = Textures.CannonCog,
+				Icon = Textures.CannonCogBig,
 				RotationSpeed = 1f,
 
 				CloseOnClick = false,

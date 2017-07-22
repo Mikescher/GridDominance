@@ -184,7 +184,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, 16),
 				Size = new FSize(WIDTH / 3f, 80),
 
-				Image = Textures.CannonCog,
+				Image = Textures.CannonCogBig,
 				RotationSpeed = 0.3f,
 				Color = FlatColors.TextHUD,
 				ImageAlignment = HUDImageAlignment.UNDERSCALE,

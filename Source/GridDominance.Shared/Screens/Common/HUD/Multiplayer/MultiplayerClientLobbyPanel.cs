@@ -240,7 +240,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			AddElement(new HUDImage
 			{
-				Image = Textures.CannonCog,
+				Image = Textures.CannonCogBig,
 				RotationSpeed = 0.3f,
 				Color = FlatColors.BackgroundHUD2,
 

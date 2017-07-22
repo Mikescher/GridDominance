@@ -448,7 +448,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			MainGame.Inst.Profile.LastMultiplayerHostedSpeed = _server.Speed;
 			MainGame.Inst.SaveProfile();
 
-			_btnCreate.Icon = Textures.CannonCog;
+			_btnCreate.Icon = Textures.CannonCogBig;
 		}
 
 		private void OnClickCancel(HUDTextButton sender, HUDButtonEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
@@ -8,7 +9,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 	{
 		private readonly IBluetoothAdapter _client;
 
-		public string DebugDisplayString => $"XBT[Enabled:{_client.IsEnabled} Discovering:{_client.IsDiscovering} MyState:{_client.State} (_scanning:{_isScanning}|{MonoSAMGame.CurrentTime.TotalElapsedSeconds-_scanStartTime:00}) AState:{_client.AdapterState} AScan:{_client.AdapterScanMode} RemoteDevice:<{_client.RemoteDevice?.Name}|{_client.RemoteDevice?.Address}|{_client.RemoteDevice?.DeviceClass}|{_client.RemoteDevice?.Type}|{_client.RemoteDevice?.IsBonded}|{_client.RemoteDevice?.IsBonding}> Threads:<{_client.DebugThreadState}> Founds:{_client.FoundDevices.Count} Name:{_client.AdapterName}]";
+		public BufferedLambdaString DebugDisplayString { get; }
 
 		public bool IsP2PConnected => _client.State == BluetoothAdapterState.Connected;
 		public bool IsP2PListening => _client.State == BluetoothAdapterState.Listen;
@@ -22,6 +23,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public BluetoothNetworkMedium()
 		{
 			_client = MonoSAMGame.CurrentInst.Bridge.Bluetooth;
+
+			DebugDisplayString = new BufferedLambdaString(() => $"XBT[Enabled:{_client.IsEnabled} Discovering:{_client.IsDiscovering} MyState:{_client.State} (_scanning:{_isScanning}|{MonoSAMGame.CurrentTime.TotalElapsedSeconds - _scanStartTime:00}) AState:{_client.AdapterState} AScan:{_client.AdapterScanMode} RemoteDevice:<{_client.RemoteDevice?.Name}|{_client.RemoteDevice?.Address}|{_client.RemoteDevice?.DeviceClass}|{_client.RemoteDevice?.Type}|{_client.RemoteDevice?.IsBonded}|{_client.RemoteDevice?.IsBonding}> Threads:<{_client.DebugThreadState}> Founds:{_client.FoundDevices.Count} Name:{_client.AdapterName}]", 1.5f);
 		}
 
 		public void Init(out SAMNetworkConnection.ErrorType error)

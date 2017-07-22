@@ -1,4 +1,5 @@
-﻿using MonoSAMFramework.Portable.DeviceBridge;
+﻿using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.DeviceBridge;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
 {
@@ -6,7 +7,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 	{
 		private readonly IUDPClient _client;
 
-		public string DebugDisplayString => _client.DebugDisplayString;
+		public BufferedLambdaString DebugDisplayString { get; }
 
 		public bool IsP2PConnected => false;
 		public bool IsP2PListening => false;
@@ -20,6 +21,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			_ip = ip;
 			_port = port;
+
+			DebugDisplayString = new BufferedLambdaString(() => _client.DebugDisplayString, null);
 		}
 
 		public void Init(out SAMNetworkConnection.ErrorType error)

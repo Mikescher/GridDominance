@@ -41,6 +41,7 @@
     <Compile Include="BatchRenderer\TextureAtlases\TextureAtlasReader.cs" />
     <Compile Include="BatchRenderer\TextureAtlases\TextureRegion2D.cs" />
     <Compile Include="BatchRenderer\SpriteBatchWrapper.cs" />
+    <Compile Include="DebugTools\BufferedLambdaString.cs" />
     <Compile Include="DebugTools\CompactJsonFormatter.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
     <Compile Include="DebugTools\DebugTextLogLine.cs" />

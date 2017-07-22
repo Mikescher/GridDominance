@@ -110,7 +110,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Alignment = HUDAlignment.CENTER,
 				Size = new FSize(2 * GDConstants.TILE_WIDTH, 2 * GDConstants.TILE_WIDTH),
 				Color = FlatColors.Clouds,
-				Image = Textures.CannonCog,
+				Image = Textures.CannonCogBig,
 
 				RotationSpeed = 0.1f,
 
