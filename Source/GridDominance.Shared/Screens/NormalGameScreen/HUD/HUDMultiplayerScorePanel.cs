@@ -20,6 +20,7 @@ using System.Linq;
 using System.Collections.Generic;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
@@ -304,18 +305,27 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Stopped || _server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
-				if (_btnNext != null)
+				bool dc = false;
+
+				if (_btnNext != null && _btnNext.IsEnabled)
 				{
 					_btnNext.BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
 					_btnNext.BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
 					_btnNext.IsEnabled = false;
-					
+					dc = true;
+
 				}
-				if (_btnRand != null)
+				if (_btnRand != null && _btnRand.IsEnabled)
 				{
 					_btnRand.BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
 					_btnRand.BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.Asbestos, 16);
 					_btnRand.IsEnabled = false;
+					dc = true;
+				}
+
+				if (_server.ConnType == MultiplayerConnectionType.P2P && dc && _server.Mode == SAMNetworkConnection.ServerMode.Stopped)
+				{
+					Owner.HUD.ShowToast("HMSP:ConnStop", L10N.TF(L10NImpl.STR_MP_TIMEOUT_USER, (_server.SessionUserID == 0) ? "1" : "0"), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 				}
 			}
 
