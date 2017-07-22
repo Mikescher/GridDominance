@@ -34,7 +34,7 @@ namespace GridDominance.Android.Impl
 
 		public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			_serviceConnection.BillingHandler.HandleActivityResult(requestCode, resultCode, data);
+			if (_serviceConnection != null) _serviceConnection.BillingHandler.HandleActivityResult(requestCode, resultCode, data);
 		}
 
 		public bool Connect(string[] productIDs)

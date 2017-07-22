@@ -38,11 +38,16 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		string AdapterName { get; }
 		bool IsEnabled { get; }
 		bool IsDiscovering { get; }
+		bool IsDiscoverable { get; }
 
 		void StartAdapter();
 
 		void StartScan();
+		void CancelScan();
+
 		void StartWaiting();
+		void ContinueWaiting();
+
 		void Connect(IBluetoothDevice d);
 
 		Tuple<byte[], int> RecieveOrNull();

@@ -95,7 +95,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			return AddLine(new DebugTextDisplayLine(() => text));
 		}
 
-		public DebugTextDisplayLine AddDecayLine(string text, float lifetime = 2f, float decaytime = 0.75f, float spawntime = 0.25f)
+		public DebugTextDisplayLine AddDecayLine(string text, float lifetime = 8f, float decaytime = 0.75f, float spawntime = 0.25f)
 		{
 			if (lines.Count > OVERFLOW_MAX) decaytime = 0;
 			if (lines.Count > OVERFLOW_MAX) spawntime = 0;

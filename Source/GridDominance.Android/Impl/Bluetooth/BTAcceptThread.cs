@@ -13,6 +13,8 @@ namespace GridDominance.Android.Impl
 		private readonly BluetoothServerSocket mmServerSocket;
 		private readonly XamarinBluetooth _adapter;
 
+		private bool _stopped = false;
+
 		public BTAcceptThread(XamarinBluetooth a)
 		{
 			_adapter = a;
@@ -40,11 +42,17 @@ namespace GridDominance.Android.Impl
 
 		private void ThreadRun()
 		{
-			BluetoothSocket socket = null;
-
 			// Listen to the server socket if we're not connected
 			while (_adapter.State != BluetoothAdapterState.Connected)
 			{
+				if (_adapter.State == BluetoothAdapterState.AdapterNotFound) return;
+				if (_adapter.State == BluetoothAdapterState.Error) return;
+				if (_adapter.State == BluetoothAdapterState.PermissionNotGranted) return;
+				if (_adapter.State == BluetoothAdapterState.ConnectionFailed) return;
+				if (_adapter.State == BluetoothAdapterState.ConnectionLost) return;
+				if (_adapter.State == BluetoothAdapterState.NotEnabledByUser) return;
+
+				BluetoothSocket socket = null;
 				try
 				{
 					// This is a blocking call and will only return on a
@@ -53,8 +61,8 @@ namespace GridDominance.Android.Impl
 				}
 				catch (Java.IO.IOException e)
 				{
-					SAMLog.Error("ABTA::AcceptFailed", e);
-					break;
+					SAMLog.Warning("ABTA::AcceptFailed", e);
+					continue;
 				}
 
 				// If a connection was accepted
@@ -69,16 +77,9 @@ namespace GridDominance.Android.Impl
 							case BluetoothAdapterState.Listen:
 							case BluetoothAdapterState.Connecting:
 								// Situation normal. Start the connected thread.
+								_stopped = true;
 								_adapter.ThreadMessage_Connected(socket, socket.RemoteDevice);
-								try
-								{
-									socket.Close();
-								}
-								catch (Java.IO.IOException e)
-								{
-									SAMLog.Warning("ABTA::CNC", "Could not close finished socket", e.Message);
-								}
-								break;
+								return;
 							case BluetoothAdapterState.Active:
 							case BluetoothAdapterState.Connected:
 								// Either not ready or already connected. Terminate new socket.
@@ -102,7 +103,15 @@ namespace GridDominance.Android.Impl
 							case BluetoothAdapterState.Error:
 							default:
 								SAMLog.Warning("ABTA::EnumSwitch_TR", "value: " + _adapter.State);
-								break;
+								try
+								{
+									socket.Close();
+								}
+								catch (Java.IO.IOException e)
+								{
+									SAMLog.Warning("ABTA::CNC", "Could not close unwanted socket", e.Message);
+								}
+								return;
 						}
 					}
 				}
@@ -111,6 +120,8 @@ namespace GridDominance.Android.Impl
 
 		public void Cancel()
 		{
+			if (_stopped) return;
+
 			try
 			{
 				mmServerSocket.Close();

@@ -28,9 +28,9 @@ namespace GridDominance.Android.Impl
 				if (action == BluetoothDevice.ActionFound)
 				{
 					BluetoothDevice device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
-					SAMLog.Debug($"BTScanReciver:OnRecieve({device.Name})");
+					SAMLog.Debug($"BTScanReciver:ActionFound({device.Name}|{device.Type}|{device.BluetoothClass.DeviceClass}|{device.BondState})");
 
-					if (device.BondState != Bond.Bonded) _adapter.ThreadMessage_DeviceFound(device);
+					_adapter.ThreadMessage_DeviceFound(device);
 				}
 				else if (action == BluetoothAdapter.ActionDiscoveryFinished)
 				{

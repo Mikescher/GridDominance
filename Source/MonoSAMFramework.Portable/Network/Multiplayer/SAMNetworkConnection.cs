@@ -88,7 +88,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			GameVersionMismatch, LevelNotFound, LevelVersionMismatch,
 			UserDisconnect, ServerDisconnect,
 
-			BluetoothAdapterNotFound, BluetoothAdapterNotPermission, BluetoothInternalError, BluetoothNotEnabled,
+			BluetoothAdapterNotFound, BluetoothAdapterNoPermission, BluetoothInternalError, BluetoothNotEnabled,
 			P2PConnectionFailed, P2PConnectionLost,
 		};
 
@@ -115,6 +115,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 #if DEBUG
 		public readonly ExtendedFrequencyCounter<string> SendFreq = new ExtendedFrequencyCounter<string>(2f, 16);
+		public readonly ExtendedFrequencyCounter<string> RecieveFreq = new ExtendedFrequencyCounter<string>(2f, 16);
 #endif
 
 		protected byte msgId = 0;
@@ -187,6 +188,10 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 				if (d != null)
 				{
+#if DEBUG
+					RecieveFreq.Inc(gameTime.TotalElapsedSeconds, NetworkCommandCodesHelper.CodeToString(d[0]));
+#endif
+
 					ProcessMessage(gameTime, d);
 				}
 
@@ -351,6 +356,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			{
 				if (SessionUserID == 0 && _medium.IsP2PConnected)
 				{
+					SessionCount = 2;
+
 					if (gameTime.TotalElapsedSeconds - _lastSendHostInfo > TIME_BETWEEN_HOSTINFO)
 					{
 						var binData = GetHostInfoData();
@@ -755,6 +762,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		{
 			var cmd = d[0];
 			var seq = d[1];
+
+			if (cmd == 0) return; //TODO Ignore NOPs ??
 
 			switch (cmd)
 			{

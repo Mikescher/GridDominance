@@ -35,7 +35,10 @@ namespace GridDominance.Android.Impl
 		public bool IsEnabled => Adapter.IsEnabled;
 		public string AdapterName => Adapter.Name;
 		public bool IsDiscovering => Adapter.IsDiscovering;
+		public bool IsDiscoverable => Adapter.ScanMode == ScanMode.ConnectableDiscoverable;
+
 		public string DebugThreadState => $"Acc: {_acceptThread?.IsAlive ?? false}; Conn: {_connectThread?.IsAlive ?? false}; Trans: {_transferThread?.IsAlive ?? false}";
+
 
 		private readonly MainActivity _activity;
 		public readonly BluetoothAdapter Adapter;
@@ -44,7 +47,7 @@ namespace GridDominance.Android.Impl
 		private readonly List<IBluetoothDevice> _foundDevices = new List<IBluetoothDevice>();
 
 		private BTAcceptThread _acceptThread;      // SERVER
-		private BTConnectThread _connectThread;    //
+		private BTConnectThread _connectThread;    // CLIENT
 		private BTTransferThread _transferThread;  //
 
 		private readonly BroadcastReceiver _reciever;
@@ -56,11 +59,13 @@ namespace GridDominance.Android.Impl
 
 			_reciever = new BTScanReciever(this);
 			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothDevice.ActionFound));
+			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
+#if DEBUG
 			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionRequestDiscoverable));
 			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionRequestEnable));
 			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionStateChanged));
 			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryStarted));
-			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
+#endif
 
 			if (Adapter == null) State = BluetoothAdapterState.AdapterNotFound;
 		}
@@ -72,27 +77,24 @@ namespace GridDominance.Android.Impl
 			if (Adapter.IsDiscovering) Adapter.CancelDiscovery();
 			State = BluetoothAdapterState.Created;
 
-			if ((int) Build.VERSION.SdkInt < 23)
+			var missingPermissions = new List<string>();
+			if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.AccessCoarseLocation) != Permission.Granted)
+				missingPermissions.Add(Manifest.Permission.AccessCoarseLocation);
+			if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted)
+				missingPermissions.Add(Manifest.Permission.AccessFineLocation);
+			if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.Bluetooth) != Permission.Granted)
+				missingPermissions.Add(Manifest.Permission.Bluetooth);
+			if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.BluetoothAdmin) != Permission.Granted)
+				missingPermissions.Add(Manifest.Permission.BluetoothAdmin);
+
+			if (missingPermissions.Any())
 			{
-				var missingPermissions = new List<string>();
-				if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.AccessCoarseLocation) != Permission.Granted)
-					missingPermissions.Add(Manifest.Permission.AccessCoarseLocation);
-				if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted)
-					missingPermissions.Add(Manifest.Permission.AccessFineLocation);
-				if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.Bluetooth) != Permission.Granted)
-					missingPermissions.Add(Manifest.Permission.Bluetooth);
-				if (_activity.CheckCallingOrSelfPermission(Manifest.Permission.BluetoothAdmin) != Permission.Granted)
-					missingPermissions.Add(Manifest.Permission.BluetoothAdmin);
+				SAMLog.Warning("ABTA::MissingPerms", string.Join("|", missingPermissions.Select(p =>p.Split('.').Last())));
 
-				if (missingPermissions.Any())
-				{
-					SAMLog.Warning("ABTA::MissingPerms", string.Join("|", missingPermissions.Select(p =>p.Split('.').Last())));
-
-					// With API>23 I could request them here
-					// https://blog.xamarin.com/requesting-runtime-permissions-in-android-marshmallow/
-					State = BluetoothAdapterState.PermissionNotGranted;
-					return;
-				}
+				// With API>23 I could request them here
+				// https://blog.xamarin.com/requesting-runtime-permissions-in-android-marshmallow/
+				State = BluetoothAdapterState.PermissionNotGranted;
+				return;
 			}
 
 			if (Adapter.IsEnabled)
@@ -113,7 +115,7 @@ namespace GridDominance.Android.Impl
 		{
 			CancelAllThreads();
 
-			EnsureDiscoverable(300);
+			EnsureDiscoverable(120);
 
 			try
 			{
@@ -127,6 +129,14 @@ namespace GridDominance.Android.Impl
 				CancelAllThreads();
 				return;
 			}
+
+			State = BluetoothAdapterState.Listen;
+		}
+
+		[MethodImpl(MethodImplOptions.Synchronized)]
+		public void ContinueWaiting()
+		{
+			EnsureDiscoverable(600);
 
 			State = BluetoothAdapterState.Listen;
 		}
@@ -164,13 +174,15 @@ namespace GridDominance.Android.Impl
 			lock (_foundDevices)
 			{
 				_foundDevices.Clear();
-
-				foreach (var device in Adapter.BondedDevices)
-				{
-					_foundDevices.Add(new BTDeviceWrapper(device));
-					SAMLog.Debug($"StartScan:BondDevice: {device.Name}");
-				}
 			}
+		}
+
+		public void CancelScan()
+		{
+			if (Adapter.IsDiscovering) Adapter.CancelDiscovery();
+
+			State = BluetoothAdapterState.Active;
+			SAMLog.Debug($"CancelScan");
 		}
 
 		public void EnsureDiscoverable(int sec)
@@ -301,13 +313,20 @@ namespace GridDominance.Android.Impl
 		{
 			lock (_foundDevices)
 			{
-				_foundDevices.Add(new BTDeviceWrapper(device));
+				if (_foundDevices.All(fd => fd.Address != device.Address)) _foundDevices.Add(new BTDeviceWrapper(device));
 			}
 		}
 
 		public void ThreadMessage_DiscoveryFinished()
 		{
-			State = BluetoothAdapterState.Active;
+			lock (_foundDevices)
+			{
+				State = BluetoothAdapterState.Active;
+
+				_foundDevices.Sort(new BTDeviceScoreComparer());
+
+				SAMLog.Debug($"DiscoveryResult: [{string.Join(", ", _foundDevices.Select(d => d.Name))}]");
+			}
 		}
 
 		public void OnDestroy()

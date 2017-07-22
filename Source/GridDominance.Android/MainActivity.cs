@@ -53,7 +53,7 @@ namespace GridDominance.Android
 		{
 			try
 			{
-				SAMLog.Debug("BTScanReciever::OnActivityResult(" + data.Action + ")");
+				SAMLog.Debug("BTScanReciever::OnActivityResult(" + data?.Action + ")");
 
 				_impl.HandleActivityResult(requestCode, resultCode, data);
 			}

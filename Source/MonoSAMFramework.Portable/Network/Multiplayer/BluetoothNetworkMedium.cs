@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer
@@ -9,12 +8,13 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 	{
 		private readonly IBluetoothAdapter _client;
 
-		public string DebugDisplayString => $"XBT[Enabled:{_client.IsEnabled} Discovering:{_client.IsDiscovering} State:{_client.State} AState:{_client.AdapterState} AScan:{_client.AdapterScanMode} RemoteDevice:<{_client.RemoteDevice?.Name}|{_client.RemoteDevice?.Address}|{_client.RemoteDevice?.DeviceClass}|{_client.RemoteDevice?.Type}|{_client.RemoteDevice?.IsBonded}|{_client.RemoteDevice?.IsBonding}> Threads:<{_client.DebugThreadState}> Founds:{_client.FoundDevices.Count} Name:{_client.AdapterName}]";
+		public string DebugDisplayString => $"XBT[Enabled:{_client.IsEnabled} Discovering:{_client.IsDiscovering} MyState:{_client.State} (_scanning:{_isScanning}|{MonoSAMGame.CurrentTime.TotalElapsedSeconds-_scanStartTime:00}) AState:{_client.AdapterState} AScan:{_client.AdapterScanMode} RemoteDevice:<{_client.RemoteDevice?.Name}|{_client.RemoteDevice?.Address}|{_client.RemoteDevice?.DeviceClass}|{_client.RemoteDevice?.Type}|{_client.RemoteDevice?.IsBonded}|{_client.RemoteDevice?.IsBonding}> Threads:<{_client.DebugThreadState}> Founds:{_client.FoundDevices.Count} Name:{_client.AdapterName}]";
 
 		public bool IsP2PConnected => _client.State == BluetoothAdapterState.Connected;
 		public bool IsP2PListening => _client.State == BluetoothAdapterState.Listen;
 
 		private bool _isScanning = false;
+		private float _scanStartTime = 0f;
 
 		private IBluetoothDevice _currentConnDevice;
 		private List<IBluetoothDevice> _lastScanDevices = new List<IBluetoothDevice>();
@@ -34,7 +34,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 			else if (_client.State == BluetoothAdapterState.AdapterNotFound)
 			{
-				error = SAMNetworkConnection.ErrorType.BluetoothAdapterNotPermission;
+				error = SAMNetworkConnection.ErrorType.BluetoothAdapterNoPermission;
 			}
 			else if (_client.State == BluetoothAdapterState.Error)
 			{
@@ -53,34 +53,41 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				error = SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound;
 				return;
 			}
-			else if (_client.State == BluetoothAdapterState.PermissionNotGranted)
+
+			if (_client.State == BluetoothAdapterState.PermissionNotGranted)
 			{
 				error = SAMNetworkConnection.ErrorType.BluetoothAdapterNoPermission;
 				return;
 			}
-			else if (_client.State == BluetoothAdapterState.Error)
+
+			if (_client.State == BluetoothAdapterState.Error)
 			{
 				error = SAMNetworkConnection.ErrorType.BluetoothInternalError;
 				return;
 			}
-			else if (_client.State == BluetoothAdapterState.NotEnabledByUser)
+
+			if (_client.State == BluetoothAdapterState.NotEnabledByUser)
 			{
 				error = SAMNetworkConnection.ErrorType.BluetoothNotEnabled;
 				return;
 			}
-			else if (_client.State == BluetoothAdapterState.ConnectionFailed)
+
+			if (_client.State == BluetoothAdapterState.ConnectionFailed)
 			{
 				if (_lastScanDevices.Any())
 				{
 					if (_currentConnDevice != null)
 					{
+						SAMLog.Warning("BNM::ConnectionFailed", $"Connection to {_currentConnDevice.Name} failed");
 						//TODO Show Toast [Connection to {0} failed]
 					}
 
-					_currentConnDevice = _lastScanDevices[FloatMath.GetRangedIntRandom(_lastScanDevices.Count)];
+					_currentConnDevice = _lastScanDevices.First();
 					_lastScanDevices.Remove(_currentConnDevice);
 
 					_isScanning = false;
+
+					SAMLog.Debug($"Try connect to {_currentConnDevice.Name} ({_currentConnDevice.Address}|{_currentConnDevice.DeviceClass}|{_currentConnDevice.Type})");
 					_client.Connect(_currentConnDevice);
 
 					error = SAMNetworkConnection.ErrorType.None;
@@ -89,12 +96,14 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				{
 					_isScanning = true;
 					_client.StartScan();
+					_scanStartTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
 					error = SAMNetworkConnection.ErrorType.None;
 				}
 				return;
 			}
-			else if (_client.State == BluetoothAdapterState.ConnectionLost)
+
+			if (_client.State == BluetoothAdapterState.ConnectionLost)
 			{
 				error = SAMNetworkConnection.ErrorType.P2PConnectionLost;
 				return;
@@ -110,7 +119,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				{
 					foreach (var dd in _lastScanDevices) SAMLog.Debug($"Device found: {dd.Name} ({dd.Address}|{dd.DeviceClass}|{dd.Type})");
 
-					_currentConnDevice = _lastScanDevices[FloatMath.GetRangedIntRandom(_lastScanDevices.Count)];
+					_currentConnDevice = _lastScanDevices.First();
 					_lastScanDevices.Remove(_currentConnDevice);
 
 					SAMLog.Debug($"Try connect to {_currentConnDevice.Name} ({_currentConnDevice.Address}|{_currentConnDevice.DeviceClass}|{_currentConnDevice.Type})");
@@ -123,6 +132,24 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					_isScanning = true;
 					_client.StartScan();
 				}
+			}
+
+			if (_isScanning && _client.State == BluetoothAdapterState.Scanning && !_client.IsDiscovering && MonoSAMGame.CurrentTime.TotalElapsedSeconds - _scanStartTime > 30)
+			{
+				error = SAMNetworkConnection.ErrorType.None;
+				SAMLog.Warning("BNM::ForceScanCancel", "Cancel scan by force");
+				_client.CancelScan();
+				return;
+			}
+
+			if (_client.State == BluetoothAdapterState.Listen)
+			{
+				error = SAMNetworkConnection.ErrorType.None;
+				if (!_client.IsDiscoverable)
+				{
+					_client.ContinueWaiting();
+				}
+				return;
 			}
 
 			error = SAMNetworkConnection.ErrorType.None;

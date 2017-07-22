@@ -38,7 +38,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 			s.DebugDisp.AddLine("DebugMultiplayer", () => 
 				$"CLIENT(Ping={ProxyPing.Value:0.0000} | Loss={ProxyPackageLossPerc * 100:00.00}% | State={ConnState} | Mode={Mode} | Packages={packageCount} (l={packageModSize}byte) | Ctr={msgIdWraps:00}:{msgId:000})\n" + 
 				$"      (ServerSeq={LastServerPackageSeq} | ServerTime={LastServerPackageTime:000.00}s | LagBehind={lagBehindTime} | SendFreq={SendFreq.Frequency:00.0})\n" + 
-				$"      (Packages={SendFreq.HistoryStr})\n" +
+				$"      (Packages[Out]={SendFreq.HistoryStr})\n" +
+				$"      (Packages[In]={RecieveFreq.HistoryStr})\n" +
 				$"      {_medium.DebugDisplayString}", this);
 		}
 #endif

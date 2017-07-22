@@ -204,6 +204,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					case SAMNetworkConnection.ErrorType.UserDisconnect:
 					case SAMNetworkConnection.ErrorType.ServerDisconnect:
 					case SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound:
+					case SAMNetworkConnection.ErrorType.BluetoothAdapterNoPermission:
 						Remove();
 						return;
 

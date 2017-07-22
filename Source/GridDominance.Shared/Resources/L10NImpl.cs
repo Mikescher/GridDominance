@@ -168,7 +168,8 @@ namespace GridDominance.Shared.Resources
 
 		public const int STR_MENU_CAP_MULTIPLAYER   = 126;
 		public const int STR_MENU_CAP_LOBBY         = 127;
-		public const int STR_MENU_CAP_CGAME         = 128;
+		public const int STR_MENU_CAP_CGAME_PROX    = 128;
+		public const int STR_MENU_CAP_CGAME_P2P     = 169;
 		public const int STR_MENU_CAP_AUTH          = 136;
 		public const int STR_MENU_CAP_SEARCH        = 166;
 		public const int STR_MENU_MP_JOIN           = 132;
@@ -200,7 +201,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_FRAC_A5                = 155;
 		public const int STR_FRAC_A6                = 156;
 
-		private const int TEXT_COUNT = 169; // = next idx
+		private const int TEXT_COUNT = 170; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -341,7 +342,8 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_DIRECTCONNLOST,      "Bluetooth connection lost",                                                         "Bluetooth Verbindung verloren");
 			L10N.Add(STR_MENU_CAP_MULTIPLAYER,   "Multiplayer",                                                                       "Mehrspieler");
 			L10N.Add(STR_MENU_CAP_LOBBY,         "Online Lobby",                                                                      "Internetlobby");
-			L10N.Add(STR_MENU_CAP_CGAME,         "Create Online Game",                                                                "Onlinespiel erstellen");
+			L10N.Add(STR_MENU_CAP_CGAME_PROX,    "Create Online Game",                                                                "Onlinespiel erstellen");
+			L10N.Add(STR_MENU_CAP_CGAME_P2P,     "Create Local Game",                                                                 "Lokales Spiel erstellen");
 			L10N.Add(STR_MENU_CAP_SEARCH,        "Search for local devices",                                                          "Suche nach lokalem Spiel");
 			L10N.Add(STR_MP_ONLINE,              "Online",                                                                            "Online");
 			L10N.Add(STR_MP_OFFLINE,             "Offline",                                                                           "Offline");
@@ -427,7 +429,7 @@ namespace GridDominance.Shared.Resources
 				case SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound:
 					return L10N.T(STR_MP_BTADAPTERNULL);
 
-				case SAMNetworkConnection.ErrorType.BluetoothAdapterNotPermission:
+				case SAMNetworkConnection.ErrorType.BluetoothAdapterNoPermission:
 					return L10N.T(STR_MP_BTADAPTERPERMDENIED);
 
 				case SAMNetworkConnection.ErrorType.BluetoothInternalError:
