@@ -50,7 +50,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		void Connect(IBluetoothDevice d);
 
-		Tuple<byte[], int> RecieveOrNull();
+		byte[] RecieveOrNull();
 		void Write(byte[] data);
 
 		void Reset();

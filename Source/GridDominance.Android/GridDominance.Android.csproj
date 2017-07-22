@@ -71,11 +71,12 @@
   <ItemGroup>
     <Compile Include="Impl\AndroidBilling.cs" />
     <Compile Include="Impl\Bluetooth\BTDeviceScoreComparer.cs" />
+    <Compile Include="Impl\Bluetooth\BTTransferRecieveThread.cs" />
     <Compile Include="Impl\XamarinBluetooth.cs" />
     <Compile Include="Impl\AndroidFileHelper.cs" />
     <Compile Include="Impl\AndroidImpl.cs" />
     <Compile Include="Impl\Bluetooth\BTAcceptThread.cs" />
-    <Compile Include="Impl\Bluetooth\BTTransferThread.cs" />
+    <Compile Include="Impl\Bluetooth\BTTransferSendThread.cs" />
     <Compile Include="Impl\Bluetooth\BTConnectThread.cs" />
     <Compile Include="Impl\Bluetooth\BTDeviceWrapper.cs" />
     <Compile Include="Impl\Bluetooth\BTScanReciever.cs" />

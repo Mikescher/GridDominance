@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Concurrent;
+using System.IO;
 using Android.Bluetooth;
 using Java.Lang;
 using MonoSAMFramework.Portable.LogProtocol;
@@ -10,26 +11,21 @@ namespace GridDominance.Android.Impl
 	/// This thread runs during a connection with a remote device.
 	/// It handles all incoming and outgoing transmissions.
 	/// </summary>
-	class BTTransferThread : Thread
+	class BTTransferSendThread : Thread
 	{
 		private readonly BluetoothSocket mmSocket;
-		private readonly Stream mmInStream;
 		private readonly Stream mmOutStream;
 		private readonly XamarinBluetooth _adapter;
 
-		public BTTransferThread(BluetoothSocket socket, XamarinBluetooth a)
+		private readonly ConcurrentQueue<byte[]> _sendData = new ConcurrentQueue<byte[]>();
+
+		public BTTransferSendThread(BluetoothSocket socket, XamarinBluetooth a)
 		{
 			mmSocket = socket;
 			_adapter = a;
-			Stream tmpIn = null;
-			Stream tmpOut = null;
 
 			// Get the BluetoothSocket input and output streams
-			tmpIn = socket.InputStream;
-			tmpOut = socket.OutputStream;
-
-			mmInStream = tmpIn;
-			mmOutStream = tmpOut;
+			mmOutStream = socket.OutputStream;
 		}
 
 		public override void Run()
@@ -37,32 +33,39 @@ namespace GridDominance.Android.Impl
 			Name = "ConnectedThread";
 			try
 			{
-				SAMLog.Debug("ABTA::StartTransferThread()");
+				SAMLog.Debug("ABTA::StartSendThread()");
 				ThreadRun();
 			}
 			catch (Exception e)
 			{
+				_adapter.ThreadMessage_ConnectionError();
 				SAMLog.Error("ABTA::ConnectedThread_Run", e);
 			}
 		}
 
 		private void ThreadRun()
 		{
-			byte[] buffer = new byte[SAMNetworkConnection.MAX_PACKAGE_SIZE_BYTES];
-
-			// Keep listening to the InputStream while connected
+			byte[] lenbuffer = new byte[2];
+			
 			while (true)
 			{
 				try
 				{
-					// Read from the InputStream
-					var bytes = mmInStream.Read(buffer, 0, buffer.Length);
-
-					_adapter.ThreadMessage_DataRead(buffer, bytes);
+					byte[] d;
+					if (_sendData.TryDequeue(out d))
+					{
+						NetworkDataTools.SetUInt16(out lenbuffer[0], out lenbuffer[1], (ushort)d.Length);
+						mmOutStream.Write(lenbuffer, 0, 2);
+						mmOutStream.Write(d, 0, d.Length);
+					}
+					else
+					{
+						Thread.Sleep(0);
+					}
 				}
 				catch (Java.IO.IOException e)
 				{
-					SAMLog.Warning("ABTA::BTCT_ConnLost", e.Message);
+					SAMLog.Warning("ABTA::ThreadSend_ConnLost", e.Message);
 					_adapter.ThreadMessage_ConnectionLost();
 					break;
 				}
@@ -77,7 +80,7 @@ namespace GridDominance.Android.Impl
 		/// </param>
 		public void Write(byte[] buffer)
 		{
-			mmOutStream.Write(buffer, 0, buffer.Length);
+			_sendData.Enqueue(buffer);
 		}
 
 		public void Cancel()
@@ -88,7 +91,7 @@ namespace GridDominance.Android.Impl
 			}
 			catch (Java.IO.IOException e)
 			{
-				SAMLog.Error("ABTA::Thread2_Cancel", e.Message);
+				SAMLog.Error("ABTA::ThreadSend_Cancel", e.Message);
 			}
 		}
 	}

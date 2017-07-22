@@ -21,13 +21,14 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		private IBluetoothDevice _currentConnDevice;
 		private List<IBluetoothDevice> _lastScanDevices = new List<IBluetoothDevice>();
 
-		public Queue<BluetoothMediumEvent> Events = new Queue<BluetoothMediumEvent>();
+		public readonly Queue<BluetoothMediumEvent> Events = new Queue<BluetoothMediumEvent>();
 
 		public BluetoothNetworkMedium()
 		{
 			_client = MonoSAMGame.CurrentInst.Bridge.Bluetooth;
 
-			DebugDisplayString = new BufferedLambdaString(() => $"XBT[Enabled:{_client.IsEnabled} Discovering:{_client.IsDiscovering} MyState:{_client.State} (_scanning:{_isScanning}|{MonoSAMGame.CurrentTime.TotalElapsedSeconds - _scanStartTime:00}) AState:{_client.AdapterState} AScan:{_client.AdapterScanMode} RemoteDevice:<{_client.RemoteDevice?.Name}|{_client.RemoteDevice?.Address}|{_client.RemoteDevice?.DeviceClass}|{_client.RemoteDevice?.Type}|{_client.RemoteDevice?.IsBonded}|{_client.RemoteDevice?.IsBonding}> Threads:<{_client.DebugThreadState}> Founds:{_client.FoundDevices.Count} Name:{_client.AdapterName}]", 1.5f);
+			DebugDisplayString = new BufferedLambdaString(() => $"XBT[Enabled:{_client.IsEnabled} Discovering:{_client.IsDiscovering} MyState:{_client.State} (_scanning:{_isScanning}|{MonoSAMGame.CurrentTime.TotalElapsedSeconds - _scanStartTime:00}) AState:{_client.AdapterState} AScan:{_client.AdapterScanMode} Threads:<{_client.DebugThreadState}> Founds:{_client.FoundDevices.Count}\n" + 
+			                                                    $"RemoteDevice:<{_client.RemoteDevice?.Name}|{_client.RemoteDevice?.Address}|{_client.RemoteDevice?.DeviceClass}|{_client.RemoteDevice?.Type}|{_client.RemoteDevice?.IsBonded}|{_client.RemoteDevice?.IsBonding}> Name:{_client.AdapterName}]", 1.5f);
 		}
 
 		public void Init(out SAMNetworkConnection.ErrorType error)
@@ -35,6 +36,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			_client.StartAdapter();
 
 			_lastState = _client.State;
+			_currentConnDevice = null;
+			_lastScanDevices.Clear();
+			Events.Clear();
+			_isScanning = false;
+			_scanStartTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
 			if (_client.State == BluetoothAdapterState.AdapterNotFound)
 			{
@@ -146,6 +152,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 					{
 						_isScanning = true;
 						_client.StartScan();
+						_scanStartTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 					}
 				}
 			}
@@ -196,14 +203,13 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			{
 				_isScanning = true;
 				_client.StartScan();
+				_scanStartTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 			}
 		}
 
 		public byte[] RecieveOrNull()
 		{
-			var d = _client.RecieveOrNull();
-			if (d == null) return null;
-			return d.Item1.Take(d.Item2).ToArray();
+			return _client.RecieveOrNull();
 		}
 
 		public void Send(byte[] data)

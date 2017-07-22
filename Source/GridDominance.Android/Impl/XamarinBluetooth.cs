@@ -37,18 +37,19 @@ namespace GridDominance.Android.Impl
 		public bool IsDiscovering => Adapter.IsDiscovering;
 		public bool IsDiscoverable => Adapter.ScanMode == ScanMode.ConnectableDiscoverable;
 
-		public string DebugThreadState => $"Acc: {_acceptThread?.IsAlive ?? false}; Conn: {_connectThread?.IsAlive ?? false}; Trans: {_transferThread?.IsAlive ?? false}";
+		public string DebugThreadState => $"Acc: {_acceptThread?.IsAlive ?? false}; Conn: {_connectThread?.IsAlive ?? false}; Trans: {_transferOutThread?.IsAlive ?? false}+{_transferInThread?.IsAlive ?? false}";
 
 
 		private readonly MainActivity _activity;
 		public readonly BluetoothAdapter Adapter;
 
-		private readonly ConcurrentQueue<Tuple<byte[], int>> _messageQueue = new ConcurrentQueue<Tuple<byte[], int>>();
+		private readonly ConcurrentQueue<byte[]> _messageQueue = new ConcurrentQueue<byte[]>();
 		private readonly List<IBluetoothDevice> _foundDevices = new List<IBluetoothDevice>();
 
 		private BTAcceptThread _acceptThread;      // SERVER
 		private BTConnectThread _connectThread;    // CLIENT
-		private BTTransferThread _transferThread;  //
+		private BTTransferSendThread _transferOutThread;
+		private BTTransferRecieveThread _transferInThread;
 
 		private readonly BroadcastReceiver _reciever;
 
@@ -195,16 +196,16 @@ namespace GridDominance.Android.Impl
 			}
 		}
 
-		public Tuple<byte[], int> RecieveOrNull()
+		public byte[] RecieveOrNull()
 		{
-			Tuple<byte[], int> d;
+			byte[] d;
 			if (_messageQueue.TryDequeue(out d)) return d;
 			return null;
 		}
 
 		public void Write(byte[] data)
 		{
-			_transferThread.Write(data);
+			_transferOutThread.Write(data);
 		}
 
 		public void Connect(IBluetoothDevice d)
@@ -223,10 +224,16 @@ namespace GridDominance.Android.Impl
 					_connectThread = null;
 				}
 
-				if (_transferThread != null)
+				if (_transferOutThread != null)
 				{
-					_transferThread.Cancel();
-					_transferThread = null;
+					_transferOutThread.Cancel();
+					_transferOutThread = null;
+				}
+
+				if (_transferInThread != null)
+				{
+					_transferInThread.Cancel();
+					_transferInThread = null;
 				}
 
 				if (_acceptThread != null)
@@ -234,6 +241,8 @@ namespace GridDominance.Android.Impl
 					_acceptThread.Cancel();
 					_acceptThread = null;
 				}
+
+				RemoteDevice = null;
 			}
 			catch (Exception e)
 			{
@@ -262,9 +271,9 @@ namespace GridDominance.Android.Impl
 			State = BluetoothAdapterState.Connecting;
 		}
 
-		public void ThreadMessage_DataRead(byte[] data, int len)
+		public void ThreadMessage_DataRead(byte[] data, int offset, int len)
 		{
-			_messageQueue.Enqueue(Tuple.Create(data, len));
+			_messageQueue.Enqueue(data.Skip(offset).Take(len).ToArray());
 		}
 
 		[MethodImpl(MethodImplOptions.Synchronized)]
@@ -274,8 +283,11 @@ namespace GridDominance.Android.Impl
 
 			try
 			{
-				_transferThread = new BTTransferThread(socket, this);
-				_transferThread.Start();
+				_transferOutThread = new BTTransferSendThread(socket, this);
+				_transferInThread = new BTTransferRecieveThread(socket, this);
+
+				_transferOutThread.Start();
+				_transferInThread.Start();
 			}
 			catch (Exception e)
 			{
@@ -289,7 +301,14 @@ namespace GridDominance.Android.Impl
 
 			State = BluetoothAdapterState.Connected;
 		}
-		
+
+		public void ThreadMessage_ConnectionError()
+		{
+			CancelAllThreads();
+
+			State = BluetoothAdapterState.Error;
+		}
+
 		public void ThreadMessage_ConnectionLost()
 		{
 			CancelAllThreads();
