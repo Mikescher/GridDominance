@@ -22,6 +22,10 @@ function run() {
 
 	//----------
 
+	if (strlen($message)    > 4000) $message    = substr($message,    0, 4000) . "...";
+	if (strlen($stacktrace) > 8000) $stacktrace = substr($stacktrace, 0, 8000) . "...";
+	if (strlen($additional) > 8000) $additional = substr($additional, 0, 8000) . "...";
+
 	$stmt = $pdo->prepare("INSERT INTO error_log(userid, password_verified, screen_resolution, app_version, exception_id, exception_message, exception_stacktrace, additional_info) VALUES (:ui, :pv, :sr, :av, :id, :mg, :st, :ai)");
 	$stmt->bindValue(':ui', $userid,        PDO::PARAM_INT);
 	$stmt->bindValue(':pv', $user !== NULL, PDO::PARAM_INT);
