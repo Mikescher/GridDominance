@@ -62,7 +62,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			{
 				HUD.ShowToast("SCRNSS::ERR", L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 
-				MainGame.Inst.SetOverworldScreen(); //TODO Perhaps not kill so suddenly ??
+				MainGame.Inst.SetOverworldScreen();
 			}
 		}
 

@@ -487,20 +487,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			int i1 = Levels.WORLDS_MULTIPLAYER.ToList().IndexOf(_currentWorld);
 
-			bool succ = false;
-			for (int i = 0; i < Levels.WORLDS_MULTIPLAYER.Length; i++)
-			{
-				i1 = (i1 + delta + Levels.WORLDS_MULTIPLAYER.Length) % Levels.WORLDS_MULTIPLAYER.Length;
-				_currentWorld = Levels.WORLDS_MULTIPLAYER[i1];
-
-				if (_currentWorld.Nodes.Any(n => MainGame.Inst.Profile.GetLevelData(n).HasAnyCompleted()))
-				{
-					succ = true;
-					break;
-				}
-			}
-
-			if (!succ) _currentWorld = Levels.WORLD_001;
+			i1 = (i1 + delta + Levels.WORLDS_MULTIPLAYER.Length) % Levels.WORLDS_MULTIPLAYER.Length;
+			_currentWorld = Levels.WORLDS_MULTIPLAYER[i1];
 
 			_currentLevel = Levels.LEVELS[_currentWorld.Nodes.First().LevelID];
 			UpdateLabels();
@@ -523,7 +511,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			}
 
 			_currentLevel = data[idx];
-
 			UpdateLabels();
 		}
 
