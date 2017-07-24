@@ -88,7 +88,7 @@
 [ ] Destructible Turrets
       - Can't convert - only destroy
 [X] Smaller turrets, bullets have less weight
-[ ] Shield Turrets
+[X] Shield Turrets
       - Protect other turret from damage
       - Dont shoot itself
       - Shield turret can't form loop (shielded turret can's shield other turret)
@@ -116,7 +116,7 @@
 [X] Pipes darker when powered 
 [X] Toast description when clikcing on number in info panel
 [X] Cannon that only barrel charges when boosted
-[ ] Level 2-22::  background looks strange (no background blocking for neutral cannons ??)
+[X] Level 2-22::  background looks strange (no background blocking for neutral cannons ??)
 [ ] inAppBilling Regression ??
 [ ] viewport stretched with onscreen hardkeys
 [X] Unlock lower difficulties when solving higher ones
@@ -131,7 +131,7 @@
  - World 5 := Multiplayer (only one needs to have unlocked), Lidgren?
 
  Pricing:
- - W2:   0.99
+ - W2:   0.49
  - W3:   0.99
  - W4:   0.99
  - MP:   0.99

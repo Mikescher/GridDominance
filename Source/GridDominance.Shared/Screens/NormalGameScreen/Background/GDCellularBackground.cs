@@ -334,6 +334,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		private void UpdateSpawnCell(int x, int y, SAMTime gameTime)
 		{
+			if (_grid[x, y].SpawnSource.Fraction.IsNeutral) return; // No blocking for [N]
+
 			if (_grid[x, y].PowerCurr < 1f || _grid[x, y].Fraction != _grid[x, y].SpawnSource.Fraction)
 			{
 				// Regenerate spawn cells
