@@ -746,3 +746,9 @@
 /processorParam:Quality=Best
 /build:sounds/zoomout.ogg
 
+#begin sounds/glass.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/glass.ogg
+

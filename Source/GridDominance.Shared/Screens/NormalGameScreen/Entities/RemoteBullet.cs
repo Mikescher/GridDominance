@@ -181,7 +181,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherGlassBlock = fixtureB.UserData as GlassBlock;
 			if (otherGlassBlock != null)
 			{
-				MainGame.Inst.GDSound.PlayEffectReflect();
+				MainGame.Inst.GDSound.PlayEffectGlass();
 				return true;
 			}
 			#endregion
@@ -221,7 +221,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherMirrorBlock = fixtureB.UserData as MirrorBlock;
 			if (otherMirrorBlock != null)
 			{
-				MainGame.Inst.GDSound.PlayEffectReflect(); //TODO evtl other sound?
+				MainGame.Inst.GDSound.PlayEffectReflect();
 				return true;
 			}
 			#endregion
@@ -230,7 +230,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var otherMirrorCircle = fixtureB.UserData as MirrorCircle;
 			if (otherMirrorCircle != null)
 			{
-				MainGame.Inst.GDSound.PlayEffectReflect(); //TODO evtl other sound?
+				MainGame.Inst.GDSound.PlayEffectReflect();
 				return true;
 			}
 			#endregion

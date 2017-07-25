@@ -29,6 +29,7 @@ namespace GridDominance.Shared.Resources
 		private SoundEffect effectError;
 		private SoundEffect effectReflect;
 		private SoundEffect effectLaser;
+		private SoundEffect effectGlass;
 
 		private Song music_background;
 		private Song music_tutorial;
@@ -36,7 +37,7 @@ namespace GridDominance.Shared.Resources
 		
 		public override void Initialize(ContentManager content)
 		{
-			effectButton        = content.Load<SoundEffect>("sounds/button"); //TODO fix volume
+			effectButton        = content.Load<SoundEffect>("sounds/button");
 			effectKeyboardClick = content.Load<SoundEffect>("sounds/click");  //TODO fix volume
 			effectOpen          = content.Load<SoundEffect>("sounds/open");
 			effectClose         = content.Load<SoundEffect>("sounds/close");
@@ -51,6 +52,7 @@ namespace GridDominance.Shared.Resources
 			effectError         = content.Load<SoundEffect>("sounds/error");
 			effectReflect       = content.Load<SoundEffect>("sounds/reflect");
 			effectLaser         = content.Load<SoundEffect>("sounds/laser");
+			effectGlass         = content.Load<SoundEffect>("sounds/glass");
 
 			music_background = content.Load<Song>("music/spirit-forge");
 			music_tutorial = content.Load<Song>("music/macaron-island");
@@ -80,6 +82,7 @@ namespace GridDominance.Shared.Resources
 		public void PlayEffectZoomOut()   => PlaySoundeffect(effectZoomOut);
 		public void PlayEffectError()     => PlaySoundeffect(effectError);
 		public void PlayEffectReflect()   => PlaySoundeffect(effectReflect);
+		public void PlayEffectGlass()     => PlaySoundeffect(effectGlass);
 		
 		public SAMEffectWrapper GetEffectLaser(ILifetimeObject owner) => CreateEffect(owner, effectLaser);
 

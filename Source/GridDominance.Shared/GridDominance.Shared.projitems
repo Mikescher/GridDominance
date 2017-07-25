@@ -231,6 +231,7 @@
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\debugFontSmall.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\hudFontBold.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\fonts\hudFontRegular.spritefont" />
+    <None Include="$(MSBuildThisFileDirectory)Content\fonts\levelBackgroundFont.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl001.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl002.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl003.gslevel" />
@@ -303,36 +304,35 @@
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl229.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl230.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl231.gslevel" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl301.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl_debug.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\lvl_tutorial.gslevel" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\map_header.gsheader" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\stdvalues.gsheader" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\world_1.gsgraph" />
     <None Include="$(MSBuildThisFileDirectory)Content\levels\world_2.gsgraph" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\world_3.gsgraph" />
+    <None Include="$(MSBuildThisFileDirectory)Content\levels\world_4.gsgraph" />
     <None Include="$(MSBuildThisFileDirectory)Content\shaders\SAMParticleEffect.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\boost.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\click.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\collision.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\error.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\gameover.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\gamewon.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\glass.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\hit.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\laser.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\sounds\shoot.ogg" />
     <None Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\boost.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\button.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\click.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\close.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\collision.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\gameover.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\gamewon.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\hit.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\open.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\shoot.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\zoomin.mp3" />
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\zoomout.mp3" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\error.mp3" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Content\sounds\reflect.mp3" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\music\cyber-factory.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\music\macaron-island.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\music\mr-krabs.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\music\spinning-gears.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\music\spirit-forge.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\music\tekno-labs.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_bd.json" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_fd.json" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_hd.json" />
