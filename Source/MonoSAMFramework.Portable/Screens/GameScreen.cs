@@ -53,6 +53,17 @@ namespace MonoSAMFramework.Portable.Screens
 		public    RealtimeAPSCounter UPSCounter;
 		public    GCMonitor GCMonitor;
 		protected DebugMinimap DebugMap;
+		
+		public static readonly TimingCounter TIMING_DRAW_BACKGROUND     = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_ENTITIES       = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_SCREEN         = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_BACKGROUNDPOST = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_ENTITIESPOST   = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_HUD            = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_DEBUGSCREEN    = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_PROXIES        = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_BATCH_GAME     = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_BATCH_HUD      = new TimingCounter(32);
 #endif
 
 		public float GameSpeed = 1f;
@@ -251,6 +262,10 @@ namespace MonoSAMFramework.Portable.Screens
 
 			// ======== GAME =========
 
+#if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_BATCH_GAME.Start();
+#endif
+
 			TranslatedBatch.OnBegin(bts);
 			if (scissor == null)
 			{
@@ -263,10 +278,37 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 			try
 			{
+#if DEBUG
+				if (_updateDebugSettings) TIMING_DRAW_BACKGROUND.Start();
+#endif
 				Background.Draw(TranslatedBatch);
+#if DEBUG
+				if (_updateDebugSettings) TIMING_DRAW_BACKGROUND.Stop();
+#endif
+
+#if DEBUG
+				if (_updateDebugSettings) TIMING_DRAW_ENTITIES.Start();
+#endif
 				Entities.Draw(TranslatedBatch);
+#if DEBUG
+				if (_updateDebugSettings) TIMING_DRAW_ENTITIES.Stop();
+#endif
+
+#if DEBUG
+				if (_updateDebugSettings) TIMING_DRAW_SCREEN.Start();
+#endif
 				OnDrawGame(TranslatedBatch);
+#if DEBUG
+				if (_updateDebugSettings) TIMING_DRAW_SCREEN.Stop();
+#endif
+
+#if DEBUG
+				if (_updateDebugSettings) TIMING_DRAW_BACKGROUNDPOST.Start();
+#endif
 				Background.DrawOverlay(TranslatedBatch);
+#if DEBUG
+				if (_updateDebugSettings) TIMING_DRAW_BACKGROUNDPOST.Stop();
+#endif
 
 #if DEBUG
 				DrawScreenDebug(TranslatedBatch);
@@ -278,11 +320,25 @@ namespace MonoSAMFramework.Portable.Screens
 				TranslatedBatch.OnEnd();
 			}
 
+#if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_BATCH_GAME.Stop();
+#endif
+
 			// ======== STUFF ========
 
+#if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_ENTITIESPOST.Start();
+#endif
 			Entities.PostDraw();
+#if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_ENTITIESPOST.Stop();
+#endif
 
 			// ======== HUD ==========
+
+#if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_BATCH_HUD.Start();
+#endif
 
 			FixedBatch.OnBegin(bts);
 
@@ -297,9 +353,13 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 			try
 			{
+#if DEBUG
+				if (_updateDebugSettings) TIMING_DRAW_HUD.Start();
+#endif
 				GameHUD.Draw(FixedBatch);
 #if DEBUG
 				using (FixedBatch.BeginDebugDraw()) DebugMap.Draw(FixedBatch);
+				if (_updateDebugSettings) TIMING_DRAW_HUD.Stop();
 #endif
 				OnDrawHUD(TranslatedBatch);
 			}
@@ -309,17 +369,26 @@ namespace MonoSAMFramework.Portable.Screens
 				FixedBatch.OnEnd();
 			}
 
+#if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_BATCH_HUD.Stop();
+#endif
+
 			// =======================
 
 #if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_DEBUGSCREEN.Start();
 			using (FixedBatch.BeginDebugDraw())
 			using (TranslatedBatch.BeginDebugDraw())
 			{
 				Entities.DrawOuterDebug();
 				DebugDisp.Draw();
 			}
+			if (_updateDebugSettings) TIMING_DRAW_DEBUGSCREEN.Stop();
 #endif
 
+#if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_PROXIES.Start();
+#endif
 			foreach (var proxy in _proxyScreens)
 			{
 				if (proxy.ProxyTargetBounds.IsEmpty) continue;
@@ -328,6 +397,9 @@ namespace MonoSAMFramework.Portable.Screens
 
 				proxy.Proxy.InternalDraw(gameTime, proxy.ProxyTargetBounds.CeilOutwards());
 			}
+#if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_PROXIES.Stop();
+#endif
 
 #if DEBUG
 			FPSCounter.EndCycle();

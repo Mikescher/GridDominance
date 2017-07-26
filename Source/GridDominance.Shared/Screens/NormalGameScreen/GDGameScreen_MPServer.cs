@@ -55,8 +55,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 			base.OnUpdate(gameTime, istate);
-			
+
+#if DEBUG
+			DebugUtils.TIMING_NETWORK.Start();
 			_server.Update(gameTime, istate);
+			DebugUtils.TIMING_NETWORK.Stop();
+#else
+			_server.Update(gameTime, istate);
+#endif
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{

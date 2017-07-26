@@ -19,31 +19,53 @@ namespace GridDominance.Shared.Screens
 	public static class DebugUtils
 	{
 #if DEBUG
-		public static readonly TimingCounter TIMING_KI    = new TimingCounter(32);
-		public static readonly TimingCounter TIMING_LASER = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_KI      = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_LASER   = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_PHYSICS = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_NETWORK = new TimingCounter(32);
+
+		public static TimingCounter TIMING_DRAW_BACKGROUND     => GameScreen.TIMING_DRAW_BACKGROUND;
+		public static TimingCounter TIMING_DRAW_ENTITIES       => GameScreen.TIMING_DRAW_ENTITIES;
+		public static TimingCounter TIMING_DRAW_SCREEN         => GameScreen.TIMING_DRAW_SCREEN;
+		public static TimingCounter TIMING_DRAW_BACKGROUNDPOST => GameScreen.TIMING_DRAW_BACKGROUNDPOST;
+		public static TimingCounter TIMING_DRAW_ENTITIESPOST   => GameScreen.TIMING_DRAW_ENTITIESPOST;
+		public static TimingCounter TIMING_DRAW_HUD            => GameScreen.TIMING_DRAW_HUD;
+		public static TimingCounter TIMING_DRAW_DEBUGSCREEN    => GameScreen.TIMING_DRAW_DEBUGSCREEN;
+		public static TimingCounter TIMING_DRAW_PROXIES        => GameScreen.TIMING_DRAW_PROXIES;
+		public static TimingCounter TIMING_DRAW_BATCH_GAME     => GameScreen.TIMING_DRAW_BATCH_GAME;
+		public static TimingCounter TIMING_DRAW_BATCH_HUD      => GameScreen.TIMING_DRAW_BATCH_HUD;
 
 		public static DebugTextDisplay CreateDisplay(GameScreen scrn)
 		{
 			var debugDisp = new DebugTextDisplay(scrn.Graphics.GraphicsDevice, Textures.DebugFont);
 			var gdg = scrn as GDGameScreen;
 
-			debugDisp.AddLine(() => $"Device = {scrn.Game.Bridge.DeviceName} | Version = {scrn.Game.Bridge.DeviceVersion} | Debugger = {Debugger.IsAttached}");
-			debugDisp.AddLine(() => $"FPS={scrn.FPSCounter.AverageAPS:0000.0} (curr={scrn.FPSCounter.CurrentAPS:0000.0} delta={scrn.FPSCounter.AverageDelta * 1000:000.00} min={scrn.FPSCounter.MinimumAPS:0000.0} (d={scrn.FPSCounter.MaximumDelta * 1000:0000.0}) cycletime={scrn.FPSCounter.AverageCycleTime * 1000:000.00} (max={scrn.FPSCounter.MaximumCycleTime * 1000:000.00} curr={scrn.FPSCounter.CurrentCycleTime * 1000:000.00}) total={scrn.FPSCounter.TotalActions:000000})");
-			debugDisp.AddLine(() => $"UPS={scrn.UPSCounter.AverageAPS:0000.0} (curr={scrn.UPSCounter.CurrentAPS:0000.0} delta={scrn.UPSCounter.AverageDelta * 1000:000.00} min={scrn.UPSCounter.MinimumAPS:0000.0} (d={scrn.UPSCounter.MaximumDelta * 1000:0000.0}) cycletime={scrn.UPSCounter.AverageCycleTime * 1000:000.00} (max={scrn.UPSCounter.MaximumCycleTime * 1000:000.00} curr={scrn.UPSCounter.CurrentCycleTime * 1000:000.00}) total={scrn.UPSCounter.TotalActions:000000})");
-			debugDisp.AddLine(() => $"GC = Time since GC:{scrn.GCMonitor.TimeSinceLastGC:00.00}s ({scrn.GCMonitor.TimeSinceLastGC0:000.00}s | {scrn.GCMonitor.TimeSinceLastGC1:000.00}s | {scrn.GCMonitor.TimeSinceLastGC2:000.00}s) Memory = {scrn.GCMonitor.TotalMemory:000.0}MB Frequency = {scrn.GCMonitor.GCFrequency:0.000}");
-			debugDisp.AddLine(() => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(scrn.Game.GraphicsDevice):#.00}");
-			debugDisp.AddLine(() => $"Entities = {scrn.Entities.Count(),3} | EntityOps = {scrn.Entities.Enumerate().Sum(p => p.ActiveEntityOperations.Count()):00} | Particles = {scrn.Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {scrn.Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})");
-			debugDisp.AddLine(() => $"GamePointer = ({scrn.InputStateMan.GetCurrentState().GamePointerPosition.X:000.0}|{scrn.InputStateMan.GetCurrentState().GamePointerPosition.Y:000.0}) | HUDPointer = ({scrn.InputStateMan.GetCurrentState().HUDPointerPosition.X:000.0}|{scrn.InputStateMan.GetCurrentState().HUDPointerPosition.Y:000.0}) | PointerOnMap = ({scrn.InputStateMan.GetCurrentState().GamePointerPositionOnMap.X:000.0}|{scrn.InputStateMan.GetCurrentState().GamePointerPositionOnMap.Y:000.0})");
+			debugDisp.AddLine("ShowInfos",     () => $"Device = {scrn.Game.Bridge.DeviceName} | Version = {scrn.Game.Bridge.DeviceVersion} | Debugger = {Debugger.IsAttached}");
+			debugDisp.AddLine("ShowInfos",     () => $"FPS={scrn.FPSCounter.AverageAPS:0000.0} (curr={scrn.FPSCounter.CurrentAPS:0000.0} delta={scrn.FPSCounter.AverageDelta * 1000:000.00} min={scrn.FPSCounter.MinimumAPS:0000.0} (d={scrn.FPSCounter.MaximumDelta * 1000:0000.0}) cycletime={scrn.FPSCounter.AverageCycleTime * 1000:000.00} (max={scrn.FPSCounter.MaximumCycleTime * 1000:000.00} curr={scrn.FPSCounter.CurrentCycleTime * 1000:000.00}) total={scrn.FPSCounter.TotalActions:000000})");
+			debugDisp.AddLine("ShowInfos",     () => $"UPS={scrn.UPSCounter.AverageAPS:0000.0} (curr={scrn.UPSCounter.CurrentAPS:0000.0} delta={scrn.UPSCounter.AverageDelta * 1000:000.00} min={scrn.UPSCounter.MinimumAPS:0000.0} (d={scrn.UPSCounter.MaximumDelta * 1000:0000.0}) cycletime={scrn.UPSCounter.AverageCycleTime * 1000:000.00} (max={scrn.UPSCounter.MaximumCycleTime * 1000:000.00} curr={scrn.UPSCounter.CurrentCycleTime * 1000:000.00}) total={scrn.UPSCounter.TotalActions:000000})");
+			debugDisp.AddLine("ShowInfos",     () => $"GC = Time since GC:{scrn.GCMonitor.TimeSinceLastGC:00.00}s ({scrn.GCMonitor.TimeSinceLastGC0:000.00}s | {scrn.GCMonitor.TimeSinceLastGC1:000.00}s | {scrn.GCMonitor.TimeSinceLastGC2:000.00}s) Memory = {scrn.GCMonitor.TotalMemory:000.0}MB Frequency = {scrn.GCMonitor.GCFrequency:0.000}");
+			debugDisp.AddLine("ShowInfos",     () => $"Quality = {Textures.TEXTURE_QUALITY} | Texture.Scale={1f / Textures.DEFAULT_TEXTURE_SCALE.X:#.00} | Pixel.Scale={Textures.GetDeviceTextureScaling(scrn.Game.GraphicsDevice):#.00}");
+			debugDisp.AddLine("ShowInfos",     () => $"Entities = {scrn.Entities.Count(),3} | EntityOps = {scrn.Entities.Enumerate().Sum(p => p.ActiveEntityOperations.Count()):00} | Particles = {scrn.Entities.Enumerate().OfType<IParticleOwner>().Sum(p => p.ParticleCount),3} (Visible: {scrn.Entities.Enumerate().Where(p => p.IsInViewport).OfType<IParticleOwner>().Sum(p => p.ParticleCount),3})");
+			debugDisp.AddLine("ShowInfos",     () => $"GamePointer = ({scrn.InputStateMan.GetCurrentState().GamePointerPosition.X:000.0}|{scrn.InputStateMan.GetCurrentState().GamePointerPosition.Y:000.0}) | HUDPointer = ({scrn.InputStateMan.GetCurrentState().HUDPointerPosition.X:000.0}|{scrn.InputStateMan.GetCurrentState().HUDPointerPosition.Y:000.0}) | PointerOnMap = ({scrn.InputStateMan.GetCurrentState().GamePointerPositionOnMap.X:000.0}|{scrn.InputStateMan.GetCurrentState().GamePointerPositionOnMap.Y:000.0})");
 			debugDisp.AddLine("DebugGestures", () => $"Pinching = {scrn.InputStateMan.GetCurrentState().IsGesturePinching} & PinchComplete = {scrn.InputStateMan.GetCurrentState().IsGesturePinchComplete} & PinchPower = {scrn.InputStateMan.GetCurrentState().LastPinchPower}");
-			debugDisp.AddLine(() => $"OGL Sprites = {scrn.LastReleaseRenderSpriteCount:0000} (+ {scrn.LastDebugRenderSpriteCount:0000}); OGL Text = {scrn.LastReleaseRenderTextCount:0000} (+ {scrn.LastDebugRenderTextCount:0000})");
-			debugDisp.AddLine(() => $"Map Offset = {scrn.MapOffset} (Map Center = {scrn.MapViewportCenter})");
-			debugDisp.AddLine(() => $"SamSound = [Effects]: {MainGame.Inst.GDSound.GetEffectsStringState()} | [Music]: {MainGame.Inst.GDSound.GetMusicStringState()}");
-			debugDisp.AddLine(() => $"Mediaplayer[{MediaPlayer.State}] = (Volume: {MediaPlayer.Volume:0.00}) ({MediaPlayer.PlayPosition.TotalSeconds:0}s) {{{string.Join(",", new[] { MediaPlayer.IsMuted ? "IsMuted" : "", MediaPlayer.GameHasControl ? "GameHasControl" : "", MediaPlayer.IsShuffled ? "IsShuffled" : "", MediaPlayer.IsVisualizationEnabled ? "IsVisualizationEnabled" : "IsRepeating", MediaPlayer.IsRepeating ? "" : "" }.Where(p => !string.IsNullOrWhiteSpace(p)))}}}");
-			if (gdg != null) debugDisp.AddLine(() => $"LevelTime = {gdg.LevelTime:000.000} (finished={gdg.HasFinished})");
+			debugDisp.AddLine("ShowInfos",     () => $"OGL Sprites = {scrn.LastReleaseRenderSpriteCount:0000} (+ {scrn.LastDebugRenderSpriteCount:0000}); OGL Text = {scrn.LastReleaseRenderTextCount:0000} (+ {scrn.LastDebugRenderTextCount:0000})");
+			debugDisp.AddLine("ShowInfos",     () => $"Map Offset = {scrn.MapOffset} (Map Center = {scrn.MapViewportCenter})");
+			debugDisp.AddLine("ShowInfos",     () => $"SamSound = [Effects]: {MainGame.Inst.GDSound.GetEffectsStringState()} | [Music]: {MainGame.Inst.GDSound.GetMusicStringState()}");
+			debugDisp.AddLine("ShowInfos",     () => $"Mediaplayer[{MediaPlayer.State}] = (Volume: {MediaPlayer.Volume:0.00}) ({MediaPlayer.PlayPosition.TotalSeconds:0}s) {{{string.Join(",", new[] { MediaPlayer.IsMuted ? "IsMuted" : "", MediaPlayer.GameHasControl ? "GameHasControl" : "", MediaPlayer.IsShuffled ? "IsShuffled" : "", MediaPlayer.IsVisualizationEnabled ? "IsVisualizationEnabled" : "IsRepeating", MediaPlayer.IsRepeating ? "" : "" }.Where(p => !string.IsNullOrWhiteSpace(p)))}}}");
+			if (gdg != null) debugDisp.AddLine("ShowInfos", () => $"LevelTime = {gdg.LevelTime:000.000} (finished={gdg.HasFinished})");
 
-			if (scrn is GDWorldMapScreen) debugDisp.AddLine(() => $"CurrentLevelNode = {((GDWorldHUD)scrn.HUD).SelectedNode?.Blueprint?.Name ?? "NULL"}; FocusedHUDElement = {scrn.HUD.FocusedElement}; ZoomState = {((GDWorldMapScreen)scrn).ZoomState}");
+			if (scrn is GDWorldMapScreen) debugDisp.AddLine("ShowInfos", () => $"CurrentLevelNode = {((GDWorldHUD)scrn.HUD).SelectedNode?.Blueprint?.Name ?? "NULL"}; FocusedHUDElement = {scrn.HUD.FocusedElement}; ZoomState = {((GDWorldMapScreen)scrn).ZoomState}");
 
-			debugDisp.AddLine("DebugTimings", () => $"KI: [{TIMING_KI.Format()}] LASER: [{TIMING_LASER.Format()}]");
+			debugDisp.AddLine("DebugTimings", () => $"KI: [{TIMING_KI.Format()}]\nLASER: [{TIMING_LASER.Format()}]\nPHYSICS: [{TIMING_PHYSICS.Format()}]\nNETWORK: [{TIMING_NETWORK.Format()}]");
+			debugDisp.AddLine("DebugTimings", () => $"Drawing: Background        [{TIMING_DRAW_BACKGROUND.Format()}]\n" +
+			                                        $"         Entities:         [{TIMING_DRAW_ENTITIES.Format()}]\n" +
+			                                        $"         Screen:           [{TIMING_DRAW_SCREEN.Format()}]\n" +
+			                                        $"         Background(post): [{TIMING_DRAW_BACKGROUNDPOST.Format()}]\n" +
+			                                        $"         Entities(post):   [{TIMING_DRAW_ENTITIESPOST.Format()}]\n" +
+			                                        $"         HUD:              [{TIMING_DRAW_HUD.Format()}]\n" +
+			                                        $"         DebugScreen:      [{TIMING_DRAW_DEBUGSCREEN.Format()}]\n" +
+			                                        $"         Proxies:          [{TIMING_DRAW_PROXIES.Format()}]\n");
+			debugDisp.AddLine("DebugTimings", () => $"Drawing[BATCH_GAME]: [{TIMING_DRAW_BATCH_GAME.Format()}]\nDrawing[BATCH_HUD]: [{TIMING_DRAW_BATCH_HUD.Format()}]");
 
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{scrn.Game.GraphicsDevice.Viewport.Width}|{scrn.Game.GraphicsDevice.Viewport.Height}]");
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualGuaranteedSize={scrn.VAdapterGame.VirtualGuaranteedSize} || GameAdapter.VirtualGuaranteedSize={scrn.VAdapterHUD.VirtualGuaranteedSize}");
@@ -76,38 +98,39 @@ namespace GridDominance.Shared.Screens
 #else
 			DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
 #endif
+			DebugSettings.AddFunctionless("DBG", "DebugTextDisplay", scrn);
 
-			DebugSettings.AddTrigger("DBG", "SetQuality_1",         scrn, SKeys.D1, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.FD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_2",         scrn, SKeys.D2, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.BD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_3",         scrn, SKeys.D3, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.LD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_4",         scrn, SKeys.D4, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.MD));
-			DebugSettings.AddTrigger("DBG", "SetQuality_5",         scrn, SKeys.D5, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.HD));
-			DebugSettings.AddTrigger("DBG", "ResetProfile",         scrn, SKeys.R, KeyModifier.Control,   x => MainGame.Inst.ResetProfile());
-			DebugSettings.AddTrigger("DBG", "ClearMessages",        scrn, SKeys.C, KeyModifier.None,      x => scrn.DebugDisp.Clear());
-			DebugSettings.AddTrigger("DBG", "StartDebugLevel",      scrn, SKeys.D, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetDebugLevelScreen());
-			DebugSettings.AddTrigger("DBG", "ShowOverworld",        scrn, SKeys.O, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetOverworldScreen());
+			DebugSettings.AddTrigger("DBG",      "SetQuality_1",         scrn, SKeys.D1, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.FD));
+			DebugSettings.AddTrigger("DBG",      "SetQuality_2",         scrn, SKeys.D2, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.BD));
+			DebugSettings.AddTrigger("DBG",      "SetQuality_3",         scrn, SKeys.D3, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.LD));
+			DebugSettings.AddTrigger("DBG",      "SetQuality_4",         scrn, SKeys.D4, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.MD));
+			DebugSettings.AddTrigger("DBG",      "SetQuality_5",         scrn, SKeys.D5, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.HD));
+			DebugSettings.AddTrigger("DBG",      "ResetProfile",         scrn, SKeys.R, KeyModifier.Control,   x => MainGame.Inst.ResetProfile());
+			DebugSettings.AddTrigger("DBG",      "ClearMessages",        scrn, SKeys.C, KeyModifier.None,      x => scrn.DebugDisp.Clear());
+			DebugSettings.AddTrigger("DBG",      "StartDebugLevel",      scrn, SKeys.D, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetDebugLevelScreen());
+			DebugSettings.AddTrigger("DBG",      "ShowOverworld",        scrn, SKeys.O, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetOverworldScreen());
 
-			DebugSettings.AddSwitch("DBG", "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "DebugTextDisplay",      scrn, SKeys.F2,  KeyModifier.None,    true);
-			DebugSettings.AddSwitch("DBG", "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "DebugHUDBorders",       scrn, SKeys.F4,  KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "DebugNetwork",          scrn, SKeys.F5,  KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "ShowMatrixTextInfos",   scrn, SKeys.F6,  KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "ShowDebugMiniMap",      scrn, SKeys.F7,  KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "DebugEntityBoundaries", scrn, SKeys.F8,  KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "DebugEntityMouseAreas", scrn, SKeys.F9,  KeyModifier.None,    false); 
-			DebugSettings.AddSwitch("DBG", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "DebugLaserNetwork",     scrn, SKeys.F12, KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG", "DebugTimings",          scrn, SKeys.F1,  KeyModifier.Control, true); 
-			DebugSettings.AddSwitch("DBG", "ContinoousLasers",      scrn, SKeys.F2,  KeyModifier.Control, false);
-			DebugSettings.AddSwitch("DBG", "DebugMultiplayer",      scrn, SKeys.F3,  KeyModifier.Control, true);
-			DebugSettings.AddSwitch("DBG", "ControlEnemies",        scrn, SKeys.F4,  KeyModifier.Control, false);
+			DebugSettings.AddSwitch("DBG",       "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG",       "ShowInfos",             scrn, SKeys.F2,  KeyModifier.None,    true);
+			DebugSettings.AddSwitch("DBG",       "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG",       "DebugHUDBorders",       scrn, SKeys.F4,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("ShowInfos", "DebugNetwork",          scrn, SKeys.F5,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("ShowInfos", "ShowMatrixTextInfos",   scrn, SKeys.F6,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG",       "ShowDebugMiniMap",      scrn, SKeys.F7,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG",       "DebugEntityBoundaries", scrn, SKeys.F8,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG",       "DebugEntityMouseAreas", scrn, SKeys.F9,  KeyModifier.None,    false); 
+			DebugSettings.AddSwitch("ShowInfos", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None,    false);
+			DebugSettings.AddSwitch("ShowInfos", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None,    false);
+			DebugSettings.AddSwitch("DBG",       "DebugTimings",          scrn, SKeys.F12, KeyModifier.None,    true); 
+			DebugSettings.AddSwitch("DBG",       "DebugLaserNetwork",     scrn, SKeys.F1,  KeyModifier.Control, false);
+			DebugSettings.AddSwitch("DBG",       "ContinoousLasers",      scrn, SKeys.F2,  KeyModifier.Control, false);
+			DebugSettings.AddSwitch("DBG",       "DebugMultiplayer",      scrn, SKeys.F3,  KeyModifier.Control, true);
+			DebugSettings.AddSwitch("DBG",       "ControlEnemies",        scrn, SKeys.F4,  KeyModifier.Control, false);
 
-			DebugSettings.AddPush("DBG",  "ShowDebugShortcuts",     scrn, SKeys.Tab, KeyModifier.None);
-			DebugSettings.AddPush("DBG",  "ShowSerializedProfile",  scrn, SKeys.O,   KeyModifier.None);
-			DebugSettings.AddPush("TRUE", "HideHUD",                scrn, SKeys.H,   KeyModifier.None);
-			DebugSettings.AddTrigger("DBG", "HideHUD",              scrn, SKeys.L,   KeyModifier.Control, RotateLang);
+			DebugSettings.AddPush("DBG",         "ShowDebugShortcuts",    scrn, SKeys.Tab, KeyModifier.None);
+			DebugSettings.AddPush("DBG",         "ShowSerializedProfile", scrn, SKeys.O,   KeyModifier.None);
+			DebugSettings.AddPush("TRUE",        "HideHUD",               scrn, SKeys.H,   KeyModifier.None);
+			DebugSettings.AddTrigger("DBG",      "HideHUD",               scrn, SKeys.L,   KeyModifier.Control, RotateLang);
 
 			if (scrn is GDGameScreen)      DebugSettings.AddSwitch( "DBG",  "ImmortalCannons",  scrn, SKeys.I,         KeyModifier.Control, false);
 			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AssimilateCannon", scrn, SKeys.A,         KeyModifier.None);

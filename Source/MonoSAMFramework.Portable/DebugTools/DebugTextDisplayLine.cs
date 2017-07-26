@@ -127,7 +127,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 			PositionY = posY;
 			
-			posY += DisplayText().Max(l => font.MeasureString(l).Y) * DebugTextDisplay.TEXT_SPACING;
+			posY += DisplayText().Max(l => font.MeasureString(l).Y) + DebugTextDisplay.TEXT_SPACING;
 		}
 
 		public DebugTextDisplayLine SetColor(Color c)

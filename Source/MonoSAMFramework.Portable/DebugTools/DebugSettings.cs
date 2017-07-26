@@ -95,8 +95,21 @@ namespace MonoSAMFramework.Portable.DebugTools
 			if (listeners.ContainsKey(upperIdent))
 				listeners.Remove(upperIdent);
 
-			var result = new DebugListener(null, ident, owner, KCL.C(SKeys.X), DebugListener.DebugListenerType.Constant);
+			var result = new DebugListener(null, ident, owner, KCL.C(SKeys.X), DebugListener.DebugListenerType.Functionless);
 			result.Set(value);
+			listeners.Add(upperIdent, result);
+		}
+
+		[Conditional("DEBUG")]
+		public static void AddFunctionless(string parentIdent, string ident, ILifetimeObject owner)
+		{
+			var upperIdent = ident.ToUpper();
+
+			if (listeners.ContainsKey(upperIdent))
+				listeners.Remove(upperIdent);
+
+			var result = new DebugListener(parentIdent, ident, owner, KCL.C(SKeys.X), DebugListener.DebugListenerType.Functionless);
+			result.Set(true);
 			listeners.Add(upperIdent, result);
 		}
 
@@ -124,7 +137,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			StringBuilder builder = new StringBuilder();
 
-			foreach (var listener in listeners.Where(p => p.Value.Type != DebugListener.DebugListenerType.Constant))
+			foreach (var listener in listeners.Where(p => p.Value.Type != DebugListener.DebugListenerType.Functionless))
 			{
 				builder.AppendLine(listener.Value.GetSummary());
 			}
@@ -136,7 +149,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			var r = new List<string>();
 
-			var lst = listeners.Where(p => p.Value.Type != DebugListener.DebugListenerType.Constant).ToList();
+			var lst = listeners.Where(p => p.Value.Type != DebugListener.DebugListenerType.Functionless).ToList();
 
 			if (lst.Count <= 16)
 			{

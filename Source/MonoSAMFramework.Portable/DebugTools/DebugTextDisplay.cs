@@ -20,7 +20,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		public const float INERTIA_SPEED = 2048f;
 		public const float TEXT_OFFSET = 5;
-		public const float TEXT_SPACING = 1.15f;
+		public const float TEXT_SPACING = 2.15f;
 
 		private readonly ConcurrentQueue<DebugTextDisplayLine> asyncBacklog = new ConcurrentQueue<DebugTextDisplayLine>();
 		private List<IDebugTextDisplayLineProvider> lines = new List<IDebugTextDisplayLineProvider>();
@@ -147,6 +147,9 @@ namespace MonoSAMFramework.Portable.DebugTools
 			float posY = TEXT_OFFSET;
 			foreach (var line in lines.SelectMany(p => p.GetLines()).Where(p => p.Active()))
 			{
+				var columns = line.DisplayText();
+				if (columns.Count == 0 || columns.All(string.IsNullOrWhiteSpace)) continue;
+
 				line.UpdatePosition(gameTime, font, lines.Count, ref posY);
 			}
 		}
@@ -162,6 +165,8 @@ namespace MonoSAMFramework.Portable.DebugTools
 				var columns = line.DisplayText();
 
 				var pos = new FPoint(TEXT_OFFSET * Scale, line.PositionY * Scale);
+
+				if (columns.Count == 0 || columns.All(string.IsNullOrWhiteSpace)) continue;
 
 				foreach (var _text in columns)
 				{

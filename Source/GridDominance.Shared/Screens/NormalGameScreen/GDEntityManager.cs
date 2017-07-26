@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.Entities;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens;
 using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -53,8 +54,13 @@ namespace GridDominance.Shared.NormalGameScreen
 
 			debugView.Enabled = DebugSettings.Get("PhysicsDebugView");
 #endif
-
+#if DEBUG
+			DebugUtils.TIMING_PHYSICS.Start();
 			PhysicsWorld.Step(gameTime.ElapsedSeconds);
+			DebugUtils.TIMING_PHYSICS.Stop();
+#else
+			PhysicsWorld.Step(gameTime.ElapsedSeconds);
+#endif
 		}
 
 		protected override void OnAfterUpdate(SAMTime gameTime, InputState state)

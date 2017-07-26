@@ -107,7 +107,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 			}
 		}
 
-		private void DrawColored(IBatchRenderer sbatch)
+		private void DrawColored(IBatchRenderer sbatch) //TODO in zoomed out mode this renders 5k tiles and is a significant factor in rendertime
 		{
 			int offX = (int)(Owner.MapOffsetX / TILE_WIDTH);
 			int offY = (int)(Owner.MapOffsetY / TILE_WIDTH);

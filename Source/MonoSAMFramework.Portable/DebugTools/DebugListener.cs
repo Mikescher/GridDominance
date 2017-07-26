@@ -14,7 +14,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			Trigger,
 			Switch,
 			Push,
-			Constant,
+			Functionless
 		}
 
 		public readonly string Identifier;
@@ -66,7 +66,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 				case DebugListenerType.Push:
 					UpdatePush(istate);
 					break;
-				case DebugListenerType.Constant:
+				case DebugListenerType.Functionless:
 					// Do nothing
 					break;
 				default:
@@ -82,7 +82,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 				{
 					istate.SwallowKey(key, InputConsumer.DebugDisplay);
 
-					_active = !Active;
+					_active = !_active;
 
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => triggerEvent?.Invoke(this));
 				}
@@ -125,7 +125,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 		{
 			string keycombination = string.Join(" || ", keys.Select(p => p.GetMmemonic()));
 
-			return string.Format("[{0}] {1} => {2}", Active ? "X" : " ", keycombination.PadRight(12), Identifier);
+			return string.Format("[{0}] {1} => {2}", Active ? "X" : (SelfActive ? "~" : " "), keycombination.PadRight(12), Identifier);
 		}
 	}
 }

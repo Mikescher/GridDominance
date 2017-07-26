@@ -62,7 +62,7 @@ namespace GridDominance.Shared
 
 			Profile = new PlayerProfile();
 
-			var sdata = FileHelper.Inst.ReadDataOrNull(GDConstants.PROFILE_FILENAME);
+			var sdata = FileHelper.Inst.ReadDataOrNull(GDConstants.PROFILE_FILENAME); // %LOCALAPPDATA%\IsolatedStorage\...
 			if (sdata != null)
 			{
 				try
