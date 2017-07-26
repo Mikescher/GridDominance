@@ -1,3 +1,6 @@
+GRID_DOMINANCE [[TODO]]
+=======================
+
 
 [X] WorldBackground correct Render
 [X] Only draw visible entities
@@ -55,7 +58,7 @@
           - Diff levels clickable
           - On new diff achieve icon pop-grows (swiggle function) and +score indicator is visible (and animated ?)
 [X] Sound effects
-[/] Background music
+[X] Background music
 [X] Score
 [X] Menu
       - Account
@@ -63,14 +66,14 @@
       - Highscore
       - Settings
 [X] Different spritesheet scales for diff devices
-[ ] different tower types
-[/] Level select wie Sokobond, drag around
+[X] different tower types
+[X] Level select wie Sokobond, drag around
       - Level build a tree
       - some (3) branches must be bought per in-app-buy, or buy full eversion with everything
       - dead ends and master level with two roots
 [X] Levels in plaintext, code like format
       - Level Editor / Level Live Preview tool
-[ ] Digital World (like World of Goo)
+[/] Digital World (like World of Goo)
 [X] Art Style wie Tron? - somth simplistic
       - On Cannon shoot eject particles in color on grid
       - particles follow grid lines
@@ -85,7 +88,7 @@
       - Reflecting Walls
       - Refracting walls -> Glass Walls
           - (game machanic: bullets feflect, lasers only refract)
-[ ] Destructible Turrets
+[/] Destructible Turrets
       - Can't convert - only destroy
 [X] Smaller turrets, bullets have less weight
 [X] Shield Turrets
@@ -101,17 +104,17 @@
 [X] Größere Hitbox pause button
 [X] evtl größere buttons for speed (klein aufm handy)
 [X] Diff cannon sizes
-[~] Walls
+[X] Walls
 [X] kill walls
 [X] portal walls (can have multi-in | multi-out)
 [X] Glass Walls make reflection+refraction for lasers (splitting laser in to differently powerful lasers)
 [X] True mirror walls for lasers
 [X] endless level (donut)
-[ ] shoot 4 way cannon
+[/] shoot 4 way cannon
 [X] spreadshot cannon
 [X] minigun cannon with cooldown
-[ ] rotating + moving walls
-[ ] rotating and moving cannons
+[/] rotating + moving walls
+[/] rotating and moving cannons
 [X] Unlock Worlds when previous word is 100% (and remark in unlock screen -> button+move to world+toast)
 [X] Pipes darker when powered 
 [X] Toast description when clikcing on number in info panel

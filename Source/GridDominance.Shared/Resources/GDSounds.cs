@@ -38,7 +38,7 @@ namespace GridDominance.Shared.Resources
 		public override void Initialize(ContentManager content)
 		{
 			effectButton        = content.Load<SoundEffect>("sounds/button");
-			effectKeyboardClick = content.Load<SoundEffect>("sounds/click");  //TODO fix volume
+			effectKeyboardClick = content.Load<SoundEffect>("sounds/click");
 			effectOpen          = content.Load<SoundEffect>("sounds/open");
 			effectClose         = content.Load<SoundEffect>("sounds/close");
 			effectShoot         = content.Load<SoundEffect>("sounds/shoot");
