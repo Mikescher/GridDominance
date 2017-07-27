@@ -410,6 +410,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
+		public FRectangle InReferenceRaster(float unitSize)
+		{
+			return new FRectangle(X/unitSize, Y/unitSize, Width/unitSize, Height/unitSize);
+		}
+
+		[Pure]
 		public FRectangle AsCenteredTo(FPoint center)
 		{
 			return new FRectangle(center.X - Width / 2, center.Y - Height / 2, Width, Height);

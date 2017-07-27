@@ -297,6 +297,11 @@ namespace MonoSAMFramework.Portable.GameMath
 			return Abs(value) <= EPSILON;
 		}
 
+		public static bool IsEpsilonOne(float value)
+		{
+			return Abs(value-1) <= EPSILON;
+		}
+
 		public static bool IsZero(float value)
 		{
 			// ReSharper disable once CompareOfFloatsByEqualityOperator

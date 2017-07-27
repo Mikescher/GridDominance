@@ -13,7 +13,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	public class MultiplayerScoreDisplay : HUDContainer
+	public class MultiplayerScoreDisplay : HUDContainer //TODO flickers when changing screen ??
 	{
 		public override int Depth => 0;
 
@@ -50,6 +50,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			Size = new FSize(250, 60);
 
 			IsVisible = MainGame.Inst.Profile.HasMultiplayerGames;
+
+			UpdateRelativePosition();
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
@@ -75,6 +77,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
 
+			UpdateRelativePosition();
+		}
+
+		private void UpdateRelativePosition()
+		{
 			var rp = new FPoint(_ref.RelativePosition.X, _ref.RelativePosition.Y + _ref.Height + 10);
 
 			if (rp != RelativePosition)

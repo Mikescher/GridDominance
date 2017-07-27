@@ -40,13 +40,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		protected override void Start()
 		{
-			((GDWorldMapScreen)Screen).ZoomState = BistateProgress.Expanding;
+			_gdScreen.ZoomState = BistateProgress.Expanding;
 			_gdScreen.GDBackground.GridLineAlpha = 1f;
 		}
 
 		protected override void End()
 		{
-			((GDWorldMapScreen)Screen).ZoomState = BistateProgress.Expanded;
+			_gdScreen.ZoomState = BistateProgress.Expanded;
 			_gdScreen.GDBackground.GridLineAlpha = 0f;
 
 			vp.ChangeVirtualSize(rectFinal.Width, rectFinal.Height);

@@ -88,7 +88,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			}
 
-			GDBackground.InitBackground(GetEntities<LevelNode>().ToList());
+			GDBackground.InitBackground(GetEntities<LevelNode>().ToList(), MapFullBounds.InReferenceRaster(GDConstants.TILE_WIDTH).AsInflated(16,16).Truncate());
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
