@@ -9,7 +9,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
 	public class LeaveTransitionWorldMapAgent : DecayGameScreenAgent
 	{
-		private const float DURATION = 1.0f; // sec
+		private const float DURATION      = 1.00f; // sec
+		private const float DURATION_SLOW = 1.60f; // sec
 
 		private readonly SAMViewportAdapter vp;
 
@@ -20,7 +21,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private readonly WarpNode _node;
 		private readonly GraphBlueprint _target;
 
-		public LeaveTransitionWorldMapAgent(GDWorldMapScreen scrn, WarpNode node, GraphBlueprint target) : base(scrn, DURATION)
+		public LeaveTransitionWorldMapAgent(GDWorldMapScreen scrn, bool slower, WarpNode node, GraphBlueprint target) : base(scrn, slower ? DURATION_SLOW : DURATION)
 		{
 			_gdScreen = scrn;
 			_node = node;

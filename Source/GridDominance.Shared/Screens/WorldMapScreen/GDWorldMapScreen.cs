@@ -60,6 +60,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, 1, 1);
 		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
+		public ulong PreventZoomInCtr = 0;
+
 		private void Initialize(GraphBlueprint g, Guid? initialFocus)
 		{
 #if DEBUG
@@ -98,7 +100,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			DebugDisp.Scale = 0.75f;
 #endif
 
-			if (ZoomState == BistateProgress.Expanded && istate.IsRealJustDown && istate.SwallowConsumer != InputConsumer.HUDElement)
+			if (ZoomState == BistateProgress.Expanded && istate.IsRealJustDown && PreventZoomInCtr != MonoSAMGame.GameCycleCounter && istate.SwallowConsumer != InputConsumer.HUDElement)
 			{
 				ZoomIn(istate.GamePointerPositionOnMap);
 			}

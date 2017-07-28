@@ -7,7 +7,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
 	public class LeaveTransitionOverworldAgent : DecayGameScreenAgent
 	{
-		private const float DURATION = 1.0f; // sec
+		private const float DURATION      = 1.00f; // sec
+		private const float DURATION_FAST = 0.25f; // sec
 
 		private readonly SAMViewportAdapter vp;
 
@@ -16,7 +17,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private readonly GDWorldMapScreen _gdScreen;
 
-		public LeaveTransitionOverworldAgent(GDWorldMapScreen scrn) : base(scrn, DURATION)
+		public LeaveTransitionOverworldAgent(GDWorldMapScreen scrn, bool faster) : base(scrn, faster ? DURATION_FAST : DURATION)
 		{
 			_gdScreen = scrn;
 			vp = scrn.VAdapterGame;

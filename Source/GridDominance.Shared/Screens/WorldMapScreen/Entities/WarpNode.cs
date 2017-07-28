@@ -18,6 +18,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Localization;
@@ -58,7 +59,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		public override void OnInitialize(EntityManager manager)
 		{
-			clickAreaThis = AddClickMouseArea(FRectangle.CreateByCenter(0, 0, DIAMETER, DIAMETER), OnClick);
+			clickAreaThis = AddClickMouseArea(FRectangle.CreateByCenter(0, 0, DIAMETER, DIAMETER), OnClick, OnDown, OnUp);
 
 			var cfg = new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 			{
@@ -82,7 +83,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void OnClick(GameEntityMouseArea sender, SAMTime gameTime, InputState istate)
 		{
-			if (GDOwner.ZoomState != BistateProgress.Normal) return;
+			if (GDOwner.ZoomState != BistateProgress.Normal && GDOwner.ZoomState != BistateProgress.Expanded) return;
 
 #if DEBUG
 			if (!NodeEnabled && DebugSettings.Get("UnlockNode"))
@@ -105,21 +106,34 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			{
 				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.TargetWorld))
 				{
-					Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, this, Target));
+					Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
 					MainGame.Inst.GDSound.PlayEffectZoomOut();
 				}
 				else
 				{
-					Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner));
+					Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded));
 					MainGame.Inst.GDSound.PlayEffectZoomOut();
 				}
 			}
 			else
 			{
-				Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, this, Target));
+				Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
 				MainGame.Inst.GDSound.PlayEffectZoomOut();
 			}
-			
+		}
+
+		private void OnUp(GameEntityMouseArea sender, SAMTime gameTime, InputState istate)
+		{
+			if (GDOwner.ZoomState != BistateProgress.Normal && GDOwner.ZoomState != BistateProgress.Expanded) return;
+
+			GDOwner.PreventZoomInCtr = MonoSAMGame.GameCycleCounter;
+		}
+
+		private void OnDown(GameEntityMouseArea sender, SAMTime gameTime, InputState istate)
+		{
+			if (GDOwner.ZoomState != BistateProgress.Normal && GDOwner.ZoomState != BistateProgress.Expanded) return;
+
+			GDOwner.PreventZoomInCtr = MonoSAMGame.GameCycleCounter;
 		}
 
 		public void CreatePipe(IWorldNode target, PipeBlueprint.Orientation orientation)
