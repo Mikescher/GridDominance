@@ -123,6 +123,8 @@ namespace GridDominance.Shared.Resources
 			LoadLevel(content, "levels/level_4-02");
 			LoadLevel(content, "levels/level_4-03");
 			LoadLevel(content, "levels/level_4-04");
+			LoadLevel(content, "levels/level_4-05");
+			LoadLevel(content, "levels/level_4-06");
 			/* [MARK_LOAD_LEVEL] */
 
 			WORLD_001 = LoadWorld(content, "levels/world_1");

@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("4-2", "Relay Network ", {b16b00b5-0001-4000-0000-000004000002}, KI_PRECALC_PATHTRACE)
+init("4-2", "Relay Network", {b16b00b5-0001-4000-0000-000004000002}, KI_PRECALC_PATHTRACE)
 config(KI_CFG_TRACE_MAX_BULLETBOUNCE, 2)
 
 Cannon(SIZE_NORMAL, P1, [ 1.5,  1.5], ROT_E)

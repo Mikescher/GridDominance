@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("4-1", "Bullet transfer", {b16b00b5-0001-4000-0000-000004000001}, KI_DYNAMIC_RAYTRACE)
+init("4-1", "Bullet Transfer", {b16b00b5-0001-4000-0000-000004000001}, KI_DYNAMIC_RAYTRACE)
 
 text([8, 2], 14, 2, HINT_009)
 

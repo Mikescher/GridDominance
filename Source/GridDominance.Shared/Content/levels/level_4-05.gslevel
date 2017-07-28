@@ -1,0 +1,54 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-5", "Heavy Machinery", {b16b00b5-0001-4000-0000-000004000005}, KI_PRECALC_PATHTRACE)
+
+Cannon(SIZE_NORMAL, P1, [ 2,  5])
+Cannon(SIZE_SMALL,  N0, [ 2,  9])
+VoidCircle([4, 7], SIZE_BIG)
+
+VoidWall([ 7,  4], [9,  4])
+Cannon(SIZE_SMALL, N0, [ 6,  5])
+Cannon(SIZE_SMALL, N0, [10,  5])
+VoidWall([ 7,  6], [9,  6])
+
+Minigun(SIZE_SMALL, N0, [ 6,  1])
+Minigun(SIZE_SMALL, N0, [10,  9])
+
+
+Cannon(SIZE_NORMAL, A3, [14,  5])
+Cannon(SIZE_SMALL,  N0, [14,  1])
+VoidCircle([12, 3], SIZE_BIG)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                      <Z>             <O>    
+#        1 #                                 #
+#                                             
+#        2 #                                 #
+#                                  (X)        
+#        3 #                                 #
+#                          ---                
+#        4 #   / \                     / \   #
+#               O      <O>     <O>      O     
+#        5 #   \ /                     \ /   #
+#                          ---                
+#        6 #                                 #
+#                  (X)                        
+#        7 #                                 #
+#                                             
+#        8 #                                 #
+#              <O>             <Z>            
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+
