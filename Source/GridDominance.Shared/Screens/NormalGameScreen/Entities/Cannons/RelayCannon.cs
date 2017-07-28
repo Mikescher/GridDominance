@@ -30,6 +30,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private float barrelRecoil = 0f;
 
+		public int BulletBuffer = 0;
+		public float BarrelCharge = 0f;
+
 		private readonly bool _muted;
 
 		public override bool IsLaser => false;
@@ -112,6 +115,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			if (barrelRecoil < 1)
 			{
 				barrelRecoil = FloatMath.LimitedInc(barrelRecoil, BARREL_RECOIL_SPEED * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds, 1f);
+			}
+
+			if (Fraction.IsNeutral || BulletBuffer<=0)
+			{
+				BulletBuffer = 0;
+				BarrelCharge = 0;
+			}
+			else
+			{
+				BarrelCharge += gameTime.ElapsedSeconds;
+				if (BarrelCharge > RELAY_BARREL_CHARGE_TIME)
+				{
+					BarrelCharge -= RELAY_BARREL_CHARGE_TIME;
+					Shoot();
+					BulletBuffer--;
+				}
 			}
 		}
 
@@ -235,12 +254,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void ResetChargeAndBooster()
 		{
+			BulletBuffer = 0;
+			BarrelCharge = 0f;
 			FinishAllOperations(o => o is CannonBooster);
 		}
 
 		public override void ForceResetBarrelCharge()
 		{
-			//
+			BulletBuffer = 0;
+			BarrelCharge = 0f;
 		}
 
 		public override void TakeDamage(Fraction source, float sourceScale)
@@ -292,7 +314,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			if (Fraction.IsNeutral) return;
 
-			Shoot();
+			BulletBuffer++;
 		}
 
 		public override void ApplyLaserBoost(LaserCannon src, float pwr)

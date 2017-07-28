@@ -40,8 +40,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		protected const float CORE_PULSE_FREQ = 2f;
 		protected const float CORE_PULSE = 0.06f; // perc
 		public    const float LASER_GLOW_FREQ = 0.20f;
-
+		
 		protected const float BARREL_CHARGE_SPEED         = 0.9f;
+		protected const float RELAY_BARREL_CHARGE_TIME    = 0.2f; //sec
 		protected const float BARREL_CHARGE_SPEED_TRISHOT = 0.6f;
 		protected const float BARREL_CHARGE_SPEED_MINIGUN = 0.3f;
 		public    const float CANNON_DIAMETER = 96;      // only diameter of base circle
@@ -303,6 +304,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			{
 				var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
 				var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * ((BulletCannon)this).BarrelCharge, 8);
+
+				sbatch.FillRectangle(rectChargeFull, Color.White);
+				sbatch.FillRectangle(rectChargeProg, Color.DarkGray);
+				sbatch.DrawRectangle(rectChargeFull, Color.Black);
+			}
+			else if (this is RelayCannon)
+			{
+				var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
+				var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * ((RelayCannon)this).BarrelCharge, 8);
 
 				sbatch.FillRectangle(rectChargeFull, Color.White);
 				sbatch.FillRectangle(rectChargeProg, Color.DarkGray);

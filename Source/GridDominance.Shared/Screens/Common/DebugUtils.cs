@@ -56,7 +56,7 @@ namespace GridDominance.Shared.Screens
 
 			if (scrn is GDWorldMapScreen) debugDisp.AddLine("ShowInfos", () => $"CurrentLevelNode = {((GDWorldHUD)scrn.HUD).SelectedNode?.Blueprint?.Name ?? "NULL"}; FocusedHUDElement = {scrn.HUD.FocusedElement}; ZoomState = {((GDWorldMapScreen)scrn).ZoomState}");
 
-			debugDisp.AddLine("DebugTimings", () => $"KI: [{TIMING_KI.Format()}]\nLASER: [{TIMING_LASER.Format()}]\nPHYSICS: [{TIMING_PHYSICS.Format()}]\nNETWORK: [{TIMING_NETWORK.Format()}]");
+			debugDisp.AddLine("DebugTimings", () => $"KI:      [{TIMING_KI.Format()}]\nLASER:   [{TIMING_LASER.Format()}]\nPHYSICS: [{TIMING_PHYSICS.Format()}]\nNETWORK: [{TIMING_NETWORK.Format()}]");
 			debugDisp.AddLine("DebugTimings", () => $"Drawing: Background        [{TIMING_DRAW_BACKGROUND.Format()}]\n" +
 			                                        $"         Entities:         [{TIMING_DRAW_ENTITIES.Format()}]\n" +
 			                                        $"         Screen:           [{TIMING_DRAW_SCREEN.Format()}]\n" +
