@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System;
+using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -17,23 +18,27 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 	{
 		public override int Depth => 0;
 
-		private readonly HUDImage icon;
-		private readonly HUDRawText text;
+		private readonly HUDImage _icon;
+		private readonly HUDRawText _text;
 
-		private readonly DeltaLimitedFloat offset = new DeltaLimitedFloat(0, 40f);
+		private readonly DeltaLimitedFloat _offset = new DeltaLimitedFloat(0, 43);
+		private readonly DeltaLimitedFloat _value = new DeltaLimitedFloat(0, 537);
 
-		public ScoreDisplay()
+		public ScoreDisplay(bool count)
 		{
-			text = new HUDRawText
+			_value.Set(MainGame.Inst.Profile.TotalPoints);
+			if (!count) _value.Finish();
+
+			_text = new HUDRawText
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
-				Text = MainGame.Inst.Profile.TotalPoints.ToString(),
+				Text = "0",
 				TextColor = FlatColors.TextHUD,
 				FontSize = 60f,
 				RelativePosition = new FPoint(10 + 40 + 30, 0),
 			};
 
-			icon = new HUDImage
+			_icon = new HUDImage
 			{
 				Image = Textures.TexIconScore,
 				Alignment = HUDAlignment.CENTERLEFT,
@@ -49,13 +54,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color.Black * 0.6f, 8);
-			sbatch.DrawCentered(Textures.TexCircle, icon.Center, 50, 50, FlatColors.WetAsphalt * 0.4f);
+			sbatch.DrawCentered(Textures.TexCircle, _icon.Center, 50, 50, FlatColors.WetAsphalt * 0.4f);
 		}
 
 		public override void OnInitialize()
 		{
-			AddElement(text);
-			AddElement(icon);
+			AddElement(_text);
+			AddElement(_icon);
 		}
 
 		public override void OnRemove()
@@ -67,24 +72,35 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			var whud = HUD as GDWorldHUD;
 
-			text.Text = MainGame.Inst.Profile.TotalPoints.ToString();
+			_text.Text = MainGame.Inst.Profile.TotalPoints.ToString();
 
-			icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
+			_icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
 
 			if (whud != null)
-				offset.Set(whud.TopLevelDisplay.RelativeBottom);
+				_offset.Set(whud.TopLevelDisplay.RelativeBottom);
 			else
-				offset.Set(0);
+				_offset.Set(0);
 
-			offset.Update(gameTime);
-			if (offset.ActualValue < offset.TargetValue) offset.SetForce(offset.TargetValue);
+			_offset.Update(gameTime);
+			if (_offset.ActualValue < _offset.TargetValue) _offset.SetForce(_offset.TargetValue);
 
-			var rp = new FPoint(10, offset.ActualValue + 10);
+			if (FloatMath.FloatInequals(_value.ActualValue, _value.TargetValue))
+			{
+				_value.Update(gameTime);
+				_text.Text = ((int)_value.ActualValue).ToString();
+			}
+
+			var rp = new FPoint(10, _offset.ActualValue + 10);
 			if (rp != RelativePosition)
 			{
 				RelativePosition = rp;
 				Revalidate();
 			}
+		}
+
+		public void FinishCounter()
+		{
+			_value.Finish();
 		}
 	}
 }

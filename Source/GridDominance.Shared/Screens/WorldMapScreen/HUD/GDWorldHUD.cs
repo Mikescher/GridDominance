@@ -30,8 +30,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public GDWorldHUD(GDWorldMapScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(Settings = new SettingsButton());
-			AddElement(ScoreDisplay = new ScoreDisplay());
-			AddElement(new MultiplayerScoreDisplay(ScoreDisplay));
+			AddElement(ScoreDisplay = new ScoreDisplay(false));
+			AddElement(new MultiplayerScoreDisplay(ScoreDisplay, false));
 			AddElement(TopLevelDisplay = new TopLevelDisplay());
 			AddElement(InfoDisplay = new InformationDisplay());
 		}

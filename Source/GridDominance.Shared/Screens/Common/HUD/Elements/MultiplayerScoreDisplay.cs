@@ -13,36 +13,39 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	public class MultiplayerScoreDisplay : HUDContainer //TODO flickers when changing screen ??
+	public class MultiplayerScoreDisplay : HUDContainer
 	{
 		public override int Depth => 0;
 
 		private readonly ScoreDisplay _ref;
 
-		private readonly HUDImage icon;
-		private readonly HUDRawText text;
+		private readonly HUDImage _icon;
+		private readonly HUDRawText _text;
 
-		public MultiplayerScoreDisplay(ScoreDisplay reference)
+		private readonly DeltaLimitedFloat _value = new DeltaLimitedFloat(0, 37);
+
+		public MultiplayerScoreDisplay(ScoreDisplay reference, bool count)
 		{
 			_ref = reference;
+			_value.Set(MainGame.Inst.Profile.TotalPoints);
+			if (!count) _value.Finish();
 
-			text = new HUDRawText
+			_text = new HUDRawText
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
-				Text = MainGame.Inst.Profile.TotalPoints.ToString(),
+				Text = "0",
 				TextColor = FlatColors.TextHUD,
 				FontSize = 60f,
 				RelativePosition = new FPoint(10 + 40 + 30, 0),
 			};
 
-			icon = new HUDImage
+			_icon = new HUDImage
 			{
 				Image = Textures.TexIconMPScore,
 				Color = FlatColors.Amethyst,
 				Alignment = HUDAlignment.CENTERLEFT,
 				RelativePosition = new FPoint(10, 0),
 				Size = new FSize(40, 40),
-				RotationSpeed = 0.05f,
 			};
 
 			Alignment = HUDAlignment.TOPRIGHT;
@@ -57,13 +60,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color.Black * 0.6f, 8);
-			sbatch.DrawCentered(Textures.TexCircle, icon.Center, 50, 50, FlatColors.WetAsphalt * 0.4f);
+			sbatch.DrawCentered(Textures.TexCircle, _icon.Center, 50, 50, FlatColors.WetAsphalt * 0.4f);
 		}
 
 		public override void OnInitialize()
 		{
-			AddElement(text);
-			AddElement(icon);
+			AddElement(_text);
+			AddElement(_icon);
 		}
 
 		public override void OnRemove()
@@ -73,9 +76,16 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			text.Text = MainGame.Inst.Profile.MultiplayerPoints.ToString();
+			_value.Set(MainGame.Inst.Profile.MultiplayerPoints);
 
-			icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
+			_icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
+			_icon.Rotation = 0.05f * gameTime.TotalElapsedSeconds * FloatMath.TAU;
+
+			if (FloatMath.FloatInequals(_value.ActualValue, _value.TargetValue))
+			{
+				_value.Update(gameTime);
+				_text.Text = ((int)_value.ActualValue).ToString();
+			}
 
 			UpdateRelativePosition();
 		}
@@ -89,6 +99,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = rp;
 				Revalidate();
 			}
+		}
+
+		public void FinishCounter()
+		{
+			_value.Finish();
 		}
 	}
 }

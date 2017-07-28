@@ -25,10 +25,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		public const int VIEW_WIDTH = 16 * GDConstants.TILE_WIDTH;
 		public const int VIEW_HEIGHT = 10 * GDConstants.TILE_WIDTH;
 
-		protected OverworldHUD GDHUD => (OverworldHUD)HUD;
+		public OverworldHUD GDHUD => (OverworldHUD)HUD;
 
 		protected override EntityManager CreateEntityManager() => new OverworldEntityManager(this);
-		protected override GameHUD CreateHUD() => new OverworldHUD(this);
+		protected override GameHUD CreateHUD() => new OverworldHUD(this, true);
 		protected override GameBackground CreateBackground() => new OverworldBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);

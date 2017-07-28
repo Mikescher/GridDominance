@@ -70,6 +70,11 @@ namespace MonoSAMFramework.Portable.GameMath
 			TargetValue -= vsub;
 		}
 
+		public void Finish()
+		{
+			ActualValue = TargetValue;
+		}
+
 		public bool IsDecreasing() => ActualValue > TargetValue;
 		public bool IsIncreasing() => ActualValue < TargetValue;
 
@@ -99,6 +104,5 @@ namespace MonoSAMFramework.Portable.GameMath
 
 			return r;
 		}
-
 	}
 }

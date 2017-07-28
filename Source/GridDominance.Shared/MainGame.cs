@@ -220,6 +220,9 @@ namespace GridDominance.Shared
 				{
 					node.FlickerTime = OverworldNode.COLLAPSE_TIME * 10; // no flicker - for sure
 				}
+
+				ovs.GDHUD.ScoreDisplay.FinishCounter();
+				ovs.GDHUD.MPScoreDisplay.FinishCounter();
 			}
 		}
 

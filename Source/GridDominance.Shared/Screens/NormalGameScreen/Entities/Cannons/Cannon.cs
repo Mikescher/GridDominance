@@ -314,7 +314,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			else if (this is RelayCannon)
 			{
 				var rectChargeFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2, 8);
-				var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * ((RelayCannon)this).BarrelCharge, 8);
+				var rectChargeProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (0 * 12) + 4, innerRadius * 2 * ((RelayCannon)this).BarrelCharge / RELAY_BARREL_CHARGE_TIME, 8);
 
 				sbatch.FillRectangle(rectChargeFull, Color.White);
 				sbatch.FillRectangle(rectChargeProg, Color.DarkGray);

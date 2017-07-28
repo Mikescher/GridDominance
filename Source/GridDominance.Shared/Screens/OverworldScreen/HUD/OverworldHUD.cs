@@ -21,12 +21,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		public readonly SettingsButton Settings;
 		public readonly ScoreDisplay ScoreDisplay;
+		public readonly MultiplayerScoreDisplay MPScoreDisplay;
 
-		public OverworldHUD(GDOverworldScreen scrn) : base(scrn, Textures.HUDFontRegular)
+		public OverworldHUD(GDOverworldScreen scrn, bool firstShow) : base(scrn, Textures.HUDFontRegular)
 		{
-			AddElement(Settings = new SettingsButton());
-			AddElement(ScoreDisplay = new ScoreDisplay());
-			AddElement(new MultiplayerScoreDisplay(ScoreDisplay));
+			AddElement(Settings       = new SettingsButton());
+			AddElement(ScoreDisplay   = new ScoreDisplay(firstShow));
+			AddElement(MPScoreDisplay = new MultiplayerScoreDisplay(ScoreDisplay, firstShow));
 		}
 
 		public void ShowAccountPanel()
