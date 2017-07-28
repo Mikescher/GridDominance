@@ -2,13 +2,18 @@
 #####################################
 include("stdvalues")
 
-init("1-1", "Introduction", {b16b00b5-0001-4000-0000-000001000001}, KI_DYNAMIC_RAYTRACE)
+init("4-1", "Bullet transfer", {b16b00b5-0001-4000-0000-000004000001}, KI_DYNAMIC_RAYTRACE)
 
-text([8, 2.5], 14, 2, HINT_001, {TEXT_SHAKE | TEXT_ONLY_D1})
+text([8, 2], 14, 2, HINT_009)
 
-Cannon(SIZE_SMALL, P1, [ 3,  5], ROT_E)
+Cannon(SIZE_NORMAL, P1, [ 3,  5], ROT_E)
 
-Cannon(SIZE_SMALL, A3, [13,  5], ROT_W)
+Relay(SIZE_SMALL,  N0, [ 8,  5], ROT_E)
+
+Cannon(SIZE_NORMAL, A3, [13,  5], ROT_W)
+
+Relay(SIZE_SMALL,  N0, [10,  8], ROT_E)
+Relay(SIZE_SMALL,  N0, [ 6,  8], ROT_E)
 
 
 
@@ -26,13 +31,13 @@ Cannon(SIZE_SMALL, A3, [13,  5], ROT_W)
 #        3 #                                 #
 #                                             
 #        4 #     / \                 / \     #
-#                 O                   O       
+#                 O        <R>        O       
 #        5 #     \ /                 \ /     #
 #                                             
 #        6 #                                 #
 #                                             
 #        7 #                                 #
-#                                             
+#                      <R>     <R>            
 #        8 #                                 #
 #                                             
 #        9 #                                 #
