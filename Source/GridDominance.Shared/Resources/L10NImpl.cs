@@ -139,6 +139,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HINT_006               = 102;
 		public const int STR_HINT_007               = 112;
 		public const int STR_HINT_008               = 113;
+		public const int STR_HINT_009               = 173;
 
 		public const int STR_INFOTOAST_1            = 104;
 		public const int STR_INFOTOAST_2            = 105;
@@ -204,7 +205,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_FRAC_A5                = 155;
 		public const int STR_FRAC_A6                = 156;
 
-		private const int TEXT_COUNT = 173; // = next idx
+		private const int TEXT_COUNT = 174; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -319,6 +320,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_HINT_006,               "Try dragging the map around",                                                       "Versuch mal die Karte zu verschieben");
 			L10N.Add(STR_HINT_007,               "Speedy thing goes in,",                                                             "Speedy thing goes in,");
 			L10N.Add(STR_HINT_008,               "speedy thing comes out.",                                                           "speedy thing comes out.");
+			L10N.Add(STR_HINT_009,               "Some cannons only relay",                                                           "Manche Kanonen leiten nur weiter");
 			L10N.Add(STR_INFOTOAST_1,            "Your best time is {0}",                                                             "Deine Bestzeit ist {0}");
 			L10N.Add(STR_INFOTOAST_2,            "The global best time is {0}",                                                       "Versuch mal das Level zu verschieben");
 			L10N.Add(STR_INFOTOAST_3,            "{0} users have completed this level on {1}",                                        "{0} Spieler haben dieses Level auf {1} geschafft");

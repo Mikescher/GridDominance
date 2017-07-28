@@ -2,22 +2,13 @@
 #####################################
 include("stdvalues")
 
-init("4-1", "Relay Network ", {b16b00b5-0001-4000-0000-000004000001}, KI_PRECALC_PATHTRACE)
-config(KI_CFG_TRACE_MAX_BULLETBOUNCE, 2)
+init("1-1", "Introduction", {b16b00b5-0001-4000-0000-000001000001}, KI_DYNAMIC_RAYTRACE)
 
-Cannon(SIZE_NORMAL, P1, [ 1.5,  1.5], ROT_E)
-Relay(SIZE_SMALL,   N0, [ 8.0,  1.5])
-Relay(SIZE_NORMAL,  N0, [14.5,  1.5])
+text([8, 2.5], 14, 2, HINT_001, {TEXT_SHAKE | TEXT_ONLY_D1})
 
-Relay(SIZE_NORMAL,  N0, [ 1.5,  5.0])
-Relay(SIZE_NORMAL,  N0, [14.5,  5.0])
+Cannon(SIZE_SMALL, P1, [ 3,  5], ROT_E)
 
-Relay(SIZE_NORMAL,  N0, [ 1.5,  8.5])
-Relay(SIZE_SMALL,   N0, [ 8.0,  8.5])
-Cannon(SIZE_NORMAL, A3, [14.5,  8.5], ROT_W)
-
-VoidWall_H([ 8, 3], 11)
-VoidWall_H([ 8, 7], 11)
+Cannon(SIZE_SMALL, A3, [13,  5], ROT_W)
 
 
 
@@ -27,23 +18,23 @@ VoidWall_H([ 8, 7], 11)
 #          # # # # # # # # # # # # # # # # # #
 #                                             
 #        0 #                                 #
-#             / \                             
-#        1 #   O           <R>          <R>  #
-#             \ /                             
+#                                             
+#        1 #                                 #
+#                                             
 #        2 #                                 #
-#                 ---------------------       
+#                                             
 #        3 #                                 #
 #                                             
-#        4 #                                 #
-#             <R>                       <R>   
-#        5 #                                 #
+#        4 #     / \                 / \     #
+#                 O                   O       
+#        5 #     \ /                 \ /     #
 #                                             
 #        6 #                                 #
-#                 ---------------------       
+#                                             
 #        7 #                                 #
-#                                       / \   
-#        8 #  <R>          <R>           O   #
-#                                       \ /   
+#                                             
+#        8 #                                 #
+#                                             
 #        9 #                                 #
 #                                             
 #          # # # # # # # # # # # # # # # # # #

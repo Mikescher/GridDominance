@@ -63,14 +63,15 @@ define(TEXT_ONLY_D1,        002)
 define(TEXT_ONLY_UNCLEARED, 004)
 define(TEXT_REDFLASH,       008)
 
-define(HINT_001, 097)
-define(HINT_002, 098)
-define(HINT_003, 099)
-define(HINT_004, 100)
-define(HINT_005, 101)
-define(HINT_006, 102)
-define(HINT_007, 112)
-define(HINT_008, 113)
+define(HINT_001, 097)  # shoot stuff
+define(HINT_002, 098)  # bigger cannon
+define(HINT_003, 099)  # more power
+define(HINT_004, 100)  # black holes
+define(HINT_005, 101)  # lasers
+define(HINT_006, 102)  # drag map
+define(HINT_007, 112)  # portal in
+define(HINT_008, 113)  # portal out
+define(HINT_009, 173)  # relay
 
 ###########################################
 
