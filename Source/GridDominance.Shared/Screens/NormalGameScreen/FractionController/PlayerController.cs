@@ -44,6 +44,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		protected override void Calculate(InputState istate)
 		{
+			Cannon.KITarget = null;
+
 			if (istate.IsRealJustDown)
 			{
 				// drag started

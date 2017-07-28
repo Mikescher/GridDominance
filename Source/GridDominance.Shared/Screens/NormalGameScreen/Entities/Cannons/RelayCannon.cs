@@ -267,6 +267,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public override void TakeDamage(Fraction source, float sourceScale)
 		{
+#if DEBUG
+			if (DebugSettings.Get("ImmortalCannons")) return;
+#endif
+
 			if (Fraction.IsNeutral && !source.IsNeutral)
 			{
 				CannonHealth.Set(1);
@@ -382,6 +386,25 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				ShieldTime -= (SHIELD_DISCHARGE_SPEED) * gameTime.ElapsedSeconds;
 				if (ShieldTime < 0) ShieldTime = 0;
 			}
+		}
+
+		public bool IsSuccesfulRelayChaining(int remaining = KIController.MAX_KI_RELAYCHAIN)
+		{
+			if (remaining <= 0) return false;
+
+			var c = KITarget as Cannon;
+			if (c == null) return false;
+
+			var rc = KITarget as RelayCannon;
+
+			if (rc != null && rc.Fraction == Fraction) return rc.IsSuccesfulRelayChaining(remaining - 1);
+
+			return !c.Fraction.IsNeutral && c.Fraction != Fraction;
+		}
+
+		public override AbstractFractionController CreateNeutralController(GDGameScreen screen, Fraction fraction)
+		{
+			return new EmptyController(screen, this, fraction);
 		}
 	}
 }

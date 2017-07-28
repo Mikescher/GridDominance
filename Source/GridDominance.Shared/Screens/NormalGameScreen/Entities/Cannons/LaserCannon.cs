@@ -367,5 +367,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				if (ShieldTime < 0) ShieldTime = 0;
 			}
 		}
+
+		public override AbstractFractionController CreateNeutralController(GDGameScreen screen, Fraction fraction)
+		{
+			return new EmptyController(screen, this, fraction);
+		}
 	}
 }

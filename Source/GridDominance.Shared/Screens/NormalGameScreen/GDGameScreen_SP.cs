@@ -76,7 +76,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 					return cannon.CreateKIController(this, f);
 
 				case FractionType.NeutralFraction:
-					return new NeutralKIController(this, cannon, f);
+#if DEBUG
+					if (DebugSettings.Get("ControlEnemies")) return new PlayerController(this, cannon, f);
+#endif
+					return cannon.CreateNeutralController(this, f);
 
 				default:
 					throw new ArgumentOutOfRangeException();

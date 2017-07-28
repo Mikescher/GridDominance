@@ -95,7 +95,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 					return cannon.CreateKIController(this, f);
 
 				case FractionType.NeutralFraction:
-					return new NeutralKIController(this, cannon, f);
+					return cannon.CreateNeutralController(this, f);
 
 				default:
 					throw new ArgumentOutOfRangeException();

@@ -123,6 +123,11 @@ GRID_DOMINANCE [[TODO]]
 [ ] inAppBilling Regression ??
 [ ] viewport stretched with onscreen hardkeys
 [X] Unlock lower difficulties when solving higher ones
+[ ] README.md
+[ ] AppStore stuff
+[ ] Levels W4
+[X] Relay cannon delay
+[ ] Prevent relay cannon game_draw (or recognize it)
 
 ----------------------------
 

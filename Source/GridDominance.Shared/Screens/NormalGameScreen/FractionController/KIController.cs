@@ -54,6 +54,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					{
 						var rot = FloatMath.PositiveAtan2(target.Position.Y - ki.Cannon.Position.Y, target.Position.X - ki.Cannon.Position.X);
 
+						ki.Cannon.KITarget = target;
+
 						if (ki.MinimumRotationalDelta > 0 && FloatMath.DiffRadiansAbs(rot, ki.Cannon.Rotation.TargetValue) < ki.MinimumRotationalDelta)
 						{
 							ki.LastKIFunction = "Ign["+Name+"]";
@@ -71,6 +73,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					var target = _runPrecalc();
 					if (target != null)
 					{
+						ki.Cannon.KITarget = target.TargetCannon;
+
 						if (ki.MinimumRotationalDelta > 0 && FloatMath.DiffRadiansAbs(target.CannonRotation, ki.Cannon.Rotation.TargetValue) < ki.MinimumRotationalDelta)
 						{
 							ki.LastKIFunction = "Ign[" + Name + "]";
@@ -90,7 +94,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					{
 						var target = ki.Cannon.Position.MirrorAt(FPoint.MiddlePoint(ray.Start, ray.End));
 						var rot = target.ToAngle(ki.Cannon.Position);
-						
+
+						ki.Cannon.KITarget = null;
+
 						if (ki.MinimumRotationalDelta > 0 && FloatMath.DiffRadiansAbs(rot, ki.Cannon.Rotation.TargetValue) < ki.MinimumRotationalDelta/4f)
 						{
 							ki.LastKIFunction = "Ign[" + Name + "]";
@@ -130,6 +136,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					return false;
 				}
 
+				ki.Cannon.KITarget = null;
 				return false;
 			}
 		}
@@ -139,6 +146,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		protected const float LASER_UPDATE_TIME    = 0.400f;
 		protected const float NEUTRAL_UPDATE_TIME  = 0.111f;
 		protected const float MIN_LASER_ROT        = FloatMath.RAD_POS_002;
+		public    const int   MAX_KI_RELAYCHAIN    = 8;
 
 		private readonly ConstantRandom crng;
 		public string LastKIFunction = "None";
@@ -321,6 +329,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			{
 				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction != Cannon.Fraction && ray.TargetCannon.CannonHealth.TargetValue < 0.85f)
 				{
+					Cannon.KITarget = ray.TargetCannon;
 					return Cannon.Rotation.TargetValue;
 				}
 			}
@@ -333,10 +342,24 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			{
 				if (ray.Terminator == LaserRayTerminator.Target && ray.TargetCannon != null && ray.TargetCannon.Fraction == Cannon.Fraction && ray.TargetCannon.CannonHealth.TargetValue < 0.90f)
 				{
+					Cannon.KITarget = ray.TargetCannon;
 					return Cannon.Rotation.TargetValue;
 				}
 			}
 			return null;
+		}
+
+		protected Cannon FindTargetRelayChain()
+		{
+			return Owner
+				.GetEntities<RelayCannon>()
+				.Where(p => !p.IsShielded)
+				.Where(p => !p.Fraction.IsNeutral)
+				.Where(p => p.Fraction == Fraction)
+				.Where(IsReachable)
+				.Where(p => p.IsSuccesfulRelayChaining())
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
 		}
 
 		#endregion
@@ -419,6 +442,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.Where(p => p.TargetCannon != Cannon)
 				.Where(p => !p.TargetCannon.IsLaser && p.TargetCannon.CannonHealth.TargetValue >= 1f)
 				.Where(IsBulletBlockedReachablePrecalc)
+				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		protected BulletPath FindTargetRelayChainPrecalc()
+		{
+			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.IsShielded)
+				.Where(p => !p.TargetCannon.Fraction.IsNeutral)
+				.Where(p => p.TargetCannon.Fraction == Fraction)
+				.Where(p => p.TargetCannon is RelayCannon)
+				.Where(IsReachablePrecalc)
+				.Where(p => ((RelayCannon)p.TargetCannon).IsSuccesfulRelayChaining())
 				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
 		}

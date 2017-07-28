@@ -139,6 +139,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		public abstract bool IsLaser { get; }
 
+		public GameEntity KITarget = null;
+
 		protected Cannon(GDGameScreen scrn, Fraction[] fractions, int player, float px, float py, float diam, byte cid, float rotdeg, BulletPathBlueprint[] paths) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
 			Fraction = fractions[player];
@@ -552,6 +554,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		#endregion
 
 		public abstract KIController CreateKIController(GDGameScreen screen, Fraction fraction);
+
+		public virtual AbstractFractionController CreateNeutralController(GDGameScreen screen, Fraction fraction)
+		{
+			return new NeutralKIController(screen, this, fraction);
+		}
 
 		public void RemoteRotationUpdate(float ra, float rt, float sendertime)
 		{

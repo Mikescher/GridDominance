@@ -65,7 +65,7 @@ namespace GridDominance.Shared.Screens
 			                                        $"         HUD:              [{TIMING_DRAW_HUD.Format()}]\n" +
 			                                        $"         DebugScreen:      [{TIMING_DRAW_DEBUGSCREEN.Format()}]\n" +
 			                                        $"         Proxies:          [{TIMING_DRAW_PROXIES.Format()}]\n");
-			debugDisp.AddLine("DebugTimings", () => $"Drawing[BATCH_GAME]: [{TIMING_DRAW_BATCH_GAME.Format()}]\nDrawing[BATCH_HUD]: [{TIMING_DRAW_BATCH_HUD.Format()}]");
+			debugDisp.AddLine("DebugTimings", () => $"Drawing[BATCH_GAME]: [{TIMING_DRAW_BATCH_GAME.Format()}]\nDrawing[BATCH_HUD]:  [{TIMING_DRAW_BATCH_HUD.Format()}]");
 
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{scrn.Game.GraphicsDevice.Viewport.Width}|{scrn.Game.GraphicsDevice.Viewport.Height}]");
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualGuaranteedSize={scrn.VAdapterGame.VirtualGuaranteedSize} || GameAdapter.VirtualGuaranteedSize={scrn.VAdapterHUD.VirtualGuaranteedSize}");

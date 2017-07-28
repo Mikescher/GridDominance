@@ -163,7 +163,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			if (f == LocalPlayerFraction) return new PlayerController(this, cannon, f);
 
-			if (f.Type == FractionType.NeutralFraction) return new NeutralKIController(this, cannon, f);
+			if (f.Type == FractionType.NeutralFraction) return cannon.CreateNeutralController(this, f);
 
 			return new RemoteController(this, cannon, f, true, false);
 		}

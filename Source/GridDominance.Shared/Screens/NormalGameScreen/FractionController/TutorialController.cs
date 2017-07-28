@@ -15,7 +15,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		protected override void Calculate(InputState istate)
 		{
-			//
+			Cannon.KITarget = null;
 		}
 
 		public override bool DoBarrelRecharge() => RechargeBarrel;
