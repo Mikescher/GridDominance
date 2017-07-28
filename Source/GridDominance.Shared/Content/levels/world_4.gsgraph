@@ -20,3 +20,9 @@ node([0, 0], LVL_01)
   connect(LVL_02, LIN)
 
 node([0, -7], LVL_02)
+  connect(LVL_03, LIN)
+
+node([-7, -7], LVL_03)
+  connect(LVL_04, LIN, 2)
+
+node([-7, -14], LVL_04)

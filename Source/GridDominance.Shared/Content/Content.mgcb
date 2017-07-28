@@ -762,3 +762,8 @@
 /processor:GDLevelProcessor
 /build:levels/level_4-03.gslevel
 
+#begin levels/level_4-04.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/level_4-04.gslevel
+
