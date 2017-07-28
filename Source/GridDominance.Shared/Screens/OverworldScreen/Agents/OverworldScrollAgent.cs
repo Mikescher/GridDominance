@@ -60,7 +60,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				_values[i] = new AdaptionFloat(offset0 + i * DIST_X, FORCE, DRAG, MIN_SPEED);
 				_nodes[i].NodePos = new FPoint(_values[i].Value, POSITION_Y);
 			}
-			CLeanUpPositions(true);
+
+			CleanUpPositions(true);
 		}
 
 		public void CopyState(OverworldScrollAgent other)
@@ -199,10 +200,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				_values[i].ValueMax = float.MaxValue;
 			}
 
-			CLeanUpPositions(false);
+			CleanUpPositions(false);
 		}
 
-		private void CLeanUpPositions(bool direct)
+		private void CleanUpPositions(bool direct)
 		{
 			if (_values[0].TargetValue > PADDING_X)
 			{
@@ -221,6 +222,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 					_values[i].Set(n0 + i * DIST_X, direct);
 				}
 				_sleep = false;
+			}
+
+			if (direct)
+			{
+				for (int i = 0; i < _values.Length; i++)
+				{
+					_nodes[i].NodePos = new FPoint(_values[i].Value, POSITION_Y);
+				}
+				_sleep = true;
 			}
 		}
 
