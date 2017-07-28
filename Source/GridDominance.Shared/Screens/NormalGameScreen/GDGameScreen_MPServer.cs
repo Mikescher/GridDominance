@@ -104,6 +104,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
 			{
 				if (cannon.Fraction.IsNeutral) continue;
+				if (cannon is RelayCannon) continue;
 
 				if (winner != null && winner != cannon.Fraction) return;
 				winner = cannon.Fraction;
