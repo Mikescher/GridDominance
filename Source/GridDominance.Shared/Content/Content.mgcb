@@ -752,3 +752,8 @@
 /processorParam:Quality=Best
 /build:sounds/glass.ogg
 
+#begin levels/lvl302.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/lvl302.gslevel
+
