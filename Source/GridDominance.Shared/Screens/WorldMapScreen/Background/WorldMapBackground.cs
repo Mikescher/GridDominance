@@ -326,7 +326,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 			{
 				foreach (var pt in partitions)
 				{
-					sbatch.DrawRectangle(pt.Item2.AsDeflated(GDConstants.TILE_WIDTH/3, GDConstants.TILE_WIDTH/3), Color.Blue, Owner.PixelWidth);
+					sbatch.FillRectangle(pt.Item2.AsDeflated(GDConstants.TILE_WIDTH/6, GDConstants.TILE_WIDTH/6), Color.Blue * 0.1f);
+					sbatch.DrawRectangle(pt.Item2.AsDeflated(GDConstants.TILE_WIDTH/6, GDConstants.TILE_WIDTH/6), Color.Blue, Owner.PixelWidth);
 				}
 			}
 
