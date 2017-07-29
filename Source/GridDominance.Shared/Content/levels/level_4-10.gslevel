@@ -1,0 +1,50 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-10", "Three For One", {b16b00b5-0001-4000-0000-000004000010}, KI_PRECALC_PATHTRACE)
+config(KI_CFG_TRACE_MAX_BULLETBOUNCE, 1)
+
+Cannon( SIZE_TINY,   N0, [ 4,  1.5])
+Trishot(SIZE_NORMAL, P1, [ 2,  5.0])
+MirrorCircle([4,  8.5], SIZE_TINY)
+
+Cannon(SIZE_SMALL, N0, [8, 2.0])
+Cannon(SIZE_SMALL, N0, [8, 5.0], ROT_N)
+Cannon(SIZE_SMALL, N0, [8, 8.0])
+
+MirrorCircle([12,  1.5], SIZE_TINY)
+Trishot(SIZE_NORMAL, A3, [14,  5])
+Cannon( SIZE_TINY,   N0, [12,  8.5])
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #       <O>             (#)       #
+#                          <O>                
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                                             
+#        4 #   / \                     / \   #
+#               T          <O>          T     
+#        5 #   \ /                     \ /   #
+#                                             
+#        6 #                                 #
+#                                             
+#        7 #                                 #
+#                          <O>                
+#        8 #       (#)             <O>       #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

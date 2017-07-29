@@ -1,0 +1,61 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-9", "Overkill", {b16b00b5-0001-4000-0000-000004000009}, KI_PRECALC_PATHTRACE)
+
+
+Voidwall([2.0, 2.0], [2.0, -22])
+Cannon(SIZE_TINY,   N0, [ 1.0,  1.0], ROT_S)
+Cannon(SIZE_SMALL,  P1, [ 1.5,  5.0])
+Cannon(SIZE_TINY,   N0, [ 1.0,  9.0], ROT_N)
+Voidwall([2.0, 8.0], [2.0, +22])
+
+Laser(SIZE_TINY, N0, [8 - 2.828, 5 - 2.828])
+Laser(SIZE_TINY, N0, [8 + 0.000, 5 - 4.000])
+Laser(SIZE_TINY, N0, [8 + 2.828, 5 - 2.828])
+
+Minigun(SIZE_GIGANTIC, N0, [8,5])
+
+Laser(SIZE_TINY, N0, [8 - 2.828, 5 + 2.828])
+Laser(SIZE_TINY, N0, [8 + 0.000, 5 + 4.000])
+Laser(SIZE_TINY, N0, [8 + 2.828, 5 + 2.828])
+
+Voidwall([14.0, 2.0], [14.0, -22])
+Cannon(SIZE_TINY,   N0, [15.0,  1.0], ROT_S)
+Cannon(SIZE_SMALL,  A3, [14.5,  5.0])
+Cannon(SIZE_TINY,   N0, [15.0,  9.0], ROT_N)
+Voidwall([14.0, 8.0], [14.0, +22])
+
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#               |                       |     
+#        0 #    |                       |    #
+#            <O>|          <+>          |<O>  
+#        1 #    |                       |    #
+#                    <+>         <+>          
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                                             
+#        4 #  / \                       / \  #
+#              O           <Z>           O    
+#        5 #  \ /                       \ /  #
+#                                             
+#        6 #                                 #
+#                                             
+#        7 #                                 #
+#                    <+>         <+>          
+#        8 #    |                       |    #
+#            <O>|          <+>          |<O>  
+#        9 #    |                       |    #
+#               |                       |     
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+
