@@ -52,7 +52,7 @@ namespace GridDominance.Shared
 		public readonly GDSounds GDSound = new GDSounds();
 		public override SAMSoundPlayer Sound => GDSound;
 
-		public float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
+		public readonly float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
 
 		public MainGame(IOperatingSystemBridge b) : base(b)
 		{

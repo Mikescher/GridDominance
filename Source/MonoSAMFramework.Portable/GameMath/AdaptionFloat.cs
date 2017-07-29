@@ -28,7 +28,7 @@ namespace MonoSAMFramework.Portable.GameMath
 			_minSpeed = minSpeed;
 		}
 		
-		public void Update(SAMTime gameTime, InputState istate)
+		public void Update(SAMTime gameTime, InputState istate)//TODO FPS dependent (OverworldScrollAgent acts strange with ~400UPS)
 		{
 			var force = (TargetValue - Value) * _forcePerUnit;
 
