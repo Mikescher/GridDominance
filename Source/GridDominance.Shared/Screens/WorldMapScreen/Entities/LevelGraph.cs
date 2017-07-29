@@ -60,10 +60,19 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			foreach (var bpNode in g.WarpNodes)
 			{
-				var node = new WarpNode(screen, bpNode);
+				if (bpNode.TargetWorld == Levels.WORLD_ID_GAMEEND)
+				{
+					var node = new WarpGameEndNode(screen, bpNode);
+					screen.Entities.AddEntity(node);
+					Nodes.Add(node);
+				}
+				else
+				{
+					var node = new WarpNode(screen, bpNode);
+					screen.Entities.AddEntity(node);
+					Nodes.Add(node);
+				}
 
-				screen.Entities.AddEntity(node);
-				Nodes.Add(node);
 			}
 
 			InitialNode = new RootNode(screen, g.RootNode);

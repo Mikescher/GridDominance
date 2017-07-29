@@ -26,7 +26,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
-	public class LevelNode : GameEntity, IWorldNode
+	public class LevelNode : BaseWorldNode, IWorldNode
 	{
 		public  const float DIAMETER        = 2.75f          * GDConstants.TILE_WIDTH;
 		private const float WIDTH_EXTENDER  = (1496f / 768f) * GDConstants.TILE_WIDTH;

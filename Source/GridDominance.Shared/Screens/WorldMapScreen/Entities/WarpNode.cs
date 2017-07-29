@@ -26,7 +26,7 @@ using MonoSAMFramework.Portable.Localization;
 #pragma warning disable 162
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
-	public class WarpNode : GameEntity, IWorldNode
+	public class WarpNode : BaseWorldNode, IWorldNode
 	{
 		public const float DIAMETER = 3f * GDConstants.TILE_WIDTH;
 		public const float INNER_DIAMETER = 2f * GDConstants.TILE_WIDTH;
@@ -95,7 +95,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			{
 				MainGame.Inst.GDSound.PlayEffectError();
 
-				AddEntityOperation(new ScreenShakeAndCenterOperation2(this, GDOwner));
+				if (GDOwner.ZoomState == BistateProgress.Expanded)
+					AddEntityOperation(new ScreenShakeOperation2(this, GDOwner));
+				else
+					AddEntityOperation(new ScreenShakeAndCenterOperation2(this, GDOwner));
 
 				Owner.HUD.ShowToast("WN::LOCKED", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 

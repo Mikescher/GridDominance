@@ -29,6 +29,7 @@ namespace GridDominance.Shared.Resources
 		public static Guid WORLD_ID_NONE        = new Guid("{d34db335-0001-4000-7711-000000100002}");
 		public static Guid WORLD_ID_TUTORIAL    = new Guid("{d34db335-0001-4000-7711-000000100001}");
 		public static Guid WORLD_ID_MULTIPLAYER = new Guid("{d34db335-0001-4000-7711-000000300001}");
+		public static Guid WORLD_ID_GAMEEND     = new Guid("{d34db335-0001-4000-7711-000000100003}");
 
 		public static Guid LEVELID_1_1 = new Guid("{b16b00b5-0001-4000-0000-000001000001}");
 		public static Guid LEVELID_1_2 = new Guid("{b16b00b5-0001-4000-0000-000001000002}");
@@ -196,13 +197,15 @@ namespace GridDominance.Shared.Resources
 
 						foreach (var p in n.OutgoingPipes)
 						{
-							if (!LEVELS.ContainsKey(p.Target) && !WORLDS.ContainsKey(p.Target)) SAMLog.Error("ResourceTest-5", $"Could not find level with ID: {p.Target}");
+							if (!LEVELS.ContainsKey(p.Target) && !WORLDS.ContainsKey(p.Target) && p.Target != WORLD_ID_GAMEEND) SAMLog.Error("ResourceTest-5", $"Could not find level with ID: {p.Target}");
 						}
 					}
 				}
 
 				foreach (var n in w.WarpNodes)
 				{
+					if (n.TargetWorld == WORLD_ID_GAMEEND) continue;
+
 					if (!WORLDS.ContainsKey(n.TargetWorld))
 					{
 						SAMLog.Error("ResourceTest-6", $"Could not find world with ID: {n.TargetWorld}");

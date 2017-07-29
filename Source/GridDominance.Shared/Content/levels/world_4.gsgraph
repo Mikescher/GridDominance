@@ -76,3 +76,6 @@ node([0, 6], LVL_14)
 node([0, 12], LVL_15)
 
 node([7, 12], LVL_16)
+  connect(GAME_END, LIN)
+
+warp([24, 12], GAME_END)

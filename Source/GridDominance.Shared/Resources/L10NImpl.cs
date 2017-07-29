@@ -205,7 +205,10 @@ namespace GridDominance.Shared.Resources
 		public const int STR_FRAC_A5                = 155;
 		public const int STR_FRAC_A6                = 156;
 
-		private const int TEXT_COUNT = 174; // = next idx
+		public const int STR_ENDGAME_1              = 174;
+		public const int STR_ENDGAME_2              = 175;
+
+		private const int TEXT_COUNT = 176; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -385,6 +388,8 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_TOAST_CONN_TRY,      "Connecting to '{0}'",                                                               "Verbinden mit '{0}'");
 			L10N.Add(STR_MP_TOAST_CONN_FAIL,     "Connection to '{0}' failed",                                                        "Verbindung mit '{0}' fehlgeschlagen");
 			L10N.Add(STR_MP_TOAST_CONN_SUCC,     "Connected to '{0}'",                                                                "Verbunden mit '{0}'");
+			L10N.Add(STR_ENDGAME_1,              "THANKS FOR",                                                                        "THANKS FOR");
+			L10N.Add(STR_ENDGAME_2,              "PLAYING",                                                                           "PLAYING");
 
 #if DEBUG
 			L10N.Verify();

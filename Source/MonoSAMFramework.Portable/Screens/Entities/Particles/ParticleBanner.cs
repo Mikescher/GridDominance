@@ -15,6 +15,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 	{
 		public const float LINE_SPACING              = 0.30f;
 		public const float CHAR_SPACING              = 0.25f;
+		public const float SPACE_WIDTH               = 0.40f;
 		public const float ANIMATION_LINEBREAK_PAUSE = 0.45f;
 
 		private readonly GameScreen _screen;
@@ -62,14 +63,23 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 
 				for (int x = 0; x < lines[y].Length; x++)
 				{
-					var chr = PathPresets.LETTERS[lines[y][x]];
+					if (lines[y][x] == ' ')
+					{
+						idx++;
 
-					var emitterConfig = cfg.Build(_tex, scale, chr.Length);
+						px += scale * (SPACE_WIDTH + CHAR_SPACING);
+					}
+					else
+					{
+						var chr = PathPresets.LETTERS[lines[y][x]];
 
-					AddLetter(chr, emitterConfig, px + scale * chr.Boundings.Width / 2f, py + scale/2f, scale, AnimationStartDelay + animLen * (idx/2f) + y * ANIMATION_LINEBREAK_PAUSE, animLen);
-					idx++;
+						var emitterConfig = cfg.Build(_tex, scale, chr.Length);
 
-					px += scale * (chr.Boundings.Width + CHAR_SPACING);
+						AddLetter(chr, emitterConfig, px + scale * chr.Boundings.Width / 2f, py + scale / 2f, scale, AnimationStartDelay + animLen * (idx / 2f) + y * ANIMATION_LINEBREAK_PAUSE, animLen);
+						idx++;
+
+						px += scale * (chr.Boundings.Width + CHAR_SPACING);
+					}
 				}
 			}
 		}
@@ -89,7 +99,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			for (int i = 0; i < str.Length; i++)
 			{
 				if (i > 0) x += CHAR_SPACING;
-				x += PathPresets.LETTERS[str[i]].Boundings.Width;
+
+				if (str[i] == ' ')
+					x += SPACE_WIDTH;
+				else
+					x += PathPresets.LETTERS[str[i]].Boundings.Width;
 			}
 			return x;
 		}

@@ -8,7 +8,7 @@ using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 {
-	class ScreenShakeAndCenterOperation2 : GameEntityOperation<WarpNode>
+	class ScreenShakeAndCenterOperation2 : GameEntityOperation<BaseWorldNode>
 	{
 		public const float SHAKE_OFFSET = 16f;
 
@@ -16,7 +16,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 		private readonly float rot;
 		private readonly GDWorldMapScreen _screen;
 
-		public ScreenShakeAndCenterOperation2(WarpNode node, GDWorldMapScreen screen) : base("WarpNode::CenterShake", LevelNode.SHAKE_TIME)
+		public ScreenShakeAndCenterOperation2(BaseWorldNode node, GDWorldMapScreen screen) : base("Node::CenterShake", LevelNode.SHAKE_TIME)
 		{
 			_screen = screen;
 			centeringStartOffset = screen.MapViewportCenter;
@@ -27,12 +27,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 				rot = (centeringStartOffset - node.Position).ToAngle() + FloatMath.RAD_POS_090;
 		}
 
-		protected override void OnStart(WarpNode node)
+		protected override void OnStart(BaseWorldNode node)
 		{
 			//
 		}
 
-		protected override void OnProgress(WarpNode node, float progress, SAMTime gameTime, InputState istate)
+		protected override void OnProgress(BaseWorldNode node, float progress, SAMTime gameTime, InputState istate)
 		{
 			var off = (Vector2.UnitX * (FloatMath.Sin(progress * FloatMath.TAU * 6) * SHAKE_OFFSET) * (1 - FloatMath.FunctionEaseInCubic(progress))).Rotate(rot);
 			var p = FloatMath.FunctionEaseInOutQuad(progress);
@@ -43,13 +43,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 			if (_screen.IsDragging) Abort();
 		}
 
-		protected override void OnEnd(WarpNode node)
+		protected override void OnEnd(BaseWorldNode node)
 		{
 			node.Owner.MapViewportCenterX = node.Position.X;
 			node.Owner.MapViewportCenterY = node.Position.Y;
 		}
 
-		protected override void OnAbort(WarpNode node)
+		protected override void OnAbort(BaseWorldNode node)
 		{
 			node.Owner.MapViewportCenterX = node.Position.X;
 			node.Owner.MapViewportCenterY = node.Position.Y;

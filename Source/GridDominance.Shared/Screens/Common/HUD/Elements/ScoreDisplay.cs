@@ -27,6 +27,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public ScoreDisplay(bool count)
 		{
 			_value.Set(MainGame.Inst.Profile.TotalPoints);
+			_value.SetDelta(FloatMath.Max(537, MainGame.Inst.Profile.TotalPoints / 4f));
 			if (!count) _value.Finish();
 
 			_text = new HUDRawText

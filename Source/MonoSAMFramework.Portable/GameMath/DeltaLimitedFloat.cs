@@ -4,7 +4,7 @@ namespace MonoSAMFramework.Portable.GameMath
 {
 	public class DeltaLimitedFloat
 	{
-		private readonly float deltaSpeed; // 1/sec
+		private float _deltaSpeed; // 1/sec
 
 		public float ActualValue { get; private set; }
 		public float TargetValue { get; private set; }
@@ -14,7 +14,7 @@ namespace MonoSAMFramework.Portable.GameMath
 			ActualValue = initialValue;
 			TargetValue = initialValue;
 
-			deltaSpeed = maxDelta;
+			_deltaSpeed = maxDelta;
 		}
 		
 		public void Update(SAMTime gameTime)
@@ -22,12 +22,12 @@ namespace MonoSAMFramework.Portable.GameMath
 			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			if (ActualValue < TargetValue)
 			{
-				ActualValue += deltaSpeed * gameTime.ElapsedSeconds;
+				ActualValue += _deltaSpeed * gameTime.ElapsedSeconds;
 				if (ActualValue > TargetValue) ActualValue = TargetValue;
 			}
 			else if (ActualValue > TargetValue)
 			{
-				ActualValue -= deltaSpeed * gameTime.ElapsedSeconds;
+				ActualValue -= _deltaSpeed * gameTime.ElapsedSeconds;
 				if (ActualValue < TargetValue) ActualValue = TargetValue;
 			}
 		}
@@ -68,6 +68,11 @@ namespace MonoSAMFramework.Portable.GameMath
 		public void Dec(float vsub)
 		{
 			TargetValue -= vsub;
+		}
+
+		public void SetDelta(float d)
+		{
+			_deltaSpeed = d;
 		}
 
 		public void Finish()

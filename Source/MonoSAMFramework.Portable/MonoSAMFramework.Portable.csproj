@@ -223,6 +223,7 @@
     <Compile Include="Screens\Entities\Particles\GPUParticles\AnimatedPathGPUParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\GPUParticles\PathGPUParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\GPUParticles\PointGPUParticleEmitter.cs" />
+    <Compile Include="Screens\Entities\Special\MouseAreaEntity.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventArgs.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDButtonEventType.cs" />

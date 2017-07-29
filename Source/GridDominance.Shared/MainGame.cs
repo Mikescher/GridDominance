@@ -22,6 +22,7 @@ using MonoSAMFramework.Portable.Sound;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using System.Text;
+using GridDominance.Shared.Screens.EndGameScreen;
 using GridDominance.Shared.Screens.ScreenGame;
 
 namespace GridDominance.Shared
@@ -267,6 +268,11 @@ namespace GridDominance.Shared
 		public void SetMultiplayerClientLevelScreen(LevelBlueprint level, GameSpeedModes speed, int music, GDMultiplayerClient server)
 		{
 			var scrn = new GDGameScreen_MPClient(this, Graphics, level, speed, music, server);
+			SetCurrentScreen(scrn);
+		}
+		public void SetGameEndScreen()
+		{
+			var scrn = new GDEndGameScreen(this, Graphics);
 			SetCurrentScreen(scrn);
 		}
 

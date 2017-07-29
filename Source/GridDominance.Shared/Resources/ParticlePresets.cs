@@ -197,5 +197,32 @@ namespace GridDominance.Shared.Screens
 				ColorFinal = Color.SlateGray,
 			};
 		}
+
+		public static ParticleEmitterConfig.ParticleEmitterConfigBuilder GetConfigLetterFlickerFire()
+		{
+			return new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+			{
+				// flicker fire
+				TextureIndex = 7,
+				SpawnRate = 128,
+
+				ParticleLifetimeMin = 0.3f,
+				ParticleLifetimeMax = 1.5f,
+
+				ParticleVelocityMin = 1f,
+				ParticleVelocityMax = 6f,
+
+				ParticleSizeInitial = 1,
+
+				ParticleSizeFinalMin = 12,
+				ParticleSizeFinalMax = 36,
+
+				ParticleAlphaInitial = 0f,
+				ParticleAlphaFinal = 1f,
+
+				ColorInitial = Color.Firebrick,
+				ColorFinal = Color.OrangeRed,
+			};
+		}
 	}
 }
