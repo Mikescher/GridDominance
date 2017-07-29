@@ -1,0 +1,65 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-11", "The Long Way", {b16b00b5-0001-4000-0000-000004000011}, KI_PRECALC_PATHTRACE)
+
+
+Cannon(SIZE_SMALL, P1, [ 2,  1], ROT_S)
+Cannon(SIZE_SMALL, N0, [ 2,  5], ROT_S)
+Cannon(SIZE_SMALL, N0, [ 2,  8.5], ROT_E)
+
+Cannon(SIZE_SMALL, N0, [ 6,  1], ROT_W)
+Relay(SIZE_SMALL, N0, [ 6.5,  5], ROT_N)
+
+Cannon(SIZE_SMALL, N0, [10,  1], ROT_E)
+Relay(SIZE_SMALL, N0, [9.5,  5], ROT_N)
+
+Cannon(SIZE_SMALL, A3, [14,  1], ROT_S)
+Cannon(SIZE_SMALL, N0, [14,  5], ROT_S)
+Cannon(SIZE_SMALL, N0, [14,  8.5], ROT_W)
+
+Trishot(SIZE_SMALL, N0, [8,  8.5], ROT_N)
+
+Voidwall([4,7], [6,7])
+Voidwall([4,4], [4,7])
+
+Voidwall([10,7], [12,7])
+Voidwall([12,4], [12,7])
+
+
+Voidwall([8,-10], [8,2])
+
+
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                           |                 
+#        0 #   / \          |          / \   #
+#               O      <O>  |  <O>      O     
+#        1 #   \ /          |          \ /   #
+#                                             
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                                             
+#        4 #        |               |        #
+#              <O>  |   <R>   <R>   |  <O>    
+#        5 #        |               |        #
+#                   |               |         
+#        6 #        |               |        #
+#                    ---         ---          
+#        7 #                                 #
+#                                             
+#        8 #   <O>         <T>         <O>   #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

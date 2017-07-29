@@ -56,3 +56,23 @@ node([-24, 0], LVL_08)
   connect(LVL_09, LIN)
 
 node([-14, 9], LVL_10)
+  connect(LVL_11, CCW)
+  connect(LVL_12,  CW)
+  connect(LVL_13, CCW)
+
+node([-7, 6], LVL_11)
+  connect(LVL_14, LIN)
+
+node([-7, 12], LVL_12)
+  connect(LVL_15, LIN)
+
+node([-7, 18], LVL_13)
+  connect(LVL_16, CCW)
+
+node([0, 6], LVL_14)
+  connect(LVL_15, LIN)
+  connect(LVL_16, CW)
+
+node([0, 12], LVL_15)
+
+node([7, 12], LVL_16)
