@@ -238,6 +238,25 @@ namespace GridDominance.DSLEditor
 				var levels = alllevels.Where(l => map.Item2.Nodes.Any(n => n.LevelID == l.Item2.UniqueID)).ToList();
 
 				OutputOverview(levels, Path.Combine(folder, @"..\..\..\..\Data\overview_"+Path.GetFileNameWithoutExtension(map.Item1)+".png"));
+
+				try
+				{
+					var fileOut = Path.Combine(folder, @"..\..\..\..\Data\layout_" + Path.GetFileNameWithoutExtension(map.Item1) + ".png");
+					var bmp = graphPainter.Draw(map.Item2, FilePath, (s) => { }, null);
+
+					if (!Directory.Exists(Path.GetDirectoryName(fileOut)))
+					{
+						MessageBox.Show("FolderNotFound: " + fileOut);
+						return;
+					}
+
+					bmp.Save(fileOut);
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.ToString());
+					throw;
+				}
 			}
 		}
 

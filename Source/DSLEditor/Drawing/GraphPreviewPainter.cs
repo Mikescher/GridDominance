@@ -7,9 +7,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using GridDominance.DSLEditor.Helper;
 using GridDominance.Levelfileformat;
+using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using Color = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
@@ -134,7 +136,7 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 		}
 
-		private void DrawNodes(GraphBlueprint wgraph, Graphics g, Dictionary<Guid, string> idmap)
+		private void DrawNodes(GraphBlueprint wgraph, Graphics g, Dictionary<Guid, LevelBlueprint> idmap)
 		{
 			var sbNode = new SolidBrush(Color.FromArgb(127, 140, 141));
 			var penExtender = new Pen(Color.FromArgb(231, 76, 60));
@@ -153,9 +155,21 @@ namespace GridDominance.DSLEditor.Drawing
 				g.DrawRectangle(penExtender, n.X - diam / 2f - exw, n.Y - diam / 2f, diam + 2 * exw, diam);
 				g.DrawRectangle(penExtender, n.X - diam / 2f, n.Y - diam / 2f - exw, diam, diam + 2 * exw);
 
+				var pl = BlueprintAnalyzer.ListPlayer(idmap[n.LevelID]).ToList();
+				var al = (2 * Math.PI) / pl.Count;
+				var ap = Math.PI-al/2;
+
+				var R2D = (float) (180 / Math.PI);
+
+				foreach (var p in pl)
+				{
+					g.DrawArc(new Pen(LevelPreviewPainter.CANNON_COLORS[p], 12), n.X - diam / 2f, n.Y - diam / 2f, diam, diam, R2D * (float)ap, R2D * (float)al);
+					ap += al;
+				}
+
 				if (idmap.ContainsKey(n.LevelID))
 				{
-					DrawFit(g, idmap[n.LevelID], Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
+					DrawFit(g, idmap[n.LevelID].Name, Color.Black, new Font("Courier New", 24, FontStyle.Bold), new RectangleF(n.X - diam / 2f, n.Y - diam / 2f, diam, diam));
 				}
 				else
 				{
@@ -204,13 +218,13 @@ namespace GridDominance.DSLEditor.Drawing
 			}
 		}
 
-		private Dictionary<Guid, string> MapLevels(string path, Action<string> logwrite)
+		private Dictionary<Guid, LevelBlueprint> MapLevels(string path, Action<string> logwrite)
 		{
 			path = Path.GetDirectoryName(path);
 
-			if (!Directory.Exists(path)) return new Dictionary<Guid, string>();
+			if (!Directory.Exists(path)) return new Dictionary<Guid, LevelBlueprint>();
 
-			var d = new Dictionary<Guid, string>();
+			var d = new Dictionary<Guid, LevelBlueprint>();
 
 			foreach (var f in Directory.EnumerateFiles(path).Where(p => p.ToLower().EndsWith(".gslevel")))
 			{
@@ -223,7 +237,7 @@ namespace GridDominance.DSLEditor.Drawing
 					{
 						if (cache.Item1.SequenceEqual(dat))
 						{
-							d[cache.Item2.UniqueID] = cache.Item2.Name;
+							d[cache.Item2.UniqueID] = cache.Item2;
 							continue;
 						}
 					}
@@ -231,7 +245,7 @@ namespace GridDominance.DSLEditor.Drawing
 					logwrite("Scan level: " + Path.GetFileName(f));
 					var lf = DSLUtil.ParseLevelFromFile(f, false);
 
-					d[lf.UniqueID] = lf.Name;
+					d[lf.UniqueID] = lf;
 
 					_levelCache.AddOrUpdate(f, Tuple.Create(dat, lf), (a, b) => Tuple.Create(dat, lf));
 				}

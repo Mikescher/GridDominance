@@ -8,7 +8,7 @@ namespace GridDominance.DSLEditor.Drawing
 {
 	public class LevelPreviewPainter
 	{
-		private static readonly Color[] CANNON_COLORS = { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
+		public  static readonly Color[] CANNON_COLORS = { Color.LightGray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Orange, Color.Pink };
 		private static readonly Brush[] COLORS_KITYPE = { Brushes.BlueViolet, Brushes.Brown, Brushes.Olive };
 
 		public Bitmap DrawOverview(LevelBlueprint level)

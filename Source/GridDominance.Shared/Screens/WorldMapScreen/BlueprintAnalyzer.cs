@@ -118,5 +118,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (lvl.AllCannons.Any(c => c.Fraction == 4)) pc++;
 			return pc;
 		}
+
+		public static IEnumerable<int> ListPlayer(LevelBlueprint lvl)
+		{
+			yield return 1;
+			if (lvl.AllCannons.Any(c => c.Fraction == 2)) yield return 2;
+			if (lvl.AllCannons.Any(c => c.Fraction == 3)) yield return 3;
+			if (lvl.AllCannons.Any(c => c.Fraction == 4)) yield return 4;
+		}
 	}
 }
