@@ -39,7 +39,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_bounds = _gdScreen.MapFullBounds;
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate)
+		public override void Update(SAMTime gameTime, InputState istate) //TODO not UPS independent
 		{
 			if (isDragging)
 			{

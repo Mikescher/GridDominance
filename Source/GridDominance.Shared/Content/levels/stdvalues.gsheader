@@ -72,6 +72,8 @@ define(HINT_006, 102)  # drag map
 define(HINT_007, 112)  # portal in
 define(HINT_008, 113)  # portal out
 define(HINT_009, 173)  # relay
+define(HINT_010, 176)  # shield 1
+define(HINT_011, 177)  # shield 2
 
 ###########################################
 

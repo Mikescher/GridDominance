@@ -5,30 +5,23 @@ include("stdvalues")
 init("4-16", "The Ultimate Shield", {b16b00b5-0001-4000-0000-000004000016}, KI_PRECALC_PATHTRACE)
 
 Cannon(SIZE_SMALL, P1, [ 8,  1], ROT_W)
-
-VoidWall([ 8,  2], [ 8,  8])
-
+VoidWall([8, 2], [8, 8])
 Cannon(SIZE_SMALL, A3, [ 8,  9], ROT_E)
-
-
-
 
 Cannon(SIZE_SMALL, N0, [10,  3.5], ROT_S)
 Cannon(SIZE_SMALL, N0, [10,  6.5], ROT_N)
 Cannon(SIZE_SMALL, N0, [14.5,  5], ROT_W)
 
-
 Cannon(SIZE_SMALL, N0, [6,  3.5], ROT_S)
 Cannon(SIZE_SMALL, N0, [6,  6.5], ROT_N)
 Cannon(SIZE_SMALL, N0, [1.5,  5], ROT_E)
 
-
-
-
-
 Shielder(SIZE_SMALL, N0, [ 1,  9])
 Shielder(SIZE_SMALL, N0, [15,  1])
 
+
+Text([   3.5,    1.25], 5.5, 2, HINT_010, {TEXT_ONLY_D1 | TEXT_ONLY_UNCLEARED})
+Text([16-3.5, 10-1.25], 5.5, 2, HINT_011, {TEXT_ONLY_D1 | TEXT_ONLY_UNCLEARED})
 
 #<map>
 #

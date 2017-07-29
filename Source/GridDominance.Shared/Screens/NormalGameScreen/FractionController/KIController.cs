@@ -231,7 +231,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			return Owner
 				.GetEntities<Cannon>()
-				.Where(p => !p.IsShielded)
 				.Where(p => p.Fraction == Fraction && p != Cannon)
 				.Where(p => p != Cannon)
 				.Where(p => p.CannonHealth.TargetValue > 0.8f)
@@ -381,7 +380,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		protected BulletPath FindTargetShieldCannonPrecalc()
 		{
 			return Cannon.BulletPaths
-				.Where(p => !p.TargetCannon.IsShielded)
 				.Where(p => p.TargetCannon.Fraction == Fraction)
 				.Where(p => p.TargetCannon != Cannon)
 				.Where(p => p.TargetCannon.CannonHealth.TargetValue > 0.8f)

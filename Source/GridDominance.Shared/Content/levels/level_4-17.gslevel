@@ -1,0 +1,73 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-17", "Roundabout", {b16b00b5-0001-4000-0000-000004000017}, KI_PRECALC_PATHTRACE)
+config(KI_CFG_TRACE_HITBOX_ENLARGE, 1)
+
+define(D, 0.20)
+define(H, 0.50)
+
+Cannon(SIZE_SMALL, N0, [ 1.0,  1.0], ROT_S)
+Cannon(SIZE_SMALL, N0, [ 4.5,  1.0], ROT_W)
+Cannon(SIZE_SMALL, P1, [ 8.0,  1.0], ROT_W)
+Cannon(SIZE_SMALL, N0, [11.5,  1.0], ROT_W)
+Cannon(SIZE_SMALL, N0, [15.0,  1.0], ROT_W)
+
+Cannon(SIZE_SMALL, N0, [ 1.0,  5.0], ROT_S)
+Cannon(SIZE_SMALL, N0, [15.0,  5.0], ROT_N)
+
+Cannon(SIZE_SMALL, N0, [ 1.0,  9.0], ROT_E)
+Cannon(SIZE_SMALL, N0, [ 4.5,  9.0], ROT_E)
+Cannon(SIZE_SMALL, A3, [ 8.0,  9.0], ROT_E)
+Cannon(SIZE_SMALL, N0, [11.5,  9.0], ROT_E)
+Cannon(SIZE_SMALL, N0, [15.0,  9.0], ROT_N)
+
+VoidWall([03,     3], [04.5-D, 3])
+VoidWall([04.5+D, 3], [08.0-H, 3])
+VoidWall([08.0+H, 3], [11.5-D, 3])
+VoidWall([11.5+D, 3], [13,     3])
+
+VoidWall([03, 3  ], [03, 5-D])
+VoidWall([03, 5+D], [03, 7  ])
+VoidWall([13, 3  ], [13, 5-D])
+VoidWall([13, 5+D], [13, 7  ])
+
+VoidWall([03,     7], [04.5-D, 7])
+VoidWall([04.5+D, 7], [08.0-H, 7])
+VoidWall([08.0+H, 7], [11.5-D, 7])
+VoidWall([11.5+D, 7], [13,     7])
+
+Shielder(SIZE_TINY, N0, [ 4.5,  5], ROT_W)
+Relay(SIZE_SMALL, N0, [8,5])
+Shielder(SIZE_TINY, N0, [11.5,  5], ROT_E)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #               / \               #
+#            <O>    <O>     O     <O>    <O>  
+#        1 #               \ /               #
+#                                             
+#        2 #                                 #
+#                  -- -----   ----- --        
+#        3 #      |                   |      #
+#                 |                   |       
+#        4 #      |                   |      #
+#            <O>    <§>    <R>    <§>    <O>  
+#        5 #      |                   |      #
+#                 |                   |       
+#        6 #      |                   |      #
+#                  -- -----   ----- --        
+#        7 #                                 #
+#                                             
+#        8 #               / \               #
+#            <O>    <O>     O     <O>    <O>  
+#        9 #               \ /               #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

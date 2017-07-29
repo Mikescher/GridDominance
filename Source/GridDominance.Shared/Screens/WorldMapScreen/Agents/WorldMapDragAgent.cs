@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			_nodePositions = nodePositions;
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate)
+		public override void Update(SAMTime gameTime, InputState istate) //TODO not UPS independent
 		{
 			_gdScreen.IsDragging = isDragging;
 
