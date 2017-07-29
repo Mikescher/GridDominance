@@ -517,6 +517,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
 			{
 				if (cannon is RelayCannon) continue;
+				if (cannon is ShieldProjectorCannon) continue;
 
 				if (cannon.Fraction.IsPlayer) hasPlayer = true;
 				if (cannon.Fraction.IsComputer) hasComputer = true;

@@ -2,36 +2,58 @@
 #####################################
 include("stdvalues")
 
-init("4-16", "?", {b16b00b5-0001-4000-0000-000004000016}, KI_PRECALC_PATHTRACE)
+init("4-16", "The Ultimate Shield", {b16b00b5-0001-4000-0000-000004000016}, KI_PRECALC_PATHTRACE)
 
-Cannon(SIZE_SMALL, P1, [ 3,  5], ROT_E)
+Cannon(SIZE_SMALL, P1, [ 8,  1], ROT_W)
 
-Cannon(SIZE_SMALL, A3, [13,  5], ROT_W)
+VoidWall([ 8,  2], [ 8,  8])
+
+Cannon(SIZE_SMALL, A3, [ 8,  9], ROT_E)
+
+
+
+
+Cannon(SIZE_SMALL, N0, [10,  3.5], ROT_S)
+Cannon(SIZE_SMALL, N0, [10,  6.5], ROT_N)
+Cannon(SIZE_SMALL, N0, [14.5,  5], ROT_W)
+
+
+Cannon(SIZE_SMALL, N0, [6,  3.5], ROT_S)
+Cannon(SIZE_SMALL, N0, [6,  6.5], ROT_N)
+Cannon(SIZE_SMALL, N0, [1.5,  5], ROT_E)
+
+
+
+
+
+Shielder(SIZE_SMALL, N0, [ 1,  9])
+Shielder(SIZE_SMALL, N0, [15,  1])
+
 
 #<map>
 #
 #            0 1 2 3 4 5 6 7 8 9 A B C D E F
 #          # # # # # # # # # # # # # # # # # #
 #                                             
-#        0 #                                 #
+#        0 #               / \               #
+#                           O            <§>  
+#        1 #               \ /               #
 #                                             
-#        1 #                                 #
+#        2 #                |                #
+#                           |                 
+#        3 #           <O>  |  <O>           #
+#                           |                 
+#        4 #                |                #
+#             <O>           |           <O>   
+#        5 #                |                #
+#                           |                 
+#        6 #           <O>  |  <O>           #
+#                           |                 
+#        7 #                |                #
 #                                             
-#        2 #                                 #
-#                                             
-#        3 #                                 #
-#                                             
-#        4 #     / \                 / \     #
-#                 O                   O       
-#        5 #     \ /                 \ /     #
-#                                             
-#        6 #                                 #
-#                                             
-#        7 #                                 #
-#                                             
-#        8 #                                 #
-#                                             
-#        9 #                                 #
+#        8 #               / \               #
+#            <§>            O                 
+#        9 #               \ /               #
 #                                             
 #          # # # # # # # # # # # # # # # # # #
 #

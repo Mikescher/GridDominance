@@ -105,6 +105,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			{
 				if (cannon.Fraction.IsNeutral) continue;
 				if (cannon is RelayCannon) continue;
+				if (cannon is ShieldProjectorCannon) continue;
 
 				if (winner != null && winner != cannon.Fraction) return;
 				winner = cannon.Fraction;
