@@ -255,52 +255,52 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 			foreach (var c in AllCannons)
 			{
-				if (c.Diameter <= 0) throw new Exception("Cannon with diameter <= 0");
+				if (c.Diameter <= 0.001) throw new Exception("Cannon with diameter <= 0");
 			}
 
 			foreach (var w in BlueprintVoidWalls)
 			{
-				if (w.Length <= 0) throw new Exception("Voidwall with length <= 0");
+				if (w.Length <= 0.001) throw new Exception("Voidwall with length <= 0");
 			}
 
 			foreach (var c in BlueprintVoidCircles)
 			{
-				if (c.Diameter <= 0) throw new Exception("Voidcircle with diameter <= 0");
+				if (c.Diameter <= 0.001) throw new Exception("Voidcircle with diameter <= 0");
 			}
 
 			foreach (var b in BlueprintGlassBlocks)
 			{
-				if (b.Width <= 0) throw new Exception("Glassblock with width <= 0");
-				if (b.Height <= 0) throw new Exception("Glassblock with height <= 0");
+				if (b.Width <= 0.001) throw new Exception("Glassblock with width <= 0");
+				if (b.Height <= 0.001) throw new Exception("Glassblock with height <= 0");
 			}
 
 			foreach (var b in BlueprintBackgroundText)
 			{
-				if (b.Width <= 0) throw new Exception("Text with width <= 0");
-				if (b.Height <= 0) throw new Exception("Text with height <= 0");
+				if (b.Width <= 0.001) throw new Exception("Text with width <= 0");
+				if (b.Height <= 0.001) throw new Exception("Text with height <= 0");
 			}
 
 			foreach (var h in BlueprintBlackHoles)
 			{
-				if (h.Diameter <= 0) throw new Exception("Blackhole with diameter <= 0");
+				if (h.Diameter <= 0.001) throw new Exception("Blackhole with diameter <= 0");
 			}
 
 			foreach (var p1 in BlueprintPortals)
 			{
 				//var match = BlueprintPortals.Where(p2 => p2.Group == p1.Group).Where(p2 => p2.Side == !p1.Side).Any();
 				//if (!match) throw new Exception($"Portalgroup {p1.Group} has no matching in/out");
-				if (p1.Length <= 0) throw new Exception("Portal with length <= 0");
+				if (p1.Length <= 0.001) throw new Exception("Portal with length <= 0");
 			}
 
 			foreach (var c in BlueprintMirrorCircles)
 			{
-				if (c.Diameter <= 0) throw new Exception("Mirrorcircle with diameter <= 0");
+				if (c.Diameter <= 0.001) throw new Exception("Mirrorcircle with diameter <= 0");
 			}
 
 			foreach (var b in BlueprintMirrorBlocks)
 			{
-				if (b.Width <= 0) throw new Exception("Mirrorblock with width <= 0");
-				if (b.Height <= 0) throw new Exception("Mirrorblock with height <= 0");
+				if (b.Width <= 0.001) throw new Exception("Mirrorblock with width <= 0");
+				if (b.Height <= 0.001) throw new Exception("Mirrorblock with height <= 0");
 			}
 		}
 

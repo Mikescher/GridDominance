@@ -245,24 +245,79 @@ namespace GridDominance.DSLEditor
 		{
 			var imgs = levels.Select(p => CreateOverviewSafe(p.Item1, p.Item2)).ToList();
 
-			var sw = imgs[0].Width;
-			var sh = imgs[0].Height;
+			var iw = 0;
+			var ih = 0;
 
-			var rc = (imgs.Count + 3) / 4;
+			int sx = 0;
+			int cy = 0;
 
-			var w = sw * 4 + 48 * 5;
-			var h = rc * sh + rc * 48;
+			int x = 0;
+			int y = 0;
+			for (int i = 0; i < imgs.Count; i++)
+			{
+				if (i % 4 == 0) cy++;
 
-			var bmp = new Bitmap(w, h);
+				if (i>0 && i%4==0)
+				{
+					sx += x;
+
+					x = 0;
+					y += IMax(i > 0 ? imgs[i - 1].Height : 0, i > 1 ? imgs[i - 2].Height : 0, i > 2 ? imgs[i - 3].Height : 0, i > 3 ? imgs[i - 4].Height : 0);
+					y += 48;
+				}
+
+				//g.DrawImageUnscaled(imgs[i], x, y);
+
+				x += imgs[i].Width;
+
+				iw = Math.Max(iw, x);
+				ih = Math.Max(ih, y+ imgs[i].Height);
+
+				x += 48;
+			}
+			sx += x;
+			var avg = sx / cy;
+
+			x = 0;
+			y = 0;
+			for (int i = 0; i < imgs.Count; i++)
+			{
+				if (i > 0 && i % 4 == 0 || x + 64 > avg)
+				{
+					x = 0;
+					y += IMax(i>0 ? imgs[i - 1].Height : 0, i > 1 ? imgs[i - 2].Height : 0, i > 2 ? imgs[i - 3].Height : 0, i > 3 ? imgs[i - 4].Height : 0);
+					y += 48;
+				}
+
+				//g.DrawImageUnscaled(imgs[i], x, y);
+
+				x += imgs[i].Width;
+
+				iw = Math.Max(iw, x);
+				ih = Math.Max(ih, y + imgs[i].Height);
+
+				x += 48;
+			}
+
+			var bmp = new Bitmap(iw, ih);
+			x = 0;
+			y = 0;
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
 				g.Clear(Color.White);
 				for (int i = 0; i < imgs.Count; i++)
 				{
-					var x = (i % 4) * (48 + sw);
-					var y = (i / 4) * (48 + sh);
+					if (i > 0 && i % 4 == 0 || x+64 > avg)
+					{
+						x = 0;
+						y += IMax(i > 0 ? imgs[i - 1].Height : 0, i > 1 ? imgs[i - 2].Height : 0, i > 2 ? imgs[i - 3].Height : 0, i > 3 ? imgs[i - 4].Height : 0);
+						y += 48;
+					}
 
 					g.DrawImageUnscaled(imgs[i], x, y);
+
+					x += imgs[i].Width;
+					x += 48;
 				}
 			}
 
@@ -274,6 +329,8 @@ namespace GridDominance.DSLEditor
 
 			bmp.Save(fileOut);
 		}
+
+		private int IMax(int a, int b, int c, int d) => Math.Max(Math.Max(a, b), Math.Max(c, d));
 
 		public string GenerateASCIIMap(LevelBlueprint l)
 		{
