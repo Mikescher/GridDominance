@@ -29,3 +29,9 @@ node([-7, -7], LVL_03)
 node([-7, -14], LVL_04)
 
 node([-14, -7], LVL_05)
+  connect(LVL_06, LIN, 1)
+  connect(LVL_07, CCW, 2)
+
+node([-14, 0], LVL_06)
+
+node([-21, 0], LVL_07)

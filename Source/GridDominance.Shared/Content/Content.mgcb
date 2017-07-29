@@ -777,3 +777,13 @@
 /processor:GDLevelProcessor
 /build:levels/level_4-06.gslevel
 
+#begin levels/level_4-07.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/level_4-07.gslevel
+
+#begin levels/level_4-08.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/level_4-08.gslevel
+

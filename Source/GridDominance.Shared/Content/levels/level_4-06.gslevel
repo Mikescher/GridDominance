@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("4-5", "Trench Warfare", {b16b00b5-0001-4000-0000-000004000006}, KI_PRECALC_PATHTRACE)
+init("4-6", "Trench Warfare", {b16b00b5-0001-4000-0000-000004000006}, KI_PRECALC_PATHTRACE)
 
 
 Cannon (SIZE_TINY,   P1, [ 1.0,  3])

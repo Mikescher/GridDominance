@@ -1,0 +1,50 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-7", "Machine Gun Singularity", {b16b00b5-0001-4000-0000-000004000007}, KI_PRECALC_SIMULATE)
+
+
+Relay  (SIZE_SMALL,  N0, [ 2, 1.5])
+Relay  (SIZE_SMALL,  N0, [ 8, 1.5])
+VoidCircle([14, 1.5], SIZE_BIG)
+
+Minigun(SIZE_NORMAL, P1, [ 2, 5.0])
+BlackHole([8, 5], 3)
+Minigun(SIZE_NORMAL, A3, [14, 5.0])
+
+Relay  (SIZE_SMALL,  N0, [14, 8.5])
+Relay  (SIZE_SMALL,  N0, [ 8, 8.5])
+VoidCircle([ 2, 8.5], SIZE_BIG)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #   <R>         <R>         (X)   #
+#                                             
+#        2 #                                 #
+#                                             
+#        3 #                                 #
+#                         .....               
+#        4 #   / \        .....        / \   #
+#               Z         ..@..         Z     
+#        5 #   \ /        .....        \ /   #
+#                         .....               
+#        6 #                                 #
+#                                             
+#        7 #                                 #
+#                                             
+#        8 #   (X)         <R>         <R>   #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+
