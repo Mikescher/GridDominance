@@ -44,7 +44,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			OnBeforeUpdate(gameTime, state);
 
 			List<GameEntity> orderChangedEntities = new List<GameEntity>();
-			foreach (var entity in entities.ToList()) //TODO CopyOnRead vs remember new|rem entities and applying after ??
+			foreach (var entity in entities.ToList())
 			{
 				entity.Update(gameTime, state);
 				if (entity.OrderDirty) orderChangedEntities.Add(entity);

@@ -219,7 +219,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			return Owner
 				.GetEntities<Cannon>()
 				.Where(p => !p.IsShielded)
-				.Where(p => p.Fraction == Fraction)
+				.Where(p => p.Fraction == Fraction && p != Cannon)
 				.Where(p => p != Cannon)
 				.Where(p => p.CannonHealth.TargetValue < 0.5f)
 				.Where(IsReachable)
@@ -232,7 +232,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			return Owner
 				.GetEntities<Cannon>()
 				.Where(p => !p.IsShielded)
-				.Where(p => p.Fraction == Fraction)
+				.Where(p => p.Fraction == Fraction && p != Cannon)
 				.Where(p => p != Cannon)
 				.Where(p => p.CannonHealth.TargetValue > 0.8f)
 				.Where(IsReachable)
@@ -268,7 +268,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.GetEntities<Cannon>()
 				.Where(p => !p.IsShielded)
 				.Where(p => !p.IsShielded)
-				.Where(p => p.Fraction == Fraction)
+				.Where(p => p.Fraction == Fraction && p != Cannon)
 				.Where(p => p != Cannon)
 				.Where(p => !p.IsLaser && p.CannonHealth.TargetValue >= 1f)
 				.Where(IsReachable)
@@ -293,7 +293,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			return Owner
 				.GetEntities<Cannon>()
 				.Where(p => !p.IsShielded)
-				.Where(p => p.Fraction == Fraction)
+				.Where(p => p.Fraction == Fraction && p != Cannon)
 				.Where(p => p != Cannon)
 				.Where(p => !p.IsLaser && p.CannonHealth.TargetValue >= 1f)
 				.Where(IsBulletBlockedReachable)
@@ -317,7 +317,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			return Owner
 				.GetEntities<Cannon>()
 				.Where(p => !p.IsShielded)
-				.Where(p => p.Fraction == Fraction)
+				.Where(p => p.Fraction == Fraction && p != Cannon)
 				.Where(p => !p.IsLaser && p.CannonHealth.TargetValue >= 1f)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
@@ -355,7 +355,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.GetEntities<RelayCannon>()
 				.Where(p => !p.IsShielded)
 				.Where(p => !p.Fraction.IsNeutral)
-				.Where(p => p.Fraction == Fraction)
+				.Where(p => p.Fraction == Fraction && p != Cannon)
 				.Where(IsReachable)
 				.Where(p => p.IsSuccesfulRelayChaining())
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)

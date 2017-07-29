@@ -18,7 +18,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 		protected readonly HUDRawText internalText;
 
-		public HUDAlignment TextAlignment // TODO vertically the text is not correctly aligned - cause MeasureString includes strange whitespaces
+		public HUDAlignment TextAlignment
 		{
 			get { return internalText.Alignment; }
 			set { internalText.Alignment = value; recalcText = true; }

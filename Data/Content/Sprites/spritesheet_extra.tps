@@ -158,9 +158,9 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>2048</int>
+            <int>3072</int>
             <key>height</key>
-            <int>2048</int>
+            <int>3072</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -296,6 +296,7 @@
                 <false/>
             </struct>
             <key type="filename">extra/description_w3.png</key>
+            <key type="filename">extra/description_w4.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

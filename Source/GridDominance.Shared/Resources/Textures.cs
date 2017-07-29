@@ -311,6 +311,10 @@ namespace GridDominance.Shared.Resources
 				null,
 				AtlasExtraTextures["description_w2"],
 				AtlasExtraTextures["description_w3"],
+				AtlasExtraTextures["description_w4"],
+				null,
+				null,
+				null,
 			};
 			TexTitleNumber           = new[]
 			{
