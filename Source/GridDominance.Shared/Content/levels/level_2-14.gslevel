@@ -12,7 +12,7 @@ Cannon(SIZE_SMALL, P1, [1, 5])
 VoidCircle([ 4, 5], SIZE_SMALL)
 Glassblock([8, 5], 4, 4)
 VoidCircle([12, 5], SIZE_SMALL)
-Cannon(SIZE_SMALL, A3, [15, 5])
+Cannon(SIZE_SMALL, A4, [15, 5])
 
 Cannon(SIZE_SMALL, N0, [ 4, 9])
 VoidCircle([ 8, 9], SIZE_SMALL)

@@ -11,7 +11,7 @@ VoidCircle([14, 1.5], SIZE_BIG)
 
 Minigun(SIZE_NORMAL, P1, [ 2, 5.0])
 BlackHole([8, 5], 3)
-Minigun(SIZE_NORMAL, A3, [14, 5.0])
+Minigun(SIZE_NORMAL, A2, [14, 5.0])
 
 Relay  (SIZE_SMALL,  N0, [14, 8.5])
 Relay  (SIZE_SMALL,  N0, [ 8, 8.5])

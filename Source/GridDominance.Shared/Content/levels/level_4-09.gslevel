@@ -23,7 +23,7 @@ Laser(SIZE_TINY, N0, [8 + 2.828, 5 + 2.828])
 
 Voidwall([14.0, 2.0], [14.0, -22])
 Cannon(SIZE_TINY,   N0, [15.0,  1.0], ROT_S)
-Cannon(SIZE_SMALL,  A3, [14.5,  5.0])
+Cannon(SIZE_SMALL,  A2, [14.5,  5.0])
 Cannon(SIZE_TINY,   N0, [15.0,  9.0], ROT_N)
 Voidwall([14.0, 8.0], [14.0, +22])
 

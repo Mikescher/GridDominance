@@ -5,7 +5,7 @@ include("stdvalues")
 init("2-22", "Gridlines", {b16b00b5-0001-4000-0000-000002000022}, KI_PRECALC_PATHTRACE)
 
 Cannon(SIZE_SMALL, P1, [1, 1])
-Cannon(SIZE_SMALL, A3, [15, 1])
+Cannon(SIZE_SMALL, A2, [15, 1])
 
 
 Voidwall_H([8, 3.5], 1.5)

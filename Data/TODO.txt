@@ -121,15 +121,15 @@ GRID_DOMINANCE [[TODO]]
 [X] Cannon that only barrel charges when boosted
 [X] Level 2-22::  background looks strange (no background blocking for neutral cannons ??)
 [?] inAppBilling Regression ??
-[ ] viewport stretched with onscreen hardkeys
+[X] viewport stretched with onscreen hardkeys
 [X] Unlock lower difficulties when solving higher ones
 [X] README.md
 [ ] AppStore stuff
 [ ] Levels W4
 [X] Relay cannon delay
 [X] Prevent relay cannon game_draw (or recognize it)
-[ ] Some grid arms with red AI | some with yellow (but still most with blue)
-[ ] perhaps show ai cols in graph
+[X] Some grid arms with red AI | some with yellow (but still most with blue)
+[X] perhaps show ai cols in graph
 
 ----------------------------
 

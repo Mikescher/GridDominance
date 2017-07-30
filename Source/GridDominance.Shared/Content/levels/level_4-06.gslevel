@@ -21,9 +21,9 @@ Relay(SIZE_SMALL, N0, [12, 8])
 Relay(SIZE_SMALL, N0, [12, 2])
 
 
-Cannon (SIZE_TINY,   A3, [15.0,  3])
-Minigun(SIZE_NORMAL, A3, [12.5,  5])
-Cannon (SIZE_TINY,   A3, [15.0,  7])
+Cannon (SIZE_TINY,   A2, [15.0,  3])
+Minigun(SIZE_NORMAL, A2, [12.5,  5])
+Cannon (SIZE_TINY,   A2, [15.0,  7])
 
 VoidCircle([15 - 1.5, 3 - 0.5], SIZE_TINY)
 VoidCircle([15 - 1.5, 7 + 0.5], SIZE_TINY)

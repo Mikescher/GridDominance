@@ -11,7 +11,7 @@ Cannon(SIZE_SMALL, N0, [ 8,  1], ROT_N)
 VoidWall_V([8,5], 6)
 Cannon(SIZE_SMALL, N0, [ 8,  9], ROT_S)
 
-Cannon(SIZE_SMALL, A3, [14,  5])
+Cannon(SIZE_SMALL, A2, [14,  5])
 
 
 

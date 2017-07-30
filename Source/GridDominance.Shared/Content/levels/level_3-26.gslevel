@@ -12,7 +12,7 @@ Laser(SIZE_NORMAL,  N0, [2,  8], ROT_E)
 VoidCircle([8, 5], SIZE_TINY)
 
 Laser(SIZE_NORMAL,  N0, [14,  2], ROT_W)
-Cannon(SIZE_NORMAL, A3, [14,  5], ROT_W)
+Cannon(SIZE_NORMAL, A4, [14,  5], ROT_W)
 Laser(SIZE_NORMAL,  N0, [14,  8], ROT_W)
 
 BlackHole([8, 2], 3)

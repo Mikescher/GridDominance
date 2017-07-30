@@ -39,7 +39,7 @@ Cannon(SIZE_TINY, N0, [3*2+1, 3*1.416 + 0.75])
 Cannon(SIZE_TINY, N0, [4*2+1, 3*1.416 + 0.75])
 Cannon(SIZE_TINY, N0, [5*2+1, 3*1.416 + 0.75])
 Cannon(SIZE_TINY, N0, [6*2+1, 3*1.416 + 0.75])
-Cannon(SIZE_TINY, A3, [7*2+1, 3*1.416 + 0.75])
+Cannon(SIZE_TINY, A2, [7*2+1, 3*1.416 + 0.75])
 
 Cannon(SIZE_TINY, N0, [0*2+1, 4*1.416 + 0.75])
 Cannon(SIZE_TINY, N0, [1*2+1, 4*1.416 + 0.75])

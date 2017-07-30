@@ -24,7 +24,7 @@ Cannon(SIZE_TINY, N0, [16-1, 6.33])
 Cannon(SIZE_TINY, N0, [16-1, 9])
 
 Cannon(SIZE_TINY,  N0, [16-3.33, 2.33])
-Cannon(SIZE_SMALL, A3, [16-3.33, 5])
+Cannon(SIZE_SMALL, A2, [16-3.33, 5])
 Cannon(SIZE_TINY,  N0, [16-3.33, 7.66])
 
 Cannon(SIZE_TINY, N0, [16-5.66, 3.66])

@@ -6,7 +6,7 @@ init("1-12", "Quarters", {b16b00b5-0001-4000-0000-000001000012}, KI_DYNAMIC_RAYT
 
 
 Cannon(SIZE_SMALL, P1, [7, 4], ROT_NW)
-Cannon(SIZE_SMALL, A3, [7, 6], ROT_SW)
+Cannon(SIZE_SMALL, A4, [7, 6], ROT_SW)
 
 Cannon(SIZE_SMALL, N0, [9, 4], ROT_NE)
 Cannon(SIZE_SMALL, N0, [9, 6], ROT_SE)

@@ -20,7 +20,7 @@ Voidwall([1,9], [3.25, 9])
 Voidwall([1, 6.25], [1,9])
 
 
-Cannon(SIZE_NORMAL, A3, [15, 5])
+Cannon(SIZE_NORMAL, A2, [15, 5])
 
 Cannon(SIZE_TINY, N0, [12, 1.00])
 Cannon(SIZE_TINY, N0, [12, 3.66])

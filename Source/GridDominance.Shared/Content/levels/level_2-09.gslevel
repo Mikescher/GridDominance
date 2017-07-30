@@ -20,7 +20,7 @@ Voidwall_V([10, 5], 4)
 Cannon(SIZE_SMALL, N0, [10,  8])
 
 VoidCircle([14,  1.5], SIZE_NORMAL)
-Cannon(SIZE_NORMAL, A3, [14, 5])
+Cannon(SIZE_NORMAL, A4, [14, 5])
 VoidCircle([14,  8.5], SIZE_NORMAL)
 
 
