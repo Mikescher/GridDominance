@@ -1,0 +1,57 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-19", "3x3 with Machine Guns", {b16b00b5-0001-4000-0000-000004000019}, KI_DYNAMIC_RAYTRACE)
+
+
+Minigun(SIZE_SMALL, N0, [ 2,  1])
+Cannon(SIZE_SMALL, N0, [ 2,  5])
+Minigun(SIZE_SMALL, N0, [ 2,  9])
+
+Cannon(SIZE_SMALL, P1, [ 8,  1])
+
+Relay(SIZE_SMALL, N0, [ 8,  5], ROT_E)
+
+Cannon(SIZE_SMALL, A2, [ 8,  9])
+
+Minigun(SIZE_SMALL, N0, [14,  1])
+Cannon(SIZE_SMALL, N0, [14,  5])
+Minigun(SIZE_SMALL, N0, [14,  9])
+
+Voidwall_h([8, 7], 3)
+Voidwall_h([8, 3], 3)
+
+Voidwall_v([5, 5], 1)
+Voidwall_v([11, 5], 1)
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #               / \               #
+#              <Z>          O          <Z>    
+#        1 #               \ /               #
+#                                             
+#        2 #                                 #
+#                         -----               
+#        3 #                                 #
+#                                             
+#        4 #                                 #
+#              <O>    |    <R>    |    <O>    
+#        5 #                                 #
+#                                             
+#        6 #                                 #
+#                         -----               
+#        7 #                                 #
+#                                             
+#        8 #               / \               #
+#              <Z>          O          <Z>    
+#        9 #               \ /               #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

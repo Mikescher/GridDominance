@@ -832,3 +832,28 @@
 /processor:GDLevelProcessor
 /build:levels/level_4-17.gslevel
 
+#begin levels/level_4-18.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/level_4-18.gslevel
+
+#begin levels/level_4-19.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/level_4-19.gslevel
+
+#begin levels/level_4-20.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/level_4-20.gslevel
+
+#begin levels/level_4-21.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/level_4-21.gslevel
+
+#begin levels/level_4-22.gslevel
+/importer:GDLevelImporter
+/processor:GDLevelProcessor
+/build:levels/level_4-22.gslevel
+

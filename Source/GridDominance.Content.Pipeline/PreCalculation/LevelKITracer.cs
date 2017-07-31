@@ -24,7 +24,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 		private int MAX_COUNT_REFLECT = 8;   // Laser
 
 		private bool NO_LASER_CORNER_HITS = false;
-		
+		private float REFRAC_CORNER_ENLARGE_FAC = 1;
+
 		private int RESOLUTION = 3600;
 
 		private float HITBOX_ENLARGE = 32;
@@ -52,6 +53,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_RESOULUTION, ref RESOLUTION);
 			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_MAX_LASERREFLECT, ref MAX_COUNT_REFLECT);
 			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_NO_LASER_CORNER_REFLECT, ref NO_LASER_CORNER_HITS);
+			lvl.GetConfig(LevelBlueprint.KI_CONFIG_TRACE_REFRAC_CORNER_ENLARGE_FAC, ref REFRAC_CORNER_ENLARGE_FAC);
 
 			foreach (var cannon in lvl.BlueprintCannons)
 				cannon.PrecalculatedPaths = PrecalcBullet(lvl, cannon);
@@ -614,7 +616,7 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				var p = ConvertUnits2.ToSimUnits(new FPoint(elem.X, elem.Y));
 				var rot = FloatMath.ToRadians(elem.Rotation);
 				var mw = GlassBlock.MARKER_WIDTH;
-				var cw = 10*GlassBlock.CORNER_WIDTH;
+				var cw = 10*GlassBlock.CORNER_WIDTH* REFRAC_CORNER_ENLARGE_FAC;
 
 				var bodyN = BodyFactory.CreateBody(pw, p, rot, BodyType.Static, marker_rn);
 				FixtureFactory.AttachRectangle(w, mw, 1, new Vector2(0, -(h - mw) / 2f), bodyN, marker_rn);

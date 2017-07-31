@@ -1,0 +1,46 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-21", "Three Color Hexagon", {b16b00b5-0001-4000-0000-000004000021}, KI_PRECALC_PATHTRACE)
+
+
+Cannon(SIZE_SMALL, P1, [8,  5-3.5], ROT_E)
+Cannon(SIZE_SMALL, A2, [8-3.03,  5+1.75], ROT_E)
+Cannon(SIZE_SMALL, A4, [8+3.03,  5+1.75], ROT_E)
+
+Shielder(SIZE_SMALL, N0, [8,  5])
+
+Relay(SIZE_TINY, N0, [8,  5+3.5])
+Relay(SIZE_TINY, N0, [8-3.03,  5-1.75])
+Relay(SIZE_TINY, N0, [8+3.03,  5-1.75])
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                          / \                
+#        1 #                O                #
+#                          \ /                
+#        2 #                                 #
+#                    <R>         <R>          
+#        3 #                                 #
+#                                             
+#        4 #                                 #
+#                          <§>                
+#        5 #                                 #
+#                    / \         / \          
+#        6 #                                 #
+#                    \O/         \O/          
+#        7 #                                 #
+#                                             
+#        8 #               <R>               #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

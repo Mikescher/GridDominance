@@ -1,0 +1,54 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-20", "Eyes", {b16b00b5-0001-4000-0000-000004000020}, KI_DYNAMIC_RAYTRACE)
+
+
+Cannon(SIZE_NORMAL, P1, [1.5,  5], ROT_E)
+
+Cannon(SIZE_SMALL, N0, [5, 1], ROT_SW)
+VoidCircle(            [5, 5], 2.5)
+Cannon(SIZE_SMALL, N0, [5, 9], ROT_NW)
+
+Shielder(SIZE_SMALL, N0, [8, 8], ROT_NW)
+
+Cannon(SIZE_SMALL, N0, [11, 1], ROT_SE)
+VoidCircle(            [11, 5], 2.5)
+Cannon(SIZE_SMALL, N0, [11, 9], ROT_NE)
+
+Cannon(SIZE_NORMAL, A2, [14.5,  5], ROT_W)
+
+VoidWall([8, -10], [8, 3])
+#VoidWall_H([8, 7],   4)
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                           |                 
+#        0 #                |                #
+#                    <O>    |    <O>          
+#        1 #                |                #
+#                           |                 
+#        2 #                |                #
+#                                             
+#        3 #                                 #
+#                                             
+#        4 #  / \                       / \  #
+#              O     (X)         (X)     O    
+#        5 #  \ /                       \ /  #
+#                                             
+#        6 #                                 #
+#                                             
+#        7 #                                 #
+#                          <§>                
+#        8 #                                 #
+#                    <O>         <O>          
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

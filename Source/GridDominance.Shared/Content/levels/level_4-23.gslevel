@@ -1,0 +1,55 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-23", "Battle Boxes", {b16b00b5-0001-4000-0000-000004000023}, KI_PRECALC_PATHTRACE)
+config(KI_CFG_TRACE_MAX_BULLETBOUNCE, 2)
+
+Cannon(SIZE_SMALL, P1, [ 1.5,  1.5])
+Laser(SIZE_SMALL, N0, [ 8.0,  1.0])
+Shielder(SIZE_SMALL, N0, [14.5,  1.5])
+
+Laser(SIZE_SMALL, N0, [ 1.5,  5.0])
+Minigun(SIZE_BIG, N0, [ 8.0,  5.0])
+Laser(SIZE_SMALL, N0, [14.5,  5.0])
+
+Shielder(SIZE_SMALL, N0, [ 1.5,  8.5])
+Laser(SIZE_SMALL, N0, [ 8.0,  9.0])
+Cannon(SIZE_SMALL, A3, [14.5,  8.5])
+
+MirrorBlock([ 4.5, 3], 4, 2)
+MirrorBlock([11.5, 3], 4, 2)
+MirrorBlock([ 4.5, 7], 4, 2)
+MirrorBlock([11.5, 7], 4, 2)
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#             / \          <+>                
+#        1 #   O                        <§>  #
+#             \ /                             
+#        2 #      NNNNNNN       NNNNNNN      #
+#                 NNNNNNN       NNNNNNN       
+#        3 #      NNNNNNN       NNNNNNN      #
+#                                             
+#        4 #                                 #
+#             <+>          <Z>          <+>   
+#        5 #                                 #
+#                                             
+#        6 #      NNNNNNN       NNNNNNN      #
+#                 NNNNNNN       NNNNNNN       
+#        7 #      NNNNNNN       NNNNNNN      #
+#                                       / \   
+#        8 #  <§>                        O   #
+#                          <+>          \ /   
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

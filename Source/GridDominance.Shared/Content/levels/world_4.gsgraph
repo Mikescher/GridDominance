@@ -22,6 +22,16 @@ alias(LVL_16, {b16b00b5-0001-4000-0000-000004000016})
 alias(LVL_17, {b16b00b5-0001-4000-0000-000004000017})
 alias(LVL_18, {b16b00b5-0001-4000-0000-000004000018})
 alias(LVL_19, {b16b00b5-0001-4000-0000-000004000019})
+alias(LVL_20, {b16b00b5-0001-4000-0000-000004000020})
+alias(LVL_21, {b16b00b5-0001-4000-0000-000004000021})
+alias(LVL_22, {b16b00b5-0001-4000-0000-000004000022})
+alias(LVL_23, {b16b00b5-0001-4000-0000-000004000023})
+alias(LVL_24, {b16b00b5-0001-4000-0000-000004000024})
+alias(LVL_25, {b16b00b5-0001-4000-0000-000004000025})
+alias(LVL_26, {b16b00b5-0001-4000-0000-000004000026})
+alias(LVL_27, {b16b00b5-0001-4000-0000-000004000027})
+alias(LVL_28, {b16b00b5-0001-4000-0000-000004000028})
+alias(LVL_29, {b16b00b5-0001-4000-0000-000004000029})
 
 root([-7, 0], WORLD_4)
   connect(LVL_01, LIN)
@@ -72,10 +82,34 @@ node([-7, 18], LVL_13)
 node([0, 6], LVL_14)
   connect(LVL_15, LIN)
   connect(LVL_16, CW)
+  connect(LVL_18, CCW)
 
 node([0, 12], LVL_15)
 
-node([7, 12], LVL_16)
-  connect(GAME_END, LIN)
+node([6, 12], LVL_16)
+  connect(LVL_17, LIN)
 
-warp([24, 12], GAME_END)
+node([12, 12], LVL_17)
+  connect(LVL_18, CCW)
+
+node([6, 0],   LVL_18)
+  connect(LVL_19, LIN)
+
+node([6, -7],  LVL_19)
+  connect(LVL_20, LIN)
+  connect(LVL_21, LIN)
+  
+node([13, -7],  LVL_21)
+
+node([6, -13], LVL_20)
+  connect(LVL_22, LIN)
+  
+node([13, -13], LVL_22)
+  connect(LVL_23, LIN)
+  
+node([20, -13], LVL_23)
+  connect(LVL_24, LIN)
+  
+node([20, 0], LVL_24)
+
+#warp([24, 12], GAME_END)

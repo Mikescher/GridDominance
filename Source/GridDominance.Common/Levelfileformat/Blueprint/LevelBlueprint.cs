@@ -17,15 +17,16 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const int WRAPMODE_DONUT = 102;
 		public const int WRAPMODE_SOLID = 103;
 
-		public const int KI_CONFIG_TRACE_MAX_BULLETBOUNCE        = 200;
-		public const int KI_CONFIG_TRACE_MAX_LASERREFLECT        = 201;
-		public const int KI_CONFIG_TRACE_RESOULUTION             = 202;
-		public const int KI_CONFIG_TRACE_HITBOX_ENLARGE          = 203;
-		public const int KI_CONFIG_SIMULATION_RESOLUTION         = 204;
-		public const int KI_CONFIG_SIMULATION_SCATTERTRUST       = 205;
-		public const int KI_CONFIG_SIMULATION_UPS                = 206;
-		public const int KI_CONFIG_SIMULATION_LIFETIME_FAC       = 207;
-		public const int KI_CONFIG_TRACE_NO_LASER_CORNER_REFLECT = 208;
+		public const int KI_CONFIG_TRACE_MAX_BULLETBOUNCE          = 200;
+		public const int KI_CONFIG_TRACE_MAX_LASERREFLECT          = 201;
+		public const int KI_CONFIG_TRACE_RESOULUTION               = 202;
+		public const int KI_CONFIG_TRACE_HITBOX_ENLARGE            = 203;
+		public const int KI_CONFIG_SIMULATION_RESOLUTION           = 204;
+		public const int KI_CONFIG_SIMULATION_SCATTERTRUST         = 205;
+		public const int KI_CONFIG_SIMULATION_UPS                  = 206;
+		public const int KI_CONFIG_SIMULATION_LIFETIME_FAC         = 207;
+		public const int KI_CONFIG_TRACE_NO_LASER_CORNER_REFLECT   = 208;
+		public const int KI_CONFIG_TRACE_REFRAC_CORNER_ENLARGE_FAC = 209;
 
 		public const byte SERIALIZE_ID_CANNON          = 0x01; 
 		public const byte SERIALIZE_ID_VOIDWALL        = 0x05;

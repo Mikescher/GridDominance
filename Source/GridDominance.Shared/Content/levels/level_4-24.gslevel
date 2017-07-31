@@ -1,0 +1,122 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-24", "Per Herbam Ad Astra", {b16b00b5-0001-4000-0000-000004000024}, KI_PRECALC_PATHTRACE)
+
+setview(16*2, 10*2, [8*2, 5*2])
+config(KI_CFG_SIMULATION_SCATTERTRUST, 2)
+config(KI_CFG_SIMULATION_LIFETIME_FACTOR, 0.25)
+
+Cannon(SIZE_SMALL, N0, [4,  2], ROT_E)
+Relay(SIZE_SMALL, N0, [5,  5], ROT_E)
+Shielder(SIZE_NORMAL,  N0, [3, 10], ROT_E)
+Relay(SIZE_SMALL, N0, [5, 15], ROT_E)
+Cannon(SIZE_SMALL, N0, [4, 18], ROT_E)
+
+Cannon(SIZE_SMALL, N0, [10,  2], ROT_E)
+Cannon(SIZE_SMALL, N0, [10,  6], ROT_E)
+Minigun(SIZE_SMALL, P1, [10, 10], ROT_E)
+Cannon(SIZE_SMALL, N0, [10, 14], ROT_E)
+Cannon(SIZE_SMALL, N0, [10, 18], ROT_E)
+
+text([16,  6.5], 8, 2, HINT_006)
+
+Trishot(SIZE_SMALL, N0, [16,  2], ROT_S)
+#Cannon(SIZE_SMALL, P1, [16,  6], ROT_S)
+Laser(SIZE_BIG, N0, [16, 10], ROT_E)
+Cannon(SIZE_SMALL, N0, [16, 14], ROT_N)
+Trishot(SIZE_SMALL, N0, [16, 18], ROT_N)
+
+Cannon(SIZE_SMALL, N0, [22,  2], ROT_W)
+Cannon(SIZE_SMALL, N0, [22,  6], ROT_W)
+Minigun(SIZE_SMALL, A2, [22, 10], ROT_W)
+Cannon(SIZE_SMALL, N0, [22, 14], ROT_W)
+Cannon(SIZE_SMALL, N0, [22, 18], ROT_W)
+
+Cannon(SIZE_SMALL, N0, [28,  2], ROT_W)
+Relay(SIZE_SMALL, N0, [27,  5], ROT_W)
+Shielder(SIZE_NORMAL,  N0, [29, 10], ROT_W)
+Relay(SIZE_SMALL, N0, [27, 15], ROT_W)
+Cannon(SIZE_SMALL, N0, [28, 18], ROT_W)
+
+
+
+Voidwall_h([16, 12], 3)
+Voidwall_h([16,  8], 3)
+
+Voidwall_v([13, 10], 1)
+Voidwall_v([19, 10], 1)
+
+
+
+VoidWall_R([ 8,  2], 2, ROT_N)
+VoidWall_R([12,  2], 2, ROT_N)
+
+VoidWall_R([ 8, 18], 2, ROT_N)
+VoidWall_R([12, 18], 2, ROT_N)
+
+VoidWall_R([20,  2], 2, ROT_N)
+VoidWall_R([24,  2], 2, ROT_N)
+
+VoidWall_R([20, 18], 2, ROT_N)
+VoidWall_R([24, 18], 2, ROT_N)
+
+VoidCircle([ 7,  8], 3.2)
+VoidCircle([ 7, 12], 3.2)
+
+VoidCircle([25,  8], 3.2)
+VoidCircle([25, 12], 3.2)
+
+
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V
+#          # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                                                                             
+#        0 #                                                                 #
+#                                                                             
+#        1 #                |       |               |       |                #
+#                  <O>      |  <O>  |      <T>      |  <O>  |      <O>        
+#        2 #                |       |               |       |                #
+#                                                                             
+#        3 #                                                                 #
+#                                                                             
+#        4 #                                                                 #
+#                    <R>                                         <R>          
+#        5 #                                                                 #
+#                              <O>                     <O>                    
+#        6 #                                                                 #
+#                                                                             
+#        7 #                                                                 #
+#                        (X)              -----              (X)              
+#        8 #                                                                 #
+#                                                                             
+#        9 #                   / \                     / \                   #
+#                <§>            Z     |    <+>    |     Z            <§>      
+#        10 #                   \ /                     \ /                   #
+#                                                                             
+#        11 #                                                                 #
+#                        (X)              -----              (X)              
+#        12 #                                                                 #
+#                                                                             
+#        13 #                                                                 #
+#                              <O>         <O>         <O>                    
+#        14 #                                                                 #
+#                    <R>                                         <R>          
+#        15 #                                                                 #
+#                                                                             
+#        16 #                                                                 #
+#                                                                             
+#        17 #                |       |               |       |                #
+#                  <O>      |  <O>  |      <T>      |  <O>  |      <O>        
+#        18 #                |       |               |       |                #
+#                                                                             
+#        19 #                                                                 #
+#                                                                             
+#          # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#</map>
+
