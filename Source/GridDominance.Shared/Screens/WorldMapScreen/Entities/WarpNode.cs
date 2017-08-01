@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -105,22 +106,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				return;
 			}
 
-			if (GDConstants.USE_IAB)
+			if (UnlockManager.IsUnlocked(Blueprint.TargetWorld, true) == WorldUnlockState.Unlocked)
 			{
-				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.TargetWorld))
-				{
-					Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
-					MainGame.Inst.GDSound.PlayEffectZoomOut();
-				}
-				else
-				{
-					Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded));
-					MainGame.Inst.GDSound.PlayEffectZoomOut();
-				}
+				Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
+				MainGame.Inst.GDSound.PlayEffectZoomOut();
 			}
 			else
 			{
-				Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
+				Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded));
 				MainGame.Inst.GDSound.PlayEffectZoomOut();
 			}
 		}

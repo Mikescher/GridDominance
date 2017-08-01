@@ -7,9 +7,9 @@ namespace GridDominance.Graphfileformat.Blueprint
 {
 	public class GraphBlueprint
 	{
-		public IEnumerable<INodeBlueprint> AllNodes => new INodeBlueprint[] {RootNode}.Concat(Nodes.Cast<INodeBlueprint>()).Concat(WarpNodes.Cast<INodeBlueprint>());
+		public IEnumerable<INodeBlueprint> AllNodes => new INodeBlueprint[] {RootNode}.Concat(LevelNodes.Cast<INodeBlueprint>()).Concat(WarpNodes.Cast<INodeBlueprint>());
 
-		public readonly List<NodeBlueprint> Nodes = new List<NodeBlueprint>();
+		public readonly List<NodeBlueprint> LevelNodes = new List<NodeBlueprint>();
 		public readonly List<WarpNodeBlueprint> WarpNodes = new List<WarpNodeBlueprint>();
 		public RootNodeBlueprint RootNode = new RootNodeBlueprint(float.NaN, float.NaN, Guid.Empty);
 
@@ -35,18 +35,18 @@ namespace GridDominance.Graphfileformat.Blueprint
 				bw.Write(RootNode.OutgoingPipes[j].Priority);
 			}
 
-			bw.Write((byte)Nodes.Count);
-			for (int i = 0; i < Nodes.Count; i++)
+			bw.Write((byte)LevelNodes.Count);
+			for (int i = 0; i < LevelNodes.Count; i++)
 			{
-				bw.Write(Nodes[i].X);
-				bw.Write(Nodes[i].Y);
-				bw.Write(Nodes[i].LevelID.ToByteArray());
-				bw.Write((byte)Nodes[i].OutgoingPipes.Count);
-				for (int j = 0; j < Nodes[i].OutgoingPipes.Count; j++)
+				bw.Write(LevelNodes[i].X);
+				bw.Write(LevelNodes[i].Y);
+				bw.Write(LevelNodes[i].LevelID.ToByteArray());
+				bw.Write((byte)LevelNodes[i].OutgoingPipes.Count);
+				for (int j = 0; j < LevelNodes[i].OutgoingPipes.Count; j++)
 				{
-					bw.Write(Nodes[i].OutgoingPipes[j].Target.ToByteArray());
-					bw.Write((byte)Nodes[i].OutgoingPipes[j].PipeOrientation);
-					bw.Write(Nodes[i].OutgoingPipes[j].Priority);
+					bw.Write(LevelNodes[i].OutgoingPipes[j].Target.ToByteArray());
+					bw.Write((byte)LevelNodes[i].OutgoingPipes[j].PipeOrientation);
+					bw.Write(LevelNodes[i].OutgoingPipes[j].Priority);
 				}
 			}
 
@@ -85,7 +85,7 @@ namespace GridDominance.Graphfileformat.Blueprint
 			}
 
 			int ncount1 = br.ReadByte();
-			Nodes.Clear();
+			LevelNodes.Clear();
 			for (int i = 0; i < ncount1; i++)
 			{
 				var nx = br.ReadSingle();
@@ -102,7 +102,7 @@ namespace GridDominance.Graphfileformat.Blueprint
 					var pri = br.ReadByte();
 					node.OutgoingPipes.Add(new PipeBlueprint(pid, por, pri));
 				}
-				Nodes.Add(node);
+				LevelNodes.Add(node);
 			}
 
 			int ncount2 = br.ReadByte();
@@ -148,7 +148,7 @@ namespace GridDominance.Graphfileformat.Blueprint
 
 			// ======== 2 ========
 
-			foreach (var pipe in Nodes.SelectMany(n => n.OutgoingPipes).Concat(RootNode.OutgoingPipes))
+			foreach (var pipe in LevelNodes.SelectMany(n => n.OutgoingPipes).Concat(RootNode.OutgoingPipes))
 			{
 				if (AllNodes.Count(n => n.ConnectionID == pipe.Target) < 0) throw new Exception("pipe target not found: " + pipe.Target);
 				if (AllNodes.Count(n => n.ConnectionID == pipe.Target) > 1) throw new Exception("Non-unique pipe target: " + pipe.Target);
@@ -156,13 +156,13 @@ namespace GridDominance.Graphfileformat.Blueprint
 
 			// ======== 3 ========
 
-			foreach (var p in RootNode.OutgoingPipes) WalkGraphAndFindLoops(Nodes.Single(n => n.LevelID == p.Target), new List<INodeBlueprint>());
+			foreach (var p in RootNode.OutgoingPipes) WalkGraphAndFindLoops(LevelNodes.Single(n => n.LevelID == p.Target), new List<INodeBlueprint>());
 
 			// ======== 4 ========
 
-			var nl = Nodes.Cast<INodeBlueprint>().Concat(WarpNodes.Cast<INodeBlueprint>()).ToList();
+			var nl = LevelNodes.Cast<INodeBlueprint>().Concat(WarpNodes.Cast<INodeBlueprint>()).ToList();
 			var ns = new Stack<INodeBlueprint>();
-			foreach (var p in RootNode.OutgoingPipes) ns.Push(Nodes.Single(n => n.LevelID == p.Target));
+			foreach (var p in RootNode.OutgoingPipes) ns.Push(LevelNodes.Single(n => n.LevelID == p.Target));
 			while (ns.Any())
 			{
 				var bp = ns.Pop();

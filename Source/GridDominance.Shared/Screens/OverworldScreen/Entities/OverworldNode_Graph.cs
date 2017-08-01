@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using GridDominance.Shared.Screens.Common;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
@@ -17,8 +18,6 @@ using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.Localization;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
-using GridDominance.Shared.Screens.WorldMapScreen;
-using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
 
 // ReSharper disable HeuristicUnreachableCode
@@ -26,9 +25,7 @@ using MonoSAMFramework.Portable.LogProtocol;
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	public abstract class OverworldNode_Graph : OverworldNode
-	{ 
-		protected enum UnlockState { Locked, Unlocked, NeedsPurchase }
-		
+	{
 		public readonly GraphBlueprint PreviousWorld;
 		public readonly GraphBlueprint Blueprint;
 		public readonly string IABCode;
@@ -37,7 +34,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private readonly float _swingPeriode = 4f;
 
-		public override bool IsNodeEnabled => IsUnlocked(false) == UnlockState.Unlocked;
+		protected WorldUnlockState _ustate;
+
+		public override bool IsNodeEnabled => _ustate == WorldUnlockState.Unlocked;
 
 		public OverworldNode_Graph(GDOverworldScreen scrn, FPoint pos, GraphBlueprint world, GraphBlueprint prev, string iab) 
 			: base(scrn, pos, Levels.WORLD_NAMES[world.ID], world.ID)
@@ -52,19 +51,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			solvedPerc[FractionDifficulty.DIFF_3] = GetSolvePercentage(FractionDifficulty.DIFF_3);
 
 			_swingPeriode *= FloatMath.GetRangedRandom(0.85f, 1.15f);
+
+			_ustate = UnlockManager.IsUnlocked(world, false);
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			switch (IsUnlocked(false))
+			switch (_ustate)
 			{
-				case UnlockState.Locked:
+				case WorldUnlockState.FullyLocked:
 					DrawLockSwing(sbatch);
 					break;
-				case UnlockState.Unlocked:
+				case WorldUnlockState.Unlocked:
 					DrawGridProgress(sbatch);
 					break;
-				case UnlockState.NeedsPurchase:
+				case WorldUnlockState.NeedsAction:
 					DrawGridEmpty(sbatch);
 					break;
 				default:
@@ -157,9 +158,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private float GetSolvePercentage(FractionDifficulty d)
 		{
-			int c = Blueprint.Nodes.Count(n => MainGame.Inst.Profile.GetLevelData(n.LevelID).HasCompleted(d));
+			int c = Blueprint.LevelNodes.Count(n => MainGame.Inst.Profile.GetLevelData(n.LevelID).HasCompleted(d));
 
-			return c * 1f / Blueprint.Nodes.Count;
+			return c * 1f / Blueprint.LevelNodes.Count;
 		}
 
 		private bool IsCellActive(FractionDifficulty d, int idx)
@@ -191,83 +192,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				}
 			}
 		}
-
-		protected bool? _isWorldReachable = null;
-		protected bool? _isWorldManuallyUnlocked = null;
-
-		protected virtual UnlockState IsUnlocked(bool toast)
-		{
-			_isWorldReachable = _isWorldReachable ?? BlueprintAnalyzer.IsWorldReachable(PreviousWorld, Blueprint);
-			_isWorldManuallyUnlocked = _isWorldManuallyUnlocked ?? BlueprintAnalyzer.IsWorld100Percent(PreviousWorld);
-
-			if (GDConstants.USE_IAB)
-			{
-				// LIGHT VERSION
-
-				if (_isWorldReachable ==  false) return UnlockState.Locked;
-
-				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(IABCode);
-
-				if (ip == PurchaseQueryResult.Refunded)
-				{
-					if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID))
-					{
-						SAMLog.Debug("Level refunded: " + Blueprint.ID);
-						MainGame.Inst.Profile.PurchasedWorlds.Remove(Blueprint.ID);
-						MainGame.Inst.SaveProfile();
-					}
-					return UnlockState.NeedsPurchase;
-				}
-
-				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID)) return UnlockState.Unlocked;
-
-				if (_isWorldManuallyUnlocked == true) return UnlockState.Unlocked;
-				
-
-				switch (ip)
-				{
-					case PurchaseQueryResult.Purchased:
-						MainGame.Inst.Profile.PurchasedWorlds.Add(Blueprint.ID);
-						MainGame.Inst.SaveProfile();
-						return UnlockState.Unlocked;
-
-					case PurchaseQueryResult.NotPurchased:
-					case PurchaseQueryResult.Cancelled:
-						return UnlockState.NeedsPurchase;
-
-					case PurchaseQueryResult.Error:
-						if (toast) Owner.HUD.ShowToast("ONG::E1", L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-						return UnlockState.NeedsPurchase;
-
-					case PurchaseQueryResult.Refunded:
-						if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Blueprint.ID))
-						{
-							SAMLog.Debug("Level refunded: " + Blueprint.ID);
-							MainGame.Inst.Profile.PurchasedWorlds.Remove(Blueprint.ID);
-							MainGame.Inst.SaveProfile();
-						}
-						return UnlockState.NeedsPurchase;
-
-					case PurchaseQueryResult.NotConnected:
-						if (toast) Owner.HUD.ShowToast("ONG::E2", L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-						return UnlockState.NeedsPurchase;
-
-					case PurchaseQueryResult.CurrentlyInitializing:
-						if (toast) Owner.HUD.ShowToast("ONG::E3", L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-						return UnlockState.NeedsPurchase;
-
-					default:
-						SAMLog.Error("EnumSwitch_IU", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD " + Blueprint?.ID + ")) -> " + ip);
-						return UnlockState.NeedsPurchase;
-				}
-			}
-			else
-			{
-				// FULL VERSION
-
-				return _isWorldReachable.Value ? UnlockState.Unlocked : UnlockState.Locked;
-			}
-		}
 		
 		protected override void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
 		{
@@ -277,7 +201,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			if (DebugSettings.Get("WorldPreview")) { MainGame.Inst.Profile.PurchasedWorlds.Clear(); ShowPreview(); return; }
 #endif
 
-			if (IsUnlocked(true) == UnlockState.Unlocked)
+			_ustate = UnlockManager.IsUnlocked(Blueprint, true);
+
+			if (_ustate == WorldUnlockState.Unlocked)
 			{
 				OnClickAccept();
 			}

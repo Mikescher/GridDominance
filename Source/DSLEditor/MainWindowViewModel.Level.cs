@@ -235,7 +235,7 @@ namespace GridDominance.DSLEditor
 
 			foreach (var map in maps)
 			{
-				var levels = alllevels.Where(l => map.Item2.Nodes.Any(n => n.LevelID == l.Item2.UniqueID)).ToList();
+				var levels = alllevels.Where(l => map.Item2.LevelNodes.Any(n => n.LevelID == l.Item2.UniqueID)).ToList();
 
 				OutputOverview(levels, Path.Combine(folder, @"..\..\..\..\Data\overview_"+Path.GetFileNameWithoutExtension(map.Item1)+".png"));
 

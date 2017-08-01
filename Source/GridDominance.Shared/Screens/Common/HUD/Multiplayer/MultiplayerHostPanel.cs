@@ -42,7 +42,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private HUDLabel _lblLevelID2;
 
 		private GraphBlueprint _currentWorld = Levels.WORLD_001;
-		private LevelBlueprint _currentLevel = Levels.LEVELS[Levels.WORLD_001.Nodes.First().LevelID];
+		private LevelBlueprint _currentLevel = Levels.LEVELS[Levels.WORLD_001.LevelNodes.First().LevelID];
 		private int _levelUserCount = 2;
 
 		private HUDSubScreenProxyRenderer _displayScreen;
@@ -490,13 +490,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			i1 = (i1 + delta + Levels.WORLDS_MULTIPLAYER.Length) % Levels.WORLDS_MULTIPLAYER.Length;
 			_currentWorld = Levels.WORLDS_MULTIPLAYER[i1];
 
-			_currentLevel = Levels.LEVELS[_currentWorld.Nodes.First().LevelID];
+			_currentLevel = Levels.LEVELS[_currentWorld.LevelNodes.First().LevelID];
 			UpdateLabels();
 		}
 
 		private void ChangeID2(int delta)
 		{
-			var data = _currentWorld.Nodes.Select(n => Levels.LEVELS[n.LevelID]).OrderBy(n => n.Name.Split('-').Last().PadLeft(3, '0')).ToList();
+			var data = _currentWorld.LevelNodes.Select(n => Levels.LEVELS[n.LevelID]).OrderBy(n => n.Name.Split('-').Last().PadLeft(3, '0')).ToList();
 			var idx = data.IndexOf(_currentLevel);
 
 			idx = (idx + data.Count + delta) % data.Count;

@@ -78,7 +78,7 @@ namespace GridDominance.Graphfileformat
 			var node = new NodeBlueprint(px, py, id);
 
 			_currentNode = node;
-			_result.Nodes.Add(node);
+			_result.LevelNodes.Add(node);
 		}
 
 		private void AddWarpNode(List<string> methodParameter)

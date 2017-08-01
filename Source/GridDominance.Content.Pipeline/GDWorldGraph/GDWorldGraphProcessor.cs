@@ -18,7 +18,7 @@ namespace GridDominance.Content.Pipeline.GDWorldGraph
 
 			BlueprintPreprocessor.ProcessGraph(gf);
 
-			Console.WriteLine("Parsing file with " + gf.Nodes.Count + " node definitions");
+			Console.WriteLine("Parsing file with " + gf.LevelNodes.Count + " node definitions");
 
 			return gf;
 		}

@@ -205,7 +205,7 @@ namespace GridDominance.DSLEditor
 				foreach (var ww in worlds)
 				{
 					txt2.AppendLine();
-					foreach (var nn in ww.Nodes)
+					foreach (var nn in ww.LevelNodes)
 					{
 						var ll = levels.First(l => l.UniqueID == nn.LevelID);
 						txt2.AppendLine($"\t[ '{ww.ID:B}', '{ll.UniqueID:B}' ], // {ll.Name,-8} | {ll.FullName}");

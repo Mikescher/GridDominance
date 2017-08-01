@@ -69,6 +69,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Elements\SubSettingButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\ParticlePresets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\SubSettingClickZone.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\UnlockManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\Background\EndGameBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameEntityManager.cs" />

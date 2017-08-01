@@ -1,5 +1,6 @@
 ﻿using System;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DeviceBridge;
@@ -24,7 +25,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		public override int Depth => 0;
 
-		private bool _unlocked;
+		private WorldUnlockState _ustate;
 
 		public MultiplayerMainPanel()
 		{
@@ -33,7 +34,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 
-			_unlocked = IsUnlocked(true);
+			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, true);
 		}
 
 		public override void OnInitialize()
@@ -156,7 +157,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Click = OnClickJoinOnline,
 			});
 
-			if (_unlocked)
+			if (_ustate == WorldUnlockState.Unlocked)
 			{
 				AddElement(new HUDTextButton
 				{
@@ -299,79 +300,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			if (!Alive) return;
 
-			if (!_unlocked)
+			if (_ustate != WorldUnlockState.Unlocked)
 			{
-				if (IsUnlocked(false))
+				_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, false);
+
+				if (_ustate == WorldUnlockState.Unlocked)
 				{
 					Remove();
 					Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f);
 				}
-			}
-		}
-
-		private bool IsUnlocked(bool toast)
-		{
-			if (GDConstants.USE_IAB)
-			{
-				// LIGHT VERSION
-
-				var ip = MainGame.Inst.Bridge.IAB.IsPurchased(GDConstants.IAB_MULTIPLAYER);
-
-				if (ip == PurchaseQueryResult.Refunded)
-				{
-					if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
-					{
-						SAMLog.Debug("Level refunded: " + Levels.WORLD_ID_MULTIPLAYER);
-						MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
-						MainGame.Inst.SaveProfile();
-					}
-					return false;
-				}
-
-				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER)) return true;
-
-				switch (ip)
-				{
-					case PurchaseQueryResult.Purchased:
-						MainGame.Inst.Profile.PurchasedWorlds.Add(Levels.WORLD_ID_MULTIPLAYER);
-						MainGame.Inst.SaveProfile();
-						return true;
-
-					case PurchaseQueryResult.NotPurchased:
-					case PurchaseQueryResult.Cancelled:
-						return false;
-
-					case PurchaseQueryResult.Error:
-						if (toast) MainGame.Inst.ShowToast("MMP_IU::ERR1", L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-						return false;
-
-					case PurchaseQueryResult.Refunded:
-						if (MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER))
-						{
-							SAMLog.Debug("Level refunded: " + Levels.WORLD_ID_MULTIPLAYER);
-							MainGame.Inst.Profile.PurchasedWorlds.Remove(Levels.WORLD_ID_MULTIPLAYER);
-							MainGame.Inst.SaveProfile();
-						}
-						return false;
-
-					case PurchaseQueryResult.NotConnected:
-						if (toast) MainGame.Inst.ShowToast("MMP_IU::ERR2", L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-						return false;
-
-					case PurchaseQueryResult.CurrentlyInitializing:
-						if (toast) MainGame.Inst.ShowToast("MMP_IU::ERR3", L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-						return false;
-
-					default:
-						SAMLog.Error("MMP::EnumSwitch_IU-MP", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_MULTIPLAYER)) -> " + ip);
-						return false;
-				}
-			}
-			else
-			{
-				// FULL VERSION
-
-				return true;
 			}
 		}
 	}

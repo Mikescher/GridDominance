@@ -1,6 +1,7 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Levelfileformat.Blueprint;
 using System;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
@@ -15,14 +16,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		protected override void OnClickDeny()
 		{
-			if (_isWorldReachable == false)
-			{
-				base.OnClickDeny();
-			}
-			else
-			{
-				ShowPreview();
-			}
+			if (_ustate == WorldUnlockState.NeedsAction) { ShowPreview(); return; }
+
+			base.OnClickDeny();
 		}
 
 		protected override void ShowPreview()

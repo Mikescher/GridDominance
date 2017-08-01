@@ -392,7 +392,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			foreach (var world in Levels.WORLDS_MULTIPLAYER)
 			{
-				foreach (var item in world.Nodes.Select(p => Levels.LEVELS[p.LevelID]).Where(l => BlueprintAnalyzer.PlayerCount(l) == _server.SessionCapacity))
+				foreach (var item in world.LevelNodes.Select(p => Levels.LEVELS[p.LevelID]).Where(l => BlueprintAnalyzer.PlayerCount(l) == _server.SessionCapacity))
 				{
 					if (item.UniqueID == _serverHost.LevelID) continue;
 

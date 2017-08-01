@@ -39,7 +39,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 		private void InitEntities(GraphBlueprint g)
 		{
-			foreach (var bpNode in g.Nodes)
+			foreach (var bpNode in g.LevelNodes)
 			{
 				LevelBlueprint f;
 				if (Levels.LEVELS.TryGetValue(bpNode.LevelID, out f))
@@ -95,7 +95,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				InitialNode.CreatePipe(sinknode, pipe.PipeOrientation);
 			}
 
-			foreach (var bpNode in g.Nodes)
+			foreach (var bpNode in g.LevelNodes)
 			{
 				var sourcenode = Nodes.FirstOrDefault(n => n.ConnectionID == bpNode.LevelID);
 				if (sourcenode == null)

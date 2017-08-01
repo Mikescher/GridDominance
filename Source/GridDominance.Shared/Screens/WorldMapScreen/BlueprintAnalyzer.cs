@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen.Background;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen
@@ -88,7 +90,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			var p = MainGame.Inst.Profile;
 			
-			foreach (var levelnode in g.Nodes)
+			foreach (var levelnode in g.LevelNodes)
 			{
 				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_0)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_0); }
 				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_1)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_1); }
@@ -98,16 +100,16 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 		}
 
-		public static bool? IsWorldReachable(GraphBlueprint world, GraphBlueprint target)
+		public static bool IsWorldReachable(GraphBlueprint world, Guid targetid)
 		{
-			var supplyNodes = world.Nodes.Where(n => n.OutgoingPipes.Any(p => p.Target == target.ID));
+			var supplyNodes = world.LevelNodes.Where(n => n.OutgoingPipes.Any(p => p.Target == targetid));
 
 			return supplyNodes.Any(l => MainGame.Inst.Profile.GetLevelData(l).HasAnyCompleted());
 		}
 
-		public static bool? IsWorld100Percent(GraphBlueprint world)
+		public static bool IsWorld100Percent(GraphBlueprint world)
 		{
-			return world.Nodes.All(n => MainGame.Inst.Profile.GetLevelData(n).HasAllCompleted());
+			return world.LevelNodes.All(n => MainGame.Inst.Profile.GetLevelData(n).HasAllCompleted());
 		}
 
 		public static int PlayerCount(LevelBlueprint lvl)
@@ -125,6 +127,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (lvl.AllCannons.Any(c => c.Fraction == 2)) yield return 2;
 			if (lvl.AllCannons.Any(c => c.Fraction == 3)) yield return 3;
 			if (lvl.AllCannons.Any(c => c.Fraction == 4)) yield return 4;
+		}
+
+		public static int MaxPointCount(GraphBlueprint w)
+		{
+			return w.LevelNodes.Count * (GDConstants.SCORE_DIFF_0 + GDConstants.SCORE_DIFF_1 + GDConstants.SCORE_DIFF_2 + GDConstants.SCORE_DIFF_3);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.ColorHelper;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
@@ -13,15 +14,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public OverworldNode_W1(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, Levels.WORLD_001, null, null)
 		{
 			//
-		}
-
-		private bool? _isUnlocked = null;
-		protected override UnlockState IsUnlocked(bool toast)
-		{
-			if (_isUnlocked == null)
-				_isUnlocked = MainGame.Inst.Profile.SkipTutorial || MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted();
-
-			return _isUnlocked.Value ? UnlockState.Unlocked : UnlockState.Locked;
 		}
 
 		protected override void OnClickDeny()
@@ -49,7 +41,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				MainGame.Inst.Profile.SkipTutorial = true;
 				MainGame.Inst.SaveProfile();
-				_isUnlocked = null;
+				_ustate = WorldUnlockState.Unlocked;
 				return;
 			}
 		}

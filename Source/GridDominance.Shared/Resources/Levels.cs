@@ -142,6 +142,8 @@ namespace GridDominance.Shared.Resources
 			LoadLevel(content, "levels/level_4-20");
 			LoadLevel(content, "levels/level_4-21");
 			LoadLevel(content, "levels/level_4-22");
+			LoadLevel(content, "levels/level_4-23");
+			LoadLevel(content, "levels/level_4-24");
 			/* [MARK_LOAD_LEVEL] */
 
 			WORLD_001 = LoadWorld(content, "levels/world_1");
@@ -189,7 +191,7 @@ namespace GridDominance.Shared.Resources
 
 			foreach (var w in WORLDS.Select(w => w.Value))
 			{
-				foreach (var n in w.Nodes)
+				foreach (var n in w.LevelNodes)
 				{
 					if (!LEVELS.ContainsKey(n.LevelID))
 					{

@@ -31,7 +31,7 @@ namespace GridDominance.DSLEditor.Drawing
 			int maxX;
 			int maxY;
 
-			if (wgraph == null || wgraph.Nodes.Count == 0)
+			if (wgraph == null || wgraph.LevelNodes.Count == 0)
 			{
 				Bitmap gb = new Bitmap(1024, 640);
 				if (last != null) gb = new Bitmap(last.Width, last.Height);
@@ -58,7 +58,7 @@ namespace GridDominance.DSLEditor.Drawing
 				}
 				return gb;
 			}
-			else if (wgraph.Nodes.Count == 0)
+			else if (wgraph.LevelNodes.Count == 0)
 			{
 				Bitmap gb = new Bitmap(1024, 640);
 				using (Graphics g = Graphics.FromImage(gb))
@@ -145,7 +145,7 @@ namespace GridDominance.DSLEditor.Drawing
 			var diam = 2.75f * 64;
 			var exw = 1.7f * 64;
 
-			foreach (var n in wgraph.Nodes)
+			foreach (var n in wgraph.LevelNodes)
 			{
 				g.FillRectangle(sbExtender, n.X - diam / 2f - exw, n.Y - diam / 2f, diam + 2 * exw, diam);
 				g.FillRectangle(sbExtender, n.X - diam / 2f, n.Y - diam / 2f - exw, diam, diam + 2 * exw);

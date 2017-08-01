@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -32,10 +33,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public override bool IsNodeEnabled => true;
 
 		private float _pulseTimer = 0;
-		
+
+		private readonly WorldUnlockState _ustate;
+
 		public OverworldNode_MP(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER)
 		{
 			AddEntityOperationDelayed(new NetworkAnimationTriggerOperation(), NetworkAnimationTriggerOperation.INITIAL_DELAY);
+
+			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, false);
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
@@ -62,7 +67,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				{
 					var bc = ((x % 2 == 0) ^ (y % 2 == 0)) ? FlatColors.Background : FlatColors.BackgroundLight;
 
-					if (IsUnlocked())
+					if (_ustate == WorldUnlockState.Unlocked)
 					{
 						var d = FloatMath.Sqrt((x - 3.5f) * (x - 3.5f) + (y - 3.5f) * (y - 3.5f));
 
@@ -98,22 +103,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			if (ownr.IsTransitioning) return;
 			
 			Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f, 1f);
-		}
-
-		private bool IsUnlocked()
-		{
-			if (GDConstants.USE_IAB)
-			{
-				// LIGHT VERSION
-
-				return MainGame.Inst.Profile.PurchasedWorlds.Contains(Levels.WORLD_ID_MULTIPLAYER);
-			}
-			else
-			{
-				// FULL VERSION
-
-				return true;
-			}
 		}
 	}
 }

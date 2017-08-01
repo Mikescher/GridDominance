@@ -334,7 +334,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_INFOTOAST_4,            "You have not completed this level on {0}",                                          "Du hast dieses Level auf {0} noch nicht geschafft");
 			L10N.Add(STR_PREV_FINISHWORLD,       "Finish World {0}",                                                                  "Welt {0}");
 			L10N.Add(STR_PREV_OR,                "OR",                                                                                "ODER");
-			L10N.Add(STR_PREV_MISS_TOAST,        "You are missing {0} points ({1} levels on extreme difficulty) to unlock world {2}", "Dir fehlen noch {0} Punkte ({1} level auf extremer Schwierigkeitsstufe) um Welt {2} freizuschalten");
+			L10N.Add(STR_PREV_MISS_TOAST,        "You are missing {0} points to unlock world {1}",                                    "Dir fehlen noch {0} Punkte um Welt {1} freizuschalten");
 			L10N.Add(STR_MP_TIMEOUT,             "Timeout - Connection to server lost",                                               "Timeout - Verbindung zu server verloren");
 			L10N.Add(STR_MP_TIMEOUT_USER,        "Timeout - Connection to user [{0}] lost",                                           "Timeout - Verbindung zu Spieler [{0}] verloren");
 			L10N.Add(STR_MP_NOTINLOBBY,          "You a not part of this session",                                                    "Du bist kein Teilnehmer dieser Sitzung");

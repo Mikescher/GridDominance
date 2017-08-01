@@ -2,6 +2,7 @@
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
@@ -106,7 +107,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.GreenSea, 16),
 
 				Click = OnClickFinishPrev,
-			});
+			}); //TODO Add Diamonds [Needed]/[Have]  display here
 			
 			AddElement(new HUDLabel
 			{
@@ -185,11 +186,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		private void OnClickFinishPrev(HUDTextButton sender, HUDButtonEventArgs args)
 		{
-			int missPoints = 0;
-			int missLevel = 0;
-			BlueprintAnalyzer.ListUnfinishedCount(_prevWorld, out missPoints, out missLevel);
+			int missPoints = UnlockManager.PointsForUnlock(_id) - MainGame.Inst.Profile.TotalPoints;
 			
-			HUD.ShowToast("WPP::HINT", L10N.TF(L10NImpl.STR_PREV_MISS_TOAST, missPoints, missLevel, _worldNumber), 32, FlatColors.Orange, FlatColors.Foreground, 4f);
+			HUD.ShowToast("WPP::HINT", L10N.TF(L10NImpl.STR_PREV_MISS_TOAST, missPoints, _worldNumber), 32, FlatColors.Orange, FlatColors.Foreground, 4f);
 
 			MainGame.Inst.SetWorldMapScreenZoomedOut(_prevWorld);
 		}
