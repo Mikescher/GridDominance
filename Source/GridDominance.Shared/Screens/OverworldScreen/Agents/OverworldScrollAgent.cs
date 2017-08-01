@@ -54,7 +54,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				focus = i;
 			}
 
-			var offset0 = PADDING_X - focus * DIST_X;
+			var offset0 = GDConstants.VIEW_WIDTH/2f - focus * DIST_X;
 			for (int i = 0; i < _nodes.Length; i++)
 			{
 				_values[i] = new AdaptionFloat(offset0 + i * DIST_X, FORCE, DRAG, MIN_SPEED);
