@@ -27,7 +27,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 	class WorldPreviewPanel : HUDRoundedPanel
 	{
 		public const float WIDTH =  14.0f * GDConstants.TILE_WIDTH;
-		public const float HEIGHT =  6.0f * GDConstants.TILE_WIDTH + 2.5f * GDConstants.TILE_WIDTH;
+		public const float HEIGHT =  6.5f * GDConstants.TILE_WIDTH + 2.5f * GDConstants.TILE_WIDTH;
 
 		public const float INNER_WIDTH  = 0.6f * GDConstants.VIEW_WIDTH;
 		public const float INNER_HEIGHT = 0.6f * GDConstants.VIEW_HEIGHT;
@@ -74,7 +74,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			AddElement(_button = new HUDTextButton
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH),
+				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
 				Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
 
 				L10NText = L10NImpl.STR_PREV_BUYNOW,
@@ -93,7 +93,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			AddElement(new HUDTextButton
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
-				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH),
+				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
 				Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
 
 				Text = L10N.TF(L10NImpl.STR_PREV_FINISHWORLD, _worldNumber - 1),
@@ -107,19 +107,41 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.GreenSea, 16),
 
 				Click = OnClickFinishPrev,
-			}); //TODO Add Diamonds [Needed]/[Have]  display here
-			
+			});
+
 			AddElement(new HUDLabel
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 0.5f * GDConstants.TILE_WIDTH),
-				Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
+				RelativePosition = new FPoint(0, 0.75f * GDConstants.TILE_WIDTH),
+				Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.5f * GDConstants.TILE_WIDTH),
 
 				L10NText = L10NImpl.STR_PREV_OR,
 				TextColor = Color.White,
 				Font = Textures.HUDFontBold,
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
+			});
+
+			AddElement(new HUDImage
+			{
+				Alignment = HUDAlignment.BOTTOMLEFT,
+				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 0.125f * GDConstants.TILE_WIDTH),
+				Size = new FSize(0.75f * GDConstants.TILE_WIDTH, 0.75f * GDConstants.TILE_WIDTH),
+
+				Image = Textures.TexIconScore,
+			});
+
+			AddElement(new HUDLabel
+			{
+				Alignment = HUDAlignment.BOTTOMLEFT,
+				RelativePosition = new FPoint(1.5f * GDConstants.TILE_WIDTH, 0.125f * GDConstants.TILE_WIDTH),
+				Size = new FSize(4.25f * GDConstants.TILE_WIDTH, 0.75f * GDConstants.TILE_WIDTH),
+
+				Text = $"{MainGame.Inst.Profile.TotalPoints} / {UnlockManager.PointsForUnlock(_id)}",
+				TextColor = Color.White,
+				Font = Textures.HUDFontBold,
+				FontSize = 50,
+				TextAlignment = HUDAlignment.CENTERLEFT,
 			});
 		}
 
