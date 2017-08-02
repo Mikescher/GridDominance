@@ -25,7 +25,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		{
 			LevelBlueprint[] previews =
 			{
-				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000004000001")], //TODO Choose preview levels
+				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000004000018")],
+				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000004000008")],
+				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000004000011")],
+				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000004000027")],
+				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000004000013")],
+				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000004000015")],
+				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000004000025")],
 			};
 
 			Owner.HUD.AddModal(new WorldPreviewPanel(previews, Blueprint.ID, IABCode, 4, PreviousWorld), true, 0.8f, 1f);
