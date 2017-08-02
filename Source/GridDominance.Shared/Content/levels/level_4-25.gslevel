@@ -1,0 +1,57 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-25", "Lasers Crossing", {b16b00b5-0001-4000-0000-000004000025}, KI_PRECALC_PATHTRACE)
+
+
+Laser(SIZE_SMALL, P1, [2,  2], ROT_SE)
+Shielder(SIZE_SMALL, P1, [2,  8], ROT_NE)
+
+
+Laser(SIZE_TINY, N0, [8-1.73,  2], ROT_N)
+Laser(SIZE_TINY, N0, [8+1.73,  2], ROT_N)
+
+Laser(SIZE_TINY, N0, [8-3.46,   5], ROT_N)
+
+Laser(SIZE_TINY, N0, [8,   5], ROT_N)
+
+Laser(SIZE_TINY, N0, [8+3.46,   5], ROT_N)
+
+Laser(SIZE_TINY, N0, [8-1.73,  8], ROT_N)
+Laser(SIZE_TINY, N0, [8+1.73,  8], ROT_N)
+
+
+Laser(SIZE_SMALL, A4, [14, 2], ROT_SW)
+Shielder(SIZE_SMALL, A4, [14, 8], ROT_NW)
+
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #   / \                     / \   #
+#               +       <+>   <+>       +     
+#        2 #   \ /                     \ /   #
+#                                             
+#        3 #                                 #
+#                                             
+#        4 #                                 #
+#                   <+>    <+>    <+>         
+#        5 #                                 #
+#                                             
+#        6 #                                 #
+#                                             
+#        7 #   / \                     / \   #
+#               §       <+>   <+>       §     
+#        8 #   \ /                     \ /   #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

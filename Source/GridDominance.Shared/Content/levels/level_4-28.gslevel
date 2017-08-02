@@ -1,0 +1,57 @@
+﻿# Grid Dominance Level Definition   #
+#####################################
+include("stdvalues")
+
+init("4-28", "Back To The Roots", {b16b00b5-0001-4000-0000-000004000028}, KI_PRECALC_PATHTRACE)
+setwrap(WRAPMODE_DONUT)
+
+VoidCircle([ 2,  1.5], SIZE_NORMAL)
+Cannon(SIZE_NORMAL, P1, [2, 5])
+VoidCircle([ 2,  8.5], SIZE_NORMAL)
+
+Cannon(SIZE_SMALL, N0, [ 6,  2])
+Voidwall_V([6, 5], 4)
+Cannon(SIZE_SMALL, N0, [ 6,  8])
+
+Cannon(SIZE_SMALL, N0, [ 8,  5])
+
+Cannon(SIZE_SMALL, N0, [10,  2])
+Voidwall_V([10, 5], 4)
+Cannon(SIZE_SMALL, N0, [10,  8])
+
+VoidCircle([14,  1.5], SIZE_NORMAL)
+Cannon(SIZE_NORMAL, A3, [14, 5])
+VoidCircle([14,  8.5], SIZE_NORMAL)
+
+VoidWall_V([0.5, 5], 7)
+VoidWall_V([15.5, 5], 7)
+
+#<map>
+#
+#            0 1 2 3 4 5 6 7 8 9 A B C D E F
+#          # # # # # # # # # # # # # # # # # #
+#                                             
+#        0 #                                 #
+#                                             
+#        1 #   (X)                     (X)   #
+#            |         <O>     <O>         |  
+#        2 # |                             | #
+#            |                             |  
+#        3 # |          |       |          | #
+#            |          |       |          |  
+#        4 # | / \      |       |      / \ | #
+#            |  O       |  <O>  |       O  |  
+#        5 # | \ /      |       |      \ / | #
+#            |          |       |          |  
+#        6 # |          |       |          | #
+#            |                             |  
+#        7 # |                             | #
+#            |         <O>     <O>         |  
+#        8 #   (X)                     (X)   #
+#                                             
+#        9 #                                 #
+#                                             
+#          # # # # # # # # # # # # # # # # # #
+#
+#</map>
+

@@ -318,6 +318,8 @@ namespace GridDominance.DSLEditor
 				x += 48;
 			}
 
+			GC.Collect();
+
 			var bmp = new Bitmap(iw, ih);
 			x = 0;
 			y = 0;
