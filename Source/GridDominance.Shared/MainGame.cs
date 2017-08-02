@@ -247,6 +247,9 @@ namespace GridDominance.Shared
 			var screen = new GDOverworldScreen(this, Graphics);
 			SetCurrentScreen(screen);
 			screen.AddAgent(new ReappearTransitionAgent(screen, bp));
+
+			screen.GDHUD.ScoreDisplay.FinishCounter();
+			screen.GDHUD.MPScoreDisplay.FinishCounter();
 		}
 		
 		public void SetTutorialLevelScreen()
