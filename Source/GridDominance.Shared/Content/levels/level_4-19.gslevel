@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("4-19", "3x3 with Machine Guns", {b16b00b5-0001-4000-0000-000004000019}, KI_DYNAMIC_RAYTRACE)
+init("4-19", "3x3 with Machine Guns", {b16b00b5-0001-4000-0000-000004000019}, KI_PRECALC_PATHTRACE)
 
 
 Minigun(SIZE_SMALL, N0, [ 2,  1])

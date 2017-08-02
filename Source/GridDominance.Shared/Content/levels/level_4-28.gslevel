@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("4-28", "Back To The Roots", {b16b00b5-0001-4000-0000-000004000028}, KI_PRECALC_PATHTRACE)
+init("4-28", "Familiar Faces", {b16b00b5-0001-4000-0000-000004000028}, KI_PRECALC_PATHTRACE)
 setwrap(WRAPMODE_DONUT)
 
 VoidCircle([ 2,  1.5], SIZE_NORMAL)

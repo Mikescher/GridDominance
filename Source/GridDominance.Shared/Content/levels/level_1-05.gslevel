@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("1-5", "Overcoming Walls", {b16b00b5-0001-4000-0000-000001000005}, KI_DYNAMIC_RAYTRACE)
+init("1-5", "Overcoming Walls", {b16b00b5-0001-4000-0000-000001000005}, KI_PRECALC_PATHTRACE)
 
 
 Cannon(SIZE_SMALL, P1, [ 2,  5])

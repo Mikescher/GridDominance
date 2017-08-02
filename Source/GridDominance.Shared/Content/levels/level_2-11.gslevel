@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-11", "Three-Body Problem", {b16b00b5-0001-4000-0000-000002000011}, KI_DYNAMIC_RAYTRACE)
+init("2-11", "Three-Body Problem", {b16b00b5-0001-4000-0000-000002000011}, KI_PRECALC_PATHTRACE)
 
 
 Cannon(SIZE_SMALL, P1, [8,  5-3.5], ROT_E)

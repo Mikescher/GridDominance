@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-9", "Normal Walls", {b16b00b5-0001-4000-0000-000002000009}, KI_DYNAMIC_RAYTRACE)
+init("2-9", "Normal Walls", {b16b00b5-0001-4000-0000-000002000009}, KI_PRECALC_PATHTRACE)
 
 
 VoidCircle([ 2,  1.5], SIZE_NORMAL)

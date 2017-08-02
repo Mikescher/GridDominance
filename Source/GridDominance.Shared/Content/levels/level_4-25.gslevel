@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("4-25", "Lasers Crossing", {b16b00b5-0001-4000-0000-000004000025}, KI_PRECALC_PATHTRACE)
+init("4-25", "Laser Flanking", {b16b00b5-0001-4000-0000-000004000025}, KI_PRECALC_PATHTRACE)
 
 
 Laser(SIZE_SMALL, P1, [2,  2], ROT_SE)

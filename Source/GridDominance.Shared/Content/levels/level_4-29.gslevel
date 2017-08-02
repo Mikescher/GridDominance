@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("4-29", "Quad", {b16b00b5-0001-4000-0000-000004000029}, KI_DYNAMIC_RAYTRACE)
+init("4-29", "Quad", {b16b00b5-0001-4000-0000-000004000029}, KI_PRECALC_PATHTRACE)
 
 
 Cannon(SIZE_SMALL, P1, [7, 4], ROT_NW)

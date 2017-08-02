@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("4-20", "Eyes", {b16b00b5-0001-4000-0000-000004000020}, KI_DYNAMIC_RAYTRACE)
+init("4-20", "Eyes", {b16b00b5-0001-4000-0000-000004000020}, KI_PRECALC_PATHTRACE)
 
 
 Cannon(SIZE_NORMAL, P1, [1.5,  5], ROT_E)

@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("1-1", "Introduction", {b16b00b5-0001-4000-0000-000001000001}, KI_DYNAMIC_RAYTRACE)
+init("1-1", "Introduction", {b16b00b5-0001-4000-0000-000001000001}, KI_PRECALC_PATHTRACE)
 
 text([8, 2.5], 14, 2, HINT_001, {TEXT_SHAKE | TEXT_ONLY_D1})
 

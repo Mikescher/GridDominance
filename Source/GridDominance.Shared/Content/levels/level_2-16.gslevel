@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-16", "Standoff", {b16b00b5-0001-4000-0000-000002000016}, KI_DYNAMIC_RAYTRACE)
+init("2-16", "Standoff", {b16b00b5-0001-4000-0000-000002000016}, KI_PRECALC_PATHTRACE)
 
 Cannon(SIZE_SMALL, P1, [8,  1], ROT_S)
 Cannon(SIZE_SMALL, A3, [8,  9], ROT_N)

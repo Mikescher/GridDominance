@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-5", "FFA", {b16b00b5-0001-4000-0000-000002000005}, KI_DYNAMIC_RAYTRACE)
+init("2-5", "FFA", {b16b00b5-0001-4000-0000-000002000005}, KI_PRECALC_PATHTRACE)
 
 
 Cannon(SIZE_SMALL, N0, [ 4,  1])

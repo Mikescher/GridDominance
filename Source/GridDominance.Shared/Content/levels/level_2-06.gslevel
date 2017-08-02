@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("2-6", "Satellites I", {b16b00b5-0001-4000-0000-000002000006}, KI_DYNAMIC_RAYTRACE)
+init("2-6", "Satellites I", {b16b00b5-0001-4000-0000-000002000006}, KI_PRECALC_PATHTRACE)
 
 
 Cannon(SIZE_NORMAL, P1, [ 2,  1.5])

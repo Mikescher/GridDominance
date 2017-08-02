@@ -28,7 +28,7 @@ define(SIZE_GIGA,  SIZE_GIGANTIC)
 
 define(TILE_WIDTH, 64)
 
-define(KI_DYNAMIC_RAYTRACE,  10)
+#define(KI_DYNAMIC_RAYTRACE,  10) #deprecated, use [11]
 define(KI_PRECALC_PATHTRACE, 11)
 define(KI_PRECALC_SIMULATE,  12)
 
