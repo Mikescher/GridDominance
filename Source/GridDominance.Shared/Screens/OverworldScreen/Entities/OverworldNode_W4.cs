@@ -9,7 +9,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	class OverworldNode_W4 : OverworldNode_Graph
 	{
-		public OverworldNode_W4(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, Levels.WORLD_004, Levels.WORLD_003, GDConstants.IAB_WORLD4)
+		public OverworldNode_W4(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, Levels.WORLD_004, GDConstants.IAB_WORLD4)
 		{
 			//
 		}
@@ -34,7 +34,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000004000025")],
 			};
 
-			Owner.HUD.AddModal(new WorldPreviewPanel(previews, Blueprint.ID, IABCode, 4, PreviousWorld), true, 0.8f, 1f);
+			Owner.HUD.AddModal(new WorldPreviewPanel(previews, Blueprint.ID, IABCode, 4), true, 0.8f, 1f);
 		}
 	}
 }

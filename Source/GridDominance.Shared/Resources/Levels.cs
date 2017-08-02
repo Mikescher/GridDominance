@@ -25,6 +25,7 @@ namespace GridDominance.Shared.Resources
 		public static Dictionary<Guid, int> WORLD_NUMBERS;
 
 		public static GraphBlueprint[] WORLDS_MULTIPLAYER;
+		public static GraphBlueprint[] WORLDS_BY_NUMBER;
 
 		public static Guid WORLD_ID_NONE        = new Guid("{d34db335-0001-4000-7711-000000100002}");
 		public static Guid WORLD_ID_TUTORIAL    = new Guid("{d34db335-0001-4000-7711-000000100001}");
@@ -169,7 +170,8 @@ namespace GridDominance.Shared.Resources
 			WORLD_NUMBERS[WORLD_003.ID] = 2;
 			WORLD_NUMBERS[WORLD_004.ID] = 3;
 
-			WORLDS_MULTIPLAYER = new[]{ WORLD_001, WORLD_002, WORLD_003, WORLD_004};
+			WORLDS_MULTIPLAYER = new[] {       WORLD_001, WORLD_002, WORLD_003, WORLD_004 };
+			WORLDS_BY_NUMBER   = new[] { null, WORLD_001, WORLD_002, WORLD_003, WORLD_004 };
 
 #if DEBUG
 			Test();

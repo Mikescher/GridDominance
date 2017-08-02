@@ -26,7 +26,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	public abstract class OverworldNode_Graph : OverworldNode
 	{
-		public readonly GraphBlueprint PreviousWorld;
 		public readonly GraphBlueprint Blueprint;
 		public readonly string IABCode;
 
@@ -38,10 +37,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public override bool IsNodeEnabled => _ustate == WorldUnlockState.Unlocked;
 
-		public OverworldNode_Graph(GDOverworldScreen scrn, FPoint pos, GraphBlueprint world, GraphBlueprint prev, string iab) 
+		protected OverworldNode_Graph(GDOverworldScreen scrn, FPoint pos, GraphBlueprint world, string iab) 
 			: base(scrn, pos, Levels.WORLD_NAMES[world.ID], world.ID)
 		{
-			PreviousWorld = prev;
 			Blueprint = world;
 			IABCode = iab;
 

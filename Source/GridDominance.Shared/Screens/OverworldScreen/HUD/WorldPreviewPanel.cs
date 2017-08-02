@@ -42,20 +42,24 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private HUDTextButton _button;
 
 		private readonly int _worldNumber;
-		private readonly GraphBlueprint _prevWorld;
+		private int _unlockWorldNumber;
 
-		public WorldPreviewPanel(LevelBlueprint[] bps, Guid unlockID, string iab, int worldnumber, GraphBlueprint prevWorld)
+		public WorldPreviewPanel(LevelBlueprint[] bps, Guid unlockID, string iab, int worldnumber)
 		{
 			_blueprints = bps;
 			_id = unlockID;
 			_iabCode = iab;
 			_worldNumber = worldnumber;
-			_prevWorld = prevWorld;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.Asbestos;
+
+			_unlockWorldNumber = 1;
+			if (_worldNumber > 2 && UnlockManager.IsUnlocked(Levels.WORLD_002, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 2;
+			if (_worldNumber > 3 && UnlockManager.IsUnlocked(Levels.WORLD_003, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 3;
+			if (_worldNumber > 4 && UnlockManager.IsUnlocked(Levels.WORLD_004, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 4;
 		}
 
 		public override void OnInitialize()
@@ -96,7 +100,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
 				Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
 
-				Text = L10N.TF(L10NImpl.STR_PREV_FINISHWORLD, _worldNumber - 1),
+				Text = L10N.TF(L10NImpl.STR_PREV_FINISHWORLD, _unlockWorldNumber),
 				TextColor = Color.White,
 				Font = Textures.HUDFontBold,
 				FontSize = 55,
@@ -212,7 +216,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			
 			HUD.ShowToast("WPP::HINT", L10N.TF(L10NImpl.STR_PREV_MISS_TOAST, missPoints, _worldNumber), 32, FlatColors.Orange, FlatColors.Foreground, 4f);
 
-			MainGame.Inst.SetWorldMapScreenZoomedOut(_prevWorld);
+			MainGame.Inst.SetWorldMapScreenZoomedOut(Levels.WORLDS_BY_NUMBER[_unlockWorldNumber]);
 		}
 	}
 }
