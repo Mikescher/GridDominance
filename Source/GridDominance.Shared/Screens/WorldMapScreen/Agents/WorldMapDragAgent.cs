@@ -12,7 +12,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
 	class WorldMapDragAgent : GameScreenAgent
 	{
-		private const int DRAGSPEED_RESOLUTION = 1;
+		private const float CALCULATION_UPS = 60f;
+		private const int MAX_UPDATES_PER_CALL = 8;
+		private const float DRAGSPEED_RESOLUTION_TIME = 0.1f;
 
 		private const float SPEED_MIN = 24;
 
@@ -21,16 +23,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private const float FRICTION = 6f;
 
-		private bool isDragging = false;
-		private Vector2 outOfBoundsForce = Vector2.Zero;
+		private bool _isDragging = false;
+		private bool _dragRestCalculated = false;
+		private Vector2 _outOfBoundsForce = Vector2.Zero;
 
 		private FPoint mouseStartPos;
 		private FPoint startOffset;
 
-		private FPoint lastMousePos;
-		private float lastMousePosTime;
-		private ulong lastMousePosTick;
-		private Vector2 dragSpeed;
+		private FPoint _lastMousePos;
+		private float _lastMousePosTime;
+		private Vector2 _restDragSpeed;
+		private float _timeSinceRestDragUpdate;
 
 		private readonly GDWorldMapScreen _gdScreen;
 		private readonly List<FPoint> _nodePositions;
@@ -43,17 +46,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			_nodePositions = nodePositions;
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate) //TODO not UPS independent
+		public override void Update(SAMTime gameTime, InputState istate)
 		{
-			_gdScreen.IsDragging = isDragging;
+			_gdScreen.IsDragging = _isDragging;
 
 			if (_gdScreen.ZoomState != BistateProgress.Normal)
 			{
-				if (isDragging) EndDrag();
+				if (_isDragging) EndDrag(gameTime, istate);
 				return;
 			}
 
-			if (isDragging)
+			if (_isDragging)
 			{
 				if (istate.IsRealDown)
 				{
@@ -63,7 +66,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 				}
 				else
 				{
-					EndDrag();
+					EndDrag(gameTime, istate);
 
 					_gdScreen.IsBackgroundPressed = false;
 				}
@@ -77,7 +80,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 					_gdScreen.IsBackgroundPressed = true;
 				}
-				else if (!dragSpeed.IsZero() || !outOfBoundsForce.IsZero())
+				else if (!_restDragSpeed.IsZero() || !_outOfBoundsForce.IsZero())
 				{
 					UpdateRestDrag(gameTime);
 
@@ -91,12 +94,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			mouseStartPos = istate.GamePointerPosition;
 			startOffset = Screen.MapOffset;
 
-			dragSpeed = Vector2.Zero;
-			lastMousePos = istate.GamePointerPosition;
-			lastMousePosTick = MonoSAMGame.GameCycleCounter;
-			lastMousePosTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
+			_restDragSpeed = Vector2.Zero;
+			_lastMousePos = istate.GamePointerPosition;
+			_lastMousePosTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
-			isDragging = true;
+			_isDragging = true;
+			_dragRestCalculated = false;
 		}
 
 		private void UpdateDrag(SAMTime gameTime, InputState istate)
@@ -108,19 +111,25 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 			CalculateOOB();
 
-			if (MonoSAMGame.GameCycleCounter - lastMousePosTick > DRAGSPEED_RESOLUTION)
+			if (gameTime.TotalElapsedSeconds - _lastMousePosTime > DRAGSPEED_RESOLUTION_TIME)
 			{
-				dragSpeed = (istate.GamePointerPosition - lastMousePos) / (gameTime.TotalElapsedSeconds - lastMousePosTime);
-
-				lastMousePosTick = MonoSAMGame.GameCycleCounter;
-				lastMousePosTime = gameTime.TotalElapsedSeconds;
-				lastMousePos = istate.GamePointerPosition;
+				CalcRestDragSpeed(gameTime, istate);
 			}
+		}
+
+		private void CalcRestDragSpeed(SAMTime gameTime, InputState istate)
+		{
+			_restDragSpeed = (istate.GamePointerPosition - _lastMousePos) / (gameTime.TotalElapsedSeconds - _lastMousePosTime);
+
+			_lastMousePosTime = gameTime.TotalElapsedSeconds;
+			_lastMousePos = istate.GamePointerPosition;
+
+			_dragRestCalculated = true;
 		}
 
 		private void CalculateOOB()
 		{
-			outOfBoundsForce = Vector2.Zero;
+			_outOfBoundsForce = Vector2.Zero;
 
 			var cmvp = Screen.CompleteMapViewport;
 
@@ -145,38 +154,53 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 				return;
 			}
 
-			outOfBoundsForce = (center - nearestNode).Normalized() * (OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * ((nearestNode - center).Length() - FloatMath.Sqrt(maxDistSquared)));
+			_outOfBoundsForce = (center - nearestNode).Normalized() * (OUT_OF_BOUNDS_FORCE_BASE + OUT_OF_BOUNDS_FORCE_MULT * ((nearestNode - center).Length() - FloatMath.Sqrt(maxDistSquared)));
 
 		}
 
 		private void UpdateRestDrag(SAMTime gameTime)
 		{
-			float dragX = dragSpeed.X + outOfBoundsForce.X;
-			float dragY = dragSpeed.Y + outOfBoundsForce.Y;
-			
-			Screen.MapOffsetX = Screen.MapOffsetX + dragX * gameTime.ElapsedSeconds;
-			Screen.MapOffsetY = Screen.MapOffsetY + dragY * gameTime.ElapsedSeconds;
+			_timeSinceRestDragUpdate += gameTime.ElapsedSeconds;
 
-			CalculateOOB();
-
-			dragSpeed -= dragSpeed * FRICTION * gameTime.ElapsedSeconds;
-
-			if (dragSpeed.LengthSquared() < SPEED_MIN * SPEED_MIN)
+			for (int i = 0; _timeSinceRestDragUpdate > (1 / CALCULATION_UPS); i++)
 			{
-				dragSpeed = Vector2.Zero;
+				if (i >= MAX_UPDATES_PER_CALL) { _timeSinceRestDragUpdate = 0; break; }
+
+				RealRestDragUpdate(1 / CALCULATION_UPS);
+				_timeSinceRestDragUpdate -= (1 / CALCULATION_UPS);
 			}
 		}
 
-		private void EndDrag()
+		private void RealRestDragUpdate(float delta)
 		{
-			var dragSpeedValue = dragSpeed.LengthSquared();
+			float dragX = _restDragSpeed.X + _outOfBoundsForce.X;
+			float dragY = _restDragSpeed.Y + _outOfBoundsForce.Y;
+
+			Screen.MapOffsetX = Screen.MapOffsetX + dragX * delta;
+			Screen.MapOffsetY = Screen.MapOffsetY + dragY * delta;
+
+			CalculateOOB();
+
+			_restDragSpeed -= _restDragSpeed * FRICTION * delta;
+
+			if (_restDragSpeed.LengthSquared() < SPEED_MIN * SPEED_MIN)
+			{
+				_restDragSpeed = Vector2.Zero;
+			}
+		}
+
+		private void EndDrag(SAMTime gameTime, InputState istate)
+		{
+			if (!_dragRestCalculated) CalcRestDragSpeed(gameTime, istate);
+
+			var dragSpeedValue = _restDragSpeed.LengthSquared();
 
 			if (dragSpeedValue < SPEED_MIN * SPEED_MIN)
 			{
-				dragSpeed = Vector2.Zero;
+				_restDragSpeed = Vector2.Zero;
 			}
 
-			isDragging = false;
+			_isDragging = false;
 		}
 	}
 }
