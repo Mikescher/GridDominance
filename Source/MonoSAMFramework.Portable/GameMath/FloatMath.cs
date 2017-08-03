@@ -6,6 +6,7 @@ namespace MonoSAMFramework.Portable.GameMath
 {
 	public static class FloatMath
 	{
+		public const float HALF_PI       = PI/2f;
 		public const float PI            = 3.14159265358979323846f;
 		public const float TAU           = 6.28318530717958647693f;
 		public const float E             = 2.71828182845904523536f;
