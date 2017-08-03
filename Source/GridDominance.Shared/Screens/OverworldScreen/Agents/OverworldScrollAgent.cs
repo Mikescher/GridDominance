@@ -18,9 +18,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 		private const float DIST_X     = 5.0f * GDConstants.TILE_WIDTH;
 		private const float MIN_DIST_X = 3.5f * GDConstants.TILE_WIDTH;
 
-		private const float FORCE      = 150f;  // [(m/s²)/m] = [1/s²]
-		private const float DRAG       = 0.8f; // %
-		private const float MIN_SPEED  = 32f; // %
+		private const float FORCE      = 75f;  // [(m/s²)/m] = [1/s²]
+		private const float DRAG       = 0.7f; // %
+		private const float MIN_SPEED  = 32f;  // %
 
 		public const float CLICK_CANCEL_TIME = 0.5f;
 		public const float CLICK_CANCEL_DIST = 0.2f * GDConstants.TILE_WIDTH;
@@ -260,6 +260,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				if (_nodes[i].HasActiveOperation("OverworldNode::Shake")) continue;
 					
 				_nodes[i].NodePos = new FPoint(_values[i].Value, POSITION_Y);
+
+#if DEBUG
+				_nodes[i].TargetNodePos = new FPoint(_values[i].TargetValue, POSITION_Y);
+#endif
 			}
 		}
 	}

@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using System;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.BatchRenderer;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -16,6 +17,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public const float INNERSIZE = 2 * GDConstants.TILE_WIDTH;
 
 		public const float COLLAPSE_TIME = 5f;
+
+#if DEBUG
+		public FPoint TargetNodePos;
+#endif
 
 		public FPoint NodePos;
 		public override FPoint Position => NodePos;
@@ -59,6 +64,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		public void CancelClick()
 		{
 			clickArea.CancelClick();
+		}
+
+		protected override void DrawDebugBorders(IBatchRenderer sbatch)
+		{
+			base.DrawDebugBorders(sbatch);
+
+			sbatch.FillRectangle(TargetNodePos.AsTranslated(-DrawingBoundingBox.Width * 0.5f, -DrawingBoundingBox.Height * 0.5f), DrawingBoundingBox, Color.Firebrick * 0.2f);
+			sbatch.DrawRectangle(TargetNodePos.AsTranslated(-DrawingBoundingBox.Width * 0.5f, -DrawingBoundingBox.Height * 0.5f), DrawingBoundingBox, Color.Firebrick, 2);
+
 		}
 
 		protected abstract void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate);
