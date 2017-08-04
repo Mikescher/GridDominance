@@ -556,15 +556,21 @@ namespace GridDominance.Shared.Screens.ScreenGame
 					if (!GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(diff))
 					{
 						scoreGain += FractionDifficultyHelper.GetScore(diff);
-						GDOwner.Profile.SetCompleted(Blueprint.UniqueID, diff, ctime, true);
 						gains.Add(diff);
 					}
-					var localdata = GDOwner.Profile.LevelData[Blueprint.UniqueID].Data[diff];
+				}
+
+				{
+					if (!GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(Difficulty))
+					{
+						GDOwner.Profile.SetCompleted(Blueprint.UniqueID, Difficulty, ctime, true);
+					}
+					var localdata = GDOwner.Profile.LevelData[Blueprint.UniqueID].Data[Difficulty];
 
 					if (ctime < localdata.BestTime)
 					{
 						// update PB
-						GDOwner.Profile.SetCompleted(Blueprint.UniqueID, diff, ctime, true);
+						GDOwner.Profile.SetCompleted(Blueprint.UniqueID, Difficulty, ctime, true);
 					}
 
 					// Fake the online data until next sync
@@ -572,8 +578,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 					if (ctime < localdata.GlobalBestTime || localdata.GlobalBestTime == -1)
 					{
 						localdata.GlobalBestTime = ctime;
-						localdata.GlobalBestUserID = 
-							GDOwner.Profile.OnlineUserID;
+						localdata.GlobalBestUserID = GDOwner.Profile.OnlineUserID;
 					}
 				}
 

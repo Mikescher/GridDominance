@@ -2,6 +2,7 @@
 using System.Linq;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
 
@@ -34,7 +35,33 @@ namespace GridDominance.Shared.SaveData
 
 		public bool HasCompleted(FractionDifficulty d)
 		{
-			return Data[d].HasCompleted;
+			switch (d)
+			{
+				case FractionDifficulty.DIFF_0:
+					if (Data[FractionDifficulty.DIFF_0].HasCompleted) return true;
+					if (Data[FractionDifficulty.DIFF_1].HasCompleted) return true;
+					if (Data[FractionDifficulty.DIFF_2].HasCompleted) return true;
+					if (Data[FractionDifficulty.DIFF_3].HasCompleted) return true;
+					return false;
+				case FractionDifficulty.DIFF_1:
+					if (Data[FractionDifficulty.DIFF_1].HasCompleted) return true;
+					if (Data[FractionDifficulty.DIFF_2].HasCompleted) return true;
+					if (Data[FractionDifficulty.DIFF_3].HasCompleted) return true;
+					return false;
+				case FractionDifficulty.DIFF_2:
+					if (Data[FractionDifficulty.DIFF_2].HasCompleted) return true;
+					if (Data[FractionDifficulty.DIFF_3].HasCompleted) return true;
+					return false;
+				case FractionDifficulty.DIFF_3:
+					if (Data[FractionDifficulty.DIFF_3].HasCompleted) return true;
+					return false;
+
+				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("PLPRO::HasCompleted", "Invalid value: " + d);
+					return false;
+			}
 		}
 
 		public bool HasAnyCompleted()
@@ -43,15 +70,6 @@ namespace GridDominance.Shared.SaveData
 				Data[FractionDifficulty.DIFF_0].HasCompleted ||
 				Data[FractionDifficulty.DIFF_1].HasCompleted ||
 				Data[FractionDifficulty.DIFF_2].HasCompleted ||
-				Data[FractionDifficulty.DIFF_3].HasCompleted;
-		}
-
-		public bool HasAllCompleted()
-		{
-			return
-				Data[FractionDifficulty.DIFF_0].HasCompleted &&
-				Data[FractionDifficulty.DIFF_1].HasCompleted &&
-				Data[FractionDifficulty.DIFF_2].HasCompleted &&
 				Data[FractionDifficulty.DIFF_3].HasCompleted;
 		}
 

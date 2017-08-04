@@ -107,11 +107,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			return supplyNodes.Any(l => MainGame.Inst.Profile.GetLevelData(l).HasAnyCompleted());
 		}
 
-		public static bool IsWorld100Percent(GraphBlueprint world)
-		{
-			return world.LevelNodes.All(n => MainGame.Inst.Profile.GetLevelData(n).HasAllCompleted());
-		}
-
 		public static int PlayerCount(LevelBlueprint lvl)
 		{
 			int pc = 1;
