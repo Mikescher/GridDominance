@@ -11,8 +11,8 @@ Cannon(SIZE_SMALL, P1, [ 2,  8.5], ROT_E)
 Cannon(SIZE_SMALL, N0, [ 6,  1.5], ROT_W)
 Cannon(SIZE_SMALL, N0, [10,  1.5], ROT_E)
 
-Minigun(SIZE_SMALL, N0, [ 6,  8.5], ROT_N)
-Minigun(SIZE_SMALL, N0, [10,  8.5], ROT_N)
+Minigun(SIZE_SMALL, N0, [6.5,  8.5], ROT_N)
+Minigun(SIZE_SMALL, N0, [9.5,  8.5], ROT_N)
 
 Cannon(SIZE_SMALL, N0, [14,  1.5], ROT_S)
 Cannon(SIZE_SMALL, N0, [14,  5.0], ROT_S)
@@ -22,7 +22,9 @@ Relay(SIZE_SMALL, N0, [8,  5], ROT_N)
 
 Glasswall([ 3, 3], [13, 3])
 
-Voidwall([ 3, 7], [13,  7])
+Voidwall([ 3, 7], [ 6.5,  7])
+Voidwall([ 9.5, 7], [13,  7])
+
 Voidwall([ 8, 7], [8,  20])
 
 
@@ -50,10 +52,10 @@ Voidwall([ 8, 7], [8,  20])
 #        5 #                                 #
 #                                             
 #        6 #                                 #
-#                  -------------------        
+#                  ------       ------        
 #        7 #                |                #
 #              / \          |          / \    
-#        8 #    O      <Z>  |  <Z>      O    #
+#        8 #    O       <Z> | <Z>       O    #
 #              \ /          |          \ /    
 #        9 #                |                #
 #                           |                 

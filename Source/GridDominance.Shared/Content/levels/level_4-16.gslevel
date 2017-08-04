@@ -4,9 +4,9 @@ include("stdvalues")
 
 init("4-16", "The Ultimate Shield", {b16b00b5-0001-4000-0000-000004000016}, KI_PRECALC_PATHTRACE)
 
-Cannon(SIZE_SMALL, P1, [ 8,  1], ROT_W)
+Cannon(SIZE_SMALL, P1, [ 8,  1], ROT_E)
 VoidWall([8, 2], [8, 8])
-Cannon(SIZE_SMALL, A3, [ 8,  9], ROT_E)
+Cannon(SIZE_SMALL, A3, [ 8,  9], ROT_W)
 
 Cannon(SIZE_SMALL, N0, [10,  3.5], ROT_S)
 Cannon(SIZE_SMALL, N0, [10,  6.5], ROT_N)
