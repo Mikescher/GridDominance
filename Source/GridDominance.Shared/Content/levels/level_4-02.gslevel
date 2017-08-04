@@ -16,6 +16,10 @@ Relay(SIZE_NORMAL,  N0, [ 1.5,  8.5])
 Relay(SIZE_SMALL,   N0, [ 8.0,  8.5])
 Cannon(SIZE_NORMAL, A3, [14.5,  8.5], ROT_W)
 
+
+Cannon(SIZE_SMALL, N0, [8,  4])
+Cannon(SIZE_SMALL, N0, [8,  6])
+
 VoidWall_H([ 8, 3], 11)
 VoidWall_H([ 8, 7], 11)
 
@@ -33,11 +37,11 @@ VoidWall_H([ 8, 7], 11)
 #        2 #                                 #
 #                 ---------------------       
 #        3 #                                 #
-#                                             
+#                          <O>                
 #        4 #                                 #
 #             <R>                       <R>   
 #        5 #                                 #
-#                                             
+#                          <O>                
 #        6 #                                 #
 #                 ---------------------       
 #        7 #                                 #

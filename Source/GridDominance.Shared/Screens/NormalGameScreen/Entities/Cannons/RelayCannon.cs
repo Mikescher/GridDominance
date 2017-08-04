@@ -284,13 +284,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				}
 				else
 				{
-					CannonHealth.Set(1);
-					SetFraction(source);
-
-					BulletBuffer = 0;
-					BarrelCharge = 0f;
-
-					BulletBuffer++;
+					CannonHealth.Set(0);
+					SetFraction(Fraction.GetNeutral());
 				}
 
 			}
