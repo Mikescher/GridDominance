@@ -550,7 +550,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		}
 
 		public abstract void ForceResetBarrelCharge();
- 
+		public abstract void SetFractionAndHealth(Fraction fraction, float hp);
+
 		#endregion
 
 		public abstract KIController CreateKIController(GDGameScreen screen, Fraction fraction);

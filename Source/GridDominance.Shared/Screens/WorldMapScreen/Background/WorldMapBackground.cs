@@ -227,6 +227,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 
 		private void DrawColoredNormal(IBatchRenderer sbatch)
 		{
+			sbatch.FillRectangle(VAdapter.VirtualTotalBoundingBox, FlatColors.Background);
+
 			int offX = (int) (Owner.MapOffsetX / TILE_WIDTH);
 			int offY = (int) (Owner.MapOffsetY / TILE_WIDTH);
 
@@ -274,6 +276,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 
 		private void DrawColoredPartitions(IBatchRenderer sbatch)
 		{
+			sbatch.FillRectangle(VAdapter.VirtualTotalBoundingBox.RelativeTo(Owner.MapOffset), FlatColors.Background);
+
 			if (FloatMath.IsEpsilonOne(BackgroundPercentageOverride))
 			{
 				foreach (var pt in partitions)

@@ -284,8 +284,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				}
 				else
 				{
-					CannonHealth.Set(0);
-					SetFraction(Fraction.GetNeutral());
+					CannonHealth.Set(1);
+					SetFraction(source);
+
+					BulletBuffer = 0;
+					BarrelCharge = 0f;
+
+					BulletBuffer++;
 				}
 
 			}
@@ -405,6 +410,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override AbstractFractionController CreateNeutralController(GDGameScreen screen, Fraction fraction)
 		{
 			return new EmptyController(screen, this, fraction);
+		}
+
+		public override void SetFractionAndHealth(Fraction fraction, float hp)
+		{
+			SetFraction(fraction);
+			CannonHealth.Set(1);
 		}
 	}
 }

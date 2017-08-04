@@ -7,13 +7,13 @@ config(KI_CFG_TRACE_MAX_BULLETBOUNCE, 2)
 
 Cannon(SIZE_SMALL, P1, [ 1.5,  1.5], ROT_E)
 Relay(SIZE_SMALL, N0, [ 8.0,  1.5])
-Relay(SIZE_SMALL, N0, [14.5,  1.5])
+Cannon(SIZE_SMALL, N0, [14.5,  1.5])
 
 Relay(SIZE_SMALL, N0, [ 1.5,  5.0])
 Relay(SIZE_SMALL, N0, [ 8.0,  5.0])
 Relay(SIZE_SMALL, N0, [14.5,  5.0])
 
-Relay(SIZE_SMALL, N0, [ 1.5,  8.5])
+Cannon(SIZE_SMALL, N0, [ 1.5,  8.5])
 Relay(SIZE_SMALL, N0, [ 8.0,  8.5])
 Cannon(SIZE_SMALL, A3, [14.5,  8.5], ROT_W)
 
@@ -31,7 +31,7 @@ MirrorBlock([11.5, 7], 4, 2)
 #                                             
 #        0 #                                 #
 #             / \                             
-#        1 #   O           <R>          <R>  #
+#        1 #   O           <R>          <O>  #
 #             \ /                             
 #        2 #      NNNNNNN       NNNNNNN      #
 #                 NNNNNNN       NNNNNNN       
@@ -45,7 +45,7 @@ MirrorBlock([11.5, 7], 4, 2)
 #                 NNNNNNN       NNNNNNN       
 #        7 #      NNNNNNN       NNNNNNN      #
 #                                       / \   
-#        8 #  <R>          <R>           O   #
+#        8 #  <O>          <R>           O   #
 #                                       \ /   
 #        9 #                                 #
 #                                             

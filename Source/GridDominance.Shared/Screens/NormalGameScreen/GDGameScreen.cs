@@ -523,11 +523,23 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				if (cannon.Fraction.IsComputer) hasComputer = true;
 			}
 
-			if (hasPlayer && !hasComputer) EndGame(true);
-			if (!hasPlayer && hasComputer) EndGame(false);
+			if (hasPlayer && !hasComputer) EndGame(true, fractionPlayer);
+			if (!hasPlayer && hasComputer)
+			{
+				var winner = Entities
+					.Enumerate()
+					.OfType<Cannon>()
+					.GroupBy(p => p.Fraction)
+					.Where(p => !p.Key.IsNeutral)
+					.OrderBy(p => p.Count())
+					.Last()
+					.Key;
+
+				EndGame(false, winner);
+			}
 		}
 
-		private void EndGame(bool playerWon)
+		private void EndGame(bool playerWon, Fraction winner)
 		{
 			HasFinished = true;
 			PlayerWon = playerWon;
@@ -568,17 +580,32 @@ namespace GridDominance.Shared.Screens.ScreenGame
 				GDOwner.SaveProfile();
 				ShowScorePanel(Blueprint, GDOwner.Profile, gains, true, scoreGain);
 				MainGame.Inst.GDSound.PlayEffectGameWon();
+
+				EndGameConvert(winner);
 			}
 			else
 			{
 				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, 0);
 
 				MainGame.Inst.GDSound.PlayEffectGameOver();
+
+				EndGameConvert(winner);
 			}
 
 			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
 			{
 				cannon.ForceUpdateController();
+			}
+		}
+
+		protected void EndGameConvert(Fraction f)
+		{
+			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
+			{
+				if (cannon.Fraction != f && !cannon.Fraction.IsNeutral)
+				{
+					cannon.SetFractionAndHealth(f, 0.1f);
+				}
 			}
 		}
 

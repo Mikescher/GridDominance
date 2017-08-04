@@ -98,6 +98,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 					int inc = MainGame.Inst.Profile.IncMultiplayerScore(_server.SessionCapacity - 1, true);
 
 					ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), true, inc);
+
+					EndGameConvert(LocalPlayerFraction);
 				}
 				else
 				{
@@ -108,6 +110,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 					int inc = MainGame.Inst.Profile.DecMultiplayerScore(1, true);
 
 					ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, inc);
+
+					EndGameConvert(GetFractionByID((byte) (_server.WinnerID + 1)));
 				}
 
 				foreach (var cannon in Entities.Enumerate().OfType<Cannon>())

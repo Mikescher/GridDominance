@@ -339,6 +339,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			BarrelCharge = 0f;
 		}
 
+		public override void SetFractionAndHealth(Fraction fraction, float hp)
+		{
+			SetFraction(fraction);
+			CannonHealth.Set(hp);
+			CannonHealth.Limit(0f, 1f);
+		}
+
 		public override void ApplyBoost()
 		{
 			if (Fraction.IsNeutral) return;
