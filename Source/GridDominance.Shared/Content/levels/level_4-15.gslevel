@@ -2,7 +2,7 @@
 #####################################
 include("stdvalues")
 
-init("4-15", "Space Front Yard", {b16b00b5-0001-4000-0000-000004000015}, KI_PRECALC_SIMULATE)
+init("4-15", "Kepplers Damnation", {b16b00b5-0001-4000-0000-000004000015}, KI_PRECALC_SIMULATE)
 
 config(KI_CFG_SIMULATION_SCATTERTRUST, 5)
 
