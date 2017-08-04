@@ -17,5 +17,7 @@ function check_commit_signature($sig_in, $data) {
 
 	if (strcasecmp($sig_real, $sig_in) !== 0) {
 		outputError(ERRORS::PARAMETER_HASH_MISMATCH, "The signature '$sig_in' is invalid.");
+		logDebug("[[Signature error]] $sig_real <> $sig_in");
+		logDebug("\n========\n" . $config['signature_key'] . join("", array_map(function ($a){return "\n$a";}, $data)) . "========\n");
 	};
 }
