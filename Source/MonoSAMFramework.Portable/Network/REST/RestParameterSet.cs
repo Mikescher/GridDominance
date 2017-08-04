@@ -16,41 +16,41 @@ namespace MonoSAMFramework.Portable.Network.REST
 		
 		public enum RestParameterSetType { String, Int, Base64, Hash, Compressed, Guid, Json }
 
-		private readonly Dictionary<string, Tuple<string, RestParameterSetType, bool>> dict = new Dictionary<string, Tuple<string, RestParameterSetType, bool>>();
+		private readonly List<Tuple<string, string, RestParameterSetType, bool>> dict = new List<Tuple<string, string, RestParameterSetType, bool>>();
 
 		public void AddParameterString(string name, string value, bool signed = true)
 		{
-			dict[name] = Tuple.Create(value, RestParameterSetType.String, signed);
+			dict.Add(Tuple.Create(name, value, RestParameterSetType.String, signed));
 		}
 		
 		public void AddParameterJson(string name, object value, bool signed = true)
 		{
-			dict[name] = Tuple.Create(JsonConvert.SerializeObject(value, Formatting.None), RestParameterSetType.Json, signed);
+			dict.Add(Tuple.Create(name, JsonConvert.SerializeObject(value, Formatting.None), RestParameterSetType.Json, signed));
 		}
 
 		public void AddParameterInt(string name, int value, bool signed = true)
 		{
-			dict[name] = Tuple.Create(value.ToString(), RestParameterSetType.Int, signed);
+			dict.Add(Tuple.Create(name, value.ToString(), RestParameterSetType.Int, signed));
 		}
 
 		public void AddParameterHash(string name, string value, bool signed = true)
 		{
-			dict[name] = Tuple.Create(value, RestParameterSetType.Hash, signed);
+			dict.Add(Tuple.Create(name, value, RestParameterSetType.Hash, signed));
 		}
 
 		public void AddParameterBase64(string name, string value, bool signed = true)
 		{
-			dict[name] = Tuple.Create(value, RestParameterSetType.Base64, signed);
+			dict.Add(Tuple.Create(name, value, RestParameterSetType.Base64, signed));
 		}
 
 		public void AddParameterCompressed(string name, string value, bool signed = true)
 		{
-			dict[name] = Tuple.Create(value, RestParameterSetType.Compressed, signed);
+			dict.Add(Tuple.Create(name, value, RestParameterSetType.Compressed, signed));
 		}
 
 		public void AddParameterGuid(string name, Guid value, bool signed = true)
 		{
-			dict[name] = Tuple.Create(value.ToString("B"), RestParameterSetType.Guid, signed);
+			dict.Add(Tuple.Create(name, value.ToString("B"), RestParameterSetType.Guid, signed));
 		}
 
 		public Tuple<string, MultipartFormDataContent> CreateParamString(string secret)
@@ -62,62 +62,69 @@ namespace MonoSAMFramework.Portable.Network.REST
 			string result = "";
 			foreach (var elem in dict)
 			{
-				switch (elem.Value.Item2)
+				var name = elem.Item1;
+				var value = elem.Item2;
+				var type = elem.Item3;
+				var sign = elem.Item4;
+
+				if (!sign) continue;
+
+				switch (type)
 				{
 					case RestParameterSetType.String:
 					case RestParameterSetType.Json:
 					case RestParameterSetType.Guid:
-						sigbuilder += "\n" + elem.Value.Item1;
-						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(elem.Value.Item1), elem.Key);
+						sigbuilder += "\n" + value;
+						if (value.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(value), name);
 						else
-							result += "&" + elem.Key + "=" + Uri.EscapeDataString(elem.Value.Item1);
+							result += "&" + name + "=" + Uri.EscapeDataString(value);
 						break;
 
 					case RestParameterSetType.Int:
-						sigbuilder += "\n" + elem.Value.Item1;
-						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(elem.Value.Item1), elem.Key);
+						sigbuilder += "\n" + value;
+						if (value.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(value), name);
 						else
-							result += "&" + elem.Key + "=" + elem.Value.Item1;
+							result += "&" + name + "=" + value;
 						break;
 
 					case RestParameterSetType.Base64:
-						sigbuilder += "\n" + elem.Value.Item1;
-						var data64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(elem.Value.Item1))
+						sigbuilder += "\n" + value;
+						var data64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(value))
 							.Replace('+', '-')
 							.Replace('\\', '_')
 							.Replace('=', '.');
 
-						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(data64), elem.Key);
+						if (value.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(data64), name);
 						else
-							result += "&" + elem.Key + "=" + data64;
+							result += "&" + name + "=" + data64;
 						break;
 
 					case RestParameterSetType.Hash:
-						var dataHash = elem.Value.Item1.ToUpper();
+						var dataHash = value.ToUpper();
 						sigbuilder += "\n" + dataHash;
-						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(dataHash), elem.Key);
+						if (value.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(dataHash), name);
 						else
-							result += "&" + elem.Key + "=" + dataHash;
+							result += "&" + name + "=" + dataHash;
 						break;
 
 					case RestParameterSetType.Compressed:
-						sigbuilder += "\n" + elem.Value.Item1;
-						var dataComp = CompressString(elem.Value.Item1)
+						sigbuilder += "\n" + value;
+						var dataComp = CompressString(value)
 							.Replace('+', '-')
 							.Replace('\\', '_')
 							.Replace('=', '.');
-						if (elem.Value.Item1.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(dataComp), elem.Key);
+						if (value.Length > MAX_GET_LENGTH)
+							post.Add(new StringContent(dataComp), name);
 						else
-							result += "&" + elem.Key + "=" + dataComp;
+							result += "&" + name + "=" + dataComp;
 						break;
 
 					default:
-						SAMLog.Error("RPS::EnumSwitch_CPS", "type = " + elem.Value.Item2);
+						SAMLog.Error("RPS::EnumSwitch_CPS", "type = " + type);
 						break;
 				}
 			}
