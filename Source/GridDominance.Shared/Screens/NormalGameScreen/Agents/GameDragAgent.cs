@@ -10,28 +10,26 @@ using MonoSAMFramework.Portable.Screens.Agents;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 {
-    class GameDragAgent : GameScreenAgent
+	class GameDragAgent : GameScreenAgent
 	{
-		private const float DRAGSPEED_RESOLUTION_TIME = 0.1f; // time
+		private const float CALCULATION_UPS = 60f;
+		private const int MAX_UPDATES_PER_CALL = 8;
+		private const float DRAGSPEED_RESOLUTION_TIME = 0.1f;
 
 		private const float SPEED_MIN = 24;
-		private const float SPEED_MAX = 2048;
 
-		private const float DRAG_DURATION = 0.1f;
+		private const float FRICTION = 12f;
 
 		private bool _isDragging = false;
-		private bool _dragSpeedCalculated = false;
+		private bool _dragRestCalculated = false;
 
 		private FPoint _mouseStartPos;
 		private FPoint _startOffset;
 
 		private FPoint _lastMousePos;
 		private float _lastMousePosTime;
-		private ulong _lastMousePosTick;
-
-		private Vector2 _restDragStartSpeed;
-		private FPoint _restDragStartPos;
-		private float _restDragRemainingTime;
+		private Vector2 _dragSpeed;
+		private float _timeSinceRestDragUpdate;
 
 		private readonly GDGameScreen _gdScreen;
 		private readonly FRectangle _bounds;
@@ -64,7 +62,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					istate.Swallow(InputConsumer.GameBackground);
 					StartDrag(istate);
 				}
-				else if (_restDragRemainingTime > 0)
+				else if (!_dragSpeed.IsZero())
 				{
 					UpdateRestDrag(gameTime);
 				}
@@ -76,15 +74,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_mouseStartPos = istate.GamePointerPosition;
 			_startOffset = Screen.MapOffset;
 
-			_restDragStartSpeed = Vector2.Zero;
-			_restDragRemainingTime = 0;
+			_dragSpeed = Vector2.Zero;
 			_lastMousePos = istate.GamePointerPosition;
-			_lastMousePosTick = MonoSAMGame.GameCycleCounter;
 			_lastMousePosTime = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
 			_isDragging = true;
-
-			_dragSpeedCalculated = true;
+			_dragRestCalculated = false;
+			_timeSinceRestDragUpdate = 0;
 		}
 
 		private void UpdateDrag(SAMTime gameTime, InputState istate)
@@ -98,81 +94,89 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 			if (gameTime.TotalElapsedSeconds - _lastMousePosTime > DRAGSPEED_RESOLUTION_TIME)
 			{
-				UpdateRestDragSpeed(gameTime, istate);
+				CalcRestDragSpeed(gameTime, istate);
 			}
 		}
 
-		private void UpdateRestDragSpeed(SAMTime gameTime, InputState istate)
+		private void CalcRestDragSpeed(SAMTime gameTime, InputState istate)
 		{
-			_restDragStartSpeed = (istate.GamePointerPosition - _lastMousePos) / (gameTime.TotalElapsedSeconds - _lastMousePosTime);
+			_dragSpeed = (istate.GamePointerPosition - _lastMousePos) / (gameTime.TotalElapsedSeconds - _lastMousePosTime);
 
-			_lastMousePosTick = MonoSAMGame.GameCycleCounter;
 			_lastMousePosTime = gameTime.TotalElapsedSeconds;
 			_lastMousePos = istate.GamePointerPosition;
 
-			_dragSpeedCalculated = true;
+			_dragRestCalculated = true;
 		}
 
 		private void CalculateOOB()
 		{
 			if (Screen.MapOffsetX > _bounds.X)
 			{
-				_restDragRemainingTime = 0;
+				_dragSpeed.X = 0;
 				Screen.MapOffsetX = _bounds.X;
 			}
 
 			if (Screen.GuaranteedMapViewport.Right > _bounds.Right)
 			{
-				_restDragRemainingTime = 0;
+				_dragSpeed.X = 0;
 				Screen.MapOffsetX = Screen.VAdapterGame.VirtualGuaranteedWidth - _bounds.Right;
 			}
 
 			if (Screen.MapOffsetY > _bounds.Y)
 			{
-				_restDragRemainingTime = 0;
+				_dragSpeed.Y = 0;
 				Screen.MapOffsetY = _bounds.Y;
 			}
 
 			if (Screen.GuaranteedMapViewport.Bottom > _bounds.Bottom)
 			{
-				_restDragRemainingTime = 0;
+				_dragSpeed.Y = 0;
 				Screen.MapOffsetY = Screen.VAdapterGame.VirtualGuaranteedHeight - _bounds.Bottom;
 			}
 		}
 
 		private void UpdateRestDrag(SAMTime gameTime)
 		{
-			_restDragRemainingTime -= gameTime.ElapsedSeconds;
+			_timeSinceRestDragUpdate += gameTime.RealtimeElapsedSeconds;
 
-			var fp = (DRAG_DURATION - _restDragRemainingTime) / DRAG_DURATION;
+			for (int i = 0; _timeSinceRestDragUpdate > (1 / CALCULATION_UPS); i++)
+			{
+				if (i >= MAX_UPDATES_PER_CALL) { _timeSinceRestDragUpdate = 0; break; }
 
-			var sp = FloatMath.Sin(fp * FloatMath.HALF_PI);
+				UpdateRealRestDrag(1 / CALCULATION_UPS);
+				_timeSinceRestDragUpdate -= (1 / CALCULATION_UPS);
+			}
+		}
 
-			Screen.MapOffsetX = _restDragStartPos.X + sp * (DRAG_DURATION) * _restDragStartSpeed.X;
-			Screen.MapOffsetY = _restDragStartPos.Y + sp * (DRAG_DURATION) * _restDragStartSpeed.Y;
+		private void UpdateRealRestDrag(float delta)
+		{
+			float dragX = _dragSpeed.X;
+			float dragY = _dragSpeed.Y;
+
+			Screen.MapOffsetX = Screen.MapOffsetX + dragX * delta;
+			Screen.MapOffsetY = Screen.MapOffsetY + dragY * delta;
 
 			CalculateOOB();
+
+			_dragSpeed -= _dragSpeed * FloatMath.Min(FRICTION * delta, 1);
+
+			if (_dragSpeed.LengthSquared() < SPEED_MIN * SPEED_MIN)
+			{
+				_dragSpeed = Vector2.Zero;
+			}
 		}
 
 		private void EndDrag(SAMTime gameTime, InputState istate)
 		{
-			if (!_dragSpeedCalculated) UpdateRestDragSpeed(gameTime, istate);
+			if (!_dragRestCalculated) CalcRestDragSpeed(gameTime, istate);
 
-			if (_restDragStartSpeed.LengthSquared() < SPEED_MIN * SPEED_MIN)
+			var dragSpeedValue = _dragSpeed.LengthSquared();
+
+			if (dragSpeedValue < SPEED_MIN * SPEED_MIN)
 			{
-				_restDragStartSpeed = Vector2.Zero;
-				_restDragRemainingTime = 0;
-				return;
+				_dragSpeed = Vector2.Zero;
 			}
-
-			if (_restDragStartSpeed.LengthSquared() > SPEED_MAX * SPEED_MAX)
-			{
-				_restDragStartSpeed = _restDragStartSpeed.WithLength(SPEED_MAX);
-			}
-
-			_restDragRemainingTime = DRAG_DURATION;
-			_restDragStartPos = Screen.MapOffset;
-
+			
 			_isDragging = false;
 		}
 	}

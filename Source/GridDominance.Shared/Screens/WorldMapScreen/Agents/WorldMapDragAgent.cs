@@ -100,6 +100,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 			_isDragging = true;
 			_dragRestCalculated = false;
+			_timeSinceRestDragUpdate = 0;
 		}
 
 		private void UpdateDrag(SAMTime gameTime, InputState istate)
@@ -160,7 +161,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private void UpdateRestDrag(SAMTime gameTime)
 		{
-			_timeSinceRestDragUpdate += gameTime.ElapsedSeconds;
+			_timeSinceRestDragUpdate += gameTime.RealtimeElapsedSeconds;
 
 			for (int i = 0; _timeSinceRestDragUpdate > (1 / CALCULATION_UPS); i++)
 			{
