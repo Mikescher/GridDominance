@@ -3,7 +3,7 @@
 include("stdvalues")
 
 init("4-31", "Destiny", {b16b00b5-0001-4000-0000-000004000031}, KI_PRECALC_PATHTRACE)
-
+setwrap(WRAPMODE_DONUT)
 
 Minigun(SIZE_SMALL, P1, [2,  2.5], ROT_E)
 Minigun(SIZE_SMALL, A2, [14, 7.5], ROT_E)
