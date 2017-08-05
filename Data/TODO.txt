@@ -120,12 +120,12 @@ GRID_DOMINANCE [[TODO]]
 [X] Toast description when clikcing on number in info panel
 [X] Cannon that only barrel charges when boosted
 [X] Level 2-22::  background looks strange (no background blocking for neutral cannons ??)
-[?] inAppBilling Regression ??
+[X] inAppBilling Regression ??
 [X] viewport stretched with onscreen hardkeys
 [X] Unlock lower difficulties when solving higher ones
 [X] README.md
-[ ] AppStore stuff
-[ ] Levels W4
+[X] AppStore stuff
+[X] Levels W4
 [X] Relay cannon delay
 [X] Prevent relay cannon game_draw (or recognize it)
 [X] Some grid arms with red AI | some with yellow (but still most with blue)
@@ -155,18 +155,3 @@ W1          Cyber Factory
 W2          Spinning Gears
 W3          Tekno Labs
 W4          Mr Krabs
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
