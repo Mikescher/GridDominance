@@ -1,0 +1,75 @@
+
+PLAY STORE
+==========
+
+
+
+
+
+Titel:             Cannon Conquest
+
+
+Description:       2D tactical warfare, free with over 100 levels
+                   Taktischer 2D Action/Puzzler mit über 100 kostenlosen Leveln
+
+
+Full text [DE]:
+
+Cannon Conquest ist ein fordernder 2D Puzzleshooter.
+Ziel ist es alle feindlichen Türme einzunehmen und die eigenen Türme zu verteidigen
+
+<b> * Vier Welten mit insgesamt über 100 Leveln</b>
+
+<b> * Freischaltbarer lokaler Multiplayer über Bluetooth </b>
+
+ * Jeweils 4 Schwierigkeitsgrade pro Level
+
+ * Online Highscore und Accountsystem
+
+ * 6 verschiedene Arten von Türme und viele andere Variationen
+
+ * Besonders herausfordernder 4. Schwierigkeitsgrad "Extrem" 
+
+ * Keine Werbung, alle Level in-game freischaltbar
+
+
+
+Full text [US]:
+
+Cannon Conquest is a challenging 2D Puzzle shooter.
+Try to assimilate all enemy cannons and defending your own cannons.
+
+<u>Highlights:</u>
+
+<b> * Four different worlds with different elements and in total over 100 levels </b>
+
+<b> * Optional local multiplayer over bluetooth </b>
+
+ * 4 difficulties per level
+
+ * Online highscore and account system
+
+ * Six different tower types and many other gameplay variations
+
+ * And <i>extremely</i> challenging fourth difficulty
+
+ * No ads, all levels are unlockable by skill alone
+
+
+
+
+Optional Prefix [DE-FULL]:
+
+Dies ist die Vollversion von Cannon Conquest. 
+Sie enthält keine Werbung und alle Level/Welten/Features können freigespielt werden.
+Der Mehrspielermodus ist ebenfalls enthalten.
+
+
+
+Optional Prefix [US-FULL]:
+
+This is the full version of Cannon Conquest.
+It contains no ads or in-app products. All levels and worlds can be unlocked and the multiplayer is included.
+
+
+
