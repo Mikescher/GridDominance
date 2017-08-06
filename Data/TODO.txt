@@ -155,3 +155,10 @@ W1          Cyber Factory
 W2          Spinning Gears
 W3          Tekno Labs
 W4          Mr Krabs
+
+
+
+
+-------------- BUGS --------------
+
+[ ] Sometimes mskey mismatch in set-score  (server outputs debug info now)
