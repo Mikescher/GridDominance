@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using GridDominance.Shared.Resources;
 
@@ -32,7 +33,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 
 		public readonly FractionDifficulty Difficulty;
 
-		public ulong LastKiCycle = 0;
+		public ulong LastKiSingleCycle = 0;
+		public readonly Queue<byte> KICycleWaitQueue = new Queue<byte>();
 		
 		public bool IsNeutral  => (Type == FractionType.NeutralFraction);
 		public bool IsPlayer   => (Type == FractionType.PlayerFraction);

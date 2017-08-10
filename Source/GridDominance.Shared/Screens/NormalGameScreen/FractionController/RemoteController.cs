@@ -21,6 +21,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		public override void OnRemove()
 		{
+			base.OnRemove();
 			Cannon.CrosshairSize.Set(0f);
 		}
 

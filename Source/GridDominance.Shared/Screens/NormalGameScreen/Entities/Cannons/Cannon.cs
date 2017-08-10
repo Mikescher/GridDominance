@@ -373,6 +373,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				sbatch.DrawRectangle(rectHealthFull, Color.Black);
 			}
 
+			sbatch.FillRectangle(Position.AsTranslated(DrawingBoundingBox.Width/2, -DrawingBoundingBox.Height/2), new FSize(3, DrawingBoundingBox.Height), Color.DimGray );
+			sbatch.FillRectangle(Position.AsTranslated(DrawingBoundingBox.Width/2, -DrawingBoundingBox.Height/2), new FSize(3, DrawingBoundingBox.Height * controller.UpdateWaitPercentage), Color.Linen);
+
 			var yy = 2;
 			for (int i = 0; i < ActiveOperations.Count; i++)
 			{
