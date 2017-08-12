@@ -9,8 +9,8 @@ PLAY STORE
 Titel:             Cannon Conquest
 
 
-Description:       2D tactical warfare, free with over 100 levels
-                   Taktischer 2D Action/Puzzler mit über 100 kostenlosen Leveln
+Description:       2D tactical puzzler, free with over 100 levels
+                   Taktischer 2D Action/Puzzler mit über 100 kostenlosen Level
 
 
 Full text [DE]:
@@ -71,5 +71,38 @@ Optional Prefix [US-FULL]:
 This is the full version of Cannon Conquest.
 It contains no ads or in-app products. All levels and worlds can be unlocked and the multiplayer is included.
 
+
+
+
+
+In App Products:
+
+
+gd_multiplayer
+Cannon Conquest - Multiplayer
+Cannon Conquest - Mehrspieler
+Play against friends and family over bluetooth
+Spiele gegen deine Freunde mittels Bluetooth
+
+
+gd_world_002
+Cannon Conquest - World 2
+Cannon Conquest - Welt 2
+Unlock World 2
+Entsperrt Welt 2
+
+
+gd_world_003
+Cannon Conquest - World 3
+Cannon Conquest - Welt 3
+Unlock World 3
+Entsperrt Welt 3
+
+
+gd_world_004
+Cannon Conquest - World 4
+Cannon Conquest - Welt 4
+Unlock World 4
+Entsperrt Welt 4
 
 

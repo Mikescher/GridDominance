@@ -16,7 +16,13 @@ namespace GridDominance.Shared.Resources
 		public const int VIEW_WIDTH  = DEFAULT_GRID_WIDTH  * TILE_WIDTH; // 1024
 		public const int VIEW_HEIGHT = DEFAULT_GRID_HEIGHT * TILE_WIDTH; //  640
 
+#if GD_FULL
+		public const bool USE_IAB = false;
+#endif
+
+#if GD_IAB
 		public const bool USE_IAB = true;
+#endif
 
 #if __ANDROID__ && DEBUG
 		public const string IAB_WORLD2      = AndroidBillingHelper.PID_PURCHASED;

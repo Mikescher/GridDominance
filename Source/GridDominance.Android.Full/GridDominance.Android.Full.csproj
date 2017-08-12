@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{A0911695-9785-4E6E-BE1E-6935398B1344}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <MonoGamePlatform>Android</MonoGamePlatform>
+    <MonoGameContentBuilderExe>
+    </MonoGameContentBuilderExe>
+    <RootNamespace>GridDominance.Android</RootNamespace>
+    <AndroidApplication>True</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
+    <AssemblyName>GridDominance.Android</AssemblyName>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Debug\Android.Full\</OutputPath>
+    <DefineConstants>DEBUG;GD_FULL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <AndroidSupportedAbis />
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <BundleAssemblies>false</BundleAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Bin\Release\Android.Full\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <BundleAssemblies>false</BundleAssemblies>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DefineConstants>GD_FULL</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.Android.3.6.0.1625\lib\MonoAndroid\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="OpenTK" />
+    <Reference Include="Xamarin.InAppBilling">
+      <HintPath>..\Components\xamarin.inappbilling-2.2\lib\android\Xamarin.InAppBilling.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
+      <Link>Content\Content.mgcb</Link>
+    </MonoGameContentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj">
+      <Project>{550f035e-f23e-4999-bb01-4857486e4125}</Project>
+      <Name>DebugView.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj">
+      <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
+      <Name>FarseerPhysics.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj">
+      <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
+      <Name>GridDominance.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
+      <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
+      <Name>MonoSAMFramework.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\AndroidBilling.cs">
+      <Link>Impl\AndroidBilling.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\AndroidFileHelper.cs">
+      <Link>Impl\AndroidFileHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\AndroidImpl.cs">
+      <Link>Impl\AndroidImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTAcceptThread.cs">
+      <Link>Impl\Bluetooth\BTAcceptThread.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTConnectThread.cs">
+      <Link>Impl\Bluetooth\BTConnectThread.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTDeviceScoreComparer.cs">
+      <Link>Impl\Bluetooth\BTDeviceScoreComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTDeviceWrapper.cs">
+      <Link>Impl\Bluetooth\BTDeviceWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTScanReciever.cs">
+      <Link>Impl\Bluetooth\BTScanReciever.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTTransferRecieveThread.cs">
+      <Link>Impl\Bluetooth\BTTransferRecieveThread.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTTransferSendThread.cs">
+      <Link>Impl\Bluetooth\BTTransferSendThread.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinBluetooth.cs">
+      <Link>Impl\XamarinBluetooth.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinUDPClient.cs">
+      <Link>Impl\XamarinUDPClient.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\MainActivity.cs">
+      <Link>MainActivity.cs</Link>
+    </Compile>
+    <Compile Include="..\GridDominance.Android.IAB\Resources\Resource.designer.cs">
+      <Link>Resources\Resource.designer.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\GridDominance.Android.IAB\Resources\drawable\Icon.png">
+      <Link>Resources\drawable\Icon.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\GridDominance.Android.IAB\Resources\drawable\Splash.png">
+      <Link>Resources\drawable\Splash.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\GridDominance.Android.IAB\Resources\values\Styles.xml">
+      <Link>Resources\values\Styles.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" Condition="Exists('..\GridDominance.Shared\GridDominance.Shared.projitems')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>texturepacker $(SolutionDir)..\Data\Content\Sprites\spritesheet.tps</PreBuildEvent>
+  </PropertyGroup>
+</Project>

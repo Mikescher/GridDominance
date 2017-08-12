@@ -35,9 +35,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public const byte CMD_FORWARD                   = 125;
 		public const byte CMD_FORWARDLOBBYSYNC          = 126;
 		public const byte CMD_FORWARDHOSTINFO           = 127;
-#if DEBUG
 		public const byte CMD_AUTOJOINSESSION           = 23;
-#endif
 
 		public const byte ACK_SESSIONCREATED            = 50;
 		public const byte ACK_SESSIONJOINED             = 51;

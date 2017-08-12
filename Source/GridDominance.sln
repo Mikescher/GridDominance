@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GridDominance.Shared", "GridDominance.Shared\GridDominance.Shared.shproj", "{8FC3B872-A050-4329-8999-8B490B0B6274}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.DirectX", "GridDominance.DirectX\GridDominance.DirectX.csproj", "{DAED060D-BE0D-44D1-AC38-E189C7A6D300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android", "GridDominance.Android\GridDominance.Android.csproj", "{D49363EF-8D37-42B4-9AB4-C2083A4B186E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android.IAB", "GridDominance.Android.IAB\GridDominance.Android.IAB.csproj", "{D49363EF-8D37-42B4-9AB4-C2083A4B186E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.OpenGL", "GridDominance.OpenGL\GridDominance.OpenGL.csproj", "{AF110750-B036-4FDC-AF51-B08C7389AAA8}"
 EndProject
@@ -33,10 +33,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSLEditor", "DSLEditor\DSLE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.PromotionKeybase", "GridDominance.PromotionKeybase\GridDominance.PromotionKeybase.csproj", "{5A7561CB-57F1-441E-B662-51EADB1858B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android.Full", "GridDominance.Android.Full\GridDominance.Android.Full.csproj", "{A0911695-9785-4E6E-BE1E-6935398B1344}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		GridDominance.Shared\GridDominance.Shared.projitems*{28cd24bd-432c-4987-9e9d-65cfcf120ea1}*SharedItemsImports = 4
 		GridDominance.Shared\GridDominance.Shared.projitems*{8fc3b872-a050-4329-8999-8b490b0b6274}*SharedItemsImports = 13
+		GridDominance.Shared\GridDominance.Shared.projitems*{a0911695-9785-4e6e-be1e-6935398b1344}*SharedItemsImports = 4
 		GridDominance.Shared\GridDominance.Shared.projitems*{af110750-b036-4fdc-af51-b08c7389aaa8}*SharedItemsImports = 4
 		GridDominance.Shared\GridDominance.Shared.projitems*{d49363ef-8d37-42b4-9ab4-c2083a4b186e}*SharedItemsImports = 4
 		GridDominance.Shared\GridDominance.Shared.projitems*{daed060d-be0d-44d1-ac38-e189c7a6d300}*SharedItemsImports = 4
@@ -192,6 +195,24 @@ Global
 		{5A7561CB-57F1-441E-B662-51EADB1858B5}.Release|x86.ActiveCfg = Release|Any CPU
 		{5A7561CB-57F1-441E-B662-51EADB1858B5}.Release|x86.Build.0 = Release|Any CPU
 		{5A7561CB-57F1-441E-B662-51EADB1858B5}.Release|x86.Deploy.0 = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.AppStore|Any CPU.Build.0 = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.AppStore|Any CPU.Deploy.0 = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.AppStore|x86.ActiveCfg = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.AppStore|x86.Build.0 = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.AppStore|x86.Deploy.0 = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Debug|x86.Build.0 = Debug|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Release|x86.ActiveCfg = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Release|x86.Build.0 = Release|Any CPU
+		{A0911695-9785-4E6E-BE1E-6935398B1344}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,5 +227,6 @@ Global
 		{D661CD9F-8934-496D-8332-BC82AAB77598} = {3A0EEB35-977B-4A96-87D0-A6C29BD9F96C}
 		{277DA996-84FB-41B8-996E-79C336EEFDE9} = {1979FEB3-B082-4309-B71D-89D0C3A7A180}
 		{5A7561CB-57F1-441E-B662-51EADB1858B5} = {1979FEB3-B082-4309-B71D-89D0C3A7A180}
+		{A0911695-9785-4E6E-BE1E-6935398B1344} = {45B7C48F-CB14-4B13-AD82-5D2AEDF45DC6}
 	EndGlobalSection
 EndGlobal

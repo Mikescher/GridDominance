@@ -53,7 +53,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 			SAMLog.Debug($"Time for partition algorithm: {sw.ElapsedMilliseconds}ms");
 			SAMLog.Debug($"PartitionCount: {partitions.Count} / {bounds.Width*bounds.Height}");
 #else
-			CreatePartitions();
+			CreatePartitions(bounds);
 #endif
 
 		}

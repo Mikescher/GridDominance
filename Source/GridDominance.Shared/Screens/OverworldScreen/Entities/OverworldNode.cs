@@ -66,6 +66,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			clickArea.CancelClick();
 		}
 
+#if DEBUG
 		protected override void DrawDebugBorders(IBatchRenderer sbatch)
 		{
 			base.DrawDebugBorders(sbatch);
@@ -74,6 +75,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			sbatch.DrawRectangle(TargetNodePos.AsTranslated(-DrawingBoundingBox.Width * 0.5f, -DrawingBoundingBox.Height * 0.5f), DrawingBoundingBox, Color.Firebrick, 2);
 
 		}
+#endif
 
 		protected abstract void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate);
 	}

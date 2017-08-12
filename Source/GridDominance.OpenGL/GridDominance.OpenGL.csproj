@@ -23,7 +23,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\Bin\Debug\WindowsGL\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;__WINDOWS__;__DESKTOP__</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__WINDOWS__;__DESKTOP__;GD_IAB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -33,7 +33,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Bin\Release\WindowsGL\</OutputPath>
-    <DefineConstants>TRACE;__WINDOWS__;__DESKTOP__</DefineConstants>
+    <DefineConstants>TRACE;__WINDOWS__;__DESKTOP__;GD_IAB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -42,7 +42,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\GridDominance.Android\Impl\XamarinUDPClient.cs">
+    <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinUDPClient.cs">
       <Link>Impl\XamarinUDPClient.cs</Link>
     </Compile>
     <Compile Include="..\GridDominance.DirectX\Impl\WindowsBillingAdapter.cs">
