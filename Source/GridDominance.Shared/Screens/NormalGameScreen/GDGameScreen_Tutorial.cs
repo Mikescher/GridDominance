@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
@@ -44,6 +45,102 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			GameSpeedMode = GameSpeedModes.NORMAL;
 
 			HUD.AddModal(new HUDTutorialScorePanel(profile, addPoints), false);
+		}
+
+		protected override void TestForGameEndingCondition()
+		{
+			if (HasFinished) return;
+
+			bool hasPlayer = false;
+			bool hasComputer = false;
+
+			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
+			{
+				if (cannon is RelayCannon) continue;
+				if (cannon is ShieldProjectorCannon) continue;
+
+				if (cannon.Fraction.IsPlayer) hasPlayer = true;
+				if (cannon.Fraction.IsComputer) hasComputer = true;
+			}
+
+			if (hasPlayer && !hasComputer) EndGame(true, fractionPlayer);
+			if (!hasPlayer && hasComputer)
+			{
+				var winner = Entities
+					.Enumerate()
+					.OfType<Cannon>()
+					.GroupBy(p => p.Fraction)
+					.Where(p => !p.Key.IsNeutral)
+					.OrderBy(p => p.Count())
+					.Last()
+					.Key;
+
+				EndGame(false, winner);
+			}
+		}
+
+		private void EndGame(bool playerWon, Fraction winner)
+		{
+			HasFinished = true;
+			PlayerWon = playerWon;
+
+			if (playerWon)
+			{
+				var ctime = (int)(LevelTime * 1000);
+
+				int scoreGain = 0;
+				HashSet<FractionDifficulty> gains = new HashSet<FractionDifficulty>();
+
+				for (FractionDifficulty diff = FractionDifficulty.DIFF_0; diff <= Difficulty; diff++)
+				{
+					if (!GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(diff))
+					{
+						scoreGain += FractionDifficultyHelper.GetScore(diff);
+						gains.Add(diff);
+					}
+				}
+
+				{
+					if (!GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(Difficulty))
+					{
+						GDOwner.Profile.SetCompleted(Blueprint.UniqueID, Difficulty, ctime, true);
+					}
+					var localdata = GDOwner.Profile.LevelData[Blueprint.UniqueID].Data[Difficulty];
+
+					if (ctime < localdata.BestTime)
+					{
+						// update PB
+						GDOwner.Profile.SetCompleted(Blueprint.UniqueID, Difficulty, ctime, true);
+					}
+
+					// Fake the online data until next sync
+					localdata.GlobalCompletionCount++;
+					if (ctime < localdata.GlobalBestTime || localdata.GlobalBestTime == -1)
+					{
+						localdata.GlobalBestTime = ctime;
+						localdata.GlobalBestUserID = GDOwner.Profile.OnlineUserID;
+					}
+				}
+
+				GDOwner.SaveProfile();
+				ShowScorePanel(Blueprint, GDOwner.Profile, gains, true, scoreGain);
+				MainGame.Inst.GDSound.PlayEffectGameWon();
+
+				EndGameConvert(winner);
+			}
+			else
+			{
+				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, 0);
+
+				MainGame.Inst.GDSound.PlayEffectGameOver();
+
+				EndGameConvert(winner);
+			}
+
+			foreach (var cannon in Entities.Enumerate().OfType<Cannon>())
+			{
+				cannon.ForceUpdateController();
+			}
 		}
 
 		public override void ExitToMap()
