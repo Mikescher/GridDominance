@@ -64,9 +64,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Background
 
 			int GridGet(int x, int y)
 			{
-				int ggtype = 0;
 				float ggftype = 0f;
-				if (_tileValues.TryGetValue(100000 * (x + bounds.Left) + (y + bounds.Top), out ggftype)) return (int) (ggftype * GRADIENT_RESOLUTION);
+				if (_tileValues.TryGetValue(100000 * (x + bounds.Left) + (y + bounds.Top), out _)) return (int) (ggftype * GRADIENT_RESOLUTION);
 				return 0;
 			}
 

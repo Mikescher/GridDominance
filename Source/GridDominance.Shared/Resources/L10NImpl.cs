@@ -296,7 +296,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_GLOB_WORLDLOCK,         "World locked",                                                                      "Welt noch nicht freigespielt");
 			L10N.Add(STR_GLOB_LEVELLOCK,         "Level locked",                                                                      "Level noch nicht freigespielt");
 			L10N.Add(STR_INF_YOU,                "You",                                                                               "Du");
-			L10N.Add(STR_INF_GLOBAL,             "Global",                                                                            "Global");
+			L10N.Add(STR_INF_GLOBAL,             "Stats",                                                                             "Total");
 			L10N.Add(STR_INF_HIGHSCORE,          "Highscore",                                                                         "Bestzeit");
 			L10N.Add(STR_GLOB_OVERWORLD,         "Overworld",                                                                         "Übersicht");
 			L10N.Add(STR_GLOB_WAITFORSERVER,     "Contacting server",                                                                 "Server wird kontaktiert");
