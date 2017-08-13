@@ -7,13 +7,13 @@ require_once 'backend.php';
 function getUserCount() {
 	global $pdo;
 
-	return $pdo->query('SELECT COUNT(*) FROM users')->fetch(PDO::FETCH_NUM)[0];
+	return $pdo->query('SELECT COUNT(*) FROM users WHERE score > 0')->fetch(PDO::FETCH_NUM)[0];
 }
 
 function getActiveUserCount($days) {
 	global $pdo;
 
-	return $pdo->query('SELECT COUNT(*) FROM users WHERE last_online >= now() - INTERVAL ' . $days . ' DAY')->fetch(PDO::FETCH_NUM)[0];
+	return $pdo->query('SELECT COUNT(*) FROM users WHERE score > 0 AND last_online >= now() - INTERVAL ' . $days . ' DAY')->fetch(PDO::FETCH_NUM)[0];
 }
 
 function getErrorCount() {
@@ -37,47 +37,47 @@ function getEntryCount() {
 function getTotalHighscore() {
 	global $pdo;
 
-	return $pdo->query('SELECT MAX(score) FROM users')->fetch(PDO::FETCH_NUM)[0];
+	return $pdo->query('SELECT MAX(score) FROM users WHERE score > 0')->fetch(PDO::FETCH_NUM)[0];
 }
 
 function getRemainingErrors() {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0 AND score > 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getAllErrors() {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid AND score > 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getUserErrors($uid) {
 	global $pdo;
 
-	$stmt = $pdo->prepare("SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE users.userid = :uid");
+	$stmt = $pdo->prepare("SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE users.userid = :uid AND score > 0");
 	$stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
 	$stmt->execute();
 
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getUsers() {
+function getUsers($all) {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM users')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT * FROM users WHERE 1=1 ' . ($all ? "" : "AND score > 0"))->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getActiveUsers($days) {
+function getActiveUsers($days, $all) {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM users WHERE last_online >= now() - INTERVAL ' . $days . ' DAY')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT * FROM users WHERE last_online >= now() - INTERVAL ' . $days . ' DAY ' . ($all ? "" : "AND score > 0"))->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getLevelHighscores() {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM cache_levels LEFT JOIN users ON best_userid = users.userid')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT * FROM cache_levels LEFT JOIN users ON best_userid = users.userid AND users.score > 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getGlobalHighscores() {
@@ -89,19 +89,19 @@ function getGlobalHighscores() {
 function getMultiplayerHighscores() {
 	global $pdo;
 
-	return $pdo->query("SELECT * FROM users WHERE is_auto_generated=0 ORDER BY mpscore DESC LIMIT 100")->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query("SELECT * FROM users WHERE is_auto_generated=0 AND score > 0 ORDER BY mpscore DESC LIMIT 100")->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getAllEntries() {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE score > 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getLevelEntries($lvl) {
 	global $pdo;
 
-	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id");
+	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND score > 0");
 	$stmt->bindValue(':id', $lvl, PDO::PARAM_STR);
 	$stmt->execute();
 
@@ -111,7 +111,7 @@ function getLevelEntries($lvl) {
 function getLevelDiffEntries($lvl, $diff) {
 	global $pdo;
 
-	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND difficulty = :diff");
+	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND difficulty = :diff AND score > 0");
 	$stmt->bindValue(':id', $lvl, PDO::PARAM_STR);
 	$stmt->bindValue(':diff', $diff, PDO::PARAM_STR);
 	$stmt->execute();
@@ -122,7 +122,7 @@ function getLevelDiffEntries($lvl, $diff) {
 function getUserEntries($uid) {
 	global $pdo;
 
-	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE level_highscores.userid= :uid");
+	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE level_highscores.userid= :uid AND score > 0");
 	$stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
 	$stmt->execute();
 

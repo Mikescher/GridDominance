@@ -39,15 +39,18 @@
 	    return $c;
 	}
 
+	$showall = false;
+	if (! empty($_GET['a'])) $showall = $_GET['a'] == 'y';
+
 	if (empty($_GET['d']))
-		$users = getUsers();
+		$users = getUsers($showall);
 	else
-		$users = getActiveUsers($_GET['d']);
+		$users = getActiveUsers($_GET['d'], $showall);
 
     ?>
 
     <div class="tablebox">
-        <table class="sqltab pure-table pure-table-bordered">
+        <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
                 <tr>
                     <th style='width: 170px'>Username</th>
@@ -88,8 +91,21 @@
         </table>
     </div>
 
+    <?php if (! $showall): ?>
+        <div style="text-align: right; font-size: xx-large">
+			<?php
+            if (empty($_SERVER['QUERY_STRING']))
+				echo " <a href=\"userlist.php?d=y\">Show All</a>";
+            else
+				echo " <a href=\"userlist.php?" . $_SERVER['QUERY_STRING'] . "&a=y\">Show All</a>";
+			?>
+
+        </div>
+    <?php endif; ?>
+
     <script type="text/javascript">
 		<?php echo file_get_contents('admin.js'); ?>
     </script>
+    <script src="sorttable.js"></script>
 </body>
 </html>

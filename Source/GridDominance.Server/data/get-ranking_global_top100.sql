@@ -14,7 +14,9 @@ SELECT
 
 FROM level_highscores
 
-  INNER JOIN users ON users.userid = level_highscores.userid
+INNER JOIN users ON users.userid = level_highscores.userid
+
+WHERE score > 0
 
 GROUP BY level_highscores.userid
 
