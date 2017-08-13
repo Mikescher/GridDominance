@@ -82,6 +82,7 @@ namespace GridDominance.Shared.Resources
 		
 		public const float MULTIPLICATOR_BULLET_PLAYER     = 1.000f;
 		public const float MULTIPLICATOR_BULLET_NEUTRAL    = 0.600f;
+		public const float MULTIPLICATOR_BULLET_SUPERSLOW  = 0.500f;  // Easy on 1-1
 		public const float MULTIPLICATOR_BULLET_COMPUTER_0 = 0.800f;  // Easy
 		public const float MULTIPLICATOR_BULLET_COMPUTER_1 = 0.875f;  // Normal
 		public const float MULTIPLICATOR_BULLET_COMPUTER_2 = 0.950f;  // Hard

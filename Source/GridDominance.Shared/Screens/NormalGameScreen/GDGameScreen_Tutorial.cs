@@ -21,8 +21,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override Fraction LocalPlayerFraction => fractionPlayer;
 
-		public GDGameScreen_Tutorial(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp)
-			: base(game, gdm, Levels.LEVEL_TUTORIAL, FractionDifficulty.DIFF_0, false, false)
+		public GDGameScreen_Tutorial(MainGame game, GraphicsDeviceManager gdm)
+			: base(game, gdm, Levels.LEVEL_TUTORIAL, FractionDifficulty.DIFF_0, false, false, false)
 		{
 			AddAgent(new TutorialAgent(this));
 		}

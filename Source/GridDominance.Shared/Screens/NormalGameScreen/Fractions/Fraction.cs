@@ -62,14 +62,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 				FractionDifficulty.PLAYER);
 		}
 
-		public static Fraction CreateComputerFraction(Color c, Fraction neutral, FractionDifficulty diff)
+		public static Fraction CreateComputerFraction(Color c, Fraction neutral, FractionDifficulty diff, bool slow)
 		{
 			return new Fraction(
 				c, 
 				neutral, 
 				FractionType.ComputerFraction, 
-				FractionDifficultyHelper.GetBulletMultiplicator(diff), 
-				FractionDifficultyHelper.GetLaserMultiplicator(diff), 
+				FractionDifficultyHelper.GetBulletMultiplicator(diff, slow),
+				FractionDifficultyHelper.GetLaserMultiplicator(diff),
 				diff);
 		}
 

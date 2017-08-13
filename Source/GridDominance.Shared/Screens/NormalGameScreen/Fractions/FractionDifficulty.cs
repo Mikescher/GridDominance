@@ -34,6 +34,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 
 		public const float MULTIPLICATOR_B_PLAYER     = GDConstants.MULTIPLICATOR_BULLET_PLAYER;
 		public const float MULTIPLICATOR_B_NEUTRAL    = GDConstants.MULTIPLICATOR_BULLET_NEUTRAL;
+		public const float MULTIPLICATOR_B_COMPUTER_S = GDConstants.MULTIPLICATOR_BULLET_SUPERSLOW;
 		public const float MULTIPLICATOR_B_COMPUTER_0 = GDConstants.MULTIPLICATOR_BULLET_COMPUTER_0;
 		public const float MULTIPLICATOR_B_COMPUTER_1 = GDConstants.MULTIPLICATOR_BULLET_COMPUTER_1;
 		public const float MULTIPLICATOR_B_COMPUTER_2 = GDConstants.MULTIPLICATOR_BULLET_COMPUTER_2;
@@ -51,7 +52,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 		private const int SCORE_DIFF_2 = GDConstants.SCORE_DIFF_2;
 		private const int SCORE_DIFF_3 = GDConstants.SCORE_DIFF_3;
 
-		public static float GetBulletMultiplicator(FractionDifficulty d)
+		public static float GetBulletMultiplicator(FractionDifficulty d, bool slow)
 		{
 			switch (d)
 			{
@@ -62,7 +63,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 					return MULTIPLICATOR_B_NEUTRAL;
 
 				case FractionDifficulty.KI_EASY:
-					return MULTIPLICATOR_B_COMPUTER_0;
+					return slow ? MULTIPLICATOR_B_COMPUTER_S : MULTIPLICATOR_B_COMPUTER_0;
 
 				case FractionDifficulty.KI_NORMAL:
 					return MULTIPLICATOR_B_COMPUTER_1;

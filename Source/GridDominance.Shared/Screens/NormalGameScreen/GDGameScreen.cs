@@ -113,15 +113,20 @@ namespace GridDominance.Shared.Screens.ScreenGame
 		public readonly bool IsPreview;
 		public readonly bool IsNetwork;
 
+		private readonly bool _superslow;
+
 		public abstract Fraction LocalPlayerFraction { get; }
 
-		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, bool prev, bool netw) : base(game, gdm)
+		protected GDGameScreen(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, bool prev, bool netw, bool slow)
+			: base(game, gdm)
 		{
 			Blueprint = bp;
 			Difficulty = diff;
 			IsPreview = prev;
 			IsNetwork = netw;
-			
+
+			_superslow = slow;
+
 			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this, (GameWrapMode)bp.WrapMode);
 
 			Initialize();
@@ -272,9 +277,9 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			fractionNeutral = Fraction.CreateNeutralFraction();
 			fractionPlayer = Fraction.CreatePlayerFraction(fractionNeutral);
-			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, Difficulty);
-			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, Difficulty);
-			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, Difficulty);
+			fractionComputer1 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_01, fractionNeutral, Difficulty, _superslow);
+			fractionComputer2 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_02, fractionNeutral, Difficulty, _superslow);
+			fractionComputer3 = Fraction.CreateComputerFraction(Fraction.COLOR_COMPUTER_03, fractionNeutral, Difficulty, _superslow);
 
 			LoadLevelFromBlueprint();
 		}

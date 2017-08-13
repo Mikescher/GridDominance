@@ -19,7 +19,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public override Fraction LocalPlayerFraction => null;
 
 		public GDGameScreen_Display(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint b) 
-			: base(game, gdm, b, FractionDifficulty.DIFF_3, true, false)
+			: base(game, gdm, b, FractionDifficulty.DIFF_3, true, false, false)
 		{
 			Background = new GDEmptyGridBackground(this, (GameWrapMode)b.WrapMode);
 		}

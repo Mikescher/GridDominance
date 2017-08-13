@@ -25,7 +25,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public override Fraction LocalPlayerFraction => fractionPlayer;
 
 		public GDGameScreen_SP(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, GraphBlueprint ws) 
-			: base(game, gdm, bp, diff, false, false)
+			: base(game, gdm, bp, diff, false, false, diff == FractionDifficulty.DIFF_0 && bp.UniqueID == Levels.LEVELID_1_1)
 		{
 			WorldBlueprint = ws;
 		}

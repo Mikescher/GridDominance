@@ -242,7 +242,7 @@ namespace GridDominance.Shared
 		
 		public void SetTutorialLevelScreen()
 		{
-			SetCurrentScreen(new GDGameScreen_Tutorial(this, Graphics, Levels.LEVEL_TUTORIAL));
+			SetCurrentScreen(new GDGameScreen_Tutorial(this, Graphics));
 		}
 
 		public void SetDebugLevelScreen()
