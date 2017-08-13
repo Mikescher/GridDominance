@@ -67,14 +67,13 @@ namespace MonoSAMFramework.Portable.Network.REST
 				var type = elem.Item3;
 				var sign = elem.Item4;
 
-				if (!sign) continue;
-
 				switch (type)
 				{
 					case RestParameterSetType.String:
 					case RestParameterSetType.Json:
 					case RestParameterSetType.Guid:
-						sigbuilder += "\n" + value;
+						if (sign) sigbuilder += "\n" + value;
+
 						if (value.Length > MAX_GET_LENGTH)
 							post.Add(new StringContent(value), name);
 						else
@@ -82,7 +81,8 @@ namespace MonoSAMFramework.Portable.Network.REST
 						break;
 
 					case RestParameterSetType.Int:
-						sigbuilder += "\n" + value;
+						if (sign) sigbuilder += "\n" + value;
+
 						if (value.Length > MAX_GET_LENGTH)
 							post.Add(new StringContent(value), name);
 						else
@@ -90,7 +90,8 @@ namespace MonoSAMFramework.Portable.Network.REST
 						break;
 
 					case RestParameterSetType.Base64:
-						sigbuilder += "\n" + value;
+						if (sign) sigbuilder += "\n" + value;
+
 						var data64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(value))
 							.Replace('+', '-')
 							.Replace('\\', '_')
@@ -104,7 +105,8 @@ namespace MonoSAMFramework.Portable.Network.REST
 
 					case RestParameterSetType.Hash:
 						var dataHash = value.ToUpper();
-						sigbuilder += "\n" + dataHash;
+						if (sign) sigbuilder += "\n" + dataHash;
+
 						if (value.Length > MAX_GET_LENGTH)
 							post.Add(new StringContent(dataHash), name);
 						else
@@ -112,7 +114,8 @@ namespace MonoSAMFramework.Portable.Network.REST
 						break;
 
 					case RestParameterSetType.Compressed:
-						sigbuilder += "\n" + value;
+						if (sign) sigbuilder += "\n" + value;
+
 						var dataComp = CompressString(value)
 							.Replace('+', '-')
 							.Replace('\\', '_')
