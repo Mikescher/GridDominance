@@ -98,7 +98,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				bw.Write((byte)Speed);
 				bw.Write((byte)MusicIndex);
 
-				bw.Write(GDConstants.IVersion);
+				bw.Write(GDConstants.IntVersion);
 				bw.Write(Levels.LEVELS[LevelID].CalcCheckSum());
 
 				return ms.ToArray();
@@ -114,7 +114,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				bw.Write((byte)Speed);
 				bw.Write((byte)MusicIndex);
 
-				bw.Write(GDConstants.IVersion);
+				bw.Write(GDConstants.IntVersion);
 				bw.Write(Levels.LEVELS[LevelID].CalcCheckSum());
 
 				return ms.ToArray();

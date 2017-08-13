@@ -54,6 +54,8 @@
     <BundleAssemblies>false</BundleAssemblies>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DefineConstants>GD_IAB</DefineConstants>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <EnableProguard>true</EnableProguard>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">

@@ -54,6 +54,9 @@
     <BundleAssemblies>false</BundleAssemblies>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DefineConstants>GD_FULL</DefineConstants>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis />
+    <EnableProguard>true</EnableProguard>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
@@ -71,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
@@ -139,24 +141,13 @@
     <Compile Include="..\GridDominance.Android.IAB\MainActivity.cs">
       <Link>MainActivity.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Resources\Resource.designer.cs">
-      <Link>Resources\Resource.designer.cs</Link>
-    </Compile>
+    <Compile Include="Resources\Resource.designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\GridDominance.Android.IAB\Resources\drawable\Icon.png">
-      <Link>Resources\drawable\Icon.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\GridDominance.Android.IAB\Resources\drawable\Splash.png">
-      <Link>Resources\drawable\Splash.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\GridDominance.Android.IAB\Resources\values\Styles.xml">
-      <Link>Resources\values\Styles.xml</Link>
-    </AndroidResource>
+    <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\drawable\Icon.png" />
+    <AndroidResource Include="Resources\drawable\Splash.png" />
+    <AndroidResource Include="Resources\values\Styles.xml" />
   </ItemGroup>
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" Condition="Exists('..\GridDominance.Shared\GridDominance.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

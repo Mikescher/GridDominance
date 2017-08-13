@@ -1,12 +1,11 @@
 ﻿using System;
-using MonoSAMFramework.Portable.DeviceBridge;
 
 namespace GridDominance.Shared.Resources
 {
 	public static class GDConstants
 	{
-		public static readonly Version Version = new Version(0,24,0,0);
-		public static ulong IVersion => (ulong)((((((Version.Major << 12) | Version.Minor) << 12) | Version.Build) << 12) | Version.Revision);
+		public static readonly Version Version = new Version(0,25,0,0);
+		public static ulong IntVersion { get; } = (ulong)((((((Version.Major << 12) | Version.Minor) << 12) | Version.Build) << 12) | Version.Revision);
 
 		public const int TILE_WIDTH = 64;
 
@@ -25,10 +24,10 @@ namespace GridDominance.Shared.Resources
 #endif
 
 #if __ANDROID__ && DEBUG
-		public const string IAB_WORLD2      = AndroidBillingHelper.PID_PURCHASED;
-		public const string IAB_WORLD3      = AndroidBillingHelper.PID_PURCHASED; 
-		public const string IAB_WORLD4      = AndroidBillingHelper.PID_PURCHASED;
-		public const string IAB_MULTIPLAYER = AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_WORLD2      = MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_WORLD3      = MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_PURCHASED; 
+		public const string IAB_WORLD4      = MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_PURCHASED;
+		public const string IAB_MULTIPLAYER = MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_PURCHASED;
 #else
 		public const string IAB_WORLD2      = @"gd_world_002";
 		public const string IAB_WORLD3      = @"gd_world_003";

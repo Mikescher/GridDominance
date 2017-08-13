@@ -32,6 +32,13 @@ Ziel ist es alle feindlichen Türme einzunehmen und die eigenen Türme zu vertei
 
  * Keine Werbung, alle Level in-game freischaltbar
 
+<u>Berechtigungen:</u>
+
+<b>Internet:</b> Für den Online Highscore und den Online Account
+<b>Bluetooth:</b> Für den lokalen Multiplayer
+<b>Standort:</b> Bluetooth braucht (warum auch immer) die Standort Berechtigung
+<b>In-App Käufe:</b> Um Welten freizuschalten obwohl man nicht genug Punkte hat :)
+
 
 
 Full text [US]:
@@ -55,6 +62,12 @@ Try to assimilate all enemy cannons and defending your own cannons.
 
  * No ads, all levels are unlockable by skill alone
 
+<u>Permissions:</u>
+
+<b>Internet:</b> For Online Highscore and account synchronization
+<b>Bluetooth:</b> For local multiplayer
+<b>Location:</b> For whatever reasons bluetooth needs location permissions...
+<b>In-App Products:</b> To unlock worlds without enough points
 
 
 

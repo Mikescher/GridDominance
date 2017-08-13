@@ -71,7 +71,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			SAMLog.Debug($"[[CMD_FORWARDLOBBYSYNC]]: {LevelID} | {Speed} | {MusicIndex}");
 
-			if (ServerGameVersion != GDConstants.IVersion)
+			if (ServerGameVersion != GDConstants.IntVersion)
 			{
 				ErrorStop(ErrorType.GameVersionMismatch, null);
 				return;
