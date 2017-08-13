@@ -68,9 +68,6 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="OpenTK" />
-    <Reference Include="Xamarin.InAppBilling">
-      <HintPath>..\Components\xamarin.inappbilling-2.2\lib\android\Xamarin.InAppBilling.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -102,14 +99,8 @@
     <Folder Include="Content\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\AndroidBilling.cs">
-      <Link>Impl\AndroidBilling.cs</Link>
-    </Compile>
     <Compile Include="..\GridDominance.Android.IAB\Impl\AndroidFileHelper.cs">
       <Link>Impl\AndroidFileHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\AndroidImpl.cs">
-      <Link>Impl\AndroidImpl.cs</Link>
     </Compile>
     <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTAcceptThread.cs">
       <Link>Impl\Bluetooth\BTAcceptThread.cs</Link>
@@ -138,9 +129,9 @@
     <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinUDPClient.cs">
       <Link>Impl\XamarinUDPClient.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\MainActivity.cs">
-      <Link>MainActivity.cs</Link>
-    </Compile>
+    <Compile Include="Impl\AndroidFullImpl.cs" />
+    <Compile Include="Impl\AndroidFullVersionBilling.cs" />
+    <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
   </ItemGroup>
   <ItemGroup>

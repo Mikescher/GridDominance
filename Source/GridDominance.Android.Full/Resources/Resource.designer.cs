@@ -26,7 +26,6 @@ namespace GridDominance.Android
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.InAppBilling.Resource.String.library_name = global::GridDominance.Android.Resource.String.library_name;
 		}
 		
 		public partial class Attribute
@@ -61,27 +60,11 @@ namespace GridDominance.Android
 			}
 		}
 		
-		public partial class String
-		{
-			
-			// aapt resource value: 0x7f030000
-			public const int library_name = 2130903040;
-			
-			static String()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private String()
-			{
-			}
-		}
-		
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f040000
-			public const int Theme_Splash = 2130968576;
+			// aapt resource value: 0x7f030000
+			public const int Theme_Splash = 2130903040;
 			
 			static Style()
 			{
