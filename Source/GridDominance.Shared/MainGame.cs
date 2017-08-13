@@ -29,18 +29,6 @@ namespace GridDominance.Shared
 {
 	public class MainGame : MonoSAMGame
 	{
-		public static readonly string[] IABList =
-		{
-#if DEBUG
-			AndroidBillingHelper.PID_CANCELED,
-			AndroidBillingHelper.PID_PURCHASED,
-			AndroidBillingHelper.PID_REFUNDED,
-			AndroidBillingHelper.PID_UNAVAILABLE,
-#endif
-			GDConstants.IAB_WORLD2,
-			GDConstants.IAB_WORLD3,
-		};
-
 		public const float MAX_LOG_SEND_DELTA = 25f; // Max send 5 logs in 25sec
 		public const int   MAX_LOG_SEND_COUNT = 5;
 
@@ -59,7 +47,7 @@ namespace GridDominance.Shared
 			Backend = new GDServerAPI(b);
 			//Backend = new DummyGDServerAPI();
 
-			if (GDConstants.USE_IAB) Bridge.IAB.Connect(IABList);
+			if (GDConstants.USE_IAB) Bridge.IAB.Connect(GDConstants.IABList);
 
 			Profile = new PlayerProfile();
 

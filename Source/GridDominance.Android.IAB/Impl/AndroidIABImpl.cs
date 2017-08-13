@@ -86,6 +86,7 @@ namespace GridDominance.Android.Impl
 			b.AppendFormat("Orientation         := '{0}'\n", Resources.System.Configuration.Orientation);
 			b.AppendFormat("Touchscreen         := '{0}'\n", Resources.System.Configuration.Touchscreen);
 			b.AppendFormat("ScreenResolution    := '{0}'\n", $"{m.WidthPixels}x{m.HeightPixels} <=> {c.ScreenWidthDp}x{c.ScreenHeightDp} (d = {m.Density})");
+			b.AppendFormat("VersionType         := '{0}'\n", "IAB");
 
 			return b.ToString();
 		}

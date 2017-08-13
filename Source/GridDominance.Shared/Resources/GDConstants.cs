@@ -4,7 +4,7 @@ namespace GridDominance.Shared.Resources
 {
 	public static class GDConstants
 	{
-		public static readonly Version Version = new Version(0,27,0,0);
+		public static readonly Version Version = new Version(0,28,0,0);
 		public static ulong IntVersion { get; } = (ulong)((((((Version.Major << 12) | Version.Minor) << 12) | Version.Build) << 12) | Version.Revision);
 
 		public const int TILE_WIDTH = 64;
@@ -23,17 +23,25 @@ namespace GridDominance.Shared.Resources
 		public const bool USE_IAB = true;
 #endif
 
-#if __ANDROID__ && DEBUG
-		public const string IAB_WORLD2      = MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_PURCHASED;
-		public const string IAB_WORLD3      = MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_PURCHASED; 
-		public const string IAB_WORLD4      = MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_PURCHASED;
-		public const string IAB_MULTIPLAYER = MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_PURCHASED;
-#else
 		public const string IAB_WORLD2      = @"gd_world_002";
 		public const string IAB_WORLD3      = @"gd_world_003";
 		public const string IAB_WORLD4      = @"gd_world_004";
 		public const string IAB_MULTIPLAYER = @"gd_multiplayer";
+
+		public static readonly string[] IABList =
+		{
+#if DEBUG
+			MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_CANCELED,
+			MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_PURCHASED,
+			MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_REFUNDED,
+			MonoSAMFramework.Portable.DeviceBridge.AndroidBillingHelper.PID_UNAVAILABLE,
 #endif
+
+			GDConstants.IAB_WORLD2,
+			GDConstants.IAB_WORLD3,
+			GDConstants.IAB_WORLD4,
+			GDConstants.IAB_MULTIPLAYER,
+		};
 
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
 		public const string BFB_URL     = @"http://blackforestbytes.de/";
