@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Android.App;
 using Android.Content.PM;
 using Android.Views;
@@ -12,7 +11,7 @@ using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Android
 {
-	[Activity(Label = "GridDominance.Android",
+	[Activity(Label = "Cannon Conquest",
 		MainLauncher = true,
 		Icon = "@drawable/icon",
 		Theme = "@style/Theme.Splash",
