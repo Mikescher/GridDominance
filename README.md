@@ -1,4 +1,4 @@
-Cannon Conquest [![Get it in Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance)
+Cannon Conquest [![Get it in Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.iab) [![Get it in Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.full)
 ===============
 
 Source code of an android/windows game I made
