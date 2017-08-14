@@ -9,14 +9,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	class OverworldNode_W1 : OverworldNode_Graph
 	{
-		public int ForceClickCounter = 0;
-
 		public OverworldNode_W1(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, Levels.WORLD_001, null)
 		{
 			//
 		}
 
-		protected override void OnClickDeny()
+		protected override void OnClickNeedsAction()
 		{
 			if (ForceClickCounter == 0)
 			{
@@ -44,6 +42,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				_ustate = WorldUnlockState.Unlocked;
 				return;
 			}
+		}
+
+		protected override void OnClickFullyLocked()
+		{
+			OnClickNeedsAction();
 		}
 	}
 }

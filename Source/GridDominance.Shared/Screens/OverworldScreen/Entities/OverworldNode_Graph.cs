@@ -17,8 +17,8 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.Localization;
-using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
 using MonoSAMFramework.Portable.LogProtocol;
+using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
 
 // ReSharper disable HeuristicUnreachableCode
 #pragma warning disable 162
@@ -36,6 +36,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		protected WorldUnlockState _ustate;
 
 		public override bool IsNodeEnabled => _ustate == WorldUnlockState.Unlocked;
+
+		public int ForceClickCounter = 0;
 
 		protected OverworldNode_Graph(GDOverworldScreen scrn, FPoint pos, GraphBlueprint world, string iab) 
 			: base(scrn, pos, Levels.WORLD_NAMES[world.ID], world.ID)
@@ -194,7 +196,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		protected override void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
 		{
 #if DEBUG
-			if (DebugSettings.Get("UnlockNode")) { OnClickAccept(); return; }
+			if (DebugSettings.Get("UnlockNode")) { OnClickUnlocked(); return; }
 
 			if (DebugSettings.Get("WorldPreview")) { MainGame.Inst.Profile.PurchasedWorlds.Clear(); ShowPreview(); return; }
 #endif
@@ -203,15 +205,19 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			if (_ustate == WorldUnlockState.Unlocked)
 			{
-				OnClickAccept();
+				OnClickUnlocked();
 			}
-			else
+			else if (_ustate == WorldUnlockState.NeedsAction)
 			{
-				OnClickDeny();
+				OnClickNeedsAction();
+			}
+			else if (_ustate == WorldUnlockState.FullyLocked)
+			{
+				OnClickFullyLocked();
 			}
 		}
 
-		protected virtual void OnClickAccept()
+		protected virtual void OnClickUnlocked()
 		{
 			var ownr = ((GDOverworldScreen)Owner);
 
@@ -224,15 +230,94 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			MainGame.Inst.GDSound.PlayEffectZoomIn();
 		}
 
-		protected virtual void OnClickDeny()
+		protected abstract void OnClickNeedsAction();
+		protected abstract void OnClickFullyLocked();
+
+
+		protected void DefaultActionClickNeedsAction()
 		{
-			Owner.HUD.ShowToast("ONG::LOCKED", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+			if (GDConstants.USE_IAB)
+			{
+				ShowPreview();
+				return;
+			}
+			else
+			{
+				if (ForceClickCounter == 0)
+				{
+					Owner.HUD.ShowToast("OWNG::UNLOCK_1(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST1), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+					ForceClickCounter++;
 
-			MainGame.Inst.GDSound.PlayEffectError();
+					MainGame.Inst.GDSound.PlayEffectError();
+					AddEntityOperation(new ShakeNodeOperation());
+				}
+				else if (ForceClickCounter == 1)
+				{
+					Owner.HUD.ShowToast("OWNG::UNLOCK_2(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST2), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+					ForceClickCounter++;
 
-			AddEntityOperation(new ShakeNodeOperation());
+					MainGame.Inst.GDSound.PlayEffectError();
+
+					AddEntityOperation(new ShakeNodeOperation());
+				}
+				else if (ForceClickCounter >= 2)
+				{
+					Owner.HUD.ShowToast("OWNG::UNLOCK_3(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST3), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+
+					MainGame.Inst.Profile.SkipTutorial = true;
+					MainGame.Inst.SaveProfile();
+					_ustate = WorldUnlockState.Unlocked;
+					return;
+				}
+			}
 		}
-		
+
+		protected void DefaultActionClickFullyLocked()
+		{
+			if (GDConstants.USE_IAB)
+			{
+				if (ForceClickCounter == 0)
+				{
+					Owner.HUD.ShowToast("OWNG::LOCKED(MULTI)", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+					MainGame.Inst.GDSound.PlayEffectError();
+					AddEntityOperation(new ShakeNodeOperation()); ForceClickCounter++;
+				}
+				else if (ForceClickCounter == 1)
+				{
+					ShowPreview();
+				}
+			}
+			else
+			{
+				if (ForceClickCounter == 0)
+				{
+					Owner.HUD.ShowToast("OWNG::UNLOCK_1(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST1), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+					ForceClickCounter++;
+
+					MainGame.Inst.GDSound.PlayEffectError();
+					AddEntityOperation(new ShakeNodeOperation());
+				}
+				else if (ForceClickCounter == 1)
+				{
+					Owner.HUD.ShowToast("OWNG::UNLOCK_2(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST2), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+					ForceClickCounter++;
+
+					MainGame.Inst.GDSound.PlayEffectError();
+
+					AddEntityOperation(new ShakeNodeOperation());
+				}
+				else if (ForceClickCounter >= 2)
+				{
+					Owner.HUD.ShowToast("OWNG::UNLOCK_3(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST3), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+
+					MainGame.Inst.Profile.SkipTutorial = true;
+					MainGame.Inst.SaveProfile();
+					_ustate = WorldUnlockState.Unlocked;
+					return;
+				}
+			}
+		}
+
 		protected virtual void ShowPreview() { }
 	}
 }

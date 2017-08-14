@@ -21,6 +21,8 @@ namespace MonoSAMFramework.Portable.Sound
 		protected SoundEffect ButtonClickEffect = null;
 		protected SoundEffect ButtonKeyboardClickEffect = null;
 
+		public bool InitErrorState = false;
+
 		private readonly List<SAMEffectWrapper> _activeEffects = new List<SAMEffectWrapper>();
 
 		private MPState _state = MPState.Stopped;
@@ -45,6 +47,7 @@ namespace MonoSAMFramework.Portable.Sound
 		protected void PlaySoundeffect(SoundEffect e)
 		{
 			if (IsEffectsMuted) return;
+			if (InitErrorState) return;
 
 			e.Play();
 		}
@@ -57,12 +60,16 @@ namespace MonoSAMFramework.Portable.Sound
 			{
 				return;
 			}
-			
+
+			if (s == null) { StopSong(); return; }
+
 			PlaySong(new[] { s }, fadeOut, fadeIn, fadeChange, loop);
 		}
 
 		protected void PlaySong(Song[] s, float fadeIn, float fadeOut, float fadeChange, bool loop = true)
 		{
+			if (InitErrorState) return;
+
 			_fadeIn = fadeIn;
 			_fadeOut = fadeOut;
 			_fadeChange = fadeChange;
@@ -116,6 +123,8 @@ namespace MonoSAMFramework.Portable.Sound
 
 		public void Update(SAMTime gameTime)
 		{
+			if (InitErrorState) return;
+
 			UpdateEffects(gameTime);
 			UpdateMusic(gameTime);
 		}
@@ -197,6 +206,8 @@ namespace MonoSAMFramework.Portable.Sound
 
 		private void NextSongDirect()
 		{
+			if (InitErrorState) return;
+
 			if (_nextSet != null)
 			{
 				_currentSet = _nextSet;
@@ -264,11 +275,15 @@ namespace MonoSAMFramework.Portable.Sound
 
 		public string GetEffectsStringState()
 		{
+			if (InitErrorState) return "ERR";
+
 			return $"{_activeEffects.Count} active soundeffects";
 		}
 
 		public string GetMusicStringState()
 		{
+			if (InitErrorState) return "ERR";
+
 			var perc = 0d;
 			var song = "NONE";
 			if (_currentSet != null)

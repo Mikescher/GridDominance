@@ -105,7 +105,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddTrigger("DBG",      "SetQuality_3",         scrn, SKeys.D3, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.LD));
 			DebugSettings.AddTrigger("DBG",      "SetQuality_4",         scrn, SKeys.D4, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.MD));
 			DebugSettings.AddTrigger("DBG",      "SetQuality_5",         scrn, SKeys.D5, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.HD));
-			DebugSettings.AddTrigger("DBG",      "ResetProfile",         scrn, SKeys.R, KeyModifier.Control,   x => MainGame.Inst.ResetProfile());
+			DebugSettings.AddTrigger("DBG",      "ResetProfile",         scrn, SKeys.R, KeyModifier.Control,   x => { MainGame.Inst.ResetProfile(); MainGame.Inst.SetOverworldScreen(); });
 			DebugSettings.AddTrigger("DBG",      "ClearMessages",        scrn, SKeys.C, KeyModifier.None,      x => scrn.DebugDisp.Clear());
 			DebugSettings.AddTrigger("DBG",      "StartDebugLevel",      scrn, SKeys.D, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetDebugLevelScreen());
 			DebugSettings.AddTrigger("DBG",      "ShowOverworld",        scrn, SKeys.O, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetOverworldScreen());

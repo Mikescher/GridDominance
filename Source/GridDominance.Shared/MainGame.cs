@@ -234,6 +234,7 @@ namespace GridDominance.Shared
 		{
 			var screen = new GDOverworldScreen(this, Graphics);
 			SetCurrentScreen(screen);
+			screen.ScrollAgent.ScrollTo(bp);
 			screen.AddAgent(new ReappearTransitionAgent(screen, bp));
 
 			screen.GDHUD.ScoreDisplay.FinishCounter();
@@ -271,7 +272,15 @@ namespace GridDominance.Shared
 		{
 			Textures.Initialize(Content, GraphicsDevice);
 			Levels.LoadContent(Content);
-			Sound.Initialize(Content);
+			try
+			{
+				Sound.Initialize(Content);
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("MG::LC", "Initializing sound failed", e.ToString());
+				Sound.InitErrorState = true;
+			}
 		}
 
 		protected override void UnloadContent()

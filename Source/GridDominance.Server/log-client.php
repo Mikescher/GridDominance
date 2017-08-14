@@ -7,7 +7,7 @@ function run() {
 	global $pdo;
 	global $config;
 
-	$userid        = getParamUIntOrError('userid');
+	$userid        = getParamIntOrError('userid'); // can be [-1]
 	$password      = getParamSHAOrError('password');
 	$resolution    = getParamStrOrError('screen_resolution', true);
 	$appversion    = getParamStrOrError('app_version');

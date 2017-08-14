@@ -24,49 +24,91 @@ namespace GridDominance.Shared.Screens.Common
 
 			if (id == Levels.WORLD_001.ID)
 			{
-				if (MainGame.Inst.Profile.SkipTutorial) return WorldUnlockState.Unlocked;
-				if (MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted()) return WorldUnlockState.Unlocked;
+				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(id)) return WorldUnlockState.Unlocked;
 
-				return WorldUnlockState.NeedsAction;
+				if (!GDConstants.USE_IAB)
+				{
+					if (MainGame.Inst.Profile.SkipTutorial) return WorldUnlockState.Unlocked;
+					if (MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted()) return WorldUnlockState.Unlocked;
+
+					return WorldUnlockState.FullyLocked;
+				}
+				else
+				{
+					if (MainGame.Inst.Profile.SkipTutorial) return WorldUnlockState.Unlocked;
+					if (MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted()) return WorldUnlockState.Unlocked;
+
+					return WorldUnlockState.FullyLocked;
+				}
 			}
 
 			if (id == Levels.WORLD_002.ID)
 			{
-				if (!BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_001, Levels.WORLD_002.ID)) return WorldUnlockState.FullyLocked;
+				if (!GDConstants.USE_IAB)
+				{
+					if (MainGame.Inst.Profile.SkipTutorial) return WorldUnlockState.Unlocked;
+					if (MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted()) return WorldUnlockState.Unlocked;
 
-				if (!GDConstants.USE_IAB) return WorldUnlockState.Unlocked;
+					return WorldUnlockState.FullyLocked;
+				}
+				else
+				{
+					bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_001, Levels.WORLD_002.ID);
+					int neededPoints = PointsForUnlock(id);
 
-				int neededPoints = PointsForUnlock(id);
+					if (reachable && MainGame.Inst.Profile.TotalPoints >= neededPoints) return WorldUnlockState.Unlocked;
 
-				if (MainGame.Inst.Profile.TotalPoints >= neededPoints) return WorldUnlockState.Unlocked;
-
-				return GetIABState(GDConstants.IAB_WORLD2, Levels.WORLD_002.ID, showToast);
+					if (GetIABState(GDConstants.IAB_WORLD2, Levels.WORLD_002.ID, showToast))
+						return WorldUnlockState.Unlocked;
+					else
+						return reachable ? WorldUnlockState.NeedsAction : WorldUnlockState.FullyLocked;
+				}
 			}
 
 			if (id == Levels.WORLD_003.ID)
 			{
-				if (!BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_002, Levels.WORLD_003.ID)) return WorldUnlockState.FullyLocked;
+				if (!GDConstants.USE_IAB)
+				{
+					if (MainGame.Inst.Profile.SkipTutorial) return WorldUnlockState.Unlocked;
+					if (MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted()) return WorldUnlockState.Unlocked;
 
-				if (!GDConstants.USE_IAB) return WorldUnlockState.Unlocked;
+					return WorldUnlockState.FullyLocked;
+				}
+				else
+				{
+					bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_002, Levels.WORLD_003.ID);
+					int neededPoints = PointsForUnlock(id);
 
-				int neededPoints = PointsForUnlock(id);
+					if (reachable && MainGame.Inst.Profile.TotalPoints >= neededPoints) return WorldUnlockState.Unlocked;
 
-				if (MainGame.Inst.Profile.TotalPoints >= neededPoints) return WorldUnlockState.Unlocked;
-
-				return GetIABState(GDConstants.IAB_WORLD3, Levels.WORLD_003.ID, showToast);
+					if (GetIABState(GDConstants.IAB_WORLD2, Levels.WORLD_002.ID, showToast))
+						return WorldUnlockState.Unlocked;
+					else
+						return reachable ? WorldUnlockState.NeedsAction : WorldUnlockState.FullyLocked;
+				}
 			}
 
 			if (id == Levels.WORLD_004.ID)
 			{
-				if (!BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_003, Levels.WORLD_004.ID)) return WorldUnlockState.FullyLocked;
+				if (!GDConstants.USE_IAB)
+				{
+					if (MainGame.Inst.Profile.SkipTutorial) return WorldUnlockState.Unlocked;
+					if (MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted()) return WorldUnlockState.Unlocked;
 
-				if (!GDConstants.USE_IAB) return WorldUnlockState.Unlocked;
+					return WorldUnlockState.FullyLocked;
+				}
+				else
+				{
+					bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_003, Levels.WORLD_004.ID);
+					int neededPoints = PointsForUnlock(id);
 
-				int neededPoints = PointsForUnlock(id);
+					if (reachable && MainGame.Inst.Profile.TotalPoints >= neededPoints) return WorldUnlockState.Unlocked;
 
-				if (MainGame.Inst.Profile.TotalPoints >= neededPoints) return WorldUnlockState.Unlocked;
-
-				return GetIABState(GDConstants.IAB_WORLD4, Levels.WORLD_004.ID, showToast);
+					if (GetIABState(GDConstants.IAB_WORLD2, Levels.WORLD_002.ID, showToast))
+						return WorldUnlockState.Unlocked;
+					else
+						return reachable ? WorldUnlockState.NeedsAction : WorldUnlockState.FullyLocked;
+				}
 			}
 
 			if (id == Levels.WORLD_ID_GAMEEND)
@@ -80,14 +122,14 @@ namespace GridDominance.Shared.Screens.Common
 			{
 				if (!GDConstants.USE_IAB) return WorldUnlockState.Unlocked;
 
-				return GetIABState(GDConstants.IAB_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER, showToast);
+				return GetIABState(GDConstants.IAB_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER, showToast) ? WorldUnlockState.Unlocked : WorldUnlockState.NeedsAction;
 			}
 
 			SAMLog.Error("UNLCK::NID", $"UnlockManager: ID not found {id} ({showToast})");
 			return WorldUnlockState.FullyLocked;
 		}
 
-		private static WorldUnlockState GetIABState(string iabCode, Guid id, bool toast)
+		private static bool GetIABState(string iabCode, Guid id, bool toast)
 		{
 			var ip = MainGame.Inst.Bridge.IAB.IsPurchased(iabCode);
 
@@ -99,25 +141,25 @@ namespace GridDominance.Shared.Screens.Common
 					MainGame.Inst.Profile.PurchasedWorlds.Remove(id);
 					MainGame.Inst.SaveProfile();
 				}
-				return WorldUnlockState.NeedsAction;
+				return false;
 			}
 
-			if (MainGame.Inst.Profile.PurchasedWorlds.Contains(id)) return WorldUnlockState.Unlocked;
+			if (MainGame.Inst.Profile.PurchasedWorlds.Contains(id)) return true;
 
 			switch (ip)
 			{
 				case PurchaseQueryResult.Purchased:
 					MainGame.Inst.Profile.PurchasedWorlds.Add(id);
 					MainGame.Inst.SaveProfile();
-					return WorldUnlockState.Unlocked;
+					return true;
 
 				case PurchaseQueryResult.NotPurchased:
 				case PurchaseQueryResult.Cancelled:
-					return WorldUnlockState.NeedsAction;
+					return false;
 
 				case PurchaseQueryResult.Error:
 					if (toast) MainGame.Inst.ShowToast("UNLCK::E1", L10N.T(L10NImpl.STR_IAB_TESTERR), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-					return WorldUnlockState.NeedsAction;
+					return false;
 
 				case PurchaseQueryResult.Refunded:
 					if (MainGame.Inst.Profile.PurchasedWorlds.Contains(id))
@@ -126,19 +168,19 @@ namespace GridDominance.Shared.Screens.Common
 						MainGame.Inst.Profile.PurchasedWorlds.Remove(id);
 						MainGame.Inst.SaveProfile();
 					}
-					return WorldUnlockState.NeedsAction;
+					return false;
 
 				case PurchaseQueryResult.NotConnected:
 					if (toast) MainGame.Inst.ShowToast("UNLCK::E2", L10N.T(L10NImpl.STR_IAB_TESTNOCONN), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-					return WorldUnlockState.NeedsAction;
+					return false;
 
 				case PurchaseQueryResult.CurrentlyInitializing:
 					if (toast) MainGame.Inst.ShowToast("UNLCK::E3", L10N.T(L10NImpl.STR_IAB_TESTINPROGRESS), 40, FlatColors.Pomegranate, FlatColors.Foreground, 2.5f);
-					return WorldUnlockState.NeedsAction;
+					return false;
 
 				default:
 					SAMLog.Error("EnumSwitch_IU", "IsUnlocked()", "MainGame.Inst.Bridge.IAB.IsPurchased(MainGame.IAB_WORLD " + id + ")) -> " + ip);
-					return WorldUnlockState.NeedsAction;
+					return false;
 			}
 		}
 

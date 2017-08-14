@@ -5,6 +5,8 @@ using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using GridDominance.Graphfileformat.Blueprint;
+using System;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 {
@@ -48,13 +50,39 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			_values = new AdaptionFloat[_nodes.Length];
 
 			int focus = 0;
-			for (int i = 0; i < nodes.Length; i++)
+			if (GDConstants.USE_IAB)
 			{
-				if (!nodes[i].IsNodeEnabled) break;
-				focus = i;
+				for (int i = 0; i < nodes.Length; i++)
+				{
+					if (!nodes[i].IsNodeEnabled) break;
+					focus = i;
+				}
+			}
+			else
+			{
+				focus = 1;
 			}
 
 			var offset0 = GDConstants.VIEW_WIDTH/2f - focus * DIST_X;
+			for (int i = 0; i < _nodes.Length; i++)
+			{
+				_values[i] = new AdaptionFloat(offset0 + i * DIST_X, FORCE, DRAG, MIN_SPEED);
+				_nodes[i].NodePos = new FPoint(_values[i].Value, POSITION_Y);
+			}
+
+			CleanUpPositions(true);
+		}
+
+		public void ScrollTo(GraphBlueprint bp)
+		{
+			int focus = -1;
+			for (int i = 0; i < _nodes.Length; i++)
+			{
+				if (_nodes[i].ContentID == bp.ID) focus = i;
+			}
+			if (focus == -1) return;
+
+			var offset0 = GDConstants.VIEW_WIDTH / 2f - focus * DIST_X;
 			for (int i = 0; i < _nodes.Length; i++)
 			{
 				_values[i] = new AdaptionFloat(offset0 + i * DIST_X, FORCE, DRAG, MIN_SPEED);

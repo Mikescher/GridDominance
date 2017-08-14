@@ -1,9 +1,12 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Levelfileformat.Blueprint;
 using System;
-using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.ColorHelper;
+using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
+using MonoSAMFramework.Portable.Localization;
+using GridDominance.Shared.Screens.Common;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -14,11 +17,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			//
 		}
 
-		protected override void OnClickDeny()
+		protected override void OnClickNeedsAction()
 		{
-			if (_ustate == WorldUnlockState.NeedsAction) { ShowPreview(); return; }
+			DefaultActionClickNeedsAction();
+		}
 
-			base.OnClickDeny();
+		protected override void OnClickFullyLocked()
+		{
+			DefaultActionClickFullyLocked();
 		}
 
 		protected override void ShowPreview()

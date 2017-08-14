@@ -316,7 +316,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_IAB_BUYERR,             "Error connecting to Google Play services",                                          "Fehler beim Versuch mit Google Play zu verbinden");
 			L10N.Add(STR_IAB_BUYNOCONN,          "No connection to Google Play services",                                             "Keine Verbindung zu Google Play services");
 			L10N.Add(STR_IAB_BUYNOTREADY,        "Connection to Google Play services not ready",                                      "Verbindung zu Google Play services nicht bereit");
-			L10N.Add(STR_IAB_BUYSUCESS,          "World sucesfully purchased",                                                        "Levelpack wurde erfolgreich erworben");
+			L10N.Add(STR_IAB_BUYSUCESS,          "World successfully purchased",                                                      "Levelpack wurde erfolgreich erworben");
 			L10N.Add(STR_HINT_001,               "Tip: Shoot stuff to win!",                                                          "Tipp: Versuch auf die andere Kanone zu schiessen");
 			L10N.Add(STR_HINT_002,               "Bigger Cannon",                                                                     "Größere Kanone");
 			L10N.Add(STR_HINT_003,               "More Power",                                                                        "Mehr Schaden");

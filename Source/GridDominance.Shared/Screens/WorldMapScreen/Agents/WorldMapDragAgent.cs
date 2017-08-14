@@ -53,6 +53,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			if (_gdScreen.ZoomState != BistateProgress.Normal)
 			{
 				if (_isDragging) EndDrag(gameTime, istate);
+				_restDragSpeed = Vector2.Zero;
 				return;
 			}
 
@@ -105,6 +106,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private void UpdateDrag(SAMTime gameTime, InputState istate)
 		{
+			if (istate.AllGamePointerPositions.Length > 1) return;
+
 			var delta = istate.GamePointerPosition - mouseStartPos;
 
 			Screen.MapOffsetX = startOffset.X + delta.X;
