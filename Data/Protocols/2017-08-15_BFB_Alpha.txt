@@ -1,0 +1,17 @@
+CC (TODO)
+---------
+
+
+[ ] (IAB) Locked world -> iab-panel direct after shake animation (not after sec click)
+[ ] Wrong money values in store (?) or not (?)
+[ ] Buying W2 buys all worlds (wrong ids in UnlockManager) --> test it all again
+[ ] LVL_1_1 german text "Versuch" -> "Versuche"
+[ ] Error Bluetooth: Bullet collided with unkown fixture: GridDominance.Shared.Screens.NormalGameScreen.Entities.RemoteBullet
+       at GridDominance.Shared.Screens.NormalGameScreen.Entities.Bullet.OnCollision
+[ ] Armin (S7) error when playing in QHD (4k) 
+      -> works with 1080p mode
+      -> works with forced BD tex quality
+      # Canvas: trying to draw too large(132710400bytes) bitmap.
+      # at android.view.DisplayListCanvas.throwIfCannotDraw(DisplayListCanvas.java:260)
+      # at android.graphics.Canvas.drawBitmap(Canvas.java:1420)
+      -> https://pastebin.com/raw/4i8ZQZXz
