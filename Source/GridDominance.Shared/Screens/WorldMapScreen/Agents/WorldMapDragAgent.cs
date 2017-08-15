@@ -123,6 +123,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		private void CalcRestDragSpeed(SAMTime gameTime, InputState istate)
 		{
+			if (istate.AllGamePointerPositions.Length > 1) return;
+
 			_restDragSpeed = (istate.GamePointerPosition - _lastMousePos) / (gameTime.TotalElapsedSeconds - _lastMousePosTime);
 
 			_lastMousePosTime = gameTime.TotalElapsedSeconds;
