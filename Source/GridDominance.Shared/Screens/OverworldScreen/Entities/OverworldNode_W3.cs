@@ -1,12 +1,9 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Levelfileformat.Blueprint;
 using System;
-using GridDominance.Shared.Screens.Common;
+using System.Linq;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
-using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.ColorHelper;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
@@ -27,8 +24,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			DefaultActionClickFullyLocked();
 		}
 
-		protected override void ShowPreview()
+		public override void ShowPreview()
 		{
+			if (Owner.HUD.Enumerate().Any(e => e is WorldPreviewPanel)) return;
+
 			LevelBlueprint[] previews =
 			{
 				Levels.LEVELS[Guid.Parse(@"b16b00b5-0001-4000-0000-000003000001")],

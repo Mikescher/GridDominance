@@ -19,6 +19,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
+using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 // ReSharper disable HeuristicUnreachableCode
 #pragma warning disable 162
@@ -276,16 +277,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		{
 			if (GDConstants.USE_IAB)
 			{
-				if (ForceClickCounter == 0)
-				{
-					Owner.HUD.ShowToast("OWNG::LOCKED(MULTI)", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
-					MainGame.Inst.GDSound.PlayEffectError();
-					AddEntityOperation(new ShakeNodeOperation()); ForceClickCounter++;
-				}
-				else if (ForceClickCounter == 1)
-				{
-					ShowPreview();
-				}
+				Owner.HUD.ShowToast("OWNG::LOCKED(MULTI)", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+				MainGame.Inst.GDSound.PlayEffectError();
+
+				AddEntityOperation(new ShakeNodeOperation());
+				AddEntityOperation(new SimpleGameEntityOperation<OverworldNode_Graph>("ShowPreviewDelayed", 0.25f, (n, p) => { }, n => { }, n => n.ShowPreview()));
 			}
 			else
 			{
@@ -318,6 +314,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			}
 		}
 
-		protected virtual void ShowPreview() { }
+		public virtual void ShowPreview() { }
 	}
 }

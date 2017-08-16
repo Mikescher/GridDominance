@@ -2,7 +2,7 @@ CC (TODO)
 ---------
 
 
-[ ] (IAB) Locked world -> iab-panel direct after shake animation (not after sec click)
+[X] (IAB) Locked world -> iab-panel direct after shake animation (not after sec click)
 [ ] Wrong money values in store (?) or not (?)
 [X] Buying W2 buys all worlds (wrong ids in UnlockManager) --> test it all again
 [X] LVL_1_1 german text "Versuch" -> "Versuche"
@@ -16,7 +16,7 @@ CC (TODO)
       # at android.graphics.Canvas.drawBitmap(Canvas.java:1420)
       -> https://pastebin.com/raw/4i8ZQZXz
 [ ] +40, etc score marker has wrong value
-[ ] text "Wiederholen" does not fit button
+[X] text "Wiederholen" does not fit button
 [ ] Ping exception (NPE) in ShowToast (gdapi error)
 [ ] Backend::RU_ERR, invalid signature (gdapi error)
 [ ] Multiplayer score incorrect in mp score panel (?) -> simon
