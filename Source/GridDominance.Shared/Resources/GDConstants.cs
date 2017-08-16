@@ -50,7 +50,7 @@ namespace GridDominance.Shared.Resources
 		public const string BFB_URL     = @"http://blackforestbytes.de/";
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
-#if __ANDROID__ || DEBUG
+#if __ANDROID__ && !DEBUG
 		public const string MULTIPLAYER_SERVER_HOST = "mikescher.com";
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 #else
@@ -61,7 +61,7 @@ namespace GridDominance.Shared.Resources
 		public const string BLUETOOTH_NAME = "GridDominance.BluetoothSocket";
 		public const string BLUETOOTH_UUID = "4748A5F0-0AC7-44F7-BE49-30F5FD2A08ED";
 
-#if __ANDROID__ || DEBUG
+#if __ANDROID__ && !DEBUG
 		public const string SERVER_URL = "http://gdapi.mikescher.com";
 #else
 		public const string SERVER_URL = "http://localhost:666";

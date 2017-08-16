@@ -15,7 +15,7 @@ CC (TODO)
       # at android.view.DisplayListCanvas.throwIfCannotDraw(DisplayListCanvas.java:260)
       # at android.graphics.Canvas.drawBitmap(Canvas.java:1420)
       -> https://pastebin.com/raw/4i8ZQZXz
-[ ] +40, etc score marker has wrong value
+[X] +40, etc score marker has wrong value
 [X] text "Wiederholen" does not fit button
 [X] Ping exception (NPE) in ShowToast (gdapi error)
 [ ] Backend::RU_ERR, invalid signature (gdapi error)

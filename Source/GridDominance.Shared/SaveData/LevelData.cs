@@ -30,8 +30,19 @@ namespace GridDominance.Shared.SaveData
 			if (! Data.ContainsKey(FractionDifficulty.DIFF_3)) Data.Add(FractionDifficulty.DIFF_3, new LevelDiffData());
 		}
 
-		public int TotalPoints => Data.Where(p => p.Value.HasCompleted).Select(p => p.Key).Sum(FractionDifficultyHelper.GetScore);
-		public int CompletionCount => Data.Count(p => p.Value.HasCompleted);
+		public int TotalPoints => Data.Where(p => HasCompleted(p.Key)).Select(p => p.Key).Sum(FractionDifficultyHelper.GetScore);
+
+		public int CompletionCount
+		{
+			get
+			{
+				if (Data[FractionDifficulty.DIFF_3].HasCompleted) return 4;
+				if (Data[FractionDifficulty.DIFF_2].HasCompleted) return 3;
+				if (Data[FractionDifficulty.DIFF_1].HasCompleted) return 2;
+				if (Data[FractionDifficulty.DIFF_0].HasCompleted) return 1;
+				return 0;
+			}
+		}
 
 		public bool HasCompleted(FractionDifficulty d)
 		{
