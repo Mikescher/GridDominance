@@ -17,7 +17,7 @@ CC (TODO)
       -> https://pastebin.com/raw/4i8ZQZXz
 [ ] +40, etc score marker has wrong value
 [X] text "Wiederholen" does not fit button
-[ ] Ping exception (NPE) in ShowToast (gdapi error)
+[X] Ping exception (NPE) in ShowToast (gdapi error)
 [ ] Backend::RU_ERR, invalid signature (gdapi error)
 [ ] Multiplayer score incorrect in mp score panel (?) -> simon
 [ ] Multiplayer highscore no back button

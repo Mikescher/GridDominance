@@ -221,7 +221,7 @@ namespace MonoSAMFramework.Portable
 
 		public void ShowToast(string id, string text, int size, Color background, Color foreground, float lifetime)
 		{
-			screens.CurrentScreen?.HUD?.ShowToast(id, text, size, background, foreground, lifetime);
+			screens?.CurrentScreen?.HUD?.ShowToast(id, text, size, background, foreground, lifetime);
 		}
 
 		protected abstract void OnAfterInitialize();
