@@ -4,7 +4,7 @@ CC (TODO)
 
 [ ] (IAB) Locked world -> iab-panel direct after shake animation (not after sec click)
 [ ] Wrong money values in store (?) or not (?)
-[ ] Buying W2 buys all worlds (wrong ids in UnlockManager) --> test it all again
+[X] Buying W2 buys all worlds (wrong ids in UnlockManager) --> test it all again
 [X] LVL_1_1 german text "Versuch" -> "Versuche"
 [X] Error Bluetooth: Bullet collided with unkown fixture: GridDominance.Shared.Screens.NormalGameScreen.Entities.RemoteBullet (gdapi error)
        at GridDominance.Shared.Screens.NormalGameScreen.Entities.Bullet.OnCollision

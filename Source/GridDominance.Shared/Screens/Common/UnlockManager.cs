@@ -81,7 +81,7 @@ namespace GridDominance.Shared.Screens.Common
 
 					if (reachable && MainGame.Inst.Profile.TotalPoints >= neededPoints) return WorldUnlockState.Unlocked;
 
-					if (GetIABState(GDConstants.IAB_WORLD2, Levels.WORLD_002.ID, showToast))
+					if (GetIABState(GDConstants.IAB_WORLD3, Levels.WORLD_003.ID, showToast))
 						return WorldUnlockState.Unlocked;
 					else
 						return reachable ? WorldUnlockState.NeedsAction : WorldUnlockState.FullyLocked;
@@ -104,7 +104,7 @@ namespace GridDominance.Shared.Screens.Common
 
 					if (reachable && MainGame.Inst.Profile.TotalPoints >= neededPoints) return WorldUnlockState.Unlocked;
 
-					if (GetIABState(GDConstants.IAB_WORLD2, Levels.WORLD_002.ID, showToast))
+					if (GetIABState(GDConstants.IAB_WORLD4, Levels.WORLD_004.ID, showToast))
 						return WorldUnlockState.Unlocked;
 					else
 						return reachable ? WorldUnlockState.NeedsAction : WorldUnlockState.FullyLocked;
