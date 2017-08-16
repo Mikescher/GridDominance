@@ -61,9 +61,9 @@ namespace GridDominance.Shared.Network
 					if (response.user.RevID > profile.OnlineRevisionID)
 					{
 						await DownloadData(profile);
-
-						if (profile.NeedsReupload) Reupload(profile).EnsureNoError();
 					}
+
+					if (profile.NeedsReupload) Reupload(profile).EnsureNoError();
 				}
 				else if (response.result == "error")
 				{

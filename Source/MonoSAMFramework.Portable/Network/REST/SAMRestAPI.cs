@@ -40,7 +40,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 			string url = serverbasepath + "/" + apiEndPoint + ".php" + para.Item1;
 
 #if DEBUG
-			if (DebugSettings.Get("DebugNetwork")) System.Diagnostics.Debug.WriteLine($"QueryAsync('{apiEndPoint}', '{url}', {maxTries})");
+			if (DebugSettings.Get("DebugNetwork")) SAMLog.Debug($"QueryAsync('{apiEndPoint}', '{url}', {maxTries})");
 #endif
 
 			for (;;)
@@ -76,7 +76,13 @@ namespace MonoSAMFramework.Portable.Network.REST
 				}
 
 #if DEBUG
-				if (DebugSettings.Get("DebugNetwork")) SAMLog.Debug($"Query '{apiEndPoint}' returned \r\n" + CompactJsonFormatter.CompressJson(content, 1));
+				if (DebugSettings.Get("DebugNetwork"))
+				{
+					var json = CompactJsonFormatter.CompressJson(content, 1);
+					var jlines = json.Replace("\r\n", "\n").Split('\n');
+					if (jlines.Length > 7) json = string.Join("\n", jlines.Take(3).Concat(new[] {"..."}).Concat(jlines.Reverse().Take(3).Reverse()));
+					SAMLog.Debug($"Query '{apiEndPoint}' returned \r\n" + json);
+				}
 #endif
 
 				return JsonConvert.DeserializeObject<TReturn>(content);

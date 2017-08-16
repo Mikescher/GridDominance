@@ -115,14 +115,14 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddSwitch("DBG",       "ShowInfos",             scrn, SKeys.F2,  KeyModifier.None,    true);
 			DebugSettings.AddSwitch("DBG",       "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "DebugHUDBorders",       scrn, SKeys.F4,  KeyModifier.None,    false);
-			DebugSettings.AddSwitch("ShowInfos", "DebugNetwork",          scrn, SKeys.F5,  KeyModifier.None,    false);
+			DebugSettings.AddSwitch("ShowInfos", "DebugNetwork",          scrn, SKeys.F5,  KeyModifier.None,    true);
 			DebugSettings.AddSwitch("ShowInfos", "ShowMatrixTextInfos",   scrn, SKeys.F6,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "ShowDebugMiniMap",      scrn, SKeys.F7,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "DebugEntityBoundaries", scrn, SKeys.F8,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "DebugEntityMouseAreas", scrn, SKeys.F9,  KeyModifier.None,    false); 
 			DebugSettings.AddSwitch("ShowInfos", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None,    false);
 			DebugSettings.AddSwitch("ShowInfos", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None,    false);
-			DebugSettings.AddSwitch("DBG",       "DebugTimings",          scrn, SKeys.F12, KeyModifier.None,    true); 
+			DebugSettings.AddSwitch("DBG",       "DebugTimings",          scrn, SKeys.F12, KeyModifier.None,    false); 
 			DebugSettings.AddSwitch("DBG",       "DebugLaserNetwork",     scrn, SKeys.F1,  KeyModifier.Control, false);
 			DebugSettings.AddSwitch("DBG",       "ContinoousLasers",      scrn, SKeys.F2,  KeyModifier.Control, false);
 			DebugSettings.AddSwitch("DBG",       "DebugMultiplayer",      scrn, SKeys.F3,  KeyModifier.Control, true);
