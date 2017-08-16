@@ -42,7 +42,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private HUDTextButton _button;
 
 		private readonly int _worldNumber;
-		private int _unlockWorldNumber;
+		private readonly int _unlockWorldNumber;
 
 		public WorldPreviewPanel(LevelBlueprint[] bps, Guid unlockID, string iab, int worldnumber)
 		{
@@ -57,9 +57,17 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			Background = FlatColors.Asbestos;
 
 			_unlockWorldNumber = 1;
-			if (_worldNumber > 2 && UnlockManager.IsUnlocked(Levels.WORLD_002, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 2;
-			if (_worldNumber > 3 && UnlockManager.IsUnlocked(Levels.WORLD_003, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 3;
-			if (_worldNumber > 4 && UnlockManager.IsUnlocked(Levels.WORLD_004, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 4;
+
+			if (UnlockManager.IsUnlocked(Levels.WORLD_001, false) != WorldUnlockState.Unlocked)
+			{
+				_unlockWorldNumber = 0;
+			}
+			else
+			{
+				if (_worldNumber > 2 && UnlockManager.IsUnlocked(Levels.WORLD_002, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 2;
+				if (_worldNumber > 3 && UnlockManager.IsUnlocked(Levels.WORLD_003, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 3;
+				if (_worldNumber > 4 && UnlockManager.IsUnlocked(Levels.WORLD_004, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 4;
+			}
 		}
 
 		public override void OnInitialize()
@@ -212,6 +220,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		private void OnClickFinishPrev(HUDTextButton sender, HUDButtonEventArgs args)
 		{
+			if (_unlockWorldNumber == 0)
+			{
+				MainGame.Inst.SetTutorialLevelScreen();
+				return;
+			}
+
 			int missPoints = UnlockManager.PointsForUnlock(_id) - MainGame.Inst.Profile.TotalPoints;
 			
 			HUD.ShowToast("WPP::HINT", L10N.TF(L10NImpl.STR_PREV_MISS_TOAST, missPoints, _worldNumber), 32, FlatColors.Orange, FlatColors.Foreground, 4f);

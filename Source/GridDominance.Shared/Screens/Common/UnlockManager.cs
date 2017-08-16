@@ -24,22 +24,10 @@ namespace GridDominance.Shared.Screens.Common
 
 			if (id == Levels.WORLD_001.ID)
 			{
-				if (MainGame.Inst.Profile.PurchasedWorlds.Contains(id)) return WorldUnlockState.Unlocked;
+				if (MainGame.Inst.Profile.SkipTutorial) return WorldUnlockState.Unlocked;
+				if (MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted()) return WorldUnlockState.Unlocked;
 
-				if (!GDConstants.USE_IAB)
-				{
-					if (MainGame.Inst.Profile.SkipTutorial) return WorldUnlockState.Unlocked;
-					if (MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted()) return WorldUnlockState.Unlocked;
-
-					return WorldUnlockState.FullyLocked;
-				}
-				else
-				{
-					if (MainGame.Inst.Profile.SkipTutorial) return WorldUnlockState.Unlocked;
-					if (MainGame.Inst.Profile.GetLevelData(Levels.LEVEL_TUTORIAL).HasAnyCompleted()) return WorldUnlockState.Unlocked;
-
-					return WorldUnlockState.FullyLocked;
-				}
+				return WorldUnlockState.FullyLocked;
 			}
 
 			if (id == Levels.WORLD_002.ID)
