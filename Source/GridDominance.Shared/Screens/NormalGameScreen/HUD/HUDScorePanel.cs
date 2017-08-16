@@ -9,6 +9,7 @@ using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
@@ -241,11 +242,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			}
 			else
 			{
+				var w = L10N.LANGUAGE == L10N.LANG_EN_US ? 3.5f : 5.0f;
+
 				AddElement(new HUDIconTextButton(2)
 				{
 					Alignment = HUDAlignment.BOTTOMRIGHT,
 					RelativePosition = new FPoint(24, FOOTER_HEIGHT + 24),
-					Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 60),
+					Size = new FSize(w * GDConstants.TILE_WIDTH, 60),
 
 					L10NText = L10NImpl.STR_HSP_AGAIN,
 					TextColor = Color.White,
