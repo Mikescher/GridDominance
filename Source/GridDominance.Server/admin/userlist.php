@@ -95,7 +95,7 @@
         <div style="text-align: right; font-size: xx-large">
 			<?php
             if (empty($_SERVER['QUERY_STRING']))
-				echo " <a href=\"userlist.php?d=y\">Show All</a>";
+				echo " <a href=\"userlist.php?a=y\">Show All</a>";
             else
 				echo " <a href=\"userlist.php?" . $_SERVER['QUERY_STRING'] . "&a=y\">Show All</a>";
 			?>
