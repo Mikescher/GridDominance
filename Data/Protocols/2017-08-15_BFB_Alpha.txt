@@ -18,10 +18,11 @@ CC (TODO)
 [X] +40, etc score marker has wrong value
 [X] text "Wiederholen" does not fit button
 [X] Ping exception (NPE) in ShowToast (gdapi error)
-[ ] Backend::RU_ERR, invalid signature (gdapi error)
+[ ] Backend::RU_ERR, invalid signature (gdapi error) (((!!!)))
 [ ] Multiplayer score incorrect in mp score panel (?) -> simon
 [ ] Multiplayer highscore no back button
 [ ] needs resend does not work (looses level)
 [X] "Drücke nochmal 'zurück' um Spiel zu Beenden" instead of "Drücke 'zurück' nochmal um Spiel zu Beenden"
 [X] BT Lobby caption: "Internetlobby"
 [ ] Relaycannon shoots own bullet, gets captured, own bullet goes missing ??
+[ ] Admin page ?d=a + not enough errors on index
