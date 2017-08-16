@@ -125,7 +125,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 					if (_nextBulletTime <= 0)
 					{
-						Shoot();
+						if (controller.DoBarrelRecharge())
+							Shoot();
+						else if (controller.SimulateBarrelRecharge())
+							barrelRecoil = 0f;
+
 						_remainingBullets--;
 						_nextBulletTime += MINIGUN_BULLET_DELAY;
 					}
