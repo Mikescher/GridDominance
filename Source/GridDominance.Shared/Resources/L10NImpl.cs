@@ -112,6 +112,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_WORLD_W3               = 92;
 		public const int STR_WORLD_W4               = 103;
 		public const int STR_WORLD_MULTIPLAYER      = 114;
+		public const int STR_WORLD_SINGLEPLAYER     = 178;
 
 		public const int STR_INF_YOU                = 72;
 		public const int STR_INF_GLOBAL             = 73;
@@ -210,7 +211,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ENDGAME_1              = 174;
 		public const int STR_ENDGAME_2              = 175;
 
-		private const int TEXT_COUNT = 178; // = next idx
+		private const int TEXT_COUNT = 179; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -222,8 +223,8 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_SSB_MUTE,               "Mute",                                                                              "Stumm");
 			L10N.Add(STR_SSB_EFFECTS,            "Effects",                                                                           "Effekte");
 			L10N.Add(STR_SSB_MUSIC,              "Music",                                                                             "Musik");
-			L10N.Add(STR_HSP_GLOBALRANKING,      "Global Ranking",                                                                    "Globale Bestenliste");
-			L10N.Add(STR_HSP_MULTIPLAYERRANKING, "Multiplayer Ranking",                                                               "Mehrspieler Bestenliste");
+			L10N.Add(STR_HSP_GLOBALRANKING,      "Global Ranking",                                                                    "Bestenliste");
+			L10N.Add(STR_HSP_MULTIPLAYERRANKING, "Multiplayer",                                                                       "Mehrspieler");
 			L10N.Add(STR_HSP_RANKINGFOR,         "Ranking for \"{0}\"",                                                               "Bestenliste für \"{0}\"");
 			L10N.Add(STR_TAB_NAME,               "Name",                                                                              "Name");
 			L10N.Add(STR_TAB_POINTS,             "Points",                                                                            "Punkte");
@@ -307,6 +308,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_W3,               "Futuristic",                                                                        "Futuristisch");
 			L10N.Add(STR_WORLD_W4,               "Toy Box",                                                                           "Spielzeugkiste");
 			L10N.Add(STR_WORLD_MULTIPLAYER,      "Multiplayer",                                                                       "Mehrspieler");
+			L10N.Add(STR_WORLD_SINGLEPLAYER,     "Singleplayer",                                                                      "Einzelspieler");
 			L10N.Add(STR_IAB_TESTERR,            "Error connecting to Google Play services",                                          "Fehler beim Versuch mit Google Play zu verbinden");
 			L10N.Add(STR_IAB_TESTNOCONN,         "No connection to Google Play services",                                             "Keine Verbindung zu Google Play services");
 			L10N.Add(STR_IAB_TESTINPROGRESS,     "Payment in progress",                                                               "Zahlung wird verarbeitet");

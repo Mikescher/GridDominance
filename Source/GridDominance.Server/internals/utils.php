@@ -43,7 +43,7 @@ function getTotalHighscore() {
 function getRemainingErrors() {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0 AND score > 0')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getAllErrors() {

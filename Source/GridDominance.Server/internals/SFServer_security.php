@@ -20,7 +20,7 @@ function check_commit_signature($sig_in, $data) {
 		logDebug("[2] \n========\n" . $config['signature_key'] . join("", array_map(function ($a){return "\n$a";}, $data)) . "========\n");
 		logDebug("[3] \n========\n" . $sigbuilder . "\n========\n");
 		logDebug("[4] \n========\n" . base64_encode($sigbuilder) . "\n========\n");
-		
+
 		outputError(ERRORS::PARAMETER_HASH_MISMATCH, "The signature '$sig_in' is invalid.");
 	};
 }

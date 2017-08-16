@@ -80,29 +80,56 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				TextColor = FlatColors.Clouds,
 			});
 
-			if (!_showMultiplayer && MainGame.Inst.Profile.HasMultiplayerGames)
+			if (MainGame.Inst.Profile.HasMultiplayerGames)
 			{
-				AddElement(_btn = new HUDTextButton(1)
+				if (!_showMultiplayer)
 				{
-					Alignment = HUDAlignment.TOPRIGHT,
-					RelativePosition = FPoint.Zero,
-					Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 48),
+					AddElement(_btn = new HUDTextButton(1)
+					{
+						Alignment = HUDAlignment.TOPRIGHT,
+						RelativePosition = FPoint.Zero,
+						Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 48),
 
-					L10NText = L10NImpl.STR_WORLD_MULTIPLAYER,
-					TextColor = FlatColors.Foreground,
-					Font = Textures.HUDFontBold,
-					FontSize = 42,
-					TextAlignment = HUDAlignment.CENTER,
-					TextPadding = 8,
+						L10NText = L10NImpl.STR_WORLD_MULTIPLAYER,
+						TextColor = FlatColors.Foreground,
+						Font = Textures.HUDFontBold,
+						FontSize = 42,
+						TextAlignment = HUDAlignment.CENTER,
+						TextPadding = 8,
 
-					BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Amethyst, 16, false, true, false, false),
-					BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Wisteria, 16, false, true, false, false),
+						BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Amethyst, 16, false, true, false, false),
+						BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Wisteria, 16, false, true, false, false),
 
-					Click = ShowMultiplayer,
+						Click = ShowMultiplayer,
 
-					IsVisible = false,
-				});
+						IsVisible = false,
+					});
+				}
+				else
+				{
+					AddElement(_btn = new HUDTextButton(1)
+					{
+						Alignment = HUDAlignment.TOPRIGHT,
+						RelativePosition = FPoint.Zero,
+						Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 48),
+
+						L10NText = L10NImpl.STR_WORLD_SINGLEPLAYER,
+						TextColor = FlatColors.Foreground,
+						Font = Textures.HUDFontBold,
+						FontSize = 42,
+						TextAlignment = HUDAlignment.CENTER,
+						TextPadding = 8,
+
+						BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Amethyst, 16, false, true, false, false),
+						BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Wisteria, 16, false, true, false, false),
+
+						Click = ShowSingleplayer,
+
+						IsVisible = false,
+					});
+				}
 			}
+
 
 			_loader = new HUDImage
 			{
@@ -151,6 +178,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			Remove();
 			HUD.AddModal(new HighscorePanel(null, true), true);
+		}
+
+		private void ShowSingleplayer(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			Remove();
+			HUD.AddModal(new HighscorePanel(null, false), true);
 		}
 
 		private async Task LoadHighscore()
