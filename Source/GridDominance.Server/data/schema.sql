@@ -15,8 +15,18 @@ CREATE TABLE IF NOT EXISTS users
   password_hash           char(128)     NOT NULL,
   is_auto_generated       boolean       NOT NULL,
 
-  score                   int(11)       NOT NULL,
+  score                   int(11)       NOT NULL DEFAULT 0,
+  score_w1                int(11)       NOT NULL DEFAULT 0,
+  score_w2                int(11)       NOT NULL DEFAULT 0,
+  score_w3                int(11)       NOT NULL DEFAULT 0,
+  score_w4                int(11)       NOT NULL DEFAULT 0,
   mpscore                 int(11)       NOT NULL DEFAULT 0,
+  time_total              int(11)       NOT NULL DEFAULT 0,
+  time_w1                 int(11)       NOT NULL DEFAULT 0,
+  time_w2                 int(11)       NOT NULL DEFAULT 0,
+  time_w3                 int(11)       NOT NULL DEFAULT 0,
+  time_w4                 int(11)       NOT NULL DEFAULT 0,
+
   revision_id             int(11)       UNSIGNED NOT NULL DEFAULT 0,
 
   creation_time           timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -38,6 +38,9 @@ h2 {
 .tab_prev {
   visibility: collapse;
   display: none;
+
+  white-space: pre;
+  font-family: monospace;
 }
 
 .sqltab td {

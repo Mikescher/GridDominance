@@ -5,16 +5,14 @@ FROM
     FROM
       (
         SELECT
-          level_highscores.userid AS userid,
+          users.userid AS userid,
           users.username AS username,
           users.mpscore AS totalscore,
-          0 AS totaltime
+          users.time_total AS totaltime
 
-        FROM level_highscores
+        FROM users
 
-        INNER JOIN users ON users.userid = level_highscores.userid
-
-        GROUP BY level_highscores.userid
+        WHERE users.mpscore > 0
 
         ORDER BY
           totalscore DESC,

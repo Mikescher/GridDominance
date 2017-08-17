@@ -93,7 +93,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 				for (FractionDifficulty diff = FractionDifficulty.DIFF_0; diff <= Difficulty; diff++)
 				{
-					if (!GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(diff))
+					if (!GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompletedOrBetter(diff))
 					{
 						scoreGain += FractionDifficultyHelper.GetScore(diff);
 						gains.Add(diff);
@@ -101,7 +101,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				}
 
 				{
-					if (!GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompleted(Difficulty))
+					if (!GDOwner.Profile.GetLevelData(Blueprint.UniqueID).HasCompletedExact(Difficulty))
 					{
 						GDOwner.Profile.SetCompleted(Blueprint.UniqueID, Difficulty, ctime, true);
 					}

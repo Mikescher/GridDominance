@@ -65,7 +65,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_ONLY_UNCLEARED) == BackgroundTextBlueprint.CONFIG_ONLY_UNCLEARED)
 			{
-				if (MainGame.Inst.Profile.GetLevelData(scrn.Blueprint).HasCompleted(scrn.Difficulty)) Alive = false;
+				if (MainGame.Inst.Profile.GetLevelData(scrn.Blueprint).HasCompletedOrBetter(scrn.Difficulty)) Alive = false;
 			}
 
 			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_REDFLASH) == BackgroundTextBlueprint.CONFIG_REDFLASH)

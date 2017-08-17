@@ -211,7 +211,5 @@ function outputResultSuccess($data) {
  * @param string $from
  */
 function sendMail($subject, $content, $to, $from) {
-	global $config;
-
 	mail($to, $subject, $content, 'From: ' . $from);
 }

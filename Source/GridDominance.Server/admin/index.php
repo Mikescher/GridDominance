@@ -145,7 +145,7 @@
     <?php
     global $config;
     foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w) {
-		echo "<a href=\"worldhighscore.php?id=$w\">$w</a><br/>";
+		if ($w != $config['worldid_0']) echo "<a href=\"worldhighscore.php?id=$w\">$w</a><br/>";
     }
     ?>
 
@@ -180,7 +180,7 @@
                 <th>ID</th>
                 <th>Difficulty</th>
                 <th>Highscore</th>
-                <th>Highscore Holder</th>
+                <th style='width: 250px'>Highscore Holder</th>
                 <th style='width: 200px'>Last Changed</th>
                 <th>Completion Count</th>
             </tr>

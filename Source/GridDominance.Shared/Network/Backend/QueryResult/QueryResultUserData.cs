@@ -9,7 +9,6 @@
 		public int ID;
 		public string Username;
 		public bool AutoUser;
-		public int Score;
 		public int MultiplayerScore;
 		public int RevID;
 	}

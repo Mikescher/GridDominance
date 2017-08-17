@@ -21,6 +21,7 @@ namespace GridDominance.Shared.Resources
 
 		public static Dictionary<Guid, GraphBlueprint> WORLDS;
 		public static Dictionary<Guid, LevelBlueprint> LEVELS;
+		public static Dictionary<Guid, Guid> MAP_LEVELS_WORLDS; // LEVEL_ID --> WORLD_ID
 		public static Dictionary<Guid, int> WORLD_NAMES;
 		public static Dictionary<Guid, int> WORLD_NUMBERS;
 
@@ -38,10 +39,11 @@ namespace GridDominance.Shared.Resources
 
 		public static void LoadContent(ContentManager content)
 		{
-			LEVELS        = new Dictionary<Guid, LevelBlueprint>();
-			WORLDS        = new Dictionary<Guid, GraphBlueprint>();
-			WORLD_NAMES   = new Dictionary<Guid, int>();
-			WORLD_NUMBERS = new Dictionary<Guid, int>();
+			LEVELS            = new Dictionary<Guid, LevelBlueprint>();
+			WORLDS            = new Dictionary<Guid, GraphBlueprint>();
+			MAP_LEVELS_WORLDS = new Dictionary<Guid, Guid>();
+			WORLD_NAMES       = new Dictionary<Guid, int>();
+			WORLD_NUMBERS     = new Dictionary<Guid, int>();
 
 			LEVEL_DBG      = LoadLevel(content, "levels/lvl_debug");
 			LEVEL_TUTORIAL = LoadLevel(content, "levels/lvl_tutorial");
@@ -189,6 +191,9 @@ namespace GridDominance.Shared.Resources
 		{
 			var grph = content.Load<GraphBlueprint>(id);
 			WORLDS[grph.ID] = grph;
+
+			foreach (var lvl in grph.LevelNodes) MAP_LEVELS_WORLDS[lvl.LevelID] = grph.ID;
+
 			return grph;
 		}
 
@@ -229,6 +234,13 @@ namespace GridDominance.Shared.Resources
 					}
 				}
 			}
+		}
+
+		public static Guid GetWorldByLevelID(Guid lid)
+		{
+			Guid wid;
+			if (MAP_LEVELS_WORLDS.TryGetValue(lid, out wid)) return wid;
+			return Guid.Empty;
 		}
 	}
 }

@@ -33,11 +33,35 @@
 		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show (" . $hdr . ")</a>";
 		echo "</td>";
 	}
+	function expansioncell4($hdr, $dat) {
+		global $previd;
+
+		echo "<td>";
+		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($dat))) . ");return false;'>$hdr</a>";
+		echo "</td>";
+	}
+
 	function lc($txt) {
 	    $c = 0;
 	    foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }
 	    return $c;
 	}
+
+	function getScoreInfo($entry)
+    {
+	    return
+            "Score     = " . $entry['score']      . "\n" .
+			"Score[W1] = " . $entry['score_w1']   . "\n" .
+			"Score[W2] = " . $entry['score_w2']   . "\n" .
+			"Score[W3] = " . $entry['score_w3']   . "\n" .
+			"Score[W4] = " . $entry['score_w4']   . "\n" .
+			"Time      = " . gmdate("H:i:s", $entry['time_total']) . " = " . $entry['time_total'] . "\n" .
+			"Time[W1]  = " . gmdate("H:i:s", $entry['time_w1'])    . " = " . $entry['time_w1']    . "\n" .
+			"Time[W2]  = " . gmdate("H:i:s", $entry['time_w2'])    . " = " . $entry['time_w2']    . "\n" .
+			"Time[W3]  = " . gmdate("H:i:s", $entry['time_w3'])    . " = " . $entry['time_w3']    . "\n" .
+			"Time[W4]  = " . gmdate("H:i:s", $entry['time_w4'])    . " = " . $entry['time_w4']    . "\n" .
+			"Score[MP] = " . $entry['mpscore']    . "\n" ;
+    }
 
 	$showall = false;
 	if (! empty($_GET['a'])) $showall = $_GET['a'] == 'y';
@@ -58,14 +82,14 @@
                     <th>Anon</th>
                     <th>Score</th>
                     <th>Score(MP)</th>
-                    <th>Rev ID</th>
+                    <th>Rev</th>
                     <th style='width: 200px'>Devicename</th>
                     <th style='width: 350px'>Deviceversion</th>
                     <th>Resolution</th>
                     <th>Unlocks</th>
                     <th>Multiplayer</th>
                     <th style='width: 170px'>Last Online</th>
-                    <th>App Version</th>
+                    <th>Version</th>
 
                 </tr>
             </thead>
@@ -74,7 +98,7 @@
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <?php expansioncell($entry['password_hash']); ?>
                     <td><?php echo $entry['is_auto_generated']; ?></td>
-                    <td><?php echo $entry['score']; ?></td>
+                    <?php expansioncell4($entry['score'], getScoreInfo($entry)) ?>
                     <td><?php echo $entry['mpscore']; ?></td>
                     <td><?php echo $entry['revision_id']; ?></td>
                     <td><?php echo $entry['device_name']; ?></td>

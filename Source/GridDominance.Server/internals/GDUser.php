@@ -8,7 +8,7 @@ if(count(get_included_files()) ==1) exit("Direct access not permitted.");
  * Date: 2017-01-28
  * Time: 23:27
  */
-class GDUser
+class GDUser implements JsonSerializable
 {
 	const DEFAULT_USERNAME = 'anonymous';
 
@@ -24,6 +24,33 @@ class GDUser
 	/** @var $Score int */
 	public $Score = 0;
 
+	/** @var $ScoreW1 int */
+	public $ScoreW1 = 0;
+
+	/** @var $ScoreW2 int */
+	public $ScoreW2 = 0;
+
+	/** @var $ScoreW3 int */
+	public $ScoreW3 = 0;
+
+	/** @var $ScoreW4 int */
+	public $ScoreW4 = 0;
+
+	/** @var $TotalTime int */
+	public $TotalTime = 0;
+
+	/** @var $TimeW1 int */
+	public $TimeW1 = 0;
+
+	/** @var $TimeW2 int */
+	public $TimeW2 = 0;
+
+	/** @var $TimeW3 int */
+	public $TimeW3 = 0;
+
+	/** @var $TimeW4 int */
+	public $TimeW4 = 0;
+
 	/** @var $MultiplayerScore int */
 	public $MultiplayerScore = 0;
 
@@ -36,15 +63,13 @@ class GDUser
 	/**
 	 * @param int $_id
 	 * @param string $_username
-	 * @param int $_score
 	 * @return GDUser
 	 */
-	public static function CreateNew($_id, $_username, $_score)
+	public static function CreateNew($_id, $_username)
 	{
 		$r = new GDUser();
 		$r->ID = $_id;
 		$r->Username = $_username;
-		$r->Score = $_score;
 		return $r;
 	}
 
@@ -56,7 +81,7 @@ class GDUser
 	 */
 	public static function QueryOrFailByName($pdo, $pw, $username)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id FROM users WHERE username=:name");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE username=:name");
 		$stmt->bindValue(':name', $username, PDO::PARAM_STR);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -78,7 +103,7 @@ class GDUser
 	 */
 	public static function QueryOrFail($pdo, $pw, $userid)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id FROM users WHERE userid=:id");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -100,7 +125,7 @@ class GDUser
 	 */
 	public static function QueryByIDOrNull($pdo, $userid)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id FROM users WHERE userid=:id");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -120,7 +145,7 @@ class GDUser
 	 */
 	public static function QueryOrNull($pdo, $pw, $userid)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id FROM users WHERE userid=:id");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -148,6 +173,15 @@ class GDUser
 		$r->AutoUser         = (bool)$row['is_auto_generated'];
 		$r->PasswordHash     = $row['password_hash'];
 		$r->RevID            = $row['revision_id'];
+		$r->ScoreW1          = $row['score_w1'];
+		$r->ScoreW2          = $row['score_w2'];
+		$r->ScoreW3          = $row['score_w3'];
+		$r->ScoreW4          = $row['score_w4'];
+		$r->TotalTime        = $row['time_total'];
+		$r->TimeW1           = $row['time_w1'];
+		$r->TimeW2           = $row['time_w2'];
+		$r->TimeW3           = $row['time_w3'];
+		$r->TimeW4           = $row['time_w4'];
 		return $r;
 	}
 
@@ -229,33 +263,49 @@ class GDUser
 
 	/**
 	 * @param int $score
+	 * @param int $score_w1
+	 * @param int $score_w2
+	 * @param int $score_w3
+	 * @param int $score_w4
+	 * @param int $time
+	 * @param int $time_w1
+	 * @param int $time_w2
+	 * @param int $time_w3
+	 * @param int $time_w4
+	 * @param int $score_mp
 	 * @param string $app_version
 	 */
-	public function SetScore($score, $app_version) {
+	public function SetScoreAndTime($score, $score_w1, $score_w2, $score_w3, $score_w4, $time, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp, $app_version) {
 		global $pdo;
-		$stmt = $pdo->prepare("UPDATE users SET score=:scr, last_online=CURRENT_TIMESTAMP(), app_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
-		$stmt->bindValue(':id', $this->ID, PDO::PARAM_INT);
-		$stmt->bindValue(':av', $app_version, PDO::PARAM_STR);
-		$stmt->bindValue(':scr', $score, PDO::PARAM_INT);
+		$stmt = $pdo->prepare("UPDATE users SET score=:scr, score_w1=:scr1, score_w2=:scr2, score_w3=:scr3, score_w4=:scr4, time_total=:tim, time_w1=:tim1, time_w2=:tim2, time_w3=:tim3, time_w4=:tim4, mpscore=:smp, last_online=CURRENT_TIMESTAMP(), app_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
+
+		$stmt->bindValue(':id',   $this->ID, PDO::PARAM_INT);
+		$stmt->bindValue(':av',   $app_version, PDO::PARAM_STR);
+		$stmt->bindValue(':scr',  $score, PDO::PARAM_INT);
+		$stmt->bindValue(':scr1', $score_w1, PDO::PARAM_INT);
+		$stmt->bindValue(':scr2', $score_w2, PDO::PARAM_INT);
+		$stmt->bindValue(':scr3', $score_w3, PDO::PARAM_INT);
+		$stmt->bindValue(':scr4', $score_w4, PDO::PARAM_INT);
+		$stmt->bindValue(':tim',  $time, PDO::PARAM_INT);
+		$stmt->bindValue(':tim1', $time_w1, PDO::PARAM_INT);
+		$stmt->bindValue(':tim2', $time_w2, PDO::PARAM_INT);
+		$stmt->bindValue(':tim3', $time_w3, PDO::PARAM_INT);
+		$stmt->bindValue(':tim4', $time_w4, PDO::PARAM_INT);
+		$stmt->bindValue(':smp',  $score_mp, PDO::PARAM_INT);
 		executeOrFail($stmt);
 
 		$this->Score = $score;
-		$this->RevID++;
-	}
+		$this->ScoreW1 = $score_w1;
+		$this->ScoreW2 = $score_w2;
+		$this->ScoreW3 = $score_w3;
+		$this->ScoreW4 = $score_w4;
 
-	/**
-	 * @param int $score
-	 * @param string $app_version
-	 */
-	public function SetMPScore($score, $app_version) {
-		global $pdo;
-		$stmt = $pdo->prepare("UPDATE users SET mpscore=:scr, last_online=CURRENT_TIMESTAMP(), app_version=:av, revision_id=(revision_id+1) WHERE userid=:id");
-		$stmt->bindValue(':id', $this->ID, PDO::PARAM_INT);
-		$stmt->bindValue(':av', $app_version, PDO::PARAM_STR);
-		$stmt->bindValue(':scr', $score, PDO::PARAM_INT);
-		executeOrFail($stmt);
+		$this->TotalTime = $time;
+		$this->TimeW1 = $time_w1;
+		$this->TimeW2 = $time_w2;
+		$this->TimeW3 = $time_w3;
+		$this->TimeW4 = $time_w4;
 
-		$this->MultiplayerScore = $score;
 		$this->RevID++;
 	}
 
@@ -326,7 +376,6 @@ class GDUser
 	 */
 	private function InsertLevelScoreInternal($levelid, $difficulty, $leveltime, $olddata) {
 		global $pdo;
-		global $config;
 
 		if ($olddata !== FALSE) {
 
@@ -353,8 +402,6 @@ class GDUser
 			$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
 			$stmt->bindValue(':time', $leveltime, PDO::PARAM_INT);
 			executeOrFail($stmt);
-
-			$this->Score += $config['diff_scores'][$difficulty];
 
 			return [3, $leveltime];
 		}
@@ -383,5 +430,16 @@ class GDUser
 		$stmt = $pdo->prepare("DELETE FROM level_highscores WHERE userid=:uid");
 		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
 		executeOrFail($stmt);
+	}
+
+	function jsonSerialize() {
+		return
+			[
+				'ID'               => $this->ID,
+				'Username'         => $this->Username,
+				'AutoUser'         => $this->AutoUser,
+				'MultiplayerScore' => $this->MultiplayerScore,
+				'RevID'            => $this->RevID,
+			];
 	}
 }

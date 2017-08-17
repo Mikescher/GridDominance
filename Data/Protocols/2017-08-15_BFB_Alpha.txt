@@ -27,6 +27,6 @@ CC (TODO)
 [ ] Relaycannon shoots own bullet, gets captured, own bullet goes missing ??
 [X] Admin page ?d=a + not enough errors on index
 [ ] Reupload logic testing (!)
-[ ] sql stuff calcs score wrong when missing intermediate difficulties
+[X] sql stuff calcs score wrong when missing intermediate difficulties
       - set-multiscore does not update score correctly
       - get-ranking methods return wrong result

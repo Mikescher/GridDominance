@@ -33,12 +33,17 @@ function connectOrFail($host, $dbname, $user, $password) {
 		return new PDO($dsn, $user, $password, $opt);
 	} catch (Exception $e) {
 		outputErrorException(ERRORS::INTERNAL_EXCEPTION, "Can't connect to db", $e, LOGLEVEL::ERROR);
+		return null;
 	}
 }
 
 function loadSQL($scriptname) {
-	if (file_exists('data/' . $scriptname . '.sql')) $sql = file_get_contents('data/' . $scriptname . '.sql');
-	if (file_exists('../data/' . $scriptname . '.sql')) $sql = file_get_contents('../data/' . $scriptname . '.sql');
+	if (file_exists('data/' . $scriptname . '.sql'))
+		$sql = file_get_contents('data/' . $scriptname . '.sql');
+	else if (file_exists('../data/' . $scriptname . '.sql'))
+		$sql = file_get_contents('../data/' . $scriptname . '.sql');
+	else
+		throw new Exception("FILE NOT FOUND: $scriptname");
 
 	$sql = str_replace("\r", "", $sql);
 	$sql = str_replace("\n", " ", $sql);

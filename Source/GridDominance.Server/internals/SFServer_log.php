@@ -93,7 +93,10 @@ function logToFile($filename, $maxsize, $msg, $id) {
 	global $action_name;
 
 	$filename = str_replace("{action}", $action_name, $filename);
-	@mkdir(dirname($filename), 0777, true);
+
+	if (DIRECTORY_SEPARATOR != '/') $filename = str_replace("/", DIRECTORY_SEPARATOR, $filename);
+
+	if (!file_exists(dirname($filename))) @mkdir(dirname($filename), 0777, true);
 
 
 	$fn1 = $filename;

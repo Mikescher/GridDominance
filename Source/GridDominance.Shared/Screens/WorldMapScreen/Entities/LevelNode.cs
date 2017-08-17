@@ -139,7 +139,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					break;
 			}
 
-			if (!LevelData.HasCompleted(d)) d = FractionDifficulty.NEUTRAL;
+			if (!LevelData.HasCompletedOrBetter(d)) d = FractionDifficulty.NEUTRAL;
 
 			foreach (var t in OutgoingPipes)
 			{
@@ -248,7 +248,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::root", TOTAL_EXPANSION_TIME, (n, p) => RootExpansionProgress = p));
 			if (progress != null) o.ForceSetProgress(1 - progress.Value);
 
-			if (Blueprint.UniqueID == Levels.LEVELID_1_1 && !LevelData.HasCompleted(FractionDifficulty.DIFF_0))
+			if (Blueprint.UniqueID == Levels.LEVELID_1_1 && !LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_0))
 			{
 				OpenExtender(FractionDifficulty.DIFF_0);
 			}
@@ -379,7 +379,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					sbatch,
 					rectExpanderNorth.AsTranslated(0, HEIGHT_EXTENDER * iep0).LimitSingleCoordSouth(Position.Y),
 					2,
-					LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
+					LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.COLOR_DIFFICULTY_0 : COLOR_DEACTIVATED,
 					COLOR_BORDER,
 					8,
 					10);
@@ -389,7 +389,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					sbatch,
 					rectExpanderEast.AsTranslated(-HEIGHT_EXTENDER * iep1, 0).LimitSingleCoordWest(Position.X),
 					2,
-					LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
+					LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.COLOR_DIFFICULTY_1 : COLOR_DEACTIVATED,
 					COLOR_BORDER,
 					8,
 					10);
@@ -399,7 +399,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					sbatch,
 					rectExpanderSouth.AsTranslated(0, -HEIGHT_EXTENDER * iep2).LimitSingleCoordNorth(Position.Y), 
 					2,
-					LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED, 
+					LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.COLOR_DIFFICULTY_2 : COLOR_DEACTIVATED, 
 					COLOR_BORDER, 
 					8, 
 					10);
@@ -409,7 +409,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 					sbatch,
 					rectExpanderWest.AsTranslated(HEIGHT_EXTENDER * iep3, 0).LimitSingleCoordEast(Position.X),
 					2,
-					LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
+					LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.COLOR_DIFFICULTY_3 : COLOR_DEACTIVATED,
 					COLOR_BORDER,
 					8,
 					10);
@@ -472,28 +472,28 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				Position, 
 				DIAMETER, 
 				DIAMETER, 
-				LevelData.HasCompleted(FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.COLOR_DIFFICULTY_0.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_000 + FloatMath.TAU * nepX);
+				LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.COLOR_DIFFICULTY_0.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_000 + FloatMath.TAU * nepX);
 
 			sbatch.DrawCentered(
 				Textures.TexLevelNodeSegment,
 				Position,
 				DIAMETER,
 				DIAMETER,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.COLOR_DIFFICULTY_1.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_090 + FloatMath.TAU * nepX);
+				LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.COLOR_DIFFICULTY_1.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_090 + FloatMath.TAU * nepX);
 
 			sbatch.DrawCentered(
 				Textures.TexLevelNodeSegment,
 				Position,
 				DIAMETER,
 				DIAMETER,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.COLOR_DIFFICULTY_2.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_180 + FloatMath.TAU * nepX);
+				LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.COLOR_DIFFICULTY_2.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_180 + FloatMath.TAU * nepX);
 
 			sbatch.DrawCentered(
 				Textures.TexLevelNodeSegment,
 				Position,
 				DIAMETER,
 				DIAMETER,
-				LevelData.HasCompleted(FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.COLOR_DIFFICULTY_3.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_270 + FloatMath.TAU * nepX);
+				LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.COLOR_DIFFICULTY_3.BlendTo(COLOR_DEACTIVATED, 0.3f * lepX) : COLOR_DEACTIVATED, FloatMath.RAD_POS_270 + FloatMath.TAU * nepX);
 			
 			#endregion
 

@@ -30,7 +30,8 @@ namespace GridDominance.Shared.SaveData
 			if (! Data.ContainsKey(FractionDifficulty.DIFF_3)) Data.Add(FractionDifficulty.DIFF_3, new LevelDiffData());
 		}
 
-		public int TotalPoints => Data.Where(p => HasCompleted(p.Key)).Select(p => p.Key).Sum(FractionDifficultyHelper.GetScore);
+		public int TotalPoints => Data.Where(p => HasCompletedOrBetter(p.Key)).Select(p => p.Key).Sum(FractionDifficultyHelper.GetScore);
+		public int TotalTime => Data.Where(p => p.Value.HasCompleted).Sum(p => p.Value.BestTime);
 
 		public int CompletionCount
 		{
@@ -44,7 +45,12 @@ namespace GridDominance.Shared.SaveData
 			}
 		}
 
-		public bool HasCompleted(FractionDifficulty d)
+		public bool HasCompletedExact(FractionDifficulty d)
+		{
+			return Data[d].HasCompleted;
+		}
+
+		public bool HasCompletedOrBetter(FractionDifficulty d)
 		{
 			switch (d)
 			{

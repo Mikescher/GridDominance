@@ -138,19 +138,9 @@
 			global $pdo;
                 foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w):
 
-					$condition = ' WHERE (';
-					$ccfirst = true;
-					foreach ($config['levelmapping'] as $mapping) {
-						if ($mapping[0] == $w) {
-							if (!$ccfirst) $condition .= ' OR ';
-							$ccfirst = false;
-							$condition .= 'level_highscores.levelid LIKE \'' . $mapping[1] . '\'';
-						}
-					}
-					if ($ccfirst) $condition .= '0=1';
-					$condition .= ') ';
+                    if ($w == $config['worldid_0']) continue;
 
-					$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_playerrank', '#$$CONDITION$$', $condition));
+					$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_playerrank', '#$$FIELD$$', worldGuidToSQLField($w)));
 					$stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
 					executeOrFail($stmt);
 					$entry = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -211,6 +201,27 @@
     </div>
 
     <h2>Scores</h2>
+
+
+    <div class="tablebox">
+        <table class="sqltab pure-table pure-table-bordered sortable">
+            <thead>
+            <tr>
+                <th>World</th>
+                <th>Score</th>
+                <th>Time</th>
+            </tr>
+            </thead>
+            <tr> <td>Total</td> <td><?php echo $user->Score; ?>           </td> <td title="<?php echo $user->TotalTime; ?>ms" ><?php echo gmdate("H:i:s", $user->TotalTime); ?></td> </tr>
+            <tr> <td>W1</td>    <td><?php echo $user->ScoreW1; ?>         </td> <td title="<?php echo $user->TimeW1; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW1); ?></td> </tr>
+            <tr> <td>W2</td>    <td><?php echo $user->ScoreW2; ?>         </td> <td title="<?php echo $user->TimeW2; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW2); ?></td> </tr>
+            <tr> <td>W3</td>    <td><?php echo $user->ScoreW3; ?>         </td> <td title="<?php echo $user->TimeW3; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW3); ?></td> </tr>
+            <tr> <td>W4</td>    <td><?php echo $user->ScoreW4; ?>         </td> <td title="<?php echo $user->TimeW4; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW4); ?></td> </tr>
+            <tr> <td>MP</td>    <td><?php echo $user->MultiplayerScore; ?></td> <td title="?"></td> </tr>
+        </table>
+    </div>
+
+    <h2>&nbsp;</h2>
 
     <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">

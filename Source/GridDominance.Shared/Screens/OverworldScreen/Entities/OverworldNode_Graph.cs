@@ -159,7 +159,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private float GetSolvePercentage(FractionDifficulty d)
 		{
-			int c = Blueprint.LevelNodes.Count(n => MainGame.Inst.Profile.GetLevelData(n.LevelID).HasCompleted(d));
+			int c = Blueprint.LevelNodes.Count(n => MainGame.Inst.Profile.GetLevelData(n.LevelID).HasCompletedOrBetter(d));
 
 			return c * 1f / Blueprint.LevelNodes.Count;
 		}

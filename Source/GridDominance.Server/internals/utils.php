@@ -65,13 +65,19 @@ function getUserErrors($uid) {
 function getUsers($all) {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM users WHERE 1=1 ' . ($all ? "" : "AND score > 0"))->fetchAll(PDO::FETCH_ASSOC);
+	if ($all)
+		return $pdo->query('SELECT * FROM users')->fetchAll(PDO::FETCH_ASSOC);
+	else
+		return $pdo->query('SELECT * FROM users WHERE score > 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getActiveUsers($days, $all) {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM users WHERE last_online >= now() - INTERVAL ' . $days . ' DAY ' . ($all ? "" : "AND score > 0"))->fetchAll(PDO::FETCH_ASSOC);
+	if ($all)
+		return $pdo->query("SELECT * FROM users WHERE last_online >= now() - INTERVAL $days DAY")->fetchAll(PDO::FETCH_ASSOC);
+	else
+		return $pdo->query("SELECT * FROM users WHERE last_online >= now() - INTERVAL $days DAY AND score > 0")->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getLevelHighscores() {
@@ -131,21 +137,8 @@ function getUserEntries($uid) {
 
 function getWorldHighscores($worldid) {
 	global $pdo;
-	global $config;
 
-	$condition = ' WHERE (';
-	$ccfirst = true;
-	foreach ($config['levelmapping'] as $mapping) {
-		if ($mapping[0] == $worldid) {
-			if (!$ccfirst) $condition .= ' OR ';
-			$ccfirst = false;
-			$condition .= 'level_highscores.levelid LIKE \'' . $mapping[1] . '\'';
-		}
-	}
-	if ($ccfirst) $condition .= '0=1';
-	$condition .= ') ';
-
-	$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top100', '#$$CONDITION$$', $condition));
+	$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top100', '#$$FIELD$$', worldGuidToSQLField($worldid)));
 	$stmt->execute();
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -183,4 +176,16 @@ function listLogFiles() {
 	closedir($dir);
 
 	return $list;
+}
+
+function worldGuidToSQLField($worldid)
+{
+	global $config;
+
+	if ($worldid == $config['worldid_1'] ) return "w1";
+	if ($worldid == $config['worldid_2'] ) return "w2";
+	if ($worldid == $config['worldid_3'] ) return "w3";
+	if ($worldid == $config['worldid_4'] ) return "w4";
+
+	throw new Exception("Unknown WorldID: " . $worldid);
 }

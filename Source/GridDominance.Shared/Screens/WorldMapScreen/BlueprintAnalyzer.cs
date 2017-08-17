@@ -69,7 +69,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 					var lnode = Get(g, pipe.Target);
 					if (!(lnode is NodeBlueprint)) continue;
 					
-					if (!MainGame.Inst.Profile.GetLevelData(lnode.ConnectionID).HasCompleted(d)) return (NodeBlueprint?)lnode;
+					if (!MainGame.Inst.Profile.GetLevelData(lnode.ConnectionID).HasCompletedOrBetter(d)) return (NodeBlueprint?)lnode;
 					
 					mem.Push(lnode);
 				}
@@ -92,10 +92,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			
 			foreach (var levelnode in g.LevelNodes)
 			{
-				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_0)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_0); }
-				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_1)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_1); }
-				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_2)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_2); }
-				if (!p.GetLevelData(levelnode).HasCompleted(FractionDifficulty.DIFF_3)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_3); }
+				if (!p.GetLevelData(levelnode).HasCompletedOrBetter(FractionDifficulty.DIFF_0)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_0); }
+				if (!p.GetLevelData(levelnode).HasCompletedOrBetter(FractionDifficulty.DIFF_1)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_1); }
+				if (!p.GetLevelData(levelnode).HasCompletedOrBetter(FractionDifficulty.DIFF_2)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_2); }
+				if (!p.GetLevelData(levelnode).HasCompletedOrBetter(FractionDifficulty.DIFF_3)) { missLevel++; missPoints += FractionDifficultyHelper.GetScore(FractionDifficulty.DIFF_3); }
 			}
 
 		}

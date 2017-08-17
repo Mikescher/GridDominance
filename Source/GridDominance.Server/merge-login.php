@@ -13,9 +13,21 @@ function run() {
 	$password      = getParamSHAOrError('new_password');
 	$mergedata     = getParamStrOrError('merge_data');
 
+	$totalscore    = getParamUIntOrError('s0');
+	$score_w1      = getParamUIntOrError('s1');
+	$score_w2      = getParamUIntOrError('s2');
+	$score_w3      = getParamUIntOrError('s3');
+	$score_w4      = getParamUIntOrError('s4');
+	$totaltime     = getParamUIntOrError('t0');
+	$time_w1       = getParamUIntOrError('t1');
+	$time_w2       = getParamUIntOrError('t2');
+	$time_w3       = getParamUIntOrError('t3');
+	$time_w4       = getParamUIntOrError('t4');
+	$score_mp      = getParamUIntOrError('sx');
+
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$old_userid, $old_password, $appversion, $username, $password, $mergedata]);
+	check_commit_signature($signature, [$old_userid, $old_password, $appversion, $username, $password, $mergedata, $score_w1, $score_w2, $score_w3, $score_w4, $totaltime, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp]);
 
 	//--------- step 1: [verify]
 
@@ -30,7 +42,8 @@ function run() {
 
 	//---------- step 3: [update newuser]
 
-	$user->SetScore($user->Score, $appversion);
+	$user->SetScoreAndTime($totalscore, $score_w1, $score_w2, $score_w3, $score_w4, $totaltime, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp, $appversion);
+	logDebug("score and time changed (update) for user:$user->ID [[$score_w1, $score_w2, $score_w3, $score_w4, $totaltime, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp]]");
 
 	//---------- step 4: [download data]
 

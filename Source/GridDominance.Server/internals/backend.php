@@ -37,7 +37,7 @@ function init($action) {
 	$action_name = $action;
 	$start_time = microtime(true);
 
-	if ($config['debug'])sleep($config['ping_emulation']);
+	if ($config['debug']) sleep($config['ping_emulation']);
 
 	if ($config['debug']) {
 		error_reporting(E_STRICT);
@@ -49,3 +49,5 @@ function init($action) {
 
 	$pdo = connectOrFail($config['database_host'], $config['database_name'], $config['database_user'], $config['database_pass']);
 }
+
+require_once 'utils.php';

@@ -33,7 +33,7 @@ function run() {
 	$stmt->bindValue(':dr', $device_resolution, PDO::PARAM_STR);
 	executeOrFail($stmt);
 
-	$user = GDUser::CreateNew($pdo->lastInsertId(), $username, 0);
+	$user = GDUser::CreateNew($pdo->lastInsertId(), $username);
 
 	//---------
 

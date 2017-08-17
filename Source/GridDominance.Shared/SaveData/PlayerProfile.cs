@@ -18,12 +18,14 @@ namespace GridDominance.Shared.SaveData
 		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_0;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
+		public int TotalTime => LevelData.Sum(p => p.Value.TotalTime);
 		public int MultiplayerPoints;
 		public bool HasMultiplayerGames;
 
 		public Dictionary<Guid, LevelData> LevelData;
 		public HashSet<Guid> PurchasedWorlds;
 		public string StrPurchasedWorlds => String.Join("\n", PurchasedWorlds.Select(g => $"{g:B}").OrderBy(p => p));
+
 
 		public AccountType AccountType;
 		public int OnlineUserID;
@@ -95,6 +97,16 @@ namespace GridDominance.Shared.SaveData
 		public LevelDiffData GetLevelData(Guid levelid, FractionDifficulty d)
 		{
 			return GetLevelData(levelid).Data[d];
+		}
+
+		public int GetWorldPoints(GraphBlueprint w)
+		{
+			return LevelData.Where(d => Levels.GetWorldByLevelID(d.Key) == w.ID).Sum(p => p.Value.TotalPoints);
+		}
+
+		public int GetWorldTime(GraphBlueprint w)
+		{
+			return LevelData.Where(d => Levels.GetWorldByLevelID(d.Key) == w.ID).Sum(p => p.Value.TotalTime);
 		}
 
 		public void SetCompleted(Guid levelid, FractionDifficulty d, int time, bool upload)

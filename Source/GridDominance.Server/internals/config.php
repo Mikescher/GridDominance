@@ -27,8 +27,14 @@ return [
 	'levelmapping' => require 'config_levelids.php',
 	'levelids' => array_map(function($k){ return $k[1]; }, require 'config_levelids.php'),
 
+	'worldid_0' => '{d34db335-0001-4000-7711-000000100001}',
+	'worldid_1' => '{d34db335-0001-4000-7711-000000200001}',
+	'worldid_2' => '{d34db335-0001-4000-7711-000000200002}',
+	'worldid_3' => '{d34db335-0001-4000-7711-000000200003}',
+	'worldid_4' => '{d34db335-0001-4000-7711-000000200004}',
+
 	'difficulties' => [0x00, 0x01, 0x02, 0x03],
-	'diff_scores'  => [11,   13,   17,   23  ],
+	//'diff_scores'  => [11,   13,   17,   23  ],
 
 	'debug' => true,
 	'ping_emulation' => 0, // sec

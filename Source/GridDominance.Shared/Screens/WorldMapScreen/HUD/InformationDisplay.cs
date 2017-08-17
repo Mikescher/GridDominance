@@ -107,8 +107,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			var p2 = Position + new Vector2(64,  HEADER_HEIGHT + 40 + 56 * idx);
 			var p3 = Position + new Vector2(224, HEADER_HEIGHT + 40 + 56 * idx);
 
-			var ic = (node.LevelData.HasCompleted(d) ? FractionDifficultyHelper.GetColor(d) : FlatColors.Concrete) * progressDisplay;
-			var tc = (node.LevelData.HasCompleted(d) ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay;
+			var ic = (node.LevelData.HasCompletedOrBetter(d) ? FractionDifficultyHelper.GetColor(d) : FlatColors.Concrete) * progressDisplay;
+			var tc = (node.LevelData.HasCompletedOrBetter(d) ? FlatColors.TextHUD : FlatColors.Asbestos) * progressDisplay;
 
 			if (colorize && node.LevelData.Data[d].GlobalBestUserID >= 0 && node.LevelData.Data[d].GlobalBestUserID == MainGame.Inst.Profile.OnlineUserID)
 				tc = FlatColors.SunFlower * progressDisplay;
@@ -181,10 +181,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 			else if (_rectRow1.Contains(relPositionPoint))
 			{
+				tabTimer = tab * TAB_SWITCHTIME;
+
 				switch (tab)
 				{
 					case 0:
-						if (node.LevelData.HasCompleted(FractionDifficulty.DIFF_0))
+						if (node.LevelData.HasCompletedExact(FractionDifficulty.DIFF_0))
 							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_0)));
 						else
 							Toast_4(L10N.TF(L10NImpl.STR_INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_0)));
@@ -205,10 +207,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 			else if (_rectRow2.Contains(relPositionPoint))
 			{
+				tabTimer = tab * TAB_SWITCHTIME;
+
 				switch (tab)
 				{
 					case 0:
-						if (node.LevelData.HasCompleted(FractionDifficulty.DIFF_1))
+						if (node.LevelData.HasCompletedExact(FractionDifficulty.DIFF_1))
 							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_1)));
 						else
 							Toast_4(L10N.TF(L10NImpl.STR_INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_1)));
@@ -230,10 +234,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 			else if (_rectRow3.Contains(relPositionPoint))
 			{
+				tabTimer = tab * TAB_SWITCHTIME;
+
 				switch (tab)
 				{
 					case 0:
-						if (node.LevelData.HasCompleted(FractionDifficulty.DIFF_2))
+						if (node.LevelData.HasCompletedExact(FractionDifficulty.DIFF_2))
 							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_2)));
 						else
 							Toast_4(L10N.TF(L10NImpl.STR_INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_2)));
@@ -255,10 +261,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 			else if (_rectRow4.Contains(relPositionPoint))
 			{
+				tabTimer = tab * TAB_SWITCHTIME;
+
 				switch (tab)
 				{
 					case 0:
-						if (node.LevelData.HasCompleted(FractionDifficulty.DIFF_3))
+						if (node.LevelData.HasCompletedExact(FractionDifficulty.DIFF_3))
 							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_3)));
 						else
 							Toast_4(L10N.TF(L10NImpl.STR_INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_3)));
