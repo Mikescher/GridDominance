@@ -30,3 +30,4 @@ CC (TODO)
 [X] sql stuff calcs score wrong when missing intermediate difficulties
       - set-multiscore does not update score correctly
       - get-ranking methods return wrong result
+[X] LASER::UnknownFixture (3-5 Laser vs RemoteBullet)

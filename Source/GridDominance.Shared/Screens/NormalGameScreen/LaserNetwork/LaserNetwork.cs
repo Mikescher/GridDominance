@@ -424,6 +424,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				}
 				#endregion
 
+				#region RemoteBullet
+				var resultRemoteBullet = result.Item1.UserData as RemoteBullet;
+				if (resultRemoteBullet != null)
+				{
+					var ray = new LaserRay(start, result.Item2, source, LaserRayTerminator.BulletTerm, depth, inglass, ignore, resultRemoteBullet, startdist, null, src.Type);
+					ray.TerminatorBullet = resultRemoteBullet;
+					src.Lasers.Add(ray);
+					if (TestForLaserCollision(src, ray, nofault)) continue;
+
+					continue;
+				}
+				#endregion
+
 				// wud ???
 				SAMLog.Error("LASER::UnknownFixture", string.Format("Ray collided with unkown fixture: {0}", result?.Item1?.UserData ?? "<NULL>"));
 			}

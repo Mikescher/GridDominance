@@ -22,7 +22,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 		public List<Tuple<LaserRay, LaserSource>> TerminatorRays;         // Rays that directcollide with this one
 		public List<LaserRay> SelfCollRays = new List<LaserRay>(); // Rays that [[LaserSelfTerm]] with this one
-		public Bullet TerminatorBullet;
+		public BaseBullet TerminatorBullet;
 
 		public readonly RayType RayType;
 		public readonly LaserRay Source;
