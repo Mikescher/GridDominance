@@ -354,12 +354,10 @@
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default_md.png" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_bd.json" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_fd.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_hd.json" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_ld.json" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra-sheet_md.json" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_bd.png" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_fd.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_hd.png" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_ld.png" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_md.png" />
   </ItemGroup>
