@@ -312,7 +312,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_IAB_TESTERR,            "Error connecting to Google Play services",                                          "Fehler beim Versuch mit Google Play zu verbinden");
 			L10N.Add(STR_IAB_TESTNOCONN,         "No connection to Google Play services",                                             "Keine Verbindung zu Google Play services");
 			L10N.Add(STR_IAB_TESTINPROGRESS,     "Payment in progress",                                                               "Zahlung wird verarbeitet");
-			L10N.Add(STR_UNLOCK,                 "Promotion Code",                                                                    "Freischaltungs Code");
+			L10N.Add(STR_UNLOCK,                 "Promotion Code",                                                                    "Promo Code");
 			L10N.Add(STR_GLOB_UNLOCKSUCCESS,     "Upgraded game to full version!",                                                    "Spiel wurde zur Vollversion aufgewertet");
 			L10N.Add(STR_PREV_BUYNOW,            "Unlock now",                                                                        "Jetzt freischalten");
 			L10N.Add(STR_IAB_BUYERR,             "Error connecting to Google Play services",                                          "Fehler beim Versuch mit Google Play zu verbinden");
@@ -372,7 +372,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_CAP_AUTH,          "Enter lobby code",                                                                  "Lobby Code eingeben");
 			L10N.Add(STR_MENU_MP_GAMESPEED,      "Game speed:",                                                                       "Spielgeschwindigkeit:");
 			L10N.Add(STR_MENU_MP_MUSIC,          "Background music:",                                                                 "Hintergrundmusik:");
-			L10N.Add(STR_MENU_MP_LOBBYINFO,      "Enter this code on another phone to join this session.",                            "Gib diesen Code auf einem anderen Smartphones ein um diesem Spiel beizutreten");
+			L10N.Add(STR_MENU_MP_LOBBYINFO,      "Enter this code on another phone to join this session.",                            "Gib diesen Code auf einem anderen Smartphone ein, um diesem Spiel beizutreten");
 			L10N.Add(STR_MENU_MP_LOBBY_USER,     "Users:",                                                                            "Mitspieler:");
 			L10N.Add(STR_MENU_MP_LOBBY_USER_FMT, "Users: {0}",                                                                        "Mitspieler: {0}");
 			L10N.Add(STR_MENU_MP_LOBBY_LEVEL,    "Level:",                                                                            "Level:");
