@@ -24,7 +24,7 @@ CC (TODO)
 [ ] needs resend does not work (looses level)
 [X] "Drücke nochmal 'zurück' um Spiel zu Beenden" instead of "Drücke 'zurück' nochmal um Spiel zu Beenden"
 [X] BT Lobby caption: "Internetlobby"
-[ ] Relaycannon shoots own bullet, gets captured, own bullet goes missing ??
+[X] Relaycannon shoots own bullet, gets captured, own bullet goes missing ??
 [X] Admin page ?d=a + not enough errors on index
 [ ] Reupload logic testing (!)
 [X] sql stuff calcs score wrong when missing intermediate difficulties

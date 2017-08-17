@@ -128,9 +128,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				}
 				else // if (otherCannon.Fraction != this.Fraction)
 				{
-					DisintegrateIntoEnemy();
-					otherCannon.TakeDamage(Fraction, Scale);
-					MainGame.Inst.GDSound.PlayEffectHit();
+					if (otherCannon != Source || fixtureB == otherCannon.PhysicsFixtureBase)
+					{
+						DisintegrateIntoEnemy();
+						otherCannon.TakeDamage(Fraction, Scale);
+						MainGame.Inst.GDSound.PlayEffectHit();
+					}
 				}
 
 				return false;
