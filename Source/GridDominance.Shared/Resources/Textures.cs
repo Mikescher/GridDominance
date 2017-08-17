@@ -37,7 +37,7 @@ namespace GridDominance.Shared.Resources
 		public const string TEXTURE_ASSETNAME_BD = "textures/spritesheet_default-sheet_bd";
 		public const string TEXTURE_ASSETNAME_FD = "textures/spritesheet_default-sheet_fd";
 
-		public const string TEXTURE_ASSETNAME_2_HD = "textures/spritesheet_extra-sheet_hd";
+		public const string TEXTURE_ASSETNAME_2_HD = "textures/spritesheet_extra-sheet_md";
 		public const string TEXTURE_ASSETNAME_2_MD = "textures/spritesheet_extra-sheet_md";
 		public const string TEXTURE_ASSETNAME_2_LD = "textures/spritesheet_extra-sheet_ld";
 		public const string TEXTURE_ASSETNAME_2_BD = "textures/spritesheet_extra-sheet_bd";
