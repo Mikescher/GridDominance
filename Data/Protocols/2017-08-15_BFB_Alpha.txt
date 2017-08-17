@@ -3,7 +3,7 @@ CC (TODO)
 
 
 [X] (IAB) Locked world -> iab-panel direct after shake animation (not after sec click)
-[ ] Wrong money values in store (?) or not (?)
+[X] Wrong money values in store (?) or not (?)
 [X] Buying W2 buys all worlds (wrong ids in UnlockManager) --> test it all again
 [X] LVL_1_1 german text "Versuch" -> "Versuche"
 [X] Error Bluetooth: Bullet collided with unkown fixture: GridDominance.Shared.Screens.NormalGameScreen.Entities.RemoteBullet (gdapi error)
@@ -21,13 +21,14 @@ CC (TODO)
 [ ] Backend::RU_ERR, invalid signature (gdapi error) (((!!!)))
 [X] Multiplayer score incorrect in mp score panel (?) -> simon
 [X] Multiplayer highscore no back button
-[ ] needs resend does not work (looses level)
+[X] needs resend does not work (looses level)
 [X] "Drücke nochmal 'zurück' um Spiel zu Beenden" instead of "Drücke 'zurück' nochmal um Spiel zu Beenden"
 [X] BT Lobby caption: "Internetlobby"
 [X] Relaycannon shoots own bullet, gets captured, own bullet goes missing ??
 [X] Admin page ?d=a + not enough errors on index
-[ ] Reupload logic testing (!)
+[X] Reupload logic testing (!)
 [X] sql stuff calcs score wrong when missing intermediate difficulties
       - set-multiscore does not update score correctly
       - get-ranking methods return wrong result
 [X] LASER::UnknownFixture (3-5 Laser vs RemoteBullet)
+[X] Why is Cronjob so much slower from cron (vs apache) -> nice_20

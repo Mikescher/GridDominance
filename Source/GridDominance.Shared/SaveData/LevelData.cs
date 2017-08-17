@@ -98,6 +98,8 @@ namespace GridDominance.Shared.SaveData
 			}
 			else
 			{
+				if (Data[d].HasCompleted && Data[d].BestTime < time.Value) time = Data[d].BestTime;
+
 				Data[d].HasCompleted = true;
 				Data[d].BestTime = time.Value;
 			}
