@@ -19,7 +19,7 @@ CC (TODO)
 [X] text "Wiederholen" does not fit button
 [X] Ping exception (NPE) in ShowToast (gdapi error)
 [ ] Backend::RU_ERR, invalid signature (gdapi error) (((!!!)))
-[ ] Multiplayer score incorrect in mp score panel (?) -> simon
+[X] Multiplayer score incorrect in mp score panel (?) -> simon
 [X] Multiplayer highscore no back button
 [ ] needs resend does not work (looses level)
 [X] "Drücke nochmal 'zurück' um Spiel zu Beenden" instead of "Drücke 'zurück' nochmal um Spiel zu Beenden"

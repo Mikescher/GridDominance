@@ -100,6 +100,8 @@ function logToFile($filename, $maxsize, $msg, $id) {
 
 
 	$fn1 = $filename;
+	if (DIRECTORY_SEPARATOR != '/') $fn1 = str_replace("/", DIRECTORY_SEPARATOR, $fn1);
+
 	$fn2 = $fn1 . '.old';
 
 	$fs = @filesize($fn1);

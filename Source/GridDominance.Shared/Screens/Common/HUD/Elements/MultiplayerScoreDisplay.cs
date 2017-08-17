@@ -34,7 +34,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			_text = new HUDRawText
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
-				Text = "0",
+				Text = ((int)_value.ActualValue).ToString(),
 				TextColor = FlatColors.TextHUD,
 				FontSize = 60f,
 				RelativePosition = new FPoint(10 + 40 + 30, 0),
@@ -77,8 +77,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			_value.Set(MainGame.Inst.Profile.MultiplayerPoints);
-
 			_icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
 			_icon.Rotation = 0.05f * gameTime.TotalElapsedSeconds * FloatMath.TAU;
 
@@ -105,6 +103,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public void FinishCounter()
 		{
 			_value.Finish();
+			_text.Text = ((int)_value.ActualValue).ToString();
 		}
 	}
 }
