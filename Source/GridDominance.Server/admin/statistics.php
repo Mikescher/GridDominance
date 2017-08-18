@@ -71,7 +71,7 @@ function fmtw($w) {
 
 		<?php
 		global $pdo;
-		$u1 =  $pdo->query('SELECT device_name AS name, COUNT(*) AS count FROM users GROUP BY device_name')->fetchAll(PDO::FETCH_ASSOC);
+		$u1 =  $pdo->query('SELECT device_name AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_name')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
         <div class="tablebox">
@@ -99,7 +99,7 @@ function fmtw($w) {
 
 		<?php
 		global $pdo;
-		$u2 =  $pdo->query('SELECT device_version AS name, COUNT(*) AS count FROM users GROUP BY device_version')->fetchAll(PDO::FETCH_ASSOC);
+		$u2 =  $pdo->query('SELECT device_version AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_version')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
         <div class="tablebox">
@@ -126,7 +126,7 @@ function fmtw($w) {
 
 		<?php
 		global $pdo;
-		$u3 =  $pdo->query('SELECT device_resolution AS name, COUNT(*) AS count FROM users GROUP BY device_resolution')->fetchAll(PDO::FETCH_ASSOC);
+		$u3 =  $pdo->query('SELECT device_resolution AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_resolution')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
         <div class="tablebox">
@@ -158,7 +158,7 @@ function fmtw($w) {
 
 		<?php
 		global $pdo;
-		$u4 =  $pdo->query('SELECT app_version AS name, COUNT(*) AS count FROM users GROUP BY app_version')->fetchAll(PDO::FETCH_ASSOC);
+		$u4 =  $pdo->query('SELECT app_version AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_version')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
         <div class="tablebox">
@@ -188,12 +188,12 @@ function fmtw($w) {
         global $config;
 
 		$u5 = [];
-		$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100001}', 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100001}%'")];
-		$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100002}', 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100002}%'")];
-		$u5[] = ['name' => '{d34db335-0001-4000-7711-000000300001}', 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000300001}%'")];
+		$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100001}', 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100001}%'")];
+		$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100002}', 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100002}%'")];
+		$u5[] = ['name' => '{d34db335-0001-4000-7711-000000300001}', 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000300001}%'")];
 
 		foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w) {
-			$u5[] = ['name' => $w, 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE unlocked_worlds LIKE '%" . $w . "%'")];
+			$u5[] = ['name' => $w, 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%" . $w . "%'")];
 		}
 
 		usort($u5, function ($a, $b) { return ($a['name'] <=> $b['name']); });
@@ -235,7 +235,7 @@ function fmtw($w) {
 
 		<?php
 		global $pdo;
-		$u1 =  $pdo->query('SELECT is_auto_generated AS name, COUNT(*) AS count FROM users GROUP BY is_auto_generated')->fetchAll(PDO::FETCH_ASSOC);
+		$u1 =  $pdo->query('SELECT is_auto_generated AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY is_auto_generated')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
         <div class="tablebox">
