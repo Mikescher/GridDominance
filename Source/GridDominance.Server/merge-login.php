@@ -27,7 +27,7 @@ function run() {
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$old_userid, $old_password, $appversion, $username, $password, $mergedata, $score_w1, $score_w2, $score_w3, $score_w4, $totaltime, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp]);
+	check_commit_signature($signature, [$old_userid, $old_password, $appversion, $username, $password, $mergedata, $totalscore, $score_w1, $score_w2, $score_w3, $score_w4, $totaltime, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp]);
 
 	//--------- step 1: [verify]
 

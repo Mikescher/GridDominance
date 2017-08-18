@@ -260,7 +260,7 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
-		public async Task SetMultiplayerScore(PlayerProfile profile, int score)
+		public async Task SetScoreAndTime(PlayerProfile profile)
 		{
 			try
 			{
@@ -906,6 +906,8 @@ namespace GridDominance.Shared.Network
 						}
 
 						MainGame.Inst.SaveProfile();
+
+						SetScoreAndTime(profile).EnsureNoError(); //score could have been changed - reupload
 					});
 					
 					return Tuple.Create(VerifyResult.Success, string.Empty);

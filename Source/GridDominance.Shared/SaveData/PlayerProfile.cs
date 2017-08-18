@@ -128,7 +128,7 @@ namespace GridDominance.Shared.SaveData
 
 			if (upload)
 			{
-				MainGame.Inst.Backend.SetMultiplayerScore(this, MultiplayerPoints).EnsureNoError();
+				MainGame.Inst.Backend.SetScoreAndTime(this).EnsureNoError();
 			}
 
 			return add;
@@ -145,7 +145,7 @@ namespace GridDominance.Shared.SaveData
 
 			if (upload)
 			{
-				MainGame.Inst.Backend.SetMultiplayerScore(this, MultiplayerPoints).EnsureNoError();
+				MainGame.Inst.Backend.SetScoreAndTime(this).EnsureNoError();
 			}
 
 			return -sub;
