@@ -48,7 +48,7 @@ function run() {
 	}
 
 	$delta = (int)((microtime(true) - $time_start)*1000);
-	logMessage("Cronjob succesful executed in $delta ms.");
+	logDebug("Cronjob succesful executed in $delta ms.");
 
 	outputResultSuccess(['time' => $delta]);
 }

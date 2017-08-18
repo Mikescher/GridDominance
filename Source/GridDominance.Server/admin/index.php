@@ -46,6 +46,13 @@
 
 		return count($json['sessions']);
 	}
+
+	function lc($txt) {
+		$c = 0;
+		foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }
+		return $c;
+	}
+
 	?>
 
 	<div class="infocontainer">
@@ -125,16 +132,24 @@
             <tr>
                 <th style='width: 250px'>Logfile</th>
                 <th style='width: 250px'>Changedate</th>
+                <th>Entries</th>
                 <th>Content</th>
+                <th>Tasks</th>
             </tr>
             </thead>
 			<?php foreach (listLogFiles() as $entry): ?>
                 <tr>
                     <td title="<?php echo $entry['path']; ?>" ><?php echo $entry['name']; ?></td>
                     <td><?php echo $entry['changedate']; ?></td>
+                    <td><?php echo lc($entry['content']); ?></td>
 					<?php remoteexpansioncell($entry['name']); ?>
+                    <td>
+                        <a href="logquery.php?id=<?php echo $entry['name']; ?>">Download</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="logpurge.php?id=<?php echo $entry['name']; ?>">Purge</a>
+                    </td>
                 </tr>
-                <tr class='tab_prev' id='tr_prev_<?php echo $previd; ?>'><td colspan='12' id='td_prev_<?php echo $previd; ?>' style='text-align: left;' ></td></tr>
+                <tr class='tab_prev' id='tr_prev_<?php echo $previd; ?>'><td colspan='12'><div class='div_prev' id='td_prev_<?php echo $previd; ?>' style='text-align: left;' ></div></td></tr>
 				<?php $previd++; ?>
 			<?php endforeach; ?>
         </table>

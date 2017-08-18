@@ -80,3 +80,8 @@ h1 a:hover { color: blue; text-decoration: underline; }
   width: 33%;
   float: left;
 }
+
+.div_prev {
+  overflow: auto;
+  max-height: 768px;
+}

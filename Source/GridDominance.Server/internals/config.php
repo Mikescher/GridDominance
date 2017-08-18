@@ -11,9 +11,9 @@ return [
 	'signature_key' => 'smth',
 	'cron-secret'   => 'cron',
 
-	'logfile-normal' => __DIR__ . '/../log/server.log',
-	'logfile-debug'  => __DIR__ . '/../log/server_[{action}]_debug.log',
-	'logfile-error'  => __DIR__ . '/../log/server_error.log',
+	'logfile-normal' => __DIR__ . '\\..\\log\\server.log',
+	'logfile-debug'  => __DIR__ . '\\..\\log\\server_[{action}]_debug.log',
+	'logfile-error'  => __DIR__ . '\\..\\log\\server_error.log',
 	'email-error-target' => 'mailport@mikescher.de',
 	'email-error-sender' => 'gdserver-error@mikescher.com',
 
