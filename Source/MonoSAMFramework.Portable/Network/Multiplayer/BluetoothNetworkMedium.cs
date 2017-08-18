@@ -215,10 +215,10 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		public void Send(byte[] data)
 		{
 			if (data.Length == 0) return;
-
+			
 			if (_client.State != BluetoothAdapterState.Connected)
 			{
-				SAMLog.Error("BNM::Send", $"Trying to send data {data[0]} while in State {_client.State}");
+				SAMLog.Warning("BNM::Send_ERR", $"Trying to send data {data[0]} while in State {_client.State}");
 				return;
 			}
 
