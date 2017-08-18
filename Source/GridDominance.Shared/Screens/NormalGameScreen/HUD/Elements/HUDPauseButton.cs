@@ -30,9 +30,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		private HUDPauseMenuButton[] subMenu = null;
 
-		private bool _showResume;
-		private bool _showRestart;
-		private bool _showExit;
+		private readonly bool _showResume;
+		private readonly bool _showRestart;
+		private readonly bool _showExit;
 
 		public HUDPauseButton(bool resume, bool restart, bool exit)
 		{
@@ -89,7 +89,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			if (!isOpened && FloatMath.IsZero(animationProgress))
+			if (!isOpened && FloatMath.IsZero(animationProgress) && !GDScreen.HasFinished)
 			{
 				bool trigger = false;
 				if (istate.IsKeyExclusiveJustDown(SKeys.AndroidBack))
