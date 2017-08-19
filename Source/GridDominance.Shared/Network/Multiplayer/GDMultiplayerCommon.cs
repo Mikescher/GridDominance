@@ -163,6 +163,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 				{
 					ProcessForwardRelayCannons(ref p, d, bseq, sendertime);
 				}
+				else if (cmd == 0)
+				{
+					SAMLog.Warning("SNS-COMMON::ZA", "AREA is zero");
+					break;
+				}
 				else
 				{
 					SAMLog.Error("SNS-COMMON::UA", "Unknown AREA: " + cmd);
