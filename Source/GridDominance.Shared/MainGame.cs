@@ -327,20 +327,20 @@ namespace GridDominance.Shared
 
 			if (scrn != null)
 			{
-				b.AppendLine("MainGame.CurrentScreen: " + scrn.GetType());
+				b.AppendLine("MainGame.CurrentScreen:    " + scrn.GetType());
 				b.AppendLine("GameScreen.Entities.Count: " + scrn.Entities?.Count());
-				b.AppendLine("GameScreen.HUD.DeepCount: " + scrn.HUD?.DeepCount());
-				b.AppendLine("GameScreen.IsRemoved: " + scrn.IsRemoved);
-				b.AppendLine("GameScreen.IsShown: " + scrn.IsShown);
-				b.AppendLine("GameScreen.GameSpeed: " + scrn.GameSpeed);
+				b.AppendLine("GameScreen.HUD.DeepCount:  " + scrn.HUD?.DeepCount());
+				b.AppendLine("GameScreen.IsRemoved:      " + scrn.IsRemoved);
+				b.AppendLine("GameScreen.IsShown:        " + scrn.IsShown);
+				b.AppendLine("GameScreen.GameSpeed:      " + scrn.GameSpeed);
 			}
 
 			if (scrn is GDGameScreen)
 			{
-				b.AppendLine("GDGameScreen.HasFinished: " + ((GDGameScreen)scrn).HasFinished);
+				b.AppendLine("GDGameScreen.HasFinished:  " + ((GDGameScreen)scrn).HasFinished);
 				b.AppendLine("GDGameScreen.Blueprint.ID: " + ((GDGameScreen)scrn).Blueprint?.UniqueID);
-				b.AppendLine("GDGameScreen.Difficulty: " + ((GDGameScreen)scrn).Difficulty);
-				b.AppendLine("GDGameScreen.IsPaused: " + ((GDGameScreen)scrn).IsPaused);
+				b.AppendLine("GDGameScreen.Difficulty:   " + ((GDGameScreen)scrn).Difficulty);
+				b.AppendLine("GDGameScreen.IsPaused:     " + ((GDGameScreen)scrn).IsPaused);
 			}
 
 			if (scrn is GDWorldMapScreen)
@@ -349,12 +349,13 @@ namespace GridDominance.Shared
 			}
 
 
-			b.AppendLine("Profile.Language: " + Profile.Language);
-			b.AppendLine("Profile.MusicEnabled: " + Profile.MusicEnabled);
-			b.AppendLine("Profile.SoundsEnabled: " + Profile.SoundsEnabled);
-			b.AppendLine("Profile.NeedsReupload: " + Profile.NeedsReupload);
-			b.AppendLine("Profile.EffectsEnabled: " + Profile.EffectsEnabled);
-			b.AppendLine("Profile.AccountType: " + Profile.AccountType);
+			b.AppendLine("Profile.Language:         " + Profile.Language);
+			b.AppendLine("Profile.MusicEnabled:     " + Profile.MusicEnabled);
+			b.AppendLine("Profile.SoundsEnabled:    " + Profile.SoundsEnabled);
+			b.AppendLine("Profile.NeedsReupload:    " + Profile.NeedsReupload);
+			b.AppendLine("Profile.EffectsEnabled:   " + Profile.EffectsEnabled);
+			b.AppendLine("Profile.AccountType:      " + Profile.AccountType);
+			b.AppendLine("Textures.TEXTURE_QUALITY: " + Textures.TEXTURE_QUALITY);
 
 			return b.ToString();
 		}

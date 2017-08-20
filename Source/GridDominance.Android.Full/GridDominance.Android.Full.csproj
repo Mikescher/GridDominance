@@ -136,9 +136,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
-    <AndroidResource Include="Resources\drawable\Icon.png" />
-    <AndroidResource Include="Resources\drawable\Splash.png" />
     <AndroidResource Include="Resources\values\Styles.xml" />
+    <AndroidResource Include="Resources\drawable-ldpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-ldpi\Splash.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\Splash.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Splash.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Splash.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Splash.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Splash.png" />
   </ItemGroup>
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" Condition="Exists('..\GridDominance.Shared\GridDominance.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

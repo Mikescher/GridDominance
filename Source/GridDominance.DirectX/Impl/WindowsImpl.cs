@@ -22,7 +22,7 @@ namespace GridDominance.Windows
 		private readonly SHA256 sha256 = SHA256.Create();
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 
-		public string FullDeviceInfoString { get; } = "?";
+		public string FullDeviceInfoString { get; } = "?? GridDominance.Windows.WindowsImpl ??" + "\n" + Environment.MachineName + "/" + Environment.UserName;
 		public string DeviceName { get; } = "PC";
 		public string DeviceVersion { get; } = Environment.OSVersion.VersionString;
 		public string EnvironmentStackTrace => Environment.StackTrace;

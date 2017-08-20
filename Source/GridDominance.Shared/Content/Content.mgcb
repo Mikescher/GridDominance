@@ -177,18 +177,6 @@
 /processorParam:TextureFormat=Color
 /build:textures/spritesheet_extra_fd.png
 
-#begin textures/spritesheet_extra_hd.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/spritesheet_extra_hd.png
-
 #begin textures/spritesheet_extra_ld.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -222,11 +210,6 @@
 /importer:TexturePackerJsonImporter
 /processor:TexturePackerProcessor
 /build:textures/spritesheet_extra-sheet_fd.json
-
-#begin textures/spritesheet_extra-sheet_hd.json
-/importer:TexturePackerJsonImporter
-/processor:TexturePackerProcessor
-/build:textures/spritesheet_extra-sheet_hd.json
 
 #begin textures/spritesheet_extra-sheet_ld.json
 /importer:TexturePackerJsonImporter
