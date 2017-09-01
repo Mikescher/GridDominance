@@ -147,6 +147,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				FloatMath.ProgressDec(ref progressDisplay, gameTime.ElapsedSeconds * SPEED_BLEND);
 			}
+			else if (sel != null && node != null && sel != node)
+			{
+				node = sel;
+			}
 
 			IsVisible = FloatMath.IsNotZero(progressDisplay);
 		}
