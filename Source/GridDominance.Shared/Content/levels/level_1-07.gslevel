@@ -6,16 +6,16 @@ init("1-7", "Detour", {b16b00b5-0001-4000-0000-000001000007}, KI_PRECALC_PATHTRA
 
 
 Cannon(SIZE_SMALL, P1, [2,  2.5], ROT_E)
-Cannon(SIZE_SMALL, A2, [14, 7.5], ROT_E)
+Cannon(SIZE_SMALL, A2, [14, 7.5], ROT_W)
 
 Cannon(SIZE_SMALL, N0, [7, 4], ROT_E)
 VoidCircle([8, 5], SIZE_TINY)
-Cannon(SIZE_SMALL, N0, [9, 6], ROT_E)
+Cannon(SIZE_SMALL, N0, [9, 6], ROT_W)
 
 VoidWall([-16,4], [6,4])
 VoidWall([10,6], [32,6])
 
-Cannon(SIZE_SMALL, N0, [14.5, 1.5], ROT_E)
+Cannon(SIZE_SMALL, N0, [14.5, 1.5], ROT_W)
 Cannon(SIZE_SMALL, N0, [1.5, 8.5], ROT_E)
 
 
