@@ -43,19 +43,19 @@ function getTotalHighscore() {
 function getRemainingErrors() {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getAllErrors() {
 	global $pdo;
 
-	return $pdo->query('SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid AND score > 0')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid AND score > 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getUserErrors($uid) {
 	global $pdo;
 
-	$stmt = $pdo->prepare("SELECT * FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE users.userid = :uid AND score > 0");
+	$stmt = $pdo->prepare("SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE users.userid = :uid AND score > 0");
 	$stmt->bindValue(':uid', $uid, PDO::PARAM_INT);
 	$stmt->execute();
 

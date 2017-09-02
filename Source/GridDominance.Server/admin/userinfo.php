@@ -212,11 +212,11 @@
                 <th>Time</th>
             </tr>
             </thead>
-            <tr> <td>Total</td> <td><?php echo $user->Score; ?>           </td> <td title="<?php echo $user->TotalTime; ?>ms" ><?php echo gmdate("H:i:s", $user->TotalTime); ?></td> </tr>
-            <tr> <td>W1</td>    <td><?php echo $user->ScoreW1; ?>         </td> <td title="<?php echo $user->TimeW1; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW1); ?></td> </tr>
-            <tr> <td>W2</td>    <td><?php echo $user->ScoreW2; ?>         </td> <td title="<?php echo $user->TimeW2; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW2); ?></td> </tr>
-            <tr> <td>W3</td>    <td><?php echo $user->ScoreW3; ?>         </td> <td title="<?php echo $user->TimeW3; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW3); ?></td> </tr>
-            <tr> <td>W4</td>    <td><?php echo $user->ScoreW4; ?>         </td> <td title="<?php echo $user->TimeW4; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW4); ?></td> </tr>
+            <tr> <td>Total</td> <td><?php echo $user->Score; ?>           </td> <td title="<?php echo $user->TotalTime; ?>ms" ><?php echo gmdate("H:i:s", $user->TotalTime/1000.0); ?></td> </tr>
+            <tr> <td>W1</td>    <td><?php echo $user->ScoreW1; ?>         </td> <td title="<?php echo $user->TimeW1; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW1/1000.0); ?></td> </tr>
+            <tr> <td>W2</td>    <td><?php echo $user->ScoreW2; ?>         </td> <td title="<?php echo $user->TimeW2; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW2/1000.0); ?></td> </tr>
+            <tr> <td>W3</td>    <td><?php echo $user->ScoreW3; ?>         </td> <td title="<?php echo $user->TimeW3; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW3/1000.0); ?></td> </tr>
+            <tr> <td>W4</td>    <td><?php echo $user->ScoreW4; ?>         </td> <td title="<?php echo $user->TimeW4; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW4/1000.0); ?></td> </tr>
             <tr> <td>MP</td>    <td><?php echo $user->MultiplayerScore; ?></td> <td title="?"></td> </tr>
         </table>
     </div>
