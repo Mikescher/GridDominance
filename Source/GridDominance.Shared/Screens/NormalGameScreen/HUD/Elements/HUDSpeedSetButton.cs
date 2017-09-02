@@ -18,6 +18,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		private readonly HUDSpeedBaseButton baseButton;
 
 		public bool IsOpened = false;
+		public bool IsClickable = false;
 
 		public override int Depth => 0;
 		public bool Highlighted = false;
@@ -94,7 +95,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			if (IsOpened) Click();
+			if (IsClickable) Click();
 		}
 
 		protected override void OnDoublePress(InputState istate)

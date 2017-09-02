@@ -141,11 +141,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				speedButtons[i].RelativePosition = RelativePosition + OPENING_VECTORS[i] * FloatMath.FunctionEaseOutElastic(progress);
 			}
 
+			if (finished || openingProgress > 0.5f) 
+			{
+				foreach (var btn in speedButtons)
+				{
+					btn.IsClickable = true;
+				}
+			}
+
 			if (finished)
 			{
 				foreach (var btn in speedButtons)
 				{
 					btn.IsOpened = true;
+					btn.IsClickable = true;
 				}
 			}
 		}
@@ -158,6 +167,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			for (int i = 0; i < 5; i++)
 			{
 				speedButtons[i].RelativePosition = RelativePosition + OPENING_VECTORS[i] * openingProgress;
+				speedButtons[i].IsClickable = false;
 			}
 
 			if (finished)
@@ -202,6 +212,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			isOpened = true;
 			isDragging = true;
 
+			if (speedButtons != null) 
+			{
+				foreach (var btn in speedButtons)
+				{
+					btn.Remove();
+					btn.IsOpened = false;
+					btn.IsClickable = false;
+				}
+				speedButtons = null;
+			}
+
 			speedButtons = new[]
 			{
 				new HUDSpeedSetButton(this, GameSpeedModes.SUPERSLOW),
@@ -223,6 +244,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			foreach (var btn in speedButtons)
 			{
 				btn.IsOpened = false;
+				btn.IsClickable = false;
 			}
 		}
 
