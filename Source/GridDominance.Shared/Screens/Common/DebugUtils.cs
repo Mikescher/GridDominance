@@ -108,7 +108,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddTrigger("DBG",      "ResetProfile",         scrn, SKeys.R, KeyModifier.Control,   x => { MainGame.Inst.ResetProfile(); MainGame.Inst.SetOverworldScreen(); });
 			DebugSettings.AddTrigger("DBG",      "ClearMessages",        scrn, SKeys.C, KeyModifier.None,      x => scrn.DebugDisp.Clear());
 			DebugSettings.AddTrigger("DBG",      "StartDebugLevel",      scrn, SKeys.D, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetDebugLevelScreen());
-			DebugSettings.AddTrigger("DBG",      "ShowOverworld",        scrn, SKeys.O, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetOverworldScreen());
+			DebugSettings.AddTrigger("DBG",      "ShowOverworld",        scrn, SKeys.O, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetOverworldScreen(false));
 			DebugSettings.AddTrigger("DBG",      "ShowGameEnd",          scrn, SKeys.E, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetGameEndScreen());
 
 			DebugSettings.AddSwitch("DBG",       "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None,    false);

@@ -84,15 +84,6 @@ namespace GridDominance.Shared
 
 			L10NImpl.Init(Profile.Language);
 			
-			if (Profile.OnlineUserID >= 0)
-			{
-				Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
-			}
-			else
-			{
-				Backend.CreateUser(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
-			}
-			
 			AddAgent(new HighscoreAgent());
 
 			Inst = this;
@@ -158,6 +149,16 @@ namespace GridDominance.Shared
 			SetOverworldScreen(false);
 //			SetWorldMapScreen();
 //			SetLevelScreen(Levels.LEVEL_DBG, FractionDifficulty.KI_EASY, Levels.WORLD_001);
+
+			
+			if (Profile.OnlineUserID >= 0)
+			{
+				Backend.Ping(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
+			}
+			else
+			{
+				Backend.CreateUser(Profile).ContinueWith(t => Backend.DownloadHighscores(Profile)).EnsureNoError();
+			}
 		}
 
 		protected override void OnUpdate(SAMTime gameTime)
