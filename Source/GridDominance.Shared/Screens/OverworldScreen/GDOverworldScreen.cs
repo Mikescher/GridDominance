@@ -17,6 +17,8 @@ using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using GridDominance.Shared.Screens.OverworldScreen.Agents;
+using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 
 namespace GridDominance.Shared.Screens.OverworldScreen
 {
@@ -129,6 +131,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 		protected override void OnShow()
 		{
 			MainGame.Inst.GDSound.PlayMusicBackground();
+
+			if (MainGame.Inst.Profile.AccountType == AccountType.Anonymous && MainGame.Inst.Profile.TotalPoints > 128 && !MainGame.Inst.Profile.AccountReminderShown)
+			{
+				HUD.AddModal(new AccountReminderPanel(), true, 0.8f, 1f);
+			}
 		}
 	}
 }

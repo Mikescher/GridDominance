@@ -15,7 +15,7 @@ namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_0;
+		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_1;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 		public int TotalTime => LevelData.Sum(p => p.Value.TotalTime);
@@ -42,6 +42,7 @@ namespace GridDominance.Shared.SaveData
 		public GameSpeedModes LastMultiplayerHostedSpeed;
 
 		public bool SkipTutorial;
+		public bool AccountReminderShown;
 
 		public int Language;
 
@@ -72,6 +73,7 @@ namespace GridDominance.Shared.SaveData
 			LastMultiplayerHostedSpeed = GameSpeedModes.NORMAL;
 
 			SkipTutorial = false;
+			AccountReminderShown = false;
 
 			Language = L10N.LANG_EN_US;
 		}
@@ -178,7 +180,8 @@ namespace GridDominance.Shared.SaveData
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_score",  o => o.MultiplayerPoints,          (o, v) => o.MultiplayerPoints = v);
 			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_alive",  o => o.HasMultiplayerGames,        (o, v) => o.HasMultiplayerGames = v);
 
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "skiptut",   o => o.SkipTutorial,               (o, v) => o.SkipTutorial       = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "skiptut",   o => o.SkipTutorial,               (o, v) => o.SkipTutorial         = v);
+			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_1, "reminder1", o => o.AccountReminderShown,       (o, v) => o.AccountReminderShown = v);
 
 			RegisterPropertyGuidDictionary<PlayerProfile, LevelData>(SemVersion.VERSION_1_0_0, "progress", () => new LevelData(),  o => o.LevelData, (o, v) => o.LevelData = v);
 			RegisterPropertyGuidSet<PlayerProfile>(SemVersion.VERSION_1_0_0, "purchases",  o => o.PurchasedWorlds, (o, v) => o.PurchasedWorlds = v);

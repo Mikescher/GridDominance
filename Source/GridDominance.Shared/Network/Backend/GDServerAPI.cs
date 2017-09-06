@@ -696,6 +696,7 @@ namespace GridDominance.Shared.Network
 						profile.OnlineUsername = response.user.Username;
 						profile.OnlinePasswordHash = pwHashNew;
 						profile.OnlineRevisionID = response.user.RevID;
+						profile.AccountReminderShown = true;
 
 						MainGame.Inst.SaveProfile();
 					});
@@ -899,6 +900,7 @@ namespace GridDominance.Shared.Network
 						profile.OnlineUserID = response.user.ID;
 						profile.OnlineRevisionID = response.user.RevID;
 						profile.OnlinePasswordHash = pwHash;
+						profile.AccountReminderShown = true;
 
 						foreach (var scdata in response.scores)
 						{
