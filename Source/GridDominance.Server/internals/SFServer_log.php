@@ -28,7 +28,7 @@ function logMessage($msg, $id='LOG') {
 function logDebug($msg, $id='DBG') {
 	global $config;
 
-	/* if ($config['debug']) */ logToFile($config['logfile-debug'], $config['maxsize-logfile-debug'], $msg, $id);
+	if ($config['debug']) logToFile($config['logfile-debug'], $config['maxsize-logfile-debug'], $msg, $id);
 }
 
 /**
