@@ -12,7 +12,7 @@ TODO
  [ ] Change Password via /admin/ page (SHA256 + password_hash)
  [ ] Highscore Table ingame, 10th plaec is not rendered
  [ ] Speed persistent between levels (and app starts)
- [ ] Better cleaner looking icon
+ [X] Better cleaner looking icon
  [ ] (?) Evtl different title font
  [ ] use Google play Games for Highscore/account
  [ ] music does not fit game
@@ -27,7 +27,7 @@ TODO
       * Virtual Machine
  [ ] Version for sdk<19
  [ ] cannons on tracks (future worlds)
- [ ] Rotate upside down in ladscape when phone is flipped
+ [ ] Rotate upside down in landscape when phone is flipped
  [ ] Colorblind mode
 
 
@@ -49,6 +49,7 @@ Similiar Games
  - Konquest                     https://www.kde.org/applications/games/konquest/
  - mushroom wars                http://store.steampowered.com/app/431250/Mushroom_Wars/
  - Galaxy Wars - Ice Empire     https://play.google.com/store/apps/details?id=it.tinygames.galaxywars
+ - Combat                       https://en.wikipedia.org/wiki/Combat_(1977_video_game)
 
 
 F-Droid - Mailing list
@@ -405,3 +406,10 @@ Jape1013
 GUMBYtheOG
 Any-sao
 JustAddBacon1219
+Bentastico
+EnderClone99
+ZeCoreGamer
+
+
+
+
