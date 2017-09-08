@@ -84,8 +84,14 @@ namespace MonoSAMFramework.Portable.Network.REST
 					SAMLog.Debug($"Query '{apiEndPoint}' returned \r\n" + json);
 				}
 #endif
-
-				return JsonConvert.DeserializeObject<TReturn>(content);
+				try
+				{
+					return JsonConvert.DeserializeObject<TReturn>(content);
+				}
+				catch (JsonReaderException e)
+				{
+					throw new Exception($"JsonReaderException {e.Message} for (len={content?.Length}):\r\n{content}");
+				}
 			}
 
 		}
