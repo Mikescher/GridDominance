@@ -1,9 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
@@ -106,7 +108,16 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 			if (_textCache != _text || fschanged)
 			{
-				Size = (Font.MeasureString(_text) * _fontScale).ToFSize();
+				try
+				{
+					Size = (Font.MeasureString(_text) * _fontScale).ToFSize();
+				}
+				catch (Exception e)
+				{
+					
+					SAMLog.Error($"Measure string failed for text: '{_text}' (prev: '{_textCache}')", e);
+					return;
+				}
 
 				_textCache = _text;
 			}
