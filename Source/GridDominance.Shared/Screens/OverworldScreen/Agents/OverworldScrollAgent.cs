@@ -50,17 +50,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			_values = new AdaptionFloat[_nodes.Length];
 
 			int focus = 0;
-			if (GDConstants.USE_IAB)
+			switch (GDConstants.FLAVOR)
 			{
-				for (int i = 0; i < nodes.Length; i++)
-				{
-					if (!nodes[i].IsNodeEnabled) break;
-					focus = i;
-				}
-			}
-			else
-			{
-				focus = 1;
+				case GDFlavor.FREE:
+				case GDFlavor.IAB:
+					for (int i = 0; i < nodes.Length; i++)
+					{
+						if (!nodes[i].IsNodeEnabled) break;
+						focus = i;
+					}
+					break;
+
+				default:
+				case GDFlavor.FULL:
+					focus = 1;
+					break;
 			}
 
 			var offset0 = GDConstants.VIEW_WIDTH/2f - focus * DIST_X;

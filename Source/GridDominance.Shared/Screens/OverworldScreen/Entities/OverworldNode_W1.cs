@@ -14,7 +14,17 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			//
 		}
 
-		protected override void OnClickNeedsAction()
+		protected override void OnClick_OpenAndUnlocked()
+		{
+			DefaultAction_OpenAndUnlocked();
+		}
+
+		protected override void OnClick_ReachableButMustBeBought()
+		{
+			OnClick_UnreachableButCanBeBought();
+		}
+
+		protected override void OnClick_UnreachableButCanBeBought()
 		{
 			if (ForceClickCounter == 0)
 			{
@@ -39,14 +49,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				MainGame.Inst.Profile.SkipTutorial = true;
 				MainGame.Inst.SaveProfile();
-				_ustate = WorldUnlockState.Unlocked;
+				_ustate = WorldUnlockState.OpenAndUnlocked;
 				return;
 			}
 		}
 
-		protected override void OnClickFullyLocked()
+		protected override void OnClick_UnreachableAndFullyLocked()
 		{
-			OnClickNeedsAction();
+			DefaultAction_UnreachableAndFullyLocked();
 		}
 	}
 }

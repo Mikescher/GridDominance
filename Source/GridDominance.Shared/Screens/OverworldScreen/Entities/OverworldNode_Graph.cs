@@ -36,7 +36,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		protected WorldUnlockState _ustate;
 
-		public override bool IsNodeEnabled => _ustate == WorldUnlockState.Unlocked;
+		public override bool IsNodeEnabled => _ustate == WorldUnlockState.OpenAndUnlocked;
 
 		public int ForceClickCounter = 0;
 
@@ -60,14 +60,17 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		{
 			switch (_ustate)
 			{
-				case WorldUnlockState.FullyLocked:
-					DrawLockSwing(sbatch);
-					break;
-				case WorldUnlockState.Unlocked:
+				case WorldUnlockState.OpenAndUnlocked:
 					DrawGridProgress(sbatch);
 					break;
-				case WorldUnlockState.NeedsAction:
-					DrawGridEmpty(sbatch);
+				case WorldUnlockState.ReachableButMustBePreviewed:
+					DrawGridGreenLock(sbatch);
+					break;
+				case WorldUnlockState.UnreachableButCanBePreviewed:
+					DrawLockSwing(sbatch);
+					break;
+				case WorldUnlockState.UnreachableAndFullyLocked:
+					DrawLockSwing(sbatch);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -102,7 +105,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, L10N.T(_l10ndescription), FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
 		}
 
-		protected void DrawGridEmpty(IBatchRenderer sbatch)
+		protected void DrawGridGreenLock(IBatchRenderer sbatch)
 		{
 			var outerBounds = FRectangle.CreateByCenter(Position, DrawingBoundingBox);
 			var innerBounds = FRectangle.CreateByCenter(Position, new FSize(INNERSIZE, INNERSIZE));
@@ -197,28 +200,38 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		protected override void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
 		{
 #if DEBUG
-			if (DebugSettings.Get("UnlockNode")) { OnClickUnlocked(); return; }
+			if (DebugSettings.Get("UnlockNode")) { OnClick_OpenAndUnlocked(); return; }
 
 			if (DebugSettings.Get("WorldPreview")) { MainGame.Inst.Profile.PurchasedWorlds.Clear(); ShowPreview(); return; }
 #endif
 
 			_ustate = UnlockManager.IsUnlocked(Blueprint, true);
 
-			if (_ustate == WorldUnlockState.Unlocked)
+			switch (_ustate)
 			{
-				OnClickUnlocked();
-			}
-			else if (_ustate == WorldUnlockState.NeedsAction)
-			{
-				OnClickNeedsAction();
-			}
-			else if (_ustate == WorldUnlockState.FullyLocked)
-			{
-				OnClickFullyLocked();
+				case WorldUnlockState.OpenAndUnlocked:
+					OnClick_OpenAndUnlocked();
+					break;
+				case WorldUnlockState.ReachableButMustBePreviewed:
+					OnClick_ReachableButMustBeBought();
+					break;
+				case WorldUnlockState.UnreachableButCanBePreviewed:
+					OnClick_UnreachableButCanBeBought();
+					break;
+				case WorldUnlockState.UnreachableAndFullyLocked:
+					OnClick_UnreachableAndFullyLocked();
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
 		}
+		
+		protected abstract void OnClick_OpenAndUnlocked();
+		protected abstract void OnClick_ReachableButMustBeBought();
+		protected abstract void OnClick_UnreachableButCanBeBought();
+		protected abstract void OnClick_UnreachableAndFullyLocked();
 
-		protected virtual void OnClickUnlocked()
+		protected void DefaultAction_OpenAndUnlocked()
 		{
 			var ownr = ((GDOverworldScreen)Owner);
 
@@ -231,87 +244,26 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			MainGame.Inst.GDSound.PlayEffectZoomIn();
 		}
 
-		protected abstract void OnClickNeedsAction();
-		protected abstract void OnClickFullyLocked();
-
-
-		protected void DefaultActionClickNeedsAction()
+		protected void DefaultAction_ReachableButMustBeBought()
 		{
-			if (GDConstants.USE_IAB)
-			{
-				ShowPreview();
-				return;
-			}
-			else
-			{
-				if (ForceClickCounter == 0)
-				{
-					Owner.HUD.ShowToast("OWNG::UNLOCK_1(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST1), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
-					ForceClickCounter++;
-
-					MainGame.Inst.GDSound.PlayEffectError();
-					AddEntityOperation(new ShakeNodeOperation());
-				}
-				else if (ForceClickCounter == 1)
-				{
-					Owner.HUD.ShowToast("OWNG::UNLOCK_2(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST2), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
-					ForceClickCounter++;
-
-					MainGame.Inst.GDSound.PlayEffectError();
-
-					AddEntityOperation(new ShakeNodeOperation());
-				}
-				else if (ForceClickCounter >= 2)
-				{
-					Owner.HUD.ShowToast("OWNG::UNLOCK_3(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST3), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
-
-					MainGame.Inst.Profile.SkipTutorial = true;
-					MainGame.Inst.SaveProfile();
-					_ustate = WorldUnlockState.Unlocked;
-					return;
-				}
-			}
+			ShowPreview();
 		}
 
-		protected void DefaultActionClickFullyLocked()
+		protected void DefaultAction_UnreachableButCanBeBought()
 		{
-			if (GDConstants.USE_IAB)
-			{
-				Owner.HUD.ShowToast("OWNG::LOCKED(MULTI)", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
-				MainGame.Inst.GDSound.PlayEffectError();
+			Owner.HUD.ShowToast("OWNG::LOCKED(MULTI)", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+			MainGame.Inst.GDSound.PlayEffectError();
 
-				AddEntityOperation(new ShakeNodeOperation());
-				AddEntityOperation(new SimpleGameEntityOperation<OverworldNode_Graph>("ShowPreviewDelayed", 0.25f, (n, p) => { }, n => { }, n => n.ShowPreview()));
-			}
-			else
-			{
-				if (ForceClickCounter == 0)
-				{
-					Owner.HUD.ShowToast("OWNG::UNLOCK_1(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST1), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
-					ForceClickCounter++;
+			AddEntityOperation(new ShakeNodeOperation());
+			AddEntityOperation(new SimpleGameEntityOperation<OverworldNode_Graph>("ShowPreviewDelayed", 0.25f, (n, p) => { }, n => { }, n => n.ShowPreview()));
+		}
 
-					MainGame.Inst.GDSound.PlayEffectError();
-					AddEntityOperation(new ShakeNodeOperation());
-				}
-				else if (ForceClickCounter == 1)
-				{
-					Owner.HUD.ShowToast("OWNG::UNLOCK_2(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST2), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
-					ForceClickCounter++;
+		protected void DefaultAction_UnreachableAndFullyLocked()
+		{
+			Owner.HUD.ShowToast("OWNG::LOCKED(MULTI)", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+			MainGame.Inst.GDSound.PlayEffectError();
 
-					MainGame.Inst.GDSound.PlayEffectError();
-
-					AddEntityOperation(new ShakeNodeOperation());
-				}
-				else if (ForceClickCounter >= 2)
-				{
-					Owner.HUD.ShowToast("OWNG::UNLOCK_3(MULTI)", L10N.T(L10NImpl.STR_GLOB_UNLOCKTOAST3), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
-
-					MainGame.Inst.Profile.SkipTutorial = true;
-					MainGame.Inst.SaveProfile();
-					_ustate = WorldUnlockState.Unlocked;
-					return;
-				}
-			}
+			AddEntityOperation(new ShakeNodeOperation());
 		}
 
 		public virtual void ShowPreview() { }

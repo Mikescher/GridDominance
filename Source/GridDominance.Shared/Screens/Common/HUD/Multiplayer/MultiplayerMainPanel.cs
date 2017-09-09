@@ -157,7 +157,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Click = OnClickJoinOnline,
 			});
 
-			if (_ustate == WorldUnlockState.Unlocked)
+			if (_ustate == WorldUnlockState.OpenAndUnlocked)
 			{
 				AddElement(new HUDTextButton
 				{
@@ -300,11 +300,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			if (!Alive) return;
 
-			if (_ustate != WorldUnlockState.Unlocked)
+			if (_ustate != WorldUnlockState.OpenAndUnlocked)
 			{
 				_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, false);
 
-				if (_ustate == WorldUnlockState.Unlocked)
+				if (_ustate == WorldUnlockState.OpenAndUnlocked)
 				{
 					Remove();
 					Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f);

@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System.Collections.Generic;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common.Agents;
 using GridDominance.Shared.Screens.OverworldScreen.Background;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
@@ -58,19 +59,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 #endif
 			AddAgent(new ExitAgent(this));
 
-			OverworldNode[] nodes =
-			{
-				new OverworldNode_Tutorial(this, FPoint.Zero),
-				new OverworldNode_W1(this, FPoint.Zero),
-				new OverworldNode_W2(this, FPoint.Zero),
-				new OverworldNode_W3(this, FPoint.Zero),
-				new OverworldNode_W4(this, FPoint.Zero),
-				new OverworldNode_MP(this, FPoint.Zero),
-			};
+			List<OverworldNode> nodesList = new List<OverworldNode>();
 
-			foreach (var node in nodes) Entities.AddEntity(node);
+			nodesList.Add(new OverworldNode_Tutorial(this, FPoint.Zero));
+			nodesList.Add(new OverworldNode_W1(this, FPoint.Zero));
+			nodesList.Add(new OverworldNode_W2(this, FPoint.Zero));
+			nodesList.Add(new OverworldNode_W3(this, FPoint.Zero));
+			nodesList.Add(new OverworldNode_W4(this, FPoint.Zero));
+			if (GDConstants.FLAVOR != GDFlavor.FREE) nodesList.Add(new OverworldNode_MP(this, FPoint.Zero));
+			
+			foreach (var node in nodesList) Entities.AddEntity(node);
 
-			AddAgent(ScrollAgent = new OverworldScrollAgent(this, nodes));
+			AddAgent(ScrollAgent = new OverworldScrollAgent(this, nodesList.ToArray()));
 
 			_banner.TargetRect = new FRectangle(0 * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH, 16 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH).AsDeflated(0.25f * GDConstants.TILE_WIDTH);
 			_banner.Text = GDConstants.LOGO_STRING;

@@ -2,6 +2,8 @@
 
 namespace GridDominance.Shared.Resources
 {
+	public enum GDFlavor { FREE, IAB, FULL }
+
 	public static class GDConstants
 	{
 		public static readonly Version Version = new Version(1,0,3,0);
@@ -15,15 +17,14 @@ namespace GridDominance.Shared.Resources
 		public const int VIEW_WIDTH  = DEFAULT_GRID_WIDTH  * TILE_WIDTH; // 1024
 		public const int VIEW_HEIGHT = DEFAULT_GRID_HEIGHT * TILE_WIDTH; //  640
 
-#if __ANDROID__
 #if GD_FULL
-		public const bool USE_IAB = false;
+		public const GDFlavor FLAVOR = GDFlavor.FULL;
 #endif
 #if GD_IAB
-		public const bool USE_IAB = true;
+		public const GDFlavor FLAVOR = GDFlavor.IAB;
 #endif
-#else
-		public const bool USE_IAB = true;
+#if GD_FREE
+		public const GDFlavor FLAVOR = GDFlavor.FREE;
 #endif
 
 		public const string IAB_WORLD2      = @"gd_world_002";

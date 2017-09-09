@@ -106,7 +106,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				return;
 			}
 
-			if (UnlockManager.IsUnlocked(Blueprint.TargetWorld, true) == WorldUnlockState.Unlocked)
+			if (UnlockManager.IsUnlocked(Blueprint.TargetWorld, true) == WorldUnlockState.OpenAndUnlocked)
 			{
 				Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
 				MainGame.Inst.GDSound.PlayEffectZoomOut();

@@ -33,7 +33,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Bin\Release\WindowsGL\</OutputPath>
-    <DefineConstants>TRACE;__WINDOWS__;__DESKTOP__;GD_IAB</DefineConstants>
+    <DefineConstants>TRACE;__WINDOWS__;__DESKTOP__;GD_FULL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>

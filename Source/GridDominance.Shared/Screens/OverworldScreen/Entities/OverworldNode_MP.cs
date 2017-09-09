@@ -67,7 +67,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				{
 					var bc = ((x % 2 == 0) ^ (y % 2 == 0)) ? FlatColors.Background : FlatColors.BackgroundLight;
 
-					if (_ustate == WorldUnlockState.Unlocked)
+					if (_ustate == WorldUnlockState.OpenAndUnlocked)
 					{
 						var d = FloatMath.Sqrt((x - 3.5f) * (x - 3.5f) + (y - 3.5f) * (y - 3.5f));
 

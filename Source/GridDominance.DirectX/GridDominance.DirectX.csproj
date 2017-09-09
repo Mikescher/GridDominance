@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\Bin\Debug\WindowsDX\</OutputPath>
-    <DefineConstants>DEBUG;__WINDOWS__;__DESKTOP__;GD_IAB</DefineConstants>
+    <DefineConstants>DEBUG;__WINDOWS__;__DESKTOP__;GD_FULL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
-    <DefineConstants>__WINDOWS__;__DESKTOP__;GD_IAB</DefineConstants>
+    <DefineConstants>__WINDOWS__;__DESKTOP__;GD_FULL</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">

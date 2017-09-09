@@ -58,15 +58,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			_unlockWorldNumber = 1;
 
-			if (UnlockManager.IsUnlocked(Levels.WORLD_001, false) != WorldUnlockState.Unlocked)
+			if (UnlockManager.IsUnlocked(Levels.WORLD_001, false) != WorldUnlockState.OpenAndUnlocked)
 			{
 				_unlockWorldNumber = 0;
 			}
 			else
 			{
-				if (_worldNumber > 2 && UnlockManager.IsUnlocked(Levels.WORLD_002, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 2;
-				if (_worldNumber > 3 && UnlockManager.IsUnlocked(Levels.WORLD_003, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 3;
-				if (_worldNumber > 4 && UnlockManager.IsUnlocked(Levels.WORLD_004, false) == WorldUnlockState.Unlocked) _unlockWorldNumber = 4;
+				if (_worldNumber > 2 && UnlockManager.IsUnlocked(Levels.WORLD_002, false) == WorldUnlockState.OpenAndUnlocked) _unlockWorldNumber = 2;
+				if (_worldNumber > 3 && UnlockManager.IsUnlocked(Levels.WORLD_003, false) == WorldUnlockState.OpenAndUnlocked) _unlockWorldNumber = 3;
+				if (_worldNumber > 4 && UnlockManager.IsUnlocked(Levels.WORLD_004, false) == WorldUnlockState.OpenAndUnlocked) _unlockWorldNumber = 4;
 			}
 		}
 
@@ -83,24 +83,40 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Size = new FSize(INNER_WIDTH, INNER_HEIGHT),
 			});
 
-			AddElement(_button = new HUDTextButton
+			if (GDConstants.FLAVOR == GDFlavor.IAB)
 			{
-				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
-				Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
+				AddElement(_button = new HUDTextButton
+				{
+					Alignment = HUDAlignment.BOTTOMRIGHT,
+					RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
+					Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.0f * GDConstants.TILE_WIDTH),
 
-				L10NText = L10NImpl.STR_PREV_BUYNOW,
-				TextColor = Color.White,
-				Font = Textures.HUDFontBold,
-				FontSize = 55,
-				TextAlignment = HUDAlignment.CENTER,
-				TextPadding = 8,
+					L10NText = L10NImpl.STR_PREV_BUYNOW,
+					TextColor = Color.White,
+					Font = Textures.HUDFontBold,
+					FontSize = 55,
+					TextAlignment = HUDAlignment.CENTER,
+					TextPadding = 8,
 
-				BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.PeterRiver, 16),
-				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.BelizeHole, 16),
+					BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.PeterRiver, 16),
+					BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.BelizeHole, 16),
 
-				Click = OnClickBuy,
-			});
+					Click = OnClickBuy,
+				});
+
+				AddElement(new HUDLabel
+				{
+					Alignment = HUDAlignment.BOTTOMCENTER,
+					RelativePosition = new FPoint(0, 0.75f * GDConstants.TILE_WIDTH),
+					Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.5f * GDConstants.TILE_WIDTH),
+
+					L10NText = L10NImpl.STR_PREV_OR,
+					TextColor = Color.White,
+					Font = Textures.HUDFontBold,
+					FontSize = 55,
+					TextAlignment = HUDAlignment.CENTER,
+				});
+			}
 
 			AddElement(new HUDTextButton
 			{
@@ -119,19 +135,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.GreenSea, 16),
 
 				Click = OnClickFinishPrev,
-			});
-
-			AddElement(new HUDLabel
-			{
-				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 0.75f * GDConstants.TILE_WIDTH),
-				Size = new FSize(5.5f * GDConstants.TILE_WIDTH, 1.5f * GDConstants.TILE_WIDTH),
-
-				L10NText = L10NImpl.STR_PREV_OR,
-				TextColor = Color.White,
-				Font = Textures.HUDFontBold,
-				FontSize = 55,
-				TextAlignment = HUDAlignment.CENTER,
 			});
 
 			AddElement(new HUDImage
@@ -161,7 +164,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			base.DoUpdate(gameTime, istate);
 
-			_button.BackgroundNormal = _button.BackgroundNormal.WithColor(ColorMath.Blend(FlatColors.BelizeHole, FlatColors.WetAsphalt, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 5)));
+			if (_button !=null) _button.BackgroundNormal = _button.BackgroundNormal.WithColor(ColorMath.Blend(FlatColors.BelizeHole, FlatColors.WetAsphalt, FloatMath.PercSin(gameTime.TotalElapsedSeconds * 5)));
 
 			if (MainGame.Inst.Profile.PurchasedWorlds.Contains(_id))
 			{

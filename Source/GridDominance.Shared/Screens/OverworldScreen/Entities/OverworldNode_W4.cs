@@ -13,15 +13,25 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		{
 			//
 		}
-		
-		protected override void OnClickNeedsAction()
+
+		protected override void OnClick_OpenAndUnlocked()
 		{
-			DefaultActionClickNeedsAction();
+			DefaultAction_OpenAndUnlocked();
 		}
 
-		protected override void OnClickFullyLocked()
+		protected override void OnClick_ReachableButMustBeBought()
 		{
-			DefaultActionClickFullyLocked();
+			DefaultAction_ReachableButMustBeBought();
+		}
+
+		protected override void OnClick_UnreachableButCanBeBought()
+		{
+			DefaultAction_UnreachableButCanBeBought();
+		}
+
+		protected override void OnClick_UnreachableAndFullyLocked()
+		{
+			DefaultAction_UnreachableAndFullyLocked();
 		}
 
 		public override void ShowPreview()
