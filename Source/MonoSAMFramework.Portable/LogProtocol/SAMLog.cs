@@ -98,8 +98,10 @@ namespace MonoSAMFramework.Portable.LogProtocol
 		{
 			StringBuilder b = new StringBuilder();
 
+			b.AppendLine("====== Exception: ======");
 			b.AppendLine(e.ToString());
-			b.AppendLine(b.ToString());
+			b.AppendLine("========================");
+			b.AppendLine(MonoSAMGame.CurrentInst.Bridge.EnvironmentStackTrace);
 			try
 			{
 				foreach (var li in AdditionalLogInfo)
