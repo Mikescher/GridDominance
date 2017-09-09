@@ -20,8 +20,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 		public Cannon TargetCannon;
 
-		public List<Tuple<LaserRay, LaserSource>> TerminatorRays;         // Rays that directcollide with this one
-		public List<LaserRay> SelfCollRays = new List<LaserRay>(); // Rays that [[LaserSelfTerm]] with this one
+		public readonly List<Tuple<LaserRay, LaserSource>> TerminatorRays = new List<Tuple<LaserRay, LaserSource>>();    // Rays that directcollide with this one
+		public readonly List<LaserRay> SelfCollRays = new List<LaserRay>();                                              // Rays that [[LaserSelfTerm]] with this one
 		public BaseBullet TerminatorBullet;
 
 		public readonly RayType RayType;
@@ -49,7 +49,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			Source = src;
 			Terminator = t;
 			TargetCannon = tc;
-			TerminatorRays = new List<Tuple<LaserRay, LaserSource>>();
 			SourceDistance = sd;
 			RayType = rt;
 
