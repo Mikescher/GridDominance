@@ -108,11 +108,12 @@
                     <td><?php echo $entry['timestamp']; ?></td>
 					<?php expansioncell($entry['additional_info']); ?>
 					<?php
+
 					if ($entry['acknowledged'] == 0)
 					{
 						echo "<td>";
 						echo $entry['acknowledged'] . " ";
-						echo " <a href=\"#\" onclick='AjaxAck(".$entry['error_id'].");return false;'>(ack)</a>";
+						echo " <a href=\"#\" onclick='HideExpandedColumn(" . $previd . ");AjaxAck(".$entry['error_id'].");return false;'>(ack)</a>";
 						echo "<br/>";
 						echo " <a href=\"ack.php?sim=2&exid=" . urlencode($entry['exception_id']) . "\">(ack similiar (id))</a>";
 						echo "<br/>";

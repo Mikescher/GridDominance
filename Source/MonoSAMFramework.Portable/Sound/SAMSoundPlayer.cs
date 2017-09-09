@@ -7,12 +7,15 @@ using Microsoft.Xna.Framework.Media;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 
 namespace MonoSAMFramework.Portable.Sound
 {
 	public abstract class SAMSoundPlayer
 	{
+		private const int MAX_EFFECTS_PER_FRAME = 8;
+
 		private enum MPState { Stopped, Play, TransitionOut, TransitionInFromNew, TransitionInFromSame }
 
 		public bool IsEffectsMuted = false;
@@ -37,6 +40,8 @@ namespace MonoSAMFramework.Portable.Sound
 
 		private int _playIndex = 0;
 
+		private int _effectCounter = 0;
+
 		protected SAMSoundPlayer()
 		{
 			MediaPlayer.IsRepeating = false;
@@ -49,7 +54,10 @@ namespace MonoSAMFramework.Portable.Sound
 			if (IsEffectsMuted) return;
 			if (InitErrorState) return;
 
+			if (_effectCounter >= MAX_EFFECTS_PER_FRAME - _activeEffects.Count) return;
+			
 			e.Play();
+			_effectCounter++;
 		}
 
 		protected void PlaySong(IEnumerable<Song> s, float fadeOut, float fadeIn, float fadeChange, bool loop = true) => PlaySong(s.ToArray(), fadeOut, fadeIn, fadeChange, loop);
@@ -147,6 +155,8 @@ namespace MonoSAMFramework.Portable.Sound
 					if (e.IsPlaying) e.Stop();
 				}
 			}
+
+			_effectCounter = 0;
 		}
 
 		private void UpdateMusic(SAMTime gameTime)

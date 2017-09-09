@@ -12,6 +12,11 @@ function ShowExpandedColumn(id, text) {
     }
 }
 
+function HideExpandedColumn(id, text) {
+    $(".tab_prev").css("visibility", "collapse");
+    $(".tab_prev").css("display", "none");
+}
+
 function ShowRemoteExpandedColumn(id, ident) {
     if ($("#tr_prev_"+id).css('visibility') !== 'visible') {
         $(".tab_prev").css("visibility", "collapse");
