@@ -62,11 +62,16 @@
         <div class="infodiv">
             Revision: <?php echo $user->RevID; ?>
         </div>
+    </div>
+    <div class="infocontainer">
         <div class="infodiv">
             Score: <?php echo $user->Score; ?>
         </div>
         <div class="infodiv">
             Score(MP): <?php echo $user->MultiplayerScore; ?>
+        </div>
+        <div class="infodiv" title="<?php echo $userdata['unlocked_worlds']; ?>">
+            Unlocks: <?php echo lc($userdata['unlocked_worlds']); ?>
         </div>
     </div>
 
@@ -82,17 +87,19 @@
         </div>
     </div>
     <div class="infocontainer">
-        <div class="infodiv" title="<?php echo $userdata['unlocked_worlds']; ?>">
-            Unlocks: <?php echo lc($userdata['unlocked_worlds']); ?>
-        </div>
         <div class="infodiv">
             App Version: <?php echo $userdata['app_version']; ?>
         </div>
         <div class="infodiv">
-            Last Online: <?php echo $userdata['last_online']; ?>
+            Pings: <?php echo $userdata['ping_counter']; ?>
+        </div>
+    </div>
+    <div class="infocontainer">
+        <div class="infodiv">
+            Created At: <?php echo $userdata['creation_time']; ?>
         </div>
         <div class="infodiv">
-            Pings: <?php echo $userdata['ping_counter']; ?>
+            Last Online: <?php echo $userdata['last_online']; ?>
         </div>
     </div>
 

@@ -83,8 +83,8 @@
                     <th>Score</th>
                     <th>Score(MP)</th>
                     <th>Rev</th>
-                    <th style='width: 200px'>Devicename</th>
-                    <th style='width: 350px'>Deviceversion</th>
+                    <th style='width: 250px'>Devicename</th>
+                    <th style='width: 300px'>Deviceversion</th>
                     <th>Resolution</th>
                     <th>Unlocks</th>
                     <th>Multiplayer</th>
