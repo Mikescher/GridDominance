@@ -11,7 +11,7 @@ TODO
 
  [X] Change Password via /admin/ page (SHA256 + password_hash)
  [X] Highscore Table ingame, 10th plaec is not rendered
- [ ] Speed persistent between levels (and app starts)
+ [X] Speed persistent between levels (and app starts)
  [X] Better cleaner looking icon
  [ ] (?) Evtl different title font
  [ ] use Google play Games for Highscore/account

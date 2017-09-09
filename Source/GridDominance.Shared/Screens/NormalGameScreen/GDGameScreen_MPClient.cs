@@ -123,7 +123,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			}
 		}
 
-		public override void RestartLevel()
+		public override void RestartLevel(bool updateSpeed)
 		{
 			SAMLog.Error("GDGSC::Restart", "Try restart level");
 		}
@@ -139,7 +139,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			HUD.AddModal(new HUDMultiplayerScorePanel(lvl, profile, playerHasWon, addPoints, _server, () => { _doNotStop = true; }), false);
 		}
 
-		public override void ExitToMap()
+		public override void ExitToMap(bool updateSpeed)
 		{
 			if (!_doNotStop)
 			{

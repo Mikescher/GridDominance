@@ -79,7 +79,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			if (!_doNotStop)_server.Stop();
 		}
 
-		public override void RestartLevel()
+		public override void RestartLevel(bool updateSpeed)
 		{
 			SAMLog.Error("GDGSS::Restart", "Try restart level");
 		}
@@ -155,7 +155,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			_server.StartBroadcastAfterGame(winnerUID);
 		}
 
-		public override void ExitToMap()
+		public override void ExitToMap(bool updateSpeed)
 		{
 			if (!_doNotStop)
 			{

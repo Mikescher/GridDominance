@@ -214,7 +214,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16),
 				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
 
-				Click = (s, a) => { _server.KillSession(); _server.Stop(); GDScreen.ExitToMap(); },
+				Click = (s, a) => { _server.KillSession(); _server.Stop(); GDScreen.ExitToMap(false); },
 			});
 
 			if (_server.SessionUserID== 0 && _server.Mode != SAMNetworkConnection.ServerMode.Stopped && _server.Mode != SAMNetworkConnection.ServerMode.Error)

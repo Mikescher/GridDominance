@@ -210,7 +210,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16),
 				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
 
-				Click = (s, a) => GDScreen.ExitToMap(),
+				Click = (s, a) => GDScreen.ExitToMap(false),
 			});
 
 			if (successScreen)
@@ -261,7 +261,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 					BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Orange, 16),
 					BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.SunFlower, 16),
 
-					Click = (s, a) => ((GDGameScreen)HUD.Screen).RestartLevel(),
+					Click = (s, a) => ((GDGameScreen)HUD.Screen).RestartLevel(false),
 				});
 			}
 

@@ -167,14 +167,9 @@ namespace GridDominance.Shared
 			GDSound.IsMusicMuted = !(Profile.MusicEnabled && Profile.SoundsEnabled);
 		}
 
-		public void SetLevelScreen(LevelBlueprint blueprint, FractionDifficulty d, GraphBlueprint source, GameSpeedModes? speed = null)
+		public void SetLevelScreen(LevelBlueprint blueprint, FractionDifficulty d, GraphBlueprint source)
 		{
 			var scrn = new GDGameScreen_SP(this, Graphics, blueprint, d, source);
-			if (speed != null)
-			{
-				scrn.GameSpeedMode = speed.Value;
-				scrn.UpdateGameSpeed();
-	}
 			SetCurrentScreen(scrn);
 		}
 

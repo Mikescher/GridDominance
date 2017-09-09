@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			GameHUD = new GDPreviewHUD(this, worldnumber);
 		}
 
-		public override void ExitToMap()
+		public override void ExitToMap(bool updateSpeed)
 		{
 			//
 		}
@@ -53,7 +53,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			//
 		}
 
-		public override void RestartLevel()
+		public override void RestartLevel(bool updateSpeed)
 		{
 			//
 		}

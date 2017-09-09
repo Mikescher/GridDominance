@@ -24,7 +24,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			Background = new GDEmptyGridBackground(this, (GameWrapMode)b.WrapMode);
 		}
 
-		public override void ExitToMap()
+		public override void ExitToMap(bool updateSpeed)
 		{
 			//
 		}
@@ -34,7 +34,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			//
 		}
 
-		public override void RestartLevel()
+		public override void RestartLevel(bool updateSpeed)
 		{
 			//
 		}

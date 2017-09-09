@@ -15,7 +15,7 @@ namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_1;
+		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_2;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 		public int TotalTime => LevelData.Sum(p => p.Value.TotalTime);
@@ -45,6 +45,7 @@ namespace GridDominance.Shared.SaveData
 		public bool AccountReminderShown;
 
 		public int Language;
+		public GameSpeedModes SingleplayerGameSpeed;
 
 		public PlayerProfile()
 		{
@@ -76,6 +77,7 @@ namespace GridDominance.Shared.SaveData
 			AccountReminderShown = false;
 
 			Language = L10N.LANG_EN_US;
+			SingleplayerGameSpeed = GameSpeedModes.NORMAL;
 		}
 
 		public LevelData GetLevelData(Guid levelid)
@@ -162,29 +164,30 @@ namespace GridDominance.Shared.SaveData
 		{
 			RegisterConstructor(() => new PlayerProfile());
 
-			RegisterProperty<PlayerProfile, AccountType>(SemVersion.VERSION_1_0_0, "type",    o => o.AccountType,       (o, v) => o.AccountType = v);
+			RegisterProperty<PlayerProfile, AccountType>(            SemVersion.VERSION_1_0_0, "type",                             o => o.AccountType,                (o, v) => o.AccountType = v);
 
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "userid",    o => o.OnlineUserID,               (o, v) => o.OnlineUserID       = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "user",      o => o.OnlineUsername,             (o, v) => o.OnlineUsername     = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "pass",      o => o.OnlinePasswordHash,         (o, v) => o.OnlinePasswordHash = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "revid",     o => o.OnlineRevisionID,           (o, v) => o.OnlineRevisionID   = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "uploaderr", o => o.NeedsReupload,              (o, v) => o.NeedsReupload      = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "userid",                           o => o.OnlineUserID,               (o, v) => o.OnlineUserID       = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "user",                             o => o.OnlineUsername,             (o, v) => o.OnlineUsername     = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "pass",                             o => o.OnlinePasswordHash,         (o, v) => o.OnlinePasswordHash = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "revid",                            o => o.OnlineRevisionID,           (o, v) => o.OnlineRevisionID   = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "uploaderr",                        o => o.NeedsReupload,              (o, v) => o.NeedsReupload      = v);
 
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "sounds",    o => o.SoundsEnabled,              (o, v) => o.SoundsEnabled      = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "effect",    o => o.EffectsEnabled,             (o, v) => o.EffectsEnabled     = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "lang",      o => o.Language,                   (o, v) => o.Language           = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "music",     o => o.MusicEnabled,               (o, v) => o.MusicEnabled       = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "sounds",                           o => o.SoundsEnabled,              (o, v) => o.SoundsEnabled      = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "effect",                           o => o.EffectsEnabled,             (o, v) => o.EffectsEnabled     = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "lang",                             o => o.Language,                   (o, v) => o.Language           = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "music",                            o => o.MusicEnabled,               (o, v) => o.MusicEnabled       = v);
+			RegisterProperty<PlayerProfile, GameSpeedModes>(         SemVersion.VERSION_1_0_2, "gamespeed",                        o => o.SingleplayerGameSpeed,      (o, v) => o.SingleplayerGameSpeed = v);
 
-			RegisterProperty<PlayerProfile, GameSpeedModes>(SemVersion.VERSION_1_0_0, "mp_speed",  o => o.LastMultiplayerHostedSpeed, (o, v) => o.LastMultiplayerHostedSpeed = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_level",  o => o.LastMultiplayerHostedLevel, (o, v) => o.LastMultiplayerHostedLevel = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_score",  o => o.MultiplayerPoints,          (o, v) => o.MultiplayerPoints = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "mp_alive",  o => o.HasMultiplayerGames,        (o, v) => o.HasMultiplayerGames = v);
+			RegisterProperty<PlayerProfile, GameSpeedModes>(         SemVersion.VERSION_1_0_0, "mp_speed",                         o => o.LastMultiplayerHostedSpeed, (o, v) => o.LastMultiplayerHostedSpeed = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_level",                         o => o.LastMultiplayerHostedLevel, (o, v) => o.LastMultiplayerHostedLevel = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_score",                         o => o.MultiplayerPoints,          (o, v) => o.MultiplayerPoints = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_alive",                         o => o.HasMultiplayerGames,        (o, v) => o.HasMultiplayerGames = v);
 
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_0, "skiptut",   o => o.SkipTutorial,               (o, v) => o.SkipTutorial         = v);
-			RegisterProperty<PlayerProfile>(SemVersion.VERSION_1_0_1, "reminder1", o => o.AccountReminderShown,       (o, v) => o.AccountReminderShown = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "skiptut",                          o => o.SkipTutorial,               (o, v) => o.SkipTutorial         = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_1, "reminder1",                        o => o.AccountReminderShown,       (o, v) => o.AccountReminderShown = v);
 
-			RegisterPropertyGuidDictionary<PlayerProfile, LevelData>(SemVersion.VERSION_1_0_0, "progress", () => new LevelData(),  o => o.LevelData, (o, v) => o.LevelData = v);
-			RegisterPropertyGuidSet<PlayerProfile>(SemVersion.VERSION_1_0_0, "purchases",  o => o.PurchasedWorlds, (o, v) => o.PurchasedWorlds = v);
+			RegisterPropertyGuidDictionary<PlayerProfile, LevelData>(SemVersion.VERSION_1_0_0, "progress", () => new LevelData(),  o => o.LevelData,                  (o, v) => o.LevelData = v);
+			RegisterPropertyGuidSet<PlayerProfile>(                  SemVersion.VERSION_1_0_0, "purchases",                        o => o.PurchasedWorlds,            (o, v) => o.PurchasedWorlds = v);
 		}
 
 		protected override void OnAfterDeserialize()

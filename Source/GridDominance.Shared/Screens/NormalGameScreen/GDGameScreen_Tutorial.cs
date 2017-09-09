@@ -27,7 +27,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			AddAgent(new TutorialAgent(this));
 		}
 
-		public override void RestartLevel()
+		public override void RestartLevel(bool updateSpeed)
 		{
 			GDOwner.SetTutorialLevelScreen();
 		}
@@ -143,7 +143,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			}
 		}
 
-		public override void ExitToMap()
+		public override void ExitToMap(bool updateSpeed)
 		{
 			MainGame.Inst.SetOverworldScreen();
 		}

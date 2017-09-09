@@ -169,12 +169,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		private void OnRestart()
 		{
-			this.GDHUD().GDOwner.RestartLevel();
+			this.GDHUD().GDOwner.RestartLevel(true);
 		}
 
 		private void OnExit()
 		{
-			this.GDHUD().GDOwner.ExitToMap();
+			this.GDHUD().GDOwner.ExitToMap(true);
 		}
 
 		protected override void OnPress(InputState istate)

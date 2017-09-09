@@ -28,11 +28,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			: base(game, gdm, bp, diff, false, false, diff == FractionDifficulty.DIFF_0 && bp.UniqueID == Levels.LEVELID_1_1)
 		{
 			WorldBlueprint = ws;
+
+			GameSpeedMode = MainGame.Inst.Profile.SingleplayerGameSpeed;
+			UpdateGameSpeed();
 		}
 
-		public override void RestartLevel()
+		public override void RestartLevel(bool updateSpeed)
 		{
-			GDOwner.SetLevelScreen(Blueprint, Difficulty, WorldBlueprint, GameSpeedMode);
+			if (updateSpeed)
+			{
+				MainGame.Inst.Profile.SingleplayerGameSpeed = GameSpeedMode;
+				MainGame.Inst.SaveProfile();
+			}
+
+			GDOwner.SetLevelScreen(Blueprint, Difficulty, WorldBlueprint);
 		}
 
 		public override void ReplayLevel(FractionDifficulty diff)
@@ -84,6 +93,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		private void EndGame(bool playerWon, Fraction winner)
 		{
+			MainGame.Inst.Profile.SingleplayerGameSpeed = GameSpeedMode;
+			MainGame.Inst.SaveProfile();
+
 			HasFinished = true;
 			PlayerWon = playerWon;
 
@@ -146,8 +158,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			}
 		}
 
-		public override void ExitToMap()
+		public override void ExitToMap(bool updateSpeed)
 		{
+			if (updateSpeed)
+			{
+				MainGame.Inst.Profile.SingleplayerGameSpeed = GameSpeedMode;
+				MainGame.Inst.SaveProfile();
+			}
+
 			MainGame.Inst.SetWorldMapScreenZoomedOut(WorldBlueprint, Blueprint);
 		}
 
