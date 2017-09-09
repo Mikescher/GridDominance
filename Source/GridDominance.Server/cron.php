@@ -24,18 +24,9 @@ function run() {
 			$compcount = $stmt->fetchColumn();
 
 			if ($compcount > 0) {
-				$stmt = $pdo->prepare("SELECT userid, best_time, last_changed FROM level_highscores WHERE levelid=:lid AND difficulty=:dif ORDER BY best_time ASC, last_changed ASC LIMIT 1");
+				$stmt = $pdo->prepare("REPLACE INTO cache_levels (levelid, difficulty, best_time, best_userid, best_last_changed, completion_count) (SELECT levelid, difficulty, best_time, userid, last_changed, :coc FROM level_highscores WHERE levelid=:lid AND difficulty=:dif ORDER BY best_time ASC, last_changed ASC LIMIT 1)");
 				$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
 				$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
-				executeOrFail($stmt);
-				$compdata = $stmt->fetch(PDO::FETCH_ASSOC);
-
-				$stmt = $pdo->prepare("REPLACE INTO cache_levels (levelid, difficulty, best_time, best_userid, best_last_changed, completion_count) VALUES (:lid, :dif, :btm, :bid, :blc, :coc)");
-				$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
-				$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
-				$stmt->bindValue(':btm', $compdata['best_time'], PDO::PARAM_INT);
-				$stmt->bindValue(':bid', $compdata['userid'], PDO::PARAM_INT);
-				$stmt->bindValue(':blc', $compdata['last_changed'], PDO::PARAM_STR);
 				$stmt->bindValue(':coc', $compcount, PDO::PARAM_INT);
 				executeOrFail($stmt);
 			} else {
@@ -44,11 +35,14 @@ function run() {
 				$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
 				executeOrFail($stmt);
 			}
+
+			echo ($lid . "\n");
 		}
 	}
 
 	$delta = (int)((microtime(true) - $time_start)*1000);
 	logDebug("Cronjob succesful executed in $delta ms.");
+	logCron("Cronjob succesful executed in $delta ms.");
 
 	outputResultSuccess(['time' => $delta]);
 }
