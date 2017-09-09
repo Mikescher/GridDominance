@@ -176,6 +176,14 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			return 0;
 		}
 
+		public Fraction GetFractionByID(byte id, out bool err)
+		{
+			if (id >= 0 && id < fractionIDList.Length) {err = false; return fractionIDList[id];}
+
+			err = true;
+			return fractionNeutral;
+		}
+
 		public Fraction GetFractionByID(byte id)
 		{
 			if (id >= 0 && id < fractionIDList.Length) return fractionIDList[id];
