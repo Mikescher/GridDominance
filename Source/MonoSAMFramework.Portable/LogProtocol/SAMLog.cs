@@ -57,17 +57,30 @@ namespace MonoSAMFramework.Portable.LogProtocol
 		public static void Error(string id, string msgShort, string msgLong = null) => Add(new SAMLogEntry(SAMLogLevel.ERROR, id, msgShort, LongLog(msgLong)));
 		public static void Error(string id, Exception e) => Add(new SAMLogEntry(SAMLogLevel.ERROR, id, e.Message, LongLog(e)));
 
+
+#if DEBUG
 		public static void Warning(string id, string msgShort, string msgLong = null) => Add(new SAMLogEntry(SAMLogLevel.WARNING, id, msgShort, msgLong ?? string.Empty));
 		public static void Warning(string id, Exception e) => Add(new SAMLogEntry(SAMLogLevel.WARNING, id, e.Message, e.ToString()));
 
 		public static void Info(string id, string msgShort, string msgLong = null) => Add(new SAMLogEntry(SAMLogLevel.INFORMATION, id, msgShort, msgLong ?? string.Empty));
 		public static void Info(string id, Exception e) => Add(new SAMLogEntry(SAMLogLevel.INFORMATION, id, e.Message, e.ToString()));
 
-#if DEBUG
 		public static void Debug(string msg) => Add(new SAMLogEntry(SAMLogLevel.DEBUG, "D", msg, msg));
 #else
 		[System.Diagnostics.Conditional("DEBUG")]
 		public static void Debug(string msg) {}
+		
+		[System.Diagnostics.Conditional("DEBUG")]
+		public static void Warning(string id, string msgShort, string msgLong = null) {}
+		
+		[System.Diagnostics.Conditional("DEBUG")]
+		public static void Warning(string id, Exception e) {}
+		
+		[System.Diagnostics.Conditional("DEBUG")]
+		public static void Info(string id, string msgShort, string msgLong = null)  {}
+		
+		[System.Diagnostics.Conditional("DEBUG")]
+		public static void Info(string id, Exception e)  {}
 #endif
 
 		public static string LongLog(string msgLong = null)

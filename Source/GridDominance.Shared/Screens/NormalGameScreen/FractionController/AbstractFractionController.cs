@@ -1,4 +1,6 @@
-﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+﻿using System.ComponentModel;
+using System.Linq;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
@@ -16,12 +18,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		private readonly float updateInterval;
 		private readonly bool onlySingleUpdate;
-		private float timeSinceLastUpdate = 0.5f;
+		private float timeUntilNextUpdate = 0.5f;
+		private bool _isWaitingForQueue = false;
 
 		public readonly Cannon Cannon;
 		public readonly Fraction Fraction;
 
-		public float UpdateWaitPercentage => FloatMath.IsEpsilonZero(updateInterval) ? 0 : timeSinceLastUpdate / updateInterval;
+		public float UpdateWaitPercentage => FloatMath.IsEpsilonZero(updateInterval) ? 0 : timeUntilNextUpdate / updateInterval;
 
 		protected readonly FCircle innerBoundings;
 
@@ -33,7 +36,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			Fraction = fraction;
 			Owner = owner;
 
-			if (fraction.IsPlayer) timeSinceLastUpdate = 0f;
+			if (fraction.IsPlayer) timeUntilNextUpdate = 0f;
 
 			innerBoundings = new FCircle(Cannon.Position, Cannon.Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
 		}
@@ -45,15 +48,38 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				istate.Swallow(InputConsumer.GameEntity);
 				OnExclusiveDown(istate);
 			}
-			
-			timeSinceLastUpdate -= gameTime.ElapsedSeconds;
-			if (timeSinceLastUpdate <= 0)
+
+			if (Fraction.KICycleWaitQueue.Any() && Owner.CannonMap[Fraction.KICycleWaitQueue.Peek()].Fraction != Fraction)
+			{
+				SAMLog.Warning("AFC::DirtyCycleQueue", $"Cycle Queue for {Fraction.Type} contains {Fraction.KICycleWaitQueue.Peek()} ({Owner.CannonMap[Fraction.KICycleWaitQueue.Peek()].Fraction.Type})");
+				Fraction.KICycleWaitQueue.Clear();
+				return;
+			}
+
+			bool queuePriority = false;
+			if (Fraction.KICycleWaitQueue.Any() && Fraction.KICycleWaitQueue.Peek() == Cannon.BlueprintCannonID)
+			{
+				Fraction.KICycleWaitQueue.Dequeue();
+				queuePriority = true;
+			}
+
+			timeUntilNextUpdate -= gameTime.ElapsedSeconds;
+			if (timeUntilNextUpdate <= 0)
 			{
 				if (onlySingleUpdate)
 				{
+					if (timeUntilNextUpdate < -KIController.MAX_UPDATE_TIME)
+					{
+						SAMLog.Warning("AFC::QTIMEOUT", $"Overriding SingleUpdate condition - Max wait time overstepped for cannon {Cannon.BlueprintCannonID}");
+
+						DoUpdate(gameTime, istate);
+						return; // Fuck it, we have waited long enough, now it's our turn
+					}
+
 					if (Fraction.LastKiSingleCycle == MonoSAMGame.GameCycleCounter)
 					{
-						Fraction.KICycleWaitQueue.Enqueue(Cannon.BlueprintCannonID);
+						if (_isWaitingForQueue) Fraction.KICycleWaitQueue.Enqueue(Cannon.BlueprintCannonID);
+						_isWaitingForQueue = true;
 						return; // We want - but someone else was first
 					}
 
@@ -63,21 +89,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 						return; // We want and we don't have to wait
 					}
 
-					if (Fraction.KICycleWaitQueue.Peek() == Cannon.BlueprintCannonID)
+					if (Fraction.KICycleWaitQueue.Count > 128)
 					{
-						Fraction.KICycleWaitQueue.Dequeue();
+						SAMLog.Warning("AFC::QFULL", $"Fraction.KICycleWaitQueue is full for cannon {Cannon.BlueprintCannonID}");
+
+						return; // Queue is full - we delay our update
+					}
+
+					if (queuePriority)
+					{
 						DoUpdate(gameTime, istate);
 						return; // We want and its out turn
 					}
 
-					if (Owner.CannonMap[Fraction.KICycleWaitQueue.Peek()].Fraction != Fraction)
-					{
-						SAMLog.Warning("AFC::DirtyCycleQueue", $"Cycle Queue for {Fraction.Type} contains {Fraction.KICycleWaitQueue.Peek()} ({Owner.CannonMap[Fraction.KICycleWaitQueue.Peek()].Fraction.Type})");
-						Fraction.KICycleWaitQueue.Clear();
-						return;
-					}
-
 					Fraction.KICycleWaitQueue.Enqueue(Cannon.BlueprintCannonID);
+					_isWaitingForQueue = true;
 					return; // We want - but someone else has priority
 				}
 				else
@@ -90,7 +116,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 		private void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			timeSinceLastUpdate = updateInterval;
+			_isWaitingForQueue = false;
+			timeUntilNextUpdate = updateInterval;
 
 			if (onlySingleUpdate) Fraction.LastKiSingleCycle = MonoSAMGame.GameCycleCounter;
 			Calculate(istate);

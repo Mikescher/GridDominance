@@ -141,6 +141,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			}
 		}
 
+		public    const float MAX_UPDATE_TIME      = 16.00f;
 		protected const float STANDARD_UPDATE_TIME = 1.666f;
 		protected const float RELAY_UPDATE_TIME    = 0.600f;
 		protected const float LASER_UPDATE_TIME    = 0.400f;

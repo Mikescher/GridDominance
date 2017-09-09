@@ -34,7 +34,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 		public readonly FractionDifficulty Difficulty;
 
 		public ulong LastKiSingleCycle = 0;
-		public readonly Queue<byte> KICycleWaitQueue = new Queue<byte>();
+		public readonly Queue<byte> KICycleWaitQueue = new Queue<byte>(128);
 		
 		public bool IsNeutral  => (Type == FractionType.NeutralFraction);
 		public bool IsPlayer   => (Type == FractionType.PlayerFraction);
