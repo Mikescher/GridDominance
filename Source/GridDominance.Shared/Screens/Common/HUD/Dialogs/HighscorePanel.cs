@@ -31,8 +31,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public const float TEXT_HEIGHT_REAL = (HEIGHT - TAB_HEIGHT + TEXT_HEIGHT) / 2f;
 
 		public const float TAB_WIDTH     = 12 * GDConstants.TILE_WIDTH;
-		public const float TAB_HEIGHT    = 8 * GDConstants.TILE_WIDTH - TEXT_HEIGHT;
-		public const float BOTTOM_HEIGHT = 1 * GDConstants.TILE_WIDTH;
+		public const float TAB_HEIGHT    = 8 * GDConstants.TILE_WIDTH - TEXT_HEIGHT + 25f;
+		public const float BOTTOM_HEIGHT = 1 * GDConstants.TILE_WIDTH - 25f;
 
 		public override int Depth => 0;
 
@@ -130,7 +130,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				}
 			}
 
-
 			_loader = new HUDImage
 			{
 				RelativePosition = new FPoint(0, TEXT_HEIGHT / 2f),
@@ -164,11 +163,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				IsVisible = false,
 			};
+			_table.FixHeightToMultipleOfRowHeight();
 			AddElement(_table);
 
-			_table.AddColumn("", 64);
+			_table.AddColumn("", 100);
 			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
-			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 128);
+			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 100);
 			if (!_showMultiplayer) _table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175);
 
 			LoadHighscore().EnsureNoError();
@@ -245,6 +245,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			if (!foundyourself && data.personal.Count > 0 && MainGame.Inst.Profile.AccountType != AccountType.Local)
 			{
 				_table.Size = new FSize(TAB_WIDTH, TAB_HEIGHT - BOTTOM_HEIGHT);
+				_table.FixHeightToMultipleOfRowHeight();
+
 				_table.RelativePosition = new FPoint(_table.RelativePosition.X, _table.RelativePosition.Y - BOTTOM_HEIGHT/2f);
 
 				var r1 = data.personal[0].rank.ToString();

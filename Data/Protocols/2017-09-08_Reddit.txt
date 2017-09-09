@@ -10,7 +10,7 @@ TODO
 ====
 
  [X] Change Password via /admin/ page (SHA256 + password_hash)
- [ ] Highscore Table ingame, 10th plaec is not rendered
+ [X] Highscore Table ingame, 10th plaec is not rendered
  [ ] Speed persistent between levels (and app starts)
  [X] Better cleaner looking icon
  [ ] (?) Evtl different title font
@@ -18,7 +18,7 @@ TODO
  [ ] music does not fit game
  [ ] music loops not good
  [ ] Game freezes (just a bit) on music start/loop
- [ ] play store duplicate screen shot (the speedy things one)
+ [X] play store duplicate screen shot (the speedy things one)
  [ ] iOS version
       * Mac Mini
       * Armins Macbook

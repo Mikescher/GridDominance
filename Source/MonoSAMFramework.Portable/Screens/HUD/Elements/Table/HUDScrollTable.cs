@@ -83,7 +83,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 
 			sbatch.FillRectangle(bounds, Background);
 
-			float rowHeight = FontSize + 2 * LineWidth;
+			float rowHeight = GetRowHeight();
 			float py = 0;
 
 			// Header
@@ -129,7 +129,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 
 					x += _columns[ci].RealWidth;
 				}
-				sbatch.DrawLine(bounds.Left, bounds.Top + py + rowHeight, bounds.Right - ScrollWidth, bounds.Top + py + rowHeight, LineColor, LineWidth);
+
+				if (py + rowHeight + LineWidth < Height)
+					sbatch.DrawLine(bounds.Left, bounds.Top + py + rowHeight, bounds.Right - ScrollWidth, bounds.Top + py + rowHeight, LineColor, LineWidth);
 
 				py += rowHeight;
 			}
@@ -190,7 +192,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 		{
 			_needsTabRecalc = false;
 
-			float rowHeight = FontSize + 2 * LineWidth;
+			float rowHeight = GetRowHeight();
 			var colPerPage = Height / rowHeight - 1;
 			_maxScrollPosition = _data.Count - (int) colPerPage;
 			if (_maxScrollPosition < 0) _maxScrollPosition = 0;
@@ -319,6 +321,17 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 		public float GetRowHeight()
 		{
 			return FontSize + 2 * LineWidth;
+		}
+
+		public void FixHeightToMultipleOfRowHeight()
+		{
+			float h = Size.Height;
+			float rowHeight = GetRowHeight();
+
+			int c = (int) (h / rowHeight);
+
+			h = FloatMath.Min(rowHeight * c + 0.000001f, Size.Height);
+			Size = new FSize(Size.Width, h);
 		}
 	}
 }
