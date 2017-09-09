@@ -116,7 +116,8 @@ function logToFile($filename, $maxsize, $msg, $id) {
 
 	$fn2 = $fn1 . '.old';
 
-	$fs = @filesize($fn1);
+	$fs = false;
+	if (file_exists($fn1)) $fs = @filesize($fn1);
 
 	if ($fs && $fs > $maxsize) {
 		if (file_exists($fn2)) @unlink($fn2);

@@ -65,9 +65,8 @@ function fmtw($w) {
 
 <div class="columnbox3">
 
-    <div class="column3_0">
-
-        <h2>Users By Device</h2>
+    <div class="column3_0" data-collapse>
+        <h2 class="open collapseheader">Users By Device [+/-]</h2>
 
 		<?php
 		global $pdo;
@@ -93,9 +92,8 @@ function fmtw($w) {
 
     </div>
 
-    <div class="column3_1">
-
-        <h2>Users By Operating System</h2>
+    <div class="column3_1" data-collapse>
+        <h2 class="open collapseheader">Users By Operating System [+/-]</h2>
 
 		<?php
 		global $pdo;
@@ -120,9 +118,8 @@ function fmtw($w) {
         </div>
     </div>
 
-    <div class="column3_2">
-
-        <h2>Users By Resolution</h2>
+    <div class="column3_2" data-collapse>
+        <h2 class="open collapseheader">Users By Resolution [+/-]</h2>
 
 		<?php
 		global $pdo;
@@ -152,9 +149,8 @@ function fmtw($w) {
 
 <div class="columnbox3">
 
-    <div class="column3_0">
-
-        <h2>Users By App Version</h2>
+    <div class="column3_0" data-collapse>
+        <h2 class="open collapseheader">Users By App Version [+/-]</h2>
 
 		<?php
 		global $pdo;
@@ -180,9 +176,8 @@ function fmtw($w) {
 
     </div>
 
-    <div class="column3_1">
-
-        <h2>Users By Unlocks</h2>
+    <div class="column3_1" data-collapse>
+        <h2 class="open collapseheader">Users By Unlocks [+/-]</h2>
 
 		<?php
         global $config;
@@ -229,9 +224,8 @@ function fmtw($w) {
 
     </div>
 
-    <div class="column3_3">
-
-        <h2>Users By Anon</h2>
+    <div class="column3_3" data-collapse>
+        <h2 class="open collapseheader">Users By Anon [+/-]</h2>
 
 		<?php
 		global $pdo;
@@ -263,5 +257,6 @@ function fmtw($w) {
 	<?php echo file_get_contents('admin.js'); ?>
 </script>
 <script src="sorttable.js"></script>
+<script src="jquery.collapse.js"></script>
 </body>
 </html>

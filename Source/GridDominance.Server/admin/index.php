@@ -72,7 +72,7 @@
 
 	<div class="infocontainer">
 		<div class="infodiv">
-			Errors: <a href="errorlist.php"><?php echo getRemainingErrorCount(); ?>/<?php echo getErrorCount(); ?></a>
+			Errors: <a href="errorlist.php?filter=1"><?php echo getRemainingErrorCount(); ?>/<?php echo getErrorCount(); ?></a>
 		</div>
 		<div class="infodiv">
 			Entries:  <a href="entrylist.php"><?php echo getEntryCount(); ?></a>

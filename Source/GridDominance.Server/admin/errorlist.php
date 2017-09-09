@@ -30,6 +30,7 @@
     ?>
 
 	<?php if (empty($_GET["filter"])) $filter="0"; else $filter=$_GET["filter"] ?>
+	<?php if (empty($_GET["version"])) $versionfilter=""; else $versionfilter=$_GET["version"] ?>
 
     <div class="infocontainer">
         <div class="infodiv">
@@ -68,13 +69,27 @@
 
         <div  class="tablebox">
             <h2 style="padding-top: 5px;">
-				<?php if ($filter != 1): ?>
-                    <a href="errorlist.php?filter=1">[Show only new]</a>
-				<?php else: ?>
-                    <a href="errorlist.php?filter=0">[Show all]</a>
-				<?php endif; ?>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="ack.php?sim=99&all=true">[Acknowledge all]</a>
+				<?php
+                if ($filter != 1){
+                    echo " <a href=\"errorlist.php?filter=1&version=$versionfilter\">[Show only new]</a>";
+				} else {
+                    echo "<a href=\"errorlist.php\">[Show all]</a>";
+                }
+
+                echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+
+                echo " <a href=\"ack.php?sim=99&all=true\">[Acknowledge all]</a>";
+
+				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+
+				if (!$versionfilter) {
+					global $pdo;
+					$latestversion = $pdo->query('SELECT error_log.app_version FROM error_log ORDER BY error_log.app_version DESC LIMIT 1')->fetch(PDO::FETCH_NUM)[0];
+					echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<a href=\"errorlist.php?filter=$filter&version=$latestversion\">[Show only latest version]</a>";
+				}
+
+				?>
             </h2>
 
             <table class="sqltab pure-table pure-table-bordered">
@@ -93,7 +108,7 @@
                     <th style='width: 160px'>acknowledged</th>
                 </tr>
                 </thead>
-				<?php $e = ($filter == 1) ? getRemainingErrors() : getAllErrors(); foreach ($e as $entry): ?>
+				<?php $e = ($filter == 1) ? getRemainingErrors($versionfilter) : getAllErrors($versionfilter); foreach ($e as $entry): ?>
 					<?php
 					if ($entry['acknowledged'] == 1 || $filter == 1) echo "<tr id=\"err_row_".$entry['error_id']."\">"; else echo "<tr id=\"err_row_".$entry['error_id']."\" style=\"background-color: lightsalmon\">";
 					?>
