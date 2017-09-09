@@ -187,6 +187,18 @@ namespace GridDominance.Shared.SaveData
 			RegisterPropertyGuidSet<PlayerProfile>(SemVersion.VERSION_1_0_0, "purchases",  o => o.PurchasedWorlds, (o, v) => o.PurchasedWorlds = v);
 		}
 
+		protected override void OnAfterDeserialize()
+		{
+			// In v1.0.1 there was a bug where an INVLOGIN xould result in AccountType=Anonymous but UserID=-1
+			if (AccountType == AccountType.Local || OnlineUserID == -1)
+			{
+				OnlineUserID = -1;
+				OnlineUsername = "anonymous";
+				AccountType = AccountType.Local;
+				OnlinePasswordHash = "";
+			} 
+		}
+
 		protected override string GetTypeName()
 		{
 			return "PLAYER_PROFILE_DATA";
