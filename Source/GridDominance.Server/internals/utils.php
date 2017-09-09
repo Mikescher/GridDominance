@@ -49,7 +49,7 @@ function getRemainingErrors() {
 function getAllErrors() {
 	global $pdo;
 
-	return $pdo->query('SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid AND score > 0')->fetchAll(PDO::FETCH_ASSOC);
+	return $pdo->query('SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid')->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getUserErrors($uid) {

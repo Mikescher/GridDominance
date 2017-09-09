@@ -7,7 +7,15 @@
 
 global $pdo;
 
-if (!empty($_GET["id"])) 
+if (empty($_GET["sim"])) 
+{
+	echo "Error: Missing param";
+	return;
+}
+
+$sim = $_GET["sim"];
+
+if ($sim == 1)
 {
 	$id = $_GET["id"];
 
@@ -15,9 +23,9 @@ if (!empty($_GET["id"]))
 	$stmt->bindValue(':id', $id, PDO::PARAM_INT);
 	$stmt->execute();
 
-	echo "Acknowledged $id.";
+	echo "Acknowledged $id. (" . $stmt->rowCount() . " affected)";
 }
-else if (!empty($_GET["exid"])) 
+else if ($sim == 2)
 {
 	$eid = $_GET["exid"];
 
@@ -25,18 +33,31 @@ else if (!empty($_GET["exid"]))
 	$stmt->bindValue(':eid', $eid, PDO::PARAM_INT);
 	$stmt->execute();
 
-	echo "Acknowledged $eid.";
+	echo "Acknowledged $eid. (" . $stmt->rowCount() . " affected)";
 }
-else if (!empty($_GET["all"]) && $_GET["all"] == "true") 
+else if ($sim == 3)
 {
-	$stmt = $pdo->prepare("UPDATE error_log SET error_log.acknowledged=1");
+	$eid = $_GET["exid"];
+	$ems = $_GET["exmsg"];
+
+	$stmt = $pdo->prepare("UPDATE error_log SET error_log.acknowledged=1 WHERE error_log.exception_id LIKE :eid AND error_log.exception_message LIKE :ems");
+	$stmt->bindValue(':eid', $eid, PDO::PARAM_INT);
+	$stmt->bindValue(':ems', $ems, PDO::PARAM_STR);
 	$stmt->execute();
 
-	echo "Acknowledged All.";
+	echo "Acknowledged $eid + message. (" . $stmt->rowCount() . " affected)";
+}
+else if ($sim == 99)
+{
+	$stmt = $pdo->prepare("UPDATE error_log SET error_log.acknowledged=1 WHERE error_log.acknowledged<>1");
+	$stmt->execute();
+
+	echo "Acknowledged all (" . $stmt->rowCount() . " affected)";
 }
 else 
 {
-	echo "Error: Unknown Param";
+	echo "Error: Unknown Sim";
+	return;
 }
 
 echo "<script type=\"text/javascript\">setTimeout(function(){location.href = document.referrer;}, 500);</script>"

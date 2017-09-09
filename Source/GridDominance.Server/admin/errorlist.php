@@ -28,8 +28,18 @@
     }
     ?>
 
+	<?php if (empty($_GET["filter"])) $filter="0"; else $filter=$_GET["filter"] ?>
+
     <div>
-        <h2><a href="ack.php?all=true">Acknowledge all</a></h2>
+        <h2>
+			<?php if ($filter != 1): ?>
+                <a href="errorlist.php?filter=1">[Show only new]</a>
+			<?php else: ?>
+                <a href="errorlist.php?filter=0">[Show all]</a>
+			<?php endif; ?>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="ack.php?sim=99&all=true">[Acknowledge all]</a>
+        </h2>
     <div>
 
     <div class="tablebox">
@@ -49,7 +59,7 @@
                     <th style='width: 160px'>acknowledged</th>
                 </tr>
             </thead>
-            <?php foreach (getAllErrors() as $entry): ?>
+            <?php $e = ($filter == 1) ? getRemainingErrors() : getAllErrors(); foreach (getAllErrors() as $entry): ?>
 				<?php 
 					if ($entry['acknowledged'] == 1) echo "<tr>"; else echo "<tr style=\"background-color: lightsalmon\">";
 				?>
@@ -68,8 +78,11 @@
 						{
 							echo "<td>";
 							echo $entry['acknowledged'] . " ";
-							echo " <a href=\"ack.php?id=" . $entry['error_id'] . "\">(ack)</a>";
-							echo " <a href=\"ack.php?exid=" . urlencode($entry['exception_id']) . "\">(ack similiar)</a>";
+							echo " <a href=\"ack.php?sim=1&id=" . $entry['error_id'] . "\">(ack)</a>";
+							echo "<br/>";
+							echo " <a href=\"ack.php?sim=2&exid=" . urlencode($entry['exception_id']) . "\">(ack similiar (id))</a>";
+							echo "<br/>";
+							echo " <a href=\"ack.php?sim=3&exid=" . urlencode($entry['exception_id']) . "&exmsg=" . urlencode($entry['exception_message']) . "\">(ack similiar (id+msg))</a>";
 							echo "</td>";
 						} 
 						else 
