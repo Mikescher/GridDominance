@@ -9,7 +9,7 @@ https://www.reddit.com/r/gaming/comments/6yt914/this_android_game_i_worked_on_fo
 TODO
 ====
 
- [ ] Change Password via /admin/ page (SHA256 + password_hash)
+ [X] Change Password via /admin/ page (SHA256 + password_hash)
  [ ] Highscore Table ingame, 10th plaec is not rendered
  [ ] Speed persistent between levels (and app starts)
  [X] Better cleaner looking icon

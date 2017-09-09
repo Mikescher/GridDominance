@@ -257,6 +257,17 @@
         </table>
     </div>
 
+    <h2>Change password</h2>
+
+    <div>
+        <form action="force_change_password.php">
+            UserID:<br>
+            <input type="text" name="id" value="<?php echo $user->ID; ?>"/><br><br>
+            New Password:<br>
+            <input type="text" name="newpw"/><br><br>
+            <input type="submit" value="Change" />
+        </form>
+    </div>
 
     <script type="text/javascript">
 		<?php echo file_get_contents('admin.js'); ?>
