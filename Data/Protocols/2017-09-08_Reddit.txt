@@ -27,7 +27,7 @@ TODO
       * Virtual Machine
  [ ] Version for sdk<19
  [ ] cannons on tracks (future worlds)
- [ ] Rotate upside down in landscape when phone is flipped
+ [X] Rotate upside down in landscape when phone is flipped
  [ ] Colorblind mode
 
 
@@ -409,6 +409,15 @@ JustAddBacon1219
 Bentastico
 EnderClone99
 ZeCoreGamer
+TheMrBeefy
+DrCodBar
+itsDaco
+Lucas-Audeo
+
+
+
+
+
 
 
 

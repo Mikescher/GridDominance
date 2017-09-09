@@ -16,7 +16,7 @@ namespace GridDominance.Android
 		Icon = "@drawable/icon",
 		Theme = "@style/Theme.Splash",
 		LaunchMode = LaunchMode.SingleInstance,
-		ScreenOrientation = ScreenOrientation.Landscape,
+		ScreenOrientation = ScreenOrientation.SensorLandscape,
 		ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.Keyboard | ConfigChanges.ScreenSize)]
 
 	// ReSharper disable once ClassNeverInstantiated.Global
