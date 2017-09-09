@@ -35,9 +35,9 @@ function run() {
 				$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
 				executeOrFail($stmt);
 			}
-
-			echo ($lid . "\n");
 		}
+
+		echo ($lid . "\n");
 	}
 
 	$delta = (int)((microtime(true) - $time_start)*1000);
