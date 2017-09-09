@@ -996,13 +996,16 @@ namespace GridDominance.Shared.Network
 		{
 			MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 			{
-				MainGame.Inst.ShowToast("SAPI::CONERR", L10N.T(L10NImpl.STR_API_CONERR), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				MainGame.Inst?.ShowToast("SAPI::CONERR", L10N.T(L10NImpl.STR_API_CONERR), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
 			});
 		}
 
 		private void ShowErrorCommunication()
 		{
-			MainGame.Inst?.ShowToast("SAPI::COMERR", L10N.T(L10NImpl.STR_API_COMERR), 40, FlatColors.Flamingo, FlatColors.Foreground, 1.5f);
+			MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+			{
+				MainGame.Inst?.ShowToast("SAPI::COMERR", L10N.T(L10NImpl.STR_API_COMERR), 40, FlatColors.Flamingo, FlatColors.Foreground, 1.5f);
+			});
 		}
 
 		private object CreateScoreArray(PlayerProfile profile)
