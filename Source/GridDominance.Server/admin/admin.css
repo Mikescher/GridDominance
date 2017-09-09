@@ -56,6 +56,20 @@ body {
   text-align: left;
   display: flex;
   justify-content: center;
+  flex-flow: column;
+}
+
+.collapseheader > a {
+  color: black !important;
+  background-color: darkgrey;
+  text-decoration: none;
+  padding: 5px;
+  border: 1px black dotted;
+}
+
+.collapseheader.open > a {
+  background-color: lightgray;
+  border: 1px black solid;
 }
 
 

@@ -74,7 +74,6 @@
             Unlocks: <?php echo lc($userdata['unlocked_worlds']); ?>
         </div>
     </div>
-
     <div class="infocontainer">
         <div class="infodiv">
             Device: <?php echo $userdata['device_name']; ?>
@@ -103,9 +102,9 @@
         </div>
     </div>
 
-    <h2>Ranking</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Ranking [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
@@ -168,9 +167,9 @@
         </table>
     </div>
 
-    <h2>Errors</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Errors [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered">
             <thead>
             <tr>
@@ -207,10 +206,9 @@
         </table>
     </div>
 
-    <h2>Scores</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Scores [+/-]</h2>
 
-
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
@@ -228,9 +226,9 @@
         </table>
     </div>
 
-    <h2>&nbsp;</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Scores (per level) [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
@@ -257,9 +255,9 @@
         </table>
     </div>
 
-    <h2>Change password</h2>
+    <div data-collapse>
+        <h2 class="open collapseheader">Change password [+/-]</h2>
 
-    <div>
         <form action="force_change_password.php">
             UserID:<br>
             <input type="text" name="id" value="<?php echo $user->ID; ?>"/><br><br>
@@ -272,6 +270,11 @@
     <script type="text/javascript">
 		<?php echo file_get_contents('admin.js'); ?>
     </script>
+
+    <script type="text/javascript">
+		<?php echo file_get_contents('jquery.collapse.js'); ?>
+    </script>
+
     <script src="sorttable.js"></script>
 </body>
 </html>

@@ -30,19 +30,53 @@
 
 	<?php if (empty($_GET["filter"])) $filter="0"; else $filter=$_GET["filter"] ?>
 
-    <div>
-        <h2>
-			<?php if ($filter != 1): ?>
-                <a href="errorlist.php?filter=1">[Show only new]</a>
-			<?php else: ?>
-                <a href="errorlist.php?filter=0">[Show all]</a>
-			<?php endif; ?>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="ack.php?sim=99&all=true">[Acknowledge all]</a>
-        </h2>
-    <div>
+    <div class="infocontainer">
+        <div class="infodiv">
+            New Errors: <?php echo getRemainingErrorCount(); ?>
+        </div>
+        <div class="infodiv">
+            All Errors: <?php echo getErrorCount(); ?>
+        </div>
+    </div>
 
-    <div class="tablebox">
+
+    <div class="tablebox" data-collapse>
+
+        <h2 class="open collapseheader">Overview [+/-]</h2>
+
+        <table class="sqltab pure-table pure-table-bordered">
+            <thead>
+            <tr>
+                <th style='width: 300px'>error id</th>
+                <th style='width: 110px'>Count (All)</th>
+                <th style='width: 110px'>Count (New)</th>
+            </tr>
+            </thead>
+			<?php $e2 = ($filter == 1) ? getNewErrorOverviewByID() : getErrorOverviewByID(); foreach ($e2 as $entry): ?>
+            <tr>
+                <td><?php echo $entry['exception_id']; ?></td>
+                <td><?php echo $entry['count_all']; ?></td>
+                <td><?php echo $entry['count_noack']; ?></td>
+            </tr>
+			<?php endforeach; ?>
+        </table>
+    </div>
+
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Errors [+/-]</h2>
+
+        <div>
+            <h2 style="padding-top: 5px;">
+				<?php if ($filter != 1): ?>
+                    <a href="errorlist.php?filter=1">[Show only new]</a>
+				<?php else: ?>
+                    <a href="errorlist.php?filter=0">[Show all]</a>
+				<?php endif; ?>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="ack.php?sim=99&all=true">[Acknowledge all]</a>
+            </h2>
+            <div>
+
         <table class="sqltab pure-table pure-table-bordered">
             <thead>
                 <tr>
@@ -59,9 +93,9 @@
                     <th style='width: 160px'>acknowledged</th>
                 </tr>
             </thead>
-            <?php $e = ($filter == 1) ? getRemainingErrors() : getAllErrors(); foreach (getAllErrors() as $entry): ?>
+            <?php $e = ($filter == 1) ? getRemainingErrors() : getAllErrors(); foreach ($e as $entry): ?>
 				<?php 
-					if ($entry['acknowledged'] == 1) echo "<tr>"; else echo "<tr style=\"background-color: lightsalmon\">";
+					if ($entry['acknowledged'] == 1 || $filter == 1) echo "<tr>"; else echo "<tr style=\"background-color: lightsalmon\">";
 				?>
                     <td><?php echo $entry['error_id']; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
@@ -95,11 +129,14 @@
                 <?php $previd++; ?>
             <?php endforeach; ?>
         </table>
-
     </div>
 
     <script type="text/javascript">
 		<?php echo file_get_contents('admin.js'); ?>
+    </script>
+
+    <script type="text/javascript">
+        <?php echo file_get_contents('jquery.collapse.js'); ?>
     </script>
 
 

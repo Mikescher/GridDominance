@@ -85,9 +85,10 @@
         </div>
 	</div>
 
-	<h2>New errors</h2>
 
-    <div class="tablebox">
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">New errors [+/-]</h2>
+
         <table class="sqltab pure-table pure-table-bordered">
             <thead>
                 <tr>
@@ -124,9 +125,9 @@
         </table>
     </div>
 
-    <h2>Logs</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Logs [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered" style="width:100%;">
             <thead>
             <tr>
@@ -155,40 +156,46 @@
         </table>
     </div>
 
-	<h2>Global highscore</h2>
+    <div data-collapse>
+        <h2 class="open collapseheader">Global highscore [+/-]</h2>
 
-    <?php
-    global $config;
-    foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w) {
-		if ($w != $config['worldid_0']) echo "<a href=\"worldhighscore.php?id=$w\">$w</a><br/>";
-    }
-    ?>
+        <div>
+            <?php
+            global $config;
+            foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w) {
+                if ($w != $config['worldid_0']) echo "<a href=\"worldhighscore.php?id=$w\">$w</a><br/>";
+            }
+            ?>
 
-    <br/>
-    <br/>
+            <br/>
+            <br/>
 
-    <div class="tablebox">
-        <table class="sqltab pure-table pure-table-bordered sortable">
-            <thead>
-            <tr>
-                <th style='width: 250px'>Username</th>
-                <th>Score</th>
-                <th>Time</th>
-            </tr>
-            </thead>
-			<?php foreach (getGlobalHighscores() as $entry): ?>
-                <tr>
-                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-                    <td><?php echo $entry['totalscore']; ?></td>
-                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
-                </tr>
-			<?php endforeach; ?>
-        </table>
+            <div class="tablebox">
+                <table class="sqltab pure-table pure-table-bordered sortable">
+                    <thead>
+                    <tr>
+                        <th>Row</th>
+                        <th style='width: 250px'>Username</th>
+                        <th>Score</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <?php $i=1; foreach (getGlobalHighscores() as $entry): ?>
+                        <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                            <td><?php echo $entry['totalscore']; ?></td>
+                            <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
     </div>
 
-	<h2>Level highscores</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Level highscores [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
@@ -221,18 +228,20 @@
         </table>
     </div>
 
-	<h2>Multiplayer highscore</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Multiplayer highscore [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
+                <th>Row</th>
                 <th style='width: 250px'>Username</th>
                 <th>MultiplayerScore</th>
             </tr>
             </thead>
-			<?php foreach (getMultiplayerHighscores() as $entry): ?>
+			<?php $i=1; foreach (getMultiplayerHighscores() as $entry): ?>
                 <tr>
+                    <td><?php echo $i++; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['mpscore']; ?></td>
                 </tr>
@@ -243,6 +252,11 @@
     <script type="text/javascript">
         <?php echo file_get_contents('admin.js'); ?>
     </script>
+
+    <script type="text/javascript">
+		<?php echo file_get_contents('jquery.collapse.js'); ?>
+    </script>
+
     <script src="sorttable.js"></script>
 </body>
 </html>

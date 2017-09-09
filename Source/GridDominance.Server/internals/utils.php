@@ -52,6 +52,18 @@ function getAllErrors() {
 	return $pdo->query('SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid')->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getErrorOverviewByID() {
+	global $pdo;
+
+	return $pdo->query('SELECT error_log.exception_id AS exception_id, COUNT(*) AS count_all, (SELECT COUNT(*) FROM error_log AS e2 WHERE e2.exception_id = error_log.exception_id AND e2.acknowledged=0 ) AS count_noack FROM error_log GROUP BY error_log.exception_id')->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getNewErrorOverviewByID() {
+	global $pdo;
+
+	return $pdo->query('SELECT error_log.exception_id AS exception_id, (SELECT COUNT(*) FROM error_log AS e2 WHERE e2.exception_id = error_log.exception_id) AS count_all, COUNT(*) AS count_noack FROM error_log WHERE error_log.acknowledged=0 GROUP BY error_log.exception_id')->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getUserErrors($uid) {
 	global $pdo;
 
