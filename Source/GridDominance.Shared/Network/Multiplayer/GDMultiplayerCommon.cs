@@ -15,6 +15,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Language;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
@@ -170,7 +171,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				}
 				else
 				{
-					SAMLog.Error("SNS-COMMON::UA", "Unknown AREA: " + cmd);
+					SAMLog.Error("SNS-COMMON::UA", "Unknown AREA: " + cmd + "\r\nData:" + ByteUtils.ByteToHexBitFiddle(d));
 					break;
 				}
 			}
