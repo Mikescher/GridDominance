@@ -25,7 +25,8 @@ TODO
       * MacInCloud
       * DualBoot Hackintosh
       * Virtual Machine
- [ ] Version for sdk<19
+      * Xamarin Buildserver (https://xcloud.me/)
+ [X] Version for sdk<19
  [ ] cannons on tracks (future worlds)
  [X] Rotate upside down in landscape when phone is flipped
  [ ] Colorblind mode
