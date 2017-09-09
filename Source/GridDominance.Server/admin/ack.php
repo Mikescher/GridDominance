@@ -7,6 +7,9 @@
 
 global $pdo;
 
+$nojs=0;
+if (!empty($_GET["nojs"])) $nojs = $_GET["sim"];
+
 if (empty($_GET["sim"])) 
 {
 	echo "Error: Missing param";
@@ -60,6 +63,6 @@ else
 	return;
 }
 
-echo "<script type=\"text/javascript\">setTimeout(function(){location.href = document.referrer;}, 500);</script>"
+if ($nojs == 0) echo "<script type=\"text/javascript\">setTimeout(function(){location.href = document.referrer;}, 500);</script>"
 
 ?>

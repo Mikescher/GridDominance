@@ -253,10 +253,8 @@
         <?php echo file_get_contents('admin.js'); ?>
     </script>
 
-    <script type="text/javascript">
-		<?php echo file_get_contents('jquery.collapse.js'); ?>
-    </script>
-
+    <script src="jquery.collapse.js"></script>
+    <script src="toastr.min.js"></script>
     <script src="sorttable.js"></script>
 </body>
 </html>

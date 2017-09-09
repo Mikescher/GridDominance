@@ -8,6 +8,7 @@
 	<meta charset="utf-8">
     <link rel="stylesheet" href="pure-min.css"/>
 	<link rel="stylesheet" type="text/css" href="admin.css">
+    <link href="toastr.min.css" rel="stylesheet"/>
 </head>
 
 <body id="rootbox">
@@ -94,7 +95,7 @@
                 </thead>
 				<?php $e = ($filter == 1) ? getRemainingErrors() : getAllErrors(); foreach ($e as $entry): ?>
 					<?php
-					if ($entry['acknowledged'] == 1 || $filter == 1) echo "<tr>"; else echo "<tr style=\"background-color: lightsalmon\">";
+					if ($entry['acknowledged'] == 1 || $filter == 1) echo "<tr id=\"err_row_".$entry['error_id']."\">"; else echo "<tr id=\"err_row_".$entry['error_id']."\" style=\"background-color: lightsalmon\">";
 					?>
                     <td><?php echo $entry['error_id']; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
@@ -111,7 +112,7 @@
 					{
 						echo "<td>";
 						echo $entry['acknowledged'] . " ";
-						echo " <a href=\"ack.php?sim=1&id=" . $entry['error_id'] . "\">(ack)</a>";
+						echo " <a href=\"#\" onclick='AjaxAck(".$entry['error_id'].");return false;'>(ack)</a>";
 						echo "<br/>";
 						echo " <a href=\"ack.php?sim=2&exid=" . urlencode($entry['exception_id']) . "\">(ack similiar (id))</a>";
 						echo "<br/>";
@@ -137,9 +138,23 @@
     </script>
 
     <script type="text/javascript">
-        <?php echo file_get_contents('jquery.collapse.js'); ?>
+        function AjaxAck(id) {
+            $.get('ack.php?sim=1&nojs=1&id=' + id, function( data ) {
+                $("#td_prev_"+id).html(data);
+                <?php if ($filter == 1): ?>
+                    $("#err_row_"+id).css("visibility", "collapse");
+                    $("#err_row_"+id).css("display", "none");
+				<?php else: ?>
+                    $("#err_row_"+id).css("background-color", "unset");
+				<?php endif; ?>
+
+                toastr.success(data, 'Acknowledged')
+            });
+        }
     </script>
 
+    <script src="jquery.collapse.js"></script>
+    <script src="toastr.min.js"></script>
     <script src="sorttable.js"></script>
 
 </body>
