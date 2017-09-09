@@ -84,7 +84,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		private float _lifetime = 0;
 		private float _toastTime;
 
-		public DeltaLimitedFloat PositionY;
+		public readonly DeltaLimitedFloat PositionY;
 
 		public readonly string ToastID;
 
