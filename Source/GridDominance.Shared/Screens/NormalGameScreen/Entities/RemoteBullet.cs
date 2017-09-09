@@ -262,6 +262,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
+			if (PhysicsBody == null) return;
+
 			BulletPosition = ConvertUnits2.ToDisplayUnitsPoint(PhysicsBody.Position);
 			BulletVelocity = ConvertUnits.ToDisplayUnits(PhysicsBody.LinearVelocity);
 
@@ -272,7 +274,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				DonutWrap();
 			}
 
-			this.GDOwner().LaserNetwork.SemiDirty = true;
+			GDOwner.LaserNetwork.SemiDirty = true;
 		}
 
 		private void DonutWrap()
