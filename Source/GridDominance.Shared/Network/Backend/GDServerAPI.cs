@@ -77,7 +77,7 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend::INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). (Type={profile.AccountType} | UID={profile.OnlineUserID} | Hash={profile.OnlinePasswordHash}) Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
@@ -219,11 +219,14 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend::SS_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::SS_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). (Type={profile.AccountType} | UID={profile.OnlineUserID} | Hash={profile.OnlinePasswordHash})  Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
 							profile.OnlineUserID = -1;
+							profile.OnlineUsername = "anonymous";
+							profile.AccountType = AccountType.Local;
+							profile.OnlinePasswordHash = "";
 
 							MainGame.Inst.SaveProfile();
 						});
@@ -310,11 +313,14 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend::SMPS_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::SMPS_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). (Type={profile.AccountType} | UID={profile.OnlineUserID} | Hash={profile.OnlinePasswordHash})  Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
 							profile.OnlineUserID = -1;
+							profile.OnlineUsername = "anonymous";
+							profile.AccountType = AccountType.Local;
+							profile.OnlinePasswordHash = "";
 
 							MainGame.Inst.SaveProfile();
 						});
@@ -393,11 +399,14 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend::DD_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::DD_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). (Type={profile.AccountType} | UID={profile.OnlineUserID} | Hash={profile.OnlinePasswordHash})  Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
 							profile.OnlineUserID = -1;
+							profile.OnlineUsername = "anonymous";
+							profile.AccountType = AccountType.Local;
+							profile.OnlinePasswordHash = "";
 
 							MainGame.Inst.SaveProfile();
 						});
@@ -477,11 +486,14 @@ namespace GridDominance.Shared.Network
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend::RU_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). Reset local user");
+							SAMLog.Error("Backend::RU_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). (Type={profile.AccountType} | UID={profile.OnlineUserID} | Hash={profile.OnlinePasswordHash})  Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
 							profile.OnlineUserID = -1;
+							profile.OnlineUsername = "anonymous";
+							profile.AccountType = AccountType.Local;
+							profile.OnlinePasswordHash = "";
 
 							MainGame.Inst.SaveProfile();
 						});
