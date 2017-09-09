@@ -30,6 +30,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					KIMethod.CreateRaycast("NeutralCannon",         FindTargetNeutralCannon),
 					KIMethod.CreateRaycast("EnemyCannon",           FindTargetEnemyCannon),
 					KIMethod.CreateRaycast("FriendlyCannon",        FindTargetFriendlyCannon),
+					KIMethod.CreateRaycast("IdiotBoost",            FindTargetAnyFriendlyCannon), // fallback when nothing makes any sense
 					KIMethod.CreateRaycast("BlockedEnemyCannon",    FindTargetBlockedEnemyCannon),
 					KIMethod.CreateRaycast("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannon),
 					KIMethod.CreateRaycast("NearestEnemyCannon",    FindNearestEnemyCannon),
@@ -47,6 +48,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					KIMethod.CreatePrecalc("NeutralCannon",         FindTargetNeutralCannonPrecalc),
 					KIMethod.CreatePrecalc("EnemyCannon",           FindTargetEnemyCannonPrecalc),
 					KIMethod.CreatePrecalc("FriendlyCannon",        FindTargetFriendlyCannonPrecalc),
+					KIMethod.CreatePrecalc("IdiotBoost",            FindTargetAnyFriendlyCannonPrecalc), // fallback when nothing makes any sense
 					KIMethod.CreatePrecalc("BlockedEnemyCannon",    FindTargetBlockedEnemyCannonPrecalc),
 					KIMethod.CreatePrecalc("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannonPrecalc),
 					KIMethod.CreateRaycast("NearestEnemyCannon",    FindNearestEnemyCannon),
@@ -64,6 +66,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 					KIMethod.CreatePrecalc("NeutralCannon",         FindTargetNeutralCannonPrecalc),
 					KIMethod.CreatePrecalc("EnemyCannon",           FindTargetEnemyCannonPrecalc),
 					KIMethod.CreatePrecalc("FriendlyCannon",        FindTargetFriendlyCannonPrecalc),
+					KIMethod.CreatePrecalc("IdiotBoost",            FindTargetAnyFriendlyCannonPrecalc), // fallback when nothing makes any sense
 					KIMethod.CreatePrecalc("BlockedEnemyCannon",    FindTargetBlockedEnemyCannonPrecalc),
 					KIMethod.CreatePrecalc("BlockedFriendlyCannon", FindTargetBlockedFriendlyCannonPrecalc),
 					KIMethod.CreateRaycast("NearestEnemyCannon",    FindNearestEnemyCannon),

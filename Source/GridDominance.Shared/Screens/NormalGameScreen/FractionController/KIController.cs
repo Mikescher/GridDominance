@@ -266,10 +266,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 			return Owner
 				.GetEntities<Cannon>()
 				.Where(p => !p.IsShielded)
-				.Where(p => !p.IsShielded)
-				.Where(p => p.Fraction == Fraction && p != Cannon)
+				.Where(p => p.Fraction == Fraction)
 				.Where(p => p != Cannon)
 				.Where(p => !p.IsLaser && p.CannonHealth.TargetValue >= 1f)
+				.Where(IsReachable)
+				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		protected Cannon FindTargetAnyFriendlyCannon()
+		{
+			return Owner
+				.GetEntities<Cannon>()
+				.Where(p => !p.IsShielded)
+				.Where(p => p.Fraction == Fraction)
+				.Where(p => p != Cannon)
 				.Where(IsReachable)
 				.WhereSmallestBy(p => (p.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);
@@ -416,6 +427,17 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				.Where(p => p.TargetCannon.Fraction == Fraction)
 				.Where(p => p.TargetCannon != Cannon)
 				.Where(p => !p.TargetCannon.IsLaser && p.TargetCannon.CannonHealth.TargetValue >= 1f)
+				.Where(IsReachablePrecalc)
+				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
+				.RandomOrDefault(crng);
+		}
+
+		protected BulletPath FindTargetAnyFriendlyCannonPrecalc()
+		{
+			return Cannon.BulletPaths
+				.Where(p => !p.TargetCannon.IsShielded)
+				.Where(p => p.TargetCannon.Fraction == Fraction)
+				.Where(p => p.TargetCannon != Cannon)
 				.Where(IsReachablePrecalc)
 				.WhereSmallestBy(p => (p.TargetCannon.Position - Cannon.Position).Length(), GDConstants.TILE_WIDTH)
 				.RandomOrDefault(crng);

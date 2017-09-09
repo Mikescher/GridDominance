@@ -20,7 +20,6 @@ namespace GridDominance.Android.Impl
 		{
 			mmSocket = socket;
 			_adapter = a;
-			Stream tmpIn = null;
 
 			// Get the BluetoothSocket input and output streams
 			mmInStream = socket.InputStream;
