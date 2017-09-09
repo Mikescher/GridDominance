@@ -632,7 +632,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 			// Take best
 
-			if (minRay2 != null)
+			if (minRay2 != null && minSrc2 != null)
 			{
 				if (!minTermOther)
 				{
@@ -696,9 +696,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 
 						foreach (var r in ray1.SelfCollRays) _faultRays.Add(Tuple.Create(r, src1));
 						ray1.SelfCollRays.Clear();
-					}
 
-					CutRayAndUpdate(minSrc2, minRay2, minP2, src1, ray1);
+						CutRayAndUpdate(minSrc2, minRay2, minP2, src1, ray1);
+					}
 
 					return true;
 				}
