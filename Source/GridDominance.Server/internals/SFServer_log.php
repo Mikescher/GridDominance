@@ -31,6 +31,12 @@ function logDebug($msg, $id='DBG') {
 	if ($config['debug']) logToFile($config['logfile-debug'], $config['maxsize-logfile-debug'], $msg, $id);
 }
 
+function logCron($msg, $id='DBG') {
+	global $config;
+
+	logToFile($config['logfile-cron'], $config['maxsize-logfile-normal'], $msg, $id);
+}
+
 /**
  * @param string $msg
  */

@@ -146,7 +146,7 @@ function getWorldHighscores($worldid) {
 function getLastCronTime() {
 	global $config;
 
-	$path = str_replace('{action}', 'cron', $config['logfile-debug']);
+	$path = str_replace('{action}', 'cron', $config['logfile-cron']);
 
 	if (!file_exists($path)) return "FNF";
 

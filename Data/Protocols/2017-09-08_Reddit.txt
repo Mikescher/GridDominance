@@ -29,6 +29,7 @@ TODO
  [ ] cannons on tracks (future worlds)
  [X] Rotate upside down in landscape when phone is flipped
  [ ] Colorblind mode
+ [ ] dedicated server
 
 
 Similiar Games
@@ -52,6 +53,12 @@ Similiar Games
  - Combat                       https://en.wikipedia.org/wiki/Combat_(1977_video_game)
 
 
+Amazon store - Mailing list
+===========================
+
+valdus
+
+
 F-Droid - Mailing list
 ======================
 
@@ -67,7 +74,7 @@ RMJ1984
 19wolf
 
 WinPhone - Mailing list
-======================
+=======================
 
 DeltaForce291
 gingersassy
@@ -413,8 +420,8 @@ TheMrBeefy
 DrCodBar
 itsDaco
 Lucas-Audeo
-
-
+boobasawk
+Notech_Fox
 
 
 
