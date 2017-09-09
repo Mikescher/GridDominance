@@ -20,6 +20,21 @@
       <CharacterRegion><Start>Ö</Start><End>Ö</End></CharacterRegion>
       <CharacterRegion><Start>Ü</Start><End>Ü</End></CharacterRegion>
       <CharacterRegion><Start>ß</Start><End>ß</End></CharacterRegion>
+
+      <CharacterRegion><Start>é</Start><End>é</End></CharacterRegion>
+      <CharacterRegion><Start>è</Start><End>è</End></CharacterRegion>
+      <CharacterRegion><Start>ê</Start><End>ê</End></CharacterRegion>
+      <CharacterRegion><Start>á</Start><End>á</End></CharacterRegion>
+      <CharacterRegion><Start>à</Start><End>à</End></CharacterRegion>
+      <CharacterRegion><Start>â</Start><End>â</End></CharacterRegion>
+      <CharacterRegion><Start>ç</Start><End>ç</End></CharacterRegion>
+      <CharacterRegion><Start>É</Start><End>É</End></CharacterRegion>
+      <CharacterRegion><Start>È</Start><End>È</End></CharacterRegion>
+      <CharacterRegion><Start>Ê</Start><End>Ê</End></CharacterRegion>
+      <CharacterRegion><Start>Á</Start><End>Á</End></CharacterRegion>
+      <CharacterRegion><Start>À</Start><End>À</End></CharacterRegion>
+      <CharacterRegion><Start>Â</Start><End>Â</End></CharacterRegion>
+      <CharacterRegion><Start>Ç</Start><End>Ç</End></CharacterRegion>
     </CharacterRegions>
   </Asset>
 </XnaContent>

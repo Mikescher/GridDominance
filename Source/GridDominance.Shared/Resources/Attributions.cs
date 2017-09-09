@@ -15,6 +15,7 @@ namespace GridDominance.Shared.Resources
 
 			Tuple.Create("Iconarchive: outline-icons",              "http://www.iconarchive.com/show/outline-icons-by-iconsmind/Hand-Touch-icon.html"),
 			Tuple.Create("Iconarchive: flat-finance",               "http://www.iconarchive.com/show/flat-finance-icons-by-graphicloads/lock-icon.html"),
+//			Tuple.Create("IconArchive: All Country Flag",           "http://www.iconarchive.com/show/all-country-flag-icons-by-custom-icon-design.html"),
 
 			Tuple.Create("Freesound: Taira Komori",                 "http://www.freesound.org/people/Taira%20Komori/sounds/211751/"),
 			Tuple.Create("Freesound: willy_ineedthatapp_com",       "http://www.freesound.org/people/willy_ineedthatapp_com/sounds/167326/"),

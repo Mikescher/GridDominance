@@ -418,7 +418,7 @@ namespace GridDominance.Shared.Resources
 			TexHUDIconChevronLeft         = AtlasTextures["chevron_left"];
 			TexHUDIconChevronRight        = AtlasTextures["chevron_right"];
 
-			TexHUDFlags                   = new[] { AtlasTextures["flag_00"], AtlasTextures["flag_01"] };
+			TexHUDFlags                   = new[] { AtlasTextures["flag_00"], AtlasTextures["flag_01"], AtlasTextures["flag_02"], AtlasTextures["flag_03"] };
 
 			TexPanelBlurEdge     = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner   = AtlasTextures["panel_blur_corner"];

@@ -703,6 +703,24 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "flags/flag_02.png",
+	"frame": {"x":242,"y":232,"w":12,"h":12},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
+	"sourceSize": {"w":12,"h":12},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "flags/flag_03.png",
+	"frame": {"x":242,"y":247,"w":12,"h":12},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
+	"sourceSize": {"w":12,"h":12},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "glassblock/glass_corner.png",
 	"frame": {"x":233,"y":597,"w":16,"h":16},
 	"rotated": false,
@@ -785,7 +803,7 @@
 },
 {
 	"filename": "hud_time_3.png",
-	"frame": {"x":242,"y":232,"w":12,"h":12},
+	"frame": {"x":242,"y":262,"w":12,"h":12},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
@@ -1082,7 +1100,7 @@
 },
 {
 	"filename": "panel_corner.png",
-	"frame": {"x":246,"y":269,"w":8,"h":8},
+	"frame": {"x":246,"y":277,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1091,7 +1109,7 @@
 },
 {
 	"filename": "particle_00.png",
-	"frame": {"x":246,"y":280,"w":8,"h":8},
+	"frame": {"x":246,"y":288,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1100,7 +1118,7 @@
 },
 {
 	"filename": "particle_01.png",
-	"frame": {"x":246,"y":291,"w":8,"h":8},
+	"frame": {"x":246,"y":299,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1109,33 +1127,6 @@
 },
 {
 	"filename": "particle_02.png",
-	"frame": {"x":246,"y":302,"w":8,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "particle_03.png",
-	"frame": {"x":144,"y":499,"w":8,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "particle_04.png",
-	"frame": {"x":155,"y":499,"w":8,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "particle_05.png",
 	"frame": {"x":224,"y":784,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1144,7 +1135,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "particle_06.png",
+	"filename": "particle_03.png",
 	"frame": {"x":224,"y":795,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1153,7 +1144,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "particle_07.png",
+	"filename": "particle_04.png",
 	"frame": {"x":224,"y":897,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1162,7 +1153,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "particle_08.png",
+	"filename": "particle_05.png",
 	"frame": {"x":224,"y":908,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1171,25 +1162,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "particle_09.png",
-	"frame": {"x":218,"y":919,"w":8,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "particle_10.png",
-	"frame": {"x":229,"y":919,"w":8,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "particle_11.png",
+	"filename": "particle_06.png",
 	"frame": {"x":234,"y":859,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1198,7 +1171,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "particle_12.png",
+	"filename": "particle_07.png",
 	"frame": {"x":234,"y":870,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1207,7 +1180,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "particle_13.png",
+	"filename": "particle_08.png",
 	"frame": {"x":234,"y":881,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1216,7 +1189,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "particle_14.png",
+	"filename": "particle_09.png",
 	"frame": {"x":235,"y":892,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1225,7 +1198,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "particle_15.png",
+	"filename": "particle_10.png",
 	"frame": {"x":235,"y":903,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
@@ -1234,8 +1207,53 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "particle_16.png",
+	"filename": "particle_11.png",
 	"frame": {"x":246,"y":839,"w":8,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
+	"sourceSize": {"w":8,"h":8},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "particle_12.png",
+	"frame": {"x":246,"y":850,"w":8,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
+	"sourceSize": {"w":8,"h":8},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "particle_13.png",
+	"frame": {"x":246,"y":861,"w":8,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
+	"sourceSize": {"w":8,"h":8},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "particle_14.png",
+	"frame": {"x":246,"y":872,"w":8,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
+	"sourceSize": {"w":8,"h":8},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "particle_15.png",
+	"frame": {"x":246,"y":883,"w":8,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
+	"sourceSize": {"w":8,"h":8},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "particle_16.png",
+	"frame": {"x":246,"y":894,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1424,7 +1442,7 @@
 },
 {
 	"filename": "portal/portalshadow_end1.png",
-	"frame": {"x":242,"y":247,"w":12,"h":8},
+	"frame": {"x":143,"y":488,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1433,7 +1451,7 @@
 },
 {
 	"filename": "portal/portalshadow_end2.png",
-	"frame": {"x":242,"y":258,"w":12,"h":8},
+	"frame": {"x":144,"y":499,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1442,7 +1460,7 @@
 },
 {
 	"filename": "portal/portalshadow_mid.png",
-	"frame": {"x":143,"y":488,"w":12,"h":8},
+	"frame": {"x":218,"y":919,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1514,7 +1532,7 @@
 },
 {
 	"filename": "shield/shieldlaser_base.png",
-	"frame": {"x":246,"y":850,"w":8,"h":8},
+	"frame": {"x":246,"y":905,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1532,7 +1550,7 @@
 },
 {
 	"filename": "shield/shieldlaser_pointer.png",
-	"frame": {"x":246,"y":861,"w":8,"h":8},
+	"frame": {"x":235,"y":914,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1807,6 +1825,6 @@
 	"format": "RGBA8888",
 	"size": {"w":256,"h":931},
 	"scale": "0.25",
-	"smartupdate": "$TexturePacker:SmartUpdate:32db6bbd6457a155f001c331e03d1821:82480d28497a2ef8a7fd40dbd4c438f8:332da033e89742cb272fe0fb1b010c90$"
+	"smartupdate": "$TexturePacker:SmartUpdate:6ea0b206fe69060b67ed61889bfdae3e:482982857de85758596574a00b1c945d:332da033e89742cb272fe0fb1b010c90$"
 }
 }

@@ -6,8 +6,10 @@ namespace MonoSAMFramework.Portable.Localization
 	{
 		public const int LANG_EN_US =  0;
 		public const int LANG_DE_DE =  1;
+		public const int LANG_FR_FR =  2;
+		public const int LANG_IT_IT =  3;
 
-		public const  int LANG_COUNT = 2;
+		public const  int LANG_COUNT = 3;
 		public static int TEXT_COUNT = 0;
 
 		public static int LANGUAGE = LANG_EN_US;
