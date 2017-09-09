@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MonoSAMFramework.Portable.Network.REST
@@ -92,7 +93,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 				}
 				catch (JsonReaderException e)
 				{
-					throw new Exception($"JsonReaderException {e.Message} for (len={content?.Length}):\r\n{content}");
+					throw new Exception($"JsonReaderException {e.Message} for (len={content?.Length}):\r\ncontent={Convert.ToBase64String(Encoding.UTF8.GetBytes(content))}");
 				}
 			}
 
