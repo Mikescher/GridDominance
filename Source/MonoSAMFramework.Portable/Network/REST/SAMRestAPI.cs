@@ -32,6 +32,8 @@ namespace MonoSAMFramework.Portable.Network.REST
 			return Task.Run(() => Query<TReturn>(apiEndPoint, parameter, maxTries));
 		}
 
+		protected string GetSigSecret() => secret;
+
 		private TReturn Query<TReturn>(string apiEndPoint, RestParameterSet parameter, int maxTries)
 		{
 			var para = parameter.CreateParamString(secret);

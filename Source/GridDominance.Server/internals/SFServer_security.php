@@ -16,10 +16,10 @@ function check_commit_signature($sig_in, $data) {
 	$sig_real = hash('sha256', $sigbuilder);
 
 	if (strcasecmp($sig_real, $sig_in) !== 0) {
-		logDebug("[1] [[Signature error]] $sig_real <> $sig_in");
-		logDebug("[2] \n========\n" . $config['signature_key'] . join("", array_map(function ($a){return "\n$a";}, $data)) . "========\n");
-		logDebug("[3] \n========\n" . $sigbuilder . "\n========\n");
-		logDebug("[4] \n========\n" . base64_encode($sigbuilder) . "\n========\n");
+		logErrorInfo("[1] [[Signature error]] $sig_real <> $sig_in");
+		logErrorInfo("[2] \n========\n" . $config['signature_key'] . join("", array_map(function ($a){return "\n$a";}, $data)) . "\n========\n");
+		logErrorInfo("[3] \n========\n" . $sigbuilder . "\n========\n");
+		logErrorInfo("[4] \n========\n" . base64_encode($sigbuilder) . "\n========\n");
 
 		outputError(ERRORS::PARAMETER_HASH_MISMATCH, "The signature '$sig_in' is invalid.");
 	};

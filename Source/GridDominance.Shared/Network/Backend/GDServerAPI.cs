@@ -73,11 +73,15 @@ namespace GridDominance.Shared.Network
 					{
 						return; // meh
 					}
+					else if (response.errorid == BackendCodes.PARAMETER_HASH_MISMATCH)
+					{
+						SAMLog.Error("Backend::PING_SIGERR", $"Error {response.errorid}: {response.errormessage}\nSigInfo: {ps.GetDebugInfo(GetSigSecret())}");
+					}
 					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							SAMLog.Error("Backend::INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). (Type={profile.AccountType} | UID={profile.OnlineUserID} | Hash={profile.OnlinePasswordHash}) Reset local user");
+							SAMLog.Error("Backend::PING_INVLOGIN", $"Local user cannot login on server ({response.errorid}:{response.errormessage}). (Type={profile.AccountType} | UID={profile.OnlineUserID} | Hash={profile.OnlinePasswordHash}) Reset local user");
 
 							// something went horribly wrong
 							// create new user on next run
@@ -215,6 +219,10 @@ namespace GridDominance.Shared.Network
 					{
 						return; // meh
 					}
+					else if (response.errorid == BackendCodes.PARAMETER_HASH_MISMATCH)
+					{
+						SAMLog.Error("Backend::SS_SIGERR", $"Error {response.errorid}: {response.errormessage}\nSigInfo: {ps.GetDebugInfo(GetSigSecret())}");
+					}
 					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
@@ -309,6 +317,10 @@ namespace GridDominance.Shared.Network
 					{
 						return; // meh
 					}
+					else if (response.errorid == BackendCodes.PARAMETER_HASH_MISMATCH)
+					{
+						SAMLog.Error("Backend::SMPS_SIGERR", $"Error {response.errorid}: {response.errormessage}\nSigInfo: {ps.GetDebugInfo(GetSigSecret())}");
+					}
 					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
 					{
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
@@ -394,6 +406,10 @@ namespace GridDominance.Shared.Network
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
 					{
 						return; // meh
+					}
+					else if (response.errorid == BackendCodes.PARAMETER_HASH_MISMATCH)
+					{
+						SAMLog.Error("Backend::DD_SIGERR", $"Error {response.errorid}: {response.errormessage}\nSigInfo: {ps.GetDebugInfo(GetSigSecret())}");
 					}
 					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
 					{
@@ -481,6 +497,10 @@ namespace GridDominance.Shared.Network
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
 					{
 						return; // meh
+					}
+					else if (response.errorid == BackendCodes.PARAMETER_HASH_MISMATCH)
+					{
+						SAMLog.Error("Backend::RU_SIGERR", $"Error {response.errorid}: {response.errormessage}\nSigInfo: {ps.GetDebugInfo(GetSigSecret())}");
 					}
 					else if (response.errorid == BackendCodes.WRONG_PASSWORD || response.errorid == BackendCodes.USER_BY_ID_NOT_FOUND)
 					{
@@ -652,6 +672,12 @@ namespace GridDominance.Shared.Network
 					else if (response.errorid == BackendCodes.USER_BY_NAME_NOT_FOUND)
 					{
 						return Tuple.Create(VerifyResult.WrongUsername, -1, string.Empty);
+					}
+					else if (response.errorid == BackendCodes.PARAMETER_HASH_MISMATCH)
+					{
+						ShowErrorCommunication();
+						SAMLog.Error("Backend::V_SIGERR", $"Error {response.errorid}: {response.errormessage}\nSigInfo: {ps.GetDebugInfo(GetSigSecret())}");
+						return Tuple.Create(VerifyResult.InternalError, -1, response.errormessage);
 					}
 					else
 					{

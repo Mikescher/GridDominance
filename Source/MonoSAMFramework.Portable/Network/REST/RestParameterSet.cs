@@ -155,5 +155,67 @@ namespace MonoSAMFramework.Portable.Network.REST
 				}
 			}
 		}
+
+		public string GetDebugInfo(string secret)
+		{
+			StringBuilder b = new StringBuilder();
+			b.AppendLine();
+
+			foreach (var elem in dict)
+			{
+				var name = elem.Item1;
+				var value = elem.Item2;
+				var type = elem.Item3;
+				var sign = elem.Item4 ? "X" : " ";
+
+				b.AppendLine($"[{sign}] entry[{type}|{name}] = {Convert.ToBase64String(Encoding.UTF8.GetBytes(value))}");
+			}
+
+			var sigbuilder = secret;
+			foreach (var elem in dict)
+			{
+				var name = elem.Item1;
+				var value = elem.Item2;
+				var type = elem.Item3;
+				var sign = elem.Item4;
+
+				switch (type)
+				{
+					case RestParameterSetType.String:
+					case RestParameterSetType.Json:
+					case RestParameterSetType.Guid:
+						if (sign) sigbuilder += "\n" + value;
+						break;
+
+					case RestParameterSetType.Int:
+						if (sign) sigbuilder += "\n" + value;
+						break;
+
+					case RestParameterSetType.Base64:
+						if (sign) sigbuilder += "\n" + value;
+						break;
+
+					case RestParameterSetType.Hash:
+						var dataHash = value.ToUpper();
+						if (sign) sigbuilder += "\n" + dataHash;
+						break;
+
+					case RestParameterSetType.Compressed:
+						if (sign) sigbuilder += "\n" + value;
+						break;
+
+					default:
+						break;
+				}
+			}
+
+			var sig = MonoSAMGame.CurrentInst.Bridge.DoSHA256(sigbuilder);
+
+			b.AppendLine();
+			b.AppendLine($"sig = {sig}");
+			b.AppendLine($"sigbuilder = {Convert.ToBase64String(Encoding.UTF8.GetBytes(sigbuilder))}");
+
+			return b.ToString();
+		}
 	}
 }
