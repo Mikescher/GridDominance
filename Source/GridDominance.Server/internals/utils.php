@@ -144,12 +144,13 @@ function getLevelEntries($lvl) {
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getLevelDiffEntries($lvl, $diff) {
+function getLevelDiffEntries($lvl, $diff, $limit) {
 	global $pdo;
 
-	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND difficulty = :diff AND score > 0");
+	$stmt = $pdo->prepare("SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND difficulty = :diff AND score > 0 ORDER BY level_highscores.best_time ASC LIMIT :lim");
 	$stmt->bindValue(':id', $lvl, PDO::PARAM_STR);
 	$stmt->bindValue(':diff', $diff, PDO::PARAM_STR);
+	$stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
 	$stmt->execute();
 
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);

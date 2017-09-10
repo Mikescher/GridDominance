@@ -184,11 +184,11 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("s2", profile.GetWorldPoints(Levels.WORLD_002));
 				ps.AddParameterInt("s3", profile.GetWorldPoints(Levels.WORLD_003));
 				ps.AddParameterInt("s4", profile.GetWorldPoints(Levels.WORLD_004));
-				ps.AddParameterInt("t0", profile.TotalTime);
-				ps.AddParameterInt("t1", profile.GetWorldTime(Levels.WORLD_001));
-				ps.AddParameterInt("t2", profile.GetWorldTime(Levels.WORLD_002));
-				ps.AddParameterInt("t3", profile.GetWorldTime(Levels.WORLD_003));
-				ps.AddParameterInt("t4", profile.GetWorldTime(Levels.WORLD_004));
+				ps.AddParameterInt("t0", profile.HighscoreTime);
+				ps.AddParameterInt("t1", profile.GetWorldHighscoreTime(Levels.WORLD_001));
+				ps.AddParameterInt("t2", profile.GetWorldHighscoreTime(Levels.WORLD_002));
+				ps.AddParameterInt("t3", profile.GetWorldHighscoreTime(Levels.WORLD_003));
+				ps.AddParameterInt("t4", profile.GetWorldHighscoreTime(Levels.WORLD_004));
 				ps.AddParameterInt("sx", profile.MultiplayerPoints);
 
 				var response = await QueryAsync<QueryResultSetScore>("set-score", ps, RETRY_SETSCORE);
@@ -285,11 +285,11 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("s2", profile.GetWorldPoints(Levels.WORLD_002));
 				ps.AddParameterInt("s3", profile.GetWorldPoints(Levels.WORLD_003));
 				ps.AddParameterInt("s4", profile.GetWorldPoints(Levels.WORLD_004));
-				ps.AddParameterInt("t0", profile.TotalTime);
-				ps.AddParameterInt("t1", profile.GetWorldTime(Levels.WORLD_001));
-				ps.AddParameterInt("t2", profile.GetWorldTime(Levels.WORLD_002));
-				ps.AddParameterInt("t3", profile.GetWorldTime(Levels.WORLD_003));
-				ps.AddParameterInt("t4", profile.GetWorldTime(Levels.WORLD_004));
+				ps.AddParameterInt("t0", profile.HighscoreTime);
+				ps.AddParameterInt("t1", profile.GetWorldHighscoreTime(Levels.WORLD_001));
+				ps.AddParameterInt("t2", profile.GetWorldHighscoreTime(Levels.WORLD_002));
+				ps.AddParameterInt("t3", profile.GetWorldHighscoreTime(Levels.WORLD_003));
+				ps.AddParameterInt("t4", profile.GetWorldHighscoreTime(Levels.WORLD_004));
 				ps.AddParameterInt("sx", profile.MultiplayerPoints);
 
 				var response = await QueryAsync<QueryResultSetMPScore>("set-mpscore", ps, RETRY_SETSCORE);
@@ -463,11 +463,11 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("s2", profile.GetWorldPoints(Levels.WORLD_002));
 				ps.AddParameterInt("s3", profile.GetWorldPoints(Levels.WORLD_003));
 				ps.AddParameterInt("s4", profile.GetWorldPoints(Levels.WORLD_004));
-				ps.AddParameterInt("t0", profile.TotalTime);
-				ps.AddParameterInt("t1", profile.GetWorldTime(Levels.WORLD_001));
-				ps.AddParameterInt("t2", profile.GetWorldTime(Levels.WORLD_002));
-				ps.AddParameterInt("t3", profile.GetWorldTime(Levels.WORLD_003));
-				ps.AddParameterInt("t4", profile.GetWorldTime(Levels.WORLD_004));
+				ps.AddParameterInt("t0", profile.HighscoreTime);
+				ps.AddParameterInt("t1", profile.GetWorldHighscoreTime(Levels.WORLD_001));
+				ps.AddParameterInt("t2", profile.GetWorldHighscoreTime(Levels.WORLD_002));
+				ps.AddParameterInt("t3", profile.GetWorldHighscoreTime(Levels.WORLD_003));
+				ps.AddParameterInt("t4", profile.GetWorldHighscoreTime(Levels.WORLD_004));
 				ps.AddParameterInt("sx", profile.MultiplayerPoints);
 
 				var response = await QueryAsync<QueryResultSetMultiscore>("set-multiscore", ps, RETRY_DOWNLOADDATA);
@@ -916,11 +916,11 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("s2", profile.GetWorldPoints(Levels.WORLD_002));
 				ps.AddParameterInt("s3", profile.GetWorldPoints(Levels.WORLD_003));
 				ps.AddParameterInt("s4", profile.GetWorldPoints(Levels.WORLD_004));
-				ps.AddParameterInt("t0", profile.TotalTime);
-				ps.AddParameterInt("t1", profile.GetWorldTime(Levels.WORLD_001));
-				ps.AddParameterInt("t2", profile.GetWorldTime(Levels.WORLD_002));
-				ps.AddParameterInt("t3", profile.GetWorldTime(Levels.WORLD_003));
-				ps.AddParameterInt("t4", profile.GetWorldTime(Levels.WORLD_004));
+				ps.AddParameterInt("t0", profile.HighscoreTime);
+				ps.AddParameterInt("t1", profile.GetWorldHighscoreTime(Levels.WORLD_001));
+				ps.AddParameterInt("t2", profile.GetWorldHighscoreTime(Levels.WORLD_002));
+				ps.AddParameterInt("t3", profile.GetWorldHighscoreTime(Levels.WORLD_003));
+				ps.AddParameterInt("t4", profile.GetWorldHighscoreTime(Levels.WORLD_004));
 				ps.AddParameterInt("sx", profile.MultiplayerPoints);
 
 				var response = await QueryAsync<QueryResultMergeLogin>("merge-login", ps, RETRY_CREATEUSER);

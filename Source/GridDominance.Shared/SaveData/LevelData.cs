@@ -31,7 +31,18 @@ namespace GridDominance.Shared.SaveData
 		}
 
 		public int TotalPoints => Data.Where(p => HasCompletedOrBetter(p.Key)).Select(p => p.Key).Sum(FractionDifficultyHelper.GetScore);
-		public int TotalTime => Data.Where(p => p.Value.HasCompleted).Sum(p => p.Value.BestTime);
+
+		public int HighscoreTime
+		{
+			get
+			{
+				if (Data[FractionDifficulty.DIFF_3].HasCompleted) return Data[FractionDifficulty.DIFF_3].BestTime;
+				if (Data[FractionDifficulty.DIFF_2].HasCompleted) return Data[FractionDifficulty.DIFF_2].BestTime;
+				if (Data[FractionDifficulty.DIFF_1].HasCompleted) return Data[FractionDifficulty.DIFF_1].BestTime;
+				if (Data[FractionDifficulty.DIFF_0].HasCompleted) return Data[FractionDifficulty.DIFF_0].BestTime;
+				return 0;
+			}
+		}
 
 		public int CompletionCount
 		{

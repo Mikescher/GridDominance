@@ -18,7 +18,7 @@ namespace GridDominance.Shared.SaveData
 		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_2;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
-		public int TotalTime => LevelData.Sum(p => p.Value.TotalTime);
+		public int HighscoreTime => LevelData.Sum(p => p.Value.HighscoreTime);
 		public int MultiplayerPoints;
 		public bool HasMultiplayerGames;
 
@@ -108,9 +108,9 @@ namespace GridDominance.Shared.SaveData
 			return LevelData.Where(d => Levels.GetWorldByLevelID(d.Key) == w.ID).Sum(p => p.Value.TotalPoints);
 		}
 
-		public int GetWorldTime(GraphBlueprint w)
+		public int GetWorldHighscoreTime(GraphBlueprint w)
 		{
-			return LevelData.Where(d => Levels.GetWorldByLevelID(d.Key) == w.ID).Sum(p => p.Value.TotalTime);
+			return LevelData.Where(d => Levels.GetWorldByLevelID(d.Key) == w.ID).Sum(p => p.Value.HighscoreTime);
 		}
 
 		public void SetCompleted(Guid levelid, FractionDifficulty d, int time, bool upload)

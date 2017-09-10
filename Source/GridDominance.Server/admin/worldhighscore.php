@@ -22,13 +22,15 @@
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
                 <tr>
+                    <th>Row</th>
                     <th style='width: 250px'>Username</th>
                     <th>Score</th>
                     <th>Time</th>
                 </tr>
             </thead>
-            <?php foreach (getWorldHighscores($_GET['id']) as $entry): ?>
+            <?php $i=1; foreach (getWorldHighscores($_GET['id']) as $entry): ?>
                 <tr>
+                    <td><?php echo $i++; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
                     <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>

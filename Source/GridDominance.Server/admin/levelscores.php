@@ -27,9 +27,9 @@
 
     <h2><?php echo htmlspecialchars($_GET['id']); ?></h2>
 
-    <h2>DIFFICULTY 0</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">DIFFICULTY 0 [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
                 <tr>
@@ -40,7 +40,7 @@
                     <th style='width: 170px'>Last changed</th>
                 </tr>
             </thead>
-            <?php foreach (getLevelDiffEntries($_GET['id'], 0) as $entry): ?>
+            <?php foreach (getLevelDiffEntries($_GET['id'], 0, 150) as $entry): ?>
                 <tr>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td title="<?php echo $entry['levelid']; ?>" >
@@ -54,9 +54,9 @@
         </table>
     </div>
 
-    <h2>DIFFICULTY 1</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">DIFFICULTY 1 [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
@@ -67,7 +67,7 @@
                 <th style='width: 170px'>Last changed</th>
             </tr>
             </thead>
-			<?php foreach (getLevelDiffEntries($_GET['id'], 1) as $entry): ?>
+			<?php foreach (getLevelDiffEntries($_GET['id'], 1, 150) as $entry): ?>
                 <tr>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td title="<?php echo $entry['levelid']; ?>" >
@@ -81,9 +81,9 @@
         </table>
     </div>
 
-    <h2>DIFFICULTY 2</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">DIFFICULTY 2 [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
@@ -94,7 +94,7 @@
                 <th style='width: 170px'>Last changed</th>
             </tr>
             </thead>
-			<?php foreach (getLevelDiffEntries($_GET['id'], 2) as $entry): ?>
+			<?php foreach (getLevelDiffEntries($_GET['id'], 2, 150) as $entry): ?>
                 <tr>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td title="<?php echo $entry['levelid']; ?>" >
@@ -108,9 +108,9 @@
         </table>
     </div>
 
-    <h2>DIFFICULTY 3</h2>
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">DIFFICULTY 3 [+/-]</h2>
 
-    <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
@@ -121,7 +121,7 @@
                 <th style='width: 170px'>Last changed</th>
             </tr>
             </thead>
-			<?php foreach (getLevelDiffEntries($_GET['id'], 3) as $entry): ?>
+			<?php foreach (getLevelDiffEntries($_GET['id'], 3, 150) as $entry): ?>
                 <tr>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td title="<?php echo $entry['levelid']; ?>" >
@@ -136,5 +136,6 @@
     </div>
 
     <script src="sorttable.js"></script>
+    <script src="jquery.collapse.js"></script>
 </body>
 </html>
