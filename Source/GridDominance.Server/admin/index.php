@@ -107,7 +107,7 @@
             </thead>
             <?php foreach (getRemainingErrors() as $entry): ?>
                 <tr>
-                    <td><?php echo $entry['error_id']; ?></td>
+                    <td><a href="errorinfo.php?id=<?php echo $entry['error_id']; ?>"><?php echo $entry['error_id']; ?></a></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['password_verified']?0:1; ?></td>
                     <td><?php echo $entry['screen_resolution']; ?></td>

@@ -112,7 +112,7 @@
 					<?php
 					if ($entry['acknowledged'] == 1 || $filter == 1) echo "<tr id=\"err_row_".$entry['error_id']."\">"; else echo "<tr id=\"err_row_".$entry['error_id']."\" style=\"background-color: lightsalmon\">";
 					?>
-                    <td><?php echo $entry['error_id']; ?></td>
+                    <td><a href="errorinfo.php?id=<?php echo $entry['error_id']; ?>"><?php echo $entry['error_id']; ?></a></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['password_verified']?0:1; ?></td>
 					<?php expansioncell($entry['screen_resolution']); ?>
