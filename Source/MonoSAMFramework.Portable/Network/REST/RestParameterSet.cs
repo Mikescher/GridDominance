@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Text;
+using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.LogProtocol;
 using Newtonsoft.Json;
 
@@ -213,7 +214,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 
 			b.AppendLine();
 			b.AppendLine($"sig = {sig}");
-			b.AppendLine($"sigbuilder = {Convert.ToBase64String(Encoding.UTF8.GetBytes(sigbuilder))}");
+			b.AppendLine($"sigbuilder = \n{ByteUtils.CompressStringForStorage(sigbuilder)}");
 
 			return b.ToString();
 		}

@@ -171,7 +171,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				}
 				else
 				{
-					SAMLog.Error("SNS-COMMON::UA", "Unknown AREA: " + cmd + "\r\nData:" + ByteUtils.ByteToHexBitFiddle(d));
+					SAMLog.Error("SNS-COMMON::UA", "Unknown AREA: " + cmd + "\r\nData:" + ByteUtils.CompressBytesForStorage(d));
 					break;
 				}
 			}
@@ -195,7 +195,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFBC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 8], 3) + "\r\nData:" + ByteUtils.ByteToHexBitFiddle(d));
+					SAMLog.Error("SNS-COMMON::PFBC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 					return;
 				}
 
@@ -237,7 +237,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFRC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 8], 3) + "\r\nData:" + ByteUtils.ByteToHexBitFiddle(d));
+					SAMLog.Error("SNS-COMMON::PFRC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 					return;
 				}
 
@@ -281,7 +281,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFLC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 8], 3) + "\r\nData:" + ByteUtils.ByteToHexBitFiddle(d));
+					SAMLog.Error("SNS-COMMON::PFLC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 					return;
 				}
 
@@ -325,7 +325,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFTSC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 8], 3) + "\r\nData:" + ByteUtils.ByteToHexBitFiddle(d));
+					SAMLog.Error("SNS-COMMON::PFTSC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 					return;
 				}
 
@@ -369,7 +369,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFMG_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 8], 3) + "\r\nData:" + ByteUtils.ByteToHexBitFiddle(d));
+					SAMLog.Error("SNS-COMMON::PFMG_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 					return;
 				}
 
@@ -412,7 +412,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFSP_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 8], 3) + "\r\nData:" + ByteUtils.ByteToHexBitFiddle(d));
+					SAMLog.Error("SNS-COMMON::PFSP_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 					return;
 				}
 
@@ -461,7 +461,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFB_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 8], 3) + "\r\nData:" + ByteUtils.ByteToHexBitFiddle(d));
+					SAMLog.Error("SNS-COMMON::PFB_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 8], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 					return;
 				}
 
@@ -540,7 +540,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			if (idx + 2 >= MAX_PACKAGE_SIZE_BYTES) SendAndReset(ref idx);
 
-			MSG_FORWARD[idx] = AREA_BULLETCANNONS;
+			MSG_FORWARD[idx] = AREA_RELAYCANNONS;
 			idx++;
 
 			byte arrsize = (byte)((MAX_PACKAGE_SIZE_BYTES - idx - 2) / PLEN_RELAYCANNON);
@@ -817,7 +817,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 10], FloatMath.Clamp(cannon.CannonHealth.TargetValue, 0f, 1f) * 255);
 				NetworkDataTools.SetByteFloor(out MSG_FORWARD[idx + 11], FloatMath.Clamp(cannon.ChargeTime / Cannon.SHIELDLASER_CHARGE_COOLDOWN_MAX, 0f, 1f) * 255);
 
-				idx += PLEN_LASERCANNON;
+				idx += PLEN_SHIELDPROJECTOR;
 
 				i++;
 				if (i >= arrsize)

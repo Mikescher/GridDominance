@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MonoSAMFramework.Portable.Language;
 
 namespace MonoSAMFramework.Portable.Network.REST
 {
@@ -87,11 +88,16 @@ namespace MonoSAMFramework.Portable.Network.REST
 #endif
 				try
 				{
+					throw new JsonReaderException();
 					return JsonConvert.DeserializeObject<TReturn>(content);
 				}
 				catch (JsonReaderException e)
 				{
-					throw new Exception($"JsonReaderException {e.Message} for (len={content?.Length}):\nresponse.Header:\n {string.Join("\n", response.Headers.Select(p => p.Key + " = " + String.Join(" & ", p.Value)))}\nresponse.Content.Header:\n {string.Join("\n", response.Content.Headers.Select(p => p.Key + " = " + String.Join(" & ", p.Value)))}\ncontent={Convert.ToBase64String(Encoding.UTF8.GetBytes(content))}");
+					var headers1 = string.Join("\n", response.Headers.Select(p => p.Key + " = " + String.Join(" & ", p.Value)));
+					var headers2 = string.Join("\n", response.Content.Headers.Select(p => p.Key + " = " + String.Join(" & ", p.Value)));
+					var data0 = ByteUtils.CompressStringForStorage(content);
+
+					throw new Exception($"JsonReaderException {e.Message} for (len={content?.Length}):\n\nresponse.Header:\n{headers1}\n\nresponse.Content.Header:\n{headers2}\n\ncontent={data0}");
 				}
 			}
 

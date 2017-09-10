@@ -99,6 +99,7 @@
     <Compile Include="Interfaces\ISAMPostDrawable.cs" />
     <Compile Include="Language\ByteUtils.cs" />
     <Compile Include="Language\CacheCollection.cs" />
+    <Compile Include="Language\CompressionUtils.cs" />
     <Compile Include="Language\CustomDispatcher.cs" />
     <Compile Include="Language\LazyProp.cs" />
     <Compile Include="Localization\L10N.cs" />
