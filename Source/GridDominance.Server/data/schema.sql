@@ -86,10 +86,10 @@ CREATE TABLE IF NOT EXISTS error_log
   screen_resolution     varchar(256)  NOT NULL,
   app_version           varchar(24)   NOT NULL,
   exception_id          varchar(256)  NOT NULL,
-  exception_message     varchar(4096) NOT NULL,
-  exception_stacktrace  varchar(8192) NOT NULL,
+  exception_message     mediumtext    NOT NULL,
+  exception_stacktrace  text          NOT NULL,
   timestamp             timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  additional_info       varchar(8192) NOT NULL,
+  additional_info       text          NOT NULL,
   acknowledged          boolean       NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY (error_id)
