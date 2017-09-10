@@ -199,7 +199,9 @@ namespace GridDominance.Shared.SaveData
 				OnlineUsername = "anonymous";
 				AccountType = AccountType.Local;
 				OnlinePasswordHash = "";
-			} 
+			}
+
+			SingleplayerGameSpeed = GameSpeedModes.NORMAL; // reset on each Gamestart
 		}
 
 		protected override string GetTypeName()
