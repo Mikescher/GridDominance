@@ -9,7 +9,7 @@ namespace GridDominance.DirectX
 		[STAThread]
 		static void Main()
 		{
-			using (var game = new MainGame(new WindowsImpl())) game.Run();
+			using (var game = new MainGame(new WindowsBridge())) game.Run();
 		}
 	}
 }

@@ -13,7 +13,7 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Android.Impl
 {
-	class AndroidIABImpl : IOperatingSystemBridge
+	class AndroidBridge : IOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new AndroidFileHelper();
 		public IBillingAdapter IAB => _iab;
@@ -38,7 +38,7 @@ namespace GridDominance.Android.Impl
 			_bt.OnDestroy();
 		}
 
-		public AndroidIABImpl(MainActivity a)
+		public AndroidBridge(MainActivity a)
 		{
 			_activity = a;
 

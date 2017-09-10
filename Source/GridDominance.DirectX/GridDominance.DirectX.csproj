@@ -50,7 +50,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Impl\WindowsBillingAdapter.cs" />
     <Compile Include="Impl\WindowsFileHelper.cs" />
-    <Compile Include="Impl\WindowsImpl.cs" />
+    <Compile Include="Impl\WindowsBridge.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

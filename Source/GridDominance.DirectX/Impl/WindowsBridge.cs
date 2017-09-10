@@ -12,7 +12,7 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 // ReSharper disable once CheckNamespace
 namespace GridDominance.Windows
 {
-	class WindowsImpl : IOperatingSystemBridge
+	class WindowsBridge : IOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new WindowsFileHelper();
 		public IBillingAdapter IAB { get; } = new WindowsEmulatingBillingAdapter();

@@ -51,8 +51,8 @@
     <Compile Include="..\GridDominance.DirectX\Impl\WindowsFileHelper.cs">
       <Link>Impl\WindowsFileHelper.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.DirectX\Impl\WindowsImpl.cs">
-      <Link>Impl\WindowsImpl.cs</Link>
+    <Compile Include="..\GridDominance.DirectX\Impl\WindowsBridge.cs">
+      <Link>Impl\WindowsBridge.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
