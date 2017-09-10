@@ -88,7 +88,6 @@ namespace MonoSAMFramework.Portable.Network.REST
 #endif
 				try
 				{
-					throw new JsonReaderException();
 					return JsonConvert.DeserializeObject<TReturn>(content);
 				}
 				catch (JsonReaderException e)

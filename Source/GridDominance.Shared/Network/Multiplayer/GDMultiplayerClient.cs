@@ -63,7 +63,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				reader.ReadByte(); // SSC
 				reader.ReadByte(); // SSC
 				LevelID = new Guid(reader.ReadBytes(16));
-				Speed = (GameSpeedModes) reader.ReadByte();
+				Speed = GameSpeedModeHelper.FromByte(reader.ReadByte());
 				MusicIndex = reader.ReadByte();
 				ServerGameVersion = reader.ReadUInt64();
 				ServerLevelHash = reader.ReadUInt64();
@@ -122,7 +122,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				reader.ReadByte(); // SSC
 				reader.ReadByte(); // SSC
 				LevelID = new Guid(reader.ReadBytes(16));
-				Speed = (GameSpeedModes)reader.ReadByte();
+				Speed = GameSpeedModeHelper.FromByte(reader.ReadByte());
 				MusicIndex = reader.ReadByte();
 				ServerGameVersion = reader.ReadUInt64();
 				ServerLevelHash = reader.ReadUInt64();

@@ -41,6 +41,20 @@
         </div>
     </div>
 
+	<?php
+
+	$filtered_errors = ($filter == 1) ? getRemainingErrors($versionfilter) : getAllErrors($versionfilter);
+
+	$filtercount = [];
+
+	foreach ($filtered_errors as $entry) {
+		if (array_key_exists($entry['exception_id'], $filtercount))
+			$filtercount[$entry['exception_id']]++;
+		else
+			$filtercount[$entry['exception_id']] = 1;
+	}
+
+	?>
 
     <div class="tablebox" data-collapse>
 
@@ -51,7 +65,8 @@
             <tr>
                 <th style='width: 300px'>error id</th>
                 <th style='width: 110px'>Count (All)</th>
-                <th style='width: 110px'>Count (New)</th>
+                <th style='width: 150px'>Count (Non Ack)</th>
+                <th style='width: 150px'>Count (Filtered)</th>
             </tr>
             </thead>
 			<?php $e2 = ($filter == 1) ? getNewErrorOverviewByID() : getErrorOverviewByID(); foreach ($e2 as $entry): ?>
@@ -59,6 +74,7 @@
                 <td><?php echo $entry['exception_id']; ?></td>
                 <td><?php echo $entry['count_all']; ?></td>
                 <td><?php echo $entry['count_noack']; ?></td>
+                <td><?php echo array_key_exists($entry['exception_id'], $filtercount) ? $filtercount[$entry['exception_id']] : "0"; ?></td>
             </tr>
 			<?php endforeach; ?>
         </table>
@@ -108,7 +124,7 @@
                     <th style='width: 160px'>acknowledged</th>
                 </tr>
                 </thead>
-				<?php $e = ($filter == 1) ? getRemainingErrors($versionfilter) : getAllErrors($versionfilter); foreach ($e as $entry): ?>
+				<?php foreach ($filtered_errors as $entry): ?>
 					<?php
 					if ($entry['acknowledged'] == 1 || $filter == 1) echo "<tr id=\"err_row_".$entry['error_id']."\">"; else echo "<tr id=\"err_row_".$entry['error_id']."\" style=\"background-color: lightsalmon\">";
 					?>

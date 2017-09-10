@@ -95,7 +95,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			using (var bw = new BinaryWriter(ms))
 			{
 				bw.Write(LevelID.ToByteArray());
-				bw.Write((byte)Speed);
+				bw.Write(GameSpeedModeHelper.ToByte(Speed));
 				bw.Write((byte)MusicIndex);
 
 				bw.Write(GDConstants.IntVersion);
