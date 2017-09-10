@@ -3,6 +3,7 @@ using MonoSAMFramework.Portable.LogProtocol;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 			serverbasepath = url;
 			secret = signaturesecret;
 
-			http = new HttpClient();
+			http = new HttpClient(new HttpClientHandler{ AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
 			http.MaxResponseContentBufferSize = 256000; // 265 kB
 			http.Timeout = TimeSpan.FromSeconds(45);
 		}
@@ -96,7 +97,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 					var headers2 = string.Join("\n", response.Content.Headers.Select(p => p.Key + " = " + String.Join(" & ", p.Value)));
 					var data0 = ByteUtils.CompressStringForStorage(content);
 
-					throw new Exception($"JsonReaderException {e.Message} for (len={content?.Length}):\n\nresponse.Header:\n{headers1}\n\nresponse.Content.Header:\n{headers2}\n\ncontent={data0}");
+					throw new Exception($"JsonReaderException {e.Message} for (len={content?.Length}):\n\nresponse.Header:\n{headers1}\n\nresponse.Content.Header:\n{headers2}\n\ncontent=\n{data0}");
 				}
 			}
 
