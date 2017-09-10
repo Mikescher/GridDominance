@@ -50,11 +50,9 @@ namespace MonoSAMFramework.Portable.Network.REST
 			{
 				string content;
 
+				HttpResponseMessage response;
 				try
 				{
-					HttpResponseMessage response;
-
-
 					if (para.Item2.Any())
 						response = http.PostAsync(url, para.Item2).Result;
 					else
@@ -93,7 +91,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 				}
 				catch (JsonReaderException e)
 				{
-					throw new Exception($"JsonReaderException {e.Message} for (len={content?.Length}):\r\ncontent={Convert.ToBase64String(Encoding.UTF8.GetBytes(content))}");
+					throw new Exception($"JsonReaderException {e.Message} for (len={content?.Length}):\nresponse.Header:\n {string.Join("\n", response.Headers.Select(p => p.Key + " = " + String.Join(" & ", p.Value)))}\nresponse.Content.Header:\n {string.Join("\n", response.Content.Headers.Select(p => p.Key + " = " + String.Join(" & ", p.Value)))}\ncontent={Convert.ToBase64String(Encoding.UTF8.GetBytes(content))}");
 				}
 			}
 
