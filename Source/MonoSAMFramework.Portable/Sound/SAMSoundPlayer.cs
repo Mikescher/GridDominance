@@ -42,6 +42,10 @@ namespace MonoSAMFramework.Portable.Sound
 
 		private int _effectCounter = 0;
 
+		private float _lastMediaPlayHardwarePos = 0f;
+		private float _mediaPlayerStartTime = 0f;
+		private float _mediaPlayerRealPlayTime = 0f;
+
 		protected SAMSoundPlayer()
 		{
 			MediaPlayer.IsRepeating = false;
@@ -92,7 +96,7 @@ namespace MonoSAMFramework.Portable.Sound
 			else if (s.Any())
 			{
 				MediaPlayer.Volume = 0f;
-				MediaPlayer.Play(s[0]);
+				PlaySongInPlayer(s[0]);
 				_state = MPState.TransitionInFromNew;
 				_fadeTime = 0f;
 				_playIndex = 0;
@@ -135,6 +139,7 @@ namespace MonoSAMFramework.Portable.Sound
 
 			UpdateEffects(gameTime);
 			UpdateMusic(gameTime);
+			UpdateRealPlayTime();
 		}
 
 		private void UpdateEffects(SAMTime gameTime)
@@ -172,6 +177,20 @@ namespace MonoSAMFramework.Portable.Sound
 					if (MediaPlayer.State != MediaState.Playing)
 					{
 						NextSongDirect();
+					}
+					else
+					{
+						if (MediaPlayer.State == MediaState.Playing && _currentSet != null && _fadeOut > 0)
+						{
+							var curr = _mediaPlayerRealPlayTime;
+							var max  = _currentSet[_playIndex].Duration.TotalSeconds;
+
+							if (max - curr < _fadeOut)
+							{
+								_state = MPState.TransitionOut;
+								_fadeTime = 0f;
+							}
+						}
 					}
 					break;
 				case MPState.TransitionOut:
@@ -214,6 +233,34 @@ namespace MonoSAMFramework.Portable.Sound
 			}
 		}
 
+		private void UpdateRealPlayTime()
+		{
+			if (MediaPlayer.State == MediaState.Stopped)
+			{
+				_mediaPlayerRealPlayTime = 0f;
+				return;
+			}
+			if (MediaPlayer.State == MediaState.Paused)
+			{
+				_mediaPlayerRealPlayTime = (float)MediaPlayer.PlayPosition.TotalSeconds;
+				return;
+			}
+
+			var hardware = (float)MediaPlayer.PlayPosition.TotalSeconds;
+			var now = Environment.TickCount / 1000f;
+
+			if (_lastMediaPlayHardwarePos != hardware)
+			{
+				_lastMediaPlayHardwarePos = hardware;
+				_mediaPlayerStartTime = (now - hardware) - 0.75f;
+			}
+
+			var estimate = now - _mediaPlayerStartTime;
+
+			//if (FloatMath.Abs(estimate - hardware) > 2.0f) return hardware;
+			_mediaPlayerRealPlayTime = estimate;
+		}
+		
 		private void NextSongDirect()
 		{
 			if (InitErrorState) return;
@@ -253,15 +300,13 @@ namespace MonoSAMFramework.Portable.Sound
 				if (FloatMath.IsZero(_fadeChange))
 				{
 					MediaPlayer.Volume = 1;
-					MediaPlayer.Stop();
-					MediaPlayer.Play(_currentSet[_playIndex]);
+					PlaySongInPlayer(_currentSet[_playIndex]);
 					_state = MPState.Play;
 				}
 				else
 				{
 					MediaPlayer.Volume = 0;
-					MediaPlayer.Stop();
-					MediaPlayer.Play(_currentSet[_playIndex]);
+					PlaySongInPlayer(_currentSet[_playIndex]);
 					_fadeTime = 0f;
 					_state = MPState.TransitionInFromSame;
 				}
@@ -271,6 +316,15 @@ namespace MonoSAMFramework.Portable.Sound
 				_state = MPState.Stopped;
 			}
 
+		}
+
+		private void PlaySongInPlayer(Song s)
+		{
+			MediaPlayer.Play(s);
+			_mediaPlayerStartTime = Environment.TickCount / 1000f;
+			_mediaPlayerRealPlayTime = 0f;
+
+			UpdateRealPlayTime();
 		}
 
 		public void TryPlayButtonClickEffect()
@@ -294,11 +348,15 @@ namespace MonoSAMFramework.Portable.Sound
 		{
 			if (InitErrorState) return "ERR";
 
-			var perc = 0d;
+			var perc1 = 0d;
+			var perc2 = 0d;
+			var total = 0d;
 			var song = "NONE";
 			if (_currentSet != null)
 			{
-				perc = MediaPlayer.PlayPosition.TotalSeconds * 100f / _currentSet[_playIndex].Duration.TotalSeconds;
+				total = _currentSet[_playIndex].Duration.TotalSeconds;
+				perc1 = MediaPlayer.PlayPosition.TotalSeconds * 100f / total;
+				perc2 = _mediaPlayerRealPlayTime * 100f / total;
 				song = _currentSet[_playIndex].Name;
 			}
 
@@ -313,7 +371,7 @@ namespace MonoSAMFramework.Portable.Sound
 				case MPState.Stopped:
 					return $"Stopped {add}";
 				case MPState.Play:
-					return $"Play[{_playIndex} : {song}] ({perc:00.00}%) {add}";
+					return $"Play[{_playIndex} : {song}] ({perc1:00}% | {perc2:00}%) (= {_mediaPlayerRealPlayTime:000.0}s) {add}";
 				case MPState.TransitionOut:
 					return $"TransitionOut[{song}] ({_fadeTime * 100f / _fadeOut:00.00}%) {add}";
 				case MPState.TransitionInFromSame:

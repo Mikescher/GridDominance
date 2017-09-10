@@ -16,7 +16,7 @@ TODO
  [ ] (?) Evtl different title font
  [ ] use Google play Games for Highscore/account
  [ ] music does not fit game
- [ ] music loops not good
+ [X] music loops not good
  [ ] Game freezes (just a bit) on music start/loop
  [X] play store duplicate screen shot (the speedy things one)
  [ ] iOS version
