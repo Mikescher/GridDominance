@@ -1,0 +1,7 @@
+<en-US>
+This is the initial release of cannon conquest
+</en-US>
+
+<de-DE>
+Die erste Version von Cannon Conquest
+</de-DE>

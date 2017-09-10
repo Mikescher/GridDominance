@@ -1,0 +1,9 @@
+<en-US>
+Fixed an exception the mobile data connection is too fast
+</en-US>
+
+<de-DE>
+Wenn die Handy Internetverbindung zu schnell war konnte es zu einer Exception kommen.
+Wer auch immer da drausen einen Ping unter 10ms mit seinem Handy hat ... Glückwunsch
+</de-DE>
+

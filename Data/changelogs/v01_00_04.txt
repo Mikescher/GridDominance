@@ -1,0 +1,8 @@
+<en-US>
+[!] Bugfix: I fucked up the permissions in the last versions and as a result the in-app products didn't work. Sorry :(
+</en-US>
+
+<de-DE>
+[!] Bugfix: In der letzten Version waren die Berechtigungen fehlerhaft und deshalb funktionierten die In-App Käufe nicht.
+</de-DE>
+

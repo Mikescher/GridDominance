@@ -1,0 +1,26 @@
+<en-US>
+ - new language: french
+ - support for android 4.2 & 4.3
+ - Fix multiplayer in levels with relay and shield cannons
+ - (!) Balancing change: 'time' in highscore will be recalculated
+ - (!) Balancing change: more pooints for winning in MP
+ - remember gamespeed between levels
+ - Fixed error when in multiplayer games with slow speed
+ - better music fading
+ - fix minor AI error for lasers
+ - fixed last row in highscore table being empty
+ - fix OutOfMemory error in levels with many cannons
+</en-US>
+
+<de-DE>
+ - Neue Sprache: Französisch
+ - Support für Android 4.2 & 4.3
+ - Fix für Mehrspieler in Leveln mit Relay-/Shield cannons
+ - (!) Balancing change: 'Zeit' in Highscore wird neu berechnet
+ - (!) Balancing change: Mehr Punkte im Mehrspieler
+ - Spielgeschwindigkeit wird sich zwischen den Leveln gemerkt
+ - Mehrspieler mit niedr. Geschwindingkeit schlug fehl
+ - Bessere Übergänge in der Musik
+ - Letzte Zeile in der Highscore Tabelle war leer
+ - OutOfMemoryException in Leveln mit vielen cannons
+</de-DE>

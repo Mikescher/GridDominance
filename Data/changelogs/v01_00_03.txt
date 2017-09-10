@@ -1,0 +1,14 @@
+<en-US>
+ - new icon
+ - various bugfixes
+ - Added automatic landscape rotation (0° or 180°)
+ - allow installation on phones without GPS hardware
+</en-US>
+
+<de-DE>
+ - Neues Icon
+ - Verschiedenste Bugfixes
+ - Automatische Rotation wenn man das Handy um 180° dreht
+ - App kann nun auhc auf Handys ohne GPS hardware installiert werden
+</de-DE>
+
