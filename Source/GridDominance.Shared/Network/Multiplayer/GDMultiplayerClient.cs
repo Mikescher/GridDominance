@@ -9,6 +9,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Screens;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Levelfileformat.Blueprint;
+using MonoSAMFramework.Portable.Language;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
@@ -54,6 +55,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			UserConn[0].LastResponse = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
+			var err = false;
+
 			using (BinaryReader reader = new BinaryReader(new MemoryStream(data)))
 			{
 				reader.ReadByte(); // CMD
@@ -62,12 +65,23 @@ namespace GridDominance.Shared.Network.Multiplayer
 				reader.ReadByte(); // SID
 				reader.ReadByte(); // SSC
 				reader.ReadByte(); // SSC
+
 				LevelID = new Guid(reader.ReadBytes(16));
-				Speed = GameSpeedModeHelper.FromByte(reader.ReadByte());
+
+				var bspeed = reader.ReadByte();
+				Speed = GameSpeedModeHelper.FromByte(bspeed);
+				if (bspeed != 0x70 && bspeed != 0x78 && bspeed != 0x80 && bspeed != 0x88 && bspeed != 0x90) err = true;
+
 				MusicIndex = reader.ReadByte();
+				if (MusicIndex > MainGame.Inst.GDSound.LevelMusic.Length) err = true;
+
 				ServerGameVersion = reader.ReadUInt64();
+
 				ServerLevelHash = reader.ReadUInt64();
 			}
+
+
+			if (err) SAMLog.Error("SNSC::PFHD", "data error\r\nData:\n" + ByteUtils.CompressBytesForStorage(data));
 
 			SAMLog.Debug($"[[CMD_FORWARDLOBBYSYNC]]: {LevelID} | {Speed} | {MusicIndex}");
 
@@ -81,7 +95,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			if (! Levels.LEVELS.TryGetValue(LevelID.Value, out blueprint))
 			{
 				ErrorStop(ErrorType.LevelNotFound, null);
-				SAMLog.Error("GDMC::LNF", "ProcessForwardLobbySync -> LevelNotFound: " + LevelID);
+				SAMLog.Error("GDMC::LNF", "ProcessForwardLobbySync -> LevelNotFound: " + LevelID + "\r\nData:\n" + ByteUtils.CompressBytesForStorage(data));
 				return;
 			}
 
@@ -89,7 +103,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			if (ServerLevelHash != correctCS)
 			{
 				ErrorStop(ErrorType.LevelVersionMismatch, null);
-				SAMLog.Error("GDMC::LVM", "ProcessForwardLobbySync -> LevelVersionMismatch: " + ServerLevelHash + " <> " + correctCS);
+				SAMLog.Error("GDMC::LVM", "ProcessForwardLobbySync -> LevelVersionMismatch: " + ServerLevelHash + " <> " + correctCS + "\r\nData:\n" + ByteUtils.CompressBytesForStorage(data));
 				return;
 			}
 
@@ -113,6 +127,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			UserConn[0].LastResponse = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
 
+			bool err = false;
+
 			using (BinaryReader reader = new BinaryReader(new MemoryStream(data)))
 			{
 				reader.ReadByte(); // CMD
@@ -121,12 +137,22 @@ namespace GridDominance.Shared.Network.Multiplayer
 				reader.ReadByte(); // SID
 				reader.ReadByte(); // SSC
 				reader.ReadByte(); // SSC
+
 				LevelID = new Guid(reader.ReadBytes(16));
-				Speed = GameSpeedModeHelper.FromByte(reader.ReadByte());
+
+				var bspeed = reader.ReadByte();
+				Speed = GameSpeedModeHelper.FromByte(bspeed);
+				if (bspeed != 0x70 && bspeed != 0x78 && bspeed != 0x80 && bspeed != 0x88 && bspeed != 0x90) err = true;
+
 				MusicIndex = reader.ReadByte();
+				if (MusicIndex > MainGame.Inst.GDSound.LevelMusic.Length) err = true;
+
 				ServerGameVersion = reader.ReadUInt64();
+
 				ServerLevelHash = reader.ReadUInt64();
 			}
+
+			if (err) SAMLog.Error("SNSC::PFHD", "data error\r\nData:\n" + ByteUtils.CompressBytesForStorage(data));
 
 			RecieveMsg(0, data[1]);
 
@@ -151,7 +177,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 			if (msgSessionID != SessionID || msgSessionSecret != SessionSecret || msgUserID != 0)
 			{
-				SAMLog.Warning("SNS-Client", $"Invalid server message: ({msgSessionID} != {SessionID} || {msgSessionSecret} != {SessionSecret} || {msgUserID} != {0})");
+				SAMLog.Warning("SNSC::ISM", $"Invalid server message: ({msgSessionID} != {SessionID} || {msgSessionSecret} != {SessionSecret} || {msgUserID} != {0})");
 				return;
 			}
 

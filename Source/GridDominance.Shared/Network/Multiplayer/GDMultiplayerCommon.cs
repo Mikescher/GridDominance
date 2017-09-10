@@ -133,7 +133,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				if (p >= MAX_PACKAGE_SIZE_BYTES)
 				{
-					SAMLog.Error("SNS-COMMON::OOB", "OOB: " + p);
+					SAMLog.Error("SNS-COMMON::OOB", "OOB: " + p + "\r\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 					break;
 				}
 				else if (cmd == AREA_BULLETCANNONS)
@@ -171,7 +171,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 				}
 				else
 				{
-					SAMLog.Error("SNS-COMMON::UA", "Unknown AREA: " + cmd + "\r\nData:" + ByteUtils.CompressBytesForStorage(d));
+					SAMLog.Error("SNS-COMMON::UA", "Unknown AREA: " + cmd + "\r\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 					break;
 				}
 			}
@@ -496,7 +496,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 						}
 						break;
 					default:
-						SAMLog.Error("GDMC::EnumSwitch_PFB", "Unknown enum value: " + state);
+						SAMLog.Error("GDMC::EnumSwitch_PFB", "Unknown enum value: " + state + "\r\nData:\n" + ByteUtils.CompressBytesForStorage(d));
 						break;
 				}
 				

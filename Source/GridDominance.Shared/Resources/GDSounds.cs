@@ -34,7 +34,9 @@ namespace GridDominance.Shared.Resources
 		private Song music_background;
 		private Song music_tutorial;
 		private Song[] music_level;
-		
+
+		public Song[] LevelMusic => music_level;
+
 		public override void Initialize(ContentManager content)
 		{
 			effectButton        = content.Load<SoundEffect>("sounds/button");
