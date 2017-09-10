@@ -116,8 +116,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				HasFinished = true;
 				PlayerWon = true;
 				MainGame.Inst.GDSound.PlayEffectGameWon();
-
-				int inc = MainGame.Inst.Profile.IncMultiplayerScore(_server.SessionCapacity - 1, true);
+				
+				int inc = MainGame.Inst.Profile.IncMultiplayerScore((_server.SessionCapacity - 1) * 3, true);
 				MainGame.Inst.SaveProfile();
 
 				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), true, inc);

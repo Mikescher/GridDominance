@@ -105,7 +105,7 @@
                     <th>acknowledged</th>
                 </tr>
             </thead>
-            <?php foreach (getRemainingErrors() as $entry): ?>
+            <?php foreach (getNewErrorsOverview() as $entry): ?>
                 <tr>
                     <td><a href="errorinfo.php?id=<?php echo $entry['error_id']; ?>"><?php echo $entry['error_id']; ?></a></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>

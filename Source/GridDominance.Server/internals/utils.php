@@ -40,6 +40,14 @@ function getTotalHighscore() {
 	return $pdo->query('SELECT MAX(score) FROM users WHERE score > 0')->fetch(PDO::FETCH_NUM)[0];
 }
 
+function getNewErrorsOverview() {
+	global $pdo;
+
+	$stmt = $pdo->prepare("SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0 ORDER BY error_log.timestamp DESC LIMIT 128");
+	$stmt->execute();
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getRemainingErrors($versionfilter = "") {
 	global $pdo;
 
