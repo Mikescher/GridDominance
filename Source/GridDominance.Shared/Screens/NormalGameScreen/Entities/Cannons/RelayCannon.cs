@@ -125,12 +125,26 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			else
 			{
 				BarrelCharge += gameTime.ElapsedSeconds;
-				if (BarrelCharge > RELAY_BARREL_CHARGE_TIME)
+
+				if (controller.DoBarrelRecharge())
 				{
-					BarrelCharge -= RELAY_BARREL_CHARGE_TIME;
-					Shoot();
-					BulletBuffer--;
+					if (BarrelCharge > RELAY_BARREL_CHARGE_TIME)
+					{
+						BarrelCharge -= RELAY_BARREL_CHARGE_TIME;
+						Shoot();
+						BulletBuffer--;
+					}
 				}
+				else if (controller.SimulateBarrelRecharge())
+				{
+					if (BarrelCharge > RELAY_BARREL_CHARGE_TIME)
+					{
+						BarrelCharge -= RELAY_BARREL_CHARGE_TIME;
+						barrelRecoil = 0f;
+						BulletBuffer--;
+					}
+				}
+
 			}
 		}
 
