@@ -19,7 +19,6 @@ namespace GridDominance.Windows
 		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		
-		private readonly SHA256 sha256 = SHA256.Create();
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 
 		public string FullDeviceInfoString { get; } = "?? GridDominance.Windows.WindowsImpl ??" + "\n" + Environment.MachineName + "/" + Environment.UserName;
@@ -27,7 +26,11 @@ namespace GridDominance.Windows
 		public string DeviceVersion { get; } = Environment.OSVersion.VersionString;
 		public string EnvironmentStackTrace => Environment.StackTrace;
 
-		public string DoSHA256(string input) => ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+		public string DoSHA256(string input)
+		{
+			using (var sha256 = SHA256.Create()) return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+		}
+	
 		public void OpenURL(string url) => Process.Start(url);
 		public void Sleep(int milsec) => Thread.Sleep(milsec);
 

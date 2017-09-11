@@ -22,13 +22,13 @@ namespace GridDominance.Android
 	// ReSharper disable once ClassNeverInstantiated.Global
 	public class MainActivity : AndroidGameActivity
 	{
-		private AndroidFullImpl _impl;
+		private AndroidBridge_Full _impl;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
-			_impl = new AndroidFullImpl(this);
+			_impl = new AndroidBridge_Full(this);
 			var g = new MainGame(_impl);
 			SetContentView(g.Services.GetService<View>());
 			g.Run();

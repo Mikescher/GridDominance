@@ -13,7 +13,7 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Android.Impl
 {
-	class AndroidBridge : IOperatingSystemBridge
+	class AndroidBridge_Full : IOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new AndroidFileHelper();
 		public IBillingAdapter IAB => _iab;
@@ -26,10 +26,9 @@ namespace GridDominance.Android.Impl
 		public FSize DeviceResolution { get; } = ScreenRes();
 		public string EnvironmentStackTrace => System.Environment.StackTrace;
 
-
-		private readonly SHA256 sha256 = SHA256.Create();
+		
 		private readonly MainActivity _activity;
-		private readonly AndroidBilling _iab;
+		private readonly AndroidFullVersionBilling _iab;
 		private readonly XamarinBluetooth _bt;
 
 		public void OnDestroy()
@@ -38,11 +37,11 @@ namespace GridDominance.Android.Impl
 			_bt.OnDestroy();
 		}
 
-		public AndroidBridge(MainActivity a)
+		public AndroidBridge_Full(MainActivity a)
 		{
 			_activity = a;
 
-			_iab = new AndroidBilling(a);
+			_iab = new AndroidFullVersionBilling();
 			_bt = new XamarinBluetooth(a);
 		}
 
@@ -86,7 +85,7 @@ namespace GridDominance.Android.Impl
 			b.AppendFormat("Orientation         := '{0}'\n", Resources.System.Configuration.Orientation);
 			b.AppendFormat("Touchscreen         := '{0}'\n", Resources.System.Configuration.Touchscreen);
 			b.AppendFormat("ScreenResolution    := '{0}'\n", $"{m.WidthPixels}x{m.HeightPixels} <=> {c.ScreenWidthDp}x{c.ScreenHeightDp} (d = {m.Density})");
-			b.AppendFormat("VersionType         := '{0}'\n", "IAB");
+			b.AppendFormat("VersionType         := '{0}'\n", "FULL");
 
 			return b.ToString();
 		}
@@ -105,7 +104,7 @@ namespace GridDominance.Android.Impl
 
 		public string DoSHA256(string input)
 		{
-			return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+			using (var sha256 = SHA256.Create()) return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
 		}
 
 		public void OpenURL(string url)

@@ -129,7 +129,7 @@
     <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinUDPClient.cs">
       <Link>Impl\XamarinUDPClient.cs</Link>
     </Compile>
-    <Compile Include="Impl\AndroidFullImpl.cs" />
+    <Compile Include="Impl\AndroidBridge_Full.cs" />
     <Compile Include="Impl\AndroidFullVersionBilling.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

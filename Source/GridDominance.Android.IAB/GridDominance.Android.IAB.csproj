@@ -77,7 +77,7 @@
     <Compile Include="Impl\Bluetooth\BTTransferRecieveThread.cs" />
     <Compile Include="Impl\XamarinBluetooth.cs" />
     <Compile Include="Impl\AndroidFileHelper.cs" />
-    <Compile Include="Impl\AndroidBridge.cs" />
+    <Compile Include="Impl\AndroidBridge_IAB.cs" />
     <Compile Include="Impl\Bluetooth\BTAcceptThread.cs" />
     <Compile Include="Impl\Bluetooth\BTTransferSendThread.cs" />
     <Compile Include="Impl\Bluetooth\BTConnectThread.cs" />
