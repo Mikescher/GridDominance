@@ -14,7 +14,7 @@ namespace MonoSAMFramework.Portable.Sound
 {
 	public abstract class SAMSoundPlayer
 	{
-		private const int MAX_EFFECTS_PER_FRAME = 8;
+		private const int MAX_EFFECTS_PER_FRAME = 2;
 
 		private enum MPState { Stopped, Play, TransitionOut, TransitionInFromNew, TransitionInFromSame }
 
@@ -58,9 +58,25 @@ namespace MonoSAMFramework.Portable.Sound
 			if (IsEffectsMuted) return;
 			if (InitErrorState) return;
 
-			if (_effectCounter >= MAX_EFFECTS_PER_FRAME - _activeEffects.Count) return;
-			
-			e.Play();
+			if (_effectCounter >= MAX_EFFECTS_PER_FRAME) return;
+			try
+			{
+				e.Play();
+			}
+			catch (Exception ex)
+			{
+				if (ex.GetType().FullName == @"Microsoft.Xna.Framework.Audio.InstancePlayLimitException")
+				{
+					//ignore
+					SAMLog.Warning("SSP::IPLE", "InstancePlayLimitException");
+					_effectCounter = 999;
+				}
+				else
+				{
+					throw;
+				}
+			}
+
 			_effectCounter++;
 		}
 

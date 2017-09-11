@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System;
+using Microsoft.Xna.Framework.Audio;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace MonoSAMFramework.Portable.Sound
 {
@@ -23,8 +25,23 @@ namespace MonoSAMFramework.Portable.Sound
 		public void Play()
 		{
 			if (Player.IsEffectsMuted) return;
-			
-			Instance.Play();
+
+			try
+			{
+				Instance.Play();
+			}
+			catch (Exception ex)
+			{
+				if (ex.GetType().FullName == @"Microsoft.Xna.Framework.Audio.InstancePlayLimitException")
+				{
+					//ignore
+					SAMLog.Warning("SSP::IPLE", "InstancePlayLimitException");
+				}
+				else
+				{
+					throw;
+				}
+			}
 		}
 
 		public void Stop()
