@@ -7,6 +7,7 @@ using MonoSAMFramework.Portable.Language;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Text.RegularExpressions;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
@@ -334,6 +335,16 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 
 			return text;
+		}
+
+		public static string MakeTextSafe(SpriteFont font, string s)
+		{
+			var cc = new StringBuilder();
+			foreach (char chr in s)
+			{
+				if (font.Characters.Contains(chr) || chr == 0x0A || chr == 0x0D) cc.Append(chr);
+			}
+			return cc.ToString();
 		}
 
 		public static string MakeTextSafe(SpriteFont font, string s, char c)

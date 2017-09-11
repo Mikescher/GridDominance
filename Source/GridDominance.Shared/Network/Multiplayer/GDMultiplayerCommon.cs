@@ -16,6 +16,7 @@ using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Language;
+using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {
@@ -84,18 +85,21 @@ namespace GridDominance.Shared.Network.Multiplayer
 				if (btm.Events.Count > 0)
 				{
 					var evt = btm.Events.Dequeue();
+
+					var param = FontRenderHelper.MakeTextSafe(Textures.HUDFontRegular, evt.Param, '?');
+
 					switch (evt.Type)
 					{
 						case BluetoothMediumEvent.BTEvent.TryConnection:
-							MainGame.Inst.ShowToast(null, L10N.TF(L10NImpl.STR_MP_TOAST_CONN_TRY, evt.Param), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+							MainGame.Inst.ShowToast(null, L10N.TF(L10NImpl.STR_MP_TOAST_CONN_TRY, param), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 							break;
 
 						case BluetoothMediumEvent.BTEvent.ConnectionFailed:
-							MainGame.Inst.ShowToast(null, L10N.TF(L10NImpl.STR_MP_TOAST_CONN_FAIL, evt.Param), 40, FlatColors.Orange, FlatColors.Foreground, 2f);
+							MainGame.Inst.ShowToast(null, L10N.TF(L10NImpl.STR_MP_TOAST_CONN_FAIL, param), 40, FlatColors.Orange, FlatColors.Foreground, 2f);
 							break;
 
 						case BluetoothMediumEvent.BTEvent.ConnectionSucceeded:
-							MainGame.Inst.ShowToast(null, L10N.TF(L10NImpl.STR_MP_TOAST_CONN_SUCC, evt.Param), 40, FlatColors.Emerald, FlatColors.Foreground, 2f);
+							MainGame.Inst.ShowToast(null, L10N.TF(L10NImpl.STR_MP_TOAST_CONN_SUCC, param), 40, FlatColors.Emerald, FlatColors.Foreground, 2f);
 							break;
 
 						default:
