@@ -175,10 +175,8 @@
             <tr>
                 <th>error id</th>
                 <th style='width: 170px'>username</th>
-                <th>pw verified</th>
-                <th>resolution</th>
                 <th>app version</th>
-                <th>exception id</th>
+                <th style="width: 225px;">exception id</th>
                 <th>message</th>
                 <th>stacktrace</th>
                 <th style='width: 170px'>timestamp</th>
@@ -188,10 +186,8 @@
             </thead>
 			<?php foreach (getUserErrors($user->ID) as $entry): ?>
                 <tr>
-                    <td><?php echo $entry['error_id']; ?></td>
-                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-                    <td><?php echo $entry['password_verified']; ?></td>
-					<?php expansioncell($entry['screen_resolution']); ?>
+                    <td><a href="errorinfo.php?id=<?php echo $entry['error_id']; ?>"><?php echo $entry['error_id']; ?></a></td>
+                    <td><?php echo $entry['username']; ?> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['app_version']; ?></td>
                     <td><?php echo $entry['exception_id']; ?></td>
 					<?php expansioncell($entry['exception_message']); ?>

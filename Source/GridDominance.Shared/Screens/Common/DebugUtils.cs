@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
@@ -12,7 +14,9 @@ using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework.Media;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Shared.Screens
 {
@@ -133,18 +137,19 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddPush("TRUE",        "HideHUD",               scrn, SKeys.H,   KeyModifier.None);
 			DebugSettings.AddTrigger("DBG",      "HideHUD",               scrn, SKeys.L,   KeyModifier.Control, RotateLang);
 
-			if (scrn is GDGameScreen)      DebugSettings.AddSwitch( "DBG",  "ImmortalCannons",  scrn, SKeys.I,         KeyModifier.Control, false);
-			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AssimilateCannon", scrn, SKeys.A,         KeyModifier.None);
-			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "LooseCannon",      scrn, SKeys.E,         KeyModifier.None);
-			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AbandonCannon",    scrn, SKeys.S,         KeyModifier.None);
+			if (scrn is GDGameScreen)      DebugSettings.AddSwitch( "DBG",  "ImmortalCannons",     scrn, SKeys.I,         KeyModifier.Control, false);
+			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AssimilateCannon",    scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "LooseCannon",         scrn, SKeys.E,         KeyModifier.None);
+			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AbandonCannon",       scrn, SKeys.S,         KeyModifier.None);
 
-			if (scrn is GDWorldMapScreen)  DebugSettings.AddPush(   "TRUE", "UnlockNode",       scrn, SKeys.A,         KeyModifier.None);
-			if (scrn is GDWorldMapScreen)  DebugSettings.AddPush(   "TRUE", "LeaveScreen",      scrn, SKeys.Backspace, KeyModifier.Control);
-			if (scrn is GDWorldMapScreen)  DebugSettings.AddTrigger("TRUE", "ZoomOut",          scrn, SKeys.Z,         KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
+			if (scrn is GDWorldMapScreen)  DebugSettings.AddPush(   "TRUE", "UnlockNode",          scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDWorldMapScreen)  DebugSettings.AddPush(   "TRUE", "LeaveScreen",         scrn, SKeys.Backspace, KeyModifier.Control);
+			if (scrn is GDWorldMapScreen)  DebugSettings.AddTrigger("TRUE", "ZoomOut",             scrn, SKeys.Z,         KeyModifier.None, x => ((GDWorldMapScreen)scrn).ZoomOut());
 
-			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "UnlockNode",       scrn, SKeys.A,         KeyModifier.None);
-			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "WorldPreview",     scrn, SKeys.P,         KeyModifier.None);
-			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger("TRUE", "ReuploadProfile",  scrn, SKeys.O,         KeyModifier.Control, x => MainGame.Inst.Backend.Reupload(MainGame.Inst.Profile).RunAsync() );
+			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "UnlockNode",          scrn, SKeys.A,         KeyModifier.None);
+			if (scrn is GDOverworldScreen) DebugSettings.AddPush(   "TRUE", "WorldPreview",        scrn, SKeys.P,         KeyModifier.None);
+			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger("TRUE", "ReuploadProfile",     scrn, SKeys.O,         KeyModifier.Control, x => MainGame.Inst.Backend.Reupload(MainGame.Inst.Profile).RunAsync() );
+			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger("TRUE", "XCLientProtocolTest", scrn, SKeys.X,         KeyModifier.ShiftCtrl, x => DoDirectProtocolDebugTest());
 		}
 
 		private static void RotateLang(DebugListener obj)
@@ -154,6 +159,27 @@ namespace GridDominance.Shared.Screens
 			L10N.ChangeLanguage(MainGame.Inst.Profile.Language);
 		}
 
-#endif
+		private static void DoDirectProtocolDebugTest()
+		{
+			var lvl = Levels.LEVELS[Guid.Parse("{b16b00b5-0001-4000-0000-000003000031}")];
+
+			var c = new GDMultiplayerClient(MultiplayerConnectionType.P2P);
+
+			c.SessionUserID = 1;
+			c.SessionCount = 2;
+
+			c.SessionID = 0;
+			c.SessionSecret = 0;
+
+			var s = new GDGameScreen_MPClient(MainGame.Inst, MainGame.Inst.Graphics, lvl, GameSpeedModes.NORMAL, 0, c);
+
+			c.Screen = s;
+
+			var data = ByteUtils.DecompressBytesFromStorage("?");
+
+			c.DebugProcessForwardPackage(data);
 		}
+
+#endif
+	}
 }

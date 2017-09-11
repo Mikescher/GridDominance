@@ -220,6 +220,13 @@ namespace GridDominance.Shared.Network.Multiplayer
 			return new byte[0]; //no
 		}
 
+#if DEBUG
+		public void DebugProcessForwardPackage(byte[] data)
+		{
+			ProcessForwardData(data);
+		}
+#endif
+
 		protected override bool ShouldRecieveData(Fraction f, Cannon c) => !Screen.HasFinished;
 		protected override bool ShouldRecieveRotationData(Fraction f, Cannon c) => f != Screen.LocalPlayerFraction;
 		protected override bool ShouldRecieveStateData(Fraction f, Cannon c) => true;

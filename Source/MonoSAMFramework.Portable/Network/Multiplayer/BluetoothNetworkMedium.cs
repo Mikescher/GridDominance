@@ -33,6 +33,10 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		public void Init(out SAMNetworkConnection.ErrorType error)
 		{
+#if DEBUG
+			if (_client == null) { error = SAMNetworkConnection.ErrorType.None; return; }
+#endif
+
 			_client.StartAdapter();
 
 			_lastState = _client.State;
