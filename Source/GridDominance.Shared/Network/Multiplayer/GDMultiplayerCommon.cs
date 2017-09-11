@@ -258,7 +258,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 						if (ShouldRecieveStateData(frac, rc))
 						{
-							rc.RemoteUpdate(frac, sendertime, shield);
+							rc.RemoteUpdate(frac, shield, sendertime);
 						}
 					}
 				}
