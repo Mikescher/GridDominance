@@ -52,7 +52,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			}
 			else if (_client.State == BluetoothAdapterState.Error)
 			{
-				error = SAMNetworkConnection.ErrorType.BluetoothInternalError;
+				error = SAMNetworkConnection.ErrorType.NetworkMediumInternalError;
 			}
 			else
 			{
@@ -79,7 +79,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 			if (_client.State == BluetoothAdapterState.Error)
 			{
-				error = SAMNetworkConnection.ErrorType.BluetoothInternalError;
+				error = SAMNetworkConnection.ErrorType.NetworkMediumInternalError;
 				return;
 			}
 

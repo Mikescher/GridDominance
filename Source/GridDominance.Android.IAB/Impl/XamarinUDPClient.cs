@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Network.Multiplayer;
 
 // ReSharper disable once CheckNamespace
 namespace GridDominance.Generic.Impl
@@ -36,9 +37,16 @@ namespace GridDominance.Generic.Impl
 
 		public void Connect(string host, int port)
 		{
-			_addr = host;
-			_port = port;
-			_client.Connect(_addr, _port);
+			try
+			{
+				_addr = host;
+				_port = port;
+				_client.Connect(_addr, _port);
+			}
+			catch (SocketException)
+			{
+				throw new NetworkOfflineException();
+			}
 		}
 
 		public void Disconnect()

@@ -86,8 +86,11 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			GameVersionMismatch, LevelNotFound, LevelVersionMismatch,
 			UserDisconnect, ServerDisconnect,
 
-			BluetoothAdapterNotFound, BluetoothAdapterNoPermission, BluetoothInternalError, BluetoothNotEnabled,
-			P2PConnectionFailed, P2PConnectionLost,
+			NetworkMediumInternalError, 
+
+			BluetoothAdapterNotFound, BluetoothAdapterNoPermission, BluetoothNotEnabled,
+
+			P2PConnectionFailed, P2PConnectionLost, P2PNoServerConnection
 		};
 
 		private   readonly byte[] MSG_PING          = { CMD_PING,             0                         };
@@ -168,10 +171,15 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 				medium.Init(out err);
 				if (err != ErrorType.None) ErrorStop(err, null);
 			}
+			catch (NetworkOfflineException e)
+			{
+				SAMLog.Warning("SNS::InitOffline", e);
+				ErrorStop(ErrorType.P2PNoServerConnection, null);
+			}
 			catch (Exception e)
 			{
 				SAMLog.Error("SNS::InitEx", e);
-				ErrorStop(ErrorType.BluetoothInternalError, null);
+				ErrorStop(ErrorType.NetworkMediumInternalError, null);
 			}
 		}
 

@@ -169,6 +169,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MP_TOAST_CONN_TRY      = 170;
 		public const int STR_MP_TOAST_CONN_FAIL     = 171;
 		public const int STR_MP_TOAST_CONN_SUCC     = 172;
+		public const int STR_MP_NOSERVERCONN        = 182;
 
 		public const int STR_MENU_CANCEL            = 138;
 		public const int STR_MENU_DISCONNECT        = 147;
@@ -215,11 +216,13 @@ namespace GridDominance.Shared.Resources
 		public const int STR_BTN_YES                = 180;
 		public const int STR_BTN_NO                 = 181;
 
-		private const int TEXT_COUNT = 182; // = next idx
+		private const int TEXT_COUNT = 183; // = next idx
 
 		public static void Init(int lang)
 		{
 			L10N.Init(lang, TEXT_COUNT);
+
+			// [en_US] [de-DE] [fr-FR] [it-IT]
 
 			L10N.Add(STR_SSB_ABOUT,              "About",                                                                                                                                   "Info",                                                                                                                                "Info",                                                                                                                                                         "Informazioni");
 			L10N.Add(STR_SSB_ACCOUNT,            "Account",                                                                                                                                 "Benutzerkonto",                                                                                                                       "Compte",                                                                                                                                                       "Account");
@@ -358,6 +361,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_BTDISABLED,          "Bluetooth is disabled",                                                                                                                   "Bluetooth ist deaktiviert",                                                                                                           "Connexion Bluetooth deactivé",                                                                                                                                 "Bluetooth disattivatp");
 			L10N.Add(STR_MP_DIRECTCONNFAIL,      "Bluetooth connection failed",                                                                                                             "Bluetooth Verbindungsaufbau fehlgeschlagen",                                                                                          "Connexion Bluetooth échoué",                                                                                                                                   "Connessione Bluetooth fallita");
 			L10N.Add(STR_MP_DIRECTCONNLOST,      "Bluetooth connection lost",                                                                                                               "Bluetooth Verbindung verloren",                                                                                                       "Connexion Bluetooth perdu",                                                                                                                                    "Connessione Bluetooth persa");
+			L10N.Add(STR_MP_NOSERVERCONN,        "No connection to server",                                                                                                                 "Keine Verbindung zu Server",                                                                                                          "Pas de connexion au serveur",                                                                                                                                  "Nessuna connessione al server");
 			L10N.Add(STR_MENU_CAP_MULTIPLAYER,   "Multiplayer",                                                                                                                             "Mehrspieler",                                                                                                                         "Multijoueur",                                                                                                                                                  "Multiplayer");
 			L10N.Add(STR_MENU_CAP_LOBBY,         "Multiplayer Lobby",                                                                                                                       "Lobby",                                                                                                                               "Online Lobby",                                                                                                                                                 "Multiplayer Lobby");
 			L10N.Add(STR_MENU_CAP_CGAME_PROX,    "Create Online Game",                                                                                                                      "Onlinespiel erstellen",                                                                                                               "Creer un jeu en ligne",                                                                                                                                        "Crea una partita Online");
@@ -458,7 +462,7 @@ namespace GridDominance.Shared.Resources
 				case SAMNetworkConnection.ErrorType.BluetoothAdapterNoPermission:
 					return L10N.T(STR_MP_BTADAPTERPERMDENIED);
 
-				case SAMNetworkConnection.ErrorType.BluetoothInternalError:
+				case SAMNetworkConnection.ErrorType.NetworkMediumInternalError:
 					return L10N.T(STR_MP_INTERNAL);
 
 				case SAMNetworkConnection.ErrorType.BluetoothNotEnabled:
@@ -469,6 +473,9 @@ namespace GridDominance.Shared.Resources
 
 				case SAMNetworkConnection.ErrorType.P2PConnectionLost:
 					return L10N.T(STR_MP_DIRECTCONNLOST);
+
+				case SAMNetworkConnection.ErrorType.P2PNoServerConnection:
+					return L10N.T(STR_MP_NOSERVERCONN);
 
 				default:
 					SAMLog.Error("L10NI::EnumSwitch_FNEM", "type = "+ type);

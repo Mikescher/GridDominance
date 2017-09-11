@@ -194,7 +194,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					case SAMNetworkConnection.ErrorType.BluetoothNotEnabled:
 					case SAMNetworkConnection.ErrorType.P2PConnectionFailed:
 					case SAMNetworkConnection.ErrorType.P2PConnectionLost:
-					case SAMNetworkConnection.ErrorType.BluetoothInternalError:
+					case SAMNetworkConnection.ErrorType.NetworkMediumInternalError:
 					case SAMNetworkConnection.ErrorType.ProxyServerTimeout:
 					case SAMNetworkConnection.ErrorType.UserTimeout:
 					case SAMNetworkConnection.ErrorType.ServerUserTimeout:
@@ -205,6 +205,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					case SAMNetworkConnection.ErrorType.ServerDisconnect:
 					case SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound:
 					case SAMNetworkConnection.ErrorType.BluetoothAdapterNoPermission:
+					case SAMNetworkConnection.ErrorType.P2PNoServerConnection:
 						Remove();
 						return;
 

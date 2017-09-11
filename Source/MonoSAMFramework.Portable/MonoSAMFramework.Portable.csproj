@@ -111,6 +111,7 @@
     <Compile Include="Network\Multiplayer\MultiplayerConnectionType.cs" />
     <Compile Include="Network\Multiplayer\NetworkCommandCodes.cs" />
     <Compile Include="Network\Multiplayer\NetworkDataTools.cs" />
+    <Compile Include="Network\Multiplayer\NetworkOfflineException.cs" />
     <Compile Include="Network\Multiplayer\NetworkUserConn.cs" />
     <Compile Include="Network\Multiplayer\PingCounter.cs" />
     <Compile Include="DeviceBridge\IBluetoothAdapter.cs" />
