@@ -30,8 +30,10 @@ namespace GridDominance.Shared.Resources
 			Tuple.Create("Freesound: benjaminharveydesign",         "http://www.freesound.org/people/benjaminharveydesign/sounds/366092/"),
 
 			Tuple.Create("Comic Jens Font Family",                  "https://www.kutilek.de//comic-jens/"),
-			
-			Tuple.Create("Freesound: Lazer_01_LOOP",                "http://freesound.org/people/Koops/sounds/12505/")
+
+			Tuple.Create("Freesound: Lazer_01_LOOP",                "http://freesound.org/people/Koops/sounds/12505/"),
+
+			Tuple.Create("Italian Translation: /u/leolego",         "https://www.reddit.com/user/leolego2"),
 		};
 	}
 }

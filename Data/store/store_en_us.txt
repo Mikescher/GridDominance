@@ -1,0 +1,69 @@
+Titel:             Cannon Conquest
+
+
+Description:       2D tactical puzzler, free with over 100 levels
+
+
+Full text [US]:
+
+Cannon Conquest is a challenging 2D Puzzle shooter.
+Try to assimilate all enemy cannons and defending your own cannons.
+
+<u>Highlights:</u>
+
+<b> * Four different worlds with different elements and in total over 100 levels </b>
+
+<b> * Optional local multiplayer over bluetooth </b>
+
+ * 4 difficulties per level
+
+ * Online highscore and account system
+
+ * Six different tower types and many other gameplay variations
+
+ * And <i>extremely</i> challenging fourth difficulty
+
+ * No ads, all levels are unlockable by skill alone
+
+<u>Permissions:</u>
+
+<b>Internet:</b> For Online Highscore and account synchronization
+<b>Bluetooth:</b> For local multiplayer
+<b>Location:</b> For whatever reasons bluetooth needs location permissions...
+<b>In-App Products:</b> To unlock worlds without enough points
+
+
+
+
+Optional Prefix [US-FULL]:
+
+This is the full version of Cannon Conquest.
+It contains no ads or in-app products. All levels and worlds can be unlocked and the multiplayer is included.
+
+
+
+
+
+In App Products:
+
+
+gd_multiplayer
+Cannon Conquest - Multiplayer
+Play against friends and family over bluetooth
+
+
+gd_world_002
+Cannon Conquest - World 2
+Unlock World 2
+
+
+gd_world_003
+Cannon Conquest - World 3
+Unlock World 3
+
+
+gd_world_004
+Cannon Conquest - World 4
+Unlock World 4
+
+
