@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="105" android:versionName="1.0.5" package="com.blackforestbytes.griddominance.full" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="10006" android:versionName="1.0.6" package="com.blackforestbytes.griddominance.full" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="17" android:targetSdkVersion="19" />
 	<uses-permission android:required="true" android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:required="true" android:name="android.permission.ACCESS_WIFI_STATE" />

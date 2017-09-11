@@ -1,0 +1,13 @@
+<en-US>
+ - new language: italian
+ - Many multiplayer fixes
+ - reset Speed to Normal on AppStart
+ - fixed error in server communication
+</en-US>
+
+<de-DE>
+ - Neue Sprache: Italienisch
+ - Viel Fehlerbehebung im Mehrspieler
+ - Spielgeschweindigkeit bei AppStart zurücksetzen
+ - Fehler in Serverkommunikation behoben
+</de-DE>

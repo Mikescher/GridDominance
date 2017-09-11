@@ -51,6 +51,7 @@
     <Compile Include="Impl\WindowsBillingAdapter.cs" />
     <Compile Include="Impl\WindowsFileHelper.cs" />
     <Compile Include="Impl\WindowsBridge.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -65,7 +66,6 @@
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <ItemGroup>
     <Folder Include="Content\" />
-    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj">
