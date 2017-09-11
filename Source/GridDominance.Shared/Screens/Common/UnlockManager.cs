@@ -70,7 +70,7 @@ namespace GridDominance.Shared.Screens.Common
 
 					default:
 					{
-						SAMLog.Error("UNLCK::EnumSwitch_IU", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+						SAMLog.Error("UNLCK::EnumSwitch_IU_1", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
 					}
 				}
 			}
@@ -109,7 +109,7 @@ namespace GridDominance.Shared.Screens.Common
 
 					default:
 					{
-						SAMLog.Error("UNLCK::EnumSwitch_IU", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+						SAMLog.Error("UNLCK::EnumSwitch_IU_2", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
 					}
 				}
 			}
@@ -148,7 +148,7 @@ namespace GridDominance.Shared.Screens.Common
 
 					default:
 					{
-						SAMLog.Error("UNLCK::EnumSwitch_IU", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+						SAMLog.Error("UNLCK::EnumSwitch_IU_3", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
 					}
 				}
 			}
@@ -180,7 +180,7 @@ namespace GridDominance.Shared.Screens.Common
 
 					default:
 					{
-						SAMLog.Error("UNLCK::EnumSwitch_IU", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+						SAMLog.Error("UNLCK::EnumSwitch_IU_4", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
 					}
 				}
 			}

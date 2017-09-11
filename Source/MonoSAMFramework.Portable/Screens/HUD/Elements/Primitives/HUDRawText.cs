@@ -115,7 +115,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 				catch (Exception e)
 				{
 					
-					SAMLog.Error($"Measure string failed for text: '{_text}' (prev: '{_textCache}')", e);
+					SAMLog.Error("RAWTXT:Measure", $"Measure string failed for text: '{_text}' (prev: '{_textCache}')" + "\n" + e);
 					return;
 				}
 

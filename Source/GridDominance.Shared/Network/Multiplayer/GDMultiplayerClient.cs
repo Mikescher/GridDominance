@@ -81,7 +81,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			}
 
 
-			if (err) SAMLog.Error("SNSC::PFHD", "data error\r\nData:\n" + ByteUtils.CompressBytesForStorage(data));
+			if (err) SAMLog.Error("SNSC::PFLS", "data error\r\nData:\n" + ByteUtils.CompressBytesForStorage(data));
 
 			SAMLog.Debug($"[[CMD_FORWARDLOBBYSYNC]]: {LevelID} | {Speed} | {MusicIndex}");
 
