@@ -32,15 +32,6 @@
 	<?php if (empty($_GET["filter"])) $filter="0"; else $filter=$_GET["filter"] ?>
 	<?php if (empty($_GET["version"])) $versionfilter=""; else $versionfilter=$_GET["version"] ?>
 
-    <div class="infocontainer">
-        <div class="infodiv">
-            New Errors: <?php echo getRemainingErrorCount(); ?>
-        </div>
-        <div class="infodiv">
-            All Errors: <?php echo getErrorCount(); ?>
-        </div>
-    </div>
-
 	<?php
 
 	$filtered_errors = ($filter == 1) ? getRemainingErrors($versionfilter) : getAllErrors($versionfilter);
@@ -55,6 +46,18 @@
 	}
 
 	?>
+
+    <div class="infocontainer">
+        <div class="infodiv">
+            All Errors: <?php echo getErrorCount(); ?>
+        </div>
+        <div class="infodiv">
+            New Errors: <?php echo getRemainingErrorCount(); ?>
+        </div>
+        <div class="infodiv">
+            Filtered Errors: <?php echo count($filtered_errors); ?>
+        </div>
+    </div>
 
     <div class="tablebox" data-collapse>
 
@@ -113,10 +116,9 @@
                 <tr>
                     <th>error id</th>
                     <th style='width: 170px'>username</th>
-                    <th>anon</th>
                     <th>resolution</th>
                     <th>version</th>
-                    <th style="width: 200px;">exception id</th>
+                    <th style="width: 225px;">exception id</th>
                     <th>msg</th>
                     <th>trace</th>
                     <th style='width: 160px'>timestamp</th>
@@ -130,7 +132,6 @@
 					?>
                     <td><a href="errorinfo.php?id=<?php echo $entry['error_id']; ?>"><?php echo $entry['error_id']; ?></a></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-                    <td><?php echo $entry['password_verified']?0:1; ?></td>
 					<?php expansioncell($entry['screen_resolution']); ?>
                     <td><?php echo $entry['app_version']; ?></td>
                     <td><?php echo $entry['exception_id']; ?></td>

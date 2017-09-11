@@ -53,6 +53,37 @@
 		return $c;
 	}
 
+
+	function formatSizeUnits($bytes)
+	{
+		if ($bytes >= 1073741824)
+		{
+			$bytes = number_format($bytes / 1073741824, 2) . ' GB';
+		}
+        elseif ($bytes >= 1048576)
+		{
+			$bytes = number_format($bytes / 1048576, 2) . ' MB';
+		}
+        elseif ($bytes >= 1024)
+		{
+			$bytes = number_format($bytes / 1024, 2) . ' KB';
+		}
+        elseif ($bytes > 1)
+		{
+			$bytes = $bytes . ' bytes';
+		}
+        elseif ($bytes == 1)
+		{
+			$bytes = $bytes . ' byte';
+		}
+		else
+		{
+			$bytes = '0 bytes';
+		}
+
+		return $bytes;
+	}
+
 	?>
 
 	<div class="infocontainer">
@@ -94,30 +125,24 @@
                 <tr>
                     <th>id</th>
                     <th style='width: 250px'>Username</th>
-                    <th>anon</th>
-                    <th>resolution</th>
                     <th>version</th>
-                    <th style="width: 170px;">exception id</th>
+                    <th style="width: 225px;">exception id</th>
                     <th>msg</th>
                     <th>trace</th>
                     <th style='width: 160px'>timestamp</th>
                     <th>additional info</th>
-                    <th>acknowledged</th>
                 </tr>
             </thead>
             <?php foreach (getNewErrorsOverview() as $entry): ?>
                 <tr>
                     <td><a href="errorinfo.php?id=<?php echo $entry['error_id']; ?>"><?php echo $entry['error_id']; ?></a></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-                    <td><?php echo $entry['password_verified']?0:1; ?></td>
-                    <td><?php echo $entry['screen_resolution']; ?></td>
                     <td><?php echo $entry['app_version']; ?></td>
                     <td><?php echo $entry['exception_id']; ?></td>
 					<?php expansioncell($entry['exception_message']); ?>
 					<?php expansioncell($entry['exception_stacktrace']); ?>
                     <td style='max-width: 256px'><?php echo $entry['timestamp']; ?></td>
 					<?php expansioncell($entry['additional_info']); ?>
-                    <td><a href="ack.php?id=<?php echo $entry['error_id']; ?>" target="_blank">acknowledge</a></td>
                 </tr>
                 <tr class='tab_prev' id='tr_prev_<?php echo $previd; ?>'><td colspan='12' id='td_prev_<?php echo $previd; ?>' style='text-align: left;' ></td></tr>
                 <?php $previd++; ?>
@@ -133,7 +158,8 @@
             <tr>
                 <th style='width: 250px'>Logfile</th>
                 <th style='width: 250px'>Changedate</th>
-                <th>Entries</th>
+                <th style='width: 100px'>Entries</th>
+                <th style='width: 100px'>Size</th>
                 <th>Content</th>
                 <th>Tasks</th>
             </tr>
@@ -143,6 +169,7 @@
                     <td title="<?php echo $entry['path']; ?>" ><?php echo $entry['name']; ?></td>
                     <td><?php echo $entry['changedate']; ?></td>
                     <td><?php echo lc($entry['content']); ?></td>
+                    <td title="<?php echo $entry['size'] . " byte"; ?>" ><?php echo formatSizeUnits($entry['size']); ?></td>
 					<?php remoteexpansioncell($entry['name']); ?>
                     <td>
                         <a href="logquery.php?id=<?php echo $entry['name']; ?>">Download</a>

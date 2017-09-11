@@ -208,6 +208,7 @@ function listLogFiles() {
 			[
 				'path' => $filepath,
 				'name' => basename($filepath),
+				'size' => filesize($filepath),
 				'changedate' => date('Y-m-d H:i:s', filemtime($filepath)),
 				'content' => file_get_contents($filepath),
 			];

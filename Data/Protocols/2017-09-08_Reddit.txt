@@ -32,6 +32,7 @@ TODO
  [ ] Colorblind mode
  [ ] dedicated server
  [X] show creation time online
+ [ ] Share button
 
 
 Similiar Games
