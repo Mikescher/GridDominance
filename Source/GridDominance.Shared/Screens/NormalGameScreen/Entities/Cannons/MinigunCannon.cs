@@ -138,33 +138,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				}
 				else
 				{
-					if (controller.DoBarrelRecharge())
+					float chargeDelta = BARREL_CHARGE_SPEED_MINIGUN * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
+					if (Scale > 2.5f) chargeDelta /= Scale;
+
+					BarrelCharge += chargeDelta;
+
+					if (BarrelCharge >= 1f)
 					{
-						float chargeDelta = BARREL_CHARGE_SPEED_MINIGUN * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
-						if (Scale > 2.5f) chargeDelta /= Scale;
+						BarrelCharge -= 1f;
 
-						BarrelCharge += chargeDelta;
-
-						if (BarrelCharge >= 1f)
-						{
-							BarrelCharge -= 1f;
-
-							_remainingBullets = MINIGUN_BULLET_COUNT;
-						}
-					}
-					else if (controller.SimulateBarrelRecharge())
-					{
-						float chargeDelta = BARREL_CHARGE_SPEED_MINIGUN * Fraction.BulletMultiplicator * RealBoost * gameTime.ElapsedSeconds;
-						if (Scale > 2.5f) chargeDelta /= Scale;
-
-						BarrelCharge += chargeDelta;
-
-						if (BarrelCharge >= 1f)
-						{
-							BarrelCharge -= 1f;
-
-							barrelRecoil = 0f;
-						}
+						_remainingBullets = MINIGUN_BULLET_COUNT;
 					}
 				}
 			}
