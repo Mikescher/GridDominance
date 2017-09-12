@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using Android.Bluetooth;
 using Java.Lang;
 using MonoSAMFramework.Portable.LogProtocol;
@@ -80,7 +81,7 @@ namespace GridDominance.Android.Impl
 		/// </param>
 		public void Write(byte[] buffer)
 		{
-			_sendData.Enqueue(buffer);
+			_sendData.Enqueue(buffer.ToArray());
 		}
 
 		public void Cancel()

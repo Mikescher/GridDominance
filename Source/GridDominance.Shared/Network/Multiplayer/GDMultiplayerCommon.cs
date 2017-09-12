@@ -460,7 +460,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 				var len = NetworkDataTools.GetSplitBits(d[p + 7], d[p + 8], 6, 5) / 8f;
 				var veloc = new Vector2(len, 0).Rotate(rot);
 
-				var fraction = Screen.GetFractionByID(NetworkDataTools.GetLowBits(d[p + 8], 3), out var gfbiError);
+				var ifrac = NetworkDataTools.GetLowBits(d[p + 8], 3);
+				var fraction = Screen.GetFractionByID(ifrac, out var gfbiError);
 				var scale = 16 * (d[p + 9] / 255f);
 
 				if (gfbiError)

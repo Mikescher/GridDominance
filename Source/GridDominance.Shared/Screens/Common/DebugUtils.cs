@@ -197,7 +197,7 @@ namespace GridDominance.Shared.Screens
 
 			c.Screen = s;
 
-			var data = ByteUtils.DecompressBytesFromStorage(" H4sIAAAAAAAAA6tnYgCCrQzZGxkZGBxAbCDNCqQCGMAg5Ee89SEX/TAAxs8QSigAAAA= ");
+			var data = ByteUtils.DecompressBytesFromStorage("?");
 
 			c.DebugProcessHostData(data);
 		}
