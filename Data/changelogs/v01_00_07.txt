@@ -1,0 +1,7 @@
+<en-US>
+ - fixed multiple errors in multiplayer communication protocol
+</en-US>
+
+<de-DE>
+ - Fehlerbehebung Mehrspieler Kommunikationsprotokoll
+</de-DE>

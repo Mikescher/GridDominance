@@ -70,3 +70,4 @@ repl(r"Source\GridDominance.iOS.Full\Properties\AssemblyInfo.cs", "AssemblyFileV
 
 repl(r"Source\GridDominance.Server\internals\config_auto.php", "'latest_version' => '(?P<repl>[0-9\\.]+)'", version_dot4)
 
+input('Press enter to continue')
