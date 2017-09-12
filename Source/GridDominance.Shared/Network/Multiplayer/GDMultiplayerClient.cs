@@ -67,17 +67,17 @@ namespace GridDominance.Shared.Network.Multiplayer
 				reader.ReadByte(); // SSC
 
 				LevelID = new Guid(reader.ReadBytes(16));
-
 				var bspeed = reader.ReadByte();
-				Speed = GameSpeedModeHelper.FromByte(bspeed);
-				if (bspeed != 0x70 && bspeed != 0x78 && bspeed != 0x80 && bspeed != 0x88 && bspeed != 0x90) err = true;
-
 				MusicIndex = reader.ReadByte();
-				if (MusicIndex > MainGame.Inst.GDSound.LevelMusic.Length) err = true;
-
 				ServerGameVersion = reader.ReadUInt64();
-
 				ServerLevelHash = reader.ReadUInt64();
+
+				if (ServerGameVersion == GDConstants.IntVersion)
+				{
+					Speed = GameSpeedModeHelper.FromByte(bspeed);
+					if (bspeed != 0x70 && bspeed != 0x78 && bspeed != 0x80 && bspeed != 0x88 && bspeed != 0x90) err = true;
+					if (MusicIndex > MainGame.Inst.GDSound.LevelMusic.Length) err = true;
+				}
 			}
 
 
@@ -141,15 +141,23 @@ namespace GridDominance.Shared.Network.Multiplayer
 				LevelID = new Guid(reader.ReadBytes(16));
 
 				var bspeed = reader.ReadByte();
-				Speed = GameSpeedModeHelper.FromByte(bspeed);
-				if (bspeed != 0x70 && bspeed != 0x78 && bspeed != 0x80 && bspeed != 0x88 && bspeed != 0x90) err = true;
-
 				MusicIndex = reader.ReadByte();
-				if (MusicIndex > MainGame.Inst.GDSound.LevelMusic.Length) err = true;
-
 				ServerGameVersion = reader.ReadUInt64();
-
 				ServerLevelHash = reader.ReadUInt64();
+
+
+				if (ServerGameVersion == GDConstants.IntVersion)
+				{
+					Speed = GameSpeedModeHelper.FromByte(bspeed);
+					if (bspeed != 0x70 && bspeed != 0x78 && bspeed != 0x80 && bspeed != 0x88 && bspeed != 0x90) err = true;
+					if (MusicIndex > MainGame.Inst.GDSound.LevelMusic.Length) err = true;
+				}
+			}
+
+			if (ServerGameVersion != GDConstants.IntVersion)
+			{
+				ErrorStop(ErrorType.GameVersionMismatch, null);
+				return;
 			}
 
 			if (err) SAMLog.Error("SNSC::PFHD", "data error\r\nData:\n" + ByteUtils.CompressBytesForStorage(data));
@@ -224,6 +232,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 		public void DebugProcessForwardPackage(byte[] data)
 		{
 			ProcessForwardData(data);
+		}
+
+		public void DebugProcessHostData(byte[] data)
+		{
+			ProcessForwardHostData(data);
 		}
 #endif
 
