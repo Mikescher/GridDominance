@@ -88,31 +88,28 @@
 
 	<div class="infocontainer">
 		<div class="infodiv">
-			Total Users: <a href="userlist.php"><?php echo getUserCount(); ?></a>&nbsp;&nbsp;(<a href="statistics.php">stats</a>)
+			Total Users:&nbsp;<a href="userlist.php"><?php echo getUserCount(); ?></a>&nbsp;&nbsp;(<a href="statistics.php">stats</a>)
 		</div>
 		<div class="infodiv">
-			Active Users (week):  <a href="userlist.php?d=7"><?php echo getActiveUserCount(7); ?></a>
+            Active Users:&nbsp;<a href="userlist.php?d=1"><?php echo getActiveUserCount(1); ?></a>&nbsp;/&nbsp;<a href="userlist.php?d=7"><?php echo getActiveUserCount(7); ?></a>
 		</div>
         <div class="infodiv">
-            Active Users (today): <a href="userlist.php?d=1"><?php echo getActiveUserCount(1); ?></a>
-        </div>
-        <div class="infodiv">
-            Online Sessions: <a href="proxylist.php"><?php echo getSessionCount(); ?></a>
+            Online Sessions:&nbsp;<a href="proxylist.php"><?php echo getSessionCount(); ?></a>
         </div>
 	</div>
 
 	<div class="infocontainer">
 		<div class="infodiv">
-			Errors: <a href="errorlist.php?filter=1"><?php echo getRemainingErrorCount(); ?>/<?php echo getErrorCount(); ?></a>
+            Errors:&nbsp;<a href="errorlist.php?filter=1&version=<?php global $config; echo $config['latest_version']; ?>"><?php global $config; echo getRemainingErrorCount($config['latest_version']); ?></a>&nbsp;/&nbsp;<a href="errorlist.php"><?php echo getErrorCount(); ?></a>
 		</div>
 		<div class="infodiv">
-			Entries:  <a href="entrylist.php"><?php echo getEntryCount(); ?></a>
+			Entries:&nbsp;<a href="entrylist.php"><?php echo getEntryCount(); ?></a>
 		</div>
         <div class="infodiv">
-            Highscore: <?php echo getTotalHighscore(); ?>
+            Highscore:&nbsp;<?php echo getTotalHighscore(); ?>
         </div>
         <div class="infodiv">
-            Cron: <?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo "../cron.php?cronsecret=" . $config['cron-secret']; ?>">Now</a> )
+            Cron:&nbsp;<?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo "../cron.php?cronsecret=" . $config['cron-secret']; ?>">Now</a> )
         </div>
 	</div>
 
@@ -153,15 +150,15 @@
     <div class="tablebox" data-collapse>
         <h2 class="open collapseheader">Logs [+/-]</h2>
 
-        <table class="sqltab pure-table pure-table-bordered" style="width:100%;">
+        <table class="sqltab pure-table pure-table-bordered" >
             <thead>
             <tr>
                 <th style='width: 250px'>Logfile</th>
                 <th style='width: 250px'>Changedate</th>
                 <th style='width: 100px'>Entries</th>
                 <th style='width: 100px'>Size</th>
-                <th>Content</th>
-                <th>Tasks</th>
+                <th style='width: 100px'>Content</th>
+                <th style='width: 200px'>Tasks</th>
             </tr>
             </thead>
 			<?php foreach (listLogFiles() as $entry): ?>

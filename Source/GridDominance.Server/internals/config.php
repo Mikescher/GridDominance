@@ -27,6 +27,7 @@ return [
 
 	'levelmapping' => require 'config_levelids.php',
 	'levelids' => array_map(function($k){ return $k[1]; }, require 'config_levelids.php'),
+	'latest_version' => (require 'config_auto.php')['latest_version'],
 
 	'worldid_0' => '{d34db335-0001-4000-7711-000000100001}',
 	'worldid_1' => '{d34db335-0001-4000-7711-000000200001}',

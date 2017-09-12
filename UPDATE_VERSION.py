@@ -68,3 +68,5 @@ repl(r"Source\GridDominance.iOS.Full\Info.plist", "<key>CFBundleVersion</key>\s*
 repl(r"Source\GridDominance.iOS.Full\Properties\AssemblyInfo.cs", "AssemblyVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 repl(r"Source\GridDominance.iOS.Full\Properties\AssemblyInfo.cs", "AssemblyFileVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 
+repl(r"Source\GridDominance.Server\internals\config_auto.php", "'latest_version' => '(?P<repl>[0-9\\.]+)'", version_dot4)
+
