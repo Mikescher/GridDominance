@@ -339,6 +339,9 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 		public static string MakeTextSafe(SpriteFont font, string s)
 		{
+			if (font?.Characters == null) return "";
+			if (s == null) return "";
+
 			var cc = new StringBuilder();
 			foreach (char chr in s)
 			{
@@ -349,6 +352,9 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 		public static string MakeTextSafe(SpriteFont font, string s, char c)
 		{
+			if (font?.Characters == null) return "";
+			if (s == null) return "";
+
 			char[] cc = new char[s.Length];
 			for (int i = 0; i < s.Length; i++)
 			{
@@ -359,6 +365,9 @@ namespace MonoSAMFramework.Portable.RenderHelper
 
 		public static string MakeTextSafeWithWarn(SpriteFont font, string s, char c)
 		{
+			if (font?.Characters == null) return "";
+			if (s == null) return "";
+
 			char[] cc = new char[s.Length];
 			for (int i = 0; i < s.Length; i++)
 			{
