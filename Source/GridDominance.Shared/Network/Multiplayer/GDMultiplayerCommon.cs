@@ -142,31 +142,38 @@ namespace GridDominance.Shared.Network.Multiplayer
 				}
 				else if (cmd == AREA_BULLETCANNONS)
 				{
-					ProcessForwardBulletCannons(ref p, d, bseq, sendertime);
+					bool r = ProcessForwardBulletCannons(ref p, d, bseq, sendertime);
+					if (!r) return;
 				}
 				else if (cmd == AREA_BULLETS)
 				{
-					ProcessForwardBullets(ref p, d, bseq, sendertime);
+					bool r = ProcessForwardBullets(ref p, d, bseq, sendertime);
+					if (!r) return;
 				}
 				else if (cmd == AREA_LASERCANNONS)
 				{
-					ProcessForwardLaserCannons(ref p, d, bseq, sendertime);
+					bool r = ProcessForwardLaserCannons(ref p, d, bseq, sendertime);
+					if (!r) return;
 				}
 				else if (cmd == AREA_SHIELDPROJECTORS)
 				{
-					ProcessForwardShieldProjectors(ref p, d, bseq, sendertime);
+					bool r = ProcessForwardShieldProjectors(ref p, d, bseq, sendertime);
+					if (!r) return;
 				}
 				else if (cmd == AREA_MINIGUNS)
 				{
-					ProcessForwardMiniguns(ref p, d, bseq, sendertime);
+					bool r = ProcessForwardMiniguns(ref p, d, bseq, sendertime);
+					if (!r) return;
 				}
 				else if (cmd == AREA_TRISHOTCANNONS)
 				{
-					ProcessForwardTrishotCannons(ref p, d, bseq, sendertime);
+					bool r = ProcessForwardTrishotCannons(ref p, d, bseq, sendertime);
+					if (!r) return;
 				}
 				else if (cmd == AREA_RELAYCANNONS)
 				{
-					ProcessForwardRelayCannons(ref p, d, bseq, sendertime);
+					bool r = ProcessForwardRelayCannons(ref p, d, bseq, sendertime);
+					if (!r) return;
 				}
 				else if (cmd == 0)
 				{
@@ -181,7 +188,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			}
 		}
 
-		private void ProcessForwardBulletCannons(ref int p, byte[] d, long bseq, float sendertime)
+		private bool ProcessForwardBulletCannons(ref int p, byte[] d, long bseq, float sendertime)
 		{
 			int count = d[p];
 			p++;
@@ -189,7 +196,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			for (int i = 0; i < count; i++)
 			{
 				var id     = NetworkDataTools.GetByte(d[p + 0]);
-				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3), out bool gfbiError);
+				var ifrac  = NetworkDataTools.GetHighBits(d[p + 1], 3);
 				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
 				var rotA   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
 				var rotT   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
@@ -197,10 +204,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 				var chrg   = NetworkDataTools.GetByte(d[p + 5]) / 255f;
 				var shield = NetworkDataTools.GetByteFloorRange(d[p + 6], 0, Cannon.MAX_SHIELD_TIME);
 
+				var frac   = Screen.GetFractionByID(ifrac, out bool gfbiError);
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFBC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
-					return;
+					SAMLog.Error("SNS-COMMON::PFBC_GFBI", "GetFractionByID returned error: Unknown Fraction " + ifrac + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
+					return false;
 				}
 
 				Cannon c;
@@ -223,9 +231,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				p += PLEN_BULLETCANNON;
 			}
+
+			return true;
 		}
 
-		private void ProcessForwardRelayCannons(ref int p, byte[] d, long bseq, float sendertime)
+		private bool ProcessForwardRelayCannons(ref int p, byte[] d, long bseq, float sendertime)
 		{
 			int count = d[p];
 			p++;
@@ -233,16 +243,17 @@ namespace GridDominance.Shared.Network.Multiplayer
 			for (int i = 0; i < count; i++)
 			{
 				var id     = NetworkDataTools.GetByte(d[p + 0]);
-				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3), out bool gfbiError);
+				var ifrac  = NetworkDataTools.GetHighBits(d[p + 1], 3);
 				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
 				var rotA   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
 				var rotT   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
 				var shield = NetworkDataTools.GetByteFloorRange(d[p + 4], 0, Cannon.MAX_SHIELD_TIME);
 
+				var frac = Screen.GetFractionByID(ifrac, out bool gfbiError);
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFRC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
-					return;
+					SAMLog.Error("SNS-COMMON::PFRC_GFBI", "GetFractionByID returned error: Unknown Fraction " + ifrac + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
+					return false;
 				}
 
 				Cannon c;
@@ -265,9 +276,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				p += PLEN_RELAYCANNON;
 			}
+
+			return true;
 		}
 
-		private void ProcessForwardLaserCannons(ref int p, byte[] d, long bseq, float sendertime)
+		private bool ProcessForwardLaserCannons(ref int p, byte[] d, long bseq, float sendertime)
 		{
 			int count = d[p];
 			p++;
@@ -275,7 +288,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			for (int i = 0; i < count; i++)
 			{
 				var id     = NetworkDataTools.GetByte(d[p + 0]);
-				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3), out bool gfbiError);
+				var ifrac  = NetworkDataTools.GetHighBits(d[p + 1], 3);
 				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
 				var rotA   = NetworkDataTools.GetSingle(d[p + 2], d[p + 3], d[p + 4], d[p + 5]);
 				var rotT   = NetworkDataTools.GetSingle(d[p + 6], d[p + 7], d[p + 8], d[p + 9]);
@@ -283,10 +296,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 				var ct     = NetworkDataTools.GetByteFloorRange(d[p + 11], 0, Cannon.LASER_CHARGE_COOLDOWN_MAX);
 				var shield = NetworkDataTools.GetByteFloorRange(d[p + 12], 0, Cannon.MAX_SHIELD_TIME);
 
+				var frac   = Screen.GetFractionByID(ifrac, out bool gfbiError);
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFLC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
-					return;
+					SAMLog.Error("SNS-COMMON::PFLC_GFBI", "GetFractionByID returned error: Unknown Fraction " + ifrac + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
+					return false;
 				}
 
 				Cannon c;
@@ -309,9 +323,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				p += PLEN_LASERCANNON;
 			}
+
+			return true;
 		}
 
-		private void ProcessForwardTrishotCannons(ref int p, byte[] d, long bseq, float sendertime)
+		private bool ProcessForwardTrishotCannons(ref int p, byte[] d, long bseq, float sendertime)
 		{
 			int count = d[p];
 			p++;
@@ -319,7 +335,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			for (int i = 0; i < count; i++)
 			{
 				var id     = NetworkDataTools.GetByte(d[p + 0]);
-				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3), out bool gfbiError);
+				var ifrac = NetworkDataTools.GetHighBits(d[p + 1], 3);
 				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
 				var rotA   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
 				var rotT   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
@@ -327,10 +343,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 				var chrg   = NetworkDataTools.GetByte(d[p + 5]) / 255f;
 				var shield = NetworkDataTools.GetByteFloorRange(d[p + 6], 0, Cannon.MAX_SHIELD_TIME);
 
+				var frac = Screen.GetFractionByID(ifrac, out bool gfbiError);
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFTSC_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
-					return;
+					SAMLog.Error("SNS-COMMON::PFTSC_GFBI", "GetFractionByID returned error: Unknown Fraction " + ifrac + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
+					return false;
 				}
 
 				Cannon c;
@@ -353,9 +370,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				p += PLEN_TRISHOTCANNON;
 			}
+
+			return true;
 		}
 
-		private void ProcessForwardMiniguns(ref int p, byte[] d, long bseq, float sendertime)
+		private bool ProcessForwardMiniguns(ref int p, byte[] d, long bseq, float sendertime)
 		{
 			int count = d[p];
 			p++;
@@ -363,7 +382,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 			for (int i = 0; i < count; i++)
 			{
 				var id     = NetworkDataTools.GetByte(d[p + 0]);
-				var frac   = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3), out bool gfbiError);
+				var ifrac  = NetworkDataTools.GetHighBits(d[p + 1], 3);
 				var boost  = NetworkDataTools.GetLowBits(d[p + 1], 5);
 				var rotA   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 2]), 8);
 				var rotT   = NetworkDataTools.ConvertToRadians(NetworkDataTools.GetByte(d[p + 3]), 8);
@@ -371,10 +390,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 				var chrg   = NetworkDataTools.GetByte(d[p + 5]) / 255f;
 				var shield = NetworkDataTools.GetByteFloorRange(d[p + 6], 0, Cannon.MAX_SHIELD_TIME);
 
+				var frac = Screen.GetFractionByID(ifrac, out bool gfbiError);
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFMG_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
-					return;
+					SAMLog.Error("SNS-COMMON::PFMG_GFBI", "GetFractionByID returned error: Unknown Fraction " + ifrac + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
+					return false;
 				}
 
 				Cannon c;
@@ -397,27 +417,30 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				p += PLEN_MINIGUN;
 			}
+
+			return true;
 		}
 
-		private void ProcessForwardShieldProjectors(ref int p, byte[] d, long bseq, float sendertime)
+		private bool ProcessForwardShieldProjectors(ref int p, byte[] d, long bseq, float sendertime)
 		{
 			int count = d[p];
 			p++;
 
 			for (int i = 0; i < count; i++)
 			{
-				var id = NetworkDataTools.GetByte(d[p + 0]);
-				var frac = Screen.GetFractionByID(NetworkDataTools.GetHighBits(d[p + 1], 3), out bool gfbiError);
+				var id    = NetworkDataTools.GetByte(d[p + 0]);
+				var ifrac = NetworkDataTools.GetHighBits(d[p + 1], 3);
 				var boost = NetworkDataTools.GetLowBits(d[p + 1], 5);
-				var rotA = NetworkDataTools.GetSingle(d[p + 2], d[p + 3], d[p + 4], d[p + 5]);
-				var rotT = NetworkDataTools.GetSingle(d[p + 6], d[p + 7], d[p + 8], d[p + 9]);
-				var hp = NetworkDataTools.GetByte(d[p + 10]) / 255f;
-				var ct = (NetworkDataTools.GetByte(d[p + 11]) / 255f) * Cannon.SHIELDLASER_CHARGE_COOLDOWN_MAX;
+				var rotA  = NetworkDataTools.GetSingle(d[p + 2], d[p + 3], d[p + 4], d[p + 5]);
+				var rotT  = NetworkDataTools.GetSingle(d[p + 6], d[p + 7], d[p + 8], d[p + 9]);
+				var hp    = NetworkDataTools.GetByte(d[p + 10]) / 255f;
+				var ct    = (NetworkDataTools.GetByte(d[p + 11]) / 255f) * Cannon.SHIELDLASER_CHARGE_COOLDOWN_MAX;
 
+				var frac = Screen.GetFractionByID(ifrac, out bool gfbiError);
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFSP_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 1], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
-					return;
+					SAMLog.Error("SNS-COMMON::PFSP_GFBI", "GetFractionByID returned error: Unknown Fraction " + ifrac+ "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
+					return false;
 				}
 
 				Cannon c;
@@ -440,9 +463,11 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 				p += PLEN_SHIELDPROJECTOR;
 			}
+
+			return true;
 		}
 
-		private void ProcessForwardBullets(ref int p, byte[] d, long bseq, float sendertime)
+		private bool ProcessForwardBullets(ref int p, byte[] d, long bseq, float sendertime)
 		{
 			int count = d[p];
 			p++;
@@ -461,13 +486,19 @@ namespace GridDominance.Shared.Network.Multiplayer
 				var veloc = new Vector2(len, 0).Rotate(rot);
 
 				var ifrac = NetworkDataTools.GetLowBits(d[p + 8], 3);
-				var fraction = Screen.GetFractionByID(ifrac, out var gfbiError);
 				var scale = 16 * (d[p + 9] / 255f);
 
+				var fraction = Screen.GetFractionByID(ifrac, out var gfbiError);
 				if (gfbiError)
 				{
-					SAMLog.Error("SNS-COMMON::PFB_GFBI", "GetFractionByID returned error: Unknown Fraction " + NetworkDataTools.GetLowBits(d[p + 8], 3) + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
-					return;
+					SAMLog.Error("SNS-COMMON::PFB_GFBI", "GetFractionByID returned error: Unknown Fraction " + ifrac + "\nData:\n" + ByteUtils.CompressBytesForStorage(d));
+					return false;
+				}
+
+				if (FloatMath.IsZero(scale))
+				{
+					SAMLog.Error("SNS-COMMON::PFB_SIZ", "BulletScale == 0\nData:\n" + ByteUtils.CompressBytesForStorage(d));
+					return false;
 				}
 
 				var bullet = Screen.RemoteBulletMapping[id];
@@ -523,6 +554,8 @@ namespace GridDominance.Shared.Network.Multiplayer
 					}
 				}
 			}
+
+			return true;
 		}
 
 		protected void SendAndReset(ref int idx)
@@ -530,6 +563,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 			SetSequenceCounter(ref MSG_FORWARD[1]);
 
 			MSG_FORWARD[idx] = AREA_END;
+
+			for (int ffill = 1; idx + ffill < MSG_FORWARD.Length && ffill < 32; ffill++)
+			{
+				MSG_FORWARD[idx + ffill] = (byte) (AREA_END + ffill);
+			}
+
 			Send(MSG_FORWARD);
 			packageModSize = idx;
 
