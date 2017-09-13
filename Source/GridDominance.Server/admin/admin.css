@@ -111,3 +111,12 @@ h1 a:hover { color: blue; text-decoration: underline; }
   overflow: auto;
   font-family: monospace;
 }
+
+.scrollabletabbox {
+  overflow: auto;
+  max-height: 1200px;
+}
+
+.td_err {
+  background: #F33;
+}

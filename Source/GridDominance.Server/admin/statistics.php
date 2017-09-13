@@ -73,7 +73,7 @@ function fmtw($w) {
 		$u1 =  $pdo->query('SELECT device_name AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_name')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
-        <div class="tablebox">
+        <div class="tablebox scrollabletabbox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -100,7 +100,7 @@ function fmtw($w) {
 		$u2 =  $pdo->query('SELECT device_version AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_version')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
-        <div class="tablebox">
+        <div class="tablebox scrollabletabbox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -126,7 +126,7 @@ function fmtw($w) {
 		$u3 =  $pdo->query('SELECT device_resolution AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_resolution')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
-        <div class="tablebox">
+        <div class="tablebox scrollabletabbox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -157,7 +157,7 @@ function fmtw($w) {
 		$u4 =  $pdo->query('SELECT app_version AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_version')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
-        <div class="tablebox">
+        <div class="tablebox scrollabletabbox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -203,7 +203,7 @@ function fmtw($w) {
 
 		?>
 
-        <div class="tablebox">
+        <div class="tablebox scrollabletabbox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -232,7 +232,7 @@ function fmtw($w) {
 		$u1 =  $pdo->query('SELECT is_auto_generated AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY is_auto_generated')->fetchAll(PDO::FETCH_ASSOC);
 		?>
 
-        <div class="tablebox">
+        <div class="tablebox scrollabletabbox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>

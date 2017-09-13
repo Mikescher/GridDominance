@@ -102,6 +102,23 @@
         </div>
     </div>
 
+    <?php
+	global $config;
+	global $pdo;
+
+	$stmt = $pdo->prepare(loadSQL('manual_calculate_time'));
+	$stmt->bindValue(':uid1', $user->ID, PDO::PARAM_INT);
+	$stmt->bindValue(':uid2', $user->ID, PDO::PARAM_INT);
+	$stmt->bindValue(':uid3', $user->ID, PDO::PARAM_INT);
+	$stmt->bindValue(':uid4', $user->ID, PDO::PARAM_INT);
+	$stmt->execute();
+
+	$manual = [];
+	foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+		$manual[$row['worldid']] = $row['best_time'];
+	}
+	?>
+
     <div class="tablebox" data-collapse>
         <h2 class="open collapseheader">Ranking [+/-]</h2>
 
@@ -113,6 +130,7 @@
                 <th style='width: 250px'>Username</th>
                 <th>Total Score</th>
                 <th>Total Time</th>
+                <th>Total Time (Recalulated)</th>
             </tr>
             </thead>
 
@@ -123,18 +141,20 @@
 			$stmt = $pdo->prepare(loadSQL("get-ranking_global_playerrank"));
 			$stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
 			executeOrFail($stmt);
+
 			$entry = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 			if (count($entry) > 0):
                 $entry = $entry[0];
 			?>
 
-                <tr>
+                <tr class="<?php if ($manual['*'] != $entry['totaltime']) echo "td_err"; ?>">
                     <td>global</td>
                     <td><?php echo $entry['rank']; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
                     <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                    <td title="<?php echo $manual['*']; ?>ms" ><?php echo gmdate("H:i:s", $manual['*']/1000.0); ?></td>
                 </tr>
 
 			<?php endif; ?>
@@ -142,26 +162,28 @@
 			<?php
 			global $config;
 			global $pdo;
-                foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w):
 
-                    if ($w == $config['worldid_0']) continue;
+            foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w):
 
-					$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_playerrank', '#$$FIELD$$', worldGuidToSQLField($w)));
-					$stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
-					executeOrFail($stmt);
-					$entry = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if ($w == $config['worldid_0']) continue;
 
-                    if (count($entry) == 0) continue;
+                $stmt = $pdo->prepare(loadReplSQL('get-ranking_local_playerrank', '#$$FIELD$$', worldGuidToSQLField($w)));
+                $stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
+                executeOrFail($stmt);
+                $entry = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-					$entry = $entry[0];
+                if (count($entry) == 0) continue;
+
+                $entry = $entry[0];
 
              ?>
-                <tr>
+                <tr class="<?php if ($manual[$w] != $entry['totaltime']) echo "td_err"; ?>">
                     <td><a href="worldhighscore.php?id=<?php echo $w; ?>"><?php echo $w; ?></a></td>
                     <td><?php echo $entry['rank']; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
                     <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                    <td title="<?php echo $manual[$w]; ?>ms" ><?php echo gmdate("H:i:s", $manual[$w]/1000.0); ?></td>
                 </tr>
 			<?php endforeach; ?>
         </table>
