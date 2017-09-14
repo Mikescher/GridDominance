@@ -111,6 +111,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			AddEntityOperation(new SimpleCyclicGameEntityOperation<LevelNode>("LevelNode::OrbSpawn", ORB_SPAWN_TIME, false, SpawnOrb));
 		}
 
+		public bool CenterContains(FPoint p)
+		{
+			return clickAreaThis.AbsoluteShape.Contains(p);
+		}
+
 		public override void OnInitialize(EntityManager manager)
 		{
 			clickAreaThis = AddClickMouseArea(new FCircle(0, 0, DIAMETER / 2f), OnClickCenter);
@@ -219,7 +224,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			}
 		}
 
-		private void OpenNode()
+		public void OpenNode()
 		{
 			AbortAllOperations(p => p.Name == "LevelNode::Center");
 			AbortAllOperations(p => p.Name == "LevelNode::CenterShake");

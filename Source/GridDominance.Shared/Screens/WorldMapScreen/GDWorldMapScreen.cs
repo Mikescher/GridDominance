@@ -102,7 +102,21 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 
 			if (ZoomState == BistateProgress.Expanded && istate.IsRealJustDown && PreventZoomInCtr != MonoSAMGame.GameCycleCounter && istate.SwallowConsumer != InputConsumer.HUDElement)
 			{
-				ZoomIn(istate.GamePointerPositionOnMap);
+				var zoompos = istate.GamePointerPositionOnMap;
+
+
+				foreach (var n in GetEntities<LevelNode>())
+				{
+					if (n.NodeEnabled && n.StateSum == BistateProgress.Closed && n.CenterContains(istate.GamePointerPositionOnMap))
+					{
+						n.OpenNode();
+						zoompos = n.Position;
+						break;
+					}
+				}
+
+				ZoomIn(zoompos);
+
 			}
 
 			if (ZoomState == BistateProgress.Normal && istate.IsGesturePinchComplete && istate.LastPinchPower < -10)
