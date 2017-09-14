@@ -145,11 +145,11 @@
 					{
 						echo "<td>";
 						echo $entry['acknowledged'] . " ";
-						echo " <a href=\"#\" onclick='HideExpandedColumn(" . $previd . ");AjaxAck(".$entry['error_id'].");return false;'>(ack)</a>";
+						echo " <a href=\"#\" onclick='HideExpandedColumn(" . $previd . ");AjaxAck(".$entry['error_id'].");return false;'>(ack (this))</a>";
 						echo "<br/>";
-						echo " <a href=\"ack.php?sim=2&exid=" . urlencode($entry['exception_id']) . "\">(ack similiar (id))</a>";
+						echo " <a href=\"ack.php?sim=2&version=".urlencode($entry['app_version'])."&exid=" . urlencode($entry['exception_id']) . "\">(ack (v+id))</a>";
 						echo "<br/>";
-						echo " <a href=\"ack.php?sim=3&exid=" . urlencode($entry['exception_id']) . "&exmsg=" . urlencode($entry['exception_message']) . "\">(ack similiar (id+msg))</a>";
+						echo " <a href=\"ack.php?sim=3&version=".urlencode($entry['app_version'])."&exid=" . urlencode($entry['exception_id']) . "&exmsg=" . urlencode($entry['exception_message']) . "\">(ack (v+id+msg))</a>";
 						echo "</td>";
 					}
 					else

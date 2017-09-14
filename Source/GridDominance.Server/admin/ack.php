@@ -31,9 +31,11 @@ if ($sim == 1)
 else if ($sim == 2)
 {
 	$eid = $_GET["exid"];
+	$vers = $_GET["version"];
 
-	$stmt = $pdo->prepare("UPDATE error_log SET error_log.acknowledged=1 WHERE error_log.exception_id LIKE :eid");
+	$stmt = $pdo->prepare("UPDATE error_log SET error_log.acknowledged=1 WHERE error_log.exception_id LIKE :eid AND error_log.app_version LIKE :av");
 	$stmt->bindValue(':eid', $eid, PDO::PARAM_INT);
+	$stmt->bindValue(':av', $vers, PDO::PARAM_STR);
 	$stmt->execute();
 
 	echo "Acknowledged $eid. (" . $stmt->rowCount() . " affected)";
@@ -42,10 +44,12 @@ else if ($sim == 3)
 {
 	$eid = $_GET["exid"];
 	$ems = $_GET["exmsg"];
+	$vers = $_GET["version"];
 
-	$stmt = $pdo->prepare("UPDATE error_log SET error_log.acknowledged=1 WHERE error_log.exception_id LIKE :eid AND error_log.exception_message LIKE :ems");
+	$stmt = $pdo->prepare("UPDATE error_log SET error_log.acknowledged=1 WHERE error_log.exception_id LIKE :eid AND error_log.exception_message LIKE :ems AND error_log.app_version LIKE :av");
 	$stmt->bindValue(':eid', $eid, PDO::PARAM_INT);
 	$stmt->bindValue(':ems', $ems, PDO::PARAM_STR);
+	$stmt->bindValue(':av', $vers, PDO::PARAM_STR);
 	$stmt->execute();
 
 	echo "Acknowledged $eid + message. (" . $stmt->rowCount() . " affected)";
