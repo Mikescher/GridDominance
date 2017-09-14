@@ -4,10 +4,12 @@ using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.HUD.Operations;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
@@ -15,6 +17,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
@@ -32,19 +35,26 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		public override int Depth => 0;
 
-		private readonly HashSet<FractionDifficulty> gainLevel;
-		private readonly bool successScreen;
-		private readonly PlayerProfile profile;
-		private readonly LevelBlueprint Level;
-		private readonly int increasePoints;
-		
-		public HUDScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int pointInc)
+		private readonly HashSet<FractionDifficulty> _gainLevel;
+		private readonly bool _successScreen;
+		private readonly PlayerProfile _profile;
+		private readonly LevelBlueprint _level;
+		private readonly int _increasePoints;
+		private readonly FractionDifficulty _levelDifficulty;
+		private readonly int _leveltime;
+
+		public HUDLabel LabelTime1;
+		public HUDLabel LabelTime2;
+
+		public HUDScorePanel(LevelBlueprint lvl, PlayerProfile playerprofile, HashSet<FractionDifficulty> newDifficulties, FractionDifficulty d, bool playerHasWon, int pointInc, int time)
 		{
-			gainLevel = newDifficulties;
-			successScreen = playerHasWon;
-			profile = playerprofile;
-			increasePoints = pointInc;
-			Level = lvl;
+			_gainLevel = newDifficulties;
+			_successScreen = playerHasWon;
+			_profile = playerprofile;
+			_increasePoints = pointInc;
+			_level = lvl;
+			_levelDifficulty = d;
+			_leveltime = time;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -138,14 +148,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				FontSize = 35,
 			});
 
-			AddElement(new HUDLabel(2)
+			AddElement(LabelTime1 = new HUDLabel(2)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(0, 77),
 				Size = new FSize(WIDTH / 3f, 40),
 
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				L10NText = L10NImpl.STR_HSP_PROGRESS,
+				L10NText = L10NImpl.STR_HSP_TIME_NOW,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
@@ -157,14 +167,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
 
-				Text = Level.Name,
+				Text = _level.Name,
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,
 				FontSize = 57,
 			});
 
-			AddElement(new HUDIncrementIndicatorLabel(profile.TotalPoints.ToString(), increasePoints == 0 ? "" : "+" + increasePoints, 2)
+			AddElement(new HUDIncrementIndicatorLabel(_profile.TotalPoints.ToString(), _increasePoints == 0 ? "" : "+" + _increasePoints, 2)
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 15),
@@ -176,13 +186,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				FontSize = 57,
 			});
 
-			AddElement(new HUDLabel(2)
+			AddElement(LabelTime2 = new HUDLabel(2)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
 
-				Text = profile.GetLevelData(Level.UniqueID).CompletionCount + " / 4",
+				Text = TimeExtension.FormatMilliseconds(_leveltime, false),
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,
@@ -213,7 +223,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Click = (s, a) => GDScreen.ExitToMap(false),
 			});
 
-			if (successScreen)
+			if (_successScreen)
 			{
 				var next = GetNextNode();
 
@@ -269,36 +279,36 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			#region Icons
 
-			var finDiff0 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompletedOrBetter(FractionDifficulty.KI_EASY);
-			var finDiff1 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompletedOrBetter(FractionDifficulty.KI_NORMAL);
-			var finDiff2 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompletedOrBetter(FractionDifficulty.KI_HARD);
-			var finDiff3 = profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompletedOrBetter(FractionDifficulty.KI_IMPOSSIBLE);
+			var finDiff0 = _profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompletedOrBetter(FractionDifficulty.KI_EASY);
+			var finDiff1 = _profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompletedOrBetter(FractionDifficulty.KI_NORMAL);
+			var finDiff2 = _profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompletedOrBetter(FractionDifficulty.KI_HARD);
+			var finDiff3 = _profile.GetLevelData(this.GDHUD().GDOwner.Blueprint.UniqueID).HasCompletedOrBetter(FractionDifficulty.KI_IMPOSSIBLE);
 
 
 			var modeDiff0 =
 				finDiff0 ?
-					(gainLevel.Contains(FractionDifficulty.KI_EASY) ?
+					(_gainLevel.Contains(FractionDifficulty.KI_EASY) ?
 						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			var modeDiff1 =
 				finDiff1 ?
-					(gainLevel.Contains(FractionDifficulty.KI_NORMAL) ?
+					(_gainLevel.Contains(FractionDifficulty.KI_NORMAL) ?
 						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			var modeDiff2 =
 				finDiff2 ?
-					(gainLevel.Contains(FractionDifficulty.KI_HARD) ?
+					(_gainLevel.Contains(FractionDifficulty.KI_HARD) ?
 						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
 			var modeDiff3 =
 				finDiff3 ?
-					(gainLevel.Contains(FractionDifficulty.KI_IMPOSSIBLE) ?
+					(_gainLevel.Contains(FractionDifficulty.KI_IMPOSSIBLE) ?
 						HUDDifficultyButton.HUDDifficultyButtonMode.UNLOCKANIMATION :
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
@@ -332,6 +342,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			});
 
 			#endregion
+
+			if (_successScreen)
+			{
+				AddHUDOperation(new HUDScorePanelTimeDisplayOperation(
+					L10NImpl.STR_HSP_TIME_NOW, TimeExtension.FormatMilliseconds(_leveltime, false),
+					L10NImpl.STR_HSP_TIME_BEST, _profile.GetLevelData(_level.UniqueID).GetTimeString(_levelDifficulty, false)));
+			}
+			else
+			{
+				LabelTime1.L10NText = L10NImpl.STR_HSP_TIME_BEST;
+				LabelTime2.Text = _profile.GetLevelData(_level.UniqueID).GetTimeString(_levelDifficulty, false);
+			}
 		}
 
 		private Tuple<LevelBlueprint, FractionDifficulty> GetNextNode()

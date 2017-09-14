@@ -58,7 +58,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			//
 		}
 
-		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints)
+		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints, int time)
 		{
 			//
 		}

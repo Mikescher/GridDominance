@@ -128,13 +128,13 @@ namespace GridDominance.Shared.SaveData
 			return "PLAYER_PROFILE_LEVEL_DATA";
 		}
 
-		public string GetTimeString(FractionDifficulty d)
+		public string GetTimeString(FractionDifficulty d, bool forceMinutes)
 		{
 			var v = Data[d];
 
 			if (!v.HasCompleted) return string.Empty;
 
-			return TimeExtension.FormatMilliseconds(v.BestTime);
+			return TimeExtension.FormatMilliseconds(v.BestTime, forceMinutes);
 		}
 
 		public int GetTime(FractionDifficulty d)

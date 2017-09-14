@@ -289,13 +289,13 @@ namespace GridDominance.Shared
 			var sdata = Profile.SerializeToString();
 			FileHelper.Inst.WriteData(GDConstants.PROFILE_FILENAME, sdata);
 
-
 #if DEBUG
 			SAMLog.Debug($"Profile saved ({sdata.Length})");
 
 			try
 			{
 				var p = new PlayerProfile();
+				p.NoAfterSerializeFixes = true;
 				p.DeserializeFromString(sdata);
 				var sdata2 = p.SerializeToString();
 

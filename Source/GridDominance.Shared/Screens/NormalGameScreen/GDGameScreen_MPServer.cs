@@ -89,7 +89,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			SAMLog.Error("GDGSS::Replay", "Try replay level");
 		}
 
-		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints)
+		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints, int time)
 		{
 			GameSpeedMode = GameSpeedModes.NORMAL;
 			HUD.AddModal(new HUDMultiplayerScorePanel(lvl, profile, playerHasWon, addPoints, _server, () => { _doNotStop = true; }), false);
@@ -111,6 +111,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				winner = cannon.Fraction;
 			}
 
+			var ctime = (int)(LevelTime * 1000);
+
 			if (winner == LocalPlayerFraction)
 			{
 				HasFinished = true;
@@ -120,7 +122,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				int inc = MainGame.Inst.Profile.IncMultiplayerScore((_server.SessionCapacity - 1) * 3, true);
 				MainGame.Inst.SaveProfile();
 
-				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), true, inc);
+				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), true, inc, ctime);
 
 				EndGameConvert(winner);
 			}
@@ -133,7 +135,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				int inc = MainGame.Inst.Profile.DecMultiplayerScore(1, true);
 				MainGame.Inst.SaveProfile();
 
-				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, inc);
+				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, inc, ctime);
 
 				EndGameConvert(winner);
 			}

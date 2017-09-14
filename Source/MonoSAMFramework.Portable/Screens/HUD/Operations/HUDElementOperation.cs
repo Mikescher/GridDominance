@@ -28,7 +28,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 			OnEnd((TElement)element);
 		}
 
-		public abstract bool Update(TElement entity, SAMTime gameTime, InputState istate);
+		public abstract bool Update(TElement element, SAMTime gameTime, InputState istate);
 
 		protected abstract void OnStart(TElement element);
 		protected abstract void OnEnd(TElement element);

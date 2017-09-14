@@ -26,6 +26,9 @@ namespace GridDominance.Shared.SaveData
 		public HashSet<Guid> PurchasedWorlds;
 		public string StrPurchasedWorlds => String.Join("\n", PurchasedWorlds.Select(g => $"{g:B}").OrderBy(p => p));
 
+#if DEBUG
+		public bool NoAfterSerializeFixes = false;
+#endif
 
 		public AccountType AccountType;
 		public int OnlineUserID;
@@ -192,6 +195,10 @@ namespace GridDominance.Shared.SaveData
 
 		protected override void OnAfterDeserialize()
 		{
+#if DEBUG
+			if (NoAfterSerializeFixes) return;
+#endif
+
 			// In v1.0.1 there was a bug where an INVLOGIN xould result in AccountType=Anonymous but UserID=-1
 			if (AccountType == AccountType.Local || OnlineUserID == -1)
 			{

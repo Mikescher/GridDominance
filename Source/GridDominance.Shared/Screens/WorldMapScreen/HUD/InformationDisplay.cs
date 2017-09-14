@@ -74,19 +74,19 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			{
 				// Best time local
 
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, node.LevelData.GetTimeString(FractionDifficulty.DIFF_0), true);
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_1), true);
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, node.LevelData.GetTimeString(FractionDifficulty.DIFF_2), true);
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, node.LevelData.GetTimeString(FractionDifficulty.DIFF_3), true);
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, node.LevelData.GetTimeString(FractionDifficulty.DIFF_0, true), true);
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_1, true), true);
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, node.LevelData.GetTimeString(FractionDifficulty.DIFF_2, true), true);
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, node.LevelData.GetTimeString(FractionDifficulty.DIFF_3, true), true);
 			}
 			else if (tab == 1)
 			{
 				// Best time global
 				
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalBestTime), true);
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalBestTime), true);
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalBestTime), true);
-				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_3].GlobalBestTime), true);
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_0, 0, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalBestTime, true), true);
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_1, 1, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalBestTime, true), true);
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_2, 2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalBestTime, true), true);
+				DrawInfoLine(sbatch, FractionDifficulty.DIFF_3, 3, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_3].GlobalBestTime, true), true);
 			}
 			else if (tab == 2)
 			{
@@ -191,13 +191,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				{
 					case 0:
 						if (node.LevelData.HasCompletedExact(FractionDifficulty.DIFF_0))
-							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_0)));
+							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_0, true)));
 						else
 							Toast_4(L10N.TF(L10NImpl.STR_INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_0)));
 						break;
 						
 					case 1:
-						Toast_2(L10N.TF(L10NImpl.STR_INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalBestTime)));
+						Toast_2(L10N.TF(L10NImpl.STR_INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_0].GlobalBestTime, true)));
 						break;
 
 					case 2:
@@ -217,13 +217,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				{
 					case 0:
 						if (node.LevelData.HasCompletedExact(FractionDifficulty.DIFF_1))
-							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_1)));
+							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_1, true)));
 						else
 							Toast_4(L10N.TF(L10NImpl.STR_INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_1)));
 						break;
 						
 					case 1:
-						Toast_2(L10N.TF(L10NImpl.STR_INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalBestTime)));
+						Toast_2(L10N.TF(L10NImpl.STR_INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_1].GlobalBestTime, true)));
 						break;
 
 					case 2:
@@ -244,13 +244,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				{
 					case 0:
 						if (node.LevelData.HasCompletedExact(FractionDifficulty.DIFF_2))
-							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_2)));
+							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_2, true)));
 						else
 							Toast_4(L10N.TF(L10NImpl.STR_INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_2)));
 						break;
 						
 					case 1:
-						Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalBestTime)));
+						Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_2].GlobalBestTime, true)));
 						break;
 
 					case 2:
@@ -271,13 +271,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				{
 					case 0:
 						if (node.LevelData.HasCompletedExact(FractionDifficulty.DIFF_3))
-							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_3)));
+							Toast_1(L10N.TF(L10NImpl.STR_INFOTOAST_1, node.LevelData.GetTimeString(FractionDifficulty.DIFF_3, true)));
 						else
 							Toast_4(L10N.TF(L10NImpl.STR_INFOTOAST_4, FractionDifficultyHelper.GetDescription(FractionDifficulty.DIFF_3)));
 						break;
 						
 					case 1:
-						Toast_2(L10N.TF(L10NImpl.STR_INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_3].GlobalBestTime)));
+						Toast_2(L10N.TF(L10NImpl.STR_INFOTOAST_2, TimeExtension.FormatMilliseconds(node.LevelData.Data[FractionDifficulty.DIFF_3].GlobalBestTime, true)));
 						break;
 
 					case 2:

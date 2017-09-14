@@ -70,6 +70,8 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HSP_POINTS             = 44;
 		public const int STR_HSP_MPPOINTS           = 160;
 		public const int STR_HSP_PROGRESS           = 45;
+		public const int STR_HSP_TIME_NOW           = 183;
+		public const int STR_HSP_TIME_BEST          = 184;
 		public const int STR_HSP_BACK               = 46;
 		public const int STR_HSP_NEXT               = 47;
 		public const int STR_HSP_AGAIN              = 48;
@@ -216,7 +218,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_BTN_YES                = 180;
 		public const int STR_BTN_NO                 = 181;
 
-		private const int TEXT_COUNT = 183; // = next idx
+		private const int TEXT_COUNT = 185; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -277,6 +279,8 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_HSP_LEVEL,              "Level",                                                                                                                                   "Level",                                                                                                                               "Niveau",                                                                                                                                                       "Livello");
 			L10N.Add(STR_HSP_POINTS,             "Points",                                                                                                                                  "Punkte",                                                                                                                              "Ponts",                                                                                                                                                        "Punti");
 			L10N.Add(STR_HSP_PROGRESS,           "Progress",                                                                                                                                "Fortschritt",                                                                                                                         "Progrès",                                                                                                                                                      "Progresso");
+			L10N.Add(STR_HSP_TIME_NOW,           "Time (now)",                                                                                                                              "Levelzeit",                                                                                                                           "Temps",                                                                                                                                                        "Tempo");
+			L10N.Add(STR_HSP_TIME_BEST,          "Time (best)",                                                                                                                             "Bestzeit",                                                                                                                            "Meilleur temps",                                                                                                                                               "Miglior tempo");
 			L10N.Add(STR_HSP_BACK,               "Back",                                                                                                                                    "Zurück",                                                                                                                              "De retour",                                                                                                                                                    "Indietro");
 			L10N.Add(STR_HSP_NEXT,               "Next",                                                                                                                                    "Weiter",                                                                                                                              "Prochain",                                                                                                                                                     "Avanti");
 			L10N.Add(STR_HSP_AGAIN,              "Again",                                                                                                                                   "Wiederholen",                                                                                                                         "Répéter",                                                                                                                                                      "Ripeti");

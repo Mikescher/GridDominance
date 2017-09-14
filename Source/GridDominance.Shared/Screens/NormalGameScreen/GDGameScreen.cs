@@ -590,7 +590,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public abstract void RestartLevel(bool updateSpeed);
 		public abstract void ReplayLevel(FractionDifficulty diff);
-		public abstract void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints);
+		public abstract void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints, int time);
 		public abstract void ExitToMap(bool updateSpeed);
 		public abstract AbstractFractionController CreateController(Fraction f, Cannon cannon);
 	}

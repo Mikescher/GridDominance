@@ -274,6 +274,7 @@
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRectangle.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDSeperator.cs" />
     <Compile Include="Screens\HUD\Operations\HUDElementOperation.cs" />
+    <Compile Include="Screens\HUD\Operations\HUDCyclicElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\HUDIntervalElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\HUDInfiniteElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\HUDModuloElementOperation.cs" />

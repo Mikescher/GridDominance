@@ -37,7 +37,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			GDOwner.SetTutorialLevelScreen();
 		}
 
-		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints)
+		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints, int time)
 		{
 			((GDGameHUD)HUD).BtnPause.IsEnabled = false;
 			((GDGameHUD)HUD).BtnSpeed.IsEnabled = false;
@@ -84,10 +84,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			HasFinished = true;
 			PlayerWon = playerWon;
 
+			var ctime = (int)(LevelTime * 1000);
+
 			if (playerWon)
 			{
-				var ctime = (int)(LevelTime * 1000);
-
 				int scoreGain = 0;
 				HashSet<FractionDifficulty> gains = new HashSet<FractionDifficulty>();
 
@@ -123,14 +123,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				}
 
 				GDOwner.SaveProfile();
-				ShowScorePanel(Blueprint, GDOwner.Profile, gains, true, scoreGain);
+				ShowScorePanel(Blueprint, GDOwner.Profile, gains, true, scoreGain, ctime);
 				MainGame.Inst.GDSound.PlayEffectGameWon();
 
 				EndGameConvert(winner);
 			}
 			else
 			{
-				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, 0);
+				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, 0, ctime);
 
 				MainGame.Inst.GDSound.PlayEffectGameOver();
 

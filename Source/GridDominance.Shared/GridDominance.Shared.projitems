@@ -122,6 +122,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\HUDMultiplayerScorePanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\IGDGameHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Operations\HUDMultiplayerDifficultyButtonBlinkingIconOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Operations\HUDScorePanelTimeDisplayOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Operations\HUDScorePanelTimeChangeOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Operations\HUDTutorialDifficultyButtonBlinkingIconOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDTouchAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDTutorialDifficultyButton.cs" />

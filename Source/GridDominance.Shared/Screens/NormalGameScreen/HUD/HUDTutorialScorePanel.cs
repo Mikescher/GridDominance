@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -138,7 +139,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Size = new FSize(WIDTH / 3f, 40),
 
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				L10NText = L10NImpl.STR_HSP_PROGRESS,
+				L10NText = L10NImpl.STR_HSP_TIME_BEST,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontRegular,
 				FontSize = 35,
@@ -175,7 +176,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				RelativePosition = new FPoint(0, 15),
 				Size = new FSize(WIDTH / 3f, 60),
 
-				Text = "1 / 1",
+				Text = profile.GetLevelData(Levels.LEVEL_TUTORIAL).GetTimeString(FractionDifficulty.DIFF_0, true),
 				TextAlignment = HUDAlignment.BOTTOMCENTER,
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,
