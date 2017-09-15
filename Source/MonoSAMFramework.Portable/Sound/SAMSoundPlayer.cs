@@ -73,7 +73,7 @@ namespace MonoSAMFramework.Portable.Sound
 				}
 				else
 				{
-					throw;
+					SAMLog.Error("SSP::PlayEffect", ex);
 				}
 			}
 
@@ -336,11 +336,18 @@ namespace MonoSAMFramework.Portable.Sound
 
 		private void PlaySongInPlayer(Song s)
 		{
-			MediaPlayer.Play(s);
-			_mediaPlayerStartTime = Environment.TickCount / 1000f;
-			_mediaPlayerRealPlayTime = 0f;
+			try
+			{
+				MediaPlayer.Play(s);
+				_mediaPlayerStartTime = Environment.TickCount / 1000f;
+				_mediaPlayerRealPlayTime = 0f;
 
-			UpdateRealPlayTime();
+				UpdateRealPlayTime();
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("SSP::PlaySong", e);
+			}
 		}
 
 		public void TryPlayButtonClickEffect()
