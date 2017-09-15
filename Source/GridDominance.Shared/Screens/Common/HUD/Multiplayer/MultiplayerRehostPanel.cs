@@ -84,7 +84,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				L10NText = _server.ConnType == MultiplayerConnectionType.PROXY ? L10NImpl.STR_MENU_CAP_CGAME_PROX : L10NImpl.STR_MENU_CAP_CGAME_P2P,
+				L10NText = _server.ConnType == MultiplayerConnectionType.PROXY ? L10NImpl.STR_MENU_CAP_CGAME_PROX : L10NImpl.STR_MENU_CAP_CGAME_BT,
 				TextColor = FlatColors.Clouds,
 			});
 

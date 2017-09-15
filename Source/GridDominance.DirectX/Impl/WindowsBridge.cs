@@ -35,5 +35,7 @@ namespace GridDominance.Windows
 		public void Sleep(int milsec) => Thread.Sleep(milsec);
 
 		public void ExitApp() { /* works autom by MonoGame */ }
+
+		public void ShareAppLink() { /* Not implemented */ }
 	}
 }

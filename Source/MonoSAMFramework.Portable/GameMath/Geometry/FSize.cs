@@ -152,6 +152,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FSize(w, w / Ratio);
 		}
 
+		[Pure]
+		public FSize Rotate90()
+		{
+			return new FSize(Height, Width);
+		}
+
 		public string FormatAsResolution() => $"{(int) Width}x{(int) Height}";
 	}
 }

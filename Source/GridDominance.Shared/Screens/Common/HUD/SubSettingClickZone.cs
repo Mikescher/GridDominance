@@ -24,6 +24,7 @@ namespace GridDominance.Shared.Screens.Common.HUD
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
+			if (!IsEnabled) return;
 			HUD.Screen.Game.Sound.TryPlayButtonClickEffect();
 			_master.SlavePress(istate);
 		}

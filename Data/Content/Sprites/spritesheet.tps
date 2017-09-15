@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.4.0</string>
+        <string>4.5.0</string>
         <key>fileName</key>
         <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
@@ -495,14 +495,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">hud/bfb.png</key>
             <key type="filename">hud/blur_off.png</key>
             <key type="filename">hud/blur_on.png</key>
             <key type="filename">hud/cloud.png</key>
+            <key type="filename">hud/colorblind.png</key>
+            <key type="filename">hud/eye.png</key>
             <key type="filename">hud/fingerprint.png</key>
             <key type="filename">hud/info.png</key>
             <key type="filename">hud/music_off.png</key>
             <key type="filename">hud/music_on.png</key>
+            <key type="filename">hud/reddit.png</key>
             <key type="filename">hud/settings.png</key>
+            <key type="filename">hud/share.png</key>
             <key type="filename">hud/volume_off.png</key>
             <key type="filename">hud/volume_up.png</key>
             <struct type="IndividualSpriteSettings">

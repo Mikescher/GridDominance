@@ -54,6 +54,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Elements\MultiplayerScoreDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Multiplayer\MultiplayerFindLobbyScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Multiplayer\MultiplayerRehostPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\HUDSettingsBaseCloseOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\HUDSettingsFontCloseOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\HUDSettingsSlantedOpenOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\HUDSettingsHorizontalOpenOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\SubSettingsButtonShakeOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\UnlockSucessOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\UnlockErrorOperation.cs" />
@@ -231,9 +235,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\GDWorldMapScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\GDWorldHUD.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsCloseOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsFontAppearOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\HUDOperations\HUDSettingsOpenOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\HUDSettingsCloseOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\HUDSettingsFontAppearOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Operations\HUDSettingsOpenOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\InformationDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\HUD\TopLevelDisplay.cs" />
   </ItemGroup>

@@ -212,6 +212,11 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonIconAbout;
 		public static TextureRegion2D TexHUDButtonIconSettings;
 		public static TextureRegion2D TexHUDButtonIconAccount;
+		public static TextureRegion2D TexHUDButtonIconShare;
+		public static TextureRegion2D TexHUDButtonIconReddit;
+		public static TextureRegion2D TexHUDButtonIconBFB;
+		public static TextureRegion2D TexHUDButtonIconColorblind;
+		public static TextureRegion2D TexHUDButtonIconEye;
 		public static TextureRegion2D TexHUDIconUser;
 		public static TextureRegion2D TexHUDIconPassword;
 		public static TextureRegion2D TexHUDIconKeyboardCaps;
@@ -396,7 +401,7 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonSpeedClock                = AtlasTextures["hud_time_clock"];
 			TexHUDButtonPauseMenuMarker           = AtlasTextures["pausemenu_marker"];
 			TexHUDButtonPauseMenuMarkerBackground = AtlasTextures["pausemenu_marker_background"];
-
+			
 			TexHUDButtonIconHighscore     = AtlasTextures["cloud"];
 			TexHUDButtonIconEffectsOn     = AtlasTextures["blur_on"];
 			TexHUDButtonIconEffectsOff    = AtlasTextures["blur_off"];
@@ -407,6 +412,12 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonIconAbout         = AtlasTextures["info"];
 			TexHUDButtonIconSettings      = AtlasTextures["settings"];
 			TexHUDButtonIconAccount       = AtlasTextures["fingerprint"];
+			TexHUDButtonIconShare         = AtlasTextures["share"];
+			TexHUDButtonIconReddit        = AtlasTextures["reddit"];
+			TexHUDButtonIconBFB           = AtlasTextures["bfb"];
+			TexHUDButtonIconColorblind    = AtlasTextures["colorblind"];
+			TexHUDButtonIconEye           = AtlasTextures["eye"];
+
 			TexHUDIconUser                = AtlasTextures["user"];
 			TexHUDIconPassword            = AtlasTextures["password"];
 			TexHUDIconKeyboardCaps        = AtlasTextures["caps"];
@@ -417,6 +428,9 @@ namespace GridDominance.Shared.Resources
 			TexHUDIconArrow               = AtlasTextures["arrow"];
 			TexHUDIconChevronLeft         = AtlasTextures["chevron_left"];
 			TexHUDIconChevronRight        = AtlasTextures["chevron_right"];
+
+
+
 
 			TexHUDFlags                   = new[] { AtlasTextures["flag_00"], AtlasTextures["flag_01"], AtlasTextures["flag_02"], AtlasTextures["flag_03"] };
 

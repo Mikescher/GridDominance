@@ -1,5 +1,8 @@
 <Query Kind="Program" />
 
+bool FMT = true;
+
+
 string PATH = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\Source\GridDominance.Shared\Resources\L10NImpl.cs");
 void Main()
 {
@@ -19,11 +22,15 @@ void Fmt(ref string[] lines, ref int i, int colcount)
 {
 	int start = i;
 	int[] lengths = new int[colcount];
+
 	while (i < lines.Length && GrammarSplit(lines[i], ',').Length == colcount)
 	{
 		var line = lines[i];
 		var spl = GrammarSplit(line, ',');
-		for (int j = 0; j < colcount; j++) lengths[j] = Math.Max(lengths[j], TTrim(j, colcount, spl[j]).Length);
+		if (FMT)
+		{
+			for (int j = 0; j < colcount; j++) lengths[j] = Math.Max(lengths[j], TTrim(j, colcount, spl[j]).Length);
+		}
 		i++;
 	}
 	int end = i;

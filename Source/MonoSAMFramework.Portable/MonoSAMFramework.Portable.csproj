@@ -41,6 +41,7 @@
     <Compile Include="BatchRenderer\TextureAtlases\TextureAtlasReader.cs" />
     <Compile Include="BatchRenderer\TextureAtlases\TextureRegion2D.cs" />
     <Compile Include="BatchRenderer\SpriteBatchWrapper.cs" />
+    <Compile Include="ColorHelper\ColorblindColors.cs" />
     <Compile Include="DebugTools\BufferedLambdaString.cs" />
     <Compile Include="DebugTools\CompactJsonFormatter.cs" />
     <Compile Include="DebugTools\DebugMinimap.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Screens\HUD\Elements\Container\HUDRootContainer.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRectangle.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDSeperator.cs" />
+    <Compile Include="Screens\HUD\Operations\HUDDelayOperation.cs" />
     <Compile Include="Screens\HUD\Operations\HUDElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\HUDCyclicElementOperation.cs" />
     <Compile Include="Screens\HUD\Operations\HUDIntervalElementOperation.cs" />

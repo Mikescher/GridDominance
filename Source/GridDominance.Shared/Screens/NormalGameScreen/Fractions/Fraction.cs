@@ -7,13 +7,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 {
 	public class Fraction
 	{
-		public static readonly Color COLOR_NEUTRAL     = FlatColors.Silver;
-		public static readonly Color COLOR_PLAYER      = FlatColors.Nephritis;
-		public static readonly Color COLOR_COMPUTER_01 = FlatColors.Pomegranate;
-		public static readonly Color COLOR_COMPUTER_02 = FlatColors.BelizeHole;
-		public static readonly Color COLOR_COMPUTER_03 = FlatColors.Wisteria;
-		public static readonly Color COLOR_COMPUTER_04 = FlatColors.Orange;
-		public static readonly Color COLOR_COMPUTER_05 = FlatColors.GreenSea;
+		public static Color COLOR_NEUTRAL     => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.Grey          : FlatColors.Silver;
+		public static Color COLOR_PLAYER      => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.BluishGreen   : FlatColors.Nephritis;
+		public static Color COLOR_COMPUTER_01 => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.SkyBlue       : FlatColors.Pomegranate;
+		public static Color COLOR_COMPUTER_02 => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.Vermillon     : FlatColors.BelizeHole;
+		public static Color COLOR_COMPUTER_03 => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.ReddishPurple : FlatColors.Wisteria;
+		public static Color COLOR_COMPUTER_04 => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.Yellow        : FlatColors.Orange;
+		public static Color COLOR_COMPUTER_05 => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.Orange        : FlatColors.GreenSea;
 
 		public static readonly int NAME_NEUTRAL     = L10NImpl.STR_FRAC_N0;
 		public static readonly int NAME_PLAYER      = L10NImpl.STR_FRAC_P1;

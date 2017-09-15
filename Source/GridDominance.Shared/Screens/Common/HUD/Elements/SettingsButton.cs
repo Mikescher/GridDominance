@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.Screens.HUD.Operations;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -58,7 +59,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			if (istate.IsRealJustDown && OpeningState == BistateProgress.Open && !IsPressed && SubButtons != null && !SubButtons.Any(p => p.IsPressed) && !SubButtons.Any(p => p.Slave.IsPointerDownOnElement))
 			{
 				// Close when clicked somewhere else
-				AddHUDOperation(new HUDSettingsCloseOperation());
+				Close();
 			}
 		}
 
@@ -69,29 +70,50 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			if (OpeningState == BistateProgress.Opening) RemoveAllOperations();
 
-			AddHUDOperation(new HUDSettingsCloseOperation());
+			AddHUDOperation(new HUDSettingsBaseCloseOperation());
+
+			for (int i = 0; i < 11; i++)
+			{
+				AddHUDOperation(new HUDSettingsCloseOperation(i));
+				AddHUDOperation(new HUDSettingsFontCloseOperation(i));
+			}
+		}
+
+		public void Open()
+		{
+			if (OpeningState != BistateProgress.Closed) return;
+
+			AddCagedHUDOperationSequence<SettingsButton>(
+				e => e.OpeningState = BistateProgress.Opening,
+				e => e.OpeningState = BistateProgress.Open,
+				new HUDSettingsOpenOperation(),
+				new HUDSettingsFontAppearOperation(0),
+				new HUDSettingsFontAppearOperation(1),
+				new HUDSettingsFontAppearOperation(2),
+				new HUDSettingsFontAppearOperation(3),
+				new HUDSettingsFontAppearOperation(4),
+				new HUDSettingsFontAppearOperation(5),
+				new HUDSettingsFontAppearOperation(6),
+				new HUDDelayOperation(0.25f),
+				new HUDSettingsHorizontalOpenOperation(7, 0),
+				new HUDDelayOperation(0.10f),
+				new HUDSettingsSlantedOpenOperation(8, 1),
+				new HUDDelayOperation(0.10f),
+				new HUDSettingsSlantedOpenOperation(9, 2),
+				new HUDDelayOperation(0.10f),
+				new HUDSettingsSlantedOpenOperation(10, 3)
+			);
 		}
 
 		protected override void OnPress(InputState istate)
 		{
 			if (OpeningState == BistateProgress.Closed)
 			{
-				AddCagedHUDOperationSequence<SettingsButton>(
-					e => e.OpeningState = BistateProgress.Opening,
-					e => e.OpeningState = BistateProgress.Open,
-					new HUDSettingsOpenOperation(),
-					new HUDSettingsFontAppearOperation(0),
-					new HUDSettingsFontAppearOperation(1),
-					new HUDSettingsFontAppearOperation(2),
-					new HUDSettingsFontAppearOperation(3),
-					new HUDSettingsFontAppearOperation(4),
-					new HUDSettingsFontAppearOperation(5),
-					new HUDSettingsFontAppearOperation(6)
-					);
+				Open();
 			}
-			else if (OpeningState == BistateProgress.Open)
+			else if (OpeningState == BistateProgress.Open || OpeningState == BistateProgress.Opening)
 			{
-				AddHUDOperation(new HUDSettingsCloseOperation());
+				Close();
 			}
 		}
 
@@ -108,6 +130,26 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		protected override void OnHold(InputState istate, float holdTime)
 		{
 			// Not Available
+		}
+
+		public void CreateSubButtons()
+		{
+			SubButtons = new SubSettingButton[11];
+
+			SubButtons[0]  = new ButtonVolume(    this, SSBOrientation.V, 0);
+			SubButtons[1]  = new ButtonMusic(     this, SSBOrientation.V, 1);
+			SubButtons[2]  = new ButtonAccount(   this, SSBOrientation.V, 2);
+			SubButtons[3]  = new ButtonHighscore( this, SSBOrientation.V, 3);
+			SubButtons[4]  = new ButtonEffects(   this, SSBOrientation.V, 4);
+			SubButtons[5]  = new ButtonColorblind(this, SSBOrientation.V, 5);
+			SubButtons[6]  = new ButtonLanguage(  this, SSBOrientation.V, 6);
+
+			SubButtons[7]  = new ButtonShare(     this, SSBOrientation.H, 0);
+			SubButtons[8]  = new ButtonReddit(    this, SSBOrientation.H, 1);
+			SubButtons[9]  = new ButtonBFB(       this, SSBOrientation.H, 2);
+			SubButtons[10] = new ButtonAbout(     this, SSBOrientation.H, 3);
+
+			HUD.AddElements(SubButtons);
 		}
 	}
 }

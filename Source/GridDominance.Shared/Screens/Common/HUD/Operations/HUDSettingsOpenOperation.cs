@@ -13,17 +13,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnStart(SettingsButton button)
 		{
-			button.SubButtons = new SubSettingButton[7];
-
-			button.SubButtons[0] = new HUDButtonAbout(button);
-			button.SubButtons[1] = new ButtonAccount(button);
-			button.SubButtons[2] = new ButtonHighscore(button);
-			button.SubButtons[3] = new ButtonVolume(button);
-			button.SubButtons[4] = new ButtonMusic(button);
-			button.SubButtons[5] = new ButtonEffects(button);
-			button.SubButtons[6] = new ButtonLanguage(button);
-
-			button.HUD.AddElements(button.SubButtons);
+			button.CreateSubButtons();
 
 			button.OpeningProgress = 0f;
 

@@ -4,11 +4,11 @@ using MonoSAMFramework.Portable.Input;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class HUDSettingsCloseOperation : HUDTimedElementOperation<SettingsButton>
+	class HUDSettingsBaseCloseOperation : HUDTimedElementOperation<SettingsButton>
 	{
-		public HUDSettingsCloseOperation() : base(0.25f)
+		public HUDSettingsBaseCloseOperation() : base(0.25f)
 		{
-			
+			//
 		}
 
 		protected override void OnStart(SettingsButton button)
@@ -22,23 +22,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			button.OpeningProgress = 1 - progress;
 
-			foreach (var sub in button.SubButtons)
-			{
-				sub.ScaleProgress = 1 - progress;
-				
-				sub.FontProgress = 2*FloatMath.Max(0, 0.5f - progress);
-			}
-
 			button.RotationSpeed = 0.5f + progress * 0.5f;
 		}
 
 		protected override void OnEnd(SettingsButton button)
 		{
-			foreach (var sub in button.SubButtons)
-			{
-				sub.Alive = false;
-			}
-
 			button.SubButtons = null;
 			button.OpeningProgress = 0f;
 			button.RotationSpeed = 1f;

@@ -27,10 +27,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 
 	public static class FractionDifficultyHelper
 	{
-		public static readonly Color COLOR_DIFFICULTY_0 = FlatColors.PeterRiver;
-		public static readonly Color COLOR_DIFFICULTY_1 = FlatColors.Nephritis;
-		public static readonly Color COLOR_DIFFICULTY_2 = FlatColors.SunFlower;
-		public static readonly Color COLOR_DIFFICULTY_3 = FlatColors.Pomegranate;
+		public static Color COLOR_DIFFICULTY_0 => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.SkyBlue     : FlatColors.PeterRiver;
+		public static Color COLOR_DIFFICULTY_1 => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.BluishGreen : FlatColors.Nephritis;
+		public static Color COLOR_DIFFICULTY_2 => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.Yellow      : FlatColors.SunFlower;
+		public static Color COLOR_DIFFICULTY_3 => MainGame.Inst.Profile.ColorblindMode ? ColorblindColors.Vermillon   : FlatColors.Pomegranate;
 
 		public const float MULTIPLICATOR_B_PLAYER     = GDConstants.MULTIPLICATOR_BULLET_PLAYER;
 		public const float MULTIPLICATOR_B_NEUTRAL    = GDConstants.MULTIPLICATOR_BULLET_NEUTRAL;

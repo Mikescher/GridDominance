@@ -120,8 +120,19 @@ namespace GridDominance.Android.Impl
 		public void ExitApp()
 		{
 			_activity.FinishAffinity();
-//			global::Android.OS.Process.KillProcess(global::Android.OS.Process.MyPid());
-//			System.Environment.Exit(0);
+			//global::Android.OS.Process.KillProcess(global::Android.OS.Process.MyPid());
+			//System.Environment.Exit(0);
+		}
+
+		public void ShareAppLink()
+		{
+			Intent i = new Intent(Intent.ActionSend);
+			i.SetType("text/plain");
+			i.PutExtra(Intent.ExtraSubject, "Cannon Conquest");
+			var sAux = "\nLet me recommend you this application\n\n";
+			sAux = sAux + "https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.full\n\n";
+			i.PutExtra(Intent.ExtraText, sAux);
+			_activity.StartActivity(Intent.CreateChooser(i, "Choose one"));
 		}
 	}
 }

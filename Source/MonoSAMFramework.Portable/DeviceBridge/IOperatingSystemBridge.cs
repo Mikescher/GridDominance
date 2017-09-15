@@ -22,5 +22,7 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		void Sleep(int milsec);
 
 		void ExitApp();
+
+		void ShareAppLink();
 	}
 }
