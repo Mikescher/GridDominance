@@ -1,0 +1,13 @@
+<en-US>
+ - minor changes + fixes
+ - colorblind mode
+ - share + reddit button in menu
+ - bugfixes
+</en-US>
+
+<de-DE>
+ - Kleinere Änderungen
+ - Alternativer Farbmodus (für Farbenblindheit)
+ - Teilen/Reddit/Homepage Button
+ - Bugfixes
+</de-DE>

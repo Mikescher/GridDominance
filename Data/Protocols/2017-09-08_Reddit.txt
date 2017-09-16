@@ -29,10 +29,10 @@ TODO
  [X] Version for sdk<19
  [ ] cannons on tracks (future worlds)
  [X] Rotate upside down in landscape when phone is flipped
- [ ] Colorblind mode
+ [X] Colorblind mode
  [ ] dedicated server
  [X] show creation time online
- [ ] Share button
+ [X] Share button
 
 
 Similiar Games
