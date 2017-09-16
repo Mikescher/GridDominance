@@ -29,7 +29,8 @@ namespace GridDominance.Android
 			base.OnCreate(savedInstanceState);
 
 			_impl = new AndroidBridge_IAB(this);
-			var g = new MainGame(_impl);
+			var g = new MainGame();
+            g.Construct(_impl);
 			SetContentView(g.Services.GetService<View>());
 			g.Run();
 		}

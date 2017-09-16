@@ -2,7 +2,7 @@
 
 namespace GridDominance.Shared.Resources
 {
-	public enum GDFlavor { FREE, IAB, FULL }
+	public enum GDFlavor { FREE, IAB, FULL, FULL_NOMP }
 
 	public static class GDConstants
 	{
@@ -17,17 +17,20 @@ namespace GridDominance.Shared.Resources
 		public const int VIEW_WIDTH  = DEFAULT_GRID_WIDTH  * TILE_WIDTH; // 1024
 		public const int VIEW_HEIGHT = DEFAULT_GRID_HEIGHT * TILE_WIDTH; //  640
 
+#if GD_FULL_NOMP
+		public const GDFlavor FLAVOR = GDFlavor.FULL_NOMP;
+#endif
 #if GD_FULL
 		public const GDFlavor FLAVOR = GDFlavor.FULL;
 #endif
 #if GD_IAB
-		public const GDFlavor FLAVOR = GDFlavor.IAB;
+        public const GDFlavor FLAVOR = GDFlavor.IAB;
 #endif
 #if GD_FREE
 		public const GDFlavor FLAVOR = GDFlavor.FREE;
 #endif
 
-		public const string IAB_WORLD2      = @"gd_world_002";
+        public const string IAB_WORLD2      = @"gd_world_002";
 		public const string IAB_WORLD3      = @"gd_world_003";
 		public const string IAB_WORLD4      = @"gd_world_004";
 		public const string IAB_MULTIPLAYER = @"gd_multiplayer";

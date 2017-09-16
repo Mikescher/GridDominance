@@ -32,8 +32,8 @@ namespace GridDominance.Shared
 		public const float MAX_LOG_SEND_DELTA = 25f; // Max send 5 logs in 25sec
 		public const int   MAX_LOG_SEND_COUNT = 5;
 
-		public readonly PlayerProfile Profile;
-		public readonly IGDServerAPI Backend;
+		public PlayerProfile Profile;
+		public IGDServerAPI Backend;
 
 		public static MainGame Inst;
 
@@ -42,9 +42,11 @@ namespace GridDominance.Shared
 
 		public readonly float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
 
-		public MainGame(IOperatingSystemBridge b) : base(b)
-		{
-			Backend = new GDServerAPI(b);
+        public override void Construct(IOperatingSystemBridge bridge)
+        {
+            base.Construct(bridge);
+
+			Backend = new GDServerAPI(bridge);
 			//Backend = new DummyGDServerAPI();
 
 			if (GDConstants.FLAVOR == GDFlavor.IAB) Bridge.IAB.Connect(GDConstants.IABList);

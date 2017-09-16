@@ -28,7 +28,7 @@ namespace MonoSAMFramework.Portable
 		private readonly List<MonoSAMGameAgent> agents = new List<MonoSAMGameAgent>();
 		private static int _initialNoLagFrameCounter= 0;
 
-		public readonly GraphicsDeviceManager Graphics;
+		public GraphicsDeviceManager Graphics;
 
 		public static ulong GameCycleCounter { get; private set; }
 		public static SAMTime CurrentTime { get; private set; }
@@ -38,13 +38,15 @@ namespace MonoSAMFramework.Portable
 
 		public bool Alive { get; private set; } = true;
 
-		public readonly IOperatingSystemBridge Bridge;
+		public IOperatingSystemBridge Bridge;
 
 		public abstract SAMSoundPlayer Sound { get; }
 
 		public IDebugTextDisplay DebugDisplay => (screens?.CurrentScreen as GameScreen)?.DebugDisp;
 
-		protected MonoSAMGame(IOperatingSystemBridge bridge)
+		protected MonoSAMGame() { }
+
+        public virtual void Construct(IOperatingSystemBridge bridge)
 		{
 			try
 			{
