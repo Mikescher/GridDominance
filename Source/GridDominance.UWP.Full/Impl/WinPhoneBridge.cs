@@ -19,7 +19,7 @@ namespace GridDominance.UWP
 		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => null; // Not Supported
 
-        public FSize DeviceResolution { get; } = new FSize(0, 0);
+        public FSize DeviceResolution { get; } = GetScreenRes()
 
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
         public string DeviceName { get; } = UWPDeviceInfo.DeviceModel;
@@ -38,6 +38,13 @@ namespace GridDominance.UWP
 
             return b.ToString();
         }
+
+		public FSize GetScreenRes() 
+		{
+			var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+			var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+			var size = new Size(bounds.Width*scaleFactor, bounds.Height*scaleFactor);
+		}
 
         public string DoSHA256(string input)
 		{

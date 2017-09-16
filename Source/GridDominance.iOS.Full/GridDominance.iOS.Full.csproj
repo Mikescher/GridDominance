@@ -107,6 +107,18 @@
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Plugin.BLE, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\Xamarin.iOS10\Plugin.BLE.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.BLE.Abstractions, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\Xamarin.iOS10\Plugin.BLE.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.3.0.1\lib\Xamarin.iOS10\Plugin.DeviceInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.3.0.1\lib\Xamarin.iOS10\Plugin.DeviceInfo.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -128,7 +140,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinUDPClient.cs">
+      <Link>Impl\XamarinUDPClient.cs</Link>
+    </Compile>
+    <Compile Include="Impl\AppleBluetoothAdapter.cs" />
+    <Compile Include="Impl\AppleFullVersionBilling.cs" />
+    <Compile Include="Impl\AppleFileHelper.cs" />
     <Compile Include="Impl\AppleBridge.cs" />
+    <Compile Include="Impl\BTDeviceWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
@@ -224,9 +243,7 @@
       <InProject>false</InProject>
     </ImageAsset>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

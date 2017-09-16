@@ -9,8 +9,8 @@ namespace GridDominance.iOS.Full
 	[Register("AppDelegate")]
 	class Program : UIApplicationDelegate
 	{
-		private static MainGame game;
-		private static AppleBridge _impl;
+		public static MainGame game;
+		public static AppleBridge _impl;
 
 		internal static void RunGame()
 		{
