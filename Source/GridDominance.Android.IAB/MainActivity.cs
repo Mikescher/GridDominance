@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Android.Content;
 using GridDominance.Android.Impl;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.Android
 {
@@ -29,8 +30,8 @@ namespace GridDominance.Android
 			base.OnCreate(savedInstanceState);
 
 			_impl = new AndroidBridge_IAB(this);
-			var g = new MainGame();
-            g.Construct(_impl);
+            MonoSAMGame.StaticBridge = _impl;
+            var g = new MainGame();
 			SetContentView(g.Services.GetService<View>());
 			g.Run();
 		}

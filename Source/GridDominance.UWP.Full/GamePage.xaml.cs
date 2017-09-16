@@ -2,6 +2,7 @@
 using Windows.UI.Xaml.Controls;
 using MonoGame.Framework;
 using GridDominance.Shared;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.UWP
 {
@@ -20,8 +21,8 @@ namespace GridDominance.UWP
             // Create the game.
             var launchArguments = string.Empty;
             _impl = new WinPhoneBridge();
+            MonoSAMGame.StaticBridge = _impl;
             _game = XamlGame<MainGame>.Create(launchArguments, Window.Current.CoreWindow, swapChainPanel);
-            _game.Construct(_impl);
         }
     }
 }

@@ -131,6 +131,9 @@
     <Compile Include="Impl\AppleBridge.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
+      <Link>Content\Content.mgcb</Link>
+    </MonoGameContentReference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1024x768.png">

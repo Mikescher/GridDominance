@@ -44,31 +44,31 @@ namespace MonoSAMFramework.Portable
 
 		public IDebugTextDisplay DebugDisplay => (screens?.CurrentScreen as GameScreen)?.DebugDisp;
 
-		protected MonoSAMGame() { }
+        public static IOperatingSystemBridge StaticBridge;
 
-        public virtual void Construct(IOperatingSystemBridge bridge)
-		{
-			try
-			{
-				FileHelper.RegisterSystemSecificHandler(bridge.FileHelper);
+        protected MonoSAMGame()
+        {
+            try
+            {
+                FileHelper.RegisterSystemSecificHandler(StaticBridge.FileHelper);
 
-				Bridge = bridge;
-				CurrentInst = this;
+                Bridge = StaticBridge;
+                CurrentInst = this;
 
-				CurrentTime = new SAMTime();
+                CurrentTime = new SAMTime();
 
-				Graphics = new GraphicsDeviceManager(this);
-				Content.RootDirectory = "Content";
+                Graphics = new GraphicsDeviceManager(this);
+                Content.RootDirectory = "Content";
 
-				CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-				CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
-			}
-			catch (Exception e)
-			{
-				SAMLog.FatalError("Game::Constructor", e);
-			}
-		}
-
+                CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+                CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+            }
+            catch (Exception e)
+            {
+                SAMLog.FatalError("Game::Constructor", e);
+            }
+        }
+        
 		protected override void Initialize()
 		{
 			try
