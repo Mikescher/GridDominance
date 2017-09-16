@@ -62,6 +62,7 @@ namespace GridDominance.Shared.Screens.Common
 					}
 
 					case GDFlavor.FULL:
+					case GDFlavor.FULL_NOMP:
 					{
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_001, Levels.WORLD_002.ID);
 
@@ -101,7 +102,8 @@ namespace GridDominance.Shared.Screens.Common
 					}
 
 					case GDFlavor.FULL:
-					{
+                    case GDFlavor.FULL_NOMP:
+                        {
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_002, Levels.WORLD_003.ID);
 
 						return reachable ? WorldUnlockState.OpenAndUnlocked : WorldUnlockState.UnreachableAndFullyLocked;
@@ -140,7 +142,8 @@ namespace GridDominance.Shared.Screens.Common
 						}
 
 					case GDFlavor.FULL:
-					{
+                    case GDFlavor.FULL_NOMP:
+                        {
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_003, Levels.WORLD_004.ID);
 
 						return reachable ? WorldUnlockState.OpenAndUnlocked : WorldUnlockState.UnreachableAndFullyLocked;
@@ -176,6 +179,11 @@ namespace GridDominance.Shared.Screens.Common
 					case GDFlavor.FULL:
 					{
 						return WorldUnlockState.OpenAndUnlocked;
+					}
+
+					case GDFlavor.FULL_NOMP:
+					{
+						return WorldUnlockState.UnreachableAndFullyLocked;
 					}
 
 					default:

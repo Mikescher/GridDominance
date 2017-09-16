@@ -44,13 +44,15 @@ namespace MonoSAMFramework.Portable
 
 		public IDebugTextDisplay DebugDisplay => (screens?.CurrentScreen as GameScreen)?.DebugDisp;
 
-		protected MonoSAMGame(IOperatingSystemBridge bridge)
+		public static IOperatingSystemBridge StaticBridge;
+
+		protected MonoSAMGame()
 		{
 			try
 			{
-				FileHelper.RegisterSystemSecificHandler(bridge.FileHelper);
+				FileHelper.RegisterSystemSecificHandler(StaticBridge.FileHelper);
 
-				Bridge = bridge;
+				Bridge = StaticBridge;
 				CurrentInst = this;
 
 				CurrentTime = new SAMTime();

@@ -51,5 +51,7 @@ MyBuilds
 /Data/web/*
 
 *.xnb
+UpgradeLog.html
+project.lock.json
 
 __Secrets.cs

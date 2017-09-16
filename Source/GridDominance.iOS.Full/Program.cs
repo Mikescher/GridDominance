@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using GridDominance.iOS.Full.Impl;
 using GridDominance.Shared;
+using MonoSAMFramework.Portable;
 using UIKit;
 
 namespace GridDominance.iOS.Full
@@ -8,13 +9,13 @@ namespace GridDominance.iOS.Full
 	[Register("AppDelegate")]
 	class Program : UIApplicationDelegate
 	{
-		private static MainGame game;
-		private static AppleBridge _impl;
+		public static MainGame game;
+		public static AppleBridge _impl;
 
 		internal static void RunGame()
 		{
-			_impl = new AppleBridge();
-			game = new MainGame(_impl);
+			MonoSAMGame.StaticBridge = new AppleBridge();
+			game = new MainGame();
 			game.Run();
 		}
 

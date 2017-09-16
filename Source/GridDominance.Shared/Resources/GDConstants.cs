@@ -2,7 +2,7 @@
 
 namespace GridDominance.Shared.Resources
 {
-	public enum GDFlavor { FREE, IAB, FULL }
+	public enum GDFlavor { FREE, IAB, FULL, FULL_NOMP }
 
 	public static class GDConstants
 	{
@@ -17,6 +17,9 @@ namespace GridDominance.Shared.Resources
 		public const int VIEW_WIDTH  = DEFAULT_GRID_WIDTH  * TILE_WIDTH; // 1024
 		public const int VIEW_HEIGHT = DEFAULT_GRID_HEIGHT * TILE_WIDTH; //  640
 
+#if GD_FULL_NOMP
+		public const GDFlavor FLAVOR = GDFlavor.FULL_NOMP;
+#endif
 #if GD_FULL
 		public const GDFlavor FLAVOR = GDFlavor.FULL;
 #endif

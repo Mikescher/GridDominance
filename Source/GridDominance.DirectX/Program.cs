@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared;
 using GridDominance.Windows;
+using MonoSAMFramework.Portable;
 using System;
 
 namespace GridDominance.DirectX
@@ -9,7 +10,9 @@ namespace GridDominance.DirectX
 		[STAThread]
 		static void Main()
 		{
-			using (var game = new MainGame(new WindowsBridge())) game.Run();
+			MonoSAMGame.StaticBridge = new WindowsBridge();
+
+			using (var game = new MainGame()) game.Run();
 		}
 	}
 }

@@ -42,9 +42,9 @@ namespace GridDominance.Shared
 
 		public readonly float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
 
-		public MainGame(IOperatingSystemBridge b) : base(b)
+		public MainGame() : base()
 		{
-			Backend = new GDServerAPI(b);
+			Backend = new GDServerAPI(StaticBridge);
 			//Backend = new DummyGDServerAPI();
 
 			if (GDConstants.FLAVOR == GDFlavor.IAB) Bridge.IAB.Connect(GDConstants.IABList);
