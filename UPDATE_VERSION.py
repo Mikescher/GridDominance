@@ -73,11 +73,11 @@ repl(r"Source\GridDominance.iOS.Full\Properties\AssemblyInfo.cs", "AssemblyFileV
 
 repl(r"Source\GridDominance.Server\internals\config_auto.php", "'latest_version' => '(?P<repl>[0-9\\.]+)'", version_dot4)
 
-repl(r"Source\GridDominance.WinPhone8.Full\Package.appxmanifest", "<Identity[^\\r\\n>]Version=\"(?P<repl>[0-9\\.]+)\"", version_dot4)
+repl(r"Source\GridDominance.WinPhone8.Full\Package.appxmanifest", "<Identity[^\\r\\n>]+Version=\"(?P<repl>[0-9\\.]+)\"", version_dot4)
 repl(r"Source\GridDominance.WinPhone8.Full\Properties\AssemblyInfo.cs", "AssemblyVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 repl(r"Source\GridDominance.WinPhone8.Full\Properties\AssemblyInfo.cs", "AssemblyFileVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 
-repl(r"Source\GridDominance.UWP.Full\Package.appxmanifest", "<Identity[^\\r\\n>]Version=\"(?P<repl>[0-9\\.]+)\"", version_dot4)
+repl(r"Source\GridDominance.UWP.Full\Package.appxmanifest", "<Identity[^\\r\\n>]+Version=\"(?P<repl>[0-9\\.]+)\"", version_dot4)
 repl(r"Source\GridDominance.UWP.Full\Properties\AssemblyInfo.cs", "AssemblyVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 repl(r"Source\GridDominance.UWP.Full\Properties\AssemblyInfo.cs", "AssemblyFileVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 

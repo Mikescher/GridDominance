@@ -131,7 +131,7 @@ namespace GridDominance.Android.Impl
 			i.SetType("text/plain");
 			i.PutExtra(Intent.ExtraSubject, "Cannon Conquest");
 			var sAux = "\nLet me recommend you this application\n\n";
-			sAux = sAux + "https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.full\n\n";
+			sAux = sAux + "https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.full";
 			i.PutExtra(Intent.ExtraText, sAux);
 			_activity.StartActivity(Intent.CreateChooser(i, "Choose one"));
 		}

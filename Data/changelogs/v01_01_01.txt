@@ -1,0 +1,9 @@
+<en-US>
+ - bugfixes
+ - changes for amazon/UWP + iOS versions
+</en-US>
+
+<de-DE>
+ - Bugfixes
+ - Notwendige Änderungen für Amazon/UWP/iOS versionen
+</de-DE>
