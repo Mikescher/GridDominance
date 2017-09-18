@@ -57,7 +57,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			DebugUtils.CreateShortcuts(this);
 			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
+
+#if !__IOS__
 			AddAgent(new ExitAgent(this));
+#endif
 
 			List<OverworldNode> nodesList = new List<OverworldNode>();
 
