@@ -18,6 +18,7 @@ namespace GridDominance.UWP
 		public IBillingAdapter IAB { get; } = new WinPhoneFullVersionBilling();
 		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => null; // Not Supported
+		public string AppType => "WinPhone.UWP.Full";
 
         public FSize DeviceResolution { get; } = GetScreenRes()
 

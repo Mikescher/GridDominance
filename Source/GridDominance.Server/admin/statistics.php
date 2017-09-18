@@ -253,6 +253,64 @@ function fmtw($w) {
 
 </div>
 
+<div class="columnbox3">
+
+    <div class="column3_0" data-collapse>
+        <h2 class="open collapseheader">Users By App Type [+/-]</h2>
+
+		<?php
+		global $pdo;
+		$u5 =  $pdo->query('SELECT app_type AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_type')->fetchAll(PDO::FETCH_ASSOC);
+		?>
+
+        <div class="tablebox scrollabletabbox">
+            <table class="sqltab pure-table pure-table-bordered sortable">
+                <thead>
+                <tr>
+                    <th style='min-width: 170px'>Type</th>
+                    <th>Count</th>
+                </tr>
+                </thead>
+				<?php foreach ($u5 as $entry): ?>
+                    <tr>
+                        <td><?php echo $entry['name']; ?></td>
+                        <td><?php echo $entry['count']; ?></td>
+                    </tr>
+				<?php endforeach; ?>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="column3_1" data-collapse>
+        <h2 class="open collapseheader">Users By Score Range [+/-]</h2>
+
+		<?php
+		global $pdo;
+		$u5 =  $pdo->query('SELECT MIN(score) AS score1, MAX(score) AS score2, COUNT(*) AS count FROM users WHERE score>0 GROUP BY ROUND(score/500, 0)')->fetchAll(PDO::FETCH_ASSOC);
+		?>
+
+        <div class="tablebox scrollabletabbox">
+            <table class="sqltab pure-table pure-table-bordered sortable">
+                <thead>
+                <tr>
+                    <th style='min-width: 170px'>Score Range</th>
+                    <th>Count</th>
+                </tr>
+                </thead>
+				<?php foreach ($u5 as $entry): ?>
+                    <tr>
+                        <td><?php echo $entry['score1']; ?> - <?php echo $entry['score2']; ?></td>
+                        <td><?php echo $entry['count']; ?></td>
+                    </tr>
+				<?php endforeach; ?>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
 <script type="text/javascript">
 	<?php echo file_get_contents('admin.js'); ?>
 </script>

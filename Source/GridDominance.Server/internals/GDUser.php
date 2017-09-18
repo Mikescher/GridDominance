@@ -223,16 +223,31 @@ class GDUser implements JsonSerializable
 	 * @param string $unlocked_worlds
 	 * @param string $device_resolution
 	 */
-	public function UpdateMeta($app_version, $device_name, $device_version, $unlocked_worlds, $device_resolution) {
+	public function UpdateMeta($app_version, $device_name, $device_version, $unlocked_worlds, $device_resolution, $app_type) {
 		global $pdo;
-		$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), app_version=:av, device_name=:dn, device_version=:dv, unlocked_worlds=:uw, device_resolution=:dr, ping_counter=ping_counter+1 WHERE userid=:uid");
-		$stmt->bindValue(':uid', $this->ID,         PDO::PARAM_INT);
-		$stmt->bindValue(':av', $app_version,       PDO::PARAM_STR);
-		$stmt->bindValue(':dn', $device_name,       PDO::PARAM_STR);
-		$stmt->bindValue(':dv', $device_version,    PDO::PARAM_STR);
-		$stmt->bindValue(':uw', $unlocked_worlds,   PDO::PARAM_STR);
-		$stmt->bindValue(':dr', $device_resolution, PDO::PARAM_STR);
-		executeOrFail($stmt);
+		if (empty($app_type)) 
+		{
+			$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), app_version=:av, device_name=:dn, device_version=:dv, unlocked_worlds=:uw, device_resolution=:dr, ping_counter=ping_counter+1 WHERE userid=:uid");
+			$stmt->bindValue(':uid', $this->ID,         PDO::PARAM_INT);
+			$stmt->bindValue(':av', $app_version,       PDO::PARAM_STR);
+			$stmt->bindValue(':dn', $device_name,       PDO::PARAM_STR);
+			$stmt->bindValue(':dv', $device_version,    PDO::PARAM_STR);
+			$stmt->bindValue(':uw', $unlocked_worlds,   PDO::PARAM_STR);
+			$stmt->bindValue(':dr', $device_resolution, PDO::PARAM_STR);
+			executeOrFail($stmt);
+		} 
+		else 
+		{
+			$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), app_version=:av, device_name=:dn, device_version=:dv, unlocked_worlds=:uw, device_resolution=:dr, app_type=:at, ping_counter=ping_counter+1 WHERE userid=:uid");
+			$stmt->bindValue(':uid', $this->ID,         PDO::PARAM_INT);
+			$stmt->bindValue(':av', $app_version,       PDO::PARAM_STR);
+			$stmt->bindValue(':dn', $device_name,       PDO::PARAM_STR);
+			$stmt->bindValue(':dv', $device_version,    PDO::PARAM_STR);
+			$stmt->bindValue(':uw', $unlocked_worlds,   PDO::PARAM_STR);
+			$stmt->bindValue(':dr', $device_resolution, PDO::PARAM_STR);
+			$stmt->bindValue(':at', $app_type,          PDO::PARAM_STR);
+			executeOrFail($stmt);
+		}
 	}
 
 	/**

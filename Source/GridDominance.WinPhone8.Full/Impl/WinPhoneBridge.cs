@@ -17,6 +17,7 @@ namespace GridDominance.WinPhone
 		public IBillingAdapter IAB { get; } = new WinPhoneFullVersionBilling();
 		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
+		public string AppType => "WinPhone.V8.Full";
 		
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 

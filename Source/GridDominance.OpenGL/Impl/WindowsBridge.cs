@@ -18,8 +18,8 @@ namespace GridDominance.Windows
 		public IBillingAdapter IAB { get; } = new WindowsEmulatingBillingAdapter();
 		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
-		public string AppType => "Windows.DirectX";
-
+		public string AppType => "Windows.OpenGL";
+		
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 
 		public string FullDeviceInfoString { get; } = "?? GridDominance.Windows.WindowsImpl ??" + "\n" + Environment.MachineName + "/" + Environment.UserName;

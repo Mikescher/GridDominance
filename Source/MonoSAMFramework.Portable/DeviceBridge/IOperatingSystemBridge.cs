@@ -8,6 +8,7 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		string FullDeviceInfoString { get; }
 		string DeviceName { get; }
 		string DeviceVersion { get; }
+		string AppType { get; }
 		FSize DeviceResolution { get; }
 
 		FileHelper FileHelper { get; }

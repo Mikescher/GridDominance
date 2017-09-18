@@ -90,6 +90,9 @@
             App Version: <?php echo $userdata['app_version']; ?>
         </div>
         <div class="infodiv">
+            App Type: <?php echo $userdata['app_type']; ?>
+        </div>
+        <div class="infodiv">
             Pings: <?php echo $userdata['ping_counter']; ?>
         </div>
     </div>

@@ -13,6 +13,7 @@ using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using Plugin.DeviceInfo;
 using UIKit;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.iOS.Full.Impl
 {
@@ -26,6 +27,7 @@ namespace GridDominance.iOS.Full.Impl
 		public FileHelper FileHelper { get; } = new AppleFileHelper();
 		public IBillingAdapter IAB { get; } = new AppleFullVersionBilling();
 		public IBluetoothAdapter Bluetooth { get; } = new AppleBluetoothAdapter();
+		public string AppType => "IOS.Full";
 
 		public string EnvironmentStackTrace => Environment.StackTrace;
 
@@ -70,7 +72,7 @@ namespace GridDominance.iOS.Full.Impl
 
 		public void ExitApp()
 		{
-			throw new NotImplementedException();
+			SAMLog.Error("APPLBRIDG::EXIT", "Trying to exit app in iOS");
 		}
 
 		public void ShareAppLink()

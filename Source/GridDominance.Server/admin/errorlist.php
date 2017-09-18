@@ -72,8 +72,8 @@
                 <th style='width: 150px'>Count (Filtered)</th>
             </tr>
             </thead>
-			<?php $e2 = ($filter == 1) ? getNewErrorOverviewByID() : getErrorOverviewByID(); foreach ($e2 as $entry): ?>
-            <tr>
+			<?php foreach (getErrorOverviewByID() as $entry): ?>
+            <tr class="<?php if (array_key_exists($entry['exception_id'], $filtercount)) if ($filtercount[$entry['exception_id']] > 0) echo 'td_highlight'; ?>">
                 <td><?php echo $entry['exception_id']; ?></td>
                 <td><?php echo $entry['count_all']; ?></td>
                 <td><?php echo $entry['count_noack']; ?></td>

@@ -13,6 +13,7 @@ function run() {
 	$deviceversion     = getParamStrOrError('device_version', true);
 	$unlocked_worlds   = getParamStrOrError('unlocked_worlds', true);
 	$device_resolution = getParamStrOrError('device_resolution', true);
+	$app_type          = getParamStrOrError('app_type', true);
 
 	$signature     = getParamStrOrError('msgk');
 
@@ -24,7 +25,7 @@ function run() {
 
 	//----------
 
-	$user->UpdateMeta($appversion, $devicename, $deviceversion, $unlocked_worlds, $device_resolution);
+	$user->UpdateMeta($appversion, $devicename, $deviceversion, $unlocked_worlds, $device_resolution, $app_type);
 
 	//----------
 
