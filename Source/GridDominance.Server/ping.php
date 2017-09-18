@@ -13,7 +13,7 @@ function run() {
 	$deviceversion     = getParamStrOrError('device_version', true);
 	$unlocked_worlds   = getParamStrOrError('unlocked_worlds', true);
 	$device_resolution = getParamStrOrError('device_resolution', true);
-	$app_type          = getParamStrOrError('app_type', true);
+	$app_type          = getParamStrOrEmpty('app_type');
 
 	$signature     = getParamStrOrError('msgk');
 

@@ -77,6 +77,30 @@ function getParamStrOrError($name, $allowEmpty = false) {
  * @param string $name
  * @return string
  */
+function getParamStrOrEmpty($name) {
+	$v = null;
+
+	if( isset($_GET[$name])) $v = $_GET[$name];
+
+	if ($v === null) { if( isset($_POST[$name])) $v = $_POST[$name]; }
+
+	if ($v === null) {
+		$opt = getopt('', [$name . '::']);
+		if (isset($opt[$name])) $v = $opt[$name];
+	}
+
+
+	if ($v === null)  return '';
+	if ($v === false) return '';
+	if (empty($v))    return '';
+
+	return $v;
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
 function getParamSHAOrError($name) {
 	$v = strtoupper(getParamStrOrError($name));
 
