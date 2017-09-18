@@ -52,6 +52,9 @@ MyBuilds
 
 *.xnb
 UpgradeLog.html
+UpgradeLog.htm
 project.lock.json
+/*.diff
 
 __Secrets.cs
+

@@ -32,8 +32,8 @@ namespace GridDominance.Shared
 		public const float MAX_LOG_SEND_DELTA = 25f; // Max send 5 logs in 25sec
 		public const int   MAX_LOG_SEND_COUNT = 5;
 
-		public readonly PlayerProfile Profile;
-		public readonly IGDServerAPI Backend;
+		public PlayerProfile Profile;
+		public IGDServerAPI Backend;
 
 		public static MainGame Inst;
 

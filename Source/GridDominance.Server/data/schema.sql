@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS users
   device_version          varchar(128)  NOT NULL,
   unlocked_worlds         varchar(1024) NOT NULL,
   device_resolution       varchar(24)   NOT NULL,
+  app_type                varchar(128)  NOT NULL DEFAULT '?',
 
   ping_counter            int           UNSIGNED NOT NULL DEFAULT 0,
 
@@ -94,3 +95,16 @@ CREATE TABLE IF NOT EXISTS error_log
 
   PRIMARY KEY (error_id)
 );
+
+
+
+
+DROP TABLE IF EXISTS idmap;
+CREATE TABLE idmap (
+  levelid  char(38)      NOT NULL,
+  worldid  char(38)      NOT NULL,
+  id       varchar(7)    NOT NULL,
+  name     varchar(128)  NOT NULL,
+
+  PRIMARY KEY (levelid)
+)

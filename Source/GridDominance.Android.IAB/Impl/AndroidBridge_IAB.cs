@@ -19,6 +19,7 @@ namespace GridDominance.Android.Impl
 		public IBillingAdapter IAB => _iab;
 		public IBluetoothAdapter Bluetooth => _bt;
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
+		public string AppType => "Android.IAB";
 
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);

@@ -24,13 +24,13 @@ namespace GridDominance.Shared.Resources
 		public const GDFlavor FLAVOR = GDFlavor.FULL;
 #endif
 #if GD_IAB
-		public const GDFlavor FLAVOR = GDFlavor.IAB;
+        public const GDFlavor FLAVOR = GDFlavor.IAB;
 #endif
 #if GD_FREE
 		public const GDFlavor FLAVOR = GDFlavor.FREE;
 #endif
 
-		public const string IAB_WORLD2      = @"gd_world_002";
+        public const string IAB_WORLD2      = @"gd_world_002";
 		public const string IAB_WORLD3      = @"gd_world_003";
 		public const string IAB_WORLD4      = @"gd_world_004";
 		public const string IAB_MULTIPLAYER = @"gd_multiplayer";
@@ -67,6 +67,8 @@ namespace GridDominance.Shared.Resources
 
 		public const string BLUETOOTH_NAME = "GridDominance.BluetoothSocket";
 		public const string BLUETOOTH_UUID = "4748A5F0-0AC7-44F7-BE49-30F5FD2A08ED";
+		public const string BLUETOOTH_LE_SERVICE_UUID = "64BBAB15-2F82-4789-996F-0691B65E5E0E";
+		public const string BLUETOOTH_LE_CHRCTR_UUID = "33AB15F8-45CE-49C3-ACFC-96F6B510C989";
 
 #if __ANDROID__ && !DEBUG
 		public const string SERVER_URL = "http://gdapi.mikescher.com";

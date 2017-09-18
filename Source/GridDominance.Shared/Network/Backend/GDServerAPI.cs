@@ -49,6 +49,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("device_version", bridge.DeviceVersion);
 				ps.AddParameterString("unlocked_worlds", profile.StrPurchasedWorlds);
 				ps.AddParameterString("device_resolution", bridge.DeviceResolution.FormatAsResolution());
+				ps.AddParameterString("app_type", bridge.AppType, false);
 
 				var response = await QueryAsync<QueryResultPing>("ping", ps, RETRY_PING);
 
@@ -126,7 +127,8 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("device_version", bridge.DeviceVersion);
 				ps.AddParameterString("unlocked_worlds", profile.StrPurchasedWorlds);
 				ps.AddParameterString("device_resolution", bridge.DeviceResolution.FormatAsResolution());
-				
+				ps.AddParameterString("app_type", bridge.AppType, false);
+
 				var response = await QueryAsync<QueryResultCreateUser>("create-user", ps, RETRY_CREATEUSER);
 
 				if (response == null)

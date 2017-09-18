@@ -120,3 +120,7 @@ h1 a:hover { color: blue; text-decoration: underline; }
 .td_err {
   background: #F33;
 }
+
+.td_highlight {
+  background: wheat;
+}

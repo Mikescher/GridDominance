@@ -18,7 +18,8 @@ namespace GridDominance.Windows
 		public IBillingAdapter IAB { get; } = new WindowsEmulatingBillingAdapter();
 		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
-		
+		public string AppType => "Windows.DirectX";
+
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 
 		public string FullDeviceInfoString { get; } = "?? GridDominance.Windows.WindowsImpl ??" + "\n" + Environment.MachineName + "/" + Environment.UserName;
@@ -34,7 +35,7 @@ namespace GridDominance.Windows
 		public void OpenURL(string url) => Process.Start(url);
 		public void Sleep(int milsec) => Thread.Sleep(milsec);
 
-		public void ExitApp() { /* works autom by MonoGame */ }
+		public void ExitApp() { Environment.Exit(0); }
 
 		public void ShareAppLink() { /* Not implemented */ }
 	}
