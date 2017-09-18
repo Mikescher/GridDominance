@@ -315,6 +315,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 		{
 			if (_needsTabRecalc) RecalcTabData();
 
+			if (idx < 0 || idx >= _columns.Count) return 0f;
+
 			return _columns[idx].RealWidth;
 		}
 

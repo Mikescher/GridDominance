@@ -64,7 +64,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 				default:
 				case GDFlavor.FULL:
 				case GDFlavor.FULL_NOMP:
-                    focus = 1;
+					focus = 1;
 					break;
 			}
 

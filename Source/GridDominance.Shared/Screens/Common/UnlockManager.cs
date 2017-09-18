@@ -63,7 +63,7 @@ namespace GridDominance.Shared.Screens.Common
 
 					case GDFlavor.FULL:
 					case GDFlavor.FULL_NOMP:
-                        {
+					{
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_001, Levels.WORLD_002.ID);
 
 						return reachable ? WorldUnlockState.OpenAndUnlocked : WorldUnlockState.UnreachableAndFullyLocked;

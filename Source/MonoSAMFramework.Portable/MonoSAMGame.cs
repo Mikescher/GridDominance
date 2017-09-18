@@ -28,7 +28,7 @@ namespace MonoSAMFramework.Portable
 		private readonly List<MonoSAMGameAgent> agents = new List<MonoSAMGameAgent>();
 		private static int _initialNoLagFrameCounter= 0;
 
-		public GraphicsDeviceManager Graphics;
+		public readonly GraphicsDeviceManager Graphics;
 
 		public static ulong GameCycleCounter { get; private set; }
 		public static SAMTime CurrentTime { get; private set; }
@@ -38,37 +38,37 @@ namespace MonoSAMFramework.Portable
 
 		public bool Alive { get; private set; } = true;
 
-		public IOperatingSystemBridge Bridge;
+		public readonly IOperatingSystemBridge Bridge;
 
 		public abstract SAMSoundPlayer Sound { get; }
 
 		public IDebugTextDisplay DebugDisplay => (screens?.CurrentScreen as GameScreen)?.DebugDisp;
 
-        public static IOperatingSystemBridge StaticBridge;
+		public static IOperatingSystemBridge StaticBridge;
 
-        protected MonoSAMGame()
-        {
-            try
-            {
-                FileHelper.RegisterSystemSecificHandler(StaticBridge.FileHelper);
+		protected MonoSAMGame()
+		{
+			try
+			{
+				FileHelper.RegisterSystemSecificHandler(StaticBridge.FileHelper);
 
-                Bridge = StaticBridge;
-                CurrentInst = this;
+				Bridge = StaticBridge;
+				CurrentInst = this;
 
-                CurrentTime = new SAMTime();
+				CurrentTime = new SAMTime();
 
-                Graphics = new GraphicsDeviceManager(this);
-                Content.RootDirectory = "Content";
+				Graphics = new GraphicsDeviceManager(this);
+				Content.RootDirectory = "Content";
 
-                CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-                CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
-            }
-            catch (Exception e)
-            {
-                SAMLog.FatalError("Game::Constructor", e);
-            }
-        }
-        
+				CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+				CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+			}
+			catch (Exception e)
+			{
+				SAMLog.FatalError("Game::Constructor", e);
+			}
+		}
+
 		protected override void Initialize()
 		{
 			try

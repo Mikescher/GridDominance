@@ -42,8 +42,8 @@ namespace GridDominance.Shared
 
 		public readonly float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
 
-        public MainGame() : base()
-        {
+		public MainGame() : base()
+		{
 			Backend = new GDServerAPI(StaticBridge);
 			//Backend = new DummyGDServerAPI();
 

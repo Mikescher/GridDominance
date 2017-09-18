@@ -1,6 +1,7 @@
 ﻿using GridDominance.Shared;
 using System;
 using GridDominance.Windows;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.OpenGL
 {
@@ -8,10 +9,10 @@ namespace GridDominance.OpenGL
 	{
 		[STAThread]
 		static void Main()
-        {
-            MonoSAMGame.StaticBridge = new WindowsBridge();
+		{
+			MonoSAMGame.StaticBridge = new WindowsBridge();
 
-            using (var game = new MainGame()) game.Run();
-        }
+			using (var game = new MainGame()) game.Run();
+		}
 	}
 }
