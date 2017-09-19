@@ -49,6 +49,12 @@ function getTotalHighscore() {
 	return $pdo->query('SELECT MAX(score) FROM users WHERE score > 0')->fetch(PDO::FETCH_NUM)[0];
 }
 
+function getTotalHighscoreCount() {
+	global $pdo;
+
+	return $pdo->query('SELECT COUNT(*) AS mcount FROM users GROUP BY score ORDER BY mcount DESC LIMIT 1')->fetch(PDO::FETCH_NUM)[0];
+}
+
 function getNewErrorsOverview() {
 	global $pdo;
 	global $config;

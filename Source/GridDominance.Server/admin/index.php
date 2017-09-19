@@ -100,14 +100,29 @@
 
 	<div class="infocontainer">
 		<div class="infodiv">
-            Errors:&nbsp;<a href="errorlist.php?filter=1&version=<?php global $config; echo $config['latest_version']; ?>"><?php global $config; echo getRemainingErrorCount($config['latest_version']); ?></a>&nbsp;/&nbsp;<a href="errorlist.php"><?php echo getErrorCount(); ?></a>
+			Errors:
+			&nbsp;
+			<a href="errorlist.php?filter=1&version=<?php global $config; echo $config['latest_version']; ?>">
+				<?php global $config; echo getRemainingErrorCount($config['latest_version']); ?>
+			</a>
+			&nbsp;/&nbsp;
+			<a href="errorlist.php?filter=1">
+				<?php global $config; echo getRemainingErrorCount($config['latest_version']); ?>
+			</a>
+			&nbsp;/&nbsp;
+			<a href="errorlist.php">
+				<?php echo getErrorCount(); ?>
+			</a>
 		</div>
 		<div class="infodiv">
 			Entries:&nbsp;<a href="entrylist.php"><?php echo getEntryCount(); ?></a>
 		</div>
         <div class="infodiv">
-            Highscore:&nbsp;<?php echo getTotalHighscore(); ?>
+            Highscore:&nbsp;<?php echo getTotalHighscore(); ?>&nbsp;(<?php echo getTotalHighscoreCount(); ?>)
         </div>
+	</div>
+
+	<div class="infocontainer">
         <div class="infodiv">
             Cron:&nbsp;<?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo "../cron.php?cronsecret=" . $config['cron-secret']; ?>">Now</a> )
         </div>

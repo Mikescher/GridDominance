@@ -13,13 +13,15 @@ function run() {
 	$deviceversion     = getParamStrOrError('device_version', true);
 	$unlocked_worlds   = getParamStrOrError('unlocked_worlds', true);
 	$device_resolution = getParamStrOrError('device_resolution', true);
-	$app_type          = getParamStrOrError('app_type', true);
+	$app_type          = getParamStrOrEmpty('app_type');
 
 	$signature     = getParamStrOrError('msgk');
 
 	check_commit_signature($signature, [$password, $appversion, $devicename, $deviceversion, $unlocked_worlds, $device_resolution]);
 
 	//---------
+
+	if (empty($app_type)) $app_type = '?';
 
 	$hash = password_hash($password, PASSWORD_BCRYPT);
 	if (!$hash) throw new Exception('password_hash failure');

@@ -101,6 +101,11 @@ namespace GridDominance.Shared.Network
 						SAMLog.Error("Backend::PingError", $"Ping: Error {response.errorid}: {response.errormessage}");
 					}
 				}
+				else
+				{
+					SAMLog.Error("Backend::PING_IRC", $"Ping: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+				}
 			}
 			catch (RestConnectionException e)
 			{
@@ -154,6 +159,11 @@ namespace GridDominance.Shared.Network
 				else if (response.result == "error")
 				{
 					SAMLog.Error("Backend::CU_Err", $"CreateUser: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+				}
+				else
+				{
+					SAMLog.Error("Backend::CU_IRC", $"CreateUser: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 				}
 			}
@@ -245,6 +255,11 @@ namespace GridDominance.Shared.Network
 					{
 						SAMLog.Error("Backend::SS_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
 					}
+				}
+				else
+				{
+					SAMLog.Error("Backend::SS_IRC", $"SetScore: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
 				}
 			}
 			catch (RestConnectionException e)
@@ -341,8 +356,13 @@ namespace GridDominance.Shared.Network
 					}
 					else
 					{
-						SAMLog.Error("Backend::SMPS_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::SMPS_ERR", $"SetScoreAndTime: Error {response.errorid}: {response.errormessage}");
 					}
+				}
+				else
+				{
+					SAMLog.Error("Backend::SMPS_IRC", $"SetScoreAndTime: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
 				}
 			}
 			catch (RestConnectionException e)
@@ -431,9 +451,14 @@ namespace GridDominance.Shared.Network
 					}
 					else
 					{
-						SAMLog.Error("Backend::DD_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::DD_ERR", $"DownloadData: Error {response.errorid}: {response.errormessage}");
 						ShowErrorCommunication();
 					}
+				}
+				else
+				{
+					SAMLog.Error("Backend::DD_IRC", $"DownloadData: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
 				}
 			}
 			catch (RestConnectionException e)
@@ -522,8 +547,13 @@ namespace GridDominance.Shared.Network
 					}
 					else
 					{
-						SAMLog.Error("Backend::RU_ERR", $"SetScore: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::RU_ERR", $"Reupload: Error {response.errorid}: {response.errormessage}");
 					}
+				}
+				else
+				{
+					SAMLog.Error("Backend::RU_IRC", $"Reupload: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
 				}
 			}
 			catch (RestConnectionException e)
@@ -625,6 +655,11 @@ namespace GridDominance.Shared.Network
 					SAMLog.Warning("Backend::DH_ERR", $"DownloadHighscores: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 				}
+				else
+				{
+					SAMLog.Error("Backend::DH_IRC", $"DownloadHighscore: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+				}
 			}
 			catch (RestConnectionException e)
 			{
@@ -690,6 +725,7 @@ namespace GridDominance.Shared.Network
 				}
 				else
 				{
+					SAMLog.Error("Backend::V_IRC", $"Verify: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					return Tuple.Create(VerifyResult.InternalError, -1, "Internal server exception");
 				}
 			}
@@ -768,6 +804,7 @@ namespace GridDominance.Shared.Network
 				}
 				else
 				{
+					SAMLog.Error("Backend::UU_IRC", $"UpgradeUser: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return Tuple.Create(UpgradeResult.InternalError, "Internal server error");
 				}
@@ -837,6 +874,7 @@ namespace GridDominance.Shared.Network
 				}
 				else
 				{
+					SAMLog.Error("Backend::CP_IRC", $"ChangePassword: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					return Tuple.Create(ChangePasswordResult.InternalError, "Inetrnal server error");
 				}
 			}
@@ -971,12 +1009,13 @@ namespace GridDominance.Shared.Network
 					else
 					{
 						ShowErrorCommunication();
-						SAMLog.Error("Backend::ML_ERR", $"Verify: Error {response.errorid}: {response.errormessage}");
+						SAMLog.Error("Backend::ML_ERR", $"MergeLogin: Error {response.errorid}: {response.errormessage}");
 						return Tuple.Create(VerifyResult.InternalError, response.errormessage);
 					}
 				}
 				else
 				{
+					SAMLog.Error("Backend::ML_IRC", $"MergeLogin: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					return Tuple.Create(VerifyResult.InternalError, "Internal server exception");
 				}
 			}
