@@ -230,12 +230,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 	{
 		public ButtonMusic(SettingsButton master, SSBOrientation o, int idx) : base(master, o, idx, 1f) { }
 
-		protected override TextureRegion2D GetIcon() => MainGame.Inst.Profile.MusicEnabled ? Textures.TexHUDButtonIconMusicOn : Textures.TexHUDButtonIconMusicOff;
+		protected override TextureRegion2D GetIcon() => (MainGame.Inst.Profile.MusicEnabled && MainGame.Inst.Profile.SoundsEnabled) ? Textures.TexHUDButtonIconMusicOn : Textures.TexHUDButtonIconMusicOff;
 		protected override string ButtonText => L10N.T(L10NImpl.STR_SSB_MUSIC);
 
 		protected override void OnPress(InputState istate)
 		{
 			MainGame.Inst.Profile.MusicEnabled = !MainGame.Inst.Profile.MusicEnabled;
+			if (MainGame.Inst.Profile.MusicEnabled && !MainGame.Inst.Profile.SoundsEnabled) MainGame.Inst.Profile.SoundsEnabled = true;
 			MainGame.Inst.SaveProfile();
 		}
 	}

@@ -73,6 +73,7 @@ namespace MonoSAMFramework.Portable.Sound
 				}
 				else
 				{
+					OnEffectError();
 					SAMLog.Error("SSP::PlayEffect", ex);
 				}
 			}
@@ -346,6 +347,7 @@ namespace MonoSAMFramework.Portable.Sound
 			}
 			catch (Exception e)
 			{
+				OnSongError();
 				SAMLog.Error("SSP::PlaySong", e);
 			}
 		}
@@ -412,5 +414,8 @@ namespace MonoSAMFramework.Portable.Sound
 			_activeEffects.Add(e);
 			return e;
 		}
+
+		protected abstract void OnEffectError();
+		protected abstract void OnSongError();
 	}
 }

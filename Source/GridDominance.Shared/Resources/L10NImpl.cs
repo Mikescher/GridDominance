@@ -219,7 +219,10 @@ namespace GridDominance.Shared.Resources
 		public const int STR_BTN_YES                = 180;
 		public const int STR_BTN_NO                 = 181;
 
-		private const int TEXT_COUNT = 186; // = next idx
+		public const int STR_ERR_SOUNDPLAYBACK      = 186;
+		public const int STR_ERR_MUSICPLAYBACK      = 187;
+
+		private const int TEXT_COUNT = 188; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -413,6 +416,10 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_ACCOUNT_REMINDER,       "You can create an account to display your name in the highscore and to backup your score online.\nDo you want to create an account now?", "Du kannst einen Onlineaccount anlegen um deinen Namen im Highscore zu sehen und deine Punkte zu sichern.\n Account jetzt erstellen?", "Vous pouvez créer un compte pour afficher votre nom dans les meilleurs scores et sauvegarder vos points en ligne.\nVoulez - vous créer un compte maintenant?", "Puoi creare un account per far apparire il tuo nome nella classifica e per salvare i tuoi dati online.\nVuoi creare un'account?");
 			L10N.Add(STR_BTN_YES,                "Yes",                                                                                                                                     "OK",                                                                                                                                  "OK",                                                                                                                                                           "Si");
 			L10N.Add(STR_BTN_NO,                 "No",                                                                                                                                      "Nein",                                                                                                                                "Aucun",                                                                                                                                                        "No");
+			L10N.Add(STR_ERR_SOUNDPLAYBACK,      "Sound playback failed. Disabling sounds ...",                                                                                             "Soundwiedergabe fehlgeschlagen. Sounds werden deaktiviert ...",                                                                       "La lecture du son a échoué. Désactivation des sons ...",                                                                                                       "La riproduzione audio non è riuscita. Disattivazione dei suoni ...");
+			L10N.Add(STR_ERR_MUSICPLAYBACK,      "Music playback failed. Disabling music ...",                                                                                              "Musikwiedergabe fehlgeschlagen. Musik wird deaktiviert ...",                                                                          "La lecture de musique a échoué. Désactivation de la musique ...",                                                                                              "La riproduzione musicale è fallita. Disattivazione della musica ...");
+
+			// [en_US] [de-DE] [fr-FR] [it-IT]
 
 #if DEBUG
 			L10N.Verify();
