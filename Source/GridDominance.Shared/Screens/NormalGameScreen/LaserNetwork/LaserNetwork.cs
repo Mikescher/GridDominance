@@ -544,12 +544,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			
 			foreach (var src2 in Sources)
 			{
-				if (src2 == null) SAMLog.Error("LASER::NPE_TFLC_1", "src2 == null"); //TODO remove me when NPW in TFLC found
-
 				foreach (var ray2 in src2.Lasers)
 				{
-					if (ray2 == null) SAMLog.Error("LASER::NPE_TFLC_2", "ray2 == null"); //TODO remove me when NPW in TFLC found
-
 					if (src1 == src2 && ray1 == ray2) continue;
 
 					// (Not only) Direct (parallel) Collision 
@@ -603,12 +599,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 			
 			foreach (var src2 in Sources)
 			{
-				if (src2 == null) SAMLog.Error("LASER::NPE_TFLC_3", "src2 == null"); //TODO remove me when NPW in TFLC found
-
 				foreach (var ray2 in src2.Lasers)
 				{
-					if (ray2 == null) SAMLog.Error("LASER::NPE_TFLC_4", "ray2 == null"); //TODO remove me when NPW in TFLC found
-
 					if (ray2.Terminator != LaserRayTerminator.LaserMultiTerm && 
 					    ray2.Terminator != LaserRayTerminator.LaserFaultTerm && 
 					    ray2.Terminator != LaserRayTerminator.LaserSelfTerm) continue;
@@ -638,15 +630,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				{
 					// we hit another ray intersection
 
-					if (ray1 == null) SAMLog.Error("LASER::NPE_TFLC_5", "ray1 == null"); //TODO remove me when NPW in TFLC found
-
 					ray1 = ray1.SetLaserIntersect(src1, minP1, minRay2, minSrc2, LaserRayTerminator.LaserMultiTerm);
 					if (ray1 != null)
 					{
 						foreach (var termray in minRay2.TerminatorRays)
 						{
-							if (termray.Item1 == null) SAMLog.Error("LASER::NPE_TFLC_6", "termray.Item1 == null"); //TODO remove me when NPW in TFLC found
-
 							if (termray.Item2 != minSrc2) termray.Item1.TerminatorRays.Add(Tuple.Create(ray1, src1));
 						}
 						
@@ -657,8 +645,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				}
 				else if (nofault)
 				{
-					if (ray1 == null) SAMLog.Error("LASER::NPE_TFLC_7", "ray1 == null"); //TODO remove me when NPW in TFLC found
-
 					// nofault mode - just terminate this one
 					
 					ray1 = ray1.SetLaserCollisionlessIntersect(src1, minP1, LaserRayTerminator.LaserFaultTerm);
@@ -667,15 +653,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				}
 				else if (src1 == minSrc2)
 				{
-					if (ray1 == null) SAMLog.Error("LASER::NPE_TFLC_8", "ray1 == null"); //TODO remove me when NPW in TFLC found
-
 					// we hit ourself
 					
 					ray1 = ray1.SetLaserCollisionlessIntersect(src1, minP1, LaserRayTerminator.LaserSelfTerm);
 					if (ray1 != null)
 					{
-						if (minRay2 == null) SAMLog.Error("LASER::NPE_TFLC_9", "minRay2 == null"); //TODO remove me when NPW in TFLC found
-
 						minRay2.SelfCollRays.Add(ray1);
 						foreach (var r in ray1.SelfCollRays) _faultRays.Add(Tuple.Create(r, src1));
 						ray1.SelfCollRays.Clear();
@@ -687,13 +669,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork
 				{
 					// we hit someone else
 
-					if (ray1 == null) SAMLog.Error("LASER::NPE_TFLC_10", "ray1 == null"); //TODO remove me when NPW in TFLC found
-
 					ray1 = ray1.SetLaserIntersect(src1, minP1, minRay2, minSrc2, LaserRayTerminator.LaserMultiTerm);
 					if (ray1 != null)
 					{
-						if (ray1 == null) SAMLog.Error("LASER::NPE_TFLC_11", "ray1 == null"); //TODO remove me when NPW in TFLC found
-
 						foreach (var r in ray1.SelfCollRays) _faultRays.Add(Tuple.Create(r, src1));
 						ray1.SelfCollRays.Clear();
 

@@ -131,7 +131,7 @@ namespace GridDominance.Android.Impl
 			i.SetType("text/plain");
 			i.PutExtra(Intent.ExtraSubject, "Cannon Conquest");
 			var sAux = "\nLet me recommend you this application\n\n";
-			sAux = sAux + "https://www.amazon.de/dp/xxxxx/"; //TODO
+			sAux = sAux + "https://www.amazon.com/gp/product/B075QMHZV7";
 			i.PutExtra(Intent.ExtraText, sAux);
 			_activity.StartActivity(Intent.CreateChooser(i, "Choose one"));
 		}
