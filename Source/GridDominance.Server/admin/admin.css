@@ -124,3 +124,38 @@ h1 a:hover { color: blue; text-decoration: underline; }
 .td_highlight {
   background: wheat;
 }
+
+.pagination_row {
+  margin: 30px 200px 0 200px;
+  text-align: left;
+}
+
+.pagination_link, .pagination_curr {
+  display: inline-block;
+  min-width: 38px;
+  padding: 2px 5px;
+  margin:  2px 0;
+  font-weight: bold;
+
+  text-align: center;
+  text-decoration: none;
+  color: black;
+}
+
+.pagination_link:hover {
+  background: lightblue;
+}
+
+.pagination_link:visited {
+  color: black;
+}
+
+.pagination_link {
+  background: lightgray;
+  border: 1px solid darkgray;
+}
+
+.pagination_curr {
+  background: gray;
+  border: 1px solid black;
+}

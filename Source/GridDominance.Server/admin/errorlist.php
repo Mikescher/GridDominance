@@ -29,12 +29,14 @@
     }
     ?>
 
-	<?php if (empty($_GET["filter"])) $filter="0"; else $filter=$_GET["filter"] ?>
-	<?php if (empty($_GET["version"])) $versionfilter=""; else $versionfilter=$_GET["version"] ?>
-
 	<?php
 
-	$filtered_errors = ($filter == 1) ? getRemainingErrors($versionfilter) : getAllErrors($versionfilter);
+    if (empty($_GET["filter"])) $filter="0"; else $filter=$_GET["filter"];
+    if (empty($_GET["version"])) $versionfilter=""; else $versionfilter=$_GET["version"];
+    if (empty($_GET["page"])) $page = 0; else $page=$_GET["page"];
+
+	$filtered_errors = ($filter == 1) ? getRemainingErrors($versionfilter, $page) : getAllErrors($versionfilter, $page);
+    $entrycount = ($filter == 1) ? countRemainingErrors($versionfilter) : countAllErrors($versionfilter);
 
 	$filtercount = [];
 
@@ -55,7 +57,7 @@
             New Errors: <?php echo getRemainingErrorCount(); ?>
         </div>
         <div class="infodiv">
-            Filtered Errors: <?php echo count($filtered_errors); ?>
+            Filtered Errors: <?php echo $entrycount; ?>
         </div>
     </div>
 
@@ -162,6 +164,15 @@
 					<?php $previd++; ?>
 				<?php endforeach; ?>
             </table>
+        <div class="pagination_row">
+            <?php for ($i=0; $i < ceil($entrycount/1000); $i++ ): ?>
+                <?php if ($i != $page): ?>
+                    <a class="pagination_link" href="<?php echo "errorlist.php?filter=$filter&version=$versionfilter&page=$i"; ?>"><?php echo ($i+1); ?></a>
+                <?php else: ?>
+                    <a class="pagination_curr"><?php echo ($i+1); ?></a>
+                <?php endif; ?>
+            <?php endfor; ?>
+        </div>
         <div>
 
     </div>

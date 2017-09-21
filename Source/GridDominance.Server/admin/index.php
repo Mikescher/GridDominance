@@ -91,7 +91,7 @@
 			Total Users:&nbsp;<a href="userlist.php"><?php echo getUserCount(); ?></a>&nbsp;&nbsp;(<a href="statistics.php">stats</a>)
 		</div>
 		<div class="infodiv">
-            Active Users:&nbsp;<a href="userlist.php?d=1"><?php echo getActiveUserCount(1); ?></a>&nbsp;/&nbsp;<a href="userlist.php?d=7"><?php echo getActiveUserCount(7); ?></a>
+            Active Users:&nbsp;<a href="userlist.php?d=1"><?php echo getActiveUserCount(1); ?></a>&nbsp;|&nbsp;<a href="userlist.php?d=7"><?php echo getActiveUserCount(7); ?></a>
 		</div>
         <div class="infodiv">
             Online Sessions:&nbsp;<a href="proxylist.php"><?php echo getSessionCount(); ?></a>
@@ -118,7 +118,7 @@
 			Entries:&nbsp;<a href="entrylist.php"><?php echo getEntryCount(); ?></a>
 		</div>
         <div class="infodiv">
-            Highscore:&nbsp;<?php echo getTotalHighscore(); ?>&nbsp;(<?php echo getTotalHighscoreCount(); ?>)
+            Highscore:&nbsp;<?php echo getTotalHighscore(); ?>&nbsp;(<?php echo countFirstPlaceUsers(); ?>)
         </div>
 	</div>
 

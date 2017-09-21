@@ -24,6 +24,13 @@
 	}
     ?>
 
+    <?php
+
+        $page = 0;
+        if (!empty($_GET['page'])) $page = $_GET['page'];
+        $entrycount = getEntryCount();
+    ?>
+
     <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
@@ -35,7 +42,7 @@
                     <th style='width: 170px'>Last changed</th>
                 </tr>
             </thead>
-            <?php foreach (getAllEntries() as $entry): ?>
+            <?php foreach (getAllEntries($page, 500) as $entry): ?>
                 <tr>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td title="<?php echo $entry['levelid']; ?>" >
@@ -49,6 +56,15 @@
                 </tr>
             <?php endforeach; ?>
         </table>
+        <div class="pagination_row">
+            <?php for ($i=0; $i < ceil($entrycount/500); $i++ ): ?>
+                <?php if ($i != $page): ?>
+                    <a class="pagination_link" href="entrylist.php?page=<?php echo $i; ?>"><?php echo ($i+1); ?></a>
+                <?php else: ?>
+                    <a class="pagination_curr"><?php echo ($i+1); ?></a>
+                <?php endif; ?>
+            <?php endfor; ?>
+        </div>
     </div>
 
     <script src="sorttable.js"></script>
