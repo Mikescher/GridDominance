@@ -255,7 +255,7 @@ namespace MonoSAMFramework.Portable.Screens
 				b.AppendLine($"          Agents:           {TIMING_UPDATE_AGENTS.Format()}");
 				b.AppendLine($"          Virtual:          {TIMING_UPDATE_VIRT.Format()}");
 
-				SAMLog.Error("ALPHA::PERFORMANCE_REPORT", "Performance Report v1.1.2", b.ToString());
+				SAMLog.Error("ALPHA::PERF_REPORT", "Performance Report v1.1.2", b.ToString());
 
 				MonoSAMGame.CurrentInst.ShowToast(null, "Send alpha performance report", 35, Color.Black, Color.LimeGreen, 5f);
 			}

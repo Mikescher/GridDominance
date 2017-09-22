@@ -6,7 +6,7 @@ namespace GridDominance.Shared.Resources
 
 	public static class GDConstants
 	{
-		public static readonly Version Version = new Version(1,1,2,0);
+		public static readonly Version Version = new Version(1,1,3,0);
 		public static ulong IntVersion { get; } = (ulong)((((((Version.Major << 12) | Version.Minor) << 12) | Version.Build) << 12) | Version.Revision);
 
 		public const int TILE_WIDTH = 64;
