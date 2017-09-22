@@ -15,7 +15,9 @@ function run() {
 	//----------
 
 	if ($worldid == '*') {
-		$stmt = $pdo->prepare(loadSQL("get-ranking_global_top100"));
+		$stmt = $pdo->prepare(loadSQL("get-ranking_global_top"));
+		$stmt->bindValue(':qlimit', 100);
+		$stmt->bindValue(':qpage', 0);
 		executeOrFail($stmt);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -24,7 +26,9 @@ function run() {
 		executeOrFail($stmt);
 		$rank = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	} else if ($worldid == '@') {
-		$stmt = $pdo->prepare(loadSQL("get-ranking_multiplayer_top100"));
+		$stmt = $pdo->prepare(loadSQL("get-ranking_multiplayer_top"));
+		$stmt->bindValue(':qlimit', 100);
+		$stmt->bindValue(':qpage', 0);
 		executeOrFail($stmt);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -34,7 +38,9 @@ function run() {
 		$rank = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	} else {
 
-		$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top100', '#$$FIELD$$', worldGuidToSQLField($worldid)));
+		$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top', '#$$FIELD$$', worldGuidToSQLField($worldid)));
+		$stmt->bindValue(':qlimit', 100);
+		$stmt->bindValue(':qpage', 0);
 		executeOrFail($stmt);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

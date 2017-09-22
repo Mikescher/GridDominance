@@ -26,6 +26,7 @@
 		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show</a>";
 		echo "</td>";
 	}
+
 	function remoteexpansioncell($txt) {
 		global $previd;
 
@@ -33,11 +34,13 @@
 		echo "<a href='#' onclick='ShowRemoteExpandedColumn(" . $previd . ", \"" . $txt . "\");return false;'>show</a>";
 		echo "</td>";
 	}
+
 	function fmtLevelID($id) {
 		if ($id == '{b16b00b5-0001-4000-9999-000000000002}') return "TUTORIAL";
 
 		return (int)substr($id, 25, 6) . " - " . (int)substr($id, 31, 6);
 	}
+
 	function getSessionCount() {
 	    if (! file_exists("/var/log/gdapi_log/proxystate.json")) return "?";
 
@@ -52,7 +55,6 @@
 		foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }
 		return $c;
 	}
-
 
 	function formatSizeUnits($bytes)
 	{
@@ -103,15 +105,15 @@
 			Errors:
 			&nbsp;
 			<a href="errorlist.php?filter=1&version=<?php global $config; echo $config['latest_version']; ?>">
-				<?php global $config; echo getRemainingErrorCount($config['latest_version']); ?>
+				<?php global $config; echo countErrors($config['latest_version'], true, ""); ?>
 			</a>
 			&nbsp;/&nbsp;
 			<a href="errorlist.php?filter=1">
-				<?php global $config; echo getRemainingErrorCount($config['latest_version']); ?>
+				<?php global $config; echo countErrors("", true, ""); ?>
 			</a>
 			&nbsp;/&nbsp;
 			<a href="errorlist.php">
-				<?php echo getErrorCount(); ?>
+				<?php echo countErrors("", false, ""); ?>
 			</a>
 		</div>
 		<div class="infodiv">
@@ -196,19 +198,11 @@
     </div>
 
     <div data-collapse>
-        <h2 class="open collapseheader">Global highscore [+/-]</h2>
+        <h2 class="open collapseheader">Highscore [+/-]</h2>
 
         <div>
-            <?php
-            global $config;
-            foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w) {
-                if ($w != $config['worldid_0']) echo "<a href=\"worldhighscore.php?id=$w\">$w</a><br/>";
-            }
-            ?>
 
-            <br/>
-            <br/>
-
+            <h4 class="subhshdr"><a href="worldhighscore.php?id=@">Global</a></h4>
             <div class="tablebox">
                 <table class="sqltab pure-table pure-table-bordered sortable">
                     <thead>
@@ -219,16 +213,42 @@
                         <th>Time</th>
                     </tr>
                     </thead>
-                    <?php $i=1; foreach (getGlobalHighscores() as $entry): ?>
+					<?php $i=1; foreach (getGlobalHighscores(10) as $entry): ?>
                         <tr>
                             <td><?php echo $i++; ?></td>
                             <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                             <td><?php echo $entry['totalscore']; ?></td>
                             <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
                         </tr>
-                    <?php endforeach; ?>
+					<?php endforeach; ?>
                 </table>
             </div>
+
+            <?php global $config; foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w): ?>
+                <?php global $config; if ($w != $config['worldid_0']): ?>
+                    <h4 class="subhshdr"><a href="worldhighscore.php?id=<?php echo $w; ?>"><?php echo $w; ?></a></h4>
+                    <div class="tablebox">
+                        <table class="sqltab pure-table pure-table-bordered sortable">
+                            <thead>
+                            <tr>
+                                <th>Row</th>
+                                <th style='width: 250px'>Username</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                            </thead>
+                            <?php $i=1; foreach (getWorldHighscores($w, 10) as $entry): ?>
+                                <tr>
+                                    <td><?php echo $i++; ?></td>
+                                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                                    <td><?php echo $entry['totalscore']; ?></td>
+                                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
         </div>
     </div>
 

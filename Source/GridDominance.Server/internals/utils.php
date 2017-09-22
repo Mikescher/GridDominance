@@ -13,28 +13,9 @@ function getUserCount() {
 function getActiveUserCount($days) {
 	global $pdo;
 
+	$days = (int)$days;
+
 	return $pdo->query('SELECT COUNT(*) FROM users WHERE score > 0 AND last_online >= now() - INTERVAL ' . $days . ' DAY')->fetch(PDO::FETCH_NUM)[0];
-}
-
-function getErrorCount() {
-	global $pdo;
-
-	return $pdo->query('SELECT COUNT(*) FROM error_log')->fetch(PDO::FETCH_NUM)[0];
-}
-
-function getRemainingErrorCount($versionfilter = "") {
-	if ($versionfilter == "") {
-		global $pdo;
-
-		return $pdo->query('SELECT COUNT(*) FROM error_log WHERE acknowledged = 0')->fetch(PDO::FETCH_NUM)[0];
-	} else {
-		global $pdo;
-
-		$stmt = $pdo->prepare("SELECT COUNT(*) FROM error_log WHERE acknowledged = 0 AND app_version = :filter");
-		$stmt->bindValue(':filter', $versionfilter, PDO::PARAM_STR);
-		$stmt->execute();
-		return $stmt->fetch(PDO::FETCH_NUM)[0];
-	}
 }
 
 function getEntryCount() {
@@ -59,72 +40,51 @@ function getNewErrorsOverview() {
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getRemainingErrors($versionfilter = "", $page, $pagesize = 1000) {
+function getErrors($versionfilter, $onlynonack, $idfilter, $page, $pagesize) {
 	global $pdo;
 
-	if ($versionfilter != "") {
-		$stmt = $pdo->prepare("SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0 AND error_log.app_version = :vvv LIMIT :ps OFFSET :po");
-		$stmt->bindValue(':vvv', $versionfilter, PDO::PARAM_STR);
-		$stmt->bindValue(':po', $page * $pagesize, PDO::PARAM_INT);
-		$stmt->bindValue(':ps', $pagesize, PDO::PARAM_INT);
-		$stmt->execute();
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
-	} else {
-		$stmt = $pdo->prepare("SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0 LIMIT :ps OFFSET :po");
-		$stmt->bindValue(':po', $page * $pagesize, PDO::PARAM_INT);
-		$stmt->bindValue(':ps', $pagesize, PDO::PARAM_INT);
-		$stmt->execute();
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
-	}
+	$cond = " WHERE 1=1";
+	if ($versionfilter != "") $cond = $cond . " AND error_log.app_version = :vvv";
+	if ($onlynonack) $cond = $cond . " AND error_log.acknowledged = 0";
+	if ($idfilter != "") $cond = $cond . " AND error_log.exception_id = :idf";
+
+	$stmt = $pdo->prepare("SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid $cond LIMIT :ps OFFSET :po");
+	$stmt->bindValue(':po', $page * $pagesize, PDO::PARAM_INT);
+	$stmt->bindValue(':ps', $pagesize, PDO::PARAM_INT);
+	if ($versionfilter != "") $stmt->bindValue(':vvv', $versionfilter, PDO::PARAM_STR);
+	if ($idfilter != "") $stmt->bindValue(':idf', $idfilter, PDO::PARAM_STR);
+	$stmt->execute();
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function countRemainingErrors($versionfilter = "") {
+function countErrors($versionfilter, $onlynonack, $idfilter) {
 	global $pdo;
 
-	if ($versionfilter != "") {
-		$stmt = $pdo->prepare("SELECT COUNT(*) FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0 AND error_log.app_version = :vvv");
-		$stmt->bindValue(':vvv', $versionfilter, PDO::PARAM_STR);
-		$stmt->execute();
-		return $stmt->fetch(PDO::FETCH_NUM)[0];
-	} else {
-		$stmt = $pdo->prepare("SELECT COUNT(*) FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0");
-		$stmt->execute();
-		return $stmt->fetch(PDO::FETCH_NUM)[0];
-	}
+	$cond = " WHERE 1=1";
+	if ($versionfilter != "") $cond = $cond . " AND error_log.app_version = :vvv";
+	if ($onlynonack) $cond = $cond . " AND error_log.acknowledged = 0";
+	if ($idfilter != "") $cond = $cond . " AND error_log.exception_id = :idf";
+
+	$stmt = $pdo->prepare("SELECT COUNT(*) FROM error_log LEFT JOIN users ON error_log.userid = users.userid $cond");
+	if ($versionfilter != "") $stmt->bindValue(':vvv', $versionfilter, PDO::PARAM_STR);
+	if ($idfilter != "") $stmt->bindValue(':idf', $idfilter, PDO::PARAM_STR);
+	$stmt->execute();
+	return $stmt->fetch(PDO::FETCH_NUM)[0];
 }
 
-function getAllErrors($versionfilter, $page, $pagesize = 1000) {
+function groupErrors($versionfilter, $onlynonack, $idfilter) {
 	global $pdo;
 
-	if ($versionfilter != "") {
-		$stmt = $pdo->prepare("SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE error_log.app_version = :vvv LIMIT :ps OFFSET :po");
-		$stmt->bindValue(':po', $page * $pagesize, PDO::PARAM_INT);
-		$stmt->bindValue(':ps', $pagesize, PDO::PARAM_INT);
-		$stmt->bindValue(':vvv', $versionfilter, PDO::PARAM_STR);
-		$stmt->execute();
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
-	} else {
-		$stmt = $pdo->prepare("SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid LIMIT :ps OFFSET :po");
-		$stmt->bindValue(':po', $page * $pagesize, PDO::PARAM_INT);
-		$stmt->bindValue(':ps', $pagesize, PDO::PARAM_INT);
-		$stmt->execute();
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
-	}
-}
+	$cond = " WHERE 1=1";
+	if ($versionfilter != "") $cond = $cond . " AND error_log.app_version = :vvv";
+	if ($onlynonack) $cond = $cond . " AND error_log.acknowledged = 0";
+	if ($idfilter != "") $cond = $cond . " AND error_log.exception_id = :idf";
 
-function countAllErrors($versionfilter) {
-	global $pdo;
-
-	if ($versionfilter != "") {
-		$stmt = $pdo->prepare("SELECT COUNT(*) FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE error_log.app_version = :vvv");
-		$stmt->bindValue(':vvv', $versionfilter, PDO::PARAM_STR);
-		$stmt->execute();
-		return $stmt->fetch(PDO::FETCH_NUM)[0];
-	} else {
-		$stmt = $pdo->prepare("SELECT COUNT(*)  FROM error_log LEFT JOIN users ON error_log.userid = users.userid");
-		$stmt->execute();
-		return $stmt->fetch(PDO::FETCH_NUM)[0];
-	}
+	$stmt = $pdo->prepare("SELECT error_log.exception_id AS exception_id, COUNT(*) AS count FROM error_log LEFT JOIN users ON error_log.userid = users.userid $cond GROUP BY error_log.exception_id");
+	if ($versionfilter != "") $stmt->bindValue(':vvv', $versionfilter, PDO::PARAM_STR);
+	if ($idfilter != "") $stmt->bindValue(':idf', $idfilter, PDO::PARAM_STR);
+	$stmt->execute();
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getErrorOverviewByID() {
@@ -152,6 +112,8 @@ function getUserErrors($uid) {
 function getUsers($all, $reg, $days, $page, $pagesize = 1000) {
 	global $pdo;
 
+	$days = (int)$days;
+
 	$cond = "WHERE 1=1";
 	if (!$all)      $cond = $cond . " AND score > 0";
 	if ($reg)       $cond = $cond . " AND is_auto_generated = 0";
@@ -166,6 +128,8 @@ function getUsers($all, $reg, $days, $page, $pagesize = 1000) {
 
 function countUsers($all, $reg, $days) {
 	global $pdo;
+
+	$days = (int)$days;
 
 	$cond = "WHERE 1=1";
 	if (!$all)      $cond = $cond . " AND score > 0";
@@ -183,10 +147,14 @@ function getLevelHighscores() {
 	return $pdo->query('SELECT * FROM cache_levels LEFT JOIN users ON best_userid = users.userid AND users.score > 0')->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getGlobalHighscores() {
+function getGlobalHighscores($limit = 100, $page = 0) {
 	global $pdo;
 
-	return $pdo->query(loadSQL("get-ranking_global_top100"))->fetchAll(PDO::FETCH_ASSOC);
+	$stmt = $pdo->prepare(loadSQL("get-ranking_global_top"));
+	$stmt->bindValue(':qlimit', $limit);
+	$stmt->bindValue(':qpage', $page * $limit);
+	$stmt->execute();
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getMultiplayerHighscores() {
@@ -238,10 +206,12 @@ function getUserEntries($uid) {
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getWorldHighscores($worldid) {
+function getWorldHighscores($worldid, $limit=100, $page=0) {
 	global $pdo;
 
-	$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top100', '#$$FIELD$$', worldGuidToSQLField($worldid)));
+	$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top', '#$$FIELD$$', worldGuidToSQLField($worldid)));
+	$stmt->bindValue(':qlimit', $limit);
+	$stmt->bindValue(':qpage', $page * $limit);
 	$stmt->execute();
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -329,4 +299,17 @@ function countZeroScoreUsers() {
 	$stmt->execute();
 
 	return $stmt->fetch(PDO::FETCH_NUM)[0];
+}
+
+function suffixGetParams($id, $value) {
+	$url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+	$url_parts = parse_url($url);
+	parse_str($url_parts['query'], $params);
+
+	$params[$id] = $value;
+
+	$url_parts['query'] = http_build_query($params);
+
+	return  '?' . $url_parts['query'];
 }

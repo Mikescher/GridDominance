@@ -16,6 +16,20 @@
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
 
+    <?php
+
+    $id = '@';
+	if (!empty($_GET['id'])) $id = $_GET['id'];
+
+	$page = 0;
+	if (!empty($_GET['page'])) $page = $_GET['page'];
+
+	$entries = $_GET['id']=='@' ? getGlobalHighscores(1000, $page) : getWorldHighscores($_GET['id'], 1000, $page);
+
+	$entrycount = getUserCount();
+
+    ?>
+
     <h2><?php echo htmlspecialchars($_GET['id']); ?></h2>
 
     <div class="tablebox">
@@ -28,15 +42,24 @@
                     <th>Time</th>
                 </tr>
             </thead>
-            <?php $i=1; foreach (getWorldHighscores($_GET['id']) as $entry): ?>
+            <?php $i=1 + ($page * 1000); foreach ($entries as $entry): ?>
                 <tr>
                     <td><?php echo $i++; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
                     <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
                 </tr>
-			<?php endforeach; ?>
+            <?php endforeach; ?>
         </table>
+        <div class="pagination_row">
+            <?php for ($i=0; $i < ceil($entrycount/1000); $i++ ): ?>
+                <?php if ($i != $page): ?>
+                    <a class="pagination_link" href="<?php echo suffixGetParams('page', $i); ?>"><?php echo ($i+1); ?></a>
+                <?php else: ?>
+                    <a class="pagination_curr"><?php echo ($i+1); ?></a>
+                <?php endif; ?>
+            <?php endfor; ?>
+        </div>
     </div>
 
     <script src="sorttable.js"></script>

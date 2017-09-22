@@ -66,9 +66,9 @@ function getParamStrOrError($name, $allowEmpty = false) {
 	}
 
 
-	if ($v === null)               outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
-	if ($v === false)              outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::DEBUG);
-	if (!$allowEmpty && empty($v)) outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is empty", LOGLEVEL::DEBUG);
+	if ($v === null)               outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::ERROR);
+	if ($v === false)              outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::ERROR);
+	if (!$allowEmpty && empty($v)) outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is empty", LOGLEVEL::ERROR);
 
 	return $v;
 }
@@ -104,7 +104,7 @@ function getParamStrOrEmpty($name) {
 function getParamSHAOrError($name) {
 	$v = strtoupper(getParamStrOrError($name));
 
-	if (strlen($v) !== 64) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name is not in the correct format", LOGLEVEL::DEBUG);
+	if (strlen($v) !== 64) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name is not in the correct format", LOGLEVEL::ERROR);
 
 	return $v;
 }
@@ -124,7 +124,7 @@ function getParamB64OrError($name, $allowEmpty = false) {
 
 	$rv = base64_decode($rv, TRUE);
 
-	if ($rv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not base64 encoded", LOGLEVEL::DEBUG);
+	if ($rv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not base64 encoded", LOGLEVEL::ERROR);
 
 	return $rv;
 }
@@ -144,11 +144,35 @@ function getParamDeflOrError($name, $allowEmpty = false) {
 
 	$rv = base64_decode($rv, TRUE);
 
-	if ($rv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not base64 encoded", LOGLEVEL::DEBUG);
+	if ($rv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not base64 encoded", LOGLEVEL::ERROR);
 
 	$dv = gzinflate($rv);
 
-	if ($dv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not deflated", LOGLEVEL::DEBUG);
+	if ($dv === FALSE) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not deflated", LOGLEVEL::ERROR);
+
+	return $dv;
+}
+
+/**
+ * @param string $name
+ * @param bool $allowEmpty
+ * @return string
+ */
+function getParamDeflOrRaw($name) {
+	$v = getParamStrOrEmpty($name);
+
+	// modified Base64  @see https://en.wikipedia.org/wiki/Base64#URL_applications
+	$rv = str_replace("-", "+", $v);
+	$rv = str_replace("_", "/", $rv);
+	$rv = str_replace(".", "=", $rv);
+
+	$rv = base64_decode($rv, TRUE);
+
+	if ($rv === FALSE) return "Base64 decode failed" . "\n" . $rv;
+
+	$dv = gzinflate($rv);
+
+	if ($dv === FALSE) return "GZip deflate failed" . "\n" . $rv;
 
 	return $dv;
 }
@@ -160,7 +184,7 @@ function getParamDeflOrError($name, $allowEmpty = false) {
 function getParamUIntOrError($name) {
 	$v = getParamStrOrError($name, true);
 
-	if (!is_uint_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::DEBUG);
+	if (!is_uint_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::ERROR);
 
 	return (int)$v;
 }
@@ -172,7 +196,19 @@ function getParamUIntOrError($name) {
 function getParamIntOrError($name) {
 	$v = getParamStrOrError($name, true);
 
-	if (!is_int_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::DEBUG);
+	if (!is_int_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::ERROR);
+
+	return (int)$v;
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
+function getParamIntOrRaw($name) {
+	$v = getParamStrOrEmpty($name);
+
+	if (!is_int_str($v)) return $v;
 
 	return (int)$v;
 }

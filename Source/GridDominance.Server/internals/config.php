@@ -15,10 +15,10 @@ return [
 	'logfile-debug'  => __DIR__ . '\\..\\log\\server_[{action}]_debug.log',
 	'logfile-error'  => __DIR__ . '\\..\\log\\server_error.log',
 	'logfile-cron'  => __DIR__ . '\\..\\log\\cron.log',
-	'email-error-target' => 'mailport@mikescher.de',
+	'email-error-target' => 'virtualadmin@mikescher.de',
 	'email-error-sender' => 'gdserver-error@mikescher.com',
 
-	'email-clientlog-target' => 'mailport@mikescher.de',
+	'email-clientlog-target' => 'virtualadmin@mikescher.de',
 	'email-clientlog-sender' => 'gd-log@mikescher.com',
 
 	'maxsize-logfile-normal' =>  128 * 1024 * 1024, // 512MB

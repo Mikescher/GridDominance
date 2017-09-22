@@ -172,30 +172,16 @@
 
         <h2 class="open collapseheader">Userlist [+/-]</h2>
         <div>
-            <?php if (! $showall): ?>
-                <div style="text-align: right; font-size: xx-large">
-                    <?php
-                    if (empty($_SERVER['QUERY_STRING']))
-                        echo " <a href=\"userlist.php?a=y\">Show All</a>";
-                    else
-                        echo " <a href=\"userlist.php?" . $_SERVER['QUERY_STRING'] . "&a=y\">Show All</a>";
-                    ?>
+            <div style="text-align: right; font-size: xx-large">
+                <?php if (! $showall): ?>
+                    <a href="<?php echo suffixGetParams('a', 'y'); ?>">[Show All]</a>
+                <?php endif; ?>
 
-                </div>
-            <?php endif; ?>
-
-            <?php if (! $showregistered): ?>
-                <div style="text-align: right; font-size: xx-large">
-                    <?php
-                    if (empty($_SERVER['QUERY_STRING']))
-                        echo " <a href=\"userlist.php?showregistered=1\">Show Registered</a>";
-                    else
-                        echo " <a href=\"userlist.php?" . $_SERVER['QUERY_STRING'] . "&showregistered=1\">Show Registered</a>";
-                    ?>
-
-                </div>
-            <?php endif; ?>
-
+                <?php if (! $showregistered): ?>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="<?php echo suffixGetParams('showregistered', '1'); ?>">[Show Registered]</a>
+                <?php endif; ?>
+            </div>
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                     <tr>
@@ -238,7 +224,7 @@
             <div class="pagination_row">
                 <?php for ($i=0; $i < ceil($entrycount/500); $i++ ): ?>
                     <?php if ($i != $page): ?>
-                        <a class="pagination_link" href="<?php echo "userlist.php?showregistered=$showregistered&d=$days&a=$showallparam&page=$i"; ?>"><?php echo ($i+1); ?></a>
+                        <a class="pagination_link" href="<?php echo suffixGetParams('page', $i); ?>"><?php echo ($i+1); ?></a>
                     <?php else: ?>
                         <a class="pagination_curr"><?php echo ($i+1); ?></a>
                     <?php endif; ?>

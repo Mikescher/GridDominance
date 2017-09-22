@@ -7,14 +7,14 @@ function run() {
 	global $pdo;
 	global $config;
 
-	$userid        = getParamIntOrError('userid'); // can be [-1]
-	$password      = getParamSHAOrError('password');
-	$resolution    = getParamStrOrError('screen_resolution', true);
-	$appversion    = getParamStrOrError('app_version');
-	$identifier    = getParamStrOrError('exception_id', true);
-	$message       = getParamDeflOrError('exception_message', true);
-	$stacktrace    = getParamDeflOrError('exception_stacktrace', true);
-	$additional    = getParamDeflOrError('additional_info', true);
+	$userid        = getParamIntOrRaw('userid'); // can be [-1]
+	$password      = getParamStrOrEmpty('password');
+	$resolution    = getParamStrOrEmpty('screen_resolution');
+	$appversion    = getParamStrOrEmpty('app_version');
+	$identifier    = getParamStrOrEmpty('exception_id');
+	$message       = getParamDeflOrRaw('exception_message');
+	$stacktrace    = getParamDeflOrRaw('exception_stacktrace');
+	$additional    = getParamDeflOrRaw('additional_info');
 
 	//----------
 
@@ -64,7 +64,12 @@ function run() {
 	$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')                     . "\n";
 
 	try	{
-		sendmail($subject, $content, $config['email-clientlog-target'], $config['email-clientlog-sender']);
+		$va = empty($appversion) ? '999.999.999.999' : $appversion;
+		$vb = $config['latest_version']
+
+		if (version_compare($va, $vb, '>=') ) {
+			sendmail($subject, $content, $config['email-clientlog-target'], $config['email-clientlog-sender']);
+		}
 	} catch (Exception $e) {
 		outputErrorException(Errors::INTERNAL_EXCEPTION, 'Cannot send mail', $e, LOGLEVEL::ERROR);
 	}

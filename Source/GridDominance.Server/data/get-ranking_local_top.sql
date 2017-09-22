@@ -13,4 +13,5 @@ ORDER BY
   totaltime ASC,
   userid ASC
 
-LIMIT 100
+LIMIT :qlimit
+OFFSET :qpage

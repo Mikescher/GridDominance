@@ -30,31 +30,31 @@
     ?>
 
 	<?php
+    global $config;
 
-    if (empty($_GET["filter"])) $filter="0"; else $filter=$_GET["filter"];
-    if (empty($_GET["version"])) $versionfilter=""; else $versionfilter=$_GET["version"];
-    if (empty($_GET["page"])) $page = 0; else $page=$_GET["page"];
+    if (empty($_GET["filter"]))  $filter        ="0"; else $filter        = $_GET["filter"];
+    if (empty($_GET["version"])) $versionfilter = ""; else $versionfilter = $_GET["version"];
+    if (empty($_GET["page"]))    $page          = 0;  else $page          = $_GET["page"];
+    if (empty($_GET["eid"]))     $idfilter      = ""; else $idfilter      = $_GET["eid"];
 
-	$filtered_errors = ($filter == 1) ? getRemainingErrors($versionfilter, $page) : getAllErrors($versionfilter, $page);
-    $entrycount = ($filter == 1) ? countRemainingErrors($versionfilter) : countAllErrors($versionfilter);
+	$filtered_errors =   getErrors($versionfilter, ($filter == 1), $idfilter, $page, 1000);
+    $entrycount      = countErrors($versionfilter, ($filter == 1), $idfilter);
+    $entrygroups     = groupErrors($versionfilter, ($filter == 1), $idfilter);
+
+    $overview = getErrorOverviewByID();
 
 	$filtercount = [];
+	foreach ($entrygroups as $entry) $filtercount[$entry['exception_id']] = $entry['count'];
 
-	foreach ($filtered_errors as $entry) {
-		if (array_key_exists($entry['exception_id'], $filtercount))
-			$filtercount[$entry['exception_id']]++;
-		else
-			$filtercount[$entry['exception_id']] = 1;
-	}
-
+	$latestversion = $config['latest_version'];
 	?>
 
     <div class="infocontainer">
         <div class="infodiv">
-            All Errors: <?php echo getErrorCount(); ?>
+            All Errors: <?php echo countErrors("", false, ""); ?>
         </div>
         <div class="infodiv">
-            New Errors: <?php echo getRemainingErrorCount(); ?>
+            New Errors: <?php echo countErrors("", true, ""); ?>
         </div>
         <div class="infodiv">
             Filtered Errors: <?php echo $entrycount; ?>
@@ -74,9 +74,9 @@
                 <th style='width: 150px'>Count (Filtered)</th>
             </tr>
             </thead>
-			<?php foreach (getErrorOverviewByID() as $entry): ?>
+			<?php foreach ($overview as $entry): ?>
             <tr class="<?php if (array_key_exists($entry['exception_id'], $filtercount)) if ($filtercount[$entry['exception_id']] > 0) echo 'td_highlight'; ?>">
-                <td><?php echo $entry['exception_id']; ?></td>
+                <td><a href="<?php echo suffixGetParams('eid', $entry['exception_id']); ?>"><?php echo $entry['exception_id']; ?></a></td>
                 <td><?php echo $entry['count_all']; ?></td>
                 <td><?php echo $entry['count_noack']; ?></td>
                 <td><?php echo array_key_exists($entry['exception_id'], $filtercount) ? $filtercount[$entry['exception_id']] : "0"; ?></td>
@@ -90,35 +90,35 @@
 
         <div  class="tablebox">
             <h2 style="padding-top: 5px;">
-				<?php
-                if ($filter != 1){
-                    echo " <a href=\"errorlist.php?filter=1&version=$versionfilter\">[Show only new]</a>";
-				} else {
-                    echo "<a href=\"errorlist.php\">[Show all]</a>";
-                }
+                <?php if ($filter != 1): ?>
+                    <a href="<?php echo suffixGetParams('filter', '1'); ?>">[Show only NoAck]</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+				<?php else: ?>
+                    <a href="<?php echo suffixGetParams('filter', '0'); ?>">[Show also Ack]</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+				<?php endif; ?>
 
-                echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-
-                echo " <a href=\"ack.php?sim=99&all=true\">[Acknowledge all]</a>";
-
-				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-
-				if (!$versionfilter) {
-					global $pdo;
-					$latestversion = $pdo->query('SELECT error_log.app_version FROM error_log ORDER BY error_log.app_version DESC LIMIT 1')->fetch(PDO::FETCH_NUM)[0];
-					echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-					echo "<a href=\"errorlist.php?filter=$filter&version=$latestversion\">[Show only latest version]</a>";
-				}
-
-				?>
+                <?php if ($versionfilter != $latestversion): ?>
+                    <a href="<?php echo suffixGetParams('version', $latestversion); ?>">[Show only latest]</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+				<?php else: ?>
+                    <a href="<?php echo suffixGetParams('version', ''); ?>">[Show all versions]</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                <?php endif; ?>
+                
+                <?php if ($idfilter != ""): ?>
+                    <a href="<?php echo suffixGetParams('idfilter', ''); ?>">[Show all IDs]</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                <?php endif; ?>
+                
+                <a href="ack.php?sim=99&all=true">[Acknowledge all]</a>
             </h2>
 
             <table class="sqltab pure-table pure-table-bordered">
                 <thead>
                 <tr>
                     <th>error id</th>
-                    <th style='width: 170px'>username</th>
-                    <th>resolution</th>
+                    <th style='width: 210px'>username</th>
                     <th>version</th>
                     <th style="width: 225px;">exception id</th>
                     <th>msg</th>
@@ -134,7 +134,6 @@
 					?>
                     <td><a href="errorinfo.php?id=<?php echo $entry['error_id']; ?>"><?php echo $entry['error_id']; ?></a></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-					<?php expansioncell($entry['screen_resolution']); ?>
                     <td><?php echo $entry['app_version']; ?></td>
                     <td><?php echo $entry['exception_id']; ?></td>
 					<?php expansioncell($entry['exception_message']); ?>
@@ -167,7 +166,7 @@
         <div class="pagination_row">
             <?php for ($i=0; $i < ceil($entrycount/1000); $i++ ): ?>
                 <?php if ($i != $page): ?>
-                    <a class="pagination_link" href="<?php echo "errorlist.php?filter=$filter&version=$versionfilter&page=$i"; ?>"><?php echo ($i+1); ?></a>
+                    <a class="pagination_link" href="<?php echo suffixGetParams('page', $i); ?>"><?php echo ($i+1); ?></a>
                 <?php else: ?>
                     <a class="pagination_curr"><?php echo ($i+1); ?></a>
                 <?php endif; ?>
