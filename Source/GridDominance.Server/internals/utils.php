@@ -305,7 +305,11 @@ function suffixGetParams($id, $value) {
 	$url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 	$url_parts = parse_url($url);
-	parse_str($url_parts['query'], $params);
+
+	if (isset($url_parts['query']))
+		parse_str($url_parts['query'], $params);
+	else
+		$params = [];
 
 	$params[$id] = $value;
 

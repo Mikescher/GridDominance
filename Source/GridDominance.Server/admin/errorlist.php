@@ -89,30 +89,25 @@
         <h2 class="open collapseheader">Errors [+/-]</h2>
 
         <div  class="tablebox">
-            <h2 style="padding-top: 5px;">
+            <div class="filterlinkrow">
                 <?php if ($filter != 1): ?>
                     <a href="<?php echo suffixGetParams('filter', '1'); ?>">[Show only NoAck]</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
 				<?php else: ?>
                     <a href="<?php echo suffixGetParams('filter', '0'); ?>">[Show also Ack]</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
 				<?php endif; ?>
 
                 <?php if ($versionfilter != $latestversion): ?>
                     <a href="<?php echo suffixGetParams('version', $latestversion); ?>">[Show only latest]</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
 				<?php else: ?>
                     <a href="<?php echo suffixGetParams('version', ''); ?>">[Show all versions]</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
                 <?php endif; ?>
                 
                 <?php if ($idfilter != ""): ?>
                     <a href="<?php echo suffixGetParams('idfilter', ''); ?>">[Show all IDs]</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
                 <?php endif; ?>
                 
                 <a href="ack.php?sim=99&all=true">[Acknowledge all]</a>
-            </h2>
+            </div>
 
             <table class="sqltab pure-table pure-table-bordered">
                 <thead>

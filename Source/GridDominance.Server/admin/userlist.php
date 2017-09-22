@@ -172,13 +172,12 @@
 
         <h2 class="open collapseheader">Userlist [+/-]</h2>
         <div>
-            <div style="text-align: right; font-size: xx-large">
+            <div class="filterlinkrow">
                 <?php if (! $showall): ?>
                     <a href="<?php echo suffixGetParams('a', 'y'); ?>">[Show All]</a>
                 <?php endif; ?>
 
                 <?php if (! $showregistered): ?>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="<?php echo suffixGetParams('showregistered', '1'); ?>">[Show Registered]</a>
                 <?php endif; ?>
             </div>

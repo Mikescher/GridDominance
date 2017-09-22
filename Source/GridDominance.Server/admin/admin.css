@@ -187,3 +187,25 @@ h1 a:hover { color: blue; text-decoration: underline; }
   border: 1px solid #444;
   background: #9BF;
 }
+
+.filterlinkrow {
+  text-align: center;
+  margin: 0 0 5px 0;
+}
+
+.filterlinkrow a {
+  display: inline-block;
+  background: #444;
+  padding: 5px;
+  margin: 0 5px 0 5px;
+
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+
+  border: 1px dotted #FFF;
+}
+
+.filterlinkrow a:visited {
+  color: white;
+}
