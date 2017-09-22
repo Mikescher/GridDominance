@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.1.2" package="com.blackforestbytes.griddominance.iab" android:installLocation="auto" android:versionCode="10102">
-	<uses-sdk android:minSdkVersion="17" android:targetSdkVersion="25" />
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="25" />
 	<uses-permission android:required="true" android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:required="true" android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:required="true" android:name="android.permission.INTERNET" />
