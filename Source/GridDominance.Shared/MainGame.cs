@@ -24,6 +24,7 @@ using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using System.Text;
 using GridDominance.Shared.Screens.EndGameScreen;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.Language;
 
 namespace GridDominance.Shared
 {
@@ -318,6 +319,7 @@ namespace GridDominance.Shared
 			b.AppendLine("GameCycleCounter: " + GameCycleCounter);
 			b.AppendLine("IsInitializationLag: " + IsInitializationLag);
 			b.AppendLine("MainGame.Alive: " + Alive);
+			b.AppendLine("AppType: " + Bridge.AppType);
 
 			var scrn = screens?.CurrentScreen;
 
@@ -352,6 +354,7 @@ namespace GridDominance.Shared
 			b.AppendLine("Profile.EffectsEnabled:   " + Profile.EffectsEnabled);
 			b.AppendLine("Profile.AccountType:      " + Profile.AccountType);
 			b.AppendLine("Textures.TEXTURE_QUALITY: " + Textures.TEXTURE_QUALITY);
+			b.AppendLine("Profile: \n" + ByteUtils.CompressStringForStorage(Profile.SerializeToString(999999)));
 
 			return b.ToString();
 		}

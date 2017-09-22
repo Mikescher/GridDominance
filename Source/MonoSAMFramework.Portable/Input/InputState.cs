@@ -236,6 +236,22 @@ namespace MonoSAMFramework.Portable.Input
 			}
 		}
 
+		public bool IsKeyJustDown(SKeys key)
+		{
+			bool v;
+			if (currentKeyState.TryGetValue(key, out v))
+			{
+				return v && !lastKeyState[key];
+			}
+			else
+			{
+				v = IsKeyDown(key, Keyboard, GamePad);
+				currentKeyState.Add(key, v);
+				lastKeyState.Add(key, v);
+				return false;
+			}
+		}
+
 		public bool IsModifierDown(KeyModifier mod)
 		{
 			bool needsCtrl  = (mod & KeyModifier.Control) == KeyModifier.Control;

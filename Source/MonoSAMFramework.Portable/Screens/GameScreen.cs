@@ -14,7 +14,10 @@ using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.Language;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace MonoSAMFramework.Portable.Screens
 {
@@ -48,23 +51,30 @@ namespace MonoSAMFramework.Portable.Screens
 		protected IBatchRenderer FixedBatch;         // no translation          (for HUD)
 		protected IBatchRenderer TranslatedBatch;    // translated by MapOffset (for everything else)
 
-#if DEBUG
 		public    RealtimeAPSCounter FPSCounter;
 		public    RealtimeAPSCounter UPSCounter;
+#if DEBUG
 		public    GCMonitor GCMonitor;
 		protected DebugMinimap DebugMap;
 		
+		public static readonly TimingCounter TIMING_DRAW_DEBUGSCREEN    = new TimingCounter(32);
+#endif
 		public static readonly TimingCounter TIMING_DRAW_BACKGROUND     = new TimingCounter(32);
 		public static readonly TimingCounter TIMING_DRAW_ENTITIES       = new TimingCounter(32);
 		public static readonly TimingCounter TIMING_DRAW_SCREEN         = new TimingCounter(32);
 		public static readonly TimingCounter TIMING_DRAW_BACKGROUNDPOST = new TimingCounter(32);
-		public static readonly TimingCounter TIMING_DRAW_ENTITIESPOST   = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_DRAW_ENTITIESPOST   = new TimingCounter(32); 
 		public static readonly TimingCounter TIMING_DRAW_HUD            = new TimingCounter(32);
-		public static readonly TimingCounter TIMING_DRAW_DEBUGSCREEN    = new TimingCounter(32);
 		public static readonly TimingCounter TIMING_DRAW_PROXIES        = new TimingCounter(32);
 		public static readonly TimingCounter TIMING_DRAW_BATCH_GAME     = new TimingCounter(32);
 		public static readonly TimingCounter TIMING_DRAW_BATCH_HUD      = new TimingCounter(32);
-#endif
+
+		public static readonly TimingCounter TIMING_UPDATE_DBGDISP      = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_UPDATE_HUD          = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_UPDATE_ENTITIES     = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_UPDATE_BACKGROUND   = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_UPDATE_AGENTS       = new TimingCounter(32);
+		public static readonly TimingCounter TIMING_UPDATE_VIRT         = new TimingCounter(32);
 
 		public float GameSpeed = 1f;
 
@@ -139,9 +149,9 @@ namespace MonoSAMFramework.Portable.Screens
 
 			GameHUD.Validate();
 
-#if DEBUG
 			FPSCounter = new RealtimeAPSCounter();
 			UPSCounter = new RealtimeAPSCounter();
+#if DEBUG
 			GCMonitor = new GCMonitor();
 
 			DebugMap = CreateDebugMinimap();
@@ -158,9 +168,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public virtual void Update(SAMTime gameTime)
 		{
-#if DEBUG
 			UPSCounter.StartCycle(gameTime);
-#endif
 			var state = InputStateMan.GetNewState(MapOffsetX, MapOffsetY);
 			
 #if DEBUG
@@ -172,6 +180,7 @@ namespace MonoSAMFramework.Portable.Screens
 			{
 				// render these two always
 				DebugDisp.Update(gameTime, state);
+
 				GameHUD.Update(gameTime, state);
 				return;
 			}
@@ -203,9 +212,55 @@ namespace MonoSAMFramework.Portable.Screens
 				throw new ArgumentException(nameof(GameSpeed) + " = " + GameSpeed, nameof(GameSpeed));
 			}
 
-#if DEBUG
+			if (state.IsKeyJustDown(SKeys.AndroidMenu))
+			{
+				StringBuilder b = new StringBuilder();
+
+				b.AppendLine($"FPS.TotalActions     = {FPSCounter.TotalActions:0000.0}");
+				b.AppendLine($"FPS.CurrentAPS       = {FPSCounter.CurrentAPS:0000.0}");
+				b.AppendLine($"FPS.AverageAPS       = {FPSCounter.AverageAPS:0000.0}");
+				b.AppendLine($"FPS.MinimumAPS       = {FPSCounter.MinimumAPS:0000.0}");
+				b.AppendLine($"FPS.CurrentDelta     = {FPSCounter.CurrentDelta:0000.0}");
+				b.AppendLine($"FPS.AverageDelta     = {FPSCounter.AverageDelta:0000.0}");
+				b.AppendLine($"FPS.MaximumDelta     = {FPSCounter.MaximumDelta:0000.0}");
+				b.AppendLine($"FPS.CurrentCycleTime = {FPSCounter.CurrentCycleTime:0000.0}");
+				b.AppendLine($"FPS.AverageCycleTime = {FPSCounter.AverageCycleTime:0000.0}");
+				b.AppendLine($"FPS.MaximumCycleTime = {FPSCounter.MaximumCycleTime:0000.0}");
+				b.AppendLine();
+				b.AppendLine($"UPS.TotalActions     = {UPSCounter.TotalActions:0000.0}");
+				b.AppendLine($"UPS.CurrentAPS       = {UPSCounter.CurrentAPS:0000.0}");
+				b.AppendLine($"UPS.AverageAPS       = {UPSCounter.AverageAPS:0000.0}");
+				b.AppendLine($"UPS.MinimumAPS       = {UPSCounter.MinimumAPS:0000.0}");
+				b.AppendLine($"UPS.CurrentDelta     = {UPSCounter.CurrentDelta:0000.0}");
+				b.AppendLine($"UPS.AverageDelta     = {UPSCounter.AverageDelta:0000.0}");
+				b.AppendLine($"UPS.MaximumDelta     = {UPSCounter.MaximumDelta:0000.0}");
+				b.AppendLine($"UPS.CurrentCycleTime = {UPSCounter.CurrentCycleTime:0000.0}");
+				b.AppendLine($"UPS.AverageCycleTime = {UPSCounter.AverageCycleTime:0000.0}");
+				b.AppendLine($"UPS.MaximumCycleTime = {UPSCounter.MaximumCycleTime:0000.0}");
+				b.AppendLine();
+				b.AppendLine($"Drawing:  Background:       {TIMING_DRAW_BACKGROUND.Format()}");
+				b.AppendLine($"          Entities:         {TIMING_DRAW_ENTITIES.Format()}");
+				b.AppendLine($"          Screen:           {TIMING_DRAW_SCREEN.Format()}");
+				b.AppendLine($"          Background(post): {TIMING_DRAW_BACKGROUNDPOST.Format()}");
+				b.AppendLine($"          Entities(post):   {TIMING_DRAW_ENTITIESPOST.Format()}");
+				b.AppendLine($"          HUD:              {TIMING_DRAW_HUD.Format()}");
+				b.AppendLine($"          Proxies:          {TIMING_DRAW_PROXIES.Format()}");
+				b.AppendLine($"          Batch_Game:       {TIMING_DRAW_BATCH_GAME.Format()}");
+				b.AppendLine($"          Batch_HUD:        {TIMING_DRAW_BATCH_HUD.Format()}");
+				b.AppendLine();
+				b.AppendLine($"Updating: DebugDisplay:     {TIMING_UPDATE_DBGDISP.Format()}");
+				b.AppendLine($"          HUD:              {TIMING_UPDATE_HUD.Format()}");
+				b.AppendLine($"          Entities:         {TIMING_UPDATE_ENTITIES.Format()}");
+				b.AppendLine($"          Background:       {TIMING_UPDATE_BACKGROUND.Format()}");
+				b.AppendLine($"          Agents:           {TIMING_UPDATE_AGENTS.Format()}");
+				b.AppendLine($"          Virtual:          {TIMING_UPDATE_VIRT.Format()}");
+
+				SAMLog.Error("ALPHA::PERFORMANCE_REPORT", "Performance Report v1.1.2", b.ToString());
+
+				MonoSAMGame.CurrentInst.ShowToast(null, "Send alpha performance report", 35, Color.Black, Color.LimeGreen, 5f);
+			}
+
 			UPSCounter.EndCycle();
-#endif
 		}
 
 		private void InternalUpdate(SAMTime timeVirtual, InputState state, SAMTime timeReal)
@@ -213,17 +268,29 @@ namespace MonoSAMFramework.Portable.Screens
 			// Update Top Down  (Debug -> HUD -> Entities -> BG)
 			// Render Bottom Up (BG -> Entities -> HUD -> Debug)
 
+			TIMING_UPDATE_DBGDISP.Start();
 			DebugDisp.Update(timeReal, state);
+			TIMING_UPDATE_DBGDISP.Stop();
 
+			TIMING_UPDATE_HUD.Start();
 			GameHUD.Update(timeReal, state);
+			TIMING_UPDATE_HUD.Stop();
 
+			TIMING_UPDATE_ENTITIES.Start();
 			Entities.Update(timeVirtual, state);
+			TIMING_UPDATE_ENTITIES.Stop();
 
+			TIMING_UPDATE_BACKGROUND.Start();
 			Background.Update(timeVirtual, state);
+			TIMING_UPDATE_BACKGROUND.Stop();
 
+			TIMING_UPDATE_AGENTS.Start();
 			UpdateAgents(timeVirtual, state);
+			TIMING_UPDATE_AGENTS.Stop();
 
+			TIMING_UPDATE_VIRT.Start();
 			OnUpdate(timeVirtual, state);
+			TIMING_UPDATE_VIRT.Start();
 		}
 
 		private void UpdateAgents(SAMTime timeVirtual, InputState istate)
@@ -246,9 +313,8 @@ namespace MonoSAMFramework.Portable.Screens
 		
 		private void InternalDraw(SAMTime gameTime, Rectangle? scissor)
 		{
-#if DEBUG
 			FPSCounter.StartCycle(gameTime);
-#endif
+
 			VAdapterGame.Update();
 			VAdapterHUD.Update();
 			
@@ -262,9 +328,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 			// ======== GAME =========
 
-#if DEBUG
 			if (_updateDebugSettings) TIMING_DRAW_BATCH_GAME.Start();
-#endif
 
 			TranslatedBatch.OnBegin(bts);
 			if (scissor == null)
@@ -278,37 +342,37 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 			try
 			{
-#if DEBUG
+
 				if (_updateDebugSettings) TIMING_DRAW_BACKGROUND.Start();
-#endif
+
 				Background.Draw(TranslatedBatch);
-#if DEBUG
+
 				if (_updateDebugSettings) TIMING_DRAW_BACKGROUND.Stop();
-#endif
 
-#if DEBUG
+
+
 				if (_updateDebugSettings) TIMING_DRAW_ENTITIES.Start();
-#endif
+
 				Entities.Draw(TranslatedBatch);
-#if DEBUG
+
 				if (_updateDebugSettings) TIMING_DRAW_ENTITIES.Stop();
-#endif
 
-#if DEBUG
+
+
 				if (_updateDebugSettings) TIMING_DRAW_SCREEN.Start();
-#endif
-				OnDrawGame(TranslatedBatch);
-#if DEBUG
-				if (_updateDebugSettings) TIMING_DRAW_SCREEN.Stop();
-#endif
 
-#if DEBUG
+				OnDrawGame(TranslatedBatch);
+
+				if (_updateDebugSettings) TIMING_DRAW_SCREEN.Stop();
+
+
+
 				if (_updateDebugSettings) TIMING_DRAW_BACKGROUNDPOST.Start();
-#endif
+
 				Background.DrawOverlay(TranslatedBatch);
-#if DEBUG
+
 				if (_updateDebugSettings) TIMING_DRAW_BACKGROUNDPOST.Stop();
-#endif
+
 
 #if DEBUG
 				DrawScreenDebug(TranslatedBatch);
@@ -320,25 +384,25 @@ namespace MonoSAMFramework.Portable.Screens
 				TranslatedBatch.OnEnd();
 			}
 
-#if DEBUG
+
 			if (_updateDebugSettings) TIMING_DRAW_BATCH_GAME.Stop();
-#endif
+
 
 			// ======== STUFF ========
 
-#if DEBUG
+
 			if (_updateDebugSettings) TIMING_DRAW_ENTITIESPOST.Start();
-#endif
+
 			Entities.PostDraw();
-#if DEBUG
+
 			if (_updateDebugSettings) TIMING_DRAW_ENTITIESPOST.Stop();
-#endif
+
 
 			// ======== HUD ==========
 
-#if DEBUG
+
 			if (_updateDebugSettings) TIMING_DRAW_BATCH_HUD.Start();
-#endif
+
 
 			FixedBatch.OnBegin(bts);
 
@@ -353,13 +417,14 @@ namespace MonoSAMFramework.Portable.Screens
 			}
 			try
 			{
-#if DEBUG
+
 				if (_updateDebugSettings) TIMING_DRAW_HUD.Start();
-#endif
+
 				GameHUD.Draw(FixedBatch);
+
+				if (_updateDebugSettings) TIMING_DRAW_HUD.Stop();
 #if DEBUG
 				using (FixedBatch.BeginDebugDraw()) DebugMap.Draw(FixedBatch);
-				if (_updateDebugSettings) TIMING_DRAW_HUD.Stop();
 #endif
 				OnDrawHUD(TranslatedBatch);
 			}
@@ -369,9 +434,7 @@ namespace MonoSAMFramework.Portable.Screens
 				FixedBatch.OnEnd();
 			}
 
-#if DEBUG
 			if (_updateDebugSettings) TIMING_DRAW_BATCH_HUD.Stop();
-#endif
 
 			// =======================
 
@@ -386,9 +449,9 @@ namespace MonoSAMFramework.Portable.Screens
 			if (_updateDebugSettings) TIMING_DRAW_DEBUGSCREEN.Stop();
 #endif
 
-#if DEBUG
+
 			if (_updateDebugSettings) TIMING_DRAW_PROXIES.Start();
-#endif
+
 			foreach (var proxy in _proxyScreens)
 			{
 				if (proxy.ProxyTargetBounds.IsEmpty) continue;
@@ -397,13 +460,13 @@ namespace MonoSAMFramework.Portable.Screens
 
 				proxy.Proxy.InternalDraw(gameTime, proxy.ProxyTargetBounds.CeilOutwards());
 			}
-#if DEBUG
-			if (_updateDebugSettings) TIMING_DRAW_PROXIES.Stop();
-#endif
 
-#if DEBUG
+			if (_updateDebugSettings) TIMING_DRAW_PROXIES.Stop();
+
+
+
 			FPSCounter.EndCycle();
-#endif
+			
 		}
 		
 #if DEBUG
