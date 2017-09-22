@@ -14,21 +14,24 @@ fi
 
 echo ""
 echo "================================"
-echo " DELETE OLD REPOSITORY"
+echo " PULLING PROJECT"
 echo "================================"
 echo ""
 
 cd /home/janitor/gdapi_deploy
-rm -rf /home/janitor/gdapi_deploy/GridDominance
 
-echo ""
-echo "================================"
-echo " CLONING PROJECT"
-echo "================================"
-echo ""
+chown root:root GridDominance -R
 
-git clone https://github.com/Mikescher/GridDominance --depth 1
+cd GridDominance
 
+git checkout master
+git fetch
+git reset --hard origin/master
+git checkout master
+git pull --force
+git reset --hard
+
+cd ..
 
 echo ""
 echo "================================"
