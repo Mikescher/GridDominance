@@ -1,0 +1,11 @@
+<en-US>
+ - fix sound playback bug
+ - fix wrong android:targetSdkVersion property
+ - highscore server improvements
+</en-US>
+
+<de-DE>
+ - Bug in Musik playback
+ - Falsche android:targetSdkVersion korrigiert
+ - Verbesserungen im Highscore server
+</de-DE>
