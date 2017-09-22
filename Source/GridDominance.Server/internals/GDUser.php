@@ -222,6 +222,7 @@ class GDUser implements JsonSerializable
 	 * @param string $device_version
 	 * @param string $unlocked_worlds
 	 * @param string $device_resolution
+	 * @param string $app_type
 	 */
 	public function UpdateMeta($app_version, $device_name, $device_version, $unlocked_worlds, $device_resolution, $app_type) {
 		global $pdo;

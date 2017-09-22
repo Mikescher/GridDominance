@@ -276,7 +276,9 @@ function getScoreDistribution() {
 function countUsersByUnlock($u) {
 	global $pdo;
 
-	$stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE unlocked_worlds LIKE CONCAT(\"%\", :u, \"%\")");
+	$any = "\"%\"";
+
+	$stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE unlocked_worlds LIKE CONCAT($any, :u, $any)");
 	$stmt->bindValue(':u', $u, PDO::PARAM_STR);
 	$stmt->execute();
 

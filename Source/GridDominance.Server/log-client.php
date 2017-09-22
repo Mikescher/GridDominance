@@ -65,7 +65,7 @@ function run() {
 
 	try	{
 		$va = empty($appversion) ? '999.999.999.999' : $appversion;
-		$vb = $config['latest_version']
+		$vb = $config['latest_version'];
 
 		if (version_compare($va, $vb, '>=') ) {
 			sendmail($subject, $content, $config['email-clientlog-target'], $config['email-clientlog-sender']);

@@ -155,7 +155,6 @@ function getParamDeflOrError($name, $allowEmpty = false) {
 
 /**
  * @param string $name
- * @param bool $allowEmpty
  * @return string
  */
 function getParamDeflOrRaw($name) {
