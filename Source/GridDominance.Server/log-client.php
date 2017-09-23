@@ -62,6 +62,8 @@ function run() {
 	$content .= 'REMOTE_ADDR: '          . ParamServerOrUndef('REMOTE_ADDR')                         . "\n";
 	$content .= 'HTTP_X_FORWARDED_FOR: ' . ParamServerOrUndef('HTTP_X_FORWARDED_FOR')                . "\n";
 	$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')                     . "\n";
+	$content .= '$_GET:'                 . "\n" . print_r($_GET, true)                               . "\n";
+	$content .= '$_POST:'                . "\n" . print_r($_POST, true)                              . "\n";
 
 	try	{
 		$va = empty($appversion) ? '999.999.999.999' : $appversion;

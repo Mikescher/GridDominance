@@ -55,6 +55,7 @@ UpgradeLog.html
 UpgradeLog.htm
 project.lock.json
 /*.diff
+*.csproj.bak
 
 __Secrets.cs
 

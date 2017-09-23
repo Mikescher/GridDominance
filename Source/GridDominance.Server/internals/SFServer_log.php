@@ -76,6 +76,8 @@ function logError($msg) {
 		$content .= 'HTTP_X_FORWARDED_FOR: ' . ParamServerOrUndef('HTTP_X_FORWARDED_FOR') . "\n";
 		$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')      . "\n";
 		$content .= 'MESSAGE:'               . "\n" . $msg                                . "\n";
+		$content .= '$_GET:'                 . "\n" . print_r($_GET, true)                . "\n";
+		$content .= '$_POST:'                . "\n" . print_r($_POST, true)               . "\n";
 
 		sendMail($subject, $content, $config['email-error-target'], $config['email-error-sender']);
 	} catch (Exception $e) {
