@@ -58,3 +58,8 @@ project.lock.json
 
 __Secrets.cs
 
+
+/Source/GridDominance.UWP.Full/_pkginfo.txt
+/Source/GridDominance.UWP.Full/AppPackages
+/Source/GridDominance.UWP.Full/BundleArtifacts
+*.pfx

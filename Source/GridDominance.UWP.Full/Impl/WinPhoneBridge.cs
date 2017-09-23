@@ -8,6 +8,8 @@ using Windows.System;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using GridDominance.UWP.Impl;
+using Windows.Graphics.Display;
+using Windows.UI.ViewManagement;
 
 // ReSharper disable once CheckNamespace
 namespace GridDominance.UWP
@@ -20,7 +22,7 @@ namespace GridDominance.UWP
 		public IUDPClient CreateUPDClient() => null; // Not Supported
 		public string AppType => "WinPhone.UWP.Full";
 
-        public FSize DeviceResolution { get; } = GetScreenRes()
+        public FSize DeviceResolution { get; } = GetScreenRes();
 
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
         public string DeviceName { get; } = UWPDeviceInfo.DeviceModel;
@@ -40,11 +42,11 @@ namespace GridDominance.UWP
             return b.ToString();
         }
 
-		public FSize GetScreenRes() 
+		public static FSize GetScreenRes() 
 		{
 			var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
 			var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-			var size = new Size(bounds.Width*scaleFactor, bounds.Height*scaleFactor);
+			return new FSize((float)(bounds.Width*scaleFactor), (float)(bounds.Height*scaleFactor));
 		}
 
         public string DoSHA256(string input)
