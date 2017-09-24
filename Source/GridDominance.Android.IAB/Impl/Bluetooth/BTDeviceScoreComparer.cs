@@ -19,7 +19,7 @@ namespace GridDominance.Android.Impl
 			var xx = (x as BTDeviceWrapper)?.InternalDevice;
 			var yy = (y as BTDeviceWrapper)?.InternalDevice;
 
-			if (x == null || y == null) return 0;
+			if (x == null || y == null || xx == null || yy == null) return 0;
 
 			if (IsPhone(xx.BluetoothClass.DeviceClass) && !IsPhone(yy.BluetoothClass.DeviceClass)) return -1;
 			if (IsPhone(yy.BluetoothClass.DeviceClass) && !IsPhone(xx.BluetoothClass.DeviceClass)) return +1;

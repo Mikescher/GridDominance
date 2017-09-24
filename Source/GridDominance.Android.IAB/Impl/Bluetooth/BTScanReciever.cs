@@ -28,9 +28,16 @@ namespace GridDominance.Android.Impl
 				if (action == BluetoothDevice.ActionFound)
 				{
 					BluetoothDevice device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
-					SAMLog.Debug($"BTScanReciver:ActionFound({device.Name}|{device.Type}|{device.BluetoothClass.DeviceClass}|{device.BondState})");
+					if (device != null)
+					{
+						SAMLog.Debug($"BTScanReciver:ActionFound({device.Name}|{device.Type}|{device.BluetoothClass.DeviceClass}|{device.BondState})");
 
-					_adapter.ThreadMessage_DeviceFound(device);
+						_adapter.ThreadMessage_DeviceFound(device);
+					}
+					else
+					{
+						SAMLog.Warning("ABTA::NULLDEVICE", "BTScanReciver:ActionFound(device == null)");
+					}
 				}
 				else if (action == BluetoothAdapter.ActionDiscoveryFinished)
 				{
