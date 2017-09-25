@@ -6,7 +6,8 @@ abstract class LOGLEVEL {
 	const NO_LOGGING = -1;
 	const DEBUG      = 0;    // in debug-log log file
 	const MESSAGE    = 1;    // normal logging
-	const ERROR      = 2;    // fatal - send mail 2 me
+	const WARN       = 2;    // log to err - but no mail
+	const ERROR      = 3;    // fatal - send mail 2 me
 }
 
 /**
@@ -46,7 +47,7 @@ function logErrorInfo($msg) {
 /**
  * @param string $msg
  */
-function logError($msg) {
+function logError($msg, $sendmail=true) {
 	global $config;
 
 	$exc = NULL;
@@ -79,7 +80,7 @@ function logError($msg) {
 		$content .= '$_GET:'                 . "\n" . print_r($_GET, true)                . "\n";
 		$content .= '$_POST:'                . "\n" . print_r($_POST, true)               . "\n";
 
-		sendMail($subject, $content, $config['email-error-target'], $config['email-error-sender']);
+		if ($sendmail) sendMail($subject, $content, $config['email-error-target'], $config['email-error-sender']);
 	} catch (Exception $e) {
 		$exc = $e;
 	}
@@ -152,5 +153,6 @@ function ParamServerOrUndef($idx) {
 function logDynamic($logLevel, $message) {
 	if ($logLevel == LOGLEVEL::DEBUG)   logDebug($message);
 	if ($logLevel == LOGLEVEL::MESSAGE) logMessage($message);
+	if ($logLevel == LOGLEVEL::WARN)    logError($message, false);
 	if ($logLevel == LOGLEVEL::ERROR)   logError($message);
 }

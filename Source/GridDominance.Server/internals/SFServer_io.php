@@ -225,6 +225,11 @@ function outputError($errorid, $message, $logLevel = LOGLEVEL::NO_LOGGING) {
 	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time), 6);
 	echo json_encode($d);
 
+	if ($logLevel == LOGLEVEL::ERROR && $errorid == ERRORS::MISSING_PARAMETER && empty($_GET) && empty($_POST)) {
+		// no error-mail on dummy request
+		$logLevel = LOGLEVEL::WARN;
+	}
+
 	logDynamic($logLevel, $message);
 
 	exit (-1);
