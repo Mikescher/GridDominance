@@ -69,4 +69,12 @@ echo ""
 cp * /var/www/gd_api/ -R
 chown www-data:www-data /var/www/gd_api -R
 
+echo ""
+echo "================================"
+echo " REMOVE DEBUG STUFF"
+echo "================================"
+echo ""
+
+rm -rf /var/www/gd_api/debug/
+
 echo "Success."
