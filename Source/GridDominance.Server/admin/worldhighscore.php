@@ -24,9 +24,21 @@
 	$page = 0;
 	if (!empty($_GET['page'])) $page = $_GET['page'];
 
-	$entries = $_GET['id']=='@' ? getGlobalHighscores(1000, $page) : getWorldHighscores($_GET['id'], 1000, $page);
 
-	$entrycount = getUserCount();
+	if ($_GET['id']=='*') {
+		$entries = getGlobalHighscores(1000, $page);
+		$entrycount = getUserCount();
+		$showtime = true;
+    } else if ($_GET['id']=='@') {
+		$entries = getMultiplayerHighscores(1000, $page);
+		$entrycount = getUserCountWithMPScore();
+		$showtime = false;
+    } else {
+		$entries = getWorldHighscores($_GET['id'], 1000, $page);
+		$entrycount = getUserCount();
+		$showtime = true;
+    }
+
 
     ?>
 
@@ -39,7 +51,9 @@
                     <th>Row</th>
                     <th style='width: 250px'>Username</th>
                     <th>Score</th>
+                    <?php if ($showtime): ?>
                     <th>Time</th>
+					<?php endif; ?>
                 </tr>
             </thead>
             <?php $i=1 + ($page * 1000); foreach ($entries as $entry): ?>
@@ -47,7 +61,9 @@
                     <td><?php echo $i++; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
-                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                    <?php if ($showtime): ?>
+                        <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
         </table>

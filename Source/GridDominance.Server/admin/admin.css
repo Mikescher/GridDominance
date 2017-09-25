@@ -72,6 +72,15 @@ body {
   border: 1px black solid;
 }
 
+.collapseheader a:after {
+  content:' [-]';
+  visibility: visible;
+  display: inline;
+}
+.collapseheader.open a:after {
+  content:' [+]';
+}
+
 
 a:visited { color: blue; } 
 

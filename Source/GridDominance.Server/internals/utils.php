@@ -10,6 +10,12 @@ function getUserCount() {
 	return $pdo->query('SELECT COUNT(*) FROM users WHERE score > 0')->fetch(PDO::FETCH_NUM)[0];
 }
 
+function getUserCountWithMPScore() {
+	global $pdo;
+
+	return $pdo->query('SELECT COUNT(*) FROM users WHERE mpscore > 0')->fetch(PDO::FETCH_NUM)[0];
+}
+
 function getActiveUserCount($days) {
 	global $pdo;
 
@@ -157,10 +163,14 @@ function getGlobalHighscores($limit = 100, $page = 0) {
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getMultiplayerHighscores() {
+function getMultiplayerHighscores($limit = 100, $page = 0) {
 	global $pdo;
 
-	return $pdo->query("SELECT * FROM users WHERE is_auto_generated=0 AND score > 0 ORDER BY mpscore DESC LIMIT 100")->fetchAll(PDO::FETCH_ASSOC);
+	$stmt = $pdo->prepare(loadSQL("get-ranking_multiplayer_top"));
+	$stmt->bindValue(':qlimit', $limit);
+	$stmt->bindValue(':qpage', $page * $limit);
+	$stmt->execute();
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getAllEntries($page, $pagesize) {

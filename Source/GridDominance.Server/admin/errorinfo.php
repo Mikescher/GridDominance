@@ -67,7 +67,7 @@
 
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Message [+/-]</h2>
+        <h2 class="open collapseheader">Message</h2>
 
         <div class="errordatabox">
             <?php echo nl2br(htmlspecialchars($data['exception_message'])); ?>
@@ -75,7 +75,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Stacktrace [+/-]</h2>
+        <h2 class="open collapseheader">Stacktrace</h2>
 
         <div class="errordatabox">
 			<?php echo nl2br(htmlspecialchars($data['exception_stacktrace'])); ?>
@@ -83,7 +83,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Additional [+/-]</h2>
+        <h2 class="open collapseheader">Additional</h2>
 
         <div class="errordatabox">
 			<?php echo nl2br(htmlspecialchars($data['additional_info'])); ?>

@@ -66,7 +66,7 @@ function fmtw($w) {
 <div class="columnbox3">
 
     <div class="column3_0" data-collapse>
-        <h2 class="open collapseheader">Users By Device [+/-]</h2>
+        <h2 class="collapseheader">Users By Device</h2>
 
 		<?php
 		global $pdo;
@@ -93,7 +93,7 @@ function fmtw($w) {
     </div>
 
     <div class="column3_1" data-collapse>
-        <h2 class="open collapseheader">Users By Operating System [+/-]</h2>
+        <h2 class="collapseheader">Users By Operating System</h2>
 
 		<?php
 		global $pdo;
@@ -119,7 +119,7 @@ function fmtw($w) {
     </div>
 
     <div class="column3_2" data-collapse>
-        <h2 class="open collapseheader">Users By Resolution [+/-]</h2>
+        <h2 class="collapseheader">Users By Resolution</h2>
 
 		<?php
 		global $pdo;
@@ -150,7 +150,7 @@ function fmtw($w) {
 <div class="columnbox3">
 
     <div class="column3_0" data-collapse>
-        <h2 class="open collapseheader">Users By App Version [+/-]</h2>
+        <h2 class="collapseheader">Users By App Version</h2>
 
 		<?php
 		global $pdo;
@@ -177,7 +177,7 @@ function fmtw($w) {
     </div>
 
     <div class="column3_1" data-collapse>
-        <h2 class="open collapseheader">Users By Unlocks [+/-]</h2>
+        <h2 class="collapseheader">Users By Unlocks</h2>
 
 		<?php
         global $config;
@@ -225,7 +225,7 @@ function fmtw($w) {
     </div>
 
     <div class="column3_3" data-collapse>
-        <h2 class="open collapseheader">Users By Anon [+/-]</h2>
+        <h2 class="collapseheader">Users By Anon</h2>
 
 		<?php
 		global $pdo;
@@ -256,7 +256,7 @@ function fmtw($w) {
 <div class="columnbox3">
 
     <div class="column3_0" data-collapse>
-        <h2 class="open collapseheader">Users By App Type [+/-]</h2>
+        <h2 class="collapseheader">Users By App Type</h2>
 
 		<?php
 		global $pdo;
@@ -283,7 +283,7 @@ function fmtw($w) {
     </div>
 
     <div class="column3_1" data-collapse>
-        <h2 class="open collapseheader">Users By Score Range [+/-]</h2>
+        <h2 class="collapseheader">Users By Score Range</h2>
 
 		<?php
 		global $pdo;
@@ -298,12 +298,20 @@ function fmtw($w) {
                     <th>Count</th>
                 </tr>
                 </thead>
+                    <tr>
+                        <td>0</td>
+                        <td><?php echo countZeroScoreUsers(); ?></td>
+                    </tr>
 				<?php foreach ($u5 as $entry): ?>
                     <tr>
                         <td><?php echo $entry['score1']; ?> - <?php echo $entry['score2']; ?></td>
                         <td><?php echo $entry['count']; ?></td>
                     </tr>
 				<?php endforeach; ?>
+                    <tr>
+                        <td>MAX</td>
+                        <td><?php echo countFirstPlaceUsers(); ?></td>
+                    </tr>
             </table>
         </div>
 

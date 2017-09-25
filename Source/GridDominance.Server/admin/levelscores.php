@@ -28,7 +28,7 @@
     <h2><?php echo htmlspecialchars($_GET['id']); ?></h2>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">DIFFICULTY 0 [+/-]</h2>
+        <h2 class="open collapseheader">DIFFICULTY 0</h2>
 
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">DIFFICULTY 1 [+/-]</h2>
+        <h2 class="open collapseheader">DIFFICULTY 1</h2>
 
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
@@ -82,7 +82,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">DIFFICULTY 2 [+/-]</h2>
+        <h2 class="open collapseheader">DIFFICULTY 2</h2>
 
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
@@ -109,7 +109,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">DIFFICULTY 3 [+/-]</h2>
+        <h2 class="open collapseheader">DIFFICULTY 3</h2>
 
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>

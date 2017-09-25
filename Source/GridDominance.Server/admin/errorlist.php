@@ -63,7 +63,7 @@
 
     <div class="tablebox" data-collapse>
 
-        <h2 class="open collapseheader">Overview [+/-]</h2>
+        <h2 class="open collapseheader">Overview</h2>
 
         <table class="sqltab pure-table pure-table-bordered">
             <thead>
@@ -86,7 +86,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Errors [+/-]</h2>
+        <h2 class="open collapseheader">Errors</h2>
 
         <div  class="tablebox">
             <div class="filterlinkrow">

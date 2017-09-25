@@ -123,7 +123,7 @@
 	?>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Ranking [+/-]</h2>
+        <h2 class="open collapseheader">Ranking</h2>
 
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
@@ -193,7 +193,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Errors [+/-]</h2>
+        <h2 class="open collapseheader">Errors</h2>
 
         <table class="sqltab pure-table pure-table-bordered">
             <thead>
@@ -228,7 +228,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Scores [+/-]</h2>
+        <h2 class="open collapseheader">Scores</h2>
 
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
@@ -248,7 +248,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Scores (per level) [+/-]</h2>
+        <h2 class="open collapseheader">Scores (per level)</h2>
 
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
@@ -277,7 +277,7 @@
     </div>
 
     <div data-collapse>
-        <h2 class="open collapseheader">Change password [+/-]</h2>
+        <h2 class="open collapseheader">Change password</h2>
 
         <form action="force_change_password.php">
             UserID:<br>

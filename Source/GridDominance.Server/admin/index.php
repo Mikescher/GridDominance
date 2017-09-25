@@ -132,7 +132,7 @@
 
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">New errors [+/-]</h2>
+        <h2 class="open collapseheader">New errors</h2>
 
         <table class="sqltab pure-table pure-table-bordered">
             <thead>
@@ -165,7 +165,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Logs [+/-]</h2>
+        <h2 class="open collapseheader">Logs</h2>
 
         <table class="sqltab pure-table pure-table-bordered" >
             <thead>
@@ -198,11 +198,11 @@
     </div>
 
     <div data-collapse>
-        <h2 class="open collapseheader">Highscore [+/-]</h2>
+        <h2 class="open collapseheader">Highscore</h2>
 
         <div>
 
-            <h4 class="subhshdr"><a href="worldhighscore.php?id=@">Global</a></h4>
+            <h4 class="subhshdr"><a href="worldhighscore.php?id=*">Global</a></h4>
             <div class="tablebox">
                 <table class="sqltab pure-table pure-table-bordered sortable">
                     <thead>
@@ -249,11 +249,33 @@
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
+
+            <h4 class="subhshdr"><a href="worldhighscore.php?id=@">Multiplayer</a></h4>
+            <div class="tablebox">
+                <table class="sqltab pure-table pure-table-bordered sortable">
+                    <thead>
+                    <tr>
+                        <th>Row</th>
+                        <th style='width: 250px'>Username</th>
+                        <th>Score</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+					<?php $i=1; foreach (getMultiplayerHighscores(10) as $entry): ?>
+                        <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                            <td><?php echo $entry['totalscore']; ?></td>
+                            <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                        </tr>
+					<?php endforeach; ?>
+                </table>
+            </div>
         </div>
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Level highscores [+/-]</h2>
+        <h2 class="open collapseheader">Level highscores</h2>
 
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
@@ -282,27 +304,6 @@
                     <td><a href="userinfo.php?id=<?php echo $entry['best_userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['best_userid']; ?>)</td>
                     <td><?php echo $entry['best_last_changed']; ?></td>
                     <td><?php echo $entry['completion_count']; ?></td>
-                </tr>
-			<?php endforeach; ?>
-        </table>
-    </div>
-
-    <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Multiplayer highscore [+/-]</h2>
-
-        <table class="sqltab pure-table pure-table-bordered sortable">
-            <thead>
-            <tr>
-                <th>Row</th>
-                <th style='width: 250px'>Username</th>
-                <th>MultiplayerScore</th>
-            </tr>
-            </thead>
-			<?php $i=1; foreach (getMultiplayerHighscores() as $entry): ?>
-                <tr>
-                    <td><?php echo $i++; ?></td>
-                    <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-                    <td><?php echo $entry['mpscore']; ?></td>
                 </tr>
 			<?php endforeach; ?>
         </table>

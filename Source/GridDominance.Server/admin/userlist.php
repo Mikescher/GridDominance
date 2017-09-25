@@ -127,7 +127,7 @@
 
     <div data-collapse>
 
-        <h2 class="open collapseheader">Score Distribution [+/-]</h2>
+        <h2 class="open collapseheader">Score Distribution</h2>
         <div>
             <canvas id="scoreChart" width="85%" height="25%"></canvas>
             <script>
@@ -170,7 +170,7 @@
 
     <div class="tablebox" data-collapse>
 
-        <h2 class="open collapseheader">Userlist [+/-]</h2>
+        <h2 class="open collapseheader">Userlist</h2>
         <div>
             <div class="filterlinkrow">
                 <?php if (! $showall): ?>
