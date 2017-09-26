@@ -644,6 +644,15 @@ namespace GridDominance.Shared.Network
 								d.GlobalBestTime        = hscore.best_time;
 								d.GlobalBestUserID      = hscore.best_userid;
 								d.GlobalCompletionCount = hscore.completion_count;
+
+								if (d.HasCompleted && d.BestTime < d.GlobalBestTime && profile.AccountType != AccountType.Local)
+								{
+									// Fake local data until server updates (cronjob)
+
+									d.GlobalBestTime = d.BestTime;
+									d.GlobalBestUserID = profile.OnlineUserID;
+									d.GlobalCompletionCount = hscore.completion_count + 1;
+								}
 							}
 						}
 
