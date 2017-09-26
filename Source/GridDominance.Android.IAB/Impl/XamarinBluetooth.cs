@@ -22,7 +22,8 @@ namespace GridDominance.Android.Impl
 	/// </summary>
 	class XamarinBluetooth : IBluetoothAdapter
 	{
-		private const int REQUEST_ENABLE_BT = 2;
+		private const int REQUEST_ENABLE_BT    = 2;
+		private const int REQUEST_ENABLE_PERM  = 3;
 
 		public const string NAME = GDConstants.BLUETOOTH_NAME;
 		public static readonly UUID UUID = UUID.FromString(GDConstants.BLUETOOTH_UUID);
@@ -90,10 +91,15 @@ namespace GridDominance.Android.Impl
 
 			if (missingPermissions.Any())
 			{
-				SAMLog.Warning("ABTA::MissingPerms", string.Join("|", missingPermissions.Select(p =>p.Split('.').Last())));
+				SAMLog.Warning("ABTA::MissingPerms", string.Join("|", missingPermissions.Select(p => p.Split('.').Last())));
 
-				// With API>23 I could request them here
-				// https://blog.xamarin.com/requesting-runtime-permissions-in-android-marshmallow/
+				if ((int)Build.VERSION.SdkInt >= 23)
+				{
+					// With API>23 I can request them here
+					// https://blog.xamarin.com/requesting-runtime-permissions-in-android-marshmallow/
+					_activity.RequestPermissions(missingPermissions.ToArray(), REQUEST_ENABLE_PERM);
+				}
+
 				State = BluetoothAdapterState.PermissionNotGranted;
 				return;
 			}

@@ -63,6 +63,14 @@ namespace GridDominance.Android
 				SAMLog.Error("AMA_FULL::OnActivityResult", e);
 			}
 		}
+
+		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+		{
+			for (int i = 0; i < Math.Min(permissions.Length, grantResults.Length); i++)
+			{
+				SAMLog.Debug($"PermissionRequestResult {permissions[i]} = {grantResults[i]}");
+			}
+		}
 	}
 }
 
