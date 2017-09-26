@@ -1,5 +1,6 @@
-Cannon Conquest [![Get it in Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.iab) [![Get it in Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.full) [![Availalble at amazon](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/devportal2/res/images/available-at-amazon-badge-small.png)](https://www.amazon.com/gp/product/B075QMHZV7)
+Cannon Conquest [![Get it in Google Play](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/README/badge_google.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.iab) [![Get it in Google Play](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/README/badge_google_2.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.full) [![Availalble at amazon](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/README/badge_amazon.png)](https://www.amazon.com/gp/product/B075QMHZV7) [![Get it from Microsoft](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/README/badge_microsoft.png)](https://www.microsoft.com/store/apps/9nx24pbs19rp)
 ===============
+
 
 Source code of an android/windows game I made
 
