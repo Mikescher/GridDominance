@@ -16,7 +16,7 @@ foreach ($pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_NUM) as $tabarr)
 
 	print "<h1>$tab</h1>";
 
-	$data = $pdo->query("SELECT * FROM $tab")->fetchAll();
+	$data = $pdo->query("SELECT * FROM $tab LIMIT 100")->fetchAll();
 	$cols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tab' AND TABLE_SCHEMA = 'gdapi_data'")->fetchAll(PDO::FETCH_NUM);
 
 	print "<table class=\"sqltab pure-table pure-table-bordered\">\n";

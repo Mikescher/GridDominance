@@ -10,6 +10,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 //require_once __DIR__ . '/../vendor/autoload.php';
 
 require_once 'SFServer.php';
+require_once 'utils.php';
 require_once 'GDUser.php';
 
 /** @var $config array */
@@ -50,5 +51,3 @@ function init($action) {
 	$pdo = connectOrFail($config['database_host'], $config['database_name'], $config['database_user'], $config['database_pass']);
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
-
-require_once 'utils.php';

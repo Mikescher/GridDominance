@@ -171,6 +171,8 @@
 
     </div>
 
+    <?php printSQLStats(); ?>
+
     <script type="text/javascript">
 		<?php echo file_get_contents('admin.js'); ?>
     </script>

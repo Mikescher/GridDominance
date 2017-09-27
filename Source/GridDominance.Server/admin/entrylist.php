@@ -67,6 +67,8 @@
         </div>
     </div>
 
+    <?php printSQLStats(); ?>
+
     <script src="sorttable.js"></script>
 </body>
 </html>

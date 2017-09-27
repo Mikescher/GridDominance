@@ -218,3 +218,21 @@ h1 a:hover { color: blue; text-decoration: underline; }
 .filterlinkrow a:visited {
   color: white;
 }
+
+.sqlrow {
+  font-family: monospace;
+}
+
+#sqlprof_data {
+  visibility: collapse;
+  display: none;
+}
+
+#sqlprof_trigger a {
+  right: 10px;
+  bottom: 8px;
+  text-decoration: none;
+  color: black;
+  position: fixed;
+  font-size: 24px;
+}

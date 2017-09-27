@@ -135,6 +135,8 @@
         </table>
     </div>
 
+    <?php printSQLStats(); ?>
+
     <script src="sorttable.js"></script>
     <script src="jquery.collapse.js"></script>
 </body>

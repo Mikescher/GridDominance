@@ -90,6 +90,7 @@
         </div>
     </div>
 
+    <?php printSQLStats(); ?>
 
 
     <script type="text/javascript">
