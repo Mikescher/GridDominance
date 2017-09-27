@@ -63,17 +63,25 @@ function fmtw($w) {
 }
 ?>
 
+<?php
+
+$u1 = statisticsUserByDevice();
+$u2 = statisticsUserByOS();
+$u3 = statisticsUserByResolution();
+$u4 = statisticsUserByAppVersion();
+$u5 = statisticsUserByUnlocks();
+$u6 = statisticsUserByAnon();
+$u7 = statisticsUserByAppType();
+$u8 =  statisticsUserByScoreRange();
+
+?>
+
 <div class="columnbox3">
 
     <div class="column3_0" data-collapse>
         <h2 class="collapseheader">Users By Device</h2>
 
-		<?php
-		global $pdo;
-		$u1 =  $pdo->query('SELECT device_name AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_name')->fetchAll(PDO::FETCH_ASSOC);
-		?>
-
-        <div class="tablebox scrollabletabbox">
+        <div class="tablebox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -95,12 +103,7 @@ function fmtw($w) {
     <div class="column3_1" data-collapse>
         <h2 class="collapseheader">Users By Operating System</h2>
 
-		<?php
-		global $pdo;
-		$u2 =  $pdo->query('SELECT device_version AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_version')->fetchAll(PDO::FETCH_ASSOC);
-		?>
-
-        <div class="tablebox scrollabletabbox">
+        <div class="tablebox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -121,12 +124,7 @@ function fmtw($w) {
     <div class="column3_2" data-collapse>
         <h2 class="collapseheader">Users By Resolution</h2>
 
-		<?php
-		global $pdo;
-		$u3 =  $pdo->query('SELECT device_resolution AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_resolution')->fetchAll(PDO::FETCH_ASSOC);
-		?>
-
-        <div class="tablebox scrollabletabbox">
+        <div class="tablebox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -152,12 +150,7 @@ function fmtw($w) {
     <div class="column3_0" data-collapse>
         <h2 class="collapseheader">Users By App Version</h2>
 
-		<?php
-		global $pdo;
-		$u4 =  $pdo->query('SELECT app_version AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_version')->fetchAll(PDO::FETCH_ASSOC);
-		?>
-
-        <div class="tablebox scrollabletabbox">
+        <div class="tablebox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -179,31 +172,7 @@ function fmtw($w) {
     <div class="column3_1" data-collapse>
         <h2 class="collapseheader">Users By Unlocks</h2>
 
-		<?php
-        global $config;
-
-		$u5 = [];
-		$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100001}', 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100001}%'")];
-		$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100002}', 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100002}%'")];
-		$u5[] = ['name' => '{d34db335-0001-4000-7711-000000300001}', 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000300001}%'")];
-
-		foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w) {
-			$u5[] = ['name' => $w, 'count' => pqi("SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%" . $w . "%'")];
-		}
-
-		usort($u5, function ($a, $b) { return ($a['name'] <=> $b['name']); });
-
-		$_u5 = [];
-        foreach ($u5 as $u) {
-            $f = false;
-            foreach ($_u5 as $_u) $f = $f || ($_u['name'] == $u['name']);
-            if (!$f) $_u5 []= $u;
-        }
-		$u5 = $_u5;
-
-		?>
-
-        <div class="tablebox scrollabletabbox">
+        <div class="tablebox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -227,12 +196,7 @@ function fmtw($w) {
     <div class="column3_3" data-collapse>
         <h2 class="collapseheader">Users By Anon</h2>
 
-		<?php
-		global $pdo;
-		$u1 =  $pdo->query('SELECT is_auto_generated AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY is_auto_generated')->fetchAll(PDO::FETCH_ASSOC);
-		?>
-
-        <div class="tablebox scrollabletabbox">
+        <div class="tablebox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -240,7 +204,7 @@ function fmtw($w) {
                     <th>Count</th>
                 </tr>
                 </thead>
-				<?php foreach ($u1 as $entry): ?>
+				<?php foreach ($u6 as $entry): ?>
                     <tr>
                         <td><?php echo $entry['name']; ?></td>
                         <td><?php echo $entry['count']; ?></td>
@@ -258,12 +222,7 @@ function fmtw($w) {
     <div class="column3_0" data-collapse>
         <h2 class="collapseheader">Users By App Type</h2>
 
-		<?php
-		global $pdo;
-		$u5 =  $pdo->query('SELECT app_type AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_type')->fetchAll(PDO::FETCH_ASSOC);
-		?>
-
-        <div class="tablebox scrollabletabbox">
+        <div class="tablebox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -271,7 +230,7 @@ function fmtw($w) {
                     <th>Count</th>
                 </tr>
                 </thead>
-				<?php foreach ($u5 as $entry): ?>
+				<?php foreach ($u7 as $entry): ?>
                     <tr>
                         <td><?php echo $entry['name']; ?></td>
                         <td><?php echo $entry['count']; ?></td>
@@ -285,12 +244,7 @@ function fmtw($w) {
     <div class="column3_1" data-collapse>
         <h2 class="collapseheader">Users By Score Range</h2>
 
-		<?php
-		global $pdo;
-		$u5 =  $pdo->query('SELECT MIN(score) AS score1, MAX(score) AS score2, COUNT(*) AS count FROM users WHERE score>0 GROUP BY ROUND(score/500, 0)')->fetchAll(PDO::FETCH_ASSOC);
-		?>
-
-        <div class="tablebox scrollabletabbox">
+        <div class="tablebox">
             <table class="sqltab pure-table pure-table-bordered sortable">
                 <thead>
                 <tr>
@@ -302,7 +256,7 @@ function fmtw($w) {
                         <td>0</td>
                         <td><?php echo countZeroScoreUsers(); ?></td>
                     </tr>
-				<?php foreach ($u5 as $entry): ?>
+				<?php foreach ($u8 as $entry): ?>
                     <tr>
                         <td><?php echo $entry['score1']; ?> - <?php echo $entry['score2']; ?></td>
                         <td><?php echo $entry['count']; ?></td>
@@ -319,7 +273,7 @@ function fmtw($w) {
 
 </div>
 
-    <?php printSQLStats(); ?>
+<?php printSQLStats(); ?>
 
 <script type="text/javascript">
 	<?php echo file_get_contents('admin.js'); ?>

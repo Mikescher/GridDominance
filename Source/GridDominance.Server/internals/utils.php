@@ -260,3 +260,54 @@ function suffixGetParams($id, $value) {
 
 	return  '?' . $url_parts['query'];
 }
+
+function statisticsUserByScoreRange() {
+	return sql_query_assoc('statisticsUserByScoreRange', 'SELECT MIN(score) AS score1, MAX(score) AS score2, COUNT(*) AS count FROM users WHERE score>0 GROUP BY ROUND(score/500, 0)');
+}
+
+function statisticsUserByDevice() {
+	return sql_query_assoc('statisticsUserByDevice', 'SELECT device_name AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_name');
+}
+
+function statisticsUserByOS() {
+	return sql_query_assoc('statisticsUserByOS', 'SELECT device_version AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_version');
+}
+
+function statisticsUserByResolution() {
+	return sql_query_assoc('statisticsUserByResolution', 'SELECT device_resolution AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY device_resolution');
+}
+
+function statisticsUserByAppVersion() {
+	return sql_query_assoc('statisticsUserByAppVersion', 'SELECT app_version AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_version');
+}
+
+function statisticsUserByUnlocks() {
+	global $config;
+
+	$u5 = [];
+	$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100001}', 'count' => sql_query_num('statisticsUserByUnlocks_W', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100001}%'")];
+	$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100002}', 'count' => sql_query_num('statisticsUserByUnlocks_W', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100002}%'")];
+	$u5[] = ['name' => '{d34db335-0001-4000-7711-000000300001}', 'count' => sql_query_num('statisticsUserByUnlocks_W', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000300001}%'")];
+
+	foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w) {
+		$u5[] = ['name' => $w, 'count' => sql_query_num('statisticsUserByUnlocks_W', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%" . $w . "%'")];
+	}
+
+	usort($u5, function ($a, $b) { return ($a['name'] <=> $b['name']); });
+
+	$_u5 = [];
+	foreach ($u5 as $u) {
+		$f = false;
+		foreach ($_u5 as $_u) $f = $f || ($_u['name'] == $u['name']);
+		if (!$f) $_u5 []= $u;
+	}
+	return $_u5;
+}
+
+function statisticsUserByAnon() {
+	return sql_query_assoc('statisticsUserByAnon', 'SELECT is_auto_generated AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY is_auto_generated');
+}
+
+function statisticsUserByAppType() {
+	return sql_query_assoc('statisticsUserByAppType', 'SELECT app_type AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_type');
+}
