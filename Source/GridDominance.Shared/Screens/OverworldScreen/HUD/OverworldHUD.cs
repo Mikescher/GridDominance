@@ -44,7 +44,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				TextColor = Color.Red,
 
 				FontSize = 64,
-				Text = "INTERNAL ALPHA VERSION 2",
+				Text = "INTERNAL ALPHA VERSION 3",
 
 
 			});
