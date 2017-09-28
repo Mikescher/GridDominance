@@ -62,6 +62,6 @@ namespace MonoSAMFramework.Portable.DebugTools
 			AverageTiming /= TimingCount;
 		}
 
-		public string Format() => $"{AverageTiming:0.0000}ms (min:{MinTiming:0.0000}s | max:{MaxTiming:0.0000}ms" + (TimingCount < _historysize ? $" | cnt:{TimingCount:00}/{_historysize:00}" : "") + ")";
+		public string Format() => $"{AverageTiming:0.0000}ms (min:{MinTiming:0.0000}s | max:{MaxTiming:0.0000}ms" + (TimingCount < _historysize ? $" | cnt:{TimingCount:00}/{_historysize:00}" : "") + ") H=[" + string.Join(";", _history) + "]";
 	}
 }
