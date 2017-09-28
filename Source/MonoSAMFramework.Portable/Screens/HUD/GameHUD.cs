@@ -13,6 +13,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
@@ -26,7 +27,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		public readonly SpriteFont DefaultFont;
 
 		private HUDKeyboard _keyboard = null;
-		private List<HUDToast> _toasts = new List<HUDToast>();
+		private readonly List<HUDToast> _toasts = new List<HUDToast>();
 
 		protected GameHUD(GameScreen scrn, SpriteFont font)
 		{
@@ -142,62 +143,81 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		private void UpdateToasts(SAMTime gameTime)
 		{
-			for (int i = _toasts.Count - 1; i >= 0; i--)
+			lock (_toasts)
 			{
-				if (!_toasts[i].Alive) _toasts.RemoveAt(i);
-			}
+				for (int i = _toasts.Count - 1; i >= 0; i--)
+				{
+					if (_toasts[i] == null)
+					{
+						SAMLog.Error("GHUD::NPE_TOAST_1", $"_toast {i} == null");
+						_toasts.RemoveAt(i);
+						continue;
+					}
 
-			float px = HUDToast.PAD_BOTTOM;
-			foreach (var xtoast in _toasts)
-			{
-				xtoast.PositionY.Set(px);
-				px += xtoast.Height + HUDToast.PAD_VERT;
+					if (!_toasts[i].Alive) _toasts.RemoveAt(i);
+				}
+
+				float px = HUDToast.PAD_BOTTOM;
+				foreach (var xtoast in _toasts)
+				{
+					if (xtoast == null)
+					{
+						SAMLog.Error("GHUD::NPE_TOAST_2", "xtoast == null");
+						continue;
+					}
+
+					xtoast.PositionY.Set(px);
+					px += xtoast.Height + HUDToast.PAD_VERT;
+				}
 			}
 		}
 
 		public HUDToast ShowToast(string id, string text, int size, Color background, Color foreground, float lifetime)
 		{
-			while (_toasts.Count >= MAX_TOAST_COUNT)
+			lock (_toasts)
 			{
-				_toasts[0].Alive = false;
-				_toasts.RemoveAt(0);
-			}
-
-			if (id != null)
-			{
-				foreach (var xtoast in _toasts)
+				while (_toasts.Count >= MAX_TOAST_COUNT)
 				{
-					if (xtoast.ToastID == id)
+					_toasts[0].Alive = false;
+					_toasts.RemoveAt(0);
+				}
+
+				if (id != null)
+				{
+					foreach (var xtoast in _toasts)
 					{
-						xtoast.Reset(text, background, foreground, lifetime);
-						return xtoast;
+						if (xtoast.ToastID == id)
+						{
+							xtoast.Reset(text, background, foreground, lifetime);
+							return xtoast;
+						}
 					}
 				}
+
+				float px = HUDToast.PAD_BOTTOM;
+				foreach (var xtoast in _toasts)
+				{
+					xtoast.PositionY.SetForce(px);
+					px += xtoast.Height + HUDToast.PAD_VERT;
+				}
+
+				var toast = new HUDToast(id, lifetime, px);
+
+				toast.Text = text;
+				toast.Alignment = HUDAlignment.BOTTOMCENTER;
+				toast.RelativePosition = new FPoint(0, px);
+				toast.FontSize = size;
+				toast.Font = DefaultFont;
+				toast.TextColor = foreground;
+				toast.Background = HUDBackgroundDefinition.CreateSimpleBlur(background, size / 4f);
+				toast.TextPadding = new FSize(size / 5f, size / 5f);
+				toast.MaxWidth = Width * 0.8f;
+				toast.WordWrap = HUDWordWrap.WrapByWordTrusted;
+
+				AddElement(toast);
+				_toasts.Add(toast);
+				return toast;
 			}
-
-			float px = HUDToast.PAD_BOTTOM;
-			foreach (var xtoast in _toasts)
-			{
-				xtoast.PositionY.SetForce(px);
-				px += xtoast.Height + HUDToast.PAD_VERT;
-			}
-
-			var toast = new HUDToast(id, lifetime, px);
-
-			toast.Text = text;
-			toast.Alignment = HUDAlignment.BOTTOMCENTER;
-			toast.RelativePosition = new FPoint(0, px);
-			toast.FontSize = size;
-			toast.Font = DefaultFont;
-			toast.TextColor = foreground;
-			toast.Background = HUDBackgroundDefinition.CreateSimpleBlur(background, size/4f);
-			toast.TextPadding = new FSize(size / 5f, size / 5f);
-			toast.MaxWidth = Width * 0.8f;
-			toast.WordWrap = HUDWordWrap.WrapByWordTrusted;
-
-			AddElement(toast);
-			_toasts.Add(toast);
-			return toast;
 		}
 
 		public void Validate()
@@ -207,22 +227,25 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public void CopyToast(GameHUD phud)
 		{
-			bool postreset = _toasts.Any();
-
-			foreach (var t in phud._toasts)
+			lock (_toasts)
 			{
-				var copy = HUDToast.Copy(t);
-				AddElement(copy);
-				_toasts.Add(copy);
-			}
+				bool postreset = _toasts.Any();
 
-			if (postreset)
-			{
-				float px = HUDToast.PAD_BOTTOM;
-				foreach (var xtoast in _toasts)
+				foreach (var t in phud._toasts)
 				{
-					xtoast.PositionY.SetForce(px);
-					px += xtoast.Height + HUDToast.PAD_VERT;
+					var copy = HUDToast.Copy(t);
+					AddElement(copy);
+					_toasts.Add(copy);
+				}
+
+				if (postreset)
+				{
+					float px = HUDToast.PAD_BOTTOM;
+					foreach (var xtoast in _toasts)
+					{
+						xtoast.PositionY.SetForce(px);
+						px += xtoast.Height + HUDToast.PAD_VERT;
+					}
 				}
 			}
 		}

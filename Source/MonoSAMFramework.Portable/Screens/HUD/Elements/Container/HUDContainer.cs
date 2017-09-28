@@ -33,12 +33,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 		{
 			base.DrawForeground(sbatch);
 
-			foreach (var child in children)
+			var copy = children.ToList();
+
+			foreach (var child in copy)
 			{
 				if (child.IsVisible) child.DrawBackground(sbatch);
 			}
 
-			foreach (var child in children)
+			foreach (var child in copy)
 			{
 				if (child.IsVisible) child.DrawForeground(sbatch);
 			}
