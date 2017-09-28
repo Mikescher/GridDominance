@@ -1,0 +1,18 @@
+TextureIndex = 11,
+SpawnRate = 60,
+
+ParticleLifetimeMin = 2f,
+ParticleLifetimeMax = 4f,
+
+ParticleVelocityMin = 4f,
+ParticleVelocityMax = 32f,
+
+ParticleSizeInitial = 0,
+ParticleSizeFinalMin = 32,
+ParticleSizeFinalMax = 64,
+
+ParticleAlphaInitial = 1f,
+ParticleAlphaFinal = 0f,
+
+ColorInitial = Color.Gold,
+ColorFinal = Color.Black,

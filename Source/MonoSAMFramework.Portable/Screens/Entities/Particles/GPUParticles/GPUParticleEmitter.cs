@@ -23,6 +23,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		private EffectParameter parameterOffset;
 		private EffectParameter parameterVirtualViewport;
 		private EffectParameter parameterCurrentTime;
+		private EffectParameter parameterBaseAlpha;
 
 		private GPUParticle[] particlePool;
 		private GPUParticleVBA vboArray;
@@ -37,8 +38,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 		bool IParticleEmitter.Enabled { get => IsEnabled; set => IsEnabled = value; }
 		bool IParticleEmitter.Alive { get => Alive; set => Alive = value; }
 
+		public float AlphaAppearTime = 0f;
+
 		protected float _time = 0f;
-		
+		private bool _isFfwd = false;
+
 		protected GPUParticleEmitter(GameScreen scrn, ParticleEmitterConfig cfg, int order) : base(scrn, order)
 		{
 			_config = cfg;
@@ -127,6 +131,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 			parameterOffset = particleEffect.Parameters["Offset"]; 
 			parameterVirtualViewport = particleEffect.Parameters["VirtualViewport"];
 			parameterCurrentTime = particleEffect.Parameters["CurrentTime"];
+			parameterBaseAlpha = particleEffect.Parameters["BaseAlpha"];
 
 			// Particle Config
 
@@ -202,7 +207,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 			parameterOffset.SetValue(Position.WithOrigin(Owner.MapOffset).ToVec2D());
 			parameterVirtualViewport.SetValue(Owner.VAdapterGame.GetShaderMatrix());
-			parameterCurrentTime.SetValue(_time);
+			parameterCurrentTime.SetValue(_time + (_isFfwd ? Config.ParticleRespawnTime * Config.SpawnRate : 0));
+			parameterBaseAlpha.SetValue(AlphaAppearTime <= 0f ? 1f : FloatMath.Min(1f, _time / AlphaAppearTime));
 
 			g.SetVertexBuffer(vertexBuffer);
 			g.Indices = indexBuffer;
@@ -219,6 +225,11 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles
 
 			//g.RasterizerState = oldRaster;
 			g.BlendState = oldBlendState;
+		}
+
+		public void FastForward()
+		{
+			_isFfwd = true;
 		}
 
 		protected override void DrawDebugBorders(IBatchRenderer sbatch)

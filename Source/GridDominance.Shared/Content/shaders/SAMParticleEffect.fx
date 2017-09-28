@@ -15,6 +15,7 @@
 float2 Offset;
 float4x4 VirtualViewport;
 float CurrentTime;
+float BaseAlpha;
 
 //------------ PARTICLE SYSTEM CONFIG ------------
 
@@ -130,7 +131,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float colorR = lerp(ColorInitial.r, ColorFinal.r, progress);
 	float colorG = lerp(ColorInitial.g, ColorFinal.g, progress);
 	float colorB = lerp(ColorInitial.b, ColorFinal.b, progress);
-	float colorA = lerp(ParticleAlphaInitial, ParticleAlphaFinal, progress);
+	float colorA = lerp(ParticleAlphaInitial, ParticleAlphaFinal, progress) * BaseAlpha;
 
 	float4 worldPosition = float4(input.StartPosition.x + input.Corner.x * size + Velocity.x * age, input.StartPosition.y + input.Corner.y * size + Velocity.y * age, 0, 1);
 	worldPosition.x += Offset.x;

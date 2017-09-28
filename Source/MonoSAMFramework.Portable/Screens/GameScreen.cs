@@ -469,6 +469,11 @@ namespace MonoSAMFramework.Portable.Screens
 			return VAdapterHUD.PointToScreen(VAdapterGame.ScreenToPoint(x, y));
 		}
 
+		public FPoint TranslateHUDToGameCoordinates(float x, float y)
+		{
+			return VAdapterGame.PointToScreen(VAdapterHUD.ScreenToPoint(x, y));
+		}
+
 		public void RegisterProxyScreenProvider(IProxyScreenProvider p)
 		{
 			_proxyScreens.Add(p);

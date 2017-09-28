@@ -95,10 +95,11 @@ namespace GridDominance.Shared.Resources
 		public const int ORDER_MAP_NODE          = 200;
 		public const int ORDER_MAP_NODEPARTICLES = 210;
 
-		public const int ORDER_WORLD_NODE = 100;
-		public const int ORDER_WORLD_LOGO = 200;
+		public const int ORDER_WORLD_NODE         = 100;
+		public const int ORDER_WORLD_LOGO         = 200;
+		public const int ORDER_WORLD_SUPEREFFECTS = 300;
 
-		
+
 		public const float MULTIPLICATOR_BULLET_PLAYER     = 1.000f;
 		public const float MULTIPLICATOR_BULLET_NEUTRAL    = 0.600f;
 		public const float MULTIPLICATOR_BULLET_SUPERSLOW  = 0.500f;  // Easy on 1-1

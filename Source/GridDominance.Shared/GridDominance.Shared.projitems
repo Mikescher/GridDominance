@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\DebugUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AccountReminderPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AnonymousAccountPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AcknowledgementsPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Elements\MultiplayerScoreDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Multiplayer\MultiplayerFindLobbyScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Multiplayer\MultiplayerRehostPanel.cs" />

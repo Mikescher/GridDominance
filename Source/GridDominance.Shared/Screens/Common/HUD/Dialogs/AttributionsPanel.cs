@@ -72,11 +72,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					ClickMode = HUDButton.HUDButtonClickMode.Single,
 				};
 
-				btn.ButtonClick += (s, a) =>
+				if (!string.IsNullOrWhiteSpace(dd.Item2))
 				{
-					HUD.ShowToast(null, dd.Item2, 32, FlatColors.Silver, FlatColors.Foreground, 3f);
-					MainGame.Inst.Bridge.OpenURL(dd.Item2);
-				};
+					btn.ButtonClick += (s, a) =>
+					{
+						HUD.ShowToast(null, dd.Item2, 32, FlatColors.Silver, FlatColors.Foreground, 3f);
+						MainGame.Inst.Bridge.OpenURL(dd.Item2);
+					};
+				}
 
 				AddElement(btn);
 			}

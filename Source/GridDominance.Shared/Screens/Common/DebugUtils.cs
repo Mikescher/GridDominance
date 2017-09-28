@@ -151,6 +151,7 @@ namespace GridDominance.Shared.Screens
 			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger("TRUE", "ReuploadProfile",      scrn, SKeys.O,         KeyModifier.Control, x => MainGame.Inst.Backend.Reupload(MainGame.Inst.Profile).RunAsync() );
 			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger("TRUE", "XClientProtocolTest1", scrn, SKeys.X,         KeyModifier.ShiftCtrl, x => DoDirectProtocolDebugTest1());
 			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger("TRUE", "XClientProtocolTest2", scrn, SKeys.Y,         KeyModifier.ShiftCtrl, x => DoDirectProtocolDebugTest2());
+			if (scrn is GDOverworldScreen) DebugSettings.AddTrigger("TRUE", "ShowAcknowledgements", scrn, SKeys.I,         KeyModifier.Control, x => scrn.HUD.AddModal(new AcknowledgementsPanel(), true));
 		}
 
 		private static void RotateLang(DebugListener obj)

@@ -73,7 +73,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 					{
 						var chr = PathPresets.LETTERS[lines[y][x]];
 
-						var emitterConfig = cfg.Build(_tex, scale, chr.Length);
+						var emitterConfig = cfg.Build(_tex, 1f, chr.Length);
 
 						AddLetter(chr, emitterConfig, px + scale * chr.Boundings.Width / 2f, py + scale / 2f, scale, AnimationStartDelay + animLen * (idx / 2f) + y * ANIMATION_LINEBREAK_PAUSE, animLen);
 						idx++;

@@ -33,7 +33,14 @@ namespace GridDominance.Shared.Resources
 
 			Tuple.Create("Freesound: Lazer_01_LOOP",                "http://freesound.org/people/Koops/sounds/12505/"),
 
-			Tuple.Create("Italian Translation: /u/leolego",         "https://www.reddit.com/user/leolego2"),
+			
+		};
+
+		public static readonly Tuple<string, string, string>[] THANKS =
+		{
+			Tuple.Create("Dr. Beate Heizmann", "",                                     "French Translations"),
+			Tuple.Create("/u/leolego",         "https://www.reddit.com/user/leolego2", "Italian Translations"),
+			Tuple.Create("/u/brodesta",        "https://www.reddit.com/user/brodesta", "Alpha Tester for 1.2.0"),
 		};
 	}
 }

@@ -44,6 +44,7 @@ namespace GridDominance.Shared.Resources
 
 		public const int STR_ATTRIBUTIONS           = 22;
 		public const int STR_UNLOCK                 = 85;
+		public const int STR_ACKNOWLEDGEMENTS       = 188;
 
 		public const int STR_AAP_HEADER             = 23;
 		public const int STR_AAP_USERNAME           = 24;
@@ -222,7 +223,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ERR_SOUNDPLAYBACK      = 186;
 		public const int STR_ERR_MUSICPLAYBACK      = 187;
 
-		private const int TEXT_COUNT = 188; // = next idx
+		private const int TEXT_COUNT = 189; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -329,6 +330,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_IAB_TESTNOCONN,         "No connection to Google Play services",                                                                                                   "Keine Verbindung zu Google Play services",                                                                                            "Pas de connexion avec Google Play services",                                                                                                                   "Nessuna connessione ai servizi Google Play");
 			L10N.Add(STR_IAB_TESTINPROGRESS,     "Payment in progress",                                                                                                                     "Zahlung wird verarbeitet",                                                                                                            "Paiement en cours",                                                                                                                                            "Pagamento in lavorazione");
 			L10N.Add(STR_UNLOCK,                 "Promotion Code",                                                                                                                          "Promo Code",                                                                                                                          "Code promotionnel",                                                                                                                                            "Codice Promozionale");
+			L10N.Add(STR_ACKNOWLEDGEMENTS,       "Acknowledgements",                                                                                                                        "Danksagungen",                                                                                                                        "Remerciements",                                                                                                                                                "Ringraziamenti");
 			L10N.Add(STR_GLOB_UNLOCKSUCCESS,     "Upgraded game to full version!",                                                                                                          "Spiel wurde zur Vollversion aufgewertet",                                                                                             "Mise à niveau du jeu en version complète!",                                                                                                                    "Congratulazioni, hai acquistato la versione completa!");
 			L10N.Add(STR_PREV_BUYNOW,            "Unlock now",                                                                                                                              "Jetzt freischalten",                                                                                                                  "Débloquer maintenant",                                                                                                                                         "Sblocca ora");
 			L10N.Add(STR_IAB_BUYERR,             "Error connecting to Google Play services",                                                                                                "Fehler beim Versuch mit Google Play zu verbinden",                                                                                    "Erreurde connexion avec Google Play services",                                                                                                                 "Impossibile connettersi ai servizi Google Play");

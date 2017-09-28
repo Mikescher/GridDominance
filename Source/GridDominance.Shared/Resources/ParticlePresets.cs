@@ -114,6 +114,32 @@ namespace GridDominance.Shared.Screens
 			};
 		}
 
+		public static ParticleEmitterConfig.ParticleEmitterConfigBuilder GetConfigBubbleHighlight()
+		{
+			return new ParticleEmitterConfig.ParticleEmitterConfigBuilder
+			{
+				// bubble highlight
+				TextureIndex = 11,
+				SpawnRate = 60,
+
+				ParticleLifetimeMin = 2f,
+				ParticleLifetimeMax = 4f,
+
+				ParticleVelocityMin = 4f,
+				ParticleVelocityMax = 32f,
+
+				ParticleSizeInitial = 0,
+				ParticleSizeFinalMin = 32,
+				ParticleSizeFinalMax = 64,
+
+				ParticleAlphaInitial = 1f,
+				ParticleAlphaFinal = 0f,
+
+				ColorInitial = Color.Gold,
+				ColorFinal = Color.Black,
+			};
+		}
+
 		public static ParticleEmitterConfig.ParticleEmitterConfigBuilder GetConfigLetterStarStuff()
 		{
 			return new ParticleEmitterConfig.ParticleEmitterConfigBuilder

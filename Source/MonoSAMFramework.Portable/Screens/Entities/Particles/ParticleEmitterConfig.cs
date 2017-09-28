@@ -190,12 +190,12 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 			ParticleAlphaInitial = b.ParticleAlphaInitial;
 			ParticleAlphaFinal = b.ParticleAlphaFinal;
 
-			ParticleSizeInitialMin = b.ParticleSizeInitialMin ;
-			ParticleSizeInitialMax = b.ParticleSizeInitialMax ;
+			ParticleSizeInitialMin = b.ParticleSizeInitialMin * size;
+			ParticleSizeInitialMax = b.ParticleSizeInitialMax * size;
 			ParticleSizeInitialIsRandom = FloatMath.FloatInequals(ParticleSizeInitialMin, ParticleSizeInitialMax);
 
-			ParticleSizeFinalMin = b.ParticleSizeFinalMin ;
-			ParticleSizeFinalMax = b.ParticleSizeFinalMax ;
+			ParticleSizeFinalMin = b.ParticleSizeFinalMin * size;
+			ParticleSizeFinalMax = b.ParticleSizeFinalMax * size;
 			ParticleSizeFinalIsRandom = FloatMath.FloatInequals(ParticleSizeFinalMin, ParticleSizeFinalMax);
 
 			ColorInitial = b.ColorInitial;

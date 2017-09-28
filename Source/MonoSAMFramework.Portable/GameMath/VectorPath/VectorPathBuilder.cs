@@ -36,9 +36,26 @@ namespace MonoSAMFramework.Portable.GameMath.VectorPath
 			return this;
 		}
 
+		public VectorPathBuilder LineTo(FPoint p)
+		{
+			var next = new FPoint(p.X * scale, p.Y * scale);
+
+			segments.Add(new LineSegment(current, next));
+			current = next;
+
+			return this;
+		}
+
 		public VectorPathBuilder MoveTo(float x, float y)
 		{
 			current = new FPoint(x * scale, y * scale);
+
+			return this;
+		}
+
+		public VectorPathBuilder MoveTo(FPoint p)
+		{
+			current = new FPoint(p.X * scale, p.Y * scale);
 
 			return this;
 		}
