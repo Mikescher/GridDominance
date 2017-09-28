@@ -475,6 +475,15 @@ namespace GridDominance.Shared.Network
 
 		public async Task Reupload(PlayerProfile profile)
 		{
+			await ReuploadWorld(profile, Levels.WORLD_001.ID);
+			await ReuploadWorld(profile, Levels.WORLD_002.ID);
+			await ReuploadWorld(profile, Levels.WORLD_003.ID);
+			await ReuploadWorld(profile, Levels.WORLD_004.ID);
+			await ReuploadWorld(profile, Levels.WORLD_ID_TUTORIAL);
+		}
+
+		public async Task ReuploadWorld(PlayerProfile profile, Guid world)
+		{
 			profile.NeedsReupload = false;
 
 			try
@@ -483,7 +492,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
-				ps.AddParameterJson("data", CreateScoreArray(profile));
+				ps.AddParameterJson("data", CreateScoreArray(profile, world));
 
 				ps.AddParameterInt("s0", profile.TotalPoints);
 				ps.AddParameterInt("s1", profile.GetWorldPoints(Levels.WORLD_001));
@@ -958,7 +967,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
 				ps.AddParameterString("new_username", username);
 				ps.AddParameterHash("new_password", pwHash);
-				ps.AddParameterJson("merge_data", CreateScoreArray(profile));
+				ps.AddParameterJson("merge_data", CreateScoreArray(profile, null));
 
 				ps.AddParameterInt("s0", profile.TotalPoints);
 				ps.AddParameterInt("s1", profile.GetWorldPoints(Levels.WORLD_001));
@@ -1058,12 +1067,14 @@ namespace GridDominance.Shared.Network
 			});
 		}
 
-		private object CreateScoreArray(PlayerProfile profile)
+		private object CreateScoreArray(PlayerProfile profile, Guid? world)
 		{
 			var d = new List<Tuple<Guid, FractionDifficulty, int>>();
 
 			foreach (var ld in profile.LevelData)
 			{
+				if (world != null && Levels.MAP_LEVELS_WORLDS.TryGetValue(ld.Key, out var levelworld) && levelworld != world.Value) continue;
+
 				foreach (var dd in ld.Value.Data)
 				{
 					if (dd.Value.HasCompleted && dd.Key >= FractionDifficulty.DIFF_0 && dd.Key <= FractionDifficulty.DIFF_3)
