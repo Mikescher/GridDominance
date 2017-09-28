@@ -12,6 +12,10 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.RenderHelper;
 using System;
+using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
@@ -28,6 +32,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			AddElement(Settings       = new SettingsButton());
 			AddElement(ScoreDisplay   = new ScoreDisplay(firstShow));
 			AddElement(MPScoreDisplay = new MultiplayerScoreDisplay(ScoreDisplay, firstShow));
+
+
+			AddElement(new HUDLabel
+			{
+				Alignment = HUDAlignment.CENTER,
+				RelativePosition = new FPoint(0, -200),
+
+				AutoSize = true,
+
+				Background = HUDBackgroundDefinition.CreateSimple(Color.LightBlue),
+				TextColor = Color.Red,
+
+				FontSize = 64,
+				Text = "INTERNAL ALPHA VERSION 4",
+			});
 		}
 
 		public void ShowAccountPanel()
