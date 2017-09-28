@@ -232,6 +232,7 @@ function outputError($errorid, $message, $logLevel = LOGLEVEL::NO_LOGGING) {
 
 	logDynamic($logLevel, $message);
 
+	finish();
 	exit (-1);
 }
 
@@ -251,6 +252,7 @@ function outputErrorException($errorid, $message, $e, $logLevel = LOGLEVEL::NO_L
 
 	logDynamic($logLevel, $message . ': ' . $e->getMessage() . "\n" . $e->getTraceAsString());
 
+	finish();
 	exit (-1);
 }
 
@@ -265,6 +267,7 @@ function outputResultSuccess($data) {
 	if ($config['debug']) $d['runtime'] = round((microtime(true) - $start_time), 6);
 	echo json_encode($d);
 
+	finish();
 	exit (0);
 }
 

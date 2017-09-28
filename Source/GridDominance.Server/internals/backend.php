@@ -51,3 +51,23 @@ function init($action) {
 	$pdo = connectOrFail($config['database_host'], $config['database_name'], $config['database_user'], $config['database_pass']);
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
+
+function finish() {
+	global $config;
+	global $pdo;
+	global $action_name;
+	global $start_time;
+
+	if ($config['runlog']) {
+		try{
+			$d = (int)((microtime(true) - $start_time) * 1000 * 1000);
+
+			$stmt = $pdo->prepare("INSERT INTO runlog_volatile(action, duration) VALUES (:a, :d)");
+			$stmt->bindValue(':a', $action_name, PDO::PARAM_STR);
+			$stmt->bindValue(':d', $d, PDO::PARAM_INT);
+			$stmt->execute();
+		} catch (Exception $e) {
+			logError("Error in insert runlog: " . $e->getMessage() . "\n" . $e->getTraceAsString(), 'ERR');
+		}
+	}
+}

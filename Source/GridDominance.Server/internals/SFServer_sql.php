@@ -92,7 +92,7 @@ function sql_query_assoc_prep($name, $query, $params)
 	return $r;
 }
 
-function printSQLStats() { //TODO stats
+function printSQLStats() {
 
 	echo("<div class=\"tablebox\" data-collapse id='sqlprof_data'>");
 	echo("<h2 class=\"open collapseheader\">SQL Data</h2>");
@@ -101,7 +101,7 @@ function printSQLStats() { //TODO stats
 	echo("<tr>");
 	echo("<th width='200px'>Name</th>");
 	echo("<th width='50px'>Count</th>");
-	echo("<th width='300px'>Time</th>");
+	echo("<th width='300px'>Time (Sum)</th>");
 	echo("</tr>");
 	echo("</thead>");
 	foreach (SQLStatistics::$ExecutionTimes as $key => $exectime)

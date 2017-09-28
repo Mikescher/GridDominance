@@ -311,3 +311,30 @@ function statisticsUserByAnon() {
 function statisticsUserByAppType() {
 	return sql_query_assoc('statisticsUserByAppType', 'SELECT app_type AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_type');
 }
+
+function getLastRunLogCount() {
+	return sql_query_num('getLastRunLogCount', "SELECT SUM(count) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");
+}
+
+function getLastTimingAverage() {
+	return sql_query_num('getLastTimingAverage', "SELECT (SUM(duration)/SUM(count)) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");
+}
+
+function getRunLogActionList() {
+	return sql_query_assoc('getRunLogActionList', "SELECT action FROM runlog_history GROUP BY action");
+}
+
+function getRunLog($action) {
+	return sql_query_assoc_prep('getRunLogActionList', "SELECT * FROM runlog_history WHERE action = :ac ORDER BY exectime DESC LIMIT 50",
+	[
+		[':ac', $action, PDO::PARAM_STR],
+	]);
+}
+
+function getRunLogCountVolatile() {
+	return sql_query_num('getRunLogCountVolatile', "SELECT COUNT(*) FROM runlog_volatile");
+}
+
+function getRunLogCountHistory() {
+	return sql_query_num('getRunLogCountHistory', "SELECT COUNT(*) AS cnt FROM runlog_history GROUP BY action ORDER by cnt DESC LIMIT 1");
+}

@@ -53,4 +53,6 @@ try {
 	run();
 } catch (Exception $e) {
 	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);
+} finally {
+	finish();
 }

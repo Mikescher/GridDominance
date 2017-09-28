@@ -40,6 +40,15 @@ function run() {
 		echo ($lid . "\n");
 	}
 
+	if ($config['runlog'])
+	{
+		$stmt = $pdo->prepare("INSERT INTO runlog_history (action, min_timestamp, max_timestamp, count, duration) (SELECT action, MIN(exectime), MAX(exectime), COUNT(*), SUM(duration) FROM runlog_volatile GROUP BY action)");
+		executeOrFail($stmt);
+		
+		$stmt = $pdo->prepare("DELETE FROM runlog_volatile");
+		executeOrFail($stmt);
+	}
+
 	$delta = (int)((microtime(true) - $time_start)*1000);
 	logDebug("Cronjob succesful executed in $delta ms.");
 	logCron("Cronjob succesful executed in $delta ms.");
@@ -54,4 +63,6 @@ try {
 	run();
 } catch (Exception $e) {
 	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);
+} finally {
+	finish();
 }

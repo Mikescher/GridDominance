@@ -39,5 +39,7 @@ return [
 	//'diff_scores'  => [11,   13,   17,   23  ],
 
 	'debug' => true,
+	'runlog' => true,
+
 	'ping_emulation' => 0, // sec
 ];

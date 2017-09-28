@@ -107,4 +107,33 @@ CREATE TABLE idmap (
   name     varchar(128)  NOT NULL,
 
   PRIMARY KEY (levelid)
-)
+);
+
+
+
+
+DROP TABLE IF EXISTS runlog_volatile;
+CREATE TABLE runlog_volatile (
+  id              int(11)       NOT NULL AUTO_INCREMENT,
+  action          char(32)      NOT NULL,
+  exectime        timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  duration        int(11)       NOT NULL,
+
+  PRIMARY KEY (id)
+);
+
+
+
+
+DROP TABLE IF EXISTS runlog_history;
+CREATE TABLE runlog_history (
+  id              int(11)       NOT NULL AUTO_INCREMENT,
+  exectime        timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  action          char(32)      NOT NULL,
+  min_timestamp   timestamp     NULL DEFAULT NULL,
+  max_timestamp   timestamp     NULL DEFAULT NULL,
+  count           int(11)       NOT NULL,
+  duration        int(11)       NOT NULL,
+
+  PRIMARY KEY (id)
+);
