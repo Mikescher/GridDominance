@@ -128,7 +128,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			var cfg = ParticlePresets.GetConfigBubbleHighlight().Build(Textures.TexParticle, 2f, 3f);
 
 			_emitter = new PathGPUParticleEmitter(scrn, scrn.MapViewportCenter, path, cfg, GDConstants.ORDER_WORLD_SUPEREFFECTS);
-			_emitter.AlphaAppearTime = 2f;
+			_emitter.AlphaAppearTime = 5f;
 			_emitter.FastForward();
 
 			HUD.Screen.Entities.AddEntity(_emitter);

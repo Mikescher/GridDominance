@@ -52,13 +52,13 @@ repl(r"Source\GridDominance.Common\Properties\AssemblyInfo.cs", "AssemblyVersion
 repl(r"Source\GridDominance.Common\Properties\AssemblyInfo.cs", "AssemblyFileVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 
 repl(r"Source\GridDominance.Android.Full\Properties\AndroidManifest.xml", "android:versionCode=\"(?P<repl>[0-9]+)\"", version_int)
-repl(r"Source\GridDominance.Android.Full\Properties\AndroidManifest.xml", "android:versionName=\"(?P<repl>[0-9\\.]+)\"", version_dot3)
+repl(r"Source\GridDominance.Android.Full\Properties\AndroidManifest.xml", "android:versionName=\"(?P<repl>[^\"]+)\"", version_dot3)
 
 repl(r"Source\GridDominance.Android.IAB\Properties\AndroidManifest.xml", "android:versionCode=\"(?P<repl>[0-9]+)\"", version_int)
-repl(r"Source\GridDominance.Android.IAB\Properties\AndroidManifest.xml", "android:versionName=\"(?P<repl>[0-9\\.]+)\"", version_dot3)
+repl(r"Source\GridDominance.Android.IAB\Properties\AndroidManifest.xml", "android:versionName=\"(?P<repl>[^\"]+)\"", version_dot3)
 
 repl(r"Source\GridDominance.Android.Amazon\Properties\AndroidManifest.xml", "android:versionCode=\"(?P<repl>[0-9]+)\"", version_int)
-repl(r"Source\GridDominance.Android.Amazon\Properties\AndroidManifest.xml", "android:versionName=\"(?P<repl>[0-9\\.]+)\"", version_dot3)
+repl(r"Source\GridDominance.Android.Amazon\Properties\AndroidManifest.xml", "android:versionName=\"(?P<repl>[^\"]+)\"", version_dot3)
 
 repl(r"Source\GridDominance.OpenGL\Properties\AssemblyInfo.cs", "AssemblyVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 repl(r"Source\GridDominance.OpenGL\Properties\AssemblyInfo.cs", "AssemblyFileVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)

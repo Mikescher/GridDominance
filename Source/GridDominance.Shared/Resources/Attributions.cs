@@ -40,7 +40,7 @@ namespace GridDominance.Shared.Resources
 		{
 			Tuple.Create("Dr. Beate Heizmann", "",                                     "French Translations"),
 			Tuple.Create("/u/leolego",         "https://www.reddit.com/user/leolego2", "Italian Translations"),
-			Tuple.Create("/u/brodesta",        "https://www.reddit.com/user/brodesta", "Alpha Tester for 1.2.0"),
+			Tuple.Create("/u/brodesto",        "https://www.reddit.com/user/brodesto", "Alpha Tester for 1.2.0"),
 		};
 	}
 }

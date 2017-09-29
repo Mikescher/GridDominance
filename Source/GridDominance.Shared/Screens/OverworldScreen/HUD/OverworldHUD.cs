@@ -33,7 +33,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			AddElement(ScoreDisplay   = new ScoreDisplay(firstShow));
 			AddElement(MPScoreDisplay = new MultiplayerScoreDisplay(ScoreDisplay, firstShow));
 
-
+#if FALSE
 			AddElement(new HUDLabel
 			{
 				Alignment = HUDAlignment.CENTER,
@@ -47,6 +47,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				FontSize = 64,
 				Text = "INTERNAL ALPHA VERSION 4",
 			});
+#endif
 		}
 
 		public void ShowAccountPanel()
