@@ -1,0 +1,11 @@
+<en-US>
+ - fix performance regression (special thank to /u/brodesto)
+ - fix online highscore communications
+ - fix "gold time" display
+</en-US>
+
+<de-DE>
+ - Performance Verbesserung (danke dafür an /u/brodesto)
+ - Online Highscore Bugfixes
+ - Fehler in Zeitanzeige behoben
+</de-DE>
