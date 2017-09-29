@@ -29,7 +29,17 @@
         $page = 0;
         if (!empty($_GET['page'])) $page = $_GET['page'];
         $entrycount = getEntryCount();
+        $guesscount = guessEntryCount();
     ?>
+
+    <div class="infocontainer">
+        <div class="infodiv">
+            Count (real): <?php echo $entrycount ; ?>
+        </div>
+        <div class="infodiv">
+            Count (guess): <?php echo $guesscount ; ?>
+        </div>
+    </div>
 
     <div class="tablebox">
         <table class="sqltab pure-table pure-table-bordered sortable">

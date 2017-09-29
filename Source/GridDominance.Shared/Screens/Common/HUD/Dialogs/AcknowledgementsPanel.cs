@@ -172,7 +172,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			base.OnRemove();
 
-			_emitter.Alive = false;
+			if (_emitter != null) _emitter.Alive = false;
 		}
 	}
 }
