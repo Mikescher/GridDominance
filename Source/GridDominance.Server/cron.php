@@ -7,7 +7,7 @@ function run() {
 	global $pdo;
 	global $config;
 
-	set_time_limit(10 * 60); // 10min
+	set_time_limit(30 * 60); // 30min
 	$time_start = microtime(true);
 
 	$secret      = getParamStrOrError('cronsecret');
@@ -50,8 +50,9 @@ function run() {
 	}
 
 	$delta = (int)((microtime(true) - $time_start)*1000);
+	$min = round($delta/(1000*60), 2);
 	logDebug("Cronjob succesful executed in $delta ms.");
-	logCron("Cronjob succesful executed in $delta ms.");
+	logCron("Cronjob succesful executed in $delta ms (= $min min).");
 
 	outputResultSuccess(['time' => $delta]);
 }

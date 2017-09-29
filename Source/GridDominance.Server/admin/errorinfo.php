@@ -21,13 +21,8 @@
 
         $id = $_GET['id'];
 
-        $stmt = $pdo->prepare("SELECT * FROM error_log WHERE error_id=:id");
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        $data = getErrorData($id);
 	    $user = GDUser::QueryByIDOrNull($pdo, $data['userid']);
-
     ?>
 
     <div class="infocontainer">
