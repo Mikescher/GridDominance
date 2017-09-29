@@ -117,7 +117,7 @@
 			</a>
 		</div>
 		<div class="infodiv">
-			Entries:&nbsp;<a href="entrylist.php"><?php echo getEntryCount(); ?></a>
+			Entries:&nbsp;<a href="entrylist.php"><?php echo guessEntryCount(); ?></a>
 		</div>
         <div class="infodiv">
             Highscore:&nbsp;<?php echo getTotalHighscore(); ?>&nbsp;(<?php echo countFirstPlaceUsers(); ?>)

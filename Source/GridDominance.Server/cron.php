@@ -42,7 +42,7 @@ function run() {
 
 	if ($config['runlog'])
 	{
-		$stmt = $pdo->prepare("INSERT INTO runlog_history (action, min_timestamp, max_timestamp, count, duration) (SELECT action, MIN(exectime), MAX(exectime), COUNT(*), SUM(duration) FROM runlog_volatile GROUP BY action)");
+		$stmt = $pdo->prepare("INSERT INTO runlog_history (action, min_timestamp, max_timestamp, count, duration, duration_min, duration_max) (SELECT action, MIN(exectime), MAX(exectime), COUNT(*), SUM(duration), MIN(duration), MAX(duration) FROM runlog_volatile GROUP BY action)");
 		executeOrFail($stmt);
 		
 		$stmt = $pdo->prepare("DELETE FROM runlog_volatile");
@@ -64,6 +64,4 @@ try {
 	run();
 } catch (Exception $e) {
 	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);
-} finally {
-	finish();
 }

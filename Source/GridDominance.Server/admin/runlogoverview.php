@@ -43,6 +43,8 @@
                 <th width="400px">Timesspan</th>
                 <th width="100px">Count</th>
                 <th width="150px">Duration (Avg)</th>
+                <th width="150px">Duration (Min)</th>
+                <th width="150px">Duration (Max)</th>
             </tr>
             </thead>
 			<?php foreach (getRunLog($raction['action']) as $entry): ?>
@@ -51,6 +53,8 @@
                     <td><?php echo $entry['min_timestamp'] .  " - " . $entry['max_timestamp']; ?></td>
                     <td><?php echo $entry['count']; ?></td>
                     <td><?php echo round(($entry['duration']/$entry['count'])/(1000.0*1000.0), 5); ?> s</td>
+                    <td><?php echo round(($entry['duration_min'])/(1000.0*1000.0), 5); ?> s</td>
+                    <td><?php echo round(($entry['duration_max'])/(1000.0*1000.0), 5); ?> s</td>
                 </tr>
 			<?php endforeach; ?>
         </table>

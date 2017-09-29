@@ -19,7 +19,11 @@ function getActiveUserCount($days) {
 }
 
 function getEntryCount() {
-	return sql_query_num('getEntryCount', 'SELECT COUNT(*) FROM level_highscores');
+	return sql_query_num('getEntryCount', 'SELECT COUNT(1) FROM level_highscores');
+}
+
+function guessEntryCount() {
+	return sql_query_num('guessEntryCount', "SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'level_highscores'");
 }
 
 function getTotalHighscore() {
@@ -340,14 +344,14 @@ function getUserData($uid) {
 	return sql_query_assoc_prep('getUserData', "SELECT * FROM users WHERE userid=:id LIMIT 1",
 	[
 		[':id', $uid, PDO::PARAM_INT],
-	]);
+	])[0];
 }
 
 function getErrorData($uid) {
 	return sql_query_assoc_prep('getErrorData', "SELECT * FROM error_log WHERE error_id=:id LIMIT 1",
 	[
 		[':id', $uid, PDO::PARAM_INT],
-	]);
+	])[0];
 }
 function getLastRunLogCount() {
 	return sql_query_num('getLastRunLogCount', "SELECT SUM(count) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");

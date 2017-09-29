@@ -93,7 +93,12 @@ CREATE TABLE IF NOT EXISTS error_log
   additional_info       text          NOT NULL,
   acknowledged          boolean       NOT NULL DEFAULT FALSE,
 
-  PRIMARY KEY (error_id)
+  PRIMARY KEY (error_id),
+
+  KEY acknowledged (acknowledged),
+  KEY userid       (userid),
+  KEY app_version  (app_version),
+  KEY exception_id (exception_id)
 );
 
 
@@ -134,6 +139,8 @@ CREATE TABLE runlog_history (
   max_timestamp   timestamp     NULL DEFAULT NULL,
   count           int(11)       NOT NULL,
   duration        int(11)       NOT NULL,
+  duration_min    int(11)       NOT NULL,
+  duration_max    int(11)       NOT NULL,
 
   PRIMARY KEY (id)
 );
