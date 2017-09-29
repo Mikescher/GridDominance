@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Sound;
 
 namespace GridDominance.Shared.Resources
@@ -91,5 +94,29 @@ namespace GridDominance.Shared.Resources
 		public void PlayMusicTutorial() => PlaySong(music_tutorial, MUSIC_LEVEL_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT);
 		public void PlayMusicBackground() => PlaySong(music_background, MUSIC_BACKGROUND_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT, true, true);
 		public void PlayMusicLevel(int i) => PlaySong(music_level[i], MUSIC_LEVEL_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT, true, true);
+
+		protected override void OnEffectError()
+		{
+			IsEffectsMuted = true;
+			MainGame.Inst.Profile.SoundsEnabled = false;
+			SAMLog.Warning("SSP::DISABLE_1", "Disable Music due to error");
+
+			MainGame.Inst.DispatchBeginInvoke(() =>
+			{
+				MainGame.Inst.ShowToast("SSP::ERR_EFFECTS", L10N.T(L10NImpl.STR_ERR_SOUNDPLAYBACK), 32, FlatColors.Flamingo, FlatColors.Foreground, 8f);
+			});
+		}
+
+		protected override void OnSongError()
+		{
+			IsMusicMuted = true;
+			MainGame.Inst.Profile.MusicEnabled = false;
+			SAMLog.Warning("SSP::DISABLE_2", "Disable Sounds due to error");
+
+			MainGame.Inst.DispatchBeginInvoke(() =>
+			{
+				MainGame.Inst.ShowToast("SSP::ERR_EFFECTS", L10N.T(L10NImpl.STR_ERR_MUSICPLAYBACK), 32, FlatColors.Flamingo, FlatColors.Foreground, 8f);
+			});
+		}
 	}
 }

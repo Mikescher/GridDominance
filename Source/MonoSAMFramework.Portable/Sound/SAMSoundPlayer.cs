@@ -14,7 +14,7 @@ namespace MonoSAMFramework.Portable.Sound
 {
 	public abstract class SAMSoundPlayer
 	{
-		private const int MAX_EFFECTS_PER_FRAME = 8;
+		private const int MAX_EFFECTS_PER_FRAME = 4;
 
 		private enum MPState { Stopped, Play, TransitionOut, TransitionInFromNew, TransitionInFromSame }
 
@@ -54,10 +54,27 @@ namespace MonoSAMFramework.Portable.Sound
 			if (IsEffectsMuted) return;
 			if (InitErrorState) return;
 
-			if (_effectCounter >= MAX_EFFECTS_PER_FRAME - _activeEffects.Count) return;
-			
-			e.Play();
-			_effectCounter++;
+			if (_effectCounter >= MAX_EFFECTS_PER_FRAME) return;
+
+			try
+			{
+				_effectCounter++;
+				e.Play();
+			}
+			catch (Exception ex)
+			{
+				if (ex.GetType().FullName == @"Microsoft.Xna.Framework.Audio.InstancePlayLimitException")
+				{
+					//ignore
+					SAMLog.Warning("SSP::IPLE", "InstancePlayLimitException");
+					_effectCounter = 999;
+				}
+				else
+				{
+					OnEffectError();
+					SAMLog.Error("SSP::PlayEffect", ex);
+				}
+			}
 		}
 
 		protected void PlaySong(IEnumerable<Song> s, float fadeOut, float fadeIn, float fadeChange, bool loop = true) => PlaySong(s.ToArray(), fadeOut, fadeIn, fadeChange, loop);
@@ -92,7 +109,7 @@ namespace MonoSAMFramework.Portable.Sound
 			else if (s.Any())
 			{
 				MediaPlayer.Volume = 0f;
-				MediaPlayer.Play(s[0]);
+				PlaySongInPlayer(s[0]);
 				_state = MPState.TransitionInFromNew;
 				_fadeTime = 0f;
 				_playIndex = 0;
@@ -254,14 +271,14 @@ namespace MonoSAMFramework.Portable.Sound
 				{
 					MediaPlayer.Volume = 1;
 					MediaPlayer.Stop();
-					MediaPlayer.Play(_currentSet[_playIndex]);
+					PlaySongInPlayer(_currentSet[_playIndex]);
 					_state = MPState.Play;
 				}
 				else
 				{
 					MediaPlayer.Volume = 0;
 					MediaPlayer.Stop();
-					MediaPlayer.Play(_currentSet[_playIndex]);
+					PlaySongInPlayer(_currentSet[_playIndex]);
 					_fadeTime = 0f;
 					_state = MPState.TransitionInFromSame;
 				}
@@ -270,7 +287,19 @@ namespace MonoSAMFramework.Portable.Sound
 			{
 				_state = MPState.Stopped;
 			}
+		}
 
+		private void PlaySongInPlayer(Song s)
+		{
+			try
+			{
+				MediaPlayer.Play(s);
+			}
+			catch (Exception e)
+			{
+				OnSongError();
+				SAMLog.Error("SSP::PlaySong", e);
+			}
 		}
 
 		public void TryPlayButtonClickEffect()
@@ -331,5 +360,8 @@ namespace MonoSAMFramework.Portable.Sound
 			_activeEffects.Add(e);
 			return e;
 		}
+
+		protected abstract void OnEffectError();
+		protected abstract void OnSongError();
 	}
 }
