@@ -14,30 +14,16 @@ function run() {
 
 	if ($secret !== $config['cron-secret']) outputError(ERRORS::CRON_INTERNAL_ERR, "", LOGLEVEL::ERROR);
 
-	foreach ($config['levelids'] as $lid) {
-
-		foreach ($config['difficulties'] as $diff) {
-			$stmt = $pdo->prepare("SELECT COUNT(*) FROM level_highscores WHERE levelid=:lid AND difficulty=:dif");
-			$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
-			$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
-			executeOrFail($stmt);
-			$compcount = $stmt->fetchColumn();
-
-			if ($compcount > 0) {
-				$stmt = $pdo->prepare("REPLACE INTO cache_levels (levelid, difficulty, best_time, best_userid, best_last_changed, completion_count) (SELECT levelid, difficulty, best_time, userid, last_changed, :coc FROM level_highscores WHERE levelid=:lid AND difficulty=:dif ORDER BY best_time ASC, last_changed ASC LIMIT 1)");
-				$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
-				$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
-				$stmt->bindValue(':coc', $compcount, PDO::PARAM_INT);
-				executeOrFail($stmt);
-			} else {
-				$stmt = $pdo->prepare("DELETE FROM cache_levels WHERE levelid=:lid AND difficulty=:dif");
-				$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
-				$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
-				executeOrFail($stmt);
-			}
-		}
-
-		echo ($lid . "\n");
+	$stmt = $pdo->prepare(loadSQL("recalculate_cron_highscores"));
+	executeOrFail($stmt);
+	
+	if ($config['runlog'])
+	{
+		$stmt = $pdo->prepare("INSERT INTO runlog_history (action, min_timestamp, max_timestamp, count, duration) (SELECT action, MIN(exectime), MAX(exectime), COUNT(*), SUM(duration) FROM runlog_volatile GROUP BY action)");
+		executeOrFail($stmt);
+		
+		$stmt = $pdo->prepare("DELETE FROM runlog_volatile");
+		executeOrFail($stmt);
 	}
 
 	if ($config['runlog'])
