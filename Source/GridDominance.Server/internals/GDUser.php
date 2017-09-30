@@ -412,7 +412,7 @@ class GDUser implements JsonSerializable
 		} else {
 
 			// no row in db
-			$stmt = $pdo->prepare("INSERT INTO level_highscores (userid, levelid, difficulty, best_time, last_changed) VALUES (:uid, :lid, :diff, :time, CURRENT_TIMESTAMP())");
+			$stmt = $pdo->prepare("REPLACE INTO level_highscores (userid, levelid, difficulty, best_time, last_changed) VALUES (:uid, :lid, :diff, :time, CURRENT_TIMESTAMP())");
 			$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
 			$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
 			$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
