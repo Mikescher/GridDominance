@@ -141,7 +141,7 @@ CREATE TABLE runlog_history (
   min_timestamp   timestamp     NULL DEFAULT NULL,
   max_timestamp   timestamp     NULL DEFAULT NULL,
   count           int(11)       NOT NULL,
-  duration        int(11)       NOT NULL,
+  duration        bigint(20)    NOT NULL,
   duration_min    int(11)       NOT NULL,
   duration_max    int(11)       NOT NULL,
 

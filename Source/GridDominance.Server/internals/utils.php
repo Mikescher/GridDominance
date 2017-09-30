@@ -202,6 +202,8 @@ function listLogFiles() {
 
 		$filepath = $path . '/' . $file;
 
+		if (is_dir($filepath)) continue;
+
 		$list[] =
 			[
 				'path' => $filepath,
