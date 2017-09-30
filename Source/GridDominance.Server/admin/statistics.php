@@ -38,12 +38,6 @@ function lc($txt) {
 	foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }
 	return $c;
 }
-function pqi($sql) {
-	global $pdo;
-	$stmt = $pdo->query($sql);
-	$stmt->execute();
-	return $stmt->fetch(PDO::FETCH_NUM)[0];
-}
 function fmtw($w) {
     switch ($w) {
 		case '{d34db335-0001-4000-7711-000000100002}': return 'NO_WORLD';

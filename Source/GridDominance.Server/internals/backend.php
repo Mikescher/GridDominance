@@ -52,13 +52,13 @@ function init($action) {
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 
-function finish() {
+function finish($err) {
 	global $config;
 	global $pdo;
 	global $action_name;
 	global $start_time;
 
-	if ($config['runlog']) {
+	if ($config['runlog'] && !$err) {
 		try{
 			$d = (int)((microtime(true) - $start_time) * 1000 * 1000);
 

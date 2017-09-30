@@ -19,7 +19,11 @@ function getActiveUserCount($days) {
 }
 
 function getEntryCount() {
-	return sql_query_num('getEntryCount', 'SELECT COUNT(*) FROM level_highscores');
+	return sql_query_num('getEntryCount', 'SELECT COUNT(1) FROM level_highscores');
+}
+
+function guessEntryCount() {
+	return sql_query_num('guessEntryCount', "SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'level_highscores'");
 }
 
 function getTotalHighscore() {
@@ -29,7 +33,7 @@ function getTotalHighscore() {
 function getNewErrorsOverview() {
 	global $config;
 
-	return sql_query_assoc_prep('getNewErrorsOverview', "SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0 AND error_log.app_version = :vvv ORDER BY error_log.timestamp DESC LIMIT 128",
+	return sql_query_assoc_prep('getNewErrorsOverview', "SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid WHERE acknowledged = 0 AND error_log.app_version = :vvv ORDER BY error_log.error_id DESC LIMIT 128",
 	[
 		[':vvv', $config['latest_version'], PDO::PARAM_STR],
 	]);
@@ -41,7 +45,7 @@ function getErrors($versionfilter, $onlynonack, $idfilter, $page, $pagesize) {
 	if ($onlynonack) $cond = $cond . " AND error_log.acknowledged = 0";
 	if ($idfilter != "") $cond = $cond . " AND error_log.exception_id = :idf";
 
-	return sql_query_assoc_prep('getErrors', "SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid $cond LIMIT :ps OFFSET :po",
+	return sql_query_assoc_prep('getErrors', "SELECT *, error_log.app_version AS app_version, users.app_version AS user_app_version FROM error_log LEFT JOIN users ON error_log.userid = users.userid $cond ORDER BY error_log.error_id DESC LIMIT :ps OFFSET :po",
 	[
 		[':po',  $page * $pagesize, PDO::PARAM_INT],
 		[':ps',  $pagesize,         PDO::PARAM_INT],
@@ -153,7 +157,7 @@ function getLevelEntries($lvl) {
 }
 
 function getLevelDiffEntries($lvl, $diff, $limit) {
-	return sql_query_assoc_prep('getLevelDiffEntries', "SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND difficulty = :diff AND score > 0 ORDER BY level_highscores.best_time ASC LIMIT :lim",
+	return sql_query_assoc_prep('getLevelDiffEntries', "SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND difficulty = :diff AND score > 0 ORDER BY level_highscores.best_time ASC, level_highscores.last_changed ASC LIMIT :lim",
 	[
 		[':id', $lvl, PDO::PARAM_STR],
 		[':diff', $diff, PDO::PARAM_STR],
@@ -312,6 +316,43 @@ function statisticsUserByAppType() {
 	return sql_query_assoc('statisticsUserByAppType', 'SELECT app_type AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_type');
 }
 
+function getManualRecalculatedUserTimes($uid) {
+	return sql_query_assoc_prep('getManualRecalculatedUserTimes', loadSQL('manual_calculate_time'),
+	[
+		[':uid1', $uid, PDO::PARAM_INT],
+		[':uid2', $uid, PDO::PARAM_INT],
+		[':uid3', $uid, PDO::PARAM_INT],
+		[':uid4', $uid, PDO::PARAM_INT],
+	]);
+}
+
+function getGlobalPlayerRank($uid) {
+	return sql_query_assoc_prep('getGlobalPlayerRank', loadSQL('get-ranking_global_playerrank'),
+	[
+		[':uid', $uid, PDO::PARAM_INT],
+	]);
+}
+
+function getLocalPlayerRank($uid, $world) {
+	return sql_query_assoc_prep('getLocalPlayerRank', loadReplSQL('get-ranking_local_playerrank', '#$$FIELD$$', worldGuidToSQLField($world)),
+	[
+		[':uid', $uid, PDO::PARAM_INT],
+	]);
+}
+
+function getUserData($uid) {
+	return sql_query_assoc_prep('getUserData', "SELECT * FROM users WHERE userid=:id LIMIT 1",
+	[
+		[':id', $uid, PDO::PARAM_INT],
+	])[0];
+}
+
+function getErrorData($uid) {
+	return sql_query_assoc_prep('getErrorData', "SELECT * FROM error_log WHERE error_id=:id LIMIT 1",
+	[
+		[':id', $uid, PDO::PARAM_INT],
+	])[0];
+}
 function getLastRunLogCount() {
 	return sql_query_num('getLastRunLogCount', "SELECT SUM(count) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");
 }

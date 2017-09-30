@@ -104,6 +104,9 @@ function printSQLStats() {
 	echo("<th width='300px'>Time (Sum)</th>");
 	echo("</tr>");
 	echo("</thead>");
+
+	uasort(SQLStatistics::$ExecutionTimes, function ($a, $b) { return ($a[1] < $b[1]) ? +1 : -1; });
+
 	foreach (SQLStatistics::$ExecutionTimes as $key => $exectime)
 	{
 		echo("<tr>");

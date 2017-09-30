@@ -40,13 +40,9 @@
 
     <?php
         global $pdo;
+        
         $user = GDUser::QueryByIDOrNull($pdo, $_GET['id']);
-
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE userid=:id");
-        $stmt->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
-        $stmt->execute();
-        $userdata = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        $userdata = getUserData($_GET['id']);
     ?>
 
     <div class="infocontainer">
@@ -109,15 +105,10 @@
 	global $config;
 	global $pdo;
 
-	$stmt = $pdo->prepare(loadSQL('manual_calculate_time'));
-	$stmt->bindValue(':uid1', $user->ID, PDO::PARAM_INT);
-	$stmt->bindValue(':uid2', $user->ID, PDO::PARAM_INT);
-	$stmt->bindValue(':uid3', $user->ID, PDO::PARAM_INT);
-	$stmt->bindValue(':uid4', $user->ID, PDO::PARAM_INT);
-	$stmt->execute();
+    $manualtimes = getManualRecalculatedUserTimes($user->ID);
 
 	$manual = [];
-	foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+	foreach ($manualtimes as $row) {
 		$manual[$row['worldid']] = $row['best_time'];
 	}
 	?>
@@ -141,11 +132,7 @@
 			global $config;
 			global $pdo;
 
-			$stmt = $pdo->prepare(loadSQL("get-ranking_global_playerrank"));
-			$stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
-			executeOrFail($stmt);
-
-			$entry = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$entry = getGlobalPlayerRank($user->ID);
 
 			if (count($entry) > 0):
                 $entry = $entry[0];
@@ -170,10 +157,7 @@
 
                 if ($w == $config['worldid_0']) continue;
 
-                $stmt = $pdo->prepare(loadReplSQL('get-ranking_local_playerrank', '#$$FIELD$$', worldGuidToSQLField($w)));
-                $stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
-                executeOrFail($stmt);
-                $entry = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $entry = getLocalPlayerRank($user->ID, $w);
 
                 if (count($entry) == 0) continue;
 

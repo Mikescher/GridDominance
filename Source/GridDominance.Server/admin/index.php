@@ -117,7 +117,7 @@
 			</a>
 		</div>
 		<div class="infodiv">
-			Entries:&nbsp;<a href="entrylist.php"><?php echo getEntryCount(); ?></a>
+			Entries:&nbsp;<a href="entrylist.php"><?php echo guessEntryCount(); ?></a>
 		</div>
         <div class="infodiv">
             Highscore:&nbsp;<?php echo getTotalHighscore(); ?>&nbsp;(<?php echo countFirstPlaceUsers(); ?>)
@@ -126,7 +126,7 @@
 
 	<div class="infocontainer">
         <div class="infodiv">
-            Cron:&nbsp;<?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo "../cron.php?cronsecret=" . $config['cron-secret']; ?>">Now</a> )
+            Cron:&nbsp;<?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo $config['debug'] ? ("../cron.php?cronsecret=" . $config['cron-secret']) : ('#'); ?>">Now</a> )
         </div>
         <div class="infodiv">
             Requests (1d):&nbsp;<?php echo getLastRunLogCount(); ?>&nbsp;(=&nbsp;<a href="runlogoverview.php"><?php echo round(getLastTimingAverage()/(1000.0*1000.0), 4); ?>s</a>)
