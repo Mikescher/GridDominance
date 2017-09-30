@@ -57,11 +57,11 @@ namespace GridDominance.Shared.Resources
 		public const string URL_REDDIT = @"https://www.reddit.com/r/CannonConquest/";
 		public const string URL_BLACKFORESTBYTES = @"http://blackforestbytes.de/";
 
-#if __ANDROID__ && !DEBUG
-		public const string MULTIPLAYER_SERVER_HOST = "mikescher.com";
+#if DEBUG
+		public const string MULTIPLAYER_SERVER_HOST = "localhost";
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 #else
-		public const string MULTIPLAYER_SERVER_HOST = "localhost";
+		public const string MULTIPLAYER_SERVER_HOST = "mikescher.com";
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 #endif
 
@@ -70,10 +70,10 @@ namespace GridDominance.Shared.Resources
 		public const string BLUETOOTH_LE_SERVICE_UUID = "64BBAB15-2F82-4789-996F-0691B65E5E0E";
 		public const string BLUETOOTH_LE_CHRCTR_UUID = "33AB15F8-45CE-49C3-ACFC-96F6B510C989";
 
-#if __ANDROID__ && !DEBUG
-		public const string SERVER_URL = "http://gdapi.mikescher.com";
-#else
+#if DEBUG
 		public const string SERVER_URL = "http://localhost:666";
+#else
+		public const string SERVER_URL = "http://gdapi.mikescher.com";
 #endif
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 
