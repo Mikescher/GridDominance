@@ -7,6 +7,8 @@ function run() {
 	global $pdo;
 	global $config;
 
+	if ($config['debug']) ob_end_flush();
+
 	set_time_limit(30 * 60); // 30min
 	$time_start = microtime(true);
 
@@ -37,16 +39,20 @@ function run() {
 			}
 		}
 
-		echo ($lid . "\n");
+		echo ("[" . date("Y-m-d H:i:s") . "]  " . $lid . "  <br/>\n");
 	}
 
 	if ($config['runlog'])
 	{
 		$stmt = $pdo->prepare("INSERT INTO runlog_history (action, min_timestamp, max_timestamp, count, duration, duration_min, duration_max) (SELECT action, MIN(exectime), MAX(exectime), COUNT(*), SUM(duration), MIN(duration), MAX(duration) FROM runlog_volatile GROUP BY action)");
 		executeOrFail($stmt);
+
+		echo ("[" . date("Y-m-d H:i:s") . "]  " . "Runlog(1)" . "  <br/>\n");
 		
 		$stmt = $pdo->prepare("DELETE FROM runlog_volatile");
 		executeOrFail($stmt);
+
+		echo ("[" . date("Y-m-d H:i:s") . "]  " . "Runlog(2)" . "  <br/>\n");
 	}
 
 	$delta = (int)((microtime(true) - $time_start)*1000);

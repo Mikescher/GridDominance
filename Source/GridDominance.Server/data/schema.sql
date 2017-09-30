@@ -56,7 +56,10 @@ CREATE TABLE IF NOT EXISTS level_highscores
   best_time     int(11)    NOT NULL,
   last_changed  timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-  PRIMARY KEY (userid,levelid,difficulty)
+  PRIMARY KEY (userid, levelid, difficulty),
+
+  KEY specific_level (levelid,   difficulty),
+  KEY order_index    (best_time, last_changed)
 );
 
 
