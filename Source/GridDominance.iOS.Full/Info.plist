@@ -14,7 +14,6 @@
 	<string>7.0</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
@@ -28,5 +27,7 @@
 	<true/>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
+	<key>CFBundleName</key>
+	<string>Cannon Conquest</string>
 </dict>
 </plist>

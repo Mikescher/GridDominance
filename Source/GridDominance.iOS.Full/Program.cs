@@ -14,7 +14,7 @@ namespace GridDominance.iOS.Full
 
 		internal static void RunGame()
 		{
-			MonoSAMGame.StaticBridge = new AppleBridge();
+            MonoSAMGame.StaticBridge = _impl = new AppleBridge();
 			game = new MainGame();
 			game.Run();
 		}

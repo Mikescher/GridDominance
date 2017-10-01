@@ -25,11 +25,10 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchDebug>true</MtouchDebug>
     <MtouchProfiling>true</MtouchProfiling>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -40,23 +39,20 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <MtouchUseSGen>true</MtouchUseSGen>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\Bin\Debug\iOS.Full\</OutputPath>
-    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP</DefineConstants>
+    <DefineConstants>RELEASE;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchProfiling>true</MtouchProfiling>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -69,8 +65,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP</DefineConstants>
@@ -83,8 +77,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <MtouchUseSGen>true</MtouchUseSGen>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <BuildIpa>True</BuildIpa>
     <CodesignProvision>Automatic:AdHoc</CodesignProvision>
@@ -99,8 +91,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
@@ -216,6 +206,163 @@
   <ItemGroup>
     <BundleResource Include="Default.png" />
     <BundleResource Include="GameThumbnail.png" />
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_bd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_fd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_hd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_ld.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_md.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_bd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_fd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_hd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_ld.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_md.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_bd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_fd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_hd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_ld.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_md.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_bd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_fd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_hd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_ld.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_md.xnb" />
+    <BundleResource Include="Content\sounds\boost.xnb" />
+    <BundleResource Include="Content\sounds\button.xnb" />
+    <BundleResource Include="Content\sounds\click.xnb" />
+    <BundleResource Include="Content\sounds\close.xnb" />
+    <BundleResource Include="Content\sounds\collision.xnb" />
+    <BundleResource Include="Content\sounds\error.xnb" />
+    <BundleResource Include="Content\sounds\gameover.xnb" />
+    <BundleResource Include="Content\sounds\gamewon.xnb" />
+    <BundleResource Include="Content\sounds\glass.xnb" />
+    <BundleResource Include="Content\sounds\hit.xnb" />
+    <BundleResource Include="Content\sounds\laser.xnb" />
+    <BundleResource Include="Content\sounds\open.xnb" />
+    <BundleResource Include="Content\sounds\reflect.xnb" />
+    <BundleResource Include="Content\sounds\shoot.xnb" />
+    <BundleResource Include="Content\sounds\zoomin.xnb" />
+    <BundleResource Include="Content\sounds\zoomout.xnb" />
+    <BundleResource Include="Content\shaders\SAMParticleEffect.xnb" />
+    <BundleResource Include="Content\music\cyber-factory.xnb" />
+    <BundleResource Include="Content\music\macaron-island.xnb" />
+    <BundleResource Include="Content\music\mr-krabs.xnb" />
+    <BundleResource Include="Content\music\spinning-gears.xnb" />
+    <BundleResource Include="Content\music\spirit-forge.xnb" />
+    <BundleResource Include="Content\music\tekno-labs.xnb" />
+    <BundleResource Include="Content\levels\level_1-01.xnb" />
+    <BundleResource Include="Content\levels\level_1-02.xnb" />
+    <BundleResource Include="Content\levels\level_1-03.xnb" />
+    <BundleResource Include="Content\levels\level_1-04.xnb" />
+    <BundleResource Include="Content\levels\level_1-05.xnb" />
+    <BundleResource Include="Content\levels\level_1-06.xnb" />
+    <BundleResource Include="Content\levels\level_1-07.xnb" />
+    <BundleResource Include="Content\levels\level_1-08.xnb" />
+    <BundleResource Include="Content\levels\level_1-09.xnb" />
+    <BundleResource Include="Content\levels\level_1-10.xnb" />
+    <BundleResource Include="Content\levels\level_1-11.xnb" />
+    <BundleResource Include="Content\levels\level_1-12.xnb" />
+    <BundleResource Include="Content\levels\level_1-13.xnb" />
+    <BundleResource Include="Content\levels\level_1-14.xnb" />
+    <BundleResource Include="Content\levels\level_2-01.xnb" />
+    <BundleResource Include="Content\levels\level_2-02.xnb" />
+    <BundleResource Include="Content\levels\level_2-03.xnb" />
+    <BundleResource Include="Content\levels\level_2-04.xnb" />
+    <BundleResource Include="Content\levels\level_2-05.xnb" />
+    <BundleResource Include="Content\levels\level_2-06.xnb" />
+    <BundleResource Include="Content\levels\level_2-07.xnb" />
+    <BundleResource Include="Content\levels\level_2-08.xnb" />
+    <BundleResource Include="Content\levels\level_2-09.xnb" />
+    <BundleResource Include="Content\levels\level_2-10.xnb" />
+    <BundleResource Include="Content\levels\level_2-11.xnb" />
+    <BundleResource Include="Content\levels\level_2-12.xnb" />
+    <BundleResource Include="Content\levels\level_2-13.xnb" />
+    <BundleResource Include="Content\levels\level_2-14.xnb" />
+    <BundleResource Include="Content\levels\level_2-15.xnb" />
+    <BundleResource Include="Content\levels\level_2-16.xnb" />
+    <BundleResource Include="Content\levels\level_2-17.xnb" />
+    <BundleResource Include="Content\levels\level_2-18.xnb" />
+    <BundleResource Include="Content\levels\level_2-19.xnb" />
+    <BundleResource Include="Content\levels\level_2-20.xnb" />
+    <BundleResource Include="Content\levels\level_2-21.xnb" />
+    <BundleResource Include="Content\levels\level_2-22.xnb" />
+    <BundleResource Include="Content\levels\level_2-23.xnb" />
+    <BundleResource Include="Content\levels\level_2-24.xnb" />
+    <BundleResource Include="Content\levels\level_2-25.xnb" />
+    <BundleResource Include="Content\levels\level_2-26.xnb" />
+    <BundleResource Include="Content\levels\level_2-27.xnb" />
+    <BundleResource Include="Content\levels\level_3-01.xnb" />
+    <BundleResource Include="Content\levels\level_3-02.xnb" />
+    <BundleResource Include="Content\levels\level_3-03.xnb" />
+    <BundleResource Include="Content\levels\level_3-04.xnb" />
+    <BundleResource Include="Content\levels\level_3-05.xnb" />
+    <BundleResource Include="Content\levels\level_3-06.xnb" />
+    <BundleResource Include="Content\levels\level_3-07.xnb" />
+    <BundleResource Include="Content\levels\level_3-08.xnb" />
+    <BundleResource Include="Content\levels\level_3-09.xnb" />
+    <BundleResource Include="Content\levels\level_3-10.xnb" />
+    <BundleResource Include="Content\levels\level_3-11.xnb" />
+    <BundleResource Include="Content\levels\level_3-12.xnb" />
+    <BundleResource Include="Content\levels\level_3-13.xnb" />
+    <BundleResource Include="Content\levels\level_3-14.xnb" />
+    <BundleResource Include="Content\levels\level_3-15.xnb" />
+    <BundleResource Include="Content\levels\level_3-16.xnb" />
+    <BundleResource Include="Content\levels\level_3-17.xnb" />
+    <BundleResource Include="Content\levels\level_3-18.xnb" />
+    <BundleResource Include="Content\levels\level_3-19.xnb" />
+    <BundleResource Include="Content\levels\level_3-20.xnb" />
+    <BundleResource Include="Content\levels\level_3-21.xnb" />
+    <BundleResource Include="Content\levels\level_3-22.xnb" />
+    <BundleResource Include="Content\levels\level_3-23.xnb" />
+    <BundleResource Include="Content\levels\level_3-24.xnb" />
+    <BundleResource Include="Content\levels\level_3-25.xnb" />
+    <BundleResource Include="Content\levels\level_3-26.xnb" />
+    <BundleResource Include="Content\levels\level_3-27.xnb" />
+    <BundleResource Include="Content\levels\level_3-28.xnb" />
+    <BundleResource Include="Content\levels\level_3-29.xnb" />
+    <BundleResource Include="Content\levels\level_3-30.xnb" />
+    <BundleResource Include="Content\levels\level_3-31.xnb" />
+    <BundleResource Include="Content\levels\level_4-01.xnb" />
+    <BundleResource Include="Content\levels\level_4-02.xnb" />
+    <BundleResource Include="Content\levels\level_4-03.xnb" />
+    <BundleResource Include="Content\levels\level_4-04.xnb" />
+    <BundleResource Include="Content\levels\level_4-05.xnb" />
+    <BundleResource Include="Content\levels\level_4-06.xnb" />
+    <BundleResource Include="Content\levels\level_4-07.xnb" />
+    <BundleResource Include="Content\levels\level_4-08.xnb" />
+    <BundleResource Include="Content\levels\level_4-09.xnb" />
+    <BundleResource Include="Content\levels\level_4-10.xnb" />
+    <BundleResource Include="Content\levels\level_4-11.xnb" />
+    <BundleResource Include="Content\levels\level_4-12.xnb" />
+    <BundleResource Include="Content\levels\level_4-13.xnb" />
+    <BundleResource Include="Content\levels\level_4-14.xnb" />
+    <BundleResource Include="Content\levels\level_4-15.xnb" />
+    <BundleResource Include="Content\levels\level_4-16.xnb" />
+    <BundleResource Include="Content\levels\level_4-17.xnb" />
+    <BundleResource Include="Content\levels\level_4-18.xnb" />
+    <BundleResource Include="Content\levels\level_4-19.xnb" />
+    <BundleResource Include="Content\levels\level_4-20.xnb" />
+    <BundleResource Include="Content\levels\level_4-21.xnb" />
+    <BundleResource Include="Content\levels\level_4-22.xnb" />
+    <BundleResource Include="Content\levels\level_4-23.xnb" />
+    <BundleResource Include="Content\levels\level_4-24.xnb" />
+    <BundleResource Include="Content\levels\level_4-25.xnb" />
+    <BundleResource Include="Content\levels\level_4-26.xnb" />
+    <BundleResource Include="Content\levels\level_4-27.xnb" />
+    <BundleResource Include="Content\levels\level_4-28.xnb" />
+    <BundleResource Include="Content\levels\level_4-29.xnb" />
+    <BundleResource Include="Content\levels\level_4-30.xnb" />
+    <BundleResource Include="Content\levels\level_4-31.xnb" />
+    <BundleResource Include="Content\levels\lvl_debug.xnb" />
+    <BundleResource Include="Content\levels\lvl_tutorial.xnb" />
+    <BundleResource Include="Content\levels\world_1.xnb" />
+    <BundleResource Include="Content\levels\world_2.xnb" />
+    <BundleResource Include="Content\levels\world_3.xnb" />
+    <BundleResource Include="Content\levels\world_4.xnb" />
+    <BundleResource Include="Content\fonts\debugFont.xnb" />
+    <BundleResource Include="Content\fonts\debugFontSmall.xnb" />
+    <BundleResource Include="Content\fonts\hudFontBold.xnb" />
+    <BundleResource Include="Content\fonts\hudFontRegular.xnb" />
+    <BundleResource Include="Content\fonts\levelBackgroundFont.xnb" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj">
@@ -246,7 +393,7 @@
   <ItemGroup />
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <!--<Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" /> -->
   <Import Project="..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
