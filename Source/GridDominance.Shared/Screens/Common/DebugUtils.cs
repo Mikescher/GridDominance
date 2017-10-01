@@ -12,7 +12,6 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Screens.OverworldScreen;
-using Microsoft.Xna.Framework.Media;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Localization;

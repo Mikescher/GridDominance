@@ -80,7 +80,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			_banner.UseCPUParticles = false;
 			_banner.AnimationTime = 4f;
 			_banner.AnimationStartDelay= 1f;
+
+#if !GD_SHADERLESS
 			_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas());
+#endif
 		}
 		
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
@@ -99,6 +102,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			}
 #endif
 
+#if !GD_SHADERLESS
 			if (_effectsEnabledCache != MainGame.Inst.Profile.EffectsEnabled)
 			{
 				_effectsEnabledCache = MainGame.Inst.Profile.EffectsEnabled;
@@ -108,15 +112,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 				else
 					_banner.RemoveEntities();
 			}
+#endif
 		}
 
 		protected override void OnDrawGame(IBatchRenderer sbatch)
 		{
+#if GD_SHADERLESS
+				var hh = 4.5f * GDConstants.TILE_WIDTH;
+				sbatch.DrawCentered(Textures.TexLogo, _banner.TargetRect.Center, hh * Textures.TexLogo.Width / Textures.TexLogo.Height, hh, Color.White);
+#else
 			if (!MainGame.Inst.Profile.EffectsEnabled)
 			{
 				var hh = 4.5f * GDConstants.TILE_WIDTH;
 				sbatch.DrawCentered(Textures.TexLogo, _banner.TargetRect.Center, hh * Textures.TexLogo.Width / Textures.TexLogo.Height, hh, Color.White);
 			}
+#endif
 
 #if DEBUG
 			if (DebugSettings.Get("DebugEntityBoundaries"))

@@ -125,6 +125,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				.LineTo(scrn.TranslateHUDToGameCoordinates(-WIDTH/2f, -HEIGHT/2f))
 				.Build();
 
+#if !GD_SHADERLESS
 			var cfg = ParticlePresets.GetConfigBubbleHighlight().Build(Textures.TexParticle, 2f, 3f);
 
 			_emitter = new PathGPUParticleEmitter(scrn, scrn.MapViewportCenter, path, cfg, GDConstants.ORDER_WORLD_SUPEREFFECTS);
@@ -132,6 +133,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			_emitter.FastForward();
 
 			HUD.Screen.Entities.AddEntity(_emitter);
+#endif
 		}
 
 #if DEBUG
