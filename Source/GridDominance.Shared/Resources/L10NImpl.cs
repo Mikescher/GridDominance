@@ -222,8 +222,9 @@ namespace GridDominance.Shared.Resources
 
 		public const int STR_ERR_SOUNDPLAYBACK      = 186;
 		public const int STR_ERR_MUSICPLAYBACK      = 187;
+		public const int STR_ERR_OUTOFMEMORY        = 189;
 
-		private const int TEXT_COUNT = 189; // = next idx
+		private const int TEXT_COUNT = 190; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -420,6 +421,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_BTN_NO,                 "No",                                                                                                                                      "Nein",                                                                                                                                "Aucun",                                                                                                                                                        "No");
 			L10N.Add(STR_ERR_SOUNDPLAYBACK,      "Sound playback failed. Disabling sounds ...",                                                                                             "Soundwiedergabe fehlgeschlagen. Sounds werden deaktiviert ...",                                                                       "La lecture du son a échoué. Désactivation des sons ...",                                                                                                       "La riproduzione audio non è riuscita. Disattivazione dei suoni ...");
 			L10N.Add(STR_ERR_MUSICPLAYBACK,      "Music playback failed. Disabling music ...",                                                                                              "Musikwiedergabe fehlgeschlagen. Musik wird deaktiviert ...",                                                                          "La lecture de musique a échoué. Désactivation de la musique ...",                                                                                              "La riproduzione musicale è fallita. Disattivazione della musica ...");
+			L10N.Add(STR_ERR_OUTOFMEMORY,        "Saving failed: Disk full",                                                                                                                "Speichern fehlgeschlagen: Speicher voll",                                                                                             "Échec échoué: Disque complet",                                                                                                                                 "Salvataggio non riuscito: disco pieno");
 
 			// [en_US] [de-DE] [fr-FR] [it-IT]
 

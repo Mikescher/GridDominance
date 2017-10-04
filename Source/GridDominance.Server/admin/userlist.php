@@ -155,7 +155,7 @@
 
     <div data-collapse>
 
-        <h2 class="open collapseheader">Score Distribution</h2>
+        <h2 class="collapseheader">Score Distribution</h2>
         <div>
         <div>
             <canvas id="scoreChart1" width="85%" height="25%"></canvas>
