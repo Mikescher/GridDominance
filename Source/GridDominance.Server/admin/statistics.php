@@ -85,7 +85,7 @@ $u8 =  statisticsUserByScoreRange();
                 </thead>
 				<?php foreach ($u1 as $entry): ?>
                     <tr>
-                        <td><?php echo $entry['name']; ?></td>
+                        <td><a class="nolink" href="userlist.php?device=<?php echo urlencode($entry['name']); ?>"><?php echo $entry['name']; ?></a></td>
                         <td><?php echo $entry['count']; ?></td>
                     </tr>
 				<?php endforeach; ?>
@@ -107,7 +107,7 @@ $u8 =  statisticsUserByScoreRange();
                 </thead>
 				<?php foreach ($u2 as $entry): ?>
                     <tr>
-                        <td><?php echo $entry['name']; ?></td>
+                        <td><a class="nolink" href="userlist.php?device_version=<?php echo urlencode($entry['name']); ?>"><?php echo $entry['name']; ?></a></td>
                         <td><?php echo $entry['count']; ?></td>
                     </tr>
 				<?php endforeach; ?>
@@ -128,7 +128,7 @@ $u8 =  statisticsUserByScoreRange();
                 </thead>
 				<?php foreach ($u3 as $entry): ?>
                     <tr>
-                        <td><?php echo $entry['name']; ?></td>
+                        <td><a class="nolink" href="userlist.php?resolution=<?php echo urlencode($entry['name']); ?>"><?php echo $entry['name']; ?></a></td>
                         <td><?php echo $entry['count']; ?></td>
                     </tr>
 				<?php endforeach; ?>
@@ -154,7 +154,7 @@ $u8 =  statisticsUserByScoreRange();
                 </thead>
 				<?php foreach ($u4 as $entry): ?>
                     <tr>
-                        <td><?php echo $entry['name']; ?></td>
+                        <td><a class="nolink" href="userlist.php?app_version=<?php echo urlencode($entry['name']); ?>"><?php echo $entry['name']; ?></a></td>
                         <td><?php echo $entry['count']; ?></td>
                     </tr>
 				<?php endforeach; ?>
@@ -200,7 +200,7 @@ $u8 =  statisticsUserByScoreRange();
                 </thead>
 				<?php foreach ($u6 as $entry): ?>
                     <tr>
-                        <td><?php echo $entry['name']; ?></td>
+                        <td><a class="nolink" href="userlist.php?anon=<?php echo ($entry['name']?'y':'n'); ?>"><?php echo $entry['name']; ?></a></td>
                         <td><?php echo $entry['count']; ?></td>
                     </tr>
 				<?php endforeach; ?>
@@ -226,7 +226,7 @@ $u8 =  statisticsUserByScoreRange();
                 </thead>
 				<?php foreach ($u7 as $entry): ?>
                     <tr>
-                        <td><?php echo $entry['name']; ?></td>
+                        <td><a class="nolink" href="userlist.php?app_type=<?php echo urlencode($entry['name']); ?>"><?php echo $entry['name']; ?></a></td>
                         <td><?php echo $entry['count']; ?></td>
                     </tr>
 				<?php endforeach; ?>

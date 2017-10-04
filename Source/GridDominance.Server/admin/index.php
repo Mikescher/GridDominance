@@ -126,7 +126,11 @@
 
 	<div class="infocontainer">
         <div class="infodiv">
-            Cron:&nbsp;<?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo $config['debug'] ? ("../cron.php?cronsecret=" . $config['cron-secret']) : ('#'); ?>">Now</a> )
+            <?php if ($config['debug']): ?> 
+                Cron:&nbsp;<?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo ("../cron.php?cronsecret=" . $config['cron-secret']); ?>">Now</a> )
+            <?php else: ?> 
+                Cron:&nbsp;<?php echo getLastCronTime(); ?>
+            <?php endif; ?> 
         </div>
         <div class="infodiv">
             Requests (1d):&nbsp;<?php echo getLastRunLogCount(); ?>&nbsp;(=&nbsp;<a href="runlogoverview.php"><?php echo round(getLastTimingAverage()/(1000.0*1000.0), 4); ?>s</a>)

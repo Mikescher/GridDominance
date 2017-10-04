@@ -95,30 +95,54 @@ function getUserErrors($uid) {
 	]);
 }
 
-function getUsers($all, $reg, $days, $page, $pagesize = 1000) {
+function getUsers($all, $reg, $days, $device, $dversion, $resolution, $appversion, $apptype, $page, $pagesize = 1000) {
 	$days = (int)$days;
 
 	$cond = "WHERE 1=1";
-	if (!$all)      $cond = $cond . " AND score > 0";
-	if ($reg)       $cond = $cond . " AND is_auto_generated = 0";
-	if ($days >= 0) $cond = $cond . " AND last_online >= now() - INTERVAL $days DAY";
+	if (!$all)             $cond = $cond . " AND score > 0";
+	if ($reg === TRUE)     $cond = $cond . " AND is_auto_generated = 0";
+	if ($reg === FALSE)    $cond = $cond . " AND is_auto_generated = 1";
+	if ($days >= 0)        $cond = $cond . " AND last_online >= now() - INTERVAL $days DAY";
+	if ($device != '')     $cond = $cond . " AND device_name = :dn";
+	if ($dversion != '')   $cond = $cond . " AND device_version = :dv";
+	if ($resolution != '') $cond = $cond . " AND device_resolution = :dr";
+	if ($appversion != '') $cond = $cond . " AND app_version = :av";
+	if ($apptype != '')    $cond = $cond . " AND app_type = :at";
 
 	return sql_query_assoc_prep('getUsers', "SELECT * FROM users $cond LIMIT :ps OFFSET :po",
 	[
 		[':po', $pagesize * $page, PDO::PARAM_INT],
 		[':ps', $pagesize,         PDO::PARAM_INT],
+		[':dn', $device,           PDO::PARAM_STR],
+		[':dv', $dversion,         PDO::PARAM_STR],
+		[':dr', $resolution,       PDO::PARAM_STR],
+		[':av', $appversion,       PDO::PARAM_STR],
+		[':at', $apptype,          PDO::PARAM_STR],
 	]);
 }
 
-function countUsers($all, $reg, $days) {
+function countUsers($all, $reg, $days, $device, $dversion, $resolution, $appversion, $apptype) {
 	$days = (int)$days;
 
 	$cond = "WHERE 1=1";
-	if (!$all)      $cond = $cond . " AND score > 0";
-	if ($reg)       $cond = $cond . " AND is_auto_generated = 0";
-	if ($days >= 0) $cond = $cond . " AND last_online >= now() - INTERVAL $days DAY";
+	if (!$all)             $cond = $cond . " AND score > 0";
+	if ($reg === TRUE)     $cond = $cond . " AND is_auto_generated = 0";
+	if ($reg === FALSE)    $cond = $cond . " AND is_auto_generated = 1";
+	if ($days >= 0)        $cond = $cond . " AND last_online >= now() - INTERVAL $days DAY";
+	if ($device != '')     $cond = $cond . " AND device_name = :dn";
+	if ($dversion != '')   $cond = $cond . " AND device_version = :dv";
+	if ($resolution != '') $cond = $cond . " AND device_resolution = :dr";
+	if ($appversion != '') $cond = $cond . " AND app_version = :av";
+	if ($apptype != '')    $cond = $cond . " AND app_type = :at";
 
-	return sql_query_num('countUsers', 'SELECT COUNT(*) FROM users ' . $cond);
+	return sql_query_num_prep('countUsers', 'SELECT COUNT(*) FROM users ' . $cond,
+	[
+		[':dn', $device,           PDO::PARAM_STR],
+		[':dv', $dversion,         PDO::PARAM_STR],
+		[':dr', $resolution,       PDO::PARAM_STR],
+		[':av', $appversion,       PDO::PARAM_STR],
+		[':at', $apptype,          PDO::PARAM_STR],
+	]);
 }
 
 function getLevelHighscores() {
