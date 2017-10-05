@@ -8,14 +8,16 @@ using System.Text;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.LogProtocol;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace MonoSAMFramework.Portable.Network.REST
 {
 	public sealed class RestParameterSet
 	{
-		private const int MAX_GET_LENGTH = 128;
-		
-		public enum RestParameterSetType { String, Int, Base64, Hash, Compressed, Guid, Json }
+		private const int MAX_GET_LENGTH     = 128;
+		private const int MAX_GET_LENGTH_BIG = 2048;
+
+		public enum RestParameterSetType { String, Int, Base64, Hash, Compressed, Guid, Json, BigCompressed }
 
 		private readonly List<Tuple<string, string, RestParameterSetType, bool>> dict = new List<Tuple<string, string, RestParameterSetType, bool>>();
 
@@ -59,9 +61,9 @@ namespace MonoSAMFramework.Portable.Network.REST
 			dict.Add(Tuple.Create(name, value.ToString("B"), RestParameterSetType.Guid, signed));
 		}
 
-		public Tuple<string, MultipartFormDataContent> CreateParamString(string secret)
+		public Tuple<string, FormUrlEncodedContent> CreateParamString(string secret)
 		{
-			var post = new MultipartFormDataContent();
+			var post = new List<KeyValuePair<string, string>>();
 			
 			var sigbuilder = secret;
 
@@ -81,7 +83,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 						if (sign) sigbuilder += "\n" + value;
 
 						if (value.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(value), name);
+							post.Add(new KeyValuePair<string, string>(name, value));
 						else
 							result += "&" + name + "=" + Uri.EscapeDataString(value);
 						break;
@@ -90,7 +92,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 						if (sign) sigbuilder += "\n" + value;
 
 						if (value.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(value), name);
+							post.Add(new KeyValuePair<string, string>(name, value));
 						else
 							result += "&" + name + "=" + value;
 						break;
@@ -104,7 +106,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 							.Replace('=', '.');
 
 						if (value.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(data64), name);
+							post.Add(new KeyValuePair<string, string>(name, data64));
 						else
 							result += "&" + name + "=" + data64;
 						break;
@@ -114,7 +116,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 						if (sign) sigbuilder += "\n" + dataHash;
 
 						if (value.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(dataHash), name);
+							post.Add(new KeyValuePair<string, string>(name, dataHash));
 						else
 							result += "&" + name + "=" + dataHash;
 						break;
@@ -126,8 +128,8 @@ namespace MonoSAMFramework.Portable.Network.REST
 							.Replace('+', '-')
 							.Replace('\\', '_')
 							.Replace('=', '.');
-						if (value.Length > MAX_GET_LENGTH)
-							post.Add(new StringContent(dataComp), name);
+						if (dataComp.Length > MAX_GET_LENGTH)
+							post.Add(new KeyValuePair<string, string>(name, dataComp));
 						else
 							result += "&" + name + "=" + dataComp;
 						break;
@@ -140,7 +142,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 							.Replace('\\', '_')
 							.Replace('=', '.');
 						if (dataComp2.Length > MAX_GET_LENGTH_BIG)
-							post.Add(new StringContent(dataComp2), name);
+							post.Add(new KeyValuePair<string, string>(name, dataComp2));
 						else
 							result += "&" + name + "=" + dataComp2;
 						break;
@@ -156,7 +158,9 @@ namespace MonoSAMFramework.Portable.Network.REST
 
 			var get = "?msgk=" + sig + result;
 
-			return Tuple.Create(get, post);
+			var postContent = post.Any() ? new FormUrlEncodedContent(post) : null;
+
+			return Tuple.Create(get, postContent);
 		}
 
 		public static string CompressString(string str)
