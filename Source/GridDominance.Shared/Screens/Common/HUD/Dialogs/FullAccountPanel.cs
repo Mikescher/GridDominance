@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;
@@ -12,6 +13,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using System.Threading.Tasks;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -26,6 +28,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		private int _logOutCounter = 0;
 		private float _lastClickLogout;
+
+		private HUDImageButton btnReload;
+		private bool isUploading = false;
 
 		public FullAccountPanel()
 		{
@@ -150,6 +155,88 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				Click = OnChangePassword,
 			});
+
+			AddElement(btnReload = new HUDImageButton(2)
+			{
+				Alignment = HUDAlignment.TOPRIGHT,
+				RelativePosition = new FPoint(6, 6),
+				Size = new FSize(64, 64),
+
+				BackgroundNormal = HUDBackgroundDefinition.NONE,
+				BackgroundPressed = HUDBackgroundDefinition.NONE,
+
+				ImageAlignment = HUDImageAlignment.UNDERSCALE,
+				Image = Textures.TexHUDIconReload,
+				ImageColor = MainGame.Inst.Profile.NeedsReupload ? FlatColors.Carrot : FlatColors.Clouds,
+				RotationSpeed = 0f,
+
+				ClickMode = HUDButton.HUDButtonClickMode.Single,
+				Click = OnReuploadProfile,
+			});
+		}
+
+		private void OnReuploadProfile(HUDImageButton sender, HUDButtonEventArgs e)
+		{
+			if (isUploading) return;
+			isUploading = true;
+
+			btnReload.RotationSpeed = 0.5f;
+			MainGame.Inst.ShowToast(null, L10N.T(L10NImpl.STR_PROFILESYNC_START), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+			MainGame.Inst.Profile.NeedsReupload = true;
+
+			DoReuploadProfile(MainGame.Inst.Profile).RunAsync();
+		}
+
+		private async Task DoReuploadProfile(PlayerProfile p)
+		{
+			try
+			{
+				// ======== STEP 1 -- UPLOAD ========
+
+				bool sucess = await MainGame.Inst.Backend.Reupload(p);
+				if (!sucess)
+				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						btnReload.RotationSpeed = 0f;
+						btnReload.ImageColor = FlatColors.Carrot;
+
+						MainGame.Inst.ShowToast(null, L10N.T(L10NImpl.STR_PROFILESYNC_ERROR), 40, FlatColors.Orange, FlatColors.Foreground, 2f);
+					});
+
+					return;
+				}
+
+				// ======== STEP 2 -- DOWNLOAD ========
+
+				sucess = await MainGame.Inst.Backend.DownloadData(p);
+				if (!sucess)
+				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						btnReload.RotationSpeed = 0f;
+						btnReload.ImageColor = FlatColors.Carrot;
+
+						MainGame.Inst.ShowToast(null, L10N.T(L10NImpl.STR_PROFILESYNC_ERROR), 40, FlatColors.Orange, FlatColors.Foreground, 2f);
+					});
+
+					return;
+				}
+
+				// ======== FINISHED ========
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					btnReload.RotationSpeed = 0f;
+					btnReload.ImageColor = FlatColors.Clouds;
+
+					MainGame.Inst.ShowToast(null, L10N.T(L10NImpl.STR_PROFILESYNC_SUCCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2f);
+				});
+			}
+			finally
+			{
+				isUploading = false;
+			}
 		}
 
 		private void OnChangePassword(HUDTextButton sender, HUDButtonEventArgs e)

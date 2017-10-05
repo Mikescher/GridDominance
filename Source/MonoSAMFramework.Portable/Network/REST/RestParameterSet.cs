@@ -29,6 +29,11 @@ namespace MonoSAMFramework.Portable.Network.REST
 			dict.Add(Tuple.Create(name, JsonConvert.SerializeObject(value, Formatting.None), RestParameterSetType.Json, signed));
 		}
 
+		public void AddParameterBigCompressed(string name, string value, bool signed = true)
+		{
+			dict.Add(Tuple.Create(name, value, RestParameterSetType.BigCompressed, signed));
+		}
+
 		public void AddParameterInt(string name, int value, bool signed = true)
 		{
 			dict.Add(Tuple.Create(name, value.ToString(), RestParameterSetType.Int, signed));
@@ -127,6 +132,20 @@ namespace MonoSAMFramework.Portable.Network.REST
 							result += "&" + name + "=" + dataComp;
 						break;
 
+					case RestParameterSetType.BigCompressed:
+						if (sign) sigbuilder += "\n" + value;
+
+						var dataComp2 = CompressString(value)
+							.Replace('+', '-')
+							.Replace('\\', '_')
+							.Replace('=', '.');
+						if (dataComp2.Length > MAX_GET_LENGTH_BIG)
+							post.Add(new StringContent(dataComp2), name);
+						else
+							result += "&" + name + "=" + dataComp2;
+						break;
+
+
 					default:
 						SAMLog.Error("RPS::EnumSwitch_CPS", "type = " + type);
 						break;
@@ -202,6 +221,10 @@ namespace MonoSAMFramework.Portable.Network.REST
 						break;
 
 					case RestParameterSetType.Compressed:
+						if (sign) sigbuilder += "\n" + value;
+						break;
+
+					case RestParameterSetType.BigCompressed:
 						if (sign) sigbuilder += "\n" + value;
 						break;
 

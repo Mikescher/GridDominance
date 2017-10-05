@@ -15,6 +15,7 @@ using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.REST;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Localization;
+using System.Text;
 
 namespace GridDominance.Shared.Network
 {
@@ -391,7 +392,7 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
-		public async Task DownloadData(PlayerProfile profile)
+		public async Task<bool> DownloadData(PlayerProfile profile)
 		{
 			try
 			{
@@ -404,7 +405,7 @@ namespace GridDominance.Shared.Network
 
 				if (response == null)
 				{
-					return; // meh - internal server error
+					return false; // meh - internal server error
 				}
 				else if (response.result == "success")
 				{
@@ -422,12 +423,14 @@ namespace GridDominance.Shared.Network
 
 						MainGame.Inst.SaveProfile();
 					});
+
+					return true;
 				}
 				else if (response.result == "error")
 				{
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
 					{
-						return; // meh
+						return false; // meh
 					}
 					else if (response.errorid == BackendCodes.PARAMETER_HASH_MISMATCH)
 					{
@@ -454,45 +457,61 @@ namespace GridDominance.Shared.Network
 						SAMLog.Error("Backend::DD_ERR", $"DownloadData: Error {response.errorid}: {response.errormessage}");
 						ShowErrorCommunication();
 					}
+
+					return false;
 				}
 				else
 				{
 					SAMLog.Error("Backend::DD_IRC", $"DownloadData: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
+
+					return false;
 				}
 			}
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend::DD_RCE", e); // probably no internet
 				ShowErrorConnection();
+
+				return false;
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend::DD_E", e);
 				ShowErrorCommunication();
+
+				return false;
 			}
 		}
 
-		public async Task Reupload(PlayerProfile profile)
-		{
-			await ReuploadWorld(profile, Levels.WORLD_001.ID);
-			await ReuploadWorld(profile, Levels.WORLD_002.ID);
-			await ReuploadWorld(profile, Levels.WORLD_003.ID);
-			await ReuploadWorld(profile, Levels.WORLD_004.ID);
-			await ReuploadWorld(profile, Levels.WORLD_ID_TUTORIAL);
-		}
-
-		public async Task ReuploadWorld(PlayerProfile profile, Guid world)
+		public async Task<bool> Reupload(PlayerProfile profile)
 		{
 			profile.NeedsReupload = false;
 
+			var b1 = await ReuploadWorld(profile, Levels.WORLD_001.ID);
+			var b2 = await ReuploadWorld(profile, Levels.WORLD_002.ID);
+			var b3 = await ReuploadWorld(profile, Levels.WORLD_003.ID);
+			var b4 = await ReuploadWorld(profile, Levels.WORLD_004.ID);
+			var b5 = await ReuploadWorld(profile, Levels.WORLD_ID_TUTORIAL);
+
+			return b1 && b2 && b3 && b4 && b5;
+		}
+
+		private async Task<bool> ReuploadWorld(PlayerProfile profile, Guid world)
+		{
 			try
 			{
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
-				ps.AddParameterJson("data", CreateScoreArray(profile, world));
+
+				//ps.AddParameterBigCompressed("data", CreateScoreString(profile, world));
+				var sarray = CreateScoreArray(profile, world);
+				if (sarray.Length == 0) return true;
+
+				ps.AddParameterJson("data-count", sarray.Length, false);
+				ps.AddParameterJson("data", sarray);
 
 				ps.AddParameterInt("s0", profile.TotalPoints);
 				ps.AddParameterInt("s1", profile.GetWorldPoints(Levels.WORLD_001));
@@ -506,11 +525,14 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("t4", profile.GetWorldHighscoreTime(Levels.WORLD_004));
 				ps.AddParameterInt("sx", profile.MultiplayerPoints);
 
+				//var response = await QueryAsync<QueryResultSetMultiscore>("set-multiscore-2", ps, RETRY_DOWNLOADDATA);
 				var response = await QueryAsync<QueryResultSetMultiscore>("set-multiscore", ps, RETRY_DOWNLOADDATA);
 
 				if (response == null)
 				{
-					return; // meh - internal server error
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => { profile.NeedsReupload = true; MainGame.Inst.SaveProfile(); });
+
+					return false; // meh - internal server error
 				}
 				else if (response.result == "success")
 				{
@@ -525,14 +547,18 @@ namespace GridDominance.Shared.Network
 							if (profile.NeedsReupload) Reupload(profile).EnsureNoError();
 						});
 					}
+
+					return true;
 				}
 				else if (response.result == "error")
 				{
 					ShowErrorCommunication();
 
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => { profile.NeedsReupload = true; MainGame.Inst.SaveProfile(); });
+
 					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
 					{
-						return; // meh
+						return false; // meh
 					}
 					else if (response.errorid == BackendCodes.PARAMETER_HASH_MISMATCH)
 					{
@@ -558,11 +584,17 @@ namespace GridDominance.Shared.Network
 					{
 						SAMLog.Error("Backend::RU_ERR", $"Reupload: Error {response.errorid}: {response.errormessage}");
 					}
+
+					return false;
 				}
 				else
 				{
 					SAMLog.Error("Backend::RU_IRC", $"Reupload: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
+
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => { profile.NeedsReupload = true; MainGame.Inst.SaveProfile(); });
+
+					return false;
 				}
 			}
 			catch (RestConnectionException e)
@@ -570,24 +602,18 @@ namespace GridDominance.Shared.Network
 				SAMLog.Warning("Backend::RU_RCE", e); // probably no internet
 				ShowErrorConnection();
 
-				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
-				{
-					profile.NeedsReupload = true;
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => { profile.NeedsReupload = true; MainGame.Inst.SaveProfile(); });
 
-					MainGame.Inst.SaveProfile();
-				});
+				return false;
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend::RU_E", e);
 				ShowErrorCommunication();
 
-				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
-				{
-					profile.NeedsReupload = true;
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() => { profile.NeedsReupload = true; MainGame.Inst.SaveProfile(); });
 
-					MainGame.Inst.SaveProfile();
-				});
+				return false;
 			}
 		}
 
@@ -1067,7 +1093,32 @@ namespace GridDominance.Shared.Network
 			});
 		}
 
-		private object CreateScoreArray(PlayerProfile profile, Guid? world)
+		private string CreateScoreString(PlayerProfile profile, Guid? world)
+		{
+			var d = new StringBuilder();
+
+			foreach (var ld in profile.LevelData)
+			{
+				if (world != null && Levels.MAP_LEVELS_WORLDS.TryGetValue(ld.Key, out var levelworld) && levelworld != world.Value) continue;
+
+				d.Append(ld.Key.ToString("N"));
+				d.Append('@');
+
+				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_0)) d.Append(ld.Value.Data[FractionDifficulty.DIFF_0].BestTime);
+				d.Append(';');
+				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_1)) d.Append(ld.Value.Data[FractionDifficulty.DIFF_1].BestTime);
+				d.Append(';');
+				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_2)) d.Append(ld.Value.Data[FractionDifficulty.DIFF_2].BestTime);
+				d.Append(';');
+				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_3)) d.Append(ld.Value.Data[FractionDifficulty.DIFF_3].BestTime);
+
+				d.Append('\n');
+			}
+
+			return d.ToString();
+		}
+
+		private object[] CreateScoreArray(PlayerProfile profile, Guid? world)
 		{
 			var d = new List<Tuple<Guid, FractionDifficulty, int>>();
 

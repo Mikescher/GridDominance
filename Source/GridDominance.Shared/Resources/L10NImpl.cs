@@ -224,7 +224,11 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ERR_MUSICPLAYBACK      = 187;
 		public const int STR_ERR_OUTOFMEMORY        = 189;
 
-		private const int TEXT_COUNT = 190; // = next idx
+		public const int STR_PROFILESYNC_START      = 190;
+		public const int STR_PROFILESYNC_ERROR      = 191;
+		public const int STR_PROFILESYNC_SUCCESS	= 192;
+
+		private const int TEXT_COUNT = 193; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -422,6 +426,9 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_ERR_SOUNDPLAYBACK,      "Sound playback failed. Disabling sounds ...",                                                                                             "Soundwiedergabe fehlgeschlagen. Sounds werden deaktiviert ...",                                                                       "La lecture du son a échoué. Désactivation des sons ...",                                                                                                       "La riproduzione audio non è riuscita. Disattivazione dei suoni ...");
 			L10N.Add(STR_ERR_MUSICPLAYBACK,      "Music playback failed. Disabling music ...",                                                                                              "Musikwiedergabe fehlgeschlagen. Musik wird deaktiviert ...",                                                                          "La lecture de musique a échoué. Désactivation de la musique ...",                                                                                              "La riproduzione musicale è fallita. Disattivazione della musica ...");
 			L10N.Add(STR_ERR_OUTOFMEMORY,        "Saving failed: Disk full",                                                                                                                "Speichern fehlgeschlagen: Speicher voll",                                                                                             "Échec échoué: Disque complet",                                                                                                                                 "Salvataggio non riuscito: disco pieno");
+			L10N.Add(STR_PROFILESYNC_START,      "Manuelle Synchronisation gestartet",                                                                                                      "Starting manual sync",                                                                                                                "La synchronisation manuelle a commencé",                                                                                                                       "La sincronizzazione manuale è iniziata");
+			L10N.Add(STR_PROFILESYNC_ERROR,      "Manuelle Synchronisation fehlgeschlagen",                                                                                                 "Manual sync failed",                                                                                                                  "La synchronisation manuelle a échoué",                                                                                                                         "La sincronizzazione manuale non è riuscita");
+			L10N.Add(STR_PROFILESYNC_SUCCESS,    "Manuelle Synchronisation erfolgreich",                                                                                                    "Manual sync finished",                                                                                                                "Synchronisation manuelle réussie",                                                                                                                             "La sincronizzazione manuale è riuscita");
 
 			// [en_US] [de-DE] [fr-FR] [it-IT]
 

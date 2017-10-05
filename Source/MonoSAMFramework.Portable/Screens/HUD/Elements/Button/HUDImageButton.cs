@@ -34,6 +34,18 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			set => internalIcon.ImageAlignment = value;
 		}
 
+		public float RotationSpeed
+		{
+			get => internalIcon.RotationSpeed;
+			set => internalIcon.RotationSpeed = value;
+		}
+
+		public Color ImageColor
+		{
+			get => internalIcon.Color;
+			set => internalIcon.Color = value;
+		}
+
 		public HUDBackgroundDefinition BackgroundNormal = HUDBackgroundDefinition.DUMMY;
 		public HUDBackgroundDefinition BackgroundPressed = HUDBackgroundDefinition.DUMMY;
 
