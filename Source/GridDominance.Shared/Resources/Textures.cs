@@ -227,6 +227,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDIconArrow;
 		public static TextureRegion2D TexHUDIconChevronLeft;
 		public static TextureRegion2D TexHUDIconChevronRight;
+		public static TextureRegion2D TexHUDIconReload;
 		public static TextureRegion2D[] TexHUDFlags;
 
 		public static TextureRegion2D TexPanelBlurEdge;
@@ -428,6 +429,7 @@ namespace GridDominance.Shared.Resources
 			TexHUDIconArrow               = AtlasTextures["arrow"];
 			TexHUDIconChevronLeft         = AtlasTextures["chevron_left"];
 			TexHUDIconChevronRight        = AtlasTextures["chevron_right"];
+			TexHUDIconReload              = AtlasTextures["reload"];
 
 
 

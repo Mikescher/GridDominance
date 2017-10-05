@@ -410,6 +410,7 @@
             <key type="filename">hud/next.png</key>
             <key type="filename">hud/password.png</key>
             <key type="filename">hud/redo.png</key>
+            <key type="filename">hud/reload.png</key>
             <key type="filename">hud/user.png</key>
             <key type="filename">level/glassblock/glass_corner.png</key>
             <key type="filename">level/vortex/vortex_circle_0.png</key>
