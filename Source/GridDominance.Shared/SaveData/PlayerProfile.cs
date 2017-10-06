@@ -15,7 +15,7 @@ namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_4;
+		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_3;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 		public int HighscoreTime => LevelData.Sum(p => p.Value.HighscoreTime);
@@ -44,7 +44,6 @@ namespace GridDominance.Shared.SaveData
 
 		public Guid LastMultiplayerHostedLevel;
 		public GameSpeedModes LastMultiplayerHostedSpeed;
-		public bool UseBluetoothLE;
 
 		public bool SkipTutorial;
 		public bool AccountReminderShown;
@@ -78,13 +77,7 @@ namespace GridDominance.Shared.SaveData
 
 			LastMultiplayerHostedLevel = Levels.LEVELID_1_3;
 			LastMultiplayerHostedSpeed = GameSpeedModes.NORMAL;
-
-#if GD_FORCE_BLE
-			UseBluetoothLE = true;
-#else
-			UseBluetoothLE = false;
-#endif
-
+			
 			SkipTutorial = false;
 			AccountReminderShown = false;
 
@@ -195,7 +188,6 @@ namespace GridDominance.Shared.SaveData
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_level",                         o => o.LastMultiplayerHostedLevel, (o, v) => o.LastMultiplayerHostedLevel = v);
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_score",                         o => o.MultiplayerPoints,          (o, v) => o.MultiplayerPoints          = v);
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_alive",                         o => o.HasMultiplayerGames,        (o, v) => o.HasMultiplayerGames        = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_4, "mp_btle",                          o => o.UseBluetoothLE,             (o, v) => o.UseBluetoothLE             = v);
 
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "skiptut",                          o => o.SkipTutorial,               (o, v) => o.SkipTutorial               = v);
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_1, "reminder1",                        o => o.AccountReminderShown,       (o, v) => o.AccountReminderShown       = v);

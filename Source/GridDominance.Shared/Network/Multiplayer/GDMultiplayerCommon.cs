@@ -51,14 +51,12 @@ namespace GridDominance.Shared.Network.Multiplayer
 		protected int packageModSize = 0;
 		protected float lagBehindTime = 0f;
 
-		public readonly bool IsLE;
-
-		protected GDMultiplayerCommon(MultiplayerConnectionType t, bool btle) : base(GetMedium(t, btle), t)
+		protected GDMultiplayerCommon(MultiplayerConnectionType t) : base(GetMedium(t), t)
 		{
-			IsLE = btle;
+			//
 		}
 
-		private static INetworkMedium GetMedium(MultiplayerConnectionType t, bool le)
+		private static INetworkMedium GetMedium(MultiplayerConnectionType t)
 		{
 			switch (t)
 			{
@@ -66,10 +64,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 					return new UDPNetworkMedium(GDConstants.MULTIPLAYER_SERVER_HOST, GDConstants.MULTIPLAYER_SERVER_PORT, MainGame.Inst.GDBridge.CreateUPDClient());
 
 				case MultiplayerConnectionType.P2P:
-					if (le)
-						return new BluetoothNetworkMedium(MainGame.Inst.GDBridge.BluetoothLE);
-					else
-						return new BluetoothNetworkMedium(MainGame.Inst.GDBridge.BluetoothFull);
+					return new BluetoothNetworkMedium(MainGame.Inst.GDBridge.BluetoothFull);
 
 				default:
 					SAMLog.Error("GDMPC::EnumSwitch_GM", "t = " + t);

@@ -189,7 +189,6 @@ namespace GridDominance.Shared.Resources
 		public const int STR_MENU_MP_START          = 149;
 		public const int STR_MENU_MP_ONLINE         = 135;
 		public const int STR_MENU_MP_LOCAL_CLASSIC  = 134;
-		public const int STR_MENU_MP_LOCAL_LE       = 193;
 		public const int STR_MENU_MP_CREATE         = 137;
 		public const int STR_MENU_MP_GAMESPEED      = 139;
 		public const int STR_MENU_MP_MUSIC          = 140;
@@ -229,7 +228,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_PROFILESYNC_ERROR      = 191;
 		public const int STR_PROFILESYNC_SUCCESS	= 192;
 
-		private const int TEXT_COUNT = 194; // = next idx
+		private const int TEXT_COUNT = 193; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -393,7 +392,6 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_CANCEL,            "Cancel",                                                                                                                                  "Abbrechen",                                                                                                                           "Abandonner",                                                                                                                                                   "Cancella");
 			L10N.Add(STR_MENU_DISCONNECT,        "Disconnect",                                                                                                                              "Verbindung trennen",                                                                                                                  "Déconnecter",                                                                                                                                                  "Disconnetti");
 			L10N.Add(STR_MENU_MP_LOCAL_CLASSIC,  "Local (Bluetooth)",                                                                                                                       "Lokal (Bluetooth)",                                                                                                                   "Local (Bluetooth)",                                                                                                                                            "Locale (Bluetooth)");
-			L10N.Add(STR_MENU_MP_LOCAL_LE,       "Local (Bluetooth LE)",                                                                                                                    "Lokal (Bluetooth LE)",                                                                                                                "Local (Bluetooth LE)",                                                                                                                                         "Locale (Bluetooth LE)");
 			L10N.Add(STR_MENU_MP_ONLINE,         "Online (UDP/IP)",                                                                                                                         "Internet (UDP/IP)",                                                                                                                   "En ligne (UDP/IP)",                                                                                                                                            "Online (UDP/IP)");
 			L10N.Add(STR_MENU_CAP_AUTH,          "Enter lobby code",                                                                                                                        "Lobby Code eingeben",                                                                                                                 "Entrer lobby code",                                                                                                                                            "Inserisci codice lobby");
 			L10N.Add(STR_MENU_MP_GAMESPEED,      "Game speed:",                                                                                                                             "Spielgeschwindigkeit:",                                                                                                               "La vitesse du jeux",                                                                                                                                           "Velocità gioco:");

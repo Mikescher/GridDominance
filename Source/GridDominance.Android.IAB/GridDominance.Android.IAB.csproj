@@ -79,8 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Impl\AndroidBilling.cs" />
-    <Compile Include="Impl\Bluetooth\BLE\BLEBluetoothAdapter.cs" />
-    <Compile Include="Impl\Bluetooth\BLE\BLEDeviceWrapper.cs" />
     <Compile Include="Impl\Bluetooth\Full\BTDeviceScoreComparer.cs" />
     <Compile Include="Impl\Bluetooth\Full\BTTransferRecieveThread.cs" />
     <Compile Include="Impl\Bluetooth\Full\XamarinBluetooth.cs" />

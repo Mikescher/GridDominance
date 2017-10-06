@@ -14,7 +14,6 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		IBillingAdapter IAB { get; }
 
 		IBluetoothAdapter BluetoothFull { get; }
-		IBluetoothAdapter BluetoothLE { get; }
 		IUDPClient CreateUPDClient();
 
 		void OpenURL(string url);

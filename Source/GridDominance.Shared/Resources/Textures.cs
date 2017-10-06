@@ -258,7 +258,6 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconLockOpen;
 		public static TextureRegion2D TexIconInternet;
 		public static TextureRegion2D TexIconBluetoothClassic;
-		public static TextureRegion2D TexIconBluetoothLE;
 		public static TextureRegion2D TexIconDice;
 		public static TextureRegion2D TexIconConnection0;
 		public static TextureRegion2D TexIconConnection1;
@@ -472,7 +471,6 @@ namespace GridDominance.Shared.Resources
 			TexIconLockOpen         = AtlasTextures["lock_open"];
 			TexIconInternet         = AtlasTextures["internet"];
 			TexIconBluetoothClassic = AtlasTextures["bluetooth"];
-			TexIconBluetoothLE      = AtlasTextures["bluetooth_le"];
 			TexIconConnection0      = AtlasTextures["state_err"];
 			TexIconConnection1      = AtlasTextures["state_ok"];
 			TexIconConnection2      = AtlasTextures["state_conn_bg"];

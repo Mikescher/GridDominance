@@ -968,7 +968,6 @@
                 <false/>
             </struct>
             <key type="filename">overworld/bluetooth.png</key>
-            <key type="filename">overworld/bluetooth_le.png</key>
             <key type="filename">overworld/dice.png</key>
             <key type="filename">overworld/internet.png</key>
             <struct type="IndividualSpriteSettings">

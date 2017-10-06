@@ -164,7 +164,7 @@ namespace GridDominance.Shared.Screens
 		{
 			var lvl = Levels.LEVELS[Guid.Parse("{b16b00b5-0001-4000-0000-000003000031}")];
 
-			var c = new GDMultiplayerClient(MultiplayerConnectionType.P2P, false);
+			var c = new GDMultiplayerClient(MultiplayerConnectionType.P2P);
 
 			c.SessionUserID = 1;
 			c.SessionCount = 2;
@@ -185,7 +185,7 @@ namespace GridDominance.Shared.Screens
 		{
 			var lvl = Levels.LEVELS[Guid.Parse("{b16b00b5-0001-4000-0000-000003000031}")];
 
-			var c = new GDMultiplayerClient(MultiplayerConnectionType.P2P, false);
+			var c = new GDMultiplayerClient(MultiplayerConnectionType.P2P);
 
 			c.SessionUserID = 1;
 			c.SessionCount = 2;

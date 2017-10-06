@@ -18,7 +18,6 @@ namespace GridDominance.Android.Impl
 		public FileHelper FileHelper { get; } = new AndroidFileHelper();
 		public IBillingAdapter IAB => _iab;
 		public IBluetoothAdapter BluetoothFull => _btfull;
-		public IBluetoothAdapter BluetoothLE   => _btle;
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		public string AppType => "Android.IAB";
 
@@ -31,7 +30,6 @@ namespace GridDominance.Android.Impl
 		private readonly MainActivity _activity;
 		private readonly AndroidBilling _iab;
 		private readonly XamarinBluetooth _btfull;
-		private readonly BLEBluetoothAdapter _btle;
 
 		public void OnDestroy()
 		{
@@ -45,7 +43,6 @@ namespace GridDominance.Android.Impl
 
 			_iab = new AndroidBilling(a);
 			_btfull = new XamarinBluetooth(a);
-			_btle = new BLEBluetoothAdapter();
 		}
 
 		private static string GenerateInfoStr()

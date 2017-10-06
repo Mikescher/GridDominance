@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using Foundation;
-using GridDominance.Android.Impl;
 using GridDominance.Generic.Impl;
 using GridDominance.iOS.Impl;
 using MonoSAMFramework.Portable.DeviceBridge;
@@ -27,7 +24,6 @@ namespace GridDominance.iOS.Full.Impl
 		public FSize DeviceResolution { get; } = new FSize((float)UIScreen.MainScreen.Bounds.Width, (float)UIScreen.MainScreen.Bounds.Height);
 		public FileHelper FileHelper { get; } = new AppleFileHelper();
 		public IBillingAdapter IAB { get; } = new AppleFullVersionBilling();
-		public IBluetoothAdapter BluetoothLE { get; } = new BLEBluetoothAdapter();
 		public IBluetoothAdapter BluetoothFull { get; } = null; // Not supported
 		public string AppType => "IOS.Full";
 

@@ -33,14 +33,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private readonly GDMultiplayerClient _server;
 		private bool _doNotStop = false;
 
-		public MultiplayerFindLobbyScreen(MultiplayerConnectionType t, bool btle)
+		public MultiplayerFindLobbyScreen(MultiplayerConnectionType t)
 		{
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 
-			_server = new GDMultiplayerClient(t, btle);
+			_server = new GDMultiplayerClient(t);
 
 			_server.JoinLocalSession();
 		}
