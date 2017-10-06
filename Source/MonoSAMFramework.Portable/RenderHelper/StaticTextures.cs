@@ -8,6 +8,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		// Guaranteed Icons
 
 		public static TextureRegion2D SinglePixel;
+		public static TextureRegion2D MonoCircle;
 
 		public static TextureRegion2D PanelBlurEdge;
 		public static TextureRegion2D PanelBlurCorner;
@@ -17,11 +18,12 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		public static TextureRegion2D PanelCorner;
 
 		public static bool Initialized => 
-			SinglePixel != null && 
-			PanelBlurEdge != null && 
-			PanelBlurCorner != null &&
-			PanelCorner != null &&
-			PanelBlurEdgePrecut != null &&
+			SinglePixel           != null && 
+			MonoCircle            != null &&
+			PanelBlurEdge         != null && 
+			PanelBlurCorner       != null &&
+			PanelCorner           != null &&
+			PanelBlurEdgePrecut   != null &&
 			PanelBlurCornerPrecut != null;
 
 		// Additional Icons

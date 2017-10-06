@@ -60,14 +60,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private HUDRadioMusicButton _music5;
 		private HUDRadioMusicButton _music6;
 
-		public MultiplayerHostPanel(MultiplayerConnectionType t)
+		public MultiplayerHostPanel(MultiplayerConnectionType t, bool btle)
 		{
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 
-			_server = new GDMultiplayerServer(t);
+			_server = new GDMultiplayerServer(t, btle);
 		}
 
 		public override void OnInitialize()
@@ -464,6 +464,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
+			if (!Alive) return;
+
 			_server.Update(gameTime, istate);
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby)

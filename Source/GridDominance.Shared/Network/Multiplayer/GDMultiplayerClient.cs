@@ -26,7 +26,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 		public byte WinnerID = 0xFF;
 
-		public GDMultiplayerClient(MultiplayerConnectionType t) : base(t)
+		public GDMultiplayerClient(MultiplayerConnectionType t, bool btle) : base(t, btle)
 		{
 #if DEBUG
 			AddDebugLine(MonoSAMGame.CurrentInst.GetCurrentScreen());

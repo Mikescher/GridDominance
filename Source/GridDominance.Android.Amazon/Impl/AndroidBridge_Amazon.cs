@@ -13,11 +13,12 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Android.Impl
 {
-	class AndroidBridge_Amazon : IOperatingSystemBridge
+	class AndroidBridge_Amazon : IGDOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new AndroidFileHelper();
 		public IBillingAdapter IAB => _iab;
-		public IBluetoothAdapter Bluetooth => _bt;
+		public IBluetoothAdapter BluetoothFull => _btfull;
+		public IBluetoothAdapter BluetoothLE => _btle;
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		public string AppType => "Android.Amazon";
 
@@ -30,12 +31,13 @@ namespace GridDominance.Android.Impl
 		
 		private readonly MainActivity _activity;
 		private readonly AndroidFullVersionBilling _iab;
-		private readonly XamarinBluetooth _bt;
+		private readonly XamarinBluetooth _btfull;
+		private readonly BLEBluetoothAdapter _btle;
 
 		public void OnDestroy()
 		{
 			_iab.Disconnect();
-			_bt.OnDestroy();
+			_btfull.OnDestroy();
 		}
 
 		public AndroidBridge_Amazon(MainActivity a)
@@ -43,7 +45,8 @@ namespace GridDominance.Android.Impl
 			_activity = a;
 
 			_iab = new AndroidFullVersionBilling();
-			_bt = new XamarinBluetooth(a);
+			_btfull = new XamarinBluetooth(a);
+			_btle = new BLEBluetoothAdapter();
 		}
 
 		private static string GenerateInfoStr()
@@ -94,7 +97,7 @@ namespace GridDominance.Android.Impl
 		public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			_iab.HandleActivityResult(requestCode, resultCode, data);
-			_bt.HandleActivityResult(requestCode, resultCode, data);
+			_btfull.HandleActivityResult(requestCode, resultCode, data);
 		}
 
 		private static FSize ScreenRes()

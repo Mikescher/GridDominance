@@ -25,7 +25,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		public override int Depth => 0;
 
+		private HUDLabel _lblBluetooth;
+		private HUDImage _imgBluetooth;
+
 		private WorldUnlockState _ustate;
+		private bool _useLE;
 
 		public MultiplayerMainPanel()
 		{
@@ -35,6 +39,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			Background = FlatColors.BackgroundHUD;
 
 			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, true);
+			_useLE = MainGame.Inst.Profile.UseBluetoothLE;
+
+#if GD_FORCE_BLE
+			_useLE = true;
+#endif
 		}
 
 		public override void OnInitialize()
@@ -73,7 +82,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Color = FlatColors.BackgroundHUD2,
 			});
 
-			AddElement(new HUDLabel
+			AddElement(_lblBluetooth = new HUDLabel
 			{
 				TextAlignment = HUDAlignment.TOPLEFT,
 				Alignment = HUDAlignment.TOPLEFT,
@@ -83,7 +92,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 32,
 
-				L10NText = L10NImpl.STR_MENU_MP_LOCAL,
+				L10NText = _useLE ? L10NImpl.STR_MENU_MP_LOCAL_LE : L10NImpl.STR_MENU_MP_LOCAL_CLASSIC,
 				TextColor = Color.White,
 			});
 
@@ -101,10 +110,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				TextColor = Color.White,
 			});
 
-			AddElement(new HUDImage
+			AddElement(_imgBluetooth = new HUDImage
 			{
 				Alignment = HUDAlignment.TOPCENTER,
-				Image = Textures.TexIconBluetooth,
+				Image = _useLE ? Textures.TexIconBluetoothLE : Textures.TexIconBluetoothClassic,
 				Size = new FSize(128, 128),
 				Color = ColorMath.Blend(Color.White, FlatColors.BackgroundHUD, 0.5f),
 				RelativePosition = new FPoint(-WIDTH / 4f, (100 + 12 + 32 + 12) + (HEIGHT - (100 + 12 + 32 + 12) - (32 + 64 + 32 + 64 + 32)) / 2 - 64)
@@ -237,37 +246,77 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					Click = OnClickUnlock,
 				});
 			}
+
+			AddElement(new HUDTwoStateToggleButton(2)
+			{
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(8, 8),
+				Size = new FSize(85, 30),
+
+				ToggleState = _useLE,
+
+				Font = Textures.HUDFontBold,
+				FontColor = FlatColors.Foreground,
+
+				ColorStateOn  = FlatColors.Wisteria,
+				ColorStateOff = FlatColors.PeterRiver,
+
+				ColorBackground = FlatColors.Silver,
+
+				TextStateOn  = "BLE",
+				TextStateOff = "CLASSIC",
+
+#if GD_FORCE_BLE
+				IsVisible = false,
+#endif
+
+				Click = (s, a) => ChangeLEState(a.NewState),
+			});
+		}
+
+		private void ChangeLEState(bool newState)
+		{
+#if GD_FORCE_BLE
+			_useLE = true;
+			return;
+#endif
+			_useLE = newState;
+			MainGame.Inst.Profile.UseBluetoothLE = _useLE;
+			MainGame.Inst.SaveProfile();
+
+			_lblBluetooth.L10NText = _useLE ? L10NImpl.STR_MENU_MP_LOCAL_LE : L10NImpl.STR_MENU_MP_LOCAL_CLASSIC;
+			_imgBluetooth.Image = _useLE ? Textures.TexIconBluetoothLE : Textures.TexIconBluetoothClassic;
 		}
 
 		private void OnClickJoinBluetooth(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			Remove();
-			HUD.AddModal(new MultiplayerFindLobbyScreen(MultiplayerConnectionType.P2P), true, 0.5f);
+			HUD.AddModal(new MultiplayerFindLobbyScreen(MultiplayerConnectionType.P2P, _useLE), true, 0.5f);
 		}
 
 		private void OnClickHostBluetooth(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			Remove();
-			HUD.AddModal(new MultiplayerHostPanel(MultiplayerConnectionType.P2P), true, 0.5f);
+			HUD.AddModal(new MultiplayerHostPanel(MultiplayerConnectionType.P2P, _useLE), true, 0.5f);
 		}
 
 		private void OnClickJoinOnline(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			Remove();
-			HUD.AddModal(new MultiplayerJoinLobbyScreen(MultiplayerConnectionType.PROXY), true, 0.5f);
+			HUD.AddModal(new MultiplayerJoinLobbyScreen(MultiplayerConnectionType.PROXY, false), true, 0.5f);
 		}
 
 		private void OnClickHostOnline(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			Remove();
-			HUD.AddModal(new MultiplayerHostPanel(MultiplayerConnectionType.PROXY), true, 0.5f);
+			HUD.AddModal(new MultiplayerHostPanel(MultiplayerConnectionType.PROXY, false), true, 0.5f);
 		}
 
 		private void OnClickUnlock(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			try
 			{
-				var r = MainGame.Inst.Bridge.IAB.StartPurchase(GDConstants.IAB_MULTIPLAYER);
+				var r = MainGame.Inst.GDBridge.IAB.StartPurchase(GDConstants.IAB_MULTIPLAYER);
 				switch (r)
 				{
 					case PurchaseResult.ProductNotFound:

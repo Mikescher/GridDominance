@@ -31,9 +31,9 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_CHANGE_PW          = 6;
 		private const int RETRY_GETRANKING         = 6;
 
-		private readonly IOperatingSystemBridge bridge;
+		private readonly IGDOperatingSystemBridge bridge;
 
-		public GDServerAPI(IOperatingSystemBridge b) : base(GDConstants.SERVER_URL, GDConstants.SERVER_SECRET)
+		public GDServerAPI(IGDOperatingSystemBridge b) : base(GDConstants.SERVER_URL, GDConstants.SERVER_SECRET)
 		{
 			bridge = b;
 		}

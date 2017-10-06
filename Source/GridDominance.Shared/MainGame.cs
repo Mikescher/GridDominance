@@ -46,12 +46,14 @@ namespace GridDominance.Shared
 
 		public readonly float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
 
+		public IGDOperatingSystemBridge GDBridge => (IGDOperatingSystemBridge)Bridge;
+
 		public MainGame() : base()
 		{
-			Backend = new GDServerAPI(StaticBridge);
+			Backend = new GDServerAPI(GDBridge);
 			//Backend = new DummyGDServerAPI();
 
-			if (GDConstants.FLAVOR == GDFlavor.IAB) Bridge.IAB.Connect(GDConstants.IABList);
+			if (GDConstants.FLAVOR == GDFlavor.IAB) GDBridge.IAB.Connect(GDConstants.IABList);
 
 			Profile = new PlayerProfile();
 
@@ -340,7 +342,7 @@ namespace GridDominance.Shared
 			b.AppendLine("GameCycleCounter: " + GameCycleCounter);
 			b.AppendLine("IsInitializationLag: " + IsInitializationLag);
 			b.AppendLine("MainGame.Alive: " + Alive);
-			b.AppendLine("AppType: " + Bridge.AppType);
+			b.AppendLine("AppType: " + GDBridge.AppType);
 
 			var scrn = screens?.CurrentScreen;
 

@@ -12,11 +12,12 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 // ReSharper disable once CheckNamespace
 namespace GridDominance.Windows
 {
-	class WindowsBridge : IOperatingSystemBridge
+	class WindowsBridge : IGDOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new WindowsFileHelper();
 		public IBillingAdapter IAB { get; } = new WindowsEmulatingBillingAdapter();
-		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
+		public IBluetoothAdapter BluetoothFull { get; } = null; // Not Supported
+		public IBluetoothAdapter BluetoothLE { get; }   = null; // Not Supported
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		public string AppType => "Windows.DirectX";
 

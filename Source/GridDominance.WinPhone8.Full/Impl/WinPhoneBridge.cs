@@ -11,7 +11,7 @@ using Windows.System;
 // ReSharper disable once CheckNamespace
 namespace GridDominance.WinPhone
 {
-	class WinPhoneBridge : IOperatingSystemBridge
+	class WinPhoneBridge : IGDOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new WinPhoneFileHelper();
 		public IBillingAdapter IAB { get; } = new WinPhoneFullVersionBilling();

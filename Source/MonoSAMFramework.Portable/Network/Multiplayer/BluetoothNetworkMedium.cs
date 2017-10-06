@@ -23,19 +23,25 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		public readonly Queue<BluetoothMediumEvent> Events = new Queue<BluetoothMediumEvent>();
 
-		public BluetoothNetworkMedium()
+		public BluetoothNetworkMedium(IBluetoothAdapter adapter)
 		{
-			_client = MonoSAMGame.CurrentInst.Bridge.Bluetooth;
+			_client = adapter;
 
-			DebugDisplayString = new BufferedLambdaString(() => $"XBT[Enabled:{_client.IsEnabled} Discovering:{_client.IsDiscovering} MyState:{_client.State} (_scanning:{_isScanning}|{MonoSAMGame.CurrentTime.TotalElapsedSeconds - _scanStartTime:00}) AState:{_client.AdapterState} AScan:{_client.AdapterScanMode} Threads:<{_client.DebugThreadState}> Founds:{_client.FoundDevices.Count}\n" + 
-			                                                    $"RemoteDevice:<{_client.RemoteDevice?.Name}|{_client.RemoteDevice?.Address}|{_client.RemoteDevice?.DeviceClass}|{_client.RemoteDevice?.Type}|{_client.RemoteDevice?.IsBonded}|{_client.RemoteDevice?.IsBonding}> Name:{_client.AdapterName}]", 1.5f);
+			DebugDisplayString = new BufferedLambdaString(() => $"XBT[Enabled:{_client?.IsEnabled} " +
+			                                                    $"Discovering:{_client?.IsDiscovering} " +
+			                                                    $"MyState:{_client?.State} " +
+			                                                    $"(_scanning:{_isScanning}|{MonoSAMGame.CurrentTime.TotalElapsedSeconds - _scanStartTime:00}) " +
+			                                                    $"AState:{_client?.AdapterState} " +
+			                                                    $"AScan:{_client?.AdapterScanMode} " +
+			                                                    $"Threads:<{_client?.DebugThreadState}> " +
+			                                                    $"Founds:{_client?.FoundDevices.Count}\n" + 
+			                                                    $"RemoteDevice:<{_client?.RemoteDevice?.Name}|{_client?.RemoteDevice?.Address}|{_client?.RemoteDevice?.DeviceClass}|{_client?.RemoteDevice?.Type}|{_client?.RemoteDevice?.IsBonded}|{_client?.RemoteDevice?.IsBonding}> " +
+			                                                    $"Name:{_client?.AdapterName}]", 1.5f);
 		}
 
 		public void Init(out SAMNetworkConnection.ErrorType error)
 		{
-#if DEBUG
-			if (_client == null) { error = SAMNetworkConnection.ErrorType.None; return; }
-#endif
+			if (_client == null) { error = SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound; return; }
 
 			_client.StartAdapter();
 
@@ -239,7 +245,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		public void Dispose()
 		{
-			_client.Reset();
+			_client?.Reset();
 		}
 	}
 }

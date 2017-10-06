@@ -3,7 +3,7 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace MonoSAMFramework.Portable.DeviceBridge
 {
-	public interface IOperatingSystemBridge
+	public interface IGDOperatingSystemBridge : ISAMOperatingSystemBridge
 	{
 		string FullDeviceInfoString { get; }
 		string DeviceName { get; }
@@ -11,19 +11,13 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		string AppType { get; }
 		FSize DeviceResolution { get; }
 
-		FileHelper FileHelper { get; }
 		IBillingAdapter IAB { get; }
-		IBluetoothAdapter Bluetooth { get; }
-		string EnvironmentStackTrace { get; }
 
+		IBluetoothAdapter BluetoothFull { get; }
+		IBluetoothAdapter BluetoothLE { get; }
 		IUDPClient CreateUPDClient();
 
-		string DoSHA256(string input);
 		void OpenURL(string url);
-		void Sleep(int milsec);
-
-		void ExitApp();
-
 		void ShareAppLink();
 	}
 }

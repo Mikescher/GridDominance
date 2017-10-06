@@ -18,7 +18,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 		public GameSpeedModes Speed = GameSpeedModes.NORMAL;
 		public int MusicIndex = 0;
 
-		public GDMultiplayerServer(MultiplayerConnectionType t) : base(t)
+		public GDMultiplayerServer(MultiplayerConnectionType t, bool btle) : base(t, btle)
 		{
 #if DEBUG
 			AddDebugLine(MonoSAMGame.CurrentInst.GetCurrentScreen());

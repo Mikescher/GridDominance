@@ -174,6 +174,24 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0);
 		}
 
+		public static void DrawTextVerticallyCenteredRightAligned(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position)
+		{
+			if (text == "") return;
+
+			var bounds = MeasureStringCached(font, text);
+
+			sbatch.DrawString(
+				font,
+				text,
+				position,
+				color,
+				0,
+				new FPoint(bounds.Width, bounds.Height / 2f - GetFontVCenterOffset(font)),
+				GetFontScale(font, size),
+				SpriteEffects.None,
+				0);
+		}
+
 		public static void DrawTextVerticallyCenteredWithBackground(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position, Color background)
 		{
 			if (text == "") return;

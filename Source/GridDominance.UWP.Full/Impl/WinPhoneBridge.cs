@@ -14,7 +14,7 @@ using Windows.UI.ViewManagement;
 // ReSharper disable once CheckNamespace
 namespace GridDominance.UWP
 {
-	class WinPhoneBridge : IOperatingSystemBridge
+	class WinPhoneBridge : IGDOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new WinPhoneFileHelper();
 		public IBillingAdapter IAB { get; } = new WinPhoneFullVersionBilling();

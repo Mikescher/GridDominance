@@ -37,14 +37,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		private bool _isDying = false;
 
-		public MultiplayerJoinLobbyScreen(MultiplayerConnectionType t)
+		public MultiplayerJoinLobbyScreen(MultiplayerConnectionType t, bool btle)
 		{
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.BackgroundHUD;
 
-			Server = new GDMultiplayerClient(t);
+			Server = new GDMultiplayerClient(t, btle);
 		}
 
 		public override void OnInitialize()

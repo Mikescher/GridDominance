@@ -257,7 +257,8 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconLock;
 		public static TextureRegion2D TexIconLockOpen;
 		public static TextureRegion2D TexIconInternet;
-		public static TextureRegion2D TexIconBluetooth;
+		public static TextureRegion2D TexIconBluetoothClassic;
+		public static TextureRegion2D TexIconBluetoothLE;
 		public static TextureRegion2D TexIconDice;
 		public static TextureRegion2D TexIconConnection0;
 		public static TextureRegion2D TexIconConnection1;
@@ -457,25 +458,26 @@ namespace GridDominance.Shared.Resources
 
 
 
-			TexVortex0          = AtlasTextures["vortex_circle_0"];
-			TexVortex1          = AtlasTextures["vortex_circle_1"];
-			TexVortex2          = AtlasTextures["vortex_circle_2"];
+			TexVortex0              = AtlasTextures["vortex_circle_0"];
+			TexVortex1              = AtlasTextures["vortex_circle_1"];
+			TexVortex2              = AtlasTextures["vortex_circle_2"];
 
-			TexIconBack         = AtlasTextures["back"];
-			TexIconNext         = AtlasTextures["next"];
-			TexIconRedo         = AtlasTextures["redo"]; 
-			TexIconScore        = AtlasTextures["jewels"];
-			TexIconMPScore      = AtlasTextures["pokerchip"];
-			TexIconTutorial     = AtlasTextures["tutorial"];
-			TexIconLock         = AtlasTextures["lock"];
-			TexIconLockOpen     = AtlasTextures["lock_open"];
-			TexIconInternet     = AtlasTextures["internet"];
-			TexIconBluetooth    = AtlasTextures["bluetooth"];
-			TexIconConnection0  = AtlasTextures["state_err"];
-			TexIconConnection1  = AtlasTextures["state_ok"];
-			TexIconConnection2  = AtlasTextures["state_conn_bg"];
-			TexIconConnection3  = AtlasTextures["state_conn_fg"];
-			TexIconDice         = AtlasTextures["dice"];
+			TexIconBack             = AtlasTextures["back"];
+			TexIconNext             = AtlasTextures["next"];
+			TexIconRedo             = AtlasTextures["redo"]; 
+			TexIconScore            = AtlasTextures["jewels"];
+			TexIconMPScore          = AtlasTextures["pokerchip"];
+			TexIconTutorial         = AtlasTextures["tutorial"];
+			TexIconLock             = AtlasTextures["lock"];
+			TexIconLockOpen         = AtlasTextures["lock_open"];
+			TexIconInternet         = AtlasTextures["internet"];
+			TexIconBluetoothClassic = AtlasTextures["bluetooth"];
+			TexIconBluetoothLE      = AtlasTextures["bluetooth_le"];
+			TexIconConnection0      = AtlasTextures["state_err"];
+			TexIconConnection1      = AtlasTextures["state_ok"];
+			TexIconConnection2      = AtlasTextures["state_conn_bg"];
+			TexIconConnection3      = AtlasTextures["state_conn_fg"];
+			TexIconDice             = AtlasTextures["dice"];
 
 
 
@@ -501,6 +503,7 @@ namespace GridDominance.Shared.Resources
 #endif
 			
 			StaticTextures.SinglePixel           = TexPixel;
+			StaticTextures.MonoCircle            = TexCircle;
 			StaticTextures.PanelBlurCorner       = TexPanelBlurCorner;
 			StaticTextures.PanelBlurEdge         = TexPanelBlurEdge;
 			StaticTextures.PanelCorner           = TexPanelCorner;

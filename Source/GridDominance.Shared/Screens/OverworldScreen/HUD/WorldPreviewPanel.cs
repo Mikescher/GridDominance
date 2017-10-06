@@ -172,7 +172,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				MainGame.Inst.SetOverworldScreenCopy(HUD.Screen as GDOverworldScreen);
 			}
 
-			if (MainGame.Inst.Bridge.IAB.IsPurchased(_iabCode) == PurchaseQueryResult.Purchased)
+			if (MainGame.Inst.GDBridge.IAB.IsPurchased(_iabCode) == PurchaseQueryResult.Purchased)
 			{
 				MainGame.Inst.Profile.PurchasedWorlds.Add(_id);
 				MainGame.Inst.SaveProfile();
@@ -193,7 +193,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			try
 			{
-				var r = MainGame.Inst.Bridge.IAB.StartPurchase(_iabCode);
+				var r = MainGame.Inst.GDBridge.IAB.StartPurchase(_iabCode);
 				switch (r)
 				{
 					case PurchaseResult.ProductNotFound:

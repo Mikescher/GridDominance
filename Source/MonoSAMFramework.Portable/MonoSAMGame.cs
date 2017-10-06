@@ -38,13 +38,13 @@ namespace MonoSAMFramework.Portable
 
 		public bool Alive { get; private set; } = true;
 
-		public readonly IOperatingSystemBridge Bridge;
+		public readonly ISAMOperatingSystemBridge Bridge;
 
 		public abstract SAMSoundPlayer Sound { get; }
 
 		public IDebugTextDisplay DebugDisplay => (screens?.CurrentScreen as GameScreen)?.DebugDisp;
 
-		public static IOperatingSystemBridge StaticBridge;
+		public static ISAMOperatingSystemBridge StaticBridge;
 
 		protected MonoSAMGame()
 		{

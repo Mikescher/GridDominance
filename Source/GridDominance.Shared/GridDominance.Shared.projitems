@@ -9,6 +9,7 @@
     <Import_RootNamespace>GridDominance.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceBridge\IGDOperatingSystemBridge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalAgents\HighscoreAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\BackendCodes.cs" />

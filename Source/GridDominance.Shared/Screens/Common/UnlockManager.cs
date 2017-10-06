@@ -199,7 +199,7 @@ namespace GridDominance.Shared.Screens.Common
 
 		private static bool GetIABState(string iabCode, Guid id, bool toast)
 		{
-			var ip = MainGame.Inst.Bridge.IAB.IsPurchased(iabCode);
+			var ip = MainGame.Inst.GDBridge.IAB.IsPurchased(iabCode);
 
 			if (ip == PurchaseQueryResult.Refunded)
 			{

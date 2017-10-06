@@ -28,7 +28,7 @@
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchDebug>true</MtouchDebug>
     <MtouchProfiling>true</MtouchProfiling>
-    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS;GD_FORCE_BLE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -39,14 +39,14 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
-    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS;GD_FORCE_BLE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\Bin\Debug\iOS.Full\</OutputPath>
-    <DefineConstants>RELEASE;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
+    <DefineConstants>RELEASE;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS;GD_FORCE_BLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -67,7 +67,7 @@
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS;GD_FORCE_BLE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -81,7 +81,7 @@
     <BuildIpa>True</BuildIpa>
     <CodesignProvision>Automatic:AdHoc</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS;GD_FORCE_BLE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
@@ -94,7 +94,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS;GD_FORCE_BLE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Plugin.BLE, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
