@@ -121,6 +121,11 @@ namespace GridDominance.Android.Impl
 			lock (_foundDevices) { _foundDevices.Add(new BLEDeviceWrapper(args.Device)); }
 		}
 
+		public void Update()
+		{
+			if (State == BluetoothAdapterState.Scanning && !_adapter.IsScanning) State = BluetoothAdapterState.Active;
+		}
+
 		public void StartAdapter()
 		{
 			lock (_foundDevices) { _foundDevices.Clear(); }
@@ -147,6 +152,7 @@ namespace GridDominance.Android.Impl
 
 		public void StartScan()
 		{
+			State = BluetoothAdapterState.Scanning;
 			Task.Run(TaskStartScan);
 		}
 
@@ -157,9 +163,12 @@ namespace GridDominance.Android.Impl
 				await _adapter.StopScanningForDevicesAsync();
 
 				_adapter.ScanMode = ScanMode.LowLatency;
+				_adapter.ScanTimeout = 10 * 1000;
 				lock (_foundDevices) { _foundDevices.Clear(); }
 
 				await _adapter.StartScanningForDevicesAsync();
+
+				await Task.Delay(10);
 			}
 			catch (Exception e)
 			{
@@ -170,7 +179,8 @@ namespace GridDominance.Android.Impl
 
 		public void CancelScan()
 		{
-			_adapter.StopScanningForDevicesAsync().RunSynchronously();
+			Task t = _adapter.StopScanningForDevicesAsync();
+			t.Wait();
 		}
 
 		public void StartWaiting()
@@ -203,7 +213,7 @@ namespace GridDominance.Android.Impl
 
 				_connectedCharactersistic.ValueUpdated += CharactersisticOnValueUpdated;
 
-				RemoteDevice = ((BTDeviceWrapper)d);
+				RemoteDevice = ((BLEDeviceWrapper)d);
 				State = BluetoothAdapterState.Connected;
 
 				await _connectedCharactersistic.StartUpdatesAsync();

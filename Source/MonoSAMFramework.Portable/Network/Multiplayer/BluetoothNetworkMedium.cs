@@ -75,6 +75,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 			var xlastState = _lastState;
 			_lastState = _client.State;
 
+			_client.Update();
+
 			if (_client.State == BluetoothAdapterState.AdapterNotFound)
 			{
 				error = SAMNetworkConnection.ErrorType.BluetoothAdapterNotFound;
