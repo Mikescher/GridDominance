@@ -70,7 +70,7 @@ function run() {
 		$vb = $config['latest_version'];
 
 		if (version_compare($va, $vb, '>=') ) {
-			sendmail($subject, $content, $config['email-clientlog-target'], $config['email-clientlog-sender']);
+			if ($config['sendmail']) sendmail($subject, $content, $config['email-clientlog-target'], $config['email-clientlog-sender']);
 		}
 	} catch (Exception $e) {
 		outputErrorException(Errors::INTERNAL_EXCEPTION, 'Cannot send mail', $e, LOGLEVEL::ERROR);

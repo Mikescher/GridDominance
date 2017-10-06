@@ -81,7 +81,7 @@ function logError($msg, $sendmail=true) {
 		$content .= '$_POST:'                . "\n" . print_r($_POST, true)               . "\n";
 		$content .= '$_FILES:'               . "\n" . print_r($_FILES, true)              . "\n";
 
-		if ($sendmail) sendMail($subject, $content, $config['email-error-target'], $config['email-error-sender']);
+		if ($config['sendmail'] && $sendmail) sendMail($subject, $content, $config['email-error-target'], $config['email-error-sender']);
 	} catch (Exception $e) {
 		$exc = $e;
 	}
