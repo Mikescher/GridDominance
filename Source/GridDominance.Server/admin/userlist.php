@@ -100,16 +100,16 @@
 
     <div class="infocontainer">
         <div class="infodiv">
-            All: <?php echo countUsers(true, null, "", "", "", "", "", -1); ?>
+            All: <?php echo countUsers(true, null, -1, "", "", "", "", ""); ?>
         </div>
         <div class="infodiv">
-            With score: <?php echo countUsers(false, null, "", "", "", "", "", -1); ?>
+            With score: <?php echo countUsers(false, null, -1, "", "", "", "", ""); ?>
         </div>
         <div class="infodiv">
-            Registered: <?php echo countUsers(true, true, "", "", "", "", "", -1); ?>
+            Registered: <?php echo countUsers(true, true, -1, "", "", "", "", ""); ?>
         </div>
         <div class="infodiv">
-            Today active: <?php echo countUsers(true, null, "", "", "", "", "", 1); ?>
+            Today active: <?php echo countUsers(true, null, 1, "", "", "", "", ""); ?>
         </div>
     </div>
 
