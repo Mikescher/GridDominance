@@ -31,6 +31,8 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_CHANGE_PW          = 6;
 		private const int RETRY_GETRANKING         = 6;
 
+		private const int MULTISCORE_PARTITION_SIZE = 64;
+
 		private readonly IGDOperatingSystemBridge bridge;
 
 		public GDServerAPI(IGDOperatingSystemBridge b) : base(GDConstants.SERVER_URL, GDConstants.SERVER_SECRET)
@@ -488,16 +490,20 @@ namespace GridDominance.Shared.Network
 		{
 			profile.NeedsReupload = false;
 
-			var b1 = await ReuploadWorld(profile, Levels.WORLD_001.ID);
-			var b2 = await ReuploadWorld(profile, Levels.WORLD_002.ID);
-			var b3 = await ReuploadWorld(profile, Levels.WORLD_003.ID);
-			var b4 = await ReuploadWorld(profile, Levels.WORLD_004.ID);
-			var b5 = await ReuploadWorld(profile, Levels.WORLD_ID_TUTORIAL);
+			var sarray = CreateScoreStrings(profile, MULTISCORE_PARTITION_SIZE).ToList();
 
-			return b1 && b2 && b3 && b4 && b5;
+			bool ok = true;
+
+			foreach (var sarr in sarray)
+			{
+				bool r = await ReuploadMulti(profile, sarr);
+				if (!r) ok = false;
+			}
+			
+			return ok;
 		}
 
-		private async Task<bool> ReuploadWorld(PlayerProfile profile, Guid world)
+		private async Task<bool> ReuploadMulti(PlayerProfile profile, string data)
 		{
 			try
 			{
@@ -506,12 +512,9 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
 
-				//ps.AddParameterBigCompressed("data", CreateScoreString(profile, world));
-				var sarray = CreateScoreArray(profile, world);
-				if (sarray.Length == 0) return true;
+				ps.AddParameterBigCompressed("data", data);
 
-				ps.AddParameterJson("data-count", sarray.Length, false);
-				ps.AddParameterJson("data", sarray);
+				ps.AddParameterJson("data-length", data.Length, false);
 
 				ps.AddParameterInt("s0", profile.TotalPoints);
 				ps.AddParameterInt("s1", profile.GetWorldPoints(Levels.WORLD_001));
@@ -525,8 +528,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("t4", profile.GetWorldHighscoreTime(Levels.WORLD_004));
 				ps.AddParameterInt("sx", profile.MultiplayerPoints);
 
-				//var response = await QueryAsync<QueryResultSetMultiscore>("set-multiscore-2", ps, RETRY_DOWNLOADDATA);
-				var response = await QueryAsync<QueryResultSetMultiscore>("set-multiscore", ps, RETRY_DOWNLOADDATA);
+				var response = await QueryAsync<QueryResultSetMultiscore>("set-multiscore-2", ps, RETRY_DOWNLOADDATA);
 
 				if (response == null)
 				{
@@ -1093,29 +1095,41 @@ namespace GridDominance.Shared.Network
 			});
 		}
 
-		private string CreateScoreString(PlayerProfile profile, Guid? world)
+		private IEnumerable<string> CreateScoreStrings(PlayerProfile profile, int partitionSize)
 		{
 			var d = new StringBuilder();
 
+			int c = 0;
+
 			foreach (var ld in profile.LevelData)
 			{
-				if (world != null && Levels.MAP_LEVELS_WORLDS.TryGetValue(ld.Key, out var levelworld) && levelworld != world.Value) continue;
+				if (!ld.Value.HasAnyCompleted()) continue;
 
 				d.Append(ld.Key.ToString("N"));
 				d.Append('@');
 
-				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_0)) d.Append(ld.Value.Data[FractionDifficulty.DIFF_0].BestTime);
+				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_0)) { d.Append(ld.Value.Data[FractionDifficulty.DIFF_0].BestTime); c++; }
 				d.Append(';');
-				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_1)) d.Append(ld.Value.Data[FractionDifficulty.DIFF_1].BestTime);
+				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_1)) { d.Append(ld.Value.Data[FractionDifficulty.DIFF_1].BestTime); c++; }
 				d.Append(';');
-				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_2)) d.Append(ld.Value.Data[FractionDifficulty.DIFF_2].BestTime);
+				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_2)) { d.Append(ld.Value.Data[FractionDifficulty.DIFF_2].BestTime); c++; }
 				d.Append(';');
-				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_3)) d.Append(ld.Value.Data[FractionDifficulty.DIFF_3].BestTime);
+				if (ld.Value.HasCompletedExact(FractionDifficulty.DIFF_3)) { d.Append(ld.Value.Data[FractionDifficulty.DIFF_3].BestTime); c++; }
 
 				d.Append('\n');
+
+				if (c > partitionSize)
+				{
+					yield return d.ToString();
+					d.Clear();
+					c = 0;
+				}
 			}
 
-			return d.ToString();
+			if (c > 0)
+			{
+				yield return d.ToString();
+			}
 		}
 
 		private object[] CreateScoreArray(PlayerProfile profile, Guid? world)

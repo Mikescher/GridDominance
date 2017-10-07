@@ -289,14 +289,14 @@ function sendMail($subject, $content, $to, $from) {
 function decode_scoredata($str) {
 	$r = [];
 
-	foreach (preg_split('\n', $str) as $line)
+	foreach (explode("\n", $str) as $line)
 	{
 		if (trim($line) === "") continue;
 
-		$spl1 = preg_split('@', $str);
+		$spl1 = explode('@', $line);
 		if (count($spl1) != 2) throw new Exception("score data format failure (1) in line $line");
 
-		$spl2 = preg_split(';', $spl1[1]);
+		$spl2 = explode(';', $spl1[1]);
 		if (count($spl2) != 4) throw new Exception("score data format failure (2) in line $line");
 
 		if (strlen($spl1[0]) != 32) throw new Exception("score data format failure (3) in line $line");
@@ -307,7 +307,12 @@ function decode_scoredata($str) {
 		{
 			if (trim($spl2[$diff]) === "") continue;
 
-			$r []= [ 'levelid' => $levelid, 'difficulty' => $diff, 'leveltime' => trim($spl2[$diff]) ];
+			$d = (object) [];
+			$d->levelid = $levelid;
+			$d->difficulty = $diff;
+			$d->leveltime = trim($spl2[$diff]);
+
+			$r []= $d;
 		}
 	}
 
