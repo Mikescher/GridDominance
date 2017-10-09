@@ -141,7 +141,10 @@
     </div>
 
 	<?php
-	$groups = getScoreDistribution();
+
+	$PARTITIONSIZE = 50;
+
+	$groups = getScoreDistribution($PARTITIONSIZE);
 	$cgroups = array_merge([], $groups);
 
 	$sum = 0;
@@ -167,7 +170,7 @@
                         type: 'line',
                         data:
                             {
-                                labels: [ <?php foreach ($groups as $entry) echo $entry['score'].","; ?> ],
+                                labels: [ <?php foreach ($groups as $entry) echo "'".($entry['score']-$PARTITIONSIZE+1)." - ".$entry['score']."',"; ?> ],
                                 datasets:
                                     [
                                         {

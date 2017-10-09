@@ -254,8 +254,12 @@ function worldGuidToSQLField($worldid)
 	throw new Exception("Unknown WorldID: " . $worldid);
 }
 
-function getScoreDistribution() {
-	return sql_query_assoc('getScoreDistribution', "SELECT score AS score, COUNT(*) AS count FROM users WHERE score > 0 GROUP BY score");
+function getScoreDistribution($partitionsize) {
+	return sql_query_assoc_prep('getScoreDistribution', "SELECT q.xscore AS score, count FROM (SELECT CEIL(score/:ps1)*:ps2 AS xscore, COUNT(*) AS count FROM users WHERE score > 0 GROUP BY xscore) AS q",
+	[
+		[':ps1', $partitionsize, PDO::PARAM_INT],
+		[':ps2', $partitionsize, PDO::PARAM_INT],
+	]);
 }
 
 function countUsersByUnlock($u) {
@@ -392,7 +396,7 @@ function getRunLogActionList() {
 }
 
 function getRunLog($action) {
-	return sql_query_assoc_prep('getRunLogActionList', "SELECT * FROM runlog_history WHERE action = :ac ORDER BY exectime DESC LIMIT 50",
+	return sql_query_assoc_prep('getRunLogActionList', "SELECT * FROM runlog_history WHERE action = :ac AND exectime >= now() - INTERVAL 28 DAY ORDER BY exectime DESC",
 	[
 		[':ac', $action, PDO::PARAM_STR],
 	]);
