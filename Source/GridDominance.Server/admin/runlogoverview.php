@@ -47,11 +47,14 @@
 	asort($dates);
 	$dates = array_unique($dates);
 
-    $datedata = [];
+	$datedata_avg    = [];
+	$datedata_median = [];
 
 	foreach ($rloglist as $raction)
 	{
-	    $arr = [];
+		$arr_avg    = [];
+		$arr_median = [];
+
 
 	    $last = 0;
 	    foreach ($dates as $date)
@@ -59,13 +62,28 @@
             $v = $last;
             foreach ($runlogs[$raction['action']] as $entry)
             {
-                if (fmtd($entry['exectime']) == $date) $v = round(($entry['duration']/$entry['count'])/(1000.0*1000.0), 5);
+                if (fmtd($entry['exectime']) == $date) $v = round(($entry['duration_avg'])/(1000.0*1000.0), 5);
             }
-			$arr []= $v;
+			$arr_avg []= $v;
             $last = $v;
         }
 
-		$datedata[$raction['action']] = $arr;
+
+		$last = 0;
+		foreach ($dates as $date)
+		{
+			$v = $last;
+			foreach ($runlogs[$raction['action']] as $entry)
+			{
+				if (fmtd($entry['exectime']) == $date) $v = round(($entry['duration_median'])/(1000.0*1000.0), 5);
+			}
+			$arr_median []= $v;
+			$last = $v;
+		}
+
+
+		$datedata_avg[$raction['action']]    = $arr_avg;
+		$datedata_median[$raction['action']] = $arr_median;
     }
 
     $COLORS =
@@ -82,8 +100,7 @@
     ?>
 
     <div data-collapse>
-
-        <h2 class="open collapseheader">History</h2>
+        <h2 class="open collapseheader">History (Median)</h2>
         <div>
             <canvas id="scoreChart1" width="85%" height="25%"></canvas>
             <script>
@@ -103,7 +120,7 @@
 										<?php if ($raction['action'] == 'cron') continue; ?>
                                         {
                                             label: '<?php echo $raction['action']; ?>',
-                                            data: [ <?php foreach ($datedata[$raction['action']] as $dd) echo $dd.","; ?> ],
+                                            data: [ <?php foreach ($datedata_median[$raction['action']] as $dd) echo $dd.","; ?> ],
                                             borderColor: '<?php echo $COLORS[$i%count($COLORS)]; ?>',
                                             backgroundColor: 'transparent',
                                         },
@@ -116,7 +133,39 @@
     </div>
 
     <div data-collapse>
+        <h2 class="collapseheader">History (Average)</h2>
+        <div>
+            <canvas id="scoreChart3" width="85%" height="25%"></canvas>
+            <script>
+                let ctx3 = document.getElementById("scoreChart3").getContext('2d');
 
+                new Chart(ctx3,
+                    {
+                        type: 'line',
+                        data:
+                            {
+                                labels: [ <?php foreach ($dates as $rld) echo "'".$rld."',"; ?> ],
+                                datasets:
+                                    [
+										<?php $i=0; ?>
+										<?php foreach ($rloglist as $raction): ?>
+										<?php $i++; ?>
+										<?php if ($raction['action'] == 'cron') continue; ?>
+                                        {
+                                            label: '<?php echo $raction['action']; ?>',
+                                            data: [ <?php foreach ($datedata_avg[$raction['action']] as $dd) echo $dd.","; ?> ],
+                                            borderColor: '<?php echo $COLORS[$i%count($COLORS)]; ?>',
+                                            backgroundColor: 'transparent',
+                                        },
+										<?php endforeach; ?>
+                                    ]
+                            },
+                    });
+            </script>
+        </div>
+    </div>
+
+    <div data-collapse>
         <h2 class="collapseheader">History (Cron)</h2>
         <div>
             <canvas id="scoreChart2" width="85%" height="25%"></canvas>
@@ -135,7 +184,7 @@
 										<?php if ($raction['action'] != 'cron') continue; ?>
                                         {
                                             label: '<?php echo $raction['action']; ?>',
-                                            data: [ <?php foreach ($datedata[$raction['action']] as $dd) echo $dd.","; ?> ],
+                                            data: [ <?php foreach ($datedata_avg[$raction['action']] as $dd) echo $dd.","; ?> ],
                                         },
 										<?php endforeach; ?>
                                     ]
@@ -157,8 +206,10 @@
                 <th width="400px">Timesspan</th>
                 <th width="100px">Count</th>
                 <th width="150px">Duration (Avg)</th>
+                <th width="150px">Duration (Med)</th>
                 <th width="150px">Duration (Min)</th>
                 <th width="150px">Duration (Max)</th>
+                <th width="150px">Duration (Total)</th>
             </tr>
             </thead>
 			<?php foreach ($runlogs[$raction['action']] as $entry): ?>
@@ -166,9 +217,11 @@
                     <td><?php echo $entry['exectime']; ?></td>
                     <td><?php echo $entry['min_timestamp'] .  " - " . $entry['max_timestamp']; ?></td>
                     <td><?php echo $entry['count']; ?></td>
-                    <td><?php echo round(($entry['duration']/$entry['count'])/(1000.0*1000.0), 5); ?> s</td>
+                    <td><?php echo round(($entry['duration_avg'])/(1000.0*1000.0), 5); ?> s</td>
+                    <td><?php echo round(($entry['duration_median'])/(1000.0*1000.0), 5); ?> s</td>
                     <td><?php echo round(($entry['duration_min'])/(1000.0*1000.0), 5); ?> s</td>
                     <td><?php echo round(($entry['duration_max'])/(1000.0*1000.0), 5); ?> s</td>
+                    <td><?php echo round(($entry['duration'])/(1000.0*1000.0), 5); ?> s</td>
                 </tr>
 			<?php endforeach; ?>
         </table>

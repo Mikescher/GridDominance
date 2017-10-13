@@ -65,7 +65,7 @@
 
         <h2 class="open collapseheader">Overview</h2>
 
-        <table class="sqltab pure-table pure-table-bordered">
+        <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
                 <th style='width: 300px'>error id</th>

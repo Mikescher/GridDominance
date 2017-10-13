@@ -144,6 +144,8 @@ CREATE TABLE runlog_history (
   duration        bigint(20)    NOT NULL,
   duration_min    int(11)       NOT NULL,
   duration_max    int(11)       NOT NULL,
+  duration_avg    double        NOT NULL,
+  duration_median double        NOT NULL,
 
   PRIMARY KEY (id)
 );
