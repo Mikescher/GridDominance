@@ -27,8 +27,10 @@ h1 {
 }
 
 h2 {
-  padding-top: 64px;
   text-align: center;
+
+  background: #F8F8F8;
+  padding: 5px 0px;
 }
 
 .sqltab {
@@ -54,6 +56,18 @@ body {
 
 .tablebox {
   text-align: left;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.graphbox {
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.formbox {
   display: flex;
   justify-content: center;
   flex-flow: column;
@@ -173,7 +187,7 @@ h1 a:hover { color: blue; text-decoration: underline; }
   margin: 35px 0 10px 0;
   font-weight: bold;
   font-size: x-large;
-
+  text-align: center;
 }
 
 .subhshdr a {

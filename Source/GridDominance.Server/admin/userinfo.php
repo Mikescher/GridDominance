@@ -260,7 +260,7 @@
         </table>
     </div>
 
-    <div data-collapse>
+    <div class="formbox" data-collapse>
         <h2 class="open collapseheader">Change password</h2>
 
         <form action="force_change_password.php">

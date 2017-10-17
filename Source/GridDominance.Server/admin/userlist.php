@@ -146,7 +146,6 @@
 
 	$groups = getScoreDistribution($PARTITIONSIZE);
 	$cgroups = array_merge([], $groups);
-
 	$sum = 0;
 	for ($i=0; $i < count($cgroups); $i++)
 	{
@@ -154,85 +153,133 @@
 		$cgroups[$i]['count'] = $sum;
 	}
 
+    $userdist = getNewUsersDistribution();
+    $cuserdist = array_merge([], $userdist);
+	$sum = 0;
+	for ($i=0; $i < count($cuserdist); $i++)
+	{
+		$sum += $cuserdist[$i]['count'];
+		$cuserdist[$i]['count'] = $sum;
+	}
+    $udates = [];
+    for ($i=0; $i < count($userdist); $i++) $udates []= $userdist[$i]['date'];
+
 	?>
 
-    <div data-collapse>
+    <div class="graphbox" data-collapse>
 
         <h2 class="collapseheader">Score Distribution</h2>
         <div>
-        <div>
-            <canvas id="scoreChart1" width="85%" height="25%"></canvas>
-            <script>
-                let ctx1 = document.getElementById("scoreChart1").getContext('2d');
+            <div>
+                <canvas id="scoreChart1" width="85%" height="25%"></canvas>
+                <script>
+                    let ctx1 = document.getElementById("scoreChart1").getContext('2d');
 
-                new Chart(ctx1,
-                    {
-                        type: 'line',
-                        data:
-                            {
-                                labels: [ <?php foreach ($groups as $entry) echo "'".($entry['score']-$PARTITIONSIZE+1)." - ".$entry['score']."',"; ?> ],
-                                datasets:
-                                    [
-                                        {
-                                            label: 'count',
-                                            data: [ <?php foreach ($groups as $entry) echo $entry['count'].","; ?> ],
-                                        }
-                                    ]
-                            },
-                        options:
-                            {
-                                animation:
-                                    {
-                                        duration: 0,
-                                    },
-                                elements:
-                                    {
-                                        line:
+                    new Chart(ctx1,
+                        {
+                            type: 'line',
+                            data:
+                                {
+                                    labels: [ <?php foreach ($groups as $entry) echo "'".($entry['score']-$PARTITIONSIZE+1)." - ".$entry['score']."',"; ?> ],
+                                    datasets:
+                                        [
                                             {
-                                                tension: 0 ,
+                                                label: 'count',
+                                                data: [ <?php foreach ($groups as $entry) echo $entry['count'].","; ?> ],
                                             }
-                                    },
-                            }
-                    });
-            </script>
-        </div>
-        <div>
-            <canvas id="scoreChart2" width="85%" height="25%"></canvas>
-            <script>
-                let ctx2 = document.getElementById("scoreChart2").getContext('2d');
+                                        ]
+                                },
+                            options: { animation: { duration: 0, }, elements:  { line: { tension: 0, } }, }
+                        });
+                </script>
+            </div>
+            <div>
+                <canvas id="scoreChart2" width="85%" height="25%"></canvas>
+                <script>
+                    let ctx2 = document.getElementById("scoreChart2").getContext('2d');
 
-                new Chart(ctx2,
-                    {
-                        type: 'line',
-                        data:
-                            {
-                                labels: [ <?php foreach ($cgroups as $entry) echo $entry['score'].","; ?> ],
-                                datasets:
-                                    [
-                                        {
-                                            label: 'count',
-                                            data: [ <?php foreach ($cgroups as $entry) echo $entry['count'].","; ?> ],
-                                            pointRadius: 0,
-                                        }
-                                    ]
-                            },
-                        options:
-                            {
-                                animation:
-                                    {
-                                        duration: 0,
-                                    },
-                                elements:
-                                    {
-                                        line:
+                    new Chart(ctx2,
+                        {
+                            type: 'line',
+                            data:
+                                {
+                                    labels: [ <?php foreach ($cgroups as $entry) echo $entry['score'].","; ?> ],
+                                    datasets:
+                                        [
                                             {
-                                                tension: 0 ,
+                                                label: 'count',
+                                                data: [ <?php foreach ($cgroups as $entry) echo $entry['count'].","; ?> ],
+                                                pointRadius: 0,
                                             }
-                                    },
-                            }
-                    });
-            </script>
+                                        ]
+                                },
+                            options:
+                                {
+                                    animation:
+                                        {
+                                            duration: 0,
+                                        },
+                                    elements:
+                                        {
+                                            line:
+                                                {
+                                                    tension: 0 ,
+                                                }
+                                        },
+                                }
+                        });
+                </script>
+            </div>
         </div>
+    </div>
+
+    <div class="graphbox" data-collapse>
+        <h2 class="collapseheader">New Users / Time</h2>
+        <div>
+            <div>
+                <canvas id="scoreChart3" width="85%" height="25%"></canvas>
+                <script>
+                    let ctx3 = document.getElementById("scoreChart3").getContext('2d');
+
+                    new Chart(ctx3,
+                        {
+                            type: 'line',
+                            data:
+                                {
+                                    labels: [ <?php foreach ($udates as $rld) echo "'".$rld."',"; ?> ],
+                                    datasets:
+                                        [
+                                            {
+                                                label: 'Accounts',
+                                                data: [ <?php foreach ($userdist as $dd) echo $dd['count'].","; ?> ],
+                                            },
+                                        ]
+                                },
+                        });
+                </script>
+            </div>
+            <div>
+                <canvas id="scoreChart4" width="85%" height="25%"></canvas>
+                <script>
+                    let ctx4 = document.getElementById("scoreChart4").getContext('2d');
+
+                    new Chart(ctx4,
+                        {
+                            type: 'line',
+                            data:
+                                {
+                                    labels: [ <?php foreach ($udates as $rld) echo "'".$rld."',"; ?> ],
+                                    datasets:
+                                        [
+                                            {
+                                                label: 'Accounts',
+                                                data: [ <?php foreach ($cuserdist as $dd) echo $dd['count'].","; ?> ],
+                                            },
+                                        ]
+                                },
+                        });
+                </script>
+            </div>
         </div>
     </div>
 

@@ -262,6 +262,14 @@ function getScoreDistribution($partitionsize) {
 	]);
 }
 
+function getNewUsersDistribution() {
+	return sql_query_assoc('getNewUsersDistribution', "SELECT date(creation_time) AS date, COUNT(*) AS count FROM users WHERE creation_time >= now() - INTERVAL 1 YEAR GROUP BY date(creation_time)");
+}
+
+function getEntryChangedDistribution() {
+	return sql_query_assoc('getEntryChangedDistribution', "SELECT date(last_changed) AS date, COUNT(*) AS count FROM level_highscores WHERE last_changed >= now() - INTERVAL 1 YEAR GROUP BY date(last_changed)");
+}
+
 function countUsersByUnlock($u) {
 	$any = "\"%\"";
 	return sql_query_num_prep('countUsersByUnlock', "SELECT COUNT(*) FROM users WHERE unlocked_worlds LIKE CONCAT($any, :u, $any)",
@@ -346,6 +354,32 @@ function statisticsUserByAppType() {
 	return sql_query_assoc('statisticsUserByAppType', 'SELECT app_type AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_type');
 }
 
+function statisticsUserByWorld() {
+	return
+	[
+		[
+			'world' => '{d34db335-0001-4000-7711-000000100001}',
+			'count' => sql_query_num('statisticsUserByWorld_0', "SELECT COUNT(*) FROM users WHERE (score_w1+score_w2+score_w3+score_w4)<>score")
+		],
+		[
+			'world' => '{d34db335-0001-4000-7711-000000200001}',
+			'count' => sql_query_num('statisticsUserByWorld_1', "SELECT COUNT(*) FROM users WHERE score_w1>0")
+		],
+		[
+			'world' => '{d34db335-0001-4000-7711-000000200002}',
+			'count' => sql_query_num('statisticsUserByWorld_2', "SELECT COUNT(*) FROM users WHERE score_w2>0")
+		],
+		[
+			'world' => '{d34db335-0001-4000-7711-000000200003}',
+			'count' => sql_query_num('statisticsUserByWorld_3', "SELECT COUNT(*) FROM users WHERE score_w3>0")
+		],
+		[
+			'world' => '{d34db335-0001-4000-7711-000000200004}',
+			'count' => sql_query_num('statisticsUserByWorld_4', "SELECT COUNT(*) FROM users WHERE score_w4>0")
+		],
+	];
+}
+
 function getManualRecalculatedUserTimes($uid) {
 	return sql_query_assoc_prep('getManualRecalculatedUserTimes', loadSQL('manual_calculate_time'),
 	[
@@ -387,8 +421,8 @@ function getLastRunLogCount() {
 	return sql_query_num('getLastRunLogCount', "SELECT SUM(count) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");
 }
 
-function getLastTimingAverage() {
-	return sql_query_num('getLastTimingAverage', "SELECT (SUM(duration)/SUM(count)) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");
+function getLastTimingMedian() {
+	return sql_query_num('getLastTimingMedian', "SELECT (SUM(duration_median)/COUNT(*)) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");
 }
 
 function getRunLogActionList() {

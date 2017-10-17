@@ -13,6 +13,7 @@
 <body id="rootbox">
 
     <script src="jquery-3.1.0.min.js"></script>
+    <script src="Chart.min.js"></script>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
 
@@ -38,6 +39,40 @@
         </div>
         <div class="infodiv">
             Count (guess): <?php echo $guesscount ; ?>
+        </div>
+    </div>
+
+    <?php
+
+    $dist = getEntryChangedDistribution();
+    $udates = [];
+    for ($i=0; $i < count($dist); $i++) $udates []= $dist[$i]['date'];
+
+    ?>
+
+    <div class="graphbox" data-collapse>
+        <h2 class="open collapseheader">History</h2>
+        <div>
+            <canvas id="scoreChart1" width="85%" height="25%"></canvas>
+            <script>
+                let ctx1 = document.getElementById("scoreChart1").getContext('2d');
+
+                new Chart(ctx1,
+                    {
+                        type: 'line',
+                        data:
+                            {
+                                labels: [ <?php foreach ($udates as $rld) echo "'".$rld."',"; ?> ],
+                                datasets:
+                                    [
+                                        {
+                                            label: 'last_changed',
+                                            data: [ <?php foreach ($dist as $dd) echo $dd['count'].","; ?> ],
+                                        },
+                                    ]
+                            },
+                    });
+            </script>
         </div>
     </div>
 
@@ -80,5 +115,6 @@
     <?php printSQLStats(); ?>
 
     <script src="sorttable.js"></script>
+    <script src="jquery.collapse.js"></script>
 </body>
 </html>

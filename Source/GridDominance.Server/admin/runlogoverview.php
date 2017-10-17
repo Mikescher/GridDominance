@@ -28,64 +28,6 @@
 
     <?php
 
-	$rloglist = getRunLogActionList();
-    $runlogs = [];
-	foreach ($rloglist as $raction) $runlogs[$raction['action']] = getRunLog($raction['action']);
-
-	function fmtd($df)
-    {
-		$d = DateTime::createFromFormat('Y-m-d H:i:s', $df);
-		$d->setTime(round($d->format('H')/6)*6, 0, 0);
-		return $d->format('Y-m-d H:i');
-    }
-
-	$dates = [];
-	foreach ($rloglist as $raction)
-	{
-		foreach ($runlogs[$raction['action']] as $entry) $dates []= fmtd($entry['exectime']);
-    }
-	asort($dates);
-	$dates = array_unique($dates);
-
-	$datedata_avg    = [];
-	$datedata_median = [];
-
-	foreach ($rloglist as $raction)
-	{
-		$arr_avg    = [];
-		$arr_median = [];
-
-
-	    $last = 0;
-	    foreach ($dates as $date)
-        {
-            $v = $last;
-            foreach ($runlogs[$raction['action']] as $entry)
-            {
-                if (fmtd($entry['exectime']) == $date) $v = round(($entry['duration_avg'])/(1000.0*1000.0), 5);
-            }
-			$arr_avg []= $v;
-            $last = $v;
-        }
-
-
-		$last = 0;
-		foreach ($dates as $date)
-		{
-			$v = $last;
-			foreach ($runlogs[$raction['action']] as $entry)
-			{
-				if (fmtd($entry['exectime']) == $date) $v = round(($entry['duration_median'])/(1000.0*1000.0), 5);
-			}
-			$arr_median []= $v;
-			$last = $v;
-		}
-
-
-		$datedata_avg[$raction['action']]    = $arr_avg;
-		$datedata_median[$raction['action']] = $arr_median;
-    }
-
     $COLORS =
         [
             '#4661EE','#EC5657','#1BCDD1','#8FAABB','#B08BEB','#3EA0DD','#F5A52A','#23BFAA','#FAA586','#EB8CC6',
@@ -99,7 +41,99 @@
 
     ?>
 
-    <div data-collapse>
+    <?php
+    
+	function fmtd($df)
+    {
+		$d = DateTime::createFromFormat('Y-m-d H:i:s', $df);
+		$d->setTime(round($d->format('H')/6)*6, 0, 0);
+		return $d->format('Y-m-d H:i');
+    }
+
+    function getDates($rloglist, $runlogs)
+    {
+        $dates = [];
+        foreach ($rloglist as $raction)
+        {
+            foreach ($runlogs[$raction['action']] as $entry) $dates []= fmtd($entry['exectime']);
+        }
+        asort($dates);
+        $dates = array_unique($dates);
+        return $dates;
+    }
+
+    function getDateData($rloglist, $runlogs, $dates, $field)
+    {
+	    $datedata = [];
+
+        foreach ($rloglist as $raction)
+        {
+            $arr = [];
+
+            $last = 0;
+            foreach ($dates as $date)
+            {
+                $v = $last;
+                foreach ($runlogs[$raction['action']] as $entry)
+                {
+                    if (fmtd($entry['exectime']) == $date) 
+                    {
+                        $v = $entry[$field];
+                        $v = round($v/(1000.0*1000.0), 5);
+                    }
+                }
+                $arr []= $v;
+                $last = $v;
+            }
+
+            $datedata[$raction['action']]    = $arr;
+        }
+
+        return $datedata;
+    }
+
+    function getSumDateData($rloglist, $runlogs, $dates, $field)
+    {
+	    $datedata = [];
+
+        foreach ($dates as $date)
+        {
+			$sum = 0;
+            foreach ($rloglist as $raction)
+            {
+                foreach ($runlogs[$raction['action']] as $entry)
+                {
+                    if (fmtd($entry['exectime']) == $date) 
+                    {
+                        $v = $entry[$field];
+                        $sum = $sum + $v;
+                    }
+                }
+            }
+
+            $datedata []= $sum;
+        }
+        
+        return $datedata;
+    }
+
+    ?>
+
+    <?php
+
+	$rloglist = getRunLogActionList();
+    $runlogs = [];
+	foreach ($rloglist as $raction) $runlogs[$raction['action']] = getRunLog($raction['action']);
+
+	$dates = getDates($rloglist, $runlogs);
+
+	$datedata_avg      = getDateData($rloglist, $runlogs, $dates, 'duration_avg');
+	$datedata_median   = getDateData($rloglist, $runlogs, $dates, 'duration_median');
+	$datedata_reqcount = getSumDateData($rloglist, $runlogs, $dates, 'count');
+
+    ?>
+
+    <div class="graphbox" data-collapse>
         <h2 class="open collapseheader">History (Median)</h2>
         <div>
             <canvas id="scoreChart1" width="85%" height="25%"></canvas>
@@ -132,7 +166,7 @@
         </div>
     </div>
 
-    <div data-collapse>
+    <div class="graphbox" data-collapse>
         <h2 class="collapseheader">History (Average)</h2>
         <div>
             <canvas id="scoreChart3" width="85%" height="25%"></canvas>
@@ -165,7 +199,7 @@
         </div>
     </div>
 
-    <div data-collapse>
+    <div class="graphbox" data-collapse>
         <h2 class="collapseheader">History (Cron)</h2>
         <div>
             <canvas id="scoreChart2" width="85%" height="25%"></canvas>
@@ -187,6 +221,32 @@
                                             data: [ <?php foreach ($datedata_avg[$raction['action']] as $dd) echo $dd.","; ?> ],
                                         },
 										<?php endforeach; ?>
+                                    ]
+                            },
+                    });
+            </script>
+        </div>
+    </div>
+
+    <div class="graphbox" data-collapse>
+        <h2 class="collapseheader">Requests/Time</h2>
+        <div>
+            <canvas id="scoreChart4" width="85%" height="25%"></canvas>
+            <script>
+                let ctx4 = document.getElementById("scoreChart4").getContext('2d');
+
+                new Chart(ctx4,
+                    {
+                        type: 'line',
+                        data:
+                            {
+                                labels: [ <?php foreach ($dates as $rld) echo "'".$rld."',"; ?> ],
+                                datasets:
+                                    [
+                                        {
+                                            label: 'Requests',
+                                            data: [ <?php foreach ($datedata_reqcount as $dd) echo $dd.","; ?> ],
+                                        },
                                     ]
                             },
                     });

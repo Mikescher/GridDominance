@@ -66,7 +66,8 @@ $u4 = statisticsUserByAppVersion();
 $u5 = statisticsUserByUnlocks();
 $u6 = statisticsUserByAnon();
 $u7 = statisticsUserByAppType();
-$u8 =  statisticsUserByScoreRange();
+$u8 = statisticsUserByScoreRange();
+$u9 = statisticsUserByWorld();
 
 ?>
 
@@ -187,7 +188,7 @@ $u8 =  statisticsUserByScoreRange();
 
     </div>
 
-    <div class="column3_3" data-collapse>
+    <div class="column3_2" data-collapse>
         <h2 class="collapseheader">Users By Anon</h2>
 
         <div class="tablebox">
@@ -260,6 +261,28 @@ $u8 =  statisticsUserByScoreRange();
                         <td>MAX</td>
                         <td><?php echo countFirstPlaceUsers(); ?></td>
                     </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="column3_2" data-collapse>
+        <h2 class="collapseheader">Users By World</h2>
+
+        <div class="tablebox">
+            <table class="sqltab pure-table pure-table-bordered sortable">
+                <thead>
+                <tr>
+                    <th>Anonymous User</th>
+                    <th>Count</th>
+                </tr>
+                </thead>
+				<?php foreach ($u9 as $entry): ?>
+                    <tr>
+                        <td><?php echo fmtw($entry['world']); ?></td>
+                        <td><?php echo $entry['count']; ?></td>
+                    </tr>
+				<?php endforeach; ?>
             </table>
         </div>
 

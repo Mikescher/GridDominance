@@ -133,7 +133,7 @@
             <?php endif; ?> 
         </div>
         <div class="infodiv">
-            Requests (1d):&nbsp;<?php echo getLastRunLogCount(); ?>&nbsp;(=&nbsp;<a href="runlogoverview.php"><?php echo round(getLastTimingAverage()/(1000.0*1000.0), 4); ?>s</a>)
+            Requests (1d):&nbsp;<?php echo getLastRunLogCount(); ?>&nbsp;(=&nbsp;<a href="runlogoverview.php"><?php echo round(getLastTimingMedian()/(1000.0*1000.0), 4); ?>s</a>)
         </div>
 	</div>
 
@@ -177,8 +177,8 @@
         <table class="sqltab pure-table pure-table-bordered" >
             <thead>
             <tr>
-                <th style='width: 250px'>Logfile</th>
-                <th style='width: 250px'>Changedate</th>
+                <th style='width: 300px'>Logfile</th>
+                <th style='width: 200px'>Changedate</th>
                 <th style='width: 100px'>Entries</th>
                 <th style='width: 100px'>Size</th>
                 <th style='width: 100px'>Content</th>
@@ -204,7 +204,7 @@
         </table>
     </div>
 
-    <div data-collapse>
+    <div class="tablebox" data-collapse>
         <h2 class="open collapseheader">Highscore</h2>
 
         <div>
