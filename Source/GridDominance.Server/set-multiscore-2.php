@@ -55,6 +55,7 @@ function run() {
 
 
 try {
+	set_time_limit(20);
 	init("set-multiscore-2");
 	run();
 } catch (Exception $e) {

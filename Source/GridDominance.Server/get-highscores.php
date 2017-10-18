@@ -20,6 +20,7 @@ function run() {
 }
 
 try {
+	set_time_limit(20);
 	init("get-highscores");
 	run();
 } catch (Exception $e) {

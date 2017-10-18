@@ -257,7 +257,7 @@
     <?php foreach($rloglist as $raction): ?>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader"><?php echo $raction['action']; ?></h2>
+        <h2 class="collapseheader"><?php echo $raction['action']; ?></h2>
 
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
