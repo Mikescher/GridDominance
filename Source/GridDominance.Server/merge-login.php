@@ -62,7 +62,7 @@ function run() {
 
 
 try {
-	set_time_limit(45);
+	//set_time_limit(45);
 	init("merge-login");
 	run();
 } catch (Exception $e) {

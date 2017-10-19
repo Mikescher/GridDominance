@@ -36,7 +36,7 @@ function run() {
 
 
 try {
-	set_time_limit(10);
+	//set_time_limit(10);
 	init("ping");
 	run();
 } catch (Exception $e) {

@@ -49,7 +49,7 @@ function run() {
 
 
 try {
-	set_time_limit(45);
+	//set_time_limit(45);
 	init("upgrade-user");
 	run();
 } catch (Exception $e) {

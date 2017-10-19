@@ -31,7 +31,7 @@ function run() {
 
 
 try {
-	set_time_limit(20);
+	//set_time_limit(20);
 	init("verify");
 	run();
 } catch (Exception $e) {

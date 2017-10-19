@@ -39,7 +39,7 @@ function run() {
 
 
 try {
-	set_time_limit(20);
+	//set_time_limit(20);
 	init("download-data");
 	run();
 } catch (Exception $e) {
