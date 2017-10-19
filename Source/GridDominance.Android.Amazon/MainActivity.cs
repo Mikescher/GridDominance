@@ -46,7 +46,7 @@ namespace GridDominance.Android
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("AMA_FULL::OnDestroy", e);
+				SAMLog.Error("AMA_AMZN::OnDestroy", e);
 			}
 		}
 
@@ -60,7 +60,7 @@ namespace GridDominance.Android
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("AMA_FULL::OnActivityResult", e);
+				SAMLog.Error("AMA_AMZN::OnActivityResult", e);
 			}
 		}
 	}

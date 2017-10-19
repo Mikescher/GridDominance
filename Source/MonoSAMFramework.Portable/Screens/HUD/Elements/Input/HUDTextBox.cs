@@ -67,7 +67,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 			while (dispText.Length > 0 && textBounds.Width > maxWidth)
 			{
-				dispText = Text.Substring(1);
+				dispText = dispText.Substring(1);
 				textBounds = FontRenderHelper.MeasureStringCached(Font, dispText, FontSize);
 			}
 

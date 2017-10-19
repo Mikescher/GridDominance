@@ -10,12 +10,14 @@ using MonoSAMFramework.Portable.Localization;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
+using GridDominance.Shared.Screens.OverworldScreen;
+using MonoSAMFramework.Portable;
 
 namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_3;
+		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_4;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 		public int HighscoreTime => LevelData.Sum(p => p.Value.HighscoreTime);
@@ -36,6 +38,9 @@ namespace GridDominance.Shared.SaveData
 		public string OnlinePasswordHash;
 		public int OnlineRevisionID;
 		public bool NeedsReupload;
+
+		public bool UnacknowledgedAuthError;
+		public string BackupOnlineUsername;
 
 		public bool SoundsEnabled;
 		public bool EffectsEnabled;
@@ -69,6 +74,9 @@ namespace GridDominance.Shared.SaveData
 			OnlinePasswordHash = string.Empty;
 			OnlineRevisionID = -1;
 			NeedsReupload = false;
+
+			UnacknowledgedAuthError = false;
+			BackupOnlineUsername = string.Empty;
 
 			SoundsEnabled = true;
 			EffectsEnabled = true;
@@ -128,6 +136,31 @@ namespace GridDominance.Shared.SaveData
 			}
 		}
 
+		public void ResetUserOnError()
+		{
+			var err = (AccountType == AccountType.Full);
+
+			if (err)
+			{
+				UnacknowledgedAuthError = true;
+				BackupOnlineUsername = OnlineUsername;
+			}
+
+			OnlineUserID = -1;
+			OnlineUsername = "anonymous";
+			AccountType = AccountType.Local;
+			OnlinePasswordHash = "";
+
+
+			if (err)
+			{
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					if (MainGame.Inst.GetCurrentScreen() is GDOverworldScreen scr) scr.TryShowAuthErrorPanel();
+				});
+			}
+		}
+
 		public int IncMultiplayerScore(int add, bool upload)
 		{
 			if (add == 0) return 0;
@@ -177,6 +210,9 @@ namespace GridDominance.Shared.SaveData
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "revid",                            o => o.OnlineRevisionID,           (o, v) => o.OnlineRevisionID           = v);
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "uploaderr",                        o => o.NeedsReupload,              (o, v) => o.NeedsReupload              = v);
 
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_4, "autherror",                        o => o.UnacknowledgedAuthError,    (o, v) => o.UnacknowledgedAuthError    = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_4, "backupusername",                   o => o.BackupOnlineUsername,       (o, v) => o.BackupOnlineUsername       = v);
+
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "sounds",                           o => o.SoundsEnabled,              (o, v) => o.SoundsEnabled              = v);
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "effect",                           o => o.EffectsEnabled,             (o, v) => o.EffectsEnabled             = v);
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "lang",                             o => o.Language,                   (o, v) => o.Language                   = v);
@@ -202,7 +238,7 @@ namespace GridDominance.Shared.SaveData
 			if (NoAfterSerializeFixes) return;
 #endif
 
-			// In v1.0.1 there was a bug where an INVLOGIN xould result in AccountType=Anonymous but UserID=-1
+			// In v1.0.1 there was a bug where an INVLOGIN would result in AccountType=Anonymous but UserID=-1
 			if (AccountType == AccountType.Local || OnlineUserID == -1)
 			{
 				OnlineUserID = -1;

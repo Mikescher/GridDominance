@@ -115,7 +115,7 @@ namespace GridDominance.Shared.Resources
 
 			MainGame.Inst.DispatchBeginInvoke(() =>
 			{
-				MainGame.Inst.ShowToast("SSP::ERR_EFFECTS", L10N.T(L10NImpl.STR_ERR_MUSICPLAYBACK), 32, FlatColors.Flamingo, FlatColors.Foreground, 8f);
+				MainGame.Inst.ShowToast("SSP::ERR_SONG", L10N.T(L10NImpl.STR_ERR_MUSICPLAYBACK), 32, FlatColors.Flamingo, FlatColors.Foreground, 8f);
 			});
 		}
 	}

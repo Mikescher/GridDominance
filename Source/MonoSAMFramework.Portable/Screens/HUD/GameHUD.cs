@@ -99,6 +99,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			root.AddElement(new HUDModalDialog(root.NonToastChildrenMaxDepth + 1, e, dim, dimTime, closeOnOutOfBoundsOrBackKey));
 		}
 
+		public HUDModalDialog GetCurrentModalDialog()
+		{
+			return root.Children.OfType<HUDModalDialog>().FirstOrDefault();
+		}
+
 		public void AddElement(HUDElement e)
 		{
 			root.AddElement(e);

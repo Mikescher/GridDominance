@@ -89,11 +89,7 @@ namespace GridDominance.Shared.Network
 
 							// something went horribly wrong
 							// create new user on next run
-							profile.OnlineUserID = -1;
-							profile.OnlineUsername = "anonymous";
-							profile.AccountType = AccountType.Local;
-							profile.OnlinePasswordHash = "";
-
+							profile.ResetUserOnError();
 							MainGame.Inst.SaveProfile();
 
 							MainGame.Inst.Backend.CreateUser(MainGame.Inst.Profile).EnsureNoError();
@@ -246,11 +242,7 @@ namespace GridDominance.Shared.Network
 
 							// something went horribly wrong
 							// create new user on next run
-							profile.OnlineUserID = -1;
-							profile.OnlineUsername = "anonymous";
-							profile.AccountType = AccountType.Local;
-							profile.OnlinePasswordHash = "";
-
+							profile.ResetUserOnError();
 							MainGame.Inst.SaveProfile();
 						});
 					}
@@ -349,11 +341,7 @@ namespace GridDominance.Shared.Network
 
 							// something went horribly wrong
 							// create new user on next run
-							profile.OnlineUserID = -1;
-							profile.OnlineUsername = "anonymous";
-							profile.AccountType = AccountType.Local;
-							profile.OnlinePasswordHash = "";
-
+							profile.ResetUserOnError();
 							MainGame.Inst.SaveProfile();
 						});
 					}
@@ -446,11 +434,7 @@ namespace GridDominance.Shared.Network
 
 							// something went horribly wrong
 							// create new user on next run
-							profile.OnlineUserID = -1;
-							profile.OnlineUsername = "anonymous";
-							profile.AccountType = AccountType.Local;
-							profile.OnlinePasswordHash = "";
-
+							profile.ResetUserOnError();
 							MainGame.Inst.SaveProfile();
 						});
 					}
@@ -574,11 +558,7 @@ namespace GridDominance.Shared.Network
 
 							// something went horribly wrong
 							// create new user on next run
-							profile.OnlineUserID = -1;
-							profile.OnlineUsername = "anonymous";
-							profile.AccountType = AccountType.Local;
-							profile.OnlinePasswordHash = "";
-
+							profile.ResetUserOnError();
 							MainGame.Inst.SaveProfile();
 						});
 					}
