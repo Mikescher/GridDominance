@@ -265,3 +265,50 @@ h1 a:hover { color: blue; text-decoration: underline; }
   color: blue;
   text-decoration: underline;
 }
+
+.samtabheaderbox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  justify-content: center;
+  text-align: center;
+  background: #DDD;
+}
+
+.samtabheaderbox .samtabheader {
+  text-align: center;
+  display: block;
+  background-color: lightgray;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  text-decoration: none;
+  padding: 2px;
+  margin: 3px 5px 3px 0;
+  border: 1px black dotted;
+
+  cursor: pointer;
+}
+
+.samtabheader + .samtabactive {
+  background-color: darkgray;
+  border: 1px black solid;
+}
+
+.samtabbox {
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+
+  padding: 10px;
+
+  background-color: #EEE;
+  border: 1px lightgray solid;
+}
+
+.samsupertabcontainer {
+  min-height: 700px;
+}

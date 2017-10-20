@@ -255,40 +255,47 @@
         </div>
     </div>
 
-    <?php foreach($rloglist as $raction): ?>
+    <div class="samsupertabcontainer">
+        <div class="samtabheaderbox">
 
-    <div class="tablebox" data-collapse>
-        <h2 class="collapseheader"><?php echo $raction['action']; ?></h2>
+            <?php foreach($rloglist as $raction): ?>
+            <div class="samtabheader" data-tabheader data-tabid="<?php echo $raction['action']; ?>" data-tabcontainerid="c1"><?php echo $raction['action']; ?></div>
+            <?php endforeach; ?>
+        </div>
 
-        <table class="sqltab pure-table pure-table-bordered sortable">
-            <thead>
-            <tr>
-                <th width="150px">Time (Cron)</th>
-                <th width="400px">Timesspan</th>
-                <th width="100px">Count</th>
-                <th width="150px">Duration (Avg)</th>
-                <th width="150px">Duration (Med)</th>
-                <th width="150px">Duration (Min)</th>
-                <th width="150px">Duration (Max)</th>
-                <th width="150px">Duration (Total)</th>
-            </tr>
-            </thead>
-			<?php foreach ($runlogs[$raction['action']] as $entry): ?>
+        <?php foreach($rloglist as $raction): ?>
+
+        <div class="samtabbox" data-tabcontent data-tabid="<?php echo $raction['action']; ?>" data-tabcontainerid="c1">
+            <table class="sqltab pure-table pure-table-bordered sortable">
+                <thead>
                 <tr>
-                    <td><?php echo $entry['exectime']; ?></td>
-                    <td><?php echo $entry['min_timestamp'] .  " - " . $entry['max_timestamp']; ?></td>
-                    <td><?php echo $entry['count']; ?></td>
-                    <td><?php echo round(($entry['duration_avg'])/(1000.0*1000.0), 5); ?> s</td>
-                    <td><?php echo round(($entry['duration_median'])/(1000.0*1000.0), 5); ?> s</td>
-                    <td><?php echo round(($entry['duration_min'])/(1000.0*1000.0), 5); ?> s</td>
-                    <td><?php echo round(($entry['duration_max'])/(1000.0*1000.0), 5); ?> s</td>
-                    <td><?php echo round(($entry['duration'])/(1000.0*1000.0), 5); ?> s</td>
+                    <th width="150px">Time (Cron)</th>
+                    <th width="400px">Timesspan</th>
+                    <th width="100px">Count</th>
+                    <th width="150px">Duration (Avg)</th>
+                    <th width="150px">Duration (Med)</th>
+                    <th width="150px">Duration (Min)</th>
+                    <th width="150px">Duration (Max)</th>
+                    <th width="150px">Duration (Total)</th>
                 </tr>
-			<?php endforeach; ?>
-        </table>
-    </div>
+                </thead>
+                <?php foreach ($runlogs[$raction['action']] as $entry): ?>
+                    <tr>
+                        <td><?php echo $entry['exectime']; ?></td>
+                        <td><?php echo $entry['min_timestamp'] .  " - " . $entry['max_timestamp']; ?></td>
+                        <td><?php echo $entry['count']; ?></td>
+                        <td><?php echo round(($entry['duration_avg'])/(1000.0*1000.0), 5); ?> s</td>
+                        <td><?php echo round(($entry['duration_median'])/(1000.0*1000.0), 5); ?> s</td>
+                        <td><?php echo round(($entry['duration_min'])/(1000.0*1000.0), 5); ?> s</td>
+                        <td><?php echo round(($entry['duration_max'])/(1000.0*1000.0), 5); ?> s</td>
+                        <td><?php echo round(($entry['duration'])/(1000.0*1000.0), 5); ?> s</td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
 
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    </div>
 
     <?php printSQLStats(); ?>
 </body>
