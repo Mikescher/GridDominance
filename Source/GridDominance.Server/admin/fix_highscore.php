@@ -1,5 +1,6 @@
 <?php require_once '../internals/backend.php'; ?>
 <?php require_once '../internals/utils.php'; ?>
+<?php require_once 'common/libadmin.php'; ?>
 <?php init("admin"); ?>
 
 <?php

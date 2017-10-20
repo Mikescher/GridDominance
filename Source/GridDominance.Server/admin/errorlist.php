@@ -1,33 +1,20 @@
 <?php require_once '../internals/backend.php'; ?>
 <?php require_once '../internals/utils.php'; ?>
+<?php require_once 'common/libadmin.php'; ?>
 <?php init("admin"); ?>
 <!doctype html>
 
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-    <link rel="stylesheet" href="pure-min.css"/>
-	<link rel="stylesheet" type="text/css" href="admin.css">
-    <link href="toastr.min.css" rel="stylesheet"/>
+	<?php includeStyles(); ?>
 </head>
 
 <body id="rootbox">
 
-    <script src="jquery-3.1.0.min.js"></script>
+    <?php includeScripts(); ?>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
-
-    <?php
-
-    $previd = 0;
-	function expansioncell($txt) {
-	    global $previd;
-
-	    echo "<td>";
-		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show</a>";
-		echo "</td>";
-    }
-    ?>
 
 	<?php
     global $config;
@@ -174,10 +161,6 @@
     <?php printSQLStats(); ?>
 
     <script type="text/javascript">
-		<?php echo file_get_contents('admin.js'); ?>
-    </script>
-
-    <script type="text/javascript">
         function AjaxAck(id) {
             $.get('ack.php?sim=1&nojs=1&id=' + id, function( data ) {
                 $("#td_prev_"+id).html(data);
@@ -192,10 +175,6 @@
             });
         }
     </script>
-
-    <script src="jquery.collapse.js"></script>
-    <script src="toastr.min.js"></script>
-    <script src="sorttable.js"></script>
 
 </body>
 </html>

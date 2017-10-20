@@ -1,61 +1,20 @@
 <?php require_once '../internals/backend.php'; ?>
 <?php require_once '../internals/utils.php'; ?>
+<?php require_once 'common/libadmin.php'; ?>
 <?php init("admin"); ?>
 <!doctype html>
 
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="pure-min.css"/>
-    <link rel="stylesheet" type="text/css" href="admin.css">
+	<?php includeStyles(); ?>
 </head>
 
 <body id="rootbox">
 
-<script src="jquery-3.1.0.min.js"></script>
+<?php includeScripts(); ?>
 
 <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
-
-<?php
-
-$previd = 0;
-function expansioncell($txt) {
-	global $previd;
-
-	echo "<td>";
-	echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show</a>";
-	echo "</td>";
-}
-function expansioncell3($txt, $hdr) {
-	global $previd;
-
-	echo "<td>";
-	echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show (" . $hdr . ")</a>";
-	echo "</td>";
-}
-function lc($txt) {
-	$c = 0;
-	foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }
-	return $c;
-}
-function fmtw($w) {
-    switch ($w) {
-		case '{d34db335-0001-4000-7711-000000100002}': return 'NO_WORLD';
-		case '{d34db335-0001-4000-7711-000000100001}': return 'TUTORIAL';
-		case '{d34db335-0001-4000-7711-000000200001}': return 'WORLD_1';
-		case '{d34db335-0001-4000-7711-000000200002}': return 'WORLD_2';
-		case '{d34db335-0001-4000-7711-000000200003}': return 'WORLD_3';
-		case '{d34db335-0001-4000-7711-000000200004}': return 'WORLD_4';
-		case '{d34db335-0001-4000-7711-000000200005}': return 'WORLD_5';
-		case '{d34db335-0001-4000-7711-000000200006}': return 'WORLD_6';
-		case '{d34db335-0001-4000-7711-000000200007}': return 'WORLD_7';
-		case '{d34db335-0001-4000-7711-000000200008}': return 'WORLD_8';
-		case '{d34db335-0001-4000-7711-000000200009}': return 'WORLD_9';
-		case '{d34db335-0001-4000-7711-000000300001}': return 'MULTIPLAYER';
-        default:                                       return "????";
-    }
-}
-?>
 
 <?php
 
@@ -178,7 +137,7 @@ $u9 = statisticsUserByWorld();
 				<?php foreach ($u5 as $entry): ?>
 					<?php if ($entry['count'] > 0): ?>
                         <tr>
-                            <td title="<?php echo $entry['name']; ?>" ><?php echo fmtw($entry['name']); ?></td>
+                            <td title="<?php echo $entry['name']; ?>" ><?php echo fmtWorldID($entry['name']); ?></td>
                             <td><?php echo $entry['count']; ?></td>
                         </tr>
 					<?php endif; ?>
@@ -279,7 +238,7 @@ $u9 = statisticsUserByWorld();
                 </thead>
 				<?php foreach ($u9 as $entry): ?>
                     <tr>
-                        <td><?php echo fmtw($entry['world']); ?></td>
+                        <td><?php echo fmtWorldID($entry['world']); ?></td>
                         <td><?php echo $entry['count']; ?></td>
                     </tr>
 				<?php endforeach; ?>
@@ -291,11 +250,5 @@ $u9 = statisticsUserByWorld();
 </div>
 
 <?php printSQLStats(); ?>
-
-<script type="text/javascript">
-	<?php echo file_get_contents('admin.js'); ?>
-</script>
-<script src="sorttable.js"></script>
-<script src="jquery.collapse.js"></script>
 </body>
 </html>

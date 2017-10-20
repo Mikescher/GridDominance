@@ -1,29 +1,20 @@
 <?php require_once '../internals/backend.php'; ?>
 <?php require_once '../internals/utils.php'; ?>
+<?php require_once 'common/libadmin.php'; ?>
 <?php init("admin"); ?>
 <!doctype html>
 
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-    <link rel="stylesheet" href="pure-min.css"/>
-	<link rel="stylesheet" type="text/css" href="admin.css">
+	<?php includeStyles(); ?>
 </head>
 
 <body id="rootbox">
 
-    <script src="jquery-3.1.0.min.js"></script>
+    <?php includeScripts(); ?>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
-
-    <?php
-	function fmtLevelID($id)
-	{
-		if ($id == '{b16b00b5-0001-4000-9999-000000000002}') return "TUTORIAL";
-
-		return (int)substr($id, 25, 6) . " - " . (int)substr($id, 31, 6);
-	}
-    ?>
 
     <h2><?php echo htmlspecialchars($_GET['id']); ?></h2>
 
@@ -137,7 +128,5 @@
 
     <?php printSQLStats(); ?>
 
-    <script src="sorttable.js"></script>
-    <script src="jquery.collapse.js"></script>
 </body>
 </html>
