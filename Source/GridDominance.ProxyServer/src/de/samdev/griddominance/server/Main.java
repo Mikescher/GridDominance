@@ -1,9 +1,6 @@
 package de.samdev.griddominance.server;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.*;
 import java.util.*;
 
@@ -554,6 +551,8 @@ public class Main {
     }
 
     private static void ForwardToClients(InetAddress host, int port, int len, byte seq, int sessionid, int sessionsecret, boolean setActive) throws IOException {
+        boolean stateChanged = false;
+
         GameSession session = Sessions.getOrDefault((short)sessionid, null);
 
         if (session == null) {
@@ -580,7 +579,10 @@ public class Main {
             return;
         }
 
-        if (setActive) session.GameActive = true;
+        if (setActive) {
+            if (!session.GameActive) stateChanged = true;
+            session.GameActive = true;
+        }
         session.SetLastActivity(0);
 
         for (int i = 1; i < session.MaxSize; i++) {
@@ -589,6 +591,7 @@ public class Main {
             Socket.send(sendPacket);
         }
 
+        if (stateChanged) OutputState();
     }
 
     private static void Ping(InetAddress host, int port, byte seq) throws IOException {
@@ -662,11 +665,39 @@ public class Main {
             GameSession e = mentry.getValue();
 
             if (!f) builder.append(",");
-            builder.append("{\"sid\":"+e.SessionID+",\"sec\":"+e.SessionSecret+",\"usr\":"+e.CountUsers()+",\"cap\":"+e.MaxSize+"}");
+            builder
+                    .append("{")
+                    .append("\"sid\":").append(e.SessionID)
+                    .append(",\"sec\":").append(e.SessionSecret)
+                    .append(",\"usr\":").append(e.CountUsers())
+                    .append(",\"cap\":").append(e.MaxSize)
+                    .append(",\"act\":").append(e.GameActive)
+                    .append("}");
             f = false;
         }
         builder.append("]}");
 
         try (PrintWriter out = new PrintWriter(stateFile)) { out.write(builder.toString()); }
+
+        Call("http://gdapi.mikescher.com/savesessionstate.php");
+    }
+
+    private static void Call(String url) {
+
+        Thread t = new Thread(() -> {
+            try {
+                URL requrl = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection) requrl.openConnection();
+                conn.setRequestMethod("GET");
+
+                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while (rd.readLine() != null);
+                rd.close();
+            } catch (IOException e) {
+                _log.Warn("URL call failed: " + url + e.getMessage());
+            }
+        });
+
+        t.start();
     }
 }

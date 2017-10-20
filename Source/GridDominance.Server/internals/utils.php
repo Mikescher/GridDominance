@@ -421,8 +421,8 @@ function getLastRunLogCount() {
 	return sql_query_num('getLastRunLogCount', "SELECT SUM(count) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");
 }
 
-function getLastTimingMedian() {
-	return sql_query_num('getLastTimingMedian', "SELECT (SUM(duration_median)/COUNT(*)) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");
+function getLastTimingAverage() {
+	return sql_query_num('getLastTimingAverage', "SELECT (SUM(duration)/SUM(count)) FROM runlog_history WHERE exectime >= now() - INTERVAL 1 DAY AND action <> 'cron' AND action <> 'admin'");
 }
 
 function getRunLogActionList() {
@@ -430,7 +430,7 @@ function getRunLogActionList() {
 }
 
 function getRunLog($action) {
-	return sql_query_assoc_prep('getRunLogActionList', "SELECT * FROM runlog_history WHERE action = :ac AND exectime >= now() - INTERVAL 28 DAY ORDER BY exectime DESC",
+	return sql_query_assoc_prep('getRunLog', "SELECT * FROM runlog_history WHERE action = :ac AND exectime >= now() - INTERVAL 28 DAY ORDER BY exectime DESC",
 	[
 		[':ac', $action, PDO::PARAM_STR],
 	]);
@@ -442,4 +442,26 @@ function getRunLogCountVolatile() {
 
 function getRunLogCountHistory() {
 	return sql_query_num('getRunLogCountHistory', "SELECT COUNT(*) AS cnt FROM runlog_history GROUP BY action ORDER by cnt DESC LIMIT 1");
+}
+
+function getActiveAndTotalSessionsCount() {
+	if (! file_exists("/var/log/gdapi_log/proxystate.json")) return ["?", "?"];
+
+	$string = file_get_contents("/var/log/gdapi_log/proxystate.json");
+	$json = json_decode($string, true);
+
+	$c = 0;
+	foreach ($json['sessions'] as $entry) {
+		if ($entry['act']) $c++;
+	}
+
+	return [$c, count($json['sessions'])];
+}
+
+function getProxyHistory() {
+	return sql_query_assoc('getProxyHistory', "SELECT * FROM (SELECT * FROM session_history ORDER BY id DESC LIMIT 500) AS a ORDER BY a.ID ASC");
+}
+
+function getLastProxyHistoryEntry() {
+	return sql_query_assoc('getLastProxyHistoryEntry', "SELECT * FROM session_history ORDER BY id DESC LIMIT 1")[0];
 }

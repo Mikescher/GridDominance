@@ -149,3 +149,14 @@ CREATE TABLE runlog_history (
 
   PRIMARY KEY (id)
 );
+
+
+DROP TABLE IF EXISTS session_history;
+CREATE TABLE session_history (
+  id                  int(11)       NOT NULL AUTO_INCREMENT,
+  time                timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  sessioncount_active int(11)       NOT NULL,
+  sessioncount_total  int(11)       NOT NULL,
+
+  PRIMARY KEY (id)
+);

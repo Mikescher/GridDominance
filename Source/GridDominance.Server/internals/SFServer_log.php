@@ -46,6 +46,7 @@ function logErrorInfo($msg) {
 
 /**
  * @param string $msg
+ * @param bool $sendmail
  */
 function logError($msg, $sendmail=true) {
 	global $config;

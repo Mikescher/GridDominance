@@ -61,7 +61,7 @@
             <?php endif; ?> 
         </div>
         <div class="infodiv">
-            Requests (1d):&nbsp;<?php echo getLastRunLogCount(); ?>&nbsp;(=&nbsp;<a href="runlogoverview.php"><?php echo round(getLastTimingMedian()/(1000.0*1000.0), 4); ?>s</a>)
+            Requests (1d):&nbsp;<?php echo getLastRunLogCount(); ?>&nbsp;(=&nbsp;<a href="runlogoverview.php"><?php echo round(getLastTimingAverage()/(1000.0*1000.0), 4); ?>s</a>)
         </div>
 	</div>
 
