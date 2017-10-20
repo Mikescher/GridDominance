@@ -39,6 +39,8 @@
             '#196956','#8C41BB','#ECEDFE','#2B2D32','#94C661','#F8907D','#895E6B','#788E95'
         ];
 
+    $DISABLED = ['cron', 'admin', 'change-password', 'log-client', 'merge-login', /*'set-multiscore',*/ /*'upgrade-user', */];
+
     ?>
 
     <?php
@@ -151,12 +153,12 @@
 										<?php $i=0; ?>
 										<?php foreach ($rloglist as $raction): ?>
 										<?php $i++; ?>
-										<?php if ($raction['action'] == 'cron') continue; ?>
                                         {
                                             label: '<?php echo $raction['action']; ?>',
                                             data: [ <?php foreach ($datedata_median[$raction['action']] as $dd) echo $dd.","; ?> ],
                                             borderColor: '<?php echo $COLORS[$i%count($COLORS)]; ?>',
                                             backgroundColor: 'transparent',
+                                            <?php if (in_array($raction['action'], $DISABLED)):?>hidden:true,<?php endif;?>
                                         },
 										<?php endforeach; ?>
                                     ]
@@ -184,12 +186,12 @@
 										<?php $i=0; ?>
 										<?php foreach ($rloglist as $raction): ?>
 										<?php $i++; ?>
-										<?php if ($raction['action'] == 'cron') continue; ?>
                                         {
                                             label: '<?php echo $raction['action']; ?>',
                                             data: [ <?php foreach ($datedata_avg[$raction['action']] as $dd) echo $dd.","; ?> ],
                                             borderColor: '<?php echo $COLORS[$i%count($COLORS)]; ?>',
                                             backgroundColor: 'transparent',
+											<?php if (in_array($raction['action'], $DISABLED)):?>hidden:true,<?php endif;?>
                                         },
 										<?php endforeach; ?>
                                     ]
