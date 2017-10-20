@@ -4,8 +4,6 @@ function includeStyles()
 {
 	print('<link rel="stylesheet" href="/admin/common/pure-min.css"/>');
 	print('<link rel="stylesheet" type="text/css" href="/admin/common/admin.css">');
-	print('<script src="/admin/common/toastr.min.js"></script>');
-	print('<script src="/admin/common/sorttable.js"></script>');
 }
 
 function includeScripts()

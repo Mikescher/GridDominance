@@ -56,6 +56,7 @@
                     <th>Active</th>
                 </tr>
             </thead>
+            <tbody>
             <?php foreach ($state['sessions'] as $entry): ?>
                 <tr>
                     <td><?php echo $entry['sid']; ?></td>
@@ -65,6 +66,7 @@
                     <td><?php echo $entry['act']?'true':'false'; ?></td>
                 </tr>
             <?php endforeach; ?>
+            </tbody>
         </table>
     </div>
 
@@ -78,6 +80,7 @@
                 new Chart(ctx1,
                     {
                         type: 'line',
+                        options: { scales: { yAxes: [{ ticks: { suggestedMax: 5, } }] }, elements:  { line: { tension: 0, } }, },
                         data:
                             {
                                 labels: [ <?php foreach ($history as $h) echo "'".$h['time']."',"; ?> ],
@@ -86,10 +89,14 @@
                                         {
                                             label: 'active sessions',
                                             data: [ <?php foreach ($history as $h) echo $h['sessioncount_active'].","; ?> ],
+                                            backgroundColor: '#599AD3AA',
+                                            borderColor: '#1859A9',
                                         },
                                         {
                                             label: 'total sessions',
                                             data: [ <?php foreach ($history as $h) echo $h['sessioncount_total'].","; ?> ],
+                                            backgroundColor: '#B8D2EBAA',
+                                            borderColor: '#662C91',
                                         },
                                     ]
                             },
@@ -109,6 +116,7 @@
                 <th>Sessions (total)</th>
             </tr>
             </thead>
+            <tbody>
 			<?php foreach ($history as $entry): ?>
                 <tr>
                     <td><?php echo $entry['time']; ?></td>
@@ -116,6 +124,7 @@
                     <td><?php echo $entry['sessioncount_total']; ?></td>
                 </tr>
 			<?php endforeach; ?>
+            </tbody>
         </table>
     </div>
 
