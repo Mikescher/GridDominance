@@ -24,6 +24,8 @@
       <CharacterRegion><Start>ê</Start><End>ê</End></CharacterRegion>
 
       <CharacterRegion><Start>ö</Start><End>ö</End></CharacterRegion>
+      <CharacterRegion><Start>ó</Start><End>ó</End></CharacterRegion>
+      <CharacterRegion><Start>ò</Start><End>ò</End></CharacterRegion>
 
       <CharacterRegion><Start>ü</Start><End>ü</End></CharacterRegion>
       <CharacterRegion><Start>ù</Start><End>ù</End></CharacterRegion>
@@ -32,6 +34,8 @@
 
       <CharacterRegion><Start>ß</Start><End>ß</End></CharacterRegion>
       <CharacterRegion><Start>ç</Start><End>ç</End></CharacterRegion>
+      <CharacterRegion><Start>ñ</Start><End>ñ</End></CharacterRegion>
+      <CharacterRegion><Start>í</Start><End>í</End></CharacterRegion>
 
       <CharacterRegion><Start>Ä</Start><End>Ä</End></CharacterRegion>
       <CharacterRegion><Start>Á</Start><End>Á</End></CharacterRegion>
@@ -43,6 +47,8 @@
       <CharacterRegion><Start>Ê</Start><End>Ê</End></CharacterRegion>
 
       <CharacterRegion><Start>Ö</Start><End>Ö</End></CharacterRegion>
+      <CharacterRegion><Start>Ó</Start><End>Ó</End></CharacterRegion>
+      <CharacterRegion><Start>Ò</Start><End>Ò</End></CharacterRegion>
 
       <CharacterRegion><Start>Ü</Start><End>Ü</End></CharacterRegion>
       <CharacterRegion><Start>Ù</Start><End>Ù</End></CharacterRegion>
@@ -50,6 +56,8 @@
       <CharacterRegion><Start>Û</Start><End>Û</End></CharacterRegion>
 
       <CharacterRegion><Start>Ç</Start><End>Ç</End></CharacterRegion>
+      <CharacterRegion><Start>Ñ</Start><End>Ñ</End></CharacterRegion>
+      <CharacterRegion><Start>Í</Start><End>Í</End></CharacterRegion>
 
     </CharacterRegions>
   </Asset>

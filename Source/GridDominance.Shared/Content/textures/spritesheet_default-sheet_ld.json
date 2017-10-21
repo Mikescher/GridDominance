@@ -748,6 +748,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "flags/flag_04.png",
+	"frame": {"x":236,"y":520,"w":12,"h":12},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
+	"sourceSize": {"w":12,"h":12},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "glassblock/glass_corner.png",
 	"frame": {"x":237,"y":858,"w":16,"h":16},
 	"rotated": false,
@@ -830,7 +839,7 @@
 },
 {
 	"filename": "hud_time_3.png",
-	"frame": {"x":236,"y":520,"w":12,"h":12},
+	"frame": {"x":236,"y":535,"w":12,"h":12},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
@@ -1280,7 +1289,7 @@
 },
 {
 	"filename": "particle_16.png",
-	"frame": {"x":236,"y":535,"w":8,"h":8},
+	"frame": {"x":236,"y":550,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1586,7 +1595,7 @@
 },
 {
 	"filename": "shield/shieldlaser_base.png",
-	"frame": {"x":236,"y":546,"w":8,"h":8},
+	"frame": {"x":112,"y":504,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1604,7 +1613,7 @@
 },
 {
 	"filename": "shield/shieldlaser_pointer.png",
-	"frame": {"x":112,"y":504,"w":8,"h":8},
+	"frame": {"x":227,"y":248,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -1879,6 +1888,6 @@
 	"format": "RGBA8888",
 	"size": {"w":255,"h":946},
 	"scale": "0.25",
-	"smartupdate": "$TexturePacker:SmartUpdate:d8077c95c1b130daf43174af420181ff:809301707b105cc63f27070189b1ac82:332da033e89742cb272fe0fb1b010c90$"
+	"smartupdate": "$TexturePacker:SmartUpdate:63859a9233849c39fe83f38ea424103e:78953e1c3135aaf4e896d5fce4f9734d:332da033e89742cb272fe0fb1b010c90$"
 }
 }

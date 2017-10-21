@@ -434,7 +434,7 @@ namespace GridDominance.Shared.Resources
 
 
 
-			TexHUDFlags                   = new[] { AtlasTextures["flag_00"], AtlasTextures["flag_01"], AtlasTextures["flag_02"], AtlasTextures["flag_03"] };
+			TexHUDFlags                   = new[] { AtlasTextures["flag_00"], AtlasTextures["flag_01"], AtlasTextures["flag_02"], AtlasTextures["flag_03"], AtlasTextures["flag_04"] };
 
 			TexPanelBlurEdge     = AtlasTextures["panel_blur_edge"];
 			TexPanelBlurCorner   = AtlasTextures["panel_blur_corner"];

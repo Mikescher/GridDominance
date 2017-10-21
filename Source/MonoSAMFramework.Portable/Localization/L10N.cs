@@ -5,21 +5,19 @@ namespace MonoSAMFramework.Portable.Localization
 	public static class L10N
 	{
 		public const int LANG_EN_US =  0;
-		public const int LANG_DE_DE =  1;
-		public const int LANG_FR_FR =  2;
-		public const int LANG_IT_IT =  3;
 
-		public const  int LANG_COUNT = 4;
+		public static int LANG_COUNT = 1;
 		public static int TEXT_COUNT = 0;
 
 		public static int LANGUAGE = LANG_EN_US;
 
 		public static string[,] Dictionary = new string[TEXT_COUNT, LANG_COUNT];
 
-		public static void Init(int lang, int count)
+		public static void Init(int lang, int txtcount, int langcount)
 		{
 			LANGUAGE   = lang;
-			TEXT_COUNT = count;
+			LANG_COUNT = langcount;
+			TEXT_COUNT = txtcount;
 
 			Dictionary = new string[TEXT_COUNT, LANG_COUNT];
 		}
