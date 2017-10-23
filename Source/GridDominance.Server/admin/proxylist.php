@@ -22,12 +22,21 @@
 	$count_active = $arr[0];
 	$count_total  = $arr[1];
 
-	$file = file_get_contents("/var/log/gdapi_log/proxystate.json");
+	$file = @file_get_contents("/var/log/gdapi_log/proxystate.json");
 	$state = json_decode($file, true);
+    if ($state === NULL) $state = ['sessions' => []];
 
-	$timestamp = date('Y-m-d H:i:s', filemtime("/var/log/gdapi_log/proxystate.json"));
+	$timestamp = date('Y-m-d H:i:s', @filemtime("/var/log/gdapi_log/proxystate.json"));
 
 	$history = getProxyHistory();
+
+	$history_fmt = [];
+	$last = NULL;
+	foreach ($history as $h) {
+	    if ($last !== NULL) $history_fmt []= ['time' => $h['time'], 'sessioncount_active' => $last['sessioncount_active'], 'sessioncount_total' => $last['sessioncount_total']];
+		$history_fmt []= $h;
+		$last = $h;
+    }
 
     ?>
 
@@ -80,23 +89,82 @@
                 new Chart(ctx1,
                     {
                         type: 'line',
-                        options: { scales: { yAxes: [{ ticks: { suggestedMax: 5, } }] }, elements:  { line: { tension: 0, } }, },
+                        options:
+                            {
+                                scales:
+                                    {
+                                        yAxes:
+                                            [
+                                                {
+                                                    ticks:
+                                                        {
+                                                            suggestedMax: 5,
+                                                        }
+                                                }
+                                            ],
+                                        xAxes:
+                                            [
+                                                {
+                                                    type: 'linear',
+                                                    position: 'bottom',
+                                                    ticks:
+                                                        {
+                                                            callback: function (value, index, values)
+                                                            {
+                                                                let dt = new Date(value * 1000);
+                                                                return dt.getFullYear() + "-" + (new String("00" + dt.getMonth()).slice(-2)) + "-" + (new String("00" + dt.getDay()).slice(-2)) + " " + (new String("00" + dt.getHours()).slice(-2)) + ":" + (new String("00" + dt.getMinutes()).slice(-2));
+                                                            }
+                                                        },
+                                                },
+                                            ]
+                                    },
+                                tooltips:
+                                    {
+                                        callbacks:
+                                            {
+                                                title: function (value)
+                                                {
+                                                    let dt = new Date(value[0].xLabel * 1000);
+                                                    return dt.getFullYear() + "-" + (new String("00" + dt.getMonth()).slice(-2)) + "-" + (new String("00" + dt.getDay()).slice(-2)) + " " + (new String("00" + dt.getHours()).slice(-2)) + ":" + (new String("00" + dt.getMinutes()).slice(-2));
+                                                },
+                                            },
+                                    },
+                                animation:
+                                    {
+                                        duration: 0,
+                                    },
+                                elements:
+                                    {
+                                        line:
+                                            {
+                                                tension: 0,
+                                            }
+                                    }
+                            },
                         data:
                             {
-                                labels: [ <?php foreach ($history as $h) echo "'".$h['time']."',"; ?> ],
+                                labels: [ <?php foreach ($history_fmt as $h) echo "'" . $h['time'] . "',"; ?> ],
                                 datasets:
                                     [
                                         {
                                             label: 'active sessions',
-                                            data: [ <?php foreach ($history as $h) echo $h['sessioncount_active'].","; ?> ],
+                                            data:
+                                                [
+													<?php foreach ($history_fmt as $h) echo "{ x: " . DateTime::createFromFormat('Y-m-d H:i:s', $h['time'])->format("U") . ", y: " . $h['sessioncount_active'] . " }, "; ?>
+                                                ],
                                             backgroundColor: '#599AD3AA',
                                             borderColor: '#1859A9',
+                                            strokeColor: '#1859A9',
                                         },
                                         {
                                             label: 'total sessions',
-                                            data: [ <?php foreach ($history as $h) echo $h['sessioncount_total'].","; ?> ],
+                                            data:
+                                                [
+													<?php foreach ($history_fmt as $h) echo "{x:" . DateTime::createFromFormat('Y-m-d H:i:s', $h['time'])->format("U") . ",y:" . $h['sessioncount_total'] . "},"; ?>
+                                                ],
                                             backgroundColor: '#B8D2EBAA',
                                             borderColor: '#662C91',
+                                            strokeColor: '#662C91',
                                         },
                                     ]
                             },

@@ -239,6 +239,7 @@
                 new Chart(ctx4,
                     {
                         type: 'line',
+                        options: { scales: { yAxes: [{ ticks: { suggestedMin: 0, } }] }, },
                         data:
                             {
                                 labels: [ <?php foreach ($dates as $rld) echo "'".$rld."',"; ?> ],
