@@ -1,0 +1,11 @@
+<en-US>
+ - better exception handling on session error
+ - iOS test version
+ - bugfixes
+</en-US>
+
+<de-DE>
+ - Besseres Handling von Session Fehlern
+ - iOS Test Version
+ - Bugfixes
+</de-DE>

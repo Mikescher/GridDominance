@@ -2,7 +2,8 @@
 
 function includeStyles()
 {
-	print('<link rel="stylesheet" href="/admin/common/pure-min.css"/>');
+	print('<link rel="stylesheet" type="text/css" href="/admin/common/pure-min.css"/>');
+	print('<link rel="stylesheet" type="text/css" href="/admin/common/toastr.min.css"/>');
 	print('<link rel="stylesheet" type="text/css" href="/admin/common/admin.css">');
 }
 
