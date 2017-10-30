@@ -1,0 +1,895 @@
+[33m23e93a76[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m Merge branch 'master' of https://github.com/Mikescher/GridDominance
+[33m6a43b2cb[m fixed non-android builds using local ip for hiighscore + mp server
+[33ma3791b04[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m added db indizies to `level_highscores` (reduces local crontime from 17.16 min to 0.81 min)
+[33m5dd0911d[m Fix NPE in AcknowledgementsPanel
+[33md7ba5050[m added indizies to error table
+[33m4b4e57e6[m /admin/ changes
+[33mf1b26689[m [[ VERSION 1.2.0 ]]
+[33mc495375a[m [[ VERSION 1.2.0 ]]
+[33m173034f9[m Re-add error nicer handling in SamSoundPlayer
+[33me6d26b49[m set-multiscore in per-world-batches
+[33m25b61791[m [[ VERSION 1.1.3 (alpha-4) ]]
+[33mc8838b4f[m Acknowledgements
+[33m919da955[m Fix TargetFrameworkVersion for Amazon version
+[33me8ba4331[m Merge remote-tracking branch 'origin/fix-performance-regression'
+[33md8989f96[m[33m ([m[1;31morigin/fix-performance-regression[m[33m)[m Reintroduce commits that did not cause regression
+[33m97be767c[m /admin/ runlog
+[33mb25593f6[m [[ VERSION 1.1.3 (alpha-3) ]]
+[33md15dfe30[m remove SAMSoundPlayer changes (again)
+[33m9342479a[m /admin/statistics unify sql access
+[33m8c639f5f[m Output sql stats in /admin/
+[33m9f6430bd[m Added WindowsPhone link
+[33md3ddf28e[m [[ VERSION 1.1.3 (alpha-2) ]]
+[33m831f845c[m Partially revert changes ( f01bdc6c fixed regression )
+[33m2b79fa19[m Re-fake local data on highscore download (if cronjob not run since PB)
+[33mcfd35f25[m Request permissions at runtime for sdk >= 23
+[33m95352e4c[m iOS version --> NOMP
+[33m95007483[m no error mail on dummy request
+[33mcab7aef5[m /admin/: collapse header + mp highscore fix
+[33m1f8fce08[m /admin/: remove debug from deploy
+[33mb58caae3[m Fix NPE in Android Bluetooth Impl
+[33mbafc55ef[m log $_GET and $_POST on internal server errors
+[33mc347382e[m Upload UWP version
+[33mf01bdc6c[m [[ VERSION 1.1.3 (alpha) ]]
+[33ma156ffe6[m fix php error in log-client.php
+[33m85998920[m send performance report with [menu] key
+[33mfb872192[m revert possible causes of performance regression
+[33m6fe773ba[m fix /admin/ php exception
+[33m91d618e8[m improv gdapi-deploy perf
+[33mb9a11ad9[m [[ VERSION 1.1.2 ]]
+[33m4427a508[m various /admin/ changes
+[33m55add423[m set android:targetSdkVersion to 25 (7.1.2)
+[33m85a883c0[m pagination for admin page
+[33m3288698e[m Remove old assertions + update amazon store link
+[33mfea05827[m Disable Music/Sound when playback throws error
+[33m789733f1[m Fix bug in create-user.php
+[33m98b54bd0[m fix ping (do not force app_type)
+[33me9c1865c[m Amazon store stuff
+[33mb134a5bb[m [[ VERSION 1.1.1 ]]
+[33m96605e20[m Merge branch 'ios+uwp'
+[33m8350dab9[m[33m ([m[1;31morigin/ios+uwp[m[33m)[m Special Amazon version
+[33mbd023b5a[m IOS Bluetooth
+[33md829149c[m app_type in GD.Server
+[33m7d42671c[m Merge remote-tracking branch 'origin/master' into ios+uwp
+[33m8692f77b[m BF: NPE in HighscorePanel
+[33mc62eada1[m [[ VERSION 1.1.0 ]]
+[33m6a9627ee[m cherry picked a few changes from ios+uwp branch
+[33me9e747b2[m iOS Bluetooth (WIP)
+[33mc3d96fac[m UWP project working
+[33m9d76015b[m Added Win8 and UWP project
+[33mc2038b5b[m Make Json decode errors non-fatal (can happen in proxied networks)
+[33m5e3e5d5a[m Catch Sound errors earlier
+[33m8c656738[m Cog menu:  - share button  - reddit button  - bfb button  - colorblind friendly mode
+[33m50371c24[m Show Time + Best time in HighscorePanel
+[33m1693360e[m Open Node on ZoomIn
+[33m69b892b0[m highscore migration for older clients (fin)
+[33m46d8d05e[m /admin/ migrate scores of older clients
+[33m871cb12b[m android.hardware.location permission for old blackberry phones
+[33m857b4255[m [[ VERSION 1.0.7 ]]
+[33m4baa49a8[m More sanity checks in Multiplayer client_recieve
+[33m1a97bc13[m BF: RaceCondition in access to MP (bluetooth) send buffer (MSG_FORWARD)
+[33m710aaa4c[m Ignore Protocol errors when ClientVersion != ServerVersion
+[33m33dc5038[m BF: Exception in FontRenderHelper.MakeTextSafe
+[33m0025edc0[m improv errorlist (get version from cfg)
+[33mfaa3f619[m [[ VERSION 1.0.6 ]]
+[33m50e0bd71[m debug stuff
+[33m2c4e3eb2[m /admin/ stuff
+[33ma3c52cac[m No LogError when connection to mp server fails
+[33m3ac45ebf[m Ignore InstancePlayLimitException silently
+[33me3060557[m BF: SHA256 is not threadsafe, so sometimes the sigbuilder would fail
+[33m784eeca4[m Added italian language (many thanks to /u/leolego )
+[33m96864f8d[m Fixed Barrel animation of Minigun in MP
+[33m9c46eb97[m Fixed ShieldTime (RelayCannons) protocol error in MP
+[33m1a1c8085[m Fixed GameSpeed protocol error in MP
+[33m82c5ce98[m BF: RelayCannon was shooting real bullets in MP ClientMode
+[33m6e9a5c05[m BF: Error when Bluetooth devicename cannot be rendered
+[33m03a50c48[m Fix some Error IDs
+[33m8104d28a[m More error logging in MP
+[33me99c3363[m BF: sometimes server response is gzipped (strange proxy ?)
+[33mdc429ee1[m added changelogs
+[33mb4fe7a5c[m added iOS project
+[33ma8c5921a[m Reset GameSpeed to [Normal] on load
+[33m79643e4f[m [[ VERSION 1.0.5 ]]
+[33m618cc217[m better fadeOut/fadeIn in SAMSoundPlayer
+[33m25789774[m BF: Negative GameSpeed values in multiplayer were incorrectly transmitted
+[33m9957048c[m longer log message/trace/info
+[33m55a03f99[m [Balance Change] [!] You gain 3 times as much MP Points for winning than you loose for loosing
+[33mdc9e925a[m /admin/errorinfo.php
+[33m4c6609b2[m Bugfix Multiplayer: Shield and Relaycannons were not correctly forwarded (this corrupted the communication of all levels with these cannon types)
+[33md5537f40[m log headers in JsonReaderException
+[33maff45945[m [Balance Change] [!] Only count highest difficulty time in highscore
+[33m40cdbfde[m BF: Fixed Unbounded growing KICycleWaitQueue in levels with many cannons (eg 2-3)
+[33m4a355ce2[m Remember speed between different levels
+[33m134dfd08[m added missing dot in android versioncode
+[33mee4980d3[m Merge remote-tracking branch 'origin/hotfix_1.0.4'
+[33m88b3b256[m[33m ([m[1;31morigin/hotfix_1.0.4[m[33m)[m [[ VERSION 1.0.4 ]]
+[33ma6a15a54[m (!) BUGFIX, commit ef97e06e removed "com.android.vending.BILLING" permission from IAB version
+[33mc0bc7691[m fix Highscoretable odd height resulting in half-visible row
+[33m75e39a6a[m (!) BUGFIX, commit ef97e06e removed "com.android.vending.BILLING" permission from IAB version
+[33m7359ed4f[m Better behaviour when LaserKI can't find an acceptable target (support own cannons)
+[33m5af4cc43[m Support für sdk-17 und sdk-18 [UNTESTED !!]
+[33meefb7513[m Split logic into different app flavors (free, iab, full) as prep for iOS release
+[33mfedb82d3[m filter exceptions by version
+[33m377c9864[m Added french language
+[33mcb7e4309[m [[ VERSION 1.0.3 ]]
+[33mcb5f4fff[m cronscript (2/2)
+[33m9d18f0fa[m Improved performance of cronscript (1/2)
+[33me584fdcb[m BF: NPE in LaserNetwork (TerminatorRays.Item2 could become NULL)
+[33m0925b875[m Show text in log when spritefont fails
+[33m4e5bc49c[m BF EnumerationException in HUDContainer.Draw (copy elements before enumerating)
+[33mb5efaa9c[m added a lot of error logs to find NPE in TestForLaserCollision
+[33m36fe9086[m More exception info when GetFractionByID fails
+[33m4563f007[m Prevent InstancePlayLimitException (playing too many SoundEffects at once)
+[33m65a11c86[m BF: SQL exception interpreted as user not found
+[33m4ba65551[m ajay ack in /admin/
+[33m658f3e2a[m Fix duplicate additional log ines
+[33m1d2eb284[m Better error log when JSONReaderException
+[33mdb43ecae[m Fix NPW in AndroidBilling.HandleActivityResult
+[33m1d55fe9b[m Fix profile with UserID=[-1]
+[33mb4a6fedb[m more log output on sig error
+[33mb59bf0e5[m More info for Backend::INVLOGIN error
+[33m71c7b3eb[m Fix NPE in GameHUD.UpdateToasts() : wrap GameHUD._toasts in critical section
+[33m068f3c29[m Better exception overview in /admin/
+[33mcac01a7b[m Fix NPE in RemoteBullet.Update
+[33m73d1792b[m reset password in /admin/ interface
+[33mb92238da[m show creation time in /admin/
+[33med2f3d4f[m /admin/ fix cron: FNF
+[33m306ed57b[m Rotate landscape up and down (by sensor)
+[33m91969041[m Different icon for multiplayer
+[33m85d8e0bc[m Better exception info in SNS-COMMON::UA
+[33maf95cb9f[m /admin/ ack by same ID+Message
+[33mb2567363[m re-add logDebug() condition in Highscoreserver
+[33m6435709f[m Better JsonReaderException
+[33m93dda3a9[m Better (cleaner looking) icon
+[33m2b94cba4[m protocol r/gaming post (current version)
+[33mef97e06e[m [[ VERSION 1.0.2 ]]
+[33m21db4c76[m Fix app not searchable on phones without GPS hardware
+[33m95dc364d[m [[ VERSION 1.0.1 ]]
+[33m82ed61db[m account reminder
+[33me96ffe2c[m BF: Only [[ping]] AfterInitialize, prevents NPE ing GameCycle 0
+[33m15ea53f9[m BF: prevent zombie buttons when clicking speed control really quick [[UNTESTED]]
+[33m6aace248[m fixes /admin/ stuff
+[33md2662a88[m [[ VERSION 1.00 ]]
+[33m4e1fca43[m BF: fix node->node focus switch not updating info panel
+[33m2704f504[m Fix cannon rotation in 1-7
+[33m919f7568[m release candidate 10
+[33mae747e02[m We can use HD_extra textures again (reverted from commit 30197f7899afd97c5c78c42751cbc70e13acdc77)
+[33m71ca2b31[m Merge remote-tracking branch 'origin/fix-1440p'
+[33m9f92ce0b[m[33m ([m[1;31morigin/fix-1440p[m[33m)[m Multiple drawable folders also for IAB project
+[33m5a48de81[m Use multiple drawable folders (ldpi, mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi)
+[33ma828ea37[m [BF] Ignore missing (zero) data in SNS package
+[33md1f7f208[m [BF] BluetoothMedium only warn when sending data while not connected
+[33m66fd76f5[m [BF] Do not open PauseMenu when HasFinished
+[33m649b1ee2[m more score>0 filtering on /admin/
+[33m90f35aaa[m /admin/ usability tweaks
+[33m0a747e1f[m [BF] Fixed signature mismatch in {merge-login}
+[33m4f392bd3[m Missing files
+[33ma31bd679[m Merge remote-tracking branch 'origin/master' into fix-1440p
+[33m3efd3983[m [BF] prevent download worse best_time from download_data
+[33m30197f78[m Do not use extra_hd textures (max is md now)
+[33ma6ab773c[m release candidate 9
+[33m93d7b5ce[m [BF] L10N changes
+[33mb7bdecef[m [BF] Fixed LaserNetwork ray calc with RemoteBullet
+[33mde3947ef[m [BF] Multiplayerscore ont correctly shown when FInishCounter()
+[33m79ce8f97[m [BF] Fix newest bullet disappearing when relaycannon source is hit
+[33m54006c59[m [TK] Calculate Time+Score local and send to server on set-score, set-mpscore, set-multiscore
+[33m3ce7d8bb[m release candidate 8
+[33m1dbada97[m [BF] /admin/userlist ...?a=y
+[33mb291c5ea[m [BF] fixed not reuploading in ping
+[33m3f5bb48f[m [FT] Toggle between SP+M Highscore
+[33m654f686d[m [BF] signature errors not in server log -.-
+[33m8daf06d6[m [BF] Not getting enough points when clearing higher diffs
+[33m5632832b[m [BF] Can't showToast before MainGame.Initialize
+[33m3140f63e[m [BF] Prevent locked W1 Access through IAB panel
+[33m8c7c2a1d[m [FT] Directly show IAB panel when clicking locked node
+[33m9946a46d[m [BF] Wrong IAB_Codes in UnlockManager
+[33m2e4a672b[m [BF] L10N fixes
+[33m782567fd[m [TX] Prevent online conn when local debugging
+[33m83a19131[m [BF] Bullet collided with unkown fixture: RemoteBullet
+[33mc856b09d[m update 2017-08-15 todo list
+[33mfd7e762b[m protocol 2017-08-15
+[33m37f895cc[m release candidate 7
+[33m6827dc0f[m fixed map movement on zoom out
+[33mdbf388b6[m release candidate 6
+[33m0757bee2[m Various stuff:
+[33m15415c1e[m nerf KI on 1:1 (D0)
+[33ma51854ed[m ignore 0-score users in admin page
+[33m9ca715e3[m Update README.md
+[33mbb5e69bd[m release candidate 5 (hopefully fixed IAB)
+[33m2d9e9702[m Update README.md
+[33m8e56b17f[m release candidate 4
+[33md268f857[m delete Components samples
+[33m43a0f72d[m remove IAB stuff from Android.Full
+[33md9e45fa7[m fix log_error no longer working
+[33m6d6bc114[m release candidate 3
+[33mfda6ba48[m release candidate 2
+[33me2e76954[m revert image_01 changes
+[33m20007ca8[m Release stuff
+[33m2b7312e4[m stuff
+[33m9054ea4d[m Move TestForGameEndingCondition in subclasses
+[33m7aeb3a43[m Bugfix: Neutral Cannons with id's > id of first neutral relay cannon were not shooting
+[33m059ab79d[m Update TODO
+[33m1d08056c[m update TODO
+[33mb5a9f388[m play store stuff
+[33m03500f77[m only set time for real-solved-diff
+[33m1a1a4fd4[m changes 4-31
+[33m42ee36ec[m server: log out signature error data (debug)
+[33m456586e7[m fix GameDragAgent
+[33m3d80cbe0[m more level changes (W4)
+[33mdc7b847d[m keep order in ResParameterSet
+[33m4f89cd8b[m Level adjustments
+[33med18b1c1[m Revert RelayCannon changes
+[33m82b2ee9d[m Some Adjustments
+[33m8ab6ad95[m v0.24 - release_candidate_1
+[33mf4e647df[m WorldMapDragAgent UPS-independent
+[33ma61c5405[m GameDragAgent UPS independent
+[33md62a118c[m AdaptionFloat (and by induction OverworldScrollAgent) is now UPS independent
+[33m0be1fdae[m fix counter flicker on re-enter OW screen
+[33me8d4eb2a[m fix WorldPreviewPanel accessing locked world
+[33m3d586f38[m W4 preview levels
+[33m0f4d981b[m precalculated KI Pathes everywhere
+[33mb15470fc[m levels 4-25 - 4-31
+[33m6efc95f7[m icon_2
+[33m51445c71[m Show needed Score in WorldPrevPanel
+[33m2ad19e31[m Better overworld focus (screen center)
+[33m057a1bc3[m UnlockManager (World IAB etc)
+[33me479c44e[m 4-18, 4-19, 4-20, 4-21, 4-22, 4-23, 4-24
+[33mebb1d8d5[m color mixer
+[33m649b6be0[m 4-17
+[33mfd12c32b[m 4-16
+[33ma3e5cc7b[m Show player count & color in graph_preview (+ output graph layout in pack)
+[33mda55d38b[m Added README
+[33m8e08ad96[m Promo text for W4
+[33m0bccdab7[m EndGameScreen
+[33m094cb837[m 4-11 + 4-12 + 4-13 + 4-14 + 4-15
+[33m6c9d9429[m Fix Farseer assertion with zero-length voidwall
+[33m8b3df6fd[m Fix DSLEditor overview image gen
+[33m80679eb4[m 4-9 + 4-10
+[33me95b05a5[m 4-7 + 4-8
+[33mad0b0c99[m SPScore + MPScore count upwards
+[33mafaa4e3c[m 4-5 + 4-6
+[33m60bafdf8[m 4-4
+[33m82f43c7d[m Ignore relay cannons in win_condition
+[33mfa62126c[m better level filenames
+[33m8d82ee90[m 4-1
+[33m6f09c518[m direct transition from zoomed out state
+[33m7fdfbc6e[m WorldMapBackground::DebugBackground
+[33m83745e6a[m Fix ReappearTransitionAgent wrong OverworldNodePos
+[33mee31b693[m Better Relay KI
+[33md8503ed0[m Delay in Relay :D
+[33mc254fd7b[m 4-1 + 4-2
+[33maf489b5e[m Partitioning render algorithm for WorldMapBackground
+[33mf6da0bef[m remove solved TODO comments
+[33mb5c2966a[m cleanup + fix debugscreen y-offset + more debug timers
+[33m4e5542e6[m glass sound + sound mixing + quieter menu music
+[33m13cf993b[m fix server-exception when stacktrace too long
+[33m4d58fa7a[m Neutral cannons dont effect cellular grid
+[33mdcc47a1f[m Allow all levels in MP
+[33m20dad87a[m XBT ping
+[33mf4191721[m Toast on P2P disconnect
+[33m72fe12f2[m Always allow W1 in MP->Random
+[33maf7cb432[m fix multiplayer score label displaying -0 when loosing
+[33m7a6c9f70[m buffer complete bt packages from stream
+[33mc9273f21[m XBT toasts
+[33m5979d842[m XBT DebugString buffered
+[33mbaf663a0[m WE - ARE - CONNECTED !!!
+[33m0b233f14[m BluetoothAdapter needs LOCATION permissions -.-
+[33md0fb3c01[m multiplayer highscore
+[33m030229d3[m smaller TODO's
+[33ma25369e2[m more network debugstuff
+[33m6ae69c1d[m Shields
+[33mc46db512[m ShieldProjectorCannon DrawCore
+[33m3e5204c5[m shield ki
+[33m771936b0[m Shield drawing 1
+[33m15117968[m laserbarrel
+[33m60ad0623[m Unlock lower difficulties when solving higher ones
+[33m21a07fe4[m bugfixes
+[33m96e6099f[m todo
+[33m1304beef[m fuck bluetooth
+[33m997aa8e5[m BT (intermed)
+[33m7025c694[m Added default switch cases (4 resharper) + general cleanup + bluetooth
+[33m4510de62[m FarseerPhysics: Added default switch cases (4 resharper)
+[33m0f791e6a[m AndroidBluetoothAdapter
+[33mf7929373[m changes to ack remaining errors
+[33me905ba0a[m MultiplayerTokens + RandomRestart
+[33mbb7137b8[m draing the new guns
+[33mb4b526a4[m New Cannontypes (WIP)  - Relay  - Shield  - Trishot  - Minigun
+[33m1c0134bf[m network protocol definition
+[33m18a22cf5[m /admin/ css
+[33macdd5c3b[m Many fixes/todo/features:
+[33m56427040[m Build warnings
+[33md7478917[m MAX_PACKAGE_SIZE_BYTES  = 1450
+[33mbe617952[m v2.23 - UPD/IP Multiplayer
+[33m9f8a8e81[m Merge branch 'multiplayer_bt'
+[33m0c761e4a[m[33m ([m[1;31morigin/multiplayer_bt[m[33m)[m Timout stuff
+[33m61c872c1[m No SimulateBarrelRecharge for neutral cannons
+[33m5ddeb8f7[m Countdown
+[33m50461cbc[m Fixed client handicap xD
+[33me2a3ed01[m Background for ping hud
+[33mb728197a[m Multiplayer game finish condition
+[33mcf64c74c[m Ingame pings
+[33mb8f86236[m Escape the multiplayer
+[33mbdf66b2e[m Fix Lasercannons in MP
+[33mf37eb142[m predict recoil clientside
+[33m5a93dc45[m Send gameinfo while in lobby
+[33m5f776e85[m Fix multiplayer with more than 2 participants
+[33m3bfbd60f[m MultiplayerClientLobbyPanel
+[33ma40a3eaf[m MultiplayerServerLobbyPanel
+[33mae7c841f[m Fix AfterLobbySync Server->Client
+[33m8fed24ab[m MultiplayerHostPanel
+[33m48e69aa9[m HUDBackgroundDefinition (replaces all that old background clusterfuck)
+[33md026f8d1[m MultiplayerJoinLobbyScreen
+[33m1b8591f9[m ui design wub wub
+[33mb6c7d630[m Keep Overworldstate when force reset screen
+[33m0f030581[m MP Main Panel
+[33med7fce95[m Bullet prediction works ... acceptable
+[33mc07aebb4[m improv proxy server
+[33m2aae3b24[m fix comlink
+[33mb70f80b3[m transmit time (protocol dead)
+[33m72d575b2[m NetworkDataTools
+[33m34e6113f[m correctly kill client bullets
+[33m4b19de47[m Various:  - Unique Error IDs  - L10NImpl Formatter  - L10N Network error messages  - Stacktrace + gameinfo in logclient  - prevent server log flood  - multiplayer version+level sanity check  - quit client/server on disconnect  - multi toast support  - fixed no containerchild revalidate when container gets invalidated every tick  - fixed Debugger.Break() crashing app in DEBUG mode without debugger
+[33m8ed6c145[m Transmit Bullet death (WIP)
+[33m8f6709cf[m Bullets are flying
+[33m092baedb[m Mp rotating cannons
+[33mb3c9910e[m AfterLobbySync
+[33mc98af381[m network...network...network
+[33m81a5c621[m mp join session
+[33m0559617d[m mp lobby
+[33m29292459[m udp stuff in pcl
+[33m671bf38f[m Untested base impl proxy server
+[33mc41b0d5f[m mp node check iab
+[33maf61c45b[m fancy animations and shit
+[33md53e704a[m fix userinfo.php app_version
+[33mf40157eb[m fix paths in spritesheet
+[33mad3c1210[m no GC.Collect(0) - the internet says its wrong
+[33me6c8ba98[m 3-29
+[33m55ddf71f[m fix playercontroller on drag map
+[33m61225c27[m fix overworldnode progress display
+[33mb3ce6284[m 3-19
+[33me5842b72[m 3-20 + 3-21
+[33m6a49e37e[m fix 90deg laserblock refraction
+[33ma50d5bf9[m better portal colors
+[33m64c7e696[m 3-13
+[33m522c4f97[m Colored laser beams and no more laser specks
+[33mcc982df4[m No HP regen when attacked by laser
+[33mf76aa86f[m fix music disabled by default
+[33m0cd05297[m improv 3-5
+[33md7df0ec7[m laserdamage independent of scale
+[33m8e62be80[m changes lvl 3-2
+[33m3f4dc014[m BF: Can't control player on levelstart (first 0.5s)
+[33m98b2a40d[m Remember GameSpeed on restart
+[33m2454a1a6[m BF: Wrong collision on orthogonal rays
+[33m637c8b57[m sound effects as ogg vorbis
+[33m408b5203[m new laser sound effect
+[33mc2e1e885[m BF: Wrong u-value from LaserNetwork.RayParallality
+[33m9e8c7c8b[m adjust laser ki + damage + boost
+[33m43263b45[m Focus latest node in overworld startup
+[33ma93f6d9e[m Shake acc when anon
+[33m314a0e35[m BF get-ranking.php
+[33m356b4760[m music (software)
+[33m1da9aacd[m music (data)
+[33me69e1a08[m Unlock world by 100% previous one
+[33m904ef12e[m Toasts for Info display
+[33mcb763df0[m Darker pipes when not enabled
+[33m798d40c7[m Improv Laser KI
+[33m054ee1eb[m effects
+[33mf5147dae[m W3 up and running
+[33mac19202f[m world_3
+[33me1e6eb0c[m 3-25, 3-26, 3-30
+[33m19acb118[m more ki config options
+[33m2cdc9aa1[m a few level texts
+[33mf9a536a8[m 3-17 to 3-25
+[33m8503263a[m 3-13, 3-14, 3-15, 3-16
+[33m06c95ce5[m 3-11 + 3-12
+[33m444a2b41[m Switch from GoodDog to ComicJens
+[33m6cd8f272[m LevelBackgroundText
+[33m5e48adc1[m Fix MarkerCollisionCorner in KITracer.FindBulletPaths
+[33m3a62a149[m 3-6 to 3-10
+[33m090751d0[m 3-5
+[33m326e2024[m show grammar in dsleditor
+[33mc997e2b0[m ki config option in gslevel
+[33m9ef629e2[m Removed refraction artifacts in glassblock corner
+[33m581d0368[m 203
+[33mf7f6177b[m adminpage: sortable
+[33m96a09dab[m filter for userlistphp
+[33m158c202a[m BF: Glassblock in KITracer
+[33me3cb677b[m readonly FSize + FPoint
+[33m4d6e20d8[m levels
+[33med0b5058[m BF FPoint.IsOrigin && FSize.isEmpty
+[33md91d678c[m Server: Allow 'unlocked_worlds' parameter to be empty
+[33m7a32ce93[m No rotation party when player lost
+[33m248383dd[m BF: KI_Trace/KI_Sim with Wrap_Donut/Wrap_Solid
+[33mf556f6a2[m Donut particle effect
+[33m563203e4[m LaserKIController
+[33mc33cb1ad[m LaserNetwork (10)
+[33m3dd06a57[m WrapMode Background
+[33m977a8c00[m PowerLasers
+[33m66241a28[m LaserRenderer
+[33m041fc3d4[m BF CPUParticleEmitter size
+[33m5912aa8f[m Less cannnoncogs in spritesheet
+[33m795f025a[m LaserNetwork (9)
+[33m3c48cbf6[m LaserNetwork (8)
+[33me0a2dcd6[m LaserNetwork (7)
+[33mdfbad0e4[m LaserNetwork (6)
+[33mb75e02fe[m LaserNetwork (5)
+[33m578847f0[m better render of overworldnode
+[33mddd0115b[m BF Donut Laser
+[33m13f4889a[m Fixed adminpage in chrome (nur für dich armin)
+[33m1d24a857[m Update deploy_server.sh
+[33mb9ea7cb1[m More info in db
+[33m927e5b40[m BF: Fix DSLEditor LaserTracer
+[33m72b8a0c6[m Correct Usage of (FPoint, FSize, Vector2) everywhere (+ no longer implicit conversion of the three)
+[33mbdddcb1d[m Make ConvertUnits factors public
+[33m82637408[m BF Rendering with Donut|Solid
+[33m05f94ecd[m LaserNetwork (4)
+[33mc6c9fc8b[m LaserNetwork (3)
+[33maddcfb76[m BF: Leveltime too fast
+[33m78b2d9e0[m LaserNetwork (2)
+[33mde019ddc[m LaserNetwork (1)
+[33ma497ff71[m show logs in /admin/
+[33m2e354a6c[m userinfo.php
+[33m000b5e76[m Redownload Highscore (+ping bzw createuser) every 10min
+[33m7ad04b88[m BF OverworldNode keeps getting stuck when swinging furiously
+[33mf948bf2f[m BF initial animation gets swallowed by android init lag
+[33m0b2986f5[m Drawing LaserCannons + MirrorBlocks + Rotated Glass
+[33ma427355c[m BF merge-login.php msgk
+[33m72793496[m Improv user handling (log-out, merge-login, batch-upload)
+[33m157b36bf[m Show other sources in DSLEditor
+[33m9f4a801e[m small styling fixes
+[33md9207694[m fixed expansion cell with single backtick
+[33m09bbcd3e[m admin page
+[33m52b2c09d[m BF: GameEntityMouseArea was swallowing HUD events
+[33mfe98a5ac[m BF: IsKeyJustDown in first cycle returns default true
+[33m6737efbd[m wrapmode ki
+[33me74588a3[m BF: DSLEditor.pack() not generating config_levelids.php
+[33ma6441629[m wrapmode
+[33m8dec0e1b[m Bigger worlds
+[33m206dc8ef[m Scaffolding W3
+[33m646ff7d4[m IAB finished (?)
+[33md2f7b345[m BF: KI_PRECALC_PATHTRACE - wrong cannon angle with multi-ray path (again - now for bullets)
+[33m8fe11f60[m HUDScrollTable: Better RestDrag
+[33m5c4c3810[m ProxyScreenProvider
+[33mc20bee85[m Better logic for nextnode + initialnode
+[33mc5bf3f53[m BF: End Game on FFA when no player cannons remain
+[33m041bf100[m BF: KI_PRECALC_PATHTRACE - wrong cannon angle with multi-ray path
+[33maf94c467[m WorldMapDragAgent better (?) RestDrag
+[33m772051b2[m Promo Manager
+[33m36f120ca[m Remember IAB (breaking change for Serialization)
+[33mdac39401[m OverworldScrollAgent
+[33mc8aeef7b[m fancy timesheet shit
+[33m1fedfb48[m unlock panel
+[33m0503124a[m Overworldscroll (failed)
+[33m2f7d194c[m Laserkraft
+[33m471e1602[m miscellaneous (mostly WIP)
+[33mf6ea3fc2[m laz0rs (WIP)
+[33m4a10c6af[m prev
+[33m39145a44[m Better Overworldnode structure
+[33m718c3deb[m WorldPreview (WIP)
+[33m5829285f[m Revert IAB-config by vs targets (fucked up my compiler :/)
+[33m67531328[m intermed
+[33ma8cb6c5a[m IAB (WIP)
+[33m27d042a3[m No precalc with target==source
+[33mf03e8f53[m Re-added FarseerPhysics.Portable as normal files
+[33mb732d82b[m Remove FarseerPhysics.Portable (1)
+[33mb063ad6b[m Fixed dirty collision (no-reflect) by disableing TOI
+[33m74046367[m don't "rm -rf data" in server deploy script
+[33m1f694a6c[m dynamic L10N
+[33mf24e34f4[m organized textures
+[33m9bebb585[m back button in game
+[33m538fe621[m fixed HUDPauseBtn width
+[33m4eca4634[m big thing goes in, little thing comes out
+[33m889fe54c[m Now you're thinking with portals
+[33m77898693[m Fixed debugview after screen change
+[33mde5a7cca[m PortalBlueprint in DLSEditor
+[33m794a3bd4[m Store graphics
+[33m23c133d7[m Update FSP
+[33mae33791b[m L10N
+[33ma0fcc3c6[m Fix deadlock on succesful login
+[33mcfc0e42c[m Ranking per GraphID
+[33m7acc0f34[m Android In-App-Billing (WIP)
+[33m0a4740f6[m BF: ScoreDisplay wrong y position
+[33mc681f42a[m BF: BoundingVP of graph
+[33m9d1c3377[m BF: get-ranking only get Top-100
+[33mbafdecbd[m Attributionspanel
+[33md9cbffb5[m update ref FarseerPhysics.Portable
+[33m9d0869a9[m Ingame Highscore panel
+[33m0da2f401[m BF: Render Particle behind HUD
+[33m18fb036f[m BF: Show logo when effects=off
+[33m74b8f6ff[m BF: Visualize missing input fields
+[33mbb4e0e51[m BF: pixelated splash screen
+[33m5392267d[m BF: Zoom out when leaving level
+[33m912df6f1[m BF: Go to next unfinished nodes when no direct child is applicable
+[33mf2966c9d[m BF: Remove crosshair when loosing control of cannon
+[33m45acee5d[m BF: fixed level 1-13 being nearly impossible
+[33mb0743b53[m BF: Removed pipe from 2-4 to 2-5
+[33mdcb61cf1[m BF: Flicker when transition map->overworld
+[33m248ba8e1[m BF: Smaller rect for logo
+[33m8bdd39ab[m BF: Do not exit from map screen
+[33m8f828aeb[m BF: GlobalCompletionCOunt only updated on next server sync
+[33m230e99ee[m BF: Wrong ParticlePreset after re-enabling effects
+[33md2a75718[m BF: RotaryMenu - register click events on text
+[33m07489ba7[m BF: Background of SubSettingsButtons
+[33m45380d8d[m BF: Exception when calling RunSynchronously
+[33m355b084b[m BF: Lag after game + EndGameController KI
+[33ma17f832b[m BF: LastLevel Exception ScorePanel
+[33mddd63b67[m Text for DIFF_4 = 'Extreme'
+[33m4a3af74a[m reomoved background music (reverted from commit 6da04f)
+[33m0f727c65[m beta v0.22
+[33m55647736[m run netcode in ~real~ background
+[33ma94e19e8[m network err toasts
+[33m02824505[m android stuff
+[33m187b1e5d[m prevent screen dim (i think)
+[33m4d48bcfb[m splash + temp icon
+[33ma912f6ac[m mysql BIT -> BOOLEAN
+[33m94354ee6[m sendmail in debug
+[33m52b4d780[m WarpNode + RootNode text background
+[33m34494c13[m Logo particle animation (gpu)
+[33m6da04f0e[m background music
+[33m9772676b[m BF vert angled walls
+[33mc5209669[m DJ Mike
+[33m643bd1c4[m reflect.mp3
+[33mc4d40970[m error.mp3 + drag
+[33m0019e118[m Bigger hitbox for pause button
+[33mfaca79e9[m stuff
+[33ma66560a7[m back back
+[33m3fc31211[m Toast
+[33m1319ef22[m Lock worlds
+[33m0590a47f[m change gslevel constants
+[33m22fe4269[m update deploy_server.sh
+[33m348d63c3[m ping counter for server
+[33m113aa93a[m BF: Node not fully closing after first open
+[33mc1d3c0bd[m BF server.debug
+[33mc9e9ac67[m improved server debug page
+[33ma9ca59f2[m WarpNodes
+[33mb263d032[m Validate graph in DSL (loops, reachability)
+[33mbd5542ca[m Pipe Priority
+[33m8496479c[m Faster, better, higher DSLEditor
+[33m4f05f4d0[m Fix build warnings
+[33ma40cf464[m Update to MonoGame v3.6
+[33m48a26015[m Cellular Background finished
+[33m29581e39[m Cellular Background (Reference Impl)
+[33m1bf354e8[m (WIP) Cellular Background
+[33m616eb080[m Bullets behind cannons
+[33ma7a8b03f[m KITYPE_PRESIMULATE works
+[33m6c9364ec[m Added Black-hole and white-hole mechanics
+[33m54271837[m Fixed some exceptions/assertions in DSLEditor
+[33m6d093855[m Levels for World_2 (27 levels, all finished except 4 blackhole levels)
+[33m441b0729[m GraphPreviewPainter: cache parsed levels
+[33mc1ee5ba3[m DSLEditor Drawing in other thread
+[33m07b70794[m Remove KI_TYPE_PRESIMULATE
+[33m399aed5e[m KI_PRESIMULATE (WIP)
+[33mcb4d709f[m BF server cannot set score of difficulty=0
+[33m4168f4af[m If set KIFractionController uses precalculated bullet paths
+[33m20ef1199[m Finished precalculation phase of new KI mode
+[33m0b5c3d69[m KI_Type: Precalc (WIP)
+[33mbb4c8fa6[m Draw GlassBlock in ASCIIDrawer
+[33m0955daa5[m Fixed Glassblock collision (needed patch in Farseer submodule)
+[33m1b829b3c[m GlassBlock (NOK - collision fail)
+[33ma1e1c0fe[m BF HUD Transition flicker (TopLevelDisplay 1. frame)
+[33ma19c2883[m auto pack in DSLEditor
+[33m7aa23394[m Added deploy_server.sh
+[33m0c3f9351[m levelids in own file + BF server difficulty values
+[33m337be789[m Visually nicer Node Opening animation
+[33m936337d8[m Some stuff for (alpha) web api deploy
+[33m081a475f[m Better (?) icons
+[33md984e2b5[m Tutorial finished
+[33m852089e1[m Tutorial Level (First draft)
+[33mfbd01856[m Better (?) dragging precision (start rotate before leave innerbounds)
+[33mff417b59[m split big bullets on hit
+[33m74e8ebab[m Walls blockBackgroundParticle
+[33md9c2b1e5[m tutorial work + namespace fixes
+[33m13fa5b8c[m Tutorial (WIP)
+[33m50f3e797[m Fixed SettingsButton premature abort of opening progress
+[33mb9220bb9[m Fixed HUD first render in invalidated state
+[33m8ac5325d[m TransitionOut
+[33m1f3256d0[m RootNode
+[33m69e8ec16[m Root Nodes (WIP)
+[33md61d9e52[m Disabled nodes
+[33m7fd47460[m big mamas cannon
+[33m1f2d9f81[m Collapse OverworldNode to display
+[33me7be55dd[m BF Graph rendering (ingame + editor)
+[33mcbc1ce5c[m Show shortnames in graph editor
+[33m3fe9c1d1[m levels for w1 complete
+[33m88fc3206[m Level 1-5, 1-6, 1-7
+[33m7567fdeb[m Made scale factor in level (more) consistent
+[33mcfa810bc[m VoidCircle
+[33m2450036d[m Draw Voidwalls in ASCII Map
+[33m06f0d15c[m VoidWalls
+[33m8ec0a658[m VoidWall (WIP)
+[33mdab5bd6c[m Fix levelfiles with new vec2f syntax
+[33m7f635ed5[m Combined LevelEditor and GraphEditor into DSLEditor -- added SAMScriptParser abstraction
+[33mb789d7e2[m Various small TODOs (initial node, score disp, zoomin sound, remember map trans, ...)
+[33m157fd1b2[m Leveleditor fixes + overview + variou stuff
+[33mebac606c[m baby steps towards finding the perf problem
+[33m11da692e[m Added AverageCycleTime to APSCounter
+[33m6e0349ab[m strange git artifacts ???
+[33m5e754825[m GraphEditor and Graphdata
+[33m73836849[m Transition into WorldScreen
+[33me04ba37a[m Resharper cleanup
+[33mb10ebb26[m OverworldScreen
+[33mbca99d11[m Move all DebugConfig in own class
+[33m3dcad5c2[m Reduce to single SpriteBatchWrapper and use Matrix for translation
+[33mfbfecfc8[m Fixed Release build
+[33mcc7338e6[m Map ZoomOut/ZoomIn
+[33m7d9d6407[m Different Viewportadapters for HUD and Game (and WIP map zoom)
+[33m0468d066[m PinchZoom support
+[33m80eacab5[m Better map pipes
+[33m40107a2c[m Soundeffects
+[33m570f1062[m drag froce dependend on nodes
+[33m657d1338[m MainMenu Background grid coloring
+[33m67eb3aa5[m Order entities by property
+[33mb06c45f1[m LevelNodeOrbs
+[33mab4f2ea1[m few bugfixes here and there
+[33m07c9dcad[m HUD Keyboard finished
+[33m5e4f9be0[m HUDKeyboard (WIP)
+[33m6c9c5b6e[m Trying to use native keyboard ...failed
+[33m46ede901[m FullAccPanel + ChangePassPanel (acc menu finished)
+[33m44e6b617[m WordWrap in Messagebox
+[33mbbab6817[m create-user
+[33m29c95849[m Menu: Login (WIP)
+[33m0c8ba20b[m AppVeyor build (2)
+[33m1940dc51[m AppVeyor build
+[33m23b27790[m BF TextBox
+[33me0259657[m WIP HUDTextBox
+[33m58aae158[m WIP AccountPanel
+[33m72629a7e[m Late night persistance fuckery
+[33m3ff6de93[m Download Highscores from Backend
+[33m8b693894[m Clean up imports
+[33mf6e40b56[m Update CSharpUtils
+[33m5bc2e9a9[m Log Errors to server
+[33mf00c3cf2[m Basic Backend communication in game
+[33m99167aca[m Removed RSAx (2nd try)
+[33mf26d35cd[m Removed RSA - password is now hashed transmitted  + first test of server communication in .net code
+[33m681ce4d7[m This RSA implementation is literally cancer
+[33m201abd13[m possible error: rsa max input len (!)
+[33m0308a64a[m Working on SAMRestAPI (unfinished)
+[33m04267acf[m Add (my own) RSAx-plus lib for RSA encryption
+[33m46d439e0[m First version of C# restapi communication
+[33meb0e22c0[m fixed check_commit_signature
+[33m1ca9e1eb[m output runtime in debug mode
+[33m8d1b6d53[m ppk encryption for pasword parameter
+[33m8418f2b4[m trying to implement PPK for password sending (WIP)
+[33m378efa53[m action [get-highscores]
+[33m41e06158[m action [cron]
+[33mb9483cc2[m action [set-score]
+[33m13a203c4[m use type annotation instead of type declaration
+[33m36b60c1b[m action [client-log]
+[33me112b3f6[m show tables in /debug/
+[33m0bfe7906[m Fail on SQL error
+[33m1466241f[m action [update-score]
+[33m1c60b57e[m action [change-password]
+[33ma813f8d6[m action [ping]
+[33m774de9e9[m action specific log files
+[33m5ea617e2[m debug webpage
+[33m8566dfda[m upgrade_user
+[33m6affdc14[m logging
+[33m02573b20[m rm workspace.xml
+[33m0f983831[m check signature via RSA + composer
+[33m564fde1d[m Working on create_user api backend
+[33m32039f59[m Added IOperatingSystemBridge
+[33m1455499a[m working on backend
+[33m6b617dc0[m phpstorm project
+[33m5a7e635a[m starting server backend
+[33me85849cd[m Different InfoDisp Tabs
+[33m48b1a287[m FullName in level.init
+[33maaf9ec82[m No animated background when effects off
+[33mf06fb30d[m Commit kinda working HUDScorePanel
+[33mf2744319[m Kinda finished InformationDisplay
+[33mb93c1bf8[m Working @ information display
+[33m3e514a02[m Better DrawRoundedRect method (now works with alpha)
+[33m8791a7e4[m BF Don't RecalculatePosition while Owner is invalidated
+[33mdce4e62a[m ScoreDisplay + TopLevelDisplay
+[33m77570b28[m BF render floatingpoint errors
+[33mfe37dbf2[m BF double deserialization
+[33m636f6123[m SAMTime
+[33m018b3e53[m Slightly lighter colors
+[33m6c967b0a[m undefinied behaviour in easing functions
+[33m7964c065[m Better colors for diff levels
+[33me4c55160[m fixed case-sensitive folder artifact
+[33m4acdb223[m (Finished) Remake LevelEditor in WPF
+[33m85ac4d42[m (Intermediate) Remake LevelEditor in WPF
+[33m57b27fee[m ReSharper cleanup
+[33m687333a9[m Better Key Handling, Support for Android Menu Key, Hide all debug info with [D]
+[33m860f9701[m limit effects
+[33m439e3153[m LogProtocol and better HUD events
+[33mdbc6965c[m Fixed diff_3 being too easy (0.95%)
+[33m4bcbaa12[m Only use specific Draw Methods (no more DrawRaw)
+[33m44d4743d[m Don't round/trunc rects in BatchRenderer
+[33mfa0776e9[m Cleanup IBatchRenderer interface
+[33me1f1f7f6[m Fixed serialization bug
+[33mff64f1d7[m Functional menu
+[33m4681342f[m screen travelling
+[33mb63ba591[m Don't discard Click on MouseClickArea on move
+[33m586718f6[m World HUD :: Settings and LevelNode animation
+[33mc335e7f5[m Profiling
+[33mc260ec5b[m Centering LevelNode
+[33m94ca727f[m Swallowing Mouse Events by update order
+[33m83845139[m Open/Close LevelNode
+[33mff29b623[m Removed dependency on MonoGame.Extended (sorry craftworkgames...) (2)
+[33m29e0a9c6[m Removed dependency on MonoGame.Extended (sorry craftworkgames...)
+[33mb953dead[m GameEntityMouseAreas (for LevelNode click events)
+[33ma4dbed8f[m Icons 4 levelnode
+[33m3124fe98[m show "real" and debug-only sprite counts in debugmode
+[33m8712d5e5[m LevelNode expander
+[33m6754c03e[m re-added CPU particle implementation from old branch
+[33mee79706e[m rem alot of particle debug stuff
+[33m557e459d[m fixed shader for android
+[33m57d46272[m stash
+[33mb3d156dd[m ParticleEmitter now way faster (Changing cullmode takes extremely long)
+[33m5c859679[m a text world for particles (problems: GC and OpenGL ES)
+[33m0f17e311[m Animated letters from config file (for tests and stuff)
+[33m38af72ca[m better rand function in particle shader
+[33m7e4d6f6e[m better circle rendering in debug minimap
+[33m00aec260[m particle system works - 70k partiicle test success
+[33m9d7c7c52[m shader kinda works - fps still awful
+[33mc5ea2af1[m all on particle gpu - miserable framerate
+[33m7a0d5789[m shader fixes
+[33m41bb0200[m Merge remote-tracking branch 'origin/shader-particle-system'
+[33m4ff2e808[m[33m ([m[1;31morigin/shader-particle-system[m[33m)[m shader-particle-system works (except partially VBO updates)
+[33mb1e63983[m all basic features work (fx particle system)
+[33me7ba3264[m some shader stuff works and all dynamic properties are calculated by gpu
+[33mf1f12c73[m fixed ParticleEffect shader under OpenGL
+[33mdb222f16[m DirectX resizing fix (again ?!?)
+[33m9eb66fb5[m the red rectangle (finally) align correctly
+[33mfe8f7a19[m some red rectangles
+[33m209ea490[m should work... but doesnt
+[33m4bf40077[m Merge remote-tracking branch 'origin/master' into shader-particle-system
+[33mc107800c[m fun with particles
+[33m33503853[m fixed FloatMath.ArcContainsAngle
+[33m526531b8[m Stuff and wtf
+[33m7cb80685[m Correct BoundingBox Calculations for Ellipse and Circle
+[33m74b92a1b[m Finished PathPresets for 'A' - 'Z'
+[33m2e10b285[m EllipsePieceSegment
+[33maa944c1e[m Renamed MathHelper NS to GameMath
+[33m4ffa8f6f[m Finished alphabet svg
+[33mfa5e6ee2[m alphabet svg (A-F)
+[33m501dc958[m Added PathParticleEmitter
+[33m0f3e8a62[m Extract a few stuff into SpriteBatchCommon class
+[33maea9d1c0[m Show spray cone in ParticleEmitter debug view
+[33m9b7b1914[m MonoSamFramework particle system (!)
+[33m3ed75c1a[m fixed tps output dir
+[33maa5f7553[m removed GDEntity superclass (that was a bad idea from the start)
+[33m65119e50[m Stuff for particles
+[33m8afdf81f[m Clean up of /Data folder
+[33m804e85d3[m - Only draw visible entities  - fully featured debug minimap  - show entity boundaries in debug mode
+[33m5d03b6ff[m Background dragging bounding box and debug minimap
+[33md1821405[m Correct background drawing for translating world map
+[33mcd2e6e6a[m Simple WorldNode without expander or functionality
+[33me57c1e47[m ScreenAgents and Draggable WorldMap
+[33m862ce94d[m Translating SpriteBatch Renderer
+[33mef4aa8a1[m Added raw scratch for worldmenu nodes
+[33mcf772e94[m A little bit of ReSharper cleanup
+[33m92e49382[m Draw Background in menu
+[33m4905b8f8[m Moved to own implementation of ViewportAdapter
+[33m3cb81493[m Small overall changes (intermediate)
+[33mad89fe0f[m Started implementing WorldMap
+[33m86f3247e[m Add Checksum verification to SAMPersistance
+[33m2534bcb5[m Finished new serialization API
+[33mbd320a20[m Started working on text-based binary serialization (lol, yeah)
+[33m9ee90ee6[m First steps in direction of platform independent settings serialization
+[33m0afb7ca2[m Removed no longer needed patch for MonoGame 3.4 bug
+[33m89dffae8[m Added stubs for PlayerData (for hud testing)
+[33mbbfce5e3[m Actual winning condition
+[33mf9ff2544[m Winnig HUD icon animations
+[33m9daa2076[m Added Difficulty IconButtons (incomplete)
+[33m27dd7547[m Fixed artifacts in rouded corners (floating point arithmetic meh)
+[33mda24b66d[m Fixed vertical alignment (CENTER) of HUDRawText
+[33me7ec87f0[m Use pixel texfrom main spritebatch
+[33m18c84f56[m Added HUDIconTextButton to WinningScorePanel
+[33md968d539[m Automatic calc Seperator width based on viewport
+[33m46c663ac[m Fixed PauseMenuButton text position
+[33m2083e662[m No more auto trunc in FRectangle
+[33m2d4edb08[m Use floating point precision for Rect, Point and Size
+[33m1e6b3c91[m WinningHUD score panel
+[33mafb54661[m Progress on HUDScorePanel
+[33m30fc1f27[m Added HUDContainer
+[33m113873c1[m Bigger draggable radius around cannons (96 -> 160)
+[33m810ff587[m Show rendered sprites + character in debug overview
+[33mec884877[m fixed typo
+[33me9cee713[m Added HUDEllipseButton
+[33m0e14f8ce[m Added DebugSettings for globally static Debugshortcuts (press TAB)
+[33m5c0668ba[m Limit CannonBoost
+[33m2e37d9be[m Added HUDButton and Debuglevel
+[33m09a108df[m Render HUDPauseMenuButton with FlatRenderHelper
+[33mc0320b31[m Added FlatTextureHelper  - to render dynamically sized Panels with (gausssian) dropshadow
+[33m5ab4e962[m Add TODO
+[33mef818b55[m Added DrawBackground to HUD
+[33mc455d1a4[m HUD commands
+[33m86f46703[m Update MonoGame 3.5 and MonoGameExtended 0.5
+[33m41fb5da5[m Updated TODO's
+[33m4ecc3e61[m pause expander works
+[33m0913224d[m pause menu expand - intermediate
+[33m00bfb5bf[m Better pause/resume transition
+[33ma2eb923f[m Optimize spritesheet (10% improv)
+[33mc97b168b[m Fixed OpenGL HUD bug (patching around monogame issues -.- )
+[33m657204ca[m Finished pause and speed menu
+[33mee72608c[m Popup speed menu
+[33m0ed73617[m HUDPauseButton
+[33m4e6d319c[m More fun with HUD
+[33mee00e078[m Resharper Cleanup
+[33m402e567f[m More MonoSAMFramework abstraction
+[33mc49b4de6[m Fixed TexQuality on __DESKTOP__
+[33m163d8596[m Extracted Framework namespace into own library (MonoSAMFramework)
+[33m7304a0e5[m GameHUD (intermediary checkin)
+[33m48d7c3e8[m Bullet explosion animation
+[33mf90c776b[m Bullet operations for cannonhit
+[33mb8c5daae[m missing files
+[33md721f740[m Added include level directive and compile option for editor
+[33m1d3eab9b[m Dynamically get the preferred texture resolution
+[33m7f4c16d1[m Texture_Scaling is dynamic, 4 quality levels (hd, md, ld, bd)
+[33mf963900b[m Added crosshair
+[33m127d687e[m more DEBUG directives (per file)
+[33m4a94529c[m Don't render particles
+[33mf872b04b[m Reverted to particle based background
+[33m9f248fbb[m Alternative Background algo - no particles
+[33m29fc660d[m Update TODO
+[33m958d869c[m Background particle and coloring finished
+[33m0f1ac69e[m Background particles (WIP)
+[33mdc4c87c7[m Added collision to barrel
+[33m42dca76a[m Overflow mode for debug display
+[33m7efae205[m Fixed KI going into idle when friendly is reachable
+[33me9e89d98[m Added visual barrel recoil
+[33me4c69815[m Fixed ConstantRandom, Neutral Balancing and Random Ki Target
+[33m3d3e6a04[m Added Neutral KI
+[33m0ba9fdf9[m update /Data
+[33me9bc502b[m KIController
+[33mca6b6429[m Controller system (PlayController implemented)
+[33md71751bc[m Removed duplicate xnb output from csproj build
+[33me7a7b4e1[m CannonCog implementation
+[33m5f9fa737[m CannonCog animation
+[33m4d534d50[m Update spritesheet
+[33m03f4d2c1[m Draw new Design
+[33ma70dd359[m New Graphics - New Design
+[33me5dd6cf6[m Removed leftover project files
+[33mb7adb8ea[m Scaling for Cannons and Bullets
+[33m9473fa91[m File Handling in Leveleditor (Opening, Saving, Loading, Cmd Params, Drag'n'Drop)
+[33me9161bdd[m Rotation argument to level files
+[33m3cfbaeeb[m Level Pipeline, Level Loading, Level Parsing
+[33m8f5fa9de[m Better Leveleditor Rendering
+[33mfe06cb0d[m Leveleditor SyntaxHighlighting
+[33m610ec59b[m More LevelEditor
+[33mef37866c[m Begin Leveldesigner
+[33m01cf426c[m Booster Health and State
+[33m9c60f460[m Fractions for Bullets & Cannons
+[33m6e317c37[m Bullets have a max. lifetime
+[33m2f24fe2f[m Kill OOB Bullets
+[33mbd255cc9[m Collision for Bullets
+[33m527716fc[m Added Farseer DebugView
+[33mdc9c1060[m Use Tabs everywhere
+[33md6cd8874[m Added Screen+ScreenManager (Monogame.Exetended removed it from MainBranch)
+[33m01347b86[m Update submodule MonoGame.Extended to new master
+[33m6ac781bc[m Restructure solution files (4)
+[33mc3099ba9[m Restructure solution files (3)
+[33md4bb7a13[m Restructure solution files (2)
+[33m61afe591[m Restructure solution files (1)
+[33m4cd8d6b3[m Added FarseerPhysics.Portable PCL
+[33m09bbf72b[m Added nuget package for OpenGL project
+[33m1b7952fb[m del unused Game1 classe (from the project templates -.-)
+[33m8e82a8a4[m Fixed too slow DebugDisplay inertia (is now linear scaling ;D )
+[33m99002cec[m Fixed RELEASE target
+[33m243cadd3[m Shooting, bullets and log spam
+[33m970ca26a[m fancy debug stuff is fancy
+[33mc1e9e38b[m DebugDisplay FPS + UPS
+[33mc0b01d4c[m Inputs + cannon rotate
+[33md8b418e3[m EntityManager
+[33mae32d88b[m Update submodule MonoGame.Extended to new master
+[33m9401075a[m TolerantBoxingViewportAdapter
+[33mfa7b1a20[m Debug graphics
+[33m7f14198b[m Re-added FloatMath.cs
+[33mc2c4579a[m Update submodule MonoGame.Extended to new master
+[33m069be0c6[m Update submodule MonoGame.Extended to new master
+[33maf5d2805[m Use FloatMath
+[33mc7db9c36[m Rotating circles
+[33mcfecf828[m Moved Gamestuff to GameScreen
+[33m32964edb[m Update submodule MonoGame.Extended to new master
+[33m7917e319[m Update submodule MonoGame.Extended to new master
+[33m622355f2[m Fixed two intellisense warnings
+[33m134bdfac[m Added own MonoGame extended submodul
+[33m32ff720b[m Added OpenGL Project
+[33m172e63c1[m Use single shared Content.mgcb
+[33m0f04652b[m Draw stuff
+[33mf2f417d5[m Fuuuuuuuuuuuuuuu
+[33mf1644bf5[m ????
+[33m9e06ed9d[m Added MonoGame.Extended
+[33m734d70b2[m Base Template

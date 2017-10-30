@@ -18,7 +18,7 @@ namespace GridDominance.UWP
 	{
 		public FileHelper FileHelper { get; } = new WinPhoneFileHelper();
 		public IBillingAdapter IAB { get; } = new WinPhoneFullVersionBilling();
-		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
+		public IBluetoothAdapter BluetoothFull { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => null; // Not Supported
 		public string AppType => "WinPhone.UWP.Full";
 
