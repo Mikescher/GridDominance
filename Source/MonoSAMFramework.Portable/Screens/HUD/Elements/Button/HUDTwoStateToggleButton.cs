@@ -63,7 +63,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			ToggleState = !ToggleState;
 			ButtonClick?.Invoke(this, new HUDToggleButtonEventArgs(ToggleState));
 
-			HUD.Screen.Game.Sound.TryPlayButtonClickEffect(); //TODO evtl other sound?
+			HUD.Screen.Game.Sound.TryPlayButtonClickEffect();
 		}
 
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)

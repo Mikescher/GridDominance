@@ -201,23 +201,57 @@
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Contents.json">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_060.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_020.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_1024.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Splash.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2208x1242.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1242x2208.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_750x1334.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2048x2732.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_768x1004.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1024x748.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2048x1496.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1536x2008.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_320x480.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Contents.json" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Default.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\GameThumbnail.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_060.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_020.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_1024.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Splash.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2208x1242.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1242x2208.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_750x1334.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2048x2732.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_768x1004.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1024x748.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2048x1496.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1536x2008.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_320x480.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Default.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\GameThumbnail.png">
+      <InProject>false</InProject>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Content\textures\spritesheet_default-sheet_bd.xnb" />

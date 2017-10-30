@@ -77,14 +77,12 @@ namespace GridDominance.iOS.Full.Impl
 		{
 			NSObject[] activitiesItems = {
 				new NSString("Cannon Conquest"),
-				new NSUrl(@"https://apple.com/appstore") //TODO correct app link
+				new NSUrl(@"https://itunes.apple.com/de/app/cannon-conquest/id1303565192")
 			};
 
 			var activityController = new UIActivityViewController(activitiesItems, null);
 
-			var gameController = Program.game.Services.GetService(typeof(UIViewController)) as UIViewController;
-
-			if (gameController != null) gameController.PresentViewController(activityController, true, null);
+			if (Program.game.Services.GetService(typeof(UIViewController)) is UIViewController gameController) gameController.PresentViewController(activityController, true, null);
 		}
 	}
 }
