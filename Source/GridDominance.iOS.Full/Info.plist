@@ -4,10 +4,6 @@
 <dict>
 	<key>CFBundleDisplayName</key>
 	<string>Cannon Conquest</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>GameThumbnail.png</string>
-	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.blackforestbytes.griddominance.ios.full</string>
 	<key>MinimumOSVersion</key>
@@ -29,5 +25,7 @@
 	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleName</key>
 	<string>Cannon Conquest</string>
+	<key>XSLaunchImageAssets</key>
+	<string>Resources/Media.xcassets/LaunchImages.launchimage</string>
 </dict>
 </plist>

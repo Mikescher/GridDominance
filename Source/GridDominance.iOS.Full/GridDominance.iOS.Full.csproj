@@ -214,10 +214,12 @@
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2048x1496.png" />
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1536x2008.png" />
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_320x480.png" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Default.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Default.png" />
-    <BundleResource Include="GameThumbnail.png" />
     <BundleResource Include="Content\textures\spritesheet_default-sheet_bd.xnb" />
     <BundleResource Include="Content\textures\spritesheet_default-sheet_fd.xnb" />
     <BundleResource Include="Content\textures\spritesheet_default-sheet_hd.xnb" />
@@ -404,6 +406,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Impl\Bluetooth\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork%402x" />
+    <ITunesArtwork Include="iTunesArtwork" />
   </ItemGroup>
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
