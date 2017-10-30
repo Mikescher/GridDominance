@@ -53,6 +53,7 @@ namespace GridDominance.Shared.Network.Multiplayer
 
 		protected GDMultiplayerCommon(MultiplayerConnectionType t) : base(GetMedium(t), t)
 		{
+			//
 		}
 
 		private static INetworkMedium GetMedium(MultiplayerConnectionType t)
@@ -60,10 +61,10 @@ namespace GridDominance.Shared.Network.Multiplayer
 			switch (t)
 			{
 				case MultiplayerConnectionType.PROXY:
-					return new UDPNetworkMedium(GDConstants.MULTIPLAYER_SERVER_HOST, GDConstants.MULTIPLAYER_SERVER_PORT);
+					return new UDPNetworkMedium(GDConstants.MULTIPLAYER_SERVER_HOST, GDConstants.MULTIPLAYER_SERVER_PORT, MainGame.Inst.GDBridge.CreateUPDClient());
 
 				case MultiplayerConnectionType.P2P:
-					return new BluetoothNetworkMedium();
+					return new BluetoothNetworkMedium(MainGame.Inst.GDBridge.BluetoothFull);
 
 				default:
 					SAMLog.Error("GDMPC::EnumSwitch_GM", "t = " + t);

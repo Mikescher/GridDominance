@@ -141,11 +141,23 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 
 		}
 
+		public void TryShowAuthErrorPanel()
+		{
+			if (!MainGame.Inst.Profile.UnacknowledgedAuthError) return;
+			if (HUD.GetCurrentModalDialog() != null) return;
+
+			HUD.AddModal(new AuthErrorPanel(), false, 0.8f, 0f);
+		}
+
 		protected override void OnShow()
 		{
 			MainGame.Inst.GDSound.PlayMusicBackground();
 
-			if (MainGame.Inst.Profile.AccountType == AccountType.Anonymous && MainGame.Inst.Profile.TotalPoints > 128 && !MainGame.Inst.Profile.AccountReminderShown)
+			if (MainGame.Inst.Profile.UnacknowledgedAuthError)
+			{
+				HUD.AddModal(new AuthErrorPanel(), false, 0.8f, 0f);
+			}
+			else if (MainGame.Inst.Profile.AccountType == AccountType.Anonymous && MainGame.Inst.Profile.TotalPoints > 128 && !MainGame.Inst.Profile.AccountReminderShown)
 			{
 				HUD.AddModal(new AccountReminderPanel(), true, 0.8f, 1f);
 			}

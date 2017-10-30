@@ -134,11 +134,9 @@
     <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinUDPClient.cs">
       <Link>Impl\XamarinUDPClient.cs</Link>
     </Compile>
-    <Compile Include="Impl\AppleBluetoothAdapter.cs" />
     <Compile Include="Impl\AppleFullVersionBilling.cs" />
     <Compile Include="Impl\AppleFileHelper.cs" />
     <Compile Include="Impl\AppleBridge.cs" />
-    <Compile Include="Impl\BTDeviceWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
@@ -391,7 +389,9 @@
       <InProject>false</InProject>
     </ImageAsset>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Impl\Bluetooth\" />
+  </ItemGroup>
   <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <!--<Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" /> -->

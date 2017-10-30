@@ -30,7 +30,7 @@ function run() {
 
 	//----------
 
-	logDebug("password for user $userid changed (v: $appversion)");
+	logMessage("Password changed for user $userid (v: $appversion) [[$password_old --> $password_new]]");
 	outputResultSuccess(['user' => $user]);
 }
 

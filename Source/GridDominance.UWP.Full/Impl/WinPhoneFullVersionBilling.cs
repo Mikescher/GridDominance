@@ -19,13 +19,13 @@ namespace GridDominance.UWP.Impl
 
 		public PurchaseResult StartPurchase(string id)
 		{
-			SAMLog.Error("IAB_WPFULL::StartPurchase", $"Calling StartPurchase({id}) in full version");
+			SAMLog.Error("IAB_UWPFULL::StartPurchase", $"Calling StartPurchase({id}) in full version");
 			return PurchaseResult.PurchaseStarted;
 		}
 
 		public PurchaseQueryResult IsPurchased(string id)
 		{
-			SAMLog.Error("IAB_WPFULL::IsPurchased", $"Calling IsPurchased({id}) in full version");
+			SAMLog.Error("IAB_UWPFULL::IsPurchased", $"Calling IsPurchased({id}) in full version");
 			return PurchaseQueryResult.Purchased;
 		}
 	}

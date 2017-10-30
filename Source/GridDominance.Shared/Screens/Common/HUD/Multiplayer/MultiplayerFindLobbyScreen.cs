@@ -33,10 +33,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		private readonly GDMultiplayerClient _server;
 		private bool _doNotStop = false;
 
-		private bool _isDying = false;
-
-		private HUDImage _cog;
-
 		public MultiplayerFindLobbyScreen(MultiplayerConnectionType t)
 		{
 			RelativePosition = FPoint.Zero;
@@ -73,7 +69,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				RelativePosition = new FPoint(16, 16)
 			});
 
-			AddElement(_cog = new HUDImage
+			AddElement(new HUDImage
 			{
 				Alignment = HUDAlignment.CENTER,
 				RelativePosition = new FPoint(0, (-FOOTER_HEIGHT/2) + (96/2f)),
@@ -133,7 +129,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			if (_isDying || !Alive) return;
+			if (!Alive) return;
 
 			_server.Update(gameTime, istate);
 

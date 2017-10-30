@@ -95,30 +95,54 @@ function getUserErrors($uid) {
 	]);
 }
 
-function getUsers($all, $reg, $days, $page, $pagesize = 1000) {
+function getUsers($all, $reg, $days, $device, $dversion, $resolution, $appversion, $apptype, $page, $pagesize = 1000) {
 	$days = (int)$days;
 
 	$cond = "WHERE 1=1";
-	if (!$all)      $cond = $cond . " AND score > 0";
-	if ($reg)       $cond = $cond . " AND is_auto_generated = 0";
-	if ($days >= 0) $cond = $cond . " AND last_online >= now() - INTERVAL $days DAY";
+	if (!$all)             $cond = $cond . " AND score > 0";
+	if ($reg === TRUE)     $cond = $cond . " AND is_auto_generated = 0";
+	if ($reg === FALSE)    $cond = $cond . " AND is_auto_generated = 1";
+	if ($days >= 0)        $cond = $cond . " AND last_online >= now() - INTERVAL $days DAY";
+	if ($device != '')     $cond = $cond . " AND device_name = :dn";
+	if ($dversion != '')   $cond = $cond . " AND device_version = :dv";
+	if ($resolution != '') $cond = $cond . " AND device_resolution = :dr";
+	if ($appversion != '') $cond = $cond . " AND app_version = :av";
+	if ($apptype != '')    $cond = $cond . " AND app_type = :at";
 
 	return sql_query_assoc_prep('getUsers', "SELECT * FROM users $cond LIMIT :ps OFFSET :po",
 	[
 		[':po', $pagesize * $page, PDO::PARAM_INT],
 		[':ps', $pagesize,         PDO::PARAM_INT],
+		[':dn', $device,           PDO::PARAM_STR],
+		[':dv', $dversion,         PDO::PARAM_STR],
+		[':dr', $resolution,       PDO::PARAM_STR],
+		[':av', $appversion,       PDO::PARAM_STR],
+		[':at', $apptype,          PDO::PARAM_STR],
 	]);
 }
 
-function countUsers($all, $reg, $days) {
+function countUsers($all, $reg, $days, $device, $dversion, $resolution, $appversion, $apptype) {
 	$days = (int)$days;
 
 	$cond = "WHERE 1=1";
-	if (!$all)      $cond = $cond . " AND score > 0";
-	if ($reg)       $cond = $cond . " AND is_auto_generated = 0";
-	if ($days >= 0) $cond = $cond . " AND last_online >= now() - INTERVAL $days DAY";
+	if (!$all)             $cond = $cond . " AND score > 0";
+	if ($reg === TRUE)     $cond = $cond . " AND is_auto_generated = 0";
+	if ($reg === FALSE)    $cond = $cond . " AND is_auto_generated = 1";
+	if ($days >= 0)        $cond = $cond . " AND last_online >= now() - INTERVAL $days DAY";
+	if ($device != '')     $cond = $cond . " AND device_name = :dn";
+	if ($dversion != '')   $cond = $cond . " AND device_version = :dv";
+	if ($resolution != '') $cond = $cond . " AND device_resolution = :dr";
+	if ($appversion != '') $cond = $cond . " AND app_version = :av";
+	if ($apptype != '')    $cond = $cond . " AND app_type = :at";
 
-	return sql_query_num('countUsers', 'SELECT COUNT(*) FROM users ' . $cond);
+	return sql_query_num_prep('countUsers', 'SELECT COUNT(*) FROM users ' . $cond,
+	[
+		[':dn', $device,           PDO::PARAM_STR],
+		[':dv', $dversion,         PDO::PARAM_STR],
+		[':dr', $resolution,       PDO::PARAM_STR],
+		[':av', $appversion,       PDO::PARAM_STR],
+		[':at', $apptype,          PDO::PARAM_STR],
+	]);
 }
 
 function getLevelHighscores() {
@@ -230,8 +254,20 @@ function worldGuidToSQLField($worldid)
 	throw new Exception("Unknown WorldID: " . $worldid);
 }
 
-function getScoreDistribution() {
-	return sql_query_assoc('getScoreDistribution', "SELECT score AS score, COUNT(*) AS count FROM users WHERE score > 0 GROUP BY score");
+function getScoreDistribution($partitionsize) {
+	return sql_query_assoc_prep('getScoreDistribution', "SELECT q.xscore AS score, count FROM (SELECT CEIL(score/:ps1)*:ps2 AS xscore, COUNT(*) AS count FROM users WHERE score > 0 GROUP BY xscore) AS q",
+	[
+		[':ps1', $partitionsize, PDO::PARAM_INT],
+		[':ps2', $partitionsize, PDO::PARAM_INT],
+	]);
+}
+
+function getNewUsersDistribution() {
+	return sql_query_assoc('getNewUsersDistribution', "SELECT date(creation_time) AS date, COUNT(*) AS count FROM users WHERE creation_time >= now() - INTERVAL 1 YEAR GROUP BY date(creation_time)");
+}
+
+function getEntryChangedDistribution() {
+	return sql_query_assoc('getEntryChangedDistribution', "SELECT date(last_changed) AS date, COUNT(*) AS count FROM level_highscores WHERE last_changed >= now() - INTERVAL 1 YEAR GROUP BY date(last_changed)");
 }
 
 function countUsersByUnlock($u) {
@@ -318,6 +354,32 @@ function statisticsUserByAppType() {
 	return sql_query_assoc('statisticsUserByAppType', 'SELECT app_type AS name, COUNT(*) AS count FROM users WHERE score>0 GROUP BY app_type');
 }
 
+function statisticsUserByWorld() {
+	return
+	[
+		[
+			'world' => '{d34db335-0001-4000-7711-000000100001}',
+			'count' => sql_query_num('statisticsUserByWorld_0', "SELECT COUNT(*) FROM users WHERE (score_w1+score_w2+score_w3+score_w4)<>score")
+		],
+		[
+			'world' => '{d34db335-0001-4000-7711-000000200001}',
+			'count' => sql_query_num('statisticsUserByWorld_1', "SELECT COUNT(*) FROM users WHERE score_w1>0")
+		],
+		[
+			'world' => '{d34db335-0001-4000-7711-000000200002}',
+			'count' => sql_query_num('statisticsUserByWorld_2', "SELECT COUNT(*) FROM users WHERE score_w2>0")
+		],
+		[
+			'world' => '{d34db335-0001-4000-7711-000000200003}',
+			'count' => sql_query_num('statisticsUserByWorld_3', "SELECT COUNT(*) FROM users WHERE score_w3>0")
+		],
+		[
+			'world' => '{d34db335-0001-4000-7711-000000200004}',
+			'count' => sql_query_num('statisticsUserByWorld_4', "SELECT COUNT(*) FROM users WHERE score_w4>0")
+		],
+	];
+}
+
 function getManualRecalculatedUserTimes($uid) {
 	return sql_query_assoc_prep('getManualRecalculatedUserTimes', loadSQL('manual_calculate_time'),
 	[
@@ -368,7 +430,7 @@ function getRunLogActionList() {
 }
 
 function getRunLog($action) {
-	return sql_query_assoc_prep('getRunLogActionList', "SELECT * FROM runlog_history WHERE action = :ac ORDER BY exectime DESC LIMIT 50",
+	return sql_query_assoc_prep('getRunLog', "SELECT * FROM runlog_history WHERE action = :ac AND exectime >= now() - INTERVAL 28 DAY ORDER BY exectime DESC",
 	[
 		[':ac', $action, PDO::PARAM_STR],
 	]);
@@ -380,4 +442,26 @@ function getRunLogCountVolatile() {
 
 function getRunLogCountHistory() {
 	return sql_query_num('getRunLogCountHistory', "SELECT COUNT(*) AS cnt FROM runlog_history GROUP BY action ORDER by cnt DESC LIMIT 1");
+}
+
+function getActiveAndTotalSessionsCount() {
+	if (! file_exists("/var/log/gdapi_log/proxystate.json")) return ["?", "?"];
+
+	$string = file_get_contents("/var/log/gdapi_log/proxystate.json");
+	$json = json_decode($string, true);
+
+	$c = 0;
+	foreach ($json['sessions'] as $entry) {
+		if ($entry['act']) $c++;
+	}
+
+	return [$c, count($json['sessions'])];
+}
+
+function getProxyHistory() {
+	return sql_query_assoc('getProxyHistory', "SELECT * FROM (SELECT * FROM session_history ORDER BY id DESC LIMIT 500) AS a ORDER BY a.ID ASC");
+}
+
+function getLastProxyHistoryEntry() {
+	return sql_query_assoc('getLastProxyHistoryEntry', "SELECT * FROM session_history ORDER BY id DESC LIMIT 1")[0];
 }

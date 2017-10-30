@@ -63,6 +63,12 @@
       <HintPath>..\packages\MonoGame.Framework.Android.3.6.0.1625\lib\MonoAndroid\MonoGame.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Plugin.BLE, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.BLE.Abstractions, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -102,29 +108,29 @@
     <Compile Include="..\GridDominance.Android.IAB\Impl\AndroidFileHelper.cs">
       <Link>Impl\AndroidFileHelper.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTAcceptThread.cs">
-      <Link>Impl\Bluetooth\BTAcceptThread.cs</Link>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTAcceptThread.cs">
+      <Link>Impl\Bluetooth\Full\BTAcceptThread.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTConnectThread.cs">
-      <Link>Impl\Bluetooth\BTConnectThread.cs</Link>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTConnectThread.cs">
+      <Link>Impl\Bluetooth\Full\BTConnectThread.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTDeviceScoreComparer.cs">
-      <Link>Impl\Bluetooth\BTDeviceScoreComparer.cs</Link>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTDeviceScoreComparer.cs">
+      <Link>Impl\Bluetooth\Full\BTDeviceScoreComparer.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTDeviceWrapper.cs">
-      <Link>Impl\Bluetooth\BTDeviceWrapper.cs</Link>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTDeviceWrapper.cs">
+      <Link>Impl\Bluetooth\Full\BTDeviceWrapper.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTScanReciever.cs">
-      <Link>Impl\Bluetooth\BTScanReciever.cs</Link>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTScanReciever.cs">
+      <Link>Impl\Bluetooth\Full\BTScanReciever.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTTransferRecieveThread.cs">
-      <Link>Impl\Bluetooth\BTTransferRecieveThread.cs</Link>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTTransferRecieveThread.cs">
+      <Link>Impl\Bluetooth\Full\BTTransferRecieveThread.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\BTTransferSendThread.cs">
-      <Link>Impl\Bluetooth\BTTransferSendThread.cs</Link>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTTransferSendThread.cs">
+      <Link>Impl\Bluetooth\Full\BTTransferSendThread.cs</Link>
     </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinBluetooth.cs">
-      <Link>Impl\XamarinBluetooth.cs</Link>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\XamarinBluetooth.cs">
+      <Link>Impl\Bluetooth\Full\XamarinBluetooth.cs</Link>
     </Compile>
     <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinUDPClient.cs">
       <Link>Impl\XamarinUDPClient.cs</Link>

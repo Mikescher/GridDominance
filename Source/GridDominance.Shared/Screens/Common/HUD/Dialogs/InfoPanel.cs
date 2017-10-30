@@ -138,7 +138,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		private void OnClickBFB(TimesheetAnimationPresenter sender, EventArgs e)
 		{
-			MainGame.Inst.Bridge.OpenURL(GDConstants.BFB_URL);
+			MainGame.Inst.GDBridge.OpenURL(GDConstants.BFB_URL);
 		}
 
 		private void OnClickUnlock(HUDTextButton sender, HUDButtonEventArgs e)

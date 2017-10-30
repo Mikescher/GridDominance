@@ -46,6 +46,7 @@ function logErrorInfo($msg) {
 
 /**
  * @param string $msg
+ * @param bool $sendmail
  */
 function logError($msg, $sendmail=true) {
 	global $config;
@@ -79,8 +80,9 @@ function logError($msg, $sendmail=true) {
 		$content .= 'MESSAGE:'               . "\n" . $msg                                . "\n";
 		$content .= '$_GET:'                 . "\n" . print_r($_GET, true)                . "\n";
 		$content .= '$_POST:'                . "\n" . print_r($_POST, true)               . "\n";
+		$content .= '$_FILES:'               . "\n" . print_r($_FILES, true)              . "\n";
 
-		if ($sendmail) sendMail($subject, $content, $config['email-error-target'], $config['email-error-sender']);
+		if ($config['sendmail'] && $sendmail) sendMail($subject, $content, $config['email-error-target'], $config['email-error-sender']);
 	} catch (Exception $e) {
 		$exc = $e;
 	}

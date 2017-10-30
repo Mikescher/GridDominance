@@ -787,6 +787,8 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 
 		public void JoinLocalSession()
 		{
+			if (Mode == ServerMode.Error) return;
+
 			if (Mode == ServerMode.CreatingSession) return;
 			if (Mode == ServerMode.JoiningSession) return;
 

@@ -2,6 +2,7 @@
 
 require_once '../internals/backend.php';
 require_once '../internals/utils.php';
+require_once 'common/libadmin.php';
 
 init("admin");
 

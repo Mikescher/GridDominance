@@ -1,28 +1,20 @@
 <?php require_once '../internals/backend.php'; ?>
 <?php require_once '../internals/utils.php'; ?>
+<?php require_once 'common/libadmin.php'; ?>
 <?php init("admin"); ?>
 <!doctype html>
 
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-    <link rel="stylesheet" href="pure-min.css"/>
-	<link rel="stylesheet" type="text/css" href="admin.css">
+	<?php includeStyles(); ?>
 </head>
 
 <body id="rootbox">
 
-    <script src="jquery-3.1.0.min.js"></script>
+<?php includeScripts(); ?>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
-
-    <?php
-	function fmtLevelID($id) {
-		if ($id == '{b16b00b5-0001-4000-9999-000000000002}') return "TUTORIAL";
-
-		return (int)substr($id, 25, 6) . " - " . (int)substr($id, 31, 6);
-	}
-    ?>
 
     <?php
 
@@ -38,6 +30,40 @@
         </div>
         <div class="infodiv">
             Count (guess): <?php echo $guesscount ; ?>
+        </div>
+    </div>
+
+    <?php
+
+    $dist = getEntryChangedDistribution();
+    $udates = [];
+    for ($i=0; $i < count($dist); $i++) $udates []= $dist[$i]['date'];
+
+    ?>
+
+    <div class="graphbox" data-collapse>
+        <h2 class="open collapseheader">History</h2>
+        <div>
+            <canvas id="scoreChart1" width="85%" height="25%"></canvas>
+            <script>
+                let ctx1 = document.getElementById("scoreChart1").getContext('2d');
+
+                new Chart(ctx1,
+                    {
+                        type: 'line',
+                        data:
+                            {
+                                labels: [ <?php foreach ($udates as $rld) echo "'".$rld."',"; ?> ],
+                                datasets:
+                                    [
+                                        {
+                                            label: 'last_changed',
+                                            data: [ <?php foreach ($dist as $dd) echo $dd['count'].","; ?> ],
+                                        },
+                                    ]
+                            },
+                    });
+            </script>
         </div>
     </div>
 
@@ -77,8 +103,6 @@
         </div>
     </div>
 
-    <?php printSQLStats(); ?>
-
-    <script src="sorttable.js"></script>
+	<?php printSQLStats(); ?>
 </body>
 </html>

@@ -464,6 +464,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
+			if (!Alive) return;
+
 			_server.Update(gameTime, istate);
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.InLobby)

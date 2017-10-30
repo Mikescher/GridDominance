@@ -27,8 +27,10 @@ h1 {
 }
 
 h2 {
-  padding-top: 64px;
   text-align: center;
+
+  background: #F8F8F8;
+  padding: 5px 0px;
 }
 
 .sqltab {
@@ -54,6 +56,18 @@ body {
 
 .tablebox {
   text-align: left;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.graphbox {
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.formbox {
   display: flex;
   justify-content: center;
   flex-flow: column;
@@ -173,7 +187,7 @@ h1 a:hover { color: blue; text-decoration: underline; }
   margin: 35px 0 10px 0;
   font-weight: bold;
   font-size: x-large;
-
+  text-align: center;
 }
 
 .subhshdr a {
@@ -235,4 +249,66 @@ h1 a:hover { color: blue; text-decoration: underline; }
   color: black;
   position: fixed;
   font-size: 24px;
+}
+
+.nolink {
+  color: black;
+  text-decoration: none;
+}
+
+.nolink:visited {
+  color: black;
+  text-decoration: none;
+}
+
+.nolink:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+.samtabheaderbox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  justify-content: center;
+  text-align: center;
+  background: #DDD;
+}
+
+.samtabheaderbox .samtabheader {
+  text-align: center;
+  display: block;
+  background-color: lightgray;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  text-decoration: none;
+  padding: 2px;
+  margin: 3px 5px 3px 0;
+  border: 1px black dotted;
+
+  cursor: pointer;
+}
+
+.samtabheader + .samtabactive {
+  background-color: darkgray;
+  border: 1px black solid;
+}
+
+.samtabbox {
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+
+  padding: 10px;
+
+  background-color: #EEE;
+  border: 1px lightgray solid;
+}
+
+.samsupertabcontainer {
+  min-height: 700px;
 }

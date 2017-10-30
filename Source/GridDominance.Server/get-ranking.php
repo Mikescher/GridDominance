@@ -57,6 +57,7 @@ function run() {
 }
 
 try {
+	//set_time_limit(20);
 	init("get-ranking");
 	run();
 } catch (Exception $e) {

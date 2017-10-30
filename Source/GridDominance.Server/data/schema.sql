@@ -144,6 +144,19 @@ CREATE TABLE runlog_history (
   duration        bigint(20)    NOT NULL,
   duration_min    int(11)       NOT NULL,
   duration_max    int(11)       NOT NULL,
+  duration_avg    double        NOT NULL,
+  duration_median double        NOT NULL,
+
+  PRIMARY KEY (id)
+);
+
+
+DROP TABLE IF EXISTS session_history;
+CREATE TABLE session_history (
+  id                  int(11)       NOT NULL AUTO_INCREMENT,
+  time                timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  sessioncount_active int(11)       NOT NULL,
+  sessioncount_total  int(11)       NOT NULL,
 
   PRIMARY KEY (id)
 );

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -17,7 +15,7 @@ using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.iOS.Full.Impl
 {
-	class AppleBridge : IOperatingSystemBridge
+	class AppleBridge : IGDOperatingSystemBridge
 	{
 		public string FullDeviceInfoString => GenerateInfoStr();
 
@@ -26,7 +24,7 @@ namespace GridDominance.iOS.Full.Impl
 		public FSize DeviceResolution { get; } = new FSize((float)UIScreen.MainScreen.Bounds.Width, (float)UIScreen.MainScreen.Bounds.Height);
 		public FileHelper FileHelper { get; } = new AppleFileHelper();
 		public IBillingAdapter IAB { get; } = new AppleFullVersionBilling();
-		public IBluetoothAdapter Bluetooth { get; } = new AppleBluetoothAdapter();
+		public IBluetoothAdapter BluetoothFull { get; } = null; // Not supported
 		public string AppType => "IOS.Full";
 
 		public string EnvironmentStackTrace => Environment.StackTrace;

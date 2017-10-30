@@ -279,7 +279,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			MonoSAMGame.CurrentInst.Bridge.ShareAppLink();
+			MainGame.Inst.GDBridge.ShareAppLink();
 		}
 	}
 
@@ -292,7 +292,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			MonoSAMGame.CurrentInst.Bridge.OpenURL(GDConstants.URL_REDDIT);
+			MainGame.Inst.GDBridge.OpenURL(GDConstants.URL_REDDIT);
 		}
 	}
 
@@ -305,7 +305,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			MonoSAMGame.CurrentInst.Bridge.OpenURL(GDConstants.URL_BLACKFORESTBYTES);
+			MainGame.Inst.GDBridge.OpenURL(GDConstants.URL_BLACKFORESTBYTES);
 		}
 	}
 

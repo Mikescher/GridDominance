@@ -13,11 +13,11 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Android.Impl
 {
-	class AndroidBridge_Full : IOperatingSystemBridge
+	class AndroidBridge_Full : IGDOperatingSystemBridge
 	{
 		public FileHelper FileHelper { get; } = new AndroidFileHelper();
 		public IBillingAdapter IAB => _iab;
-		public IBluetoothAdapter Bluetooth => _bt;
+		public IBluetoothAdapter BluetoothFull => _btfull;
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		public string AppType => "Android.Full";
 
@@ -26,16 +26,15 @@ namespace GridDominance.Android.Impl
 		public string DeviceVersion { get; } = string.Format("Android {0} sdk-{1}", Build.VERSION.Release, Build.VERSION.Sdk);
 		public FSize DeviceResolution { get; } = ScreenRes();
 		public string EnvironmentStackTrace => System.Environment.StackTrace;
-
 		
 		private readonly MainActivity _activity;
 		private readonly AndroidFullVersionBilling _iab;
-		private readonly XamarinBluetooth _bt;
+		private readonly XamarinBluetooth _btfull;
 
 		public void OnDestroy()
 		{
 			_iab.Disconnect();
-			_bt.OnDestroy();
+			_btfull.OnDestroy();
 		}
 
 		public AndroidBridge_Full(MainActivity a)
@@ -43,7 +42,7 @@ namespace GridDominance.Android.Impl
 			_activity = a;
 
 			_iab = new AndroidFullVersionBilling();
-			_bt = new XamarinBluetooth(a);
+			_btfull = new XamarinBluetooth(a);
 		}
 
 		private static string GenerateInfoStr()
@@ -94,7 +93,7 @@ namespace GridDominance.Android.Impl
 		public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			_iab.HandleActivityResult(requestCode, resultCode, data);
-			_bt.HandleActivityResult(requestCode, resultCode, data);
+			_btfull.HandleActivityResult(requestCode, resultCode, data);
 		}
 
 		private static FSize ScreenRes()

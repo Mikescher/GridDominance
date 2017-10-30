@@ -20,6 +20,7 @@ return [
 
 	'email-clientlog-target' => 'virtualadmin@mikescher.de',
 	'email-clientlog-sender' => 'gd-log@mikescher.com',
+	'sendmail' => false,
 
 	'maxsize-logfile-normal' =>  128 * 1024 * 1024, // 512MB
 	'maxsize-logfile-debug'  =>   16 * 1024 * 1024, // 128MB

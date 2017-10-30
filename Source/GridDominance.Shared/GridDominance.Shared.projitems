@@ -9,6 +9,7 @@
     <Import_RootNamespace>GridDominance.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceBridge\IGDOperatingSystemBridge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalAgents\HighscoreAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Network\Backend\BackendCodes.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\Agents\ExitAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\DebugUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AccountReminderPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AuthErrorPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AnonymousAccountPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AcknowledgementsPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Elements\MultiplayerScoreDisplay.cs" />

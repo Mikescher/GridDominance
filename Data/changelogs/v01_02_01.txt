@@ -1,0 +1,13 @@
+<en-US>
+ - fix problems when uploading score via unstable connections
+ - added resync score button to profile panel
+ - iOS preperations
+ - fixed exception in Acknowledgments panel
+</en-US>
+
+<de-DE>
+ - Probleme beim Synchronisieren über eine schlechte Verbindung behoben
+ - Manuelle Synchronisation über Benutzerkonto Panel
+ - Noch mehr iOS Vorbereitungen
+ - Fehler in den Danksagungen behoben
+</de-DE>

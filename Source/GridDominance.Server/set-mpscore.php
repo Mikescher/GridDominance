@@ -43,6 +43,7 @@ function run() {
 
 
 try {
+	//set_time_limit(45);
 	init("set-mpscore");
 	run();
 } catch (Exception $e) {

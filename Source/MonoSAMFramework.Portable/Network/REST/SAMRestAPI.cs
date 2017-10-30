@@ -53,7 +53,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 				try
 				{
 					HttpResponseMessage response;
-					if (para.Item2.Any())
+					if (para.Item2 != null)
 						response = http.PostAsync(url, para.Item2).Result;
 					else
 						response = http.GetAsync(url).Result;

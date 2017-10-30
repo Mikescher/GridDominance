@@ -1,92 +1,20 @@
 <?php require_once '../internals/backend.php'; ?>
 <?php require_once '../internals/utils.php'; ?>
+<?php require_once 'common/libadmin.php'; ?>
 <?php init("admin"); ?>
 <!doctype html>
 
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-    <link rel="stylesheet" href="pure-min.css"/>
-	<link rel="stylesheet" type="text/css" href="admin.css">
+	<?php includeStyles(); ?>
 </head>
 
 <body id="rootbox">
 
-    <script src="jquery-3.1.0.min.js"></script>
+    <?php includeScripts(); ?>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
-
-	<?php
-
-	$previd = 0;
-	function expansioncell($txt) {
-		global $previd;
-
-		echo "<td>";
-		echo "<a href='#' onclick='ShowExpandedColumn(" . $previd . ", " . str_replace("'", "\\u0027", str_replace('\n', '<br/>', json_encode($txt))) . ");return false;'>show</a>";
-		echo "</td>";
-	}
-
-	function remoteexpansioncell($txt) {
-		global $previd;
-
-		echo "<td>";
-		echo "<a href='#' onclick='ShowRemoteExpandedColumn(" . $previd . ", \"" . $txt . "\");return false;'>show</a>";
-		echo "</td>";
-	}
-
-	function fmtLevelID($id) {
-		if ($id == '{b16b00b5-0001-4000-9999-000000000002}') return "TUTORIAL";
-
-		return (int)substr($id, 25, 6) . " - " . (int)substr($id, 31, 6);
-	}
-
-	function getSessionCount() {
-	    if (! file_exists("/var/log/gdapi_log/proxystate.json")) return "?";
-
-		$string = file_get_contents("/var/log/gdapi_log/proxystate.json");
-		$json = json_decode($string, true);
-
-		return count($json['sessions']);
-	}
-
-	function lc($txt) {
-		$c = 0;
-		foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }
-		return $c;
-	}
-
-	function formatSizeUnits($bytes)
-	{
-		if ($bytes >= 1073741824)
-		{
-			$bytes = number_format($bytes / 1073741824, 2) . ' GB';
-		}
-        elseif ($bytes >= 1048576)
-		{
-			$bytes = number_format($bytes / 1048576, 2) . ' MB';
-		}
-        elseif ($bytes >= 1024)
-		{
-			$bytes = number_format($bytes / 1024, 2) . ' KB';
-		}
-        elseif ($bytes > 1)
-		{
-			$bytes = $bytes . ' bytes';
-		}
-        elseif ($bytes == 1)
-		{
-			$bytes = $bytes . ' byte';
-		}
-		else
-		{
-			$bytes = '0 bytes';
-		}
-
-		return $bytes;
-	}
-
-	?>
 
 	<div class="infocontainer">
 		<div class="infodiv">
@@ -126,7 +54,11 @@
 
 	<div class="infocontainer">
         <div class="infodiv">
-            Cron:&nbsp;<?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo $config['debug'] ? ("../cron.php?cronsecret=" . $config['cron-secret']) : ('#'); ?>">Now</a> )
+            <?php if ($config['debug']): ?> 
+                Cron:&nbsp;<?php echo getLastCronTime(); ?> ( <a href="<?php global $config; echo ("../cron.php?cronsecret=" . $config['cron-secret']); ?>">Now</a> )
+            <?php else: ?> 
+                Cron:&nbsp;<?php echo getLastCronTime(); ?>
+            <?php endif; ?> 
         </div>
         <div class="infodiv">
             Requests (1d):&nbsp;<?php echo getLastRunLogCount(); ?>&nbsp;(=&nbsp;<a href="runlogoverview.php"><?php echo round(getLastTimingAverage()/(1000.0*1000.0), 4); ?>s</a>)
@@ -173,8 +105,8 @@
         <table class="sqltab pure-table pure-table-bordered" >
             <thead>
             <tr>
-                <th style='width: 250px'>Logfile</th>
-                <th style='width: 250px'>Changedate</th>
+                <th style='width: 300px'>Logfile</th>
+                <th style='width: 200px'>Changedate</th>
                 <th style='width: 100px'>Entries</th>
                 <th style='width: 100px'>Size</th>
                 <th style='width: 100px'>Content</th>
@@ -200,7 +132,7 @@
         </table>
     </div>
 
-    <div data-collapse>
+    <div class="tablebox" data-collapse>
         <h2 class="open collapseheader">Highscore</h2>
 
         <div>
@@ -313,13 +245,5 @@
     </div>
 
     <?php printSQLStats(); ?>
-
-    <script type="text/javascript">
-        <?php echo file_get_contents('admin.js'); ?>
-    </script>
-
-    <script src="jquery.collapse.js"></script>
-    <script src="toastr.min.js"></script>
-    <script src="sorttable.js"></script>
 </body>
 </html>

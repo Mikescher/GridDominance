@@ -367,5 +367,10 @@ namespace GridDominance.Android.Impl
 			if (Adapter != null && Adapter.IsDiscovering) Adapter.CancelDiscovery();
 			State = BluetoothAdapterState.Created;
 		}
+
+		public void Update()
+		{
+			//
+		}
 	}
 }

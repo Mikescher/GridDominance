@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
@@ -24,7 +25,9 @@ using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using System.Text;
 using GridDominance.Shared.Screens.EndGameScreen;
 using GridDominance.Shared.Screens.ScreenGame;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Language;
+using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared
 {
@@ -43,12 +46,14 @@ namespace GridDominance.Shared
 
 		public readonly float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
 
+		public IGDOperatingSystemBridge GDBridge => (IGDOperatingSystemBridge)Bridge;
+
 		public MainGame() : base()
 		{
-			Backend = new GDServerAPI(StaticBridge);
+			Backend = new GDServerAPI(GDBridge);
 			//Backend = new DummyGDServerAPI();
 
-			if (GDConstants.FLAVOR == GDFlavor.IAB) Bridge.IAB.Connect(GDConstants.IABList);
+			if (GDConstants.FLAVOR == GDFlavor.IAB) GDBridge.IAB.Connect(GDConstants.IABList);
 
 			Profile = new PlayerProfile();
 
@@ -288,7 +293,25 @@ namespace GridDominance.Shared
 		public void SaveProfile()
 		{
 			var sdata = Profile.SerializeToString();
-			FileHelper.Inst.WriteData(GDConstants.PROFILE_FILENAME, sdata);
+
+			try
+			{
+				FileHelper.Inst.WriteData(GDConstants.PROFILE_FILENAME, sdata);
+			}
+			catch (IOException e)
+			{
+				if (e.Message.Contains("Disk full"))
+				{
+					DispatchBeginInvoke(() =>
+					{
+						ShowToast("MG::OOM", L10N.T(L10NImpl.STR_ERR_OUTOFMEMORY), 32, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+					});
+				}
+				else
+				{
+					SAMLog.Error("MG::WRITE", e);
+				}
+			}
 
 #if DEBUG
 			SAMLog.Debug($"Profile saved ({sdata.Length})");
@@ -319,7 +342,7 @@ namespace GridDominance.Shared
 			b.AppendLine("GameCycleCounter: " + GameCycleCounter);
 			b.AppendLine("IsInitializationLag: " + IsInitializationLag);
 			b.AppendLine("MainGame.Alive: " + Alive);
-			b.AppendLine("AppType: " + Bridge.AppType);
+			b.AppendLine("AppType: " + GDBridge.AppType);
 
 			var scrn = screens?.CurrentScreen;
 

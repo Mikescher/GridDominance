@@ -76,6 +76,7 @@ function run() {
 
 
 try {
+	//set_time_limit(20);
 	init("set-score");
 	run();
 } catch (Exception $e) {

@@ -54,5 +54,7 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 		void Write(byte[] data);
 
 		void Reset();
+
+		void Update();
 	}
 }

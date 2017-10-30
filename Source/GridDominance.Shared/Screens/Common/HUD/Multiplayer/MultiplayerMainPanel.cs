@@ -83,7 +83,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 32,
 
-				L10NText = L10NImpl.STR_MENU_MP_LOCAL,
+				L10NText = L10NImpl.STR_MENU_MP_LOCAL_CLASSIC,
 				TextColor = Color.White,
 			});
 
@@ -104,7 +104,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			AddElement(new HUDImage
 			{
 				Alignment = HUDAlignment.TOPCENTER,
-				Image = Textures.TexIconBluetooth,
+				Image = Textures.TexIconBluetoothClassic,
 				Size = new FSize(128, 128),
 				Color = ColorMath.Blend(Color.White, FlatColors.BackgroundHUD, 0.5f),
 				RelativePosition = new FPoint(-WIDTH / 4f, (100 + 12 + 32 + 12) + (HEIGHT - (100 + 12 + 32 + 12) - (32 + 64 + 32 + 64 + 32)) / 2 - 64)
@@ -238,7 +238,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				});
 			}
 		}
-
+		
 		private void OnClickJoinBluetooth(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			Remove();
@@ -267,7 +267,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		{
 			try
 			{
-				var r = MainGame.Inst.Bridge.IAB.StartPurchase(GDConstants.IAB_MULTIPLAYER);
+				var r = MainGame.Inst.GDBridge.IAB.StartPurchase(GDConstants.IAB_MULTIPLAYER);
 				switch (r)
 				{
 					case PurchaseResult.ProductNotFound:

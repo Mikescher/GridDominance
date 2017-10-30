@@ -15,8 +15,8 @@ namespace GridDominance.Shared.Network
 		Task CreateUser(PlayerProfile profile);
 		Task SetScore(PlayerProfile profile, Guid levelid, FractionDifficulty diff, int time);
 		Task SetScoreAndTime(PlayerProfile profile);
-		Task DownloadData(PlayerProfile profile);
-		Task Reupload(PlayerProfile profile);
+		Task<bool> DownloadData(PlayerProfile profile);
+		Task<bool> Reupload(PlayerProfile profile);
 		Task LogClient(PlayerProfile profile, SAMLogEntry entry);
 		Task DownloadHighscores(PlayerProfile profile);
 		Task<Tuple<VerifyResult, int, string>> Verify(string username, string password);
@@ -52,14 +52,14 @@ namespace GridDominance.Shared.Network
 			//
 		}
 
-		public async Task DownloadData(PlayerProfile profile)
+		public async Task<bool> DownloadData(PlayerProfile profile)
 		{
-			//
+			return true;
 		}
 
-		public async Task Reupload(PlayerProfile profile)
+		public async Task<bool> Reupload(PlayerProfile profile)
 		{
-			//
+			return true;
 		}
 
 		public async Task LogClient(PlayerProfile profile, SAMLogEntry entry)

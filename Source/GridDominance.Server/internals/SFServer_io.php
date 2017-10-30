@@ -280,3 +280,41 @@ function outputResultSuccess($data) {
 function sendMail($subject, $content, $to, $from) {
 	mail($to, $subject, $content, 'From: ' . $from);
 }
+
+/**
+ * @param string $str
+ * @return array
+ * @throws Exception
+ */
+function decode_scoredata($str) {
+	$r = [];
+
+	foreach (explode("\n", $str) as $line)
+	{
+		if (trim($line) === "") continue;
+
+		$spl1 = explode('@', $line);
+		if (count($spl1) != 2) throw new Exception("score data format failure (1) in line $line");
+
+		$spl2 = explode(';', $spl1[1]);
+		if (count($spl2) != 4) throw new Exception("score data format failure (2) in line $line");
+
+		if (strlen($spl1[0]) != 32) throw new Exception("score data format failure (3) in line $line");
+
+		$levelid = "{" . substr($spl1[0], 0, 8) . "-" . substr($spl1[0], 8, 4) . "-" . substr($spl1[0], 12, 4) . "-" . substr($spl1[0], 16, 4) . "-" . substr($spl1[0], 20, 12) . "}";
+
+		for($diff=0; $diff < 4; $diff++)
+		{
+			if (trim($spl2[$diff]) === "") continue;
+
+			$d = (object) [];
+			$d->levelid = $levelid;
+			$d->difficulty = $diff;
+			$d->leveltime = trim($spl2[$diff]);
+
+			$r []= $d;
+		}
+	}
+
+	return $r;
+}
