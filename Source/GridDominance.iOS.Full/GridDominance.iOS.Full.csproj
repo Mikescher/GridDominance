@@ -39,7 +39,7 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
-    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,6 +68,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Distribution: Julian Börsig, Simon Vollmer, Armin Benz und Mike Schwoerer (9X5SVX7DQ7)</CodesignKey>
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
+    <CodesignProvision>Cannon Conquest Distribution Profile</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
