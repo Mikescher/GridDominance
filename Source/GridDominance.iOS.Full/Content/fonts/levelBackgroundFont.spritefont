@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
+  <Asset Type="Graphics:FontDescription">
+    <FontName>Comic Jens</FontName>
+    <Size>256</Size>
+    <Spacing>0</Spacing>
+    <UseKerning>true</UseKerning>
+    <Style>Regular</Style>
+
+    <CharacterRegions>
+      <CharacterRegion>
+        <Start>&#32;</Start>
+        <End>&#126;</End>
+      </CharacterRegion>
+
+      <CharacterRegion><Start>ä</Start><End>ä</End></CharacterRegion>
+      <CharacterRegion><Start>á</Start><End>á</End></CharacterRegion>
+      <CharacterRegion><Start>à</Start><End>à</End></CharacterRegion>
+      <CharacterRegion><Start>â</Start><End>â</End></CharacterRegion>
+
+      <CharacterRegion><Start>é</Start><End>é</End></CharacterRegion>
+      <CharacterRegion><Start>è</Start><End>è</End></CharacterRegion>
+      <CharacterRegion><Start>ê</Start><End>ê</End></CharacterRegion>
+
+      <CharacterRegion><Start>ö</Start><End>ö</End></CharacterRegion>
+
+      <CharacterRegion><Start>ü</Start><End>ü</End></CharacterRegion>
+      <CharacterRegion><Start>ù</Start><End>ù</End></CharacterRegion>
+      <CharacterRegion><Start>ú</Start><End>ú</End></CharacterRegion>
+      <CharacterRegion><Start>û</Start><End>û</End></CharacterRegion>
+
+      <CharacterRegion><Start>ß</Start><End>ß</End></CharacterRegion>
+      <CharacterRegion><Start>ç</Start><End>ç</End></CharacterRegion>
+
+      <CharacterRegion><Start>Ä</Start><End>Ä</End></CharacterRegion>
+      <CharacterRegion><Start>Á</Start><End>Á</End></CharacterRegion>
+      <CharacterRegion><Start>À</Start><End>À</End></CharacterRegion>
+      <CharacterRegion><Start>Â</Start><End>Â</End></CharacterRegion>
+
+      <CharacterRegion><Start>É</Start><End>É</End></CharacterRegion>
+      <CharacterRegion><Start>È</Start><End>È</End></CharacterRegion>
+      <CharacterRegion><Start>Ê</Start><End>Ê</End></CharacterRegion>
+
+      <CharacterRegion><Start>Ö</Start><End>Ö</End></CharacterRegion>
+
+      <CharacterRegion><Start>Ü</Start><End>Ü</End></CharacterRegion>
+      <CharacterRegion><Start>Ù</Start><End>Ù</End></CharacterRegion>
+      <CharacterRegion><Start>Ú</Start><End>Ú</End></CharacterRegion>
+      <CharacterRegion><Start>Û</Start><End>Û</End></CharacterRegion>
+
+      <CharacterRegion><Start>Ç</Start><End>Ç</End></CharacterRegion>
+
+    </CharacterRegions>
+  </Asset>
+</XnaContent>

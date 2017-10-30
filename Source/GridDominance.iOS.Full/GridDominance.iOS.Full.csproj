@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -66,7 +66,7 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Distribution: Julian Börsig, Simon Vollmer, Armin Benz und Mike Schwoerer (9X5SVX7DQ7)</CodesignKey>
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
