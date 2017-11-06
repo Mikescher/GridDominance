@@ -207,7 +207,7 @@
     <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0020.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_01024.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_1024.png">
       <InProject>false</InProject>
     </ImageAsset>
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Splash.png">
