@@ -168,46 +168,46 @@
     <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Contents.json">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_029.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0029.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_040.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0040.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_058.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0058.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_076.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0076.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_080.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0080.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_087.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0087.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_120.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0120.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_152.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0152.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_167.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0167.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_180.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0180.png">
       <InProject>false</InProject>
     </ImageAsset>
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Contents.json">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_060.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0060.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_020.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0020.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_full_1024.png">
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_01024.png">
       <InProject>false</InProject>
     </ImageAsset>
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Splash.png">
