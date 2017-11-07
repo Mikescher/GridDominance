@@ -3,7 +3,7 @@
 
 /outputDir:.\
 /intermediateDir:../obj/$(Platform)
-/platform:Windows
+/platform:iOS
 /config:
 /profile:Reach
 /compress:False
@@ -101,7 +101,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=Compressed
 /build:textures/spritesheet_default_hd.png
 
 #begin textures/spritesheet_default_ld.png
@@ -125,7 +125,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=Compressed
 /build:textures/spritesheet_default_md.png
 
 #begin textures/spritesheet_default-sheet_bd.json
@@ -186,7 +186,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=Compressed
 /build:textures/spritesheet_extra_hd.png
 
 #begin textures/spritesheet_extra_ld.png
@@ -210,7 +210,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=Compressed
 /build:textures/spritesheet_extra_md.png
 
 #begin textures/spritesheet_extra-sheet_bd.json
