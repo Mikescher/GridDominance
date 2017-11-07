@@ -6,7 +6,7 @@
 /platform:iOS
 /config:
 /profile:Reach
-/compress:False
+/compress:True
 
 #-------------------------------- References --------------------------------#
 
@@ -18,14 +18,14 @@
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:fonts/debugFont.spritefont
 
 #begin fonts/debugFontSmall.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:fonts/debugFontSmall.spritefont
 
 #begin levels/lvl_debug.gslevel
@@ -37,14 +37,14 @@
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:fonts/hudFontBold.spritefont
 
 #begin fonts/hudFontRegular.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:fonts/hudFontRegular.spritefont
 
 #begin shaders/SAMParticleEffect.fx
@@ -101,7 +101,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:textures/spritesheet_default_hd.png
 
 #begin textures/spritesheet_default_ld.png
@@ -125,7 +125,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:textures/spritesheet_default_md.png
 
 #begin textures/spritesheet_default-sheet_bd.json
@@ -186,7 +186,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:textures/spritesheet_extra_hd.png
 
 #begin textures/spritesheet_extra_ld.png
@@ -210,7 +210,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:textures/spritesheet_extra_md.png
 
 #begin textures/spritesheet_extra-sheet_bd.json
@@ -247,7 +247,7 @@
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:fonts/levelBackgroundFont.spritefont
 
 #begin levels/world_4.gsgraph
