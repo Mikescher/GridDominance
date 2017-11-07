@@ -1,7 +1,9 @@
 <en-US>
+ - fix iOS icon
  - reduce app size
 </en-US>
 
 <de-DE>
- - reduce app size
+ - iOS Icon Format korrigiert
+ - App Größe (iOS) veringert
 </de-DE>
