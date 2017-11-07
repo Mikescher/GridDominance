@@ -1,0 +1,7 @@
+<en-US>
+ - reduce app size
+</en-US>
+
+<de-DE>
+ - reduce app size
+</de-DE>
