@@ -222,6 +222,7 @@
     <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\GameThumbnail.png">
       <InProject>false</InProject>
     </ImageAsset>
+    <None Include="Content\music\macaron-island.m4a" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Content\textures\spritesheet_default-sheet_bd.xnb" />
@@ -381,6 +382,11 @@
     <BundleResource Include="Content\fonts\hudFontBold.xnb" />
     <BundleResource Include="Content\fonts\hudFontRegular.xnb" />
     <BundleResource Include="Content\fonts\levelBackgroundFont.xnb" />
+    <BundleResource Include="Content\music\cyber-factory.m4a" />
+    <BundleResource Include="Content\music\mr-krabs.m4a" />
+    <BundleResource Include="Content\music\spinning-gears.m4a" />
+    <BundleResource Include="Content\music\spirit-forge.m4a" />
+    <BundleResource Include="Content\music\tekno-labs.m4a" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj">

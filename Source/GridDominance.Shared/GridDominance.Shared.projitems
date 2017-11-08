@@ -374,14 +374,14 @@
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\laser.ogg" />
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\shoot.ogg" />
     <None Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\cyber-factory.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\macaron-island.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\spirit-forge.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\tekno-labs.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\mr-krabs.mp3" />
+    <None Include="$(MSBuildThisFileDirectory)Content\music\spinning-gears.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Content\music\cyber-factory.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\music\macaron-island.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\music\mr-krabs.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\music\spinning-gears.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\music\spirit-forge.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\music\tekno-labs.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_bd.json" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_fd.json" />
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_default-sheet_hd.json" />
