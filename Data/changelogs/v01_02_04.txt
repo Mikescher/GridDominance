@@ -1,9 +1,11 @@
 <en-US>
  - fix iOS icon
  - reduce app size
+ - fix music under iOS
 </en-US>
 
 <de-DE>
  - iOS Icon Format korrigiert
  - App Größe (iOS) veringert
+ - Musikwiedergabe unter iOS repariert
 </de-DE>
