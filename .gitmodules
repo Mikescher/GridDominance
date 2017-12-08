@@ -4,3 +4,6 @@
 [submodule "Source/External/CSharpUtils"]
 	path = Source/External/CSharpUtils
 	url = https://github.com/Mikescher/CSharpUtils
+[submodule "Source/MonoSAMFramework.Portable"]
+	path = Source/MonoSAMFramework.Portable
+	url = https://github.com/Mikescher/MonoSAMFramework
