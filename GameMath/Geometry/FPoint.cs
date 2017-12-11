@@ -88,9 +88,22 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FPoint(X + origin.X, Y + origin.Y);
 		}
 
+		[Pure]
 		public FPoint AsTranslated(float offx, float offy)
 		{
 			return new FPoint(X + offx, Y + offy);
+		}
+
+		[Pure]
+		public FPoint AsScaled(float scalex, float scaley)
+		{
+			return new FPoint(X * scalex, Y * scaley);
+		}
+
+		[Pure]
+		public FPoint AsScaled(float scale)
+		{
+			return new FPoint(X * scale, Y * scale);
 		}
 
 		public override bool Equals(object obj)

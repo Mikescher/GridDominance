@@ -55,6 +55,7 @@
     <Compile Include="DeviceBridge\IBillingAdapter.cs" />
     <Compile Include="DeviceBridge\ISAMOperatingSystemBridge.cs" />
     <Compile Include="DeviceBridge\IUDPClient.cs" />
+    <Compile Include="DeviceBridge\SAMSystemType.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />

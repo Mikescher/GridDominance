@@ -9,6 +9,8 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		string DeviceVersion { get; }
 		FSize DeviceResolution { get; }
 
+		SAMSystemType SystemType { get; }
+
 		string EnvironmentStackTrace { get; }
 
 		FileHelper FileHelper { get; }
