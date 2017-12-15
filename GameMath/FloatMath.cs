@@ -64,6 +64,7 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float RAD_POS_240 = +240 * DegRad;
 		public const float RAD_POS_270 = +270 * DegRad;
 		public const float RAD_POS_288 = +288 * DegRad;
+		public const float RAD_POS_300 = +300 * DegRad;
 		public const float RAD_POS_306 = +306 * DegRad;
 		public const float RAD_POS_315 = +315 * DegRad;
 		public const float RAD_POS_324 = +324 * DegRad;

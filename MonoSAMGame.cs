@@ -75,6 +75,8 @@ namespace MonoSAMFramework.Portable
 			{
 				base.Initialize();
 
+				StaticBridge.OnNativeInitialize(this);
+
 				OnInitialize();
 
 				screens = new ScreenManager(this);

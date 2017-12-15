@@ -10,6 +10,7 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		FSize DeviceResolution { get; }
 
 		SAMSystemType SystemType { get; }
+		void OnNativeInitialize(MonoSAMGame game);
 
 		string EnvironmentStackTrace { get; }
 
