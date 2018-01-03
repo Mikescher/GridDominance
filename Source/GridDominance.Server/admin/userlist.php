@@ -2,17 +2,25 @@
 <?php require_once '../internals/utils.php'; ?>
 <?php require_once 'common/libadmin.php'; ?>
 <?php init("admin"); ?>
+<?php $INTERACTIVE = true; ?>
 <!doctype html>
 
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<?php includeStyles(); ?>
+
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
 </head>
 
 <body id="rootbox">
 
     <?php includeScripts(); ?>
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
 
@@ -123,6 +131,15 @@
 		$cgroups[$i]['count'] = $sum;
 	}
 
+
+	$agroups = array_merge([], getScoreDistribution(1));
+	$sum = 0;
+	for ($i=0; $i < count($agroups); $i++)
+	{
+		$sum += $agroups[$i]['count'];
+		$agroups[$i]['count'] = $sum;
+	}
+
     $userdist = getNewUsersDistribution();
     $cuserdist = array_merge([], $userdist);
 	$sum = 0;
@@ -141,10 +158,14 @@
         <h2 class="collapseheader">Score Distribution</h2>
         <div>
             <div>
-                <canvas id="scoreChart1" width="85%" height="25%"></canvas>
+				<?php if (!$INTERACTIVE): ?>
+                    <canvas id="scoreChart1" width="85%" height="25%"></canvas>
+				<?php else: ?>
+                    <div id="scoreChart1" style="width:95%; height:500px"></div>
+				<?php endif; ?>
                 <script>
+					<?php if (!$INTERACTIVE): ?>
                     let ctx1 = document.getElementById("scoreChart1").getContext('2d');
-
                     new Chart(ctx1,
                         {
                             type: 'line',
@@ -161,13 +182,66 @@
                                 },
                             options: { animation: { duration: 0, }, elements:  { line: { tension: 0, } }, }
                         });
+					<?php else: ?>
+                    AmCharts.makeChart("scoreChart1", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 80,
+                        "dataProvider":
+                            [
+								<?php
+								for ($i=0; $i < count($groups); $i++)
+								{
+									if ($i>0)echo ',';
+									echo "{";
+									echo " score: '".($groups[$i]['score']-$PARTITIONSIZE+1)." - ".$groups[$i]['score']."', ";
+									echo " count: ".$groups[$i]['count']."";
+									echo "}";
+								}
+								?>
+                            ],
+                        "valueAxes": [ {
+                            "gridColor": "#FFFFFF",
+                            "gridAlpha": 0.2,
+                            "dashLength": 0
+                        } ],
+                        "gridAboveGraphs": true,
+                        "startDuration": 1,
+                        "graphs": [ {
+                            "balloonText": "[[category]]: <b>[[value]]</b>",
+                            "fillAlphas": 0.8,
+                            "lineAlpha": 0.2,
+                            "type": "column",
+                            "valueField": "count"
+                        } ],
+                        "chartCursor": {
+                            "categoryBalloonEnabled": false,
+                            "cursorAlpha": 0,
+                            "zoomable": true
+                        },
+                        "categoryField": "score",
+                        "categoryAxis": {
+                            "gridPosition": "start",
+                            "gridAlpha": 0,
+                            "tickPosition": "start",
+                            "tickLength": 20
+                        },
+                        "export": {
+                            "enabled": true
+                        }
+                    });
+					<?php endif; ?>
                 </script>
             </div>
             <div>
-                <canvas id="scoreChart2" width="85%" height="25%"></canvas>
+				<?php if (!$INTERACTIVE): ?>
+                    <canvas id="scoreChart2" width="85%" height="25%"></canvas>
+				<?php else: ?>
+                    <div id="scoreChart2" style="width:95%; height:500px"></div>
+				<?php endif; ?>
                 <script>
+					<?php if (!$INTERACTIVE): ?>
                     let ctx2 = document.getElementById("scoreChart2").getContext('2d');
-
                     new Chart(ctx2,
                         {
                             type: 'line',
@@ -198,6 +272,69 @@
                                         },
                                 }
                         });
+					<?php else: ?>
+                    AmCharts.makeChart("scoreChart2", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 80,
+                        "dataProvider":
+                            [
+								<?php
+								for ($i=0; $i < count($agroups); $i++)
+								{
+									if ($i>0)echo ',';
+									echo "{";
+									echo " score: '".$agroups[$i]['score']."', ";
+									echo " count: ".$agroups[$i]['count']."";
+									echo "}";
+								}
+								?>
+                            ],
+
+                        "valueAxes": [{
+                            "position": "left",
+                            "title": "Score"
+                        }],
+                        "graphs": [{
+                            "id": "g22",
+                            "fillAlphas": 0.4,
+                            "valueField": "count",
+                            "balloonText": "<div style='margin:5px; font-size:19px;'>Score:<b>[[value]]</b></div>"
+                        }],
+                        "chartScrollbar": {
+                            "graph": "g22",
+                            "scrollbarHeight": 80,
+                            "backgroundAlpha": 0,
+                            "selectedBackgroundAlpha": 0.1,
+                            "selectedBackgroundColor": "#888888",
+                            "graphFillAlpha": 0,
+                            "graphLineAlpha": 0.5,
+                            "selectedGraphFillAlpha": 0,
+                            "selectedGraphLineAlpha": 1,
+                            "autoGridCount": true,
+                            "color": "#AAAAAA"
+                        },
+                        "chartCursor": {
+                            "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                            "cursorPosition": "mouse",
+                            "valueZoomable": true
+                        },
+                        "valueScrollbar": {
+                            "autoGridCount": true,
+                            "color": "#000000",
+                            "scrollbarHeight": 50
+                        },
+                        "categoryField": "score",
+                        "categoryAxis": {
+                            "minPeriod": "mm",
+                            "parseDates": false
+                        },
+                        "export": {
+                            "enabled": true,
+                            "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                        }
+                    });
+					<?php endif; ?>
                 </script>
             </div>
         </div>
@@ -207,10 +344,14 @@
         <h2 class="collapseheader">New Users / Time</h2>
         <div>
             <div>
-                <canvas id="scoreChart3" width="85%" height="25%"></canvas>
+				<?php if (!$INTERACTIVE): ?>
+                    <canvas id="scoreChart3" width="85%" height="25%"></canvas>
+				<?php else: ?>
+                    <div id="scoreChart3" style="width:95%; height:500px"></div>
+				<?php endif; ?>
                 <script>
+					<?php if (!$INTERACTIVE): ?>
                     let ctx3 = document.getElementById("scoreChart3").getContext('2d');
-
                     new Chart(ctx3,
                         {
                             type: 'line',
@@ -226,13 +367,72 @@
                                         ]
                                 },
                         });
+					<?php else: ?>
+                    AmCharts.makeChart("scoreChart3", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 80,
+                        "dataProvider":
+                        [
+							<?php
+                            for ($i=0; $i < count($udates); $i++)
+                            {
+                                if ($i>0)echo ',';
+								echo "{";
+								echo " date: new Date('".$udates[$i]."'), ";
+								echo " count: ".$userdist[$i]['count']."";
+								echo "}";
+							}
+                            ?>
+                        ],
+                        "valueAxes": [{
+                            "position": "left",
+                            "title": "New users"
+                        }],
+                        "graphs": [{
+                            "id": "g1",
+                            "fillAlphas": 0.4,
+                            "valueField": "count",
+                            "balloonText": "<div style='margin:5px; font-size:19px;'>New users:<b>[[value]]</b></div>"
+                        }],
+                        "chartScrollbar": {
+                            "graph": "g1",
+                            "scrollbarHeight": 80,
+                            "backgroundAlpha": 0,
+                            "selectedBackgroundAlpha": 0.1,
+                            "selectedBackgroundColor": "#888888",
+                            "graphLineAlpha": 0.5,
+                            "selectedGraphFillAlpha": 0,
+                            "selectedGraphLineAlpha": 1,
+                            "autoGridCount": true,
+                            "color": "#AAAAAA"
+                        },
+                        "chartCursor": {
+                            "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                            "cursorPosition": "mouse"
+                        },
+                        "categoryField": "date",
+                        "categoryAxis": {
+                            "minPeriod": "mm",
+                            "parseDates": true
+                        },
+                        "export": {
+                            "enabled": true,
+                            "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                        }
+                    });
+					<?php endif; ?>
                 </script>
             </div>
             <div>
-                <canvas id="scoreChart4" width="85%" height="25%"></canvas>
+				<?php if (!$INTERACTIVE): ?>
+                    <canvas id="scoreChart4" width="85%" height="25%"></canvas>
+				<?php else: ?>
+                    <div id="scoreChart4" style="width:95%; height:500px"></div>
+                <?php endif; ?>
                 <script>
+					<?php if (!$INTERACTIVE): ?>
                     let ctx4 = document.getElementById("scoreChart4").getContext('2d');
-
                     new Chart(ctx4,
                         {
                             type: 'line',
@@ -248,6 +448,67 @@
                                         ]
                                 },
                         });
+					<?php else: ?>
+                    AmCharts.makeChart("scoreChart4", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 80,
+                        "dataProvider":
+                            [
+								<?php
+								for ($i=0; $i < count($udates); $i++)
+								{
+									if ($i>0)echo ',';
+									echo "{";
+									echo " date: new Date('".$udates[$i]."'), ";
+									echo " count: ".$cuserdist[$i]['count']."";
+									echo "}";
+								}
+								?>
+                            ],
+                        "valueAxes": [{
+                            "position": "left",
+                            "title": "New users"
+                        }],
+                        "graphs": [{
+                            "id": "g2",
+                            "fillAlphas": 0.4,
+                            "valueField": "count",
+                            "balloonText": "<div style='margin:5px; font-size:19px;'>New users:<b>[[value]]</b></div>"
+                        }],
+                        "chartScrollbar": {
+                            "graph": "g2",
+                            "scrollbarHeight": 80,
+                            "backgroundAlpha": 0,
+                            "selectedBackgroundAlpha": 0.1,
+                            "selectedBackgroundColor": "#888888",
+                            "graphLineAlpha": 0.5,
+                            "selectedGraphFillAlpha": 0,
+                            "selectedGraphLineAlpha": 1,
+                            "autoGridCount": true,
+                            "color": "#AAAAAA"
+                        },
+                        "chartCursor": {
+                            "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                            "cursorPosition": "mouse",
+                            "valueZoomable": true
+                        },
+                        "valueScrollbar": {
+                            "autoGridCount": true,
+                            "color": "#000000",
+                            "scrollbarHeight": 50
+                        },
+                        "categoryField": "date",
+                        "categoryAxis": {
+                            "minPeriod": "mm",
+                            "parseDates": true
+                        },
+                        "export": {
+                            "enabled": true,
+                            "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                        }
+                    });
+					<?php endif; ?>
                 </script>
             </div>
         </div>
