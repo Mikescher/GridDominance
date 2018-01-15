@@ -160,3 +160,27 @@ CREATE TABLE session_history (
 
   PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS stats_history;
+CREATE TABLE stats_history (
+  id                    int(11)       NOT NULL AUTO_INCREMENT,
+  exectime              timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  active_users_per_day  int(11)       NOT NULL,
+
+  user_amazon           int(11)       NOT NULL,
+  user_android_full     int(11)       NOT NULL,
+  user_android_iab      int(11)       NOT NULL,
+  user_ios              int(11)       NOT NULL,
+  user_winphone         int(11)       NOT NULL,
+
+  unlocks_w1            int(11)       NOT NULL,
+  unlocks_w2            int(11)       NOT NULL,
+  unlocks_w3            int(11)       NOT NULL,
+  unlocks_w4            int(11)       NOT NULL,
+  unlocks_mp            int(11)       NOT NULL,
+
+  user_topscore         int(11)       NOT NULL,
+
+  PRIMARY KEY (id)
+);

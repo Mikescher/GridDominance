@@ -53,6 +53,27 @@ function run() {
 		executeOrFail($stmt);
 
 		echo ("[" . date("Y-m-d H:i:s") . "]  " . "Runlog(2)" . "  <br/>\n");
+
+
+		$stmt = $pdo->prepare("INSERT INTO stats_history (active_users_per_day, user_amazon, user_android_full, user_android_iab, user_ios, user_winphone, unlocks_w1, unlocks_w2, unlocks_w3, unlocks_w4, unlocks_mp, user_topscore) " .
+			"VALUES  " .
+			"( " .
+			"(SELECT COUNT(*) FROM users WHERE score > 0 AND last_online >= now() - INTERVAL 1 DAY), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'Android.Amazon'), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'Android.Full'), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'Android.IAB'), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'IOS.Full'), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'WinPhone.UWP.Full'), " .
+			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000200001}%'), " .
+			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000200002}%'), " .
+			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000200003}%'), " .
+			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000200004}%'), " .
+			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000300001}%'), " .
+			"(SELECT COUNT(*) FROM users WHERE score = (SELECT MAX(score) FROM users)) " .
+			")");
+		executeOrFail($stmt);
+
+		echo ("[" . date("Y-m-d H:i:s") . "]  " . "Runlog(3)" . "  <br/>\n");
 	}
 
 	$delta = (int)((microtime(true) - $time_start)*1000);
