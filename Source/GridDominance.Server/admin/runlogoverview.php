@@ -201,7 +201,7 @@
     </div>
 
     <div class="graphbox" data-collapse>
-        <h2 class="collapseheader">History (Cron)</h2>
+        <h2 class="collapseheader">History (Cron)</h2> <?php //TODO AMCharts ?>
         <div>
             <canvas id="scoreChart2" width="85%" height="25%"></canvas>
             <script>
@@ -230,7 +230,7 @@
     </div>
 
     <div class="graphbox" data-collapse>
-        <h2 class="collapseheader">Requests/Time</h2>
+        <h2 class="collapseheader">Requests/Time</h2> <?php //TODO AMCharts ?>
         <div>
             <canvas id="scoreChart4" width="85%" height="25%"></canvas>
             <script>

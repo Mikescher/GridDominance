@@ -10,17 +10,17 @@
 	<meta charset="utf-8">
 	<?php includeStyles(); ?>
 
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/admin/common/export.css" type="text/css" media="all" />
 
 </head>
 
 <body id="rootbox">
 
     <?php includeScripts(); ?>
-    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+    <script src="/admin/common/amcharts.js"></script>
+    <script src="/admin/common/serial.js"></script>
+    <script src="/admin/common/export.min.js"></script>
+    <script src="/admin/common/light.js"></script>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
 
@@ -196,7 +196,7 @@
 									echo "{";
 									echo " score: '".($groups[$i]['score']-$PARTITIONSIZE+1)." - ".$groups[$i]['score']."', ";
 									echo " count: ".$groups[$i]['count']."";
-									echo "}";
+									echo "}\n";
 								}
 								?>
                             ],
