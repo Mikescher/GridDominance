@@ -38,7 +38,7 @@
             '#196956','#8C41BB','#ECEDFE','#2B2D32','#94C661','#F8907D','#895E6B','#788E95'
         ];
 
-    $DISABLED = ['cron', 'admin', 'change-password', 'log-client', 'merge-login', /*'set-multiscore',*/ /*'upgrade-user', */ 'savesessionstate', ];
+    $DISABLED = ['cron', 'admin', 'change-password', 'log-client', 'merge-login', 'savesessionstate', 'get-ranking', 'upgrade-user', 'set-multiscore' ];
 
     ?>
 
