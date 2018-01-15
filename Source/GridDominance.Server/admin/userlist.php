@@ -10,17 +10,14 @@
 	<meta charset="utf-8">
 	<?php includeStyles(); ?>
 
-    <link rel="stylesheet" href="/admin/common/export.css" type="text/css" media="all" />
-
 </head>
 
 <body id="rootbox">
 
     <?php includeScripts(); ?>
-    <script src="/admin/common/amcharts.js"></script>
-    <script src="/admin/common/serial.js"></script>
-    <script src="/admin/common/export.min.js"></script>
-    <script src="/admin/common/light.js"></script>
+    <script src="/admin/common/ac/amcharts.js"></script>
+    <script src="/admin/common/ac/serial.js"></script>
+    <script src="/admin/common/ac/themes/light.js"></script>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
 
