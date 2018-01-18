@@ -59,11 +59,11 @@ function run() {
 			"VALUES  " .
 			"( " .
 			"(SELECT COUNT(*) FROM users WHERE score > 0 AND last_online >= now() - INTERVAL 1 DAY), " .
-			"(SELECT COUNT(*) FROM users WHERE app_type = 'Android.Amazon'), " .
-			"(SELECT COUNT(*) FROM users WHERE app_type = 'Android.Full'), " .
-			"(SELECT COUNT(*) FROM users WHERE app_type = 'Android.IAB'), " .
-			"(SELECT COUNT(*) FROM users WHERE app_type = 'IOS.Full'), " .
-			"(SELECT COUNT(*) FROM users WHERE app_type = 'WinPhone.UWP.Full'), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'Android.Amazon' AND score > 0), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'Android.Full' AND score > 0), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'Android.IAB' AND score > 0), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'IOS.Full' AND score > 0), " .
+			"(SELECT COUNT(*) FROM users WHERE app_type = 'WinPhone.UWP.Full' AND score > 0), " .
 			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000200001}%'), " .
 			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000200002}%'), " .
 			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000200003}%'), " .

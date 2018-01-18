@@ -14,9 +14,6 @@
 <body id="rootbox">
 
     <?php includeScripts(); ?>
-    <script src="/admin/common/ac/amcharts.js"></script>
-    <script src="/admin/common/ac/serial.js"></script>
-    <script src="/admin/common/ac/themes/light.js"></script>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
 
@@ -69,6 +66,7 @@
 
 	$users = getUsers($showall, $anon, $days, $device, $os, $resolution, $appversion, $apptype, $page, 500);
 	$entrycount = countUsers($showall, $anon, $days, $device, $os, $resolution, $appversion, $apptype);
+	$statshist = sql_query_assoc("GetStatsHistory", "SELECT * FROM stats_history ORDER BY exectime ASC");
 
     ?>
 
@@ -293,7 +291,7 @@
 								echo "{";
 								echo " date: new Date('".$udates[$i]."'), ";
 								echo " count: ".$userdist[$i]['count']."";
-								echo "}";
+								echo "}\n";
 							}
                             ?>
                         ],
@@ -351,7 +349,7 @@
 									echo "{";
 									echo " date: new Date('".$udates[$i]."'), ";
 									echo " count: ".$cuserdist[$i]['count']."";
-									echo "}";
+									echo "}\n";
 								}
 								?>
                             ],
@@ -386,6 +384,283 @@
                             "autoGridCount": true,
                             "color": "#000000",
                             "scrollbarHeight": 50
+                        },
+                        "categoryField": "date",
+                        "categoryAxis": {
+                            "minPeriod": "mm",
+                            "parseDates": true
+                        },
+                        "export": {
+                            "enabled": true,
+                            "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div class="graphbox" data-collapse>
+        <h2 class="collapseheader">Paying Users / Time</h2>
+        <div>
+            <div>
+                <div id="scoreChart6" style="width:95%; height:500px"></div>
+                <script>
+                    AmCharts.makeChart("scoreChart6", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 80,
+                        "dataProvider":
+                            [
+								<?php
+								for ($i=0; $i < count($statshist); $i++)
+								{
+									if ($i>0)echo ',';
+									echo "{";
+									echo " date: new Date('".$statshist[$i]['exectime'].          "'), ";
+									echo " count_1: "       .$statshist[$i]['user_amazon'].       ", ";
+									echo " count_2: "       .$statshist[$i]['user_android_full']. ", ";
+									echo " count_3: "       .$statshist[$i]['user_ios'].          ", ";
+									echo " count_4: "       .$statshist[$i]['user_winphone'].     "";
+									echo "}\n";
+								}
+								?>
+                            ],
+                        "valueAxes": [{
+                            "position": "left",
+                            "title": "Users"
+                        }],
+                        "graphs":
+                            [
+                                {
+                                    "id": "g1",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_1",
+                                    "bullet": "round",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>Amazon:<b>[[value]]</b></div>"
+                                },
+                                {
+                                    "id": "g2",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_2",
+                                    "bullet": "round",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>Android Full:<b>[[value]]</b></div>"
+                                },
+                                {
+                                    "id": "g3",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_3",
+                                    "bullet": "round",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>iOS:<b>[[value]]</b></div>"
+                                },
+                                {
+                                    "id": "g4",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_4",
+                                    "bullet": "round",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>Win Phone:<b>[[value]]</b></div>"
+                                },
+                            ],
+                        "chartScrollbar": {
+                            "graph": "g1",
+                            "scrollbarHeight": 80,
+                            "backgroundAlpha": 0,
+                            "selectedBackgroundAlpha": 0.1,
+                            "selectedBackgroundColor": "#888888",
+                            "graphLineAlpha": 0.5,
+                            "selectedGraphFillAlpha": 0,
+                            "selectedGraphLineAlpha": 1,
+                            "autoGridCount": true,
+                            "color": "#AAAAAA"
+                        },
+                        "chartCursor": {
+                            "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                            "cursorPosition": "mouse"
+                        },
+                        "categoryField": "date",
+                        "categoryAxis": {
+                            "minPeriod": "mm",
+                            "parseDates": true
+                        },
+                        "export": {
+                            "enabled": true,
+                            "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div class="graphbox" data-collapse>
+        <h2 class="collapseheader">Unlocks / Time</h2>
+        <div>
+            <div>
+                <div id="scoreChart7" style="width:95%; height:500px"></div>
+                <script>
+                    AmCharts.makeChart("scoreChart7", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 80,
+                        "dataProvider":
+                            [
+								<?php
+								for ($i=0; $i < count($statshist); $i++)
+								{
+									if ($i>0)echo ',';
+									echo "{";
+									echo " date: new Date('".$statshist[$i]['exectime'].   "'), ";
+									echo " count_1: "       .$statshist[$i]['unlocks_w1']. ", ";
+									echo " count_2: "       .$statshist[$i]['unlocks_w2']. ", ";
+									echo " count_3: "       .$statshist[$i]['unlocks_w3']. ", ";
+									echo " count_4: "       .$statshist[$i]['unlocks_w4']. ", ";
+									echo " count_5: "       .$statshist[$i]['unlocks_mp']. "";
+									echo "}\n";
+								}
+								?>
+                            ],
+                        "valueAxes": [{
+                            "position": "left",
+                            "title": "Users"
+                        }],
+                        "graphs":
+                            [
+                                {
+                                    "id": "g1",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_1",
+                                    "bullet": "square",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>Unlocks W1:<b>[[value]]</b></div>"
+                                },
+                                {
+                                    "id": "g2",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_2",
+                                    "bullet": "square",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>Unlocks W2:<b>[[value]]</b></div>"
+                                },
+                                {
+                                    "id": "g3",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_3",
+                                    "bullet": "square",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>Unlocks W3:<b>[[value]]</b></div>"
+                                },
+                                {
+                                    "id": "g4",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_4",
+                                    "bullet": "square",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>Unlocks W4:<b>[[value]]</b></div>"
+                                },
+                                {
+                                    "id": "g5",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_5",
+                                    "bullet": "square",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>Unlocks MP:<b>[[value]]</b></div>"
+                                },
+                            ],
+                        "chartScrollbar": {
+                            "graph": "g1",
+                            "scrollbarHeight": 80,
+                            "backgroundAlpha": 0,
+                            "selectedBackgroundAlpha": 0.1,
+                            "selectedBackgroundColor": "#888888",
+                            "graphLineAlpha": 0.5,
+                            "selectedGraphFillAlpha": 0,
+                            "selectedGraphLineAlpha": 1,
+                            "autoGridCount": true,
+                            "color": "#AAAAAA"
+                        },
+                        "chartCursor": {
+                            "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                            "cursorPosition": "mouse"
+                        },
+                        "categoryField": "date",
+                        "categoryAxis": {
+                            "minPeriod": "mm",
+                            "parseDates": true
+                        },
+                        "export": {
+                            "enabled": true,
+                            "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div class="graphbox" data-collapse>
+        <h2 class="collapseheader">Active Users / Time</h2>
+        <div>
+            <div>
+                <div id="scoreChart5" style="width:95%; height:500px"></div>
+                <script>
+                    AmCharts.makeChart("scoreChart5", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 80,
+                        "dataProvider":
+                            [
+								<?php
+								for ($i=0; $i < count($statshist); $i++)
+								{
+									if ($i>0)echo ',';
+									echo "{";
+									echo " date: new Date('".$statshist[$i]['exectime']."'), ";
+									echo " count: ".$statshist[$i]['active_users_per_day']."";
+									echo "}";
+								}
+								?>
+                            ],
+                        "valueAxes": [{
+                            "position": "left",
+                            "title": "Users"
+                        }],
+                        "graphs": [{
+                            "id": "g1",
+                            "fillAlphas": 0.4,
+                            "valueField": "count",
+                            "bullet": "round",
+                            "bulletBorderAlpha": 1,
+                            "bulletBorderThickness": 1,
+                            "balloonText": "<div style='margin:5px; font-size:19px;'>Value:<b>[[value]]</b></div>"
+                        }],
+                        "chartScrollbar": {
+                            "graph": "g1",
+                            "scrollbarHeight": 80,
+                            "backgroundAlpha": 0,
+                            "selectedBackgroundAlpha": 0.1,
+                            "selectedBackgroundColor": "#888888",
+                            "graphLineAlpha": 0.5,
+                            "selectedGraphFillAlpha": 0,
+                            "selectedGraphLineAlpha": 1,
+                            "autoGridCount": true,
+                            "color": "#AAAAAA"
+                        },
+                        "chartCursor": {
+                            "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                            "cursorPosition": "mouse"
                         },
                         "categoryField": "date",
                         "categoryAxis": {

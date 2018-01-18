@@ -15,6 +15,9 @@ function includeScripts()
 	print('<script src="/admin/common/jquery.collapse.js"></script>');
 	print('<script src="/admin/common/toastr.min.js"></script>');
 	print('<script src="/admin/common/sorttable.js"></script>');
+	print('<script src="/admin/common/ac/amcharts.js"></script>');
+	print('<script src="/admin/common/ac/serial.js"></script>');
+    print('<script src="/admin/common/ac/themes/light.js"></script>');
 }
 
 //############
