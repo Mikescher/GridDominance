@@ -2,7 +2,6 @@
 <?php require_once '../internals/utils.php'; ?>
 <?php require_once 'common/libadmin.php'; ?>
 <?php init("admin"); ?>
-<?php $INTERACTIVE = true; ?>
 <!doctype html>
 
 <html lang="en">
@@ -155,31 +154,8 @@
         <h2 class="collapseheader">Score Distribution</h2>
         <div>
             <div>
-				<?php if (!$INTERACTIVE): ?>
-                    <canvas id="scoreChart1" width="85%" height="25%"></canvas>
-				<?php else: ?>
-                    <div id="scoreChart1" style="width:95%; height:500px"></div>
-				<?php endif; ?>
+                <div id="scoreChart1" style="width:95%; height:500px"></div>
                 <script>
-					<?php if (!$INTERACTIVE): ?>
-                    let ctx1 = document.getElementById("scoreChart1").getContext('2d');
-                    new Chart(ctx1,
-                        {
-                            type: 'line',
-                            data:
-                                {
-                                    labels: [ <?php foreach ($groups as $entry) echo "'".($entry['score']-$PARTITIONSIZE+1)." - ".$entry['score']."',"; ?> ],
-                                    datasets:
-                                        [
-                                            {
-                                                label: 'count',
-                                                data: [ <?php foreach ($groups as $entry) echo $entry['count'].","; ?> ],
-                                            }
-                                        ]
-                                },
-                            options: { animation: { duration: 0, }, elements:  { line: { tension: 0, } }, }
-                        });
-					<?php else: ?>
                     AmCharts.makeChart("scoreChart1", {
                         "type": "serial",
                         "theme": "light",
@@ -227,49 +203,11 @@
                             "enabled": true
                         }
                     });
-					<?php endif; ?>
                 </script>
             </div>
             <div>
-				<?php if (!$INTERACTIVE): ?>
-                    <canvas id="scoreChart2" width="85%" height="25%"></canvas>
-				<?php else: ?>
-                    <div id="scoreChart2" style="width:95%; height:500px"></div>
-				<?php endif; ?>
+                <div id="scoreChart2" style="width:95%; height:500px"></div>
                 <script>
-					<?php if (!$INTERACTIVE): ?>
-                    let ctx2 = document.getElementById("scoreChart2").getContext('2d');
-                    new Chart(ctx2,
-                        {
-                            type: 'line',
-                            data:
-                                {
-                                    labels: [ <?php foreach ($cgroups as $entry) echo $entry['score'].","; ?> ],
-                                    datasets:
-                                        [
-                                            {
-                                                label: 'count',
-                                                data: [ <?php foreach ($cgroups as $entry) echo $entry['count'].","; ?> ],
-                                                pointRadius: 0,
-                                            }
-                                        ]
-                                },
-                            options:
-                                {
-                                    animation:
-                                        {
-                                            duration: 0,
-                                        },
-                                    elements:
-                                        {
-                                            line:
-                                                {
-                                                    tension: 0 ,
-                                                }
-                                        },
-                                }
-                        });
-					<?php else: ?>
                     AmCharts.makeChart("scoreChart2", {
                         "type": "serial",
                         "theme": "light",
@@ -331,7 +269,6 @@
                             "dateFormat": "YYYY-MM-DD HH:NN:SS"
                         }
                     });
-					<?php endif; ?>
                 </script>
             </div>
         </div>
@@ -341,30 +278,8 @@
         <h2 class="collapseheader">New Users / Time</h2>
         <div>
             <div>
-				<?php if (!$INTERACTIVE): ?>
-                    <canvas id="scoreChart3" width="85%" height="25%"></canvas>
-				<?php else: ?>
-                    <div id="scoreChart3" style="width:95%; height:500px"></div>
-				<?php endif; ?>
+                <div id="scoreChart3" style="width:95%; height:500px"></div>
                 <script>
-					<?php if (!$INTERACTIVE): ?>
-                    let ctx3 = document.getElementById("scoreChart3").getContext('2d');
-                    new Chart(ctx3,
-                        {
-                            type: 'line',
-                            data:
-                                {
-                                    labels: [ <?php foreach ($udates as $rld) echo "'".$rld."',"; ?> ],
-                                    datasets:
-                                        [
-                                            {
-                                                label: 'Accounts',
-                                                data: [ <?php foreach ($userdist as $dd) echo $dd['count'].","; ?> ],
-                                            },
-                                        ]
-                                },
-                        });
-					<?php else: ?>
                     AmCharts.makeChart("scoreChart3", {
                         "type": "serial",
                         "theme": "light",
@@ -418,34 +333,11 @@
                             "dateFormat": "YYYY-MM-DD HH:NN:SS"
                         }
                     });
-					<?php endif; ?>
                 </script>
             </div>
             <div>
-				<?php if (!$INTERACTIVE): ?>
-                    <canvas id="scoreChart4" width="85%" height="25%"></canvas>
-				<?php else: ?>
-                    <div id="scoreChart4" style="width:95%; height:500px"></div>
-                <?php endif; ?>
+                <div id="scoreChart4" style="width:95%; height:500px"></div>
                 <script>
-					<?php if (!$INTERACTIVE): ?>
-                    let ctx4 = document.getElementById("scoreChart4").getContext('2d');
-                    new Chart(ctx4,
-                        {
-                            type: 'line',
-                            data:
-                                {
-                                    labels: [ <?php foreach ($udates as $rld) echo "'".$rld."',"; ?> ],
-                                    datasets:
-                                        [
-                                            {
-                                                label: 'Accounts',
-                                                data: [ <?php foreach ($cuserdist as $dd) echo $dd['count'].","; ?> ],
-                                            },
-                                        ]
-                                },
-                        });
-					<?php else: ?>
                     AmCharts.makeChart("scoreChart4", {
                         "type": "serial",
                         "theme": "light",
@@ -505,7 +397,6 @@
                             "dateFormat": "YYYY-MM-DD HH:NN:SS"
                         }
                     });
-					<?php endif; ?>
                 </script>
             </div>
         </div>
