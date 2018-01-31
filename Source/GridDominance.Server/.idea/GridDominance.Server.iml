@@ -9,19 +9,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="PHP" type="php">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/bin/src" />
-          <root url="file://$MODULE_DIR$/vendor/bin/test" />
-          <root url="file://$MODULE_DIR$/vendor/composer" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/bin/src" />
-          <root url="file://$MODULE_DIR$/vendor/bin/test" />
-          <root url="file://$MODULE_DIR$/vendor/composer" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>

@@ -263,7 +263,7 @@ function getScoreDistribution($partitionsize) {
 }
 
 function getNewUsersDistribution() {
-	return sql_query_assoc('getNewUsersDistribution', "SELECT date(creation_time) AS date, COUNT(*) AS count FROM users WHERE creation_time >= now() - INTERVAL 1 YEAR GROUP BY date(creation_time)");
+	return sql_query_assoc('getNewUsersDistribution', "SELECT date(creation_time) AS date, COUNT(*) AS count FROM users WHERE score>0 AND creation_time >= now() - INTERVAL 1 YEAR GROUP BY date(creation_time)");
 }
 
 function getEntryChangedDistribution() {
