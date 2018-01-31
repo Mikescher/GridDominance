@@ -110,6 +110,21 @@
         <div class="infodiv">
             Zero score: <?php echo countZeroScoreUsers(); ?>
         </div>
+        <div class="infodiv">
+            Zombies: <?php echo countZombies(); ?>&nbsp;(<a href="deleteZombies.php">delete</a>)
+        </div>
+    </div>
+
+    <div class="infocontainer">
+        <div class="infodiv">
+            New (today): <?php echo getNewUsersToday(); ?>
+        </div>
+        <div class="infodiv">
+            Purchases: <?php echo getPuchaseTotal(); ?> (<?php echo getPuchaseDelta(); ?>)
+        </div>
+        <div class="infodiv">
+            Unlocks: <?php echo getUnlockTotal(); ?> (<?php echo getUnlockDelta(); ?>)
+        </div>
     </div>
 
 	<?php

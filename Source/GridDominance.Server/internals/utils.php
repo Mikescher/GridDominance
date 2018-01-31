@@ -266,6 +266,10 @@ function getNewUsersDistribution() {
 	return sql_query_assoc('getNewUsersDistribution', "SELECT date(creation_time) AS date, COUNT(*) AS count FROM users WHERE score>0 AND creation_time >= now() - INTERVAL 1 YEAR GROUP BY date(creation_time)");
 }
 
+function getNewUsersToday() {
+	return sql_query_num('getNewUsersToday', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND DATE(creation_time) = DATE(now())");
+}
+
 function getEntryChangedDistribution() {
 	return sql_query_assoc('getEntryChangedDistribution', "SELECT date(last_changed) AS date, COUNT(*) AS count FROM level_highscores WHERE last_changed >= now() - INTERVAL 1 YEAR GROUP BY date(last_changed)");
 }
@@ -464,4 +468,40 @@ function getProxyHistory() {
 
 function getLastProxyHistoryEntry() {
 	return sql_query_assoc('getLastProxyHistoryEntry', "SELECT * FROM session_history ORDER BY id DESC LIMIT 1")[0];
+}
+
+function countZombies() {
+	return sql_query_num('countZombies', "SELECT COUNT(*) FROM ( SELECT * FROM users AS u0 WHERE score=0 AND is_auto_generated=1 AND mpscore=0 AND last_online < NOW() - INTERVAL 100 DAY AND ping_counter<=2 AND 0 = (select count(*) FROM error_log where error_log.userid = u0.userid) AND 0 = (select count(*) FROM cache_levels where cache_levels.best_userid = u0.userid) AND 0 = (select count(*) FROM level_highscores where level_highscores.userid = u0.userid) ) AS taball");
+}
+
+function getLastStats($rows) { return sql_query_assoc("getLastStats", "SELECT * FROM stats_history ORDER BY exectime DESC LIMIT ".$rows); }
+
+function getPuchaseDelta() {
+	$d = getLastStats(3);
+
+	$now = $d[0]['user_amazon'] + $d[0]['user_android_full'] + $d[0]['user_ios'] + $d[0]['user_winphone'];
+	$old = $d[2]['user_amazon'] + $d[2]['user_android_full'] + $d[2]['user_ios'] + $d[2]['user_winphone'];
+
+	return '+' . ($now - $old);
+}
+
+function getUnlockDelta() {
+	$d = getLastStats(3);
+
+	$now = $d[0]['unlocks_w1'] + $d[0]['unlocks_w2'] + $d[0]['unlocks_w3'] + $d[0]['unlocks_w4'] + $d[0]['unlocks_mp'];
+	$old = $d[2]['unlocks_w1'] + $d[2]['unlocks_w2'] + $d[2]['unlocks_w3'] + $d[2]['unlocks_w4'] + $d[2]['unlocks_mp'];
+
+	return '+' . ($now - $old);
+}
+
+function getPuchaseTotal() {
+	$d = getLastStats(3);
+
+	return $d[0]['user_amazon'] + $d[0]['user_android_full'] + $d[0]['user_ios'] + $d[0]['user_winphone'];
+}
+
+function getUnlockTotal() {
+	$d = getLastStats(3);
+
+	return $d[0]['unlocks_w1'] + $d[0]['unlocks_w2'] + $d[0]['unlocks_w3'] + $d[0]['unlocks_w4'] + $d[0]['unlocks_mp'];
 }

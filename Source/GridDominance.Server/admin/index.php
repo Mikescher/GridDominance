@@ -65,6 +65,18 @@
         </div>
 	</div>
 
+    <div class="infocontainer">
+        <div class="infodiv">
+            New (today): <?php echo getNewUsersToday(); ?>
+        </div>
+        <div class="infodiv">
+            Purchases: <?php echo getPuchaseDelta(); ?>
+        </div>
+        <div class="infodiv">
+            Unlocks: <?php echo getUnlockDelta(); ?>
+        </div>
+    </div>
+
 
     <div class="tablebox" data-collapse>
         <h2 class="open collapseheader">New errors</h2>
