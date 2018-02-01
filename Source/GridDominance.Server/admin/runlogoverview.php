@@ -46,9 +46,10 @@
     
 	function fmtd($df)
     {
-		$d = DateTime::createFromFormat('Y-m-d H:i:s', $df);
-		$d->setTime(round($d->format('H')/6)*6, 0, 0);
-		return $d->format('Y-m-d H:i');
+		$a = explode(' ', $df);
+		$b = explode(':', $a[1]);
+
+		return $a[0] . ' ' . 6*($b[0]/6) . ':' . $b[1];
     }
 
     function getDates($rloglist, $runlogs)
@@ -59,7 +60,8 @@
             foreach ($runlogs[$raction['action']] as $entry) $dates []= fmtd($entry['exectime']);
         }
         asort($dates);
-        $dates = array_unique($dates);
+		$dates = array_unique($dates);
+		$dates = array_values($dates);
         return $dates;
     }
 
@@ -137,32 +139,102 @@
     <div class="graphbox" data-collapse>
         <h2 class="open collapseheader">History (Median)</h2>
         <div>
-            <canvas id="scoreChart1" width="85%" height="25%"></canvas>
+            <div id="scoreChart1" style="width:calc(100% - 8px); height:650px"></div>
             <script>
-                let ctx1 = document.getElementById("scoreChart1").getContext('2d');
+                AmCharts.makeChart("scoreChart1", {
+                    "type": "serial",
+                    "theme": "light",
+                    "marginRight": 80,
+                    "legend": {
+                        "equalWidths": false,
+                        "periodValueText": "Median: [[value.sum]]s",
+                        "position": "top",
+                        "valueAlign": "left",
+                        "valueWidth": 100,
+                        "listeners": [ {
+                            "event": "hideItem",
+                            "method": legendHandler1
+                        }, {
+                            "event": "showItem",
+                            "method": legendHandler1
+                        } ]
+                    },
+                    "dataProvider":
+                        [
+							<?php
+							for ($i=0; $i < count($dates); $i++)
+							{
+								if ($i>0)echo ',';
+								echo "{";
+								echo " date: new Date('".$dates[$i].          "')";
 
-                new Chart(ctx1,
-                    {
-                        type: 'line',
-                        data:
+								$j=0;
+								foreach ($rloglist as $raction)
+                                {
+                                    $j++;
+									echo ", count_".$j.": "       .$datedata_median[$raction['action']][$i];
+                                }
+								echo "}\n";
+							}
+							?>
+                        ],
+                    "valueAxes": [{
+                        "position": "left",
+                        "title": "seconds"
+                    }],
+                    "graphs":
+                        [
+							<?php $i=0; foreach ($rloglist as $raction): $i++; ?>
+							<?php if ($i>1) echo ','; ?>
                             {
-                                labels: [ <?php foreach ($dates as $rld) echo "'".$rld."',"; ?> ],
-                                datasets:
-                                    [
-										<?php $i=0; ?>
-										<?php foreach ($rloglist as $raction): ?>
-										<?php $i++; ?>
-                                        {
-                                            label: '<?php echo $raction['action']; ?>',
-                                            data: [ <?php foreach ($datedata_median[$raction['action']] as $dd) echo $dd.","; ?> ],
-                                            borderColor: '<?php echo $COLORS[$i%count($COLORS)]; ?>',
-                                            backgroundColor: 'transparent',
-                                            <?php if (in_array($raction['action'], $DISABLED)):?>hidden:true,<?php endif;?>
-                                        },
-										<?php endforeach; ?>
-                                    ]
-                            },
-                    });
+                                "id": "g<?php echo $i; ?>",
+                                "fillAlphas": 0,
+                                "title": "<?php echo $raction['action']; ?>",
+                                "hidden": <?php echo (in_array($raction['action'], $DISABLED)) ? 'true' : 'false'; ?>,
+                                "valueField": "count_<?php echo $i; ?>",
+                                "bullet": "none",
+                                "lineColor": "<?php echo $COLORS[$i%count($COLORS)]; ?>",
+                                "bulletBorderAlpha": 1,
+                                "bulletBorderThickness": 1,
+                                "lineThickness": 2,
+                                "type": "smoothedLine",
+                                "balloonText": "<?php echo $raction['action']; ?>: <b>[[value]]s</b>"
+                            }
+                            <?php endforeach; ?>
+                        ],
+                    "valueScrollbar": {
+                        "autoGridCount": true,
+                        "color": "#000000",
+                        "scrollbarHeight": 50
+                    },
+                    "chartCursor": {
+                        "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                        "cursorPosition": "mouse"
+                    },
+                    "categoryField": "date",
+                    "categoryAxis": {
+                        "minPeriod": "mm",
+                        "parseDates": true
+                    },
+                    "export": {
+                        "enabled": true,
+                        "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                    }
+                });
+
+
+                function legendHandler1( evt ) {
+                    var state = evt.dataItem.hidden;
+                    if ( evt.dataItem.id == "all" ) {
+                        for ( var i1 in evt.chart.graphs ) {
+                            if ( evt.chart.graphs[ i1 ].id != "all" ) {
+                                evt.chart[ evt.dataItem.hidden ? "hideGraph" : "showGraph" ]( evt.chart.graphs[ i1 ] );
+                            }
+                        }
+                    }
+                }
+
+
             </script>
         </div>
     </div>
@@ -170,32 +242,102 @@
     <div class="graphbox" data-collapse>
         <h2 class="collapseheader">History (Average)</h2>
         <div>
-            <canvas id="scoreChart3" width="85%" height="25%"></canvas>
+            <div id="scoreChart3" style="width:calc(100% - 8px); height:650px"></div>
             <script>
-                let ctx3 = document.getElementById("scoreChart3").getContext('2d');
+                AmCharts.makeChart("scoreChart3", {
+                    "type": "serial",
+                    "theme": "light",
+                    "marginRight": 80,
+                    "legend": {
+                        "equalWidths": false,
+                        "periodValueText": "Median: [[value.sum]]s",
+                        "position": "top",
+                        "valueAlign": "left",
+                        "valueWidth": 100,
+                        "listeners": [ {
+                            "event": "hideItem",
+                            "method": legendHandler3
+                        }, {
+                            "event": "showItem",
+                            "method": legendHandler3
+                        } ]
+                    },
+                    "dataProvider":
+                        [
+							<?php
+							for ($i=0; $i < count($dates); $i++)
+							{
+								if ($i>0)echo ',';
+								echo "{";
+								echo " date: new Date('".$dates[$i].          "')";
 
-                new Chart(ctx3,
-                    {
-                        type: 'line',
-                        data:
+								$j=0;
+								foreach ($rloglist as $raction)
+								{
+									$j++;
+									echo ", count_".$j.": "       .$datedata_avg[$raction['action']][$i];
+								}
+								echo "}\n";
+							}
+							?>
+                        ],
+                    "valueAxes": [{
+                        "position": "left",
+                        "title": "seconds"
+                    }],
+                    "graphs":
+                        [
+							<?php $i=0; foreach ($rloglist as $raction): $i++; ?>
+							<?php if ($i>1) echo ','; ?>
                             {
-                                labels: [ <?php foreach ($dates as $rld) echo "'".$rld."',"; ?> ],
-                                datasets:
-                                    [
-										<?php $i=0; ?>
-										<?php foreach ($rloglist as $raction): ?>
-										<?php $i++; ?>
-                                        {
-                                            label: '<?php echo $raction['action']; ?>',
-                                            data: [ <?php foreach ($datedata_avg[$raction['action']] as $dd) echo $dd.","; ?> ],
-                                            borderColor: '<?php echo $COLORS[$i%count($COLORS)]; ?>',
-                                            backgroundColor: 'transparent',
-											<?php if (in_array($raction['action'], $DISABLED)):?>hidden:true,<?php endif;?>
-                                        },
-										<?php endforeach; ?>
-                                    ]
-                            },
-                    });
+                                "id": "g<?php echo $i; ?>",
+                                "fillAlphas": 0,
+                                "title": "<?php echo $raction['action']; ?>",
+                                "hidden": <?php echo (in_array($raction['action'], $DISABLED)) ? 'true' : 'false'; ?>,
+                                "valueField": "count_<?php echo $i; ?>",
+                                "bullet": "none",
+                                "lineColor": "<?php echo $COLORS[$i%count($COLORS)]; ?>",
+                                "bulletBorderAlpha": 1,
+                                "bulletBorderThickness": 1,
+                                "lineThickness": 2,
+                                "type": "smoothedLine",
+                                "balloonText": "<?php echo $raction['action']; ?>: <b>[[value]]s</b>"
+                            }
+							<?php endforeach; ?>
+                        ],
+                    "valueScrollbar": {
+                        "autoGridCount": true,
+                        "color": "#000000",
+                        "scrollbarHeight": 50
+                    },
+                    "chartCursor": {
+                        "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                        "cursorPosition": "mouse"
+                    },
+                    "categoryField": "date",
+                    "categoryAxis": {
+                        "minPeriod": "mm",
+                        "parseDates": true
+                    },
+                    "export": {
+                        "enabled": true,
+                        "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                    }
+                });
+
+
+                function legendHandler3( evt ) {
+                    var state = evt.dataItem.hidden;
+                    if ( evt.dataItem.id == "all" ) {
+                        for ( var i1 in evt.chart.graphs ) {
+                            if ( evt.chart.graphs[ i1 ].id != "all" ) {
+                                evt.chart[ evt.dataItem.hidden ? "hideGraph" : "showGraph" ]( evt.chart.graphs[ i1 ] );
+                            }
+                        }
+                    }
+                }
+
+
             </script>
         </div>
     </div>
