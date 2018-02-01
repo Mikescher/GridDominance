@@ -54,8 +54,10 @@ function run() {
 
 		echo ("[" . date("Y-m-d H:i:s") . "]  " . "Runlog(2)" . "  <br/>\n");
 
+		$avcomp = "(app_version = '" . $config['latest_version'] . "')";
+		if (isset($config['latest_version_alt'])) $avcomp = "(app_version = '" . $config['latest_version'] . "' OR  app_version = '" . $config['latest_version_alt'] . "')";
 
-		$stmt = $pdo->prepare("INSERT INTO stats_history (active_users_per_day, user_amazon, user_android_full, user_android_iab, user_ios, user_winphone, unlocks_w1, unlocks_w2, unlocks_w3, unlocks_w4, unlocks_mp, user_topscore) " .
+		$stmt = $pdo->prepare("INSERT INTO stats_history (active_users_per_day, user_amazon, user_android_full, user_android_iab, user_ios, user_winphone, unlocks_w1, unlocks_w2, unlocks_w3, unlocks_w4, unlocks_mp, user_topscore, user_current_version, user_old_version) " .
 			"VALUES  " .
 			"( " .
 			"(SELECT COUNT(*) FROM users WHERE score > 0 AND last_online >= now() - INTERVAL 1 DAY), " .
@@ -69,7 +71,9 @@ function run() {
 			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000200003}%'), " .
 			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000200004}%'), " .
 			"(SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000300001}%'), " .
-			"(SELECT COUNT(*) FROM users WHERE score = (SELECT MAX(score) FROM users)) " .
+			"(SELECT COUNT(*) FROM users WHERE score = (SELECT MAX(score) FROM users)), " .
+			"(SELECT COUNT(*) FROM users WHERE last_online > Now() - INTERVAL 1 DAY AND $avcomp), " .
+			"(SELECT COUNT(*) FROM users WHERE last_online > Now() - INTERVAL 1 DAY AND !($avcomp)) " .
 			")");
 		executeOrFail($stmt);
 

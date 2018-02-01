@@ -182,5 +182,8 @@ CREATE TABLE stats_history (
 
   user_topscore         int(11)       NOT NULL,
 
+  user_current_version  int(11)       NOT NULL,
+  user_old_version      int(11)       NOT NULL,
+
   PRIMARY KEY (id)
 );
