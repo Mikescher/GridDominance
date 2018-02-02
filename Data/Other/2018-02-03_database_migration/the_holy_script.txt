@@ -1,0 +1,72 @@
+
+=====
+STEPS
+=====
+
+[1]
+    service apache stop
+    sudo supervisorctl stop gogs
+    service mysql stop
+    cp /var/lib/mysql /home/janitor/mysql_backup_2018-02-02
+    service mysql start
+
+[2]
+    pv 00_idmap.sql | mysql -uROOT -pPASSWORD gdapi_data
+    pv 01_insert_shortid.sql | mysql -uROOT -pPASSWORD gdapi_data
+
+[3]
+    update-gdapi
+    (update config.php, config_auto.php, config_levelids.php)
+
+[4]
+    service apache start
+    sudo supervisorctl start gogs
+
+=====
+GDAPI
+=====
+
+
+ - [2] schema
+ - [2] config_levelids
+ - [2] change-password
+ - [2] create-user
+ - [2] manual_calculate_time.sql
+ - [2] cron
+        - foreach $config['levelids']
+        - SELECT COUNT(*) FROM level_highscores
+        - REPLACE INTO cache_levels
+ - [2] download-data
+        - SELECT levelid, difficulty, best_time FROM level_highscores
+ - [2] get-highscores
+ - [2] get-ranking
+        - get-ranking_global_playerrank.sql
+        - get-ranking_global_top.sql
+        - get-ranking_local_playerrank.sql
+        - get-ranking_local_top.sql
+        - get-ranking_multiplayer_playerrank.sql
+        - get-ranking_multiplayer_top.sql
+ - [2] log-client
+ - [2] merge-login
+        - InsertMultiLevelScore
+        - GetAllLevelScoreEntries
+ - [2] ping
+ - [2] savesessionstate
+ - [2] set-mpscore
+ - [2] set-multiscore
+        - InsertMultiLevelScore                                                (!!!)
+ - [2] set-multiscore-2
+        - InsertMultiLevelScore                                                (!!!)
+ - [2] set-score
+        - $shortid = $config['levelmapping'][$levelid][2]
+        - InsertLevelScore
+        - InsertLevelScoreInternal
+ - [2] upgrade-user
+ - [2] verify
+ - [0] admin
+
+ 
+ [0] todo
+ [1] changed
+ [2] tested
+ [3] prod

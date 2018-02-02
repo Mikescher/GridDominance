@@ -166,7 +166,7 @@ function getMultiplayerHighscores($limit = 100, $page = 0) {
 }
 
 function getAllEntries($page, $pagesize) {
-	return sql_query_assoc_prep('getAllEntries', "SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE score > 0 LIMIT :ps OFFSET :po",
+	return sql_query_assoc_prep('getAllEntries', "SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid LEFT JOIN idmap ON level_highscores.shortid=idmap.shortid WHERE score > 0 LIMIT :ps OFFSET :po",
 	[
 		[':po', $pagesize * $page, PDO::PARAM_INT],
 		[':ps', $pagesize,         PDO::PARAM_INT],
@@ -174,14 +174,14 @@ function getAllEntries($page, $pagesize) {
 }
 
 function getLevelEntries($lvl) {
-	return sql_query_assoc_prep('getLevelEntries', "SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND score > 0",
+	return sql_query_assoc_prep('getLevelEntries', "SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid LEFT JOIN idmap ON level_highscores.shortid=idmap.shortid WHERE levelid= :id AND score > 0",
 	[
 		[':id', $lvl, PDO::PARAM_STR],
 	]);
 }
 
 function getLevelDiffEntries($lvl, $diff, $limit) {
-	return sql_query_assoc_prep('getLevelDiffEntries', "SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE levelid= :id AND difficulty = :diff AND score > 0 ORDER BY level_highscores.best_time ASC, level_highscores.last_changed ASC LIMIT :lim",
+	return sql_query_assoc_prep('getLevelDiffEntries', "SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid LEFT JOIN idmap ON level_highscores.shortid=idmap.shortid WHERE levelid= :id AND difficulty = :diff AND score > 0 ORDER BY level_highscores.best_time ASC, level_highscores.last_changed ASC LIMIT :lim",
 	[
 		[':id', $lvl, PDO::PARAM_STR],
 		[':diff', $diff, PDO::PARAM_STR],
@@ -190,7 +190,7 @@ function getLevelDiffEntries($lvl, $diff, $limit) {
 }
 
 function getUserEntries($uid) {
-	return sql_query_assoc_prep('getUserEntries', "SELECT * FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid WHERE level_highscores.userid= :uid AND score > 0",
+	return sql_query_assoc_prep('getUserEntries', "SELECT level_highscores.*, users.*, idmap.levelid FROM level_highscores LEFT JOIN users ON level_highscores.userid = users.userid LEFT JOIN idmap ON level_highscores.shortid = idmap.shortid WHERE level_highscores.userid= :uid AND score > 0",
 	[
 		[':uid', $uid, PDO::PARAM_INT],
 	]);

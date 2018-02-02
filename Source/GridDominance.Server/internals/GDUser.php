@@ -328,22 +328,22 @@ class GDUser implements JsonSerializable
 	/**
 	 * (!) Does _NOT_ update RevID or Score in DB
 	 *
-	 * @param $levelid
-	 * @param $difficulty
-	 * @param $leveltime
+	 * @param int $shortid
+	 * @param int $difficulty
+	 * @param int $leveltime
 	 * @return array
 	 */
-	public function InsertLevelScore($levelid, $difficulty, $leveltime) {
+	public function InsertLevelScore($shortid, $difficulty, $leveltime) {
 		global $pdo;
 
-		$stmt = $pdo->prepare("SELECT levelid, difficulty, best_time FROM level_highscores WHERE userid=:uid AND levelid=:lid AND difficulty=:diff");
+		$stmt = $pdo->prepare("SELECT shortid, difficulty, best_time FROM level_highscores WHERE userid=:uid AND shortid=:sid AND difficulty=:diff");
 		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
-		$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
+		$stmt->bindValue(':sid', $shortid, PDO::PARAM_INT);
 		$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
 		executeOrFail($stmt);
 		$olddata = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		return $this->InsertLevelScoreInternal($levelid, $difficulty, $leveltime, empty($olddata) ? FALSE : $olddata[0]);
+		return $this->InsertLevelScoreInternal($shortid, $difficulty, $leveltime, empty($olddata) ? FALSE : $olddata[0]);
 	}
 
 	/**
@@ -357,7 +357,7 @@ class GDUser implements JsonSerializable
 		global $config;
 
 
-		$stmt = $pdo->prepare("SELECT levelid, difficulty, best_time FROM level_highscores WHERE userid=:uid");
+		$stmt = $pdo->prepare("SELECT idmap.levelid AS levelid, level_highscores.difficulty AS difficulty, level_highscores.best_time AS best_time FROM level_highscores LEFT JOIN idmap ON level_highscores.shortid=idmap.shortid WHERE userid=:uid");
 		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
 		executeOrFail($stmt);
 		$olddata = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -373,10 +373,12 @@ class GDUser implements JsonSerializable
 			if (!in_array($difficulty, $config['difficulties'], TRUE)) { logMessage("The difficulty $difficulty is not possible", "WARN"); continue; }
 			if (!in_array($levelid, $config['levelids'], TRUE)) { logMessage("The levelID $levelid is not possible", "WARN"); continue; }
 
+			$shortid = $config['levelmapping'][$levelid][2];
+
 			$old_data_row = FALSE;
 			foreach($olddata as $d) { if ($d['levelid'] == $levelid && $d['difficulty'] == $difficulty) $old_data_row = $d; }
 
-			$r = $this->InsertLevelScoreInternal($levelid, $difficulty, $leveltime, $old_data_row);
+			$r = $this->InsertLevelScoreInternal($shortid, $difficulty, $leveltime, $old_data_row);
 			if ($r[0] != 1) $changecount++;
 		}
 
@@ -384,13 +386,13 @@ class GDUser implements JsonSerializable
 	}
 
 	/**
-	 * @param string $levelid
+	 * @param int $shortid
 	 * @param int $difficulty
 	 * @param int $leveltime
 	 * @param array|bool $olddata
 	 * @return array
 	 */
-	private function InsertLevelScoreInternal($levelid, $difficulty, $leveltime, $olddata) {
+	private function InsertLevelScoreInternal($shortid, $difficulty, $leveltime, $olddata) {
 		global $pdo;
 
 		if ($olddata !== FALSE) {
@@ -401,9 +403,9 @@ class GDUser implements JsonSerializable
 			}
 
 			// existing row in db
-			$stmt = $pdo->prepare("UPDATE level_highscores SET best_time=:time, last_changed=CURRENT_TIMESTAMP() WHERE userid=:uid AND levelid=:lid AND difficulty=:diff");
+			$stmt = $pdo->prepare("UPDATE level_highscores SET best_time=:time, last_changed=CURRENT_TIMESTAMP() WHERE userid=:uid AND shortid=:sid AND difficulty=:diff");
 			$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
-			$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
+			$stmt->bindValue(':sid', $shortid, PDO::PARAM_INT);
 			$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
 			$stmt->bindValue(':time', $leveltime, PDO::PARAM_INT);
 			executeOrFail($stmt);
@@ -412,9 +414,9 @@ class GDUser implements JsonSerializable
 		} else {
 
 			// no row in db
-			$stmt = $pdo->prepare("REPLACE INTO level_highscores (userid, levelid, difficulty, best_time, last_changed) VALUES (:uid, :lid, :diff, :time, CURRENT_TIMESTAMP())");
+			$stmt = $pdo->prepare("REPLACE INTO level_highscores (userid, shortid, difficulty, best_time, last_changed) VALUES (:uid, :sid, :diff, :time, CURRENT_TIMESTAMP())");
 			$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
-			$stmt->bindValue(':lid', $levelid, PDO::PARAM_STR);
+			$stmt->bindValue(':sid', $shortid, PDO::PARAM_INT);
 			$stmt->bindValue(':diff', $difficulty, PDO::PARAM_INT);
 			$stmt->bindValue(':time', $leveltime, PDO::PARAM_INT);
 			executeOrFail($stmt);
@@ -429,7 +431,7 @@ class GDUser implements JsonSerializable
 	public function GetAllLevelScoreEntries() {
 		global $pdo;
 
-		$stmt = $pdo->prepare("SELECT levelid, difficulty, best_time FROM level_highscores WHERE userid=:uid");
+		$stmt = $pdo->prepare("SELECT idmap.levelid AS levelid, level_highscores.difficulty AS difficulty, level_highscores.best_time AS best_time FROM level_highscores LEFT JOIN idmap ON level_highscores.shortid=idmap.shortid WHERE userid=:uid");
 		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
 		executeOrFail($stmt);
 

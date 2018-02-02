@@ -16,30 +16,31 @@ function run() {
 
 	if ($secret !== $config['cron-secret']) outputError(ERRORS::CRON_INTERNAL_ERR, "", LOGLEVEL::ERROR);
 
-	foreach ($config['levelids'] as $lid) {
+	foreach ($config['levelmapping'] as $klid => $arrlid) {
 
 		foreach ($config['difficulties'] as $diff) {
-			$stmt = $pdo->prepare("SELECT COUNT(*) FROM level_highscores WHERE levelid=:lid AND difficulty=:dif");
-			$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
+			$stmt = $pdo->prepare("SELECT COUNT(*) FROM level_highscores WHERE shortid=:sid AND difficulty=:dif");
+			$stmt->bindValue(':sid', $arrlid[2], PDO::PARAM_INT);
 			$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
 			executeOrFail($stmt);
 			$compcount = $stmt->fetchColumn();
 
 			if ($compcount > 0) {
-				$stmt = $pdo->prepare("REPLACE INTO cache_levels (levelid, difficulty, best_time, best_userid, best_last_changed, completion_count) (SELECT levelid, difficulty, best_time, userid, last_changed, :coc FROM level_highscores WHERE levelid=:lid AND difficulty=:dif ORDER BY best_time ASC, last_changed ASC LIMIT 1)");
-				$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
+				$stmt = $pdo->prepare("REPLACE INTO cache_levels (levelid, difficulty, best_time, best_userid, best_last_changed, completion_count) (SELECT :lid, difficulty, best_time, userid, last_changed, :coc FROM level_highscores WHERE shortid=:sid AND difficulty=:dif ORDER BY best_time ASC, last_changed ASC LIMIT 1)");
+				$stmt->bindValue(':lid', $arrlid[1], PDO::PARAM_STR);
+				$stmt->bindValue(':sid', $arrlid[2], PDO::PARAM_INT);
 				$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
 				$stmt->bindValue(':coc', $compcount, PDO::PARAM_INT);
 				executeOrFail($stmt);
 			} else {
 				$stmt = $pdo->prepare("DELETE FROM cache_levels WHERE levelid=:lid AND difficulty=:dif");
-				$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
+				$stmt->bindValue(':lid', $arrlid[1], PDO::PARAM_STR);
 				$stmt->bindValue(':dif', $diff, PDO::PARAM_INT);
 				executeOrFail($stmt);
 			}
 		}
 
-		echo ("[" . date("Y-m-d H:i:s") . "]  " . $lid . "  <br/>\n");
+		echo ("[" . date("Y-m-d H:i:s") . "]  " . $arrlid[1]. "  <br/>\n");
 	}
 
 	if ($config['runlog'])

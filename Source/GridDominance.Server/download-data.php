@@ -24,7 +24,7 @@ function run() {
 
 	//----------
 
-	$stmt = $pdo->prepare("SELECT levelid, difficulty, best_time FROM level_highscores WHERE userid=:uid");
+	$stmt = $pdo->prepare("SELECT idmap.levelid AS levelid, level_highscores.difficulty AS difficulty, level_highscores.best_time AS best_time FROM level_highscores LEFT JOIN idmap ON level_highscores.shortid=idmap.shortid WHERE userid=:uid");
 	$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 	executeOrFail($stmt);
 

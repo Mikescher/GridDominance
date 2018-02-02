@@ -200,7 +200,7 @@ namespace GridDominance.DSLEditor
 				txt2.AppendLine();
 				txt2.AppendLine("return [");
 
-				txt2.AppendLine("\t[ '{d34db335-0001-4000-7711-000000100001}', '{b16b00b5-0001-4000-9999-000000000002}' ], // X-X      | Tutorial");
+				txt2.AppendLine("\t[ '{d34db335-0001-4000-7711-000000100001}', '{b16b00b5-0001-4000-9999-000000000002}',  11 ], // X-X      | Tutorial");
 				
 				foreach (var ww in worlds)
 				{
@@ -208,7 +208,10 @@ namespace GridDominance.DSLEditor
 					foreach (var nn in ww.LevelNodes)
 					{
 						var ll = levels.First(l => l.UniqueID == nn.LevelID);
-						txt2.AppendLine($"\t[ '{ww.ID:B}', '{ll.UniqueID:B}' ], // {ll.Name,-8} | {ll.FullName}");
+
+						var sid = ll.UniqueID.ToByteArray()[12] * 100 + ll.UniqueID.ToByteArray()[15];
+
+						txt2.AppendLine($"\t[ '{ww.ID:B}', '{ll.UniqueID:B}', {sid} ], // {ll.Name,-8} | {ll.FullName}");
 					}
 				}
 

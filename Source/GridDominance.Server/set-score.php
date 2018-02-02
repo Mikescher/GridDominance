@@ -35,13 +35,15 @@ function run() {
 	if (!in_array($levelid, $config['levelids'], TRUE)) outputError(ERRORS::SET_SCORE_INVALID_DIFF, "The levelID $levelid is not possible", LogLevel::MESSAGE);
 	if ($totalscore < 0) outputError(ERRORS::SET_SCORE_INVALID_SCORE, "The score $totalscore is not possible", LogLevel::MESSAGE);
 
+	$shortid = $config['levelmapping'][$levelid][2];
+
 	//----------
 
 	$user = GDUser::QueryOrFail($pdo, $password, $userid);
 
 	//----------
 
-	$r = $user->InsertLevelScore($levelid, $difficulty, $leveltime);
+	$r = $user->InsertLevelScore($shortid, $difficulty, $leveltime);
 
 	//----------
 
@@ -51,19 +53,19 @@ function run() {
 	if ($r[0] == 1) {
 
 		// better or same value in db
-		logDebug("levelscore _not_ changed for user:$userid Level:$levelid::$difficulty to $r[1] ($leveltime) ms ($totalscore)");
+		logDebug("levelscore _not_ changed for user:$userid Level:$levelid::$shortid::$difficulty to $r[1] ($leveltime) ms ($totalscore)");
 		outputResultSuccess(['update' => false, 'value_db' => $r[1], 'user' => $user]);
 
 	} else if ($r[0] == 2) {
 
 		// existing row in db
-		logDebug("levelscore changed (update) for user:$userid Level:$levelid::$difficulty to $leveltime ms ($totalscore)");
+		logDebug("levelscore changed (update) for user:$userid Level:$levelid::$shortid::$difficulty to $leveltime ms ($totalscore)");
 		outputResultSuccess(['update' => true, 'value_db' => $leveltime, 'user' => $user]);
 
 	} else if ($r[0] == 3) {
 
 		// no row in db
-		logDebug("levelscore changed (insert) for user:$userid Level:$levelid::$difficulty to $leveltime ms ($totalscore)");
+		logDebug("levelscore changed (insert) for user:$userid Level:$levelid::$shortid::$difficulty to $leveltime ms ($totalscore)");
 		outputResultSuccess(['update' => true, 'value_db' => $leveltime, 'user' => $user]);
 
 	} else {

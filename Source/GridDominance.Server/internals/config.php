@@ -14,7 +14,7 @@ return [
 	'logfile-normal' => __DIR__ . '\\..\\log\\server.log',
 	'logfile-debug'  => __DIR__ . '\\..\\log\\server_[{action}]_debug.log',
 	'logfile-error'  => __DIR__ . '\\..\\log\\server_error.log',
-	'logfile-cron'  => __DIR__ . '\\..\\log\\cron.log',
+	'logfile-cron'   => __DIR__ . '\\..\\log\\cron.log',
 	'email-error-target' => 'virtualadmin@mikescher.de',
 	'email-error-sender' => 'gdserver-error@mikescher.com',
 
@@ -27,7 +27,7 @@ return [
 	'maxsize-logfile-error'  =>  128 * 1024 * 1024, // 512MB
 
 	'levelmapping' => require 'config_levelids.php',
-	'levelids' => array_map(function($k){ return $k[1]; }, require 'config_levelids.php'),
+	'levelids' => array_keys(require 'config_levelids.php'),
 	'latest_version' => (require 'config_auto.php')['latest_version'],
 
 	'worldid_0' => '{d34db335-0001-4000-7711-000000100001}',

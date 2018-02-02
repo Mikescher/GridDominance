@@ -134,7 +134,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddPush("DBG",         "ShowDebugShortcuts",    scrn, SKeys.Tab, KeyModifier.None);
 			DebugSettings.AddPush("DBG",         "ShowSerializedProfile", scrn, SKeys.O,   KeyModifier.None);
 			DebugSettings.AddPush("TRUE",        "HideHUD",               scrn, SKeys.H,   KeyModifier.None);
-			DebugSettings.AddTrigger("DBG",      "HideHUD",               scrn, SKeys.L,   KeyModifier.Control, RotateLang);
+			DebugSettings.AddTrigger("DBG",      "RotateLang",            scrn, SKeys.L,   KeyModifier.Control, RotateLang);
 
 			if (scrn is GDGameScreen)      DebugSettings.AddSwitch( "DBG",  "ImmortalCannons",      scrn, SKeys.I,         KeyModifier.Control, false);
 			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AssimilateCannon",     scrn, SKeys.A,         KeyModifier.None);

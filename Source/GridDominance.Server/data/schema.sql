@@ -50,15 +50,15 @@ CREATE TABLE IF NOT EXISTS users
 DROP TABLE IF EXISTS level_highscores;
 CREATE TABLE IF NOT EXISTS level_highscores 
 (
-  userid        int(11)    NOT NULL,
-  levelid       char(38)   NOT NULL,
-  difficulty    tinyint(4) NOT NULL,
-  best_time     int(11)    NOT NULL,
-  last_changed  timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  userid        int(11)      NOT NULL,
+  shortid       smallint(6)  NOT NULL,
+  difficulty    tinyint(4)   NOT NULL,
+  best_time     int(11)      NOT NULL,
+  last_changed  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-  PRIMARY KEY (userid, levelid, difficulty),
+  PRIMARY KEY (userid, shortid, difficulty),
 
-  KEY specific_level (levelid,   difficulty),
+  KEY specific_level (shortid,   difficulty),
   KEY order_index    (best_time, last_changed)
 );
 
@@ -113,6 +113,7 @@ CREATE TABLE idmap (
   worldid  char(38)      NOT NULL,
   id       varchar(7)    NOT NULL,
   name     varchar(128)  NOT NULL,
+  shortid  smallint(6)   NOT NULL,
 
   PRIMARY KEY (levelid)
 );
