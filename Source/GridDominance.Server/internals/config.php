@@ -2,6 +2,9 @@
 
 if(count(get_included_files()) ==1) exit("Direct access not permitted.");
 
+$config_levelids = require 'config_levelids.php';
+$config_auto     = require 'config_auto.php';
+
 return [
 	'database_host' =>  'localhost',
 	'database_name' =>  'gdapi_data',
@@ -26,9 +29,10 @@ return [
 	'maxsize-logfile-debug'  =>   16 * 1024 * 1024, // 128MB
 	'maxsize-logfile-error'  =>  128 * 1024 * 1024, // 512MB
 
-	'levelmapping' => require 'config_levelids.php',
-	'levelids' => array_keys(require 'config_levelids.php'),
-	'latest_version' => (require 'config_auto.php')['latest_version'],
+	'levelmapping'       => $config_levelids,
+	'levelids'           => array_keys($config_levelids),
+	'latest_version'     => $config_auto['latest_version'],
+	'latest_version_alt' => isset($config_auto['latest_version_alt']) ? $config_auto['latest_version_alt'] : NULL,
 
 	'worldid_0' => '{d34db335-0001-4000-7711-000000100001}',
 	'worldid_1' => '{d34db335-0001-4000-7711-000000200001}',
@@ -39,7 +43,7 @@ return [
 	'difficulties' => [0x00, 0x01, 0x02, 0x03],
 	//'diff_scores'  => [11,   13,   17,   23  ],
 
-	'debug' => true,
+	'debug'  => true,
 	'runlog' => true,
 
 	'ping_emulation' => 0, // sec

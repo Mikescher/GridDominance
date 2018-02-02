@@ -56,7 +56,7 @@ function run() {
 		echo ("[" . date("Y-m-d H:i:s") . "]  " . "Runlog(2)" . "  <br/>\n");
 
 		$avcomp = "(app_version = '" . $config['latest_version'] . "')";
-		if (isset($config['latest_version_alt'])) $avcomp = "(app_version = '" . $config['latest_version'] . "' OR  app_version = '" . $config['latest_version_alt'] . "')";
+		if ($config['latest_version_alt'] != NULL) $avcomp = "(app_version = '" . $config['latest_version'] . "' OR  app_version = '" . $config['latest_version_alt'] . "')";
 
 		$stmt = $pdo->prepare("INSERT INTO stats_history (active_users_per_day, user_amazon, user_android_full, user_android_iab, user_ios, user_winphone, unlocks_w1, unlocks_w2, unlocks_w3, unlocks_w4, unlocks_mp, user_topscore, user_current_version, user_old_version) " .
 			"VALUES  " .
