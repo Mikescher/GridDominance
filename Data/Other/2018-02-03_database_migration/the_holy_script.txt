@@ -4,8 +4,10 @@ STEPS
 =====
 
 [1]
-    service apache stop
+    service apache2 stop
     sudo supervisorctl stop gogs
+    sudo supervisorctl stop ttrss
+    sudo supervisorctl stop gdproxy
     service mysql stop
     cp /var/lib/mysql /home/janitor/mysql_backup_2018-02-02
     service mysql start
@@ -13,6 +15,8 @@ STEPS
 [2]
     pv 00_idmap.sql | mysql -uROOT -pPASSWORD gdapi_data
     pv 01_insert_shortid.sql | mysql -uROOT -pPASSWORD gdapi_data
+
+    watch "mysql -uROOT -pPASSWORD --execute \"SHOW PROCESSLIST\" -t"
 
 [3]
     update-gdapi
