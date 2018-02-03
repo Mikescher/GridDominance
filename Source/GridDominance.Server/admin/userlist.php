@@ -293,7 +293,7 @@
             <div>
                 <div id="scoreChart3" style="width:95%; height:500px"></div>
                 <script>
-                    AmCharts.makeChart("scoreChart3", {
+                    let chart3 = AmCharts.makeChart("scoreChart3", {
                         "type": "serial",
                         "theme": "light",
                         "marginRight": 80,
@@ -346,6 +346,13 @@
                             "dateFormat": "YYYY-MM-DD HH:NN:SS"
                         }
                     });
+                    chart3.addListener("init", initChart3);
+                    function initChart3(){
+                        var d1 = new Date();
+                        d1.setMonth(d1.getMonth() - 3);
+                        var d2 = new Date();
+                        chart3.zoomToDates(d1, d2);
+                    }
                 </script>
             </div>
             <div>
@@ -672,6 +679,73 @@
                             "selectedGraphLineAlpha": 1,
                             "autoGridCount": true,
                             "color": "#AAAAAA"
+                        },
+                        "chartCursor": {
+                            "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                            "cursorPosition": "mouse"
+                        },
+                        "categoryField": "date",
+                        "categoryAxis": {
+                            "minPeriod": "mm",
+                            "parseDates": true
+                        },
+                        "export": {
+                            "enabled": true,
+                            "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div class="graphbox" data-collapse>
+        <h2 class="collapseheader">Versions / Time</h2>
+        <div>
+            <div>
+                <div id="scoreChart8" style="width:95%; height:500px"></div>
+                <script>
+                    AmCharts.makeChart("scoreChart8", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 80,
+                        "dataProvider":
+                            [
+								<?php
+								for ($i=0; $i < count($statshist); $i++)
+								{
+								    $usum = $statshist[$i]['user_current_version'] + $statshist[$i]['user_old_version'];
+
+									$pnew = $usum==0 ? 0 : ($statshist[$i]['user_current_version'] * 100.0 /  $usum);
+									$pold = $usum==0 ? 0 : ($statshist[$i]['user_old_version']     * 100.0 /  $usum);
+
+									if ($i>0)echo ',';
+									echo "{";
+									echo " date: new Date('".$statshist[$i]['exectime']."'), ";
+									echo " count_cur: ".$pnew.",";
+									echo " count_old: ".$pold."";
+									echo "}\n";
+								}
+								?>
+                            ],
+                        "valueAxes": [{
+                            "position": "left",
+                            "title": "Users (%)"
+                        }],
+                        "graphs": [{
+                            "id": "g1",
+                            "fillAlphas": 0.4,
+                            "lineThickness": 2,
+                            "valueField": "count_cur",
+                            "bullet": "round",
+                            "bulletBorderAlpha": 1,
+                            "bulletBorderThickness": 1,
+                            "balloonText": "<div style='margin:5px; font-size:19px;'>Current version:<b>[[value]]</b>%</div>"
+                        }],
+                        "valueScrollbar": {
+                            "autoGridCount": true,
+                            "color": "#000000",
+                            "scrollbarHeight": 50
                         },
                         "chartCursor": {
                             "categoryBalloonDateFormat": "JJ:NN, DD MMMM",

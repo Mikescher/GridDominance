@@ -65,7 +65,7 @@
         return $dates;
     }
 
-    function getDateData($rloglist, $runlogs, $dates, $field)
+    function getDateData($rloglist, $runlogs, $dates, $field, $round=true)
     {
 	    $datedata = [];
 
@@ -82,7 +82,7 @@
                     if (fmtd($entry['exectime']) == $date) 
                     {
                         $v = $entry[$field];
-                        $v = round($v/(1000.0*1000.0), 5);
+                        if ($round) $v = round($v/(1000.0*1000.0), 5);
                     }
                 }
                 $arr []= $v;
@@ -130,8 +130,9 @@
 
 	$dates = getDates($rloglist, $runlogs);
 
-	$datedata_avg      = getDateData($rloglist, $runlogs, $dates, 'duration_avg');
-	$datedata_median   = getDateData($rloglist, $runlogs, $dates, 'duration_median');
+	$datedata_avg      = getDateData($rloglist, $runlogs, $dates,    'duration_avg');
+	$datedata_median   = getDateData($rloglist, $runlogs, $dates,    'duration_median');
+	$datedata_count    = getDateData($rloglist, $runlogs, $dates,    'count', false);
 	$datedata_reqcount = getSumDateData($rloglist, $runlogs, $dates, 'count');
 
     ?>
@@ -139,7 +140,7 @@
     <div class="graphbox" data-collapse>
         <h2 class="open collapseheader">History (Median)</h2>
         <div>
-            <div id="scoreChart1" style="width:calc(100% - 8px); height:650px"></div>
+            <div id="scoreChart1" style="width:calc(100% - 8px); height:850px"></div>
             <script>
                 AmCharts.makeChart("scoreChart1", {
                     "type": "serial",
@@ -192,12 +193,14 @@
                                 "title": "<?php echo $raction['action']; ?>",
                                 "hidden": <?php echo (in_array($raction['action'], $DISABLED)) ? 'true' : 'false'; ?>,
                                 "valueField": "count_<?php echo $i; ?>",
-                                "bullet": "none",
+                                "bullet": "round",
                                 "lineColor": "<?php echo $COLORS[$i%count($COLORS)]; ?>",
-                                "bulletBorderAlpha": 1,
+                                "bulletBorderAlpha": 0.2,
+                                "bulletAlpha": 0.5,
+                                "bulletSize": 4,
                                 "bulletBorderThickness": 1,
                                 "lineThickness": 2,
-                                "type": "smoothedLine",
+                                "type": "line",
                                 "balloonText": "<?php echo $raction['action']; ?>: <b>[[value]]s</b>"
                             }
                             <?php endforeach; ?>
@@ -395,6 +398,106 @@
                             },
                     });
             </script>
+
+
+            <div>
+                <div id="scoreChart5" style="width:calc(100% - 8px); height:650px"></div>
+                <script>
+                    AmCharts.makeChart("scoreChart5", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 80,
+                        "legend": {
+                            "equalWidths": false,
+                            "periodValueText": "Count: [[value.sum]]s",
+                            "position": "top",
+                            "valueAlign": "left",
+                            "valueWidth": 100,
+                            "listeners": [ {
+                                "event": "hideItem",
+                                "method": legendHandler5
+                            }, {
+                                "event": "showItem",
+                                "method": legendHandler5
+                            } ]
+                        },
+                        "dataProvider":
+                            [
+								<?php
+								for ($i=0; $i < count($dates); $i++)
+								{
+									if ($i>0)echo ',';
+									echo "{";
+									echo " date: new Date('".$dates[$i].          "')";
+
+									$j=0;
+									foreach ($rloglist as $raction)
+									{
+										$j++;
+										echo ", count_".$j.": "       .$datedata_count[$raction['action']][$i];
+									}
+									echo "}\n";
+								}
+								?>
+                            ],
+                        "valueAxes": [{
+                            "position": "left",
+                            "title": "Requests"
+                        }],
+                        "graphs":
+                            [
+								<?php $i=0; foreach ($rloglist as $raction): $i++; ?>
+								<?php if ($i>1) echo ','; ?>
+                                {
+                                    "id": "g<?php echo $i; ?>",
+                                    "fillAlphas": 0,
+                                    "title": "<?php echo $raction['action']; ?>",
+                                    "valueField": "count_<?php echo $i; ?>",
+                                    "bullet": "none",
+                                    "lineColor": "<?php echo $COLORS[$i%count($COLORS)]; ?>",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "lineThickness": 2,
+                                    "type": "line",
+                                    "balloonText": "<?php echo $raction['action']; ?>: <b>[[value]]</b>"
+                                }
+								<?php endforeach; ?>
+                            ],
+                        "valueScrollbar": {
+                            "autoGridCount": true,
+                            "color": "#000000",
+                            "scrollbarHeight": 50
+                        },
+                        "chartCursor": {
+                            "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                            "cursorPosition": "mouse"
+                        },
+                        "categoryField": "date",
+                        "categoryAxis": {
+                            "minPeriod": "mm",
+                            "parseDates": true
+                        },
+                        "export": {
+                            "enabled": true,
+                            "dateFormat": "YYYY-MM-DD HH:NN:SS"
+                        }
+                    });
+
+
+                    function legendHandler5( evt ) {
+                        var state = evt.dataItem.hidden;
+                        if ( evt.dataItem.id == "all" ) {
+                            for ( var i1 in evt.chart.graphs ) {
+                                if ( evt.chart.graphs[ i1 ].id != "all" ) {
+                                    evt.chart[ evt.dataItem.hidden ? "hideGraph" : "showGraph" ]( evt.chart.graphs[ i1 ] );
+                                }
+                            }
+                        }
+                    }
+
+
+                </script>
+            </div>
         </div>
     </div>
 
