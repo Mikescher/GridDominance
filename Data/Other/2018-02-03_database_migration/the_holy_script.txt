@@ -16,6 +16,8 @@ STEPS
     pv 00_idmap.sql | mysql -uROOT -pPASSWORD gdapi_data
     pv 01_insert_shortid.sql | mysql -uROOT -pPASSWORD gdapi_data
 
+    sql$ OPTIMIZE TABLE gdapi_data.level_highscores, gdapi_data.idmap, gdapi_data.users;
+
     watch "mysql -uROOT -pPASSWORD --execute \"SHOW PROCESSLIST\" -t"
 
 [3]
@@ -23,8 +25,11 @@ STEPS
     (update config.php, config_auto.php, config_levelids.php)
 
 [4]
-    service apache start
     sudo supervisorctl start gogs
+    sudo supervisorctl start ttrss
+    sudo supervisorctl start gdproxy
+    service apache2 start
+    supervisorctl start shell
 
 =====
 GDAPI
