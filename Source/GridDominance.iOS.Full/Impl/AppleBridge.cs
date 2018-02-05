@@ -5,6 +5,7 @@ using System.Threading;
 using Foundation;
 using GridDominance.Generic.Impl;
 using GridDominance.iOS.Impl;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Language;
@@ -26,10 +27,16 @@ namespace GridDominance.iOS.Full.Impl
 		public IBillingAdapter IAB { get; } = new AppleFullVersionBilling();
 		public IBluetoothAdapter BluetoothFull { get; } = null; // Not supported
 		public string AppType => "IOS.Full";
+		public SAMSystemType SystemType => SAMSystemType.MONOGAME_IOS;
 
 		public string EnvironmentStackTrace => Environment.StackTrace;
 
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
+
+		public void OnNativeInitialize(MonoSAMGame game)
+		{
+			// NOP
+		}
 
 		private static string GenerateInfoStr()
 		{

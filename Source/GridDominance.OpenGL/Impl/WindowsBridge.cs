@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using GridDominance.Generic.Impl;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 
@@ -20,13 +21,19 @@ namespace GridDominance.Windows
 		public IBluetoothAdapter BluetoothLE { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		public string AppType => "Windows.OpenGL";
-		
+		public SAMSystemType SystemType => SAMSystemType.MONOGAME_DESKTOP;
+
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 
 		public string FullDeviceInfoString { get; } = "?? GridDominance.Windows.WindowsImpl ??" + "\n" + Environment.MachineName + "/" + Environment.UserName;
 		public string DeviceName { get; } = "PC";
 		public string DeviceVersion { get; } = Environment.OSVersion.VersionString;
 		public string EnvironmentStackTrace => Environment.StackTrace;
+
+		public void OnNativeInitialize(MonoSAMGame game)
+		{
+			// NOP
+		}
 
 		public string DoSHA256(string input)
 		{
