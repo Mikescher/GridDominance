@@ -12,11 +12,12 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float E             = 2.71828182845904523536f;
 		public const float SQRT_TWO      = 1.41421356237309504880f;
 		public const float SQRT_ONE_HALF = 0.70710678118654752440f;
+		public const float SQRT_THREE    = 1.73205080756887729353f;
 
-		public const float EPSILON = 1E-10f;
-		public const float EPSILON7 = 1E-7f;
-		public const float EPSILON6 = 1E-6f;
-		public const float EPSILON4 = 1.192092896E-4f;
+		public const float EPSILON       = 1E-10f;
+		public const float EPSILON7      = 1E-7f;
+		public const float EPSILON6      = 1E-6f;
+		public const float EPSILON4      = 1.192092896E-4f;
 
 		public const float RadiansToDegrees = 180f / PI;
 		public const float RadDeg = RadiansToDegrees;
@@ -63,6 +64,7 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float RAD_POS_240 = +240 * DegRad;
 		public const float RAD_POS_270 = +270 * DegRad;
 		public const float RAD_POS_288 = +288 * DegRad;
+		public const float RAD_POS_300 = +300 * DegRad;
 		public const float RAD_POS_306 = +306 * DegRad;
 		public const float RAD_POS_315 = +315 * DegRad;
 		public const float RAD_POS_324 = +324 * DegRad;

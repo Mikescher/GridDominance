@@ -75,6 +75,8 @@ namespace MonoSAMFramework.Portable
 			{
 				base.Initialize();
 
+				StaticBridge.OnNativeInitialize(this);
+
 				OnInitialize();
 
 				screens = new ScreenManager(this);
@@ -225,6 +227,11 @@ namespace MonoSAMFramework.Portable
 		{
 			screens?.CurrentScreen?.HUD?.ShowToast(id, text, size, background, foreground, lifetime);
 		}
+
+		public static bool IsDesktop() => CurrentInst.Bridge.SystemType == SAMSystemType.MONOGAME_DESKTOP;
+		public static bool IsPhone()   => CurrentInst.Bridge.SystemType == SAMSystemType.MONOGAME_ANDROID || CurrentInst.Bridge.SystemType == SAMSystemType.MONOGAME_IOS;
+		public static bool IsAndroid() => CurrentInst.Bridge.SystemType == SAMSystemType.MONOGAME_ANDROID;
+		public static bool IsIOS()     => CurrentInst.Bridge.SystemType == SAMSystemType.MONOGAME_IOS;
 
 		protected abstract void OnAfterInitialize();
 		protected abstract void OnInitialize();
