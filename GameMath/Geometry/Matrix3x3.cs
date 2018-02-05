@@ -80,6 +80,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		
 		public static void Add(ref Matrix3x3 matrix1, ref Matrix3x3 matrix2, out Matrix3x3 result)
 		{
+			result = new Matrix3x3();
 			result.M11 = matrix1.M11 + matrix2.M11;
 			result.M12 = matrix1.M12 + matrix2.M12;
 			result.M13 = matrix1.M13 + matrix2.M13;
@@ -147,7 +148,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		
 		public static Matrix3x3 CreateScale(float xScale, float yScale)
 		{
-			Matrix3x3 returnMatrix;
+			Matrix3x3 returnMatrix = new Matrix3x3();
 			returnMatrix.M11 = xScale;
 			returnMatrix.M12 = 0;
 			returnMatrix.M13 = 0;
@@ -233,6 +234,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		
 		public static void Multiply(ref Matrix3x3 matrix1, ref Matrix3x3 matrix2, out Matrix3x3 result)
 		{
+			result = new Matrix3x3();
+
 			result.M11 = matrix1.M11 * matrix2.M11 + matrix1.M12 * matrix2.M21 + matrix1.M13 * matrix2.M31;
 			result.M12 = matrix1.M11 * matrix2.M12 + matrix1.M12 * matrix2.M22 + matrix1.M13 * matrix2.M32;
 			result.M13 = matrix1.M11 * matrix2.M13 + matrix1.M12 * matrix2.M23 + matrix1.M13 * matrix2.M33;
@@ -262,6 +265,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		
 		public static void Multiply(ref Matrix3x3 matrix1, float factor, out Matrix3x3 result)
 		{
+			result = new Matrix3x3();
+
 			result.M11 = matrix1.M11 * factor;
 			result.M12 = matrix1.M12 * factor;
 			result.M13 = matrix1.M13 * factor;
