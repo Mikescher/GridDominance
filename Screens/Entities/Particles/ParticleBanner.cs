@@ -103,7 +103,7 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Particles
 				if (str[i] == ' ')
 					x += SPACE_WIDTH;
 				else
-					x += PathPresets.LETTERS[str[i]].Boundings.Width;
+					x += PathPresets.LETTERS[str.ToUpper()[i]].Boundings.Width;
 			}
 			return x;
 		}
