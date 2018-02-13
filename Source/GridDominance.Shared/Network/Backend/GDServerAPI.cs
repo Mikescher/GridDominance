@@ -975,7 +975,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
 				ps.AddParameterString("new_username", username);
 				ps.AddParameterHash("new_password", pwHash);
-				ps.AddParameterJson("merge_data", CreateScoreArray(profile, null));
+				ps.AddParameterJson("merge_data", CreateScoreArray(profile, null)); // TODO should be BigCompressed, some client swallow the POST part - probably fork to mergelogin2.php
 
 				ps.AddParameterInt("s0", profile.TotalPoints);
 				ps.AddParameterInt("s1", profile.GetWorldPoints(Levels.WORLD_001));
