@@ -1,0 +1,33 @@
+USER GENERATED LEVEL [[TODO]]
+=============================
+
+
+[ ] World Node (inifinite tetris)
+
+[ ] Unlokable per money, many crystals (4 worlds full) or full version
+
+[ ] reduce unlock cost of normal worlds
+
+[ ] dedicated server (cannonconquest-game.net) --> pay by myself for now
+
+[ ] level manage screen
+     - add new world (get instantly ID from server)
+     - upload local world (beat it on diff4), can't edit afterwards
+         * local compile+prealc
+         * gzip compiled level file
+     - edit not uploaded
+     - play uploaded
+
+[ ] level create screen
+     - similiar like standalone creator
+     - needs a way to configure level settings (size, ki params, etc)
+
+[ ] Play screen
+     - multi tabbed
+         - New level
+         - Hot level
+         - Top level
+         - Random (Hard | Medium | Easy)
+     - custom top-10 scoreboard per level+diff
+     - show completion count/perentage per diff + rating
+     - rate level after complete (only thumbs up | down)
