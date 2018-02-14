@@ -6,7 +6,6 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
-using MonoSAMFramework.Portable.Screens.Agents;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
@@ -15,10 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace MonoSAMFramework.Portable.Screens
 {
-	public abstract class GameScreen : ILifetimeObject
+	public abstract class GameScreen : ILifetimeObject, IUpdateOperationOwner
 	{
 		public bool IsShown { get; private set; }
 		public bool IsRemoved { get; private set; }
@@ -80,7 +80,7 @@ namespace MonoSAMFramework.Portable.Screens
 
 		public float PixelWidth => VAdapterGame.VirtualGuaranteedWidth / VAdapterGame.RealGuaranteedWidth;
 
-		private readonly List<GameScreenAgent> agents = new List<GameScreenAgent>();
+		private readonly List<IUpdateOperation> agents = new List<IUpdateOperation>();
 		private readonly List<IProxyScreenProvider> _proxyScreens = new List<IProxyScreenProvider>();
 		private bool _clearScreenOnDraw = true;
 		private bool _updateDebugSettings = true;
@@ -230,9 +230,7 @@ namespace MonoSAMFramework.Portable.Screens
 		{
 			for (int i = agents.Count - 1; i >= 0; i--)
 			{
-				agents[i].Update(timeVirtual, istate);
-
-				if (!agents[i].Alive)
+				if (!agents[i].UpdateUnchecked(this, timeVirtual, istate))
 				{
 					agents.RemoveAt(i);
 				}
@@ -439,14 +437,12 @@ namespace MonoSAMFramework.Portable.Screens
 			DebugDisp.AddDecayLine(text);
 		}
 
-		public void AddAgent(GameScreenAgent a)
+		void IUpdateOperationOwner.AddOperation(IUpdateOperation o) { AddAgent(o); }
+
+		public void AddAgent(IUpdateOperation a)
 		{
 			agents.Add(a);
-		}
-
-		public bool RemoveAgent(GameScreenAgent a)
-		{
-			return agents.Remove(a);
+			a.InitUnchecked(this);
 		}
 
 		public IEnumerable<T> GetAgents<T>()

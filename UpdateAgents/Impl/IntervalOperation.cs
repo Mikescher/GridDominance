@@ -1,17 +1,18 @@
 ﻿using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 
-namespace MonoSAMFramework.Portable.Screens.HUD.Operations
+namespace MonoSAMFramework.Portable.UpdateAgents.Impl
 {
-	public abstract class HUDIntervalElementOperation<TElement> : HUDElementOperation<TElement> where TElement : HUDElement
+	public abstract class IntervalOperation<TElement> : SAMUpdateOp<TElement> where TElement : IUpdateOperationOwner
 	{
 		private readonly float _actionTime;
 		private readonly float _sleepTime;
 
 		private float _time = 0f;
 
-		public bool Finished = false;
+		// [startDelay] ( [actionTime] [sleepTime] ) ( [actionTime] [sleepTime] ) ( [actionTime] [sleepTime] ) ( [actionTime] [sleepTime] ) ...
 
-		protected HUDIntervalElementOperation(float startDelay, float actionTime, float sleepTime)
+		protected IntervalOperation(float startDelay, float actionTime, float sleepTime)
 		{
 			_time = -startDelay;
 
@@ -19,15 +20,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 			_sleepTime = sleepTime;
 		}
 
-		public override bool Update(TElement entity, SAMTime gameTime, InputState istate)
+		protected override void OnUpdate(TElement entity, SAMTime gameTime, InputState istate)
 		{
-			if (Finished) return false;
-			
 			bool before_incycle = (_time >= 0) && (_time < _actionTime);
 
 			_time += gameTime.ElapsedSeconds;
 
-			if (_time < 0) return true; // initial delay
+			if (_time < 0) return; // initial delay
 
 			while (_time > _actionTime + _sleepTime) _time -= _actionTime + _sleepTime;
 
@@ -38,9 +37,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 			if (after_incycle) OnCycleProgress(entity, _time / _actionTime, gameTime, istate);
 
 			if (before_incycle && !after_incycle) OnCycleEnd(entity, gameTime, istate);
-
-			
-			return true;
 		}
 
 		protected abstract void OnCycleStart(TElement entity, SAMTime gameTime, InputState istate);

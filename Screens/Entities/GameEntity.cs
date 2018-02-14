@@ -5,22 +5,23 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.UpdateAgents;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace MonoSAMFramework.Portable.Screens.Entities
 {
-	public abstract class GameEntity : ISAMDrawable, ISAMUpdateable, ILifetimeObject
+	public abstract class GameEntity : ISAMDrawable, ISAMUpdateable, ILifetimeObject, IUpdateOperationOwner
 	{
 		public readonly GameScreen Owner;
 		public EntityManager Manager = null; // only set after Add - use only in Update() and Render()
 
-		protected readonly List<IGameEntityOperation> ActiveOperations = new List<IGameEntityOperation>();
+		protected readonly List<IUpdateOperation> ActiveOperations = new List<IUpdateOperation>();
 		protected readonly List<GameEntityMouseArea> MouseAreas = new List<GameEntityMouseArea>();
 
-		public IEnumerable<IGameEntityOperation> ActiveEntityOperations => ActiveOperations;
+		public IEnumerable<IUpdateOperation> ActiveEntityOperations => ActiveOperations;
 
 		public abstract FPoint Position { get; } // Center
 		public abstract FSize DrawingBoundingBox { get; }
@@ -61,9 +62,8 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		{
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
 			{
-				if (!ActiveOperations[i].Update(this, gameTime, istate))
+				if (!ActiveOperations[i].UpdateUnchecked(this, gameTime, istate))
 				{
-					ActiveOperations[i].OnEnd(this);
 					ActiveOperations.RemoveAt(i);
 				}
 			}
@@ -84,52 +84,36 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 			OrderDirty = true;
 		}
 
-		public IGameEntityOperation AddEntityOperation(IGameEntityOperation op)
+		void IUpdateOperationOwner.AddOperation(IUpdateOperation op) { AddOperation(op); }
+
+		public IUpdateOperation AddOperation(IUpdateOperation op)
 		{
 			ActiveOperations.Add(op);
-			op.OnStart(this);
+			op.InitUnchecked(this);
 			return op;
 		}
 
-		public IGameEntityOperation AddEntityOperationDelayed(IGameEntityOperation op, float delay)
+		public IUpdateOperation AddOperationDelayed<TElement>(SAMUpdateOp<TElement> op, float delay) where TElement : GameEntity
 		{
-			ActiveOperations.Add(new DelayGameEntityOperation(op.Name + "#delay", delay, op));
-			op.OnStart(this);
-			return op;
+			return AddOperation(new DelayedOperation<TElement>(op, delay));
 		}
 
-		public void FinishAllOperations(Func<IGameEntityOperation, bool> condition)
+		public void AbortAllOperations(Func<IUpdateOperation, bool> condition)
 		{
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
 			{
 				if (condition(ActiveOperations[i]))
 				{
-					ActiveOperations[i].OnEnd(this);
-					ActiveOperations.RemoveAt(i);
+					ActiveOperations[i].Abort();
 				}
 			}
 		}
 
-		public void AbortAllOperations(Func<IGameEntityOperation, bool> condition)
+		public float? FindFirstOperationProgress(Func<IUpdateOperation, bool> condition)
 		{
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
 			{
-				if (condition(ActiveOperations[i]))
-				{
-					ActiveOperations[i].OnAbort(this);
-					ActiveOperations.RemoveAt(i);
-				}
-			}
-		}
-
-		public float? FindFirstOperationProgress(Func<IGameEntityOperation, bool> condition)
-		{
-			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
-			{
-				if (condition(ActiveOperations[i]))
-				{
-					return ActiveOperations[i].Progress;
-				}
+				if (condition(ActiveOperations[i]) && ActiveOperations[i] is IProgressableOperation ipo) return ipo.Progress;
 			}
 			return null;
 		}

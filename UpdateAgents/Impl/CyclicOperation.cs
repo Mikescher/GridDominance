@@ -1,28 +1,24 @@
 ﻿using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 
-namespace MonoSAMFramework.Portable.Screens.HUD.Operations
+namespace MonoSAMFramework.Portable.UpdateAgents.Impl
 {
-	public abstract class HUDCyclicElementOperation<TElement> : HUDElementOperation<TElement> where TElement : HUDElement
+	public abstract class CyclicOperation<TElement> : SAMUpdateOp<TElement> where TElement : IUpdateOperationOwner
 	{
-		public bool Finished = false;
-
 		private readonly bool _reliable;
 		private readonly float _cyleTime;
 
 		private int _cycleCounter = 0;
 		private float _timeSinceLastCycle = 0f;
 
-		protected HUDCyclicElementOperation(float cycleTime, bool reliable)
+		protected CyclicOperation(float cycleTime, bool reliable)
 		{
 			_cyleTime = cycleTime;
 			_reliable = reliable;
 		}
 
-		public override bool Update(TElement element, SAMTime gameTime, InputState istate)
+		protected override void OnUpdate(TElement element, SAMTime gameTime, InputState istate)
 		{
-			if (Finished) return false;
-
-
 			_timeSinceLastCycle += gameTime.ElapsedSeconds;
 
 			while (_timeSinceLastCycle > _cyleTime)
@@ -38,8 +34,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Operations
 
 				if (_cyleTime < float.Epsilon) break; // prevent inf loop
 			}
-
-			return true;
 		}
 
 		protected abstract void OnCycle(TElement element, int counter);

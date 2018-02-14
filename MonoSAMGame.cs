@@ -10,22 +10,18 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using MonoSAMFramework.Portable.GameAgents;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens.Agents;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
+using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace MonoSAMFramework.Portable
 {
-	public abstract class MonoSAMGame : Game, ILifetimeObject
+	public abstract class MonoSAMGame : Game, ILifetimeObject, IUpdateOperationOwner
 	{
 		private const int NOLAGFRAMES_FOR_INITLAG = 6;
 		private const float MAX_DELTA_FOR_NOLAGFRAME = 1/30f;
 
 		protected ScreenManager screens;
 		private readonly CustomDispatcher gameDispatcher = new CustomDispatcher();
-		private readonly List<MonoSAMGameAgent> agents = new List<MonoSAMGameAgent>();
+		private readonly List<IUpdateOperation> agents = new List<IUpdateOperation>();
 		private static int _initialNoLagFrameCounter= 0;
 
 		public readonly GraphicsDeviceManager Graphics;
@@ -189,9 +185,7 @@ namespace MonoSAMFramework.Portable
 		{
 			for (int i = agents.Count - 1; i >= 0; i--)
 			{
-				agents[i].Update(time);
-
-				if (!agents[i].Alive)
+				if (!agents[i].UpdateUnchecked(this, time, null))
 				{
 					agents.RemoveAt(i);
 				}
@@ -208,14 +202,12 @@ namespace MonoSAMFramework.Portable
 			gameDispatcher.Invoke(a);
 		}
 
-		public void AddAgent(MonoSAMGameAgent a)
+		void IUpdateOperationOwner.AddOperation(IUpdateOperation o) { AddAgent(o); }
+
+		public void AddAgent(IUpdateOperation a)
 		{
 			agents.Add(a);
-		}
-
-		public bool RemoveAgent(MonoSAMGameAgent a)
-		{
-			return agents.Remove(a);
+			a.InitUnchecked(this);
 		}
 
 		public IEnumerable<T> GetAgents<T>()

@@ -60,8 +60,6 @@
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
     <Compile Include="Extensions\TimeExtension.cs" />
-    <Compile Include="GameAgents\GameIntervalAgent.cs" />
-    <Compile Include="GameAgents\MonoSAMGameAgent.cs" />
     <Compile Include="GameMath\AdaptionFloat.cs" />
     <Compile Include="GameMath\BistateProgress.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
@@ -198,22 +196,16 @@
     <Compile Include="RenderHelper\TimesheetAnimation\Transformations\TSAColorTransform.cs" />
     <Compile Include="RenderHelper\TimesheetAnimation\TSAImageObject.cs" />
     <Compile Include="RenderHelper\TimesheetAnimation\TSAObject.cs" />
-    <Compile Include="Screens\Agents\DecayGameScreenAgent.cs" />
-    <Compile Include="Screens\Agents\GameScreenAgent.cs" />
     <Compile Include="Screens\Background\SolidColorBackground.cs" />
     <Compile Include="Screens\Entities\MouseArea\GameEntityMouseArea.cs" />
     <Compile Include="Screens\Entities\MouseArea\GameEntityMouseAreaLambdaAdapter.cs" />
-    <Compile Include="Screens\Entities\Operation\IntervalGameEntityOperation.cs" />
-    <Compile Include="Screens\Entities\Operation\DelayGameEntityOperation.cs" />
-    <Compile Include="Screens\Entities\Operation\GameEntityOperation.cs" />
     <Compile Include="Screens\Entities\MouseArea\IGameEntityMouseAreaListener.cs" />
-    <Compile Include="Screens\Entities\Operation\IGameEntityOperation.cs" />
     <Compile Include="Screens\Entities\EntityManager.cs" />
     <Compile Include="Screens\Entities\GameEntity.cs" />
     <Compile Include="Screens\Background\GameBackground.cs" />
-    <Compile Include="Screens\Entities\Operation\CyclicGameEntityOperation.cs" />
-    <Compile Include="Screens\Entities\Operation\SimpleCyclicGameEntityOperation.cs" />
-    <Compile Include="Screens\Entities\Operation\SimpleGameEntityOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\CyclicLambdaOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\DecayOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\LambdaOperation.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticle.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticleEmitter.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\AnimatedPathCPUParticleEmitter.cs" />
@@ -279,16 +271,13 @@
     <Compile Include="Screens\HUD\Elements\Container\HUDRootContainer.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRectangle.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDSeperator.cs" />
-    <Compile Include="Screens\HUD\Operations\HUDDelayOperation.cs" />
-    <Compile Include="Screens\HUD\Operations\HUDElementOperation.cs" />
-    <Compile Include="Screens\HUD\Operations\HUDCyclicElementOperation.cs" />
-    <Compile Include="Screens\HUD\Operations\HUDIntervalElementOperation.cs" />
-    <Compile Include="Screens\HUD\Operations\HUDInfiniteElementOperation.cs" />
-    <Compile Include="Screens\HUD\Operations\HUDModuloElementOperation.cs" />
-    <Compile Include="Screens\HUD\Operations\HUDDelayedElementOperation.cs" />
-    <Compile Include="Screens\HUD\Operations\HUDSequenceElementOperation.cs" />
-    <Compile Include="Screens\HUD\Operations\HUDTimedElementOperation.cs" />
-    <Compile Include="Screens\HUD\Operations\IHUDElementOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\CyclicSequenceOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\SleepOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\CyclicOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\FixTimeOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\IntervalOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\DelayedOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\SequenceOperation.cs" />
     <Compile Include="Screens\SAMTime.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\HUD\HUDElement.cs" />
@@ -300,6 +289,10 @@
     <Compile Include="Screens\ViewportAdapters\TolerantBoxingViewportAdapter.cs" />
     <Compile Include="Sound\SAMEffectWrapper.cs" />
     <Compile Include="Sound\SAMSoundPlayer.cs" />
+    <Compile Include="UpdateAgents\IProgressableOperation.cs" />
+    <Compile Include="UpdateAgents\IUpdateOperation.cs" />
+    <Compile Include="UpdateAgents\IUpdateOperationOwner.cs" />
+    <Compile Include="UpdateAgents\SAMUpdateOp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">

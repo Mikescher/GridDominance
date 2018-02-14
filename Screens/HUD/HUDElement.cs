@@ -6,14 +6,15 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.Screens.HUD.Operations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoSAMFramework.Portable.UpdateAgents;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
-	public abstract class HUDElement : ISAMLayeredDrawable, ISAMUpdateable
+	public abstract class HUDElement : ISAMLayeredDrawable, ISAMUpdateable, IUpdateOperationOwner
 	{
 		public HUDContainer Owner = null; // Only set on add to HUD (the OnInitialize is called)
 		public GameHUD HUD = null;        // Only set on add to HUD (the OnInitialize is called)
@@ -93,9 +94,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public FPoint Center    => new FPoint(CenterX, CenterY);
 
-		protected readonly List<IHUDElementOperation> ActiveOperations = new List<IHUDElementOperation>();
+		protected readonly List<IUpdateOperation> ActiveOperations = new List<IUpdateOperation>();
 
-		public IEnumerable<IHUDElementOperation> ActiveHUDOperations => ActiveOperations;
+		public IEnumerable<IUpdateOperation> ActiveHUDOperations => ActiveOperations;
 
 		public bool IsPointerDownOnElement = false;
 
@@ -173,9 +174,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
 			{
-				if (!ActiveOperations[i].Update(this, gameTime, istate))
+				if (!ActiveOperations[i].UpdateUnchecked(this, gameTime, istate))
 				{
-					ActiveOperations[i].OnEnd(this);
 					ActiveOperations.RemoveAt(i);
 				}
 			}
@@ -275,34 +275,28 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			OnAfterRecalculatePosition();
 		}
 
-		public void AddHUDOperation(IHUDElementOperation op)
+		public void AddOperation(IUpdateOperation op)
 		{
 			ActiveOperations.Add(op);
-			op.OnStart(this);
+			op.InitUnchecked(this);
 		}
 
-		public void AddHUDOperationDelayed<TElement>(HUDElementOperation<TElement> op, float delay) where TElement : HUDElement
+		public void AddOperationDelayed<TElement>(SAMUpdateOp<TElement> op, float delay) where TElement : HUDElement
 		{
-			var seqop = new HUDDelayedElementOperation<TElement>(op, delay);
-			ActiveOperations.Add(seqop);
-			seqop.OnStart(this);
+			AddOperation(new DelayedOperation<TElement>(op, delay));
 		}
 		
-		public void AddHUDOperationSequence<TElement>(IHUDElementOperation op1, params IHUDElementOperation[] ops) where TElement : HUDElement
+		public void AddOperationSequence<TElement>(IUpdateOperation op1, params IUpdateOperation[] ops) where TElement : HUDElement
 		{
-			var seqop = new HUDSequenceElementOperation<TElement>(op1, ops);
-			ActiveOperations.Add(seqop);
-			seqop.OnStart(this);
+			AddOperation(new SequenceOperation<TElement>(op1, ops));
 		}
 
-		public void AddCagedHUDOperationSequence<TElement>(Action<TElement> init, Action<TElement> finish, IHUDElementOperation op1, params IHUDElementOperation[] ops) where TElement : HUDElement
+		public void AddCagedOperationSequence<TElement>(Action<TElement> init, Action<TElement> finish, IUpdateOperation op1, params IUpdateOperation[] ops) where TElement : HUDElement
 		{
-			var seqop = new HUDSequenceElementOperation<TElement>(init, finish, op1, ops);
-			ActiveOperations.Add(seqop);
-			seqop.OnStart(this);
+			AddOperation(new SequenceOperation<TElement>(init, finish, op1, ops));
 		}
 
-		public bool HasHUDOperation<TType>()
+		public bool HasOperation<TType>()
 		{
 			return ActiveOperations.OfType<TType>().Any();
 		}
@@ -317,14 +311,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			RemoveAllOperations(p => true);
 		}
 
-		public void RemoveAllOperations(Func<IHUDElementOperation, bool> condition)
+		public void RemoveAllOperations(Func<IUpdateOperation, bool> condition)
 		{
 			for (int i = ActiveOperations.Count - 1; i >= 0; i--)
 			{
 				if (condition(ActiveOperations[i]))
 				{
-					ActiveOperations[i].OnEnd(this);
-					ActiveOperations.RemoveAt(i);
+					ActiveOperations[i].Abort();
 				}
 			}
 		}

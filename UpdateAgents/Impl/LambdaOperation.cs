@@ -1,9 +1,10 @@
-﻿using MonoSAMFramework.Portable.Input;
-using System;
+﻿using System;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 
-namespace MonoSAMFramework.Portable.Screens.Entities.Operation
+namespace MonoSAMFramework.Portable.UpdateAgents.Impl
 {
-	public class SimpleGameEntityOperation<TEntity> : GameEntityOperation<TEntity> where TEntity : GameEntity
+	public class LambdaOperation<TEntity> : FixTimeOperation<TEntity> where TEntity : IUpdateOperationOwner
 	{
 		private static readonly Action<TEntity> LAMBDA_EMPTY = e => { };
 
@@ -12,15 +13,21 @@ namespace MonoSAMFramework.Portable.Screens.Entities.Operation
 		private readonly Action<TEntity> cmdStart;
 		private readonly Action<TEntity> cmdEnd;
 
-		public SimpleGameEntityOperation(string n, float operationlength, Action<TEntity, float> command) : base(n, operationlength)
+		public override string Name { get; }
+
+		public LambdaOperation(string n, float operationlength, Action<TEntity, float> command) : base(operationlength)
 		{
+			Name = n;
+
 			cmd = command;
 			cmdStart = LAMBDA_EMPTY;
 			cmdEnd = LAMBDA_EMPTY;
 		}
 
-		public SimpleGameEntityOperation(string n, float operationlength, Action<TEntity, float> command, Action<TEntity> start, Action<TEntity> end) : base(n, operationlength)
+		public LambdaOperation(string n, float operationlength, Action<TEntity, float> command, Action<TEntity> start, Action<TEntity> end) : base(operationlength)
 		{
+			Name = n;
+
 			cmd = command;
 			cmdStart = start;
 			cmdEnd = end;
