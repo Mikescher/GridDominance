@@ -6,7 +6,6 @@ namespace MonoSAMFramework.Portable.UpdateAgents
 	public interface IUpdateOperation
 	{
 		bool Alive { get; }
-		bool Aborted { get; }
 		string Name { get; }
 
 		void InitUnchecked(IUpdateOperationOwner owner);
