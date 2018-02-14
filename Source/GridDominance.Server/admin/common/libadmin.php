@@ -76,6 +76,7 @@ function fmtWorldID($w) {
 		case '{d34db335-0001-4000-7711-000000200008}': return 'WORLD_8';
 		case '{d34db335-0001-4000-7711-000000200009}': return 'WORLD_9';
 		case '{d34db335-0001-4000-7711-000000300001}': return 'MULTIPLAYER';
+		case '{d34db335-0001-4000-7711-000000300002}': return 'ONLINE';
 		default:                                       return "????";
 	}
 }

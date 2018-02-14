@@ -34,6 +34,7 @@ namespace GridDominance.Shared.Resources
 		public const string IAB_WORLD3      = @"gd_world_003";
 		public const string IAB_WORLD4      = @"gd_world_004";
 		public const string IAB_MULTIPLAYER = @"gd_multiplayer";
+		public const string IAB_ONLINE      = @"gd_online";
 
 		public static readonly string[] IABList =
 		{
@@ -48,6 +49,7 @@ namespace GridDominance.Shared.Resources
 			GDConstants.IAB_WORLD3,
 			GDConstants.IAB_WORLD4,
 			GDConstants.IAB_MULTIPLAYER,
+			GDConstants.IAB_ONLINE,
 		};
 
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
@@ -61,7 +63,7 @@ namespace GridDominance.Shared.Resources
 		public const string MULTIPLAYER_SERVER_HOST = "localhost";
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 #else
-		public const string MULTIPLAYER_SERVER_HOST = "mikescher.com";
+		public const string MULTIPLAYER_SERVER_HOST = "cannonconquest-game.net";
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 #endif
 
@@ -73,7 +75,7 @@ namespace GridDominance.Shared.Resources
 #if DEBUG
 		public const string SERVER_URL = "http://localhost:666";
 #else
-		public const string SERVER_URL = "http://gdapi.mikescher.com";
+		public const string SERVER_URL = "http://cannonconquest-game.net/gdapi";
 #endif
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 

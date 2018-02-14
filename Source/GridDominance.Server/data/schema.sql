@@ -180,6 +180,7 @@ CREATE TABLE stats_history (
   unlocks_w3            int(11)       NOT NULL,
   unlocks_w4            int(11)       NOT NULL,
   unlocks_mp            int(11)       NOT NULL,
+  unlocks_sccm          int(11)       NOT NULL,
 
   user_topscore         int(11)       NOT NULL,
 

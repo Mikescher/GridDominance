@@ -193,6 +193,32 @@ namespace GridDominance.Shared.Screens.Common
 				}
 			}
 
+			if (id == Levels.WORLD_ID_ONLINE)
+			{
+				switch (GDConstants.FLAVOR)
+				{
+					case GDFlavor.FREE:
+					{
+						return WorldUnlockState.UnreachableAndFullyLocked;
+					}
+					case GDFlavor.IAB:
+					{
+						return GetIABState(GDConstants.IAB_ONLINE, Levels.WORLD_ID_ONLINE, showToast) ? WorldUnlockState.OpenAndUnlocked : WorldUnlockState.ReachableButMustBePreviewed;
+					}
+
+					case GDFlavor.FULL:
+					case GDFlavor.FULL_NOMP:
+					{
+						return WorldUnlockState.OpenAndUnlocked;
+					}
+
+					default:
+					{
+						SAMLog.Error("UNLCK::EnumSwitch_IU_5", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+					}
+				}
+			}
+
 			SAMLog.Error("UNLCK::NID", $"UnlockManager: ID not found {id} ({showToast})");
 			return WorldUnlockState.UnreachableAndFullyLocked;
 		}

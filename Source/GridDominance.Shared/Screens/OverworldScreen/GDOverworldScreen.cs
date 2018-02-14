@@ -70,7 +70,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			nodesList.Add(new OverworldNode_W3(this, FPoint.Zero));
 			nodesList.Add(new OverworldNode_W4(this, FPoint.Zero));
 			if (GDConstants.FLAVOR != GDFlavor.FREE && GDConstants.FLAVOR != GDFlavor.FULL_NOMP) nodesList.Add(new OverworldNode_MP(this, FPoint.Zero));
-			
+			if (GDConstants.FLAVOR != GDFlavor.FREE) nodesList.Add(new OverworldNode_SCCM(this, FPoint.Zero));
+
 			foreach (var node in nodesList) Entities.AddEntity(node);
 
 			AddAgent(ScrollAgent = new OverworldScrollAgent(this, nodesList.ToArray()));

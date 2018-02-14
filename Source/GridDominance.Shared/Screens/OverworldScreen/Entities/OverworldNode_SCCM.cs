@@ -19,7 +19,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 #pragma warning disable 162
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
-	public class OverworldNode_MP : OverworldNode
+	public class OverworldNode_SCCM : OverworldNode
 	{
 		public readonly float[] VertexRotations =
 		{
@@ -36,9 +36,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private readonly WorldUnlockState _ustate;
 
-		public OverworldNode_MP(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER)
+		public OverworldNode_SCCM(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_ONLINE, Levels.WORLD_ID_ONLINE)
 		{
-			AddEntityOperationDelayed(new NetworkAnimationTriggerOperation(), NetworkAnimationTriggerOperation.INITIAL_DELAY);
+			//AddEntityOperationDelayed(new NetworkAnimationTriggerOperation(), NetworkAnimationTriggerOperation.INITIAL_DELAY);
 
 			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, false);
 		}
@@ -84,17 +84,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				}
 			}
 
-			sbatch.DrawStretched(Textures.TexIconNetworkBase,    innerBounds, Color.White);
-			sbatch.DrawStretched(Textures.TexIconNetworkVertex1, innerBounds, Color.White, VertexRotations[0]);
-			sbatch.DrawStretched(Textures.TexIconNetworkVertex2, innerBounds, Color.White, VertexRotations[1]);
-			sbatch.DrawStretched(Textures.TexIconNetworkVertex3, innerBounds, Color.White, VertexRotations[2]);
-			sbatch.DrawStretched(Textures.TexIconNetworkVertex4, innerBounds, Color.White, VertexRotations[3]);
-			sbatch.DrawStretched(Textures.TexIconNetworkVertex5, innerBounds, Color.White, VertexRotations[4]);
-			
+			//TODO
+
 			sbatch.DrawRectangle(innerBounds, Color.Black, Owner.PixelWidth);
 			
 			FontRenderHelper.DrawTextCentered(sbatch, Textures.HUDFontBold, 0.9f * GDConstants.TILE_WIDTH, L10N.T(_l10ndescription), FlatColors.TextHUD, Position + new Vector2(0, 2.25f * GDConstants.TILE_WIDTH));
-
 		}
 
 		protected override void OnClick(GameEntityMouseArea area, SAMTime gameTime, InputState istate)
@@ -102,7 +96,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			var ownr = ((GDOverworldScreen)Owner);
 			if (ownr.IsTransitioning) return;
 			
-			Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f, 1f);
+			//TODO
 		}
 	}
 }

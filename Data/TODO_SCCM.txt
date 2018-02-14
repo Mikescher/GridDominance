@@ -10,6 +10,13 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] dedicated server (cannonconquest-game.net) --> pay by myself for now
 
+[ ] ADD IAB code in android
+
+[ ] Update google-android (x2)
+[ ] Update amazon-android
+[ ] Update WinPhone
+[ ] Update iOS
+
 [ ] level manage screen
      - add new world (get instantly ID from server)
      - upload local world (beat it on diff4), can't edit afterwards
@@ -31,3 +38,5 @@ USER GENERATED LEVEL [[TODO]]
      - custom top-10 scoreboard per level+diff
      - show completion count/perentage per diff + rating
      - rate level after complete (only thumbs up | down)
+
+[ ] Update gdapi with new world {d34db335-0001-4000-7711-000000300002}

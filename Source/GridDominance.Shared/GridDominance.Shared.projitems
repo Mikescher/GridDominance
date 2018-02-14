@@ -155,6 +155,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\EntityOperations\NetworkAnimationVertexOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\EntityOperations\ShakeNodeOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_Graph.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_SCCM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_MP.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_Tutorial.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\OverworldNode_W4.cs" />

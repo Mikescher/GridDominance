@@ -127,6 +127,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_WORLD_W4               = 103;
 		public const int STR_WORLD_MULTIPLAYER      = 114;
 		public const int STR_WORLD_SINGLEPLAYER     = 178;
+		public const int STR_WORLD_ONLINE           = 194;
 
 		public const int STR_INF_YOU                = 72;
 		public const int STR_INF_GLOBAL             = 73;
@@ -240,7 +241,7 @@ namespace GridDominance.Shared.Resources
 
 		public const int STR_AUTHERR_HEADER         = 193;
 
-		private const int TEXT_COUNT = 194; // = next idx
+		private const int TEXT_COUNT = 195; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -442,6 +443,8 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_PROFILESYNC_ERROR,      "Manual sync failed",                                                                                                                      "Manuelle Synchronisation fehlgeschlagen",                                                                                             "La synchronisation manuelle a échoué",                                                                                                                         "La sincronizzazione manuale non è riuscita",                                                                                      "La sincronización manual falló");
 			L10N.Add(STR_PROFILESYNC_SUCCESS,    "Manual sync finished",                                                                                                                    "Manuelle Synchronisation erfolgreich",                                                                                                "Synchronisation manuelle réussie",                                                                                                                             "La sincronizzazione manuale è riuscita",                                                                                          "Sincronización manual finalizada");
 			L10N.Add(STR_AUTHERR_HEADER,         "You've been logged out",                                                                                                                  "Sie wurden ausgeloggt",                                                                                                               "Vous avez été déconnecté",                                                                                                                                     "Sei stato disconnesso",                                                                                                           "Has sido desconectado");
+
+			L10N.Add(STR_WORLD_ONLINE,         "Online", "Online", "Online", "Online", "Online");
 
 			// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 

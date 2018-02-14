@@ -32,6 +32,7 @@ namespace GridDominance.Shared.Resources
 		public static Guid WORLD_ID_TUTORIAL    = new Guid("{d34db335-0001-4000-7711-000000100001}");
 		public static Guid WORLD_ID_MULTIPLAYER = new Guid("{d34db335-0001-4000-7711-000000300001}");
 		public static Guid WORLD_ID_GAMEEND     = new Guid("{d34db335-0001-4000-7711-000000100003}");
+		public static Guid WORLD_ID_ONLINE      = new Guid("{d34db335-0001-4000-7711-000000300002}");
 
 		public static Guid LEVELID_1_1 = new Guid("{b16b00b5-0001-4000-0000-000001000001}");
 		public static Guid LEVELID_1_2 = new Guid("{b16b00b5-0001-4000-0000-000001000002}");
