@@ -4,11 +4,11 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 {
-	class ScreenShakeAndCenterOperation : GameEntityOperation<LevelNode>
+	class ScreenShakeAndCenterOperation : FixTimeOperation<LevelNode>
 	{
 		public const float SHAKE_OFFSET = 16f;
 
@@ -16,7 +16,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 		private readonly float rot;
 		private readonly GDWorldMapScreen _screen;
 
-		public ScreenShakeAndCenterOperation(LevelNode node, GDWorldMapScreen screen) : base("LevelNode::CenterShake", LevelNode.SHAKE_TIME)
+		public override string Name => "LevelNode::CenterShake";
+
+		public ScreenShakeAndCenterOperation(LevelNode node, GDWorldMapScreen screen) : base(LevelNode.SHAKE_TIME)
 		{
 			_screen = screen;
 			centeringStartOffset = screen.MapViewportCenter;
@@ -25,11 +27,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 				rot = FloatMath.RAD_POS_000;
 			else
 				rot = (centeringStartOffset - node.Position).ToAngle() + FloatMath.RAD_POS_090;
-		}
-
-		protected override void OnStart(LevelNode node)
-		{
-			//
 		}
 
 		protected override void OnProgress(LevelNode node, float progress, SAMTime gameTime, InputState istate)

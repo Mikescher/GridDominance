@@ -14,6 +14,7 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 // ReSharper disable HeuristicUnreachableCode
 #pragma warning disable 162
@@ -21,15 +22,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	public class OverworldNode_SCCM : OverworldNode
 	{
-		public readonly float[] VertexRotations =
-		{
-			FloatMath.RAD_POS_315,
-			FloatMath.RAD_POS_045,
-			FloatMath.RAD_POS_090,
-			FloatMath.RAD_POS_135,
-			FloatMath.RAD_POS_225,
-		};
-		
 		public override bool IsNodeEnabled => true;
 
 		private float _pulseTimer = 0;
@@ -38,7 +30,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public OverworldNode_SCCM(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_ONLINE, Levels.WORLD_ID_ONLINE)
 		{
-			//AddEntityOperationDelayed(new NetworkAnimationTriggerOperation(), NetworkAnimationTriggerOperation.INITIAL_DELAY);
+			AddOperation(new CyclicSequenceOperation<OverworldNode_SCCM>(
+				() => new SleepOperation<OverworldNode_SCCM>(0.50f),
+				() => new TetrisFillOperation(4.50f),
+				() => new SleepOperation<OverworldNode_SCCM>(0.25f),
+				() => new TetrisShrinkOperation(2.75f)));
 
 			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, false);
 		}

@@ -24,7 +24,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public GDGameScreen_Tutorial(MainGame game, GraphicsDeviceManager gdm)
 			: base(game, gdm, Levels.LEVEL_TUTORIAL, FractionDifficulty.DIFF_0, false, false, false)
 		{
-			AddAgent(new TutorialAgent(this));
+			AddAgent(new TutorialAgent());
 		}
 
 		public override void RestartLevel(bool updateSpeed)

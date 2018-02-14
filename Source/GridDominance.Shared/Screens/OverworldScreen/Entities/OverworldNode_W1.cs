@@ -32,7 +32,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				ForceClickCounter++;
 
 				MainGame.Inst.GDSound.PlayEffectError();
-				AddEntityOperation(new ShakeNodeOperation());
+				AddOperation(new ShakeNodeOperation());
 			}
 			else if (ForceClickCounter == 1)
 			{
@@ -41,7 +41,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 				MainGame.Inst.GDSound.PlayEffectError();
 
-				AddEntityOperation(new ShakeNodeOperation());
+				AddOperation(new ShakeNodeOperation());
 			}
 			else if (ForceClickCounter == 2)
 			{

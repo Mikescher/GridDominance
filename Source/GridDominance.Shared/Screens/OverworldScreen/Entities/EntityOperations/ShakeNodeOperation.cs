@@ -3,23 +3,25 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 {
-	class ShakeNodeOperation : GameEntityOperation<OverworldNode>
+	class ShakeNodeOperation : FixTimeOperation<OverworldNode>
 	{
 		public const float SHAKE_TIME = 0.55f;
 		public const float SHAKE_OFFSET = 16f;
 
 		private FPoint realPos;
 
-		public ShakeNodeOperation() : base("OverworldNode::Shake", SHAKE_TIME)
+		public override string Name => "OverworldNode::Shake";
+
+		public ShakeNodeOperation() : base(SHAKE_TIME)
 		{
 
 		}
 
-		protected override void OnStart(OverworldNode node)
+		protected override void OnInit(OverworldNode node)
 		{
 			realPos = node.NodePos;
 		}

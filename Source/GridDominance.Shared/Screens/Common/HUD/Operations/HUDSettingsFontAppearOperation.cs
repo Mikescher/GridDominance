@@ -1,9 +1,10 @@
-﻿using MonoSAMFramework.Portable.Screens.HUD.Operations;
-using MonoSAMFramework.Portable.Input;
+﻿using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class HUDSettingsFontAppearOperation : HUDTimedElementOperation<SettingsButton>
+	class HUDSettingsFontAppearOperation : FixTimeOperation<SettingsButton>
 	{
 		private readonly int index;
 
@@ -19,7 +20,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			button.SubButtons[index].FontProgress = 0f;
 		}
 
-		protected override void OnProgress(SettingsButton button, float progress, InputState istate)
+		protected override void OnProgress(SettingsButton button, float progress, SAMTime gameTime, InputState istate)
 		{
 			if (button.SubButtons == null) return;
 
@@ -31,6 +32,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			if (button.SubButtons == null) return;
 
 			button.SubButtons[index].FontProgress = 1f;
+		}
+
+		protected override void OnAbort(SettingsButton owner)
+		{
+			OnEnd(owner);
 		}
 
 		public override string Name => "SettingsFontAppear";

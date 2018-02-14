@@ -2,15 +2,17 @@
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 {
-	class CloseNodeOperation : GameEntityOperation<LevelNode>
+	class CloseNodeOperation : FixTimeOperation<LevelNode>
 	{
 		private readonly FractionDifficulty _diff;
 
-		public CloseNodeOperation(FractionDifficulty extender) : base("LevelNode::Close::"+(int)extender, LevelNode.CLOSING_TIME)
+		public override string Name => "LevelNode::Close::" + (int)_diff;
+
+		public CloseNodeOperation(FractionDifficulty extender) : base(LevelNode.CLOSING_TIME)
 		{
 			_diff = extender;
 		}
@@ -29,11 +31,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 		{
 			node.ExpansionProgress[(int)_diff] = 0;
 			node.State[(int)_diff] = BistateProgress.Closed;
-		}
-
-		protected override void OnAbort(LevelNode node)
-		{
-			//
 		}
 	}
 }

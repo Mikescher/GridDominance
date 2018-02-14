@@ -34,8 +34,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				ForegroundColor = FlatColors.SunFlower;
 				IconScale = 0f;
 
-				AddHUDOperationDelayed(new HUDMultiplayerDifficultyButtonGainOperation(), 0.75f + idx * 0.6f);
-				AddHUDOperationDelayed(new HUDMultiplayerDifficultyButtonBlinkingIconOperation(), 0.75f + idx * 0.6f);
+				AddOperationDelayed(new HUDMultiplayerDifficultyButtonGainOperation(), 0.75f + idx * 0.6f);
+				AddOperationDelayed(new HUDMultiplayerDifficultyButtonBlinkingIconOperation(), 0.75f + idx * 0.6f);
 			}
 			else
 			{

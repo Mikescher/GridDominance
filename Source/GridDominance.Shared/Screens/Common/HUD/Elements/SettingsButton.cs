@@ -8,7 +8,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.Screens.HUD.Operations;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
@@ -70,12 +70,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			if (OpeningState == BistateProgress.Opening) RemoveAllOperations();
 
-			AddHUDOperation(new HUDSettingsBaseCloseOperation());
+			AddOperation(new HUDSettingsBaseCloseOperation());
 
 			for (int i = 0; i < 11; i++)
 			{
-				AddHUDOperation(new HUDSettingsCloseOperation(i));
-				AddHUDOperation(new HUDSettingsFontCloseOperation(i));
+				AddOperation(new HUDSettingsCloseOperation(i));
+				AddOperation(new HUDSettingsFontCloseOperation(i));
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			if (OpeningState != BistateProgress.Closed) return;
 
-			AddCagedHUDOperationSequence<SettingsButton>(
+			AddCagedOperationSequence<SettingsButton>(
 				e => e.OpeningState = BistateProgress.Opening,
 				e => e.OpeningState = BistateProgress.Open,
 				new HUDSettingsOpenOperation(),
@@ -94,13 +94,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				new HUDSettingsFontAppearOperation(4),
 				new HUDSettingsFontAppearOperation(5),
 				new HUDSettingsFontAppearOperation(6),
-				new HUDDelayOperation(0.25f),
+				new SleepOperation<SettingsButton>(0.25f),
 				new HUDSettingsHorizontalOpenOperation(7, 0),
-				new HUDDelayOperation(0.10f),
+				new SleepOperation<SettingsButton>(0.10f),
 				new HUDSettingsSlantedOpenOperation(8, 1),
-				new HUDDelayOperation(0.10f),
+				new SleepOperation<SettingsButton>(0.10f),
 				new HUDSettingsSlantedOpenOperation(9, 2),
-				new HUDDelayOperation(0.10f),
+				new SleepOperation<SettingsButton>(0.10f),
 				new HUDSettingsSlantedOpenOperation(10, 3)
 			);
 		}

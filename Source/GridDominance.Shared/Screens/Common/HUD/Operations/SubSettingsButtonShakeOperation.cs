@@ -1,13 +1,12 @@
-﻿using System;
-using GridDominance.Shared.Screens.WorldMapScreen.HUD;
+﻿using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.HUD.Operations;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.Common.HUD.Operations
 {
-	class SubSettingsButtonShakeOperation : HUDIntervalElementOperation<SubSettingButton>
+	class SubSettingsButtonShakeOperation : IntervalOperation<SubSettingButton>
 	{
 		private const float DELAY    = 1.40f;
 		private const float CYCLE    = 0.50f;
@@ -20,16 +19,6 @@ namespace GridDominance.Shared.Screens.Common.HUD.Operations
 		{
 		}
 		
-		protected override void OnStart(SubSettingButton element)
-		{
-			//
-		}
-
-		protected override void OnEnd(SubSettingButton element)
-		{
-			//
-		}
-
 		protected override void OnCycleStart(SubSettingButton entity, SAMTime gameTime, InputState istate)
 		{
 			entity.IconRotation = 0f;

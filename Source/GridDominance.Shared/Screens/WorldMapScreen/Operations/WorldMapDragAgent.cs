@@ -6,11 +6,11 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Agents;
+using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	class WorldMapDragAgent : GameScreenAgent
+	class WorldMapDragAgent : SAMUpdateOp<GDWorldMapScreen>
 	{
 		private const float CALCULATION_UPS = 60f;
 		private const int MAX_UPDATES_PER_CALL = 8;
@@ -35,20 +35,25 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private Vector2 _restDragSpeed;
 		private float _timeSinceRestDragUpdate;
 
-		private readonly GDWorldMapScreen _gdScreen;
+		private GDWorldMapScreen _gdScreen;
+
 		private readonly List<FPoint> _nodePositions;
 
-		public override bool Alive => true;
+		public override string Name => "WorldMapDragAgent";
 
-		public WorldMapDragAgent(GDWorldMapScreen scrn, List<FPoint> nodePositions) : base(scrn)
+		public WorldMapDragAgent(List<FPoint> nodePositions)
 		{
-			_gdScreen = scrn;
 			_nodePositions = nodePositions;
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate)
+		protected override void OnInit(GDWorldMapScreen screen)
 		{
-			_gdScreen.IsDragging = _isDragging;
+			_gdScreen = screen;
+		}
+
+		protected override void OnUpdate(GDWorldMapScreen screen, SAMTime gameTime, InputState istate)
+		{
+			screen.IsDragging = _isDragging;
 
 			if (_gdScreen.ZoomState != BistateProgress.Normal)
 			{
@@ -93,7 +98,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		private void StartDrag(InputState istate)
 		{
 			mouseStartPos = istate.GamePointerPosition;
-			startOffset = Screen.MapOffset;
+			startOffset = _gdScreen.MapOffset;
 
 			_restDragSpeed = Vector2.Zero;
 			_lastMousePos = istate.GamePointerPosition;
@@ -110,8 +115,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 			var delta = istate.GamePointerPosition - mouseStartPos;
 
-			Screen.MapOffsetX = startOffset.X + delta.X;
-			Screen.MapOffsetY = startOffset.Y + delta.Y;
+			_gdScreen.MapOffsetX = startOffset.X + delta.X;
+			_gdScreen.MapOffsetY = startOffset.Y + delta.Y;
 
 			CalculateOOB();
 
@@ -137,7 +142,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 		{
 			_outOfBoundsForce = Vector2.Zero;
 
-			var cmvp = Screen.CompleteMapViewport;
+			var cmvp = _gdScreen.CompleteMapViewport;
 
 			var center = cmvp.Center;
 			var maxDistSquared = FloatMath.PythSquared(cmvp.Width / 2, cmvp.Height / 2);
@@ -182,8 +187,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			float dragX = _restDragSpeed.X + _outOfBoundsForce.X;
 			float dragY = _restDragSpeed.Y + _outOfBoundsForce.Y;
 
-			Screen.MapOffsetX = Screen.MapOffsetX + dragX * delta;
-			Screen.MapOffsetY = Screen.MapOffsetY + dragY * delta;
+			_gdScreen.MapOffsetX = _gdScreen.MapOffsetX + dragX * delta;
+			_gdScreen.MapOffsetY = _gdScreen.MapOffsetY + dragY * delta;
 
 			CalculateOOB();
 

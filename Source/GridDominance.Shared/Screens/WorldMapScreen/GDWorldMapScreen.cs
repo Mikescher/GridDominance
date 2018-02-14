@@ -71,7 +71,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			Graph.Init(g);
 			MapFullBounds = Graph.BoundingRect.AsInflated(2 * GDConstants.TILE_WIDTH, 2 * GDConstants.TILE_WIDTH);
 
-			AddAgent(new WorldMapDragAgent(this, GetEntities<LevelNode>().Select(n => n.Position).ToList()));
+			AddAgent(new WorldMapDragAgent(GetEntities<LevelNode>().Select(n => n.Position).ToList()));
 
 			if (initialFocus == null)
 			{
@@ -177,7 +177,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (GetAgents<ZoomOutAgent>().Any()) return;
 			if (GetAgents<ZoomInAgent>().Any()) return;
 
-			AddAgent(new ZoomOutAgent(this));
+			AddAgent(new ZoomOutAgent());
 
 			GDHUD.SelectedNode?.CloseNode();
 		}
@@ -205,7 +205,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 			if (GetAgents<ZoomOutAgent>().Any()) return;
 			if (GetAgents<ZoomInAgent>().Any()) return;
 
-			AddAgent(new ZoomInAgent(this, mapPosCenter));
+			AddAgent(new ZoomInAgent(mapPosCenter));
 		}
 
 		public override void Resize(int width, int height)

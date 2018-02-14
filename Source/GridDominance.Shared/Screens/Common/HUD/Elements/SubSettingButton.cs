@@ -183,7 +183,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 	{
 		public ButtonAccount(SettingsButton master, SSBOrientation o, int idx) : base(master, o, idx, 1f)
 		{
-			if (MainGame.Inst.Profile.AccountType == AccountType.Anonymous) AddHUDOperation(new SubSettingsButtonShakeOperation());
+			if (MainGame.Inst.Profile.AccountType == AccountType.Anonymous) AddOperation(new SubSettingsButtonShakeOperation());
 		}
 
 		protected override TextureRegion2D GetIcon() => Textures.TexHUDButtonIconAccount;

@@ -4,11 +4,11 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 {
-	class ScreenShakeAndCenterOperation2 : GameEntityOperation<BaseWorldNode>
+	class ScreenShakeAndCenterOperation2 : FixTimeOperation<BaseWorldNode>
 	{
 		public const float SHAKE_OFFSET = 16f;
 
@@ -16,7 +16,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 		private readonly float rot;
 		private readonly GDWorldMapScreen _screen;
 
-		public ScreenShakeAndCenterOperation2(BaseWorldNode node, GDWorldMapScreen screen) : base("Node::CenterShake", LevelNode.SHAKE_TIME)
+		public override string Name => "Node::CenterShake";
+
+		public ScreenShakeAndCenterOperation2(BaseWorldNode node, GDWorldMapScreen screen) : base(LevelNode.SHAKE_TIME)
 		{
 			_screen = screen;
 			centeringStartOffset = screen.MapViewportCenter;

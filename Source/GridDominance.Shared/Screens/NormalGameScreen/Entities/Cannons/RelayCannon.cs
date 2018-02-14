@@ -270,7 +270,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			BulletBuffer = 0;
 			BarrelCharge = 0f;
-			FinishAllOperations(o => o is CannonBooster);
+			AbortAllOperations(o => o is CannonBooster);
 		}
 
 		public override void ForceResetBarrelCharge()

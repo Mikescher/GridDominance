@@ -110,7 +110,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					if (i < scode.Length) CharDisp[i].Character = scode[i];
 				}
 
-				AddHUDOperation(new CharacterControlWaveOperation(CharDisp));
+				AddOperation(new CharacterControlWaveOperation(CharDisp));
 
 				AddElement(new HUDLabel
 				{

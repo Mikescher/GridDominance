@@ -30,7 +30,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			BackgroundColor = FlatColors.BackgroundHUD2;
 			ForegroundColor = FlatColors.SunFlower;
-			AddHUDOperation(new HUDTutorialDifficultyButtonBlinkingIconOperation());
+			AddOperation(new HUDTutorialDifficultyButtonBlinkingIconOperation());
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)

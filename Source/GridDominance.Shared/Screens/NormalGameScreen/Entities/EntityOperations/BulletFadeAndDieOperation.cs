@@ -1,17 +1,18 @@
 ﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 {
-	class BulletFadeAndDieOperation : GameEntityOperation<BaseBullet>
+	class BulletFadeAndDieOperation : FixTimeOperation<BaseBullet>
 	{
 		public const string NAME = "BulletFadeAndDie";
+		public override string Name => "BulletFadeAndDie";
 
 		private readonly bool _realKill;
 
-		public BulletFadeAndDieOperation(float time, bool kill = true) : base(NAME, time)
+		public BulletFadeAndDieOperation(float time, bool kill = true) : base(time)
 		{
 			_realKill = kill;
 		}

@@ -293,19 +293,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					break;
 
 				case RemoteBulletState.Dying_ShrinkFast:
-					AddEntityOperation(new BulletDelayedDieOperation(0.15f));
+					AddOperation(new BulletDelayedDieOperation(0.15f));
 					break;
 
 				case RemoteBulletState.Dying_ShrinkSlow:
-					AddEntityOperation(new BulletDelayedDieOperation(0.35f));
+					AddOperation(new BulletDelayedDieOperation(0.35f));
 					break;
 
 				case RemoteBulletState.Dying_Fade:
-					AddEntityOperation(new BulletDelayedDieOperation(0.05f));
+					AddOperation(new BulletDelayedDieOperation(0.05f));
 					break;
 
 				case RemoteBulletState.Dying_FadeSlow:
-					AddEntityOperation(new BulletDelayedDieOperation(1f));
+					AddOperation(new BulletDelayedDieOperation(1f));
 					break;
 
 				case RemoteBulletState.Dying_Instant:
@@ -342,19 +342,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 					break;
 
 				case RemoteBulletState.Dying_ShrinkFast:
-					AddEntityOperation(new BulletShrinkAndDieOperation(0.15f, killReal));
+					AddOperation(new BulletShrinkAndDieOperation(0.15f, killReal));
 					break;
 
 				case RemoteBulletState.Dying_ShrinkSlow:
-					AddEntityOperation(new BulletShrinkAndDieOperation(0.35f, killReal));
+					AddOperation(new BulletShrinkAndDieOperation(0.35f, killReal));
 					break;
 
 				case RemoteBulletState.Dying_Fade:
-					AddEntityOperation(new BulletFadeAndDieOperation(0.05f, killReal));
+					AddOperation(new BulletFadeAndDieOperation(0.05f, killReal));
 					break;
 
 				case RemoteBulletState.Dying_FadeSlow:
-					AddEntityOperation(new BulletFadeAndDieOperation(1f, killReal));
+					AddOperation(new BulletFadeAndDieOperation(1f, killReal));
 					break;
 
 				case RemoteBulletState.Dying_Instant:

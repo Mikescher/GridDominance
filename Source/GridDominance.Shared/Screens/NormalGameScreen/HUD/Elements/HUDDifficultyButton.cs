@@ -43,13 +43,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				case HUDDifficultyButtonMode.UNLOCKANIMATION:
 					BackgroundColor = FlatColors.ButtonHUD;
 					ForegroundColor = FractionDifficultyHelper.GetColor(diff);
-					AddHUDOperation(new HUDDifficultyButtonGainOperation());
-					AddHUDOperation(new HUDDifficultyButtonBlinkingIconOperation());
+					AddOperation(new HUDDifficultyButtonGainOperation());
+					AddOperation(new HUDDifficultyButtonBlinkingIconOperation());
 					break;
 				case HUDDifficultyButtonMode.ACTIVATED:
 					BackgroundColor = FlatColors.BackgroundHUD2;
 					ForegroundColor = FractionDifficultyHelper.GetColor(diff);
-					AddHUDOperation(new HUDDifficultyButtonBlinkingIconOperation());
+					AddOperation(new HUDDifficultyButtonBlinkingIconOperation());
 					break;
 				default:
 					SAMLog.Error("HDB::EnumSwitch_CTR", "value: " + mode);

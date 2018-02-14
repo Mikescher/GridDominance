@@ -379,16 +379,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var yy = 2;
 			for (int i = 0; i < ActiveOperations.Count; i++)
 			{
-				if (!(ActiveOperations[i] is CannonBooster)) return;
+				if (ActiveOperations[i] is CannonBooster cb)
+				{
+					var rectFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (yy * 12) + 16, innerRadius * 2, 8);
+					var rectProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (yy * 12) + 16, innerRadius * 2 * (1 - cb.Progress), 8);
 
-				var rectFull = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (yy * 12) + 16, innerRadius * 2, 8);
-				var rectProg = new FRectangle(Position.X - innerRadius, Position.Y + innerRadius + (yy * 12) + 16, innerRadius * 2 * (1 - ActiveOperations[i].Progress), 8);
+					sbatch.FillRectangle(rectFull, Color.White);
+					sbatch.FillRectangle(rectProg, Color.Chocolate);
+					sbatch.DrawRectangle(rectFull, Color.Black);
 
-				sbatch.FillRectangle(rectFull, Color.White);
-				sbatch.FillRectangle(rectProg, Color.Chocolate);
-				sbatch.DrawRectangle(rectFull, Color.Black);
+					yy++;
+				}
 
-				yy++;
 			}
 			foreach (var booster in _laserBoosts)
 			{
@@ -402,8 +404,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				yy++;
 			}
 
-			var kicontroller = controller as KIController;
-			if (kicontroller != null)
+			if (controller is KIController kicontroller)
 			{
 				var r = new FRectangle(Position.X - DrawingBoundingBox.Width * 0.5f, Position.Y - DrawingBoundingBox.Height / 2f, DrawingBoundingBox.Width, 12);
 

@@ -1,15 +1,15 @@
 ﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 {
-	class BulletDelayedDieOperation : GameEntityOperation<BaseBullet>
+	class BulletDelayedDieOperation : FixTimeOperation<BaseBullet>
 	{
-		public const string NAME = "BulletDelayedDie";
+		public override string Name => "BulletDelayedDie";
 
-		public BulletDelayedDieOperation(float time) : base(NAME, time)
+		public BulletDelayedDieOperation(float time) : base(time)
 		{
 		}
 

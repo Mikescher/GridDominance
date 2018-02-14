@@ -55,7 +55,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			
 			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_SHAKE) == BackgroundTextBlueprint.CONFIG_SHAKE)
 			{
-				AddEntityOperation(new ShakeTextOperation());
+				AddOperation(new ShakeTextOperation());
 			}
 
 			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_ONLYD1) == BackgroundTextBlueprint.CONFIG_ONLYD1)
@@ -70,7 +70,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			if ((Blueprint.Config & BackgroundTextBlueprint.CONFIG_REDFLASH) == BackgroundTextBlueprint.CONFIG_REDFLASH)
 			{
-				AddEntityOperation(new RedFlashTextOperation());
+				AddOperation(new RedFlashTextOperation());
 			}
 
 			if (scrn.IsPreview) Alive = false;

@@ -459,7 +459,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			
 			//----------------------------------------------------------------
 
-			if (!IsPreview && (Blueprint.LevelWidth > GDConstants.VIEW_WIDTH || Blueprint.LevelHeight > GDConstants.VIEW_HEIGHT) ) AddAgent(new GameDragAgent(this));
+			if (!IsPreview && (Blueprint.LevelWidth > GDConstants.VIEW_WIDTH || Blueprint.LevelHeight > GDConstants.VIEW_HEIGHT) ) AddAgent(new GameDragAgent());
 		}
 
 		private void AddEdgeMarker()

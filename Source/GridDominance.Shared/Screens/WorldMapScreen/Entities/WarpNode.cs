@@ -14,7 +14,6 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
@@ -97,9 +96,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				MainGame.Inst.GDSound.PlayEffectError();
 
 				if (GDOwner.ZoomState == BistateProgress.Expanded)
-					AddEntityOperation(new ScreenShakeOperation2(this, GDOwner));
+					AddOperation(new ScreenShakeOperation2(this, GDOwner));
 				else
-					AddEntityOperation(new ScreenShakeAndCenterOperation2(this, GDOwner));
+					AddOperation(new ScreenShakeAndCenterOperation2(this, GDOwner));
 
 				Owner.HUD.ShowToast("WN::LOCKED", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 
@@ -108,12 +107,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			if (UnlockManager.IsUnlocked(Blueprint.TargetWorld, true) == WorldUnlockState.OpenAndUnlocked)
 			{
-				Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
+				Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
 				MainGame.Inst.GDSound.PlayEffectZoomOut();
 			}
 			else
 			{
-				Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded));
+				Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner.ZoomState == BistateProgress.Expanded));
 				MainGame.Inst.GDSound.PlayEffectZoomOut();
 			}
 		}

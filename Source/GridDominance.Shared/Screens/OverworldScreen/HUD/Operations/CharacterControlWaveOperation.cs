@@ -1,16 +1,15 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
-using MonoSAMFramework.Portable.Screens.HUD.Operations;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Operations
 {
-	class CharacterControlWaveOperation : HUDIntervalElementOperation<HUDContainer>
+	class CharacterControlWaveOperation : IntervalOperation<HUDContainer>
 	{
 		public const float INITIAL_DELAY = 1f;
 		public const float ANIMATION_TIME = 4f;
@@ -28,17 +27,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Operations
 			_controls = controls;
 			_originalCoords = new FPoint[_controls.Length];
 		}
-
-		protected override void OnStart(HUDContainer element)
-		{
-			//
-		}
-
-		protected override void OnEnd(HUDContainer element)
-		{
-			//
-		}
-
+		
 		protected override void OnCycleStart(HUDContainer entity, SAMTime gameTime, InputState istate)
 		{
 			for (int i = 0; i < _controls.Length; i++) _originalCoords[i] = _controls[i].RelativePosition;

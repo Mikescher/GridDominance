@@ -196,7 +196,7 @@ namespace GridDominance.Shared
 		{
 			var screen = new GDWorldMapScreen(this, Graphics, g, null);
 			SetCurrentScreen(screen);
-			screen.AddAgent(new InitialTransitionAgent(screen));
+			screen.AddAgent(new InitialTransitionAgent());
 			screen.ColorOverdraw = 1f;
 		}
 
@@ -237,7 +237,7 @@ namespace GridDominance.Shared
 			var screen = new GDOverworldScreen(this, Graphics);
 			SetCurrentScreen(screen);
 			screen.ScrollAgent.ScrollTo(bp);
-			screen.AddAgent(new ReappearTransitionAgent(screen, bp));
+			screen.AddAgent(new ReappearTransitionAgent(bp));
 
 			screen.GDHUD.ScoreDisplay.FinishCounter();
 			screen.GDHUD.MPScoreDisplay.FinishCounter();

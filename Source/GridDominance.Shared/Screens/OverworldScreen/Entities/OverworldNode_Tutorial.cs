@@ -65,7 +65,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			if (ownr.IsTransitioning) return;
 			ownr.IsTransitioning = true;
 
-			ownr.AddAgent(new TransitionZoomInToTutorialAgent(ownr, this));
+			ownr.AddAgent(new TransitionZoomInToTutorialAgent(this));
 
 			MainGame.Inst.GDSound.PlayEffectZoomIn();
 		}

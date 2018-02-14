@@ -1,17 +1,15 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.OverworldScreen;
-using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens.HUD.Operations;
-using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 {
-	class UnlockSucessOperation : HUDTimedElementOperation<UnlockPanel>
+	class UnlockSucessOperation : FixTimeOperation<UnlockPanel>
 	{
 		public override string Name => "UnlockSucessOperation";
 
@@ -25,7 +23,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 			//
 		}
 
-		protected override void OnProgress(UnlockPanel element, float progress, InputState istate)
+		protected override void OnProgress(UnlockPanel element, float progress, SAMTime gameTime, InputState istate)
 		{
 			for (int i = 0; i < (int)(progress*9); i++)
 			{
@@ -48,6 +46,11 @@ namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
 			element.HUD.ShowToast("UNLCK::SUCC", L10N.T(L10NImpl.STR_GLOB_UNLOCKSUCCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 3f);
 			
 			MainGame.Inst.GDSound.PlayEffectGameWon();
+		}
+
+		protected override void OnAbort(UnlockPanel owner)
+		{
+			OnEnd(owner);
 		}
 	}
 }

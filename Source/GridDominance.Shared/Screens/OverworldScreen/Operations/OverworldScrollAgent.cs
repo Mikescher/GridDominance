@@ -1,5 +1,4 @@
-﻿using MonoSAMFramework.Portable.Screens.Agents;
-using MonoSAMFramework.Portable.Screens;
+﻿using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using GridDominance.Shared.Resources;
@@ -7,10 +6,11 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using GridDominance.Graphfileformat.Blueprint;
 using System;
+using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 {
-	public class OverworldScrollAgent : GameScreenAgent
+	public class OverworldScrollAgent : SAMUpdateOp<GDOverworldScreen>
 	{
 		private const float MIN_DRAG   = 0.2f * GDConstants.TILE_WIDTH;
 		
@@ -29,8 +29,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 
 		private enum DragMode { Global, Node }
 
-		public override bool Alive => true;
-
 		private readonly OverworldNode[] _nodes;
 		private readonly AdaptionFloat[] _values;
 
@@ -43,8 +41,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 		private DragMode dragMode;
 
 		private bool _sleep = true;
-		
-		public OverworldScrollAgent(GDOverworldScreen scrn, OverworldNode[] nodes) : base(scrn)
+
+		public override string Name => "OverworldScrollAgent";
+
+		public OverworldScrollAgent(OverworldNode[] nodes)
 		{
 			_nodes = nodes;
 			_values = new AdaptionFloat[_nodes.Length];
@@ -116,7 +116,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			dragMode = other.dragMode;
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate)
+		protected override void OnUpdate(GDOverworldScreen screen, SAMTime gameTime, InputState istate)
 		{
 			if (isDragging)
 			{

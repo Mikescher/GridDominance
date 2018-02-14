@@ -1,18 +1,17 @@
-﻿using System;
-using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameAgents;
-using MonoSAMFramework.Portable.Screens;
+﻿using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.GlobalAgents
 {
-	class HighscoreAgent : GameIntervalAgent
+	class HighscoreAgent : CyclicOperation<MainGame>
 	{
-		private const float DELAY_START = 0;
 		private const float INTERVAL    = 10 * 60;
 
-		public HighscoreAgent() : base("HighscoreAgent", DELAY_START, INTERVAL) { }
+		public override string Name => "HighscoreAgent";
 
-		protected override void OnEvent(SAMTime gameTime)
+		public HighscoreAgent() : base(INTERVAL, false) { }
+
+		protected override void OnCycle(MainGame element, int counter)
 		{
 			var profile = MainGame.Inst.Profile;
 			

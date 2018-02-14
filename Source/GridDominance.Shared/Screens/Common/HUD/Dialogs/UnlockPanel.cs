@@ -123,12 +123,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				var number = new string(Enumerable.Range(0, 8).Select(i => CharDisp[i].Character).ToArray());
 				if (__Secrets.TestUnlockCode(number))
 				{
-					AddHUDOperation(new UnlockSucessOperation());
+					AddOperation(new UnlockSucessOperation());
 				}
 				else
 				{
 					MainGame.Inst.GDSound.PlayEffectError();
-					AddHUDOperation(new UnlockErrorOperation());
+					AddOperation(new UnlockErrorOperation());
 				}
 			}
 		}

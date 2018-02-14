@@ -13,7 +13,6 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using GridDominance.Shared.Screens.WorldMapScreen.Agents;
@@ -21,6 +20,7 @@ using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
@@ -54,7 +54,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			DrawingBoundingBox = new FSize(DIAMETER, DIAMETER);
 			Blueprint = bp;
 
-			AddEntityOperation(new SimpleCyclicGameEntityOperation<RootNode>("LevelNode::OrbSpawn", LevelNode.ORB_SPAWN_TIME, false, SpawnOrb));
+			AddOperation(new CyclicLambdaOperation<RootNode>("LevelNode::OrbSpawn", LevelNode.ORB_SPAWN_TIME, false, SpawnOrb));
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -88,7 +88,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			if (GDOwner.ZoomState != BistateProgress.Normal && GDOwner.ZoomState != BistateProgress.Expanded) return;
 
-			Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner, GDOwner.ZoomState == BistateProgress.Expanded));
+			Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner.ZoomState == BistateProgress.Expanded));
 			MainGame.Inst.GDSound.PlayEffectZoomOut();
 		}
 

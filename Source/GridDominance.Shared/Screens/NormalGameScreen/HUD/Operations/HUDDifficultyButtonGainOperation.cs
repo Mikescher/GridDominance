@@ -2,27 +2,18 @@
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.Screens.HUD.Operations;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUDOperations
 {
-	public class HUDDifficultyButtonGainOperation : HUDTimedElementOperation<HUDDifficultyButton>
+	public class HUDDifficultyButtonGainOperation : FixTimeOperation<HUDDifficultyButton>
 	{
 		public HUDDifficultyButtonGainOperation() : base(3f)
 		{
 		}
 
-		protected override void OnStart(HUDDifficultyButton element)
-		{
-			//
-		}
-
-		protected override void OnEnd(HUDDifficultyButton element)
-		{
-			//
-		}
-
-		protected override void OnProgress(HUDDifficultyButton element, float progress, InputState istate)
+		protected override void OnProgress(HUDDifficultyButton element, float progress, SAMTime gameTime, InputState istate)
 		{
 			element.BackgroundColor = ColorMath.Blend(FlatColors.ButtonHUD, FlatColors.BackgroundHUD2, progress);
 			element.IconScale = FloatMath.FunctionEaseOutElastic(progress);

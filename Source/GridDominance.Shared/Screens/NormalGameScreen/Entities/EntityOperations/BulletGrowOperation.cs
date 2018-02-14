@@ -1,13 +1,15 @@
 ﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
 {
-	class BulletGrowOperation : GameEntityOperation<Bullet>
+	class BulletGrowOperation : FixTimeOperation<Bullet>
 	{
-		public BulletGrowOperation(float time) : base("BulletGrowOperation", time)
+		public override string Name => "BulletGrowOperation";
+
+		public BulletGrowOperation(float time) : base(time)
 		{
 		}
 

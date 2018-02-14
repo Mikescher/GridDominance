@@ -12,16 +12,15 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Agents;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 {
-	public class TutorialAgent : GameScreenAgent
+	public class TutorialAgent : SAMUpdateOp<GDGameScreen>
 	{
 		private enum TutorialState
 		{
@@ -36,20 +35,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			WinGame = 8,
 		}
 
-		public override bool Alive { get; } = true;
-
-		private readonly GDGameScreen _screen;
-		private readonly GDGameHUD _hud;
-		private readonly Cannon _cannon1; // bottomLeft
-		private readonly Cannon _cannon2; // topLeft
-		private readonly Cannon _cannon3; // topCenter
-		private readonly Cannon _cannon4; // topRight
-		private readonly Cannon _cannon5; // BottomRight
-		private readonly TutorialController _controller5; // BottomRight
-		private          TutorialController _controller4; // TopRight
-		private readonly Fraction _fracPlayer;
-		private readonly Fraction _fracComputer;
-		private readonly Fraction _fracNeutral;
+		private GDGameScreen _screen;
+		private GDGameHUD _hud;
+		private Cannon _cannon1; // bottomLeft
+		private Cannon _cannon2; // topLeft
+		private Cannon _cannon3; // topCenter
+		private Cannon _cannon4; // topRight
+		private Cannon _cannon5; // BottomRight
+		private TutorialController _controller5; // BottomRight
+		private TutorialController _controller4; // TopRight
+		private Fraction _fracPlayer;
+		private Fraction _fracComputer;
+		private Fraction _fracNeutral;
 
 		private TutorialState _state = TutorialState.Start;
 
@@ -60,15 +57,22 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		private HUDTouchAnimation _anim;
 		private HUDArrowAnimation _anim2;
 
-		public TutorialAgent(GDGameScreen scrn) : base(scrn)
-		{
-			_screen = scrn;
+		public override string Name => "TutorialAgent";
 
-			_cannon1 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 11);
-			_cannon2 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 12);
-			_cannon3 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 30);
-			_cannon4 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 22);
-			_cannon5 = scrn.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 21);
+		public TutorialAgent()
+		{
+			//
+		}
+
+		protected override void OnInit(GDGameScreen screen)
+		{
+			_screen = screen;
+
+			_cannon1 = screen.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 11);
+			_cannon2 = screen.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 12);
+			_cannon3 = screen.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 30);
+			_cannon4 = screen.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 22);
+			_cannon5 = screen.GetEntities<Cannon>().Single(c => c.BlueprintCannonID == 21);
 
 			_controller5 = new TutorialController(_screen, _cannon5);
 			_cannon5.ForceSetController(_controller5);
@@ -86,7 +90,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 #endif
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate)
+		protected override void OnUpdate(GDGameScreen screen, SAMTime gameTime, InputState istate)
 		{
 			if (_state >= TutorialState.TargetFirstNeutral) _cannon1.CannonHealth.SetForce(1);
 			if (_state >= TutorialState.TargetCenter)      _cannon2.CannonHealth.SetForce(1);

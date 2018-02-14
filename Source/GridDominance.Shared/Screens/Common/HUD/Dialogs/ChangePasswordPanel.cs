@@ -138,7 +138,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			if (editPassword.Text == "")
 			{
-				editPassword.AddHUDOperation(new HUDTextBoxBlinkOperation(Color.Red));
+				editPassword.AddOperation(new HUDTextBoxBlinkOperation(Color.Red));
 				return;
 			}
 

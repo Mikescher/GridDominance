@@ -1,11 +1,12 @@
-﻿using MonoSAMFramework.Portable.Screens.HUD.Operations;
-using MonoSAMFramework.Portable.GameMath;
+﻿using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	class HUDSettingsHorizontalOpenOperation : HUDTimedElementOperation<SettingsButton>
+	class HUDSettingsHorizontalOpenOperation : FixTimeOperation<SettingsButton>
 	{
 		private readonly int _index;
 		private SubSettingButton _button;
@@ -26,7 +27,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			endX = _button.TargetPosition.X;
 		}
 
-		protected override void OnProgress(SettingsButton button, float progress, InputState istate)
+		protected override void OnProgress(SettingsButton button, float progress, SAMTime gameTime, InputState istate)
 		{
 			var xx = startX + (endX - startX) * FloatMath.FunctionEaseOutQuad(progress);
 			var yy = _button.RelativePosition.Y;
@@ -38,6 +39,11 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			button.OpeningProgress = 1f;
 			button.RotationSpeed = 0.5f;
+		}
+
+		protected override void OnAbort(SettingsButton owner)
+		{
+			OnEnd(owner);
 		}
 
 		public override string Name => "SettingsOpen";

@@ -1,9 +1,9 @@
 ﻿using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 {
-	class NetworkAnimationTriggerOperation : CyclicGameEntityOperation<OverworldNode_MP>
+	class NetworkAnimationTriggerOperation : CyclicOperation<OverworldNode_MP>
 	{
 		public const float CYCLE_TIME      = 1.75f;
 		public const float TRANSITION_TIME = 1.25f;
@@ -11,19 +11,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 
 		public readonly int[] _shuffle = {0, 1, 2, 3, 4};
 
-		public NetworkAnimationTriggerOperation() : base("NetworkAnimationTrigger", CYCLE_TIME, false)
+		public override string Name => "NetworkAnimationTrigger";
+
+		public NetworkAnimationTriggerOperation() : base(CYCLE_TIME, false)
 		{
 			
-		}
-
-		protected override void OnStart(OverworldNode_MP node)
-		{
-			//
-		}
-
-		protected override void OnAbort(OverworldNode_MP node)
-		{
-			//
 		}
 
 		protected override void OnCycle(OverworldNode_MP node, int counter)
@@ -48,11 +40,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 
 			ShuffleIndizies();
 			
-			node.AddEntityOperation(new NetworkAnimationVertexOperation(_shuffle[0], node.VertexRotations[_shuffle[0]], a1));
-			node.AddEntityOperation(new NetworkAnimationVertexOperation(_shuffle[1], node.VertexRotations[_shuffle[1]], a2));
-			node.AddEntityOperation(new NetworkAnimationVertexOperation(_shuffle[2], node.VertexRotations[_shuffle[2]], a3));
-			node.AddEntityOperation(new NetworkAnimationVertexOperation(_shuffle[3], node.VertexRotations[_shuffle[3]], a4));
-			node.AddEntityOperation(new NetworkAnimationVertexOperation(_shuffle[4], node.VertexRotations[_shuffle[4]], a5));
+			node.AddOperation(new NetworkAnimationVertexOperation(_shuffle[0], node.VertexRotations[_shuffle[0]], a1));
+			node.AddOperation(new NetworkAnimationVertexOperation(_shuffle[1], node.VertexRotations[_shuffle[1]], a2));
+			node.AddOperation(new NetworkAnimationVertexOperation(_shuffle[2], node.VertexRotations[_shuffle[2]], a3));
+			node.AddOperation(new NetworkAnimationVertexOperation(_shuffle[3], node.VertexRotations[_shuffle[3]], a4));
+			node.AddOperation(new NetworkAnimationVertexOperation(_shuffle[4], node.VertexRotations[_shuffle[4]], a5));
 		}
 
 		private void ShuffleIndizies() // Fisher-Yates shuffle

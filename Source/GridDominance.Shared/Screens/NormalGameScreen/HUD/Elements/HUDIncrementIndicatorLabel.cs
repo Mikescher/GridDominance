@@ -24,7 +24,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Text = increment,
 			};
 
-			AddHUDOperation(new HUDIncrementIndicatorLabelWiggleOperation());
+			AddOperation(new HUDIncrementIndicatorLabelWiggleOperation());
 		}
 		
 		public override void OnInitialize()

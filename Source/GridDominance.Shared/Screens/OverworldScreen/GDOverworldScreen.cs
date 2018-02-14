@@ -59,7 +59,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 #endif
 
 #if !__IOS__
-			AddAgent(new ExitAgent(this));
+			AddAgent(new ExitAgent());
 #endif
 
 			List<OverworldNode> nodesList = new List<OverworldNode>();
@@ -74,7 +74,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 
 			foreach (var node in nodesList) Entities.AddEntity(node);
 
-			AddAgent(ScrollAgent = new OverworldScrollAgent(this, nodesList.ToArray()));
+			AddAgent(ScrollAgent = new OverworldScrollAgent(nodesList.ToArray()));
 
 			_banner.TargetRect = new FRectangle(0 * GDConstants.TILE_WIDTH, 0.5f * GDConstants.TILE_WIDTH, 16 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH).AsDeflated(0.25f * GDConstants.TILE_WIDTH);
 			_banner.Text = GDConstants.LOGO_STRING;

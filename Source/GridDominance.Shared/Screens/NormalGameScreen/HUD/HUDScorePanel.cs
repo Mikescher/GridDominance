@@ -17,7 +17,6 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.RenderHelper;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
@@ -345,7 +344,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 			if (_successScreen)
 			{
-				AddHUDOperation(new HUDScorePanelTimeDisplayOperation(
+				AddOperation(new HUDScorePanelTimeDisplayOperation(
 					L10NImpl.STR_HSP_TIME_NOW, TimeExtension.FormatMilliseconds(_leveltime, false),
 					L10NImpl.STR_HSP_TIME_BEST, _profile.GetLevelData(_level.UniqueID).GetTimeString(_levelDifficulty, false)));
 			}

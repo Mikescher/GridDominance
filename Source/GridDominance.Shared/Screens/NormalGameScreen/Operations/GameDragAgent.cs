@@ -6,11 +6,11 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Agents;
+using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 {
-	class GameDragAgent : GameScreenAgent
+	class GameDragAgent : SAMUpdateOp<GDGameScreen>
 	{
 		private const float CALCULATION_UPS = 60f;
 		private const int MAX_UPDATES_PER_CALL = 8;
@@ -31,18 +31,23 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		private Vector2 _dragSpeed;
 		private float _timeSinceRestDragUpdate;
 
-		private readonly GDGameScreen _gdScreen;
-		private readonly FRectangle _bounds;
+		private GDGameScreen _gdScreen;
+		private FRectangle _bounds;
 
-		public override bool Alive => true;
+		public override string Name => "GameDragAgent";
 
-		public GameDragAgent(GDGameScreen scrn) : base(scrn)
+		public GameDragAgent()
 		{
-			_gdScreen = scrn;
+			//
+		}
+
+		protected override void OnInit(GDGameScreen screen)
+		{
+			_gdScreen = screen;
 			_bounds = _gdScreen.MapFullBounds;
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate)
+		protected override void OnUpdate(GDGameScreen screen, SAMTime gameTime, InputState istate)
 		{
 			if (_isDragging)
 			{
@@ -72,7 +77,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		private void StartDrag(InputState istate)
 		{
 			_mouseStartPos = istate.GamePointerPosition;
-			_startOffset = Screen.MapOffset;
+			_startOffset = _gdScreen.MapOffset;
 
 			_dragSpeed = Vector2.Zero;
 			_lastMousePos = istate.GamePointerPosition;
@@ -87,8 +92,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		{
 			var delta = istate.GamePointerPosition - _mouseStartPos;
 
-			Screen.MapOffsetX = _startOffset.X + delta.X;
-			Screen.MapOffsetY = _startOffset.Y + delta.Y;
+			_gdScreen.MapOffsetX = _startOffset.X + delta.X;
+			_gdScreen.MapOffsetY = _startOffset.Y + delta.Y;
 
 			CalculateOOB();
 
@@ -110,28 +115,28 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 		private void CalculateOOB()
 		{
-			if (Screen.MapOffsetX > _bounds.X)
+			if (_gdScreen.MapOffsetX > _bounds.X)
 			{
 				_dragSpeed.X = 0;
-				Screen.MapOffsetX = _bounds.X;
+				_gdScreen.MapOffsetX = _bounds.X;
 			}
 
-			if (Screen.GuaranteedMapViewport.Right > _bounds.Right)
+			if (_gdScreen.GuaranteedMapViewport.Right > _bounds.Right)
 			{
 				_dragSpeed.X = 0;
-				Screen.MapOffsetX = Screen.VAdapterGame.VirtualGuaranteedWidth - _bounds.Right;
+				_gdScreen.MapOffsetX = _gdScreen.VAdapterGame.VirtualGuaranteedWidth - _bounds.Right;
 			}
 
-			if (Screen.MapOffsetY > _bounds.Y)
+			if (_gdScreen.MapOffsetY > _bounds.Y)
 			{
 				_dragSpeed.Y = 0;
-				Screen.MapOffsetY = _bounds.Y;
+				_gdScreen.MapOffsetY = _bounds.Y;
 			}
 
-			if (Screen.GuaranteedMapViewport.Bottom > _bounds.Bottom)
+			if (_gdScreen.GuaranteedMapViewport.Bottom > _bounds.Bottom)
 			{
 				_dragSpeed.Y = 0;
-				Screen.MapOffsetY = Screen.VAdapterGame.VirtualGuaranteedHeight - _bounds.Bottom;
+				_gdScreen.MapOffsetY = _gdScreen.VAdapterGame.VirtualGuaranteedHeight - _bounds.Bottom;
 			}
 		}
 
@@ -153,8 +158,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			float dragX = _dragSpeed.X;
 			float dragY = _dragSpeed.Y;
 
-			Screen.MapOffsetX = Screen.MapOffsetX + dragX * delta;
-			Screen.MapOffsetY = Screen.MapOffsetY + dragY * delta;
+			_gdScreen.MapOffsetX = _gdScreen.MapOffsetX + dragX * delta;
+			_gdScreen.MapOffsetY = _gdScreen.MapOffsetY + dragY * delta;
 
 			CalculateOOB();
 

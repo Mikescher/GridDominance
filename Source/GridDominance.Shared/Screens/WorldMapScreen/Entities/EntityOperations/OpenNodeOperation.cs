@@ -2,15 +2,17 @@
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 {
-	class OpenNodeOperation : GameEntityOperation<LevelNode>
+	class OpenNodeOperation : FixTimeOperation<LevelNode>
 	{
 		private readonly FractionDifficulty _diff;
 
-		public OpenNodeOperation(FractionDifficulty extender) : base("LevelNode::Open::"+(int)extender, LevelNode.EXPANSION_TIME)
+		public override string Name => "LevelNode::Open::" + (int)_diff;
+
+		public OpenNodeOperation(FractionDifficulty extender) : base(LevelNode.EXPANSION_TIME)
 		{
 			_diff = extender;
 		}
@@ -29,11 +31,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities.EntityOperations
 		{
 			node.ExpansionProgress[(int) _diff] = 1f;
 			node.State[(int)_diff] = BistateProgress.Open;
-		}
-
-		protected override void OnAbort(LevelNode node)
-		{
-			//
 		}
 	}
 }

@@ -2,27 +2,18 @@
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.Screens.HUD.Operations;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUDOperations
 {
-	public class HUDTutorialDifficultyButtonBlinkingIconOperation : HUDInfiniteElementOperation<HUDTutorialDifficultyButton>
+	public class HUDTutorialDifficultyButtonBlinkingIconOperation : SAMUpdateOp<HUDTutorialDifficultyButton>
 	{
 		private const float BLINK_LENGTH = 1.5f;
 		
-		protected override void OnStart(HUDTutorialDifficultyButton element)
+		protected override void OnUpdate(HUDTutorialDifficultyButton element, SAMTime gameTime, InputState istate)
 		{
-			// NOP
-		}
-
-		protected override void OnEnd(HUDTutorialDifficultyButton element)
-		{
-			// NOP
-		}
-
-		protected override void OnProgress(HUDTutorialDifficultyButton element, float value, InputState istate)
-		{
-			element.ForegroundColor = ColorMath.Blend(FlatColors.SunFlower, FlatColors.Orange, FloatMath.Sin(value / BLINK_LENGTH) / 2f + 0.5f);
+			element.ForegroundColor = ColorMath.Blend(FlatColors.SunFlower, FlatColors.Orange, FloatMath.Sin(Lifetime / BLINK_LENGTH) / 2f + 0.5f);
 		}
 
 		public override string Name => "BlinkingTutorialDifficultyButtonIcon";

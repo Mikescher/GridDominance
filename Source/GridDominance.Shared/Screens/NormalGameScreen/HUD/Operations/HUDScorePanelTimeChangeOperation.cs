@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MonoSAMFramework.Portable.GameMath;
+﻿using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
-using MonoSAMFramework.Portable.Screens.HUD.Operations;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.Operations
 {
-	class HUDScorePanelTimeChangeOperation : HUDTimedElementOperation<HUDScorePanel>
+	class HUDScorePanelTimeChangeOperation : FixTimeOperation<HUDScorePanel>
 	{
 		public override string Name => "HUDScorePanelTimeChangeOperation";
 		private const float DURATION = 1.1f;
@@ -23,7 +19,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.Operations
 			_txt2 = newtext2;
 		}
 
-		protected override void OnProgress(HUDScorePanel element, float progress, InputState istate)
+		protected override void OnProgress(HUDScorePanel element, float progress, SAMTime gameTime, InputState istate)
 		{
 			if (progress < 0.5f)
 			{

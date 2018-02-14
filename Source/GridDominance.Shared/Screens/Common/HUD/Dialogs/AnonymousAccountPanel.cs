@@ -150,13 +150,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			if (editUsername.Text == "")
 			{
-				editUsername.AddHUDOperation(new HUDTextBoxBlinkOperation(Color.Red));
+				editUsername.AddOperation(new HUDTextBoxBlinkOperation(Color.Red));
 				return;
 			}
 
 			if (editPassword.Text == "")
 			{
-				editPassword.AddHUDOperation(new HUDTextBoxBlinkOperation(Color.Red));
+				editPassword.AddOperation(new HUDTextBoxBlinkOperation(Color.Red));
 				return;
 			}
 

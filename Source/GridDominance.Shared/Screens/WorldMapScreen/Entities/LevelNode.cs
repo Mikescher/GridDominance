@@ -22,7 +22,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 {
@@ -108,7 +108,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			rectExpanderSouth = FRectangle.CreateByCenter(pos, 0, EXTENDER_OFFSET, WIDTH_EXTENDER, HEIGHT_EXTENDER);
 			rectExpanderWest  = FRectangle.CreateByCenter(pos, -EXTENDER_OFFSET, 0, HEIGHT_EXTENDER, WIDTH_EXTENDER);
 
-			AddEntityOperation(new SimpleCyclicGameEntityOperation<LevelNode>("LevelNode::OrbSpawn", ORB_SPAWN_TIME, false, SpawnOrb));
+			AddOperation(new CyclicLambdaOperation<LevelNode>("LevelNode::OrbSpawn", ORB_SPAWN_TIME, false, SpawnOrb));
 		}
 
 		public bool CenterContains(FPoint p)
@@ -189,7 +189,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Open::root");
 			AbortAllOperations(p => p.Name == "LevelNode::Open::root");
-			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Close::root", TOTAL_EXPANSION_TIME, (n,p) => RootExpansionProgress = 1-p));
+			var o = new LambdaOperation<LevelNode>("LevelNode::Close::root", TOTAL_EXPANSION_TIME, (n, p) => RootExpansionProgress = 1 - p);
+			AddOperation(o);
 			if (progress != null) o.ForceSetProgress(1-progress.Value);
 
 			CloseExtender(FractionDifficulty.DIFF_0);
@@ -204,7 +205,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			if (State[(int)d] == BistateProgress.Open)
 			{
-				AddEntityOperation(new CloseNodeOperation(d));
+				AddOperation(new CloseNodeOperation(d));
 			}
 			else if (State[(int) d] == BistateProgress.Opening)
 			{
@@ -218,8 +219,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				else
 					initProgress = 0.9999f;
 
-				var o = AddEntityOperation(new CloseNodeOperation(d));
-
+				var o = new CloseNodeOperation(d);
+				AddOperation(o);
 				if (initProgress > 0f) o.ForceSetProgress(initProgress);
 			}
 		}
@@ -239,7 +240,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			{
 				MainGame.Inst.GDSound.PlayEffectError();
 
-				AddEntityOperation(new ScreenShakeAndCenterOperation(this, GDOwner));
+				AddOperation(new ScreenShakeAndCenterOperation(this, GDOwner));
 
 				Owner.HUD.ShowToast("LN::LOCKED", L10N.T(L10NImpl.STR_GLOB_LEVELLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 
@@ -250,7 +251,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			var progress = FindFirstOperationProgress(p => p.Name == "LevelNode::Close::root");
 			AbortAllOperations(p => p.Name == "LevelNode::Close::root");
-			var o = AddEntityOperation(new SimpleGameEntityOperation<LevelNode>("LevelNode::Open::root", TOTAL_EXPANSION_TIME, (n, p) => RootExpansionProgress = p));
+			var o = new LambdaOperation<LevelNode>("LevelNode::Open::root", TOTAL_EXPANSION_TIME, (n, p) => RootExpansionProgress = p);
+			AddOperation(o);
 			if (progress != null) o.ForceSetProgress(1 - progress.Value);
 
 			if (Blueprint.UniqueID == Levels.LEVELID_1_1 && !LevelData.HasCompletedOrBetter(FractionDifficulty.DIFF_0))
@@ -265,8 +267,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				OpenExtender(FractionDifficulty.DIFF_3);
 			}
 
-
-			AddEntityOperation(new CenterNodeOperation(GDOwner));
+			AddOperation(new CenterNodeOperation(GDOwner));
 
 			MainGame.Inst.GDSound.PlayEffectOpen();
 		}
@@ -278,7 +279,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				float initProgress = 0f;
 
 				State[(int)d] = BistateProgress.Opening;
-				var o = AddEntityOperationDelayed(new OpenNodeOperation(d), EXTENDER_DELAY * (int)d);
+				var o = new OpenNodeOperation(d);
+				AddOperationDelayed(o, EXTENDER_DELAY * (int)d);
 
 				if (initProgress > 0f) o.ForceSetProgress(initProgress);
 
@@ -292,7 +294,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				AbortAllOperations(p => p.Name == "LevelNode::Close::" + (int) d + "#delay");
 				if (progress != null) initProgress = 1 - progress.Value;
 
-				var o = AddEntityOperation(new OpenNodeOperation(d));
+				var o = new OpenNodeOperation(d);
+				AddOperation(o);
 
 				if (initProgress > 0f) o.ForceSetProgress(initProgress);
 			}

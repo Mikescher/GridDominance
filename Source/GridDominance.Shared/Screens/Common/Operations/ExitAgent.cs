@@ -2,23 +2,23 @@
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Agents;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace GridDominance.Shared.Screens.Common.Agents
 {
-	class ExitAgent : GameScreenAgent
+	class ExitAgent : SAMUpdateOp<GameScreen>
 	{
-		public override bool Alive => true;
-
 		private float _lastBackClick = -9999f;
 
-		public ExitAgent(GameScreen scrn) : base(scrn)
+		public override string Name => "ExitAgent";
+
+		public ExitAgent()
 		{
 		}
 
-		public override void Update(SAMTime gameTime, InputState istate)
+		protected override void OnUpdate(GameScreen screen, SAMTime gameTime, InputState istate)
 		{
 			bool trigger = false;
 			if (istate.IsKeyExclusiveJustDown(SKeys.AndroidBack))
@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.Common.Agents
 				}
 				else
 				{
-					Screen.HUD.ShowToast(null, L10N.T(L10NImpl.STR_GLOB_EXITTOAST), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
+					screen.HUD.ShowToast(null, L10N.T(L10NImpl.STR_GLOB_EXITTOAST), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 				}
 
 				_lastBackClick = gameTime.TotalElapsedSeconds;

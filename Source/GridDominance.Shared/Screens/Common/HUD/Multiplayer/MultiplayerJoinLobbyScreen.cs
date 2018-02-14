@@ -188,7 +188,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 					case SAMNetworkConnection.ErrorType.LobbyFull:
 					case SAMNetworkConnection.ErrorType.GameVersionMismatch:
 						_isDying = true;
-						AddHUDOperation(new JoinErrorOperation());
+						AddOperation(new JoinErrorOperation());
 						return;
 
 					case SAMNetworkConnection.ErrorType.BluetoothNotEnabled:

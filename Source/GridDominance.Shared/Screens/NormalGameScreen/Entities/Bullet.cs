@@ -239,7 +239,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 					var b = new Bullet(GDOwner, Source, newStart, newVelocity, Scale * stretch, Fraction) { Lifetime = Lifetime };
 					b._ignoredPortals.Add(new CollisionIgnorePortal() { Entity = outportal, LastCollidedCycle = MonoSAMGame.GameCycleCounter});
-					b.AddEntityOperation(new BulletGrowOperation(0.15f));
+					b.AddOperation(new BulletGrowOperation(0.15f));
 					Owner.Entities.AddEntity(b);
 				}
 				DisintegrateIntoPortal();
@@ -343,7 +343,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		private void VanishOutOfTime()
 		{
-			AddEntityOperation(new BulletFadeAndDieOperation(1.0f));
+			AddOperation(new BulletFadeAndDieOperation(1.0f));
 			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_FadeSlow, BulletID, this);
 		}
 
@@ -351,7 +351,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			// After Bullet-Cannon Collision
 
-			AddEntityOperation(new BulletFadeAndDieOperation(0.05f));
+			AddOperation(new BulletFadeAndDieOperation(0.05f));
 			IsDying = true;
 
 			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_Fade, BulletID, this);
@@ -363,7 +363,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			if (IsDying) return;
 
-			AddEntityOperation(new BulletShrinkAndDieOperation(0.35f));
+			AddOperation(new BulletShrinkAndDieOperation(0.35f));
 			IsDying = true;
 
 			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_ShrinkSlow, BulletID, this);
@@ -373,7 +373,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			// After Bullet-Cannon Collision
 
-			AddEntityOperation(new BulletShrinkAndDieOperation(0.15f));
+			AddOperation(new BulletShrinkAndDieOperation(0.15f));
 			IsDying = true;
 
 			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_ShrinkFast, BulletID, this);
@@ -383,7 +383,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		{
 			// After Bullet-Portal Collision
 
-			AddEntityOperation(new BulletShrinkAndDieOperation(0.15f));
+			AddOperation(new BulletShrinkAndDieOperation(0.15f));
 			IsDying = true;
 
 			GDOwner.ChangeBulletMapping(RemoteBullet.RemoteBulletState.Dying_ShrinkFast, BulletID, this);

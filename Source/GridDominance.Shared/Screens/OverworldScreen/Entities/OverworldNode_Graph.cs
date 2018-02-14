@@ -19,7 +19,7 @@ using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
-using MonoSAMFramework.Portable.Screens.Entities.Operation;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 // ReSharper disable HeuristicUnreachableCode
 #pragma warning disable 162
@@ -239,7 +239,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			ownr.IsTransitioning = true;
 
-			ownr.AddAgent(new TransitionZoomInAgent(ownr, this, Blueprint));
+			ownr.AddAgent(new TransitionZoomInAgent(this, Blueprint));
 
 			MainGame.Inst.GDSound.PlayEffectZoomIn();
 		}
@@ -254,8 +254,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			Owner.HUD.ShowToast("OWNG::LOCKED(MULTI)", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 			MainGame.Inst.GDSound.PlayEffectError();
 
-			AddEntityOperation(new ShakeNodeOperation());
-			AddEntityOperation(new SimpleGameEntityOperation<OverworldNode_Graph>("ShowPreviewDelayed", 0.25f, (n, p) => { }, n => { }, n => n.ShowPreview()));
+			AddOperation(new ShakeNodeOperation());
+			AddOperation(new LambdaOperation<OverworldNode_Graph>("ShowPreviewDelayed", 0.25f, (n, p) => { }, n => { }, n => n.ShowPreview()));
 		}
 
 		protected void DefaultAction_UnreachableAndFullyLocked()
@@ -263,7 +263,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			Owner.HUD.ShowToast("OWNG::LOCKED(MULTI)", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
 			MainGame.Inst.GDSound.PlayEffectError();
 
-			AddEntityOperation(new ShakeNodeOperation());
+			AddOperation(new ShakeNodeOperation());
 		}
 
 		public virtual void ShowPreview() { }
