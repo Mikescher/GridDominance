@@ -146,6 +146,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerCollisionBorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerRefractionCorner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerRefractionEdge.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\EntityOperations\TetrisBlendOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\OverworldScrollAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\ReappearTransitionAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\TransitionZoomInToTutorialAgent.cs" />

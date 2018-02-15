@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
@@ -12,6 +14,8 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.GameMath.Tetromino;
+using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
@@ -22,19 +26,26 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	public class OverworldNode_SCCM : OverworldNode
 	{
+
 		public override bool IsNodeEnabled => true;
 
 		private float _pulseTimer = 0;
 
 		private readonly WorldUnlockState _ustate;
 
+		public List<MutableTuple<FRectangle, Color>> Blocks = new List<MutableTuple<FRectangle, Color>>();
+
+		public FRectangle LastInnerBounds;
+
 		public OverworldNode_SCCM(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_ONLINE, Levels.WORLD_ID_ONLINE)
 		{
 			AddOperation(new CyclicSequenceOperation<OverworldNode_SCCM>(
-				() => new SleepOperation<OverworldNode_SCCM>(0.50f),
-				() => new TetrisFillOperation(4.50f),
-				() => new SleepOperation<OverworldNode_SCCM>(0.25f),
-				() => new TetrisShrinkOperation(2.75f)));
+				new SleepOperation<OverworldNode_SCCM>(1.50f),
+				new TetrisFillOperation(5.50f),
+				new SleepOperation<OverworldNode_SCCM>(0.75f),
+				new TetrisBlendOperation(0.75f),
+				new SleepOperation<OverworldNode_SCCM>(0.25f),
+				new TetrisShrinkOperation(2.50f)));
 
 			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, false);
 		}
@@ -49,7 +60,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
 			var outerBounds = FRectangle.CreateByCenter(Position, DrawingBoundingBox);
-			var innerBounds = FRectangle.CreateByCenter(Position, new FSize(INNERSIZE, INNERSIZE));
+			var innerBounds = LastInnerBounds = FRectangle.CreateByCenter(Position, new FSize(INNERSIZE, INNERSIZE));
 
 			FlatRenderHelper.DrawRoundedBlurPanel(sbatch, outerBounds, clickArea.IsMouseDown() ? FlatColors.ButtonPressedHUD : FlatColors.Asbestos, 0.5f * GDConstants.TILE_WIDTH);
 			SimpleRenderHelper.DrawRoundedRectOutline(sbatch, outerBounds.AsInflated(1f, 1f), FlatColors.MidnightBlue, 8, 2f, 0.5f * GDConstants.TILE_WIDTH);
@@ -80,7 +91,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				}
 			}
 
-			//TODO
+			foreach (var block in Blocks)
+			{
+				sbatch.FillRectangle(block.Item1, block.Item2);
+
+			}
 
 			sbatch.DrawRectangle(innerBounds, Color.Black, Owner.PixelWidth);
 			
