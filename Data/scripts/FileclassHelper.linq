@@ -2,8 +2,8 @@
 
 readonly string[] Files = new[]
 {
-	@"..\Source\MonoSAMFramework.Portable\ColorHelper\FlatColors.cs",
-	@"..\Source\MonoSAMFramework.Portable\ColorHelper\ColorblindColors.cs",
+	@"..\..\Source\MonoSAMFramework.Portable\ColorHelper\FlatColors.cs",
+	@"..\..\Source\MonoSAMFramework.Portable\ColorHelper\ColorblindColors.cs",
 };
 
 void Main()

@@ -1,6 +1,6 @@
 <Query Kind="Program" />
 
-string PATH = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\Source\");
+string PATH = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\..\Source\");
 
 Regex REX1 = new Regex(@"SAMLog\.(Error|FatalError|Info)\(""([^""]+)""");
 Regex REX2 = new Regex(@"\.Show(Toast)\(""([^""]+)""");

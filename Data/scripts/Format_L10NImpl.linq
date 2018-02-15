@@ -3,7 +3,7 @@
 bool FMT = true;
 
 
-string PATH = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\Source\GridDominance.Shared\Resources\L10NImpl.cs");
+string PATH = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\..\Source\GridDominance.Shared\Resources\L10NImpl.cs");
 void Main()
 {
 	var lines = File.ReadAllLines(PATH);

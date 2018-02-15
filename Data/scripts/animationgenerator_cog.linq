@@ -2,8 +2,8 @@
   <Namespace>System.Drawing</Namespace>
 </Query>
 
-const string FILE_IN  = @"F:\Eigene Dateien\Dropbox\Programming\C-Sharp\Xamarin Studio\GridDominance\Data\cannoncog.png";
-const string FILE_OUT = @"F:\Eigene Dateien\Dropbox\Programming\C-Sharp\Xamarin Studio\GridDominance\Data\cannoncog_animated\cannoncog_{0:000}.png";
+string FILE_IN  = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\graphics\cannoncog.png");
+string FILE_OUT = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\graphics\cannoncog_animated\cannoncog_{0:000}.png");
 
 const int PIECES = 128;
 
