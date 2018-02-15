@@ -15,5 +15,6 @@ namespace MonoSAMFramework.Portable.UpdateAgents
 
 		void Finish();
 		void Abort();
+		void FullReset();
 	}
 }

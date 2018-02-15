@@ -40,6 +40,21 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return !(a == b);
 		}
 
+		public static DPoint operator +(DPoint value1, DPoint value2)
+		{
+			return new DPoint(value1.X + value2.X, value1.Y + value2.Y);
+		}
+
+		public static DPoint operator -(DPoint value1, DPoint value2)
+		{
+			return new DPoint(value1.X - value2.X, value1.Y - value2.Y);
+		}
+
+		public static DPoint operator *(DPoint value1, int value2)
+		{
+			return new DPoint(value1.X * value2, value1.Y * value2);
+		}
+
 		public bool Equals(DPoint other)
 		{
 			return (X == other.X) && (Y == other.Y);

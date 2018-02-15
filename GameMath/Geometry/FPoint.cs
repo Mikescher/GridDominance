@@ -60,6 +60,16 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new Vector2(value1.X - value2.X, value1.Y - value2.Y);
 		}
 
+		public static Vector2 operator -(FPoint value1, DPoint value2)
+		{
+			return new Vector2(value1.X - value2.X, value1.Y - value2.Y);
+		}
+
+		public static Vector2 operator -(DPoint value1, FPoint value2)
+		{
+			return new Vector2(value1.X - value2.X, value1.Y - value2.Y);
+		}
+
 		public static bool operator ==(FPoint a, FPoint b)
 		{
 			return a.Equals(b);
@@ -84,6 +94,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		[Pure]
 		public FPoint WithOrigin(FPoint origin)
+		{
+			return new FPoint(X + origin.X, Y + origin.Y);
+		}
+
+		[Pure]
+		public FPoint WithOrigin(DPoint origin)
 		{
 			return new FPoint(X + origin.X, Y + origin.Y);
 		}

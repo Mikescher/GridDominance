@@ -104,6 +104,7 @@
     <Compile Include="Language\CompressionUtils.cs" />
     <Compile Include="Language\CustomDispatcher.cs" />
     <Compile Include="Language\LazyProp.cs" />
+    <Compile Include="Language\MutableTuple.cs" />
     <Compile Include="Localization\L10N.cs" />
     <Compile Include="LogProtocol\SAMLog.cs" />
     <Compile Include="LogProtocol\SAMLogEntry.cs" />

@@ -76,7 +76,6 @@ namespace MonoSAMFramework.Portable.UpdateAgents
 			Lifetime = f;
 		}
 
-
 		public void InitUnchecked(IUpdateOperationOwner owner)
 		{
 			Init((TOwner)owner);
@@ -86,6 +85,15 @@ namespace MonoSAMFramework.Portable.UpdateAgents
 		{
 			Update((TOwner)owner, gameTime, istate);
 			return !_isFinished;
+		}
+
+		public void FullReset()
+		{
+			_isStarted  = false;
+			_isFinished = false;
+			_alive = false;
+			Lifetime = 0;
+			_initElem = default(TOwner);
 		}
 
 		/// Called on append to owner
