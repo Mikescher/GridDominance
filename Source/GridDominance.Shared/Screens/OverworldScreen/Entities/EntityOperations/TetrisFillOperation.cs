@@ -31,6 +31,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 			public MutableTuple<FRectangle, Color> Target4 = null;
 		}
 
+		private static readonly Color[] COLORS =
+		{
+			FlatColors.GreenSea,
+			FlatColors.Emerald,
+			FlatColors.PeterRiver,
+			FlatColors.Wisteria,
+			FlatColors.SunFlower,
+			FlatColors.Orange,
+			FlatColors.Pumpkin,
+			FlatColors.Alizarin,
+		};
+
 		private static readonly string[] CONFIGURATIONS =
 		{
 			"01L100L313S121O120J432J1",
@@ -73,7 +85,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 			var config = CONFIGURATIONS[FloatMath.Random.Next(CONFIGURATIONS.Length)];
 
 			int off = 0;
-			var c = Enumerable.Range(1, 6).Shuffle().ToList();
+			var c = Enumerable.Range(0, COLORS.Length).Shuffle().ToList();
 			foreach (var i in Enumerable.Range(0, 6).Shuffle())
 			{
 				var x  = config[4*i+0] - '0';
@@ -86,7 +98,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 					Scale = 0,
 					Tetromino = TetroPieces.PIECES[id],
 					Delay = off,
-					Color = ColorMath.Blend(Color.White, Color.DarkGray, c[off]/7f),
+					Color = COLORS[c[i]],
 				});
 
 				off++;
@@ -94,16 +106,16 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 
 			node.Blocks.Clear();
 			node.Blocks.Add(new MutableTuple<FRectangle, Color>(new FRectangle(
-				node.LastInnerBounds.X,
-				node.LastInnerBounds.Bottom - (node.LastInnerBounds.Width / 5f),
-				node.LastInnerBounds.Width / 5f,
-				node.LastInnerBounds.Width / 5f
+				node.NonTranslatedBounds.X,
+				node.NonTranslatedBounds.Bottom - (node.NonTranslatedBounds.Width / 5f),
+				node.NonTranslatedBounds.Width / 5f,
+				node.NonTranslatedBounds.Width / 5f
 				), Color.White));
 		}
 		
 		protected override void OnProgress(OverworldNode_SCCM node, float progress, SAMTime gameTime, InputState istate)
 		{
-			var innerBounds = node.LastInnerBounds;
+			var innerBounds = node.NonTranslatedBounds;
 			var tetroRectSize = innerBounds.Width / 5f;
 
 			foreach (var anim in _animation)
@@ -131,7 +143,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 				// ReSharper disable once CompareOfFloatsByEqualityOperator
 				if (newscale > 0 && anim.Scale != newscale)
 				{
-					anim.Scale = newscale;
+					anim.Scale = FloatMath.FunctionEaseInOutQuart(newscale);
 
 					if (anim.Target1 == null)
 					{

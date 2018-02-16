@@ -25,26 +25,30 @@ Color[] COLORS =
 
 string PATH_OUT = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\other\tetromino_all.txt");
 
+class Mut { public int Index; public int Count = 1; }
+
+Dictionary<string, Mut> soloCount = new Dictionary<string, Mut>();
+
 void Main()
 {
-	CreateNext(new TetroField(), 0);
-	
 	if (File.Exists(PATH_OUT)) File.Delete(PATH_OUT);
 	File.WriteAllText(PATH_OUT, string.Empty);
-}
+	Util.AutoScrollResults = true;
 
-HashSet<string> solutionCache = new HashSet<string>();
-List<TetroField> solutions = new List<TetroField>();
+	CreateNext(new TetroField(), 0);
+
+	File.WriteAllText(PATH_OUT, string.Join("\n", soloCount.Select(p => $"{p.Key}\t{p.Value}")));
+}
 
 void RegisterSolution(TetroField f)
 {
 	var s = f.Serialize();
-	if (!solutionCache.Add(s)) return;
-	
-	solutions.Add(f);
-	$"{solutions.Count:0000}  {s}".Dump();
-	
-	File.AppendAllText(PATH_OUT, s+"\n");
+	if (soloCount.ContainsKey(s)) { soloCount[s].Count++; return; }
+
+	soloCount[s] = new Mut { Index = soloCount.Count+1, Count = 1 };
+	$"{soloCount.Count:0000}  {s}".Dump();
+
+	File.WriteAllText(PATH_OUT, string.Join("\n", soloCount.OrderByDescending(p => p.Value.Count).Select(p => $"{p.Value.Index,5}\t{p.Key}\t{p.Value.Count}")));
 }
 
 // Define other methods and classes here

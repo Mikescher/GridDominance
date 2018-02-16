@@ -4,7 +4,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] World Node (inifinite tetris)
 
-[ ] Unlokable per money, many crystals (4 worlds full) or full version
+[ ] Unlokable per money, game-beaten (got to end screen) or full version
 
 [ ] reduce unlock cost of normal worlds
 
@@ -40,3 +40,5 @@ USER GENERATED LEVEL [[TODO]]
      - rate level after complete (only thumbs up | down)
 
 [ ] Update gdapi with new world {d34db335-0001-4000-7711-000000300002}
+
+[ ] gdapi/admin: show amount of people that beaten game (got to end screen)

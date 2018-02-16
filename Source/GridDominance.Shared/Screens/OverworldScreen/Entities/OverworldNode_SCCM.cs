@@ -29,16 +29,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		public override bool IsNodeEnabled => true;
 
-		private float _pulseTimer = 0;
-
 		private readonly WorldUnlockState _ustate;
 
 		public List<MutableTuple<FRectangle, Color>> Blocks = new List<MutableTuple<FRectangle, Color>>();
 
-		public FRectangle LastInnerBounds;
+		public FRectangle NonTranslatedBounds = FRectangle.CreateByCenter(FPoint.Zero, new FSize(INNERSIZE, INNERSIZE));
 
 		public OverworldNode_SCCM(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_ONLINE, Levels.WORLD_ID_ONLINE)
 		{
+			Blocks.Add(new MutableTuple<FRectangle, Color>(new FRectangle(
+				NonTranslatedBounds.X,
+				NonTranslatedBounds.Bottom - (NonTranslatedBounds.Width / 5f),
+				NonTranslatedBounds.Width / 5f,
+				NonTranslatedBounds.Width / 5f
+			), Color.White));
+
 			AddOperation(new CyclicSequenceOperation<OverworldNode_SCCM>(
 				new SleepOperation<OverworldNode_SCCM>(1.50f),
 				new TetrisFillOperation(5.50f),
@@ -53,14 +58,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 			base.OnUpdate(gameTime, istate);
-
-			_pulseTimer += gameTime.ElapsedSeconds;
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
 			var outerBounds = FRectangle.CreateByCenter(Position, DrawingBoundingBox);
-			var innerBounds = LastInnerBounds = FRectangle.CreateByCenter(Position, new FSize(INNERSIZE, INNERSIZE));
+			var innerBounds = FRectangle.CreateByCenter(Position, new FSize(INNERSIZE, INNERSIZE));
 
 			FlatRenderHelper.DrawRoundedBlurPanel(sbatch, outerBounds, clickArea.IsMouseDown() ? FlatColors.ButtonPressedHUD : FlatColors.Asbestos, 0.5f * GDConstants.TILE_WIDTH);
 			SimpleRenderHelper.DrawRoundedRectOutline(sbatch, outerBounds.AsInflated(1f, 1f), FlatColors.MidnightBlue, 8, 2f, 0.5f * GDConstants.TILE_WIDTH);
@@ -76,12 +79,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 					if (_ustate == WorldUnlockState.OpenAndUnlocked)
 					{
-						var d = FloatMath.Sqrt((x - 3.5f) * (x - 3.5f) + (y - 3.5f) * (y - 3.5f));
+						var d = FloatMath.Sqrt((x - 4.5f) * (x - 4.5f) + (y - 4.5f) * (y - 4.5f));
 
-						var p = 1 - (d / 4.5f);
-						if (p < 0) p = 0;
+						var p = FloatMath.PercSin(FloatMath.PI * 3 * d / 14f - Lifetime);
 
-						p *= FloatMath.PercSin(_pulseTimer * FloatMath.TAU * 0.25f);
+						p *= 0.25f;
 
 						bc = ColorMath.Blend(bc, FlatColors.PeterRiver, p);
 					}
@@ -93,7 +95,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			foreach (var block in Blocks)
 			{
-				sbatch.FillRectangle(block.Item1, block.Item2);
+				sbatch.FillRectangle(block.Item1.WithOrigin(Position), block.Item2);
 
 			}
 
