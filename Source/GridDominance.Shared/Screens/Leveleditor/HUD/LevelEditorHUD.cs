@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Leveleditor.HUD.Elements;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
@@ -10,6 +11,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD
 	{
 		public LevelEditorHUD(GameScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
+			AddElement(new LevelEditorModePanel());
 		}
 
 #if DEBUG
