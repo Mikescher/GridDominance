@@ -24,6 +24,7 @@ using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using System.Text;
 using GridDominance.Shared.Screens.EndGameScreen;
+using GridDominance.Shared.Screens.Leveleditor;
 using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Language;
@@ -264,9 +265,16 @@ namespace GridDominance.Shared
 			var scrn = new GDGameScreen_MPClient(this, Graphics, level, speed, music, server);
 			SetCurrentScreen(scrn);
 		}
+
 		public void SetGameEndScreen()
 		{
 			var scrn = new GDEndGameScreen(this, Graphics);
+			SetCurrentScreen(scrn);
+		}
+
+		public void SetLevelEditorScreen()
+		{
+			var scrn = new LevelEditorScreen(this, Graphics);
 			SetCurrentScreen(scrn);
 		}
 

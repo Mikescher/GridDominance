@@ -82,6 +82,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\HUD\GDGameEndHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\HUD\LevelEditorHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\LevelEditorEntityManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\LevelEditorScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Operations\GameDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Operations\TutorialAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\GDEmptyGridBackground.cs" />

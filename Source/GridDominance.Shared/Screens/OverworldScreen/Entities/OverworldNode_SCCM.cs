@@ -108,8 +108,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		{
 			var ownr = ((GDOverworldScreen)Owner);
 			if (ownr.IsTransitioning) return;
-			
-			//TODO
+
+			MainGame.Inst.SetLevelEditorScreen(); //TODO test for unlocked - show panel - etc  - w/e
 		}
 	}
 }

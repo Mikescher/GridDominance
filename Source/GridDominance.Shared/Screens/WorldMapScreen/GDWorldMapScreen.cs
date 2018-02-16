@@ -30,7 +30,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 {
 	public class GDWorldMapScreen : GameScreen
 	{
-		public const int VIEW_WIDTH = 16 * GDConstants.TILE_WIDTH;
+		public const int VIEW_WIDTH  = 16 * GDConstants.TILE_WIDTH;
 		public const int VIEW_HEIGHT = 10 * GDConstants.TILE_WIDTH;
 
 		public bool IsBackgroundPressed = false;
