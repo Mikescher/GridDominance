@@ -29,10 +29,14 @@ namespace MonoSAMFramework.Portable.RenderHelper
 					SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, def.Color, def.RoundedCornerTL, def.RoundedCornerTR, def.RoundedCornerBL, def.RoundedCornerBR, def.CornerSize);
 					break;
 				case HUDBackgroundDefinitionType.RoundedBlur:
-					FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, def.Color, def.RoundedCornerTL, def.RoundedCornerTR, def.RoundedCornerBL, def.RoundedCornerBR, def.CornerSize);
+					FlatRenderHelper.DrawRoundedBlurPanel_Opaque(sbatch, bounds, def.Color, def.RoundedCornerTL, def.RoundedCornerTR, def.RoundedCornerBL, def.RoundedCornerBR, def.CornerSize);
 					break;
 				case HUDBackgroundDefinitionType.SimpleBlur:
-					FlatRenderHelper.DrawSimpleBlurPanel(sbatch, bounds, def.Color, def.CornerSize);
+					FlatRenderHelper.DrawSimpleBlurPanel_Opaque(sbatch, bounds, def.Color, def.CornerSize);
+					break;
+				case HUDBackgroundDefinitionType.SimpleOutlineBlur:
+					FlatRenderHelper.DrawSimpleBlurPanel_Opaque(sbatch, bounds, def.Color, def.CornerSize);
+					SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, def.OutlineThickness, def.OutlineColor);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -63,10 +67,14 @@ namespace MonoSAMFramework.Portable.RenderHelper
 					SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, def.Color * alpha, def.RoundedCornerTL, def.RoundedCornerTR, def.RoundedCornerBL, def.RoundedCornerBR, def.CornerSize);
 					break;
 				case HUDBackgroundDefinitionType.RoundedBlur:
-					FlatRenderHelper.DrawRoundedAlphaBlurPanel(sbatch, bounds, def.Color, def.CornerSize, alpha);
+					FlatRenderHelper.DrawRoundedBlurPanel_Alpha(sbatch, bounds, def.Color, def.CornerSize, alpha);
 					break;
 				case HUDBackgroundDefinitionType.SimpleBlur:
-					FlatRenderHelper.DrawSimpleAlphaBlurPanel(sbatch, bounds, def.Color, def.CornerSize, alpha);
+					FlatRenderHelper.DrawSimpleBlurPanel_Alpha(sbatch, bounds, def.Color, def.CornerSize, alpha);
+					break;
+				case HUDBackgroundDefinitionType.SimpleOutlineBlur:
+					FlatRenderHelper.DrawSimpleBlurPanel_Alpha(sbatch, bounds, def.Color, def.CornerSize, alpha);
+					SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, def.OutlineThickness, def.OutlineColor * alpha);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

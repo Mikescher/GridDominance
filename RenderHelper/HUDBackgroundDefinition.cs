@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
-	public enum HUDBackgroundDefinitionType { None, Simple, Rounded, RoundedBlur, SimpleBlur, SimpleOutline, }
+	public enum HUDBackgroundDefinitionType { None, Simple, Rounded, RoundedBlur, SimpleBlur, SimpleOutline, SimpleOutlineBlur, }
 
 	public struct HUDBackgroundDefinition: IEquatable<HUDBackgroundDefinition>
 	{
@@ -48,6 +48,11 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		public static HUDBackgroundDefinition CreateSimpleBlur(Color c, float cornerSize)
 		{
 			return new HUDBackgroundDefinition(HUDBackgroundDefinitionType.SimpleBlur, c, Color.Transparent, 0, cornerSize, false, false, false, false);
+		}
+
+		public static HUDBackgroundDefinition CreateSimpleOutlineBlur(Color c, Color line, float lineWidth, float cornerSize)
+		{
+			return new HUDBackgroundDefinition(HUDBackgroundDefinitionType.SimpleOutlineBlur, c, line, lineWidth, cornerSize, false, false, false, false);
 		}
 
 		public static HUDBackgroundDefinition CreateRounded(Color c, float cornerSize, bool tl = true, bool tr = true, bool bl = true, bool br = true)
