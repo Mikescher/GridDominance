@@ -21,16 +21,16 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 
 		public override int Depth => 0;
 
-		private HUDTextButton _btnMouse;
-		private HUDTextButton _btnCannon;
-		private HUDTextButton _btnWall;
-		private HUDTextButton _btnObstacle;
-		private HUDTextButton _btnSettings;
-		private HUDTextButton _btnPlay;
-		private HUDTextButton _btnTest;
-		private HUDTextButton _btnExit;
+		public HUDTextButton BtnMouse;
+		public HUDTextButton BtnCannon;
+		public HUDTextButton BtnWall;
+		public HUDTextButton BtnObstacle;
+		public HUDTextButton BtnSettings;
+		public HUDTextButton BtnPlay;
+		public HUDTextButton BtnTest;
+		public HUDTextButton BtnExit;
 
-		private List<Tuple<HUDTextButton, HUDBackgroundDefinition, HUDBackgroundDefinition>> _buttons = new List<Tuple<HUDTextButton, HUDBackgroundDefinition, HUDBackgroundDefinition>>();
+		public List<Tuple<HUDTextButton, HUDBackgroundDefinition, HUDBackgroundDefinition>> Buttons = new List<Tuple<HUDTextButton, HUDBackgroundDefinition, HUDBackgroundDefinition>>();
 
 		public LevelEditorScreen GDScreen => (LevelEditorScreen) HUD.Screen;
 
@@ -48,7 +48,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			Size = new FSize(WIDTH, HUD.Height);
 			Alignment = HUDAlignment.TOPRIGHT;
 
-			AddElement(_btnMouse = new HUDTextButton(1)
+			AddElement(BtnMouse = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.TOPCENTER,
 				RelativePosition = new FPoint(0, 16 + 75 * 0),
@@ -67,7 +67,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Click = SetModeMouse,
 			});
 
-			AddElement(_btnCannon = new HUDTextButton(1)
+			AddElement(BtnCannon = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.TOPCENTER,
 				RelativePosition = new FPoint(0, 16 + 75 * 1),
@@ -86,7 +86,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Click = SetModeCannon,
 			});
 
-			AddElement(_btnWall = new HUDTextButton(1)
+			AddElement(BtnWall = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.TOPCENTER,
 				RelativePosition = new FPoint(0, 16 + 75 * 2),
@@ -105,7 +105,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Click = SetModeWall,
 			});
 
-			AddElement(_btnObstacle = new HUDTextButton(1)
+			AddElement(BtnObstacle = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.TOPCENTER,
 				RelativePosition = new FPoint(0, 16 + 75 * 3),
@@ -124,7 +124,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Click = SetModeObstacle,
 			});
 
-			AddElement(_btnSettings = new HUDTextButton(1)
+			AddElement(BtnSettings = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.TOPCENTER,
 				RelativePosition = new FPoint(0, 16 + 75 * 4),
@@ -143,7 +143,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Click = SetModeSettings,
 			});
 
-			AddElement(_btnPlay = new HUDTextButton(1)
+			AddElement(BtnPlay = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 16 + 75 * 3),
@@ -162,7 +162,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Click = DoPlayTest,
 			});
 
-			AddElement(_btnTest = new HUDTextButton(1)
+			AddElement(BtnTest = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 16 + 75 * 2),
@@ -181,7 +181,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Click = TryUpload,
 			});
 
-			AddElement(_btnExit = new HUDTextButton(1)
+			AddElement(BtnExit = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(24, 16 + 75 * 0),
@@ -200,70 +200,62 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Click = ExitEditor,
 			});
 
-			_buttons.Add(Tuple.Create(_btnMouse,    _btnMouse.BackgroundNormal,    _btnMouse.BackgroundPressed));
-			_buttons.Add(Tuple.Create(_btnCannon,   _btnCannon.BackgroundNormal,   _btnCannon.BackgroundPressed));
-			_buttons.Add(Tuple.Create(_btnWall,     _btnWall.BackgroundNormal,     _btnWall.BackgroundPressed));
-			_buttons.Add(Tuple.Create(_btnObstacle, _btnObstacle.BackgroundNormal, _btnObstacle.BackgroundPressed));
-			_buttons.Add(Tuple.Create(_btnSettings, _btnSettings.BackgroundNormal, _btnSettings.BackgroundPressed));
-			_buttons.Add(Tuple.Create(_btnPlay,     _btnPlay.BackgroundNormal,     _btnPlay.BackgroundPressed));
-			_buttons.Add(Tuple.Create(_btnTest,     _btnTest.BackgroundNormal,     _btnTest.BackgroundPressed));
-			_buttons.Add(Tuple.Create(_btnExit,     _btnExit.BackgroundNormal,     _btnExit.BackgroundPressed));
+			Buttons.Add(Tuple.Create(BtnMouse,    BtnMouse.BackgroundNormal,    BtnMouse.BackgroundPressed));
+			Buttons.Add(Tuple.Create(BtnCannon,   BtnCannon.BackgroundNormal,   BtnCannon.BackgroundPressed));
+			Buttons.Add(Tuple.Create(BtnWall,     BtnWall.BackgroundNormal,     BtnWall.BackgroundPressed));
+			Buttons.Add(Tuple.Create(BtnObstacle, BtnObstacle.BackgroundNormal, BtnObstacle.BackgroundPressed));
+			Buttons.Add(Tuple.Create(BtnSettings, BtnSettings.BackgroundNormal, BtnSettings.BackgroundPressed));
+			Buttons.Add(Tuple.Create(BtnPlay,     BtnPlay.BackgroundNormal,     BtnPlay.BackgroundPressed));
+			Buttons.Add(Tuple.Create(BtnTest,     BtnTest.BackgroundNormal,     BtnTest.BackgroundPressed));
+			Buttons.Add(Tuple.Create(BtnExit,     BtnExit.BackgroundNormal,     BtnExit.BackgroundPressed));
 
 
-			SetActiveButton(_btnMouse);
+			SetActiveButton(BtnMouse);
 		}
 
 		private void ExitEditor(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			SetActiveButton(_btnMouse);
-			GDScreen.Mode = LevelEditorMode.Mouse;
+			GDScreen.SetMode(LevelEditorMode.Mouse);
 		}
 
 		private void TryUpload(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			SetActiveButton(_btnMouse);
-			GDScreen.Mode = LevelEditorMode.Mouse;
+			GDScreen.SetMode(LevelEditorMode.Mouse);
 		}
 
 		private void DoPlayTest(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			SetActiveButton(_btnMouse);
-			GDScreen.Mode = LevelEditorMode.Mouse;
+			GDScreen.SetMode(LevelEditorMode.Mouse);
 		}
 
 		private void SetModeSettings(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			SetActiveButton(_btnSettings);
-			GDScreen.Mode = LevelEditorMode.Mouse;
+			GDScreen.SetMode(LevelEditorMode.Mouse);
 		}
 
 		private void SetModeObstacle(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			SetActiveButton(_btnObstacle);
-			GDScreen.Mode = LevelEditorMode.AddObstacle;
+			GDScreen.SetMode(LevelEditorMode.AddObstacle);
 		}
 
 		private void SetModeWall(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			SetActiveButton(_btnWall);
-			GDScreen.Mode = LevelEditorMode.AddWall;
+			GDScreen.SetMode(LevelEditorMode.AddWall);
 		}
 
 		private void SetModeCannon(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			SetActiveButton(_btnCannon);
-			GDScreen.Mode = LevelEditorMode.AddCannon;
+			GDScreen.SetMode(LevelEditorMode.AddCannon);
 		}
 
 		private void SetModeMouse(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			SetActiveButton(_btnMouse);
-			GDScreen.Mode = LevelEditorMode.Mouse;
+			GDScreen.SetMode(LevelEditorMode.Mouse);
 		}
 
-		private void SetActiveButton(HUDTextButton activeButton)
+		public void SetActiveButton(HUDTextButton activeButton)
 		{
-			foreach (var btnObj in _buttons)
+			foreach (var btnObj in Buttons)
 			{
 				if (btnObj.Item1 == activeButton)
 				{

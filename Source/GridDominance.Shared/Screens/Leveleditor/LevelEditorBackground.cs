@@ -26,11 +26,9 @@ namespace GridDominance.Shared.Screens.Leveleditor
 
 		public override void Draw(IBatchRenderer sbatch)
 		{
-			var workingArea = VAdapter.VirtualTotalBoundingBox.AsDeflated(0, 4 * TILE_WIDTH, 4 * TILE_WIDTH, 0);
-
 			var gridArea = FRectangle.CreateByTopLeft(
-				workingArea.X, 
-				workingArea.Y, 
+				0, 
+				0, 
 				GDOwner.LevelData.Width * TILE_WIDTH, 
 				GDOwner.LevelData.Height * TILE_WIDTH);
 

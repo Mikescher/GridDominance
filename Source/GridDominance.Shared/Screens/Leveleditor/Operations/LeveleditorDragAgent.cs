@@ -44,14 +44,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_boundsWorkingArea = _gdScreen.VAdapterGame.VirtualTotalBoundingBox.AsDeflated(0, 4 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH, 0);
 
 			_boundsMap = FRectangle.CreateByTopLeft(
-				_boundsWorkingArea.X + _gdScreen.MapOffsetX,
-				_boundsWorkingArea.Y + _gdScreen.MapOffsetY,
+				_gdScreen.MapOffsetX,
+				_gdScreen.MapOffsetY,
 				_gdScreen.LevelData.Width * GDConstants.TILE_WIDTH,
 				_gdScreen.LevelData.Height * GDConstants.TILE_WIDTH);
 
 			if (_isDragging)
 			{
-				if (istate.IsRealDown)
+				if (_gdScreen.Mode==LevelEditorMode.Mouse && istate.IsRealDown)
 				{
 					UpdateDrag(gameTime, istate);
 				}
@@ -62,7 +62,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			}
 			else
 			{
-				if (istate.IsExclusiveJustDown)
+				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsExclusiveJustDown)
 				{
 					istate.Swallow(InputConsumer.GameBackground);
 					StartDrag(istate);

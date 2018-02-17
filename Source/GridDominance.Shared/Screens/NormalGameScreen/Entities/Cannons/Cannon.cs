@@ -32,9 +32,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 	{
 		protected const float ROTATION_SPEED = FloatMath.TAU / 2; // 3.141 rad/sec
 		protected const float HEALTH_PROGRESS_SPEED = 1f; // min 1sec for 360°
-		protected const float BASE_COG_ROTATION_SPEED = FloatMath.TAU / 3; // 2.1 rad/sec
+		public    const float BASE_COG_ROTATION_SPEED = FloatMath.TAU / 3; // 2.1 rad/sec
 		protected const float BARREL_RECOIL_SPEED = 4; // 250ms for full recovery (on normal boost and normal fraction mult)
-		protected const float BARREL_RECOIL_LENGTH = 32;
+		public    const float BARREL_RECOIL_LENGTH = 32;
 		protected const float TRISHOT_BARREL_ANGLE = FloatMath.RAD_POS_030;
 
 		protected const float CORE_PULSE_FREQ = 2f;

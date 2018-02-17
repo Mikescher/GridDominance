@@ -1,6 +1,10 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System;
+using System.Linq;
+using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Leveleditor.Entities;
 using GridDominance.Shared.Screens.Leveleditor.HUD;
 using GridDominance.Shared.Screens.NormalGameScreen.Agents;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
@@ -8,6 +12,7 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -23,6 +28,8 @@ namespace GridDominance.Shared.Screens.Leveleditor
 
 		public readonly SCCMLevelData LevelData;
 		public LevelEditorMode Mode = LevelEditorMode.Mouse;
+
+		public ILeveleditorStub Selection = null;
 
 		public LevelEditorScreen(MonoSAMGame game, GraphicsDeviceManager gdm, SCCMLevelData dat) : base(game, gdm)
 		{
@@ -48,7 +55,13 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
 
+			var workingArea = VAdapterGame.VirtualTotalBoundingBox.AsDeflated(0, 4 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH, 0);
+
+			MapOffsetX = workingArea.Left;
+			MapOffsetY = workingArea.Top;
+
 			AddAgent(new LeveleditorDragAgent());
+			AddAgent(new LeveleditorInsertAgent());
 
 			//
 		}
@@ -80,5 +93,57 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			//
 		}
 
+		public CannonStub TryInsertCannonStub(FPoint center)
+		{
+			if (center.X <= 0) return null;
+			if (center.Y <= 0) return null;
+			if (center.X >= LevelData.Width * GDConstants.TILE_WIDTH) return null;
+			if (center.Y >= LevelData.Height * GDConstants.TILE_WIDTH) return null;
+
+			var s1 = TryInsertCannonStub(center, CannonStub.SCALES[3]);
+			if (s1 != null) return s1;
+
+			var s2 = TryInsertCannonStub(center, CannonStub.SCALES[2]);
+			if (s2 != null) return s2;
+
+			var s3 = TryInsertCannonStub(center, CannonStub.SCALES[1]);
+			if (s3 != null) return s3;
+
+			var s4 = TryInsertCannonStub(center, CannonStub.SCALES[0]);
+			if (s4 != null) return s4;
+
+			return null;
+		}
+
+		public CannonStub TryInsertCannonStub(FPoint center, float scale)
+		{
+			CannonStub s = new CannonStub(this, center, scale);
+
+			foreach (var stub in GetEntities<CannonStub>().Where(stub => stub.Alive))
+			{
+				if (stub.CollidesWith(s)) return null;
+			}
+
+			Entities.AddEntity(s);
+			return s;
+		}
+
+		public void SetMode(LevelEditorMode m)
+		{
+			Mode = m;
+			switch (m)
+			{
+				case LevelEditorMode.Mouse:        GDHUD.ModePanel.SetActiveButton(GDHUD.ModePanel.BtnMouse);    break;
+				case LevelEditorMode.AddCannon:    GDHUD.ModePanel.SetActiveButton(GDHUD.ModePanel.BtnCannon);   break;
+				case LevelEditorMode.AddWall:      GDHUD.ModePanel.SetActiveButton(GDHUD.ModePanel.BtnWall);     break;
+				case LevelEditorMode.AddObstacle:  GDHUD.ModePanel.SetActiveButton(GDHUD.ModePanel.BtnObstacle); break;
+				default: SAMLog.Error("LES::EnumSwitch_TICS", "Mode = " + m); break;
+			}
+		}
+
+		public void SelectStub(ILeveleditorStub stub)
+		{
+			Selection = stub;
+		}
 	}
 }
