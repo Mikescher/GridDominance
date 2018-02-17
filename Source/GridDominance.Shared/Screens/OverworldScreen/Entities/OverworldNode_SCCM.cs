@@ -1,49 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
-using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.GameMath.Tetromino;
 using MonoSAMFramework.Portable.Language;
-using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-// ReSharper disable HeuristicUnreachableCode
-#pragma warning disable 162
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 {
 	public class OverworldNode_SCCM : OverworldNode
 	{
-
 		public override bool IsNodeEnabled => true;
 
 		private readonly WorldUnlockState _ustate;
 
-		public List<MutableTuple<FRectangle, Color>> Blocks = new List<MutableTuple<FRectangle, Color>>();
+		public readonly List<MutableTuple<FRectangle, Color>> Blocks = new List<MutableTuple<FRectangle, Color>>();
 
 		public FRectangle NonTranslatedBounds = FRectangle.CreateByCenter(FPoint.Zero, new FSize(INNERSIZE, INNERSIZE));
 
 		public OverworldNode_SCCM(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_ONLINE, Levels.WORLD_ID_ONLINE)
 		{
-			Blocks.Add(new MutableTuple<FRectangle, Color>(new FRectangle(
-				NonTranslatedBounds.X,
-				NonTranslatedBounds.Bottom - (NonTranslatedBounds.Width / 5f),
-				NonTranslatedBounds.Width / 5f,
-				NonTranslatedBounds.Width / 5f
-			), Color.White));
-
+			AddOperationDelayed(new TetrisInitialOperation(0.50f), 0.75f);
 			AddOperation(new CyclicSequenceOperation<OverworldNode_SCCM>(
 				new SleepOperation<OverworldNode_SCCM>(1.50f),
 				new TetrisFillOperation(5.50f),
@@ -53,11 +39,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				new TetrisShrinkOperation(2.50f)));
 
 			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, false);
-		}
-
-		protected override void OnUpdate(SAMTime gameTime, InputState istate)
-		{
-			base.OnUpdate(gameTime, istate);
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)

@@ -11,6 +11,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
@@ -76,6 +77,34 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				i++;
 			}
 
+			AddElement(new HUDTextButton
+			{
+				RelativePosition = new FPoint(32, 32),
+				Size = new FSize(192, 64),
+				Alignment = HUDAlignment.BOTTOMRIGHT,
+
+				L10NText = L10NImpl.STR_LVLED_BTN_DEL,
+				TextColor = Color.White,
+				Font = Textures.HUDFontRegular,
+				FontSize = 48,
+				TextAlignment = HUDAlignment.CENTER,
+				TextPadding = 8,
+
+				Click = DeleteSelected,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Pomegranate, Color.Black, HUD.PixelWidth),
+				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Alizarin, Color.Black, HUD.PixelWidth),
+			});
+
+		}
+
+		private void DeleteSelected(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			if (GDScreen.Selection is GameEntity ge)
+			{
+				ge.Alive = false;
+				GDScreen.SelectStub(null);
+			}
 		}
 	}
 }
