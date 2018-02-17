@@ -210,6 +210,11 @@ namespace MonoSAMFramework.Portable
 			a.InitUnchecked(this);
 		}
 
+		public IEnumerable<IUpdateOperation> GetAllAgents()
+		{
+			return agents;
+		}
+
 		public IEnumerable<T> GetAgents<T>()
 		{
 			return agents.OfType<T>();

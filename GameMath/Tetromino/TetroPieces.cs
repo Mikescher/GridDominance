@@ -37,6 +37,6 @@ namespace MonoSAMFramework.Portable.GameMath.Tetromino
 			LETTER_J1,LETTER_J2,LETTER_J3,LETTER_J4,
 		};
 
-		public static Dictionary<string, TetroPiece> PIECES = ALPHABET.ToDictionary(l => l.Name, l => l);
+		public static readonly Dictionary<string, TetroPiece> PIECES = ALPHABET.ToDictionary(l => l.Name, l => l);
 	}
 }
