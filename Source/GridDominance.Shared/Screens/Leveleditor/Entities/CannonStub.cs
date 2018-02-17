@@ -19,21 +19,23 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		public enum CannonStubFraction { N0=0, P1=1, A2=2, A3=3, A4=4 }
 		public static readonly float[] SCALES = { 0.500f, 0.750f, 1.125f, 1.500f, 1.875f, 2.500f, 3.000f };
 
-		private FPoint _position;
+		private LevelEditorScreen GDOwner => (LevelEditorScreen) Owner;
+
+		public FPoint CannonPosition;
 		private FSize _boundingBox;
 		public float Scale = 1f;
 		public float Rotation = 0f;
 		public CannonStubType CannonType = CannonStubType.Bullet;
 		public CannonStubFraction CannonFrac = CannonStubFraction.N0;
 
-		public override FPoint Position => _position;
+		public override FPoint Position => CannonPosition;
 		public override FSize DrawingBoundingBox => new FSize(Cannon.CANNON_OUTER_DIAMETER * Scale, Cannon.CANNON_OUTER_DIAMETER * Scale);
 
 		public override Color DebugIdentColor => Color.Red;
 
 		public CannonStub(GameScreen scrn, FPoint pos, float scale) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
-			_position = pos;
+			CannonPosition = pos;
 		}
 
 		public override void OnInitialize(EntityManager manager) { }
@@ -42,6 +44,8 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
+			if (GDOwner.Selection == this) sbatch.DrawCentered(Textures.TexPixel, Position, Cannon.CANNON_OUTER_DIAMETER * Scale, Cannon.CANNON_OUTER_DIAMETER * Scale, Color.Black*0.333f);
+
 			switch (CannonType)
 			{
 				case CannonStubType.Bullet:
@@ -100,7 +104,6 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		public bool CollidesWith(CannonStub other)
 		{
-			
 			var minD = FloatMath.Max(this.Scale, other.Scale) * Cannon.CANNON_OUTER_DIAMETER/2 + FloatMath.Min(this.Scale, other.Scale) * Cannon.CANNON_DIAMETER / 2;
 
 			return (Position - other.Position).LengthSquared() < minD * minD;
@@ -109,6 +112,13 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		public void Kill()
 		{
 			Remove();
+		}
+
+		public bool IsClicked(FPoint ptr)
+		{
+			var minD = this.Scale * Cannon.CANNON_DIAMETER / 2;
+
+			return (Position - ptr).LengthSquared() < minD * minD;
 		}
 	}
 }

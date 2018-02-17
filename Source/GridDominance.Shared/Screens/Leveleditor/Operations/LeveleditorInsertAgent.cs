@@ -20,7 +20,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 		public override string Name => "LeveleditorInsertAgent";
 
-		private bool _isDragging = false;
 		private ILeveleditorStub _preview = null;
 
 		public LeveleditorInsertAgent()
@@ -39,40 +38,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			var x = raster * FloatMath.Round(istate.GamePointerPositionOnMap.X / raster);
 			var y = raster * FloatMath.Round(istate.GamePointerPositionOnMap.Y / raster);
 
-			if (_gdScreen.Mode == LevelEditorMode.AddCannon)
+			if (_gdScreen.Mode == LevelEditorMode.AddCannon && istate.IsExclusiveJustDown)
 			{
-				if (istate.IsExclusiveJustDown)
+				istate.Swallow(InputConsumer.GameBackground);
+
+				var stub = _gdScreen.CanInsertCannonStub(new FPoint(x, y), null);
+				if (stub != null)
 				{
-					istate.Swallow(InputConsumer.GameBackground);
-
-					var stub = _gdScreen.TryInsertCannonStub(new FPoint(x, y));
-					if (stub != null) { _preview = stub; _isDragging = true; }
+					_preview = stub;
+					_gdScreen.Entities.AddEntity(stub);
+					_gdScreen.SelectStub(_preview);
+					_gdScreen.DragAgent.ManualStartCannonDrag(istate);
 				}
-				else if (istate.IsRealDown && _isDragging)
-				{
-					if (_preview != null) { _preview.Kill(); _preview = null; }
-
-					var stub = _gdScreen.TryInsertCannonStub(new FPoint(x, y));
-					if (stub != null) _preview = stub;
-				}
-				else if (istate.IsExclusiveJustUp && _isDragging)
-				{
-					istate.Swallow(InputConsumer.GameBackground);
-
-					if (_preview != null)
-					{
-						_gdScreen.SetMode(LevelEditorMode.Mouse);
-						_gdScreen.SelectStub(_preview);
-					}
-
-					_preview = null;
-					_isDragging = false;
-				}
-				else
-				{
-					_isDragging = false;
-				}
-
 			}
 		}
 	}

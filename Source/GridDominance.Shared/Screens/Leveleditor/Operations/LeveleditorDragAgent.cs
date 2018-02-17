@@ -1,5 +1,7 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System.Linq;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Leveleditor;
+using GridDominance.Shared.Screens.Leveleditor.Entities;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
@@ -16,7 +18,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 	{
 		private const float RETURN_SPEED = 48 * GDConstants.TILE_WIDTH;
 
-		private bool _isDragging = false;
+		private enum DMode { Nothing, MapDrag, CannonMove }
+
+		private DMode _dragMode = DMode.Nothing;
 
 		private FPoint _mouseStartPos;
 		private FPoint _startOffset;
@@ -41,6 +45,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 		protected override void OnUpdate(LevelEditorScreen screen, SAMTime gameTime, InputState istate)
 		{
+			const float raster = (GDConstants.TILE_WIDTH / 2f);
+			var rx = raster * FloatMath.Round(istate.GamePointerPositionOnMap.X / raster);
+			var ry = raster * FloatMath.Round(istate.GamePointerPositionOnMap.Y / raster);
+
 			_boundsWorkingArea = _gdScreen.VAdapterGame.VirtualTotalBoundingBox.AsDeflated(0, 4 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH, 0);
 
 			_boundsMap = FRectangle.CreateByTopLeft(
@@ -49,49 +57,67 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 				_gdScreen.LevelData.Width * GDConstants.TILE_WIDTH,
 				_gdScreen.LevelData.Height * GDConstants.TILE_WIDTH);
 
-			if (_isDragging)
+			if (_dragMode == DMode.MapDrag)
 			{
 				if (_gdScreen.Mode==LevelEditorMode.Mouse && istate.IsRealDown)
 				{
-					UpdateDrag(gameTime, istate);
+					var delta = istate.GamePointerPosition - _mouseStartPos;
+					_gdScreen.MapOffsetX = _startOffset.X + delta.X;
+					_gdScreen.MapOffsetY = _startOffset.Y + delta.Y;
+					_oobForce = CalculateOOB();
 				}
 				else
 				{
-					EndDrag(gameTime, istate);
+					_oobForce = CalculateOOB();
+					_dragMode = DMode.Nothing;
 				}
 			}
-			else
+			else if (_dragMode == DMode.CannonMove)
+			{
+				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsRealDown && _gdScreen.Selection is CannonStub cs)
+				{
+					var ins = _gdScreen.CanInsertCannonStub(new FPoint(rx, ry), cs);
+					if (ins != null)
+					{
+						cs.CannonPosition = ins.Position;
+					}
+				}
+				else
+				{
+					_dragMode = DMode.Nothing;
+				}
+			}
+			else if (_dragMode == DMode.Nothing)
 			{
 				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsExclusiveJustDown)
 				{
-					istate.Swallow(InputConsumer.GameBackground);
-					StartDrag(istate);
-				}
-				else if (!_oobForce.IsZero())
-				{
-					UpdateRestDrag(gameTime);
+					var clickedCannon = _gdScreen.GetEntities<CannonStub>().FirstOrDefault(s => s.IsClicked(istate.GamePointerPositionOnMap));
+					if (clickedCannon != null)
+					{
+						istate.Swallow(InputConsumer.GameBackground);
+						_gdScreen.SelectStub(clickedCannon);
+						_mouseStartPos = istate.GamePointerPosition;
+						_startOffset = _gdScreen.MapOffset;
+						_dragMode = DMode.CannonMove;
+					}
+					else
+					{
+						istate.Swallow(InputConsumer.GameBackground);
+						_gdScreen.SelectStub(null);
+						_mouseStartPos = istate.GamePointerPosition;
+						_startOffset = _gdScreen.MapOffset;
+						_dragMode = DMode.MapDrag;
+					}
+
 				}
 			}
+
+			if (!_oobForce.IsZero() && _dragMode != DMode.MapDrag)
+			{
+				UpdateMapRestDrag(gameTime);
+			}
 		}
-
-		private void StartDrag(InputState istate)
-		{
-			_mouseStartPos = istate.GamePointerPosition;
-			_startOffset = _gdScreen.MapOffset;
-
-			_isDragging = true;
-		}
-
-		private void UpdateDrag(SAMTime gameTime, InputState istate)
-		{
-			var delta = istate.GamePointerPosition - _mouseStartPos;
-
-			_gdScreen.MapOffsetX = _startOffset.X + delta.X;
-			_gdScreen.MapOffsetY = _startOffset.Y + delta.Y;
-
-			_oobForce = CalculateOOB();
-		}
-
+		
 		private DVector CalculateOOB()
 		{
 			var v2 = new DVector();
@@ -104,7 +130,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			return v2;
 		}
 
-		private void UpdateRestDrag(SAMTime gameTime)
+		private void UpdateMapRestDrag(SAMTime gameTime)
 		{
 			_gdScreen.MapOffsetX += _oobForce.X * RETURN_SPEED * gameTime.ElapsedSeconds;
 			_gdScreen.MapOffsetY += _oobForce.Y * RETURN_SPEED * gameTime.ElapsedSeconds;
@@ -135,11 +161,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_oobForce = next;
 		}
 
-		private void EndDrag(SAMTime gameTime, InputState istate)
+		public void ManualStartCannonDrag(InputState istate)
 		{
-			_oobForce = CalculateOOB();
-
-			_isDragging = false;
+			_gdScreen.SetMode(LevelEditorMode.Mouse);
+			_mouseStartPos = istate.GamePointerPosition;
+			_startOffset = _gdScreen.MapOffset;
+			_dragMode = DMode.CannonMove;
 		}
 	}
 }

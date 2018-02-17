@@ -48,6 +48,9 @@ namespace GridDominance.Shared.Screens.Leveleditor
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, 1, 1);
 		protected override float GetBaseTextureScale() => Textures.DEFAULT_TEXTURE_SCALE_F;
 
+		public LeveleditorDragAgent DragAgent;
+		public LeveleditorInsertAgent InsertAgent;
+
 		private void Initialize()
 		{
 #if DEBUG
@@ -60,8 +63,8 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			MapOffsetX = workingArea.Left;
 			MapOffsetY = workingArea.Top;
 
-			AddAgent(new LeveleditorDragAgent());
-			AddAgent(new LeveleditorInsertAgent());
+			AddAgent(DragAgent = new LeveleditorDragAgent());
+			AddAgent(InsertAgent = new LeveleditorInsertAgent());
 
 			//
 		}
@@ -93,38 +96,37 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			//
 		}
 
-		public CannonStub TryInsertCannonStub(FPoint center)
+		public CannonStub CanInsertCannonStub(FPoint center, ILeveleditorStub ign)
 		{
 			if (center.X <= 0) return null;
 			if (center.Y <= 0) return null;
 			if (center.X >= LevelData.Width * GDConstants.TILE_WIDTH) return null;
 			if (center.Y >= LevelData.Height * GDConstants.TILE_WIDTH) return null;
 
-			var s1 = TryInsertCannonStub(center, CannonStub.SCALES[3]);
+			var s1 = CanInsertCannonStub(center, CannonStub.SCALES[3], ign);
 			if (s1 != null) return s1;
 
-			var s2 = TryInsertCannonStub(center, CannonStub.SCALES[2]);
+			var s2 = CanInsertCannonStub(center, CannonStub.SCALES[2], ign);
 			if (s2 != null) return s2;
 
-			var s3 = TryInsertCannonStub(center, CannonStub.SCALES[1]);
+			var s3 = CanInsertCannonStub(center, CannonStub.SCALES[1], ign);
 			if (s3 != null) return s3;
 
-			var s4 = TryInsertCannonStub(center, CannonStub.SCALES[0]);
+			var s4 = CanInsertCannonStub(center, CannonStub.SCALES[0], ign);
 			if (s4 != null) return s4;
 
 			return null;
 		}
 
-		public CannonStub TryInsertCannonStub(FPoint center, float scale)
+		public CannonStub CanInsertCannonStub(FPoint center, float scale, ILeveleditorStub ign)
 		{
 			CannonStub s = new CannonStub(this, center, scale);
 
-			foreach (var stub in GetEntities<CannonStub>().Where(stub => stub.Alive))
+			foreach (var stub in GetEntities<CannonStub>().Where(stub => stub.Alive && stub != ign))
 			{
 				if (stub.CollidesWith(s)) return null;
 			}
 
-			Entities.AddEntity(s);
 			return s;
 		}
 
