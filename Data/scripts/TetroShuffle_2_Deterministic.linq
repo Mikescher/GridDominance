@@ -37,7 +37,7 @@ void Main()
 
 	CreateNext(new TetroField(), 0);
 
-	File.WriteAllText(PATH_OUT, string.Join("\n", soloCount.Select(p => $"{p.Key}\t{p.Value}")));
+	File.WriteAllText(PATH_OUT, string.Join("\n", soloCount.OrderByDescending(p => p.Value.Count).Select(p => $"{p.Value.Index,5}\t{p.Key}\t{p.Value.Count}")));
 }
 
 void RegisterSolution(TetroField f)
