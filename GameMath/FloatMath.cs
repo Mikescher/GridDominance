@@ -240,6 +240,36 @@ namespace MonoSAMFramework.Portable.GameMath
 			return valTail.Aggregate(val1, Max);
 		}
 
+		public static int Min(int val1, int val2)
+		{
+			if (val1 < val2) return val1; else return val2;
+		}
+
+		public static int Min(int val1, int val2, int val3)
+		{
+			return Min(val1, Min(val2, val3));
+		}
+
+		public static int Min(int val1, params int[] valTail)
+		{
+			return valTail.Aggregate(val1, Min);
+		}
+
+		public static int Max(int val1, int val2)
+		{
+			if (val1 > val2) return val1; else return val2;
+		}
+
+		public static int Max(int val1, int val2, int val3)
+		{
+			return Max(val1, Max(val2, val3));
+		}
+
+		public static int Max(int val1, params int[] valTail)
+		{
+			return valTail.Aggregate(val1, Max);
+		}
+
 		public static float Clamp(float value, float min, float max)
 		{
 			if (value < min) return min;
