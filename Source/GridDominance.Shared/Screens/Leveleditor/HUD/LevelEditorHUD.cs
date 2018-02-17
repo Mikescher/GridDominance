@@ -12,6 +12,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD
 		public LevelEditorHUD(GameScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(new LevelEditorModePanel());
+			AddElement(new LevelEditorAttrPanel());
 		}
 
 #if DEBUG

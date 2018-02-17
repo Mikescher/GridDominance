@@ -174,10 +174,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public void ZoomOut()
 		{
 			if (ZoomState == BistateProgress.Expanding || ZoomState == BistateProgress.Expanded) return;
-			if (GetAgents<ZoomOutAgent>().Any()) return;
-			if (GetAgents<ZoomInAgent>().Any()) return;
+			if (GetAgents<ZoomOutOperation>().Any()) return;
+			if (GetAgents<ZoomInOperation>().Any()) return;
 
-			AddAgent(new ZoomOutAgent());
+			AddAgent(new ZoomOutOperation());
 
 			GDHUD.SelectedNode?.CloseNode();
 		}
@@ -185,8 +185,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		public void ZoomInstantOut()
 		{
 			if (ZoomState == BistateProgress.Expanding || ZoomState == BistateProgress.Expanded) return;
-			if (GetAgents<ZoomOutAgent>().Any()) return;
-			if (GetAgents<ZoomInAgent>().Any()) return;
+			if (GetAgents<ZoomOutOperation>().Any()) return;
+			if (GetAgents<ZoomInOperation>().Any()) return;
 
 			ZoomState = BistateProgress.Expanded;
 			GDBackground.GridLineAlpha = 0f;
@@ -202,10 +202,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		private void ZoomIn(FPoint mapPosCenter)
 		{
 			if (ZoomState == BistateProgress.Reverting || ZoomState == BistateProgress.Normal) return;
-			if (GetAgents<ZoomOutAgent>().Any()) return;
-			if (GetAgents<ZoomInAgent>().Any()) return;
+			if (GetAgents<ZoomOutOperation>().Any()) return;
+			if (GetAgents<ZoomInOperation>().Any()) return;
 
-			AddAgent(new ZoomInAgent(mapPosCenter));
+			AddAgent(new ZoomInOperation(mapPosCenter));
 		}
 
 		public override void Resize(int width, int height)

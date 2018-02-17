@@ -1,5 +1,7 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Leveleditor.HUD;
+using GridDominance.Shared.Screens.NormalGameScreen.Agents;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -16,11 +18,16 @@ namespace GridDominance.Shared.Screens.Leveleditor
 {
 	class LevelEditorScreen : GameScreen
 	{
-		public const int VIEW_WIDTH  = (16+4) * GDConstants.TILE_WIDTH;
-		public const int VIEW_HEIGHT = (10+4) * GDConstants.TILE_WIDTH;
+		public const int VIEW_WIDTH  = (16+4+1) * GDConstants.TILE_WIDTH;
+		public const int VIEW_HEIGHT = (10+4+1) * GDConstants.TILE_WIDTH;
 
-		public LevelEditorScreen(MonoSAMGame game, GraphicsDeviceManager gdm) : base(game, gdm)
+		public readonly SCCMLevelData LevelData;
+		public LevelEditorMode Mode = LevelEditorMode.Mouse;
+
+		public LevelEditorScreen(MonoSAMGame game, GraphicsDeviceManager gdm, SCCMLevelData dat) : base(game, gdm)
 		{
+			LevelData = dat;
+
 			Initialize();
 		}
 
@@ -28,7 +35,7 @@ namespace GridDominance.Shared.Screens.Leveleditor
 
 		protected override EntityManager CreateEntityManager() => new LevelEditorEntityManager(this);
 		protected override GameHUD CreateHUD() => new LevelEditorHUD(this);
-		protected override GameBackground CreateBackground() => new SolidColorBackground(this, Color.DarkMagenta);
+		protected override GameBackground CreateBackground() => new LevelEditorBackground(this);
 		protected override SAMViewportAdapter CreateViewport() => new TolerantBoxingViewportAdapter(Game.Window, Graphics, VIEW_WIDTH, VIEW_HEIGHT);
 		protected override DebugMinimap CreateDebugMinimap() => new StandardDebugMinimapImplementation(this, 192, 32);
 		protected override FRectangle CreateMapFullBounds() => new FRectangle(0, 0, 1, 1);
@@ -40,6 +47,8 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			DebugUtils.CreateShortcuts(this);
 			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
+
+			AddAgent(new LeveleditorDragAgent());
 
 			//
 		}

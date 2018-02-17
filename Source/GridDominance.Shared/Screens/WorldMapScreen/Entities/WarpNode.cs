@@ -107,12 +107,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 
 			if (UnlockManager.IsUnlocked(Blueprint.TargetWorld, true) == WorldUnlockState.OpenAndUnlocked)
 			{
-				Owner.AddAgent(new LeaveTransitionWorldMapAgent(GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
+				Owner.AddAgent(new LeaveTransitionWorldMapOperation(GDOwner.ZoomState == BistateProgress.Expanded, this, Target));
 				MainGame.Inst.GDSound.PlayEffectZoomOut();
 			}
 			else
 			{
-				Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner.ZoomState == BistateProgress.Expanded));
+				Owner.AddAgent(new LeaveTransitionOverworldOperation(GDOwner.ZoomState == BistateProgress.Expanded));
 				MainGame.Inst.GDSound.PlayEffectZoomOut();
 			}
 		}

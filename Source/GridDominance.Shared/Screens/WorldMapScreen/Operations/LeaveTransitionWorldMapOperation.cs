@@ -9,7 +9,7 @@ using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class LeaveTransitionWorldMapAgent : DecayOperation<GDWorldMapScreen>
+	public class LeaveTransitionWorldMapOperation : DecayOperation<GDWorldMapScreen>
 	{
 		private const float DURATION      = 1.00f; // sec
 		private const float DURATION_SLOW = 1.60f; // sec
@@ -24,7 +24,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		public override string Name => "LeaveTransitionWorldMap";
 
-		public LeaveTransitionWorldMapAgent(bool slower, WarpNode node, GraphBlueprint target) : base(slower ? DURATION_SLOW : DURATION)
+		public LeaveTransitionWorldMapOperation(bool slower, WarpNode node, GraphBlueprint target) : base(slower ? DURATION_SLOW : DURATION)
 		{
 			_node = node;
 			_target = target;

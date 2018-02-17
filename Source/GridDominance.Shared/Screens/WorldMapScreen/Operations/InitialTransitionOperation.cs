@@ -1,4 +1,4 @@
-﻿using GridDominance.Shared.Screens.WorldMapScreen.Entities;
+﻿using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -8,32 +8,30 @@ using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class LeaveTransitionGameEndAgent : DecayOperation<GDWorldMapScreen>
+	public class InitialTransitionOperation : DecayOperation<GDWorldMapScreen>
 	{
-		private const float DURATION      = 1.00f; // sec
-		private const float DURATION_SLOW = 1.60f; // sec
+		private const float DURATION = 1.0f; // sec
 
 		private SAMViewportAdapter vp;
 
 		private FRectangle rectStart;
 		private FRectangle rectFinal;
 
-		private readonly WarpGameEndNode _node;
+		public override string Name => "InitialTransition";
 
-		public override string Name => "LeaveTransitionGameEnd";
-
-		public LeaveTransitionGameEndAgent(bool slower, WarpGameEndNode node) : base(slower ? DURATION_SLOW : DURATION)
+		public InitialTransitionOperation() : base(DURATION)
 		{
-			_node = node;
 		}
 
 		protected override void OnInit(GDWorldMapScreen screen)
 		{
 			vp = screen.VAdapterGame;
 
-			rectStart = screen.GuaranteedMapViewport;
+			rectStart = screen.Graph.BoundingViewport;
 
-			rectFinal = _node.DrawingBoundingRect.AsResized(0.5f, 0.5f);
+			var pos = screen.GetInitialNode().Position;
+
+			rectFinal = FRectangle.CreateByCenter(pos, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		}
 
 		protected override void OnStart(GDWorldMapScreen screen)
@@ -44,7 +42,9 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			screen.MapViewportCenterX = bounds.CenterX;
 			screen.MapViewportCenterY = bounds.CenterY;
 
-			screen.ColorOverdraw = 0f;
+			screen.ZoomState = BistateProgress.Reverting;
+
+			screen.ColorOverdraw = 1f;
 		}
 
 		protected override void OnDecayProgress(GDWorldMapScreen screen, float perc, SAMTime gameTime, InputState istate)
@@ -55,14 +55,14 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			screen.MapViewportCenterX = bounds.CenterX;
 			screen.MapViewportCenterY = bounds.CenterY;
 
-			_node.ColorOverdraw = perc;
+			screen.ColorOverdraw = FloatMath.FunctionEaseOutExpo(1 - perc, 10);
 		}
 
 		protected override void OnEnd(GDWorldMapScreen screen)
 		{
-			_node.ColorOverdraw = 1f;
+			screen.ZoomState = BistateProgress.Normal;
 
-			MainGame.Inst.SetGameEndScreen();
+			screen.ColorOverdraw = 0f;
 		}
 
 		protected override void OnAbort(GDWorldMapScreen owner)

@@ -88,7 +88,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 		{
 			if (GDOwner.ZoomState != BistateProgress.Normal && GDOwner.ZoomState != BistateProgress.Expanded) return;
 
-			Owner.AddAgent(new LeaveTransitionOverworldAgent(GDOwner.ZoomState == BistateProgress.Expanded));
+			Owner.AddAgent(new LeaveTransitionOverworldOperation(GDOwner.ZoomState == BistateProgress.Expanded));
 			MainGame.Inst.GDSound.PlayEffectZoomOut();
 		}
 

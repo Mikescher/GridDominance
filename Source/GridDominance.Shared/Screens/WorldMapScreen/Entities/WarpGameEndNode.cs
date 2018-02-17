@@ -102,7 +102,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 				return;
 			}
 
-			Owner.AddAgent(new LeaveTransitionGameEndAgent(GDOwner.ZoomState == BistateProgress.Expanded, this));
+			Owner.AddAgent(new LeaveTransitionGameEndOperation(GDOwner.ZoomState == BistateProgress.Expanded, this));
 			MainGame.Inst.GDSound.PlayEffectZoomOut();
 		}
 

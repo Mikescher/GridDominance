@@ -10,7 +10,7 @@ using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class TransitionZoomInToTutorialAgent : DecayOperation<GDOverworldScreen>
+	public class TransitionZoomInToTutorialOperation : DecayOperation<GDOverworldScreen>
 	{
 		private const float DURATION = 0.5f; // sec
 
@@ -23,7 +23,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		public override string Name => "TransitionZoomInToTutorial";
 
-		public TransitionZoomInToTutorialAgent(OverworldNode_Tutorial node) : base(DURATION)
+		public TransitionZoomInToTutorialOperation(OverworldNode_Tutorial node) : base(DURATION)
 		{
 			_gdNode = node;
 		}

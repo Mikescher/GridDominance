@@ -7,18 +7,19 @@ using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class ZoomOutAgent : DecayOperation<GDWorldMapScreen>
+	public class LeaveTransitionOverworldOperation : DecayOperation<GDWorldMapScreen>
 	{
-		private const float DURATION = 1.0f; // sec
+		private const float DURATION      = 1.00f; // sec
+		private const float DURATION_FAST = 0.25f; // sec
 
 		private SAMViewportAdapter vp;
 
 		private FRectangle rectStart;
 		private FRectangle rectFinal;
 
-		public override string Name => "ZoomOut";
+		public override string Name => "LeaveTransitionOverworld";
 
-		public ZoomOutAgent() : base(DURATION)
+		public LeaveTransitionOverworldOperation(bool faster) : base(faster ? DURATION_FAST : DURATION)
 		{
 			//
 		}
@@ -28,34 +29,46 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			vp = screen.VAdapterGame;
 
 			rectStart = screen.GuaranteedMapViewport;
+
 			rectFinal = screen.Graph.BoundingViewport;
 		}
 
 		protected override void OnDecayProgress(GDWorldMapScreen screen, float perc, SAMTime gameTime, InputState istate)
 		{
-			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseInOutCubic(perc));
+			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseOutSine(perc));
 
 			vp.ChangeVirtualSize(bounds.Width, bounds.Height);
 			screen.MapViewportCenterX = bounds.CenterX;
 			screen.MapViewportCenterY = bounds.CenterY;
 
-			screen.GDBackground.GridLineAlpha = 1 - perc;
+			screen.ColorOverdraw = FloatMath.FunctionEaseOutExpo(perc, 10);
 		}
 
 		protected override void OnStart(GDWorldMapScreen screen)
 		{
+			var bounds = rectStart;
+
+			vp.ChangeVirtualSize(bounds.Width, bounds.Height);
+			screen.MapViewportCenterX = bounds.CenterX;
+			screen.MapViewportCenterY = bounds.CenterY;
+
 			screen.ZoomState = BistateProgress.Expanding;
-			screen.GDBackground.GridLineAlpha = 1f;
+
+			screen.ColorOverdraw = 0f;
 		}
 
 		protected override void OnEnd(GDWorldMapScreen screen)
 		{
 			screen.ZoomState = BistateProgress.Expanded;
-			screen.GDBackground.GridLineAlpha = 0f;
 
-			vp.ChangeVirtualSize(rectFinal.Width, rectFinal.Height);
-			screen.MapViewportCenterX = rectFinal.CenterX;
-			screen.MapViewportCenterY = rectFinal.CenterY;
+			screen.ColorOverdraw = 1f;
+
+			MainGame.Inst.SetOverworldScreenWithTransition(screen.GraphBlueprint);
+		}
+
+		protected override void OnAbort(GDWorldMapScreen owner)
+		{
+			OnEnd(owner);
 		}
 	}
 }

@@ -9,7 +9,7 @@ using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class ZoomInAgent : DecayOperation<GDWorldMapScreen>
+	public class ZoomInOperation : DecayOperation<GDWorldMapScreen>
 	{
 		private const float DURATION = 0.6f; // sec
 
@@ -22,7 +22,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 
 		public override string Name => "ZoomIn";
 
-		public ZoomInAgent(FPoint pos) : base( DURATION)
+		public ZoomInOperation(FPoint pos) : base( DURATION)
 		{
 			centerPos = pos;
 		}

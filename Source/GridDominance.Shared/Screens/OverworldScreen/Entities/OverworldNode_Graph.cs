@@ -239,7 +239,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 			ownr.IsTransitioning = true;
 
-			ownr.AddAgent(new TransitionZoomInAgent(this, Blueprint));
+			ownr.AddAgent(new TransitionZoomInOperation(this, Blueprint));
 
 			MainGame.Inst.GDSound.PlayEffectZoomIn();
 		}

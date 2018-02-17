@@ -26,6 +26,7 @@ using System.Text;
 using GridDominance.Shared.Screens.EndGameScreen;
 using GridDominance.Shared.Screens.Leveleditor;
 using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Localization;
@@ -197,7 +198,7 @@ namespace GridDominance.Shared
 		{
 			var screen = new GDWorldMapScreen(this, Graphics, g, null);
 			SetCurrentScreen(screen);
-			screen.AddAgent(new InitialTransitionAgent());
+			screen.AddAgent(new InitialTransitionOperation());
 			screen.ColorOverdraw = 1f;
 		}
 
@@ -238,7 +239,7 @@ namespace GridDominance.Shared
 			var screen = new GDOverworldScreen(this, Graphics);
 			SetCurrentScreen(screen);
 			screen.ScrollAgent.ScrollTo(bp);
-			screen.AddAgent(new ReappearTransitionAgent(bp));
+			screen.AddAgent(new ReappearTransitionOperation(bp));
 
 			screen.GDHUD.ScoreDisplay.FinishCounter();
 			screen.GDHUD.MPScoreDisplay.FinishCounter();
@@ -274,7 +275,7 @@ namespace GridDominance.Shared
 
 		public void SetLevelEditorScreen()
 		{
-			var scrn = new LevelEditorScreen(this, Graphics);
+			var scrn = new LevelEditorScreen(this, Graphics, new SCCMLevelData());
 			SetCurrentScreen(scrn);
 		}
 

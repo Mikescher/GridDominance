@@ -9,6 +9,7 @@
     <Import_RootNamespace>GridDominance.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SCCM\SCCMLevelData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DeviceBridge\IGDOperatingSystemBridge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalAgents\HighscoreAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
@@ -82,10 +83,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\HUD\GDGameEndHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\HUD\Elements\LevelEditorAttrPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\HUD\Elements\LevelEditorModePanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\HUD\LevelEditorHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\LevelEditorBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\LevelEditorEntityManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\LevelEditorMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\LevelEditorScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Operations\LeveleditorDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Operations\GameDragAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Operations\TutorialAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Background\GDEmptyGridBackground.cs" />
@@ -152,9 +157,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Physics\MarkerRefractionEdge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\EntityOperations\TetrisBlendOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\OverworldScrollAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\ReappearTransitionAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\TransitionZoomInToTutorialAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\TransitionZoomInAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\ReappearTransitionOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\TransitionZoomInToTutorialOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Operations\TransitionZoomInOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Background\OverworldBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\EntityOperations\TetrisShrinkOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\OverworldScreen\Entities\EntityOperations\TetrisFillOperation.cs" />
@@ -219,13 +224,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDSpeedSetButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDSpeedBaseButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\HUD\Elements\HUDPauseButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\InitialTransitionAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\LeaveTransitionWorldMapAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\LeaveTransitionGameEndAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\LeaveTransitionOverworldAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\InitialTransitionOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\LeaveTransitionWorldMapOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\LeaveTransitionGameEndOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\LeaveTransitionOverworldOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\WorldMapDragAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\ZoomInAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\ZoomOutAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\ZoomInOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Operations\ZoomOutOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Background\WorldMapBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\BlueprintAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\WorldMapScreen\Entities\BaseWorldNode.cs" />
