@@ -20,6 +20,7 @@ using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using System;
+using GridDominance.Shared.Screens.Common;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
@@ -78,76 +79,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			DrawBodyAndBarrel_BG(sbatch);
+			CommonCannonRenderer.DrawLaserCannon_BG(sbatch, Position, Scale, Rotation.ActualValue);
 		}
 
 		protected override void OnDrawOrderedForegroundLayer(IBatchRenderer sbatch)
 		{
 			DrawCrosshair(sbatch);
-			DrawBodyAndBarrel_FG(sbatch);
-			DrawCore(sbatch);
+
+			CommonCannonRenderer.DrawLaserCannon_FG(sbatch, Position, Scale, Rotation.ActualValue, Fraction.IsNeutral, CannonHealth.ActualValue, coreRotation, CorePulse.ActualValue, coreImage, Fraction.Color);
 
 			DrawShield(sbatch);
 		}
 
-		private void DrawBodyAndBarrel_BG(IBatchRenderer sbatch)
-		{
-			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f), 0).Rotate(Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexLaserBarrelShadow,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBodyShadow,
-				Position,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-		}
-
-		private void DrawBodyAndBarrel_FG(IBatchRenderer sbatch)
-		{
-			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f), 0).Rotate(Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexLaserBarrel,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBody,
-				Position,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-		}
-
-		private void DrawCore(IBatchRenderer sbatch)
-		{
-			sbatch.DrawScaled(
-				Textures.TexCannonCoreShadow[coreImage],
-				Position,
-				Scale * CorePulse.ActualValue,
-				Color.White,
-				coreRotation);
-
-			if (!Fraction.IsNeutral && CannonHealth.ActualValue > 0)
-			{
-				sbatch.DrawScaled(
-					Textures.TexCannonCore[coreImage],
-					Position,
-					Scale * CorePulse.ActualValue * FloatMath.Sqrt(CannonHealth.ActualValue),
-					Fraction.Color,
-					coreRotation);
-			}
-		}
-		
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 			controller.Update(gameTime, istate);

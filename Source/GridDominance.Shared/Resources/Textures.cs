@@ -282,6 +282,9 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D[] TexTitleNumber;
 
 		public static TextureRegion2D TexFractionBlob;
+		public static TextureRegion2D TexTriCircle;
+		public static TextureRegion2D TexMinigunIcon;
+		public static TextureRegion2D TexTriCog;
 
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
@@ -494,6 +497,9 @@ namespace GridDominance.Shared.Resources
 			TexIconNetworkVertex5 = AtlasTextures["network_vertex5"];
 
 			TexFractionBlob = AtlasTextures["fraction_blob"];
+			TexTriCircle    = AtlasTextures["tricircle"];
+			TexMinigunIcon  = AtlasTextures["minigunicon"];
+			TexTriCog       = AtlasTextures["tricog"];
 
 			HUDFontRegular      = content.Load<SpriteFont>("fonts/hudFontRegular");
 			HUDFontBold         = content.Load<SpriteFont>("fonts/hudFontBold");

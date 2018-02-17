@@ -19,6 +19,7 @@ using FarseerPhysics.Factories;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics;
+using GridDominance.Shared.Screens.Common;
 using MonoSAMFramework.Portable;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
@@ -180,14 +181,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			DrawBodyAndBarrel_BG(sbatch);
+			CommonCannonRenderer.DrawRelayCannon_BG(sbatch, Position, Scale, Rotation.ActualValue, barrelRecoil);
 		}
 
 		protected override void OnDrawOrderedForegroundLayer(IBatchRenderer sbatch)
 		{
 			DrawCrosshair(sbatch);
-			DrawBodyAndBarrel_FG(sbatch);
-			DrawCog(sbatch);
+
+			CommonCannonRenderer.DrawRelayCannon_FG(sbatch, Position, Scale, Rotation.ActualValue, barrelRecoil, Fraction.Color);
 
 			DrawShield(sbatch);
 
@@ -197,58 +198,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 #endif
 		}
 		
-		private void DrawBodyAndBarrel_BG(IBatchRenderer sbatch)
-		{
-			var recoil = (1 - barrelRecoil) * BARREL_RECOIL_LENGTH;
-
-			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBarrelShadow,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBodyShadow,
-				Position,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-		}
-
-		private void DrawBodyAndBarrel_FG(IBatchRenderer sbatch)
-		{
-			var recoil = (1 - barrelRecoil) * BARREL_RECOIL_LENGTH;
-
-			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBarrel,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBody,
-				Position,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-		}
-
-		private void DrawCog(IBatchRenderer sbatch)
-		{
-			sbatch.DrawCentered(
-				Textures.TexCircle,
-				Position,
-				Scale * CANNON_DIAMETER * 0.5f,
-				Scale * CANNON_DIAMETER * 0.5f,
-				Fraction.Color);
-		}
-
 		#endregion
 
 		#region Change State

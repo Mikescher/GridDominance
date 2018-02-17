@@ -1009,6 +1009,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "minigunicon.png",
+	"frame": {"x":424,"y":315,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "mirrorblock/mirror_corner.png",
 	"frame": {"x":304,"y":32,"w":9,"h":9},
 	"rotated": false,
@@ -1478,7 +1487,7 @@
 },
 {
 	"filename": "pokerchip.png",
-	"frame": {"x":424,"y":315,"w":32,"h":32},
+	"frame": {"x":434,"y":280,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -1595,7 +1604,7 @@
 },
 {
 	"filename": "shield/half_shieldlaser_flare.png",
-	"frame": {"x":434,"y":280,"w":32,"h":32},
+	"frame": {"x":462,"y":241,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -1613,7 +1622,7 @@
 },
 {
 	"filename": "shield/shieldlaser_flare.png",
-	"frame": {"x":462,"y":241,"w":32,"h":32},
+	"frame": {"x":469,"y":276,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -1738,8 +1747,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "tricircle.png",
+	"frame": {"x":469,"y":311,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tricog.png",
+	"frame": {"x":422,"y":388,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "tutorial.png",
-	"frame": {"x":469,"y":276,"w":32,"h":32},
+	"frame": {"x":444,"y":350,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -1874,7 +1901,7 @@
 },
 {
 	"filename": "vortex/vortex_circle_1.png",
-	"frame": {"x":469,"y":311,"w":32,"h":32},
+	"frame": {"x":450,"y":423,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -1897,6 +1924,6 @@
 	"format": "RGBA8888",
 	"size": {"w":512,"h":512},
 	"scale": "0.25",
-	"smartupdate": "$TexturePacker:SmartUpdate:7e5a4cdd0c2a64d108834e06ff5b8b37:26121b298c918640f1289211d73a0fb1:332da033e89742cb272fe0fb1b010c90$"
+	"smartupdate": "$TexturePacker:SmartUpdate:aec36fc65b8f3d27f6c4dc7c89b99662:46908e05f1aaa45362ff9d7b175a9866:332da033e89742cb272fe0fb1b010c90$"
 }
 }

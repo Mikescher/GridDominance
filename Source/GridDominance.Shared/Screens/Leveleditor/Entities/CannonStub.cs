@@ -6,7 +6,9 @@ using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath;
@@ -21,7 +23,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 {
 	class CannonStub : GameEntity, ILeveleditorStub
 	{
-		public enum CannonStubType { Bullet, Laser, Minigun, Relay, Shield, Trishot }
+		public enum CannonStubType { Bullet=0, Laser=1, Minigun=2, Relay=3, Shield=4, Trishot=5 }
 		public enum CannonStubFraction { N0=0, P1=1, A2=2, A3=3, A4=4 }
 		public static readonly float[] SCALES = { 0.500f, 0.750f, 1.125f, 1.500f, 1.875f, 2.500f, 3.000f };
 		public static readonly float[] ROTS =
@@ -32,19 +34,28 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			(3 * 4 + 0) * (FloatMath.TAU/16), (3 * 4 + 1) * (FloatMath.TAU/16), (3 * 4 + 2) * (FloatMath.TAU/16), (3 * 4 + 3) * (FloatMath.TAU/16),
 		};
 
-		public static string[] ROT_STR =
+		public static readonly string[] ROT_STR =
 		{
 			"E", "SEE", "SE", "SSE", "S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW", "N", "NNE", "NE", "NEE"
+		};
+
+		public readonly TextureRegion2D[] TypeTextures = new[]
+		{
+			Textures.CannonCog,
+			Textures.TexLaserFlare,
+			Textures.TexMinigunIcon,
+			Textures.TexCircle,
+			Textures.TexTriCircle,
+			Textures.TexTriCog,
 		};
 
 		private LevelEditorScreen GDOwner => (LevelEditorScreen) Owner;
 
 		public FPoint CannonPosition;
-		private FSize _boundingBox;
-		public float Scale = 1f;
-		public float Rotation = 0f;
-		public CannonStubType CannonType = CannonStubType.Bullet;
-		public CannonStubFraction CannonFrac = CannonStubFraction.N0;
+		public float Scale;
+		public float Rotation;
+		public CannonStubType CannonType;
+		public CannonStubFraction CannonFrac;
 
 		public override FPoint Position => CannonPosition;
 		public override FSize DrawingBoundingBox => new FSize(Cannon.CANNON_OUTER_DIAMETER * Scale, Cannon.CANNON_OUTER_DIAMETER * Scale);
@@ -55,6 +66,9 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		{
 			CannonPosition = pos;
 			Scale = scale;
+			Rotation = 0f;
+			CannonType = CannonStubType.Bullet;
+			CannonFrac = CannonStubFraction.N0;
 		}
 
 		public override void OnInitialize(EntityManager manager) { }
@@ -72,18 +86,23 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 					break;
 
 				case CannonStubType.Laser:
+					CommonCannonRenderer.DrawLaserCannon_BG(sbatch, Position, Scale, Rotation);
 					break;
 
 				case CannonStubType.Minigun:
+					CommonCannonRenderer.DrawMinigunCannon_BG(sbatch, Position, Scale, Rotation, 1);
 					break;
 
 				case CannonStubType.Relay:
+					CommonCannonRenderer.DrawRelayCannon_BG(sbatch, Position, Scale, Rotation, 1);
 					break;
 
 				case CannonStubType.Shield:
+					CommonCannonRenderer.DrawShieldCannon_BG(sbatch, Position, Scale, Rotation);
 					break;
 
 				case CannonStubType.Trishot:
+					CommonCannonRenderer.DrawTrishotCannon_BG(sbatch, Position, Scale, Rotation, 1);
 					break;
 
 				default:
@@ -97,22 +116,76 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			switch (CannonType)
 			{
 				case CannonStubType.Bullet:
-					CommonCannonRenderer.DrawBulletCannon_FG(sbatch, Position, Scale, Rotation, 1, Lifetime * Cannon.BASE_COG_ROTATION_SPEED, 1, Fraction.FRACTION_COLORS[(int)CannonFrac]);
+					CommonCannonRenderer.DrawBulletCannon_FG(
+						sbatch, 
+						Position, 
+						Scale, 
+						Rotation, 
+						1, 
+						Lifetime * Cannon.BASE_COG_ROTATION_SPEED, 
+						1, 
+						Fraction.FRACTION_COLORS[(int)CannonFrac]);
 					break;
 
 				case CannonStubType.Laser:
+					CommonCannonRenderer.DrawLaserCannon_FG(
+						sbatch, 
+						Position, 
+						Scale, 
+						Rotation, 
+						CannonFrac==CannonStubFraction.N0,
+						(CannonFrac == CannonStubFraction.N0 ? 0 : 1), 
+						0,
+						1 + FloatMath.Sin(Lifetime * Cannon.CORE_PULSE_FREQ) * Cannon.CORE_PULSE * (CannonFrac == CannonStubFraction.N0 ? 0 : 1),
+						0,
+						Fraction.FRACTION_COLORS[(int)CannonFrac]);
 					break;
 
 				case CannonStubType.Minigun:
+					CommonCannonRenderer.DrawMinigunCannon_FG(
+						sbatch,
+						Position,
+						Scale,
+						Rotation,
+						1,
+						Lifetime * Cannon.BASE_COG_ROTATION_SPEED,
+						(CannonFrac == CannonStubFraction.N0 ? 0 : 1),
+						Fraction.FRACTION_COLORS[(int)CannonFrac]);
 					break;
 
 				case CannonStubType.Relay:
+					CommonCannonRenderer.DrawRelayCannon_FG(
+						sbatch,
+						Position,
+						Scale,
+						Rotation,
+						1,
+						Fraction.FRACTION_COLORS[(int)CannonFrac]);
 					break;
 
 				case CannonStubType.Shield:
+					CommonCannonRenderer.DrawShieldCannon_FG(
+						sbatch,
+						Position,
+						Scale,
+						Rotation,
+						CannonFrac == CannonStubFraction.N0,
+						(CannonFrac == CannonStubFraction.N0 ? 0 : 1),
+						Lifetime * FloatMath.TAU * Cannon.SHIELD_SATELLITE_SPEED,
+						1,
+						Fraction.FRACTION_COLORS[(int)CannonFrac]);
 					break;
 
 				case CannonStubType.Trishot:
+					CommonCannonRenderer.DrawTrishotCannon_FG(
+						sbatch,
+						Position,
+						Scale,
+						Rotation,
+						1,
+						Lifetime * Cannon.BASE_COG_ROTATION_SPEED,
+						(CannonFrac == CannonStubFraction.N0 ? 0 : 1),
+						Fraction.FRACTION_COLORS[(int)CannonFrac]);
 					break;
 
 				default:
@@ -169,7 +242,21 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 					Text = () => ROT_STR[FloatMath.Max(0, ROTS.IndexOf(Rotation))],
 					TextColor = () => FlatColors.Foreground,
 				};
+
+				yield return new SingleAttrOption
+				{
+					Action = ChangeCannonType,
+					Description = L10NImpl.STR_LVLED_BTN_TYPE,
+					Icon = () => TypeTextures[(int)CannonType],
+					Text = () => null,
+					TextColor = () => FlatColors.Foreground,
+				};
 			}
+		}
+
+		private void ChangeCannonType()
+		{
+			CannonType = (CannonStubType)(((int)CannonType + 1) % 6);
 		}
 
 		private void ChangeRot()

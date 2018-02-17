@@ -375,6 +375,9 @@
             <key type="filename">level/shield/half_shieldlaser_flare.png</key>
             <key type="filename">level/shield/shieldlaser_flare.png</key>
             <key type="filename">level/vortex/vortex_circle_1.png</key>
+            <key type="filename">leveleditor/minigunicon.png</key>
+            <key type="filename">leveleditor/tricircle.png</key>
+            <key type="filename">leveleditor/tricog.png</key>
             <key type="filename">overworld/tutorial.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

@@ -20,6 +20,7 @@ using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using System;
+using GridDominance.Shared.Screens.Common;
 using MonoSAMFramework.Portable.ColorHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
@@ -77,14 +78,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			DrawBodyAndBarrel_BG(sbatch);
+			CommonCannonRenderer.DrawShieldCannon_BG(sbatch, Position, Scale, Rotation.ActualValue);
 		}
 
 		protected override void OnDrawOrderedForegroundLayer(IBatchRenderer sbatch)
 		{
 			DrawCrosshair(sbatch);
-			DrawBodyAndBarrel_FG(sbatch);
-			DrawCore(sbatch);
+
+			CommonCannonRenderer.DrawShieldCannon_FG(sbatch, Position, Scale, Rotation.ActualValue, Fraction.IsNeutral, CannonHealth.ActualValue, _coreRotation, SatelliteExpansion.ActualValue, Fraction.Color);
 
 			//DrawShield(sbatch);
 		}

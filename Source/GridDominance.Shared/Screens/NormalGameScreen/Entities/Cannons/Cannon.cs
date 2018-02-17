@@ -35,10 +35,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public    const float BASE_COG_ROTATION_SPEED = FloatMath.TAU / 3; // 2.1 rad/sec
 		protected const float BARREL_RECOIL_SPEED = 4; // 250ms for full recovery (on normal boost and normal fraction mult)
 		public    const float BARREL_RECOIL_LENGTH = 32;
-		protected const float TRISHOT_BARREL_ANGLE = FloatMath.RAD_POS_030;
+		public    const float TRISHOT_BARREL_ANGLE = FloatMath.RAD_POS_030;
 
-		protected const float CORE_PULSE_FREQ = 2f;
-		protected const float CORE_PULSE = 0.06f; // perc
+		public    const float CORE_PULSE_FREQ = 2f;
+		public    const float CORE_PULSE = 0.06f; // perc
 		public    const float LASER_GLOW_FREQ = 0.20f;
 		
 		protected const float BARREL_CHARGE_SPEED         = 0.9f;

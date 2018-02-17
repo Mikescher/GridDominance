@@ -21,6 +21,7 @@ using FarseerPhysics.Factories;
 using FarseerPhysics;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using FarseerPhysics.Dynamics;
+using GridDominance.Shared.Screens.Common;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
@@ -213,14 +214,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			DrawBodyAndBarrel_BG(sbatch);
+			CommonCannonRenderer.DrawMinigunCannon_BG(sbatch, Position, Scale, Rotation.ActualValue, barrelRecoil);
 		}
 
 		protected override void OnDrawOrderedForegroundLayer(IBatchRenderer sbatch)
 		{
 			DrawCrosshair(sbatch);
-			DrawBodyAndBarrel_FG(sbatch);
-			DrawCog(sbatch);
+
+			CommonCannonRenderer.DrawMinigunCannon_FG(sbatch, Position, Scale, Rotation.ActualValue, barrelRecoil, cannonCogRotation, CannonHealth.ActualValue, Fraction.Color);
 
 			DrawShield(sbatch);
 
@@ -228,92 +229,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			// ASSERTION
 			if (ActiveOperations.Count(p => p is CannonBooster) != BulletBoostCount) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
-		}
-
-		private void DrawBodyAndBarrel_BG(IBatchRenderer sbatch)
-		{
-			var recoil = (1 - barrelRecoil) * BARREL_RECOIL_LENGTH;
-
-			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBarrelShadow,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBodyShadow,
-				Position,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-		}
-
-		private void DrawBodyAndBarrel_FG(IBatchRenderer sbatch)
-		{
-			var recoil = (1 - barrelRecoil) * BARREL_RECOIL_LENGTH;
-
-			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBarrel,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBody,
-				Position,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-		}
-
-		private void DrawCog(IBatchRenderer sbatch)
-		{
-			var health = CannonHealth.ActualValue;
-			if (health > 0.99) health = 1f;
-
-			sbatch.DrawCentered(
-				Textures.TexPixel, 
-				Position,
-				Scale * MINIGUNSTRUCT_DIAMETER,
-				Scale * MINIGUNSTRUCT_DIAMETER,
-				FlatColors.Clouds,
-				FloatMath.RAD_POS_000 - cannonCogRotation);
-
-			sbatch.DrawCentered(
-				Textures.TexPixel,
-				Position,
-				Scale * MINIGUNSTRUCT_DIAMETER,
-				Scale * MINIGUNSTRUCT_DIAMETER,
-				FlatColors.Clouds,
-				FloatMath.RAD_POS_000 + cannonCogRotation);
-
-			if (health < 0.01)
-			{
-				// nothing
-			}
-			else if (health < 1)
-			{
-				var r = FRectangle.CreateByCenter(Position, health * Scale * MINIGUNSTRUCT_DIAMETER, health * Scale * MINIGUNSTRUCT_DIAMETER);
-
-				sbatch.FillRectangleRot(r, Fraction.Color * (1 - health), FloatMath.RAD_POS_000 + cannonCogRotation);
-				sbatch.FillRectangleRot(r, Fraction.Color * (1 - health), FloatMath.RAD_POS_000 - cannonCogRotation);
-
-				sbatch.DrawRectangleRot(r, Fraction.Color, FloatMath.RAD_POS_000 + cannonCogRotation, 2f);
-				sbatch.DrawRectangleRot(r, Fraction.Color, FloatMath.RAD_POS_000 - cannonCogRotation, 2f);
-			}
-			else
-			{
-				var r = FRectangle.CreateByCenter(Position, Scale * MINIGUNSTRUCT_DIAMETER, Scale * MINIGUNSTRUCT_DIAMETER);
-
-				sbatch.DrawRectangleRot(r, Fraction.Color, FloatMath.RAD_POS_000 + cannonCogRotation, 2f);
-				sbatch.DrawRectangleRot(r, Fraction.Color, FloatMath.RAD_POS_000 - cannonCogRotation, 2f);
-			}
 		}
 
 		#endregion
