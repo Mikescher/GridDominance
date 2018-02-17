@@ -87,6 +87,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\HUD\GDGameEndHUD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\CannonStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\ILeveleditorStub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\SingleAttrOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\HUD\Elements\AttributeButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\HUD\Elements\LevelEditorAttrPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\HUD\Elements\LevelEditorModePanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\HUD\LevelEditorHUD.cs" />

@@ -17,6 +17,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Fractions
 
 		public static Color[] FRACTION_COLORS => new[] {COLOR_NEUTRAL, COLOR_PLAYER, COLOR_COMPUTER_01, COLOR_COMPUTER_02, COLOR_COMPUTER_03, COLOR_COMPUTER_04, COLOR_COMPUTER_05};
 
+		public static string[] FRACTION_STRINGS => new[] { "N", "P", "A1", "A2", "A3", "A4" };
+
 		public static readonly int NAME_NEUTRAL     = L10NImpl.STR_FRAC_N0;
 		public static readonly int NAME_PLAYER      = L10NImpl.STR_FRAC_P1;
 		public static readonly int NAME_COMPUTER_01 = L10NImpl.STR_FRAC_A2;

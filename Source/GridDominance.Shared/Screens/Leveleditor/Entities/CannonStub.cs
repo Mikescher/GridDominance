@@ -1,9 +1,11 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System.Collections.Generic;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -107,6 +109,27 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			var minD = FloatMath.Max(this.Scale, other.Scale) * Cannon.CANNON_OUTER_DIAMETER/2 + FloatMath.Min(this.Scale, other.Scale) * Cannon.CANNON_DIAMETER / 2;
 
 			return (Position - other.Position).LengthSquared() < minD * minD;
+		}
+
+		public IEnumerable<SingleAttrOption> AttrOptions
+		{
+			get
+			{
+				yield return new SingleAttrOption
+				{
+					Action = ChangeFrac,
+					Description = L10NImpl.STR_LVLED_BTN_FRAC,
+					Icon = () => Textures.TexFractionBlob,
+					IconColor = () => Fraction.FRACTION_COLORS[(int)CannonFrac],
+					Text = () => Fraction.FRACTION_STRINGS[(int)CannonFrac],
+					TextColor = () => FlatColors.Foreground,
+				};
+			}
+		}
+
+		private void ChangeFrac()
+		{
+			CannonFrac = (CannonStubFraction)(((int)CannonFrac + 1) % 5);
 		}
 
 		public void Kill()

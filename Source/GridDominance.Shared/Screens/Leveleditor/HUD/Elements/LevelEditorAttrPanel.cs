@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Leveleditor.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -37,7 +38,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			RelativePosition = new FPoint(GDConstants.TILE_WIDTH/2f, 0);
 			Size = new FSize(HUD.Width - 5 * GDConstants.TILE_WIDTH, HEIGHT);
 			Alignment = HUDAlignment.BOTTOMLEFT;
-			
+			IsVisible = false;
 		}
 		
 		public override void OnRemove()
@@ -48,6 +49,32 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
 			//
+		}
+
+		public void Recreate(ILeveleditorStub selection)
+		{
+			ClearChildren();
+			if (selection == null)
+			{
+				IsVisible = false;
+				return;
+			}
+
+			IsVisible = true;
+
+			int i = 0;
+			foreach (var opt in selection.AttrOptions)
+			{
+				AddElement(new AttributeButton()
+				{
+					RelativePosition = new FPoint(32 + i * (128 + 32), 32),
+					Size = new FSize(128, 128),
+					Alignment = HUDAlignment.BOTTOMLEFT,
+
+					Data = opt,
+				});
+			}
+
 		}
 	}
 }

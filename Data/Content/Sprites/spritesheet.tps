@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.5.0</string>
+        <string>4.6.1</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
+        <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -968,6 +968,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">leveleditor/fraction_blob.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,47,94,94</rect>
+                <key>scale9Paddings</key>
+                <rect>47,47,94,94</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">overworld/bluetooth.png</key>
             <key type="filename">overworld/dice.png</key>
             <key type="filename">overworld/internet.png</key>
@@ -1055,6 +1068,7 @@
             <filename>particles</filename>
             <filename>tutorial</filename>
             <filename>worldmap</filename>
+            <filename>leveleditor</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

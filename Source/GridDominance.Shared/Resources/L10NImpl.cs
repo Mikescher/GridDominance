@@ -249,8 +249,13 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_PLAY             = 200;
 		public const int STR_LVLED_UPLOAD           = 201;
 		public const int STR_LVLED_EXIT             = 202;
+		public const int STR_LVLED_BTN_FRAC         = 203;
+		public const int STR_LVLED_BTN_SCALE        = 204;
+		public const int STR_LVLED_BTN_ROT          = 205;
+		public const int STR_LVLED_BTN_TYPE         = 206;
+		public const int STR_LVLED_BTN_DEL          = 207;
 
-		private const int TEXT_COUNT = 203; // = next idx
+		private const int TEXT_COUNT = 208; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -1677,6 +1682,42 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_LVLED_EXIT,
 			         "Exit",
 			         "Beenden",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+
+			L10N.Add(STR_LVLED_BTN_FRAC,
+			         "Fraction",
+			         "Fraktion",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_SCALE,
+			         "Scale",
+			         "Größe",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_ROT,
+			         "Rotation",
+			         "Drehung",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_TYPE,
+			         "Type",
+			         "Typ",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_DEL,
+			         "Delete",
+			         "Entfernen",
 			         "?",  //TODO
 			         "?",  //TODO
 			         "?"); //TODO

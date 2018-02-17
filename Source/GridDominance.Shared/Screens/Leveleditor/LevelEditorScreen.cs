@@ -146,6 +146,8 @@ namespace GridDominance.Shared.Screens.Leveleditor
 		public void SelectStub(ILeveleditorStub stub)
 		{
 			Selection = stub;
+
+			GDHUD.AttrPanel.Recreate(Selection);
 		}
 	}
 }
