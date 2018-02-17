@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -49,7 +45,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			switch (CannonType)
 			{
 				case CannonStubType.Bullet:
-					DrawBodyAndBarrel_BG(sbatch);
+					CommonCannonRenderer.DrawBulletCannon_BG(sbatch, Position, Scale, Rotation, 1);
 					break;
 
 				case CannonStubType.Laser:
@@ -78,8 +74,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			switch (CannonType)
 			{
 				case CannonStubType.Bullet:
-					DrawBodyAndBarrel_FG(sbatch);
-					DrawCog(sbatch);
+					CommonCannonRenderer.DrawBulletCannon_FG(sbatch, Position, Scale, Rotation, 1, Lifetime * Cannon.BASE_COG_ROTATION_SPEED, 1, Fraction.FRACTION_COLORS[(int)CannonFrac]);
 					break;
 
 				case CannonStubType.Laser:
@@ -100,92 +95,6 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 				default:
 					SAMLog.Error("LECS::EnumSwitch_CS_ODOFL", "CannonType = " + CannonType);
 					break;
-			}
-		}
-
-		private void DrawBodyAndBarrel_BG(IBatchRenderer sbatch)
-		{
-			var recoil = 0;
-
-			var barrelCenter = Position + new Vector2(Scale * (Cannon.CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBarrelShadow,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBodyShadow,
-				Position,
-				Scale,
-				Color.White,
-				Rotation);
-		}
-
-		private void DrawBodyAndBarrel_FG(IBatchRenderer sbatch)
-		{
-			var recoil = 0;
-
-			var barrelCenter = Position + new Vector2(Scale * (Cannon.CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBarrel,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBody,
-				Position,
-				Scale,
-				Color.White,
-				Rotation);
-		}
-
-		private void DrawCog(IBatchRenderer sbatch)
-		{
-			var health = 1;
-
-			sbatch.DrawScaled(
-				Textures.CannonCog,
-				Position,
-				Scale,
-				FlatColors.Clouds,
-				Lifetime * Cannon.BASE_COG_ROTATION_SPEED + FloatMath.RAD_POS_270);
-
-			int aidx = (int)(health * (Textures.ANIMATION_CANNONCOG_SIZE - 1));
-
-			if (aidx == Textures.ANIMATION_CANNONCOG_SIZE - 1)
-			{
-				sbatch.DrawScaled(
-					Textures.CannonCog,
-					Position,
-					Scale,
-					Fraction.FRACTION_COLORS[(int)CannonFrac],
-					Lifetime * Cannon.BASE_COG_ROTATION_SPEED + FloatMath.RAD_POS_270);
-			}
-			else
-			{
-				int aniperseg = Textures.ANIMATION_CANNONCOG_SIZE / Textures.ANIMATION_CANNONCOG_SEGMENTS;
-				float radpersegm = (FloatMath.RAD_POS_360 * 1f / Textures.ANIMATION_CANNONCOG_SEGMENTS);
-				for (int i = 0; i < Textures.ANIMATION_CANNONCOG_SEGMENTS; i++)
-				{
-					if (aidx >= aniperseg * i)
-					{
-						var iidx = aidx - aniperseg * i;
-						if (iidx > aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP) iidx = aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP;
-
-						sbatch.DrawScaled(
-							Textures.AnimCannonCog[iidx],
-							Position,
-							Scale,
-							Fraction.FRACTION_COLORS[(int)CannonFrac],
-							Lifetime * Cannon.BASE_COG_ROTATION_SPEED + FloatMath.RAD_POS_270 + i * radpersegm);
-					}
-				}
 			}
 		}
 

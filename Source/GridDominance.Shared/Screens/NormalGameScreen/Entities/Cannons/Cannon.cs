@@ -286,6 +286,19 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 				Rotation.ActualValue + _shieldRotation);
 		}
 
+		protected void DrawCrosshair(IBatchRenderer sbatch)
+		{
+			if (FloatMath.IsNotZero(CrosshairSize.ActualValue))
+			{
+				sbatch.DrawScaled(
+					Textures.TexCannonCrosshair,
+					Position,
+					Scale * CrosshairSize.ActualValue,
+					Color.White * (CROSSHAIR_TRANSPARENCY * CrosshairSize.ActualValue),
+					Rotation.TargetValue);
+			}
+		}
+
 #if DEBUG
 
 		protected override void DrawDebugBorders(IBatchRenderer sbatch)

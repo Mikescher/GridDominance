@@ -196,20 +196,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			if (ActiveOperations.Count(p => p is CannonBooster) != BulletBoostCount) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
 		}
-
-		private void DrawCrosshair(IBatchRenderer sbatch)
-		{
-			if (FloatMath.IsNotZero(CrosshairSize.ActualValue))
-			{
-				sbatch.DrawScaled(
-					Textures.TexCannonCrosshair,
-					Position,
-					Scale * CrosshairSize.ActualValue,
-					Color.White * (CROSSHAIR_TRANSPARENCY * CrosshairSize.ActualValue),
-					Rotation.TargetValue);
-			}
-		}
-
+		
 		private void DrawBodyAndBarrel_BG(IBatchRenderer sbatch)
 		{
 			var recoil = (1 - barrelRecoil) * BARREL_RECOIL_LENGTH;

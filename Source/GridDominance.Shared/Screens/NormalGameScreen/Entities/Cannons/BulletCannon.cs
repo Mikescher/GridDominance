@@ -21,6 +21,7 @@ using FarseerPhysics.Factories;
 using FarseerPhysics;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using FarseerPhysics.Dynamics;
+using GridDominance.Shared.Screens.Common;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {
@@ -206,14 +207,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			DrawBodyAndBarrel_BG(sbatch);
+			CommonCannonRenderer.DrawBulletCannon_BG(sbatch, Position, Scale, Rotation.ActualValue, barrelRecoil);
 		}
 
 		protected override void OnDrawOrderedForegroundLayer(IBatchRenderer sbatch)
 		{
 			DrawCrosshair(sbatch);
-			DrawBodyAndBarrel_FG(sbatch);
-			DrawCog(sbatch);
+
+			CommonCannonRenderer.DrawBulletCannon_FG(sbatch, Position, Scale, Rotation.ActualValue, barrelRecoil, cannonCogRotation, CannonHealth.ActualValue, Fraction.Color);
 
 			DrawShield(sbatch);
 
@@ -221,106 +222,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			// ASSERTION
 			if (ActiveOperations.Count(p => p is CannonBooster) != BulletBoostCount) throw new Exception("Assertion failed TotalBoost == Boosters");
 #endif
-		}
-
-		private void DrawCrosshair(IBatchRenderer sbatch)
-		{
-			if (FloatMath.IsNotZero(CrosshairSize.ActualValue))
-			{
-				sbatch.DrawScaled(
-					Textures.TexCannonCrosshair,
-					Position,
-					Scale * CrosshairSize.ActualValue,
-					Color.White * (CROSSHAIR_TRANSPARENCY * CrosshairSize.ActualValue),
-					Rotation.TargetValue);
-			}
-		}
-
-		private void DrawBodyAndBarrel_BG(IBatchRenderer sbatch)
-		{
-			var recoil = (1 - barrelRecoil) * BARREL_RECOIL_LENGTH;
-
-			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBarrelShadow,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBodyShadow,
-				Position,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-		}
-
-		private void DrawBodyAndBarrel_FG(IBatchRenderer sbatch)
-		{
-			var recoil = (1 - barrelRecoil) * BARREL_RECOIL_LENGTH;
-
-			var barrelCenter = Position + new Vector2(Scale * (CANNON_DIAMETER / 2f - recoil), 0).Rotate(Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBarrel,
-				barrelCenter,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-
-			sbatch.DrawScaled(
-				Textures.TexCannonBody,
-				Position,
-				Scale,
-				Color.White,
-				Rotation.ActualValue);
-		}
-
-		private void DrawCog(IBatchRenderer sbatch)
-		{
-			var health = CannonHealth.ActualValue;
-			if (health > 0.99) health = 1f;
-
-			sbatch.DrawScaled(
-				Textures.CannonCog,
-				Position,
-				Scale,
-				FlatColors.Clouds,
-				cannonCogRotation + FloatMath.RAD_POS_270);
-
-			int aidx = (int) (health * (Textures.ANIMATION_CANNONCOG_SIZE - 1));
-
-			if (aidx == Textures.ANIMATION_CANNONCOG_SIZE - 1)
-			{
-				sbatch.DrawScaled(
-					Textures.CannonCog,
-					Position,
-					Scale,
-					Fraction.Color,
-					cannonCogRotation + FloatMath.RAD_POS_270);
-			}
-			else
-			{
-				int aniperseg = Textures.ANIMATION_CANNONCOG_SIZE / Textures.ANIMATION_CANNONCOG_SEGMENTS;
-				float radpersegm = (FloatMath.RAD_POS_360 * 1f / Textures.ANIMATION_CANNONCOG_SEGMENTS);
-				for (int i = 0; i < Textures.ANIMATION_CANNONCOG_SEGMENTS; i++)
-				{
-					if (aidx >= aniperseg * i)
-					{
-						var iidx = aidx - aniperseg * i;
-						if (iidx > aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP) iidx = aniperseg + Textures.ANIMATION_CANNONCOG_OVERLAP;
-
-						sbatch.DrawScaled(
-							Textures.AnimCannonCog[iidx],
-							Position,
-							Scale,
-							Fraction.Color,
-							cannonCogRotation + FloatMath.RAD_POS_270 + i * radpersegm);
-					}
-				}
-			}
 		}
 
 		#endregion
