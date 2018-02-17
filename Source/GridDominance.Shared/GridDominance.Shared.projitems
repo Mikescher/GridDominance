@@ -9,6 +9,7 @@
     <Import_RootNamespace>GridDominance.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\TetroConfigurations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SCCM\SCCMLevelData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DeviceBridge\IGDOperatingSystemBridge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalAgents\HighscoreAgent.cs" />

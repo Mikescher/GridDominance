@@ -82,7 +82,7 @@ namespace GridDominance.Shared.Screens
 			debugDisp.AddLine("ShowOperations", () => string.Join(Environment.NewLine, scrn.Entities.Enumerate().SelectMany(e => e.ActiveEntityOperations).Select(o => o.Name).GroupBy(p=>p).Select(p=>p.Count()==1 ? p.Key : $"{p.Key} (x{p.Count()})")));
 			debugDisp.AddLine("ShowOperations", () => string.Join(Environment.NewLine, scrn.HUD.Enumerate().SelectMany(e => e.ActiveHUDOperations).Select(o => o.Name).GroupBy(p => p).Select(p => p.Count() == 1 ? p.Key : $"{p.Key} (x{p.Count()})")));
 			debugDisp.AddLine("ShowOperations", () => string.Join(Environment.NewLine, scrn.GetAllAgents().Select(o => o.Name).GroupBy(p => p).Select(p => p.Count() == 1 ? p.Key : $"{p.Key} (x{p.Count()})")));
-			debugDisp.AddLine("ShowOperations", () => string.Join(Environment.NewLine, scrn.GetAllAgents().Select(o => o.Name).GroupBy(p => p).Select(p => p.Count() == 1 ? p.Key : $"{p.Key} (x{p.Count()})")));
+			debugDisp.AddLine("ShowOperations", () => string.Join(Environment.NewLine, MainGame.Inst.GetAllAgents().Select(o => o.Name).GroupBy(p => p).Select(p => p.Count() == 1 ? p.Key : $"{p.Key} (x{p.Count()})")));
 
 			debugDisp.AddTabularLine("ShowDebugShortcuts", DebugSettings.GetCategorizedSummaries);
 
@@ -120,17 +120,17 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddSwitch("DBG",       "ShowInfos",             scrn, SKeys.F2,  KeyModifier.None,    true);
 			DebugSettings.AddSwitch("DBG",       "DebugBackground",       scrn, SKeys.F3,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "DebugHUDBorders",       scrn, SKeys.F4,  KeyModifier.None,    false);
-			DebugSettings.AddSwitch("ShowInfos", "DebugNetwork",          scrn, SKeys.F5,  KeyModifier.None,    true);
+			DebugSettings.AddSwitch("ShowInfos", "DebugNetwork",          scrn, SKeys.F5,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("ShowInfos", "ShowMatrixTextInfos",   scrn, SKeys.F6,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "ShowDebugMiniMap",      scrn, SKeys.F7,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "DebugEntityBoundaries", scrn, SKeys.F8,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "DebugEntityMouseAreas", scrn, SKeys.F9,  KeyModifier.None,    false); 
-			DebugSettings.AddSwitch("ShowInfos", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None,    false);
+			DebugSettings.AddSwitch("ShowInfos", "ShowOperations",        scrn, SKeys.F10, KeyModifier.None,    true);
 			DebugSettings.AddSwitch("ShowInfos", "DebugGestures",         scrn, SKeys.F11, KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "DebugTimings",          scrn, SKeys.F12, KeyModifier.None,    false); 
 			DebugSettings.AddSwitch("DBG",       "DebugLaserNetwork",     scrn, SKeys.F1,  KeyModifier.Control, false);
 			DebugSettings.AddSwitch("DBG",       "ContinoousLasers",      scrn, SKeys.F2,  KeyModifier.Control, false);
-			DebugSettings.AddSwitch("DBG",       "DebugMultiplayer",      scrn, SKeys.F3,  KeyModifier.Control, true);
+			DebugSettings.AddSwitch("DBG",       "DebugMultiplayer",      scrn, SKeys.F3,  KeyModifier.Control, false);
 			DebugSettings.AddSwitch("DBG",       "ControlEnemies",        scrn, SKeys.F4,  KeyModifier.Control, false);
 
 			DebugSettings.AddPush("DBG",         "ShowDebugShortcuts",    scrn, SKeys.Tab, KeyModifier.None);

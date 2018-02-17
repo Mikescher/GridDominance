@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
@@ -43,34 +44,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 			FlatColors.Alizarin,
 		};
 
-		private static readonly string[] CONFIGURATIONS =
-		{
-			"01L100L313S121O120J432J1",
-			"01T200Z114I212T120T331T4",
-			"02J200L214I211O131J130J3",
-			"01Z200L213J223J421L420S1",
-			"02T400T210J421I133O130J1",
-			"03T301L400O123T120J431S2",
-			"01J100J313S120L132J130O1",
-			"02T400J310T422Z232J130O1",
-			"01J300I213O112J420L432J1",
-			"01J300I212L123Z122J420L4",
-			"02S100J313T110S132T430Z2",
-			"02O100O113T120T232S230L3",
-			"03Z101S100L222S232L330O1",
-			"01J100J314I222L420L130O1",
-			"02S201Z100J423J231J130J3",
-			"01T200I214I213I211Z130T4",
-			"02L200O113L223L420S230L3",
-			"02T100T213L410L332L330O1",
-			"01Z200L212Z223L420S131Z2",
-			"02T100T214I210L331L130L3",
-			"02T400T210I223L422S121L2",
-			"02S200S210Z123J222Z130L3",
-			"02S200O112J423J220L231L3",
-			"03Z101O100I223Z122J420L4",
-		};
-
 		public List<TetroAnimationElement> _animation = new List<TetroAnimationElement>();
 
 		public TetrisFillOperation(float duration) : base(duration)
@@ -82,21 +55,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 		{
 			_animation.Clear();
 
-			var config = CONFIGURATIONS[FloatMath.Random.Next(CONFIGURATIONS.Length)];
+			var config = TetroConfigurations.CONFIGURATIONS[FloatMath.Random.Next(TetroConfigurations.CONFIGURATIONS.Length)];
 
 			int off = 0;
 			var c = Enumerable.Range(0, COLORS.Length).Shuffle().ToList();
 			foreach (var i in Enumerable.Range(0, 6).Shuffle())
 			{
-				var x  = config[4*i+0] - '0';
-				var y  = config[4*i+1] - '0';
-				var id = config[4*i+2] + "" + config[4*i+3];
+				var tx = (int)(((config >> (i * 10 + 0)) & 0x1F) % 5);
+				var ty = (int)(((config >> (i * 10 + 0)) & 0x1F) / 5);
+				var ti = (int)(((config >> (i * 10 + 5)) & 0x1F));
 
 				_animation.Add(new TetroAnimationElement
 				{
-					Offset = new DPoint(x, y),
+					Offset = new DPoint(tx, ty),
 					Scale = 0,
-					Tetromino = TetroPieces.PIECES[id],
+					Tetromino = TetroPieces.ALPHABET[ti],
 					Delay = off,
 					Color = COLORS[c[i]],
 				});
