@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
@@ -23,6 +24,18 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		public enum CannonStubType { Bullet, Laser, Minigun, Relay, Shield, Trishot }
 		public enum CannonStubFraction { N0=0, P1=1, A2=2, A3=3, A4=4 }
 		public static readonly float[] SCALES = { 0.500f, 0.750f, 1.125f, 1.500f, 1.875f, 2.500f, 3.000f };
+		public static readonly float[] ROTS =
+		{
+			(0 * 4 + 0) * (FloatMath.TAU/16), (0 * 4 + 1) * (FloatMath.TAU/16), (0 * 4 + 2) * (FloatMath.TAU/16), (0 * 4 + 3) * (FloatMath.TAU/16),
+			(1 * 4 + 0) * (FloatMath.TAU/16), (1 * 4 + 1) * (FloatMath.TAU/16), (1 * 4 + 2) * (FloatMath.TAU/16), (1 * 4 + 3) * (FloatMath.TAU/16),
+			(2 * 4 + 0) * (FloatMath.TAU/16), (2 * 4 + 1) * (FloatMath.TAU/16), (2 * 4 + 2) * (FloatMath.TAU/16), (2 * 4 + 3) * (FloatMath.TAU/16),
+			(3 * 4 + 0) * (FloatMath.TAU/16), (3 * 4 + 1) * (FloatMath.TAU/16), (3 * 4 + 2) * (FloatMath.TAU/16), (3 * 4 + 3) * (FloatMath.TAU/16),
+		};
+
+		public static string[] ROT_STR =
+		{
+			"E", "SEE", "SE", "SSE", "S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW", "N", "NNE", "NE", "NEE"
+		};
 
 		private LevelEditorScreen GDOwner => (LevelEditorScreen) Owner;
 
@@ -147,7 +160,21 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 					Text = () => Convert.ToString(SCALES.IndexOf(Scale) + 1),
 					TextColor = () => FlatColors.Foreground,
 				};
+
+				yield return new SingleAttrOption
+				{
+					Action = ChangeRot,
+					Description = L10NImpl.STR_LVLED_BTN_ROT,
+					Icon = () => null,
+					Text = () => ROT_STR[FloatMath.Max(0, ROTS.IndexOf(Rotation))],
+					TextColor = () => FlatColors.Foreground,
+				};
 			}
+		}
+
+		private void ChangeRot()
+		{
+			Rotation = ROTS[(ROTS.IndexOf(Rotation) + 1) % ROTS.Length];
 		}
 
 		private void ChangeFrac()
