@@ -73,6 +73,7 @@
     <Compile Include="GameMath\Geometry\Alignment\FlatAlign4.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatCurve13.cs" />
     <Compile Include="GameMath\Geometry\Alignment\FlatCurve12.cs" />
+    <Compile Include="GameMath\Geometry\DVector.cs" />
     <Compile Include="GameMath\Geometry\DPoint.cs" />
     <Compile Include="GameMath\Geometry\FCircle.cs" />
     <Compile Include="GameMath\Geometry\DSize.cs" />

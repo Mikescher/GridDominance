@@ -57,28 +57,51 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
-		public static FRectangle CreateByCenter(FPoint origin, float cx, float cy, float width, float height)
-		{
-			return new FRectangle(origin.X + cx - width/2, origin.Y + cy - height/2, width, height);
-		}
+		public static FRectangle CreateByTopLeft(FPoint pos, float width, float height) => new FRectangle(pos.X, pos.Y, width, height);
+		[Pure]
+		public static FRectangle CreateByTopLeft(FPoint pos, FSize sz) => new FRectangle(pos.X, pos.Y, sz.Width, sz.Height);
+		[Pure]
+		public static FRectangle CreateByTopLeft(float x, float y, float width, float height) => new FRectangle(x, y, width, height);
+		[Pure]
+		public static FRectangle CreateByTopLeft(float x, float y, FSize sz) => new FRectangle(x, y, sz.Width, sz.Height);
 
 		[Pure]
-		public static FRectangle CreateByCenter(FPoint pos, FSize size)
-		{
-			return new FRectangle(pos.X - size.Width / 2, pos.Y - size.Height / 2, size.Width, size.Height);
-		}
+		public static FRectangle CreateByTopRight(FPoint pos, float width, float height) => new FRectangle(pos.X - width, pos.Y, width, height);
+		[Pure]
+		public static FRectangle CreateByTopRight(FPoint pos, FSize sz) => new FRectangle(pos.X - sz.Width, pos.Y, sz.Width, sz.Height);
+		[Pure]
+		public static FRectangle CreateByTopRight(float x, float y, float width, float height) => new FRectangle(x - width, y, width, height);
+		[Pure]
+		public static FRectangle CreateByTopRight(float x, float y, FSize sz) => new FRectangle(x - sz.Width, y, sz.Width, sz.Height);
 
 		[Pure]
-		public static FRectangle CreateByCenter(FPoint pos, float w, float h)
-		{
-			return new FRectangle(pos.X - w / 2, pos.Y - h / 2, w, h);
-		}
+		public static FRectangle CreateByBottomRight(FPoint pos, float width, float height) => new FRectangle(pos.X - width, pos.Y-height, width, height);
+		[Pure]
+		public static FRectangle CreateByBottomRight(FPoint pos, FSize sz) => new FRectangle(pos.X - sz.Width, pos.Y-sz.Height, sz.Width, sz.Height);
+		[Pure]
+		public static FRectangle CreateByBottomRight(float x, float y, float width, float height) => new FRectangle(x - width, y-height, width, height);
+		[Pure]
+		public static FRectangle CreateByBottomRight(float x, float y, FSize sz) => new FRectangle(x - sz.Width, y-sz.Height, sz.Width, sz.Height);
 
 		[Pure]
-		public static FRectangle CreateByCenter(float x, float y, float w, float h)
-		{
-			return new FRectangle(x - w / 2, y - h / 2, w, h);
-		}
+		public static FRectangle CreateByBottomLeft(FPoint pos, float width, float height) => new FRectangle(pos.X, pos.Y-height, width, height);
+		[Pure]
+		public static FRectangle CreateByBottomLeft(FPoint pos, FSize sz) => new FRectangle(pos.X, pos.Y-sz.Height, sz.Width, sz.Height);
+		[Pure]
+		public static FRectangle CreateByBottomLeft(float x, float y, float width, float height) => new FRectangle(x, y-height, width, height);
+		[Pure]
+		public static FRectangle CreateByBottomLeft(float x, float y, FSize sz) => new FRectangle(x, y-sz.Height, sz.Width, sz.Height);
+
+		[Pure]
+		public static FRectangle CreateByCenter(FPoint origin, float cx, float cy, float width, float height) => new FRectangle(origin.X + cx - width / 2, origin.Y + cy - height / 2, width, height);
+		[Pure]
+		public static FRectangle CreateByCenter(FPoint pos, FSize size) => new FRectangle(pos.X - size.Width / 2, pos.Y - size.Height / 2, size.Width, size.Height);
+		[Pure]
+		public static FRectangle CreateByCenter(FPoint pos, float w, float h) => new FRectangle(pos.X - w / 2, pos.Y - h / 2, w, h);
+		[Pure]
+		public static FRectangle CreateByCenter(float x, float y, float w, float h) => new FRectangle(x - w / 2, y - h / 2, w, h);
+		[Pure]
+		public static FRectangle CreateByCenter(float x, float y, FSize size) => new FRectangle(x - size.Width / 2, y - size.Height / 2, size.Width, size.Height);
 
 		[Pure]
 		public static FRectangle CreateOuter(IEnumerable<FRectangle> rects)

@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
@@ -51,6 +53,14 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			StaticTextures.ThrowIfNotInitialized();
 
 			DrawCornerlessBlurPanelBackgroundPart_Opaque(sbatch, bounds, inset, blurN, blurE, blurS, blurW);
+			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, color);
+		}
+
+		public static void DrawEdgeAlignedBlurPanel_Opaque(IBatchRenderer sbatch, FRectangle bounds, Color color, FlatAlign5 missingSide, float cornerSize = 16f)
+		{
+			StaticTextures.ThrowIfNotInitialized();
+
+			DrawRoundedAlignedBlurPanelBackgroundPart_S_Opaque(sbatch, bounds, missingSide, cornerSize);
 			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, color);
 		}
 
@@ -246,6 +256,73 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds.AsDeflated(borderWidth / 2f, borderWidth / 2f), cInner);
 			
 			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, borderWidth, cBorder);
+		}
+
+
+		public static void DrawRoundedAlignedBlurPanelBackgroundPart_S_Opaque(IBatchRenderer sbatch, FRectangle b, FlatAlign5 missingSide, float cs = 16f)
+		{
+			StaticTextures.ThrowIfNotInitialized();
+
+			switch (missingSide)
+			{
+				case FlatAlign5.CENTER: // no side missing
+
+					sbatch.DrawRot000(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  + cs, b.Top    - cs, b.Width - 2 * cs,            2 * cs), Color.White, 0);  // Top
+					sbatch.DrawRot090(StaticTextures.PanelBlurEdge,   new FRectangle(b.Right - cs, b.Top    + cs,           2 * cs, b.Height - 2 * cs), Color.White, 0);  // Right
+					sbatch.DrawRot180(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  + cs, b.Bottom - cs, b.Width - 2 * cs,            2 * cs), Color.White, 0);  // Bottom
+					sbatch.DrawRot270(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  - cs, b.Top    + cs,           2 * cs, b.Height - 2 * cs), Color.White, 0);  // Left
+					sbatch.DrawRot000(StaticTextures.PanelBlurCorner, new FRectangle(b.Left  - cs, b.Top    - cs,           2 * cs,            2 * cs), Color.White, 0);  // TL
+					sbatch.DrawRot090(StaticTextures.PanelBlurCorner, new FRectangle(b.Right - cs, b.Top    - cs,           2 * cs,            2 * cs), Color.White, 0);  // TR
+					sbatch.DrawRot180(StaticTextures.PanelBlurCorner, new FRectangle(b.Right - cs, b.Bottom - cs,           2 * cs,            2 * cs), Color.White, 0);  // BR
+					sbatch.DrawRot270(StaticTextures.PanelBlurCorner, new FRectangle(b.Left  - cs, b.Bottom - cs,           2 * cs,            2 * cs), Color.White, 0);  // BL
+
+					break;
+
+
+
+				case FlatAlign5.TOP:
+					
+					sbatch.DrawRot090(StaticTextures.PanelBlurEdge,   new FRectangle(b.Right - cs, b.Top        ,           2 * cs, b.Height - 1 * cs), Color.White, 0);  // Right
+					sbatch.DrawRot180(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  + cs, b.Bottom - cs, b.Width - 2 * cs,            2 * cs), Color.White, 0);  // Bottom
+					sbatch.DrawRot270(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  - cs, b.Top        ,           2 * cs, b.Height - 1 * cs), Color.White, 0);  // Left
+					sbatch.DrawRot180(StaticTextures.PanelBlurCorner, new FRectangle(b.Right - cs, b.Bottom - cs,           2 * cs,            2 * cs), Color.White, 0);  // BR
+					sbatch.DrawRot270(StaticTextures.PanelBlurCorner, new FRectangle(b.Left  - cs, b.Bottom - cs,           2 * cs,            2 * cs), Color.White, 0);  // BL
+
+					break;
+
+
+				case FlatAlign5.RIGHT:
+					
+					sbatch.DrawRot000(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  + cs, b.Top    - cs, b.Width - 1 * cs,            2 * cs), Color.White, 0);  // Top
+					sbatch.DrawRot180(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  + cs, b.Bottom - cs, b.Width - 1 * cs,            2 * cs), Color.White, 0);  // Bottom
+					sbatch.DrawRot270(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  - cs, b.Top    + cs,           2 * cs, b.Height - 2 * cs), Color.White, 0);  // Left
+					sbatch.DrawRot000(StaticTextures.PanelBlurCorner, new FRectangle(b.Left  - cs, b.Top    - cs,           2 * cs,            2 * cs), Color.White, 0);  // TL
+					sbatch.DrawRot270(StaticTextures.PanelBlurCorner, new FRectangle(b.Left  - cs, b.Bottom - cs,           2 * cs,            2 * cs), Color.White, 0);  // BL
+
+					break;
+
+
+				case FlatAlign5.BOTTOM:
+					
+					sbatch.DrawRot000(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  + cs, b.Top    - cs, b.Width - 2 * cs,            2 * cs), Color.White, 0);  // Top
+					sbatch.DrawRot090(StaticTextures.PanelBlurEdge,   new FRectangle(b.Right - cs, b.Top    + cs,           2 * cs, b.Height - 1 * cs), Color.White, 0);  // Right
+					sbatch.DrawRot270(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left  - cs, b.Top    + cs,           2 * cs, b.Height - 1 * cs), Color.White, 0);  // Left
+					sbatch.DrawRot000(StaticTextures.PanelBlurCorner, new FRectangle(b.Left  - cs, b.Top    - cs,           2 * cs,            2 * cs), Color.White, 0);  // TL
+					sbatch.DrawRot090(StaticTextures.PanelBlurCorner, new FRectangle(b.Right - cs, b.Top    - cs,           2 * cs,            2 * cs), Color.White, 0);  // TR
+
+					break;
+
+
+				case FlatAlign5.LEFT:
+					
+					sbatch.DrawRot000(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left      , b.Top    - cs, b.Width - 1 * cs,            2 * cs), Color.White, 0);  // Top
+					sbatch.DrawRot090(StaticTextures.PanelBlurEdge,   new FRectangle(b.Right - cs, b.Top    + cs,           2 * cs, b.Height - 2 * cs), Color.White, 0);  // Right
+					sbatch.DrawRot180(StaticTextures.PanelBlurEdge,   new FRectangle(b.Left      , b.Bottom - cs, b.Width - 1 * cs,            2 * cs), Color.White, 0);  // Bottom
+					sbatch.DrawRot090(StaticTextures.PanelBlurCorner, new FRectangle(b.Right - cs, b.Top    - cs,           2 * cs,            2 * cs), Color.White, 0);  // TR
+					sbatch.DrawRot180(StaticTextures.PanelBlurCorner, new FRectangle(b.Right - cs, b.Bottom - cs,           2 * cs,            2 * cs), Color.White, 0);  // BR
+
+					break;
+			}
 		}
 	}
 }
