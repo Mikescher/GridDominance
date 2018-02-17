@@ -450,6 +450,11 @@ namespace MonoSAMFramework.Portable.Screens
 			return agents.OfType<T>();
 		}
 
+		public IEnumerable<IUpdateOperation> GetAllAgents()
+		{
+			return agents;
+		}
+
 		public IEnumerable<T> GetEntities<T>()
 		{
 			return Entities.Enumerate().OfType<T>();
