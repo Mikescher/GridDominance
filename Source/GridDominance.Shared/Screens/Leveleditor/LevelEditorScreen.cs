@@ -103,9 +103,6 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			if (center.X >= LevelData.Width * GDConstants.TILE_WIDTH) return null;
 			if (center.Y >= LevelData.Height * GDConstants.TILE_WIDTH) return null;
 
-			var s1 = CanInsertCannonStub(center, CannonStub.SCALES[3], ign);
-			if (s1 != null) return s1;
-
 			var s2 = CanInsertCannonStub(center, CannonStub.SCALES[2], ign);
 			if (s2 != null) return s2;
 

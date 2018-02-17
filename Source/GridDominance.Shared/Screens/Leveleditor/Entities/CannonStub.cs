@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
@@ -6,9 +7,11 @@ using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -38,6 +41,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		public CannonStub(GameScreen scrn, FPoint pos, float scale) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
 			CannonPosition = pos;
+			Scale = scale;
 		}
 
 		public override void OnInitialize(EntityManager manager) { }
@@ -104,11 +108,21 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			}
 		}
 
+#if DEBUG
+		protected override void DrawDebugBorders(IBatchRenderer sbatch)
+		{
+			base.DrawDebugBorders(sbatch);
+
+			sbatch.DrawCircle(Position, this.Scale * Cannon.CANNON_OUTER_DIAMETER / 2, 64, Color.Magenta);
+			sbatch.DrawCircle(Position, this.Scale * Cannon.CANNON_DIAMETER / 2, 64, Color.Magenta);
+		}
+#endif
+
 		public bool CollidesWith(CannonStub other)
 		{
 			var minD = FloatMath.Max(this.Scale, other.Scale) * Cannon.CANNON_OUTER_DIAMETER/2 + FloatMath.Min(this.Scale, other.Scale) * Cannon.CANNON_DIAMETER / 2;
 
-			return (Position - other.Position).LengthSquared() < minD * minD;
+			return (Position - other.Position).LengthSquared() < (minD * minD - 0.0001f);
 		}
 
 		public IEnumerable<SingleAttrOption> AttrOptions
@@ -124,12 +138,37 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 					Text = () => Fraction.FRACTION_STRINGS[(int)CannonFrac],
 					TextColor = () => FlatColors.Foreground,
 				};
+
+				yield return new SingleAttrOption
+				{
+					Action = ChangeScale,
+					Description = L10NImpl.STR_LVLED_BTN_SCALE,
+					Icon = () => null,
+					Text = () => Convert.ToString(SCALES.IndexOf(Scale) + 1),
+					TextColor = () => FlatColors.Foreground,
+				};
 			}
 		}
 
 		private void ChangeFrac()
 		{
 			CannonFrac = (CannonStubFraction)(((int)CannonFrac + 1) % 5);
+		}
+
+		private void ChangeScale()
+		{
+			var idxCurr = SCALES.IndexOf(Scale);
+
+			for (int i = 1; i < SCALES.Length; i++)
+			{
+				var idxTest   = (idxCurr + i) % SCALES.Length;
+				if (GDOwner.CanInsertCannonStub(Position, SCALES[idxTest], this) != null)
+				{
+					Scale = SCALES[idxTest];
+					return;
+				}
+			}
+
 		}
 
 		public void Kill()

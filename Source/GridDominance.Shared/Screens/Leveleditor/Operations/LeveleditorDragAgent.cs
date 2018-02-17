@@ -49,7 +49,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			var rx = raster * FloatMath.Round(istate.GamePointerPositionOnMap.X / raster);
 			var ry = raster * FloatMath.Round(istate.GamePointerPositionOnMap.Y / raster);
 
-			_boundsWorkingArea = _gdScreen.VAdapterGame.VirtualTotalBoundingBox.AsDeflated(0, 4 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH, 0);
+			_boundsWorkingArea = _gdScreen.VAdapterGame.VirtualTotalBoundingBox.AsDeflated(
+				0, 
+				4 * GDConstants.TILE_WIDTH, 
+				_gdScreen.GDHUD.AttrPanel.IsVisible ? 4 * GDConstants.TILE_WIDTH : 0, 
+				0);
 
 			_boundsMap = FRectangle.CreateByTopLeft(
 				_gdScreen.MapOffsetX,
@@ -64,11 +68,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					var delta = istate.GamePointerPosition - _mouseStartPos;
 					_gdScreen.MapOffsetX = _startOffset.X + delta.X;
 					_gdScreen.MapOffsetY = _startOffset.Y + delta.Y;
-					_oobForce = CalculateOOB();
 				}
 				else
 				{
-					_oobForce = CalculateOOB();
 					_dragMode = DMode.Nothing;
 				}
 			}
@@ -76,7 +78,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			{
 				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsRealDown && _gdScreen.Selection is CannonStub cs)
 				{
-					var ins = _gdScreen.CanInsertCannonStub(new FPoint(rx, ry), cs);
+					var ins = _gdScreen.CanInsertCannonStub(new FPoint(rx, ry), cs.Scale, cs);
 					if (ins != null)
 					{
 						cs.CannonPosition = ins.Position;
@@ -112,6 +114,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 				}
 			}
 
+			_oobForce = CalculateOOB();
 			if (!_oobForce.IsZero() && _dragMode != DMode.MapDrag)
 			{
 				UpdateMapRestDrag(gameTime);

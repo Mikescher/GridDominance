@@ -65,7 +65,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			int i = 0;
 			foreach (var opt in selection.AttrOptions)
 			{
-				AddElement(new AttributeButton()
+				AddElement(new AttributeButton
 				{
 					RelativePosition = new FPoint(32 + i * (128 + 32), 32),
 					Size = new FSize(128, 128),
@@ -73,6 +73,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 
 					Data = opt,
 				});
+				i++;
 			}
 
 		}
