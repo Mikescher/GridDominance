@@ -107,6 +107,7 @@
     <Compile Include="Language\CustomDispatcher.cs" />
     <Compile Include="Language\LazyProp.cs" />
     <Compile Include="Language\ListExtensions.cs" />
+    <Compile Include="Language\EquatableTuple.cs" />
     <Compile Include="Language\MutableTuple.cs" />
     <Compile Include="Localization\L10N.cs" />
     <Compile Include="LogProtocol\SAMLog.cs" />
