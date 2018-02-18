@@ -253,9 +253,13 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_BTN_SCALE        = 204;
 		public const int STR_LVLED_BTN_ROT          = 205;
 		public const int STR_LVLED_BTN_TYPE         = 206;
-		public const int STR_LVLED_BTN_DEL          = 207;
+		public const int STR_LVLED_BTN_DIAMETER     = 207;
+		public const int STR_LVLED_BTN_WIDTH        = 208;
+		public const int STR_LVLED_BTN_HEIGHT       = 209;
+		public const int STR_LVLED_BTN_POWER        = 210;
+		public const int STR_LVLED_BTN_DEL          = 211;
 
-		private const int TEXT_COUNT = 208; // = next idx
+		private const int TEXT_COUNT = 212; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -1711,6 +1715,34 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_LVLED_BTN_TYPE,
 			         "Type",
 			         "Typ",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_DIAMETER,
+			         "Durchmesser",
+			         "Diameter",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_WIDTH,
+			         "Breite",
+			         "Width",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_HEIGHT,
+			         "Höhe",
+			         "Height",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_POWER,
+			         "Stärke",
+			         "Power",
 			         "?",  //TODO
 			         "?",  //TODO
 			         "?"); //TODO

@@ -68,7 +68,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			{
 				AddElement(new AttributeButton
 				{
-					RelativePosition = new FPoint(32 + i * (128 + 32), 32),
+					RelativePosition = new FPoint(32 + i * (128 + 64), 32),
 					Size = new FSize(128, 128),
 					Alignment = HUDAlignment.BOTTOMLEFT,
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
@@ -39,6 +40,9 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			"E", "SEE", "SE", "SSE", "S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW", "N", "NNE", "NE", "NEE"
 		};
 
+		public static readonly float[] POWERS     = { 100f, 800f, 50_000f, 200_000f, 250_000f };
+		public static readonly string[] POWER_STR = { "-",  "0",  "+",     "++",     "+++"    };
+
 		public readonly TextureRegion2D[] TypeTextures = new[]
 		{
 			Textures.TexBlackHoleIcon,
@@ -59,7 +63,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		public ObstacleStubType ObstacleType;
 
 		public override FPoint Position => Center;
-		public override FSize DrawingBoundingBox => new FSize(Width, Height);
+		public override FSize DrawingBoundingBox => new FSize(FloatMath.Max(Width, Height), FloatMath.Max(Width, Height));
 
 		public override Color DebugIdentColor => Color.Red;
 
@@ -69,7 +73,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			Rotation     = r;
 			Width        = w;
 			Height       = h;
-			Power        = BlackHoleBlueprint.DEFAULT_POWER_FACTOR;
+			Power        = POWERS[1];
 			ObstacleType = t;
 		}
 
@@ -79,7 +83,19 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			if (GDOwner.Selection == this) sbatch.DrawCentered(Textures.TexPixel, Position, Width + GDConstants.TILE_WIDTH, Height + GDConstants.TILE_WIDTH, Color.Black*0.333f);
+			if (GDOwner.Selection == this)
+			{
+				if (ObstacleType == ObstacleStubType.MirrorBlock || ObstacleType == ObstacleStubType.GlassBlock)
+				{
+					var a = FRotatedRectangle.CreateByCenter(Position, Width, Height, Rotation).GetBoundingRectangle();
+					sbatch.DrawCentered(Textures.TexPixel, Position, a.Width + GDConstants.TILE_WIDTH, a.Height + GDConstants.TILE_WIDTH, Color.Black*0.333f);
+
+				}
+				else
+				{
+					sbatch.DrawCentered(Textures.TexPixel, Position, Width + GDConstants.TILE_WIDTH, Height + GDConstants.TILE_WIDTH, Color.Black*0.333f);
+				}
+			}
 
 			switch (ObstacleType)
 			{
@@ -151,7 +167,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		{
 			base.DrawDebugBorders(sbatch);
 
-			//
+			sbatch.DrawShape(GetArea(), Color.Magenta, 4*GDOwner.PixelWidth);
 		}
 #endif
 
@@ -193,32 +209,152 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 					Text = () => null,
 					TextColor = () => FlatColors.Foreground,
 				};
+
+				if (ObstacleType == ObstacleStubType.BlackHole || ObstacleType == ObstacleStubType.WhiteHole || ObstacleType == ObstacleStubType.MirrorCircle || ObstacleType == ObstacleStubType.VoidVircle)
+				{
+					yield return new SingleAttrOption
+					{
+						Action = ChangeDiameter,
+						Description = L10NImpl.STR_LVLED_BTN_DIAMETER,
+						Icon = () => null,
+						Text = () => Convert.ToString(FloatMath.Round(Width / (GDConstants.TILE_WIDTH / 2f)) * 0.5f, CultureInfo.InvariantCulture),
+						TextColor = () => FlatColors.Foreground,
+					};
+				}
+
+				if (ObstacleType == ObstacleStubType.MirrorBlock || ObstacleType == ObstacleStubType.GlassBlock)
+				{
+					yield return new SingleAttrOption
+					{
+						Action = ChangeWidth,
+						Description = L10NImpl.STR_LVLED_BTN_WIDTH,
+						Icon = () => null,
+						Text = () => Convert.ToString(FloatMath.Round(Width / (GDConstants.TILE_WIDTH / 2f)) * 0.5f, CultureInfo.InvariantCulture),
+						TextColor = () => FlatColors.Foreground,
+					};
+
+					yield return new SingleAttrOption
+					{
+						Action = ChangeHeight,
+						Description = L10NImpl.STR_LVLED_BTN_HEIGHT,
+						Icon = () => null,
+						Text = () => Convert.ToString(FloatMath.Round(Height / (GDConstants.TILE_WIDTH / 2f)) * 0.5f, CultureInfo.InvariantCulture),
+						TextColor = () => FlatColors.Foreground,
+					};
+
+					yield return new SingleAttrOption
+					{
+						Action = ChangeRot,
+						Description = L10NImpl.STR_LVLED_BTN_ROT,
+						Icon = () => null,
+						Text = () => ROT_STR[FloatMath.Max(0, ROTS.IndexOf(Rotation))],
+						TextColor = () => FlatColors.Foreground,
+					};
+				}
+
+				if (ObstacleType == ObstacleStubType.BlackHole || ObstacleType == ObstacleStubType.WhiteHole)
+				{
+					yield return new SingleAttrOption
+					{
+						Action = ChangePower,
+						Description = L10NImpl.STR_LVLED_BTN_POWER,
+						Icon = () => null,
+						Text = () => POWER_STR[Math.Max(0, POWERS.IndexOf(Power))],
+						TextColor = () => FlatColors.Foreground,
+					};
+				}
 			}
+		}
+
+		private void ChangePower()
+		{
+			Power = POWERS[(POWERS.IndexOf(Power) + 1) % POWERS.Length];
+		}
+
+		private void ChangeRot()
+		{
+			var idxCurr = ROTS.IndexOf(Rotation);
+
+			for (int i = 1; i < ROTS.Length; i++)
+			{
+				var idxTest = (idxCurr + i) % ROTS.Length;
+				if (GDOwner.CanInsertObstacleStub(Position, ObstacleType, Width, Height, ROTS[idxTest], this) != null)
+				{
+					Rotation = ROTS[idxTest];
+					return;
+				}
+			}
+		}
+
+		private void ChangeDiameter()
+		{
+			var newsize = ((FloatMath.Round(Width / (GDConstants.TILE_WIDTH / 2f))) % 16 + 1) * (GDConstants.TILE_WIDTH / 2f);
+
+			if (GDOwner.CanInsertObstacleStub(Position, ObstacleType, newsize, newsize, Rotation, this) != null)
+			{
+				Width = Height = newsize;
+				return;
+			}
+			else
+			{
+				Width = Height = (GDConstants.TILE_WIDTH / 2f);
+				return;
+			}
+		}
+
+		private void ChangeWidth()
+		{
+			var newwidth = FloatMath.Round(Width / (GDConstants.TILE_WIDTH / 2f)) * (GDConstants.TILE_WIDTH / 2f);
+			newwidth += (GDConstants.TILE_WIDTH / 2f);
+
+			if (newwidth > GDOwner.LevelData.Width * GDConstants.TILE_WIDTH + 4 * GDConstants.TILE_WIDTH)
+			{
+				newwidth = (GDConstants.TILE_WIDTH / 2f);
+			}
+
+			if (GDOwner.CanInsertObstacleStub(Position, ObstacleType, newwidth, Height, Rotation, this) == null)
+			{
+				newwidth = (GDConstants.TILE_WIDTH / 2f);
+			}
+
+			Width = newwidth;
+		}
+
+		private void ChangeHeight()
+		{
+			var newheight = FloatMath.Round(Height / (GDConstants.TILE_WIDTH / 2f)) * (GDConstants.TILE_WIDTH / 2f);
+			newheight += (GDConstants.TILE_WIDTH / 2f);
+
+			if (newheight > GDOwner.LevelData.Height * GDConstants.TILE_WIDTH + 4 * GDConstants.TILE_WIDTH)
+			{
+				newheight = (GDConstants.TILE_WIDTH / 2f);
+			}
+
+			if (GDOwner.CanInsertObstacleStub(Position, ObstacleType, Width, newheight, Rotation, this) == null)
+			{
+				newheight = (GDConstants.TILE_WIDTH / 2f);
+			}
+
+			Height = newheight;
 		}
 
 		private void ChangeObstacleType()
 		{
 			ObstacleType = (ObstacleStubType)(((int)ObstacleType + 1) % 6);
-
-			var idxCurr = (int)ObstacleType;
-
-			for (int i = 1; i < 6; i++)
+			if (GDOwner.CanInsertObstacleStub(Position, ObstacleType, Width, Height, Rotation, this) == null)
 			{
-				var ttest = (ObstacleStubType)((idxCurr + 1) % 6);
-				if (GDOwner.CanInsertObstacleStub(Position, ttest, Width, Height, Rotation, this) != null)
-				{
-					ObstacleType = ttest;
-					GDOwner.GDHUD.AttrPanel.Recreate(this);
-					return;
-				}
+				Width    = GDConstants.TILE_WIDTH / 2f;
+				Height   = GDConstants.TILE_WIDTH / 2f;
+				Rotation = 0;
 			}
+
+			GDOwner.GDHUD.AttrPanel.Recreate(this);
 		}
 
 		public void Kill()
 		{
 			Remove();
 		}
-
 
 		public IFShape GetClickArea() => GetArea();
 
@@ -230,14 +366,14 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 				case ObstacleStubType.WhiteHole:
 				case ObstacleStubType.MirrorCircle:
 				case ObstacleStubType.VoidVircle:
-					return new FCircle(Position, Width);
+					return new FCircle(Position, Width/2f);
 
 				case ObstacleStubType.GlassBlock:
 				case ObstacleStubType.MirrorBlock:
 					return new FRotatedRectangle(Position, Width, Height, Rotation);
 
 				default:
-					SAMLog.Error("LEOS::EnumSwitch_IC", "ObstacleType = " + ObstacleType);
+					SAMLog.Error("LEOS::EnumSwitch_GA", "ObstacleType = " + ObstacleType);
 					return null;
 			}
 		}

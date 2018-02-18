@@ -24,6 +24,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 
 		private FPoint _mouseStartPos;
 		private FPoint _startOffset;
+		private Vector2 _dragOffCenter;
 
 		private LevelEditorScreen _gdScreen;
 
@@ -46,8 +47,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		protected override void OnUpdate(LevelEditorScreen screen, SAMTime gameTime, InputState istate)
 		{
 			const float raster = (GDConstants.TILE_WIDTH / 2f);
-			var rx = raster * FloatMath.Round(istate.GamePointerPositionOnMap.X / raster);
-			var ry = raster * FloatMath.Round(istate.GamePointerPositionOnMap.Y / raster);
+			var rx = raster * FloatMath.Round((istate.GamePointerPositionOnMap.X - _dragOffCenter.X) / raster);
+			var ry = raster * FloatMath.Round((istate.GamePointerPositionOnMap.Y - _dragOffCenter.Y) / raster);
 
 			_boundsWorkingArea = _gdScreen.VAdapterGame.VirtualTotalBoundingBox.AsDeflated(
 				0, 
@@ -109,13 +110,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsExclusiveJustDown)
 				{
 					var clickedCannon   = _gdScreen.GetEntities<CannonStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
-					var clickedObstacle = _gdScreen.GetEntities<CannonStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
+					var clickedObstacle = _gdScreen.GetEntities<ObstacleStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
 					if (clickedCannon != null)
 					{
 						istate.Swallow(InputConsumer.GameBackground);
 						_gdScreen.SelectStub(clickedCannon);
 						_mouseStartPos = istate.GamePointerPosition;
 						_startOffset = _gdScreen.MapOffset;
+						_dragOffCenter = istate.GamePointerPositionOnMap - clickedCannon.Center;
 						_dragMode = DMode.CannonMove;
 					}
 					else if (clickedObstacle != null)
@@ -124,6 +126,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 						_gdScreen.SelectStub(clickedObstacle);
 						_mouseStartPos = istate.GamePointerPosition;
 						_startOffset = _gdScreen.MapOffset;
+						_dragOffCenter = istate.GamePointerPositionOnMap - clickedObstacle.Center;
 						_dragMode = DMode.ObstacleMove;
 					}
 					else
@@ -132,6 +135,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 						_gdScreen.SelectStub(null);
 						_mouseStartPos = istate.GamePointerPosition;
 						_startOffset = _gdScreen.MapOffset;
+						_dragOffCenter = Vector2.Zero;
 						_dragMode = DMode.MapDrag;
 					}
 
@@ -193,6 +197,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_gdScreen.SetMode(LevelEditorMode.Mouse);
 			_mouseStartPos = istate.GamePointerPosition;
 			_startOffset = _gdScreen.MapOffset;
+			_dragOffCenter = Vector2.Zero;
 			_dragMode = DMode.CannonMove;
 		}
 
@@ -201,6 +206,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_gdScreen.SetMode(LevelEditorMode.Mouse);
 			_mouseStartPos = istate.GamePointerPosition;
 			_startOffset = _gdScreen.MapOffset;
+			_dragOffCenter = Vector2.Zero;
 			_dragMode = DMode.ObstacleMove;
 		}
 	}
