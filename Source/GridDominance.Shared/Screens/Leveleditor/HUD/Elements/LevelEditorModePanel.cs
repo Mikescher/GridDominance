@@ -42,6 +42,15 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)   => true;
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
 
+		protected override void RecalculatePosition()
+		{
+			base.RecalculatePosition();
+
+			RelativePosition = FPoint.Zero;
+			Size = new FSize(WIDTH, HUD.Height);
+			Alignment = HUDAlignment.TOPRIGHT;
+		}
+
 		public override void OnInitialize()
 		{
 			RelativePosition = FPoint.Zero;
@@ -215,7 +224,8 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 
 		private void ExitEditor(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			GDScreen.SetMode(LevelEditorMode.Mouse);
+			//GDScreen.SetMode(LevelEditorMode.Mouse);
+			MainGame.Inst.SetOverworldScreen(); //TODO ask for save etc
 		}
 
 		private void TryUpload(HUDTextButton sender, HUDButtonEventArgs e)
@@ -231,6 +241,8 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		private void SetModeSettings(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			GDScreen.SetMode(LevelEditorMode.Mouse);
+			GDScreen.SelectStub(null);
+			GDScreen.GDHUD.AddElement(new LevelEditorConfigPanel());
 		}
 
 		private void SetModeObstacle(HUDTextButton sender, HUDButtonEventArgs e)

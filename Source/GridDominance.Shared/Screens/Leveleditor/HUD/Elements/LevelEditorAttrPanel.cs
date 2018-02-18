@@ -34,6 +34,15 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)   => true;
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
 
+		protected override void RecalculatePosition()
+		{
+			base.RecalculatePosition();
+
+			RelativePosition = new FPoint(GDConstants.TILE_WIDTH / 2f, 0);
+			Size = new FSize(HUD.Width - 5 * GDConstants.TILE_WIDTH, HEIGHT);
+			Alignment = HUDAlignment.BOTTOMLEFT;
+		}
+
 		public override void OnInitialize()
 		{
 			RelativePosition = new FPoint(GDConstants.TILE_WIDTH/2f, 0);

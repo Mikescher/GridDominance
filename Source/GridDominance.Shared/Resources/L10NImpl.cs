@@ -16,250 +16,258 @@ namespace GridDominance.Shared.Resources
 		
 		//-----------------------------------------------------------------------
 
-		public const int STR_SSB_ABOUT              = 00;
-		public const int STR_SSB_ACCOUNT            = 01;
-		public const int STR_SSB_HIGHSCORE          = 02;
-		public const int STR_SSB_MUTE               = 03;
-		public const int STR_SSB_EFFECTS            = 04;
-		public const int STR_SSB_LANGUAGE           = 69;
-		public const int STR_SSB_MUSIC              = 111;
-		public const int STR_SSB_COLOR              = 185;
+		public const int STR_SSB_ABOUT               = 00;
+		public const int STR_SSB_ACCOUNT             = 01;
+		public const int STR_SSB_HIGHSCORE           = 02;
+		public const int STR_SSB_MUTE                = 03;
+		public const int STR_SSB_EFFECTS             = 04;
+		public const int STR_SSB_LANGUAGE            = 69;
+		public const int STR_SSB_MUSIC               = 111;
+		public const int STR_SSB_COLOR               = 185;
 
-		public const int STR_HSP_GLOBALRANKING      = 05;
-		public const int STR_HSP_MULTIPLAYERRANKING = 167;
-		public const int STR_HSP_RANKINGFOR         = 06;
+		public const int STR_HSP_GLOBALRANKING       = 05;
+		public const int STR_HSP_MULTIPLAYERRANKING  = 167;
+		public const int STR_HSP_RANKINGFOR          = 06;
 
-		public const int STR_TAB_NAME               = 07;
-		public const int STR_TAB_POINTS             = 08;
-		public const int STR_TAB_TIME               = 09;
+		public const int STR_TAB_NAME                = 07;
+		public const int STR_TAB_POINTS              = 08;
+		public const int STR_TAB_TIME                = 09;
 
-		public const int STR_FAP_ACCOUNT            = 10;
-		public const int STR_FAP_USERNAME           = 11;
-		public const int STR_FAP_SCORE              = 78;
-		public const int STR_FAP_CHANGEPW           = 12;
-		public const int STR_FAP_LOGOUT             = 93;
-		public const int STR_FAP_WARN1              = 94;
-		public const int STR_FAP_WARN2              = 95;
-		public const int STR_FAP_LOGOUT_SUCESS      = 96;
+		public const int STR_FAP_ACCOUNT             = 10;
+		public const int STR_FAP_USERNAME            = 11;
+		public const int STR_FAP_SCORE               = 78;
+		public const int STR_FAP_CHANGEPW            = 12;
+		public const int STR_FAP_LOGOUT              = 93;
+		public const int STR_FAP_WARN1               = 94;
+		public const int STR_FAP_WARN2               = 95;
+		public const int STR_FAP_LOGOUT_SUCESS       = 96;
 
-		public const int STR_CPP_CHANGEPW           = 13;
-		public const int STR_CPP_USERNAME           = 14;
-		public const int STR_CPP_NEWPW              = 15;
-		public const int STR_CPP_CHANGE             = 16;
-		public const int STR_CPP_CHANGING           = 17;
-		public const int STR_CPP_CHANGED            = 18;
-		public const int STR_CPP_COMERR             = 19;
-		public const int STR_CPP_AUTHERR            = 20;
-		public const int STR_CPP_CHANGEERR          = 21;
+		public const int STR_CPP_CHANGEPW            = 13;
+		public const int STR_CPP_USERNAME            = 14;
+		public const int STR_CPP_NEWPW               = 15;
+		public const int STR_CPP_CHANGE              = 16;
+		public const int STR_CPP_CHANGING            = 17;
+		public const int STR_CPP_CHANGED             = 18;
+		public const int STR_CPP_COMERR              = 19;
+		public const int STR_CPP_AUTHERR             = 20;
+		public const int STR_CPP_CHANGEERR           = 21;
 
-		public const int STR_ATTRIBUTIONS           = 22;
-		public const int STR_UNLOCK                 = 85;
-		public const int STR_ACKNOWLEDGEMENTS       = 188;
+		public const int STR_ATTRIBUTIONS            = 22;
+		public const int STR_UNLOCK                  = 85;
+		public const int STR_ACKNOWLEDGEMENTS        = 188;
 
-		public const int STR_AAP_HEADER             = 23;
-		public const int STR_AAP_USERNAME           = 24;
-		public const int STR_AAP_PASSWORD           = 25;
-		public const int STR_AAP_CREATEACCOUNT      = 26;
-		public const int STR_AAP_LOGIN              = 27;
-		public const int STR_AAP_LOGGINGIN          = 28;
-		public const int STR_AAP_WRONGPW            = 29;
-		public const int STR_AAP_USERNOTFOUND       = 30;
-		public const int STR_AAP_NOCOM              = 31;
-		public const int STR_AAP_LOGINSUCCESS       = 32;
-		public const int STR_AAP_NOLOGIN            = 33;
-		public const int STR_AAP_ACCCREATING        = 34;
-		public const int STR_AAP_ACCCREATED         = 35;
-		public const int STR_AAP_USERTAKEN          = 36;
-		public const int STR_AAP_ALREADYCREATED     = 37;
-		public const int STR_AAP_AUTHERROR          = 38;
-		public const int STR_AAP_COULDNOTCREATE     = 39;
+		public const int STR_AAP_HEADER              = 23;
+		public const int STR_AAP_USERNAME            = 24;
+		public const int STR_AAP_PASSWORD            = 25;
+		public const int STR_AAP_CREATEACCOUNT       = 26;
+		public const int STR_AAP_LOGIN               = 27;
+		public const int STR_AAP_LOGGINGIN           = 28;
+		public const int STR_AAP_WRONGPW             = 29;
+		public const int STR_AAP_USERNOTFOUND        = 30;
+		public const int STR_AAP_NOCOM               = 31;
+		public const int STR_AAP_LOGINSUCCESS        = 32;
+		public const int STR_AAP_NOLOGIN             = 33;
+		public const int STR_AAP_ACCCREATING         = 34;
+		public const int STR_AAP_ACCCREATED          = 35;
+		public const int STR_AAP_USERTAKEN           = 36;
+		public const int STR_AAP_ALREADYCREATED      = 37;
+		public const int STR_AAP_AUTHERROR           = 38;
+		public const int STR_AAP_COULDNOTCREATE      = 39;
 
-		public const int STR_PAUS_RESUME            = 40;
-		public const int STR_PAUS_RESTART           = 41;
-		public const int STR_PAUS_EXIT              = 42;
+		public const int STR_PAUS_RESUME             = 40;
+		public const int STR_PAUS_RESTART            = 41;
+		public const int STR_PAUS_EXIT               = 42;
 
-		public const int STR_HSP_LEVEL              = 43;
-		public const int STR_HSP_POINTS             = 44;
-		public const int STR_HSP_MPPOINTS           = 160;
-		public const int STR_HSP_PROGRESS           = 45;
-		public const int STR_HSP_TIME_NOW           = 183;
-		public const int STR_HSP_TIME_BEST          = 184;
-		public const int STR_HSP_BACK               = 46;
-		public const int STR_HSP_NEXT               = 47;
-		public const int STR_HSP_AGAIN              = 48;
-		public const int STR_HSP_TUTORIAL           = 49;
-		public const int STR_HSP_GETSTARTED         = 50;
-		public const int STR_HSP_CONERROR           = 65;
-		public const int STR_HSP_NEWGAME            = 158;
-		public const int STR_HSP_RANDOMGAME         = 159;
+		public const int STR_HSP_LEVEL               = 43;
+		public const int STR_HSP_POINTS              = 44;
+		public const int STR_HSP_MPPOINTS            = 160;
+		public const int STR_HSP_PROGRESS            = 45;
+		public const int STR_HSP_TIME_NOW            = 183;
+		public const int STR_HSP_TIME_BEST           = 184;
+		public const int STR_HSP_BACK                = 46;
+		public const int STR_HSP_NEXT                = 47;
+		public const int STR_HSP_AGAIN               = 48;
+		public const int STR_HSP_TUTORIAL            = 49;
+		public const int STR_HSP_GETSTARTED          = 50;
+		public const int STR_HSP_CONERROR            = 65;
+		public const int STR_HSP_NEWGAME             = 158;
+		public const int STR_HSP_RANDOMGAME          = 159;
 
-		public const int STR_DIFF_0                 = 51;
-		public const int STR_DIFF_1                 = 52;
-		public const int STR_DIFF_2                 = 53;
-		public const int STR_DIFF_3                 = 54;
+		public const int STR_DIFF_0                  = 51;
+		public const int STR_DIFF_1                  = 52;
+		public const int STR_DIFF_2                  = 53;
+		public const int STR_DIFF_3                  = 54;
 
-		public const int STR_TUT_INFO1              = 79;
-		public const int STR_TUT_INFO2              = 55;
-		public const int STR_TUT_INFO3              = 56;
-		public const int STR_TUT_INFO4              = 57;
-		public const int STR_TUT_INFO5              = 58;
-		public const int STR_TUT_INFO6              = 59;
-		public const int STR_TUT_INFO7              = 60;
-		public const int STR_TUT_INFO8              = 61;
+		public const int STR_TUT_INFO1               = 79;
+		public const int STR_TUT_INFO2               = 55;
+		public const int STR_TUT_INFO3               = 56;
+		public const int STR_TUT_INFO4               = 57;
+		public const int STR_TUT_INFO5               = 58;
+		public const int STR_TUT_INFO6               = 59;
+		public const int STR_TUT_INFO7               = 60;
+		public const int STR_TUT_INFO8               = 61;
 
-		public const int STR_API_CONERR             = 62;
-		public const int STR_API_COMERR             = 63;
+		public const int STR_API_CONERR              = 62;
+		public const int STR_API_COMERR              = 63;
 
-		public const int STR_GLOB_EXITTOAST         = 64;
-		public const int STR_GLOB_UNLOCKTOAST1      = 66;
-		public const int STR_GLOB_UNLOCKTOAST2      = 67;
-		public const int STR_GLOB_UNLOCKTOAST3      = 68;
-		public const int STR_GLOB_LEVELLOCK         = 70;
-		public const int STR_GLOB_WORLDLOCK         = 71;
-		public const int STR_GLOB_OVERWORLD         = 75;
-		public const int STR_GLOB_WAITFORSERVER     = 76;
-		public const int STR_GLOB_UNLOCKSUCCESS     = 86;
+		public const int STR_GLOB_EXITTOAST          = 64;
+		public const int STR_GLOB_UNLOCKTOAST1       = 66;
+		public const int STR_GLOB_UNLOCKTOAST2       = 67;
+		public const int STR_GLOB_UNLOCKTOAST3       = 68;
+		public const int STR_GLOB_LEVELLOCK          = 70;
+		public const int STR_GLOB_WORLDLOCK          = 71;
+		public const int STR_GLOB_OVERWORLD          = 75;
+		public const int STR_GLOB_WAITFORSERVER      = 76;
+		public const int STR_GLOB_UNLOCKSUCCESS      = 86;
 
-		public const int STR_WORLD_TUTORIAL         = 77;
-		public const int STR_WORLD_W1               = 80;
-		public const int STR_WORLD_W2               = 81;
-		public const int STR_WORLD_W3               = 92;
-		public const int STR_WORLD_W4               = 103;
-		public const int STR_WORLD_MULTIPLAYER      = 114;
-		public const int STR_WORLD_SINGLEPLAYER     = 178;
-		public const int STR_WORLD_ONLINE           = 194;
+		public const int STR_WORLD_TUTORIAL          = 77;
+		public const int STR_WORLD_W1                = 80;
+		public const int STR_WORLD_W2                = 81;
+		public const int STR_WORLD_W3                = 92;
+		public const int STR_WORLD_W4                = 103;
+		public const int STR_WORLD_MULTIPLAYER       = 114;
+		public const int STR_WORLD_SINGLEPLAYER      = 178;
+		public const int STR_WORLD_ONLINE            = 194;
 
-		public const int STR_INF_YOU                = 72;
-		public const int STR_INF_GLOBAL             = 73;
-		public const int STR_INF_HIGHSCORE          = 74;
+		public const int STR_INF_YOU                 = 72;
+		public const int STR_INF_GLOBAL              = 73;
+		public const int STR_INF_HIGHSCORE           = 74;
 
-		public const int STR_IAB_TESTERR            = 82;
-		public const int STR_IAB_TESTNOCONN         = 83;
-		public const int STR_IAB_TESTINPROGRESS     = 84;
+		public const int STR_IAB_TESTERR             = 82;
+		public const int STR_IAB_TESTNOCONN          = 83;
+		public const int STR_IAB_TESTINPROGRESS      = 84;
 
-		public const int STR_IAB_BUYERR             = 88;
-		public const int STR_IAB_BUYNOCONN          = 89;
-		public const int STR_IAB_BUYNOTREADY        = 90;
-		public const int STR_IAB_BUYSUCESS          = 91;
+		public const int STR_IAB_BUYERR              = 88;
+		public const int STR_IAB_BUYNOCONN           = 89;
+		public const int STR_IAB_BUYNOTREADY         = 90;
+		public const int STR_IAB_BUYSUCESS           = 91;
 
-		public const int STR_PREV_BUYNOW            = 87;
-		public const int STR_PREV_FINISHWORLD       = 108;
-		public const int STR_PREV_OR                = 109;
-		public const int STR_PREV_MISS_TOAST        = 110;
+		public const int STR_PREV_BUYNOW             = 87;
+		public const int STR_PREV_FINISHWORLD        = 108;
+		public const int STR_PREV_OR                 = 109;
+		public const int STR_PREV_MISS_TOAST         = 110;
 
-		public const int STR_HINT_001               = 97;
-		public const int STR_HINT_002               = 98;
-		public const int STR_HINT_003               = 99;
-		public const int STR_HINT_004               = 100;
-		public const int STR_HINT_005               = 101;
-		public const int STR_HINT_006               = 102;
-		public const int STR_HINT_007               = 112;
-		public const int STR_HINT_008               = 113;
-		public const int STR_HINT_009               = 173;
-		public const int STR_HINT_010               = 176;
-		public const int STR_HINT_011               = 177;
+		public const int STR_HINT_001                = 97;
+		public const int STR_HINT_002                = 98;
+		public const int STR_HINT_003                = 99;
+		public const int STR_HINT_004                = 100;
+		public const int STR_HINT_005                = 101;
+		public const int STR_HINT_006                = 102;
+		public const int STR_HINT_007                = 112;
+		public const int STR_HINT_008                = 113;
+		public const int STR_HINT_009                = 173;
+		public const int STR_HINT_010                = 176;
+		public const int STR_HINT_011                = 177;
 
-		public const int STR_INFOTOAST_1            = 104;
-		public const int STR_INFOTOAST_2            = 105;
-		public const int STR_INFOTOAST_3            = 106;
-		public const int STR_INFOTOAST_4            = 107;
+		public const int STR_INFOTOAST_1             = 104;
+		public const int STR_INFOTOAST_2             = 105;
+		public const int STR_INFOTOAST_3             = 106;
+		public const int STR_INFOTOAST_4             = 107;
 
-		public const int STR_MP_TIMEOUT             = 115;
-		public const int STR_MP_TIMEOUT_USER        = 116;
-		public const int STR_MP_NOTINLOBBY          = 117;
-		public const int STR_MP_SESSIONNOTFOUND     = 118;
-		public const int STR_MP_AUTHFAILED          = 119;
-		public const int STR_MP_LOBBYFULL           = 120;
-		public const int STR_MP_VERSIONMISMATCH     = 121;
-		public const int STR_MP_LEVELNOTFOUND       = 122;
-		public const int STR_MP_LEVELMISMATCH       = 123;
-		public const int STR_MP_USERDISCONNECT      = 124;
-		public const int STR_MP_SERVERDISCONNECT    = 125;
-		public const int STR_MP_INTERNAL            = 161;
-		public const int STR_MP_BTADAPTERNULL       = 162;
-		public const int STR_MP_BTADAPTERPERMDENIED = 168;
-		public const int STR_MP_BTDISABLED          = 163;
-		public const int STR_MP_DIRECTCONNLOST      = 164;
-		public const int STR_MP_DIRECTCONNFAIL      = 165;
-		public const int STR_MP_TOAST_CONN_TRY      = 170;
-		public const int STR_MP_TOAST_CONN_FAIL     = 171;
-		public const int STR_MP_TOAST_CONN_SUCC     = 172;
-		public const int STR_MP_NOSERVERCONN        = 182;
+		public const int STR_MP_TIMEOUT              = 115;
+		public const int STR_MP_TIMEOUT_USER         = 116;
+		public const int STR_MP_NOTINLOBBY           = 117;
+		public const int STR_MP_SESSIONNOTFOUND      = 118;
+		public const int STR_MP_AUTHFAILED           = 119;
+		public const int STR_MP_LOBBYFULL            = 120;
+		public const int STR_MP_VERSIONMISMATCH      = 121;
+		public const int STR_MP_LEVELNOTFOUND        = 122;
+		public const int STR_MP_LEVELMISMATCH        = 123;
+		public const int STR_MP_USERDISCONNECT       = 124;
+		public const int STR_MP_SERVERDISCONNECT     = 125;
+		public const int STR_MP_INTERNAL             = 161;
+		public const int STR_MP_BTADAPTERNULL        = 162;
+		public const int STR_MP_BTADAPTERPERMDENIED  = 168;
+		public const int STR_MP_BTDISABLED           = 163;
+		public const int STR_MP_DIRECTCONNLOST       = 164;
+		public const int STR_MP_DIRECTCONNFAIL       = 165;
+		public const int STR_MP_TOAST_CONN_TRY       = 170;
+		public const int STR_MP_TOAST_CONN_FAIL      = 171;
+		public const int STR_MP_TOAST_CONN_SUCC      = 172;
+		public const int STR_MP_NOSERVERCONN         = 182;
 
-		public const int STR_MENU_CANCEL            = 138;
-		public const int STR_MENU_DISCONNECT        = 147;
+		public const int STR_MENU_CANCEL             = 138;
+		public const int STR_MENU_DISCONNECT         = 147;
 
-		public const int STR_MENU_CAP_MULTIPLAYER   = 126;
-		public const int STR_MENU_CAP_LOBBY         = 127;
-		public const int STR_MENU_CAP_CGAME_PROX    = 128;
-		public const int STR_MENU_CAP_CGAME_BT      = 169;
-		public const int STR_MENU_CAP_AUTH          = 136;
-		public const int STR_MENU_CAP_SEARCH        = 166;
-		public const int STR_MENU_MP_JOIN           = 132;
-		public const int STR_MENU_MP_HOST           = 133;
-		public const int STR_MENU_MP_START          = 149;
-		public const int STR_MENU_MP_ONLINE         = 135;
-		public const int STR_MENU_MP_LOCAL_CLASSIC  = 134;
-		public const int STR_MENU_MP_CREATE         = 137;
-		public const int STR_MENU_MP_GAMESPEED      = 139;
-		public const int STR_MENU_MP_MUSIC          = 140;
-		public const int STR_MENU_MP_LOBBYINFO      = 141;
-		public const int STR_MENU_MP_LOBBY_USER     = 142;
-		public const int STR_MENU_MP_LOBBY_USER_FMT = 148;
-		public const int STR_MENU_MP_LOBBY_LEVEL    = 143;
-		public const int STR_MENU_MP_LOBBY_MUSIC    = 144;
-		public const int STR_MENU_MP_LOBBY_SPEED    = 145;
-		public const int STR_MENU_MP_LOBBY_PING     = 146;
-		public const int STR_MENU_MP_LOBBY_COLOR    = 157;
+		public const int STR_MENU_CAP_MULTIPLAYER    = 126;
+		public const int STR_MENU_CAP_LOBBY          = 127;
+		public const int STR_MENU_CAP_CGAME_PROX     = 128;
+		public const int STR_MENU_CAP_CGAME_BT       = 169;
+		public const int STR_MENU_CAP_AUTH           = 136;
+		public const int STR_MENU_CAP_SEARCH         = 166;
+		public const int STR_MENU_MP_JOIN            = 132;
+		public const int STR_MENU_MP_HOST            = 133;
+		public const int STR_MENU_MP_START           = 149;
+		public const int STR_MENU_MP_ONLINE          = 135;
+		public const int STR_MENU_MP_LOCAL_CLASSIC   = 134;
+		public const int STR_MENU_MP_CREATE          = 137;
+		public const int STR_MENU_MP_GAMESPEED       = 139;
+		public const int STR_MENU_MP_MUSIC           = 140;
+		public const int STR_MENU_MP_LOBBYINFO       = 141;
+		public const int STR_MENU_MP_LOBBY_USER      = 142;
+		public const int STR_MENU_MP_LOBBY_USER_FMT  = 148;
+		public const int STR_MENU_MP_LOBBY_LEVEL     = 143;
+		public const int STR_MENU_MP_LOBBY_MUSIC     = 144;
+		public const int STR_MENU_MP_LOBBY_SPEED     = 145;
+		public const int STR_MENU_MP_LOBBY_PING      = 146;
+		public const int STR_MENU_MP_LOBBY_COLOR     = 157;
 
-		public const int STR_MP_ONLINE              = 129;
-		public const int STR_MP_OFFLINE             = 130;
-		public const int STR_MP_CONNECTING          = 131;
+		public const int STR_MP_ONLINE               = 129;
+		public const int STR_MP_OFFLINE              = 130;
+		public const int STR_MP_CONNECTING           = 131;
 
-		public const int STR_FRAC_N0                = 150;
-		public const int STR_FRAC_P1                = 151;
-		public const int STR_FRAC_A2                = 152;
-		public const int STR_FRAC_A3                = 153;
-		public const int STR_FRAC_A4                = 154;
-		public const int STR_FRAC_A5                = 155;
-		public const int STR_FRAC_A6                = 156;
+		public const int STR_FRAC_N0                 = 150;
+		public const int STR_FRAC_P1                 = 151;
+		public const int STR_FRAC_A2                 = 152;
+		public const int STR_FRAC_A3                 = 153;
+		public const int STR_FRAC_A4                 = 154;
+		public const int STR_FRAC_A5                 = 155;
+		public const int STR_FRAC_A6                 = 156;
 
-		public const int STR_ENDGAME_1              = 174;
-		public const int STR_ENDGAME_2              = 175;
+		public const int STR_ENDGAME_1               = 174;
+		public const int STR_ENDGAME_2               = 175;
 
-		public const int STR_ACCOUNT_REMINDER       = 179;
-		public const int STR_BTN_YES                = 180;
-		public const int STR_BTN_NO                 = 181;
+		public const int STR_ACCOUNT_REMINDER        = 179;
+		public const int STR_BTN_YES                 = 180;
+		public const int STR_BTN_NO                  = 181;
 
-		public const int STR_ERR_SOUNDPLAYBACK      = 186;
-		public const int STR_ERR_MUSICPLAYBACK      = 187;
-		public const int STR_ERR_OUTOFMEMORY        = 189;
+		public const int STR_ERR_SOUNDPLAYBACK       = 186;
+		public const int STR_ERR_MUSICPLAYBACK       = 187;
+		public const int STR_ERR_OUTOFMEMORY         = 189;
 
-		public const int STR_PROFILESYNC_START      = 190;
-		public const int STR_PROFILESYNC_ERROR      = 191;
-		public const int STR_PROFILESYNC_SUCCESS    = 192;
+		public const int STR_PROFILESYNC_START       = 190;
+		public const int STR_PROFILESYNC_ERROR       = 191;
+		public const int STR_PROFILESYNC_SUCCESS     = 192;
 
-		public const int STR_AUTHERR_HEADER         = 193;
+		public const int STR_AUTHERR_HEADER          = 193;
 
-		public const int STR_LVLED_MOUSE            = 195;
-		public const int STR_LVLED_CANNON           = 196;
-		public const int STR_LVLED_WALL             = 197;
-		public const int STR_LVLED_OBSTACLE         = 198;
-		public const int STR_LVLED_SETTINGS         = 199;
-		public const int STR_LVLED_PLAY             = 200;
-		public const int STR_LVLED_UPLOAD           = 201;
-		public const int STR_LVLED_EXIT             = 202;
-		public const int STR_LVLED_BTN_FRAC         = 203;
-		public const int STR_LVLED_BTN_SCALE        = 204;
-		public const int STR_LVLED_BTN_ROT          = 205;
-		public const int STR_LVLED_BTN_TYPE         = 206;
-		public const int STR_LVLED_BTN_DIAMETER     = 207;
-		public const int STR_LVLED_BTN_WIDTH        = 208;
-		public const int STR_LVLED_BTN_HEIGHT       = 209;
-		public const int STR_LVLED_BTN_POWER        = 210;
-		public const int STR_LVLED_BTN_DEL          = 211;
+		public const int STR_LVLED_MOUSE             = 195;
+		public const int STR_LVLED_CANNON            = 196;
+		public const int STR_LVLED_WALL              = 197;
+		public const int STR_LVLED_OBSTACLE          = 198;
+		public const int STR_LVLED_SETTINGS          = 199;
+		public const int STR_LVLED_PLAY              = 200;
+		public const int STR_LVLED_UPLOAD            = 201;
+		public const int STR_LVLED_EXIT              = 202;
+		public const int STR_LVLED_BTN_FRAC          = 203;
+		public const int STR_LVLED_BTN_SCALE         = 204;
+		public const int STR_LVLED_BTN_ROT           = 205;
+		public const int STR_LVLED_BTN_TYPE          = 206;
+		public const int STR_LVLED_BTN_DIAMETER      = 207;
+		public const int STR_LVLED_BTN_WIDTH         = 208;
+		public const int STR_LVLED_BTN_HEIGHT        = 209;
+		public const int STR_LVLED_BTN_POWER         = 210;
+		public const int STR_LVLED_BTN_DEL           = 211;
+		public const int STR_LVLED_CFG_ID            = 212;
+		public const int STR_LVLED_CFG_NAME          = 213;
+		public const int STR_LVLED_CFG_SIZE          = 214;
+		public const int STR_LVLED_CFG_VIEW          = 215;
+		public const int STR_LVLED_CFG_GEOMETRY      = 216;
+		public const int STR_LVLED_CFG_WRAP_INFINITY = 217;
+		public const int STR_LVLED_CFG_WRAP_DONUT    = 218;
+		public const int STR_LVLED_CFG_WRAP_REFLECT  = 219;
 
-		private const int TEXT_COUNT = 212; // = next idx
+		private const int TEXT_COUNT = 220; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -1750,6 +1758,62 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_LVLED_BTN_DEL,
 			         "Delete",
 			         "Entfernen",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+			
+			L10N.Add(STR_LVLED_CFG_ID,
+			         "ID",
+			         "ID",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_CFG_NAME,
+			         "Name",
+			         "Name",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_CFG_SIZE,
+			         "Größe",
+			         "Size",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_CFG_VIEW,
+			         "Initial view",
+			         "Startansicht",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_CFG_GEOMETRY,
+			         "Geometrie",
+			         "Geometry",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_CFG_WRAP_INFINITY,
+			         "Endlos",
+			         "Infinity",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_CFG_WRAP_DONUT,
+			         "Donut",
+			         "Donut",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_CFG_WRAP_REFLECT,
+			         "Reflektierend",
+			         "Reflect",
 			         "?",  //TODO
 			         "?",  //TODO
 			         "?"); //TODO
