@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
@@ -111,6 +112,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 				rp.Y < CenterY + Height / 2f;
 		}
 
+		public IEnumerable<FPoint> EdgePoints => new[] {TopRight, TopLeft, BottomLeft, BottomRight};
+
 		[Pure]
 		public FRotatedRectangle AsTranslated(float offsetX, float offsetY)
 		{
@@ -172,6 +175,42 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FRectangle(CenterX - Width / 2f, CenterY - Height / 2f, Width, Height);
 		}
 
+		public bool TryConvertToRect(out FRectangle rect)
+		{
+			if (FloatMath.EpsilonEquals(Rotation, FloatMath.RAD_POS_000))
+			{
+				rect = new FRectangle(CenterX - Width / 2f, CenterY - Height / 2f, Width, Height);
+				return true;
+			}
+
+			if (FloatMath.EpsilonEquals(Rotation, FloatMath.RAD_POS_090))
+			{
+				rect = new FRectangle(CenterX - Height / 2f, CenterY - Width / 2f, Height, Width);
+				return true;
+			}
+
+			if (FloatMath.EpsilonEquals(Rotation, FloatMath.RAD_POS_180))
+			{
+				rect = new FRectangle(CenterX - Width / 2f, CenterY - Height / 2f, Width, Height);
+				return true;
+			}
+
+			if (FloatMath.EpsilonEquals(Rotation, FloatMath.RAD_POS_270))
+			{
+				rect = new FRectangle(CenterX - Height / 2f, CenterY - Width / 2f, Height, Width);
+				return true;
+			}
+
+			rect = FRectangle.Empty;
+			return false;
+		}
+
+		[Pure]
+		public bool Overlaps(IFShape other)
+		{
+			return ShapeMath.Overlaps(this, other);
+		}
+
 		internal string DebugDisplayString => $"({CenterX}|{CenterY}):({Width}|{Height}):({FloatMath.ToDegree(Rotation)}°)";
 
 		private float? _cacheMostLeft;
@@ -208,6 +247,5 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public float Area => Width * Height;
 		public FPoint Center => new FPoint(CenterX, CenterY);
 		public Vector2 VecCenter => new Vector2(CenterX, CenterY);
-
 	}
 }

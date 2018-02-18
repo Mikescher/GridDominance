@@ -179,6 +179,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FRectangle(value1.X * value2, value1.Y * value2, value1.Width * value2, value1.Height * value2);
 		}
 
+		public IEnumerable<FPoint> EdgePoints => new[] { TopRight, TopLeft, BottomLeft, BottomRight };
+
 		// http://stackoverflow.com/a/306332/1761622
 		[Pure]
 		internal bool Contains(FPoint center, FSize size)
@@ -257,12 +259,6 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public override int GetHashCode()
 		{
 			return X.GetHashCode() ^ 7841 * Y.GetHashCode() ^ 7853 * Width.GetHashCode() ^ 7867 * Height.GetHashCode();
-		}
-
-		[Pure]
-		public bool Intersects(FRectangle value)
-		{
-			return value.Left < Right && Left < value.Right && value.Top < Bottom && Top < value.Bottom;
 		}
 
 		[Pure]
@@ -657,6 +653,18 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			if (origin.IsOrigin()) return this;
 
 			return new FRectangle(X + origin.X, Y + origin.Y, Width, Height);
+		}
+
+		[Pure]
+		public bool Overlaps(IFShape other)
+		{
+			return ShapeMath.Overlaps(this, other);
+		}
+
+		[Pure]
+		public bool Overlaps(FRectangle value)
+		{
+			return value.Left < Right && Left < value.Right && value.Top < Bottom && Top < value.Bottom;
 		}
 	}
 }

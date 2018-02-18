@@ -83,6 +83,7 @@
     <Compile Include="GameMath\Geometry\Math2D.cs" />
     <Compile Include="GameMath\Geometry\Matrix3x3.cs" />
     <Compile Include="GameMath\Geometry\PerpendicularRotation.cs" />
+    <Compile Include="GameMath\Geometry\ShapeMath.cs" />
     <Compile Include="GameMath\Tetromino\TetroPiece.cs" />
     <Compile Include="GameMath\Tetromino\TetroPieces.cs" />
     <Compile Include="GameMath\VectorPath\CirclePieceSegment.cs" />

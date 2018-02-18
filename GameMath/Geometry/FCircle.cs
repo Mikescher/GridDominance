@@ -102,6 +102,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
+		public bool Overlaps(IFShape other)
+		{
+			return ShapeMath.Overlaps(this, other);
+		}
+
+		[Pure]
 		public override bool Equals(object obj)
 		{
 			return obj is FCircle && this == (FCircle)obj;

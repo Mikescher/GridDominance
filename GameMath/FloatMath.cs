@@ -204,6 +204,11 @@ namespace MonoSAMFramework.Portable.GameMath
 			return (float)Math.Pow(x, y);
 		}
 
+		public static float Pow2(float x)
+		{
+			return x*x
+		}
+
 		public static float Min(float val1, float val2)
 		{
 			if (val1 < val2)

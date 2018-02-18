@@ -19,5 +19,8 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		
 		[Pure]
 		bool Contains(Vector2 v);
+
+		[Pure]
+		bool Overlaps(IFShape other);
 	}
 }
