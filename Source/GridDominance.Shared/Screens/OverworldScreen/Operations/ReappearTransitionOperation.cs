@@ -12,7 +12,7 @@ using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class ReappearTransitionOperation : DecayOperation<GDOverworldScreen>
+	public class ReappearTransitionOperation : FixTimeOperation<GDOverworldScreen>
 	{
 		private const float DURATION = 0.5f; // sec
 
@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			rectFinal = screen.GuaranteedMapViewport;
 		}
 
-		protected override void OnDecayProgress(GDOverworldScreen screen, float perc, SAMTime gameTime, InputState istate)
+		protected override void OnProgress(GDOverworldScreen screen, float perc, SAMTime gameTime, InputState istate)
 		{
 			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseInSine(perc));
 

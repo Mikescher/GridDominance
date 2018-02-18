@@ -7,7 +7,7 @@ using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class ZoomOutOperation : DecayOperation<GDWorldMapScreen>
+	public class ZoomOutOperation : FixTimeOperation<GDWorldMapScreen>
 	{
 		private const float DURATION = 1.0f; // sec
 
@@ -31,7 +31,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			rectFinal = screen.Graph.BoundingViewport;
 		}
 
-		protected override void OnDecayProgress(GDWorldMapScreen screen, float perc, SAMTime gameTime, InputState istate)
+		protected override void OnProgress(GDWorldMapScreen screen, float perc, SAMTime gameTime, InputState istate)
 		{
 			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseInOutCubic(perc));
 

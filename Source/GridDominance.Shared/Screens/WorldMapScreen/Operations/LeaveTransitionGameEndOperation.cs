@@ -8,7 +8,7 @@ using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class LeaveTransitionGameEndOperation : DecayOperation<GDWorldMapScreen>
+	public class LeaveTransitionGameEndOperation : FixTimeOperation<GDWorldMapScreen>
 	{
 		private const float DURATION      = 1.00f; // sec
 		private const float DURATION_SLOW = 1.60f; // sec
@@ -47,7 +47,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			screen.ColorOverdraw = 0f;
 		}
 
-		protected override void OnDecayProgress(GDWorldMapScreen screen, float perc, SAMTime gameTime, InputState istate)
+		protected override void OnProgress(GDWorldMapScreen screen, float perc, SAMTime gameTime, InputState istate)
 		{
 			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseOutSine(perc));
 

@@ -9,7 +9,7 @@ using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 {
-	public class ZoomInOperation : DecayOperation<GDWorldMapScreen>
+	public class ZoomInOperation : FixTimeOperation<GDWorldMapScreen>
 	{
 		private const float DURATION = 0.6f; // sec
 
@@ -36,7 +36,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
 			rectFinal = FRectangle.CreateByCenter(centerPos, GDConstants.VIEW_WIDTH, GDConstants.VIEW_HEIGHT);
 		}
 
-		protected override void OnDecayProgress(GDWorldMapScreen screen, float perc, SAMTime gameTime, InputState istate)
+		protected override void OnProgress(GDWorldMapScreen screen, float perc, SAMTime gameTime, InputState istate)
 		{
 			var bounds = FRectangle.Lerp(rectStart, rectFinal, FloatMath.FunctionEaseOutQuad(perc));
 
