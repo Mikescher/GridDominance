@@ -187,6 +187,12 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return new FRectangle(CenterX - Width / 2f, CenterY - Height / 2f, Width, Height);
 		}
 
+		[Pure]
+		public FRectangle GetBoundingRectangle()
+		{
+			return new FRectangle(CenterX, CenterY, MostRight-MostLeft, MostBottom-MostTop);
+		}
+
 		public bool TryConvertToRect(out FRectangle rect)
 		{
 			if (FloatMath.EpsilonEquals(Rotation, FloatMath.RAD_POS_000))

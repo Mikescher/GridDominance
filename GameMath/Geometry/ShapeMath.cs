@@ -89,20 +89,20 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 		private static bool OverlapsSpecific(FCircle a, FRectangle b)
 		{
-			if (a.Center.Y > b.Bottom && a.Center.Y < b.Top)
+			if (a.Center.Y > b.Top && a.Center.Y < b.Bottom)
 			{
 				return a.Center.X > (b.Left - a.Radius) && a.Center.X < (b.Right + a.Radius);
 			}
 			else if (a.Center.X > b.Left && a.Center.X < b.Right)
 			{
-				return a.Center.Y > (b.Bottom - a.Radius) && a.Center.Y < (b.Top + a.Radius);
+				return a.Center.Y > (b.Top - a.Radius) && a.Center.Y < (b.Bottom + a.Radius);
 			}
 			else
 			{
-				return FloatMath.Pow2(a.Center.X - b.Left) + FloatMath.Pow2(a.Center.Y - b.Bottom) < FloatMath.Pow2(a.Radius) ||
+				return FloatMath.Pow2(a.Center.X - b.Left)  + FloatMath.Pow2(a.Center.Y - b.Top)    < FloatMath.Pow2(a.Radius) ||
+				       FloatMath.Pow2(a.Center.X - b.Right) + FloatMath.Pow2(a.Center.Y - b.Top)    < FloatMath.Pow2(a.Radius) ||
 				       FloatMath.Pow2(a.Center.X - b.Right) + FloatMath.Pow2(a.Center.Y - b.Bottom) < FloatMath.Pow2(a.Radius) ||
-				       FloatMath.Pow2(a.Center.X - b.Right) + FloatMath.Pow2(a.Center.Y - b.Top) < FloatMath.Pow2(a.Radius) ||
-				       FloatMath.Pow2(a.Center.X - b.Left) + FloatMath.Pow2(a.Center.Y - b.Top) < FloatMath.Pow2(a.Radius);
+				       FloatMath.Pow2(a.Center.X - b.Left)  + FloatMath.Pow2(a.Center.Y - b.Bottom) < FloatMath.Pow2(a.Radius);
 			}
 		}
 

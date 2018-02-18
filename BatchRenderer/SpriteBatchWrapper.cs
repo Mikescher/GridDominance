@@ -193,17 +193,17 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		public void DrawShape(IFShape shape, Color color, float thickness = 1)
 		{
-			if (shape is FRectangle)
+			if (shape is FRectangle shapeRect)
 			{
-				DrawRectangle((FRectangle)shape, color, thickness);
+				DrawRectangle(shapeRect, color, thickness);
 			}
-			else if (shape is FCircle)
+			else if (shape is FCircle shapeCircle)
 			{
-				DrawCircle((FCircle)shape, 32, color, thickness);
+				DrawCircle(shapeCircle, 32, color, thickness);
 			}
-			else if (shape is FRotatedRectangle)
+			else if (shape is FRotatedRectangle shapeRotRect)
 			{
-				DrawRectangle((FRotatedRectangle)shape, color, thickness);
+				DrawRectangle(shapeRotRect, color, thickness);
 			}
 		}
 
