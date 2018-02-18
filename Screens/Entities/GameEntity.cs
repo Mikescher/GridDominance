@@ -163,6 +163,14 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 		public void Draw(IBatchRenderer sbatch)
 		{
 			OnDraw(sbatch);
+		}
+
+		public void DrawOrderedForegroundLayer(IBatchRenderer sbatch)
+		{
+			// This drawcall gets called after all other entities on the same order level as this one have been OnDraw'ed
+			// good to draw shadows in normal OnDraw and objects in ForegroundDraw
+
+			OnDrawOrderedForegroundLayer(sbatch);
 
 #if DEBUG
 			if (DebugSettings.Get("DebugEntityBoundaries"))
@@ -174,14 +182,6 @@ namespace MonoSAMFramework.Portable.Screens.Entities
 				using (sbatch.BeginDebugDraw()) DrawDebugAreas(sbatch);
 			}
 #endif
-		}
-
-		public void DrawOrderedForegroundLayer(IBatchRenderer sbatch)
-		{
-			// This drawcall gets called after all other entities on the same order level as this one have been OnDraw'ed
-			// good to draw shadows in normal OnDraw and objects in ForegroundDraw
-
-			OnDrawOrderedForegroundLayer(sbatch);
 		}
 
 		protected virtual void DrawDebugBorders(IBatchRenderer sbatch)
