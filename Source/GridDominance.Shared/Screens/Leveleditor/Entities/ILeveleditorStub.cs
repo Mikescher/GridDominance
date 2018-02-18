@@ -13,5 +13,6 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		bool CollidesWith(CannonStub other);
 		bool CollidesWith(ObstacleStub other);
+		bool CollidesWith(WallStub other);
 	}
 }

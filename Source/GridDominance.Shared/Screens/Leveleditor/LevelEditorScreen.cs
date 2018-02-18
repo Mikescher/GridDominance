@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
@@ -96,12 +97,58 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			//
 		}
 
+		public WallStub CanInsertWallStub(FPoint p1, FPoint p2, ILeveleditorStub ign)
+		{
+			if (p1.X <= 0 && p2.X <= 0) return null;
+			if (p1.Y <= 0 && p2.Y <= 0) return null;
+			if (p1.X >= LevelData.Width * GDConstants.TILE_WIDTH && p2.X >= LevelData.Width * GDConstants.TILE_WIDTH) return null;
+			if (p1.Y >= LevelData.Height * GDConstants.TILE_WIDTH && p2.Y >= LevelData.Height * GDConstants.TILE_WIDTH) return null;
+
+			if (p1 == p2) return null;
+
+			if (p1.X <= (-4) * GDConstants.TILE_WIDTH) return null;
+			if (p1.Y <= (-4) * GDConstants.TILE_WIDTH) return null;
+			if (p1.X >= (LevelData.Width  + 4) * GDConstants.TILE_WIDTH) return null;
+			if (p1.Y >= (LevelData.Height + 4) * GDConstants.TILE_WIDTH) return null;
+
+			if (p2.X <= (-4) * GDConstants.TILE_WIDTH) return null;
+			if (p2.Y <= (-4) * GDConstants.TILE_WIDTH) return null;
+			if (p2.X >= (LevelData.Width  + 4) * GDConstants.TILE_WIDTH) return null;
+			if (p2.Y >= (LevelData.Height + 4) * GDConstants.TILE_WIDTH) return null;
+
+
+			WallStub s = new WallStub(this, p1, p2);
+
+			foreach (var stub in GetEntities<ILeveleditorStub>().Where(stub => stub != ign))
+			{
+				if (stub.CollidesWith(s)) return null;
+			}
+
+			return s;
+		}
+
+		public WallStub CanInsertWallStub(FPoint center, float width, ILeveleditorStub ign)
+		{
+			WallStub w0 = CanInsertWallStub(center - new Vector2(width / 2, 0), center + new Vector2(width / 2, 0), ign);
+			if (w0 != null) return w0;
+
+			WallStub w1 = CanInsertWallStub(center - new Vector2(width / 2, width / 2), center + new Vector2(width / 2, width / 2), ign);
+			if (w1 != null) return w1;
+
+			WallStub w2 = CanInsertWallStub(center - new Vector2(0, width / 2), center + new Vector2(0, width / 2), ign);
+			if (w2 != null) return w2;
+
+			return null;
+		}
+
 		public ObstacleStub CanInsertObstacleStub(FPoint center, ObstacleStub.ObstacleStubType t, float w, float h, float r, ILeveleditorStub ign)
 		{
 			if (center.X <= 0) return null;
 			if (center.Y <= 0) return null;
 			if (center.X >= LevelData.Width * GDConstants.TILE_WIDTH) return null;
 			if (center.Y >= LevelData.Height * GDConstants.TILE_WIDTH) return null;
+			if (FloatMath.IsEpsilonZero(w)) return null;
+			if (FloatMath.IsEpsilonZero(h)) return null;
 
 			ObstacleStub s = new ObstacleStub(this, center, t, w, h, r);
 

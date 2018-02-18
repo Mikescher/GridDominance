@@ -167,9 +167,15 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		{
 			base.DrawDebugBorders(sbatch);
 
-			sbatch.DrawShape(GetArea(), Color.Magenta, 4*GDOwner.PixelWidth);
+			sbatch.DrawShape(GetArea(), Color.Magenta, 1 * GDOwner.PixelWidth);
+			sbatch.DrawShape(GetClickArea(), Color.LightGoldenrodYellow, 1 * GDOwner.PixelWidth);
 		}
 #endif
+
+		public bool CollidesWith(WallStub other)
+		{
+			return other.CollidesWith(this);
+		}
 
 		public bool CollidesWith(CannonStub other)
 		{

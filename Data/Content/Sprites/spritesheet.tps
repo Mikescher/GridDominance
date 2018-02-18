@@ -1024,6 +1024,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">leveleditor/void_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,26,53,53</rect>
+                <key>scale9Paddings</key>
+                <rect>26,26,53,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">overworld/bluetooth.png</key>
             <key type="filename">overworld/dice.png</key>
             <key type="filename">overworld/internet.png</key>

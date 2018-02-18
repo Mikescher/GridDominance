@@ -18,13 +18,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 	{
 		private const float RETURN_SPEED = 48 * GDConstants.TILE_WIDTH;
 
-		private enum DMode { Nothing, MapDrag, CannonMove, ObstacleMove }
+		private enum DMode { Nothing, MapDrag, CannonMove, ObstacleMove, WallMove, WallDragP1, WallDragP2 }
 
 		private DMode _dragMode = DMode.Nothing;
 
 		private FPoint _mouseStartPos;
 		private FPoint _startOffset;
 		private Vector2 _dragOffCenter;
+		private Vector2 _wallRelativeP2;
 
 		private LevelEditorScreen _gdScreen;
 
@@ -105,12 +106,61 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					_dragMode = DMode.Nothing;
 				}
 			}
+			else if (_dragMode == DMode.WallMove)
+			{
+				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsRealDown && _gdScreen.Selection is WallStub ws)
+				{
+					var ins = _gdScreen.CanInsertWallStub(new FPoint(rx, ry), new FPoint(rx, ry) + _wallRelativeP2, ws);
+					if (ins != null)
+					{
+						ws.Point1 = ins.Point1;
+						ws.Point2 = ins.Point2;
+					}
+				}
+				else
+				{
+					_dragMode = DMode.Nothing;
+				}
+			}
+			else if (_dragMode == DMode.WallDragP1)
+			{
+				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsRealDown && _gdScreen.Selection is WallStub ws)
+				{
+					var ins = _gdScreen.CanInsertWallStub(new FPoint(rx, ry), ws.Point2, ws);
+					if (ins != null)
+					{
+						ws.Point1 = ins.Point1;
+					}
+				}
+				else
+				{
+					_dragMode = DMode.Nothing;
+				}
+			}
+			else if (_dragMode == DMode.WallDragP2)
+			{
+				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsRealDown && _gdScreen.Selection is WallStub ws)
+				{
+					var ins = _gdScreen.CanInsertWallStub(ws.Point1, new FPoint(rx, ry), ws);
+					if (ins != null)
+					{
+						ws.Point2 = ins.Point2;
+					}
+				}
+				else
+				{
+					_dragMode = DMode.Nothing;
+				}
+			}
 			else if (_dragMode == DMode.Nothing)
 			{
 				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsExclusiveJustDown)
 				{
 					var clickedCannon   = _gdScreen.GetEntities<CannonStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
 					var clickedObstacle = _gdScreen.GetEntities<ObstacleStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
+					var clickedWallBase = _gdScreen.GetEntities<WallStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
+					var clickedWallP1 = _gdScreen.GetEntities<WallStub>().FirstOrDefault(s => s.IsClickP1(istate.GamePointerPositionOnMap));
+					var clickedWallP2 = _gdScreen.GetEntities<WallStub>().FirstOrDefault(s => s.IsClickP2(istate.GamePointerPositionOnMap));
 					if (clickedCannon != null)
 					{
 						istate.Swallow(InputConsumer.GameBackground);
@@ -118,6 +168,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 						_mouseStartPos = istate.GamePointerPosition;
 						_startOffset = _gdScreen.MapOffset;
 						_dragOffCenter = istate.GamePointerPositionOnMap - clickedCannon.Center;
+						_wallRelativeP2 = Vector2.Zero;
 						_dragMode = DMode.CannonMove;
 					}
 					else if (clickedObstacle != null)
@@ -127,7 +178,38 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 						_mouseStartPos = istate.GamePointerPosition;
 						_startOffset = _gdScreen.MapOffset;
 						_dragOffCenter = istate.GamePointerPositionOnMap - clickedObstacle.Center;
+						_wallRelativeP2 = Vector2.Zero;
 						_dragMode = DMode.ObstacleMove;
+					}
+					else if (clickedWallP1 != null)
+					{
+						istate.Swallow(InputConsumer.GameBackground);
+						_gdScreen.SelectStub(clickedWallP1);
+						_mouseStartPos = istate.GamePointerPosition;
+						_startOffset = _gdScreen.MapOffset;
+						_dragOffCenter = Vector2.Zero;
+						_wallRelativeP2 = Vector2.Zero;
+						_dragMode = DMode.WallDragP1;
+					}
+					else if (clickedWallP2 != null)
+					{
+						istate.Swallow(InputConsumer.GameBackground);
+						_gdScreen.SelectStub(clickedWallP2);
+						_mouseStartPos = istate.GamePointerPosition;
+						_startOffset = _gdScreen.MapOffset;
+						_dragOffCenter = Vector2.Zero;
+						_wallRelativeP2 = Vector2.Zero;
+						_dragMode = DMode.WallDragP2;
+					}
+					else if (clickedWallBase != null)
+					{
+						istate.Swallow(InputConsumer.GameBackground);
+						_gdScreen.SelectStub(clickedWallBase);
+						_mouseStartPos = istate.GamePointerPosition;
+						_startOffset = _gdScreen.MapOffset;
+						_dragOffCenter = istate.GamePointerPositionOnMap - clickedWallBase.Point1;
+						_wallRelativeP2 = clickedWallBase.Point2 - clickedWallBase.Point1;
+						_dragMode = DMode.WallMove;
 					}
 					else
 					{
@@ -136,6 +218,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 						_mouseStartPos = istate.GamePointerPosition;
 						_startOffset = _gdScreen.MapOffset;
 						_dragOffCenter = Vector2.Zero;
+						_wallRelativeP2 = Vector2.Zero;
 						_dragMode = DMode.MapDrag;
 					}
 
@@ -198,6 +281,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_mouseStartPos = istate.GamePointerPosition;
 			_startOffset = _gdScreen.MapOffset;
 			_dragOffCenter = Vector2.Zero;
+			_wallRelativeP2 = Vector2.Zero;
 			_dragMode = DMode.CannonMove;
 		}
 
@@ -207,7 +291,18 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_mouseStartPos = istate.GamePointerPosition;
 			_startOffset = _gdScreen.MapOffset;
 			_dragOffCenter = Vector2.Zero;
+			_wallRelativeP2 = Vector2.Zero;
 			_dragMode = DMode.ObstacleMove;
+		}
+
+		public void ManualStartWallDragP2(InputState istate)
+		{
+			_gdScreen.SetMode(LevelEditorMode.Mouse);
+			_mouseStartPos = istate.GamePointerPosition;
+			_startOffset = _gdScreen.MapOffset;
+			_dragOffCenter = Vector2.Zero;
+			_wallRelativeP2 = Vector2.Zero;
+			_dragMode = DMode.WallDragP2;
 		}
 	}
 }

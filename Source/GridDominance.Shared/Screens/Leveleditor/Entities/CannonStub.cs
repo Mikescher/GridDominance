@@ -199,10 +199,15 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		{
 			base.DrawDebugBorders(sbatch);
 
-			sbatch.DrawCircle(Position, this.Scale * Cannon.CANNON_OUTER_DIAMETER / 2, 64, Color.Magenta);
-			sbatch.DrawCircle(Position, this.Scale * Cannon.CANNON_DIAMETER / 2, 64, Color.Magenta);
+			sbatch.DrawShape(GetArea(), Color.Magenta, 1 * GDOwner.PixelWidth);
+			sbatch.DrawShape(GetClickArea(), Color.LightGoldenrodYellow, 1 * GDOwner.PixelWidth);
 		}
 #endif
+
+		public bool CollidesWith(WallStub other)
+		{
+			return other.CollidesWith(this);
+		}
 
 		public bool CollidesWith(CannonStub other)
 		{
@@ -293,12 +298,12 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		public IFShape GetArea()
 		{
-			return new FCircle(Position, Cannon.CANNON_OUTER_DIAMETER / 2);
+			return new FCircle(Position, Scale * Cannon.CANNON_DIAMETER / 2);
 		}
 
 		public IFShape GetClickArea()
 		{
-			return new FCircle(Position, Cannon.CANNON_DIAMETER / 2);
+			return new FCircle(Position, Scale * Cannon.CANNON_DIAMETER / 2);
 		}
 	}
 }

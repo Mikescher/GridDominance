@@ -52,6 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\CommonCannonRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\CommonObstacleRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\CommonWallRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\Operations\ExitAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\DebugUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AccountReminderPanel.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\HUD\GDGameEndHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\WallStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\ObstacleStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\CannonStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\ILeveleditorStub.cs" />
