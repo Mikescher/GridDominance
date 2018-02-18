@@ -193,18 +193,39 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 		public void DrawShape(IFShape shape, Color color, float thickness = 1)
 		{
-			if (shape is FRectangle shapeRect)
-			{
-				DrawRectangle(shapeRect, color, thickness);
-			}
-			else if (shape is FCircle shapeCircle)
-			{
-				DrawCircle(shapeCircle, 32, color, thickness);
-			}
-			else if (shape is FRotatedRectangle shapeRotRect)
-			{
-				DrawRectangle(shapeRotRect, color, thickness);
-			}
+			if (shape is FRectangle shapeRect) DrawRectangle(shapeRect, color, thickness);
+			if (shape is FCircle shapeCircle) DrawCircle(shapeCircle, 32, color, thickness);
+			if (shape is FRotatedRectangle shapeRotRect) DrawRectangle(shapeRotRect, color, thickness);
+		}
+
+		public void FillShape(IFShape shape, Color color)
+		{
+			if (shape is FRectangle shapeRect) FillRectangle(shapeRect, color);
+			if (shape is FCircle shapeCircle) FillCircle(shapeCircle, 32, color);
+			if (shape is FRotatedRectangle shapeRotRect) FillRectangle(shapeRotRect, color);
+		}
+
+		public void FillCircle(FCircle circle, int sides, Color color)
+		{
+			FillCircle(circle.Center, circle.Radius, sides, color);
+		}
+
+		public void FillRectangle(FRotatedRectangle rectangle, Color color)
+		{
+#if DEBUG
+			IncRenderSpriteCount();
+#endif
+
+			internalBatch.Draw(
+				StaticTextures.SinglePixel.Texture,
+				rectangle.VecCenter,
+				StaticTextures.SinglePixel.Bounds,
+				color,
+				rectangle.Rotation,
+				StaticTextures.SinglePixel.VecCenter(),
+				rectangle.VecSize,
+				SpriteEffects.None,
+				0);
 		}
 
 		public void DrawCircle(FCircle circle, int sides, Color color, float thickness = 1f)

@@ -11,6 +11,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 	public struct FPoint : IEquatable<FPoint>
 	{
 		public static readonly FPoint Zero = new FPoint(0, 0);
+		public static readonly FPoint NaN = new FPoint(float.NaN, float.NaN);
 
 		[DataMember]
 		public readonly float X;

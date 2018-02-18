@@ -23,15 +23,18 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void DrawString(SpriteFont spriteFont, string text, FPoint position, Color color, float rotation, FPoint origin, float scale, SpriteEffects effects, float layerDepth);
 
 		void FillRectangle(FRectangle rectangle, Color color);
+		void FillRectangle(FRotatedRectangle rectangle, Color color);
 		void FillRectangle(FPoint location, FSize size, Color color);
 		void FillRectangleRot(FPoint center, FSize size, Color color, float rotation);
+		void FillCircle(FCircle circle, int sides, Color color);
+		void FillCircle(FPoint center, float radius, int sides, Color color);
 		void FillRectangleRot(FRectangle rectangle, Color color, float rotation);
+		void FillShape(IFShape shape, Color color);
 		void DrawRectangle(FPoint location, FSize size, Color color, float thickness = 1f);
 		void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f);
 		void DrawRectangleRot(FRectangle rectangle, Color color, float rotation, float thickness = 1f);
 		void DrawLine(float x1, float y1, float x2, float y2, Color color, float thickness = 1f);
 		void DrawLine(FPoint point1, FPoint point2, Color color, float thickness = 1f);
-		void FillCircle(FPoint center, float radius, int sides, Color color);
 		void DrawCircle(FPoint center, float radius, int sides, Color color, float thickness = 1f);
 		void DrawEllipse(FRectangle rectangle, int sides, Color color, float thickness = 1f);
 		void DrawCirclePiece(FPoint center, float radius, float angleMin, float angleMax, int sides, Color color, float thickness = 1f);

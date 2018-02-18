@@ -190,7 +190,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		[Pure]
 		public FRectangle GetBoundingRectangle()
 		{
-			return new FRectangle(CenterX, CenterY, MostRight-MostLeft, MostBottom-MostTop);
+			return new FRectangle(Center, OuterSize);
 		}
 
 		public bool TryConvertToRect(out FRectangle rect)
@@ -262,6 +262,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public bool IsEmpty => Math.Abs(Width) < FloatMath.EPSILON || Math.Abs(Height) < FloatMath.EPSILON;
 
 		public FSize Size => new FSize(Width, Height);
+		public Vector2 VecSize => new Vector2(Width, Height);
 		public float Area => Width * Height;
 		public FPoint Center => new FPoint(CenterX, CenterY);
 		public Vector2 VecCenter => new Vector2(CenterX, CenterY);
