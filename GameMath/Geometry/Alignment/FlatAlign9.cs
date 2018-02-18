@@ -1,7 +1,26 @@
-﻿namespace MonoSAMFramework.Portable.GameMath.Geometry.Alignment
+﻿using System.Collections.Generic;
+
+namespace MonoSAMFramework.Portable.GameMath.Geometry.Alignment
 {
+	public static class FlatAlign9Helper
+	{
+		public static Dictionary<FlatAlign9, string> LETTERS = new Dictionary<FlatAlign9, string>
+		{
+			{FlatAlign9.NN, "N"},
+			{FlatAlign9.NE, "NE"},
+			{FlatAlign9.EE, "E"},
+			{FlatAlign9.SE, "SE"},
+			{FlatAlign9.SS, "S"},
+			{FlatAlign9.SW, "SW"},
+			{FlatAlign9.WW, "W"},
+			{FlatAlign9.NW, "NW"},
+			{FlatAlign9.CC, "C"},
+		};
+	}
+
 	public enum FlatAlign9
 	{
+
 		TOP         = 0x001,
 		TOPRIGHT    = 0x020,
 		RIGHT       = 0x002,
@@ -37,5 +56,6 @@
 		SW = SOUTHWEST,
 		WW = WEST,
 		NW = NORTHWEST,
+		CC = CENTER,
 	}
 }
