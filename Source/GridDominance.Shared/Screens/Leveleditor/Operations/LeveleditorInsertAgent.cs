@@ -48,7 +48,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					_preview = stub;
 					_gdScreen.Entities.AddEntity(stub);
 					_gdScreen.SelectStub(_preview);
-					_gdScreen.DragAgent.ManualStartCannonDrag(istate);
+					_gdScreen.DragAgent.ManualStartCannonMove(istate);
+				}
+			}
+
+			if (_gdScreen.Mode == LevelEditorMode.AddObstacle && istate.IsExclusiveJustDown)
+			{
+				istate.Swallow(InputConsumer.GameBackground);
+
+				var stub = _gdScreen.CanInsertObstacleStub(new FPoint(x, y), null);
+				if (stub != null)
+				{
+					_preview = stub;
+					_gdScreen.Entities.AddEntity(stub);
+					_gdScreen.SelectStub(_preview);
+					_gdScreen.DragAgent.ManualStartObstacleMove(istate);
 				}
 			}
 		}

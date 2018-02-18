@@ -81,7 +81,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					var ins = _gdScreen.CanInsertCannonStub(new FPoint(rx, ry), cs.Scale, cs);
 					if (ins != null)
 					{
-						cs.CannonPosition = ins.Position;
+						cs.Center = ins.Position;
 					}
 				}
 				else
@@ -93,7 +93,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			{
 				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsExclusiveJustDown)
 				{
-					var clickedCannon = _gdScreen.GetEntities<CannonStub>().FirstOrDefault(s => s.IsClicked(istate.GamePointerPositionOnMap));
+					var clickedCannon = _gdScreen.GetEntities<CannonStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
 					if (clickedCannon != null)
 					{
 						istate.Swallow(InputConsumer.GameBackground);
@@ -164,7 +164,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_oobForce = next;
 		}
 
-		public void ManualStartCannonDrag(InputState istate)
+		public void ManualStartCannonMove(InputState istate)
 		{
 			_gdScreen.SetMode(LevelEditorMode.Mouse);
 			_mouseStartPos = istate.GamePointerPosition;

@@ -21,7 +21,7 @@ using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.Leveleditor.Entities
 {
-	class CannonStub : GameEntity, ILeveleditorStub
+	public class CannonStub : GameEntity, ILeveleditorStub
 	{
 		public enum CannonStubType { Bullet=0, Laser=1, Minigun=2, Relay=3, Shield=4, Trishot=5 }
 		public enum CannonStubFraction { N0=0, P1=1, A2=2, A3=3, A4=4 }
@@ -51,20 +51,20 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		private LevelEditorScreen GDOwner => (LevelEditorScreen) Owner;
 
-		public FPoint CannonPosition;
+		public FPoint Center;
 		public float Scale;
 		public float Rotation;
 		public CannonStubType CannonType;
 		public CannonStubFraction CannonFrac;
 
-		public override FPoint Position => CannonPosition;
+		public override FPoint Position => Center;
 		public override FSize DrawingBoundingBox => new FSize(Cannon.CANNON_OUTER_DIAMETER * Scale, Cannon.CANNON_OUTER_DIAMETER * Scale);
 
 		public override Color DebugIdentColor => Color.Red;
 
 		public CannonStub(GameScreen scrn, FPoint pos, float scale) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
-			CannonPosition = pos;
+			Center = pos;
 			Scale = scale;
 			Rotation = 0f;
 			CannonType = CannonStubType.Bullet;
@@ -211,17 +211,18 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			return (Position - other.Position).LengthSquared() < (minD * minD - 0.0001f);
 		}
 
+		public bool CollidesWith(ObstacleStub other) => other.CollidesWith(this);
+
 		public IEnumerable<SingleAttrOption> AttrOptions
 		{
 			get
 			{
 				yield return new SingleAttrOption
 				{
-					Action = ChangeFrac,
-					Description = L10NImpl.STR_LVLED_BTN_FRAC,
-					Icon = () => Textures.TexFractionBlob,
-					IconColor = () => Fraction.FRACTION_COLORS[(int)CannonFrac],
-					Text = () => Fraction.FRACTION_STRINGS[(int)CannonFrac],
+					Action = ChangeCannonType,
+					Description = L10NImpl.STR_LVLED_BTN_TYPE,
+					Icon = () => TypeTextures[(int)CannonType],
+					Text = () => null,
 					TextColor = () => FlatColors.Foreground,
 				};
 
@@ -245,10 +246,11 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 				yield return new SingleAttrOption
 				{
-					Action = ChangeCannonType,
-					Description = L10NImpl.STR_LVLED_BTN_TYPE,
-					Icon = () => TypeTextures[(int)CannonType],
-					Text = () => null,
+					Action = ChangeFrac,
+					Description = L10NImpl.STR_LVLED_BTN_FRAC,
+					Icon = () => Textures.TexFractionBlob,
+					IconColor = () => Fraction.FRACTION_COLORS[(int)CannonFrac],
+					Text = () => Fraction.FRACTION_STRINGS[(int)CannonFrac],
 					TextColor = () => FlatColors.Foreground,
 				};
 			}
@@ -290,11 +292,14 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			Remove();
 		}
 
-		public bool IsClicked(FPoint ptr)
+		public IFShape GetArea()
 		{
-			var minD = this.Scale * Cannon.CANNON_DIAMETER / 2;
+			return new FCircle(Position, Cannon.CANNON_OUTER_DIAMETER / 2);
+		}
 
-			return (Position - ptr).LengthSquared() < minD * minD;
+		public IFShape GetClickArea()
+		{
+			return new FCircle(Position, Cannon.CANNON_DIAMETER / 2);
 		}
 	}
 }

@@ -96,6 +96,23 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			//
 		}
 
+		public ObstacleStub CanInsertObstacleStub(FPoint center, ILeveleditorStub ign)
+		{
+			if (center.X <= 0) return null;
+			if (center.Y <= 0) return null;
+			if (center.X >= LevelData.Width * GDConstants.TILE_WIDTH) return null;
+			if (center.Y >= LevelData.Height * GDConstants.TILE_WIDTH) return null;
+
+			ObstacleStub s = new ObstacleStub(this, center);
+
+			foreach (var stub in GetEntities<ILeveleditorStub>().Where(stub => stub != ign))
+			{
+				if (stub.CollidesWith(s)) return null;
+			}
+
+			return s;
+		}
+
 		public CannonStub CanInsertCannonStub(FPoint center, ILeveleditorStub ign)
 		{
 			if (center.X <= 0) return null;
@@ -119,7 +136,7 @@ namespace GridDominance.Shared.Screens.Leveleditor
 		{
 			CannonStub s = new CannonStub(this, center, scale);
 
-			foreach (var stub in GetEntities<CannonStub>().Where(stub => stub.Alive && stub != ign))
+			foreach (var stub in GetEntities<ILeveleditorStub>().Where(stub => stub != ign))
 			{
 				if (stub.CollidesWith(s)) return null;
 			}

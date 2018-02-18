@@ -7,6 +7,11 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 	{
 		IEnumerable<SingleAttrOption> AttrOptions { get; }
 
+		IFShape GetClickArea();
+
 		void Kill();
+
+		bool CollidesWith(CannonStub other);
+		bool CollidesWith(ObstacleStub other);
 	}
 }

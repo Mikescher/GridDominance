@@ -85,6 +85,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\HUD\GDGameEndHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\ObstacleStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\CannonStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\ILeveleditorStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\SingleAttrOption.cs" />
@@ -111,20 +112,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\RemoteBullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Cannons\BulletCannon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BulletPath.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BlackHole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\BlackHole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletGrowOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletShrinkAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\BackgroundText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\RedFlashTextOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\ShakeTextOperation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Walls\MirrorBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\MirrorBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Cannons\LaserCannon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Particles\DonutParticleEmitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Particles\PortalParticleEmitter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Walls\MirrorCircle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Walls\VoidCircle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Walls\GlassBlock.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Portal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\MirrorCircle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\VoidCircle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\GlassBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\Portal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\ShieldProjectorKIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\RelayKIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\BulletKIController.cs" />
@@ -205,7 +206,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Cannons\Cannon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\BulletFadeAndDieOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\CannonBooster.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Walls\VoidWall.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\VoidWall.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\AbstractFractionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\KIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\FractionController\EmptyController.cs" />
@@ -423,6 +424,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_md.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Walls\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\" />
   </ItemGroup>
 </Project>
