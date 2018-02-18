@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
@@ -9,6 +10,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
@@ -41,11 +43,10 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		public override Color DebugIdentColor => Color.Red;
 
-		private FPoint _vvCacheP1 = FPoint.NaN;
-		private FPoint _vvCacheP2 = FPoint.NaN;
+		private EquatableTuple<FPoint, FPoint> _vvCacheKey;
 		private FRectangle[] _vvCacheRects = null;
 
-		public WallStub(GameScreen scrn, FPoint p1, FPoint p2) : base(scrn, GDConstants.ORDER_GAME_CANNON)
+		public WallStub(GameScreen scrn, FPoint p1, FPoint p2) : base(scrn, GDConstants.ORDER_GAME_WALL)
 		{
 			Point1 = p1;
 			Point2 = p2;
@@ -66,10 +67,9 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			switch (WallType)
 			{
 				case WallStubType.Void:
-					if (_vvCacheP1 != Point1 || _vvCacheP2 != Point2)
+					if (_vvCacheKey != EquatableTuple.Create(Point1, Point2))
 					{
-						_vvCacheP1 = Point1;
-						_vvCacheP2 = Point2;
+						_vvCacheKey = EquatableTuple.Create(Point1, Point2);
 						_vvCacheRects = CommonWallRenderer.CreateVoidWallRenderRects(FPoint.MiddlePoint(Point1, Point2), (Point1 - Point2).Length(), (Point1 - Point2).ToAngle());
 					}
 					CommonWallRenderer.DrawVoidWall_BG(sbatch, (Point1 - Point2).Length(), (Point1 - Point2).ToAngle(), _vvCacheRects);
@@ -94,10 +94,9 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			switch (WallType)
 			{
 				case WallStubType.Void:
-					if (_vvCacheP1 != Point1 || _vvCacheP1 != Point2)
+					if (_vvCacheKey != EquatableTuple.Create(Point1, Point2))
 					{
-						_vvCacheP1 = Point1;
-						_vvCacheP2 = Point2;
+						_vvCacheKey = EquatableTuple.Create(Point1, Point2);
 						_vvCacheRects = CommonWallRenderer.CreateVoidWallRenderRects(FPoint.MiddlePoint(Point1, Point2), (Point1 - Point2).Length(), (Point1 - Point2).ToAngle());
 					}
 					CommonWallRenderer.DrawVoidWall_FG(sbatch, (Point1 - Point2).Length(), (Point1 - Point2).ToAngle(), _vvCacheRects);
@@ -140,6 +139,11 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		public bool CollidesWith(WallStub other)
 		{
 			return other.Point1 == this.Point1 && other.Point2 == this.Point2;
+		}
+
+		public bool CollidesWith(PortalStub other)
+		{
+			return other.CollidesWith(this);
 		}
 
 		public IEnumerable<SingleAttrOption> AttrOptions

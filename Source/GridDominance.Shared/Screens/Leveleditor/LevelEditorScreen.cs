@@ -191,6 +191,18 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			return s;
 		}
 
+		public PortalStub CanInsertPortalStub(FPoint center, float len, float rot, ILeveleditorStub ign)
+		{
+			PortalStub s = new PortalStub(this, center, len, rot);
+
+			foreach (var stub in GetEntities<ILeveleditorStub>().Where(stub => stub != ign))
+			{
+				if (stub.CollidesWith(s)) return null;
+			}
+
+			return s;
+		}
+
 		public void SetMode(LevelEditorMode m)
 		{
 			Mode = m;
@@ -200,6 +212,7 @@ namespace GridDominance.Shared.Screens.Leveleditor
 				case LevelEditorMode.AddCannon:    GDHUD.ModePanel.SetActiveButton(GDHUD.ModePanel.BtnCannon);   break;
 				case LevelEditorMode.AddWall:      GDHUD.ModePanel.SetActiveButton(GDHUD.ModePanel.BtnWall);     break;
 				case LevelEditorMode.AddObstacle:  GDHUD.ModePanel.SetActiveButton(GDHUD.ModePanel.BtnObstacle); break;
+				case LevelEditorMode.AddPortal:    GDHUD.ModePanel.SetActiveButton(GDHUD.ModePanel.BtnPortal);   break;
 				default: SAMLog.Error("LES::EnumSwitch_TICS", "Mode = " + m); break;
 			}
 		}

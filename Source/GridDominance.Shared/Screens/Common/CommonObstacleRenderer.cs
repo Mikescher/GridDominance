@@ -7,6 +7,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.RenderHelper;
@@ -148,5 +149,40 @@ namespace GridDominance.Shared.Screens.Common
 
 		#endregion
 
+		#region Portal
+
+		public static void DrawPortal(IBatchRenderer sbatch, FRectangle[] renderRects, Color color, float normal)
+		{
+			sbatch.DrawStretched(Textures.TexPortalDropEnd1, renderRects[3], Color.White, normal);
+			sbatch.DrawStretched(Textures.TexPortalDropMid,  renderRects[4], Color.White, normal);
+			sbatch.DrawStretched(Textures.TexPortalDropEnd2, renderRects[5], Color.White, normal);
+
+			sbatch.DrawStretched(Textures.TexGradient, renderRects[2], color,             normal - FloatMath.RAD_POS_090);
+			sbatch.DrawStretched(Textures.TexPixel,    renderRects[0], FlatColors.Clouds, normal - FloatMath.RAD_POS_090);
+			sbatch.DrawStretched(Textures.TexPixel,    renderRects[1], color,             normal - FloatMath.RAD_POS_090);
+
+		}
+
+		public static FRectangle[] CreatePortalRenderRects(FPoint pos, Vector2 vecNormal, Vector2 vecDirection, float len)
+		{
+			var rectFull     = FRectangle.CreateByCenter(pos,                                           len, Portal.WIDTH);
+			var rectHorizon  = FRectangle.CreateByCenter(pos + vecNormal.WithLength(Portal.WIDTH / 4f), len, Portal.WIDTH / 2f);
+			var rectGradient = FRectangle.CreateByCenter(pos + vecNormal.WithLength(Portal.WIDTH / 2f), len, Portal.WIDTH);
+			var rectDropTop  = FRectangle.CreateByCenter(pos - vecDirection.WithLength(len / 2f),       24,  16);
+			var rectDropMid  = FRectangle.CreateByCenter(pos,                                           24,  len - 16);
+			var rectDropBot  = FRectangle.CreateByCenter(pos + vecDirection.WithLength(len / 2f),       24,  16);
+
+			return new[]
+			{
+				rectFull,     // 0
+				rectHorizon,  // 1
+				rectGradient, // 2
+				rectDropTop,  // 3
+				rectDropMid,  // 4
+				rectDropBot,  // 5
+			};
+		}
+
+		#endregion
 	}
 }

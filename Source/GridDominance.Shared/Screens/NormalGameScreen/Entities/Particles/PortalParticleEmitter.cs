@@ -1,85 +1,37 @@
 ﻿using MonoSAMFramework.Portable.Screens.Entities.Particles.CPUParticles;
 using System;
-using GridDominance.Levelfileformat.Blueprint;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
-using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Extensions;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 {
-	class DonutParticleEmitter : CPUParticleEmitter
+	class PortalParticleEmitter : CPUParticleEmitter
 	{
 		public override FPoint Position { get; }
 
 		public override FSize DrawingBoundingBox { get; }
 
-		private readonly FPoint _start;
-		private readonly Vector2 _direction;
-		private readonly Vector2 _normal;
+		private readonly Portal _portal;
 
-		public DonutParticleEmitter(GDGameScreen scrn, LevelBlueprint bp, FlatAlign4 a) 
-			: base(scrn, CreateConfig(bp, a), GDConstants.ORDER_GAME_PORTALPARTICLE)
+		public PortalParticleEmitter(Portal p) : base(p.Owner, CreateConfig(p), GDConstants.ORDER_GAME_PORTALPARTICLE)
 		{
-			Position = new FPoint(bp.LevelWidth / 2f, bp.LevelHeight / 2f);
+			Position = p.Position;
+			_portal = p;
 
-			switch (a)
-			{
-				case FlatAlign4.TOP:
-					_start = new FPoint(0, 0);
-					_direction = new Vector2(bp.LevelWidth, 0);
-					_normal = new Vector2(0, 1);
-					break;
-				case FlatAlign4.RIGHT:
-					_start = new FPoint(bp.LevelWidth, 0);
-					_direction = new Vector2(0, bp.LevelHeight);
-					_normal = new Vector2(-1, 0);
-					break;
-				case FlatAlign4.BOTTOM:
-					_start = new FPoint(bp.LevelWidth, bp.LevelHeight);
-					_direction = new Vector2(-bp.LevelWidth, 0);
-					_normal = new Vector2(0, -1);
-					break;
-				case FlatAlign4.LEFT:
-					_start = new FPoint(0, bp.LevelHeight);
-					_direction = new Vector2(0, -bp.LevelHeight);
-					_normal = new Vector2(1, 0);
-					break;
-				default:
-					SAMLog.Error("PPE::EnumSwitch_DPE", "value = " + a);
-					break;
-			}
-
-			DrawingBoundingBox = new FSize(bp.LevelWidth, bp.LevelHeight);
+			DrawingBoundingBox = new FSize(p.DrawingBoundingBox.Width + 128, p.DrawingBoundingBox.Height + 128);
 		}
 
-		private static ParticleEmitterConfig CreateConfig(LevelBlueprint bp, FlatAlign4 a)
+		private static ParticleEmitterConfig CreateConfig(Portal p)
 		{
-			var w = 0f;
-			switch (a)
-			{
-				case FlatAlign4.TOP:
-				case FlatAlign4.BOTTOM:
-					w = bp.LevelWidth;
-					break;
-				case FlatAlign4.LEFT:
-				case FlatAlign4.RIGHT:
-					w = bp.LevelHeight;
-					break;
-				default:
-					SAMLog.Error("PPE::EnumSwitch_CC", "value = " + a);
-					break;
-			}
-			
 			return new ParticleEmitterConfig.ParticleEmitterConfigBuilder
 			{
 				// star stuff
 				TextureIndex = 10,
-				SpawnRate = (0.1f * w),
+				SpawnRate = (0.1f * p.Length),
 
 				ParticleAlphaInitial = 0f,
 				ParticleAlphaFinal = 1f,
@@ -90,7 +42,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 				ParticleSizeInitial = 16,
 				ParticleSizeFinal   = 0,
 
-				Color = Color.Black,
+				Color = p.Color,
 
 			}.Build(Textures.TexParticle);
 
@@ -108,13 +60,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles
 
 			particlePool[ParticleCount].CurrentLifetime = 0;
 
-			float u = FloatMath.GetRangedRandom(0, +1f);
-			float l = FloatMath.GetRangedRandom(8, 24);
+			float u = FloatMath.GetRangedRandom(-1f, +1f);
+			float a = FloatMath.GetRangedRandom(FloatMath.RAD_NEG_030, FloatMath.RAD_POS_030);
+			float l = FloatMath.GetRangedRandom(16, 48);
 			float t = FloatMath.GetRangedRandom(_config.ParticleLifetimeMin, _config.ParticleLifetimeMax);
 
-			var v = _normal * l;
+			var v = _portal.VecNormal.Rotate(a) * l;
 
-			particlePool[ParticleCount].Position = _start + _direction * u + v;
+			particlePool[ParticleCount].Position = _portal.Position + _portal.VecDirection * u + v;
 
 			particlePool[ParticleCount].StartPosition = particlePool[ParticleCount].Position;
 

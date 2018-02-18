@@ -25,6 +25,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		public HUDTextButton BtnCannon;
 		public HUDTextButton BtnWall;
 		public HUDTextButton BtnObstacle;
+		public HUDTextButton BtnPortal;
 		public HUDTextButton BtnSettings;
 		public HUDTextButton BtnPlay;
 		public HUDTextButton BtnTest;
@@ -126,17 +127,36 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				FontSize = 48,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				
-				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonHUD,        Color.Black, HUD.PixelWidth),
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonHUD, Color.Black, HUD.PixelWidth),
 				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonPressedHUD, Color.Black, HUD.PixelWidth),
 
 				Click = SetModeObstacle,
 			});
 
-			AddElement(BtnSettings = new HUDTextButton(1)
+			AddElement(BtnPortal = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.TOPCENTER,
 				RelativePosition = new FPoint(0, 16 + 75 * 4),
+				Size = new FSize((WIDTH - 2 * 24), 64),
+
+				L10NText = L10NImpl.STR_LVLED_PORTAL,
+				TextColor = Color.White,
+				Font = Textures.HUDFontRegular,
+				FontSize = 48,
+				TextAlignment = HUDAlignment.CENTER,
+				TextPadding = 8,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonHUD, Color.Black, HUD.PixelWidth),
+				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonPressedHUD, Color.Black, HUD.PixelWidth),
+
+				Click = SetModePortal,
+			});
+
+			AddElement(BtnSettings = new HUDTextButton(1)
+			{
+				Alignment = HUDAlignment.TOPCENTER,
+				RelativePosition = new FPoint(0, 16 + 75 * 5),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_SETTINGS,
@@ -213,6 +233,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			Buttons.Add(Tuple.Create(BtnCannon,   BtnCannon.BackgroundNormal,   BtnCannon.BackgroundPressed));
 			Buttons.Add(Tuple.Create(BtnWall,     BtnWall.BackgroundNormal,     BtnWall.BackgroundPressed));
 			Buttons.Add(Tuple.Create(BtnObstacle, BtnObstacle.BackgroundNormal, BtnObstacle.BackgroundPressed));
+			Buttons.Add(Tuple.Create(BtnPortal,   BtnObstacle.BackgroundNormal, BtnObstacle.BackgroundPressed));
 			Buttons.Add(Tuple.Create(BtnSettings, BtnSettings.BackgroundNormal, BtnSettings.BackgroundPressed));
 			Buttons.Add(Tuple.Create(BtnPlay,     BtnPlay.BackgroundNormal,     BtnPlay.BackgroundPressed));
 			Buttons.Add(Tuple.Create(BtnTest,     BtnTest.BackgroundNormal,     BtnTest.BackgroundPressed));
@@ -248,6 +269,11 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		private void SetModeObstacle(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			GDScreen.SetMode(LevelEditorMode.AddObstacle);
+		}
+
+		private void SetModePortal(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			GDScreen.SetMode(LevelEditorMode.AddPortal);
 		}
 
 		private void SetModeWall(HUDTextButton sender, HUDButtonEventArgs e)

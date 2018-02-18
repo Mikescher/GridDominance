@@ -216,7 +216,15 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			return (Position - other.Position).LengthSquared() < (minD * minD - 0.0001f);
 		}
 
-		public bool CollidesWith(ObstacleStub other) => other.CollidesWith(this);
+		public bool CollidesWith(ObstacleStub other)
+		{
+			return other.CollidesWith(this);
+		}
+
+		public bool CollidesWith(PortalStub other)
+		{
+			return other.CollidesWith(this);
+		}
 
 		public IEnumerable<SingleAttrOption> AttrOptions
 		{
@@ -299,6 +307,11 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		public IFShape GetArea()
 		{
 			return new FCircle(Position, Scale * Cannon.CANNON_DIAMETER / 2);
+		}
+
+		public IFShape GetOuterArea()
+		{
+			return new FCircle(Position, Scale * Cannon.CANNON_OUTER_DIAMETER / 2);
 		}
 
 		public IFShape GetClickArea()

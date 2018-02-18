@@ -35,13 +35,14 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
 			var icontex = Data.Icon();
+			var iconscl = Data.IconScale;
 			var iconcol = Data.IconColor();
 
 			sbatch.DrawCentered(Textures.TexCircle, bounds.Center, bounds.Width, bounds.Height, IsPressed ? FlatColors.ButtonPressedHUD : FlatColors.ButtonHUD);
 
 			sbatch.DrawCentered(Textures.TexCircleEmpty, bounds.Center, bounds.Width, bounds.Height, FlatColors.SeperatorHUD);
 
-			if (icontex != null) sbatch.DrawCentered(icontex, bounds.Center, bounds.Width * 0.75f, bounds.Height * 0.75f, iconcol);
+			if (icontex != null) sbatch.DrawCentered(icontex, bounds.Center, bounds.Width * iconscl, bounds.Height * iconscl, iconcol);
 
 			FontRenderHelper.DrawTextCentered(
 				sbatch, 

@@ -77,7 +77,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			{
 				istate.Swallow(InputConsumer.GameBackground);
 
-				var stub = _gdScreen.CanInsertWallStub(new FPoint(x, y), GDConstants.TILE_WIDTH*2, null);
+				var stub = _gdScreen.CanInsertWallStub(new FPoint(x, y), GDConstants.TILE_WIDTH * 2, null);
 
 				if (stub != null)
 				{
@@ -85,6 +85,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					_gdScreen.Entities.AddEntity(stub);
 					_gdScreen.SelectStub(_preview);
 					_gdScreen.DragAgent.ManualStartWallDragP2(istate);
+				}
+			}
+
+			if (_gdScreen.Mode == LevelEditorMode.AddPortal && istate.IsExclusiveJustDown)
+			{
+				istate.Swallow(InputConsumer.GameBackground);
+
+				var stub = _gdScreen.CanInsertPortalStub(new FPoint(x, y), GDConstants.TILE_WIDTH * 2, 0, null);
+
+				if (stub != null)
+				{
+					_preview = stub;
+					_gdScreen.Entities.AddEntity(stub);
+					_gdScreen.SelectStub(_preview);
+					_gdScreen.DragAgent.ManualStartPortalMove(istate);
 				}
 			}
 		}

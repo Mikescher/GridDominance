@@ -8,8 +8,6 @@ namespace GridDominance.Shared.Screens.Leveleditor
 		AddCannon,
 		AddWall,
 		AddObstacle,
-
-
-
+		AddPortal,
 	}
 }

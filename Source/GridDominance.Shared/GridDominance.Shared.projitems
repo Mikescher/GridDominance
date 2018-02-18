@@ -87,6 +87,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\GDEndGameEntityManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\EndGameScreen\HUD\GDGameEndHUD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\PortalStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\WallStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\ObstacleStub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Leveleditor\Entities\CannonStub.cs" />
@@ -124,8 +125,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\EntityOperations\ShakeTextOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\MirrorBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Cannons\LaserCannon.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Particles\DonutParticleEmitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Particles\PortalParticleEmitter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Particles\DonutParticleEmitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\MirrorCircle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\VoidCircle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\NormalGameScreen\Entities\Obstacles\GlassBlock.cs" />

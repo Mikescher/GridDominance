@@ -8,6 +8,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 	public sealed class SingleAttrOption
 	{
 		public Func<TextureRegion2D> Icon = () => null;
+		public float IconScale = 0.75f;
 		public Func<Color> IconColor = () => Color.White;
 
 		public int Description = -1;

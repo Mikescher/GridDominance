@@ -245,6 +245,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_CANNON            = 196;
 		public const int STR_LVLED_WALL              = 197;
 		public const int STR_LVLED_OBSTACLE          = 198;
+		public const int STR_LVLED_PORTAL            = 220;
 		public const int STR_LVLED_SETTINGS          = 199;
 		public const int STR_LVLED_PLAY              = 200;
 		public const int STR_LVLED_UPLOAD            = 201;
@@ -258,6 +259,9 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_BTN_HEIGHT        = 209;
 		public const int STR_LVLED_BTN_POWER         = 210;
 		public const int STR_LVLED_BTN_DEL           = 211;
+		public const int STR_LVLED_BTN_CHANNEL       = 221;
+		public const int STR_LVLED_BTN_DIR           = 222;
+		public const int STR_LVLED_BTN_LEN           = 223;
 		public const int STR_LVLED_CFG_ID            = 212;
 		public const int STR_LVLED_CFG_NAME          = 213;
 		public const int STR_LVLED_CFG_SIZE          = 214;
@@ -267,7 +271,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_CFG_WRAP_DONUT    = 218;
 		public const int STR_LVLED_CFG_WRAP_REFLECT  = 219;
 
-		private const int TEXT_COUNT = 220; // = next idx
+		private const int TEXT_COUNT = 224; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -1670,6 +1674,13 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO
 			         "?"); //TODO
 
+			L10N.Add(STR_LVLED_PORTAL,
+			         "Portal",
+			         "Portal",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
 			L10N.Add(STR_LVLED_SETTINGS,
 			         "Settings",
 			         "Einstellungen",
@@ -1762,6 +1773,27 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO
 			         "?"); //TODO
 			
+			L10N.Add(STR_LVLED_BTN_CHANNEL,
+			         "Kanal",
+			         "Channel",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_DIR,
+			         "Richtung",
+			         "Direction",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
+			L10N.Add(STR_LVLED_BTN_LEN,
+			         "Länge",
+			         "Length",
+			         "?",  //TODO
+			         "?",  //TODO
+			         "?"); //TODO
+
 			L10N.Add(STR_LVLED_CFG_ID,
 			         "ID",
 			         "ID",

@@ -2,10 +2,7 @@
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Leveleditor;
 using GridDominance.Shared.Screens.Leveleditor.Entities;
-using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable;
-using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -18,7 +15,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 	{
 		private const float RETURN_SPEED = 48 * GDConstants.TILE_WIDTH;
 
-		private enum DMode { Nothing, MapDrag, CannonMove, ObstacleMove, WallMove, WallDragP1, WallDragP2 }
+		private enum DMode { Nothing, MapDrag, CannonMove, ObstacleMove, WallMove, WallDragP1, WallDragP2, PortalMove }
 
 		private DMode _dragMode = DMode.Nothing;
 
@@ -152,6 +149,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					_dragMode = DMode.Nothing;
 				}
 			}
+			else if (_dragMode == DMode.PortalMove)
+			{
+				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsRealDown && _gdScreen.Selection is PortalStub ps)
+				{
+					var ins = _gdScreen.CanInsertPortalStub(new FPoint(rx, ry), ps.Length, ps.Rotation, ps);
+					if (ins != null)
+					{
+						ps.Center = ins.Center;
+					}
+				}
+				else
+				{
+					_dragMode = DMode.Nothing;
+				}
+			}
 			else if (_dragMode == DMode.Nothing)
 			{
 				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsExclusiveJustDown)
@@ -159,8 +171,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 					var clickedCannon   = _gdScreen.GetEntities<CannonStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
 					var clickedObstacle = _gdScreen.GetEntities<ObstacleStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
 					var clickedWallBase = _gdScreen.GetEntities<WallStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
-					var clickedWallP1 = _gdScreen.GetEntities<WallStub>().FirstOrDefault(s => s.IsClickP1(istate.GamePointerPositionOnMap));
-					var clickedWallP2 = _gdScreen.GetEntities<WallStub>().FirstOrDefault(s => s.IsClickP2(istate.GamePointerPositionOnMap));
+					var clickedWallP1   = _gdScreen.GetEntities<WallStub>().FirstOrDefault(s => s.IsClickP1(istate.GamePointerPositionOnMap));
+					var clickedWallP2   = _gdScreen.GetEntities<WallStub>().FirstOrDefault(s => s.IsClickP2(istate.GamePointerPositionOnMap));
+					var clickedPortal   = _gdScreen.GetEntities<PortalStub>().FirstOrDefault(s => s.GetClickArea().Contains(istate.GamePointerPositionOnMap));
 					if (clickedCannon != null)
 					{
 						istate.Swallow(InputConsumer.GameBackground);
@@ -170,6 +183,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 						_dragOffCenter = istate.GamePointerPositionOnMap - clickedCannon.Center;
 						_wallRelativeP2 = Vector2.Zero;
 						_dragMode = DMode.CannonMove;
+					}
+					else if (clickedPortal != null)
+					{
+						istate.Swallow(InputConsumer.GameBackground);
+						_gdScreen.SelectStub(clickedPortal);
+						_mouseStartPos = istate.GamePointerPosition;
+						_startOffset = _gdScreen.MapOffset;
+						_dragOffCenter = istate.GamePointerPositionOnMap - clickedPortal.Center;
+						_wallRelativeP2 = Vector2.Zero;
+						_dragMode = DMode.PortalMove;
 					}
 					else if (clickedObstacle != null)
 					{
@@ -303,6 +326,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			_dragOffCenter = Vector2.Zero;
 			_wallRelativeP2 = Vector2.Zero;
 			_dragMode = DMode.WallDragP2;
+		}
+
+		public void ManualStartPortalMove(InputState istate)
+		{
+			_gdScreen.SetMode(LevelEditorMode.Mouse);
+			_mouseStartPos = istate.GamePointerPosition;
+			_startOffset = _gdScreen.MapOffset;
+			_dragOffCenter = Vector2.Zero;
+			_wallRelativeP2 = Vector2.Zero;
+			_dragMode = DMode.PortalMove;
 		}
 	}
 }

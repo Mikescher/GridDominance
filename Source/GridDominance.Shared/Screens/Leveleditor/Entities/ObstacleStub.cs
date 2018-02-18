@@ -67,7 +67,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		public override Color DebugIdentColor => Color.Red;
 
-		public ObstacleStub(GameScreen scrn, FPoint pos, ObstacleStubType t, float w, float h, float r) : base(scrn, GDConstants.ORDER_GAME_CANNON)
+		public ObstacleStub(GameScreen scrn, FPoint pos, ObstacleStubType t, float w, float h, float r) : base(scrn, GDConstants.ORDER_GAME_BLACKHOLE)
 		{
 			Center       = pos;
 			Rotation     = r;
@@ -201,6 +201,11 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			var g2 = other.GetArea();
 
 			return g1.Overlaps(g2);
+		}
+
+		public bool CollidesWith(PortalStub other)
+		{
+			return other.CollidesWith(this);
 		}
 
 		public IEnumerable<SingleAttrOption> AttrOptions

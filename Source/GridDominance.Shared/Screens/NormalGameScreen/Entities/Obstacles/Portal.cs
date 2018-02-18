@@ -17,6 +17,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
@@ -38,12 +39,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		private readonly int _group;
 		private readonly bool _side;
 
-		private readonly FRectangle _rectFull;
-		private readonly FRectangle _rectHorizon;
-		private readonly FRectangle _rectGradient;
-		private readonly FRectangle _rectDropTop;
-		private readonly FRectangle _rectDropMid;
-		private readonly FRectangle _rectDropBot;
+		private readonly FRectangle[] _renderRects;
 
 		public List<Portal> Links;
 
@@ -68,12 +64,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 			this.GDOwner().GDBackground.RegisterBlockedLine(pos - Vector2.UnitX.RotateWithLength(Normal + FloatMath.RAD_POS_090, Length/2f), pos + Vector2.UnitX.RotateWithLength(Normal + FloatMath.RAD_POS_090, Length / 2f));
 
-			_rectFull     = FRectangle.CreateByCenter(pos, Length, WIDTH);
-			_rectHorizon  = FRectangle.CreateByCenter(pos + VecNormal.WithLength(WIDTH / 4f), Length, WIDTH / 2f);
-			_rectGradient = FRectangle.CreateByCenter(pos + VecNormal.WithLength(WIDTH / 2f), Length, WIDTH);
-			_rectDropTop  = FRectangle.CreateByCenter(pos - VecDirection.WithLength(Length / 2f), 24, 16);
-			_rectDropMid  = FRectangle.CreateByCenter(pos, 24, Length - 16);
-			_rectDropBot  = FRectangle.CreateByCenter(pos + VecDirection.WithLength(Length / 2f), 24, 16);
+			_renderRects = CommonObstacleRenderer.CreatePortalRenderRects(pos, VecNormal, VecDirection, Length);
 		}
 
 		public override void OnInitialize(EntityManager manager)
@@ -103,13 +94,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			sbatch.DrawStretched(Textures.TexPortalDropEnd1, _rectDropTop, Color.White, Normal);
-			sbatch.DrawStretched(Textures.TexPortalDropMid, _rectDropMid, Color.White,  Normal);
-			sbatch.DrawStretched(Textures.TexPortalDropEnd2, _rectDropBot, Color.White, Normal);
-
-			sbatch.DrawStretched(Textures.TexGradient, _rectGradient, Color,           Normal - FloatMath.RAD_POS_090);
-			sbatch.DrawStretched(Textures.TexPixel,    _rectFull, FlatColors.Clouds,   Normal - FloatMath.RAD_POS_090);
-			sbatch.DrawStretched(Textures.TexPixel,    _rectHorizon, Color,            Normal - FloatMath.RAD_POS_090);
+			CommonObstacleRenderer.DrawPortal(sbatch, _renderRects, Color, Normal);
 
 #if DEBUG
 			if (DebugSettings.Get("DebugEntityBoundaries"))
