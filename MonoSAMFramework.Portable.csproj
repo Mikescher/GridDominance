@@ -208,7 +208,6 @@
     <Compile Include="Screens\Entities\GameEntity.cs" />
     <Compile Include="Screens\Background\GameBackground.cs" />
     <Compile Include="UpdateAgents\Impl\CyclicLambdaOperation.cs" />
-    <Compile Include="UpdateAgents\Impl\DecayOperation.cs" />
     <Compile Include="UpdateAgents\Impl\LambdaOperation.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticle.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticleEmitter.cs" />
