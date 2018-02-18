@@ -190,7 +190,7 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		[Pure]
 		public FRectangle GetBoundingRectangle()
 		{
-			return new FRectangle(Center, OuterSize);
+			return FRectangle.CreateByCenter(Center, OuterSize);
 		}
 
 		public bool TryConvertToRect(out FRectangle rect)
@@ -221,6 +221,82 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 
 			rect = FRectangle.Empty;
 			return false;
+		}
+
+		[Pure]
+		public FRotatedRectangle AsDeflated(float bothAmount)
+		{
+			if (FloatMath.IsZero(bothAmount)) return this;
+
+			return new FRotatedRectangle(
+				CenterX,
+				CenterY,
+				Width - bothAmount * 2,
+				Height - bothAmount * 2,
+				Rotation);
+		}
+
+		[Pure]
+		public FRotatedRectangle AsDeflated(int horizontalAmount, int verticalAmount)
+		{
+			if (FloatMath.IsZero(horizontalAmount) && FloatMath.IsZero(verticalAmount)) return this;
+
+			return new FRotatedRectangle(
+				CenterX,
+				CenterY,
+				Width - horizontalAmount * 2,
+				Height - verticalAmount * 2,
+				Rotation);
+		}
+
+		[Pure]
+		public FRotatedRectangle AsDeflated(float horizontalAmount, float verticalAmount)
+		{
+			if (FloatMath.IsZero(horizontalAmount) && FloatMath.IsZero(verticalAmount)) return this;
+
+			return new FRotatedRectangle(
+				CenterX,
+				CenterY,
+				Width - horizontalAmount * 2,
+				Height - verticalAmount * 2,
+				Rotation);
+		}
+
+		[Pure]
+		public FRotatedRectangle AsDeflated(float vNorth, float vEast, float vSouth, float vWest)
+		{
+			return new FRotatedRectangle(
+				CenterX,
+				CenterY,
+				Width - (vEast + vWest),
+				Height - (vNorth + vSouth),
+				Rotation);
+		}
+
+		[Pure]
+		public FRotatedRectangle AsInflated(int horizontalAmount, int verticalAmount)
+		{
+			if (FloatMath.IsZero(horizontalAmount) && FloatMath.IsZero(verticalAmount)) return this;
+
+			return new FRotatedRectangle(
+				CenterX,
+				CenterY,
+				Width + horizontalAmount * 2,
+				Height + verticalAmount * 2,
+				Rotation);
+		}
+
+		[Pure]
+		public FRotatedRectangle AsInflated(float horizontalAmount, float verticalAmount)
+		{
+			if (FloatMath.IsZero(horizontalAmount) && FloatMath.IsZero(verticalAmount)) return this;
+
+			return new FRotatedRectangle(
+				CenterX,
+				CenterY,
+				Width + horizontalAmount * 2,
+				Height + verticalAmount * 2,
+				Rotation);
 		}
 
 		[Pure]

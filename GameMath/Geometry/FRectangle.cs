@@ -16,9 +16,9 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		public static readonly FRectangle Empty = new FRectangle(0, 0, 0, 0);
 
 		[DataMember]
-		public readonly float X;
+		public readonly float X; // LEFT (!!!)
 		[DataMember]
-		public readonly float Y;
+		public readonly float Y; // TOP  (!!!)
 		[DataMember]
 		public readonly float Width;
 		[DataMember]
