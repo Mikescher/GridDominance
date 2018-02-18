@@ -3,6 +3,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
@@ -23,7 +24,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 		public override Color DebugIdentColor { get; } = Color.Transparent;
 
 		private readonly float _diameter;
-		private readonly FRectangle _renderRect;
 
 		public Body PhysicsBody;
 		public Fixture PhysicsFixture;
@@ -33,11 +33,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			var pos   = new FPoint(blueprint.X, blueprint.Y);
 
 			_diameter = blueprint.Diameter;
-			_renderRect = FRectangle.CreateByCenter(pos, _diameter + 2 * MARGIN_TEX, _diameter + 2 * MARGIN_TEX);
 
 			Position = pos;
 
-			DrawingBoundingBox = _renderRect.Size;
+			DrawingBoundingBox = new FSize(_diameter + 2 * MARGIN_TEX, _diameter + 2 * MARGIN_TEX);
 
 			this.GDOwner().GDBackground.RegisterBlockedCircle(new FCircle(pos, _diameter / 2f));
 		}
@@ -61,12 +60,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			sbatch.DrawStretched(Textures.TexVoidCircle_BG, _renderRect, Color.White);
+			CommonObstacleRenderer.DrawVoidCircle_BG(sbatch, Position, _diameter);
 		}
 
 		protected override void OnDrawOrderedForegroundLayer(IBatchRenderer sbatch)
 		{
-			sbatch.DrawStretched(Textures.TexVoidCircle_FG, _renderRect, Color.White);
+			CommonObstacleRenderer.DrawVoidCircle_FG(sbatch, Position, _diameter);
 		}
 	}
 }

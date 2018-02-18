@@ -96,14 +96,14 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			//
 		}
 
-		public ObstacleStub CanInsertObstacleStub(FPoint center, ILeveleditorStub ign)
+		public ObstacleStub CanInsertObstacleStub(FPoint center, ObstacleStub.ObstacleStubType t, float w, float h, float r, ILeveleditorStub ign)
 		{
 			if (center.X <= 0) return null;
 			if (center.Y <= 0) return null;
 			if (center.X >= LevelData.Width * GDConstants.TILE_WIDTH) return null;
 			if (center.Y >= LevelData.Height * GDConstants.TILE_WIDTH) return null;
 
-			ObstacleStub s = new ObstacleStub(this, center);
+			ObstacleStub s = new ObstacleStub(this, center, t, w, h, r);
 
 			foreach (var stub in GetEntities<ILeveleditorStub>().Where(stub => stub != ign))
 			{

@@ -39,6 +39,16 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			"E", "SEE", "SE", "SSE", "S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW", "N", "NNE", "NE", "NEE"
 		};
 
+		public readonly TextureRegion2D[] TypeTextures = new[]
+		{
+			Textures.TexBlackHoleIcon,
+			Textures.TexWhiteHoleIcon,
+			Textures.TexGlassBlockIcon,
+			Textures.TexMirrorBlockIcon,
+			Textures.TexMirrorCircleSmall,
+			Textures.TexVoidCircle_FG,
+		};
+
 		private LevelEditorScreen GDOwner => (LevelEditorScreen) Owner;
 
 		public FPoint Center;
@@ -53,14 +63,14 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		public override Color DebugIdentColor => Color.Red;
 
-		public ObstacleStub(GameScreen scrn, FPoint pos) : base(scrn, GDConstants.ORDER_GAME_CANNON)
+		public ObstacleStub(GameScreen scrn, FPoint pos, ObstacleStubType t, float w, float h, float r) : base(scrn, GDConstants.ORDER_GAME_CANNON)
 		{
 			Center       = pos;
-			Rotation     = 0f;
-			Width        = GDConstants.TILE_WIDTH / 2f;
-			Height       = GDConstants.TILE_WIDTH / 2f;
+			Rotation     = r;
+			Width        = w;
+			Height       = h;
 			Power        = BlackHoleBlueprint.DEFAULT_POWER_FACTOR;
-			ObstacleType = ObstacleStubType.VoidVircle;
+			ObstacleType = t;
 		}
 
 		public override void OnInitialize(EntityManager manager) { }
@@ -71,12 +81,69 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		{
 			if (GDOwner.Selection == this) sbatch.DrawCentered(Textures.TexPixel, Position, Width + GDConstants.TILE_WIDTH, Height + GDConstants.TILE_WIDTH, Color.Black*0.333f);
 
+			switch (ObstacleType)
+			{
+				case ObstacleStubType.BlackHole:
+					CommonObstacleRenderer.DrawBlackHole(sbatch, Position, Lifetime, Width, Power);
+					break;
 
+				case ObstacleStubType.WhiteHole:
+					CommonObstacleRenderer.DrawBlackHole(sbatch, Position, Lifetime, Width, -Power);
+					break;
+
+				case ObstacleStubType.GlassBlock:
+					CommonObstacleRenderer.DrawGlassBlock(sbatch, FRotatedRectangle.CreateByCenter(Position, Width, Height, Rotation));
+					break;
+
+				case ObstacleStubType.MirrorBlock:
+					CommonObstacleRenderer.DrawMirrorBlock(sbatch, FRotatedRectangle.CreateByCenter(Position, Width, Height, Rotation));
+					break;
+
+				case ObstacleStubType.MirrorCircle:
+					CommonObstacleRenderer.DrawMirrorCircle(sbatch, Position, Width);
+					break;
+
+				case ObstacleStubType.VoidVircle:
+					CommonObstacleRenderer.DrawVoidCircle_BG(sbatch, Position, Width);
+					break;
+
+				default:
+					SAMLog.Error("LEOS::EnumSwitch_CS_OD", "ObstacleType = " + ObstacleType);
+					break;
+			}
 		}
 
 		protected override void OnDrawOrderedForegroundLayer(IBatchRenderer sbatch)
 		{
+			switch (ObstacleType)
+			{
+				case ObstacleStubType.BlackHole:
+					// NOP
+					break;
 
+				case ObstacleStubType.WhiteHole:
+					// NOP
+					break;
+
+				case ObstacleStubType.GlassBlock:
+					break;
+
+				case ObstacleStubType.MirrorBlock:
+					// NOP
+					break;
+
+				case ObstacleStubType.MirrorCircle:
+					// NOP
+					break;
+
+				case ObstacleStubType.VoidVircle:
+					CommonObstacleRenderer.DrawVoidCircle_FG(sbatch, Position, Width);
+					break;
+
+				default:
+					SAMLog.Error("LEOS::EnumSwitch_CS_ODOFL", "ObstacleType = " + ObstacleType);
+					break;
+			}
 		}
 
 #if DEBUG
@@ -120,12 +187,30 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			{
 				yield return new SingleAttrOption
 				{
-					Action = null,//ChangeObstacleType,
+					Action = ChangeObstacleType,
 					Description = L10NImpl.STR_LVLED_BTN_TYPE,
-					Icon = () => null,//TypeTextures[(int)ObstacleType],
+					Icon = () => TypeTextures[(int)ObstacleType],
 					Text = () => null,
 					TextColor = () => FlatColors.Foreground,
 				};
+			}
+		}
+
+		private void ChangeObstacleType()
+		{
+			ObstacleType = (ObstacleStubType)(((int)ObstacleType + 1) % 6);
+
+			var idxCurr = (int)ObstacleType;
+
+			for (int i = 1; i < 6; i++)
+			{
+				var ttest = (ObstacleStubType)((idxCurr + 1) % 6);
+				if (GDOwner.CanInsertObstacleStub(Position, ttest, Width, Height, Rotation, this) != null)
+				{
+					ObstacleType = ttest;
+					GDOwner.GDHUD.AttrPanel.Recreate(this);
+					return;
+				}
 			}
 		}
 

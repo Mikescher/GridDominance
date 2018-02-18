@@ -971,6 +971,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">leveleditor/backhole_icon.png</key>
+            <key type="filename">leveleditor/whitehole_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,24,49,49</rect>
+                <key>scale9Paddings</key>
+                <rect>24,24,49,49</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">leveleditor/fraction_blob.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -981,6 +995,32 @@
                 <rect>47,47,94,94</rect>
                 <key>scale9Paddings</key>
                 <rect>47,47,94,94</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">leveleditor/glassblock_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9Paddings</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">leveleditor/mirrorblock_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,26,51,51</rect>
+                <key>scale9Paddings</key>
+                <rect>26,26,51,51</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

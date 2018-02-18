@@ -56,7 +56,14 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 			{
 				istate.Swallow(InputConsumer.GameBackground);
 
-				var stub = _gdScreen.CanInsertObstacleStub(new FPoint(x, y), null);
+				var stub = _gdScreen.CanInsertObstacleStub(
+					new FPoint(x, y), 
+					ObstacleStub.ObstacleStubType.VoidVircle, 
+					GDConstants.TILE_WIDTH * 2f, 
+					GDConstants.TILE_WIDTH * 2f, 
+					0, 
+					null);
+
 				if (stub != null)
 				{
 					_preview = stub;

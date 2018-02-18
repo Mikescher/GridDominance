@@ -284,7 +284,6 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 					return;
 				}
 			}
-
 		}
 
 		public void Kill()

@@ -3,6 +3,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
@@ -117,12 +118,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 
 		protected override void OnDraw(IBatchRenderer sbatch)
 		{
-			SimpleRenderHelper.Draw9Patch(
-				sbatch, 
-				_bounds, 
-				Color.White, Color.White, Color.White, 
-				Textures.TexGlassEdge, Textures.TexGlassCorner, Textures.TexGlassFill, 
-				CORNER_SIZE);
+			CommonObstacleRenderer.DrawGlassBlock(sbatch, _bounds);
 		}
 	}
 }

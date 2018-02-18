@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Levels.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Textures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\CommonCannonRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\CommonObstacleRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\Operations\ExitAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\DebugUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\Common\HUD\Dialogs\AccountReminderPanel.cs" />
