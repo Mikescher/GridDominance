@@ -83,7 +83,19 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			return !(a == b);
 		}
-		
+
+		[Pure]
+		public static FRotatedRectangle CreateByCenter(FPoint pos, float width, float height, float rotation)
+		{
+			return new FRotatedRectangle(pos, width, height, rotation);
+		}
+
+		[Pure]
+		public static FRotatedRectangle CreateByCenter(FPoint pos, FSize size, float rotation)
+		{
+			return new FRotatedRectangle(pos, size, rotation);
+		}
+
 		public bool Contains(float x, float y)
 		{
 			return Contains(new FPoint(x, y));

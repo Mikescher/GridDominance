@@ -206,7 +206,7 @@ namespace MonoSAMFramework.Portable.GameMath
 
 		public static float Pow2(float x)
 		{
-			return x*x
+			return x * x;
 		}
 
 		public static float Min(float val1, float val2)
