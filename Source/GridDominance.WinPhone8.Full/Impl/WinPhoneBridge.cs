@@ -18,6 +18,7 @@ namespace GridDominance.WinPhone
 		public IBluetoothAdapter Bluetooth { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		public string AppType => "WinPhone.V8.Full";
+		public GDFlavor Flavor => GDFlavor.FULL_NOMP;
 		
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 

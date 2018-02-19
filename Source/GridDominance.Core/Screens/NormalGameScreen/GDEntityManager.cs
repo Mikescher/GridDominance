@@ -1,5 +1,4 @@
 ﻿using FarseerPhysics;
-using FarseerPhysics.DebugView;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
@@ -10,7 +9,6 @@ using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.NormalGameScreen
 {
@@ -20,7 +18,7 @@ namespace GridDominance.Shared.NormalGameScreen
 		public GDGameScreen GDOwner => (GDGameScreen) Owner;
 
 #if DEBUG
-		private readonly DebugViewXNA debugView;
+		private readonly FarseerPhysics.DebugView.DebugViewXNA debugView;
 #endif
 
 		public GDEntityManager(GDGameScreen scrn) : base(scrn)
@@ -28,7 +26,7 @@ namespace GridDominance.Shared.NormalGameScreen
 			PhysicsWorld = new World(Vector2.Zero);
 
 #if DEBUG
-			debugView = new DebugViewXNA(PhysicsWorld);
+			debugView = new FarseerPhysics.DebugView.DebugViewXNA(PhysicsWorld);
 			debugView.LoadContent(GDOwner.Graphics.GraphicsDevice, GDOwner.Game.Content, Textures.DebugFont);
 			debugView.AppendFlags(DebugViewFlags.Shape);
 			debugView.AppendFlags(DebugViewFlags.DebugPanel);

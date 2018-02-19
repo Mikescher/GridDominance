@@ -46,6 +46,8 @@ namespace GridDominance.Shared
 		public readonly GDSounds GDSound = new GDSounds();
 		public override SAMSoundPlayer Sound => GDSound;
 
+		public static GDFlavor Flavor => Inst?.GDBridge?.Flavor ?? ((IGDOperatingSystemBridge)StaticBridge).Flavor;
+
 		public readonly float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
 
 		public IGDOperatingSystemBridge GDBridge => (IGDOperatingSystemBridge)Bridge;
@@ -55,7 +57,7 @@ namespace GridDominance.Shared
 			Backend = new GDServerAPI(GDBridge);
 			//Backend = new DummyGDServerAPI();
 
-			if (GDConstants.FLAVOR == GDFlavor.IAB) GDBridge.IAB.Connect(GDConstants.IABList);
+			if (MainGame.Flavor == GDFlavor.IAB) GDBridge.IAB.Connect(GDConstants.IABList);
 
 			Profile = new PlayerProfile();
 

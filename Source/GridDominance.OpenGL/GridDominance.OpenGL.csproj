@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
-    <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
+    <MonoGameContentReference Include="..\GridDominance.Content\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
     <None Include="app.config" />
@@ -85,12 +85,15 @@
       <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
       <Name>GridDominance.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj">
+      <Project>{3fe0a696-c3ba-450d-9b03-e264af024f0d}</Project>
+      <Name>GridDominance.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
       <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
       <Name>MonoSAMFramework.Portable</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" />
   <!-- Specify the search path explicitly so the ResolveAssemblyReferences task picks the right ones -->
   <Target Name="BeforeResolveReferences">
     <CreateProperty Value="$(MSBuildProgramFiles32)\MonoGame\v3.0\Assemblies\Windows;$(AssemblySearchPaths)">

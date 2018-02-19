@@ -83,7 +83,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Size = new FSize(INNER_WIDTH, INNER_HEIGHT),
 			});
 
-			if (GDConstants.FLAVOR == GDFlavor.IAB)
+			if (MainGame.Flavor == GDFlavor.IAB)
 			{
 				AddElement(_button = new HUDTextButton
 				{

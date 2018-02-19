@@ -50,7 +50,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			_values = new AdaptionFloat[_nodes.Length];
 
 			int focus = 0;
-			switch (GDConstants.FLAVOR)
+			switch (MainGame.Flavor)
 			{
 				case GDFlavor.FREE:
 				case GDFlavor.IAB:

@@ -43,7 +43,6 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -92,6 +91,10 @@
       <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
       <Name>GridDominance.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj">
+      <Project>{3fe0a696-c3ba-450d-9b03-e264af024f0d}</Project>
+      <Name>GridDominance.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
       <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
       <Name>MonoSAMFramework.Portable</Name>
@@ -100,7 +103,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

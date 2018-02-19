@@ -38,7 +38,7 @@ namespace GridDominance.Shared.Screens.Common
 
 			if (id == Levels.WORLD_002.ID)
 			{
-				switch (GDConstants.FLAVOR)
+				switch (MainGame.Flavor)
 				{
 					case GDFlavor.FREE:
 					{
@@ -48,7 +48,8 @@ namespace GridDominance.Shared.Screens.Common
 						if (reachable && MainGame.Inst.Profile.TotalPoints >= neededPoints) return WorldUnlockState.OpenAndUnlocked;
 
 						return WorldUnlockState.UnreachableButCanBePreviewed;
-						}
+					}
+
 					case GDFlavor.IAB:
 					{
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_001, Levels.WORLD_002.ID);
@@ -71,14 +72,15 @@ namespace GridDominance.Shared.Screens.Common
 
 					default:
 					{
-						SAMLog.Error("UNLCK::EnumSwitch_IU_1", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+						SAMLog.Error("UNLCK::EnumSwitch_IU_1", "MainGame.Flavor = " + MainGame.Flavor);
+						break;
 					}
 				}
 			}
 
 			if (id == Levels.WORLD_003.ID)
 			{
-				switch (GDConstants.FLAVOR)
+				switch (MainGame.Flavor)
 				{
 					case GDFlavor.FREE:
 					{
@@ -102,23 +104,24 @@ namespace GridDominance.Shared.Screens.Common
 					}
 
 					case GDFlavor.FULL:
-                    case GDFlavor.FULL_NOMP:
-                        {
+					case GDFlavor.FULL_NOMP:
+					{
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_002, Levels.WORLD_003.ID);
 
 						return reachable ? WorldUnlockState.OpenAndUnlocked : WorldUnlockState.UnreachableAndFullyLocked;
-						}
+					}
 
 					default:
 					{
-						SAMLog.Error("UNLCK::EnumSwitch_IU_2", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+						SAMLog.Error("UNLCK::EnumSwitch_IU_2", "MainGame.Flavor = " + MainGame.Flavor);
+						break;
 					}
 				}
 			}
 
 			if (id == Levels.WORLD_004.ID)
 			{
-				switch (GDConstants.FLAVOR)
+				switch (MainGame.Flavor)
 				{
 					case GDFlavor.FREE:
 					{
@@ -139,19 +142,20 @@ namespace GridDominance.Shared.Screens.Common
 						if (GetIABState(GDConstants.IAB_WORLD4, Levels.WORLD_004.ID, showToast)) return WorldUnlockState.OpenAndUnlocked;
 
 						return reachable ? WorldUnlockState.ReachableButMustBePreviewed : WorldUnlockState.UnreachableButCanBePreviewed;
-						}
+					}
 
 					case GDFlavor.FULL:
                     case GDFlavor.FULL_NOMP:
-                        {
+					{
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_003, Levels.WORLD_004.ID);
 
 						return reachable ? WorldUnlockState.OpenAndUnlocked : WorldUnlockState.UnreachableAndFullyLocked;
-						}
+					}
 
 					default:
 					{
-						SAMLog.Error("UNLCK::EnumSwitch_IU_3", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+						SAMLog.Error("UNLCK::EnumSwitch_IU_3", "MainGame.Flavor = " + MainGame.Flavor);
+						break;
 					}
 				}
 			}
@@ -165,7 +169,7 @@ namespace GridDominance.Shared.Screens.Common
 
 			if (id == Levels.WORLD_ID_MULTIPLAYER)
 			{
-				switch (GDConstants.FLAVOR)
+				switch (MainGame.Flavor)
 				{
 					case GDFlavor.FREE:
 					{
@@ -188,14 +192,15 @@ namespace GridDominance.Shared.Screens.Common
 
 					default:
 					{
-						SAMLog.Error("UNLCK::EnumSwitch_IU_4", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+						SAMLog.Error("UNLCK::EnumSwitch_IU_4", "MainGame.Flavor = " + MainGame.Flavor);
+						break;
 					}
 				}
 			}
 
 			if (id == Levels.WORLD_ID_ONLINE)
 			{
-				switch (GDConstants.FLAVOR)
+				switch (MainGame.Flavor)
 				{
 					case GDFlavor.FREE:
 					{
@@ -214,7 +219,8 @@ namespace GridDominance.Shared.Screens.Common
 
 					default:
 					{
-						SAMLog.Error("UNLCK::EnumSwitch_IU_5", "GDConstants.FLAVOR = " + GDConstants.FLAVOR);
+						SAMLog.Error("UNLCK::EnumSwitch_IU_5", "MainGame.Flavor = " + MainGame.Flavor);
+						break;
 					}
 				}
 			}

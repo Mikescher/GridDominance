@@ -53,11 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GridDominance.Shared\Resources\__Secrets.cs">
+    <Compile Include="..\GridDominance.Core\Resources\__Secrets.cs">
       <Link>__Secrets.cs</Link>
-    </Compile>
-    <Compile Include="..\MonoSAMFramework.Portable\GameMath\Cryptography\KiddieCryptography.cs">
-      <Link>KiddieCryptography.cs</Link>
     </Compile>
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -82,6 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
+      <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
+      <Name>MonoSAMFramework.Portable</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
