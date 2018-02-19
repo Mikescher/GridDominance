@@ -2,13 +2,24 @@ USER GENERATED LEVEL [[TODO]]
 =============================
 
 
-[ ] World Node (inifinite tetris)
+[X] World Node (inifinite tetris)
+
+[ ] CustomLevelID's are 48bit ints (uuid is just last section=id)
 
 [ ] Unlokable per money, game-beaten (got to end screen) or full version
 
-[ ] reduce unlock cost of normal worlds
+[ ] reduce unlock cost of normal worlds (cost = all prev worlds, all levels on diff=3)
 
-[ ] dedicated server (cannonconquest-game.net) --> pay by myself for now
+[ ] dedicated server (cannonconquest.com) --> pay by myself for now
+     - Public Key SSH
+     - diff ssh port
+     - Fail2Ban
+     - Auto website preview (only gogs/bfb, for security) -> subdomain
+
+[ ] Get third currency for sccm level beaten (-> new highscore, no cron but update "live")
+     - show currency  type on click
+
+[ ] Update translations (fr, es, it)
 
 [ ] ADD IAB code in android
 
@@ -18,8 +29,8 @@ USER GENERATED LEVEL [[TODO]]
 [ ] Update iOS
 
 [ ] level manage screen
-     - add new world (get instantly ID from server)
-     - upload local world (beat it on diff4), can't edit afterwards
+     - add new lvl (get instantly ID from server)
+     - upload local lvl (beat it on diff4), can't edit afterwards
          * local compile+prealc
          * gzip compiled level file
      - edit not uploaded
