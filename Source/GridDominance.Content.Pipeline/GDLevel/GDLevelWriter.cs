@@ -11,11 +11,7 @@ namespace GridDominance.Content.Pipeline.GDLevel
 	{
 		protected override void Write(ContentWriter output, LevelBlueprint value)
 		{
-			var start = output.BaseStream.Position;
 			value.BinarySerialize(output);
-			var length = output.BaseStream.Position - start;
-
-			Console.WriteLine("Writing " + length + " byte long serialized file");
 		}
 		
 		public override string GetRuntimeType(TargetPlatform targetPlatform)
@@ -26,6 +22,11 @@ namespace GridDominance.Content.Pipeline.GDLevel
 		public override string GetRuntimeReader(TargetPlatform targetPlatform)
 		{
 			return typeof (GDLevelReader).AssemblyQualifiedName;
+		}
+
+		protected override bool ShouldCompressContent(TargetPlatform targetPlatform, object value)
+		{
+			return true;
 		}
 	}
 }

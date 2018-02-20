@@ -11,11 +11,7 @@ namespace GridDominance.Content.Pipeline.GDWorldGraph
 	{
 		protected override void Write(ContentWriter output, GraphBlueprint value)
 		{
-			var start = output.BaseStream.Position;
 			value.BinarySerialize(output);
-			var length = output.BaseStream.Position - start;
-
-			Console.WriteLine("Writing " + length + " byte long serialized file");
 		}
 		
 		public override string GetRuntimeType(TargetPlatform targetPlatform)
