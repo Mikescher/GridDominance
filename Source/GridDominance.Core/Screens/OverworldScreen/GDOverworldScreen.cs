@@ -58,9 +58,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			DebugDisp = DebugUtils.CreateDisplay(this);
 #endif
 
-#if !__IOS__
-			AddAgent(new ExitAgent());
-#endif
+			if (!MonoSAMGame.IsIOS()) AddAgent(new ExitAgent());
 
 			List<OverworldNode> nodesList = new List<OverworldNode>();
 
@@ -82,9 +80,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			_banner.AnimationTime = 4f;
 			_banner.AnimationStartDelay= 1f;
 
-#if !GD_SHADERLESS
-			_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas());
-#endif
+			if (!MainGame.IsShaderless()) _banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas());
 		}
 		
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
@@ -92,42 +88,48 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
+
+			//if (MonoSAMGame.IsDesktop())
+			//{
+			//	if (istate.IsKeyExclusiveJustDown(SKeys.R))
+			//	{
+			//		var xcfg = XConfigFile.LoadFromString(System.IO.File.ReadAllText(@"F:\Symlinks\GridDominance\Data\presets\green_gas.xconf"));
+			//		var pcfg = ParticleEmitterConfig.ParticleEmitterConfigBuilder.LoadFromXConfig(xcfg);
+			//		_banner.CreateEntities(pcfg);
+			//	}
+			//}
+
 #endif
 
-#if (DEBUG && __DESKTOP__)
-			if (istate.IsKeyExclusiveJustDown(SKeys.R))
+			if (!MainGame.IsShaderless())
 			{
-				var xcfg = XConfigFile.LoadFromString(System.IO.File.ReadAllText(@"F:\Symlinks\GridDominance\Data\presets\green_gas.xconf"));
-				var pcfg = ParticleEmitterConfig.ParticleEmitterConfigBuilder.LoadFromXConfig(xcfg);
-				_banner.CreateEntities(pcfg);
-			}
-#endif
+				if (_effectsEnabledCache != MainGame.Inst.Profile.EffectsEnabled)
+				{
+					_effectsEnabledCache = MainGame.Inst.Profile.EffectsEnabled;
 
-#if !GD_SHADERLESS
-			if (_effectsEnabledCache != MainGame.Inst.Profile.EffectsEnabled)
-			{
-				_effectsEnabledCache = MainGame.Inst.Profile.EffectsEnabled;
-
-				if (MainGame.Inst.Profile.EffectsEnabled)
-					_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas());
-				else
-					_banner.RemoveEntities();
+					if (MainGame.Inst.Profile.EffectsEnabled)
+						_banner.CreateEntities(ParticlePresets.GetConfigLetterGreenGas());
+					else
+						_banner.RemoveEntities();
+				}
 			}
-#endif
 		}
 
 		protected override void OnDrawGame(IBatchRenderer sbatch)
 		{
-#if GD_SHADERLESS
-				var hh = 4.5f * GDConstants.TILE_WIDTH;
-				sbatch.DrawCentered(Textures.TexLogo, _banner.TargetRect.Center, hh * Textures.TexLogo.Width / Textures.TexLogo.Height, hh, Color.White);
-#else
-			if (!MainGame.Inst.Profile.EffectsEnabled)
+			if (MainGame.IsShaderless())
 			{
 				var hh = 4.5f * GDConstants.TILE_WIDTH;
 				sbatch.DrawCentered(Textures.TexLogo, _banner.TargetRect.Center, hh * Textures.TexLogo.Width / Textures.TexLogo.Height, hh, Color.White);
 			}
-#endif
+			else
+			{
+				if (!MainGame.Inst.Profile.EffectsEnabled)
+				{
+					var hh = 4.5f * GDConstants.TILE_WIDTH;
+					sbatch.DrawCentered(Textures.TexLogo, _banner.TargetRect.Center, hh * Textures.TexLogo.Width / Textures.TexLogo.Height, hh, Color.White);
+				}
+			}
 
 #if DEBUG
 			if (DebugSettings.Get("DebugEntityBoundaries"))

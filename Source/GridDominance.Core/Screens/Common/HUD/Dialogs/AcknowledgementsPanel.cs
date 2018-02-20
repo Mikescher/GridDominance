@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
@@ -125,15 +126,16 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				.LineTo(scrn.TranslateHUDToGameCoordinates(-WIDTH/2f, -HEIGHT/2f))
 				.Build();
 
-#if !GD_SHADERLESS
-			var cfg = ParticlePresets.GetConfigBubbleHighlight().Build(Textures.TexParticle, 2f, 3f);
+			if (!MainGame.IsShaderless())
+			{
+				var cfg = ParticlePresets.GetConfigBubbleHighlight().Build(Textures.TexParticle, 2f, 3f);
 
-			_emitter = new PathGPUParticleEmitter(scrn, scrn.MapViewportCenter, path, cfg, GDConstants.ORDER_WORLD_SUPEREFFECTS);
-			_emitter.AlphaAppearTime = 5f;
-			_emitter.FastForward();
+				_emitter = new PathGPUParticleEmitter(scrn, scrn.MapViewportCenter, path, cfg, GDConstants.ORDER_WORLD_SUPEREFFECTS);
+				_emitter.AlphaAppearTime = 5f;
+				_emitter.FastForward();
 
-			HUD.Screen.Entities.AddEntity(_emitter);
-#endif
+				HUD.Screen.Entities.AddEntity(_emitter);
+			}
 		}
 
 #if DEBUG
@@ -141,32 +143,33 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			base.Update(gameTime, istate);
 
-#if (DEBUG && __DESKTOP__)
-			if (istate.IsKeyExclusiveJustDown(SKeys.R))
+			if (MonoSAMGame.IsDesktop())
 			{
-				var xcfg = XConfigFile.LoadFromString(System.IO.File.ReadAllText(@"F:\Symlinks\GridDominance\Data\presets\generic.xconf"));
-				var pcfg = ParticleEmitterConfig.ParticleEmitterConfigBuilder.LoadFromXConfig(xcfg);
-				_emitter.Alive = false;
-
-			
-				var scrn = HUD.Screen;
-
-				var path = VectorPathBuilder
-					.Start()
-					.MoveTo(scrn.TranslateHUDToGameCoordinates(-WIDTH/2f, -HEIGHT/2f))
-					.LineTo(scrn.TranslateHUDToGameCoordinates(-WIDTH/2f, +HEIGHT/2f))
-					.LineTo(scrn.TranslateHUDToGameCoordinates(+WIDTH/2f, +HEIGHT/2f))
-					.LineTo(scrn.TranslateHUDToGameCoordinates(+WIDTH/2f, -HEIGHT/2f))
-					.LineTo(scrn.TranslateHUDToGameCoordinates(-WIDTH/2f, -HEIGHT/2f))
-					.Build();
-
-				var cfg = pcfg.Build(Textures.TexParticle, 2f, 3f);
-
-				_emitter = new PathGPUParticleEmitter(scrn, scrn.MapViewportCenter, path, cfg, GDConstants.ORDER_WORLD_SUPEREFFECTS);
-
-				HUD.Screen.Entities.AddEntity(_emitter);
+				//if (istate.IsKeyExclusiveJustDown(SKeys.R))
+				//{
+				//	var xcfg = XConfigFile.LoadFromString(System.IO.File.ReadAllText(@"F:\Symlinks\GridDominance\Data\presets\generic.xconf"));
+				//	var pcfg = ParticleEmitterConfig.ParticleEmitterConfigBuilder.LoadFromXConfig(xcfg);
+				//	_emitter.Alive = false;
+				//
+				//
+				//	var scrn = HUD.Screen;
+				//
+				//	var path = VectorPathBuilder
+				//		.Start()
+				//		.MoveTo(scrn.TranslateHUDToGameCoordinates(-WIDTH/2f, -HEIGHT/2f))
+				//		.LineTo(scrn.TranslateHUDToGameCoordinates(-WIDTH/2f, +HEIGHT/2f))
+				//		.LineTo(scrn.TranslateHUDToGameCoordinates(+WIDTH/2f, +HEIGHT/2f))
+				//		.LineTo(scrn.TranslateHUDToGameCoordinates(+WIDTH/2f, -HEIGHT/2f))
+				//		.LineTo(scrn.TranslateHUDToGameCoordinates(-WIDTH/2f, -HEIGHT/2f))
+				//		.Build();
+				//
+				//	var cfg = pcfg.Build(Textures.TexParticle, 2f, 3f);
+				//
+				//	_emitter = new PathGPUParticleEmitter(scrn, scrn.MapViewportCenter, path, cfg, GDConstants.ORDER_WORLD_SUPEREFFECTS);
+				//
+				//	HUD.Screen.Entities.AddEntity(_emitter);
+				//}
 			}
-#endif
 		}
 #endif
 

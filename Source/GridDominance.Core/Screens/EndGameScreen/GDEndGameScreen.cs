@@ -89,19 +89,18 @@ namespace GridDominance.Shared.Screens.EndGameScreen
 #if DEBUG
 			DebugDisp.IsEnabled = DebugSettings.Get("DebugTextDisplay");
 			DebugDisp.Scale = 0.75f;
-#endif
 
-#if (DEBUG && __DESKTOP__)
-			if (istate.IsKeyExclusiveJustDown(SKeys.R))
-			{
-				_banner1.AnimationStartDelay = 0;
-				_banner2.AnimationStartDelay = 0;
+			//if (MonoSAMGame.IsDesktop())
+			//{
+			//	_banner1.AnimationStartDelay = 0;
+			//	_banner2.AnimationStartDelay = 0;
+			//
+			//	var xcfg = XConfigFile.LoadFromString(System.IO.File.ReadAllText(@"F:\Symlinks\GridDominance\Data\presets\auto.xconf"));
+			//	var pcfg = ParticleEmitterConfig.ParticleEmitterConfigBuilder.LoadFromXConfig(xcfg);
+			//	_banner1.CreateEntities(pcfg);
+			//	_banner2.CreateEntities(pcfg);
+			//}
 
-				var xcfg = XConfigFile.LoadFromString(System.IO.File.ReadAllText(@"F:\Symlinks\GridDominance\Data\presets\auto.xconf"));
-				var pcfg = ParticleEmitterConfig.ParticleEmitterConfigBuilder.LoadFromXConfig(xcfg);
-				_banner1.CreateEntities(pcfg);
-				_banner2.CreateEntities(pcfg);
-			}
 #endif
 
 			bool trigger = false;

@@ -51,6 +51,8 @@ namespace GridDominance.Shared
 		public readonly float[] LastSendLogTimes = new float[MAX_LOG_SEND_COUNT];
 
 		public IGDOperatingSystemBridge GDBridge => (IGDOperatingSystemBridge)Bridge;
+		
+		public static bool IsShaderless() => StaticBridge.SystemType == SAMSystemType.MONOGAME_IOS;
 
 		public MainGame() : base()
 		{
@@ -124,33 +126,34 @@ namespace GridDominance.Shared
 
 		protected override void OnInitialize()
 		{
-#if __DESKTOP__
-
+			if (IsDesktop())
+			{
 //			const double ZOOM = 0.925;
-			const double ZOOM = 0.525;
+				const double ZOOM = 0.525;
 //			const double ZOOM = 0.325;
 
-			IsMouseVisible = true;
-			Graphics.IsFullScreen = false;
+				IsMouseVisible = true;
+				Graphics.IsFullScreen = false;
 
-			Graphics.PreferredBackBufferWidth  = (int)(1920 * ZOOM);
-			Graphics.PreferredBackBufferHeight = (int)(1080 * ZOOM);
-			Window.AllowUserResizing = true;
+				Graphics.PreferredBackBufferWidth = (int) (1920 * ZOOM);
+				Graphics.PreferredBackBufferHeight = (int) (1080 * ZOOM);
+				Window.AllowUserResizing = true;
 
 #if DEBUG
-			Graphics.SynchronizeWithVerticalRetrace = false;
-			IsFixedTimeStep = false;
-			TargetElapsedTime = TimeSpan.FromMilliseconds(1);
+				Graphics.SynchronizeWithVerticalRetrace = false;
+				IsFixedTimeStep = false;
+				TargetElapsedTime = TimeSpan.FromMilliseconds(1);
 #endif
 
-			Graphics.ApplyChanges();
-			Window.Position = new Point((1920 - Graphics.PreferredBackBufferWidth) / 2, (1080 - Graphics.PreferredBackBufferHeight) / 2);
-
-#else
-			Graphics.IsFullScreen = true;
-			Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
-			Graphics.ApplyChanges();
-#endif
+				Graphics.ApplyChanges();
+				Window.Position = new Point((1920 - Graphics.PreferredBackBufferWidth) / 2, (1080 - Graphics.PreferredBackBufferHeight) / 2);
+			}
+			else
+			{
+				Graphics.IsFullScreen = true;
+				Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
+				Graphics.ApplyChanges();
+			}
 		}
 
 		protected override void OnAfterInitialize()

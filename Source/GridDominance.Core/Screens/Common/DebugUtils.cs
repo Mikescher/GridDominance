@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Screens.OverworldScreen;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Localization;
@@ -98,11 +99,11 @@ namespace GridDominance.Shared.Screens
 
 		public static void CreateShortcuts(GameScreen scrn)
 		{
-#if __DESKTOP__
-			DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
-#else
-			DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
-#endif
+			if (MonoSAMGame.IsDesktop())
+				DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
+			else
+				DebugSettings.AddSwitch(null, "DBG", scrn, KCL.C(SKeys.D, SKeys.AndroidMenu), true);
+
 			DebugSettings.AddFunctionless("DBG", "DebugTextDisplay", scrn);
 
 			DebugSettings.AddTrigger("DBG",      "SetQuality_1",         scrn, SKeys.D1, KeyModifier.Control,  x => Textures.ChangeQuality(scrn.Game.Content, TextureQuality.FD));

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
@@ -304,11 +305,10 @@ namespace GridDominance.Shared.Resources
 		public static void Initialize(ContentManager content, GraphicsDevice device)
 		{
 
-#if __DESKTOP__
-			TEXTURE_QUALITY = TextureQuality.HD;
-#else
-			TEXTURE_QUALITY = GetPreferredQuality(device);
-#endif
+			if (MonoSAMGame.IsDesktop())
+				TEXTURE_QUALITY = TextureQuality.HD;
+			else
+				TEXTURE_QUALITY = GetPreferredQuality(device);
 
 			LoadContent(content);
 		}
