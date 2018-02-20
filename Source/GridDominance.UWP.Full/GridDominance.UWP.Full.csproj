@@ -107,7 +107,7 @@
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
-    <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
+    <MonoGameContentReference Include="..\GridDominance.Content\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
     <Compile Include="Impl\UWPDeviceInfo.cs" />

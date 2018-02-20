@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using GridDominance.Generic.Impl;
+using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Network.Multiplayer;
@@ -22,6 +23,7 @@ namespace GridDominance.Windows
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		public string AppType => "Windows.DirectX";
 		public SAMSystemType SystemType => SAMSystemType.MONOGAME_DESKTOP;
+		public GDFlavor Flavor => GDFlavor.FULL;
 
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 
