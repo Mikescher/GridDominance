@@ -1,3 +1,4 @@
+using FarseerPhysics.Dynamics.Contacts;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
@@ -278,8 +279,9 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_BTN_DELLEVEL      = 229;
 		public const int STR_LVLED_BTN_SAVE          = 230;
 		public const int STR_LVLED_BTN_DISCARD       = 231;
+		public const int STR_LVLED_TOAST_DELLEVEL    = 232;
 
-		private const int TEXT_COUNT = 232; // = next idx
+		private const int TEXT_COUNT = 233; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -1910,6 +1912,13 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_LVLED_BTN_DISCARD,
 			         "Änderungen verwerfen",
 			         "Discard changes",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_TOAST_DELLEVEL,
+			         "Level gelöscht.",
+			         "Level deleted.",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me

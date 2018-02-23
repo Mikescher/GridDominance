@@ -34,5 +34,20 @@ namespace GridDominance.Android.Impl
 				return null;
 			}
 		}
+
+		public override bool DeleteDataIfExist(string fileid)
+		{
+			var store = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Domain | IsolatedStorageScope.Assembly, null, null);
+
+			if (store.FileExists(fileid))
+			{
+				store.DeleteFile(fileid);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 }

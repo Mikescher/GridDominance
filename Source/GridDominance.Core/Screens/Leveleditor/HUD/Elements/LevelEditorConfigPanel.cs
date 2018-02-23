@@ -26,7 +26,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 {
 	class LevelEditorConfigPanel : HUDContainer
 	{
-		public override int Depth => 0;
+		public override int Depth => 10;
 
 		public LevelEditorScreen GDScreen => (LevelEditorScreen) HUD.Screen;
 
@@ -44,8 +44,10 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		private HUDTextButton _ctrlView;
 		private HUDTextButton _ctrlGeometry;
 
-		public LevelEditorConfigPanel(SCCMLevelData _data) : base()
+		public LevelEditorConfigPanel(SCCMLevelData data) : base()
 		{
+			_data = data;
+
 			_id = _data.OnlineID;
 			_name = _data.Name;
 			_size = _data.Size;
@@ -133,6 +135,8 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 
 				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(Color.White, Color.Black, HUD.PixelWidth),
 				BackgroundFocused = HUDBackgroundDefinition.CreateSimpleOutline(Color.White, Color.Black, HUD.PixelWidth),
+
+				Changed = UpdateText,
 			});
 
 			AddElement(new HUDLabel(1)
@@ -272,6 +276,11 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			});
 
 			RefreshControls();
+		}
+
+		private void UpdateText(HUDTextBox sender, EventArgs e)
+		{
+			_name = _ctrlName.Text;
 		}
 
 		private void ToggleSize(HUDTextButton sender, HUDButtonEventArgs e)

@@ -61,8 +61,8 @@ namespace GridDominance.Shared.Screens.Leveleditor
 
 			var workingArea = VAdapterGame.VirtualTotalBoundingBox.AsDeflated(0, 4 * GDConstants.TILE_WIDTH, 4 * GDConstants.TILE_WIDTH, 0);
 
-			MapOffsetX = workingArea.Left;
-			MapOffsetY = workingArea.Top;
+			MapOffsetX = workingArea.Left + (workingArea.Width - LevelData.Width * GDConstants.TILE_WIDTH)/2;
+			MapOffsetY = workingArea.Top + (workingArea.Height - LevelData.Height * GDConstants.TILE_WIDTH) / 2;
 
 			AddAgent(DragAgent = new LeveleditorDragAgent());
 			AddAgent(InsertAgent = new LeveleditorInsertAgent());

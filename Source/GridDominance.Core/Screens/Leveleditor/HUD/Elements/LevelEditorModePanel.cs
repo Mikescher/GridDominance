@@ -266,13 +266,14 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 
 		private void DeleteLevel(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			GDScreen.SetMode(LevelEditorMode.Mouse);//TODO ask
+			GDScreen.SetMode(LevelEditorMode.Mouse);
+			HUD.AddModal(new LevelEditorDeleteConfirmPanel(), true, 0.5f, 0.5f);
 		}
 
 		private void ExitEditor(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			//GDScreen.SetMode(LevelEditorMode.Mouse);
-			MainGame.Inst.SetOverworldScreen(); //TODO ask for save|discard etc
+			GDScreen.SetMode(LevelEditorMode.Mouse);
+			HUD.AddModal(new LevelEditorSaveConfirmPanel(), true, 0.5f, 0.5f);
 		}
 
 		private void TryUpload(HUDTextButton sender, HUDButtonEventArgs e)
@@ -289,7 +290,8 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		{
 			GDScreen.SetMode(LevelEditorMode.Mouse);
 			GDScreen.SelectStub(null);
-			GDScreen.GDHUD.AddElement(new LevelEditorConfigPanel(GDScreen.LevelData));
+
+			HUD.AddModal(new LevelEditorConfigPanel(GDScreen.LevelData), false, 0.5f, 0.5f);
 		}
 
 		private void SetModeObstacle(HUDTextButton sender, HUDButtonEventArgs e)

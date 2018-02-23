@@ -259,8 +259,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		{
 			var v2 = new DVector();
 
-			if (_boundsMap.Left < _boundsWorkingArea.Left && _boundsMap.Right  < _boundsWorkingArea.Right)  v2.X = +1;
-			if (_boundsMap.Left > _boundsWorkingArea.Left && _boundsMap.Right  > _boundsWorkingArea.Right)  v2.X = -1;
+			if (_boundsMap.Left < _boundsWorkingArea.Left && _boundsMap.Right  < _boundsWorkingArea.Right )  v2.X = +1;
+			if (_boundsMap.Left > _boundsWorkingArea.Left && _boundsMap.Right  > _boundsWorkingArea.Right )  v2.X = -1;
 			if (_boundsMap.Top  < _boundsWorkingArea.Top  && _boundsMap.Bottom < _boundsWorkingArea.Bottom) v2.Y = +1;
 			if (_boundsMap.Top  > _boundsWorkingArea.Top  && _boundsMap.Bottom > _boundsWorkingArea.Bottom) v2.Y = -1;
 
@@ -271,6 +271,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 		{
 			_gdScreen.MapOffsetX += _oobForce.X * RETURN_SPEED * gameTime.ElapsedSeconds;
 			_gdScreen.MapOffsetY += _oobForce.Y * RETURN_SPEED * gameTime.ElapsedSeconds;
+
+			_boundsMap = FRectangle.CreateByTopLeft(
+				_gdScreen.MapOffsetX,
+				_gdScreen.MapOffsetY,
+				_gdScreen.LevelData.Width * GDConstants.TILE_WIDTH,
+				_gdScreen.LevelData.Height * GDConstants.TILE_WIDTH);
 
 			var next = CalculateOOB();
 

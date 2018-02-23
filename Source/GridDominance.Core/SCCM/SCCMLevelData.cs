@@ -211,5 +211,10 @@ namespace GridDominance.Shared.SCCM
 		{
 			return "SCCM_LEVEL_DATA";
 		}
+
+		public void Delete()
+		{
+			FileHelper.Inst.DeleteDataIfExist(Filename);
+		}
 	}
 }

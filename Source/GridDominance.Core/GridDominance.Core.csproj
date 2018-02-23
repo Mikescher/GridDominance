@@ -141,6 +141,8 @@
     <Compile Include="Screens\Leveleditor\Entities\WallStub.cs" />
     <Compile Include="Screens\Leveleditor\HUD\Elements\AttributeButton.cs" />
     <Compile Include="Screens\Leveleditor\HUD\Elements\LevelEditorAttrPanel.cs" />
+    <Compile Include="Screens\Leveleditor\HUD\Elements\LevelEditorSaveConfirmPanel.cs" />
+    <Compile Include="Screens\Leveleditor\HUD\Elements\LevelEditorDeleteConfirmPanel.cs" />
     <Compile Include="Screens\Leveleditor\HUD\Elements\LevelEditorConfigPanel.cs" />
     <Compile Include="Screens\Leveleditor\HUD\Elements\LevelEditorModePanel.cs" />
     <Compile Include="Screens\Leveleditor\HUD\LevelEditorHUD.cs" />
