@@ -5,7 +5,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile.ObjectWrapper
 {
 	public class DataFileDSizeWrapper : BaseDataFile
 	{
-		public const string TYPENAME = "WSTRING";
+		public const string TYPENAME = "WDSIZE";
 		protected override string GetTypeName() => TYPENAME;
 
 		public DSize Value = new DSize(0, 0);
