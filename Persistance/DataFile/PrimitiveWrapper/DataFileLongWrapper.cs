@@ -2,39 +2,39 @@
 
 namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
 {
-	public class DataFileFloatWrapper : BaseDataFile
+	public class DataFileLongWrapper : BaseDataFile
 	{
-		public const string TYPENAME = "WFLOAT";
+		public const string TYPENAME = "WLONG";
 		protected override string GetTypeName() => TYPENAME;
 
-		public float Value;
+		public long Value;
 
 		public override void Serialize(IDataWriter writer, SemVersion currentVersion)
 		{
-			writer.WriteFloat(Value);
+			writer.WriteLong(Value);
 		}
 
 		public override void Deserialize(IDataReader reader, SemVersion archiveVersion)
 		{
-			Value = reader.ReadFloat();
+			Value = reader.ReadLong();
 		}
 
-		public static DataFileFloatWrapper Create(float value)
+		public static DataFileLongWrapper Create(long value)
 		{
-			return new DataFileFloatWrapper { Value = value };
+			return new DataFileLongWrapper { Value = value};
 		}
 
-		public static DataFileFloatWrapper Create() => Create(0);
+		public static DataFileLongWrapper Create() => Create(0);
 
 		protected override void Configure()
 		{
-			RegisterConstructor(() => new DataFileFloatWrapper());
+			RegisterConstructor(() => new DataFileLongWrapper());
 		}
 
 		public static void RegisterIfNeeded()
 		{
 			if (!DataFileTypeInfo.ContainsType(TYPENAME))
-				new DataFileFloatWrapper().RegisterTypeInfo(TYPENAME);
+				new DataFileLongWrapper().RegisterTypeInfo(TYPENAME);
 		}
 	}
 }

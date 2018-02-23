@@ -2,6 +2,8 @@
 using MonoSAMFramework.Portable.Persistance.DataFileFormat;
 using System;
 using System.Collections.Generic;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Persistance.DataFile.ObjectWrapper;
 
 namespace MonoSAMFramework.Portable.Persistance.DataFile
 {
@@ -120,6 +122,17 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileIntWrapper.TYPENAME, g, s));
 		}
 
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, long> get, Action<TThis, long> set)
+			where TThis : BaseDataFile
+		{
+			Func<BaseDataFile, BaseDataFile> g = o => DataFileLongWrapper.Create(get((TThis)o));
+			Action<BaseDataFile, BaseDataFile> s = (o, v) => set((TThis)o, ((DataFileLongWrapper)v).Value);
+
+			DataFileLongWrapper.RegisterIfNeeded();
+
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileLongWrapper.TYPENAME, g, s));
+		}
+
 		protected void RegisterProperty<TThis, TEnum>(SemVersion version, string name, Func<TThis, TEnum> get, Action<TThis, TEnum> set)
 			where TThis : BaseDataFile
 			where TEnum : struct, IComparable, IFormattable // IEnum
@@ -176,6 +189,39 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileBoolWrapper.TYPENAME, g, s));
 		}
 
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, DSize> get, Action<TThis, DSize> set)
+			where TThis : BaseDataFile
+		{
+			Func<BaseDataFile, BaseDataFile> g = o => DataFileDSizeWrapper.Create(get((TThis)o));
+			Action<BaseDataFile, BaseDataFile> s = (o, v) => set((TThis)o, ((DataFileDSizeWrapper)v).Value);
+
+			DataFileDSizeWrapper.RegisterIfNeeded();
+
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileDSizeWrapper.TYPENAME, g, s));
+		}
+
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, FPoint> get, Action<TThis, FPoint> set)
+			where TThis : BaseDataFile
+		{
+			Func<BaseDataFile, BaseDataFile> g = o => DataFileFPointWrapper.Create(get((TThis)o));
+			Action<BaseDataFile, BaseDataFile> s = (o, v) => set((TThis)o, ((DataFileFPointWrapper)v).Value);
+
+			DataFileFPointWrapper.RegisterIfNeeded();
+
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileFPointWrapper.TYPENAME, g, s));
+		}
+
+		protected void RegisterProperty<TThis>(SemVersion version, string name, Func<TThis, DateTime> get, Action<TThis, DateTime> set)
+			where TThis : BaseDataFile
+		{
+			Func<BaseDataFile, BaseDataFile> g = o => DataFileDateTimeWrapper.Create(get((TThis)o));
+			Action<BaseDataFile, BaseDataFile> s = (o, v) => set((TThis)o, ((DataFileDateTimeWrapper)v).Value);
+
+			DataFileDateTimeWrapper.RegisterIfNeeded();
+
+			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileDateTimeWrapper.TYPENAME, g, s));
+		}
+
 		protected void RegisterPropertyList<TThis, TElem>(SemVersion version, string name, Func<TElem> ctr, Func<TThis, List<TElem>> get, Action<TThis, List<TElem>> set)
 			where TThis : BaseDataFile
 			where TElem : BaseDataFile
@@ -189,7 +235,7 @@ namespace MonoSAMFramework.Portable.Persistance.DataFile
 
 			registerPropertyCollector.Add(new DataFileTypeInfoProperty(version, name, DataFileListWrapper<TElem>.GetTypeName(gen), g, s));
 		}
-
+		
 		protected void RegisterPropertyStringDictionary<TThis, TElem>(SemVersion version, string name, Func<TElem> ctr, Func<TThis, Dictionary<string, TElem>> get, Action<TThis, Dictionary<string, TElem>> set)
 			where TThis : BaseDataFile
 			where TElem : BaseDataFile

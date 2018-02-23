@@ -15,6 +15,11 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 		public void WriteInteger(int v)
 		{
+			WriteLong(v);
+		}
+
+		public void WriteLong(long v)
+		{
 			if (v == 0)
 			{
 				WriteSimpleUnsignedInteger(0, 2);
@@ -59,6 +64,14 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 		}
 
 		public void WriteDouble(double v)
+		{
+			var str = v.ToString("r", CultureInfo.InvariantCulture);
+
+			WriteSimpleUnsignedInteger(str.Length, 2);
+			builder.Append(str);
+		}
+
+		public void WriteFloat(float v)
 		{
 			var str = v.ToString("r", CultureInfo.InvariantCulture);
 

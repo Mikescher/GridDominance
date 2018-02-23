@@ -19,11 +19,16 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 
 		public int ReadInteger()
 		{
+			return (int)ReadLong();
+		}
+
+		public long ReadLong()
+		{
 			var length = ReadSimpleUnsignedInteger(2);
 
 			if (length == 0) return 0;
 
-			return ReadSimpleSignedInteger(length);
+			return ReadSimpleSignedInt64(length);
 		}
 
 		private int ReadSimpleUnsignedInteger(int length)
@@ -47,9 +52,9 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 			return r;
 		}
 
-		private int ReadSimpleSignedInteger(int length)
+		private long ReadSimpleSignedInt64(int length)
 		{
-			int r = 0;
+			long r = 0;
 
 			int neg = 1;
 			for (int i = 0; i < length; i++)
@@ -119,6 +124,19 @@ namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
 				return r;
 
 			throw new DataWriterException("the string '" + raw + "' is not a valid value for Double deserialization");
+		}
+
+		public float ReadFloat()
+		{
+			var len = ReadSimpleUnsignedInteger(2);
+
+			var raw = ReadRawString(len);
+
+			float r;
+			if (float.TryParse(raw, NumberStyles.Number, CultureInfo.InvariantCulture, out r))
+				return r;
+
+			throw new DataWriterException("the string '" + raw + "' is not a valid value for Float deserialization");
 		}
 
 		public bool ReadBool()

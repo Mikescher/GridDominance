@@ -132,11 +132,15 @@
     <Compile Include="Network\REST\SAMRestAPI.cs" />
     <Compile Include="Persistance\DataFileFormat\PersistanceHelper.cs" />
     <Compile Include="Persistance\DataFile\BaseDataFile.cs" />
+    <Compile Include="Persistance\DataFile\ObjectWrapper\DataFileDSizeWrapper.cs" />
+    <Compile Include="Persistance\DataFile\ObjectWrapper\DataFileDateTimeWrapper.cs" />
     <Compile Include="Persistance\DataFile\ObjectWrapper\DataFileGUIDWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileDoubleWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileFloatWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileBoolWrapper.cs" />
     <Compile Include="Persistance\DataFile\ObjectWrapper\DataFileEnumWrapper.cs" />
+    <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileLongWrapper.cs" />
+    <Compile Include="Persistance\DataFile\ObjectWrapper\DataFileFPointWrapper.cs" />
     <Compile Include="Persistance\DataFile\SetWrapper\DataFileGuidSetWrapper.cs" />
     <Compile Include="Persistance\DataFile\PrimitiveWrapper\DataFileIntWrapper.cs" />
     <Compile Include="Persistance\DataFile\SetWrapper\DataFileIntSetWrapper.cs" />
