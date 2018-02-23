@@ -56,13 +56,13 @@ namespace MonoSAMFramework.Portable.Language
 
 		public static bool operator ==(EquatableTuple<T1, T2> a, EquatableTuple<T1, T2> b)
 		{
-			if (a == null) return (b == null);
+			if (ReferenceEquals(a, null)) return ReferenceEquals(b, null);
 			return a.Equals(b);
 		}
 
 		public static bool operator !=(EquatableTuple<T1, T2> a, EquatableTuple<T1, T2> b)
 		{
-			if (a == null) return !(b == null);
+			if (ReferenceEquals(a, null)) return !ReferenceEquals(b, null);
 			return !a.Equals(b);
 		}
 	}
@@ -112,13 +112,13 @@ namespace MonoSAMFramework.Portable.Language
 
 		public static bool operator ==(EquatableTuple<T1, T2, T3> a, EquatableTuple<T1, T2, T3> b)
 		{
-			if (ReferenceEquals(null, a)) return (b==null);
+			if (ReferenceEquals(a, null)) return ReferenceEquals(b, null);
 			return a.Equals(b);
 		}
 
 		public static bool operator !=(EquatableTuple<T1, T2, T3> a, EquatableTuple<T1, T2, T3> b)
 		{
-			if (ReferenceEquals(null, a)) return !(b == null);
+			if (ReferenceEquals(a, null)) return !ReferenceEquals(b, null);
 			return !a.Equals(b);
 		}
 	}
