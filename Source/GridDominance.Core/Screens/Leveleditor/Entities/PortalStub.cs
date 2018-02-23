@@ -4,6 +4,7 @@ using System.Globalization;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -52,11 +53,20 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		public PortalStub(GameScreen scrn, FPoint c, float len, float rot) : base(scrn, GDConstants.ORDER_GAME_PORTAL)
 		{
-			Center = c;
+			Center   = c;
 			Rotation = rot;
-			Length = len;
-			Group = 1;
-			Side = false;
+			Length   = len;
+			Group    = 1;
+			Side     = false;
+		}
+
+		public PortalStub(GameScreen scrn, SCCMLevelElement dat) : base(scrn, GDConstants.ORDER_GAME_PORTAL)
+		{
+			Center   = dat.Portal_Center;
+			Rotation = dat.Portal_Rotation;
+			Length   = dat.Portal_Length;
+			Group    = dat.Portal_Group;
+			Side     = dat.Portal_Side;
 		}
 
 		public override void OnInitialize(EntityManager manager) { }

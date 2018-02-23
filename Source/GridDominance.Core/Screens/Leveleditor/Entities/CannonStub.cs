@@ -5,6 +5,7 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -69,6 +70,15 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			Rotation = 0f;
 			CannonType = CannonStubType.Bullet;
 			CannonFrac = CannonStubFraction.N0;
+		}
+
+		public CannonStub(GameScreen scrn, SCCMLevelElement dat) : base(scrn, GDConstants.ORDER_GAME_CANNON)
+		{
+			Center = dat.Cannon_Center;
+			Scale = dat.Cannon_Scale;
+			Rotation = dat.Cannon_Rotation;
+			CannonType = dat.Cannon_CannonType;
+			CannonFrac = dat.Cannon_CannonFrac;
 		}
 
 		public override void OnInitialize(EntityManager manager) { }

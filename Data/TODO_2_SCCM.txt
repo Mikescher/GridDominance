@@ -55,3 +55,14 @@ USER GENERATED LEVEL [[TODO]]
 [ ] gdapi/admin: show amount of people that beaten game (got to end screen)
 
 [ ] ReSharper clean imports
+
+[ ] Show message when unlocking new world 
+       more permanent than toast
+       like steam achievement?
+       position TL
+       move in from top
+       spinning gear behind, br corner, for effects
+
+[ ] Add $GET hint when data in $POST
+
+[ ] fix initial overworld node focus (better logic)

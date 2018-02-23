@@ -228,7 +228,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ENDGAME_2               = 175;
 
 		public const int STR_ACCOUNT_REMINDER        = 179;
-		public const int STR_BTN_YES                 = 180;
+		public const int STR_BTN_OK                 = 180;
 		public const int STR_BTN_NO                  = 181;
 
 		public const int STR_ERR_SOUNDPLAYBACK       = 186;
@@ -270,8 +270,16 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_CFG_WRAP_INFINITY = 217;
 		public const int STR_LVLED_CFG_WRAP_DONUT    = 218;
 		public const int STR_LVLED_CFG_WRAP_REFLECT  = 219;
+		public const int STR_LVLED_ERR_NONAME        = 224;
+		public const int STR_LVLED_ERR_NOENEMY       = 225;
+		public const int STR_LVLED_ERR_NOPLAYER      = 226;
+		public const int STR_LVLED_ERR_TOOMANYENTS   = 227;
+		public const int STR_LVLED_ERR_COMPILERERR   = 228;
+		public const int STR_LVLED_BTN_DELLEVEL      = 229;
+		public const int STR_LVLED_BTN_SAVE          = 230;
+		public const int STR_LVLED_BTN_DISCARD       = 231;
 
-		private const int TEXT_COUNT = 224; // = next idx
+		private const int TEXT_COUNT = 232; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -1574,12 +1582,12 @@ namespace GridDominance.Shared.Resources
 			         "Puoi creare un account per far apparire il tuo nome nella classifica e per salvare i tuoi dati online.\nVuoi creare un'account?",
 			         "Puedes crear una cuenta online para registrar tu puntuación y guardar tus puntajes altos.\nCrear cuenta ahora?");
 
-			L10N.Add(STR_BTN_YES,
-			         "Yes",
+			L10N.Add(STR_BTN_OK,
 			         "OK",
 			         "OK",
-			         "Si",
-			         "Sí");
+			         "OK",
+			         "OK",
+			         "OK");
 
 			L10N.Add(STR_BTN_NO,
 			         "No",
@@ -1641,214 +1649,270 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_ONLINE,
 			         "Online",
 			         "Online",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 
 			L10N.Add(STR_LVLED_MOUSE,
 			         "Move",
 			         "Verschieben",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CANNON,
 			         "Cannon",
 			         "Kanone",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_WALL,
 			         "Wall",
 			         "Wand",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_OBSTACLE,
 			         "Obstacle",
 			         "Hindernis",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_PORTAL,
 			         "Portal",
 			         "Portal",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_SETTINGS,
 			         "Settings",
 			         "Einstellungen",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_PLAY,
 			         "Test",
 			         "Testen",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_UPLOAD,
 			         "Upload",
 			         "Hochladen",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_EXIT,
 			         "Exit",
 			         "Beenden",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 
 			L10N.Add(STR_LVLED_BTN_FRAC,
 			         "Fraction",
 			         "Fraktion",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_SCALE,
 			         "Scale",
 			         "Größe",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_ROT,
 			         "Rotation",
 			         "Drehung",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_TYPE,
 			         "Type",
 			         "Typ",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_DIAMETER,
 			         "Durchmesser",
 			         "Diameter",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_WIDTH,
 			         "Breite",
 			         "Width",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_HEIGHT,
 			         "Höhe",
 			         "Height",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_POWER,
 			         "Stärke",
 			         "Power",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_DEL,
 			         "Delete",
 			         "Entfernen",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 			
 			L10N.Add(STR_LVLED_BTN_CHANNEL,
 			         "Kanal",
 			         "Channel",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_DIR,
 			         "Richtung",
 			         "Direction",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_LEN,
 			         "Länge",
 			         "Length",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_ID,
 			         "ID",
 			         "ID",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_NAME,
 			         "Name",
 			         "Name",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_SIZE,
 			         "Größe",
 			         "Size",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_VIEW,
 			         "Initial view",
 			         "Startansicht",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_GEOMETRY,
 			         "Geometrie",
 			         "Geometry",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_WRAP_INFINITY,
 			         "Endlos",
 			         "Infinity",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_WRAP_DONUT,
 			         "Donut",
 			         "Donut",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_WRAP_REFLECT,
 			         "Reflektierend",
 			         "Reflect",
-			         "?",  //TODO
-			         "?",  //TODO
-			         "?"); //TODO
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_ERR_NONAME,
+			         "Level hat keinen Namen gesetzt",
+			         "Level has no name set",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_ERR_NOENEMY,
+			         "Ein Level braucht mindestens zwei Spieler",
+			         "You need at least two player",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_ERR_NOPLAYER,
+			         "Mindestens eine Kanone muss dem Spieler gehören",
+			         "At least one cannon must be owned by the player",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_ERR_TOOMANYENTS,
+			         "Zu viele Elemente im Level",
+			         "Level has too many entities",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_ERR_COMPILERERR,
+			         "Level konnte nicht kompiliert werden",
+			         "Level compilation failed internally",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_BTN_DELLEVEL,
+			         "Level löschen",
+			         "Delete level",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_BTN_SAVE,
+			         "Änderungen speichern",
+			         "Save changes",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_BTN_DISCARD,
+			         "Änderungen verwerfen",
+			         "Discard changes",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 

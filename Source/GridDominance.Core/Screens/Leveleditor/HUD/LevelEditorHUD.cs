@@ -7,7 +7,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.Leveleditor.HUD
 {
-	class LevelEditorHUD : GameHUD
+	public class LevelEditorHUD : GameHUD
 	{
 		public readonly LevelEditorModePanel ModePanel;
 		public readonly LevelEditorAttrPanel AttrPanel;

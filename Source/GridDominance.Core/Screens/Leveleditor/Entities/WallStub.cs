@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
@@ -45,12 +46,19 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 
 		private EquatableTuple<FPoint, FPoint> _vvCacheKey;
 		private FRectangle[] _vvCacheRects = null;
-
+		
 		public WallStub(GameScreen scrn, FPoint p1, FPoint p2) : base(scrn, GDConstants.ORDER_GAME_WALL)
 		{
-			Point1 = p1;
-			Point2 = p2;
+			Point1   = p1;
+			Point2   = p2;
 			WallType = WallStubType.Void;
+		}
+
+		public WallStub(GameScreen scrn, SCCMLevelElement dat) : base(scrn, GDConstants.ORDER_GAME_WALL)
+		{
+			Point1   = dat.Wall_Point1;
+			Point2   = dat.Wall_Point2;
+			WallType = dat.Wall_WallType;
 		}
 
 		public override void OnInitialize(EntityManager manager) { }

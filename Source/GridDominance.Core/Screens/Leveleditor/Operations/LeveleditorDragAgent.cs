@@ -11,7 +11,7 @@ using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 {
-	class LeveleditorDragAgent : SAMUpdateOp<LevelEditorScreen>
+	public class LeveleditorDragAgent : SAMUpdateOp<LevelEditorScreen>
 	{
 		private const float RETURN_SPEED = 48 * GDConstants.TILE_WIDTH;
 

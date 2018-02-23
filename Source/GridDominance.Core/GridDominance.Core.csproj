@@ -85,6 +85,7 @@
     <Compile Include="SaveData\LevelDiffData.cs" />
     <Compile Include="SaveData\PlayerProfile.cs" />
     <Compile Include="SCCM\SCCMLevelData.cs" />
+    <Compile Include="SCCM\SCCMLevelElement.cs" />
     <Compile Include="Screens\Common\CommonCannonRenderer.cs" />
     <Compile Include="Screens\Common\CommonObstacleRenderer.cs" />
     <Compile Include="Screens\Common\CommonWallRenderer.cs" />

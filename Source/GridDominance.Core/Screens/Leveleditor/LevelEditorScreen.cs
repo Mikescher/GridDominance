@@ -22,7 +22,7 @@ using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.Leveleditor
 {
-	class LevelEditorScreen : GameScreen
+	public class LevelEditorScreen : GameScreen
 	{
 		public const int VIEW_WIDTH  = (16+4+1) * GDConstants.TILE_WIDTH;
 		public const int VIEW_HEIGHT = (10+4+1) * GDConstants.TILE_WIDTH;
@@ -67,7 +67,7 @@ namespace GridDominance.Shared.Screens.Leveleditor
 			AddAgent(DragAgent = new LeveleditorDragAgent());
 			AddAgent(InsertAgent = new LeveleditorInsertAgent());
 
-			//
+			LevelData.ApplyToLevelEditor(this);
 		}
 
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)

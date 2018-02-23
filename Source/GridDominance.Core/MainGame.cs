@@ -280,7 +280,7 @@ namespace GridDominance.Shared
 
 		public void SetLevelEditorScreen()
 		{
-			var scrn = new LevelEditorScreen(this, Graphics, new SCCMLevelData());
+			var scrn = new LevelEditorScreen(this, Graphics, new SCCMLevelData(1));
 			SetCurrentScreen(scrn);
 		}
 

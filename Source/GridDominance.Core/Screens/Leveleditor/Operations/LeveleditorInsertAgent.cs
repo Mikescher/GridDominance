@@ -14,7 +14,7 @@ using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
 {
-	class LeveleditorInsertAgent : SAMUpdateOp<LevelEditorScreen>
+	public class LeveleditorInsertAgent : SAMUpdateOp<LevelEditorScreen>
 	{
 		private LevelEditorScreen _gdScreen;
 

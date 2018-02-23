@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -15,7 +16,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 {
-	class LevelEditorModePanel : HUDContainer
+	public class LevelEditorModePanel : HUDContainer
 	{
 		private const float WIDTH = GDConstants.TILE_WIDTH * 4;
 
@@ -28,10 +29,11 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 		public HUDTextButton BtnPortal;
 		public HUDTextButton BtnSettings;
 		public HUDTextButton BtnPlay;
+		public HUDTextButton BtnDelete;
 		public HUDTextButton BtnTest;
 		public HUDTextButton BtnExit;
 
-		public List<Tuple<HUDTextButton, HUDBackgroundDefinition, HUDBackgroundDefinition>> Buttons = new List<Tuple<HUDTextButton, HUDBackgroundDefinition, HUDBackgroundDefinition>>();
+		public readonly List<Tuple<HUDTextButton, HUDBackgroundDefinition, HUDBackgroundDefinition>> Buttons = new List<Tuple<HUDTextButton, HUDBackgroundDefinition, HUDBackgroundDefinition>>();
 
 		public LevelEditorScreen GDScreen => (LevelEditorScreen) HUD.Screen;
 
@@ -156,7 +158,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			AddElement(BtnSettings = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.TOPCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 5),
+				RelativePosition = new FPoint(0, 16 + 75 * 5.5f),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_SETTINGS,
@@ -175,7 +177,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			AddElement(BtnPlay = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 3),
+				RelativePosition = new FPoint(0, 16 + 75 * 4),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_PLAY,
@@ -194,7 +196,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			AddElement(BtnTest = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 2),
+				RelativePosition = new FPoint(0, 16 + 75 * 3),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_UPLOAD,
@@ -210,6 +212,25 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Click = TryUpload,
 			});
 
+			AddElement(BtnDelete = new HUDTextButton(1)
+			{
+				Alignment = HUDAlignment.BOTTOMRIGHT,
+				RelativePosition = new FPoint(24, 16 + 75 * 1),
+				Size = new FSize((WIDTH - 3 * 24), 64),
+
+				L10NText = L10NImpl.STR_LVLED_BTN_DEL,
+				TextColor = Color.White,
+				Font = Textures.HUDFontRegular,
+				FontSize = 48,
+				TextAlignment = HUDAlignment.CENTER,
+				TextPadding = 8,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Pomegranate, Color.Black, HUD.PixelWidth),
+				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Alizarin, Color.Black, HUD.PixelWidth),
+
+				Click = DeleteLevel,
+			});
+
 			AddElement(BtnExit = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
@@ -217,14 +238,14 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 				Size = new FSize((WIDTH - 3 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_EXIT,
-				TextColor = Color.White,
+				TextColor = FlatColors.Foreground,
 				Font = Textures.HUDFontRegular,
 				FontSize = 48,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
 
-				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Pomegranate, Color.Black, HUD.PixelWidth),
-				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Alizarin,    Color.Black, HUD.PixelWidth),
+				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, HUD.PixelWidth),
+				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Silver, Color.Black, HUD.PixelWidth),
 
 				Click = ExitEditor,
 			});
@@ -243,27 +264,32 @@ namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 			SetActiveButton(BtnMouse);
 		}
 
+		private void DeleteLevel(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			GDScreen.SetMode(LevelEditorMode.Mouse);//TODO ask
+		}
+
 		private void ExitEditor(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			//GDScreen.SetMode(LevelEditorMode.Mouse);
-			MainGame.Inst.SetOverworldScreen(); //TODO ask for save etc
+			MainGame.Inst.SetOverworldScreen(); //TODO ask for save|discard etc
 		}
 
 		private void TryUpload(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			GDScreen.SetMode(LevelEditorMode.Mouse);
+			GDScreen.SetMode(LevelEditorMode.Mouse);//TODO
 		}
 
 		private void DoPlayTest(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			GDScreen.SetMode(LevelEditorMode.Mouse);
+			GDScreen.SetMode(LevelEditorMode.Mouse);//TODO
 		}
 
 		private void SetModeSettings(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			GDScreen.SetMode(LevelEditorMode.Mouse);
 			GDScreen.SelectStub(null);
-			GDScreen.GDHUD.AddElement(new LevelEditorConfigPanel());
+			GDScreen.GDHUD.AddElement(new LevelEditorConfigPanel(GDScreen.LevelData));
 		}
 
 		private void SetModeObstacle(HUDTextButton sender, HUDButtonEventArgs e)

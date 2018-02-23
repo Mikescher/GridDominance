@@ -94,7 +94,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = new FPoint(24, 32),
 				Size = new FSize((WIDTH - 3 * 24) / 2, 64),
 
-				L10NText = L10NImpl.STR_BTN_YES,
+				L10NText = L10NImpl.STR_BTN_OK,
 				TextColor = Color.White,
 				Font = Textures.HUDFontRegular,
 				FontSize = 55,

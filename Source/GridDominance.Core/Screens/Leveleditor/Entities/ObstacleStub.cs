@@ -7,6 +7,7 @@ using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -66,7 +67,7 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 		public override FSize DrawingBoundingBox => new FSize(FloatMath.Max(Width, Height), FloatMath.Max(Width, Height));
 
 		public override Color DebugIdentColor => Color.Red;
-
+		
 		public ObstacleStub(GameScreen scrn, FPoint pos, ObstacleStubType t, float w, float h, float r) : base(scrn, GDConstants.ORDER_GAME_BLACKHOLE)
 		{
 			Center       = pos;
@@ -75,6 +76,16 @@ namespace GridDominance.Shared.Screens.Leveleditor.Entities
 			Height       = h;
 			Power        = POWERS[1];
 			ObstacleType = t;
+		}
+
+		public ObstacleStub(GameScreen scrn, SCCMLevelElement dat) : base(scrn, GDConstants.ORDER_GAME_BLACKHOLE)
+		{
+			Center       = dat.Obstacle_Center;
+			Rotation     = dat.Obstacle_Rotation;
+			Width        = dat.Obstacle_Width;
+			Height       = dat.Obstacle_Height;
+			Power        = dat.Obstacle_Power;
+			ObstacleType = dat.Obstacle_ObstacleType;
 		}
 
 		public override void OnInitialize(EntityManager manager) { }

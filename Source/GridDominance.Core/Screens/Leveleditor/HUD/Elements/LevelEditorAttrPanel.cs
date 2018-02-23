@@ -18,7 +18,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.Leveleditor.HUD.Elements
 {
-	class LevelEditorAttrPanel : HUDContainer
+	public class LevelEditorAttrPanel : HUDContainer
 	{
 		private const float HEIGHT = GDConstants.TILE_WIDTH * 4;
 
