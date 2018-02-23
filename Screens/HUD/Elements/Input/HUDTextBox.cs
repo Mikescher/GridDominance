@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -36,6 +37,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		public float CursorWidth = 2;
 
 		#endregion
+
+		public delegate void TextboxEventHandler(HUDTextBox sender, EventArgs e);
+
+		public event TextboxEventHandler TextboxChanged;
+
+		public TextboxEventHandler Changed { set { TextboxChanged += value; } }
 
 		private float _cursorBlinkTimer = 0;
 		private float _lastCharAdd = 0;
@@ -153,12 +160,17 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 			{
 				Text += chr;
 				_lastCharAdd = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
+				TextboxChanged?.Invoke(this, new EventArgs());
 			}
 		}
 
 		public void PressBackspace()
 		{
-			if (Text.Length > 0) Text = Text.Substring(0, Text.Length - 1);
+			if (Text.Length > 0)
+			{
+				Text = Text.Substring(0, Text.Length - 1);
+				TextboxChanged?.Invoke(this, new EventArgs());
+			}
 		}
 
 		public void KeyboardClosed()

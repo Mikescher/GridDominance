@@ -970,7 +970,6 @@ namespace MonoSAMFramework.Portable.Network.Multiplayer
 						Stop();
 						return;
 					}
-					break;
 
 				case ACK_SESSIONFULL:
 

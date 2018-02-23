@@ -5,6 +5,7 @@
 	{
 		public abstract void WriteData(string fileid, string data);
 		public abstract string ReadDataOrNull(string fileid);
+		public abstract bool DeleteDataIfExist(string fileid);
 
 		public static FileHelper Inst { get; private set; }
 
