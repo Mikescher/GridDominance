@@ -4,7 +4,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
-namespace GridDominance.Shared.Screens.Leveleditor
+namespace GridDominance.Shared.Screens.LevelEditorScreen
 {
 	class LevelEditorEntityManager : EntityManager
 	{

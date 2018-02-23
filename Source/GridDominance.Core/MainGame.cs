@@ -24,7 +24,7 @@ using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using System.Text;
 using GridDominance.Shared.Screens.EndGameScreen;
-using GridDominance.Shared.Screens.Leveleditor;
+using GridDominance.Shared.Screens.LevelEditorScreen;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -278,9 +278,9 @@ namespace GridDominance.Shared
 			SetCurrentScreen(scrn);
 		}
 
-		public void SetLevelEditorScreen()
+		public void SetLevelEditorScreen(SCCMLevelData dat)
 		{
-			var scrn = new LevelEditorScreen(this, Graphics, new SCCMLevelData(1));
+			var scrn = new LevelEditorScreen(this, Graphics, dat);
 			SetCurrentScreen(scrn);
 		}
 

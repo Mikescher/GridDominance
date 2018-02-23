@@ -1,4 +1,4 @@
-﻿using GridDominance.Shared.Screens.Leveleditor.Entities;
+﻿using GridDominance.Shared.Screens.LevelEditorScreen.Entities;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;

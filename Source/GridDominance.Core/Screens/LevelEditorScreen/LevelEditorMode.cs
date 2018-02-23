@@ -1,5 +1,5 @@
 ﻿
-namespace GridDominance.Shared.Screens.Leveleditor
+namespace GridDominance.Shared.Screens.LevelEditorScreen
 {
 	public enum LevelEditorMode
 	{

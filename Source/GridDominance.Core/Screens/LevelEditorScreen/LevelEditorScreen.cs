@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.Leveleditor.Entities;
-using GridDominance.Shared.Screens.Leveleditor.HUD;
-using GridDominance.Shared.Screens.NormalGameScreen.Agents;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.Screens.LevelEditorScreen.Entities;
+using GridDominance.Shared.Screens.LevelEditorScreen.HUD;
+using GridDominance.Shared.Screens.LevelEditorScreen.Operations;
 using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
@@ -20,7 +18,7 @@ using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
-namespace GridDominance.Shared.Screens.Leveleditor
+namespace GridDominance.Shared.Screens.LevelEditorScreen
 {
 	public class LevelEditorScreen : GameScreen
 	{
