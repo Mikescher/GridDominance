@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.Xna.Framework;
 
 namespace MonoSAMFramework.Portable.GameMath
 {
@@ -20,11 +19,15 @@ namespace MonoSAMFramework.Portable.GameMath
 		public const float EPSILON4      = 1.192092896E-4f;
 
 		public const float RadiansToDegrees = 180f / PI;
-		public const float RadDeg = RadiansToDegrees;
+		public const float RadDeg           = 180f / PI;
+		public const float Rad2Deg          = 180f / PI;
+		public const float RadToDeg         = 180f / PI;
 
-		public const float DegreesToRadians = PI / 180;
-		public const float DegRad = DegreesToRadians;
-		
+		public const float DegreesToRadians = PI / 180f;
+		public const float DegRad           = PI / 180f;
+		public const float Deg2Rad          = PI / 180f;
+		public const float DegToRad         = PI / 180f;
+
 		public const float RAD_NEG_360 = -360 * DegRad;
 		public const float RAD_NEG_270 = -270 * DegRad;
 		public const float RAD_NEG_240 = -240 * DegRad;

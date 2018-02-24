@@ -69,7 +69,12 @@ namespace MonoSAMFramework.Portable.Extensions
 		{
 			return Vector2.Normalize(v);
 		}
-		
+
+		public static float ToDegAngle(this Vector2 vector2)
+		{
+			return FloatMath.RadiansToDegrees * vector2.ToAngle();
+		}
+
 		public static float ToAngle(this Vector2 vector2)
 		{
 			//   +------------------------------->
