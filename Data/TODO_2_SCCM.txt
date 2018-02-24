@@ -69,3 +69,5 @@ USER GENERATED LEVEL [[TODO]]
 [ ] fix initial overworld node focus (better logic)
 
 [ ] redirect gdapi on ms
+
+[ ] SCCMTest -> show ki rays

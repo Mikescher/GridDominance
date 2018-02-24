@@ -176,7 +176,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonHUD,        Color.Black, HUD.PixelWidth),
 				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonPressedHUD, Color.Black, HUD.PixelWidth),
 
-				Click = SetModeSettings,
+				Click = (o, e) => GDScreen.ShowSettings(),
 			});
 
 			AddElement(BtnPlay = new HUDTextButton(1)
@@ -195,7 +195,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Orange,   Color.Black, HUD.PixelWidth),
 				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.SunFlower, Color.Black, HUD.PixelWidth),
 
-				Click = DoPlayTest,
+				Click = (o, e) => GDScreen.DoPlayTest(),
 			});
 
 			AddElement(BtnTest = new HUDTextButton(1)
@@ -214,7 +214,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Nephritis, Color.Black, HUD.PixelWidth),
 				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Emerald,   Color.Black, HUD.PixelWidth),
 
-				Click = TryUpload,
+				Click = (o, e) => GDScreen.TryUpload(),
 			});
 
 			AddElement(BtnDelete = new HUDTextButton(1)
@@ -233,7 +233,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 				BackgroundNormal = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Pomegranate, Color.Black, HUD.PixelWidth),
 				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Alizarin, Color.Black, HUD.PixelWidth),
 
-				Click = DeleteLevel,
+				Click = (o, e) => GDScreen.DeleteLevel(),
 			});
 
 			AddElement(BtnExit = new HUDTextButton(1)
@@ -252,7 +252,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, HUD.PixelWidth),
 				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Silver, Color.Black, HUD.PixelWidth),
 
-				Click = ExitEditor,
+				Click = (o, e) => GDScreen.ExitEditor(),
 			});
 
 			Buttons.Add(Tuple.Create(BtnMouse,    BtnMouse.BackgroundNormal,    BtnMouse.BackgroundPressed));
@@ -266,92 +266,6 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 			Buttons.Add(Tuple.Create(BtnExit,     BtnExit.BackgroundNormal,     BtnExit.BackgroundPressed));
 
 			SetActiveButton(BtnMouse);
-		}
-
-		private void DeleteLevel(HUDTextButton sender, HUDButtonEventArgs e)
-		{
-			GDScreen.SetMode(LevelEditorMode.Mouse);
-			HUD.AddModal(new LevelEditorDeleteConfirmPanel(), true, 0.5f, 0.5f);
-		}
-
-		private void ExitEditor(HUDTextButton sender, HUDButtonEventArgs e)
-		{
-			GDScreen.SetMode(LevelEditorMode.Mouse);
-			HUD.AddModal(new LevelEditorSaveConfirmPanel(), true, 0.5f, 0.5f);
-		}
-
-		private void TryUpload(HUDTextButton sender, HUDButtonEventArgs e)
-		{
-			GDScreen.SetMode(LevelEditorMode.Mouse);//TODO
-		}
-
-		private void DoPlayTest(HUDTextButton sender, HUDButtonEventArgs e)
-		{
-			GDScreen.LevelData.UpdateAndSave(GDScreen);
-
-			var success = GDScreen.LevelData.ValidateWithToasts(HUD);
-
-			if (success)
-			{
-				var waitDialog = new HUDIconMessageBox
-				{
-					L10NText = L10NImpl.STR_LVLED_COMPILING,
-					TextColor = FlatColors.TextHUD,
-					Background = HUDBackgroundDefinition.CreateRounded(FlatColors.BelizeHole, 16),
-
-					IconColor = FlatColors.Clouds,
-					Icon = Textures.CannonCogBig,
-					RotationSpeed = 1f,
-
-					CloseOnClick = false,
-				};
-
-				HUD.AddModal(waitDialog, false, 0.7f);
-
-				DoCompileAndTest(waitDialog).RunAsync();
-			}
-
-			GDScreen.SetMode(LevelEditorMode.Mouse);//TODO
-		}
-
-		private async Task DoCompileAndTest(HUDElement spinner)
-		{
-			try
-			{
-				var lvl = GDScreen.LevelData.CompileToBlueprint(HUD);
-				if (lvl == null) return;
-
-				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
-				{
-					HUD.AddModal(new LevelEditorTestConfirmPanel(lvl, GDScreen.LevelData), false, 0.7f);
-				});
-			}
-			catch (Exception e)
-			{
-				SAMLog.Error("LEMP::DCAT", e);
-
-				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
-				{
-					spinner.Remove();
-					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
-					{
-						L10NText = L10NImpl.STR_CPP_COMERR,
-						TextColor = FlatColors.Clouds,
-						Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
-
-						CloseOnClick = true,
-
-					}, true);
-				});
-			}
-		}
-
-		private void SetModeSettings(HUDTextButton sender, HUDButtonEventArgs e)
-		{
-			GDScreen.SetMode(LevelEditorMode.Mouse);
-			GDScreen.SelectStub(null);
-
-			HUD.AddModal(new LevelEditorConfigPanel(GDScreen.LevelData), false, 0.5f, 0.5f);
 		}
 
 		private void SetModeObstacle(HUDTextButton sender, HUDButtonEventArgs e)

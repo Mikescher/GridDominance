@@ -34,7 +34,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, FlatColors.BackgroundHUD2);
+			FlatRenderHelper.DrawRoundedBlurPanel(sbatch, bounds, FlatColors.BackgroundHUD);
 		}
 
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)   => true;
@@ -46,28 +46,28 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 			Size = new FSize(14.5f * GDConstants.TILE_WIDTH, 4.0f * GDConstants.TILE_WIDTH);
 			Alignment = HUDAlignment.CENTER;
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_EASY, HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED, () => StartTest(FractionDifficulty.KI_EASY))
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_EASY, HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED, () => StartTest(FractionDifficulty.KI_EASY))
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
 				Size = new FSize(3 * GDConstants.TILE_WIDTH, 3 * GDConstants.TILE_WIDTH),
 				RelativePosition = new FPoint(0.5f * GDConstants.TILE_WIDTH, 0),
 			});
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_NORMAL, HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED, () => StartTest(FractionDifficulty.KI_NORMAL))
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_NORMAL, HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED, () => StartTest(FractionDifficulty.KI_NORMAL))
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
 				Size = new FSize(3 * GDConstants.TILE_WIDTH, 3 * GDConstants.TILE_WIDTH),
 				RelativePosition = new FPoint(4.0f * GDConstants.TILE_WIDTH, 0),
 			});
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_HARD, HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED, () => StartTest(FractionDifficulty.KI_HARD))
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_HARD, HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED, () => StartTest(FractionDifficulty.KI_HARD))
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
 				Size = new FSize(3 * GDConstants.TILE_WIDTH, 3 * GDConstants.TILE_WIDTH),
 				RelativePosition = new FPoint(7.5f * GDConstants.TILE_WIDTH, 0),
 			});
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_IMPOSSIBLE, HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED, () => StartTest(FractionDifficulty.KI_IMPOSSIBLE))
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_IMPOSSIBLE, HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED, () => StartTest(FractionDifficulty.KI_IMPOSSIBLE))
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
 				Size = new FSize(3 * GDConstants.TILE_WIDTH, 3 * GDConstants.TILE_WIDTH),

@@ -1,21 +1,28 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.LevelEditorScreen.Entities;
 using GridDominance.Shared.Screens.LevelEditorScreen.HUD;
+using GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements;
 using GridDominance.Shared.Screens.LevelEditorScreen.Operations;
 using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 
 namespace GridDominance.Shared.Screens.LevelEditorScreen
@@ -221,5 +228,92 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 
 			GDHUD.AttrPanel.Recreate(Selection);
 		}
+
+		public void DeleteLevel()
+		{
+			SetMode(LevelEditorMode.Mouse);
+			HUD.AddModal(new LevelEditorDeleteConfirmPanel(), true, 0.5f, 0.5f);
+		}
+
+		public void ExitEditor()
+		{
+			SetMode(LevelEditorMode.Mouse);
+			HUD.AddModal(new LevelEditorSaveConfirmPanel(), true, 0.5f, 0.5f);
+		}
+
+		public void TryUpload()
+		{
+			SetMode(LevelEditorMode.Mouse);//TODO
+		}
+
+		public void DoPlayTest()
+		{
+			LevelData.UpdateAndSave(this);
+
+			var success = LevelData.ValidateWithToasts(HUD);
+
+			if (success)
+			{
+				var waitDialog = new HUDIconMessageBox
+				{
+					L10NText = L10NImpl.STR_LVLED_COMPILING,
+					TextColor = FlatColors.TextHUD,
+					Background = HUDBackgroundDefinition.CreateRounded(FlatColors.BelizeHole, 16),
+
+					IconColor = FlatColors.Clouds,
+					Icon = Textures.CannonCogBig,
+					RotationSpeed = 1f,
+
+					CloseOnClick = false,
+				};
+
+				HUD.AddModal(waitDialog, false, 0.7f);
+
+				DoCompileAndTest(waitDialog).RunAsync();
+			}
+
+			SetMode(LevelEditorMode.Mouse);//TODO
+		}
+
+		private async Task DoCompileAndTest(HUDElement spinner)
+		{
+			try
+			{
+				var lvl = await Task.Run(() => LevelData.CompileToBlueprint(HUD));
+				if (lvl == null) return;
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					HUD.AddModal(new LevelEditorTestConfirmPanel(lvl, LevelData), true, 0.7f);
+				});
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("LEMP::DCAT", e);
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					spinner.Remove();
+					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
+					{
+						L10NText = L10NImpl.STR_CPP_COMERR,
+						TextColor = FlatColors.Clouds,
+						Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
+
+						CloseOnClick = true,
+
+					}, true);
+				});
+			}
+		}
+
+		public void ShowSettings()
+		{
+			SetMode(LevelEditorMode.Mouse);
+			SelectStub(null);
+
+			HUD.AddModal(new LevelEditorConfigPanel(LevelData), false, 0.5f, 0.5f);
+		}
+
 	}
 }
