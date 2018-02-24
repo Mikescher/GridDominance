@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
 namespace MonoSAMFramework.Portable.GameMath.Geometry
@@ -59,12 +60,17 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			return (Width == other.Width) && (Height == other.Height);
 		}
-		
+
 		public static DSize operator *(DSize value1, int value2)
 		{
 			return new DSize(value1.Width * value2, value1.Height * value2);
 		}
-		
+
+		public static FSize operator *(DSize value1, float value2)
+		{
+			return new FSize(value1.Width * value2, value1.Height * value2);
+		}
+
 		public override bool Equals(object obj)
 		{
 			if (ReferenceEquals(null, obj)) return false;
@@ -72,5 +78,11 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		public override string ToString() => $"[{Width}|{Height}]";
+
+		[Pure]
+		public FSize AsFSize()
+		{
+			return new FSize(Width, Height);
+		}
 	}
 }

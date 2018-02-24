@@ -7,6 +7,7 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 	{
 		public abstract void WriteData(string fileid, string data);
 		public abstract string ReadDataOrNull(string fileid);
+		public abstract byte[] ReadBinDataOrNull(string fileid);
 		public abstract bool DeleteDataIfExist(string fileid);
 		public abstract List<string> ListData();
 

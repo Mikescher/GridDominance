@@ -327,5 +327,11 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			return new FPoint(FloatMath.PositiveModulo(X, bounds.Width), FloatMath.PositiveModulo(Y, bounds.Height));
 		}
+
+		[Pure]
+		public FPoint Mutate(float? mx, float? my)
+		{
+			return new FPoint(mx ?? X, my ?? Y);
+		}
 	}
 }

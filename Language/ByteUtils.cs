@@ -56,6 +56,7 @@ namespace MonoSAMFramework.Portable.Language
 		// http://stackoverflow.com/a/14333437/1761622
 		public static string ByteToHexBitFiddle(byte[] bytes)
 		{
+			if (bytes == null) return "{{NULL}}";
 			char[] c = new char[bytes.Length * 2];
 			int b;
 			for (int i = 0; i < bytes.Length; i++)

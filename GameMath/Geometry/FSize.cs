@@ -40,7 +40,11 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			}
 		}
 
+		[Pure]
 		public Vector2 ToVec2D() => new Vector2(Width, Height);
+
+		[Pure]
+		public FPoint CenterPoint => new FPoint(Width/2, Height/2);
 
 		public static bool operator ==(FSize a, FSize b)
 		{
