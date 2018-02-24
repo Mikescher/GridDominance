@@ -158,8 +158,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		protected override void OnShow()
 		{
-			//TODO SOUND FROM LVL
-			//MainGame.Inst.GDSound.PlayMusicLevel(Levels.WORLD_NUMBERS[WorldBlueprint.ID]);
+			if (Blueprint.CustomMusic != -1) 
+				MainGame.Inst.GDSound.PlayMusicLevel(Blueprint.CustomMusic);
+			else
+				MainGame.Inst.GDSound.StopSong();
+			//
 		}
 	}
 }

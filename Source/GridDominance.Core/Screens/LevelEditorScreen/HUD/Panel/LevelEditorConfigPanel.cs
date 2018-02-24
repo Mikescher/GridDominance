@@ -29,6 +29,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 		private readonly SCCMLevelData _data;
 
 		private Int64 _id;
+		private int _music;
 		private string _name;
 		private DSize _size;
 		private FlatAlign9 _view;
@@ -39,6 +40,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 		private HUDTextButton _ctrlSize;
 		private HUDTextButton _ctrlView;
 		private HUDTextButton _ctrlGeometry;
+		private HUDTextButton _ctrlMusic;
 
 		public LevelEditorConfigPanel(SCCMLevelData data) : base()
 		{
@@ -49,6 +51,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 			_size = _data.Size;
 			_view = _data.View;
 			_geometry = _data.Geometry;
+			_music = data.Music;
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
@@ -231,6 +234,38 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 				Click = ToggleGeometry,
 			});
 
+			AddElement(new HUDLabel(1)
+			{
+				TextAlignment = HUDAlignment.CENTERLEFT,
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(32, 32 + (96 * 5)),
+				Size = new FSize(384, 64),
+
+				Font = Textures.HUDFontBold,
+				FontSize = 64,
+
+				L10NText = L10NImpl.STR_LVLED_CFG_MUSIC,
+				TextColor = FlatColors.Clouds,
+			});
+
+			AddElement(_ctrlMusic = new HUDTextButton(1)
+			{
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(416, 32 + (96 * 5)),
+				Size = new FSize(512, 64),
+
+				TextColor = Color.White,
+				Font = Textures.HUDFontRegular,
+				FontSize = 48,
+				TextAlignment = HUDAlignment.CENTER,
+				TextPadding = 8,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonHUD, Color.Black, HUD.PixelWidth),
+				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonPressedHUD, Color.Black, HUD.PixelWidth),
+
+				Click = ToggleMusic,
+			});
+
 			//------
 
 			AddElement(new HUDTextButton(1)
@@ -277,6 +312,13 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 		private void UpdateText(HUDTextBox sender, EventArgs e)
 		{
 			_name = _ctrlName.Text;
+		}
+
+		private void ToggleMusic(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			_music = (((_music+1)+1) % MainGame.Inst.GDSound.LevelMusic.Length) - 1;
+
+			RefreshControls();
 		}
 
 		private void ToggleSize(HUDTextButton sender, HUDButtonEventArgs e)
@@ -328,10 +370,11 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 
 		private void RefreshControls()
 		{
-			_ctrlID.Text = $"{_id:000000000000}";
-			_ctrlName.Text = _name;
-			_ctrlSize.Text = _size.Width + "x"+_size.Height;
-			_ctrlView.Text = FlatAlign9Helper.LETTERS[_view];
+			_ctrlID.Text    = $"{_id:000000000000}";
+			_ctrlName.Text  = _name;
+			_ctrlSize.Text  = _size.Width + "x"+_size.Height;
+			_ctrlView.Text  = FlatAlign9Helper.LETTERS[_view];
+			_ctrlMusic.Text = _music < 0 ? L10N.T(L10NImpl.STR_MUSIC_NONE) : L10N.TF(L10NImpl.STR_MUSIC_INT, _music + 1);
 			switch (_geometry)
 			{
 				case GameWrapMode.Death:
@@ -365,6 +408,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 			_data.Size = _size;
 			_data.View = _view;
 			_data.Geometry = _geometry;
+			_data.Music = _music;
 
 			this.Remove();
 		}

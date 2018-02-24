@@ -43,6 +43,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const byte SERIALIZE_ID_RELAY           = 0x17;
 		public const byte SERIALIZE_ID_TRISHOT         = 0x18;
 		public const byte SERIALIZE_ID_META            = 0x80;
+		public const byte SERIALIZE_ID_XMETA_MUSIC     = 0x81;
 		public const byte SERIALIZE_ID_EOF             = 0xFF;
 
 		public readonly List<CannonBlueprint>          BlueprintCannons         = new List<CannonBlueprint>();
@@ -74,6 +75,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public Guid UniqueID     = Guid.Empty;
 		public string Name       = "";
 		public string FullName   = "";
+		public int CustomMusic   = -1;
 
 		public byte KIType       = KI_TYPE_RAYTRACE;
 		public byte WrapMode     = WRAPMODE_DEATH;
@@ -116,6 +118,9 @@ namespace GridDominance.Levelfileformat.Blueprint
 			for (int i = 0; i < BlueprintShieldProjector.Count; i++) BlueprintShieldProjector[i].Serialize(bw);
 			for (int i = 0; i < BlueprintRelayCannon.Count;     i++) BlueprintRelayCannon[i].Serialize(bw);
 			for (int i = 0; i < BlueprintTrishotCannon.Count;   i++) BlueprintTrishotCannon[i].Serialize(bw);
+
+			bw.Write(SERIALIZE_ID_XMETA_MUSIC);
+			bw.Write(CustomMusic);
 
 			bw.Write(SERIALIZE_ID_EOF);
 
@@ -208,6 +213,10 @@ namespace GridDominance.Levelfileformat.Blueprint
 						LevelHeight = br.ReadSingle();
 						LevelViewX  = br.ReadSingle();
 						LevelViewY  = br.ReadSingle();
+						break;
+
+					case SERIALIZE_ID_XMETA_MUSIC:
+						CustomMusic = br.ReadInt32();
 						break;
 
 					case SERIALIZE_ID_EOF:

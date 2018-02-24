@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using GridDominance.Content.Pipeline.PreCalculation;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.LevelEditorScreen;
 using GridDominance.Shared.Screens.LevelEditorScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen;
@@ -20,7 +18,6 @@ using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
 using MonoSAMFramework.Portable.Screens.HUD;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 
 namespace GridDominance.Shared.SCCM
 {
@@ -35,7 +32,8 @@ namespace GridDominance.Shared.SCCM
 
 		public DateTime LastChanged;
 
-		public Int64 OnlineID = -1; //TODO music
+		public int Music = -1;
+		public Int64 OnlineID = -1;
 		public string Name = "";
 		public DSize Size = SIZES[0];
 		public FlatAlign9 View = FlatAlign9.CENTER;
@@ -53,20 +51,18 @@ namespace GridDominance.Shared.SCCM
 			OnlineID = id;
 		}
 
-		public SCCMLevelData()
-		{
-
-		}
+		public SCCMLevelData() { }
 
 		protected override void Configure()
 		{
 			RegisterConstructor(() => new SCCMLevelData());
 
-			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "lastChanged", o => o.LastChanged, (o, v) => o.LastChanged = v);
-			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "online_id",   o => o.OnlineID,    (o, v) => o.OnlineID    = v);
-			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "level_name",  o => o.Name,        (o, v) => o.Name        = v);
-			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "size",        o => o.Size,        (o, v) => o.Size        = v);
-			RegisterProperty<SCCMLevelData, FlatAlign9>(SemVersion.VERSION_1_0_0,   "view",        o => o.View,        (o, v) => o.View        = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "music",       o => o.Music,       (o, v) => o.Music       = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "lastChanged", o => o.LastChanged, (o, v) => o.LastChanged = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "online_id",   o => o.OnlineID,    (o, v) => o.OnlineID    = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "level_name",  o => o.Name,        (o, v) => o.Name        = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "size",        o => o.Size,        (o, v) => o.Size        = v);
+			RegisterProperty<SCCMLevelData, FlatAlign9>(  SemVersion.VERSION_1_0_0, "view",        o => o.View,        (o, v) => o.View        = v);
 			RegisterProperty<SCCMLevelData, GameWrapMode>(SemVersion.VERSION_1_0_0, "geometry",    o => o.Geometry,    (o, v) => o.Geometry    = v);
 
 			RegisterPropertyList<SCCMLevelData, SCCMLevelElement>(SemVersion.VERSION_1_0_0, "elements", () => new SCCMLevelElement(), o => o.Elements, (o, v) => o.Elements = v);
@@ -285,6 +281,7 @@ namespace GridDominance.Shared.SCCM
 			bp.Name        = "0-" + OnlineID;
 			bp.FullName    = Name;
 			bp.KIType      = GetKIType();
+			bp.CustomMusic = Music;
 
 			byte cannonID = 0;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using GridDominance.Levelfileformat.Blueprint;
+﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Screens.LevelEditorScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Extensions;

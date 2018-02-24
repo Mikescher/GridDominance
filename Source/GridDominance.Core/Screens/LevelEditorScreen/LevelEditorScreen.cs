@@ -75,6 +75,11 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 			LevelData.ApplyToLevelEditor(this);
 		}
 
+		protected override void OnShow()
+		{
+			MainGame.Inst.GDSound.PlayMusicBackground();
+		}
+
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
 #if DEBUG
@@ -167,11 +172,6 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 
 		public CannonStub CanInsertCannonStub(FPoint center, ILeveleditorStub ign)
 		{
-			if (center.X <= 0) return null;
-			if (center.Y <= 0) return null;
-			if (center.X >= LevelData.Width * GDConstants.TILE_WIDTH) return null;
-			if (center.Y >= LevelData.Height * GDConstants.TILE_WIDTH) return null;
-
 			var s2 = CanInsertCannonStub(center, CannonStub.SCALES[2], ign);
 			if (s2 != null) return s2;
 
@@ -186,6 +186,11 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 
 		public CannonStub CanInsertCannonStub(FPoint center, float scale, ILeveleditorStub ign)
 		{
+			if (center.X <= 0) return null;
+			if (center.Y <= 0) return null;
+			if (center.X >= LevelData.Width * GDConstants.TILE_WIDTH) return null;
+			if (center.Y >= LevelData.Height * GDConstants.TILE_WIDTH) return null;
+
 			CannonStub s = new CannonStub(this, center, scale);
 
 			foreach (var stub in GetEntities<ILeveleditorStub>().Where(stub => stub != ign))

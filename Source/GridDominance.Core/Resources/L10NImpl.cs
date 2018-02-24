@@ -241,6 +241,9 @@ namespace GridDominance.Shared.Resources
 
 		public const int STR_AUTHERR_HEADER          = 193;
 
+		public const int STR_MUSIC_NONE              = 244;
+		public const int STR_MUSIC_INT               = 245;
+
 		public const int STR_LVLED_MOUSE             = 195;
 		public const int STR_LVLED_CANNON            = 196;
 		public const int STR_LVLED_WALL              = 197;
@@ -267,6 +270,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_CFG_SIZE          = 214;
 		public const int STR_LVLED_CFG_VIEW          = 215;
 		public const int STR_LVLED_CFG_GEOMETRY      = 216;
+		public const int STR_LVLED_CFG_MUSIC         = 246;
 		public const int STR_LVLED_CFG_WRAP_INFINITY = 217;
 		public const int STR_LVLED_CFG_WRAP_DONUT    = 218;
 		public const int STR_LVLED_CFG_WRAP_REFLECT  = 219;
@@ -291,7 +295,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_BTN_PLAY          = 242;
 		public const int STR_LVLED_COMPILING         = 243;
 
-		private const int TEXT_COUNT = 244; // = next idx
+		private const int TEXT_COUNT = 247; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2010,7 +2014,29 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
-		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
+
+			L10N.Add(STR_MUSIC_NONE,
+			         "None",
+			         "Keine",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_MUSIC_INT,
+			         "Song {0}",
+			         "Lied {0}",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_CFG_MUSIC,
+			         "Song:",
+			         "Lied:",
+			         "Musique:",
+			         "Musica:",
+			         "Música:");
+
+			// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 
 #if DEBUG
 			L10N.Verify();

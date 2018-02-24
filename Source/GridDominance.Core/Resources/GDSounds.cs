@@ -93,7 +93,11 @@ namespace GridDominance.Shared.Resources
 
 		public void PlayMusicTutorial() => PlaySong(music_tutorial, MUSIC_LEVEL_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT);
 		public void PlayMusicBackground() => PlaySong(music_background, MUSIC_BACKGROUND_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT, true, true);
-		public void PlayMusicLevel(int i) => PlaySong(music_level[i], MUSIC_LEVEL_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT, true, true);
+
+		public void PlayMusicLevel(int i)
+		{
+			if (i >= 0 && i < music_level.Length) PlaySong(music_level[i], MUSIC_LEVEL_FADEIN, MUSIC_FADEOUT, MUSIC_FADENEXT, true, true);
+		}
 
 		protected override void OnEffectError()
 		{
