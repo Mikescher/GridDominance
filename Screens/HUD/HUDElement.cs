@@ -125,6 +125,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 			if (Owner != null) _lastInputState = Owner._lastInputState;
 
 			InvalidatePosition();
+
+			BoundingRectangle = new FRectangle(Position, Size); // fix that Width+Height is set in OnInintialize, if Size is set in ctr
 			OnInitialize();
 
 			if (_lastInputState != null)
