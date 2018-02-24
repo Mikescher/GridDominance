@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Linq;
 using MonoSAMFramework.Portable.DeviceBridge;
 
 namespace GridDominance.iOS.Impl
@@ -48,6 +50,13 @@ namespace GridDominance.iOS.Impl
 			{
 				return false;
 			}
+		}
+
+		public override List<string> ListData()
+		{
+			var store = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Domain | IsolatedStorageScope.Assembly, null, null);
+
+			return store.GetFileNames().ToList();
 		}
 	}
 }

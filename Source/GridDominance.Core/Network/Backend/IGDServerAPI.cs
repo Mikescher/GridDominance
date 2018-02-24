@@ -24,6 +24,7 @@ namespace GridDominance.Shared.Network
 		Task<Tuple<ChangePasswordResult, string>> ChangePassword(PlayerProfile profile, string newPassword);
 		Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit, bool multiplayer);
 		Task<Tuple<VerifyResult, string>> MergeLogin(PlayerProfile profile, string username, string password);
+		Task<Tuple<bool, Int64>> GetNewCustomLevelID(PlayerProfile profile);
 	}
 
 	#pragma warning disable 1998
@@ -102,6 +103,11 @@ namespace GridDominance.Shared.Network
 		{
 			return new QueryResultRanking();
 		}
+
+		public async Task<Tuple<bool, Int64>> GetNewCustomLevelID(PlayerProfile profile)
+		{
+			return Tuple.Create(true, 999L);
+		}
 	}
-	#pragma warning restore 1998
+#pragma warning restore 1998
 }

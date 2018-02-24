@@ -23,12 +23,9 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 
 		public readonly TextureRegion2D[] TypeTextures = new[]
 		{
-			Textures.TexBlackHoleIcon,
-			Textures.TexWhiteHoleIcon,
+			Textures.TexVoidIcon,
 			Textures.TexGlassBlockIcon,
 			Textures.TexMirrorBlockIcon,
-			Textures.TexMirrorCircleSmall,
-			Textures.TexVoidCircle_FG,
 		};
 
 		private LevelEditorScreen GDOwner => (LevelEditorScreen) Owner;

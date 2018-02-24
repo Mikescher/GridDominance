@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
+using GridDominance.Shared.Screens.OverworldScreen.HUD;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using MonoSAMFramework.Portable.Screens;
@@ -12,6 +15,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Language;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
@@ -90,7 +94,24 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			var ownr = ((GDOverworldScreen)Owner);
 			if (ownr.IsTransitioning) return;
 
-			MainGame.Inst.SetLevelEditorScreen(); //TODO test for unlocked - show panel - etc  - w/e
+			var ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, true);
+
+			switch (ustate)
+			{
+				case WorldUnlockState.OpenAndUnlocked:
+					Owner.HUD.AddModal(new SCCMMainPanel(), true, 0.5f, 1f);
+					break;
+				case WorldUnlockState.ReachableButMustBePreviewed:
+				case WorldUnlockState.UnreachableButCanBePreviewed:
+					//Owner.HUD.AddModal(new SCCMPreviewPanel(), true, 0.5f, 1f);//TODO
+					break;
+				case WorldUnlockState.UnreachableAndFullyLocked:
+					SAMLog.Error("ONSCCM::EnumSwitch_OC", "Clicked on [UnreachableAndFullyLocked]");
+					break;
+				default:
+					SAMLog.Error("ONSCCM::EnumSwitch_OC", "ustate: " + ustate);
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 	}
 }

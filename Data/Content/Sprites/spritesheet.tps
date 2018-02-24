@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.6.1</string>
+        <string>4.6.2</string>
         <key>fileName</key>
         <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
@@ -314,6 +314,7 @@
                 <false/>
             </struct>
             <key type="filename">base_blocks/grid.png</key>
+            <key type="filename">difficulty/difficulty_line_00.png</key>
             <key type="filename">difficulty/difficulty_line_01.png</key>
             <key type="filename">difficulty/difficulty_line_02.png</key>
             <key type="filename">difficulty/difficulty_line_03.png</key>

@@ -168,7 +168,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				ImageAlignment = HUDImageAlignment.UNDERSCALE,
 				Image = Textures.TexHUDIconReload,
 				ImageColor = MainGame.Inst.Profile.NeedsReupload ? FlatColors.Carrot : FlatColors.Clouds,
-				RotationSpeed = 0f,
+				ImageRotationSpeed = 0f,
 
 				ClickMode = HUDButton.HUDButtonClickMode.Single,
 				Click = OnReuploadProfile,
@@ -180,7 +180,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			if (isUploading) return;
 			isUploading = true;
 
-			btnReload.RotationSpeed = 0.5f;
+			btnReload.ImageRotationSpeed = 0.5f;
 			MainGame.Inst.ShowToast(null, L10N.T(L10NImpl.STR_PROFILESYNC_START), 40, FlatColors.Silver, FlatColors.Foreground, 2f);
 			MainGame.Inst.Profile.NeedsReupload = true;
 
@@ -198,7 +198,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
-						btnReload.RotationSpeed = 0f;
+						btnReload.ImageRotationSpeed = 0f;
 						btnReload.ImageColor = FlatColors.Carrot;
 
 						MainGame.Inst.ShowToast(null, L10N.T(L10NImpl.STR_PROFILESYNC_ERROR), 40, FlatColors.Orange, FlatColors.Foreground, 2f);
@@ -214,7 +214,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
-						btnReload.RotationSpeed = 0f;
+						btnReload.ImageRotationSpeed = 0f;
 						btnReload.ImageColor = FlatColors.Carrot;
 
 						MainGame.Inst.ShowToast(null, L10N.T(L10NImpl.STR_PROFILESYNC_ERROR), 40, FlatColors.Orange, FlatColors.Foreground, 2f);
@@ -227,7 +227,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
-					btnReload.RotationSpeed = 0f;
+					btnReload.ImageRotationSpeed = 0f;
 					btnReload.ImageColor = FlatColors.Clouds;
 
 					MainGame.Inst.ShowToast(null, L10N.T(L10NImpl.STR_PROFILESYNC_SUCCESS), 40, FlatColors.Emerald, FlatColors.Foreground, 2f);

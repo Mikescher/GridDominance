@@ -290,6 +290,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexWhiteHoleIcon;
 		public static TextureRegion2D TexMirrorBlockIcon;
 		public static TextureRegion2D TexGlassBlockIcon;
+		public static TextureRegion2D TexVoidIcon;
 
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
@@ -509,6 +510,7 @@ namespace GridDominance.Shared.Resources
 			TexWhiteHoleIcon   = AtlasTextures["whitehole_icon"];
 			TexMirrorBlockIcon = AtlasTextures["mirrorblock_icon"];
 			TexGlassBlockIcon  = AtlasTextures["glassblock_icon"];
+			TexVoidIcon        = AtlasTextures["void_icon"];
 
 			HUDFontRegular      = content.Load<SpriteFont>("fonts/hudFontRegular");
 			HUDFontBold         = content.Load<SpriteFont>("fonts/hudFontBold");

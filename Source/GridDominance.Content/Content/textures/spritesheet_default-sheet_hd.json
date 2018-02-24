@@ -649,7 +649,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "difficulty_line_01.png",
+	"filename": "difficulty_line_00.png",
 	"frame": {"x":1528,"y":446,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
@@ -658,7 +658,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "difficulty_line_02.png",
+	"filename": "difficulty_line_01.png",
 	"frame": {"x":1302,"y":577,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
@@ -667,7 +667,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "difficulty_line_03.png",
+	"filename": "difficulty_line_02.png",
 	"frame": {"x":1671,"y":497,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
@@ -676,8 +676,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "difficulty_line_04.png",
+	"filename": "difficulty_line_03.png",
 	"frame": {"x":1802,"y":497,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "difficulty_line_04.png",
+	"frame": {"x":1528,"y":577,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -812,7 +821,7 @@
 },
 {
 	"filename": "grid.png",
-	"frame": {"x":1528,"y":577,"w":128,"h":128},
+	"frame": {"x":1302,"y":708,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -920,7 +929,7 @@
 },
 {
 	"filename": "jewels.png",
-	"frame": {"x":1302,"y":708,"w":128,"h":128},
+	"frame": {"x":1302,"y":839,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -929,7 +938,7 @@
 },
 {
 	"filename": "laser/half_laser_flare.png",
-	"frame": {"x":1302,"y":839,"w":128,"h":128},
+	"frame": {"x":1375,"y":1072,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -947,7 +956,7 @@
 },
 {
 	"filename": "laser/laser_flare.png",
-	"frame": {"x":1375,"y":1072,"w":128,"h":128},
+	"frame": {"x":1444,"y":1254,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -1028,7 +1037,7 @@
 },
 {
 	"filename": "minigunicon.png",
-	"frame": {"x":1444,"y":1254,"w":128,"h":128},
+	"frame": {"x":1494,"y":1385,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -1514,7 +1523,7 @@
 },
 {
 	"filename": "pokerchip.png",
-	"frame": {"x":1494,"y":1385,"w":128,"h":128},
+	"frame": {"x":1528,"y":1516,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -1631,7 +1640,7 @@
 },
 {
 	"filename": "shield/half_shieldlaser_flare.png",
-	"frame": {"x":1528,"y":1516,"w":128,"h":128},
+	"frame": {"x":1545,"y":1647,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -1649,7 +1658,7 @@
 },
 {
 	"filename": "shield/shieldlaser_flare.png",
-	"frame": {"x":1545,"y":1647,"w":128,"h":128},
+	"frame": {"x":1655,"y":1778,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -1775,15 +1784,6 @@
 },
 {
 	"filename": "tricircle.png",
-	"frame": {"x":1655,"y":1778,"w":128,"h":128},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
-	"sourceSize": {"w":128,"h":128},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "tricog.png",
 	"frame": {"x":1671,"y":1909,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
@@ -1792,8 +1792,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "tutorial.png",
+	"filename": "tricog.png",
 	"frame": {"x":1433,"y":733,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tutorial.png",
+	"frame": {"x":1469,"y":864,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -1937,7 +1946,7 @@
 },
 {
 	"filename": "vortex/vortex_circle_1.png",
-	"frame": {"x":1469,"y":864,"w":128,"h":128},
+	"frame": {"x":1564,"y":708,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -1963,12 +1972,12 @@
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
-	"app": "http://www.codeandweb.com/texturepacker",
+	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "spritesheet_default_hd.png",
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:2802df2d7a2a56dc954d88fc4ad8bb28:4f372fd50fa900562be5689d71c42738:332da033e89742cb272fe0fb1b010c90$"
+	"smartupdate": "$TexturePacker:SmartUpdate:20021e096163a24c68b8ee938acd8a92:a28253b3eaab4b6383b80f7cd712dd46:332da033e89742cb272fe0fb1b010c90$"
 }
 }

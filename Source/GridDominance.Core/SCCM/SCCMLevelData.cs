@@ -15,7 +15,6 @@ using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
 namespace GridDominance.Shared.SCCM
 {
@@ -28,6 +27,7 @@ namespace GridDominance.Shared.SCCM
 		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_0;
 
 		public DateTime LastChanged;
+		public bool Uploaded;
 
 		public Int64 OnlineID = -1;
 		public string Name = "";
@@ -41,7 +41,7 @@ namespace GridDominance.Shared.SCCM
 		public int Height => Size.Height;
 		public string Filename => "CUSTOMLEVELDATA_{c27c11c6-0001-4001-0000-" + $"{OnlineID:000000000000}" + "}";
 
-		public SCCMLevelData(int id)
+		public SCCMLevelData(Int64 id)
 		{
 			LastChanged = DateTime.UtcNow;
 			OnlineID = id;
@@ -57,6 +57,7 @@ namespace GridDominance.Shared.SCCM
 			RegisterConstructor(() => new SCCMLevelData());
 
 			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "lastChanged", o => o.LastChanged, (o, v) => o.LastChanged = v);
+			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "uploaded",    o => o.Uploaded,    (o, v) => o.Uploaded = v);
 			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "online_id",   o => o.OnlineID,    (o, v) => o.OnlineID    = v);
 			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "level_name",  o => o.Name,        (o, v) => o.Name        = v);
 			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "size",        o => o.Size,        (o, v) => o.Size        = v);
@@ -87,7 +88,7 @@ namespace GridDominance.Shared.SCCM
 						scrn.Entities.AddEntity(new WallStub(scrn, e));
 						break;
 					default: 
-						SAMLog.Warning("SCCMLD::EnumSwitch_ATLE", "e.StubType: " + e.StubType);
+						SAMLog.Error("SCCMLD::EnumSwitch_ATLE", "e.StubType: " + e.StubType);
 						break;
 				}
 			}
@@ -152,7 +153,7 @@ namespace GridDominance.Shared.SCCM
 				}
 				else
 				{
-					SAMLog.Warning("SCCMLD::EnumSwitch_UAS", "typeof(stub): " + stub?.GetType());
+					SAMLog.Error("SCCMLD::EnumSwitch_UAS", "typeof(stub): " + stub?.GetType());
 				}
 			}
 

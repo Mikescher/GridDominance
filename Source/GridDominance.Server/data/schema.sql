@@ -189,3 +189,30 @@ CREATE TABLE stats_history (
 
   PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS userlevels;
+CREATE TABLE userlevels (
+  id                 bigint(20)          UNSIGNED NOT NULL AUTO_INCREMENT,
+
+  name               varchar(64)         NULL DEFAULT NULL,
+  userid             int(10)             UNSIGNED NOT NULL,
+  creation_timestamp timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  upload_timestamp   timestamp           NULL DEFAULT NULL,
+  upload_version     varchar(24)         NULL DEFAULT NULL,
+
+  stars              int(10)             NOT NULL DEFAULT '0',
+
+  completed_d1       int(10)             NOT NULL DEFAULT '0',
+  played_d1          int(10)             NOT NULL DEFAULT '0',
+
+  completed_d2       int(10)             NOT NULL DEFAULT '0',
+  played_d2          int(10)             NOT NULL DEFAULT '0',
+
+  completed_d3       int(10)             NOT NULL DEFAULT '0',
+  played_d3          int(10)             NOT NULL DEFAULT '0',
+
+  completed_d4       int(10)             NOT NULL DEFAULT '0',
+  played_d4          int(10)             NOT NULL DEFAULT '0',
+
+  PRIMARY KEY (id)
+);

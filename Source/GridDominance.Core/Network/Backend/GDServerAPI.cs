@@ -30,6 +30,7 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_VERIFY             = 6;
 		private const int RETRY_CHANGE_PW          = 6;
 		private const int RETRY_GETRANKING         = 6;
+		private const int RETRY_GETNEWLEVELID      = 6;
 
 		private const int MULTISCORE_PARTITION_SIZE = 64;
 
@@ -1056,6 +1057,46 @@ namespace GridDominance.Shared.Network
 				SAMLog.Error("Backend::ML_E", e);
 				ShowErrorCommunication();
 				return Tuple.Create(VerifyResult.InternalError, "Internal server exception");
+			}
+		}
+
+		public async Task<Tuple<bool, long>> GetNewCustomLevelID(PlayerProfile profile)
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+
+				var response = await QueryAsync<QueryResultNewLevelID>("get-newlevelid", ps, RETRY_GETNEWLEVELID);
+
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return Tuple.Create(false, -1L);
+				}
+				else if (response.result == "success")
+				{
+					return Tuple.Create(true, response.levelid);
+				}
+				else
+				{
+					ShowErrorCommunication();
+					return Tuple.Create(false, -1L);
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend::GR_RCE", e); // probably no internet
+				ShowErrorConnection();
+				return Tuple.Create(false, -1L);
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend::GR_E", e);
+				ShowErrorCommunication();
+				return Tuple.Create(false, -1L);
 			}
 		}
 

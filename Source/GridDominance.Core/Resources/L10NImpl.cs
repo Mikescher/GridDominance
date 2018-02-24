@@ -1,4 +1,3 @@
-using FarseerPhysics.Dynamics.Contacts;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
@@ -280,8 +279,16 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_BTN_SAVE          = 230;
 		public const int STR_LVLED_BTN_DISCARD       = 231;
 		public const int STR_LVLED_TOAST_DELLEVEL    = 232;
+		public const int STR_MENU_CAP_SCCM           = 233;
+		public const int STR_LVLED_TAB_MYLEVELS      = 234;
+		public const int STR_LVLED_TAB_HOT           = 235;
+		public const int STR_LVLED_TAB_TOP           = 236;
+		public const int STR_LVLED_TAB_NEW           = 237;
+		public const int STR_LVLED_TAB_SEARCH        = 238;
+		public const int STR_LVLED_BTN_NEWLVL        = 239;
+		public const int STR_GENERIC_SERVER_QUERY    = 240;
 
-		private const int TEXT_COUNT = 233; // = next idx
+		private const int TEXT_COUNT = 241; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -1919,6 +1926,62 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_LVLED_TOAST_DELLEVEL,
 			         "Level gelöscht.",
 			         "Level deleted.",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_MENU_CAP_SCCM,
+			         "Benutzerlevel",
+			         "User levels",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_TAB_MYLEVELS,
+			         "Meine Level",
+			         "My level",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_TAB_HOT,
+			         "Beliebt",
+			         "Hot",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_TAB_TOP,
+			         "Top",
+			         "Top",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_TAB_NEW,
+			         "New",
+			         "Neu",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_TAB_SEARCH,
+			         "Search",
+			         "Suche",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_BTN_NEWLVL,
+			         "Create new level",
+			         "Neues Level erstellen",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_GENERIC_SERVER_QUERY,
+			         "Processing your request",
+			         "Anfrage wird bearbeitet",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me

@@ -649,7 +649,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "difficulty_line_01.png",
+	"filename": "difficulty_line_00.png",
 	"frame": {"x":839,"y":939,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -658,7 +658,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "difficulty_line_02.png",
+	"filename": "difficulty_line_01.png",
 	"frame": {"x":906,"y":297,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -667,7 +667,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "difficulty_line_03.png",
+	"filename": "difficulty_line_02.png",
 	"frame": {"x":827,"y":297,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -676,8 +676,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "difficulty_line_04.png",
+	"filename": "difficulty_line_03.png",
 	"frame": {"x":751,"y":297,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "difficulty_line_04.png",
+	"frame": {"x":728,"y":364,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -812,7 +821,7 @@
 },
 {
 	"filename": "grid.png",
-	"frame": {"x":728,"y":364,"w":64,"h":64},
+	"frame": {"x":751,"y":431,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -821,7 +830,7 @@
 },
 {
 	"filename": "hud_button_base.png",
-	"frame": {"x":869,"y":565,"w":62,"h":62},
+	"frame": {"x":900,"y":498,"w":62,"h":62},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":62},
@@ -830,7 +839,7 @@
 },
 {
 	"filename": "hud_pause_background.png",
-	"frame": {"x":869,"y":565,"w":62,"h":62},
+	"frame": {"x":900,"y":498,"w":62,"h":62},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":62},
@@ -920,7 +929,7 @@
 },
 {
 	"filename": "jewels.png",
-	"frame": {"x":751,"y":431,"w":64,"h":64},
+	"frame": {"x":795,"y":364,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -929,7 +938,7 @@
 },
 {
 	"filename": "laser/half_laser_flare.png",
-	"frame": {"x":795,"y":364,"w":64,"h":64},
+	"frame": {"x":766,"y":498,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -947,7 +956,7 @@
 },
 {
 	"filename": "laser/laser_flare.png",
-	"frame": {"x":766,"y":498,"w":64,"h":64},
+	"frame": {"x":818,"y":431,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1028,7 +1037,7 @@
 },
 {
 	"filename": "minigunicon.png",
-	"frame": {"x":818,"y":431,"w":64,"h":64},
+	"frame": {"x":862,"y":364,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1514,7 +1523,7 @@
 },
 {
 	"filename": "pokerchip.png",
-	"frame": {"x":862,"y":364,"w":64,"h":64},
+	"frame": {"x":929,"y":364,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1631,7 +1640,7 @@
 },
 {
 	"filename": "shield/half_shieldlaser_flare.png",
-	"frame": {"x":929,"y":364,"w":64,"h":64},
+	"frame": {"x":802,"y":565,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1649,7 +1658,7 @@
 },
 {
 	"filename": "shield/shieldlaser_flare.png",
-	"frame": {"x":802,"y":565,"w":64,"h":64},
+	"frame": {"x":833,"y":498,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1775,15 +1784,6 @@
 },
 {
 	"filename": "tricircle.png",
-	"frame": {"x":833,"y":498,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "tricog.png",
 	"frame": {"x":885,"y":431,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -1792,8 +1792,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "tutorial.png",
+	"filename": "tricog.png",
 	"frame": {"x":952,"y":431,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tutorial.png",
+	"frame": {"x":827,"y":632,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1937,7 +1946,7 @@
 },
 {
 	"filename": "vortex/vortex_circle_1.png",
-	"frame": {"x":827,"y":632,"w":64,"h":64},
+	"frame": {"x":869,"y":565,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1963,12 +1972,12 @@
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
-	"app": "http://www.codeandweb.com/texturepacker",
+	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "spritesheet_default_md.png",
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":1024},
 	"scale": "0.5",
-	"smartupdate": "$TexturePacker:SmartUpdate:2802df2d7a2a56dc954d88fc4ad8bb28:4f372fd50fa900562be5689d71c42738:332da033e89742cb272fe0fb1b010c90$"
+	"smartupdate": "$TexturePacker:SmartUpdate:20021e096163a24c68b8ee938acd8a92:a28253b3eaab4b6383b80f7cd712dd46:332da033e89742cb272fe0fb1b010c90$"
 }
 }
