@@ -69,16 +69,16 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			if (Max > 0)
-			{
-				var yrange = Height - 64 - 64 - 32;
-				var ypos = yrange * (Position * 1f / Max);
-
-				SimpleRenderHelper.DrawSimpleRect(sbatch, FRectangle.CreateByTopLeft(bounds.Left, bounds.Top+96+ypos, bounds.Width, 32), FlatColors.MidnightBlue);
-			}
-
 			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, FlatColors.Asbestos);
 			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, HUD.PixelWidth, Color.Black);
+
+			if (Max > 6)
+			{
+				var yrange = Height - 64 - 64 - 32;
+				var ypos = yrange * (Position * 1f / (Max-6));
+
+				SimpleRenderHelper.DrawSimpleRect(sbatch, FRectangle.CreateByTopLeft(bounds.Left, bounds.Top+64+ypos, bounds.Width, 32), FlatColors.MidnightBlue);
+			}
 		}
 
 		public override void OnRemove()

@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.SCCM;
+﻿using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -9,7 +10,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 {
 	class SCCMListElementPlayable : SCCMListElement
 	{
-		public SCCMListElementPlayable(SCCMLevelData d)
+		public SCCMListElementPlayable(LevelBlueprint d)
 		{
 
 		}

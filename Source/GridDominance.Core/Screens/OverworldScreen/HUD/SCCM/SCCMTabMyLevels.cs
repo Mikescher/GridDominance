@@ -41,13 +41,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 			_presenter.AddEntry(new SCCMListElementNewUserLevel());
 
-			foreach (var userlevel in SCCMUtils.ListUserLevels())
+			foreach (var userlevel in SCCMUtils.ListUserLevelsUnfinished())
 			{
-				if (userlevel.Uploaded)
-					_presenter.AddEntry(new SCCMListElementPlayable(userlevel));
-				else
-					_presenter.AddEntry(new SCCMListElementEditable(userlevel));
+				_presenter.AddEntry(new SCCMListElementEditable(userlevel));
+			}
 
+			foreach (var userlevel in SCCMUtils.ListUserLevelsFinished())
+			{
+				_presenter.AddEntry(new SCCMListElementPlayable(userlevel));
 			}
 		}
 

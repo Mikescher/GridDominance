@@ -258,7 +258,6 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 			Buttons.Add(Tuple.Create(BtnTest,     BtnTest.BackgroundNormal,     BtnTest.BackgroundPressed));
 			Buttons.Add(Tuple.Create(BtnExit,     BtnExit.BackgroundNormal,     BtnExit.BackgroundPressed));
 
-
 			SetActiveButton(BtnMouse);
 		}
 
@@ -281,6 +280,16 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 
 		private void DoPlayTest(HUDTextButton sender, HUDButtonEventArgs e)
 		{
+			GDScreen.LevelData.Update(GDScreen);
+
+			var success = GDScreen.LevelData.ValidateWithToasts(HUD);
+
+			if (success)
+			{
+				var lvl = GDScreen.LevelData.CompileToBlueprint(HUD);//todo thread
+
+			}
+
 			GDScreen.SetMode(LevelEditorMode.Mouse);//TODO
 		}
 

@@ -85,6 +85,9 @@
     <Compile Include="SaveData\LevelData.cs" />
     <Compile Include="SaveData\LevelDiffData.cs" />
     <Compile Include="SaveData\PlayerProfile.cs" />
+    <Compile Include="SCCM\PreCalculation\BlueprintPreprocessor.cs" />
+    <Compile Include="SCCM\PreCalculation\LevelKISimulator.cs" />
+    <Compile Include="SCCM\PreCalculation\LevelKITracer.cs" />
     <Compile Include="SCCM\SCCMLevelData.cs" />
     <Compile Include="SCCM\SCCMLevelElement.cs" />
     <Compile Include="SCCM\SCCMUtils.cs" />
@@ -142,11 +145,11 @@
     <Compile Include="Screens\LevelEditorScreen\Entities\SingleAttrOption.cs" />
     <Compile Include="Screens\LevelEditorScreen\Entities\WallStub.cs" />
     <Compile Include="Screens\LevelEditorScreen\HUD\Elements\AttributeButton.cs" />
-    <Compile Include="Screens\LevelEditorScreen\HUD\Elements\LevelEditorAttrPanel.cs" />
-    <Compile Include="Screens\LevelEditorScreen\HUD\Elements\LevelEditorSaveConfirmPanel.cs" />
-    <Compile Include="Screens\LevelEditorScreen\HUD\Elements\LevelEditorDeleteConfirmPanel.cs" />
-    <Compile Include="Screens\LevelEditorScreen\HUD\Elements\LevelEditorConfigPanel.cs" />
-    <Compile Include="Screens\LevelEditorScreen\HUD\Elements\LevelEditorModePanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Panel\LevelEditorAttrPanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Dialogs\LevelEditorSaveConfirmPanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Dialogs\LevelEditorDeleteConfirmPanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Panel\LevelEditorConfigPanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Panel\LevelEditorModePanel.cs" />
     <Compile Include="Screens\LevelEditorScreen\HUD\LevelEditorHUD.cs" />
     <Compile Include="Screens\LevelEditorScreen\LevelEditorBackground.cs" />
     <Compile Include="Screens\LevelEditorScreen\LevelEditorEntityManager.cs" />

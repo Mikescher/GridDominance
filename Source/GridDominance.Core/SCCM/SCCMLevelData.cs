@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using GridDominance.Content.Pipeline.PreCalculation;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.LevelEditorScreen;
@@ -15,19 +19,21 @@ using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
+using MonoSAMFramework.Portable.Screens.HUD;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 
 namespace GridDominance.Shared.SCCM
 {
 	public class SCCMLevelData : RootDataFile
 	{
-		public const int MaxNameLength = 32;
+		public const int MaxNameLength  = 32;
+		public const int MaxEntityCount = 99;
 
 		public static readonly DSize[] SIZES = {new DSize(16, 10), new DSize(24, 15), new DSize(24, 10), new DSize(16, 20), new DSize(32, 20)};
 
 		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_0;
 
 		public DateTime LastChanged;
-		public bool Uploaded;
 
 		public Int64 OnlineID = -1;
 		public string Name = "";
@@ -57,7 +63,6 @@ namespace GridDominance.Shared.SCCM
 			RegisterConstructor(() => new SCCMLevelData());
 
 			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "lastChanged", o => o.LastChanged, (o, v) => o.LastChanged = v);
-			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "uploaded",    o => o.Uploaded,    (o, v) => o.Uploaded = v);
 			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "online_id",   o => o.OnlineID,    (o, v) => o.OnlineID    = v);
 			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "level_name",  o => o.Name,        (o, v) => o.Name        = v);
 			RegisterProperty<SCCMLevelData>(SemVersion.VERSION_1_0_0,               "size",        o => o.Size,        (o, v) => o.Size        = v);
@@ -96,7 +101,16 @@ namespace GridDominance.Shared.SCCM
 
 		public bool UpdateAndSave(LevelEditorScreen scrn)
 		{
+			Update(scrn);
+
+			return SaveToDisk();
+		}
+
+		public void Update(LevelEditorScreen scrn)
+		{
 			Elements.Clear();
+
+			LastChanged = DateTime.UtcNow;
 
 			foreach (var stub in scrn.GetEntities<ILeveleditorStub>())
 			{
@@ -106,9 +120,9 @@ namespace GridDominance.Shared.SCCM
 					{
 						StubType = SCCMLevelElement.SCCMStubType.Cannon,
 
-						Cannon_Center     = cannonStub.Center,
-						Cannon_Scale      = cannonStub.Scale,
-						Cannon_Rotation   = cannonStub.Rotation,
+						Cannon_Center = cannonStub.Center,
+						Cannon_Scale = cannonStub.Scale,
+						Cannon_Rotation = cannonStub.Rotation,
 						Cannon_CannonType = cannonStub.CannonType,
 						Cannon_CannonFrac = cannonStub.CannonFrac,
 					});
@@ -119,11 +133,11 @@ namespace GridDominance.Shared.SCCM
 					{
 						StubType = SCCMLevelElement.SCCMStubType.Portal,
 
-						Portal_Center   = portalStub.Center,
+						Portal_Center = portalStub.Center,
 						Portal_Rotation = portalStub.Rotation,
-						Portal_Length   = portalStub.Length,
-						Portal_Group    = portalStub.Group,
-						Portal_Side     = portalStub.Side
+						Portal_Length = portalStub.Length,
+						Portal_Group = portalStub.Group,
+						Portal_Side = portalStub.Side
 					});
 				}
 				else if (stub is ObstacleStub obstacleStub)
@@ -132,11 +146,11 @@ namespace GridDominance.Shared.SCCM
 					{
 						StubType = SCCMLevelElement.SCCMStubType.Obstacle,
 
-						Obstacle_Center       = obstacleStub.Center,
-						Obstacle_Rotation     = obstacleStub.Rotation,
-						Obstacle_Width        = obstacleStub.Width,
-						Obstacle_Height       = obstacleStub.Height,
-						Obstacle_Power        = obstacleStub.Power,
+						Obstacle_Center = obstacleStub.Center,
+						Obstacle_Rotation = obstacleStub.Rotation,
+						Obstacle_Width = obstacleStub.Width,
+						Obstacle_Height = obstacleStub.Height,
+						Obstacle_Power = obstacleStub.Power,
 						Obstacle_ObstacleType = obstacleStub.ObstacleType
 					});
 				}
@@ -156,9 +170,8 @@ namespace GridDominance.Shared.SCCM
 					SAMLog.Error("SCCMLD::EnumSwitch_UAS", "typeof(stub): " + stub?.GetType());
 				}
 			}
-
-			return SaveToDisk();
 		}
+
 
 		private bool SaveToDisk()
 		{
@@ -216,6 +229,131 @@ namespace GridDominance.Shared.SCCM
 		public void Delete()
 		{
 			FileHelper.Inst.DeleteDataIfExist(Filename);
+		}
+
+		public bool ValidateWithToasts(GameHUD hud)
+		{
+			if (Elements.Count > MaxEntityCount)
+			{
+				hud.ShowToast("SCCMLD::VWT_1", L10N.T(L10NImpl.STR_LVLED_ERR_TOOMANYENTS), 64, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(Name))
+			{
+				hud.ShowToast("SCCMLD::VWT_2", L10N.T(L10NImpl.STR_LVLED_ERR_NONAME), 64, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				return false;
+			}
+
+			var hasPlayer = Elements
+				.Where(e => e.StubType == SCCMLevelElement.SCCMStubType.Cannon)
+				.Where(e => e.Cannon_CannonType != CannonStub.CannonStubType.Relay)
+				.Where(e => e.Cannon_CannonType != CannonStub.CannonStubType.Shield)
+				.Any(e => e.Cannon_CannonFrac == CannonStub.CannonStubFraction.P1);
+
+			var hasEnemy = Elements
+				.Where(e => e.StubType == SCCMLevelElement.SCCMStubType.Cannon)
+				.Where(e => e.Cannon_CannonType != CannonStub.CannonStubType.Relay)
+				.Where(e => e.Cannon_CannonType != CannonStub.CannonStubType.Shield)
+				.Any(e => e.Cannon_CannonFrac == CannonStub.CannonStubFraction.A2 || e.Cannon_CannonFrac == CannonStub.CannonStubFraction.A3 || e.Cannon_CannonFrac == CannonStub.CannonStubFraction.A4);
+
+			if (!hasPlayer)
+			{
+				hud.ShowToast("SCCMLD::VWT_3", L10N.T(L10NImpl.STR_LVLED_ERR_NOPLAYER), 64, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				return false;
+			}
+
+			if (!hasEnemy)
+			{
+				hud.ShowToast("SCCMLD::VWT_4", L10N.T(L10NImpl.STR_LVLED_ERR_NOENEMY), 64, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				return false;
+			}
+
+			return true;
+		}
+
+		public LevelBlueprint CompileToBlueprint(GameHUD hud)
+		{
+			var bp = new LevelBlueprint();
+
+			bp.UniqueID    = Guid.Parse($"b16b00b5-0001-4001-0000-{OnlineID:000000000000}");
+			bp.WrapMode    = (byte)Geometry;
+			bp.LevelWidth  = Width * 64;
+			bp.LevelHeight = Height * 64;
+			bp.LevelViewX  = CalculateViewCenter().X;
+			bp.LevelViewY  = CalculateViewCenter().Y;
+			bp.Name        = "0-" + OnlineID;
+			bp.FullName    = Name;
+			bp.KIType      = GetKIType();
+
+			foreach (var e in Elements)
+			{
+				e.InsertIntoBlueprint(bp);
+			}
+
+			try
+			{
+				bp.ValidOrThrow();
+
+				BlueprintPreprocessor.ProcessLevel(bp);
+
+				return bp;
+			}
+			catch (Exception e)
+			{
+				hud.ShowToast("SCCMLD::CTB_1", L10N.T(L10NImpl.STR_LVLED_ERR_COMPILERERR), 64, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				SAMLog.Error("SCMMLD_CTBERR", "LevelBlueprint compiled to invalid", $"Exception: {e}\n\n\nData: {SerializeToString()}");
+				return null;
+			}
+		}
+
+		private byte GetKIType()
+		{
+			byte ki = LevelBlueprint.KI_TYPE_PRECALC;
+
+			if (Elements.Any(e => e.NeedsSimulatedKI)) ki = LevelBlueprint.KI_TYPE_PRESIMULATE;
+
+			return ki;
+		}
+
+		private FPoint CalculateViewCenter()
+		{
+			var size64 = Size * 64f;
+
+			if (Size == SIZES[0]) return size64.CenterPoint;
+
+			switch (View)
+			{
+				case FlatAlign9.TOP:
+					return new FPoint(size64.Width / 2, 5 * 64);
+
+				case FlatAlign9.TOPRIGHT:
+					return new FPoint(size64.Width - 8 * 64, 5 * 64);
+
+				case FlatAlign9.RIGHT:
+					return new FPoint(size64.Width - 8 * 64, size64.Height / 2f);
+
+				case FlatAlign9.BOTTOMRIGHT:
+					return new FPoint(size64.Width - 8 * 64, size64.Height - 5 * 64);
+
+				case FlatAlign9.BOTTOM:
+					return new FPoint(size64.Width/2, size64.Height - 5 * 64);
+
+				case FlatAlign9.BOTTOMLEFT:
+					return new FPoint(8 * 64, size64.Height - 5 * 64);
+
+				case FlatAlign9.LEFT:
+					return new FPoint(8 * 64, size64.Height/2);
+
+				case FlatAlign9.TOPLEFT:
+					return new FPoint(8 * 64, 5 * 64);
+
+				case FlatAlign9.CENTER:
+					return size64.CenterPoint;
+
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 	}
 }

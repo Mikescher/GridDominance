@@ -37,6 +37,20 @@ namespace GridDominance.Windows
 			}
 		}
 
+		public override byte[] ReadBinDataOrNull(string fileid)
+		{
+			var store = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Domain | IsolatedStorageScope.Assembly, null, null);
+
+			if (!store.FileExists(fileid)) return null;
+
+			var fs = store.OpenFile(fileid, FileMode.Open);
+			using (MemoryStream ms = new MemoryStream())
+			{
+				fs.CopyTo(ms);
+				return ms.ToArray();
+			}
+		}
+
 		public override bool DeleteDataIfExist(string fileid)
 		{
 			var store = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Domain | IsolatedStorageScope.Assembly, null, null);

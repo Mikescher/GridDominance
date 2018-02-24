@@ -4,7 +4,8 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] World Node (inifinite tetris)
 
-[ ] CustomLevelID's are 48bit ints (uuid is just last section=id)
+[X] CustomLevelID's are 48bit ints (uuid is just last section=id)
+     - {b16b00b5-0001-4001-0000-xxxxxxxxxxx}
 
 [ ] Unlokable per money, game-beaten (got to end screen) or full version
 

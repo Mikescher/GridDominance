@@ -1,9 +1,11 @@
-﻿namespace GridDominance.Shared.Screens.NormalGameScreen
+﻿using GridDominance.Levelfileformat.Blueprint;
+
+namespace GridDominance.Shared.Screens.NormalGameScreen
 {
 	public enum GameWrapMode
 	{
-		Death   = 101,
-		Donut   = 102,
-		Reflect = 103,
+		Death   = LevelBlueprint.WRAPMODE_DEATH,
+		Donut   = LevelBlueprint.WRAPMODE_DONUT,
+		Reflect = LevelBlueprint.WRAPMODE_SOLID,
 	}
 }

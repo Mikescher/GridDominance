@@ -70,7 +70,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			AddElement(_btnHeaderHot = new HUDTextButton
 			{
 				Alignment = HUDAlignment.TOPLEFT,
-				RelativePosition = new FPoint(3.75f * GDConstants.TILE_WIDTH, 8),
+				RelativePosition = new FPoint(3.75f * GDConstants.TILE_WIDTH + HUD.PixelWidth, 8),
 				Size = new FSize(2.50f * GDConstants.TILE_WIDTH, 48),
 
 				L10NText = L10NImpl.STR_LVLED_TAB_HOT,
@@ -102,7 +102,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			AddElement(_btnHeaderNew = new HUDTextButton
 			{
 				Alignment = HUDAlignment.TOPLEFT,
-				RelativePosition = new FPoint(8.75f * GDConstants.TILE_WIDTH, 8),
+				RelativePosition = new FPoint(8.75f * GDConstants.TILE_WIDTH - HUD.PixelWidth, 8),
 				Size = new FSize(2.50f * GDConstants.TILE_WIDTH, 48),
 
 				L10NText = L10NImpl.STR_LVLED_TAB_NEW,

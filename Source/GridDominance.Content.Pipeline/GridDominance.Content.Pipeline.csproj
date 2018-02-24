@@ -63,9 +63,6 @@
     <Compile Include="GDWorldGraph\GraphPackage.cs" />
     <Compile Include="PathExtensions.cs" />
     <Compile Include="PathHelper.cs" />
-    <Compile Include="PreCalculation\BlueprintPreprocessor.cs" />
-    <Compile Include="PreCalculation\LevelKISimulator.cs" />
-    <Compile Include="PreCalculation\LevelKITracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextureAtlases\TexturePackerFile.cs" />
     <Compile Include="TextureAtlases\TexturePackerJsonImporter.cs" />
