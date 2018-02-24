@@ -189,9 +189,9 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 			return s;
 		}
 
-		public PortalStub CanInsertPortalStub(FPoint center, float len, float rot, ILeveleditorStub ign)
+		public PortalStub CanInsertPortalStub(FPoint center, float len, float norm, ILeveleditorStub ign)
 		{
-			PortalStub s = new PortalStub(this, center, len, rot);
+			PortalStub s = new PortalStub(this, center, len, norm);
 
 			foreach (var stub in GetEntities<ILeveleditorStub>().Where(stub => stub != ign))
 			{

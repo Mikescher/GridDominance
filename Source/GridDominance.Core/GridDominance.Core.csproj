@@ -144,6 +144,7 @@
     <Compile Include="Screens\LevelEditorScreen\Entities\PortalStub.cs" />
     <Compile Include="Screens\LevelEditorScreen\Entities\SingleAttrOption.cs" />
     <Compile Include="Screens\LevelEditorScreen\Entities\WallStub.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Dialogs\LevelEditorTestConfirmPanel.cs" />
     <Compile Include="Screens\LevelEditorScreen\HUD\Elements\AttributeButton.cs" />
     <Compile Include="Screens\LevelEditorScreen\HUD\Panel\LevelEditorAttrPanel.cs" />
     <Compile Include="Screens\LevelEditorScreen\HUD\Dialogs\LevelEditorSaveConfirmPanel.cs" />
@@ -216,10 +217,11 @@
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_MPClient.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_MPServer.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_SCCMTest.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_SP.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDArrowAnimation.cs" />
-    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDDifficultyButton.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\HUDDifficultyButton.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDIncrementIndicatorLabel.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDMultiplayerDifficultyButton.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDPauseButton.cs" />
@@ -232,6 +234,7 @@
     <Compile Include="Screens\NormalGameScreen\HUD\GDHudExtension.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\GDMultiplayerGameHUD.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\GDPreviewHUD.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\HUDSCCMTestScorePanel.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\HUDMultiplayerScorePanel.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\HUDScorePanel.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\HUDTutorialScorePanel.cs" />

@@ -152,7 +152,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Operations
 			{
 				if (_gdScreen.Mode == LevelEditorMode.Mouse && istate.IsRealDown && _gdScreen.Selection is PortalStub ps)
 				{
-					var ins = _gdScreen.CanInsertPortalStub(new FPoint(rx, ry), ps.Length, ps.Rotation, ps);
+					var ins = _gdScreen.CanInsertPortalStub(new FPoint(rx, ry), ps.Length, ps.Normal, ps);
 					if (ins != null)
 					{
 						ps.Center = ins.Center;

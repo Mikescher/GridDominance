@@ -202,17 +202,29 @@ CREATE TABLE userlevels (
 
   stars              int(10)             NOT NULL DEFAULT '0',
 
-  completed_d1       int(10)             NOT NULL DEFAULT '0',
-  played_d1          int(10)             NOT NULL DEFAULT '0',
+  d0_completed       int(10)             NOT NULL DEFAULT '0',
+  d0_played          int(10)             NOT NULL DEFAULT '0',
+  d0_bestuserid      int(10)             NULL DEFAULT NULL,
+  d0_besttime        int(10)             NULL DEFAULT NULL,
+  d0_besttimestamp   timestamp           NULL DEFAULT NULL,
 
-  completed_d2       int(10)             NOT NULL DEFAULT '0',
-  played_d2          int(10)             NOT NULL DEFAULT '0',
+  d1_completed       int(10)             NOT NULL DEFAULT '0',
+  d1_played          int(10)             NOT NULL DEFAULT '0',
+  d1_bestuserid      int(10)             NULL DEFAULT NULL,
+  d1_besttime        int(10)             NULL DEFAULT NULL,
+  d1_besttimestamp   timestamp           NULL DEFAULT NULL,
 
-  completed_d3       int(10)             NOT NULL DEFAULT '0',
-  played_d3          int(10)             NOT NULL DEFAULT '0',
+  d2_completed       int(10)             NOT NULL DEFAULT '0',
+  d2_played          int(10)             NOT NULL DEFAULT '0',
+  d2_bestuserid      int(10)             NULL DEFAULT NULL,
+  d2_besttime        int(10)             NULL DEFAULT NULL,
+  d2_besttimestamp   timestamp           NULL DEFAULT NULL,
 
-  completed_d4       int(10)             NOT NULL DEFAULT '0',
-  played_d4          int(10)             NOT NULL DEFAULT '0',
+  d3_completed       int(10)             NOT NULL DEFAULT '0',
+  d3_played          int(10)             NOT NULL DEFAULT '0',
+  d3_bestuserid      int(10)             NULL DEFAULT NULL,
+  d3_besttime        int(10)             NULL DEFAULT NULL,
+  d3_besttimestamp   timestamp           NULL DEFAULT NULL,
 
   PRIMARY KEY (id)
 );

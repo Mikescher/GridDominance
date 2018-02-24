@@ -289,8 +289,9 @@ namespace GridDominance.Shared.Resources
 		public const int STR_GENERIC_SERVER_QUERY    = 240;
 		public const int STR_LVLED_BTN_EDIT          = 241;
 		public const int STR_LVLED_BTN_PLAY          = 242;
+		public const int STR_LVLED_COMPILING         = 243;
 
-		private const int TEXT_COUNT = 243; // = next idx
+		private const int TEXT_COUNT = 244; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -1656,7 +1657,6 @@ namespace GridDominance.Shared.Resources
 			         "Sei stato disconnesso",
 			         "Has sido desconectado");
 
-
 			L10N.Add(STR_WORLD_ONLINE,
 			         "Online",
 			         "Online",
@@ -1758,29 +1758,29 @@ namespace GridDominance.Shared.Resources
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_DIAMETER,
-			         "Durchmesser",
 			         "Diameter",
+			         "Durchmesser",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_WIDTH,
-			         "Breite",
 			         "Width",
+			         "Breite",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_HEIGHT,
-			         "Höhe",
 			         "Height",
+			         "Höhe",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_POWER,
-			         "Stärke",
 			         "Power",
+			         "Stärke",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
@@ -1793,22 +1793,22 @@ namespace GridDominance.Shared.Resources
 			         "?"); //TODO translate me
 			
 			L10N.Add(STR_LVLED_BTN_CHANNEL,
-			         "Kanal",
 			         "Channel",
+			         "Kanal",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_DIR,
-			         "Richtung",
 			         "Direction",
+			         "Richtung",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_LEN,
-			         "Länge",
 			         "Length",
+			         "Länge",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
@@ -1828,8 +1828,8 @@ namespace GridDominance.Shared.Resources
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_SIZE,
-			         "Größe",
 			         "Size",
+			         "Größe",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
@@ -1842,15 +1842,15 @@ namespace GridDominance.Shared.Resources
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_GEOMETRY,
-			         "Geometrie",
 			         "Geometry",
+			         "Geometrie",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_WRAP_INFINITY,
-			         "Endlos",
 			         "Infinity",
+			         "Endlos",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
@@ -1863,92 +1863,92 @@ namespace GridDominance.Shared.Resources
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_CFG_WRAP_REFLECT,
-			         "Reflektierend",
 			         "Reflect",
+			         "Reflektierend",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_ERR_NONAME,
-			         "Level hat keinen Namen gesetzt",
 			         "Level has no name set",
+			         "Level hat keinen Namen gesetzt",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_ERR_NOENEMY,
-			         "Ein Level braucht mindestens zwei Spieler",
 			         "You need at least two player",
+			         "Ein Level braucht mindestens zwei Spieler",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_ERR_NOPLAYER,
-			         "Mindestens eine Kanone muss dem Spieler gehören",
 			         "At least one cannon must be owned by the player",
+			         "Mindestens eine Kanone muss dem Spieler gehören",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_ERR_TOOMANYENTS,
-			         "Zu viele Elemente im Level",
 			         "Level has too many entities",
+			         "Zu viele Elemente im Level",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_ERR_COMPILERERR,
-			         "Level konnte nicht kompiliert werden",
 			         "Level compilation failed internally",
+			         "Level konnte nicht kompiliert werden",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_DELLEVEL,
-			         "Level löschen",
 			         "Delete level",
+			         "Level löschen",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_SAVE,
-			         "Änderungen speichern",
 			         "Save changes",
+			         "Änderungen speichern",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_BTN_DISCARD,
-			         "Änderungen verwerfen",
 			         "Discard changes",
+			         "Änderungen verwerfen",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_TOAST_DELLEVEL,
-			         "Level gelöscht.",
 			         "Level deleted.",
+			         "Level gelöscht.",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_MENU_CAP_SCCM,
-			         "Benutzerlevel",
 			         "User levels",
+			         "Benutzerlevel",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_TAB_MYLEVELS,
-			         "Meine Level",
 			         "My level",
+			         "Meine Level",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_TAB_HOT,
-			         "Beliebt",
 			         "Hot",
+			         "Beliebt",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
@@ -2003,11 +2003,17 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
+			L10N.Add(STR_LVLED_COMPILING,
+			         "Compiling",
+			         "Erzeugen",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 
 #if DEBUG
-		L10N.Verify();
+			L10N.Verify();
 #endif
 		}
 

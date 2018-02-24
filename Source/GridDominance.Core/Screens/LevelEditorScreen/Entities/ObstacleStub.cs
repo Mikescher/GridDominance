@@ -35,8 +35,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 			"E", "SEE", "SE", "SSE", "S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW", "N", "NNE", "NE", "NEE"
 		};
 
-		public static readonly float[] POWERS     = { 100f, 800f, 50_000f, 200_000f, 250_000f };
-		public static readonly string[] POWER_STR = { "-",  "0",  "+",     "++",     "+++"    };
+		public static readonly float[]  EXPFACPOWERS    = { 1/16f, 1/8f, 1/4f, 1/2f, 1f,  2f,   4f,   8f,   16f  };
+		public static readonly string[] EXPFACPOWER_STR = { "-4",  "-3", "-2", "-1", "0", "+1", "+2", "+3", "+4" };
 
 		public readonly TextureRegion2D[] TypeTextures = new[]
 		{
@@ -68,7 +68,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 			Rotation     = r;
 			Width        = w;
 			Height       = h;
-			Power        = POWERS[1];
+			Power        = EXPFACPOWERS[4];
 			ObstacleType = t;
 		}
 
@@ -78,7 +78,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 			Rotation     = dat.Obstacle_Rotation;
 			Width        = dat.Obstacle_Width;
 			Height       = dat.Obstacle_Height;
-			Power        = dat.Obstacle_Power;
+			Power        = dat.Obstacle_PowerFactor;
 			ObstacleType = dat.Obstacle_ObstacleType;
 		}
 
@@ -275,7 +275,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 						Action = ChangePower,
 						Description = L10NImpl.STR_LVLED_BTN_POWER,
 						Icon = () => null,
-						Text = () => POWER_STR[Math.Max(0, POWERS.IndexOf(Power))],
+						Text = () => EXPFACPOWER_STR[Math.Max(0, EXPFACPOWERS.IndexOf(Power))],
 						TextColor = () => FlatColors.Foreground,
 					};
 				}
@@ -284,7 +284,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 
 		private void ChangePower()
 		{
-			Power = POWERS[(POWERS.IndexOf(Power) + 1) % POWERS.Length];
+			Power = EXPFACPOWERS[(EXPFACPOWERS.IndexOf(Power) + 1) % EXPFACPOWERS.Length];
 		}
 
 		private void ChangeRot()

@@ -37,7 +37,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 		};
 
 		public FPoint Center;
-		public float Rotation;
+		public float Normal;
 		public float Length;
 		public int   Group;
 		public bool  Side;
@@ -54,7 +54,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 		public PortalStub(GameScreen scrn, FPoint c, float len, float rot) : base(scrn, GDConstants.ORDER_GAME_PORTAL)
 		{
 			Center   = c;
-			Rotation = rot;
+			Normal   = rot;
 			Length   = len;
 			Group    = 1;
 			Side     = false;
@@ -63,7 +63,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 		public PortalStub(GameScreen scrn, SCCMLevelElement dat) : base(scrn, GDConstants.ORDER_GAME_PORTAL)
 		{
 			Center   = dat.Portal_Center;
-			Rotation = dat.Portal_Rotation;
+			Normal   = dat.Portal_Normal;
 			Length   = dat.Portal_Length;
 			Group    = dat.Portal_Group;
 			Side     = dat.Portal_Side;
@@ -80,13 +80,13 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 				sbatch.FillShape(GetArea().AsInflated(GDConstants.TILE_WIDTH/2, GDConstants.TILE_WIDTH/2), Color.Black * 0.333f);
 			}
 
-			if (_ppCacheKey != EquatableTuple.Create(Length, Rotation, Position))
+			if (_ppCacheKey != EquatableTuple.Create(Length, Normal, Position))
 			{
-				_ppCacheKey = EquatableTuple.Create(Length, Rotation, Position);
-				_ppCacheRects = CommonObstacleRenderer.CreatePortalRenderRects(Position, Vector2.UnitX.Rotate(Rotation), Vector2.UnitX.Rotate(Rotation).RotateWithLength(FloatMath.RAD_POS_090, Length / 2f), Length);
+				_ppCacheKey = EquatableTuple.Create(Length, Normal, Position);
+				_ppCacheRects = CommonObstacleRenderer.CreatePortalRenderRects(Position, Vector2.UnitX.Rotate(Normal), Vector2.UnitX.Rotate(Normal).RotateWithLength(FloatMath.RAD_POS_090, Length / 2f), Length);
 			}
 
-			CommonObstacleRenderer.DrawPortal(sbatch, _ppCacheRects, Portal.COLORS[Group], Rotation);
+			CommonObstacleRenderer.DrawPortal(sbatch, _ppCacheRects, Portal.COLORS[Group], Normal);
 		}
 
 #if DEBUG
@@ -172,7 +172,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 					Action = ChangeRot,
 					Description = L10NImpl.STR_LVLED_BTN_ROT,
 					Icon = () => null,
-					Text = () => ROT_STR[FloatMath.Max(0, ROTS.IndexOf(Rotation))],
+					Text = () => ROT_STR[FloatMath.Max(0, ROTS.IndexOf(Normal))],
 					TextColor = () => FlatColors.Foreground,
 				};
 			}
@@ -184,7 +184,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 
 			if (nextlen > GDConstants.TILE_WIDTH*4) nextlen = (GDConstants.TILE_WIDTH / 2f);
 
-			if (GDOwner.CanInsertPortalStub(Position, nextlen, Rotation, this) != null)
+			if (GDOwner.CanInsertPortalStub(Position, nextlen, Normal, this) != null)
 			{
 				Length = nextlen;
 			}
@@ -196,14 +196,14 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 
 		private void ChangeRot()
 		{
-			var idxCurr = ROTS.IndexOf(Rotation);
+			var idxCurr = ROTS.IndexOf(Normal);
 
 			for (int i = 1; i < ROTS.Length; i++)
 			{
 				var idxTest = (idxCurr + i) % ROTS.Length;
 				if (GDOwner.CanInsertPortalStub(Position, Length, ROTS[idxTest], this) != null)
 				{
-					Rotation = ROTS[idxTest];
+					Normal = ROTS[idxTest];
 					return;
 				}
 			}
@@ -226,17 +226,17 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 
 		public IFShape GetClickArea()
 		{
-			return FRotatedRectangle.CreateByCenter(Center, Length + GDConstants.TILE_WIDTH, Portal.WIDTH + GDConstants.TILE_WIDTH, Rotation + FloatMath.RAD_NEG_090);
+			return FRotatedRectangle.CreateByCenter(Center, Length + GDConstants.TILE_WIDTH, Portal.WIDTH + GDConstants.TILE_WIDTH, Normal + FloatMath.RAD_NEG_090);
 		}
 
 		public FRotatedRectangle GetArea()
 		{
-			return FRotatedRectangle.CreateByCenter(Center, Length, Portal.WIDTH, Rotation + FloatMath.RAD_NEG_090);
+			return FRotatedRectangle.CreateByCenter(Center, Length, Portal.WIDTH, Normal + FloatMath.RAD_NEG_090);
 		}
 
 		public FRotatedRectangle GetShortenedArea()
 		{
-			return FRotatedRectangle.CreateByCenter(Center, Length - 17, Portal.WIDTH, Rotation + FloatMath.RAD_NEG_090);
+			return FRotatedRectangle.CreateByCenter(Center, Length - 17, Portal.WIDTH, Normal + FloatMath.RAD_NEG_090);
 		}
 	}
 }

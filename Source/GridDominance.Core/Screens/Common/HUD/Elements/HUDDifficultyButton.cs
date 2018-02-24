@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.HUDOperations;
 using GridDominance.Shared.Screens.ScreenGame;
@@ -22,17 +23,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		private readonly FractionDifficulty difficulty;
 		private readonly TextureRegion2D icon;
+		private readonly Action action;
 
 		public Color BackgroundColor;
 		public Color ForegroundColor;
 		public float IconScale = 1f;
 
-		public HUDDifficultyButton(int depth, FractionDifficulty diff, HUDDifficultyButtonMode mode)
+
+		public HUDDifficultyButton(int depth, FractionDifficulty diff, HUDDifficultyButtonMode mode, Action a)
 		{
 			Depth = depth;
 			difficulty = diff;
 
 			icon = FractionDifficultyHelper.GetIcon(diff);
+			action = a;
 
 			switch (mode)
 			{
@@ -85,7 +89,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		protected override void OnPress(InputState istate)
 		{
-			((GDGameScreen)HUD.Screen).ReplayLevel(difficulty);
+			action();
 		}
 
 		protected override void OnDoublePress(InputState istate)

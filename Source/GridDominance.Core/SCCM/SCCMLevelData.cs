@@ -35,7 +35,7 @@ namespace GridDominance.Shared.SCCM
 
 		public DateTime LastChanged;
 
-		public Int64 OnlineID = -1;
+		public Int64 OnlineID = -1; //TODO music
 		public string Name = "";
 		public DSize Size = SIZES[0];
 		public FlatAlign9 View = FlatAlign9.CENTER;
@@ -106,7 +106,7 @@ namespace GridDominance.Shared.SCCM
 			return SaveToDisk();
 		}
 
-		public void Update(LevelEditorScreen scrn)
+		private void Update(LevelEditorScreen scrn)
 		{
 			Elements.Clear();
 
@@ -120,9 +120,9 @@ namespace GridDominance.Shared.SCCM
 					{
 						StubType = SCCMLevelElement.SCCMStubType.Cannon,
 
-						Cannon_Center = cannonStub.Center,
-						Cannon_Scale = cannonStub.Scale,
-						Cannon_Rotation = cannonStub.Rotation,
+						Cannon_Center     = cannonStub.Center,
+						Cannon_Scale      = cannonStub.Scale,
+						Cannon_Rotation   = cannonStub.Rotation,
 						Cannon_CannonType = cannonStub.CannonType,
 						Cannon_CannonFrac = cannonStub.CannonFrac,
 					});
@@ -134,10 +134,10 @@ namespace GridDominance.Shared.SCCM
 						StubType = SCCMLevelElement.SCCMStubType.Portal,
 
 						Portal_Center = portalStub.Center,
-						Portal_Rotation = portalStub.Rotation,
+						Portal_Normal = portalStub.Normal,
 						Portal_Length = portalStub.Length,
-						Portal_Group = portalStub.Group,
-						Portal_Side = portalStub.Side
+						Portal_Group  = portalStub.Group,
+						Portal_Side   = portalStub.Side
 					});
 				}
 				else if (stub is ObstacleStub obstacleStub)
@@ -146,11 +146,11 @@ namespace GridDominance.Shared.SCCM
 					{
 						StubType = SCCMLevelElement.SCCMStubType.Obstacle,
 
-						Obstacle_Center = obstacleStub.Center,
-						Obstacle_Rotation = obstacleStub.Rotation,
-						Obstacle_Width = obstacleStub.Width,
-						Obstacle_Height = obstacleStub.Height,
-						Obstacle_Power = obstacleStub.Power,
+						Obstacle_Center       = obstacleStub.Center,
+						Obstacle_Rotation     = obstacleStub.Rotation,
+						Obstacle_Width        = obstacleStub.Width,
+						Obstacle_Height       = obstacleStub.Height,
+						Obstacle_PowerFactor  = obstacleStub.Power,
 						Obstacle_ObstacleType = obstacleStub.ObstacleType
 					});
 				}
@@ -160,8 +160,8 @@ namespace GridDominance.Shared.SCCM
 					{
 						StubType = SCCMLevelElement.SCCMStubType.Wall,
 
-						Wall_Point1 = wallStub.Point1,
-						Wall_Point2 = wallStub.Point2,
+						Wall_Point1   = wallStub.Point1,
+						Wall_Point2   = wallStub.Point2,
 						Wall_WallType = wallStub.WallType,
 					});
 				}
@@ -286,9 +286,11 @@ namespace GridDominance.Shared.SCCM
 			bp.FullName    = Name;
 			bp.KIType      = GetKIType();
 
+			byte cannonID = 0;
+
 			foreach (var e in Elements)
 			{
-				e.InsertIntoBlueprint(bp);
+				e.InsertIntoBlueprint(bp, ref cannonID);
 			}
 
 			try
@@ -301,8 +303,11 @@ namespace GridDominance.Shared.SCCM
 			}
 			catch (Exception e)
 			{
-				hud.ShowToast("SCCMLD::CTB_1", L10N.T(L10NImpl.STR_LVLED_ERR_COMPILERERR), 64, FlatColors.Flamingo, FlatColors.Foreground, 3f);
-				SAMLog.Error("SCMMLD_CTBERR", "LevelBlueprint compiled to invalid", $"Exception: {e}\n\n\nData: {SerializeToString()}");
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					hud.ShowToast("SCCMLD::CTB_1", L10N.T(L10NImpl.STR_LVLED_ERR_COMPILERERR), 64, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+					SAMLog.Error("SCMMLD_CTBERR", "LevelBlueprint compiled to invalid", $"Exception: {e}\n\n\nData: {SerializeToString()}");
+				});
 				return null;
 			}
 		}

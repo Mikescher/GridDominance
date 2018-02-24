@@ -312,28 +312,28 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 						HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED) :
 					HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED;
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_EASY, modeDiff0)
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_EASY, modeDiff0, () => ((GDGameScreen)HUD.Screen).ReplayLevel(FractionDifficulty.KI_EASY))
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(1 * ICON_MARGIN + 0 * ICON_SIZE, ICON_MARGIN)
 			});
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_NORMAL, modeDiff1)
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_NORMAL, modeDiff1, () => ((GDGameScreen)HUD.Screen).ReplayLevel(FractionDifficulty.KI_NORMAL))
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(3 * ICON_MARGIN + 1 * ICON_SIZE, ICON_MARGIN)
 			});
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_HARD, modeDiff2)
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_HARD, modeDiff2, () => ((GDGameScreen)HUD.Screen).ReplayLevel(FractionDifficulty.KI_HARD))
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(5 * ICON_MARGIN + 2 * ICON_SIZE, ICON_MARGIN)
 			});
 
-			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_IMPOSSIBLE, modeDiff3)
+			AddElement(new HUDDifficultyButton(2, FractionDifficulty.KI_IMPOSSIBLE, modeDiff3, () => ((GDGameScreen)HUD.Screen).ReplayLevel(FractionDifficulty.KI_IMPOSSIBLE))
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),

@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
@@ -280,17 +287,63 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 
 		private void DoPlayTest(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			GDScreen.LevelData.Update(GDScreen);
+			GDScreen.LevelData.UpdateAndSave(GDScreen);
 
 			var success = GDScreen.LevelData.ValidateWithToasts(HUD);
 
 			if (success)
 			{
-				var lvl = GDScreen.LevelData.CompileToBlueprint(HUD);//todo thread
+				var waitDialog = new HUDIconMessageBox
+				{
+					L10NText = L10NImpl.STR_LVLED_COMPILING,
+					TextColor = FlatColors.TextHUD,
+					Background = HUDBackgroundDefinition.CreateRounded(FlatColors.BelizeHole, 16),
 
+					IconColor = FlatColors.Clouds,
+					Icon = Textures.CannonCogBig,
+					RotationSpeed = 1f,
+
+					CloseOnClick = false,
+				};
+
+				HUD.AddModal(waitDialog, false, 0.7f);
+
+				DoCompileAndTest(waitDialog).RunAsync();
 			}
 
 			GDScreen.SetMode(LevelEditorMode.Mouse);//TODO
+		}
+
+		private async Task DoCompileAndTest(HUDElement spinner)
+		{
+			try
+			{
+				var lvl = GDScreen.LevelData.CompileToBlueprint(HUD);
+				if (lvl == null) return;
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					HUD.AddModal(new LevelEditorTestConfirmPanel(lvl, GDScreen.LevelData), false, 0.7f);
+				});
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("LEMP::DCAT", e);
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					spinner.Remove();
+					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
+					{
+						L10NText = L10NImpl.STR_CPP_COMERR,
+						TextColor = FlatColors.Clouds,
+						Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
+
+						CloseOnClick = true,
+
+					}, true);
+				});
+			}
 		}
 
 		private void SetModeSettings(HUDTextButton sender, HUDButtonEventArgs e)
