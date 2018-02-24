@@ -78,6 +78,8 @@ namespace GridDominance.Content.Pipeline.PreCalculation
 				break;
 			}
 
+			for (int i = 0; i < resultRays.Count; i++) resultRays[i] = resultRays[i].AsCleaned();
+
 			return resultRays.ToArray();
 		}
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace GridDominance.Levelfileformat.Blueprint
@@ -28,6 +29,22 @@ namespace GridDominance.Levelfileformat.Blueprint
 			CannonRotation = rot;
 			Rays = rays;
 			PreviewBulletPath = calculatedPreviewPath;
+		}
+
+		public BulletPathBlueprint AsCleaned()
+		{
+			if (Rays.Any(r => EpsEquals(r.Item1, r.Item2)))
+			{
+				return new BulletPathBlueprint(TargetCannonID, CannonRotation, Rays.Where(r => !EpsEquals(r.Item1, r.Item2)).ToArray(), PreviewBulletPath);
+			}
+
+			return this;
+		}
+
+		private bool EpsEquals(Vector2 v1, Vector2 v2)
+		{
+			const float eps = 0.001f;
+			return Math.Abs(v1.X - v2.X) <= eps && Math.Abs(v1.Y - v2.Y) <= eps;
 		}
 
 		public void Serialize(BinaryWriter bw)

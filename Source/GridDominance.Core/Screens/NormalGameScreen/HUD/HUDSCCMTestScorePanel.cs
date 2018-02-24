@@ -118,32 +118,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Color = FlatColors.SeperatorHUD,
 			});
 
-			AddElement(new HUDLabel(2)
-			{
-				Alignment = HUDAlignment.BOTTOMLEFT,
-				RelativePosition = new FPoint(0, 77),
-				Size = new FSize(WIDTH / 3f, 40),
-
-				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				L10NText = L10NImpl.STR_HSP_LEVEL,
-				TextColor = FlatColors.TextHUD,
-				Font = Textures.HUDFontRegular,
-				FontSize = 35,
-			});
-
-			AddElement(new HUDLabel(2)
-			{
-				Alignment = HUDAlignment.BOTTOMLEFT,
-				RelativePosition = new FPoint(0, 15),
-				Size = new FSize(WIDTH / 3f, 60),
-
-				Text = Level.Name,
-				TextAlignment = HUDAlignment.BOTTOMCENTER,
-				TextColor = FlatColors.TextHUD,
-				Font = Textures.HUDFontBold,
-				FontSize = 57,
-			});
-
 			#endregion
 
 			#region Buttons
@@ -198,7 +172,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(1 * ICON_MARGIN + 0 * ICON_SIZE, ICON_MARGIN),
-				IsEnabled = false,
 			});
 
 			AddElement(new HUDDifficultyButton(2, FractionDifficulty.DIFF_1, Diff == FractionDifficulty.DIFF_1 ? HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED : HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED, () => StartWithDiff(FractionDifficulty.DIFF_1))
@@ -206,7 +179,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(3 * ICON_MARGIN + 1 * ICON_SIZE, ICON_MARGIN),
-				IsEnabled = false,
 			});
 
 			AddElement(new HUDDifficultyButton(2, FractionDifficulty.DIFF_2, Diff == FractionDifficulty.DIFF_2 ? HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED : HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED, () => StartWithDiff(FractionDifficulty.DIFF_2))
@@ -214,7 +186,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(5 * ICON_MARGIN + 2 * ICON_SIZE, ICON_MARGIN),
-				IsEnabled = false,
 			});
 
 			AddElement(new HUDDifficultyButton(2, FractionDifficulty.DIFF_3, Diff == FractionDifficulty.DIFF_3 ? HUDDifficultyButton.HUDDifficultyButtonMode.ACTIVATED : HUDDifficultyButton.HUDDifficultyButtonMode.DEACTIVATED, () => StartWithDiff(FractionDifficulty.DIFF_3))
@@ -222,7 +193,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Alignment = HUDAlignment.TOPLEFT,
 				Size = new FSize(ICON_SIZE, ICON_SIZE),
 				RelativePosition = new FPoint(7 * ICON_MARGIN + 3 * ICON_SIZE, ICON_MARGIN),
-				IsEnabled = false,
 			});
 
 			#endregion

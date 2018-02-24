@@ -43,8 +43,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			if (Scrollbar!=null) Scrollbar.Position = Offset;
-			if (Scrollbar != null) Scrollbar.Max = ChildrenCount;
+			if (Scrollbar != null) Scrollbar.ScrollPosition = Offset;
+			if (Scrollbar != null) Scrollbar.ScrollMax      = ChildrenCount;
 
 			if (relayout)
 			{

@@ -13,7 +13,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUDOperations
 		
 		protected override void OnUpdate(HUDDifficultyButton element, SAMTime gameTime, InputState istate)
 		{
-			element.ForegroundColor = ColorMath.Blend(FlatColors.SunFlower, FlatColors.Orange, FloatMath.Sin(Lifetime / BLINK_LENGTH) / 2f + 0.5f);
+			element.ForegroundColor = ColorMath.Blend(FlatColors.SunFlower, FlatColors.Orange, FloatMath.PercSin(Lifetime / BLINK_LENGTH));
 		}
 
 		public override string Name => "BlinkingDifficultyButtonIcon";
