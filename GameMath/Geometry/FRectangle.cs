@@ -579,6 +579,30 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		}
 
 		[Pure]
+		public FRectangle ToSubRectangleNortEast(float newwidth, float newheight)
+		{
+			return CreateByTopRight(TopRight, newwidth, newheight);
+		}
+
+		[Pure]
+		public FRectangle ToSubRectangleSouthEast(float newwidth, float newheight)
+		{
+			return CreateByBottomRight(BottomRight, newwidth, newheight);
+		}
+
+		[Pure]
+		public FRectangle ToSubRectangleSouthWest(float newwidth, float newheight)
+		{
+			return CreateByBottomLeft(BottomLeft, newwidth, newheight);
+		}
+
+		[Pure]
+		public FRectangle ToSubRectangleNorthWest(float newwidth, float newheight)
+		{
+			return CreateByTopRight(TopRight, newwidth, newheight);
+		}
+
+		[Pure]
 		public FRectangle SetRatioOverfitKeepCenter(float ratio)
 		{
 			if ((Width / Height) < ratio)
