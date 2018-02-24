@@ -287,8 +287,10 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_TAB_SEARCH        = 238;
 		public const int STR_LVLED_BTN_NEWLVL        = 239;
 		public const int STR_GENERIC_SERVER_QUERY    = 240;
+		public const int STR_LVLED_BTN_EDIT          = 241;
+		public const int STR_LVLED_BTN_PLAY          = 242;
 
-		private const int TEXT_COUNT = 241; // = next idx
+		private const int TEXT_COUNT = 243; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -1986,10 +1988,26 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
-			// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
+
+			L10N.Add(STR_LVLED_BTN_EDIT,
+			         "Edit",
+			         "Edit",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_BTN_PLAY,
+			         "Play",
+			         "Play",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+
+		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 
 #if DEBUG
-			L10N.Verify();
+		L10N.Verify();
 #endif
 		}
 

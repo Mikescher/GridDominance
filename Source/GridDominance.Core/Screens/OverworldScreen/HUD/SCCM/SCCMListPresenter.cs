@@ -18,6 +18,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 		public int Offset = 0;
 		public SCCMListScrollbar Scrollbar;
 
+		private List<SCCMListElement> _entries = new List<SCCMListElement>();
 		private bool relayout = false;
 
 		public SCCMListPresenter()
@@ -53,19 +54,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		private void RelayoutEntries()
 		{
-			foreach (var child in Children.OfType<SCCMListElement>())
+			foreach (var child in _entries)
 			{
 				child.IsVisible = false;
 				child.RelativePosition = FPoint.Zero;
 			}
 
 			int i = 0;
-			foreach (var child in Children.OfType<SCCMListElement>().Skip(Offset).Take(6))
+			foreach (var child in _entries)
 			{
 				child.IsVisible = true;
-				child.RelativePosition = new FPoint(0, i * ((Height - 5 * 16) / 6) + 16);
+				child.RelativePosition = new FPoint(0, i * (((Height - 5 * 16) / 6) + 16));
 				child.Size = new FSize(Width, (Height - 5 * 16) / 6);
 				child.Alignment = HUDAlignment.TOPLEFT;
+
+				i++;
 			}
 		}
 
@@ -80,6 +83,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			e.Alignment = HUDAlignment.TOPLEFT;
 
 			AddElement(e);
+			_entries.Add(e);
 			relayout = true;
 		}
 	}

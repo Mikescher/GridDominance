@@ -125,15 +125,15 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 			return s;
 		}
 
-		public WallStub CanInsertWallStub(FPoint center, float width, ILeveleditorStub ign)
+		public WallStub CanInsertWallStub(FPoint p1, float width, ILeveleditorStub ign)
 		{
-			WallStub w0 = CanInsertWallStub(center - new Vector2(width / 2, 0), center + new Vector2(width / 2, 0), ign);
+			WallStub w0 = CanInsertWallStub(p1, p1 + new Vector2(width, 0), ign);
 			if (w0 != null) return w0;
 
-			WallStub w1 = CanInsertWallStub(center - new Vector2(width / 2, width / 2), center + new Vector2(width / 2, width / 2), ign);
+			WallStub w1 = CanInsertWallStub(p1, p1 + new Vector2(width, width), ign);
 			if (w1 != null) return w1;
 
-			WallStub w2 = CanInsertWallStub(center - new Vector2(0, width / 2), center + new Vector2(0, width / 2), ign);
+			WallStub w2 = CanInsertWallStub(p1, p1 + new Vector2(0, width), ign);
 			if (w2 != null) return w2;
 
 			return null;

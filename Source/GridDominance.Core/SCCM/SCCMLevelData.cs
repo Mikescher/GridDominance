@@ -130,7 +130,7 @@ namespace GridDominance.Shared.SCCM
 				{
 					Elements.Add(new SCCMLevelElement
 					{
-						StubType = SCCMLevelElement.SCCMStubType.Portal,
+						StubType = SCCMLevelElement.SCCMStubType.Obstacle,
 
 						Obstacle_Center       = obstacleStub.Center,
 						Obstacle_Rotation     = obstacleStub.Rotation,
@@ -144,7 +144,7 @@ namespace GridDominance.Shared.SCCM
 				{
 					Elements.Add(new SCCMLevelElement
 					{
-						StubType = SCCMLevelElement.SCCMStubType.Portal,
+						StubType = SCCMLevelElement.SCCMStubType.Wall,
 
 						Wall_Point1 = wallStub.Point1,
 						Wall_Point2 = wallStub.Point2,

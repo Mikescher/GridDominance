@@ -29,7 +29,7 @@
 },
 {
 	"filename": "backhole_icon.png",
-	"frame": {"x":129,"y":259,"w":12,"h":12},
+	"frame": {"x":148,"y":228,"w":12,"h":12},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "backspace.png",
-	"frame": {"x":159,"y":257,"w":13,"h":8},
+	"frame": {"x":162,"y":243,"w":13,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":8},
@@ -695,7 +695,7 @@
 },
 {
 	"filename": "dotline.png",
-	"frame": {"x":125,"y":259,"w":1,"h":16},
+	"frame": {"x":144,"y":228,"w":1,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":16},
@@ -784,6 +784,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "genericuser.png",
+	"frame": {"x":145,"y":123,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "glassblock/glass_corner.png",
 	"frame": {"x":88,"y":359,"w":8,"h":8},
 	"rotated": false,
@@ -812,7 +821,7 @@
 },
 {
 	"filename": "glassblock_icon.png",
-	"frame": {"x":144,"y":228,"w":12,"h":12},
+	"frame": {"x":127,"y":290,"w":12,"h":12},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
@@ -821,7 +830,7 @@
 },
 {
 	"filename": "grid.png",
-	"frame": {"x":145,"y":123,"w":16,"h":16},
+	"frame": {"x":137,"y":171,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -830,7 +839,7 @@
 },
 {
 	"filename": "hud_button_base.png",
-	"frame": {"x":137,"y":171,"w":16,"h":16},
+	"frame": {"x":137,"y":190,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -839,7 +848,7 @@
 },
 {
 	"filename": "hud_pause_background.png",
-	"frame": {"x":137,"y":171,"w":16,"h":16},
+	"frame": {"x":137,"y":190,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -929,7 +938,7 @@
 },
 {
 	"filename": "jewels.png",
-	"frame": {"x":137,"y":190,"w":16,"h":16},
+	"frame": {"x":137,"y":209,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -938,7 +947,7 @@
 },
 {
 	"filename": "laser/half_laser_flare.png",
-	"frame": {"x":137,"y":209,"w":16,"h":16},
+	"frame": {"x":161,"y":2,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -956,7 +965,7 @@
 },
 {
 	"filename": "laser/laser_flare.png",
-	"frame": {"x":161,"y":2,"w":16,"h":16},
+	"frame": {"x":161,"y":21,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -983,7 +992,7 @@
 },
 {
 	"filename": "laser/laserbarrel.png",
-	"frame": {"x":142,"y":289,"w":16,"h":8},
+	"frame": {"x":137,"y":278,"w":16,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":8},
@@ -1037,7 +1046,7 @@
 },
 {
 	"filename": "minigunicon.png",
-	"frame": {"x":161,"y":21,"w":16,"h":16},
+	"frame": {"x":161,"y":40,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1523,7 +1532,7 @@
 },
 {
 	"filename": "pokerchip.png",
-	"frame": {"x":161,"y":40,"w":16,"h":16},
+	"frame": {"x":161,"y":59,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1640,7 +1649,7 @@
 },
 {
 	"filename": "shield/half_shieldlaser_flare.png",
-	"frame": {"x":161,"y":59,"w":16,"h":16},
+	"frame": {"x":56,"y":426,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1658,7 +1667,7 @@
 },
 {
 	"filename": "shield/shieldlaser_flare.png",
-	"frame": {"x":56,"y":426,"w":16,"h":16},
+	"frame": {"x":58,"y":368,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1676,7 +1685,7 @@
 },
 {
 	"filename": "shield/shieldlaserbarrel.png",
-	"frame": {"x":152,"y":274,"w":16,"h":8},
+	"frame": {"x":159,"y":257,"w":16,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":8},
@@ -1703,7 +1712,7 @@
 },
 {
 	"filename": "simple_pixel.png",
-	"frame": {"x":142,"y":300,"w":2,"h":2},
+	"frame": {"x":159,"y":268,"w":2,"h":2},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":2},
@@ -1766,7 +1775,7 @@
 },
 {
 	"filename": "touch_down.png",
-	"frame": {"x":127,"y":290,"w":12,"h":12},
+	"frame": {"x":142,"y":289,"w":12,"h":12},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
@@ -1775,7 +1784,7 @@
 },
 {
 	"filename": "touch_up.png",
-	"frame": {"x":137,"y":274,"w":12,"h":12},
+	"frame": {"x":144,"y":259,"w":12,"h":12},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
@@ -1784,15 +1793,6 @@
 },
 {
 	"filename": "tricircle.png",
-	"frame": {"x":58,"y":368,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "tricog.png",
 	"frame": {"x":60,"y":341,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
@@ -1801,8 +1801,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "tutorial.png",
+	"filename": "tricog.png",
 	"frame": {"x":79,"y":340,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tutorial.png",
+	"frame": {"x":108,"y":290,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1919,7 +1928,7 @@
 },
 {
 	"filename": "volume_off.png",
-	"frame": {"x":125,"y":278,"w":9,"h":9},
+	"frame": {"x":140,"y":247,"w":9,"h":9},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":9},
@@ -1928,7 +1937,7 @@
 },
 {
 	"filename": "volume_up.png",
-	"frame": {"x":140,"y":247,"w":9,"h":9},
+	"frame": {"x":125,"y":278,"w":9,"h":9},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":9},
@@ -1946,7 +1955,7 @@
 },
 {
 	"filename": "vortex/vortex_circle_1.png",
-	"frame": {"x":108,"y":290,"w":16,"h":16},
+	"frame": {"x":125,"y":259,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1964,7 +1973,7 @@
 },
 {
 	"filename": "whitehole_icon.png",
-	"frame": {"x":144,"y":259,"w":12,"h":12},
+	"frame": {"x":156,"y":274,"w":12,"h":12},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":12},
@@ -1978,6 +1987,6 @@
 	"format": "RGBA8888",
 	"size": {"w":512,"h":512},
 	"scale": "0.125",
-	"smartupdate": "$TexturePacker:SmartUpdate:20021e096163a24c68b8ee938acd8a92:a28253b3eaab4b6383b80f7cd712dd46:332da033e89742cb272fe0fb1b010c90$"
+	"smartupdate": "$TexturePacker:SmartUpdate:cb6cad5f4000ebd666c879cd346a7139:21c345eb01c279f1112d4424887aac9f:332da033e89742cb272fe0fb1b010c90$"
 }
 }

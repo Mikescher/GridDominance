@@ -56,9 +56,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 				Image = Textures.CannonCog,
 				ImageAlignment = HUDImageAlignment.SCALE,
-				RotationSpeed = 0.25f,
+				RotationSpeed = 0.10f,
 				Color = FlatColors.Asbestos,
 			});
+		}
+
+		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
+		{
+			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, FlatColors.Clouds);
+			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, HUD.PixelWidth, Color.Black);
 		}
 
 		private void CreateNewUserLevel(HUDTextButton sender, HUDButtonEventArgs e)
@@ -129,12 +135,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 					}, true);
 				});
 			}
-		}
-
-		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
-		{
-			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, FlatColors.Clouds);
-			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, HUD.PixelWidth, Color.Black);
 		}
 	}
 }

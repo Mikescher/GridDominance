@@ -105,11 +105,11 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 			switch (ObstacleType)
 			{
 				case ObstacleStubType.BlackHole:
-					CommonObstacleRenderer.DrawBlackHole(sbatch, Position, Lifetime, Width, Power);
+					CommonObstacleRenderer.DrawBlackHole(sbatch, Position, Lifetime, Width, -Power);
 					break;
 
 				case ObstacleStubType.WhiteHole:
-					CommonObstacleRenderer.DrawBlackHole(sbatch, Position, Lifetime, Width, -Power);
+					CommonObstacleRenderer.DrawBlackHole(sbatch, Position, Lifetime, Width, Power);
 					break;
 
 				case ObstacleStubType.GlassBlock:

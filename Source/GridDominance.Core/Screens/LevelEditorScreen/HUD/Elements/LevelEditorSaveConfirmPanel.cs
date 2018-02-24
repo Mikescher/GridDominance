@@ -79,12 +79,12 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 		private void DoSave(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			var ret = GDScreen.LevelData.UpdateAndSave(GDScreen);
-			if (ret) MainGame.Inst.SetOverworldScreen();
+			if (ret) MainGame.Inst.SetOverworldScreen(); //TODO open sccm pnl + myleveltab
 		}
 
 		private void DoDiscard(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			MainGame.Inst.SetOverworldScreen();
+			MainGame.Inst.SetOverworldScreen(); //TODO open sccm pnl + myleveltab
 		}
 
 		public override void OnRemove()
