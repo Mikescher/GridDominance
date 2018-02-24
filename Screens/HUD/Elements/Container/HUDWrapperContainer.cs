@@ -31,6 +31,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 		{
 			ClearChildren();
 
+			if (e != null)
+			{
+				e.Alignment = HUDAlignment.CENTER;
+				e.RelativePosition = FPoint.Zero;
+				e.Size = this.Size;
+			}
+
 			base.AddElement(e);
 
 			var c = Child;
