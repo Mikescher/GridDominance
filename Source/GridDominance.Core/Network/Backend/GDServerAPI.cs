@@ -16,6 +16,9 @@ using MonoSAMFramework.Portable.Network.REST;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Localization;
 using System.Text;
+using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.SCCM;
+using MonoSAMFramework.Portable.Language;
 
 namespace GridDominance.Shared.Network
 {
@@ -31,6 +34,7 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_CHANGE_PW          = 6;
 		private const int RETRY_GETRANKING         = 6;
 		private const int RETRY_GETNEWLEVELID      = 6;
+		private const int RETRY_LEVELUPLOAD        = 6;
 
 		private const int MULTISCORE_PARTITION_SIZE = 64;
 
@@ -1088,15 +1092,78 @@ namespace GridDominance.Shared.Network
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend::GR_RCE", e); // probably no internet
+				SAMLog.Warning("Backend::GNCLI_RCE", e); // probably no internet
 				ShowErrorConnection();
 				return Tuple.Create(false, -1L);
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend::GR_E", e);
+				SAMLog.Error("Backend::GNCLI_E", e);
 				ShowErrorCommunication();
 				return Tuple.Create(false, -1L);
+			}
+		}
+
+		public async Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary)
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterLong("levelid", rawData.OnlineID);
+				ps.AddParameterString("name", level.FullName);
+				ps.AddParameterString("binhash", ByteUtils.ByteToHexBitFiddle(MonoSAMGame.CurrentInst.Bridge.DoSHA256(binary)));
+				ps.AddParameterCompressedBinary("bindata", binary, false, true);
+
+				var response = await QueryAsync<QueryResultUploadUserLevel>("upload-userlevel", ps, RETRY_LEVELUPLOAD);
+
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return UploadResult.NoConnection;
+				}
+				else if (response.result == "error")
+				{
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						ShowErrorCommunication();
+						return UploadResult.InternalError;
+					}
+
+					if (response.errorid == BackendCodes.LEVELUPLOAD_ALREADY_UPLOADED) return UploadResult.AlreadyUploaded;
+					if (response.errorid == BackendCodes.LEVELUPLOAD_FILE_TOO_BIG) return UploadResult.FileTooBig;
+					if (response.errorid == BackendCodes.LEVELUPLOAD_HASH_MISMATCH) return UploadResult.InternalError;
+					if (response.errorid == BackendCodes.LEVELUPLOAD_INVALID_NAME) return UploadResult.InvalidName;
+					if (response.errorid == BackendCodes.LEVELUPLOAD_LEVELID_NOT_FOUND) return UploadResult.LevelIDNotFound;
+					if (response.errorid == BackendCodes.LEVELUPLOAD_WRONG_USERID) return UploadResult.WrongUserID;
+
+					SAMLog.Error("Backend::UUL_ERR", $"UploadUserLevel: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return UploadResult.InternalError;
+				}
+				else if (response.result == "success")
+				{
+					return UploadResult.Success;
+				}
+				else
+				{
+					ShowErrorCommunication();
+					return UploadResult.InternalError;
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend::UUL_RCE", e); // probably no internet
+				ShowErrorConnection();
+				return UploadResult.NoConnection;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend::UUL_E", e);
+				ShowErrorCommunication();
+				return UploadResult.InternalError;
 			}
 		}
 

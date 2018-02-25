@@ -12,10 +12,22 @@ namespace GridDominance.Android.Impl
 		{
 			var store = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Domain | IsolatedStorageScope.Assembly, null, null);
 
-			var fs = store.CreateFile(fileid);
-			using (StreamWriter sw = new StreamWriter(fs))
+			using (var fs = store.CreateFile(fileid))
 			{
-				sw.Write(data);
+				using (StreamWriter sw = new StreamWriter(fs))
+				{
+					sw.Write(data);
+				}
+			}
+		}
+
+		public override void WriteBinData(string fileid, byte[] data)
+		{
+			var store = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Domain | IsolatedStorageScope.Assembly, null, null);
+
+			using (var fs = store.CreateFile(fileid))
+			{
+				fs.Write(data, 0, data.Length);
 			}
 		}
 
@@ -25,10 +37,12 @@ namespace GridDominance.Android.Impl
 
 			if (store.FileExists(fileid))
 			{
-				var fs = store.OpenFile(fileid, FileMode.Open);
-				using (StreamReader sr = new StreamReader(fs))
+				using (var fs = store.OpenFile(fileid, FileMode.Open))
 				{
-					return sr.ReadToEnd();
+					using (StreamReader sr = new StreamReader(fs))
+					{
+						return sr.ReadToEnd();
+					}
 				}
 			}
 			else
@@ -43,11 +57,13 @@ namespace GridDominance.Android.Impl
 
 			if (!store.FileExists(fileid)) return null;
 
-			var fs = store.OpenFile(fileid, FileMode.Open);
-			using (MemoryStream ms = new MemoryStream())
+			using (var fs = store.OpenFile(fileid, FileMode.Open))
 			{
-				fs.CopyTo(ms);
-				return ms.ToArray();
+				using (MemoryStream ms = new MemoryStream())
+				{
+					fs.CopyTo(ms);
+					return ms.ToArray();
+				}
 			}
 		}
 

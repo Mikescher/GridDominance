@@ -28,5 +28,13 @@
 		public const int MERGE_INVALID_TIME  = 14001;
 		public const int MERGE_INVALID_LVLID = 14002;
 		public const int MERGE_INVALID_DIFF  = 14003;
+
+		/* ======== 15 UPLOAD-USERLEVEL ========= */
+		public const int LEVELUPLOAD_FILE_TOO_BIG      = 15001;
+		public const int LEVELUPLOAD_WRONG_USERID      = 15002;
+		public const int LEVELUPLOAD_LEVELID_NOT_FOUND = 15003;
+		public const int LEVELUPLOAD_ALREADY_UPLOADED  = 15004;
+		public const int LEVELUPLOAD_INVALID_NAME      = 15005;
+		public const int LEVELUPLOAD_HASH_MISMATCH     = 15006;
 	}
 }

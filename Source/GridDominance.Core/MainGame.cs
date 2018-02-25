@@ -192,6 +192,12 @@ namespace GridDominance.Shared
 			SetCurrentScreen(scrn);
 		}
 
+		public void SetEditorUploadLevel(LevelBlueprint blueprint, SCCMLevelData source, GameSpeedModes speed = GameSpeedModes.NORMAL)
+		{
+			var scrn = new GDGameScreen_SCCMUpload(this, Graphics, blueprint, source, speed);
+			SetCurrentScreen(scrn);
+		}
+
 		public void SetWorldMapScreen(GraphBlueprint g, Guid focus)
 		{
 			SetCurrentScreen(new GDWorldMapScreen(this, Graphics, g, focus));

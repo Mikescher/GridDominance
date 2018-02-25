@@ -117,6 +117,11 @@ namespace GridDominance.Android.Impl
 			using (var sha256 = SHA256.Create()) return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
 		}
 
+		public byte[] DoSHA256(byte[] input)
+		{
+			using (var sha256 = SHA256.Create()) return sha256.ComputeHash(input);
+		}
+
 		public void OpenURL(string url)
 		{
 			_activity.StartActivity(new Intent(Intent.ActionView, global::Android.Net.Uri.Parse(url)));

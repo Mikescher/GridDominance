@@ -1819,6 +1819,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "upload.png",
+	"frame": {"x":1506,"y":995,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "user.png",
 	"frame": {"x":1444,"y":446,"w":64,"h":64},
 	"rotated": false,
@@ -1955,7 +1964,7 @@
 },
 {
 	"filename": "vortex/vortex_circle_1.png",
-	"frame": {"x":1506,"y":995,"w":128,"h":128},
+	"frame": {"x":1600,"y":839,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -1987,6 +1996,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:cb6cad5f4000ebd666c879cd346a7139:21c345eb01c279f1112d4424887aac9f:332da033e89742cb272fe0fb1b010c90$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0d4acf86ea3862722715ad4e705114e4:8f6dc35cb9dd368c0c9365756cf1be6a:332da033e89742cb272fe0fb1b010c90$"
 }
 }

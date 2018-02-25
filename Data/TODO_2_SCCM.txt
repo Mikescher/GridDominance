@@ -5,7 +5,11 @@ USER GENERATED LEVEL [[TODO]]
 [X] World Node (inifinite tetris)
 
 [X] CustomLevelID's are 48bit ints (uuid is just last section=id)
-     - {b16b00b5-0001-4001-0000-xxxxxxxxxxx}
+     - {B16B00B5-0001-4001-0000-xxxxxxxxxxx}
+
+[ ] only allow create with full acc
+
+[ ] disallow duplicate names
 
 [ ] Unlokable per money, game-beaten (got to end screen) or full version
 
@@ -64,10 +68,12 @@ USER GENERATED LEVEL [[TODO]]
        move in from top
        spinning gear behind, br corner, for effects
 
-[ ] Add $GET hint when data in $POST
+[X] Add $GET hint when data in $POST
 
 [ ] fix initial overworld node focus (better logic)
 
 [ ] redirect gdapi on ms
 
 [ ] SCCMTest -> show ki rays
+
+[ ] Move Content to GridDominance.Content

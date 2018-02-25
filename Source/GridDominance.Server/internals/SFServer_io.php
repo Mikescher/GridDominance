@@ -29,6 +29,14 @@ abstract class ERRORS {
 	const MERGE_INVALID_TIME  = 14001;
 	const MERGE_INVALID_LVLID = 14002;
 	const MERGE_INVALID_DIFF  = 14003;
+
+	/* ======== 15 UPLOAD-USERLEVEL ========= */
+	const LEVELUPLOAD_FILE_TOO_BIG      = 15001;
+	const LEVELUPLOAD_WRONG_USERID      = 15002;
+	const LEVELUPLOAD_LEVELID_NOT_FOUND = 15003;
+	const LEVELUPLOAD_ALREADY_UPLOADED  = 15004;
+	const LEVELUPLOAD_INVALID_NAME      = 15005;
+	const LEVELUPLOAD_HASH_MISMATCH     = 15006;
 }
 
 /**
@@ -178,12 +186,47 @@ function getParamDeflOrRaw($name) {
 
 /**
  * @param string $name
+ * @return string (binary)
+ */
+function getParamDeflBinaryOrError($name) {
+	$v = getParamStrOrEmpty($name);
+
+	// modified Base64  @see https://en.wikipedia.org/wiki/Base64#URL_applications
+	$rv = str_replace("-", "+", $v);
+	$rv = str_replace("_", "/", $rv);
+	$rv = str_replace(".", "=", $rv);
+
+	$rv = base64_decode($rv, TRUE);
+
+	if ($rv === FALSE) return "Base64 decode failed" . "\n" . $rv;
+
+	$dv = gzinflate($rv);
+
+	if ($dv === FALSE) return "GZip deflate failed" . "\n" . $rv;
+
+	return $dv;
+}
+
+/**
+ * @param string $name
  * @return string
  */
 function getParamUIntOrError($name) {
 	$v = getParamStrOrError($name, true);
 
 	if (!is_uint_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::ERROR);
+
+	return (int)$v;
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
+function getParamLongOrError($name) {
+	$v = getParamStrOrError($name, true);
+
+	if (!is_int_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::ERROR);
 
 	return (int)$v;
 }

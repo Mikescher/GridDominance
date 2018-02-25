@@ -54,6 +54,7 @@
     <Compile Include="Network\Backend\QueryResult\QueryResultHighscores.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultPing.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultRanking.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUploadUserLevel.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultScoreData.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultSetMPScore.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultSetMultiscore.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Network\Backend\QueryResult\QueryResultUserData.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultVerify.cs" />
     <Compile Include="Network\Backend\UpgradeResult.cs" />
+    <Compile Include="Network\Backend\UploadResult.cs" />
     <Compile Include="Network\Backend\VerifyResult.cs" />
     <Compile Include="Network\Multiplayer\GDMultiplayerClient.cs" />
     <Compile Include="Network\Multiplayer\GDMultiplayerCommon.cs" />
@@ -217,12 +219,14 @@
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_MPClient.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_MPServer.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_SCCMUpload.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_SCCMTest.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_SP.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDArrowAnimation.cs" />
     <Compile Include="Screens\Common\HUD\Elements\HUDDifficultyButton.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDIncrementIndicatorLabel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDSCCMUploadDifficultyButton.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDMultiplayerDifficultyButton.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDPauseButton.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDPauseMenuButton.cs" />
@@ -234,6 +238,7 @@
     <Compile Include="Screens\NormalGameScreen\HUD\GDHudExtension.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\GDMultiplayerGameHUD.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\GDPreviewHUD.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\HUDSCCMUploadScorePanel.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\HUDSCCMTestScorePanel.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\HUDMultiplayerScorePanel.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\HUDScorePanel.cs" />
@@ -242,7 +247,9 @@
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDDifficultyButtonBlinkingIconOperation.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDDifficultyButtonGainOperation.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDIncrementIndicatorLabelWiggleOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMUploadButtonBlinkingIconOperation.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDMultiplayerDifficultyButtonBlinkingIconOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMUploadButtonGainOperation.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDMultiplayerDifficultyButtonGainOperation.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDScorePanelTimeChangeOperation.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDScorePanelTimeDisplayOperation.cs" />

@@ -252,7 +252,8 @@ namespace GridDominance.Shared.Resources
 
 		public static TextureRegion2D TexIconBack;
 		public static TextureRegion2D TexIconNext;
-		public static TextureRegion2D TexIconRedo; 
+		public static TextureRegion2D TexIconRedo;
+		public static TextureRegion2D TexIconUpload;
 		public static TextureRegion2D TexIconScore;
 		public static TextureRegion2D TexIconMPScore;
 		public static TextureRegion2D TexIconTutorial;
@@ -475,7 +476,8 @@ namespace GridDominance.Shared.Resources
 
 			TexIconBack             = AtlasTextures["back"];
 			TexIconNext             = AtlasTextures["next"];
-			TexIconRedo             = AtlasTextures["redo"]; 
+			TexIconRedo             = AtlasTextures["redo"];
+			TexIconUpload           = AtlasTextures["upload"];
 			TexIconScore            = AtlasTextures["jewels"];
 			TexIconMPScore          = AtlasTextures["pokerchip"];
 			TexIconTutorial         = AtlasTextures["tutorial"];

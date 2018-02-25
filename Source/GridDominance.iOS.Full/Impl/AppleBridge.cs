@@ -67,6 +67,11 @@ namespace GridDominance.iOS.Full.Impl
 			using (var sha256 = SHA256.Create()) return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
 		}
 
+		public byte[] DoSHA256(byte[] input)
+		{
+			using (var sha256 = SHA256.Create()) return sha256.ComputeHash(input);
+		}
+
 		public void OpenURL(string url)
 		{
 			UIApplication.SharedApplication.OpenUrl(new NSUrl(url));

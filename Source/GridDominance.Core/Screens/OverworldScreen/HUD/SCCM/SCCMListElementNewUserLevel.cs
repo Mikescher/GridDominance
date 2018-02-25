@@ -84,10 +84,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 			HUD.AddModal(waitDialog, false, 0.7f);
 
-			DoLogin(waitDialog).RunAsync();
+			CreateNewUserLevelInternal(waitDialog).RunAsync();
 		}
 
-		private async Task DoLogin(HUDElement spinner)
+		private async Task CreateNewUserLevelInternal(HUDElement spinner)
 		{
 			try
 			{

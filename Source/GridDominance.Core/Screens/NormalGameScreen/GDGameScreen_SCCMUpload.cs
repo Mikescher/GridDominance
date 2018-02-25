@@ -17,7 +17,7 @@ using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
 {
-	class GDGameScreen_SCCMTest : GDGameScreen
+	class GDGameScreen_SCCMUpload : GDGameScreen
 	{
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
 
@@ -27,8 +27,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		private GameSpeedModes _lastSpeed;
 
-		public GDGameScreen_SCCMTest(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, SCCMLevelData dat, GameSpeedModes speed) 
-			: base(game, gdm, bp, diff, false, false, false)
+		public GDGameScreen_SCCMUpload(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, SCCMLevelData dat, GameSpeedModes speed) 
+			: base(game, gdm, bp, FractionDifficulty.DIFF_3, false, false, false)
 		{
 			SCCMData = dat;
 
@@ -53,7 +53,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			GameSpeedMode = GameSpeedModes.NORMAL;
 
-			HUD.AddModal(new HUDSCCMTestScorePanel(lvl, SCCMData, Difficulty, _lastSpeed), false);
+			HUD.AddModal(new HUDSCCMUploadScorePanel(lvl, SCCMData, Difficulty, _lastSpeed, playerHasWon), false);
 		}
 
 		protected override void TestForGameEndingCondition()

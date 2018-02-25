@@ -248,11 +248,70 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 
 		public void TryUpload()
 		{
-			SetMode(LevelEditorMode.Mouse);//TODO
+			SetMode(LevelEditorMode.Mouse);
+
+			LevelData.UpdateAndSave(this);
+
+			var success = LevelData.ValidateWithToasts(HUD);
+
+			if (success)
+			{
+				var waitDialog = new HUDIconMessageBox
+				{
+					L10NText = L10NImpl.STR_LVLED_COMPILING,
+					TextColor = FlatColors.TextHUD,
+					Background = HUDBackgroundDefinition.CreateRounded(FlatColors.BelizeHole, 16),
+
+					IconColor = FlatColors.Clouds,
+					Icon = Textures.CannonCogBig,
+					RotationSpeed = 1f,
+
+					CloseOnClick = false,
+				};
+
+				HUD.AddModal(waitDialog, false, 0.7f);
+
+				DoCompileAndUpload(waitDialog).RunAsync();
+			}
+		}
+
+		private async Task DoCompileAndUpload(HUDElement spinner)
+		{
+			try
+			{
+				var lvl = await Task.Run(() => LevelData.CompileToBlueprint(HUD));
+				if (lvl == null) return;
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					spinner.Remove();
+					MainGame.Inst.SetEditorUploadLevel(lvl, LevelData);
+				});
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("LEMP::DCAU", e);
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					spinner.Remove();
+					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
+					{
+						L10NText = L10NImpl.STR_CPP_COMERR,
+						TextColor = FlatColors.Clouds,
+						Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
+
+						CloseOnClick = true,
+
+					}, true);
+				});
+			}
 		}
 
 		public void DoPlayTest()
 		{
+			SetMode(LevelEditorMode.Mouse);
+
 			LevelData.UpdateAndSave(this);
 
 			var success = LevelData.ValidateWithToasts(HUD);
@@ -276,8 +335,6 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 
 				DoCompileAndTest(waitDialog).RunAsync();
 			}
-
-			SetMode(LevelEditorMode.Mouse);//TODO
 		}
 
 		private async Task DoCompileAndTest(HUDElement spinner)
@@ -289,6 +346,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
+					spinner.Remove();
 					HUD.AddModal(new LevelEditorTestConfirmPanel(lvl, LevelData), true, 0.7f);
 				});
 			}

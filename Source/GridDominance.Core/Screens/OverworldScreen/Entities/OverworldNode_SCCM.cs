@@ -106,7 +106,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 					//Owner.HUD.AddModal(new SCCMPreviewPanel(), true, 0.5f, 1f);//TODO
 					break;
 				case WorldUnlockState.UnreachableAndFullyLocked:
-					SAMLog.Error("ONSCCM::EnumSwitch_OC", "Clicked on [UnreachableAndFullyLocked]");
+					SAMLog.Error("ONSCCM::EnumSwitch_OC_UAFL", "Clicked on [UnreachableAndFullyLocked]");
 					break;
 				default:
 					SAMLog.Error("ONSCCM::EnumSwitch_OC", "ustate: " + ustate);

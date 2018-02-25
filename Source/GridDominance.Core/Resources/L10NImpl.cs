@@ -294,8 +294,16 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_BTN_EDIT          = 241;
 		public const int STR_LVLED_BTN_PLAY          = 242;
 		public const int STR_LVLED_COMPILING         = 243;
+		public const int STR_LVLED_BTN_UPLOAD        = 247;
+		public const int STR_LVLED_UPLOADING         = 248;
+		public const int STR_LVLED_UPLOAD_FIN        = 249;
+		public const int STR_LVLUPLD_ERR_INTERNAL    = 250;
+		public const int STR_LVLUPLD_ERR_FILETOOBIG  = 251;
+		public const int STR_LVLUPLD_ERR_WRONGUSER   = 252;
+		public const int STR_LVLUPLD_ERR_LIDNOTFOUND = 253;
+		public const int STR_LVLUPLD_ERR_INVALIDNAME = 254;
 
-		private const int TEXT_COUNT = 247; // = next idx
+		private const int TEXT_COUNT = 255; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2036,10 +2044,68 @@ namespace GridDominance.Shared.Resources
 			         "Musica:",
 			         "Música:");
 
-			// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
+			L10N.Add(STR_LVLED_BTN_UPLOAD,
+			         "Upload",
+			         "Veröffentlichen",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_UPLOADING,
+			         "Uploading",
+			         "Wird hochgeladen",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_UPLOAD_FIN,
+			         "Level successfully published",
+			         "Level wurde veröffentlicht",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+
+			L10N.Add(STR_LVLUPLD_ERR_INTERNAL,
+			         "Server error while uploading level",
+			         "Im Server trat ein Fehler während des Uploads auf",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLUPLD_ERR_FILETOOBIG,
+			         "Levelfile too big",
+			         "Leveldatei zu groß",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLUPLD_ERR_WRONGUSER,
+			         "Level was created by a different account",
+			         "Level wurde von einem anderen Benutzer erstellt",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLUPLD_ERR_LIDNOTFOUND,
+			         "Level was deleted on the server",
+			         "Level wurde auf dem Server gelöscht",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLUPLD_ERR_INVALIDNAME,
+			         "Ungültiger Name",
+			         "Invalid name for level",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+
+		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 
 #if DEBUG
-			L10N.Verify();
+		L10N.Verify();
 #endif
 		}
 

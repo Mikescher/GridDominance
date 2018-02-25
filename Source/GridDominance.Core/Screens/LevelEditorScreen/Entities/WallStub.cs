@@ -187,7 +187,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Entities
 				case WallStubType.Mirror:
 					return FRotatedRectangle.CreateByCenter(FPoint.MiddlePoint(Point1, Point2), (Point2 - Point1).Length() + GDConstants.TILE_WIDTH, MirrorBlockBlueprint.DEFAULT_WIDTH + GDConstants.TILE_WIDTH, (Point2 - Point1).ToAngle());
 				default:
-					SAMLog.Error("LEWS::EnumSwitch_GA", "WallType = " + WallType);
+					SAMLog.Error("LEWS::EnumSwitch_GCA", "WallType = " + WallType);
 					return default(FRotatedRectangle);
 			}
 		}

@@ -43,7 +43,8 @@ namespace GridDominance.Shared.SCCM
 
 		public int Width  => Size.Width;
 		public int Height => Size.Height;
-		public string Filename => "CUSTOMLEVELDATA_{c27c11c6-0001-4001-0000-" + $"{OnlineID:000000000000}" + "}";
+		public string Filename         => "CUSTOMLEVELDATA_{B16B00B5-0001-4001-0000-" + $"{OnlineID:X12}" + "}";
+		public string FilenameUploaded => "UPLOADEDLEVELDATA_{B16B00B5-0001-4001-0000-" + $"{OnlineID:X12}" + "}";
 
 		public SCCMLevelData(Int64 id)
 		{

@@ -67,5 +67,10 @@ namespace GridDominance.Shared.SCCM
 			return result;
 		}
 
+		public static void UpgradeLevel(SCCMLevelData oldData, byte[] newData)
+		{
+			FileHelper.Inst.DeleteDataIfExist(oldData.Filename);
+			FileHelper.Inst.WriteBinData(oldData.FilenameUploaded, newData);
+		}
 	}
 }

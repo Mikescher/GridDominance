@@ -28,6 +28,7 @@ function run() {
 	$stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
 	executeOrFail($stmt);
 	$liid = $pdo->lastInsertId();
+
 	//----------
 
 	logDebug("user $user->ID reserved levelid $liid");

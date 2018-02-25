@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Network
@@ -25,6 +27,7 @@ namespace GridDominance.Shared.Network
 		Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit, bool multiplayer);
 		Task<Tuple<VerifyResult, string>> MergeLogin(PlayerProfile profile, string username, string password);
 		Task<Tuple<bool, Int64>> GetNewCustomLevelID(PlayerProfile profile);
+		Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary);
 	}
 
 	#pragma warning disable 1998
@@ -107,6 +110,11 @@ namespace GridDominance.Shared.Network
 		public async Task<Tuple<bool, Int64>> GetNewCustomLevelID(PlayerProfile profile)
 		{
 			return Tuple.Create(true, 999L);
+		}
+
+		public async Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary)
+		{
+			return UploadResult.Success;
 		}
 	}
 #pragma warning restore 1998
