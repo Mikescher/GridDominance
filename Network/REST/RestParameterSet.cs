@@ -81,6 +81,11 @@ namespace MonoSAMFramework.Portable.Network.REST
 			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Decimal, signed, forcePost));
 		}
 
+		public void AddParameterULong(string name, ulong value, bool signed = true, bool forcePost = false)
+		{
+			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Decimal, signed, forcePost));
+		}
+
 		public void AddParameterHash(string name, string value, bool signed = true, bool forcePost = false)
 		{
 			dict.Add(new PEntry(name, value, RestParameterSetType.Hash, signed, forcePost));
