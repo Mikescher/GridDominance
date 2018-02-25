@@ -15,7 +15,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] reduce unlock cost of normal worlds (cost = all prev worlds, all levels on diff=3)
 
-[ ] dedicated server (cannonconquest.com) --> pay by myself for now
+[ ] dedicated server (cannonconquest.com)
      - Public Key SSH
      - diff ssh port
      - Fail2Ban
@@ -59,6 +59,8 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] gdapi/admin: show amount of people that beaten game (got to end screen)
 
+[ ] gdapi/admin: stuff for sccm
+
 [ ] ReSharper clean imports
 
 [ ] Show message when unlocking new world 
@@ -77,3 +79,5 @@ USER GENERATED LEVEL [[TODO]]
 [ ] SCCMTest -> show ki rays
 
 [ ] Move Content to GridDominance.Content
+
+[ ] Use eng for missing translations

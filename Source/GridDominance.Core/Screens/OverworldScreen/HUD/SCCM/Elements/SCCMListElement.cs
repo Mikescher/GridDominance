@@ -11,7 +11,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 {
-	public abstract class SCCMListElement : HUDContainer
+	public abstract class SCCMListElement : HUDContainer //TODO double height focus
 	{
 		public override int Depth => 2;
 

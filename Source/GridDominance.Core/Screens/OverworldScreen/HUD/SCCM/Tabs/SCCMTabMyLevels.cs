@@ -17,7 +17,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		public SCCMTabMyLevels()
 		{
-
+			//TODO stuff for userid changes
+			// - remeber userid in not uploaded (only show level with my userid)
+			// - remeber userid in uploaded     (only show level with my userid)
 		}
 
 		public override void OnInitialize()
@@ -48,7 +50,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 			foreach (var userlevel in SCCMUtils.ListUserLevelsFinished())
 			{
-				_presenter.AddEntry(new SCCMListElementPlayable(userlevel));
+				_presenter.AddEntry(new SCCMListElementLocalPlayable(userlevel)); //TODO update meta from online
 			}
 		}
 

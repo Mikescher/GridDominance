@@ -173,7 +173,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 					//_container.SetElement(new SCCMTabHot());
 					break;
 				case SCCMTab.Top:
-					//_container.SetElement(new SCCMTabTop());
+					_container.SetElement(new SCCMTabTop());
 					break;
 				case SCCMTab.New:
 					//_container.SetElement(new SCCMTabNew());

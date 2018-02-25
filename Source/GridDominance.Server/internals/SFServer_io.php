@@ -37,6 +37,9 @@ abstract class ERRORS {
 	const LEVELUPLOAD_ALREADY_UPLOADED  = 15004;
 	const LEVELUPLOAD_INVALID_NAME      = 15005;
 	const LEVELUPLOAD_HASH_MISMATCH     = 15006;
+
+	/* ======== 16 QUERY-USERLEVEL ========= */
+	const LEVELQUERY_UNNKOWN_CAT = 16001;
 }
 
 /**

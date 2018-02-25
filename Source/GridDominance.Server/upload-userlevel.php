@@ -10,14 +10,17 @@ function run() {
 	$userid        = getParamUIntOrError('userid');
 	$password      = getParamSHAOrError('password');
 	$appversion    = getParamStrOrError('app_version');
+	$decappversion = getParamStrOrError('app_version_dec');
 	$levelid       = getParamLongOrError('levelid');
 	$name          = getParamStrOrError('name');
+	$gwidth        = getParamStrOrError('gwidth');
+	$gheight       = getParamStrOrError('gheight');
 	$binhash       = getParamStrOrError('binhash');
 	$bindata       = getParamDeflBinaryOrError('bindata');
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$userid, $password, $appversion, $levelid, $name, $binhash]);
+	check_commit_signature($signature, [$userid, $password, $appversion, $decappversion, $levelid, $name, $gwidth, $gheight, $binhash]);
 
 	//----------
 
@@ -47,12 +50,15 @@ function run() {
 	$realhash = strtoupper(hash('sha256', $bindata));
 	if ($realhash !== $binhash) outputError(ERRORS::LEVELUPLOAD_HASH_MISMATCH, "Hash '$realhash' <> '$binhash'", LOGLEVEL::ERROR);
 
-	$stmt = $pdo->prepare("UPDATE userlevels SET name=:nam, upload_timestamp=NOW(), upload_version=:vrs, datahash=:hsh, filesize=:fsz WHERE id=:lid");
+	$stmt = $pdo->prepare("UPDATE userlevels SET name=:nam, upload_timestamp=NOW(), upload_version=:vrs, upload_decversion=:vdc, datahash=:hsh, filesize=:fsz, grid_width=:ggw, grid_height=:ggh WHERE id=:lid");
 	$stmt->bindValue(':lid', $levelid,         PDO::PARAM_INT);
 	$stmt->bindValue(':nam', $name,            PDO::PARAM_STR);
 	$stmt->bindValue(':vrs', $appversion,      PDO::PARAM_STR);
+	$stmt->bindValue(':vdc', $decappversion,   PDO::PARAM_INT);
 	$stmt->bindValue(':hsh', $binhash,         PDO::PARAM_STR);
 	$stmt->bindValue(':fsz', strlen($bindata), PDO::PARAM_INT);
+	$stmt->bindValue(':ggw', $gwidth,          PDO::PARAM_INT);
+	$stmt->bindValue(':ggh', $gheight,         PDO::PARAM_INT);
 	executeOrFail($stmt);
 
 	$filename = "{B16B00B5-0001-4001-0000-".str_pad(strtoupper(dechex($levelid)), 12, '0', STR_PAD_LEFT).'}';

@@ -67,7 +67,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, HUD.PixelWidth, Color.Black);
 		}
 
-		private void CreateNewUserLevel(HUDTextButton sender, HUDButtonEventArgs e)
+		private void CreateNewUserLevel(HUDTextButton sender, HUDButtonEventArgs e) //TODO only with full acc
 		{
 			var waitDialog = new HUDIconMessageBox
 			{

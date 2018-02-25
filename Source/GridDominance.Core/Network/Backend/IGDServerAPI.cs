@@ -28,6 +28,7 @@ namespace GridDominance.Shared.Network
 		Task<Tuple<VerifyResult, string>> MergeLogin(PlayerProfile profile, string username, string password);
 		Task<Tuple<bool, Int64>> GetNewCustomLevelID(PlayerProfile profile);
 		Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary);
+		Task<List<SCCMLevelMeta>> QueryUserLevel(PlayerProfile profile, QueryUserLevelCategory cat, string param, int pagination);
 	}
 
 	#pragma warning disable 1998
@@ -115,6 +116,11 @@ namespace GridDominance.Shared.Network
 		public async Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary)
 		{
 			return UploadResult.Success;
+		}
+
+		public async Task<List<SCCMLevelMeta>> QueryUserLevel(PlayerProfile profile, QueryUserLevelCategory cat, string param, int pagination)
+		{
+			return new List<SCCMLevelMeta>();
 		}
 	}
 #pragma warning restore 1998

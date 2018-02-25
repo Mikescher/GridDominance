@@ -120,7 +120,9 @@ namespace GridDominance.Levelfileformat.Blueprint
 			for (int i = 0; i < BlueprintTrishotCannon.Count;   i++) BlueprintTrishotCannon[i].Serialize(bw);
 
 			bw.Write(SERIALIZE_ID_XMETA_MUSIC);
-			bw.Write(CustomMusic);
+			bw.Write(CustomMusic); 
+			
+			//TODO userlevel (userid, version, timestamp)
 
 			bw.Write(SERIALIZE_ID_EOF);
 

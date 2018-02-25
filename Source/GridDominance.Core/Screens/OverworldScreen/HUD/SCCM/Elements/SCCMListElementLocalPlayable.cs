@@ -8,9 +8,9 @@ using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 {
-	class SCCMListElementPlayable : SCCMListElement
+	class SCCMListElementLocalPlayable : SCCMListElement
 	{
-		public SCCMListElementPlayable(LevelBlueprint d)
+		public SCCMListElementLocalPlayable(LevelBlueprint d)
 		{
 
 		}

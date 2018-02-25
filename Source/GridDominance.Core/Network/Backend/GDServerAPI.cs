@@ -35,6 +35,7 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_GETRANKING         = 6;
 		private const int RETRY_GETNEWLEVELID      = 6;
 		private const int RETRY_LEVELUPLOAD        = 6;
+		private const int RETRY_LEVELQUERY         = 6;
 
 		private const int MULTISCORE_PARTITION_SIZE = 64;
 
@@ -1112,8 +1113,11 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterULong("app_version_dec", GDConstants.IntVersion);
 				ps.AddParameterLong("levelid", rawData.OnlineID);
 				ps.AddParameterString("name", level.FullName);
+				ps.AddParameterInt("gwidth", rawData.Size.Width);
+				ps.AddParameterInt("gheight", rawData.Size.Height);
 				ps.AddParameterString("binhash", ByteUtils.ByteToHexBitFiddle(MonoSAMGame.CurrentInst.Bridge.DoSHA256(binary)));
 				ps.AddParameterCompressedBinary("bindata", binary, false, true);
 
@@ -1164,6 +1168,62 @@ namespace GridDominance.Shared.Network
 				SAMLog.Error("Backend::UUL_E", e);
 				ShowErrorCommunication();
 				return UploadResult.InternalError;
+			}
+		}
+
+		public async Task<List<SCCMLevelMeta>> QueryUserLevel(PlayerProfile profile, QueryUserLevelCategory cat, string param, int pagination)
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterString("category", QueryUserLevelCategoryHelper.EnumToString(cat));
+				ps.AddParameterString("param", param);
+				ps.AddParameterInt("pagination", pagination);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterULong("app_version_dec", GDConstants.IntVersion);
+
+				var response = await QueryAsync<QueryResultQueryUserLevel>("query-userlevels", ps, RETRY_LEVELQUERY);
+
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "error")
+				{
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						ShowErrorCommunication();
+						return null;
+					}
+
+					SAMLog.Error("Backend::QUL_ERR", $"QueryUserLevel: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "success")
+				{
+
+					return response.data.Select(SCCMLevelMeta.Parse).ToList();
+				}
+				else
+				{
+					ShowErrorCommunication();
+					return null;
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend::UUL_RCE", e); // probably no internet
+				ShowErrorConnection();
+				return null;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend::UUL_E", e);
+				ShowErrorCommunication();
+				return null;
 			}
 		}
 
