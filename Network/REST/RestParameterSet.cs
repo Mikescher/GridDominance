@@ -17,7 +17,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 		private const int MAX_GET_LENGTH     = 128;
 		private const int MAX_GET_LENGTH_BIG = 2048;
 
-		public enum RestParameterSetType { String, Decimal, Base64, Hash, StringCompressed, Guid, Json, BigCompressed, BinaryCompressed }
+		public enum RestParameterSetType { String, Decimal, Base64, Hash, StringCompressed, Guid, Json, JsonBigCompressed, BigCompressed, BinaryCompressed }
 
 		private struct PEntry
 		{
@@ -59,6 +59,11 @@ namespace MonoSAMFramework.Portable.Network.REST
 		public void AddParameterJson(string name, object value, bool signed = true, bool forcePost = false)
 		{
 			dict.Add(new PEntry(name, JsonConvert.SerializeObject(value, Formatting.None), RestParameterSetType.Json, signed, forcePost));
+		}
+
+		public void AddParameterJsonBigCompressed(string name, object value, bool signed = true, bool forcePost = false)
+		{
+			dict.Add(new PEntry(name, JsonConvert.SerializeObject(value, Formatting.None), RestParameterSetType.JsonBigCompressed, signed, forcePost));
 		}
 
 		public void AddParameterBigCompressed(string name, string value, bool signed = true, bool forcePost = false)
@@ -169,6 +174,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 							result += "&" + elem.Name + "=" + dataComp;
 						break;
 
+					case RestParameterSetType.JsonBigCompressed:
 					case RestParameterSetType.BigCompressed:
 						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 
@@ -288,6 +294,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 						break;
 
+					case RestParameterSetType.JsonBigCompressed:
 					case RestParameterSetType.BigCompressed:
 						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 						break;
