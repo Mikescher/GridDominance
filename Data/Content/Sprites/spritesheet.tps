@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.2</string>
         <key>fileName</key>
-        <string>F:/Symlinks/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
+        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -672,6 +672,19 @@
                 <rect>22,16,44,31</rect>
                 <key>scale9Paddings</key>
                 <rect>22,16,44,31</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">hud/star.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>33,33,66,66</rect>
+                <key>scale9Paddings</key>
+                <rect>33,33,66,66</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

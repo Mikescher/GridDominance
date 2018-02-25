@@ -81,3 +81,7 @@ USER GENERATED LEVEL [[TODO]]
 [ ] Move Content to GridDominance.Content
 
 [ ] Use eng for missing translations
+
+[ ] Show total stars over all uploaded levels
+
+[ ] highscore toogle button by currency icon

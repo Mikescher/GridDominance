@@ -231,5 +231,9 @@ CREATE TABLE userlevels (
   d3_besttime        int(10)             NULL DEFAULT NULL,
   d3_besttimestamp   timestamp           NULL DEFAULT NULL,
 
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+
+  INDEX stars (stars),
+  INDEX upload_timestamp (upload_timestamp),
+  INDEX userid (userid)
 );

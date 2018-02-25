@@ -22,6 +22,7 @@ namespace GridDominance.Shared.SCCM
 		public Version MinimumVersion;
 		public DSize GridSize;
 
+		public int Stars;
 		public SCCMLevelDifficultyMeta[] Highscores;
 
 		public static SCCMLevelMeta Parse(QueryResultQueryUserLevelData dat)
@@ -34,6 +35,7 @@ namespace GridDominance.Shared.SCCM
 				UserID = dat.userid,
 				Username = dat.username,
 
+				Stars = dat.stars,
 				UploadTime = dat.upload_timestamp,
 				Hash = dat.datahash,
 				MinimumVersion = dat.upload_version,

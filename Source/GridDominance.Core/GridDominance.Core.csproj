@@ -86,6 +86,7 @@
     <Compile Include="Resources\Textures.cs" />
     <Compile Include="Resources\__Secrets.cs" />
     <Compile Include="SaveData\AccountType.cs" />
+    <Compile Include="SaveData\CustomLevelData.cs" />
     <Compile Include="SaveData\LevelData.cs" />
     <Compile Include="SaveData\LevelDiffData.cs" />
     <Compile Include="SaveData\PlayerProfile.cs" />

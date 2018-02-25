@@ -266,6 +266,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconConnection1;
 		public static TextureRegion2D TexIconConnection2;
 		public static TextureRegion2D TexIconConnection3;
+		public static TextureRegion2D TexIconStar;
 
 		public static TextureRegion2D TexIconNetworkBase;
 		public static TextureRegion2D TexIconNetworkVertex1;
@@ -274,6 +275,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconNetworkVertex4;
 		public static TextureRegion2D TexIconNetworkVertex5;
 
+		public static TextureRegion2D TexDifficultyLineNone;
 		public static TextureRegion2D TexDifficultyLine0;
 		public static TextureRegion2D TexDifficultyLine1;
 		public static TextureRegion2D TexDifficultyLine2;
@@ -307,7 +309,6 @@ namespace GridDominance.Shared.Resources
 
 		public static void Initialize(ContentManager content, GraphicsDevice device)
 		{
-
 			if (MonoSAMGame.IsDesktop())
 				TEXTURE_QUALITY = TextureQuality.HD;
 			else
@@ -493,6 +494,7 @@ namespace GridDominance.Shared.Resources
 
 
 
+			TexDifficultyLineNone  = AtlasTextures["difficulty_line_00"];
 			TexDifficultyLine0     = AtlasTextures["difficulty_line_01"];
 			TexDifficultyLine1     = AtlasTextures["difficulty_line_02"];
 			TexDifficultyLine2     = AtlasTextures["difficulty_line_03"];
@@ -515,6 +517,8 @@ namespace GridDominance.Shared.Resources
 			TexMirrorBlockIcon = AtlasTextures["mirrorblock_icon"];
 			TexGlassBlockIcon  = AtlasTextures["glassblock_icon"];
 			TexVoidIcon        = AtlasTextures["void_icon"];
+
+			TexIconStar        = AtlasTextures["star"];
 
 			HUDFontRegular      = content.Load<SpriteFont>("fonts/hudFontRegular");
 			HUDFontBold         = content.Load<SpriteFont>("fonts/hudFontBold");

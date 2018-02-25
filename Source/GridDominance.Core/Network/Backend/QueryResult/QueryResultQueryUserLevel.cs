@@ -28,6 +28,7 @@ namespace GridDominance.Shared.Network.Backend
 		public DateTimeOffset upload_timestamp;
 		public string datahash;
 		public Version upload_version;
+		public int stars;
 		public int grid_width;
 		public int grid_height;
 
