@@ -980,7 +980,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
 				ps.AddParameterString("new_username", username);
 				ps.AddParameterHash("new_password", pwHash);
-				ps.AddParameterJson("merge_data", CreateScoreArray(profile, null)); // TODO should be BigCompressed, some client swallow the POST part - probably fork to mergelogin2.php
+				ps.AddParameterJsonBigCompressed("merge_data", CreateScoreArray(profile, null));
 
 				ps.AddParameterInt("s0", profile.TotalPoints);
 				ps.AddParameterInt("s1", profile.GetWorldPoints(Levels.WORLD_001));
@@ -994,7 +994,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("t4", profile.GetWorldHighscoreTime(Levels.WORLD_004));
 				ps.AddParameterInt("sx", profile.MultiplayerPoints);
 
-				var response = await QueryAsync<QueryResultMergeLogin>("merge-login", ps, RETRY_CREATEUSER);
+				var response = await QueryAsync<QueryResultMergeLogin>("merge-login-2", ps, RETRY_CREATEUSER);
 
 				if (response == null)
 				{
