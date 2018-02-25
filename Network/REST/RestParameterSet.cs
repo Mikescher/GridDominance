@@ -17,48 +17,88 @@ namespace MonoSAMFramework.Portable.Network.REST
 		private const int MAX_GET_LENGTH     = 128;
 		private const int MAX_GET_LENGTH_BIG = 2048;
 
-		public enum RestParameterSetType { String, Int, Base64, Hash, Compressed, Guid, Json, BigCompressed }
+		public enum RestParameterSetType { String, Decimal, Base64, Hash, StringCompressed, Guid, Json, BigCompressed, BinaryCompressed }
 
-		private readonly List<Tuple<string, string, RestParameterSetType, bool>> dict = new List<Tuple<string, string, RestParameterSetType, bool>>();
-
-		public void AddParameterString(string name, string value, bool signed = true)
+		private struct PEntry
 		{
-			dict.Add(Tuple.Create(name, value, RestParameterSetType.String, signed));
+			public readonly string Name;
+			public readonly string Data;
+			public readonly byte[] DataBin;
+			public readonly RestParameterSetType ParamType;
+			public readonly bool Signed;
+			public readonly bool ForcePost;
+
+			public PEntry(string n, string d, RestParameterSetType t, bool s, bool fp)
+			{
+				Name = n;
+				Data = d;
+				DataBin = null;
+				ParamType = t;
+				Signed = s;
+				ForcePost = fp;
+			}
+
+			public PEntry(string n, byte[] d, RestParameterSetType t, bool s, bool fp)
+			{
+				Name = n;
+				Data = null;
+				DataBin = d;
+				ParamType = t;
+				Signed = s;
+				ForcePost = fp;
+			}
+		}
+
+		private readonly List<PEntry> dict = new List<PEntry>();
+
+		public void AddParameterString(string name, string value, bool signed = true, bool forcePost = false)
+		{
+			dict.Add(new PEntry(name, value, RestParameterSetType.String, signed, forcePost));
 		}
 		
-		public void AddParameterJson(string name, object value, bool signed = true)
+		public void AddParameterJson(string name, object value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(Tuple.Create(name, JsonConvert.SerializeObject(value, Formatting.None), RestParameterSetType.Json, signed));
+			dict.Add(new PEntry(name, JsonConvert.SerializeObject(value, Formatting.None), RestParameterSetType.Json, signed, forcePost));
 		}
 
-		public void AddParameterBigCompressed(string name, string value, bool signed = true)
+		public void AddParameterBigCompressed(string name, string value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(Tuple.Create(name, value, RestParameterSetType.BigCompressed, signed));
+			dict.Add(new PEntry(name, value, RestParameterSetType.BigCompressed, signed, forcePost));
 		}
 
-		public void AddParameterInt(string name, int value, bool signed = true)
+		public void AddParameterInt(string name, int value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(Tuple.Create(name, value.ToString(), RestParameterSetType.Int, signed));
+			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Decimal, signed, forcePost));
 		}
 
-		public void AddParameterHash(string name, string value, bool signed = true)
+		public void AddParameterLong(string name, long value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(Tuple.Create(name, value, RestParameterSetType.Hash, signed));
+			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Decimal, signed, forcePost));
 		}
 
-		public void AddParameterBase64(string name, string value, bool signed = true)
+		public void AddParameterHash(string name, string value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(Tuple.Create(name, value, RestParameterSetType.Base64, signed));
+			dict.Add(new PEntry(name, value, RestParameterSetType.Hash, signed, forcePost));
 		}
 
-		public void AddParameterCompressed(string name, string value, bool signed = true)
+		public void AddParameterBase64(string name, string value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(Tuple.Create(name, value, RestParameterSetType.Compressed, signed));
+			dict.Add(new PEntry(name, value, RestParameterSetType.Base64, signed, forcePost));
 		}
 
-		public void AddParameterGuid(string name, Guid value, bool signed = true)
+		public void AddParameterCompressed(string name, string value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(Tuple.Create(name, value.ToString("B"), RestParameterSetType.Guid, signed));
+			dict.Add(new PEntry(name, value, RestParameterSetType.StringCompressed, signed, forcePost));
+		}
+
+		public void AddParameterGuid(string name, Guid value, bool signed = true, bool forcePost = false)
+		{
+			dict.Add(new PEntry(name, value.ToString("B"), RestParameterSetType.Guid, signed, forcePost));
+		}
+
+		public void AddParameterCompressedBinary(string name, byte[] value, bool signed = true, bool forcePost = false)
+		{
+			dict.Add(new PEntry(name, value, RestParameterSetType.BinaryCompressed, signed, forcePost));
 		}
 
 		public Tuple<string, FormUrlEncodedContent> CreateParamString(string secret)
@@ -70,86 +110,94 @@ namespace MonoSAMFramework.Portable.Network.REST
 			string result = "";
 			foreach (var elem in dict)
 			{
-				var name = elem.Item1;
-				var value = elem.Item2;
-				var type = elem.Item3;
-				var sign = elem.Item4;
-
-				switch (type)
+				switch (elem.ParamType)
 				{
 					case RestParameterSetType.String:
 					case RestParameterSetType.Json:
 					case RestParameterSetType.Guid:
-						if (sign) sigbuilder += "\n" + value;
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 
-						if (value.Length > MAX_GET_LENGTH)
-							post.Add(new KeyValuePair<string, string>(name, value));
+						if (elem.ForcePost || elem.Data.Length > MAX_GET_LENGTH)
+							post.Add(new KeyValuePair<string, string>(elem.Name, elem.Data));
 						else
-							result += "&" + name + "=" + Uri.EscapeDataString(value);
+							result += "&" + elem.Name + "=" + Uri.EscapeDataString(elem.Data);
 						break;
 
-					case RestParameterSetType.Int:
-						if (sign) sigbuilder += "\n" + value;
+					case RestParameterSetType.Decimal:
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 
-						if (value.Length > MAX_GET_LENGTH)
-							post.Add(new KeyValuePair<string, string>(name, value));
+						if (elem.ForcePost)
+							post.Add(new KeyValuePair<string, string>(elem.Name, elem.Data));
 						else
-							result += "&" + name + "=" + value;
+							result += "&" + elem.Name + "=" + elem.Data;
 						break;
 
 					case RestParameterSetType.Base64:
-						if (sign) sigbuilder += "\n" + value;
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 
-						var data64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(value))
+						var data64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(elem.Data))
 							.Replace('+', '-')
 							.Replace('\\', '_')
 							.Replace('=', '.');
 
-						if (value.Length > MAX_GET_LENGTH)
-							post.Add(new KeyValuePair<string, string>(name, data64));
+						if (elem.ForcePost || elem.Data.Length > MAX_GET_LENGTH)
+							post.Add(new KeyValuePair<string, string>(elem.Name, data64));
 						else
-							result += "&" + name + "=" + data64;
+							result += "&" + elem.Name + "=" + data64;
 						break;
 
 					case RestParameterSetType.Hash:
-						var dataHash = value.ToUpper();
-						if (sign) sigbuilder += "\n" + dataHash;
+						var dataHash = elem.Data.ToUpper();
+						if (elem.Signed) sigbuilder += "\n" + dataHash;
 
-						if (value.Length > MAX_GET_LENGTH)
-							post.Add(new KeyValuePair<string, string>(name, dataHash));
+						if (elem.ForcePost || elem.Data.Length > MAX_GET_LENGTH)
+							post.Add(new KeyValuePair<string, string>(elem.Name, dataHash));
 						else
-							result += "&" + name + "=" + dataHash;
+							result += "&" + elem.Name + "=" + dataHash;
 						break;
 
-					case RestParameterSetType.Compressed:
-						if (sign) sigbuilder += "\n" + value;
+					case RestParameterSetType.StringCompressed:
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 
-						var dataComp = CompressString(value)
+						var dataComp = CompressString(elem.Data)
 							.Replace('+', '-')
 							.Replace('\\', '_')
 							.Replace('=', '.');
-						if (dataComp.Length > MAX_GET_LENGTH)
-							post.Add(new KeyValuePair<string, string>(name, dataComp));
+						if (elem.ForcePost || dataComp.Length > MAX_GET_LENGTH)
+							post.Add(new KeyValuePair<string, string>(elem.Name, dataComp));
 						else
-							result += "&" + name + "=" + dataComp;
+							result += "&" + elem.Name + "=" + dataComp;
 						break;
 
 					case RestParameterSetType.BigCompressed:
-						if (sign) sigbuilder += "\n" + value;
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 
-						var dataComp2 = CompressString(value)
+						var dataComp2 = CompressString(elem.Data)
 							.Replace('+', '-')
 							.Replace('\\', '_')
 							.Replace('=', '.');
-						if (dataComp2.Length > MAX_GET_LENGTH_BIG)
-							post.Add(new KeyValuePair<string, string>(name, dataComp2));
+						if (elem.ForcePost || dataComp2.Length > MAX_GET_LENGTH_BIG)
+							post.Add(new KeyValuePair<string, string>(elem.Name, dataComp2));
 						else
-							result += "&" + name + "=" + dataComp2;
+							result += "&" + elem.Name + "=" + dataComp2;
+						break;
+
+					case RestParameterSetType.BinaryCompressed:
+						if (elem.Signed) sigbuilder += "\n" + ByteUtils.ByteToHexBitFiddle(elem.DataBin);
+
+						var dataComp3 = CompressBinary(elem.DataBin)
+							.Replace('+', '-')
+							.Replace('\\', '_')
+							.Replace('=', '.');
+						if (elem.ForcePost || dataComp3.Length > MAX_GET_LENGTH_BIG)
+							post.Add(new KeyValuePair<string, string>(elem.Name, dataComp3));
+						else
+							result += "&" + elem.Name + "=" + dataComp3;
 						break;
 
 
 					default:
-						SAMLog.Error("RPS::EnumSwitch_CPS", "type = " + type);
+						SAMLog.Error("RPS::EnumSwitch_CPS", "type = " + elem.ParamType);
 						break;
 				}
 			}
@@ -180,6 +228,23 @@ namespace MonoSAMFramework.Portable.Network.REST
 			}
 		}
 
+		public static string CompressBinary(byte[] raw)
+		{
+			using (var msi = new MemoryStream(raw))
+			{
+				using (var mso = new MemoryStream())
+				{
+					using (var gs = new DeflateStream(mso, CompressionMode.Compress))
+					{
+						byte[] buffer = new byte[4096];
+						int cnt;
+						while ((cnt = msi.Read(buffer, 0, buffer.Length)) != 0) gs.Write(buffer, 0, cnt);
+					}
+					return Convert.ToBase64String(mso.ToArray());
+				}
+			}
+		}
+
 		public string GetDebugInfo(string secret)
 		{
 			StringBuilder b = new StringBuilder();
@@ -187,49 +252,39 @@ namespace MonoSAMFramework.Portable.Network.REST
 
 			foreach (var elem in dict)
 			{
-				var name = elem.Item1;
-				var value = elem.Item2;
-				var type = elem.Item3;
-				var sign = elem.Item4 ? "X" : " ";
-
-				b.AppendLine($"[{sign}] entry[{type}|{name}] = {Convert.ToBase64String(Encoding.UTF8.GetBytes(value))}");
+				b.AppendLine($"[{(elem.Signed ? "X" : " ")}] entry[{elem.ParamType}|{elem.Name}] = {Convert.ToBase64String(Encoding.UTF8.GetBytes(elem.Data))}");
 			}
 
 			var sigbuilder = secret;
 			foreach (var elem in dict)
 			{
-				var name = elem.Item1;
-				var value = elem.Item2;
-				var type = elem.Item3;
-				var sign = elem.Item4;
-
-				switch (type)
+				switch (elem.ParamType)
 				{
 					case RestParameterSetType.String:
 					case RestParameterSetType.Json:
 					case RestParameterSetType.Guid:
-						if (sign) sigbuilder += "\n" + value;
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 						break;
 
-					case RestParameterSetType.Int:
-						if (sign) sigbuilder += "\n" + value;
+					case RestParameterSetType.Decimal:
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 						break;
 
 					case RestParameterSetType.Base64:
-						if (sign) sigbuilder += "\n" + value;
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 						break;
 
 					case RestParameterSetType.Hash:
-						var dataHash = value.ToUpper();
-						if (sign) sigbuilder += "\n" + dataHash;
+						var dataHash = elem.Data.ToUpper();
+						if (elem.Signed) sigbuilder += "\n" + dataHash;
 						break;
 
-					case RestParameterSetType.Compressed:
-						if (sign) sigbuilder += "\n" + value;
+					case RestParameterSetType.StringCompressed:
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 						break;
 
 					case RestParameterSetType.BigCompressed:
-						if (sign) sigbuilder += "\n" + value;
+						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 						break;
 
 					default:

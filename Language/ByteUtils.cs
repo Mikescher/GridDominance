@@ -54,7 +54,7 @@ namespace MonoSAMFramework.Portable.Language
 		}
 
 		// http://stackoverflow.com/a/14333437/1761622
-		public static string ByteToHexBitFiddle(byte[] bytes)
+		public static string ByteToHexBitFiddle(byte[] bytes) // uppercase
 		{
 			if (bytes == null) return "{{NULL}}";
 			char[] c = new char[bytes.Length * 2];
@@ -65,6 +65,22 @@ namespace MonoSAMFramework.Portable.Language
 				c[i * 2] = (char)(55 + b + (((b - 10) >> 31) & -7));
 				b = bytes[i] & 0xF;
 				c[i * 2 + 1] = (char)(55 + b + (((b - 10) >> 31) & -7));
+			}
+			return new string(c);
+		}
+
+		// http://stackoverflow.com/a/14333437/1761622
+		public static string ByteToHexBitFiddleLowercase(byte[] bytes)
+		{
+			if (bytes == null) return "{{NULL}}";
+			char[] c = new char[bytes.Length * 2];
+			int b;
+			for (int i = 0; i < bytes.Length; i++)
+			{
+				b = bytes[i] >> 4;
+				c[i * 2] = (char)(87 + b + (((b - 10) >> 31) & -39));
+				b = bytes[i] & 0xF;
+				c[i * 2 + 1] = (char)(87 + b + (((b - 10) >> 31) & -39));
 			}
 			return new string(c);
 		}

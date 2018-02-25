@@ -6,6 +6,7 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 	public abstract class FileHelper
 	{
 		public abstract void WriteData(string fileid, string data);
+		public abstract void WriteBinData(string fileid, byte[] data);
 		public abstract string ReadDataOrNull(string fileid);
 		public abstract byte[] ReadBinDataOrNull(string fileid);
 		public abstract bool DeleteDataIfExist(string fileid);

@@ -17,6 +17,7 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		FileHelper FileHelper { get; }
 
 		string DoSHA256(string input);
+		byte[] DoSHA256(byte[] input);
 		void Sleep(int milsec);
 		void ExitApp();
 	}
