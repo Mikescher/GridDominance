@@ -203,8 +203,13 @@ namespace MonoSAMFramework.Portable.Network.REST
 			}
 
 			var sig = MonoSAMGame.CurrentInst.Bridge.DoSHA256(sigbuilder);
-
+			
 			var get = "?msgk=" + sig + result;
+
+			if (post.Any())
+			{
+				get = get + "&xsampostredirect=" + "("+string.Join(";", post.Select(p => p.Key+":"+p.Value.Length))+")";
+			}
 
 			var postContent = post.Any() ? new FormUrlEncodedContent(post) : null;
 
