@@ -215,6 +215,7 @@
     <Compile Include="Screens\Background\GameBackground.cs" />
     <Compile Include="Screens\HUD\Elements\Button\HUDEllipseImageButton.cs" />
     <Compile Include="UpdateAgents\Impl\CyclicLambdaOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\SingleLambdaOperation.cs" />
     <Compile Include="UpdateAgents\Impl\LambdaOperation.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticle.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticleEmitter.cs" />
@@ -282,6 +283,7 @@
     <Compile Include="Screens\HUD\Elements\Primitives\HUDRectangle.cs" />
     <Compile Include="Screens\HUD\Elements\Primitives\HUDSeperator.cs" />
     <Compile Include="UpdateAgents\Impl\CyclicSequenceOperation.cs" />
+    <Compile Include="UpdateAgents\Impl\SingleTimeOperation.cs" />
     <Compile Include="UpdateAgents\Impl\SleepOperation.cs" />
     <Compile Include="UpdateAgents\Impl\CyclicOperation.cs" />
     <Compile Include="UpdateAgents\Impl\FixTimeOperation.cs" />

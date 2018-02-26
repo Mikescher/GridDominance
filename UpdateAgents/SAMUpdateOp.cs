@@ -17,10 +17,7 @@ namespace MonoSAMFramework.Portable.UpdateAgents
 
 		private TOwner _initElem;
 
-		public SAMUpdateOp()
-		{
-			//
-		}
+		protected SAMUpdateOp() { /* */ }
 
 		public void Update(TOwner owner, SAMTime gameTime, InputState istate)
 		{
