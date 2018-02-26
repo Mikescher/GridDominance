@@ -213,6 +213,7 @@
     <Compile Include="Screens\Entities\EntityManager.cs" />
     <Compile Include="Screens\Entities\GameEntity.cs" />
     <Compile Include="Screens\Background\GameBackground.cs" />
+    <Compile Include="Screens\HUD\Elements\Button\HUDEllipseImageButton.cs" />
     <Compile Include="UpdateAgents\Impl\CyclicLambdaOperation.cs" />
     <Compile Include="UpdateAgents\Impl\LambdaOperation.cs" />
     <Compile Include="Screens\Entities\Particles\CPUParticles\CPUParticle.cs" />
