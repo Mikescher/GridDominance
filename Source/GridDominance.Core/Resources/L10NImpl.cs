@@ -132,6 +132,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_INF_YOU                 = 72;
 		public const int STR_INF_GLOBAL              = 73;
 		public const int STR_INF_HIGHSCORE           = 74;
+		public const int STR_INF_CLEARS              = 255;
 
 		public const int STR_IAB_TESTERR             = 82;
 		public const int STR_IAB_TESTNOCONN          = 83;
@@ -303,7 +304,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLUPLD_ERR_LIDNOTFOUND = 253;
 		public const int STR_LVLUPLD_ERR_INVALIDNAME = 254;
 
-		private const int TEXT_COUNT = 255; // = next idx
+		private const int TEXT_COUNT = 256; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2097,6 +2098,13 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_LVLUPLD_ERR_INVALIDNAME,
 			         "Ungültiger Name",
 			         "Invalid name for level",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_INF_CLEARS,
+			         "Clears",
+			         "Gesamt",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.SCCM
@@ -51,7 +52,7 @@ namespace GridDominance.Shared.SCCM
 						HighscoreUserID      = dat.d0_bestuserid,
 						HighscoreUsername    = dat.d0_bestusername,
 						HighscoreTime        = dat.d0_besttime,
-						HighhhscoreTimestamp = dat.d0_besttimestamp,
+						HighscoreTimestamp   = dat.d0_besttimestamp,
 					},
 					new SCCMLevelDifficultyMeta
 					{
@@ -61,7 +62,7 @@ namespace GridDominance.Shared.SCCM
 						HighscoreUserID      = dat.d1_bestuserid,
 						HighscoreUsername    = dat.d1_bestusername,
 						HighscoreTime        = dat.d1_besttime,
-						HighhhscoreTimestamp = dat.d1_besttimestamp,
+						HighscoreTimestamp   = dat.d1_besttimestamp,
 					},
 					new SCCMLevelDifficultyMeta
 					{
@@ -71,7 +72,7 @@ namespace GridDominance.Shared.SCCM
 						HighscoreUserID      = dat.d2_bestuserid,
 						HighscoreUsername    = dat.d2_bestusername,
 						HighscoreTime        = dat.d2_besttime,
-						HighhhscoreTimestamp = dat.d2_besttimestamp,
+						HighscoreTimestamp   = dat.d2_besttimestamp,
 					},
 					new SCCMLevelDifficultyMeta
 					{
@@ -81,7 +82,7 @@ namespace GridDominance.Shared.SCCM
 						HighscoreUserID      = dat.d3_bestuserid,
 						HighscoreUsername    = dat.d3_bestusername,
 						HighscoreTime        = dat.d3_besttime,
-						HighhhscoreTimestamp = dat.d3_besttimestamp,
+						HighscoreTimestamp   = dat.d3_besttimestamp,
 					},
 				}
 			};
@@ -98,6 +99,18 @@ namespace GridDominance.Shared.SCCM
 		public int? HighscoreUserID;
 		public string HighscoreUsername;
 		public int? HighscoreTime;
-		public DateTimeOffset? HighhhscoreTimestamp;
+		public DateTimeOffset? HighscoreTimestamp;
+
+		public string FormatHighscoreCell()
+		{
+			if (string.IsNullOrWhiteSpace(HighscoreUsername) || HighscoreTime == null) return string.Empty;
+
+			return TimeExtension.FormatMilliseconds(HighscoreTime.Value, true) + " ("+HighscoreUsername+")";
+		}
+
+		public string FormatGlobalClearsCell()
+		{
+			return $"{TotalCompleted}/{TotalPlayed}";
+		}
 	}
 }

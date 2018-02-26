@@ -11,7 +11,9 @@ using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen;
+using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.SaveData
 {
@@ -275,6 +277,53 @@ namespace GridDominance.Shared.SaveData
 			if (dat.Diff0_HasCompleted) return FractionDifficulty.DIFF_0;
 
 			return null;
+		}
+
+		public bool HasCustomLevelBeaten(SCCMLevelMeta lvl, FractionDifficulty diff)
+		{
+			var dat = GetCustomLevelData(lvl.OnlineID);
+			if (dat == null) return false;
+
+			switch (diff)
+			{
+				case FractionDifficulty.DIFF_0: return dat.Diff0_HasCompleted;
+				case FractionDifficulty.DIFF_1: return dat.Diff1_HasCompleted;
+				case FractionDifficulty.DIFF_2: return dat.Diff2_HasCompleted;
+				case FractionDifficulty.DIFF_3: return dat.Diff3_HasCompleted;
+				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("PP::EnumSwitch_HCLB", "diff: " + diff);
+					return false;
+			}
+		}
+
+		public string GetCustomLevelTimeString(SCCMLevelMeta lvl, FractionDifficulty diff)
+		{
+			var dat = GetCustomLevelData(lvl.OnlineID);
+			if (dat == null) return string.Empty;
+			
+			switch (diff)
+			{
+				case FractionDifficulty.DIFF_0: return dat.Diff0_HasCompleted ? TimeExtension.FormatMilliseconds(dat.Diff0_BestTime, true) : string.Empty;
+				case FractionDifficulty.DIFF_1: return dat.Diff1_HasCompleted ? TimeExtension.FormatMilliseconds(dat.Diff1_BestTime, true) : string.Empty;
+				case FractionDifficulty.DIFF_2: return dat.Diff2_HasCompleted ? TimeExtension.FormatMilliseconds(dat.Diff2_BestTime, true) : string.Empty;
+				case FractionDifficulty.DIFF_3: return dat.Diff3_HasCompleted ? TimeExtension.FormatMilliseconds(dat.Diff3_BestTime, true) : string.Empty;
+				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("PP::EnumSwitch_GCLTS", "diff: " + diff);
+					return "?";
+			}
+			
+		}
+
+		public bool HasCustomLevelStarred(SCCMLevelMeta lvl)
+		{
+			var dat = GetCustomLevelData(lvl.OnlineID);
+			if (dat == null) return false;
+
+			return dat.starred;
 		}
 	}
 }

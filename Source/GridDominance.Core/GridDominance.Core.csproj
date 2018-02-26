@@ -288,6 +288,7 @@
     <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_W3.cs" />
     <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_W4.cs" />
     <Compile Include="Screens\OverworldScreen\GDOverworldScreen.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Dialogs\SCCMLevelPreviewDialog.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElement.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementNewUserLevel.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementEditable.cs" />

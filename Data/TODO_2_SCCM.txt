@@ -85,3 +85,7 @@ USER GENERATED LEVEL [[TODO]]
 [ ] Show total stars over all uploaded levels
 
 [ ] highscore toogle button by currency icon
+
+[ ] dragable level list
+
+[ ] sync custom level data down (not up, not needed)

@@ -1,6 +1,7 @@
 ﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs;
 using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -49,7 +50,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		private void OnPlay(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			//TODO
+			HUD.AddModal(new SCCMLevelPreviewDialog(_meta), true, 0.5f, 0.5f);
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
