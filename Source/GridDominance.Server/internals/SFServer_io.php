@@ -40,6 +40,10 @@ abstract class ERRORS {
 
 	/* ======== 16 QUERY-USERLEVEL ========= */
 	const LEVELQUERY_UNNKOWN_CAT = 16001;
+
+	/* ======== 17 UPLOAD-USERLEVEL ========= */
+	const LEVELDOWNLOAD_LEVELID_NOT_FOUND = 17001;
+	const LEVELDOWNLOAD_NOT_UPLOADED      = 17002;
 }
 
 /**

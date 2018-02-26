@@ -298,6 +298,14 @@ namespace GridDominance.Shared.SaveData
 			}
 		}
 
+		public bool HasCustomLevelBeaten(SCCMLevelMeta lvl)
+		{
+			var dat = GetCustomLevelData(lvl.OnlineID);
+			if (dat == null) return false;
+
+			return dat.Diff0_HasCompleted || dat.Diff1_HasCompleted || dat.Diff2_HasCompleted || dat.Diff3_HasCompleted;
+		}
+
 		public string GetCustomLevelTimeString(SCCMLevelMeta lvl, FractionDifficulty diff)
 		{
 			var dat = GetCustomLevelData(lvl.OnlineID);

@@ -29,6 +29,7 @@ namespace GridDominance.Shared.Network
 		Task<Tuple<bool, Int64>> GetNewCustomLevelID(PlayerProfile profile);
 		Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary);
 		Task<List<SCCMLevelMeta>> QueryUserLevel(PlayerProfile profile, QueryUserLevelCategory cat, string param, int pagination);
+		Task<byte[]> DownloadUserLevel(PlayerProfile profile,long onlineID);
 	}
 
 	#pragma warning disable 1998
@@ -121,6 +122,11 @@ namespace GridDominance.Shared.Network
 		public async Task<List<SCCMLevelMeta>> QueryUserLevel(PlayerProfile profile, QueryUserLevelCategory cat, string param, int pagination)
 		{
 			return new List<SCCMLevelMeta>();
+		}
+
+		public async Task<byte[]> DownloadUserLevel(PlayerProfile profile,long onlineID)
+		{
+			return new byte[0];
 		}
 	}
 #pragma warning restore 1998

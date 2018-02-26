@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
+using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 {
@@ -24,9 +31,21 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 		public const float WIDTH = 14 * TW;
 		public const float HEIGHT = 8 * TW;
 
+		private enum DownloadState { Initial, Downloading, Error, Finished }
+
 		public override int Depth => 0;
 
+		private volatile LevelBlueprint _blueprint = null;
+
 		private readonly SCCMLevelMeta _meta;
+
+		private DownloadState _downloadState = DownloadState.Initial;
+
+		private HUDEllipseImageButton _btnStar;
+		private HUDEllipseImageButton _btnPlay0;
+		private HUDEllipseImageButton _btnPlay1;
+		private HUDEllipseImageButton _btnPlay2;
+		private HUDEllipseImageButton _btnPlay3;
 
 		public SCCMLevelPreviewDialog(SCCMLevelMeta meta)
 		{
@@ -66,7 +85,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				TextColor = Color.White,
 			});
 			
-			AddElement(new HUDEllipseImageButton
+			AddElement(_btnStar = new HUDEllipseImageButton
 			{
 				Alignment = HUDAlignment.TOPRIGHT,
 				RelativePosition = new FPoint(0, 0),
@@ -407,7 +426,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Color = FlatColors.SeperatorHUD,
 			});
 
-			AddElement(new HUDEllipseImageButton
+			AddElement(_btnPlay0 = new HUDEllipseImageButton
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(-84/2 - 16 - 84 - 32, 6),
@@ -422,7 +441,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Click = (s, a) => Play(FractionDifficulty.DIFF_0),
 			});
 			
-			AddElement(new HUDEllipseImageButton
+			AddElement(_btnPlay1 = new HUDEllipseImageButton
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(-84/2 - 16, 6),
@@ -437,7 +456,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Click = (s, a) => Play(FractionDifficulty.DIFF_1),
 			});
 			
-			AddElement(new HUDEllipseImageButton
+			AddElement(_btnPlay2 = new HUDEllipseImageButton
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(+84/2 + 16, 6),
@@ -452,7 +471,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Click = (s, a) => Play(FractionDifficulty.DIFF_2),
 			});
 			
-			AddElement(new HUDEllipseImageButton
+			AddElement(_btnPlay3 = new HUDEllipseImageButton
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(+84/2 + 16 + 84 + 32, 6),
@@ -484,16 +503,151 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 			#endregion
 
+			StartDownload();
+		}
+
+		private void StartDownload()
+		{
+			_btnPlay0.ImageRotation = 0f;
+			_btnPlay0.ImageRotationSpeed = 0.25f;
+			_btnPlay0.Image = Textures.CannonCogBig;
+
+			_btnPlay1.ImageRotation = 0f;
+			_btnPlay1.ImageRotationSpeed = 0.25f;
+			_btnPlay1.Image = Textures.CannonCogBig;
+
+			_btnPlay2.ImageRotation = 0f;
+			_btnPlay2.ImageRotationSpeed = 0.25f;
+			_btnPlay2.Image = Textures.CannonCogBig;
+
+			_btnPlay3.ImageRotation = 0f;
+			_btnPlay3.ImageRotationSpeed = 0.25f;
+			_btnPlay3.Image = Textures.CannonCogBig;
+
+
+			StartDownloadLevel().RunAsync();
+			_downloadState = DownloadState.Downloading;
+		}
+
+		private async Task StartDownloadLevel()
+		{
+			try
+			{
+				#if DEBUG
+				await Task.Delay(2000);
+				#endif
+
+				var binary = await MainGame.Inst.Backend.DownloadUserLevel(MainGame.Inst.Profile, _meta.OnlineID);
+
+				if (binary == null)
+				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						HUD.ShowToast("SCCMLPD::DF", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 32, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+					});
+					return;
+				}
+
+				using (var ms = new MemoryStream(binary))
+				{
+					using (var br = new BinaryReader(ms))
+					{
+						var bp = new LevelBlueprint();
+						bp.BinaryDeserialize(br);
+						
+						_blueprint = bp;
+						
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(OnDownloadSuccess);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					HUD.ShowToast("SCCMLPD::DF", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 32, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				});
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(OnDownloadFailed);
+				
+				SAMLog.Error("SCCMLPD:DownloadException", e);
+			}
+		}
+
+		private void OnDownloadFailed()
+		{
+			_downloadState = DownloadState.Error;
+		}
+
+		private void OnDownloadSuccess()
+		{
+			_downloadState = DownloadState.Finished;
+
+			AddOperationDelayed(new SingleLambdaOperation<SCCMLevelPreviewDialog>("FinishButton0", e =>
+			{
+				_btnPlay0.ImageRotation = 0f;
+				_btnPlay0.ImageRotationSpeed = 0f;
+				_btnPlay0.Image = Textures.TexDifficultyLine0;
+			}), 0 * 0.150f);
+			
+			AddOperationDelayed(new SingleLambdaOperation<SCCMLevelPreviewDialog>("FinishButton1", e =>
+			{
+				_btnPlay1.ImageRotation = 0f;
+				_btnPlay1.ImageRotationSpeed = 0f;
+				_btnPlay1.Image = Textures.TexDifficultyLine1;
+			}), 1 * 0.150f);
+			
+			AddOperationDelayed(new SingleLambdaOperation<SCCMLevelPreviewDialog>("FinishButton2", e =>
+			{
+				_btnPlay2.ImageRotation = 0f;
+				_btnPlay2.ImageRotationSpeed = 0f;
+				_btnPlay2.Image = Textures.TexDifficultyLine2;
+			}), 2 * 0.150f);
+			
+			AddOperationDelayed(new SingleLambdaOperation<SCCMLevelPreviewDialog>("FinishButton3", e =>
+			{
+				_btnPlay3.ImageRotation = 0f;
+				_btnPlay3.ImageRotationSpeed = 0f;
+				_btnPlay3.Image = Textures.TexDifficultyLine3;
+			}), 3 * 0.150f);
 		}
 
 		private void ToggleStar()
 		{
+			if (!MainGame.Inst.Profile.HasCustomLevelBeaten(_meta)) return;
 			//TODO
+			// [Request] -> [Set icon to spinner] -> [Response] -> [Save Profile] -> [update icon]
 		}
 
 		private void Play(FractionDifficulty d)
 		{
-			//TODO
+			if (_downloadState == DownloadState.Initial)
+			{
+				return;
+			}
+			else if (_downloadState == DownloadState.Error)
+			{
+				StartDownload();
+				return;
+			}
+			else if (_downloadState == DownloadState.Downloading)
+			{
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					HUD.ShowToast(null, L10N.T(L10NImpl.STR_SCCM_DOWNLOADINPROGRESS), 32, FlatColors.Orange, FlatColors.Foreground, 1f);
+				});
+				return;
+			}
+			else if (_downloadState == DownloadState.Finished)
+			{
+				//TODO play
+				//TODO test min version (needs to be set in level bin)
+				//TODO also set 'played' online
+			}
+			else
+			{
+				SAMLog.Error("SCCMLPD::EnumSwitch_PLAY", "_downloadState: " + _downloadState);
+			}
 		}
 	}
 }

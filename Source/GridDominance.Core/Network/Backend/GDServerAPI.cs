@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using GridDominance.Graphfileformat.Blueprint;
@@ -25,10 +27,12 @@ namespace GridDominance.Shared.Network
 	public class GDServerAPI : SAMRestAPI, IGDServerAPI
 	{
 		private const int RETRY_PING               = 2;
+
 		private const int RETRY_SETSCORE           = 4;
 		private const int RETRY_DOWNLOADDATA       = 4;
 		private const int RETRY_LOGERROR           = 4;
 		private const int RETRY_DOWNLOADHIGHSCORES = 4;
+
 		private const int RETRY_CREATEUSER         = 6;
 		private const int RETRY_VERIFY             = 6;
 		private const int RETRY_CHANGE_PW          = 6;
@@ -36,6 +40,7 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_GETNEWLEVELID      = 6;
 		private const int RETRY_LEVELUPLOAD        = 6;
 		private const int RETRY_LEVELQUERY         = 6;
+		private const int RETRY_LEVELDOWNLOAD      = 6;
 
 		private const int MULTISCORE_PARTITION_SIZE = 64;
 
@@ -1222,6 +1227,60 @@ namespace GridDominance.Shared.Network
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend::UUL_E", e);
+				ShowErrorCommunication();
+				return null;
+			}
+		}
+
+		public async Task<byte[]> DownloadUserLevel(PlayerProfile profile, long onlineID)
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash);
+				ps.AddParameterLong("levelid", onlineID);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterULong("app_version_dec", GDConstants.IntVersion);
+
+				var response = await QueryAsync<QueryResultDownloadUserLevel>("download-userlevel", ps, RETRY_LEVELDOWNLOAD);
+
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "error")
+				{
+					if (response.errorid == BackendCodes.INTERNAL_EXCEPTION)
+					{
+						ShowErrorCommunication();
+						return null;
+					}
+
+					SAMLog.Error("Backend::DUL_ERR", $"QueryUserLevel: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "success")
+				{
+					return Convert.FromBase64String(response.content);
+				}
+				else
+				{
+					ShowErrorCommunication();
+					return null;
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend::DUL_RCE", e); // probably no internet
+				ShowErrorConnection();
+				return null;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend::DUL_E", e);
 				ShowErrorCommunication();
 				return null;
 			}

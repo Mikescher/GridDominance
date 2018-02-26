@@ -304,7 +304,10 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLUPLD_ERR_LIDNOTFOUND = 253;
 		public const int STR_LVLUPLD_ERR_INVALIDNAME = 254;
 
-		private const int TEXT_COUNT = 256; // = next idx
+		public const int STR_SCCM_DOWNLOADFAILED     = 256;
+		public const int STR_SCCM_DOWNLOADINPROGRESS = 257;
+
+		private const int TEXT_COUNT = 258; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2109,6 +2112,19 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
+			L10N.Add(STR_SCCM_DOWNLOADFAILED,
+			         "Download failed",
+			         "Dowload fehlgeschlagen",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_SCCM_DOWNLOADINPROGRESS,
+			         "Downloading...",
+			         "Downloading...",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 
