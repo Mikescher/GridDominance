@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS users
   score_w2                int(11)       NOT NULL DEFAULT 0,
   score_w3                int(11)       NOT NULL DEFAULT 0,
   score_w4                int(11)       NOT NULL DEFAULT 0,
+  score_sccm              int(11)       NOT NULL DEFAULT 0,
+  score_stars             int(11)       NOT NULL DEFAULT 0,
   mpscore                 int(11)       NOT NULL DEFAULT 0,
   time_total              int(11)       NOT NULL DEFAULT 0,
   time_w1                 int(11)       NOT NULL DEFAULT 0,
@@ -108,7 +110,8 @@ CREATE TABLE IF NOT EXISTS error_log
 
 
 DROP TABLE IF EXISTS idmap;
-CREATE TABLE idmap (
+CREATE TABLE idmap
+(
   levelid  char(38)      NOT NULL,
   worldid  char(38)      NOT NULL,
   id       varchar(7)    NOT NULL,
@@ -135,7 +138,8 @@ CREATE TABLE runlog_volatile (
 
 
 DROP TABLE IF EXISTS runlog_history;
-CREATE TABLE runlog_history (
+CREATE TABLE runlog_history
+(
   id              int(11)       NOT NULL AUTO_INCREMENT,
   exectime        timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   action          char(32)      NOT NULL,
@@ -153,7 +157,8 @@ CREATE TABLE runlog_history (
 
 
 DROP TABLE IF EXISTS session_history;
-CREATE TABLE session_history (
+CREATE TABLE session_history
+(
   id                  int(11)       NOT NULL AUTO_INCREMENT,
   time                timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   sessioncount_active int(11)       NOT NULL,
@@ -163,7 +168,8 @@ CREATE TABLE session_history (
 );
 
 DROP TABLE IF EXISTS stats_history;
-CREATE TABLE stats_history (
+CREATE TABLE stats_history
+(
   id                    int(11)       NOT NULL AUTO_INCREMENT,
   exectime              timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -191,7 +197,8 @@ CREATE TABLE stats_history (
 );
 
 DROP TABLE IF EXISTS userlevels;
-CREATE TABLE userlevels (
+CREATE TABLE userlevels
+(
   id                 bigint(20)          UNSIGNED NOT NULL AUTO_INCREMENT,
 
   name               varchar(64)         NULL DEFAULT NULL,
@@ -236,4 +243,27 @@ CREATE TABLE userlevels (
   INDEX stars (stars),
   INDEX upload_timestamp (upload_timestamp),
   INDEX userid (userid)
+);
+
+DROP TABLE IF EXISTS userlevels_highscores;
+CREATE TABLE userlevels_highscores
+(
+  userid            int(11)           NOT NULL,
+  levelid           bigint(20)        NOT NULL,
+
+  d0_time           int(11)           NULL DEFAULT NULL,
+  d0_lastplayed     timestamp         NULL DEFAULT NULL,
+
+  d1_time           int(11)           NULL DEFAULT NULL,
+  d1_lastplayed     timestamp         NULL DEFAULT NULL,
+
+  d2_time           int(11)           NULL DEFAULT NULL,
+  d2_lastplayed     timestamp         NULL DEFAULT NULL,
+
+  d3_time           int(11)           NULL DEFAULT NULL,
+  d3_lastplayed     timestamp         NULL DEFAULT NULL,
+
+  starred           bit(1)            NOT NULL DEFAULT b'0',
+
+  PRIMARY KEY (userid, levelid)
 );

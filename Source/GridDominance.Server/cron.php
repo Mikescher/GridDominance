@@ -93,7 +93,7 @@ function run() {
 
 
 try {
-	init("cron");
+	init("cron", true);
 	run();
 } catch (Exception $e) {
 	outputErrorException(Errors::INTERNAL_EXCEPTION, 'InternalError', $e, LOGLEVEL::ERROR);

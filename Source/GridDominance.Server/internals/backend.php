@@ -28,8 +28,9 @@ $start_time = 0;
 
 /**
  * @param string $action
+ * @param bool $notransaction
  */
-function init($action) {
+function init($action, $notransaction = false) {
 	global $config;
 	global $pdo;
 	global $action_name;
@@ -50,6 +51,8 @@ function init($action) {
 
 	$pdo = connectOrFail($config['database_host'], $config['database_name'], $config['database_user'], $config['database_pass']);
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	if (!$notransaction) $pdo->beginTransaction();
 }
 
 function finish($err) {
@@ -57,6 +60,8 @@ function finish($err) {
 	global $pdo;
 	global $action_name;
 	global $start_time;
+
+	if ($pdo !== null && $pdo->inTransaction()) $pdo->commit();
 
 	if ($config['runlog'] && !$err) {
 		try{

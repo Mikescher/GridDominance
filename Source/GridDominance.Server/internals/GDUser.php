@@ -36,6 +36,12 @@ class GDUser implements JsonSerializable
 	/** @var $ScoreW4 int */
 	public $ScoreW4 = 0;
 
+	/** @var $ScoreSCCM int */
+	public $ScoreSCCM = 0;
+
+	/** @var $ScoreStars int */
+	public $ScoreStars = 0;
+
 	/** @var $TotalTime int */
 	public $TotalTime = 0;
 
@@ -81,7 +87,7 @@ class GDUser implements JsonSerializable
 	 */
 	public static function QueryOrFailByName($pdo, $pw, $username)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE username=:name");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, score_sccm, score_stars, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE username=:name");
 		$stmt->bindValue(':name', $username, PDO::PARAM_STR);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -103,7 +109,7 @@ class GDUser implements JsonSerializable
 	 */
 	public static function QueryOrFail($pdo, $pw, $userid)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE userid=:id");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, score_sccm, score_stars, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -125,7 +131,7 @@ class GDUser implements JsonSerializable
 	 */
 	public static function QueryByIDOrNull($pdo, $userid)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE userid=:id");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, score_sccm, score_stars, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -145,7 +151,7 @@ class GDUser implements JsonSerializable
 	 */
 	public static function QueryOrNull($pdo, $pw, $userid)
 	{
-		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE userid=:id");
+		$stmt = $pdo->prepare("SELECT userid, username, password_hash, is_auto_generated, score, mpscore, revision_id, score_w1, score_w2, score_w3, score_w4, score_sccm, score_stars, time_total, time_w1, time_w2, time_w3, time_w4 FROM users WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -177,6 +183,8 @@ class GDUser implements JsonSerializable
 		$r->ScoreW2          = $row['score_w2'];
 		$r->ScoreW3          = $row['score_w3'];
 		$r->ScoreW4          = $row['score_w4'];
+		$r->ScoreSCCM        = $row['score_sccm'];
+		$r->ScoreStars       = $row['score_stars'];
 		$r->TotalTime        = $row['time_total'];
 		$r->TimeW1           = $row['time_w1'];
 		$r->TimeW2           = $row['time_w2'];
@@ -450,6 +458,19 @@ class GDUser implements JsonSerializable
 		executeOrFail($stmt);
 	}
 
+	public function addSCCMPoints($scoreInc)
+	{
+		global $pdo;
+
+		$stmt = $pdo->prepare('UPDATE users SET score_sccm = score_sccm + :pss, revision_id=(revision_id+1) WHERE userid = :uid');
+		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
+		$stmt->bindValue(':pss', $scoreInc, PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		$this->ScoreSCCM += $scoreInc;
+		$this->RevID++;
+	}
+
 	function jsonSerialize() {
 		return
 			[
@@ -458,6 +479,8 @@ class GDUser implements JsonSerializable
 				'AutoUser'         => $this->AutoUser,
 				'MultiplayerScore' => $this->MultiplayerScore,
 				'RevID'            => $this->RevID,
+				'ScoreSCCM'        => $this->ScoreSCCM,
+				'ScoreStars'       => $this->ScoreStars,
 			];
 	}
 }

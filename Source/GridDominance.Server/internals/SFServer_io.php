@@ -44,6 +44,9 @@ abstract class ERRORS {
 	/* ======== 17 UPLOAD-USERLEVEL ========= */
 	const LEVELDOWNLOAD_LEVELID_NOT_FOUND = 17001;
 	const LEVELDOWNLOAD_NOT_UPLOADED      = 17002;
+
+	/* ======== 18 UPDATE-USERLEVEL-* ========= */
+	const UPDATEUSERLEVEL_INVALID_DIFF  = 18001;
 }
 
 /**
@@ -236,6 +239,23 @@ function getParamLongOrError($name) {
 	if (!is_int_str($v)) outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an integer", LOGLEVEL::ERROR);
 
 	return (int)$v;
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
+function getParamBoolOrError($name) {
+	$v = getParamStrOrError($name);
+
+	$v = strtoupper($v);
+
+	if ($v === '0') return false;
+	if ($v === '1') return true;
+	if ($v === 'FALSE') return false;
+	if ($v === 'TRUE') return true;
+
+	outputError(ERRORS::INVALID_PARAMETER, "The parameter $name (=$v) is not an boolean", LOGLEVEL::ERROR);
 }
 
 /**

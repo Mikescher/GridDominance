@@ -41,7 +41,7 @@ return [
 	'worldid_4' => '{d34db335-0001-4000-7711-000000200004}',
 
 	'difficulties' => [0x00, 0x01, 0x02, 0x03],
-	//'diff_scores'  => [11,   13,   17,   23  ],
+	'diff_scores'  => [11,   13,   17,   23  ],
 
 	'userlevel_maxsize'   => 128 * 1024,
 	'userlevel_directory' => 'F:\\Stash\\gd_server_upload\\',
