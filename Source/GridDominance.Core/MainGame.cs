@@ -295,6 +295,11 @@ namespace GridDominance.Shared
 			var scrn = new LevelEditorScreen(this, Graphics, dat);
 			SetCurrentScreen(scrn);
 		}
+		
+		public void SetCustomLevelScreen(SCCMLevelMeta meta, LevelBlueprint blueprint)
+		{
+			throw new NotImplementedException(); //TODO PLAY
+		}
 
 		protected override void LoadContent()
 		{

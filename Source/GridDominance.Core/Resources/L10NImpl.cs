@@ -303,11 +303,12 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLUPLD_ERR_WRONGUSER   = 252;
 		public const int STR_LVLUPLD_ERR_LIDNOTFOUND = 253;
 		public const int STR_LVLUPLD_ERR_INVALIDNAME = 254;
-
+		
 		public const int STR_SCCM_DOWNLOADFAILED     = 256;
 		public const int STR_SCCM_DOWNLOADINPROGRESS = 257;
+		public const int STR_SCCM_VERSIONTOOOLD      = 258;
 
-		private const int TEXT_COUNT = 258; // = next idx
+		private const int TEXT_COUNT = 259; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2126,6 +2127,13 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
+			L10N.Add(STR_SCCM_VERSIONTOOOLD,
+			         "This level needs a newer version of the game",
+			         "Level benötigt eine neue Version der App",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+			
 		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 
 #if DEBUG

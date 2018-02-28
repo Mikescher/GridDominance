@@ -43,9 +43,12 @@
     <Compile Include="GlobalAgents\HighscoreAgent.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Network\Backend\BackendCodes.cs" />
+    <Compile Include="Network\Backend\CustomLevelCompletionResult.cs" />
     <Compile Include="Network\Backend\GDServerAPI.cs" />
     <Compile Include="Network\Backend\IGDServerAPI.cs" />
-    <Compile Include="Network\Backend\QueryResult\ChangePasswordResult.cs" />
+    <Compile Include="Network\Backend\ChangePasswordResult.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelCompleted.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelPlayed.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultDownloadUserLevel.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultNewLevelID.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultChangePassword.cs" />

@@ -30,6 +30,8 @@ namespace GridDominance.Shared.Network
 		Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary);
 		Task<List<SCCMLevelMeta>> QueryUserLevel(PlayerProfile profile, QueryUserLevelCategory cat, string param, int pagination);
 		Task<byte[]> DownloadUserLevel(PlayerProfile profile,long onlineID);
+		Task<bool?> SetCustomLevelPlayed(PlayerProfile profile, long onlineID, FractionDifficulty d);
+		Task<CustomLevelCompletionResult> SetCustomLevelCompleted(PlayerProfile profile, long onlineID, FractionDifficulty d, int time);
 	}
 
 	#pragma warning disable 1998
@@ -127,6 +129,16 @@ namespace GridDominance.Shared.Network
 		public async Task<byte[]> DownloadUserLevel(PlayerProfile profile,long onlineID)
 		{
 			return new byte[0];
+		}
+
+		public async Task<bool?> SetCustomLevelPlayed(PlayerProfile profile, long onlineID, FractionDifficulty d)
+		{
+			return true;
+		}
+
+		public async Task<CustomLevelCompletionResult> SetCustomLevelCompleted(PlayerProfile profile, long onlineID, FractionDifficulty d, int time)
+		{
+			return CustomLevelCompletionResult.PersonalBest;
 		}
 	}
 #pragma warning restore 1998

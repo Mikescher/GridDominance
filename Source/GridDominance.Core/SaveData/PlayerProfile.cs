@@ -260,10 +260,20 @@ namespace GridDominance.Shared.SaveData
 		{
 			return "PLAYER_PROFILE_DATA";
 		}
-
+		
 		public CustomLevelData GetCustomLevelData(long oid)
 		{
 			return CustomLevelData.FirstOrDefault(d => d.id == oid);
+		}
+
+		public CustomLevelData GetOrAddCustomLevelData(long oid) // no save (!)
+		{
+			var data = CustomLevelData.FirstOrDefault(d => d.id == oid);
+			if (data != null) return data;
+
+			data = new CustomLevelData { id = oid };
+			CustomLevelData.Add(data);
+			return data;
 		}
 
 		public FractionDifficulty? GetCustomLevelPB(long oid)

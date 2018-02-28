@@ -41,6 +41,7 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_LEVELUPLOAD        = 6;
 		private const int RETRY_LEVELQUERY         = 6;
 		private const int RETRY_LEVELDOWNLOAD      = 6;
+		private const int RETRY_CUSTOMLEVELUPDATE  = 6;
 
 		private const int MULTISCORE_PARTITION_SIZE = 64;
 
@@ -956,6 +957,7 @@ namespace GridDominance.Shared.Network
 				}
 				else
 				{
+					SAMLog.Error("Backend::GR_IRC", $"GetRanking: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return null;
 				}
@@ -1092,6 +1094,7 @@ namespace GridDominance.Shared.Network
 				}
 				else
 				{
+					SAMLog.Error("Backend::GNCLI_IRC", $"GetNewCustomLevelID: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return Tuple.Create(false, -1L);
 				}
@@ -1158,6 +1161,7 @@ namespace GridDominance.Shared.Network
 				}
 				else
 				{
+					SAMLog.Error("Backend::UUL_IRC", $"UploadUserLevel: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return UploadResult.InternalError;
 				}
@@ -1214,6 +1218,7 @@ namespace GridDominance.Shared.Network
 				}
 				else
 				{
+					SAMLog.Error("Backend::QUL_IRC", $"QueryUserLevel: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return null;
 				}
@@ -1268,6 +1273,7 @@ namespace GridDominance.Shared.Network
 				}
 				else
 				{
+					SAMLog.Error("Backend::DUL_IRC", $"DownloadUserLevel: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return null;
 				}
@@ -1283,6 +1289,108 @@ namespace GridDominance.Shared.Network
 				SAMLog.Error("Backend::DUL_E", e);
 				ShowErrorCommunication();
 				return null;
+			}
+		}
+
+		public async Task<bool?> SetCustomLevelPlayed(PlayerProfile profile, long onlineID, FractionDifficulty diff)
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterLong("levelid", onlineID);
+				ps.AddParameterLong("difficulty", (int)diff);
+
+				var response = await QueryAsync<QueryResultUpdateUserLevelPlayed>("update-userlevel-played", ps, RETRY_CUSTOMLEVELUPDATE);
+
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "error")
+				{
+					SAMLog.Error("Backend::SCLP_ERR", $"SetCustomLevelPlayed: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "success")
+				{
+					return response.updated;
+				}
+				else
+				{
+					SAMLog.Error("Backend::SCLP_IRC", $"SetCustomLevelPlayed: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return null;
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend::SCLP_RCE", e); // probably no internet
+				ShowErrorConnection();
+				return null;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend::SCLP_E", e);
+				ShowErrorCommunication();
+				return null;
+			}
+		}
+
+		public async Task<CustomLevelCompletionResult> SetCustomLevelCompleted(PlayerProfile profile, long onlineID, FractionDifficulty diff, int time)
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterLong("levelid", onlineID);
+				ps.AddParameterLong("difficulty", (int)diff);
+				ps.AddParameterLong("time", time);
+
+				var response = await QueryAsync<QueryResultUpdateUserLevelCompleted>("update-userlevel-completed", ps, RETRY_CUSTOMLEVELUPDATE);
+
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return CustomLevelCompletionResult.Error;
+				}
+				else if (response.result == "error")
+				{
+					SAMLog.Error("Backend::SCLP_ERR", $"SetCustomLevelPlayed: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return CustomLevelCompletionResult.Error;
+				}
+				else if (response.result == "success")
+				{
+					if (response.firstclear) return CustomLevelCompletionResult.FirstClear;
+					if (response.highscore) return CustomLevelCompletionResult.WorldRecord;
+					if (response.inserted) return CustomLevelCompletionResult.PersonalBest;
+					return CustomLevelCompletionResult.NoUpdate;
+				}
+				else
+				{
+					SAMLog.Error("Backend::SCLC_IRC", $"SetCustomLevelCompleted: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return CustomLevelCompletionResult.Error;
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend::SCLC_RCE", e); // probably no internet
+				ShowErrorConnection();
+				return CustomLevelCompletionResult.Error;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend::SCLC_E", e);
+				ShowErrorCommunication();
+				return CustomLevelCompletionResult.Error;
 			}
 		}
 
