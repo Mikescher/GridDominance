@@ -13,7 +13,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 {
-	public class MultiplayerScoreDisplay : HUDContainer
+	public class StarsScoreDisplay : HUDContainer
 	{
 		public override int Depth => 0;
 
@@ -22,12 +22,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		private readonly HUDImage _icon;
 		private readonly HUDRawText _text;
 
-		private readonly DeltaLimitedFloat _value = new DeltaLimitedFloat(0, 37);
+		private readonly DeltaLimitedFloat _value = new DeltaLimitedFloat(0, 35);
 
-		public MultiplayerScoreDisplay(bool count)
+		public StarsScoreDisplay(bool count)
 		{
-			_value.Set(MainGame.Inst.Profile.MultiplayerPoints);
-			_value.SetDelta(FloatMath.Max(37, MainGame.Inst.Profile.MultiplayerPoints / 4f));
+			_value.Set(MainGame.Inst.Profile.ScoreStars);
+			_value.SetDelta(FloatMath.Max(37, MainGame.Inst.Profile.ScoreStars / 2f));
 			if (!count) _value.Finish();
 
 			_text = new HUDRawText
@@ -41,8 +41,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 			_icon = new HUDImage
 			{
-				Image = Textures.TexIconMPScore,
-				Color = FlatColors.Amethyst,
+				Image = Textures.TexIconStar,
+				Color = FlatColors.SunFlower,
 				Alignment = HUDAlignment.CENTERLEFT,
 				RelativePosition = new FPoint(10, 0),
 				Size = new FSize(40, 40),
@@ -52,7 +52,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			RelativePosition = new FPoint(10, 10);
 			Size = new FSize(250, 60);
 
-			IsVisible = MainGame.Inst.Profile.HasMultiplayerGames;
+			IsVisible = (MainGame.Inst.Profile.ScoreStars > 0 || MainGame.Inst.Profile.HasCreatedLevels);
 
 			UpdateRelativePosition();
 		}

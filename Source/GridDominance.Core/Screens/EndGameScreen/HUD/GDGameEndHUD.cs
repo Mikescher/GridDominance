@@ -2,6 +2,7 @@
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD;
+using GridDominance.Shared.Screens.Common.HUD.Elements;
 using GridDominance.Shared.Screens.EndGameScreen;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
@@ -17,13 +18,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 	public class GDGameEndHUD : GameHUD, ISettingsOwnerHUD
 	{
 		public readonly SettingsButton Settings;
-		public readonly ScoreDisplay ScoreDisplay;
+		public readonly ScoreDisplayManager ScoreDispMan;
 
 		public GDGameEndHUD(GDEndGameScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(Settings = new SettingsButton());
-			AddElement(ScoreDisplay = new ScoreDisplay(false));
-			AddElement(new MultiplayerScoreDisplay(ScoreDisplay, false));
+			
+			ScoreDispMan = new ScoreDisplayManager(this, false);
 		}
 
 		public void ShowAccountPanel()
@@ -89,11 +90,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			});
 		}
 
-#if DEBUG
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
+			ScoreDispMan.Update();
+
+#if DEBUG
 			root.IsVisible = !DebugSettings.Get("HideHUD");
-		}
 #endif
+		}
 	}
 }

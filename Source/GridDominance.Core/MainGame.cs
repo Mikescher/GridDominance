@@ -231,8 +231,7 @@ namespace GridDominance.Shared
 					node.FlickerTime = OverworldNode.COLLAPSE_TIME * 10; // no flicker - for sure
 				}
 
-				ovs.GDHUD.ScoreDisplay.FinishCounter();
-				ovs.GDHUD.MPScoreDisplay.FinishCounter();
+				ovs.GDHUD.ScoreDispMan.FinishCounter();
 			}
 		}
 
@@ -258,8 +257,7 @@ namespace GridDominance.Shared
 			screen.ScrollAgent.ScrollTo(bp);
 			screen.AddAgent(new ReappearTransitionOperation(bp));
 
-			screen.GDHUD.ScoreDisplay.FinishCounter();
-			screen.GDHUD.MPScoreDisplay.FinishCounter();
+			screen.GDHUD.ScoreDispMan.FinishCounter();
 		}
 		
 		public void SetTutorialLevelScreen()

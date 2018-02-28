@@ -1774,6 +1774,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "tetro0.png",
+	"frame": {"x":853,"y":814,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "tile_debug.png",
 	"frame": {"x":786,"y":164,"w":32,"h":32},
 	"rotated": false,
@@ -1802,15 +1811,6 @@
 },
 {
 	"filename": "tricircle.png",
-	"frame": {"x":853,"y":814,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "tricog.png",
 	"frame": {"x":878,"y":747,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -1819,7 +1819,7 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "tutorial.png",
+	"filename": "tricog.png",
 	"frame": {"x":945,"y":498,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -1828,8 +1828,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "upload.png",
+	"filename": "tutorial.png",
 	"frame": {"x":869,"y":498,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "upload.png",
+	"frame": {"x":945,"y":565,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1973,7 +1982,7 @@
 },
 {
 	"filename": "vortex/vortex_circle_1.png",
-	"frame": {"x":945,"y":565,"w":64,"h":64},
+	"frame": {"x":869,"y":565,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -2005,6 +2014,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":1024},
 	"scale": "0.5",
-	"smartupdate": "$TexturePacker:SmartUpdate:fc698a4719f9eb1d2192fb3d68285e57:c2a78ed328a336a7e6f3e73732045115:332da033e89742cb272fe0fb1b010c90$"
+	"smartupdate": "$TexturePacker:SmartUpdate:2af5c2a873f3f3853d9160d39a0711f0:1d5fab00b976c87eea0f742534c03399:332da033e89742cb272fe0fb1b010c90$"
 }
 }

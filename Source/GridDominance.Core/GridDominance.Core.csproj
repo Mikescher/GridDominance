@@ -115,8 +115,11 @@
     <Compile Include="Screens\Common\HUD\Dialogs\HighscorePanel.cs" />
     <Compile Include="Screens\Common\HUD\Dialogs\InfoPanel.cs" />
     <Compile Include="Screens\Common\HUD\Dialogs\UnlockPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\SCCMScoreDisplay.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\StarsScoreDisplay.cs" />
     <Compile Include="Screens\Common\HUD\Elements\MultiplayerScoreDisplay.cs" />
     <Compile Include="Screens\Common\HUD\Elements\ScoreDisplay.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\ScoreDisplayManager.cs" />
     <Compile Include="Screens\Common\HUD\Elements\SettingsButton.cs" />
     <Compile Include="Screens\Common\HUD\Elements\SubSettingButton.cs" />
     <Compile Include="Screens\Common\HUD\ISettingsOwnerHUD.cs" />

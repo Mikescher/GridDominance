@@ -12,11 +12,8 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.RenderHelper;
 using System;
+using GridDominance.Shared.Screens.Common.HUD.Elements;
 using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
-using MonoSAMFramework.Portable.Screens.HUD.Enums;
-
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
 	public class OverworldHUD : GameHUD, ISettingsOwnerHUD
@@ -24,14 +21,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		public GDOverworldScreen GDOwner => (GDOverworldScreen) Screen;
 
 		public readonly SettingsButton Settings;
-		public readonly ScoreDisplay ScoreDisplay;
-		public readonly MultiplayerScoreDisplay MPScoreDisplay;
+		public readonly ScoreDisplayManager ScoreDispMan;
 
 		public OverworldHUD(GDOverworldScreen scrn, bool firstShow) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(Settings       = new SettingsButton());
-			AddElement(ScoreDisplay   = new ScoreDisplay(firstShow));
-			AddElement(MPScoreDisplay = new MultiplayerScoreDisplay(ScoreDisplay, firstShow));
+
+			ScoreDispMan = new ScoreDisplayManager(this, firstShow);
 
 #if FALSE
 			AddElement(new HUDLabel
@@ -114,11 +110,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		}
 
 
-#if DEBUG
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
+			ScoreDispMan.Update();
+
+#if DEBUG
 			root.IsVisible = !DebugSettings.Get("HideHUD");
-		}
 #endif
+		}
 	}
 }

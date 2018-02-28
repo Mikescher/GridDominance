@@ -322,6 +322,7 @@
             <key type="filename">hud/genericuser.png</key>
             <key type="filename">hud/jewels.png</key>
             <key type="filename">hud/pokerchip.png</key>
+            <key type="filename">hud/tetro0.png</key>
             <key type="filename">hud/upload.png</key>
             <key type="filename">level/cannon/cannoncog.png</key>
             <key type="filename">level/cannon/cannoncore_01.png</key>

@@ -272,6 +272,9 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 				HUD.AddModal(waitDialog, false, 0.7f);
 
 				DoCompileAndUpload(waitDialog).RunAsync();
+
+				MainGame.Inst.Profile.HasCreatedLevels = true;
+				MainGame.Inst.SaveProfile();
 			}
 		}
 

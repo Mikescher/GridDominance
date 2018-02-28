@@ -2,6 +2,7 @@
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD;
+using GridDominance.Shared.Screens.Common.HUD.Elements;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
@@ -24,15 +25,17 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public readonly TopLevelDisplay TopLevelDisplay;
 		public readonly InformationDisplay InfoDisplay;
+
 		public readonly SettingsButton Settings;
-		public readonly ScoreDisplay ScoreDisplay;
+		
+		public readonly ScoreDisplayManager ScoreDispMan;
 
 		public GDWorldHUD(GDWorldMapScreen scrn) : base(scrn, Textures.HUDFontRegular)
 		{
 			AddElement(Settings = new SettingsButton());
-			AddElement(ScoreDisplay = new ScoreDisplay(false));
-			AddElement(new MultiplayerScoreDisplay(ScoreDisplay, false));
-			AddElement(TopLevelDisplay = new TopLevelDisplay());
+			
+			ScoreDispMan = new ScoreDisplayManager(this, false);
+
 			AddElement(InfoDisplay = new InformationDisplay());
 		}
 
@@ -115,11 +118,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			});
 		}
 
-#if DEBUG
 		protected override void OnUpdate(SAMTime gameTime, InputState istate)
 		{
+			ScoreDispMan.Update();
+
+#if DEBUG
 			root.IsVisible = !DebugSettings.Get("HideHUD");
-		}
 #endif
+		}
 	}
 }

@@ -20,7 +20,7 @@ namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_6;
+		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_7;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 		public int HighscoreTime => LevelData.Sum(p => p.Value.HighscoreTime);
@@ -62,6 +62,7 @@ namespace GridDominance.Shared.SaveData
 		
 		public int ScoreStars;
 		public int ScoreSCCM;
+		public bool HasCreatedLevels;
 
 		public PlayerProfile()
 		{
@@ -77,6 +78,7 @@ namespace GridDominance.Shared.SaveData
 			MultiplayerPoints = 0;
 			ScoreStars        = 0;
 			ScoreSCCM         = 0;
+			HasCreatedLevels  = false;
 
 			AccountType = AccountType.Local;
 			OnlineUserID = -1;
@@ -132,6 +134,7 @@ namespace GridDominance.Shared.SaveData
 
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_6, "sccm_stars",                                  o => o.ScoreStars,                 (o, v) => o.ScoreStars                 = v);
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_6, "sccm_score",                                  o => o.ScoreSCCM,                  (o, v) => o.ScoreSCCM                  = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_7, "sccm_creator",                                o => o.HasCreatedLevels,           (o, v) => o.HasCreatedLevels           = v);
 
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "skiptut",                                     o => o.SkipTutorial,               (o, v) => o.SkipTutorial               = v);
 			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_1, "reminder1",                                   o => o.AccountReminderShown,       (o, v) => o.AccountReminderShown       = v);
