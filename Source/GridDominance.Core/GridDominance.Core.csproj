@@ -304,6 +304,8 @@
     <Compile Include="Screens\OverworldScreen\HUD\Operations\CharacterControlWaveOperation.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\Operations\JoinErrorOperation.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\OverworldHUD.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabNew.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabHot.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabTop.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabMyLevels.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\WorldPreviewPanel.cs" />

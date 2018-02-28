@@ -170,16 +170,16 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 					_container.SetElement(new SCCMTabMyLevels());
 					break;
 				case SCCMTab.Hot:
-					//_container.SetElement(new SCCMTabHot());
+					_container.SetElement(new SCCMTabHot());
 					break;
 				case SCCMTab.Top:
 					_container.SetElement(new SCCMTabTop());
 					break;
 				case SCCMTab.New:
-					//_container.SetElement(new SCCMTabNew());
+					_container.SetElement(new SCCMTabNew());
 					break;
 				case SCCMTab.Search:
-					//_container.SetElement(new SCCMTabSearch());
+					//_container.SetElement(new SCCMTabSearch()); //TODO tab search
 					break;
 				default: 
 					SAMLog.Error("SCCMP::EnumSwitch_ST", "tab: " + tab);
