@@ -74,6 +74,12 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "success")
 				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						var chngd = profile.UpdateSCCMData(response.user);
+						if (chngd) MainGame.Inst.SaveProfile();
+					});
+
 					if (response.user.RevID > profile.OnlineRevisionID)
 					{
 						await DownloadData(profile);
@@ -160,6 +166,7 @@ namespace GridDominance.Shared.Network
 						profile.OnlineUserID = response.user.ID;
 						profile.OnlineRevisionID = response.user.RevID;
 						profile.OnlinePasswordHash = pw;
+						profile.UpdateSCCMData(response.user);
 
 						MainGame.Inst.SaveProfile();
 
@@ -227,6 +234,7 @@ namespace GridDominance.Shared.Network
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
 							profile.OnlineRevisionID = response.user.RevID;
+							profile.UpdateSCCMData(response.user);
 
 							MainGame.Inst.SaveProfile();
 
@@ -327,6 +335,7 @@ namespace GridDominance.Shared.Network
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
 						profile.OnlineRevisionID = response.user.RevID;
+						profile.UpdateSCCMData(response.user);
 
 						MainGame.Inst.SaveProfile();
 
@@ -422,6 +431,8 @@ namespace GridDominance.Shared.Network
 
 						profile.MultiplayerPoints = response.user.MultiplayerScore;
 						profile.HasMultiplayerGames |= response.user.MultiplayerScore>0;
+
+						profile.UpdateSCCMData(response.user);
 
 						MainGame.Inst.SaveProfile();
 					});
@@ -539,6 +550,7 @@ namespace GridDominance.Shared.Network
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
 							profile.OnlineRevisionID = response.user.RevID;
+							profile.UpdateSCCMData(response.user);
 
 							MainGame.Inst.SaveProfile();
 
@@ -811,6 +823,7 @@ namespace GridDominance.Shared.Network
 						profile.OnlinePasswordHash = pwHashNew;
 						profile.OnlineRevisionID = response.user.RevID;
 						profile.AccountReminderShown = true;
+						profile.UpdateSCCMData(response.user);
 
 						MainGame.Inst.SaveProfile();
 					});
@@ -888,6 +901,7 @@ namespace GridDominance.Shared.Network
 						profile.AccountType = AccountType.Full;
 						profile.OnlinePasswordHash = pwHashNew;
 						profile.OnlineRevisionID = response.user.RevID;
+						profile.UpdateSCCMData(response.user);
 
 						MainGame.Inst.SaveProfile();
 					});
@@ -1023,6 +1037,8 @@ namespace GridDominance.Shared.Network
 						{
 							profile.SetCompleted(Guid.Parse(scdata.levelid), (FractionDifficulty)scdata.difficulty, scdata.best_time, false);
 						}
+
+						profile.UpdateSCCMData(response.user);
 
 						MainGame.Inst.SaveProfile();
 
@@ -1318,6 +1334,12 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "success")
 				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						var chngd = profile.UpdateSCCMData(response.user);
+						if (chngd) MainGame.Inst.SaveProfile();
+					});
+
 					return response.updated;
 				}
 				else
@@ -1368,6 +1390,16 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "success")
 				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						profile.UpdateSCCMData(response.user);
+
+						var realTime = response.leveltime;
+						profile.SetCustomLevelCompleted(onlineID, diff, realTime);
+
+						MainGame.Inst.SaveProfile();
+					});
+
 					if (response.firstclear) return CustomLevelCompletionResult.FirstClear;
 					if (response.highscore) return CustomLevelCompletionResult.WorldRecord;
 					if (response.inserted) return CustomLevelCompletionResult.PersonalBest;

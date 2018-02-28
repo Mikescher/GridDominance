@@ -15,6 +15,7 @@
 		public bool firstclear;
 		public bool inserted;
 		public bool highscore;
+		public int leveltime;
 		public QueryResultUserData user;
 	}
 #pragma warning restore 169

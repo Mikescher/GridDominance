@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
 using MonoSAMFramework.Portable.Localization;
 using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen;
@@ -19,7 +20,7 @@ namespace GridDominance.Shared.SaveData
 {
 	public class PlayerProfile : RootDataFile
 	{
-		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_5;
+		protected override SemVersion ArchiveVersion => SemVersion.VERSION_1_0_6;
 
 		public int TotalPoints => LevelData.Sum(p => p.Value.TotalPoints);
 		public int HighscoreTime => LevelData.Sum(p => p.Value.HighscoreTime);
@@ -58,6 +59,9 @@ namespace GridDominance.Shared.SaveData
 
 		public int Language;
 		public GameSpeedModes SingleplayerGameSpeed;
+		
+		public int ScoreStars;
+		public int ScoreSCCM;
 
 		public PlayerProfile()
 		{
@@ -71,6 +75,8 @@ namespace GridDominance.Shared.SaveData
 			CustomLevelData = new List<CustomLevelData>();
 
 			MultiplayerPoints = 0;
+			ScoreStars        = 0;
+			ScoreSCCM         = 0;
 
 			AccountType = AccountType.Local;
 			OnlineUserID = -1;
@@ -96,7 +102,69 @@ namespace GridDominance.Shared.SaveData
 			Language = L10N.LANG_EN_US;
 			SingleplayerGameSpeed = GameSpeedModes.NORMAL;
 		}
+		
+		protected override void Configure()
+		{
+			RegisterConstructor(() => new PlayerProfile());
 
+			RegisterProperty<PlayerProfile, AccountType>(            SemVersion.VERSION_1_0_0, "type",                                        o => o.AccountType,                (o, v) => o.AccountType                = v);
+
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "userid",                                      o => o.OnlineUserID,               (o, v) => o.OnlineUserID               = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "user",                                        o => o.OnlineUsername,             (o, v) => o.OnlineUsername             = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "pass",                                        o => o.OnlinePasswordHash,         (o, v) => o.OnlinePasswordHash         = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "revid",                                       o => o.OnlineRevisionID,           (o, v) => o.OnlineRevisionID           = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "uploaderr",                                   o => o.NeedsReupload,              (o, v) => o.NeedsReupload              = v);
+
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_4, "autherror",                                   o => o.UnacknowledgedAuthError,    (o, v) => o.UnacknowledgedAuthError    = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_4, "backupusername",                              o => o.BackupOnlineUsername,       (o, v) => o.BackupOnlineUsername       = v);
+
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "sounds",                                      o => o.SoundsEnabled,              (o, v) => o.SoundsEnabled              = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "effect",                                      o => o.EffectsEnabled,             (o, v) => o.EffectsEnabled             = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "lang",                                        o => o.Language,                   (o, v) => o.Language                   = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "music",                                       o => o.MusicEnabled,               (o, v) => o.MusicEnabled               = v);
+			RegisterProperty<PlayerProfile, GameSpeedModes>(         SemVersion.VERSION_1_0_2, "gamespeed",                                   o => o.SingleplayerGameSpeed,      (o, v) => o.SingleplayerGameSpeed      = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_3, "colormode",                                   o => o.ColorblindMode,             (o, v) => o.ColorblindMode             = v);
+
+			RegisterProperty<PlayerProfile, GameSpeedModes>(         SemVersion.VERSION_1_0_0, "mp_speed",                                    o => o.LastMultiplayerHostedSpeed, (o, v) => o.LastMultiplayerHostedSpeed = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_level",                                    o => o.LastMultiplayerHostedLevel, (o, v) => o.LastMultiplayerHostedLevel = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_score",                                    o => o.MultiplayerPoints,          (o, v) => o.MultiplayerPoints          = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_alive",                                    o => o.HasMultiplayerGames,        (o, v) => o.HasMultiplayerGames        = v);
+
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_6, "sccm_stars",                                  o => o.ScoreStars,                 (o, v) => o.ScoreStars                 = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_6, "sccm_score",                                  o => o.ScoreSCCM,                  (o, v) => o.ScoreSCCM                  = v);
+
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "skiptut",                                     o => o.SkipTutorial,               (o, v) => o.SkipTutorial               = v);
+			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_1, "reminder1",                                   o => o.AccountReminderShown,       (o, v) => o.AccountReminderShown       = v);
+
+			RegisterPropertyGuidDictionary<PlayerProfile, LevelData>(SemVersion.VERSION_1_0_0, "progress",       () => new LevelData(),       o => o.LevelData,                  (o, v) => o.LevelData                  = v);
+			RegisterPropertyList<PlayerProfile, CustomLevelData>(    SemVersion.VERSION_1_0_5, "sccm_progress",  () => new CustomLevelData(), o => o.CustomLevelData,            (o, v) => o.CustomLevelData            = v);
+
+			RegisterPropertyGuidSet<PlayerProfile>(                  SemVersion.VERSION_1_0_0, "purchases",                                   o => o.PurchasedWorlds,            (o, v) => o.PurchasedWorlds            = v);
+		}
+
+		protected override void OnAfterDeserialize()
+		{
+#if DEBUG
+			if (NoAfterSerializeFixes) return;
+#endif
+
+			// In v1.0.1 there was a bug where an INVLOGIN would result in AccountType=Anonymous but UserID=-1
+			if (AccountType == AccountType.Local || OnlineUserID == -1)
+			{
+				OnlineUserID = -1;
+				OnlineUsername = "anonymous";
+				AccountType = AccountType.Local;
+				OnlinePasswordHash = "";
+			}
+
+			SingleplayerGameSpeed = GameSpeedModes.NORMAL; // reset on each Gamestart
+		}
+
+		protected override string GetTypeName()
+		{
+			return "PLAYER_PROFILE_DATA";
+		}
+		
 		public LevelData GetLevelData(Guid levelid)
 		{
 			if (!LevelData.ContainsKey(levelid))
@@ -202,65 +270,6 @@ namespace GridDominance.Shared.SaveData
 			GetLevelData(levelid).SetBestTime(d, null);
 		}
 
-		protected override void Configure()
-		{
-			RegisterConstructor(() => new PlayerProfile());
-
-			RegisterProperty<PlayerProfile, AccountType>(            SemVersion.VERSION_1_0_0, "type",                                        o => o.AccountType,                (o, v) => o.AccountType                = v);
-
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "userid",                                      o => o.OnlineUserID,               (o, v) => o.OnlineUserID               = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "user",                                        o => o.OnlineUsername,             (o, v) => o.OnlineUsername             = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "pass",                                        o => o.OnlinePasswordHash,         (o, v) => o.OnlinePasswordHash         = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "revid",                                       o => o.OnlineRevisionID,           (o, v) => o.OnlineRevisionID           = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "uploaderr",                                   o => o.NeedsReupload,              (o, v) => o.NeedsReupload              = v);
-
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_4, "autherror",                                   o => o.UnacknowledgedAuthError,    (o, v) => o.UnacknowledgedAuthError    = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_4, "backupusername",                              o => o.BackupOnlineUsername,       (o, v) => o.BackupOnlineUsername       = v);
-
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "sounds",                                      o => o.SoundsEnabled,              (o, v) => o.SoundsEnabled              = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "effect",                                      o => o.EffectsEnabled,             (o, v) => o.EffectsEnabled             = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "lang",                                        o => o.Language,                   (o, v) => o.Language                   = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "music",                                       o => o.MusicEnabled,               (o, v) => o.MusicEnabled               = v);
-			RegisterProperty<PlayerProfile, GameSpeedModes>(         SemVersion.VERSION_1_0_2, "gamespeed",                                   o => o.SingleplayerGameSpeed,      (o, v) => o.SingleplayerGameSpeed      = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_3, "colormode",                                   o => o.ColorblindMode,             (o, v) => o.ColorblindMode             = v);
-
-			RegisterProperty<PlayerProfile, GameSpeedModes>(         SemVersion.VERSION_1_0_0, "mp_speed",                                    o => o.LastMultiplayerHostedSpeed, (o, v) => o.LastMultiplayerHostedSpeed = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_level",                                    o => o.LastMultiplayerHostedLevel, (o, v) => o.LastMultiplayerHostedLevel = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_score",                                    o => o.MultiplayerPoints,          (o, v) => o.MultiplayerPoints          = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "mp_alive",                                    o => o.HasMultiplayerGames,        (o, v) => o.HasMultiplayerGames        = v);
-
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_0, "skiptut",                                     o => o.SkipTutorial,               (o, v) => o.SkipTutorial               = v);
-			RegisterProperty<PlayerProfile>(                         SemVersion.VERSION_1_0_1, "reminder1",                                   o => o.AccountReminderShown,       (o, v) => o.AccountReminderShown       = v);
-
-			RegisterPropertyGuidDictionary<PlayerProfile, LevelData>(SemVersion.VERSION_1_0_0, "progress",       () => new LevelData(),       o => o.LevelData,                  (o, v) => o.LevelData                  = v);
-			RegisterPropertyList<PlayerProfile, CustomLevelData>(    SemVersion.VERSION_1_0_5, "customprogress", () => new CustomLevelData(), o => o.CustomLevelData,            (o, v) => o.CustomLevelData            = v);
-
-			RegisterPropertyGuidSet<PlayerProfile>(                  SemVersion.VERSION_1_0_0, "purchases",                                   o => o.PurchasedWorlds,            (o, v) => o.PurchasedWorlds            = v);
-		}
-
-		protected override void OnAfterDeserialize()
-		{
-#if DEBUG
-			if (NoAfterSerializeFixes) return;
-#endif
-
-			// In v1.0.1 there was a bug where an INVLOGIN would result in AccountType=Anonymous but UserID=-1
-			if (AccountType == AccountType.Local || OnlineUserID == -1)
-			{
-				OnlineUserID = -1;
-				OnlineUsername = "anonymous";
-				AccountType = AccountType.Local;
-				OnlinePasswordHash = "";
-			}
-
-			SingleplayerGameSpeed = GameSpeedModes.NORMAL; // reset on each Gamestart
-		}
-
-		protected override string GetTypeName()
-		{
-			return "PLAYER_PROFILE_DATA";
-		}
-		
 		public CustomLevelData GetCustomLevelData(long oid)
 		{
 			return CustomLevelData.FirstOrDefault(d => d.id == oid);
@@ -342,6 +351,50 @@ namespace GridDominance.Shared.SaveData
 			if (dat == null) return false;
 
 			return dat.starred;
+		}
+
+		public bool UpdateSCCMData(QueryResultUserData usr)
+		{
+			var changed = false;
+
+			if (ScoreStars != usr.ScoreStars) { ScoreStars = usr.ScoreStars; changed = true; }
+			if (ScoreSCCM  != usr.ScoreSCCM)  { ScoreSCCM  = usr.ScoreSCCM;  changed = true; }
+
+			return changed;
+		}
+
+		public void SetCustomLevelCompleted(long oid, FractionDifficulty diff, int time) // no save (!)
+		{
+			var dat = GetOrAddCustomLevelData(oid);
+
+			switch (diff)
+			{
+				case FractionDifficulty.DIFF_0:
+					dat.Diff0_BestTime = time;
+					dat.Diff0_HasCompleted = true;
+					break;
+
+				case FractionDifficulty.DIFF_1:
+					dat.Diff1_BestTime = time;
+					dat.Diff1_HasCompleted = true;
+					break;
+
+				case FractionDifficulty.DIFF_2:
+					dat.Diff2_BestTime = time;
+					dat.Diff2_HasCompleted = true;
+					break;
+
+				case FractionDifficulty.DIFF_3:
+					dat.Diff3_BestTime = time;
+					dat.Diff3_HasCompleted = true;
+					break;
+
+				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("PP::EnumSwitch_SCLC", "diff: " + diff);
+					break;
+			}
 		}
 	}
 }

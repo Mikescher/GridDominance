@@ -95,7 +95,7 @@ function run() {
 				executeOrFail($stmt);
 			}
 
-			outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'user' => $user ]);
+			outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'user' => $user ]);
 		}
 		else if ($dblevel[$field_time] > $time) // already cleared - better time
 		{
@@ -121,11 +121,11 @@ function run() {
 				executeOrFail($stmt);
 			}
 
-			outputResultSuccess([ 'firstclear' => false, 'inserted' => true, 'highscore' => $ishighscore, 'user' => $user ]);
+			outputResultSuccess([ 'firstclear' => false, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'user' => $user ]);
 		}
 		else // already cleared - worse time
 		{
-			outputResultSuccess([ 'firstclear' => false, 'inserted' => false, 'highscore' => false, 'user' => $user ]);
+			outputResultSuccess([ 'firstclear' => false, 'inserted' => false, 'highscore' => false, 'leveltime' => $dblevel[$field_time], 'user' => $user ]);
 		}
 	}
 	else // new entry (update-userlevel-played must have failed)
@@ -160,7 +160,7 @@ function run() {
 			executeOrFail($stmt);
 		}
 
-		outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'user' => $user ]);
+		outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'user' => $user ]);
 	}
 }
 
