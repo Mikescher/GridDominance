@@ -25,7 +25,7 @@ try
 
 	$query = isset($_SERVER["QUERY_STRING"]) ? $_SERVER["QUERY_STRING"] : "";
 
-	$host = 'cannonconquest.net'
+	$host = 'cannonconquest.net';
 
 	$newurl = 'https://' . $host . $requri . ($query == '' ? '' : ('?'.$query));
 

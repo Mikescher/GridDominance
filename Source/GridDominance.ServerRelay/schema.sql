@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS grid_dominance_relay;
-CREATE DATABASE IF NOT EXISTS grid_dominance_relay;
+DROP DATABASE IF EXISTS gdapi_relay;
+CREATE DATABASE IF NOT EXISTS gdapi_relay;
 
-USE grid_dominance_relay;
+USE gdapi_relay;
 
 DROP TABLE IF EXISTS relay_log;
 CREATE TABLE IF NOT EXISTS relay_log

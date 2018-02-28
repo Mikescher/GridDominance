@@ -2,7 +2,6 @@
 using GridDominance.Levelfileformat.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
-using System;
 
 namespace GridDominance.Content.Pipeline.GDLevel
 {
@@ -11,7 +10,7 @@ namespace GridDominance.Content.Pipeline.GDLevel
 	{
 		protected override void Write(ContentWriter output, LevelBlueprint value)
 		{
-			value.BinarySerialize(output);
+			value.BinarySerialize(output, false, 0, -1);
 		}
 		
 		public override string GetRuntimeType(TargetPlatform targetPlatform)
