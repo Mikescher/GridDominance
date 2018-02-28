@@ -458,8 +458,7 @@ class GDUser implements JsonSerializable
 		executeOrFail($stmt);
 	}
 
-	public function addSCCMPoints($scoreInc)
-	{
+	public function addSCCMPoints($scoreInc) {
 		global $pdo;
 
 		$stmt = $pdo->prepare('UPDATE users SET score_sccm = score_sccm + :pss, revision_id=(revision_id+1) WHERE userid = :uid');
@@ -468,6 +467,18 @@ class GDUser implements JsonSerializable
 		executeOrFail($stmt);
 
 		$this->ScoreSCCM += $scoreInc;
+		$this->RevID++;
+	}
+
+	public function SetSCCMScore($sccmscore) {
+		global $pdo;
+
+		$stmt = $pdo->prepare('UPDATE users SET score_sccm = :css, revision_id=(revision_id+1) WHERE userid = :uid');
+		$stmt->bindValue(':uid', $this->ID, PDO::PARAM_INT);
+		$stmt->bindValue(':css', $sccmscore, PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		$this->ScoreSCCM = $sccmscore;
 		$this->RevID++;
 	}
 

@@ -5,6 +5,7 @@ require 'internals/backend.php';
 
 function run() {
 	global $pdo;
+	global $config;
 
 	$old_userid    = getParamUIntOrError('old_userid');
 	$old_password  = getParamSHAOrError('old_password');
@@ -45,15 +46,71 @@ function run() {
 	$user->SetScoreAndTime($totalscore, $score_w1, $score_w2, $score_w3, $score_w4, $totaltime, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp, $appversion);
 	logDebug("score and time changed (update) for user:$user->ID [[$score_w1, $score_w2, $score_w3, $score_w4, $totaltime, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp]]");
 
-	//---------- step 4: [download data]
+	//---------- step 4: [migrate customlevelscores]
+
+	$stmt = $pdo->prepare('SELECT * FROM userlevels_highscores WHERE userid = :uid');
+	$stmt->bindValue(':uid', $olduser->ID, PDO::PARAM_INT);
+	executeOrFail($stmt);
+	$oldentries = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	foreach ($oldentries as $entry)
+	{
+		/*
+			INSERT INTO userlevels_highscores
+
+			(userid, levelid, d0_time, d0_lastplayed, d1_time, d1_lastplayed, d2_time, d2_lastplayed, d3_time, d3_lastplayed)
+			VALUES
+			(:uid,:lid,:d0t,:d0p,:d1t,:d1p,:d2t,:d2p,:d3t,:d3p)
+
+			ON DUPLICATE KEY UPDATE
+
+			d0_time = LEAST(:d0t,d0_time), d0_lastplayed = GREATEST(:d0p,d0_lastplayed),
+			d1_time = LEAST(:d1t,d1_time), d1_lastplayed = GREATEST(:d1p,d1_lastplayed),
+			d2_time = LEAST(:d2t,d2_time), d2_lastplayed = GREATEST(:d2p,d2_lastplayed),
+			d3_time = LEAST(:d3t,d3_time), d3_lastplayed = GREATEST(:d3p,d3_lastplayed)
+		 */
+		$stmt = $pdo->prepare('INSERT INTO userlevels_highscores(userid, levelid, d0_time, d0_lastplayed, d1_time, d1_lastplayed, d2_time, d2_lastplayed, d3_time, d3_lastplayed) VALUES (:uid,:lid,:d0t,:d0p,:d1t,:d1p,:d2t,:d2p,:d3t,:d3p) ON DUPLICATE KEY UPDATE d0_time = LEAST(:d0t,d0_time), d0_lastplayed = GREATEST(:d0p,d0_lastplayed), d1_time = LEAST(:d1t,d1_time), d1_lastplayed = GREATEST(:d1p,d1_lastplayed), d2_time = LEAST(:d2t,d2_time), d2_lastplayed = GREATEST(:d2p,d2_lastplayed), d3_time = LEAST(:d3t,d3_time), d3_lastplayed = GREATEST(:d3p,d3_lastplayed)');
+		$stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
+		$stmt->bindValue(':lid', $entry['levelid'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d0t', $entry['d0_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d0p', $entry['d0_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d1t', $entry['d1_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d1p', $entry['d1_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d2t', $entry['d2_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d2p', $entry['d2_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d3t', $entry['d3_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d3p', $entry['d3_lastplayed'], PDO::PARAM_STR);
+		executeOrFail($stmt);
+
+		$stmt = $pdo->prepare('DELETE FROM userlevels_highscores WHERE userid=:uid AND levelid=:lid');
+		$stmt->bindValue(':uid', $olduser->ID,      PDO::PARAM_INT);
+		$stmt->bindValue(':lid', $entry['levelid'], PDO::PARAM_INT);
+		executeOrFail($stmt);
+	}
+
+	//---------- step 5: [recalc sccm scores]
+
+	$stmt = $pdo->prepare('SELECT COUNT(d0_time) AS d0_count, COUNT(d1_time) AS d1_count, COUNT(d2_time) AS d2_count, COUNT(d3_time) AS d3_count FROM userlevels_highscores WHERE userid=:uid');
+	$stmt->bindValue(':uid', $user->ID,      PDO::PARAM_INT);
+	executeOrFail($stmt);
+	$scoresummary = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	$newscore = $scoresummary['d0_count'] * $config['diff_scores'][0] +
+	            $scoresummary['d1_count'] * $config['diff_scores'][1] +
+	            $scoresummary['d2_count'] * $config['diff_scores'][2] +
+	            $scoresummary['d3_count'] * $config['diff_scores'][3];
+
+	$user->SetSCCMScore($newscore);
+
+	//---------- step 6: [download data]
 
 	$finished_data = $user->GetAllLevelScoreEntries();
 
-	//---------- step 5: [delete old user]
+	//---------- step 7: [delete old user]
 
 	$olduser->Delete();
 
-	//---------- step 6: [return]
+	//---------- step 8: [return]
 
 	logMessage("Account merge sucessful ($old_userid into $user->ID) with $changecount changes. Old account purged.");
 	outputResultSuccess(['user' => $user, 'updatecount' => $changecount, 'scores' => $finished_data]);
