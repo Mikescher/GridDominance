@@ -22,6 +22,7 @@ using System.IO;
 using System.Threading.Tasks;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable;
@@ -335,7 +336,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 							break;
 						case UploadResult.AlreadyUploaded:
 						case UploadResult.Success:
-							MainGame.Inst.SetOverworldScreen();//TODO open lvled panel
+							MainGame.Inst.SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab.MyLevels);
 
 							SCCMUtils.UpgradeLevel(SCCMData, binData);
 

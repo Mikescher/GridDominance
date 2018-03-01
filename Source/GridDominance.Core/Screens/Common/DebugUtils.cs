@@ -18,6 +18,7 @@ using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using GridDominance.Shared.Screens.Common.HUD.Elements;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 
 namespace GridDominance.Shared.Screens
 {
@@ -117,6 +118,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddTrigger("DBG",      "StartDebugLevel",      scrn, SKeys.D, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetDebugLevelScreen());
 			DebugSettings.AddTrigger("DBG",      "ShowOverworld",        scrn, SKeys.O, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetOverworldScreen(false));
 			DebugSettings.AddTrigger("DBG",      "ShowGameEnd",          scrn, SKeys.E, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetGameEndScreen());
+			DebugSettings.AddTrigger("DBG",      "ShowSCCM",             scrn, SKeys.S, KeyModifier.ShiftCtrl, x => MainGame.Inst.SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab.MyLevels));
 
 			DebugSettings.AddSwitch("DBG",       "PhysicsDebugView",      scrn, SKeys.F1,  KeyModifier.None,    false);
 			DebugSettings.AddSwitch("DBG",       "ShowInfos",             scrn, SKeys.F2,  KeyModifier.None,    true);

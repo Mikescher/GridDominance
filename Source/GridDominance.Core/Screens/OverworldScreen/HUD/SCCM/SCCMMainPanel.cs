@@ -14,7 +14,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 {
-    class SCCMMainPanel : HUDRoundedPanel
+    public class SCCMMainPanel : HUDRoundedPanel
 	{
 		public enum SCCMTab { MyLevels, Hot, Top, New, Search }
 
@@ -141,7 +141,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			SelectTab(SCCMTab.Hot);
 		}
 
-		private void SelectTab(SCCMTab tab)
+		public void SelectTab(SCCMTab tab)
 		{
 			var bg1Normal = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, HUD.PixelWidth);
 			var bg1Pressd = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Silver, Color.Black, HUD.PixelWidth);

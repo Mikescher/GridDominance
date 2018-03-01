@@ -25,6 +25,7 @@ using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using System.Text;
 using GridDominance.Shared.Screens.EndGameScreen;
 using GridDominance.Shared.Screens.LevelEditorScreen;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -218,7 +219,7 @@ namespace GridDominance.Shared
 			screen.AddAgent(new InitialTransitionOperation());
 			screen.ColorOverdraw = 1f;
 		}
-
+		
 		public void SetOverworldScreen(bool noflicker = true)
 		{
 			var ovs = new GDOverworldScreen(this, Graphics);
@@ -233,6 +234,26 @@ namespace GridDominance.Shared
 
 				ovs.GDHUD.ScoreDispMan.FinishCounter();
 			}
+		}
+		
+		public void SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab tab, bool noflicker = true)
+		{
+			var ovs = new GDOverworldScreen(this, Graphics);
+			SetCurrentScreen(ovs);
+
+			if (noflicker)
+			{
+				foreach (var node in ovs.GetEntities<OverworldNode>())
+				{
+					node.FlickerTime = OverworldNode.COLLAPSE_TIME * 10; // no flicker - for sure
+				}
+
+				ovs.GDHUD.ScoreDispMan.FinishCounter();
+			}
+			
+			var pnl = new SCCMMainPanel();
+			ovs.HUD.AddModal(pnl, true, 0.5f, 1f);
+			pnl.SelectTab(tab);
 		}
 
 		public void SetOverworldScreenCopy(GDOverworldScreen s)

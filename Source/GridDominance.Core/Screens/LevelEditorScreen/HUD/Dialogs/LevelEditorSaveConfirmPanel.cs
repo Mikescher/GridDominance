@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -79,12 +80,12 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 		private void DoSave(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			var ret = GDScreen.LevelData.UpdateAndSave(GDScreen);
-			if (ret) MainGame.Inst.SetOverworldScreen(); //TODO open sccm pnl + myleveltab
+			if (ret) MainGame.Inst.SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab.MyLevels);
 		}
 
 		private void DoDiscard(HUDTextButton sender, HUDButtonEventArgs e)
 		{
-			MainGame.Inst.SetOverworldScreen(); //TODO open sccm pnl + myleveltab
+			MainGame.Inst.SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab.MyLevels);
 		}
 
 		public override void OnRemove()

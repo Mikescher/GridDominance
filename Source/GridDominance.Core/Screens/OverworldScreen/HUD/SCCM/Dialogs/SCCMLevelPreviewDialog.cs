@@ -577,7 +577,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 		private void OnDownloadFailed()
 		{
 			_downloadState = DownloadState.Error;
-			//toso set error images
+			//todo set error images
 		}
 
 		private void OnDownloadSuccess()
