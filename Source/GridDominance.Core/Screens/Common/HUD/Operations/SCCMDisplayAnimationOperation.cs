@@ -73,8 +73,6 @@ namespace GridDominance.Shared.Screens.Common.HUD.Operations
 				owner.TetroCenters[2] = (pieceNext.P3 + VEC_HALF).RelativeTo(pieceNext.RealCenter).AsScaled(progress);
 				owner.TetroCenters[3] = (pieceNext.P4 + VEC_HALF).RelativeTo(pieceNext.RealCenter).AsScaled(progress);
 			}
-
-
 		}
 	}
 }

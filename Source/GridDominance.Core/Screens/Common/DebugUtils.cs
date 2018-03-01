@@ -17,6 +17,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Network.Multiplayer;
+using GridDominance.Shared.Screens.Common.HUD.Elements;
 
 namespace GridDominance.Shared.Screens
 {
@@ -138,6 +139,7 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddPush("DBG",         "ShowSerializedProfile", scrn, SKeys.O,   KeyModifier.None);
 			DebugSettings.AddPush("TRUE",        "HideHUD",               scrn, SKeys.H,   KeyModifier.None);
 			DebugSettings.AddTrigger("DBG",      "RotateLang",            scrn, SKeys.L,   KeyModifier.Control, RotateLang);
+			DebugSettings.AddTrigger("DBG",      "Congratulations",       scrn, SKeys.P,   KeyModifier.None,    ShowAchievement);
 
 			if (scrn is GDGameScreen)      DebugSettings.AddSwitch( "DBG",  "ImmortalCannons",      scrn, SKeys.I,         KeyModifier.Control, false);
 			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AssimilateCannon",     scrn, SKeys.A,         KeyModifier.None);
@@ -161,6 +163,11 @@ namespace GridDominance.Shared.Screens
 			MainGame.Inst.Profile.Language = (MainGame.Inst.Profile.Language + 1) % L10N.LANG_COUNT;
 			MainGame.Inst.SaveProfile();
 			L10N.ChangeLanguage(MainGame.Inst.Profile.Language);
+		}
+
+		private static void ShowAchievement(DebugListener obj)
+		{
+			AchievementPopup.Show("You suck!");
 		}
 
 		private static void DoDirectProtocolDebugTest1()

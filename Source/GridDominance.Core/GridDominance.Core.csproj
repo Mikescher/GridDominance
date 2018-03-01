@@ -115,6 +115,7 @@
     <Compile Include="Screens\Common\HUD\Dialogs\HighscorePanel.cs" />
     <Compile Include="Screens\Common\HUD\Dialogs\InfoPanel.cs" />
     <Compile Include="Screens\Common\HUD\Dialogs\UnlockPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\AchievementPopup.cs" />
     <Compile Include="Screens\Common\HUD\Elements\SCCMScoreDisplay.cs" />
     <Compile Include="Screens\Common\HUD\Elements\StarsScoreDisplay.cs" />
     <Compile Include="Screens\Common\HUD\Elements\MultiplayerScoreDisplay.cs" />
