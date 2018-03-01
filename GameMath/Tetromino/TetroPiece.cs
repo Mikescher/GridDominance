@@ -20,6 +20,7 @@ namespace MonoSAMFramework.Portable.GameMath.Tetromino
 
 		public IEnumerable<DPoint> Points => _points;
 		public readonly FPoint Center;
+		public readonly FPoint RealCenter;
 		public DPoint P1 => _points[0];
 		public DPoint P2 => _points[1];
 		public DPoint P3 => _points[2];
@@ -40,6 +41,7 @@ namespace MonoSAMFramework.Portable.GameMath.Tetromino
 			_shape[p4.X, p4.Y] = true;
 
 			Center = center;
+			RealCenter = CalcRealCenter();
 
 			Debug.Assert(p1 != p2);
 			Debug.Assert(p2 != p3);
@@ -52,6 +54,16 @@ namespace MonoSAMFramework.Portable.GameMath.Tetromino
 		private bool Contains(int x, int y)
 		{
 			return x >= 0 && y >= 0 && x < 4 && y < 4 && _shape[x, y];
+		}
+
+		private FPoint CalcRealCenter()
+		{
+			var minX = FloatMath.Min(P1.X+0, P2.X+0, P3.X+0, P4.X+0);
+			var maxX = FloatMath.Max(P1.X+1, P2.X+1, P3.X+1, P4.X+1);
+			var minY = FloatMath.Min(P1.Y+0, P2.Y+0, P3.Y+0, P4.Y+0);
+			var maxY = FloatMath.Max(P1.Y+1, P2.Y+1, P3.Y+1, P4.Y+1);
+		
+			return new FPoint((minX+maxX)/2f, (minY+maxY)/2f);
 		}
 		
 		public static TetroPiece Create(string n, int p1x, int p1y, int p2x, int p2y, int p3x, int p3y, int p4x, int p4y, float ccx, float ccy)

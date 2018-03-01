@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
 namespace MonoSAMFramework.Portable.GameMath.Geometry
@@ -40,19 +42,48 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return !(a == b);
 		}
 
-		public static DPoint operator +(DPoint value1, DPoint value2)
+		public static DPoint operator +(DPoint value1, DVector value2)
 		{
 			return new DPoint(value1.X + value2.X, value1.Y + value2.Y);
 		}
 
-		public static DPoint operator -(DPoint value1, DPoint value2)
+		public static FPoint operator +(DPoint value1, Vector2 value2)
+		{
+			return new FPoint(value1.X + value2.X, value1.Y + value2.Y);
+		}
+
+		public static DPoint operator -(DPoint value1, DVector value2)
 		{
 			return new DPoint(value1.X - value2.X, value1.Y - value2.Y);
 		}
 
-		public static DPoint operator *(DPoint value1, int value2)
+		public static FPoint operator -(DPoint value1, Vector2 value2)
 		{
-			return new DPoint(value1.X * value2, value1.Y * value2);
+			return new FPoint(value1.X - value2.X, value1.Y - value2.Y);
+		}
+
+		[Pure]
+		public FPoint RelativeTo(FPoint value2)
+		{
+			return new FPoint(X - value2.X, Y - value2.Y);
+		}
+
+		[Pure]
+		public DPoint RelativeTo(DPoint value2)
+		{
+			return new DPoint(X - value2.X, Y - value2.Y);
+		}
+
+		[Pure]
+		public FPoint WithOrigin(FPoint origin)
+		{
+			return new FPoint(X + origin.X, Y + origin.Y);
+		}
+
+		[Pure]
+		public DPoint WithOrigin(DPoint origin)
+		{
+			return new DPoint(X + origin.X, Y + origin.Y);
 		}
 
 		public bool Equals(DPoint other)
