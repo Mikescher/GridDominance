@@ -103,7 +103,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				return;
 			}
 
-			var ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, true);
+			var ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_ONLINE, true);
 
 			switch (ustate)
 			{
@@ -112,10 +112,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 					break;
 				case WorldUnlockState.ReachableButMustBePreviewed:
 				case WorldUnlockState.UnreachableButCanBePreviewed:
-					//Owner.HUD.AddModal(new SCCMPreviewPanel(), true, 0.5f, 1f);//TODO
+					Owner.HUD.AddModal(new SCCMPreviewPanel(), true, 0.5f, 1f);
 					break;
 				case WorldUnlockState.UnreachableAndFullyLocked:
-					SAMLog.Error("ONSCCM::EnumSwitch_OC_UAFL", "Clicked on [UnreachableAndFullyLocked]");
+					Owner.HUD.ShowToast("ONSCCM::LOCKED(MULTI)", L10N.T(L10NImpl.STR_GLOB_WORLDLOCK), 40, FlatColors.Pomegranate, FlatColors.Foreground, 1.5f);
+					MainGame.Inst.GDSound.PlayEffectError();
+
+					AddOperation(new ShakeNodeOperation());
 					break;
 				default:
 					SAMLog.Error("ONSCCM::EnumSwitch_OC", "ustate: " + ustate);

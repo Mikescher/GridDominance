@@ -188,7 +188,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Image = Textures.CannonCogBig,
 				RotationSpeed = 0.3f,
 				Color = FlatColors.TextHUD,
-				ImageAlignment = HUDImageAlignment.UNDERSCALE,
+				ImageAlignment = HUDImageAlignment.UNDERSCALE_CENTER,
 
 				IsVisible = false,
 			});

@@ -102,7 +102,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Image = GetModeIcon(NextCategory(_mode)),
 				ImageColor = GetModeColor(NextCategory(_mode)),
 				ImagePadding = 8,
-				ImageAlignment = HUDImageAlignment.UNDERSCALE,
+				ImageAlignment = HUDImageAlignment.UNDERSCALE_CENTER,
 
 				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16, false, true, false, false),
 				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16, false, true, false, false),

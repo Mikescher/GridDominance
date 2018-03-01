@@ -297,6 +297,9 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexGlassBlockIcon;
 		public static TextureRegion2D TexVoidIcon;
 
+		public static TextureRegion2D TexDescription_SCCM;
+		public static TextureRegion2D TexTitle_SCCM;
+
 		public static SpriteFont HUDFontRegular;
 		public static SpriteFont HUDFontBold;
 		public static SpriteFont LevelBackgroundFont;
@@ -347,6 +350,9 @@ namespace GridDominance.Shared.Resources
 				AtlasExtraTextures["title_w6"],
 				AtlasExtraTextures["title_w7"]
 			};
+
+			TexDescription_SCCM = AtlasExtraTextures["description_sccm"];
+			TexTitle_SCCM = AtlasExtraTextures["title_sccm"];
 
 			TexTileBorder            = AtlasTextures["grid"];
 			TexDotLine               = AtlasTextures["dotline"];

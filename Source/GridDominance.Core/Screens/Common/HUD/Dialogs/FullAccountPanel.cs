@@ -165,7 +165,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				BackgroundNormal = HUDBackgroundDefinition.NONE,
 				BackgroundPressed = HUDBackgroundDefinition.NONE,
 
-				ImageAlignment = HUDImageAlignment.UNDERSCALE,
+				ImageAlignment = HUDImageAlignment.UNDERSCALE_CENTER,
 				Image = Textures.TexHUDIconReload,
 				ImageColor = MainGame.Inst.Profile.NeedsReupload ? FlatColors.Carrot : FlatColors.Clouds,
 				ImageRotationSpeed = 0f,

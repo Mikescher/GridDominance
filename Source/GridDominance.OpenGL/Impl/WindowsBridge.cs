@@ -23,7 +23,7 @@ namespace GridDominance.Windows
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		public string AppType => "Windows.OpenGL";
 		public SAMSystemType SystemType => SAMSystemType.MONOGAME_DESKTOP;
-		public GDFlavor Flavor => GDFlavor.FULL;
+		public GDFlavor Flavor => GDFlavor.IAB;
 
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 

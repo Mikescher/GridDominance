@@ -177,7 +177,10 @@ namespace GridDominance.Shared.Screens.Common
 					}
 					case GDFlavor.IAB:
 					{
-						return GetIABState(GDConstants.IAB_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER, showToast) ? WorldUnlockState.OpenAndUnlocked : WorldUnlockState.ReachableButMustBePreviewed;
+						if (GetIABState(GDConstants.IAB_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER, showToast)) return WorldUnlockState.OpenAndUnlocked;
+						if (BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_004, Levels.WORLD_ID_GAMEEND)) return WorldUnlockState.OpenAndUnlocked;
+
+						return WorldUnlockState.ReachableButMustBePreviewed;
 					}
 
 					case GDFlavor.FULL:

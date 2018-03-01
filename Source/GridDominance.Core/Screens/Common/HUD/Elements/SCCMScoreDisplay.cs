@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.HUD.Elements;
 using GridDominance.Shared.Screens.Common.HUD.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -22,11 +23,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public FPoint RefPosition;
 
 		private readonly HUDRawText _text;
+		private readonly HUDImage _img;
+		private readonly HUDTetroAnimation _ani;
 
 		private readonly DeltaLimitedFloat _value = new DeltaLimitedFloat(0, 35);
-
-		private float _iconrotation = 0;
-		public FPoint[] TetroCenters = new[]{ FPoint.Zero, FPoint.Zero, FPoint.Zero, FPoint.Zero };
 
 		public SCCMScoreDisplay(bool count)
 		{
@@ -43,6 +43,25 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = new FPoint(10 + 40 + 30, 0),
 			};
 
+			_img = new HUDImage
+			{
+				Alignment = HUDAlignment.CENTERLEFT,
+				RelativePosition = new FPoint(10, 0),
+				Size = new FSize(40, 40),
+
+				Image = Textures.TexCircle,
+				Color = FlatColors.WetAsphalt * 0.4f,
+			};
+
+			_ani = new HUDTetroAnimation
+			{
+				Alignment = HUDAlignment.CENTERLEFT,
+				RelativePosition = new FPoint(10, 0),
+				Size = new FSize(40, 40),
+
+				Foreground = FlatColors.Alizarin,
+			};
+
 			Alignment = HUDAlignment.TOPRIGHT;
 			RelativePosition = new FPoint(10, 10);
 			Size = new FSize(250, 60);
@@ -50,28 +69,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			IsVisible = (MainGame.Inst.Profile.ScoreSCCM > 0);
 
 			UpdateRelativePosition();
-
-			AddOperation(new SCCMDisplayAnimationOperation());
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			var iconcenter = new FPoint(bounds.Left + 10 + 20, bounds.CenterY);
-
-			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color.Black * 0.6f, 8);
-			sbatch.DrawCentered(Textures.TexCircle, iconcenter, 50, 50, FlatColors.WetAsphalt * 0.4f);
-
-			for (int i = 0; i < 4; i++)
-			{
-				var pos = TetroCenters[i].AsScaled(10).WithOrigin(iconcenter).RotateAround(iconcenter, _iconrotation);
-
-				sbatch.DrawCentered(Textures.TexPixel, pos, 10, 10, FlatColors.Alizarin, _iconrotation);
-			}
+			//
 		}
 
 		public override void OnInitialize()
 		{
 			AddElement(_text);
+			
+			AddElement(_img);
+			
+			AddElement(_ani);
 		}
 
 		public override void OnRemove()
@@ -81,7 +92,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			_iconrotation = 0.05f * gameTime.TotalElapsedSeconds * FloatMath.TAU;
 
 			if (FloatMath.FloatInequals(_value.ActualValue, _value.TargetValue))
 			{

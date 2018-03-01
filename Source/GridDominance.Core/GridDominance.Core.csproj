@@ -117,6 +117,7 @@
     <Compile Include="Screens\Common\HUD\Dialogs\InfoPanel.cs" />
     <Compile Include="Screens\Common\HUD\Dialogs\UnlockPanel.cs" />
     <Compile Include="Screens\Common\HUD\Elements\AchievementPopup.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\HUDTetroAnimation.cs" />
     <Compile Include="Screens\Common\HUD\Elements\SCCMScoreDisplay.cs" />
     <Compile Include="Screens\Common\HUD\Elements\StarsScoreDisplay.cs" />
     <Compile Include="Screens\Common\HUD\Elements\MultiplayerScoreDisplay.cs" />
@@ -143,7 +144,6 @@
     <Compile Include="Screens\Common\HUD\Operations\HUDSettingsOpenOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\HUDSettingsSlantedOpenOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\HUDTextBoxBlinkOperation.cs" />
-    <Compile Include="Screens\Common\HUD\Operations\SCCMDisplayAnimationOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\SubSettingsButtonShakeOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\UnlockErrorOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\UnlockSucessOperation.cs" />
@@ -298,6 +298,7 @@
     <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_W3.cs" />
     <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_W4.cs" />
     <Compile Include="Screens\OverworldScreen\GDOverworldScreen.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\Dialogs\SCCMPreviewPanel.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Dialogs\SCCMLevelPreviewDialog.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElement.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementNewUserLevel.cs" />
@@ -314,7 +315,7 @@
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabHot.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabTop.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabMyLevels.cs" />
-    <Compile Include="Screens\OverworldScreen\HUD\WorldPreviewPanel.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\Dialogs\WorldPreviewPanel.cs" />
     <Compile Include="Screens\OverworldScreen\Operations\OverworldScrollAgent.cs" />
     <Compile Include="Screens\OverworldScreen\Operations\ReappearTransitionOperation.cs" />
     <Compile Include="Screens\OverworldScreen\Operations\TransitionZoomInOperation.cs" />

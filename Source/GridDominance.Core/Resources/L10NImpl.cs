@@ -316,8 +316,10 @@ namespace GridDominance.Shared.Resources
 		public const int STR_SCOREMAN_INFO_MPSCORE   = 261;
 		public const int STR_SCOREMAN_INFO_SCCMSCORE = 262;
 		public const int STR_SCOREMAN_INFO_STARS     = 263;
+		
+		public const int STR_PREV_FINISHGAME         = 267;
 
-		private const int TEXT_COUNT = 267; // = next idx
+		private const int TEXT_COUNT = 268; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2179,25 +2181,33 @@ namespace GridDominance.Shared.Resources
 			         "?"); //TODO translate me
 			
 			L10N.Add(STR_HSP_STARRANKING,
-				"Stars",
-				"Sterne",
-				"?",  //TODO translate me
-				"?",  //TODO translate me
-				"?"); //TODO translate me
+			         "Stars",
+			         "Sterne",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_HSP_SCCMRANKING,
-				"User level points",
-				"Benutzerlevel Punkte",
-				"?",  //TODO translate me
-				"?",  //TODO translate me
-				"?"); //TODO translate me
+			         "User level points",
+			         "Benutzerlevel Punkte",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 			L10N.Add(STR_TAB_STARS,
-				"Stars",
-				"Sterne",
-				"?",  //TODO translate me
-				"?",  //TODO translate me
-				"?"); //TODO translate me
+			         "Stars",
+			         "Sterne",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_PREV_FINISHGAME,
+			         "Finish the game",
+			         "Gewinne das Spiel",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
 
 		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 

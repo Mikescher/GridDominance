@@ -58,8 +58,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations
 			var config = TetroConfigurations.CONFIGURATIONS[FloatMath.Random.Next(TetroConfigurations.CONFIGURATIONS.Length)];
 
 			int off = 0;
-			var c = Enumerable.Range(0, COLORS.Length).Shuffle().ToList();
-			foreach (var i in Enumerable.Range(0, 6).Shuffle())
+			var c = Enumerable.Range(0, COLORS.Length).Shuffle(FloatMath.Random).ToList();
+			foreach (var i in Enumerable.Range(0, 6).Shuffle(FloatMath.Random))
 			{
 				var tx = (int)(((config >> (i * 10 + 0)) & 0x1F) % 5);
 				var ty = (int)(((config >> (i * 10 + 0)) & 0x1F) / 5);
