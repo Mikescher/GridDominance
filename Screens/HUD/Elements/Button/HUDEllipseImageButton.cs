@@ -78,7 +78,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			{
 				Alignment = HUDAlignment.CENTER,
 				RelativePosition = FPoint.Zero,
-				ImageAlignment = HUDImageAlignment.UNDERSCALE,
+				ImageAlignment = HUDImageAlignment.UNDERSCALE_CENTER,
 			};
 		}
 

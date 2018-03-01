@@ -14,7 +14,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 	{
 		public override int Depth { get; }
 
-		private HUDImageAlignment _imageAligment = HUDImageAlignment.UNDERSCALE;
+		private HUDImageAlignment _imageAligment = HUDImageAlignment.UNDERSCALE_CENTER;
 		public HUDImageAlignment ImageAlignment
 		{
 			get { return _imageAligment; }
@@ -130,7 +130,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 					destination = new FRectangle(bounds.X + (bounds.Width - width) / 2, bounds.Y, width, bounds.Height);
 					break;
 				}
-				case HUDImageAlignment.UNDERSCALE:
+				case HUDImageAlignment.UNDERSCALE_CENTER:
 				{
 					if (bounds.Height / bounds.Width > Image.Height * 1f / Image.Width)
 					{
@@ -144,7 +144,21 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 					}
 					break;
 				}
-				case HUDImageAlignment.OVERSCALE:
+				case HUDImageAlignment.UNDERSCALE_TOPLEFT:
+				{
+					if (bounds.Height / bounds.Width > Image.Height * 1f / Image.Width)
+					{
+						var height = (Image.Height * 1f / Image.Width) * bounds.Width;
+						destination = new FRectangle(bounds.X, bounds.Y, bounds.Width, height);
+					}
+					else
+					{
+						var width = (Image.Width * 1f / Image.Height) * bounds.Height;
+						destination = new FRectangle(bounds.X, bounds.Y, width, bounds.Height);
+					}
+					break;
+				}
+				case HUDImageAlignment.OVERSCALE_CENTER:
 				{
 					if (bounds.Height / bounds.Width < Image.Height * 1f / Image.Width)
 					{
