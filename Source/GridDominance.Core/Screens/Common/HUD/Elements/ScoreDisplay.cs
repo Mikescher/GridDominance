@@ -6,6 +6,7 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -97,6 +98,13 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = rp;
 				Revalidate();
 			}
+		}
+		
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
+		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
+		{
+			HUD.ShowToast(null, L10N.T(L10NImpl.STR_SCOREMAN_INFO_SCORE), 32, FlatColors.Silver, FlatColors.Foreground, 2f);
 		}
 
 		public void FinishCounter()

@@ -308,8 +308,13 @@ namespace GridDominance.Shared.Resources
 		public const int STR_SCCM_DOWNLOADINPROGRESS = 257;
 		public const int STR_SCCM_VERSIONTOOOLD      = 258;
 		public const int STR_SCCM_NEEDS_ACC          = 259;
+		
+		public const int STR_SCOREMAN_INFO_SCORE     = 260;
+		public const int STR_SCOREMAN_INFO_MPSCORE   = 261;
+		public const int STR_SCOREMAN_INFO_SCCMSCORE = 262;
+		public const int STR_SCOREMAN_INFO_STARS     = 263;
 
-		private const int TEXT_COUNT = 260; // = next idx
+		private const int TEXT_COUNT = 264; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2142,6 +2147,34 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 			
+			L10N.Add(STR_SCOREMAN_INFO_SCORE,
+			         "You get these tokens by completing normal levels.\nHigher difficulties result in more points.",
+			         "Diese Punkte erlangt man durch das Spielen normaler Level.\nHöhere Schwierigkeitsstufen geben mehr Punkte.",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+			  
+			L10N.Add(STR_SCOREMAN_INFO_MPSCORE,
+			         "You can get these tokens by winning multiplayer games against your friends.",
+			         "Diese Punkte erlangt man durch gewinnen von lokalen Mehrspieler-Partien",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+			 
+			L10N.Add(STR_SCOREMAN_INFO_SCCMSCORE,
+			         "You can get these tokens by winning user generated levels from other players",
+			         "Dise Punkte erlangt man durch das Spielen von Leveln die von anderen Spielern erstellt wurden",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+			
+			L10N.Add(STR_SCOREMAN_INFO_STARS,
+			         "You get these stars when other players give a level you created a star",
+			         "Du bekommst Sterne wenn andere Spieler ein Level, das du erstellt hast, positiv bewerten",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
 		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 
 #if DEBUG
