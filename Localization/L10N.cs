@@ -24,6 +24,12 @@ namespace MonoSAMFramework.Portable.Localization
 
 		public static void Add(int id, params string[] data)
 		{
+			#if DEBUG
+
+			if (data.Length != LANG_COUNT) SAMLog.Error("L10N::Add", $"Wrong lang count {data.Length} != {LANG_COUNT} for {id}");
+
+			#endif
+
 			for (int i = 0; i < data.Length; i++)
 			{
 				Dictionary[id, i] = data[i];
@@ -36,7 +42,8 @@ namespace MonoSAMFramework.Portable.Localization
 			{
 				for (int l = 0; l < LANG_COUNT; l++)
 				{
-					if (string.IsNullOrWhiteSpace(Dictionary[t, l])) SAMLog.Error("L10N::Verify", $"Missing translation {t} for lang={l}");
+					if (string.IsNullOrWhiteSpace(Dictionary[t, l])) SAMLog.Error("L10N::Verify1", $"Missing translation {t} for lang={l}");
+					if (Dictionary[t, l] == "?" && l == LANG_EN_US) SAMLog.Error("L10N::Verify2", $"Missing fallback-translation {t} for lang={l}");
 				}
 			}
 		}
@@ -49,7 +56,12 @@ namespace MonoSAMFramework.Portable.Localization
 				return $"\"{id}\"";
 			}
 			
-			return Dictionary[id, LANGUAGE];
+			var txt = Dictionary[id, LANGUAGE];
+
+			if (txt == "?") 
+				return Dictionary[id, LANG_EN_US]; // missing text
+			else
+				return txt;
 		}
 
 		public static string TF(int id, object o1) => string.Format(T(id), o1);
