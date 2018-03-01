@@ -141,6 +141,7 @@
     <Compile Include="Screens\Common\HUD\Operations\HUDSettingsOpenOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\HUDSettingsSlantedOpenOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\HUDTextBoxBlinkOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\SCCMDisplayAnimationOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\SubSettingsButtonShakeOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\UnlockErrorOperation.cs" />
     <Compile Include="Screens\Common\HUD\Operations\UnlockSucessOperation.cs" />

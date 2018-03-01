@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.HUD.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -20,10 +21,12 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public FPoint RefPosition;
 
-		private readonly HUDImage _icon;
 		private readonly HUDRawText _text;
 
 		private readonly DeltaLimitedFloat _value = new DeltaLimitedFloat(0, 35);
+
+		private float _iconrotation = 0;
+		public FPoint[] TetroCenters = new[]{ FPoint.Zero, FPoint.Zero, FPoint.Zero, FPoint.Zero };
 
 		public SCCMScoreDisplay(bool count)
 		{
@@ -40,15 +43,6 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				RelativePosition = new FPoint(10 + 40 + 30, 0),
 			};
 
-			_icon = new HUDImage
-			{
-				Image = Textures.TexIconTetromino,
-				Color = FlatColors.SunFlower,
-				Alignment = HUDAlignment.CENTERLEFT,
-				RelativePosition = new FPoint(10, 0),
-				Size = new FSize(40, 40),
-			};
-
 			Alignment = HUDAlignment.TOPRIGHT;
 			RelativePosition = new FPoint(10, 10);
 			Size = new FSize(250, 60);
@@ -56,18 +50,28 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			IsVisible = (MainGame.Inst.Profile.ScoreSCCM > 0);
 
 			UpdateRelativePosition();
+
+			AddOperation(new SCCMDisplayAnimationOperation());
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
+			var iconcenter = new FPoint(bounds.Left + 10 + 20, bounds.CenterY);
+
 			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color.Black * 0.6f, 8);
-			sbatch.DrawCentered(Textures.TexCircle, _icon.Center, 50, 50, FlatColors.WetAsphalt * 0.4f);
+			sbatch.DrawCentered(Textures.TexCircle, iconcenter, 50, 50, FlatColors.WetAsphalt * 0.4f);
+
+			for (int i = 0; i < 4; i++)
+			{
+				var pos = TetroCenters[i].AsScaled(10).WithOrigin(iconcenter).RotateAround(iconcenter, _iconrotation);
+
+				sbatch.DrawCentered(Textures.TexPixel, pos, 10, 10, FlatColors.Alizarin, _iconrotation);
+			}
 		}
 
 		public override void OnInitialize()
 		{
 			AddElement(_text);
-			AddElement(_icon);
 		}
 
 		public override void OnRemove()
@@ -77,8 +81,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			_icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
-			_icon.Rotation = 0.05f * gameTime.TotalElapsedSeconds * FloatMath.TAU;
+			_iconrotation = 0.05f * gameTime.TotalElapsedSeconds * FloatMath.TAU;
 
 			if (FloatMath.FloatInequals(_value.ActualValue, _value.TargetValue))
 			{
