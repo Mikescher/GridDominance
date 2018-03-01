@@ -128,5 +128,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen
 		{
 			return w.LevelNodes.Count * (GDConstants.SCORE_DIFF_0 + GDConstants.SCORE_DIFF_1 + GDConstants.SCORE_DIFF_2 + GDConstants.SCORE_DIFF_3);
 		}
+
+		public static int LevelCount(GraphBlueprint w)
+		{
+			return w.LevelNodes.Count;
+		}
 	}
 }

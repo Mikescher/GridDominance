@@ -108,7 +108,5 @@ namespace GridDominance.Shared.Resources
 		public const int SCORE_DIFF_1 = 13;
 		public const int SCORE_DIFF_2 = 17;
 		public const int SCORE_DIFF_3 = 23;
-
-		public const int FREE_SCORE_PER_WORLD = 100;
 	}
 }

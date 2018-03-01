@@ -293,23 +293,16 @@ namespace GridDominance.Shared.Screens.Common
 			if (id == Levels.WORLD_001.ID)
 				return 0;
 
+			var sc = (GDConstants.SCORE_DIFF_0 + GDConstants.SCORE_DIFF_1 + GDConstants.SCORE_DIFF_2);
+
 			if (id == Levels.WORLD_002.ID)
-				return BlueprintAnalyzer.MaxPointCount(Levels.WORLD_001) -
-				       1 * GDConstants.FREE_SCORE_PER_WORLD -
-				       GDConstants.SCORE_DIFF_0;
+				return BlueprintAnalyzer.LevelCount(Levels.WORLD_001) * sc;
 
 			if (id == Levels.WORLD_003.ID)
-				return BlueprintAnalyzer.MaxPointCount(Levels.WORLD_001) +
-				       BlueprintAnalyzer.MaxPointCount(Levels.WORLD_002) -
-				       2 * GDConstants.FREE_SCORE_PER_WORLD -
-				       GDConstants.SCORE_DIFF_0;
+				return (BlueprintAnalyzer.LevelCount(Levels.WORLD_001) + BlueprintAnalyzer.LevelCount(Levels.WORLD_002)) * sc;
 
 			if (id == Levels.WORLD_004.ID)
-				return BlueprintAnalyzer.MaxPointCount(Levels.WORLD_001) +
-				       BlueprintAnalyzer.MaxPointCount(Levels.WORLD_002) +
-				       BlueprintAnalyzer.MaxPointCount(Levels.WORLD_003) -
-				       3 * GDConstants.FREE_SCORE_PER_WORLD -
-				       GDConstants.SCORE_DIFF_0;
+				return (BlueprintAnalyzer.LevelCount(Levels.WORLD_001) + BlueprintAnalyzer.LevelCount(Levels.WORLD_002) + BlueprintAnalyzer.LevelCount(Levels.WORLD_003)) * sc;
 
 			SAMLog.Error("UNLCK::PFU", $"UnlockManager: WorldID not found {id}");
 			return 99999;
