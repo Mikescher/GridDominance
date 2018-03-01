@@ -71,8 +71,9 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 			public float RemainingLifetime;
 		}
 
-		public Color Background = FlatColors.PeterRiver;
-		public Color Foreground = FlatColors.MidnightBlue;
+		public Color Background = FlatColors.BackgroundHUD;
+		public Color Foreground = FlatColors.SunFlower;
+		public Color Outline    = FlatColors.Clouds;
 
 		private SpriteFont _font;
 		private float _width;
@@ -222,7 +223,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 			}
 
 			SimpleRenderHelper.DrawRoundedRect(sbatch, bgrect.AsDeflated(HUD.PixelWidth*1), Background * _fadeOutAlpha, CORNER_RADIUS);
-			SimpleRenderHelper.DrawRoundedRectOutline(sbatch, bgrect, Foreground * _fadeOutAlpha, 12, HUD.PixelWidth*2, CORNER_RADIUS);
+			SimpleRenderHelper.DrawRoundedRectOutline(sbatch, bgrect, Outline * _fadeOutAlpha, 12, HUD.PixelWidth*2, CORNER_RADIUS);
 
 			FontRenderHelper.DrawTextCentered(sbatch, _font, FONTSIZE, _text, Foreground * _fadeOutAlpha, bounds.Center);
 			

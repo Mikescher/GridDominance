@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.WorldMapScreen;
@@ -177,10 +178,7 @@ namespace GridDominance.Shared.Screens.Common
 					}
 					case GDFlavor.IAB:
 					{
-						if (GetIABState(GDConstants.IAB_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER, showToast)) return WorldUnlockState.OpenAndUnlocked;
-						if (BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_004, Levels.WORLD_ID_GAMEEND)) return WorldUnlockState.OpenAndUnlocked;
-
-						return WorldUnlockState.ReachableButMustBePreviewed;
+						return GetIABState(GDConstants.IAB_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER, showToast) ? WorldUnlockState.OpenAndUnlocked : WorldUnlockState.ReachableButMustBePreviewed;
 					}
 
 					case GDFlavor.FULL:
@@ -211,7 +209,10 @@ namespace GridDominance.Shared.Screens.Common
 					}
 					case GDFlavor.IAB:
 					{
-						return GetIABState(GDConstants.IAB_ONLINE, Levels.WORLD_ID_ONLINE, showToast) ? WorldUnlockState.OpenAndUnlocked : WorldUnlockState.ReachableButMustBePreviewed;
+						if (GetIABState(GDConstants.IAB_ONLINE, Levels.WORLD_ID_ONLINE, showToast)) return WorldUnlockState.OpenAndUnlocked;
+						if (BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_004, Levels.WORLD_ID_GAMEEND)) return WorldUnlockState.OpenAndUnlocked;
+
+						return WorldUnlockState.ReachableButMustBePreviewed;
 					}
 
 					case GDFlavor.FULL:
@@ -312,6 +313,14 @@ namespace GridDominance.Shared.Screens.Common
 
 			SAMLog.Error("UNLCK::PFU", $"UnlockManager: WorldID not found {id}");
 			return 99999;
+		}
+
+		public static IEnumerable<Guid> GetFullUnlockState()
+		{
+			if (IsUnlocked(Levels.WORLD_002, false) == WorldUnlockState.OpenAndUnlocked) yield return Levels.WORLD_002.ID;
+			if (IsUnlocked(Levels.WORLD_003, false) == WorldUnlockState.OpenAndUnlocked) yield return Levels.WORLD_003.ID;
+			if (IsUnlocked(Levels.WORLD_003, false) == WorldUnlockState.OpenAndUnlocked) yield return Levels.WORLD_002.ID;
+			if (IsUnlocked(Levels.WORLD_ID_ONLINE, false) == WorldUnlockState.OpenAndUnlocked) yield return Levels.WORLD_ID_ONLINE;
 		}
 	}
 

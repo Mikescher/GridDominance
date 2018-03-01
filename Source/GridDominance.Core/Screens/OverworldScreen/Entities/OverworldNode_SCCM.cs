@@ -44,7 +44,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				new SleepOperation<OverworldNode_SCCM>(0.25f),
 				new TetrisShrinkOperation(2.50f)));
 
-			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, false);
+			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_ONLINE, false);
 		}
 
 		protected override void OnDraw(IBatchRenderer sbatch)

@@ -5,6 +5,8 @@ using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.Common;
+using GridDominance.Shared.Screens.Common.HUD.Elements;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
@@ -12,6 +14,7 @@ using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
@@ -24,6 +27,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override Fraction LocalPlayerFraction => fractionPlayer;
 
+		private readonly List<Guid> _unlocksBefore;
+
 		public GDGameScreen_SP(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, GraphBlueprint ws) 
 			: base(game, gdm, bp, diff, false, false, diff == FractionDifficulty.DIFF_0 && bp.UniqueID == Levels.LEVELID_1_1)
 		{
@@ -31,6 +36,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			GameSpeedMode = MainGame.Inst.Profile.SingleplayerGameSpeed;
 			UpdateGameSpeed();
+
+			_unlocksBefore = UnlockManager.GetFullUnlockState().ToList();
 		}
 
 		public override void RestartLevel(bool updateSpeed)
@@ -57,6 +64,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			GameSpeedMode = GameSpeedModes.NORMAL;
 
 			HUD.AddModal(new HUDScorePanel(lvl, profile, newDifficulties, Difficulty, playerHasWon, addPoints, time), false);
+
+			if (playerHasWon && MainGame.Flavor==GDFlavor.IAB)
+			{
+				var diff = UnlockManager.GetFullUnlockState().Except(_unlocksBefore);
+				foreach (var d in diff)
+				{
+					if (d == Levels.WORLD_ID_ONLINE) AchievementPopup.Show(L10N.T(L10NImpl.STR_ACH_UNLOCK_ONLINE));
+					if (d == Levels.WORLD_ID_MULTIPLAYER) AchievementPopup.Show(L10N.T(L10NImpl.STR_ACH_UNLOCK_MULTIPLAYER));
+					if (d == Levels.WORLD_001.ID) AchievementPopup.Show(L10N.TF(L10NImpl.STR_ACH_UNLOCK_WORLD, 1));
+					if (d == Levels.WORLD_002.ID) AchievementPopup.Show(L10N.TF(L10NImpl.STR_ACH_UNLOCK_WORLD, 2));
+					if (d == Levels.WORLD_003.ID) AchievementPopup.Show(L10N.TF(L10NImpl.STR_ACH_UNLOCK_WORLD, 3));
+					if (d == Levels.WORLD_004.ID) AchievementPopup.Show(L10N.TF(L10NImpl.STR_ACH_UNLOCK_WORLD, 4));
+				}
+			}
 		}
 
 		protected override void TestForGameEndingCondition()

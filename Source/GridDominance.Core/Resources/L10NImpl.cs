@@ -319,7 +319,11 @@ namespace GridDominance.Shared.Resources
 		
 		public const int STR_PREV_FINISHGAME         = 267;
 
-		private const int TEXT_COUNT = 268; // = next idx
+		public const int STR_ACH_UNLOCK_ONLINE       = 268;
+		public const int STR_ACH_UNLOCK_MULTIPLAYER  = 269;
+		public const int STR_ACH_UNLOCK_WORLD        = 270;
+
+		private const int TEXT_COUNT = 271; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2204,6 +2208,27 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_PREV_FINISHGAME,
 			         "Finish the game",
 			         "Gewinne das Spiel",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_ACH_UNLOCK_ONLINE,
+			         "User levels unlocked",
+			         "Benutzerlevel entsperrt",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_ACH_UNLOCK_MULTIPLAYER,
+			         "Local multiplayer unlocked",
+			         "Lokaler Mehrspieler entsperrt",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_ACH_UNLOCK_WORLD,
+			         "Unlocked world {0}",
+			         "Welt {0} entsperrt",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
