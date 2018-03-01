@@ -24,6 +24,13 @@ function run() {
 
 	//----------
 
+	if ($user->AutoUser)
+	{
+		outputError(ERRORS::GETNEWLEVELID_ANONUSER, "Only registered users can create levels", LOGLEVEL::ERROR);
+	}
+
+	//----------
+
 	$stmt = $pdo->prepare("INSERT INTO userlevels(userid) VALUES (:uid)");
 	$stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
 	executeOrFail($stmt);

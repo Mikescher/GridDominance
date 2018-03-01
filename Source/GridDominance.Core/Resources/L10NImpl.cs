@@ -307,8 +307,9 @@ namespace GridDominance.Shared.Resources
 		public const int STR_SCCM_DOWNLOADFAILED     = 256;
 		public const int STR_SCCM_DOWNLOADINPROGRESS = 257;
 		public const int STR_SCCM_VERSIONTOOOLD      = 258;
+		public const int STR_SCCM_NEEDS_ACC          = 259;
 
-		private const int TEXT_COUNT = 259; // = next idx
+		private const int TEXT_COUNT = 260; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2130,6 +2131,13 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_SCCM_VERSIONTOOOLD,
 			         "This level needs a newer version of the game",
 			         "Level benötigt eine neue Version der App",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_SCCM_NEEDS_ACC,
+			         "You need a registered account to create levels",
+			         "Ein Account wird benötigt um Level zu erstellen",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me

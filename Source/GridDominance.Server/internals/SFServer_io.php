@@ -37,6 +37,7 @@ abstract class ERRORS {
 	const LEVELUPLOAD_ALREADY_UPLOADED  = 15004;
 	const LEVELUPLOAD_INVALID_NAME      = 15005;
 	const LEVELUPLOAD_HASH_MISMATCH     = 15006;
+	const LEVELUPLOAD_ANONUSER          = 15007;
 
 	/* ======== 16 QUERY-USERLEVEL ========= */
 	const LEVELQUERY_UNNKOWN_CAT = 16001;
@@ -47,6 +48,9 @@ abstract class ERRORS {
 
 	/* ======== 18 UPDATE-USERLEVEL-* ========= */
 	const UPDATEUSERLEVEL_INVALID_DIFF  = 18001;
+
+	/* ======== 19 GET-NEW-LEVELID ========= */
+	const GETNEWLEVELID_ANONUSER = 19001;
 }
 
 /**

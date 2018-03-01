@@ -32,6 +32,13 @@ function run() {
 
 	//----------
 
+	if ($user->AutoUser)
+	{
+		outputError(ERRORS::LEVELUPLOAD_ANONUSER, "Only registered users can create levels", LOGLEVEL::ERROR);
+	}
+
+	//----------
+
 	$stmt = $pdo->prepare("SELECT * FROM userlevels WHERE id = :lid");
 	$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 	executeOrFail($stmt);

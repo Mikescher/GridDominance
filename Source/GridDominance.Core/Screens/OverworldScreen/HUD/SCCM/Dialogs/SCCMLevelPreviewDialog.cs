@@ -650,10 +650,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				MainGame.Inst.Backend.SetCustomLevelPlayed(MainGame.Inst.Profile, _meta.OnlineID, d).RunAsync();
 
 				MainGame.Inst.SetCustomLevelScreen(_meta, _blueprint);
-
-				//TODO play
-				//TODO test min version (needs to be set in level bin)
-				//TODO also set 'played' online
 			}
 			else
 			{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
@@ -12,6 +13,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Language;
@@ -93,6 +95,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 		{
 			var ownr = ((GDOverworldScreen)Owner);
 			if (ownr.IsTransitioning) return;
+
+			if (MainGame.Inst.Profile.AccountType == AccountType.Local)
+			{
+				MainGame.Inst.ShowToast(null, L10N.T(L10NImpl.STR_MP_CONNECTING), 40, FlatColors.Emerald, FlatColors.Foreground, 2f);
+				MainGame.Inst.Backend.CreateUser(MainGame.Inst.Profile).RunAsync();
+				return;
+			}
 
 			var ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, true);
 

@@ -76,8 +76,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			_icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
-			_icon.Rotation = 0.05f * gameTime.TotalElapsedSeconds * FloatMath.TAU;
+			_icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2.5f) * 0.10f;
 
 			if (FloatMath.FloatInequals(_value.ActualValue, _value.TargetValue))
 			{
