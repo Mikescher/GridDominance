@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD;
@@ -35,7 +36,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			AddElement(Settings = new SettingsButton());
 			
 			ScoreDispMan = new ScoreDisplayManager(this, false);
-
+			
+			AddElement(TopLevelDisplay = new TopLevelDisplay());
 			AddElement(InfoDisplay = new InformationDisplay());
 		}
 
@@ -77,7 +79,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			SelectNode(null);
 			Settings.Close();
 
-			AddModal(new HighscorePanel(GDOwner.GraphBlueprint, false), true);
+			AddModal(new HighscorePanel(GDOwner.GraphBlueprint, HighscoreCategory.WorldPoints), true);
 		}
 
 		public void ShowAboutPanel()

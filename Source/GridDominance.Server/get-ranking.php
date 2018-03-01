@@ -14,7 +14,8 @@ function run() {
 
 	//----------
 
-	if ($worldid == '*') {
+	if ($worldid == '*') { // global
+
 		$stmt = $pdo->prepare(loadSQL("get-ranking_global_top"));
 		$stmt->bindValue(':qlimit', 100);
 		$stmt->bindValue(':qpage', 0);
@@ -25,7 +26,9 @@ function run() {
 		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 		executeOrFail($stmt);
 		$rank = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	} else if ($worldid == '@') {
+
+	} else if ($worldid == '@') { // multiplayer
+
 		$stmt = $pdo->prepare(loadSQL("get-ranking_multiplayer_top"));
 		$stmt->bindValue(':qlimit', 100);
 		$stmt->bindValue(':qpage', 0);
@@ -36,7 +39,34 @@ function run() {
 		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 		executeOrFail($stmt);
 		$rank = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	} else {
+
+	} else if ($worldid == '$') { // stars
+
+		$stmt = $pdo->prepare(loadSQL("get-ranking_stars_top"));
+		$stmt->bindValue(':qlimit', 100);
+		$stmt->bindValue(':qpage', 0);
+		executeOrFail($stmt);
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$stmt = $pdo->prepare(loadSQL("get-ranking_stars_playerrank"));
+		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
+		executeOrFail($stmt);
+		$rank = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+	} else if ($worldid == '#') { // SCCM points
+
+		$stmt = $pdo->prepare(loadSQL("get-ranking_sccm_top"));
+		$stmt->bindValue(':qlimit', 100);
+		$stmt->bindValue(':qpage', 0);
+		executeOrFail($stmt);
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$stmt = $pdo->prepare(loadSQL("get-ranking_sccm_playerrank"));
+		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
+		executeOrFail($stmt);
+		$rank = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+	} else { // world
 
 		$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top', '#$$FIELD$$', worldGuidToSQLField($worldid)));
 		$stmt->bindValue(':qlimit', 100);

@@ -5,19 +5,17 @@ using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Table;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
@@ -33,20 +31,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		public const float TAB_WIDTH     = 12 * GDConstants.TILE_WIDTH;
 		public const float TAB_HEIGHT    = 8 * GDConstants.TILE_WIDTH - TEXT_HEIGHT + 25f;
 		public const float BOTTOM_HEIGHT = 1 * GDConstants.TILE_WIDTH - 25f;
-
+		
 		public override int Depth => 0;
 
 		private readonly GraphBlueprint _focus;
-		private readonly bool _showMultiplayer;
+		private readonly HighscoreCategory _mode;
 
 		private HUDImage _loader;
 		private HUDScrollTable _table;
-		private HUDTextButton _btn;
+		private HUDButton _btn;
 
-		public HighscorePanel(GraphBlueprint focus, bool mp)
+		public HighscorePanel(GraphBlueprint focus, HighscoreCategory mod)
 		{
 			_focus = focus;
-			_showMultiplayer = mp;
+			_mode = mod;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -59,16 +57,31 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			base.OnInitialize();
 
 			string txt = "?";
-			if (_showMultiplayer)
-				txt = L10N.T(L10NImpl.STR_HSP_MULTIPLAYERRANKING);
-			else if (_focus == null)
-				txt = L10N.T(L10NImpl.STR_HSP_GLOBALRANKING);
-			else
-				txt = L10N.TF(L10NImpl.STR_HSP_RANKINGFOR, L10N.T(Levels.WORLD_NAMES[_focus.ID]));
+			switch (_mode)
+			{
+				case HighscoreCategory.GlobalPoints:
+					txt = L10N.T(L10NImpl.STR_HSP_GLOBALRANKING);
+					break;
+				case HighscoreCategory.WorldPoints:
+					txt = L10N.TF(L10NImpl.STR_HSP_RANKINGFOR, L10N.T(Levels.WORLD_NAMES[_focus.ID]));
+					break;
+				case HighscoreCategory.MultiplayerPoints:
+					txt = L10N.T(L10NImpl.STR_HSP_MULTIPLAYERRANKING);
+					break;
+				case HighscoreCategory.CustomLevelStars:
+					txt = L10N.T(L10NImpl.STR_HSP_STARRANKING);
+					break;
+				case HighscoreCategory.CustomLevelPoints:
+					txt = L10N.T(L10NImpl.STR_HSP_SCCMRANKING);
+					break;
+				default:
+					SAMLog.Error("HP::EnumSwitch_OI", "_mode: " + _mode);
+					break;
+			}
 
 			AddElement(new HUDLabel(1)
 			{
-				TextAlignment = (_showMultiplayer || _focus==null) ? HUDAlignment.CENTER : HUDAlignment.CENTERLEFT,
+				TextAlignment = (txt.Length > 24) ? HUDAlignment.CENTERLEFT : HUDAlignment.CENTER,
 				Alignment = HUDAlignment.TOPCENTER,
 				RelativePosition = new FPoint(0, 0),
 				Size = new FSize(TAB_WIDTH, TEXT_HEIGHT_REAL),
@@ -79,56 +92,25 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Text = txt,
 				TextColor = FlatColors.Clouds,
 			});
-
-			if (MainGame.Inst.Profile.HasMultiplayerGames)
+			
+			AddElement(_btn = new HUDImageButton(1)
 			{
-				if (!_showMultiplayer)
-				{
-					AddElement(_btn = new HUDTextButton(1)
-					{
-						Alignment = HUDAlignment.TOPRIGHT,
-						RelativePosition = FPoint.Zero,
-						Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 48),
+				Alignment = HUDAlignment.TOPRIGHT,
+				RelativePosition = FPoint.Zero,
+				Size = new FSize(72, 72),
 
-						L10NText = L10NImpl.STR_WORLD_MULTIPLAYER,
-						TextColor = FlatColors.Foreground,
-						Font = Textures.HUDFontBold,
-						FontSize = 42,
-						TextAlignment = HUDAlignment.CENTER,
-						TextPadding = 8,
+				Image = GetModeIcon(NextCategory(_mode)),
+				ImageColor = GetModeColor(NextCategory(_mode)),
+				ImagePadding = 8,
+				ImageAlignment = HUDImageAlignment.UNDERSCALE,
 
-						BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Amethyst, 16, false, true, false, false),
-						BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Wisteria, 16, false, true, false, false),
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16, false, true, false, false),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16, false, true, false, false),
 
-						Click = ShowMultiplayer,
+				Click = SwitchMode,
 
-						IsVisible = false,
-					});
-				}
-				else
-				{
-					AddElement(_btn = new HUDTextButton(1)
-					{
-						Alignment = HUDAlignment.TOPRIGHT,
-						RelativePosition = FPoint.Zero,
-						Size = new FSize(3.5f * GDConstants.TILE_WIDTH, 48),
-
-						L10NText = L10NImpl.STR_WORLD_SINGLEPLAYER,
-						TextColor = FlatColors.Foreground,
-						Font = Textures.HUDFontBold,
-						FontSize = 42,
-						TextAlignment = HUDAlignment.CENTER,
-						TextPadding = 8,
-
-						BackgroundNormal = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Amethyst, 16, false, true, false, false),
-						BackgroundPressed = HUDBackgroundDefinition.CreateRoundedBlur(FlatColors.Wisteria, 16, false, true, false, false),
-
-						Click = ShowSingleplayer,
-
-						IsVisible = false,
-					});
-				}
-			}
+				IsVisible = false,
+			});
 
 			_loader = new HUDImage
 			{
@@ -166,31 +148,124 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			_table.FixHeightToMultipleOfRowHeight();
 			AddElement(_table);
 
-			_table.AddColumn("", 100);
-			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
-			_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 100);
-			if (!_showMultiplayer) _table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175);
+			switch (_mode)
+			{
+				case HighscoreCategory.GlobalPoints:
+					_table.AddColumn("", 100);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 100);
+					break;
+
+				case HighscoreCategory.WorldPoints:
+					_table.AddColumn("", 100);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 100);
+					break;
+
+				case HighscoreCategory.MultiplayerPoints:
+					_table.AddColumn("", 100);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 100);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175);
+					break;
+
+				case HighscoreCategory.CustomLevelStars:
+					_table.AddColumn("", 100);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_STARS), 100);
+					break;
+
+				case HighscoreCategory.CustomLevelPoints:
+					_table.AddColumn("", 100);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 100);
+					break;
+
+				default:
+					SAMLog.Error("HP::EnumSwitch_OI2", "_mode: " + _mode);
+					break;
+			}
 
 			LoadHighscore().EnsureNoError();
 		}
 
-		private void ShowMultiplayer(HUDTextButton sender, HUDButtonEventArgs e)
+		private HighscoreCategory NextCategory(HighscoreCategory cat)
 		{
-			Remove();
-			HUD.AddModal(new HighscorePanel(null, true), true);
+			switch (cat)
+			{
+				case HighscoreCategory.GlobalPoints:
+					if (_focus != null) return HighscoreCategory.WorldPoints;
+					return HighscoreCategory.MultiplayerPoints;
+
+				case HighscoreCategory.WorldPoints:
+					return HighscoreCategory.MultiplayerPoints;
+
+				case HighscoreCategory.MultiplayerPoints:
+					return HighscoreCategory.CustomLevelStars;
+
+				case HighscoreCategory.CustomLevelStars:
+					return HighscoreCategory.CustomLevelPoints;
+
+				case HighscoreCategory.CustomLevelPoints:
+					return HighscoreCategory.GlobalPoints;
+
+				default:
+					SAMLog.Error("HP::EnumSwitch_SM", "cat: " + _mode);
+					return HighscoreCategory.GlobalPoints;
+			}
 		}
 
-		private void ShowSingleplayer(HUDTextButton sender, HUDButtonEventArgs e)
+		private void SwitchMode(HUDImageButton sender, HUDButtonEventArgs e)
 		{
 			Remove();
-			HUD.AddModal(new HighscorePanel(null, false), true);
+			HUD.AddModal(new HighscorePanel(_focus, NextCategory(_mode)), true);
+		}
+
+		private Color GetModeColor(HighscoreCategory cat)
+		{
+			switch (cat)
+			{
+				case HighscoreCategory.GlobalPoints:
+					return Color.White;
+				case HighscoreCategory.WorldPoints:
+					return Color.White;
+				case HighscoreCategory.MultiplayerPoints:
+					return FlatColors.Amethyst;
+				case HighscoreCategory.CustomLevelStars:
+					return FlatColors.SunFlower;
+				case HighscoreCategory.CustomLevelPoints:
+					return FlatColors.Alizarin;
+				default:
+					SAMLog.Error("HP::EnumSwitch_GMC", "cat: " + _mode);
+					return Color.Magenta;
+			}
+		}
+
+		private TextureRegion2D GetModeIcon(HighscoreCategory cat)
+		{
+			switch (cat)
+			{
+				case HighscoreCategory.GlobalPoints:
+					return Textures.TexIconScore;
+				case HighscoreCategory.WorldPoints:
+					return Textures.TexIconScore;
+				case HighscoreCategory.MultiplayerPoints:
+					return Textures.TexIconMPScore;
+				case HighscoreCategory.CustomLevelStars:
+					return Textures.TexIconStar;
+				case HighscoreCategory.CustomLevelPoints:
+					return Textures.TexIconTetromino;
+				default:
+					SAMLog.Error("HP::EnumSwitch_GMI", "cat: " + _mode);
+					return Textures.TexPixel;
+			}
 		}
 
 		private async Task LoadHighscore()
 		{
 			try
 			{
-				var data = await MainGame.Inst.Backend.GetRanking(MainGame.Inst.Profile, _focus, _showMultiplayer);
+				var data = await MainGame.Inst.Backend.GetRanking(MainGame.Inst.Profile, _focus, _mode);
 				MainGame.Inst.DispatchBeginInvoke(() =>
 				{
 					if (data != null)

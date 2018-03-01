@@ -28,10 +28,13 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HSP_GLOBALRANKING       = 05;
 		public const int STR_HSP_MULTIPLAYERRANKING  = 167;
 		public const int STR_HSP_RANKINGFOR          = 06;
+		public const int STR_HSP_STARRANKING         = 264;
+		public const int STR_HSP_SCCMRANKING         = 265;
 
 		public const int STR_TAB_NAME                = 07;
 		public const int STR_TAB_POINTS              = 08;
 		public const int STR_TAB_TIME                = 09;
+		public const int STR_TAB_STARS               = 266;
 
 		public const int STR_FAP_ACCOUNT             = 10;
 		public const int STR_FAP_USERNAME            = 11;
@@ -314,7 +317,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_SCOREMAN_INFO_SCCMSCORE = 262;
 		public const int STR_SCOREMAN_INFO_STARS     = 263;
 
-		private const int TEXT_COUNT = 264; // = next idx
+		private const int TEXT_COUNT = 267; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2174,6 +2177,27 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
+			
+			L10N.Add(STR_HSP_STARRANKING,
+				"Stars",
+				"Sterne",
+				"?",  //TODO translate me
+				"?",  //TODO translate me
+				"?"); //TODO translate me
+
+			L10N.Add(STR_HSP_SCCMRANKING,
+				"User level points",
+				"Benutzerlevel Punkte",
+				"?",  //TODO translate me
+				"?",  //TODO translate me
+				"?"); //TODO translate me
+
+			L10N.Add(STR_TAB_STARS,
+				"Stars",
+				"Sterne",
+				"?",  //TODO translate me
+				"?",  //TODO translate me
+				"?"); //TODO translate me
 
 		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 

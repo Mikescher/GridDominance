@@ -7,12 +7,12 @@ FROM
         SELECT
           users.userid AS userid,
           users.username AS username,
-          users.mpscore AS totalscore,
+          users.score_stars AS totalscore,
           users.time_total AS totaltime
 
         FROM users
 
-        WHERE users.mpscore > 0
+        WHERE users.score_stars > 0
 
         ORDER BY
           totalscore DESC,

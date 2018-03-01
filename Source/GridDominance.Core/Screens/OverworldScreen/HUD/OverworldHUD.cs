@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.RenderHelper;
 using System;
+using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Screens.Common.HUD.Elements;
 using Microsoft.Xna.Framework;
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
@@ -69,7 +70,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 		public void ShowHighscorePanel()
 		{
 			Settings.Close();
-			AddModal(new HighscorePanel(null, false), true);
+			AddModal(new HighscorePanel(null, HighscoreCategory.GlobalPoints), true);
 		}
 
 		public void ShowAboutPanel()

@@ -45,6 +45,7 @@
     <Compile Include="Network\Backend\BackendCodes.cs" />
     <Compile Include="Network\Backend\CustomLevelCompletionResult.cs" />
     <Compile Include="Network\Backend\GDServerAPI.cs" />
+    <Compile Include="Network\Backend\HighscoreCategory.cs" />
     <Compile Include="Network\Backend\IGDServerAPI.cs" />
     <Compile Include="Network\Backend\ChangePasswordResult.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelCompleted.cs" />

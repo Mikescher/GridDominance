@@ -944,20 +944,40 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
-		public async Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit, bool multiplayer)
+		public async Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit, HighscoreCategory cat)
 		{
 			try
 			{
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 
-				if (multiplayer)
-					ps.AddParameterString("world_id", "@");
-				else if (limit == null)
-					ps.AddParameterString("world_id", "*");
-				else
-					ps.AddParameterString("world_id", limit.ID.ToString("B"));
+				switch (cat)
+				{
+					case HighscoreCategory.GlobalPoints:
+						ps.AddParameterString("world_id", "*");
+						break;
 
+					case HighscoreCategory.WorldPoints:
+						ps.AddParameterString("world_id", limit.ID.ToString("B"));
+						break;
+
+					case HighscoreCategory.MultiplayerPoints:
+						ps.AddParameterString("world_id", "@");
+						break;
+
+					case HighscoreCategory.CustomLevelStars:
+						ps.AddParameterString("world_id", "$");
+						break;
+
+					case HighscoreCategory.CustomLevelPoints:
+						ps.AddParameterString("world_id", "#");
+						break;
+
+					default:
+						SAMLog.Error("Backend::EnumSwitch_GR", $"cat = {cat}");
+						break;
+				}
+				
 				var response = await QueryAsync<QueryResultRanking>("get-ranking", ps, RETRY_GETRANKING);
 
 				if (response == null)
