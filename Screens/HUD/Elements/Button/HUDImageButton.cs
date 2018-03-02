@@ -28,10 +28,16 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			set { _imagePadding = value; InvalidatePosition(); }
 		}
 
-		public HUDImageAlignment ImageAlignment
+		public HUDImageAlignmentAlgorithm ImageAlignment
 		{
 			get => internalIcon.ImageAlignment;
 			set => internalIcon.ImageAlignment = value;
+		}
+
+		public HUDImageScaleAlgorithm ImageScale
+		{
+			get => internalIcon.ImageScale;
+			set => internalIcon.ImageScale = value;
 		}
 
 		public float ImageRotationSpeed
@@ -76,7 +82,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			{
 				Alignment = HUDAlignment.CENTER,
 				RelativePosition = FPoint.Zero,
-				ImageAlignment = HUDImageAlignment.UNDERSCALE_CENTER,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.UNDERSCALE,
 			};
 		}
 

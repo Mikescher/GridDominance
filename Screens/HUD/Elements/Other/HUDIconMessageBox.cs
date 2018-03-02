@@ -111,7 +111,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			internalImage = new HUDImage
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
-				ImageAlignment = HUDImageAlignment.UNDERSCALE_CENTER,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.UNDERSCALE,
 				Size = new FSize(96, 96),
 			};
 

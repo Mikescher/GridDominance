@@ -108,7 +108,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			internalIcon = new HUDImage
 			{
 				Alignment = HUDAlignment.TOPLEFT,
-				ImageAlignment = HUDImageAlignment.SCALE_Y,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale = HUDImageScaleAlgorithm.SCALE_Y,
 			};
 
 			internalLabel = new HUDLabel

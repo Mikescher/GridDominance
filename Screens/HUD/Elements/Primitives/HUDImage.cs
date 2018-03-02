@@ -5,20 +5,27 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using System;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
 	public class HUDImage : HUDElement
 	{
 		public override int Depth { get; }
-
-		private HUDImageAlignment _imageAligment = HUDImageAlignment.UNDERSCALE_CENTER;
-		public HUDImageAlignment ImageAlignment
+		
+		private HUDImageAlignmentAlgorithm _imageAligment = HUDImageAlignmentAlgorithm.CENTER;
+		public HUDImageAlignmentAlgorithm ImageAlignment
 		{
 			get { return _imageAligment; }
 			set { _imageAligment = value; InvalidatePosition(); }
+		}
+		
+		private HUDImageScaleAlgorithm _imageScale = HUDImageScaleAlgorithm.UNDERSCALE;
+		public HUDImageScaleAlgorithm ImageScale
+		{
+			get { return _imageScale; }
+			set { _imageScale = value; InvalidatePosition(); }
 		}
 
 		private TextureRegion2D _image;
@@ -85,96 +92,99 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		{
 			if (Image == null) return FRectangle.Empty;
 
-			FRectangle destination;
-			switch (ImageAlignment)
+			FSize targetSize = FSize.Empty;
+			switch (ImageScale)
 			{
-				case HUDImageAlignment.CENTER:
+				case HUDImageScaleAlgorithm.NO_SCALE:
 				{
-					destination = Image.Bounds.ToFRectangle().AsCenteredTo(bounds.Center);
-					break;
+					targetSize = Image.Size();
 				}
-				case HUDImageAlignment.TOPLEFT:
+				break;
+
+				case HUDImageScaleAlgorithm.STRETCH:
 				{
-					destination = new FRectangle(bounds.TopLeft, Image.Size());
-					break;
+					targetSize = bounds.Size;
 				}
-				case HUDImageAlignment.TOPRIGHT:
-				{
-					destination = new FRectangle(bounds.Right - Image.Width, bounds.Top, Image.Width, Image.Height);
-					break;
-				}
-				case HUDImageAlignment.BOTTOMLEFT:
-				{
-					destination = new FRectangle(bounds.Left, bounds.Bottom - Image.Height, Image.Width, Image.Height);
-					break;
-				}
-				case HUDImageAlignment.BOTTOMRIGHT:
-				{
-					destination = new FRectangle(bounds.Right - Image.Width, bounds.Bottom - Image.Height, Image.Width, Image.Height);
-					break;
-				}
-				case HUDImageAlignment.SCALE:
-				{
-					destination = bounds;
-					break;
-				}
-				case HUDImageAlignment.SCALE_X:
+				break;
+
+				case HUDImageScaleAlgorithm.SCALE_X:
 				{
 					var height = (Image.Height * 1f / Image.Width) * bounds.Width;
-					destination = new FRectangle(bounds.X, bounds.Y + (bounds.Height - height) / 2, bounds.Width, height);
-					break;
+					targetSize = new FSize(bounds.Width, height);
 				}
-				case HUDImageAlignment.SCALE_Y:
+				break;
+
+				case HUDImageScaleAlgorithm.SCALE_Y:
 				{
 					var width = (Image.Width * 1f / Image.Height) * bounds.Height;
-					destination = new FRectangle(bounds.X + (bounds.Width - width) / 2, bounds.Y, width, bounds.Height);
-					break;
+					targetSize = new FSize(width, bounds.Height);
 				}
-				case HUDImageAlignment.UNDERSCALE_CENTER:
+				break;
+
+				case HUDImageScaleAlgorithm.UNDERSCALE:
 				{
 					if (bounds.Height / bounds.Width > Image.Height * 1f / Image.Width)
 					{
 						var height = (Image.Height * 1f / Image.Width) * bounds.Width;
-						destination = new FRectangle(bounds.X, bounds.Y + (bounds.Height - height) / 2, bounds.Width, height);
+						targetSize = new FSize(bounds.Width, height);
 					}
 					else
 					{
 						var width = (Image.Width * 1f / Image.Height) * bounds.Height;
-						destination = new FRectangle(bounds.X + (bounds.Width - width) / 2, bounds.Y, width, bounds.Height);
+						targetSize = new FSize(width, bounds.Height);
 					}
-					break;
 				}
-				case HUDImageAlignment.UNDERSCALE_TOPLEFT:
-				{
-					if (bounds.Height / bounds.Width > Image.Height * 1f / Image.Width)
-					{
-						var height = (Image.Height * 1f / Image.Width) * bounds.Width;
-						destination = new FRectangle(bounds.X, bounds.Y, bounds.Width, height);
-					}
-					else
-					{
-						var width = (Image.Width * 1f / Image.Height) * bounds.Height;
-						destination = new FRectangle(bounds.X, bounds.Y, width, bounds.Height);
-					}
-					break;
-				}
-				case HUDImageAlignment.OVERSCALE_CENTER:
+				break;
+				
+				case HUDImageScaleAlgorithm.OVERSCALE:
 				{
 					if (bounds.Height / bounds.Width < Image.Height * 1f / Image.Width)
 					{
 						var height = (Image.Height * 1f / Image.Width) * bounds.Width;
-						destination = new FRectangle(bounds.X, bounds.Y + (bounds.Height - height) / 2, bounds.Width, height);
+						targetSize = new FSize(bounds.Width, height);
 					}
 					else
 					{
 						var width = (Image.Width * 1f / Image.Height) * bounds.Height;
-						destination = new FRectangle(bounds.X + (bounds.Width - width) / 2, bounds.Y, width, bounds.Height);
+						targetSize = new FSize(width, bounds.Height);
 					}
-					break;
 				}
+				break;
+
 				default:
-					throw new ArgumentOutOfRangeException();
+					SAMLog.Error("HUDI::EnumSwitch_CIRB1", "ImageScale = " + ImageScale);
+					break;
 			}
+
+			FRectangle destination = FRectangle.Empty;
+
+			switch (ImageAlignment)
+			{
+				case HUDImageAlignmentAlgorithm.CENTER:
+					destination = FRectangle.CreateByCenter(bounds.Center, targetSize);
+					break;
+
+				case HUDImageAlignmentAlgorithm.TOPLEFT:
+					destination = FRectangle.CreateByTopLeft(bounds.TopLeft, targetSize);
+					break;
+
+				case HUDImageAlignmentAlgorithm.TOPRIGHT:
+					destination = FRectangle.CreateByTopRight(bounds.TopRight, targetSize);
+					break;
+
+				case HUDImageAlignmentAlgorithm.BOTTOMLEFT:
+					destination = FRectangle.CreateByBottomLeft(bounds.BottomLeft, targetSize);
+					break;
+
+				case HUDImageAlignmentAlgorithm.BOTTOMRIGHT:
+					destination = FRectangle.CreateByBottomRight(bounds.BottomRight, targetSize);
+					break;
+
+				default:
+					SAMLog.Error("HUDI::EnumSwitch_CIRB2", "ImageAlignment = " + ImageAlignment);
+					break;
+			}
+			
 			return destination;
 		}
 
