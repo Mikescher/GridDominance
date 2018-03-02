@@ -133,6 +133,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 
 		public void Return()
 		{
+			_owner.PressEnter();
 			Remove();
 		}
 	}

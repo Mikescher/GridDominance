@@ -9,7 +9,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		public HUDBackgroundDefinition BackgroundNormal = HUDBackgroundDefinition.DUMMY;
 		public HUDBackgroundDefinition BackgroundFocused = HUDBackgroundDefinition.DUMMY;
 
-		public HUDSimpleTextBox(int depth) : base(depth)
+		public HUDSimpleTextBox(int depth = 0) : base(depth)
 		{
 		}
 

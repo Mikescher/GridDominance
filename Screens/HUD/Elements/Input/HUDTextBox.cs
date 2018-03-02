@@ -41,8 +41,10 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		public delegate void TextboxEventHandler(HUDTextBox sender, EventArgs e);
 
 		public event TextboxEventHandler TextboxChanged;
+		public event TextboxEventHandler TextboxEnterKeyPressed;
 
 		public TextboxEventHandler Changed { set { TextboxChanged += value; } }
+		public TextboxEventHandler EnterKey { set { TextboxEnterKeyPressed += value; } }
 
 		private float _cursorBlinkTimer = 0;
 		private float _lastCharAdd = 0;
@@ -126,6 +128,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 			{
 				if (istate.IsKeyExclusiveJustDown(SKeys.Delete)) { istate.SwallowKey(SKeys.Delete, InputConsumer.HUDElement); PressBackspace(); }
 				if (istate.IsKeyExclusiveJustDown(SKeys.Backspace)) { istate.SwallowKey(SKeys.Delete, InputConsumer.HUDElement); PressBackspace(); }
+				if (istate.IsKeyExclusiveJustDown(SKeys.Enter)) { istate.SwallowKey(SKeys.Enter, InputConsumer.HUDElement); PressEnter(); }
 
 				char? c = istate.GetCharExclusiveJustDownAndSwallow(InputConsumer.HUDElement);
 				if (c != null) PressChar(c.Value);
@@ -171,6 +174,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 				Text = Text.Substring(0, Text.Length - 1);
 				TextboxChanged?.Invoke(this, new EventArgs());
 			}
+		}
+
+		public void PressEnter()
+		{
+			TextboxEnterKeyPressed?.Invoke(this, new EventArgs());
 		}
 
 		public void KeyboardClosed()
