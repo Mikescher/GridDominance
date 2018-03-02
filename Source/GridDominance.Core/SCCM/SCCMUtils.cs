@@ -39,11 +39,11 @@ namespace GridDominance.Shared.SCCM
 			return result.OrderByDescending(r => r.LastChanged).ToList();
 		}
 
-		public static List<LevelBlueprint> ListUserLevelsFinished()
+		public static List<Tuple<string, LevelBlueprint, string>> ListUserLevelsFinished()
 		{
 			var allfiles = FileHelper.Inst.ListData();
 
-			var result = new List<LevelBlueprint>();
+			var result = new List<Tuple<string, LevelBlueprint, string>>();
 
 			foreach (var file in allfiles)
 			{
@@ -56,7 +56,9 @@ namespace GridDominance.Shared.SCCM
 					content = FileHelper.Inst.ReadBinDataOrNull(file);
 					dat.BinaryDeserialize(new BinaryReader(new MemoryStream(content)));
 
-					result.Add(dat);
+					var hash = ByteUtils.ByteToHexBitFiddle(MainGame.Inst.Bridge.DoSHA256(content));
+
+					result.Add(Tuple.Create(file, dat, hash));
 				}
 				catch (Exception e)
 				{
@@ -71,6 +73,11 @@ namespace GridDominance.Shared.SCCM
 		{
 			FileHelper.Inst.DeleteDataIfExist(oldData.Filename);
 			FileHelper.Inst.WriteBinData(oldData.FilenameUploaded, newData);
+		}
+
+		internal static void DeleteUserLevelFinished(string filename)
+		{
+			FileHelper.Inst.DeleteDataIfExist(filename);
 		}
 	}
 }

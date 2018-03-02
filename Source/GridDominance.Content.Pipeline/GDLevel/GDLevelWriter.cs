@@ -10,7 +10,7 @@ namespace GridDominance.Content.Pipeline.GDLevel
 	{
 		protected override void Write(ContentWriter output, LevelBlueprint value)
 		{
-			value.BinarySerialize(output, false, 0, -1);
+			value.BinarySerialize(output, false, 0, -1, 0);
 		}
 		
 		public override string GetRuntimeType(TargetPlatform targetPlatform)

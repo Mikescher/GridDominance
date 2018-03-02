@@ -33,6 +33,7 @@ namespace GridDominance.Shared.SCCM
 		public DateTime LastChanged;
 
 		public int Music = -1;
+		public int AuthorUserID = -1;
 		public Int64 OnlineID = -1;
 		public string Name = "";
 		public DSize Size = SIZES[0];
@@ -46,10 +47,11 @@ namespace GridDominance.Shared.SCCM
 		public string Filename         => "CUSTOMLEVELDATA_{B16B00B5-0001-4001-0000-" + $"{OnlineID:X12}" + "}";
 		public string FilenameUploaded => "UPLOADEDLEVELDATA_{B16B00B5-0001-4001-0000-" + $"{OnlineID:X12}" + "}";
 
-		public SCCMLevelData(Int64 id)
+		public SCCMLevelData(Int64 id, int authorid)
 		{
 			LastChanged = DateTime.UtcNow;
 			OnlineID = id;
+			AuthorUserID = authorid;
 		}
 
 		public SCCMLevelData() { }
@@ -58,13 +60,14 @@ namespace GridDominance.Shared.SCCM
 		{
 			RegisterConstructor(() => new SCCMLevelData());
 
-			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "music",       o => o.Music,       (o, v) => o.Music       = v);
-			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "lastChanged", o => o.LastChanged, (o, v) => o.LastChanged = v);
-			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "online_id",   o => o.OnlineID,    (o, v) => o.OnlineID    = v);
-			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "level_name",  o => o.Name,        (o, v) => o.Name        = v);
-			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "size",        o => o.Size,        (o, v) => o.Size        = v);
-			RegisterProperty<SCCMLevelData, FlatAlign9>(  SemVersion.VERSION_1_0_0, "view",        o => o.View,        (o, v) => o.View        = v);
-			RegisterProperty<SCCMLevelData, GameWrapMode>(SemVersion.VERSION_1_0_0, "geometry",    o => o.Geometry,    (o, v) => o.Geometry    = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "music",       o => o.Music,        (o, v) => o.Music        = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "lastChanged", o => o.LastChanged,  (o, v) => o.LastChanged  = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "online_id",   o => o.OnlineID,     (o, v) => o.OnlineID     = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "level_name",  o => o.Name,         (o, v) => o.Name         = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "size",        o => o.Size,         (o, v) => o.Size         = v);
+			RegisterProperty<SCCMLevelData, FlatAlign9>(  SemVersion.VERSION_1_0_0, "view",        o => o.View,         (o, v) => o.View         = v);
+			RegisterProperty<SCCMLevelData, GameWrapMode>(SemVersion.VERSION_1_0_0, "geometry",    o => o.Geometry,     (o, v) => o.Geometry     = v);
+			RegisterProperty<SCCMLevelData>(              SemVersion.VERSION_1_0_0, "author",      o => o.AuthorUserID, (o, v) => o.AuthorUserID = v);
 
 			RegisterPropertyList<SCCMLevelData, SCCMLevelElement>(SemVersion.VERSION_1_0_0, "elements", () => new SCCMLevelElement(), o => o.Elements, (o, v) => o.Elements = v);
 		}

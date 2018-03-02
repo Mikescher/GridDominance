@@ -47,9 +47,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 		private HUDEllipseImageButton _btnPlay2;
 		private HUDEllipseImageButton _btnPlay3;
 
-		public SCCMLevelPreviewDialog(SCCMLevelMeta meta)
+		public SCCMLevelPreviewDialog(SCCMLevelMeta meta, LevelBlueprint lvl = null)
 		{
-			_meta = meta;
+			_meta  = meta;
+			_blueprint = lvl;
 			
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -85,6 +86,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				TextColor = Color.White,
 			});
 			
+			var starred = MainGame.Inst.Profile.HasCustomLevelStarred(_meta);
+			var mylevel = (_meta.UserID == MainGame.Inst.Profile.OnlineUserID);
+
 			AddElement(_btnStar = new HUDEllipseImageButton
 			{
 				Alignment = HUDAlignment.TOPRIGHT,
@@ -94,7 +98,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Image = Textures.TexIconStar,
 				BackgroundNormal   = Color.Transparent,
 				BackgroundPressed  = FlatColors.ButtonPressedHUD,
-				ImageColor         = MainGame.Inst.Profile.HasCustomLevelStarred(_meta) ? FlatColors.SunFlower : FlatColors.Silver,
+				ImageColor         = (starred || mylevel) ? FlatColors.SunFlower : FlatColors.Silver,
 				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
 				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 
@@ -512,7 +516,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 			#endregion
 
-			StartDownload();
+			if (_blueprint==null) StartDownload();
 		}
 
 		private void StartDownload()
@@ -624,7 +628,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 		private void ToggleStar()
 		{
+			if (_meta.UserID == MainGame.Inst.Profile.OnlineUserID) return;
 			if (!MainGame.Inst.Profile.HasCustomLevelBeaten(_meta)) return;
+
 			//TODO
 			// [Request] -> [Set icon to spinner] -> [Response] -> [Save Profile] -> [update icon]
 		}

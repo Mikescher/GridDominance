@@ -129,7 +129,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
 					spinner.Remove();
-					MainGame.Inst.SetLevelEditorScreen(new SCCMLevelData(r.Item2));
+					MainGame.Inst.SetLevelEditorScreen(new SCCMLevelData(r.Item2, MainGame.Inst.Profile.OnlineUserID));
 				});
 			}
 			catch (Exception e)
