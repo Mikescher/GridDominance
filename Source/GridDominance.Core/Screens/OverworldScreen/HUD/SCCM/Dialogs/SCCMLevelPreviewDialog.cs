@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
@@ -82,13 +79,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontBold,
 				FontSize = TW,
 
-				Text = _meta.LevelName,
+				Text = _meta?.LevelName ?? _blueprint.FullName,
 				WordWrap = HUDWordWrap.Ellipsis,
 				TextColor = Color.White,
 			});
 			
-			var starred = MainGame.Inst.Profile.HasCustomLevelStarred(_meta);
-			var mylevel = (_meta.UserID == MainGame.Inst.Profile.OnlineUserID);
+			var starred = MainGame.Inst.Profile.HasCustomLevelStarred(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID);
+			var mylevel = ((_meta?.UserID ?? _blueprint.CustomMeta_UserID) == MainGame.Inst.Profile.OnlineUserID);
 
 			AddElement(_btnStar = new HUDEllipseImageButton
 			{
@@ -105,7 +102,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 				Click = (s, a) => ToggleStar(),
 
-				IsEnabled = (_meta.UserID != MainGame.Inst.Profile.OnlineUserID) && (MainGame.Inst.Profile.HasCustomLevelBeaten(_meta)),
+				IsEnabled = ((_meta?.UserID ?? _blueprint.CustomMeta_UserID) != MainGame.Inst.Profile.OnlineUserID) && (MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID)),
 			});
 			
 			AddElement(_lblStar = new HUDLabel
@@ -117,7 +114,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 24,
 
-				Text = _meta.Stars.ToString(),
+				Text = (_meta==null) ? "?" : _meta.Stars.ToString(),
 				WordWrap = HUDWordWrap.NoWrap,
 				TextColor = (starred || mylevel) ? FlatColors.SunFlower : FlatColors.Silver,
 				TextAlignment = HUDAlignment.TOPCENTER,
@@ -183,7 +180,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Size = new FSize(48, 48),
 
 				Image = Textures.TexDifficultyLine0,
-				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0) : FlatColors.Silver,
+				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0) : FlatColors.Silver,
 				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
 				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 			});
@@ -195,7 +192,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Size = new FSize(48, 48),
 
 				Image = Textures.TexDifficultyLine1,
-				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1) : FlatColors.Silver,
+				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1) : FlatColors.Silver,
 				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
 				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 			});
@@ -207,7 +204,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Size = new FSize(48, 48),
 
 				Image = Textures.TexDifficultyLine2,
-				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2) : FlatColors.Silver,
+				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2) : FlatColors.Silver,
 				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
 				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 			});
@@ -219,7 +216,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Size = new FSize(48, 48),
 
 				Image = Textures.TexDifficultyLine3,
-				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3) : FlatColors.Silver,
+				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3) : FlatColors.Silver,
 				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
 				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 			});
@@ -238,9 +235,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = MainGame.Inst.Profile.GetCustomLevelTimeString(_meta, FractionDifficulty.DIFF_0),
+				Text = MainGame.Inst.Profile.GetCustomLevelTimeString(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_0),
 				WordWrap = HUDWordWrap.Ellipsis,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0) : FlatColors.TextHUD,
 			});
 
 			AddElement(new HUDLabel
@@ -253,9 +250,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = MainGame.Inst.Profile.GetCustomLevelTimeString(_meta, FractionDifficulty.DIFF_1),
+				Text = MainGame.Inst.Profile.GetCustomLevelTimeString(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_1),
 				WordWrap = HUDWordWrap.Ellipsis,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1) : FlatColors.TextHUD,
 			});
 
 			AddElement(new HUDLabel
@@ -268,9 +265,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = MainGame.Inst.Profile.GetCustomLevelTimeString(_meta, FractionDifficulty.DIFF_2),
+				Text = MainGame.Inst.Profile.GetCustomLevelTimeString(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_2),
 				WordWrap = HUDWordWrap.Ellipsis,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2) : FlatColors.TextHUD,
 			});
 
 			AddElement(new HUDLabel
@@ -283,9 +280,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = MainGame.Inst.Profile.GetCustomLevelTimeString(_meta, FractionDifficulty.DIFF_3),
+				Text = MainGame.Inst.Profile.GetCustomLevelTimeString(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_3),
 				WordWrap = HUDWordWrap.Ellipsis,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3) : FlatColors.TextHUD,
 			});
 			
 			#endregion
@@ -302,9 +299,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = _meta.Highscores[(int)FractionDifficulty.DIFF_0].FormatHighscoreCell(),
+				Text = _meta?.Highscores[(int)FractionDifficulty.DIFF_0].FormatHighscoreCell() ?? "",
 				WordWrap = HUDWordWrap.Ellipsis,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0) : FlatColors.TextHUD,
 			});
 			
 			AddElement(new HUDLabel
@@ -317,9 +314,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = _meta.Highscores[(int)FractionDifficulty.DIFF_1].FormatHighscoreCell(),
+				Text = _meta?.Highscores[(int)FractionDifficulty.DIFF_1].FormatHighscoreCell() ?? "",
 				WordWrap = HUDWordWrap.Ellipsis,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1) : FlatColors.TextHUD,
 			});
 			
 			AddElement(new HUDLabel
@@ -332,9 +329,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = _meta.Highscores[(int)FractionDifficulty.DIFF_2].FormatHighscoreCell(),
+				Text = _meta?.Highscores[(int)FractionDifficulty.DIFF_2].FormatHighscoreCell() ?? "",
 				WordWrap = HUDWordWrap.Ellipsis,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2) : FlatColors.TextHUD,
 			});
 			
 			AddElement(new HUDLabel
@@ -347,9 +344,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = _meta.Highscores[(int)FractionDifficulty.DIFF_3].FormatHighscoreCell(),
+				Text = _meta?.Highscores[(int)FractionDifficulty.DIFF_3].FormatHighscoreCell() ?? "",
 				WordWrap = HUDWordWrap.Ellipsis,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3) : FlatColors.TextHUD,
 			});
 			
 			#endregion
@@ -366,9 +363,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = _meta.Highscores[(int)FractionDifficulty.DIFF_0].FormatGlobalClearsCell(),
+				Text = _meta?.Highscores[(int)FractionDifficulty.DIFF_0].FormatGlobalClearsCell() ?? "",
 				WordWrap = HUDWordWrap.NoWrap,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0) : FlatColors.TextHUD,
 			});
 			
 			AddElement(new HUDLabel
@@ -381,9 +378,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = _meta.Highscores[(int)FractionDifficulty.DIFF_1].FormatGlobalClearsCell(),
+				Text = _meta?.Highscores[(int)FractionDifficulty.DIFF_1].FormatGlobalClearsCell() ?? "",
 				WordWrap = HUDWordWrap.NoWrap,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1) : FlatColors.TextHUD,
 			});
 			
 			AddElement(new HUDLabel
@@ -396,9 +393,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = _meta.Highscores[(int)FractionDifficulty.DIFF_2].FormatGlobalClearsCell(),
+				Text = _meta?.Highscores[(int)FractionDifficulty.DIFF_2].FormatGlobalClearsCell() ?? "",
 				WordWrap = HUDWordWrap.NoWrap,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2) : FlatColors.TextHUD,
 			});
 			
 			AddElement(new HUDLabel
@@ -411,9 +408,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = _meta.Highscores[(int)FractionDifficulty.DIFF_3].FormatGlobalClearsCell(),
+				Text = _meta?.Highscores[(int)FractionDifficulty.DIFF_3].FormatGlobalClearsCell() ?? "",
 				WordWrap = HUDWordWrap.NoWrap,
-				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3) : FlatColors.TextHUD,
+				TextColor = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3) : FlatColors.TextHUD,
 			});
 			
 			#endregion
@@ -512,7 +509,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
 
-				Text = _meta.Username,
+				Text = _meta?.Username ?? "???",
 				WordWrap = HUDWordWrap.Ellipsis,
 				TextColor = FlatColors.GreenSea,
 			});
@@ -527,18 +524,26 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 			_btnPlay0.ImageRotation = 0f;
 			_btnPlay0.ImageRotationSpeed = 0.25f;
 			_btnPlay0.Image = Textures.CannonCogBig;
+			_btnPlay0.ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0);
+			_btnPlay0.ImagePadding = 8;
 
 			_btnPlay1.ImageRotation = 0f;
 			_btnPlay1.ImageRotationSpeed = 0.25f;
 			_btnPlay1.Image = Textures.CannonCogBig;
+			_btnPlay1.ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1);
+			_btnPlay1.ImagePadding = 8;
 
 			_btnPlay2.ImageRotation = 0f;
 			_btnPlay2.ImageRotationSpeed = 0.25f;
 			_btnPlay2.Image = Textures.CannonCogBig;
+			_btnPlay2.ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2);
+			_btnPlay2.ImagePadding = 8;
 
 			_btnPlay3.ImageRotation = 0f;
 			_btnPlay3.ImageRotationSpeed = 0.25f;
 			_btnPlay3.Image = Textures.CannonCogBig;
+			_btnPlay3.ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3);
+			_btnPlay3.ImagePadding = 8;
 
 
 			StartDownloadLevel().RunAsync();
@@ -559,7 +564,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
-						HUD.ShowToast("SCCMLPD::DF", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 32, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+						HUD.ShowToast("SCCMLPD::DF", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(OnDownloadFailed);
 					});
 					return;
 				}
@@ -581,7 +587,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 			{
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
-					HUD.ShowToast("SCCMLPD::DF", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 32, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+					HUD.ShowToast("SCCMLPD::DF", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
 				});
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(OnDownloadFailed);
@@ -593,7 +599,30 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 		private void OnDownloadFailed()
 		{
 			_downloadState = DownloadState.Error;
-			//todo set error images
+			
+			_btnPlay0.ImageRotation = 0f;
+			_btnPlay0.ImageRotationSpeed = 0f;
+			_btnPlay0.Image = Textures.TexIconError;
+			_btnPlay0.ImageColor = FlatColors.Pomegranate;
+			_btnPlay0.ImagePadding = 0;
+
+			_btnPlay1.ImageRotation = 0f;
+			_btnPlay1.ImageRotationSpeed = 0f;
+			_btnPlay1.Image = Textures.TexIconError;
+			_btnPlay1.ImageColor = FlatColors.Pomegranate;
+			_btnPlay1.ImagePadding = 0;
+
+			_btnPlay2.ImageRotation = 0f;
+			_btnPlay2.ImageRotationSpeed = 0f;
+			_btnPlay2.Image = Textures.TexIconError;
+			_btnPlay2.ImageColor = FlatColors.Pomegranate;
+			_btnPlay2.ImagePadding = 0;
+
+			_btnPlay3.ImageRotation = 0f;
+			_btnPlay3.ImageRotationSpeed = 0f;
+			_btnPlay3.Image = Textures.TexIconError;
+			_btnPlay3.ImageColor = FlatColors.Pomegranate;
+			_btnPlay3.ImagePadding = 0;
 		}
 
 		private void OnDownloadSuccess()
@@ -605,6 +634,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				_btnPlay0.ImageRotation = 0f;
 				_btnPlay0.ImageRotationSpeed = 0f;
 				_btnPlay0.Image = Textures.TexDifficultyLine0;
+				_btnPlay0.ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0);
+				_btnPlay0.ImagePadding = 8;
 			}), 0 * 0.150f);
 			
 			AddOperationDelayed(new SingleLambdaOperation<SCCMLevelPreviewDialog>("FinishButton1", e =>
@@ -612,6 +643,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				_btnPlay1.ImageRotation = 0f;
 				_btnPlay1.ImageRotationSpeed = 0f;
 				_btnPlay1.Image = Textures.TexDifficultyLine1;
+				_btnPlay1.ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1);
+				_btnPlay1.ImagePadding = 8;
 			}), 1 * 0.150f);
 			
 			AddOperationDelayed(new SingleLambdaOperation<SCCMLevelPreviewDialog>("FinishButton2", e =>
@@ -619,6 +652,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				_btnPlay2.ImageRotation = 0f;
 				_btnPlay2.ImageRotationSpeed = 0f;
 				_btnPlay2.Image = Textures.TexDifficultyLine2;
+				_btnPlay2.ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2);
+				_btnPlay2.ImagePadding = 8;
 			}), 2 * 0.150f);
 			
 			AddOperationDelayed(new SingleLambdaOperation<SCCMLevelPreviewDialog>("FinishButton3", e =>
@@ -626,21 +661,23 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				_btnPlay3.ImageRotation = 0f;
 				_btnPlay3.ImageRotationSpeed = 0f;
 				_btnPlay3.Image = Textures.TexDifficultyLine3;
+				_btnPlay3.ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3);
+				_btnPlay3.ImagePadding = 8;
 			}), 3 * 0.150f);
 		}
 
 		private void ToggleStar()
 		{
 			if (_btnStar.Image == Textures.CannonCogBig) return;
-			if (_meta.UserID == MainGame.Inst.Profile.OnlineUserID) return;
-			if (!MainGame.Inst.Profile.HasCustomLevelBeaten(_meta)) return;
+			if (_meta?.UserID == MainGame.Inst.Profile.OnlineUserID) return;
+			if (!MainGame.Inst.Profile.HasCustomLevelBeaten(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID)) return;
 
 			_btnStar.Image = Textures.CannonCogBig;
 			_btnStar.ImageColor = FlatColors.Clouds;
 			_btnStar.ImageRotation = 0f;
 			_btnStar.ImageRotationSpeed = 0.5f;
 
-			DoToggleStar(!MainGame.Inst.Profile.HasCustomLevelStarred(_meta)).RunAsync();
+			DoToggleStar(!MainGame.Inst.Profile.HasCustomLevelStarred(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID)).RunAsync();
 		}
 
 		private void Play(FractionDifficulty d)
@@ -684,7 +721,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 		{
 			// [Request] -> [Set icon to spinner] -> [Response] -> [Save Profile] -> [update icon]
 
-			var r = await MainGame.Inst.Backend.SetCustomLevelStarred(MainGame.Inst.Profile, _meta.OnlineID, v);
+			var r = await MainGame.Inst.Backend.SetCustomLevelStarred(MainGame.Inst.Profile, _meta?.OnlineID ?? _blueprint.CustomMeta_LevelID, v);
 
 			MainGame.Inst.DispatchBeginInvoke(() => 
 			{
@@ -701,12 +738,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				else
 				{
 					_btnStar.Image = Textures.TexIconStar;
-					_btnStar.ImageColor = MainGame.Inst.Profile.HasCustomLevelStarred(_meta) ? FlatColors.SunFlower : FlatColors.Silver;
+					_btnStar.ImageColor = MainGame.Inst.Profile.HasCustomLevelStarred(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID) ? FlatColors.SunFlower : FlatColors.Silver;
 					_btnStar.ImageRotation = 0f;
 					_btnStar.ImageRotationSpeed = 0f;
 
-					_lblStar.Text = _meta.Stars.ToString();
-					_lblStar.TextColor = MainGame.Inst.Profile.HasCustomLevelStarred(_meta) ? FlatColors.SunFlower : FlatColors.Silver;
+					_lblStar.Text = (_meta==null) ? "???" : _meta.Stars.ToString();
+					_lblStar.TextColor = MainGame.Inst.Profile.HasCustomLevelStarred(_meta?.OnlineID ?? _blueprint.CustomMeta_LevelID) ? FlatColors.SunFlower : FlatColors.Silver;
 				}
 
 			});

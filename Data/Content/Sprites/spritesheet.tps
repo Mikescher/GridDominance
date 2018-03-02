@@ -319,6 +319,7 @@
             <key type="filename">difficulty/difficulty_line_02.png</key>
             <key type="filename">difficulty/difficulty_line_03.png</key>
             <key type="filename">difficulty/difficulty_line_04.png</key>
+            <key type="filename">hud/error.png</key>
             <key type="filename">hud/genericuser.png</key>
             <key type="filename">hud/jewels.png</key>
             <key type="filename">hud/pokerchip.png</key>

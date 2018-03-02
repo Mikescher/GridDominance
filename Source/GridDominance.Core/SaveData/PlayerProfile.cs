@@ -301,9 +301,9 @@ namespace GridDominance.Shared.SaveData
 			return null;
 		}
 
-		public bool HasCustomLevelBeaten(SCCMLevelMeta lvl, FractionDifficulty diff)
+		public bool HasCustomLevelBeaten(long onlineID, FractionDifficulty diff)
 		{
-			var dat = GetCustomLevelData(lvl.OnlineID);
+			var dat = GetCustomLevelData(onlineID);
 			if (dat == null) return false;
 
 			switch (diff)
@@ -320,17 +320,17 @@ namespace GridDominance.Shared.SaveData
 			}
 		}
 
-		public bool HasCustomLevelBeaten(SCCMLevelMeta lvl)
+		public bool HasCustomLevelBeaten(long onlineID)
 		{
-			var dat = GetCustomLevelData(lvl.OnlineID);
+			var dat = GetCustomLevelData(onlineID);
 			if (dat == null) return false;
 
 			return dat.Diff0_HasCompleted || dat.Diff1_HasCompleted || dat.Diff2_HasCompleted || dat.Diff3_HasCompleted;
 		}
 
-		public string GetCustomLevelTimeString(SCCMLevelMeta lvl, FractionDifficulty diff)
+		public string GetCustomLevelTimeString(long onlineID, FractionDifficulty diff)
 		{
-			var dat = GetCustomLevelData(lvl.OnlineID);
+			var dat = GetCustomLevelData(onlineID);
 			if (dat == null) return string.Empty;
 			
 			switch (diff)
@@ -348,9 +348,9 @@ namespace GridDominance.Shared.SaveData
 			
 		}
 
-		public bool HasCustomLevelStarred(SCCMLevelMeta lvl)
+		public bool HasCustomLevelStarred(long onlineID)
 		{
-			var dat = GetCustomLevelData(lvl.OnlineID);
+			var dat = GetCustomLevelData(onlineID);
 			if (dat == null) return false;
 
 			return dat.starred;

@@ -7,8 +7,10 @@ using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
@@ -19,6 +21,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 	{
 		private SCCMLevelMeta _meta = null;
 		private readonly LevelBlueprint _level;
+
+		private HUDTextButton _btnPlay;
 
 		public SCCMListElementLocalPlayable(LevelBlueprint bp)
 		{
@@ -40,7 +44,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				Color = FlatColors.SunFlower,
 			});
 
-			AddElement(new HUDTextButton
+			AddElement(_btnPlay = new HUDTextButton
 			{
 				RelativePosition = new FPoint(5, 5),
 				Size = new FSize(192, 32),
@@ -60,6 +64,11 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			});
 		}
 
+		protected override void DoUpdate(SAMTime gameTime, InputState istate)
+		{
+			_btnPlay.TextColor = (_meta == null) ? FlatColors.Concrete : Color.White;
+		}
+
 		private void OnPlay(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			HUD.AddModal(new SCCMLevelPreviewDialog(_meta, _level), true, 0.5f, 0.5f);
@@ -75,12 +84,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			}
 
 			{ // name
-				FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontBold, 32, _meta?.LevelName ?? _level?.FullName, FlatColors.Foreground, new FPoint(bounds.Left + 5 + 32 + 5, bounds.Top + (bounds.Height - 25) / 2));
+				FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontBold, 32, _meta?.LevelName ?? _level?.FullName,  (_meta==null) ? FlatColors.Silver : FlatColors.Foreground, new FPoint(bounds.Left + 5 + 32 + 5, bounds.Top + (bounds.Height - 25) / 2));
 			}
 
 			{ // user
-				sbatch.DrawCentered(Textures.TexHUDIconGenericUser, new FPoint(bottomrect.Left + 5 + 32 + 5, bottomrect.CenterY), 20, 20, FlatColors.WetAsphalt);
-				FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontBold, 20, (_meta==null) ? L10N.T(L10NImpl.STR_INF_YOU) : (_meta.Username??"Unknown"), FlatColors.Foreground, new FPoint(bounds.Left + 5 + 32 + 5 + 16, bounds.Bottom - 12.5f));
+				sbatch.DrawCentered(Textures.TexHUDIconGenericUser, new FPoint(bottomrect.Left + 5 + 32 + 5, bottomrect.CenterY), 20, 20,  (_meta==null) ? FlatColors.Silver : FlatColors.WetAsphalt);
+				FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontBold, 20, (_meta==null) ? L10N.T(L10NImpl.STR_INF_YOU) : (_meta.Username??"Unknown"), (_meta==null) ? FlatColors.Silver : FlatColors.Foreground, new FPoint(bounds.Left + 5 + 32 + 5 + 16, bounds.Bottom - 12.5f));
 			}
 
 
@@ -94,7 +103,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			{ // star counter
 				var pointPos = new FPoint(bottomrect.Right - 100, bottomrect.CenterY);
 				sbatch.DrawCentered(Textures.TexIconStar, pointPos, 20, 20, FlatColors.SunFlower);
-				FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontBold, 24, (_meta==null) ? "???" : _meta.Stars.ToString(), FlatColors.MidnightBlue, pointPos + new Vector2(16, 0));
+				FontRenderHelper.DrawTextVerticallyCentered(sbatch, Textures.HUDFontBold, 24, (_meta==null) ? "???" : _meta.Stars.ToString(),  (_meta==null) ? FlatColors.Silver : FlatColors.MidnightBlue, pointPos + new Vector2(16, 0));
 			}
 
 			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, HUD.PixelWidth, Color.Black);

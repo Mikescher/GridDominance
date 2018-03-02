@@ -269,6 +269,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexIconConnection3;
 		public static TextureRegion2D TexIconStar;
 		public static TextureRegion2D TexIconTetromino;
+		public static TextureRegion2D TexIconError;
 
 		public static TextureRegion2D TexIconNetworkBase;
 		public static TextureRegion2D TexIconNetworkVertex1;
@@ -529,6 +530,7 @@ namespace GridDominance.Shared.Resources
 
 			TexIconStar        = AtlasTextures["star"];
 			TexIconTetromino   = AtlasTextures["tetro0"];
+			TexIconError       = AtlasTextures["error"];
 
 			HUDFontRegular      = content.Load<SpriteFont>("fonts/hudFontRegular");
 			HUDFontBold         = content.Load<SpriteFont>("fonts/hudFontBold");
