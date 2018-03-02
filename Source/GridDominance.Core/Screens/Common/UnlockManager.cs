@@ -293,19 +293,26 @@ namespace GridDominance.Shared.Screens.Common
 			if (id == Levels.WORLD_001.ID)
 				return 0;
 
-			var sc = (GDConstants.SCORE_DIFF_0 + GDConstants.SCORE_DIFF_1 + GDConstants.SCORE_DIFF_2);
+			var sc = (GDConstants.SCORE_DIFF_0 + GDConstants.SCORE_DIFF_1 + GDConstants.SCORE_DIFF_2*0.75f); // (all on D1), (all on D2) and (3/4 on D3)
 
-			if (id == Levels.WORLD_002.ID)
-				return BlueprintAnalyzer.LevelCount(Levels.WORLD_001) * sc;
-
-			if (id == Levels.WORLD_003.ID)
-				return (BlueprintAnalyzer.LevelCount(Levels.WORLD_001) + BlueprintAnalyzer.LevelCount(Levels.WORLD_002)) * sc;
-
+			int levelcount = 0;
+			
+			if (id == Levels.WORLD_002.ID || id == Levels.WORLD_003.ID || id == Levels.WORLD_004.ID)
+				levelcount += BlueprintAnalyzer.LevelCount(Levels.WORLD_001);
+			
+			if (id == Levels.WORLD_003.ID || id == Levels.WORLD_004.ID)
+				levelcount += BlueprintAnalyzer.LevelCount(Levels.WORLD_002);
+			
 			if (id == Levels.WORLD_004.ID)
-				return (BlueprintAnalyzer.LevelCount(Levels.WORLD_001) + BlueprintAnalyzer.LevelCount(Levels.WORLD_002) + BlueprintAnalyzer.LevelCount(Levels.WORLD_003)) * sc;
+				levelcount += BlueprintAnalyzer.LevelCount(Levels.WORLD_003);
 
+			if (levelcount==0)
+			{
 			SAMLog.Error("UNLCK::PFU", $"UnlockManager: WorldID not found {id}");
 			return 99999;
+			}
+
+			return (int)(levelcount * sc);
 		}
 
 		public static IEnumerable<Guid> GetFullUnlockState()
