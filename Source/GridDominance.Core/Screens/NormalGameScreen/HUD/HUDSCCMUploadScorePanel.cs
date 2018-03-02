@@ -334,6 +334,28 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 							}, true);
 							break;
+						case UploadResult.InvalidName:
+							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
+							{
+								L10NText = L10NImpl.STR_LVLUPLD_ERR_INVALIDNAME,
+								TextColor = FlatColors.Clouds,
+								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
+
+								CloseOnClick = true,
+
+							}, true);
+							break;
+						case UploadResult.DuplicateName:
+							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
+							{
+								L10NText = L10NImpl.STR_LVLUPLD_ERR_DUPLNAME,
+								TextColor = FlatColors.Clouds,
+								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
+
+								CloseOnClick = true,
+
+							}, true);
+							break;
 						case UploadResult.AlreadyUploaded:
 						case UploadResult.Success:
 							MainGame.Inst.SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab.MyLevels);
@@ -345,17 +367,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 								L10NText = L10NImpl.STR_LVLED_UPLOAD_FIN,
 								TextColor = FlatColors.Clouds,
 								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Nephritis, 16),
-
-								CloseOnClick = true,
-
-							}, true);
-							break;
-						case UploadResult.InvalidName:
-							HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
-							{
-								L10NText = L10NImpl.STR_LVLUPLD_ERR_INVALIDNAME,
-								TextColor = FlatColors.Clouds,
-								Background = HUDBackgroundDefinition.CreateRounded(FlatColors.Alizarin, 16),
 
 								CloseOnClick = true,
 

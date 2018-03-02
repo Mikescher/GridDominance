@@ -3,54 +3,55 @@
 if(count(get_included_files()) ==1) exit("Direct access not permitted.");
 
 abstract class ERRORS {
-	/* ======== 99 INTERNAL ========= */
-	const INTERNAL_EXCEPTION      = 99099;
-	const MISSING_PARAMETER       = 99001;
-	const PARAMETER_HASH_MISMATCH = 99002;
-	const INVALID_PARAMETER       = 99003;
-	const USER_BY_ID_NOT_FOUND    = 99004;
-	const WRONG_PASSWORD          = 99005;
-	const USER_BY_NAME_NOT_FOUND  = 99006;
+	/* ==================== 99 INTERNAL ====================== */
+	const INTERNAL_EXCEPTION               = 99099;
+	const MISSING_PARAMETER                = 99001;
+	const PARAMETER_HASH_MISMATCH          = 99002;
+	const INVALID_PARAMETER                = 99003;
+	const USER_BY_ID_NOT_FOUND             = 99004;
+	const WRONG_PASSWORD                   = 99005;
+	const USER_BY_NAME_NOT_FOUND           = 99006;
 
-	/* ======== 11 UPGRADE-USER ========= */
+	/* ==================== 11 UPGRADE-USER ================== */
 	const UPGRADE_USER_DUPLICATE_USERNAME  = 10001;
 	const UPGRADE_USER_ACCOUNT_ALREADY_SET = 11002;
 
-	/* ======== 12 SET-SCORE ========= */
-	const SET_SCORE_INVALID_TIME  = 12001;
-	const SET_SCORE_INVALID_SCORE = 12002;
-	const SET_SCORE_INVALID_LVLID = 12003;
-	const SET_SCORE_INVALID_DIFF  = 12004;
+	/* ==================== 12 SET-SCORE ===================== */
+	const SET_SCORE_INVALID_TIME           = 12001;
+	const SET_SCORE_INVALID_SCORE          = 12002;
+	const SET_SCORE_INVALID_LVLID          = 12003;
+	const SET_SCORE_INVALID_DIFF           = 12004;
 
-	/* ======== 13 SET-SCORE ========= */
-	const CRON_INTERNAL_ERR  = 13001;
+	/* ==================== 13 SET-SCORE ===================== */
+	const CRON_INTERNAL_ERR                = 13001;
 
-	/* ======== 14 MERGE-LOGIN ========= */
-	const MERGE_INVALID_TIME  = 14001;
-	const MERGE_INVALID_LVLID = 14002;
-	const MERGE_INVALID_DIFF  = 14003;
+	/* ==================== 14 MERGE-LOGIN =================== */
+	const MERGE_INVALID_TIME               = 14001;
+	const MERGE_INVALID_LVLID              = 14002;
+	const MERGE_INVALID_DIFF               = 14003;
 
-	/* ======== 15 UPLOAD-USERLEVEL ========= */
-	const LEVELUPLOAD_FILE_TOO_BIG      = 15001;
-	const LEVELUPLOAD_WRONG_USERID      = 15002;
-	const LEVELUPLOAD_LEVELID_NOT_FOUND = 15003;
-	const LEVELUPLOAD_ALREADY_UPLOADED  = 15004;
-	const LEVELUPLOAD_INVALID_NAME      = 15005;
-	const LEVELUPLOAD_HASH_MISMATCH     = 15006;
-	const LEVELUPLOAD_ANONUSER          = 15007;
+	/* ==================== 15 UPLOAD-USERLEVEL ============== */
+	const LEVELUPLOAD_FILE_TOO_BIG         = 15001;
+	const LEVELUPLOAD_WRONG_USERID         = 15002;
+	const LEVELUPLOAD_LEVELID_NOT_FOUND    = 15003;
+	const LEVELUPLOAD_ALREADY_UPLOADED     = 15004;
+	const LEVELUPLOAD_INVALID_NAME         = 15005;
+	const LEVELUPLOAD_HASH_MISMATCH        = 15006;
+	const LEVELUPLOAD_ANONUSER             = 15007;
+	const LEVELUPLOAD_DUPLICATENAME        = 15008;
 
-	/* ======== 16 QUERY-USERLEVEL ========= */
-	const LEVELQUERY_UNNKOWN_CAT = 16001;
+	/* ==================== 16 QUERY-USERLEVEL =============== */
+	const LEVELQUERY_UNNKOWN_CAT           = 16001;
 
-	/* ======== 17 UPLOAD-USERLEVEL ========= */
-	const LEVELDOWNLOAD_LEVELID_NOT_FOUND = 17001;
-	const LEVELDOWNLOAD_NOT_UPLOADED      = 17002;
+	/* ==================== 17 UPLOAD-USERLEVEL ============== */
+	const LEVELDOWNLOAD_LEVELID_NOT_FOUND  = 17001;
+	const LEVELDOWNLOAD_NOT_UPLOADED       = 17002;
 
-	/* ======== 18 UPDATE-USERLEVEL-* ========= */
-	const UPDATEUSERLEVEL_INVALID_DIFF  = 18001;
+	/* ==================== 18 UPDATE-USERLEVEL-* ============ */
+	const UPDATEUSERLEVEL_INVALID_DIFF     = 18001;
 
-	/* ======== 19 GET-NEW-LEVELID ========= */
-	const GETNEWLEVELID_ANONUSER = 19001;
+	/* ==================== 19 GET-NEW-LEVELID =============== */
+	const GETNEWLEVELID_ANONUSER           = 19001;
 }
 
 /**

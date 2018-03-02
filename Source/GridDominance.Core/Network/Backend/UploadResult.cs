@@ -10,6 +10,7 @@
 		LevelIDNotFound,
 		AlreadyUploaded,
 		InvalidName,
+		DuplicateName,
 
 		Success,
 	}

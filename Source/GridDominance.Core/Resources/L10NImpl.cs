@@ -306,6 +306,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLUPLD_ERR_WRONGUSER   = 252;
 		public const int STR_LVLUPLD_ERR_LIDNOTFOUND = 253;
 		public const int STR_LVLUPLD_ERR_INVALIDNAME = 254;
+		public const int STR_LVLUPLD_ERR_DUPLNAME    = 271;
 		
 		public const int STR_SCCM_DOWNLOADFAILED     = 256;
 		public const int STR_SCCM_DOWNLOADINPROGRESS = 257;
@@ -2229,6 +2230,13 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_ACH_UNLOCK_WORLD,
 			         "Unlocked world {0}",
 			         "Welt {0} entsperrt",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLUPLD_ERR_DUPLNAME,
+			         "Name is already used by another level",
+			         "Levelname wird schon verwendet",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me

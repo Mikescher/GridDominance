@@ -1186,6 +1186,7 @@ namespace GridDominance.Shared.Network
 					if (response.errorid == BackendCodes.LEVELUPLOAD_INVALID_NAME) return UploadResult.InvalidName;
 					if (response.errorid == BackendCodes.LEVELUPLOAD_LEVELID_NOT_FOUND) return UploadResult.LevelIDNotFound;
 					if (response.errorid == BackendCodes.LEVELUPLOAD_WRONG_USERID) return UploadResult.WrongUserID;
+					if (response.errorid == BackendCodes.LEVELUPLOAD_DUPLICATENAME) return UploadResult.DuplicateName;
 
 					SAMLog.Error("Backend::UUL_ERR", $"UploadUserLevel: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();

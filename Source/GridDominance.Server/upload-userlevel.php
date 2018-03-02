@@ -44,6 +44,12 @@ function run() {
 	executeOrFail($stmt);
 	$dblevel = $stmt->fetch(PDO::FETCH_ASSOC);
 
+	$stmt = $pdo->prepare("SELECT * FROM userlevels WHERE LOWER(name)=LOWER(:nam) AND id <> :lid AND upload_version IS NOT NULL LIMIT 1");
+	$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
+	$stmt->bindValue(':nam', $name,    PDO::PARAM_STR);
+	executeOrFail($stmt);
+	$namecollision = $stmt->fetch(PDO::FETCH_ASSOC);
+
 	if ($dblevel === FALSE) outputError(ERRORS::LEVELUPLOAD_LEVELID_NOT_FOUND, "No level with id $levelid found", LOGLEVEL::ERROR);
 
 	if ($dblevel['userid'] !== $userid) outputError(ERRORS::LEVELUPLOAD_WRONG_USERID, "Level $levelid was created from different user (".$dblevel['userid']." !== ".$userid.")", LOGLEVEL::ERROR);
@@ -56,6 +62,10 @@ function run() {
 
 	$realhash = strtoupper(hash('sha256', $bindata));
 	if ($realhash !== $binhash) outputError(ERRORS::LEVELUPLOAD_HASH_MISMATCH, "Hash '$realhash' <> '$binhash'", LOGLEVEL::ERROR);
+
+	if ($namecollision !== FALSE) outputError(ERRORS::LEVELUPLOAD_DUPLICATENAME, "Name '$name' is already user", LOGLEVEL::INFO);
+
+
 
 	$stmt = $pdo->prepare("UPDATE userlevels SET name=:nam, upload_timestamp=NOW(), upload_version=:vrs, upload_decversion=:vdc, datahash=:hsh, filesize=:fsz, grid_width=:ggw, grid_height=:ggh WHERE id=:lid");
 	$stmt->bindValue(':lid', $levelid,         PDO::PARAM_INT);
