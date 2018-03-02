@@ -81,7 +81,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				Size = new FSize(WIDTH, 3f * GDConstants.TILE_WIDTH),
 
 				Image = Textures.TexDescription_SCCM,
-				ImageAlignment = HUDImageAlignment.UNDERSCALE_TOPLEFT,
+				ImageAlignment = HUDImageAlignmentAlgorithm.TOPLEFT,
+				ImageScale     = HUDImageScaleAlgorithm.UNDERSCALE,
 			});
 
 			AddElement(_button = new HUDTextButton

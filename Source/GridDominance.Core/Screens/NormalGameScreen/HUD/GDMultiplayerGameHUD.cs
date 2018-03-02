@@ -120,7 +120,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			{
 				Alignment = HUDAlignment.CENTER,
 				Image = Textures.TexTitleNumber[3],
-				ImageAlignment = HUDImageAlignment.UNDERSCALE_CENTER,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.UNDERSCALE,
 
 				Size = new FSize(320, 320),
 				

@@ -95,7 +95,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				BackgroundNormal   = Color.Transparent,
 				BackgroundPressed  = FlatColors.ButtonPressedHUD,
 				ImageColor         = MainGame.Inst.Profile.HasCustomLevelStarred(_meta) ? FlatColors.SunFlower : FlatColors.Silver,
-				ImageAlignment     = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 
 				Click = (s, a) => ToggleStar(),
 			});
@@ -176,7 +177,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 				Image = Textures.TexDifficultyLine0,
 				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_0) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0) : FlatColors.Silver,
-				ImageAlignment = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 			});
 
 			AddElement(new HUDImage
@@ -187,7 +189,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 				Image = Textures.TexDifficultyLine1,
 				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_1) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1) : FlatColors.Silver,
-				ImageAlignment = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 			});
 
 			AddElement(new HUDImage
@@ -198,7 +201,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 				Image = Textures.TexDifficultyLine2,
 				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_2) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2) : FlatColors.Silver,
-				ImageAlignment = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 			});
 
 			AddElement(new HUDImage
@@ -209,7 +213,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 				Image = Textures.TexDifficultyLine3,
 				Color = MainGame.Inst.Profile.HasCustomLevelBeaten(_meta, FractionDifficulty.DIFF_3) ? FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3) : FlatColors.Silver,
-				ImageAlignment = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 			});
 
 			#endregion
@@ -436,7 +441,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				BackgroundNormal   = FlatColors.ButtonHUD,
 				BackgroundPressed = FlatColors.ButtonPressedHUD,
 				ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_0),
-				ImageAlignment = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 
 				Click = (s, a) => Play(FractionDifficulty.DIFF_0),
 			});
@@ -451,7 +457,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				BackgroundNormal   = FlatColors.ButtonHUD,
 				BackgroundPressed = FlatColors.ButtonPressedHUD,
 				ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_1),
-				ImageAlignment = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 
 				Click = (s, a) => Play(FractionDifficulty.DIFF_1),
 			});
@@ -466,7 +473,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				BackgroundNormal   = FlatColors.ButtonHUD,
 				BackgroundPressed = FlatColors.ButtonPressedHUD,
 				ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_2),
-				ImageAlignment = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 
 				Click = (s, a) => Play(FractionDifficulty.DIFF_2),
 			});
@@ -481,7 +489,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				BackgroundNormal   = FlatColors.ButtonHUD,
 				BackgroundPressed = FlatColors.ButtonPressedHUD,
 				ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3),
-				ImageAlignment = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 
 				Click = (s, a) => Play(FractionDifficulty.DIFF_3),
 			});

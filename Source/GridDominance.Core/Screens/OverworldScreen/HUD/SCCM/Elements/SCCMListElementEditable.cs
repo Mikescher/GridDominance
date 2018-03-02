@@ -29,7 +29,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				Alignment = HUDAlignment.TOPLEFT,
 
 				Image = Textures.CannonCog,
-				ImageAlignment = HUDImageAlignment.SCALE,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 				RotationSpeed = 0.25f,
 				Color = FlatColors.SunFlower,
 			});
