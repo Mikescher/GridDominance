@@ -21,8 +21,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			set { internalIcon.Image = value; InvalidatePosition(); }
 		}
 
-		private int _imagePadding = 8;
-		public int ImagePadding
+		private float _imagePadding = 8;
+		public float ImagePadding
 		{
 			get { return _imagePadding; }
 			set { _imagePadding = value; InvalidatePosition(); }
