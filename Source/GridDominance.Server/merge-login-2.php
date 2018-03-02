@@ -90,15 +90,35 @@ function run() {
 
 	//---------- step 5: [recalc sccm scores]
 
-	$stmt = $pdo->prepare('SELECT COUNT(d0_time) AS d0_count, COUNT(d1_time) AS d1_count, COUNT(d2_time) AS d2_count, COUNT(d3_time) AS d3_count FROM userlevels_highscores WHERE userid=:uid');
+	/*
+		SELECT max_diff AS diff, COUNT(max_diff) AS levelcount FROM
+		(
+			SELECT
+
+			GREATEST
+			(
+				(CASE WHEN d0_time IS NULL THEN -1 ELSE 0 END),
+				(CASE WHEN d1_time IS NULL THEN -1 ELSE 1 END),
+				(CASE WHEN d2_time IS NULL THEN -1 ELSE 2 END),
+				(CASE WHEN d3_time IS NULL THEN -1 ELSE 3 END)
+			) AS max_diff
+
+			FROM userlevels_highscores
+
+			WHERE userid=:uid
+		) AS score_greatest
+
+		WHERE max_diff <> -1
+
+		GROUP BY max_diff
+	 */
+	$stmt = $pdo->prepare('SELECT max_diff AS diff, COUNT(max_diff) AS levelcount FROM(SELECT GREATEST((CASE WHEN d0_time IS NULL THEN -1 ELSE 0 END),(CASE WHEN d1_time IS NULL THEN -1 ELSE 1 END),(CASE WHEN d2_time IS NULL THEN -1 ELSE 2 END),(CASE WHEN d3_time IS NULL THEN -1 ELSE 3 END)) AS max_diff FROM userlevels_highscores WHERE userid=:uid) AS score_greatest WHERE max_diff <> -1 GROUP BY max_diff');
 	$stmt->bindValue(':uid', $user->ID,      PDO::PARAM_INT);
 	executeOrFail($stmt);
 	$scoresummary = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	$newscore = $scoresummary['d0_count'] * $config['diff_scores'][0] +
-	            $scoresummary['d1_count'] * $config['diff_scores'][1] +
-	            $scoresummary['d2_count'] * $config['diff_scores'][2] +
-	            $scoresummary['d3_count'] * $config['diff_scores'][3];
+	$newscore = 0;
+	foreach ($scoresummary as $ss) $newscore += $ss['levelcount'] * $config['diff_scores'][$ss['diff']];
 
 	$user->SetSCCMScore($newscore);
 
