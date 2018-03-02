@@ -138,6 +138,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 					
 					MainGame.Inst.DispatchBeginInvoke(() => 
 					{
+						SCCMUtils.UpdateUserLevelsFinished(dl.Item2.OnlineID, levelcontent);
 						var entry = new SCCMListElementLocalPlayable(dat);
 						_presenter.AddEntry(entry);
 						entry.SetMeta(dl.Item2);

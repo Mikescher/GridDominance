@@ -8,6 +8,7 @@ namespace GridDominance.Shared.Network.Backend
 		TopLevelsAllTime,
 		HotLevels,
 		NewLevels,
+		Search,
 	}
 
 	public static class QueryUserLevelCategoryHelper
@@ -20,6 +21,7 @@ namespace GridDominance.Shared.Network.Backend
 				case QueryUserLevelCategory.TopLevelsAllTime:  return "@top";
 				case QueryUserLevelCategory.HotLevels:         return "@hot";
 				case QueryUserLevelCategory.NewLevels:         return "@new";
+				case QueryUserLevelCategory.Search:            return "@search";
 
 				default:
 					SAMLog.Error("QULCH::EnumSwitch_ETS", "c = " + c);

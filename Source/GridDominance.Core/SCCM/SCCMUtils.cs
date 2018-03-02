@@ -79,5 +79,10 @@ namespace GridDominance.Shared.SCCM
 		{
 			FileHelper.Inst.DeleteDataIfExist(filename);
 		}
+
+		internal static void UpdateUserLevelsFinished(long oid, byte[] dat)
+		{
+			FileHelper.Inst.WriteBinData("UPLOADEDLEVELDATA_{B16B00B5-0001-4001-0000-" + $"{oid:X12}" + "}", dat);
+		}
 	}
 }

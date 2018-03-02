@@ -89,5 +89,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			_entries.Add(e);
 			relayout = true;
 		}
+
+		public void Clear()
+		{
+			foreach (var child in _entries) child.Remove();
+			Offset = 0;
+			_entries.Clear();
+
+			relayout = true;
+		}
 	}
 }
