@@ -132,14 +132,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		{
 			if (OverrideEllipseSize.IsEmpty)
 			{
-				if (IsPointerDownOnElement)
+				if (IsPointerDownOnElement && IsEnabled)
 					sbatch.DrawStretched(StaticTextures.MonoCircle, bounds, BackgroundPressed);
 				else
 					sbatch.DrawStretched(StaticTextures.MonoCircle, bounds, BackgroundNormal);
 			}
 			else
 			{
-				if (IsPointerDownOnElement)
+				if (IsPointerDownOnElement && IsEnabled)
 					sbatch.DrawStretched(StaticTextures.MonoCircle, FRectangle.CreateByCenter(bounds.Center, OverrideEllipseSize), BackgroundPressed);
 				else
 					sbatch.DrawStretched(StaticTextures.MonoCircle, FRectangle.CreateByCenter(bounds.Center, OverrideEllipseSize), BackgroundNormal);

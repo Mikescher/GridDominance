@@ -56,15 +56,15 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 			return !(a == b);
 		}
 
-		public static FSize operator +(FSize value1, FSize value2)
-		{
-			return new FSize(value1.Width + value2.Width, value1.Height + value2.Height);
-		}
-
-		public static FSize operator -(FSize value1, FSize value2)
-		{
-			return new FSize(value1.Width - value2.Width, value1.Width - value2.Height);
-		}
+		//public static FSize operator +(FSize value1, FSize value2)
+		//{
+		//	return new FSize(value1.Width + value2.Width, value1.Height + value2.Height);
+		//}
+		//
+		//public static FSize operator -(FSize value1, FSize value2)
+		//{
+		//	return new FSize(value1.Width - value2.Width, value1.Width - value2.Height);
+		//}
 
 		public bool Equals(FSize other)
 		{
@@ -161,7 +161,26 @@ namespace MonoSAMFramework.Portable.GameMath.Geometry
 		{
 			return new FSize(Height, Width);
 		}
-
+		
+		[Pure]
 		public string FormatAsResolution() => $"{(int) Width}x{(int) Height}";
+		
+		[Pure]
+		public FSize AsInflated(float v) => new FSize(Width+v, Height+v);
+		
+		[Pure]
+		public FSize AsInflated(float w, float h) => new FSize(Width+w, Height+h);
+		
+		[Pure]
+		public FSize AsInflated(FSize s) => new FSize(Width+s.Width, Height+s.Height);
+		
+		[Pure]
+		public FSize AsDeflated(float v) => new FSize(Width-v, Height-v);
+		
+		[Pure]
+		public FSize AsDeflated(float w, float h) => new FSize(Width-w, Height-h);
+		
+		[Pure]
+		public FSize AsDeflated(FSize s) => new FSize(Width-s.Width, Height-s.Height);
 	}
 }

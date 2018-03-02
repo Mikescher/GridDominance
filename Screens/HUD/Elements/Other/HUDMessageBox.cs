@@ -112,7 +112,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			{
 				innerSizeCache = internalLabel.InnerLabelSize;
 
-				Size = innerSizeCache + TextPadding * 2;
+				Size = innerSizeCache.AsInflated(TextPadding * 2);
 				internalLabel.Size = innerSizeCache;
 
 				internalLabel.MaxWidth = Owner.Width - TextPadding.Width * 2 - Margin.Width * 2;
