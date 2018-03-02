@@ -17,7 +17,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 		private const int MAX_GET_LENGTH     = 128;
 		private const int MAX_GET_LENGTH_BIG = 2048;
 
-		public enum RestParameterSetType { String, Decimal, Base64, Hash, StringCompressed, Guid, Json, JsonBigCompressed, BigCompressed, BinaryCompressed }
+		public enum RestParameterSetType { String, Primitive, Base64, Hash, StringCompressed, Guid, Json, JsonBigCompressed, BigCompressed, BinaryCompressed }
 
 		private struct PEntry
 		{
@@ -73,17 +73,22 @@ namespace MonoSAMFramework.Portable.Network.REST
 
 		public void AddParameterInt(string name, int value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Decimal, signed, forcePost));
+			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Primitive, signed, forcePost));
 		}
 
 		public void AddParameterLong(string name, long value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Decimal, signed, forcePost));
+			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Primitive, signed, forcePost));
 		}
 
 		public void AddParameterULong(string name, ulong value, bool signed = true, bool forcePost = false)
 		{
-			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Decimal, signed, forcePost));
+			dict.Add(new PEntry(name, value.ToString(), RestParameterSetType.Primitive, signed, forcePost));
+		}
+
+		public void AddParameterBool(string name, bool value, bool signed = true, bool forcePost = false)
+		{
+			dict.Add(new PEntry(name, (value?"true":"false").ToString(), RestParameterSetType.Primitive, signed, forcePost));
 		}
 
 		public void AddParameterHash(string name, string value, bool signed = true, bool forcePost = false)
@@ -133,7 +138,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 							result += "&" + elem.Name + "=" + Uri.EscapeDataString(elem.Data);
 						break;
 
-					case RestParameterSetType.Decimal:
+					case RestParameterSetType.Primitive:
 						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 
 						if (elem.ForcePost)
@@ -282,7 +287,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 						break;
 
-					case RestParameterSetType.Decimal:
+					case RestParameterSetType.Primitive:
 						if (elem.Signed) sigbuilder += "\n" + elem.Data;
 						break;
 
