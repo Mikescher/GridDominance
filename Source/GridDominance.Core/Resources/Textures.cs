@@ -218,6 +218,7 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexHUDButtonIconBFB;
 		public static TextureRegion2D TexHUDButtonIconColorblind;
 		public static TextureRegion2D TexHUDButtonIconEye;
+		public static TextureRegion2D TexHUDButtonIconMagnifier;
 		public static TextureRegion2D TexHUDIconUser;
 		public static TextureRegion2D TexHUDIconPassword;
 		public static TextureRegion2D TexHUDIconKeyboardCaps;
@@ -439,6 +440,7 @@ namespace GridDominance.Shared.Resources
 			TexHUDButtonIconColorblind    = AtlasTextures["colorblind"];
 			TexHUDButtonIconEye           = AtlasTextures["eye"];
 			TexHUDIconGenericUser         = AtlasTextures["genericuser"];
+			TexHUDButtonIconMagnifier     = AtlasTextures["magnifier"];
 
 			TexHUDIconUser                = AtlasTextures["user"];
 			TexHUDIconPassword            = AtlasTextures["password"];

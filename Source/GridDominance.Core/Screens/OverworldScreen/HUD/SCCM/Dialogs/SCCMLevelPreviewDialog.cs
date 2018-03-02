@@ -104,21 +104,23 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				ImageScale     = HUDImageScaleAlgorithm.STRETCH,
 
 				Click = (s, a) => ToggleStar(),
+
+				IsEnabled = (_meta.UserID != MainGame.Inst.Profile.OnlineUserID) && (MainGame.Inst.Profile.HasCustomLevelBeaten(_meta)),
 			});
 			
 			AddElement(_lblStar = new HUDLabel
 			{
-				TextAlignment = HUDAlignment.TOPRIGHT,
 				Alignment = HUDAlignment.TOPRIGHT,
-				RelativePosition = new FPoint(15, 55),
-				Size = new FSize(128, 32),
+				RelativePosition = new FPoint(0, 55),
+				Size = new FSize(64, 32),
 
 				Font = Textures.HUDFontRegular,
 				FontSize = 24,
 
 				Text = _meta.Stars.ToString(),
 				WordWrap = HUDWordWrap.NoWrap,
-				TextColor = FlatColors.SunFlower,
+				TextColor = (starred || mylevel) ? FlatColors.SunFlower : FlatColors.Silver,
+				TextAlignment = HUDAlignment.TOPCENTER,
 			});
 
 			#endregion
@@ -686,13 +688,26 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 			MainGame.Inst.DispatchBeginInvoke(() => 
 			{
-				
-				_btnStar.Image = Textures.TexIconStar;
-				_btnStar.ImageColor = (r.Item2) ? FlatColors.SunFlower : FlatColors.Silver;
-				_btnStar.ImageRotation = 0f;
-				_btnStar.ImageRotationSpeed = 0f;
+				if (r != null)
+				{
+					_btnStar.Image = Textures.TexIconStar;
+					_btnStar.ImageColor = (r.Item2) ? FlatColors.SunFlower : FlatColors.Silver;
+					_btnStar.ImageRotation = 0f;
+					_btnStar.ImageRotationSpeed = 0f;
 
-				_lblStar.Text = r.Item1.ToString();
+					_lblStar.Text = r.Item1.ToString();
+					_lblStar.TextColor = (r.Item2) ? FlatColors.SunFlower : FlatColors.Silver;
+				}
+				else
+				{
+					_btnStar.Image = Textures.TexIconStar;
+					_btnStar.ImageColor = MainGame.Inst.Profile.HasCustomLevelStarred(_meta) ? FlatColors.SunFlower : FlatColors.Silver;
+					_btnStar.ImageRotation = 0f;
+					_btnStar.ImageRotationSpeed = 0f;
+
+					_lblStar.Text = _meta.Stars.ToString();
+					_lblStar.TextColor = MainGame.Inst.Profile.HasCustomLevelStarred(_meta) ? FlatColors.SunFlower : FlatColors.Silver;
+				}
 
 			});
 		}

@@ -237,7 +237,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 						CustomMusic           = br.ReadInt32();
 						CustomMeta_MinVersion = br.ReadUInt64();
 						CustomMeta_UserID     = br.ReadInt32();
-						CustomMeta_Timestamp  = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.FromSeconds(br.ReadInt64()));
+						CustomMeta_Timestamp  = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(br.ReadInt64());
 						CustomMeta_LevelID    = br.ReadInt64();
 						break;
 

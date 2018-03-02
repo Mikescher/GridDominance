@@ -38,7 +38,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
 				RelativePosition = new FPoint(16, 0),
-				Size = Size - new FSize(16 + 16 + 48 + 16, Height - 16 - 16),
+				Size = new FSize(Width - 16 - 16 - 48 - 16, Height - 16 - 16),
 			});
 
 			AddElement(_scrollbar = new SCCMListScrollbar

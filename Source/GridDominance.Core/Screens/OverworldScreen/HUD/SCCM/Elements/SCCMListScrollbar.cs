@@ -21,6 +21,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		public int ScrollPosition = 0;
 		public int ScrollMax      = 0;
+		public int ScrollPageSize = 1;
 
 		public SCCMListScrollbar()
 		{
@@ -72,10 +73,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			SimpleRenderHelper.DrawSimpleRect(sbatch, bounds, FlatColors.Asbestos);
 			SimpleRenderHelper.DrawSimpleRectOutline(sbatch, bounds, HUD.PixelWidth, Color.Black);
 
-			if (ScrollMax > 6)
+			if (ScrollMax > ScrollPageSize)
 			{
 				var yrange = Height - 64 - 64 - 32;
-				var ypos = yrange * (ScrollPosition * 1f / (ScrollMax - 6));
+				var ypos = yrange * (ScrollPosition * 1f / (ScrollMax - ScrollPageSize));
 
 				SimpleRenderHelper.DrawSimpleRect(sbatch, FRectangle.CreateByTopLeft(bounds.Left, bounds.Top+64+ypos, bounds.Width, 32), FlatColors.MidnightBlue);
 			}

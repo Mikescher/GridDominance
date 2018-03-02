@@ -195,7 +195,7 @@ function run() {
 				ul.d0_completed, ul.d0_played, ul.d0_bestuserid, u0.username AS d0_bestusername, ul.d0_besttime, ul.d0_besttimestamp,
 				ul.d1_completed, ul.d1_played, ul.d1_bestuserid, u1.username AS d1_bestusername, ul.d1_besttime, ul.d1_besttimestamp,
 				ul.d2_completed, ul.d2_played, ul.d2_bestuserid, u2.username AS d2_bestusername, ul.d2_besttime, ul.d2_besttimestamp,
-				ul.d3_completed, ul.d3_played, ul.d3_bestuserid, u3.username AS d3_bestusername, ul.d3_besttime, ul.d3_besttimestamp,
+				ul.d3_completed, ul.d3_played, ul.d3_bestuserid, u3.username AS d3_bestusername, ul.d3_besttime, ul.d3_besttimestamp
 
 			FROM userlevels AS ul
 
@@ -210,9 +210,9 @@ function run() {
 				ul.upload_timestamp IS NOT NULL AND
 				ul.upload_decversion >= :dvs AND
 				(
-					LOWER(ux.username)=LOWER(:search) OR
-					ul.id = :search OR
-					LOWER(ul.name) LIKE (:likesearch)
+					LOWER(ux.username)=LOWER(:search1) OR
+					ul.id = :search2 OR
+					LOWER(ul.name) LIKE (:search3)
 				)
 
 			ORDER BY
@@ -223,12 +223,13 @@ function run() {
 			LIMIT  :lim
 			OFFSET :off
 		 */
-		$stmt = $pdo->prepare('SELECT ul.id, ul.name, ul.userid, ux.username, ul.upload_timestamp, ul.datahash, ul.upload_version, ul.grid_width, ul.grid_height, ul.stars, ul.d0_completed, ul.d0_played, ul.d0_bestuserid, u0.username AS d0_bestusername, ul.d0_besttime, ul.d0_besttimestamp, ul.d1_completed, ul.d1_played, ul.d1_bestuserid, u1.username AS d1_bestusername, ul.d1_besttime, ul.d1_besttimestamp, ul.d2_completed, ul.d2_played, ul.d2_bestuserid, u2.username AS d2_bestusername, ul.d2_besttime, ul.d2_besttimestamp, ul.d3_completed, ul.d3_played, ul.d3_bestuserid, u3.username AS d3_bestusername, ul.d3_besttime, ul.d3_besttimestamp, (ul.stars/POW(TIMESTAMPDIFF(HOUR, ul.upload_timestamp, NOW()),1.8)) AS hot_ranking FROM userlevels AS ul LEFT JOIN users AS ux ON ux.userid=ul.userid LEFT JOIN users AS u0 ON u0.userid=ul.d0_bestuserid LEFT JOIN users AS u1 ON u1.userid=ul.d1_bestuserid LEFT JOIN users AS u2 ON u2.userid=ul.d2_bestuserid LEFT JOIN users AS u3 ON u3.userid=ul.d3_bestuserid WHERE ul.upload_timestamp IS NOT NULL AND ul.upload_decversion >= :dvs ORDER BY hot_ranking DESC LIMIT :lim OFFSET :off');
+		$stmt = $pdo->prepare('SELECT ul.id, ul.name, ul.userid, ux.username, ul.upload_timestamp, ul.datahash, ul.upload_version, ul.grid_width, ul.grid_height, ul.stars, ul.d0_completed, ul.d0_played, ul.d0_bestuserid, u0.username AS d0_bestusername, ul.d0_besttime, ul.d0_besttimestamp, ul.d1_completed, ul.d1_played, ul.d1_bestuserid, u1.username AS d1_bestusername, ul.d1_besttime, ul.d1_besttimestamp, ul.d2_completed, ul.d2_played, ul.d2_bestuserid, u2.username AS d2_bestusername, ul.d2_besttime, ul.d2_besttimestamp, ul.d3_completed, ul.d3_played, ul.d3_bestuserid, u3.username AS d3_bestusername, ul.d3_besttime, ul.d3_besttimestamp FROM userlevels AS ul LEFT JOIN users AS ux ON ux.userid=ul.userid LEFT JOIN users AS u0 ON u0.userid=ul.d0_bestuserid LEFT JOIN users AS u1 ON u1.userid=ul.d1_bestuserid LEFT JOIN users AS u2 ON u2.userid=ul.d2_bestuserid LEFT JOIN users AS u3 ON u3.userid=ul.d3_bestuserid WHERE ul.upload_timestamp IS NOT NULL AND ul.upload_decversion >= :dvs AND( LOWER(ux.username)=LOWER(:search1) OR ul.id = :search2 OR LOWER(ul.name) LIKE (:search3)) ORDER BY stars DESC, upload_timestamp DESC LIMIT :lim OFFSET :off');
 		$stmt->bindValue(':dvs',        $decappversion,                    PDO::PARAM_INT);
 		$stmt->bindValue(':lim',        32,                                PDO::PARAM_INT);
 		$stmt->bindValue(':off',        32 * $pagination,                  PDO::PARAM_INT);
-		$stmt->bindValue(':search',     $queryparameter,                   PDO::PARAM_STR);
-		$stmt->bindValue(':likesearch', formatForSqlLike($queryparameter), PDO::PARAM_STR);
+		$stmt->bindValue(':search1',     $queryparameter,                   PDO::PARAM_STR);
+		$stmt->bindValue(':search2',     $queryparameter,                   PDO::PARAM_STR);
+		$stmt->bindValue(':search3', formatForSqlLike($queryparameter), PDO::PARAM_STR);
 		executeOrFail($stmt);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

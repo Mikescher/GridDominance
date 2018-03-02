@@ -42,7 +42,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				RelativePosition = new FPoint(16, 16),
-				Size = new FSize(Width-16-16-64-16, 64),
+				Size = new FSize(Width - 16 - 16 - 64, 64),
 
 				ColorText = Color.Black,
 				Font = Textures.HUDFontRegular,
@@ -50,8 +50,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 				MaxLength = SCCMLevelData.MaxNameLength,
 
-				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(Color.White, Color.Black, HUD.PixelWidth),
-				BackgroundFocused = HUDBackgroundDefinition.CreateSimpleOutline(Color.White, Color.Black, HUD.PixelWidth),
+				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, HUD.PixelWidth),
+				BackgroundFocused = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, HUD.PixelWidth),
 
 				EnterKey = (s, e) => StartSearch(),
 			});
@@ -59,14 +59,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			AddElement(new HUDImageButton
 			{
 				Alignment = HUDAlignment.TOPRIGHT,
-				RelativePosition = new FPoint(16, 16),
+				RelativePosition = new FPoint(16 + HUD.PixelWidth, 16),
 				Size = new FSize(64, 64),
 
-				Image = Textures.TexHUDButtonIconBFB, //TODO TexMagnifier
-				ImagePadding = 2,
+				Image = Textures.TexHUDButtonIconMagnifier,
+				ImagePadding = 8,
+				ImageColor = FlatColors.Asbestos,
 
-				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonHUD, Color.Black, HUD.PixelWidth),
-				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.ButtonPressedHUD, Color.Black, HUD.PixelWidth),
+				BackgroundNormal  = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, HUD.PixelWidth),
+				BackgroundPressed = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Concrete, Color.Black, HUD.PixelWidth),
 
 				Click = (s, e) => StartSearch(),
 			});
@@ -75,14 +76,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			{
 				Alignment = HUDAlignment.BOTTOMLEFT,
 				RelativePosition = new FPoint(16, 16),
-				Size = Size - new FSize(16 + 16 + 48 + 16, Height - 16 - 16 - 16 - 64),
+				Size = new FSize(Width - 16 - 16 - 48 - 16, Height - 16 - 16 - 16 - 64),
 
 				IsVisible = true,
 			});
 
 			AddElement(_scrollbar = new SCCMListScrollbar
 			{
-				Alignment = HUDAlignment.BOTTOMLEFT,
+				Alignment = HUDAlignment.BOTTOMRIGHT,
 				RelativePosition = new FPoint(16, 16),
 				Size = new FSize(48, Height - 16 - 16 - 16 - 64),
 
@@ -110,7 +111,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		private void StartSearch()
 		{
-			if (string.IsNullOrWhiteSpace(_textbox.Text))
+			_waitingCog.IsVisible = true;
+			_presenter.Clear();
+			_presenter.IsVisible = false;
+			_scrollbar.IsVisible = false;
+
+			if (!string.IsNullOrWhiteSpace(_textbox.Text))
 			{
 				QueryData(_textbox.Text, 0).EnsureNoError();
 			}

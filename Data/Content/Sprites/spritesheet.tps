@@ -512,6 +512,7 @@
             <key type="filename">hud/eye.png</key>
             <key type="filename">hud/fingerprint.png</key>
             <key type="filename">hud/info.png</key>
+            <key type="filename">hud/magnifier.png</key>
             <key type="filename">hud/music_off.png</key>
             <key type="filename">hud/music_on.png</key>
             <key type="filename">hud/reddit.png</key>

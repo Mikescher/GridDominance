@@ -43,7 +43,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.Entities
 			NodeSink = end;
 
 			Position = FPoint.MiddlePoint(start.Position, end.Position);
-			DrawingBoundingBox = FSize.Diff(start.Position, end.Position) + new FSize(THICKNESS, THICKNESS);
+			DrawingBoundingBox = FSize.Diff(start.Position, end.Position).AsInflated(THICKNESS);
 
 			curvature = GetCurve(start, end, orientation);
 

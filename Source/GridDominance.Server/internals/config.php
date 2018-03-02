@@ -49,5 +49,5 @@ return [
 	'debug'  => true,
 	'runlog' => true,
 
-	'ping_emulation' => 0, // sec
+	'ping_emulation' => 1.0, // sec
 ];

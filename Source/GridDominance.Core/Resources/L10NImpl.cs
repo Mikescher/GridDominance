@@ -324,7 +324,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ACH_UNLOCK_MULTIPLAYER  = 269;
 		public const int STR_ACH_UNLOCK_WORLD        = 270;
 
-		private const int TEXT_COUNT = 271; // = next idx
+		private const int TEXT_COUNT = 272; // = next idx
 
 		public static void Init(int lang)
 		{

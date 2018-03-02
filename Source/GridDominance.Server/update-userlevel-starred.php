@@ -45,7 +45,7 @@ function run() {
 		$stmt = $pdo->prepare('SELECT stars FROM userlevels WHERE id = :lid');
 		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 		executeOrFail($stmt);
-		$allstars = $stmt->fetch(PDO::FETCH_ASSOC);
+		$allstars = $stmt->fetchColumn(PDO::FETCH_ASSOC);
 
 		outputResultSuccess([ 'updated' => false, 'value' => false, 'stars' => $allstars, 'user' => $user ]);
 	}
@@ -65,7 +65,7 @@ function run() {
 		$stmt = $pdo->prepare('SELECT stars FROM userlevels WHERE id = :lid');
 		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 		executeOrFail($stmt);
-		$allstars = $stmt->fetch(PDO::FETCH_ASSOC);
+		$allstars = $stmt->fetchColumn(PDO::FETCH_ASSOC);
 
 		outputResultSuccess([ 'updated' => false, 'value' => true, 'stars' => $allstars, 'user' => $user ]);
 	}
@@ -76,7 +76,7 @@ function run() {
 		$stmt = $pdo->prepare('SELECT stars FROM userlevels WHERE id = :lid');
 		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 		executeOrFail($stmt);
-		$allstars = $stmt->fetch(PDO::FETCH_ASSOC);
+		$allstars = $stmt->fetchColumn(PDO::FETCH_ASSOC);
 
 		outputResultSuccess([ 'updated' => false, 'value' => true, 'stars' => $allstars, 'user' => $user ]);
 	}
@@ -87,7 +87,7 @@ function run() {
 		$stmt = $pdo->prepare('SELECT stars FROM userlevels WHERE id = :lid');
 		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 		executeOrFail($stmt);
-		$allstars = $stmt->fetch(PDO::FETCH_ASSOC);
+		$allstars = $stmt->fetchColumn(PDO::FETCH_ASSOC);
 
 		outputResultSuccess([ 'updated' => false, 'value' => false, 'stars' => $allstars, 'user' => $user ]);
 	}
