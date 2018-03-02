@@ -1401,13 +1401,13 @@ namespace GridDominance.Shared.Network
 				if (response == null)
 				{
 					ShowErrorCommunication();
-					return CustomLevelCompletionResult.Error;
+					return CustomLevelCompletionResult.CreateError();
 				}
 				else if (response.result == "error")
 				{
 					SAMLog.Error("Backend::SCLP_ERR", $"SetCustomLevelPlayed: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
-					return CustomLevelCompletionResult.Error;
+					return CustomLevelCompletionResult.CreateError();
 				}
 				else if (response.result == "success")
 				{
@@ -1421,29 +1421,26 @@ namespace GridDominance.Shared.Network
 						MainGame.Inst.SaveProfile();
 					});
 
-					if (response.firstclear) return CustomLevelCompletionResult.FirstClear;
-					if (response.highscore) return CustomLevelCompletionResult.WorldRecord;
-					if (response.inserted) return CustomLevelCompletionResult.PersonalBest;
-					return CustomLevelCompletionResult.NoUpdate;
+					return CustomLevelCompletionResult.Parse(response);
 				}
 				else
 				{
 					SAMLog.Error("Backend::SCLC_IRC", $"SetCustomLevelCompleted: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
-					return CustomLevelCompletionResult.Error;
+					return CustomLevelCompletionResult.CreateError();
 				}
 			}
 			catch (RestConnectionException e)
 			{
 				SAMLog.Warning("Backend::SCLC_RCE", e); // probably no internet
 				ShowErrorConnection();
-				return CustomLevelCompletionResult.Error;
+				return CustomLevelCompletionResult.CreateError();
 			}
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend::SCLC_E", e);
 				ShowErrorCommunication();
-				return CustomLevelCompletionResult.Error;
+				return CustomLevelCompletionResult.CreateError();
 			}
 		}
 		

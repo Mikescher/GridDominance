@@ -89,3 +89,7 @@ USER GENERATED LEVEL [[TODO]]
 [ ] dragable level list
 
 [ ] Pagination
+
+[ ] remember author upload time
+
+[ ] cache hot levels (how expenive is query ?)

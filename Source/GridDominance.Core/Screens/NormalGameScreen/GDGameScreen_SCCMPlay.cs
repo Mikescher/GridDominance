@@ -11,49 +11,55 @@ using Microsoft.Xna.Framework;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
 {
-	class GDGameScreen_SCCMTest : GDGameScreen
+	class GDGameScreen_SCCMPlay : GDGameScreen
 	{
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
-
-		public readonly SCCMLevelData SCCMData;
 
 		public override Fraction LocalPlayerFraction => fractionPlayer;
 
 		private GameSpeedModes _lastSpeed;
 
-		public GDGameScreen_SCCMTest(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff, SCCMLevelData dat, GameSpeedModes speed) 
+		public GDGameScreen_SCCMPlay(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff) 
 			: base(game, gdm, bp, diff, false, false, false)
 		{
-			SCCMData = dat;
-
-			GameSpeedMode = _lastSpeed = speed;
+			GameSpeedMode = MainGame.Inst.Profile.SingleplayerGameSpeed;
 			UpdateGameSpeed();
 		}
 
 		public override void RestartLevel(bool updateSpeed)
 		{
-			GDOwner.SetEditorTestLevel(Blueprint, Difficulty, SCCMData, updateSpeed ? GameSpeedMode : _lastSpeed);
+			if (updateSpeed)
+			{
+				MainGame.Inst.Profile.SingleplayerGameSpeed = GameSpeedMode;
+				MainGame.Inst.SaveProfile();
+			}
+
+			GDOwner.SetCustomLevelScreen(Blueprint, Difficulty);
 		}
 
 		public override void ReplayLevel(FractionDifficulty diff)
 		{
-			GDOwner.SetEditorTestLevel(Blueprint, Difficulty, SCCMData, GameSpeedMode);
+			GDOwner.SetCustomLevelScreen(Blueprint, diff);
 		}
 
-		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints, int time)
+		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> xnullx, bool playerHasWon, int addPoints, int time)
 		{
 			((GDGameHUD)HUD).BtnPause.IsEnabled = false;
 			((GDGameHUD)HUD).BtnSpeed.IsEnabled = false;
 
 			GameSpeedMode = GameSpeedModes.NORMAL;
 
-			HUD.AddModal(new HUDSCCMTestScorePanel(lvl, SCCMData, Difficulty, _lastSpeed), false);
+			if (playerHasWon)
+				HUD.AddModal(new HUDSCCMScorePanel_Transmit(lvl, Difficulty, time), false);
+			else
+				throw new NotImplementedException();//TODO looser
 		}
 
 		protected override void TestForGameEndingCondition()
@@ -90,7 +96,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		private void EndGame(bool playerWon, Fraction winner)
 		{
-			_lastSpeed = GameSpeedMode;
+			MainGame.Inst.Profile.SingleplayerGameSpeed = GameSpeedMode;
+			MainGame.Inst.SaveProfile();
 
 			HasFinished = true;
 			PlayerWon = playerWon;
@@ -99,14 +106,21 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			if (playerWon)
 			{
-				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), true, 0, ctime);
+				if (!GDOwner.Profile.GetOrAddCustomLevelData(Blueprint.CustomMeta_LevelID).HasCompletedExact(Difficulty))
+				{
+					GDOwner.Profile.SetCustomLevelCompleted(Blueprint.CustomMeta_LevelID, Difficulty, ctime);
+				}
+
+				GDOwner.SaveProfile();
+				ShowScorePanel(Blueprint, GDOwner.Profile, null, true, 0, ctime);
 				MainGame.Inst.GDSound.PlayEffectGameWon();
 
 				EndGameConvert(winner);
 			}
 			else
 			{
-				ShowScorePanel(Blueprint, GDOwner.Profile, new HashSet<FractionDifficulty>(), false, 0, ctime);
+				ShowScorePanel(Blueprint, GDOwner.Profile, null, false, 0, ctime);
+
 				MainGame.Inst.GDSound.PlayEffectGameOver();
 
 				EndGameConvert(winner);
@@ -120,7 +134,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void ExitToMap(bool updateSpeed)
 		{
-			MainGame.Inst.SetLevelEditorScreen(SCCMData);
+			if (updateSpeed)
+			{
+				MainGame.Inst.Profile.SingleplayerGameSpeed = GameSpeedMode;
+				MainGame.Inst.SaveProfile();
+			}
+
+			MainGame.Inst.SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab.Hot);
 		}
 
 		public override AbstractFractionController CreateController(Fraction f, Cannon cannon)

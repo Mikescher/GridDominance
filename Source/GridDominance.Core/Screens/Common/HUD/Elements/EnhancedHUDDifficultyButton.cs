@@ -15,64 +15,41 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 {
-	public class HUDDifficultyButton : HUDEllipseButton
+	public class EnhancedHUDDifficultyButton : HUDEllipseButton
 	{
-		public enum HUDDifficultyButtonMode { DEACTIVATED, ACTIVATED, UNLOCKANIMATION}
-
 		public override int Depth { get; }
 
-		private readonly FractionDifficulty difficulty;
 		private readonly TextureRegion2D icon;
 		private readonly Action action;
 
-		public Color BackgroundColor;
-		public Color ForegroundColor;
 		public float IconScale = 1f;
 
+		public bool Active   = false;
+		public bool Selected = false;
 
-		public HUDDifficultyButton(int depth, FractionDifficulty diff, HUDDifficultyButtonMode mode, Action a)
+		public EnhancedHUDDifficultyButton(int depth, FractionDifficulty diff, Action a)
 		{
 			Depth = depth;
-			difficulty = diff;
 
 			icon = FractionDifficultyHelper.GetIcon(diff);
 			action = a;
-
-			switch (mode)
-			{
-				case HUDDifficultyButtonMode.DEACTIVATED:
-					BackgroundColor = FlatColors.ButtonHUD;
-					ForegroundColor = FlatColors.BackgroundHUD;
-					break;
-				case HUDDifficultyButtonMode.UNLOCKANIMATION:
-					BackgroundColor = FlatColors.ButtonHUD;
-					ForegroundColor = FlatColors.SunFlower;
-					AddOperation(new HUDDifficultyButtonGainOperation());
-					AddOperation(new HUDDifficultyButtonBlinkingIconOperation());
-					break;
-				case HUDDifficultyButtonMode.ACTIVATED:
-					BackgroundColor = FlatColors.BackgroundHUD2;
-					ForegroundColor = FlatColors.SunFlower;
-					AddOperation(new HUDDifficultyButtonBlinkingIconOperation());
-					break;
-				default:
-					SAMLog.Error("HDB::EnumSwitch_CTR", "value: " + mode);
-					break;
-			}
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
+			var back = Selected ? FlatColors.BackgroundHUD2 : FlatColors.ButtonHUD;
+			var fore = Active ? FlatColors.SunFlower : FlatColors.BackgroundHUD;
+
 			if (IsPointerDownOnElement)
 			{
-				sbatch.DrawStretched(Textures.TexCircle, bounds, BackgroundColor.Darken());
+				sbatch.DrawStretched(Textures.TexCircle, bounds, back.Darken());
 			}
 			else
 			{
-				sbatch.DrawStretched(Textures.TexCircle, bounds, BackgroundColor);
+				sbatch.DrawStretched(Textures.TexCircle, bounds, back);
 			}
 
-			sbatch.DrawStretched(icon, bounds.AsDeflated(24, 24).AsScaled(IconScale), ForegroundColor);
+			sbatch.DrawStretched(icon, bounds.AsDeflated(24, 24).AsScaled(IconScale), fore);
 		}
 
 		public override void OnInitialize()

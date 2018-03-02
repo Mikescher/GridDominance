@@ -5,7 +5,6 @@ require 'internals/backend.php';
 
 function run() {
 	global $pdo;
-	global $config;
 
 	$userid         = getParamUIntOrError('userid');
 	$category       = getParamStrOrError('category');

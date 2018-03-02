@@ -51,7 +51,7 @@ function run() {
 	{
 		$firstplay = ($dblevel[$field_lastplayed] === null);
 
-		if ($firstplay) // also update play count
+		if ($firstplay) // also update play count (should also not happen)
 		{
 			$stmt = $pdo->prepare('UPDATE userlevels_highscores SET '.$field_lastplayed.' = NOW() WHERE userid = :uid AND levelid = :lid');
 			$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
@@ -69,7 +69,7 @@ function run() {
 		if ($dblevel['d2_time']==null && $difficulty <= 2) $scoreInc += $config['diff_scores'][2];
 		if ($dblevel['d3_time']==null && $difficulty <= 3) $scoreInc += $config['diff_scores'][3];
 
-		if ($dblevel[$field_time] !== null) // first clear
+		if ($dblevel[$field_time] === null) // first clear
 		{
 			$stmt = $pdo->prepare('UPDATE userlevels_highscores SET '.$field_time.' = :tim WHERE userid = :uid AND levelid = :lid');
 			$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
@@ -82,7 +82,7 @@ function run() {
 			$ishighscore = ($time > $globalbest);
 			if ($ishighscore)
 			{
-				$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_completed.' = '.$field_completed.'+1, '.$field_besttime.'=:tim '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
+				$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_completed.' = '.$field_completed.'+1, '.$field_besttime.'=:tim, '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
 				$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 				$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 				$stmt->bindValue(':tim', $time, PDO::PARAM_INT);
@@ -95,7 +95,7 @@ function run() {
 				executeOrFail($stmt);
 			}
 
-			outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'user' => $user ]);
+			outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'scoregain' => $scoreInc, 'user' => $user, 'meta' => GDCustomLevel::getByID($levelid) ]);
 		}
 		else if ($dblevel[$field_time] > $time) // already cleared - better time
 		{
@@ -108,7 +108,7 @@ function run() {
 			$ishighscore = ($time > $globalbest);
 			if ($ishighscore)
 			{
-				$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_completed.' = '.$field_completed.'+1, '.$field_besttime.'=:tim '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
+				$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_completed.' = '.$field_completed.'+1, '.$field_besttime.'=:tim, '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
 				$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 				$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 				$stmt->bindValue(':tim', $time, PDO::PARAM_INT);
@@ -121,11 +121,11 @@ function run() {
 				executeOrFail($stmt);
 			}
 
-			outputResultSuccess([ 'firstclear' => false, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'user' => $user ]);
+			outputResultSuccess([ 'firstclear' => false, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'scoregain' => 0, 'user' => $user, 'meta' => GDCustomLevel::getByID($levelid) ]);
 		}
 		else // already cleared - worse time
 		{
-			outputResultSuccess([ 'firstclear' => false, 'inserted' => false, 'highscore' => false, 'leveltime' => $dblevel[$field_time], 'user' => $user ]);
+			outputResultSuccess([ 'firstclear' => false, 'inserted' => false, 'highscore' => false, 'leveltime' => $dblevel[$field_time], 'scoregain' => 0, 'user' => $user, 'meta' => GDCustomLevel::getByID($levelid) ]);
 		}
 	}
 	else // new entry (update-userlevel-played must have failed)
@@ -147,7 +147,7 @@ function run() {
 		$ishighscore = ($time > $globalbest);
 		if ($ishighscore)
 		{
-			$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_playcount.' = '.$field_playcount.'+1, '.$field_completed.' = '.$field_completed.'+1, '.$field_besttime.'=:tim '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
+			$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_playcount.' = '.$field_playcount.'+1, '.$field_completed.' = '.$field_completed.'+1, '.$field_besttime.'=:tim, '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
 			$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 			$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 			$stmt->bindValue(':tim', $time, PDO::PARAM_INT);
@@ -160,7 +160,7 @@ function run() {
 			executeOrFail($stmt);
 		}
 
-		outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'user' => $user ]);
+		outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'scoregain' => $scoreInc, 'user' => $user, 'meta' => GDCustomLevel::getByID($levelid) ]);
 	}
 }
 

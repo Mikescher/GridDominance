@@ -30,7 +30,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public SCCMScoreDisplay(bool count)
 		{
-			_value.Set(MainGame.Inst.Profile.ScoreStars);
+			_value.Set(MainGame.Inst.Profile.ScoreSCCM);
 			_value.SetDelta(FloatMath.Max(37, MainGame.Inst.Profile.ScoreSCCM / 4f));
 			if (!count) _value.Finish();
 
@@ -73,7 +73,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
 		{
-			//
+			SimpleRenderHelper.DrawRoundedRect(sbatch, bounds, Color.Black * 0.6f, 8);
 		}
 
 		public override void OnInitialize()

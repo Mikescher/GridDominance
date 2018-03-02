@@ -405,5 +405,17 @@ namespace GridDominance.Shared.SaveData
 			var dat = GetOrAddCustomLevelData(oid);
 			dat.starred = value;
 		}
+
+		public int?[] GetCustomLevelTimes(long oid)
+		{
+			var dat = GetOrAddCustomLevelData(oid);
+			return new []
+			{
+				dat.Diff0_HasCompleted ? (int?)dat.Diff0_BestTime : null,
+				dat.Diff1_HasCompleted ? (int?)dat.Diff1_BestTime : null,
+				dat.Diff2_HasCompleted ? (int?)dat.Diff2_BestTime : null,
+				dat.Diff3_HasCompleted ? (int?)dat.Diff3_BestTime : null,
+			};
+		}
 	}
 }

@@ -12,6 +12,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 require_once 'SFServer.php';
 require_once 'utils.php';
 require_once 'GDUser.php';
+require_once 'GDCustomLevel.php';
 
 /** @var $config array */
 $config = require 'config.php';

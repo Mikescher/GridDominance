@@ -709,7 +709,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 				MainGame.Inst.Backend.SetCustomLevelPlayed(MainGame.Inst.Profile, _meta.OnlineID, d).RunAsync();
 
-				MainGame.Inst.SetCustomLevelScreen(_meta, _blueprint);
+				MainGame.Inst.SetCustomLevelScreen(_blueprint, d);
 			}
 			else
 			{

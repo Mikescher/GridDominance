@@ -139,7 +139,7 @@ namespace GridDominance.Shared.Network
 
 		public async Task<CustomLevelCompletionResult> SetCustomLevelCompleted(PlayerProfile profile, long onlineID, FractionDifficulty d, int time)
 		{
-			return CustomLevelCompletionResult.PersonalBest;
+			return CustomLevelCompletionResult.CreateError();
 		}
 
 		public async Task<Tuple<int, bool>> SetCustomLevelStarred(PlayerProfile profile, long onlineID, bool star)

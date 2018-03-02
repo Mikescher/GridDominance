@@ -118,6 +118,7 @@
     <Compile Include="Screens\Common\HUD\Dialogs\InfoPanel.cs" />
     <Compile Include="Screens\Common\HUD\Dialogs\UnlockPanel.cs" />
     <Compile Include="Screens\Common\HUD\Elements\AchievementPopup.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\EnhancedHUDDifficultyButton.cs" />
     <Compile Include="Screens\Common\HUD\Elements\HUDTetroAnimation.cs" />
     <Compile Include="Screens\Common\HUD\Elements\SCCMScoreDisplay.cs" />
     <Compile Include="Screens\Common\HUD\Elements\StarsScoreDisplay.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_MPClient.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_MPServer.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_SCCMPlay.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_SCCMUpload.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_SCCMTest.cs" />
     <Compile Include="Screens\NormalGameScreen\GDGameScreen_SP.cs" />
@@ -253,11 +255,15 @@
     <Compile Include="Screens\NormalGameScreen\HUD\GDHudExtension.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\GDMultiplayerGameHUD.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\GDPreviewHUD.cs" />
-    <Compile Include="Screens\NormalGameScreen\HUD\HUDSCCMUploadScorePanel.cs" />
-    <Compile Include="Screens\NormalGameScreen\HUD\HUDSCCMTestScorePanel.cs" />
-    <Compile Include="Screens\NormalGameScreen\HUD\HUDMultiplayerScorePanel.cs" />
-    <Compile Include="Screens\NormalGameScreen\HUD\HUDScorePanel.cs" />
-    <Compile Include="Screens\NormalGameScreen\HUD\HUDTutorialScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMScorePanelTimeDisplayOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMScorePanelTimeChangeOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMScorePanel_Won.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMScorePanel_Transmit.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMUploadScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMTestScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDMultiplayerScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDTutorialScorePanel.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\IGDGameHUD.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDDifficultyButtonBlinkingIconOperation.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDDifficultyButtonGainOperation.cs" />

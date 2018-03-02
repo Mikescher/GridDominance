@@ -315,9 +315,10 @@ namespace GridDominance.Shared
 			SetCurrentScreen(scrn);
 		}
 		
-		public void SetCustomLevelScreen(SCCMLevelMeta meta, LevelBlueprint blueprint)
+		public void SetCustomLevelScreen(LevelBlueprint blueprint, FractionDifficulty d)
 		{
-			throw new NotImplementedException(); //TODO PLAY
+			var scrn = new GDGameScreen_SCCMPlay(this, Graphics, blueprint, d);
+			SetCurrentScreen(scrn);
 		}
 
 		protected override void LoadContent()

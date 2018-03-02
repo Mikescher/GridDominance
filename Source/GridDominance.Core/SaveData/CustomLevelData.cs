@@ -1,4 +1,6 @@
-﻿using MonoSAMFramework.Portable.Persistance;
+﻿using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
 
 namespace GridDominance.Shared.SaveData
@@ -43,6 +45,54 @@ namespace GridDominance.Shared.SaveData
 		protected override string GetTypeName()
 		{
 			return "PLAYER_PROFILE_CUSTOMLEVELDATA";
+		}
+
+		public bool HasCompletedOrBetter(FractionDifficulty d)
+		{
+			switch (d)
+			{
+				case FractionDifficulty.DIFF_0:
+					if (Diff0_HasCompleted) return true;
+					if (Diff1_HasCompleted) return true;
+					if (Diff2_HasCompleted) return true;
+					if (Diff3_HasCompleted) return true;
+					return false;
+				case FractionDifficulty.DIFF_1:
+					if (Diff1_HasCompleted) return true;
+					if (Diff2_HasCompleted) return true;
+					if (Diff3_HasCompleted) return true;
+					return false;
+				case FractionDifficulty.DIFF_2:
+					if (Diff2_HasCompleted) return true;
+					if (Diff3_HasCompleted) return true;
+					return false;
+				case FractionDifficulty.DIFF_3:
+					if (Diff3_HasCompleted) return true;
+					return false;
+
+				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("CLD::HasCompleted", "Invalid value: " + d);
+					return false;
+			}
+		}
+
+		public bool HasCompletedExact(FractionDifficulty d)
+		{
+			switch (d)
+			{
+				case FractionDifficulty.DIFF_0: return Diff0_HasCompleted;
+				case FractionDifficulty.DIFF_1: return Diff1_HasCompleted;
+				case FractionDifficulty.DIFF_2: return Diff2_HasCompleted;
+				case FractionDifficulty.DIFF_3: return Diff3_HasCompleted;
+
+				case FractionDifficulty.NEUTRAL:
+				case FractionDifficulty.PLAYER:
+				default:
+					SAMLog.Error("CLD::HasCompletedExact", "Invalid value: " + d);
+					return false;
+			}
 		}
 	}
 }

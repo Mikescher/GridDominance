@@ -86,6 +86,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HSP_MPPOINTS            = 160;
 		public const int STR_HSP_PROGRESS            = 45;
 		public const int STR_HSP_TIME_NOW            = 183;
+		public const int STR_HSP_TIME_YOU            = 277;
 		public const int STR_HSP_TIME_BEST           = 184;
 		public const int STR_HSP_BACK                = 46;
 		public const int STR_HSP_NEXT                = 47;
@@ -95,6 +96,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_HSP_CONERROR            = 65;
 		public const int STR_HSP_NEWGAME             = 158;
 		public const int STR_HSP_RANDOMGAME          = 159;
+		public const int STR_HSP_AUTHOR              = 276;
 
 		public const int STR_DIFF_0                  = 51;
 		public const int STR_DIFF_1                  = 52;
@@ -286,6 +288,8 @@ namespace GridDominance.Shared.Resources
 		public const int STR_LVLED_BTN_DELLEVEL      = 229;
 		public const int STR_LVLED_BTN_SAVE          = 230;
 		public const int STR_LVLED_BTN_DISCARD       = 231;
+		public const int STR_LVLED_BTN_ABORT         = 272;
+		public const int STR_LVLED_BTN_RETRY         = 273;
 		public const int STR_LVLED_TOAST_DELLEVEL    = 232;
 		public const int STR_MENU_CAP_SCCM           = 233;
 		public const int STR_LVLED_TAB_MYLEVELS      = 234;
@@ -323,8 +327,10 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ACH_UNLOCK_ONLINE       = 268;
 		public const int STR_ACH_UNLOCK_MULTIPLAYER  = 269;
 		public const int STR_ACH_UNLOCK_WORLD        = 270;
+		public const int STR_ACH_FIRSTCLEAR          = 274;
+		public const int STR_ACH_WORLDRECORD         = 275;
 
-		private const int TEXT_COUNT = 272; // = next idx
+		private const int TEXT_COUNT = 278; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2237,6 +2243,48 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_LVLUPLD_ERR_DUPLNAME,
 			         "Name is already used by another level",
 			         "Levelname wird schon verwendet",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_BTN_ABORT,
+			         "Abort",
+			         "Abbrechen",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_LVLED_BTN_RETRY,
+			         "Retry",
+			         "Wiederholen",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_ACH_FIRSTCLEAR,
+			         "First Clear",
+			         "Erster",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_ACH_WORLDRECORD,
+			         "World record",
+			         "Weltrekord",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_HSP_AUTHOR,
+			         "Author",
+			         "Ersteller",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
+
+			L10N.Add(STR_HSP_TIME_YOU,
+			         "Time (you)",
+			         "Deine Bestzeit",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me

@@ -161,7 +161,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				MainGame.Inst.GDSound.PlayMusicLevel(Blueprint.CustomMusic);
 			else
 				MainGame.Inst.GDSound.StopSong();
-			//
 		}
 	}
 }
