@@ -399,5 +399,11 @@ namespace GridDominance.Shared.SaveData
 					break;
 			}
 		}
+
+		internal void SetCustomLevelStarred(long oid, bool value)
+		{
+			var dat = GetOrAddCustomLevelData(oid);
+			dat.starred = value;
+		}
 	}
 }

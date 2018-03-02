@@ -46,6 +46,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 		private HUDEllipseImageButton _btnPlay1;
 		private HUDEllipseImageButton _btnPlay2;
 		private HUDEllipseImageButton _btnPlay3;
+		private HUDLabel              _lblStar;
 
 		public SCCMLevelPreviewDialog(SCCMLevelMeta meta, LevelBlueprint lvl = null)
 		{
@@ -105,7 +106,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				Click = (s, a) => ToggleStar(),
 			});
 			
-			AddElement(new HUDLabel
+			AddElement(_lblStar = new HUDLabel
 			{
 				TextAlignment = HUDAlignment.TOPRIGHT,
 				Alignment = HUDAlignment.TOPRIGHT,
@@ -628,11 +629,16 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 		private void ToggleStar()
 		{
+			if (_btnStar.Image == Textures.CannonCogBig) return;
 			if (_meta.UserID == MainGame.Inst.Profile.OnlineUserID) return;
 			if (!MainGame.Inst.Profile.HasCustomLevelBeaten(_meta)) return;
 
-			//TODO
-			// [Request] -> [Set icon to spinner] -> [Response] -> [Save Profile] -> [update icon]
+			_btnStar.Image = Textures.CannonCogBig;
+			_btnStar.ImageColor = FlatColors.Clouds;
+			_btnStar.ImageRotation = 0f;
+			_btnStar.ImageRotationSpeed = 0.5f;
+
+			DoToggleStar(!MainGame.Inst.Profile.HasCustomLevelStarred(_meta)).RunAsync();
 		}
 
 		private void Play(FractionDifficulty d)
@@ -670,6 +676,25 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 			{
 				SAMLog.Error("SCCMLPD::EnumSwitch_PLAY", "_downloadState: " + _downloadState);
 			}
+		}
+
+		private async Task DoToggleStar(bool v)
+		{
+			// [Request] -> [Set icon to spinner] -> [Response] -> [Save Profile] -> [update icon]
+
+			var r = await MainGame.Inst.Backend.SetCustomLevelStarred(MainGame.Inst.Profile, _meta.OnlineID, v);
+
+			MainGame.Inst.DispatchBeginInvoke(() => 
+			{
+				
+				_btnStar.Image = Textures.TexIconStar;
+				_btnStar.ImageColor = (r.Item2) ? FlatColors.SunFlower : FlatColors.Silver;
+				_btnStar.ImageRotation = 0f;
+				_btnStar.ImageRotationSpeed = 0f;
+
+				_lblStar.Text = r.Item1.ToString();
+
+			});
 		}
 	}
 }

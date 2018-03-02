@@ -1446,6 +1446,63 @@ namespace GridDominance.Shared.Network
 				return CustomLevelCompletionResult.Error;
 			}
 		}
+		
+		public async Task<Tuple<int, bool>> SetCustomLevelStarred(PlayerProfile profile, long onlineID, bool star) // <level_starcount, isStarred>
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterLong("levelid", onlineID);
+				ps.AddParameterBool("star", star);
+
+				var response = await QueryAsync<QueryResultUpdateUserLevelStarred>("update-userlevel-starred", ps, RETRY_CUSTOMLEVELUPDATE);
+
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "error")
+				{
+					SAMLog.Error("Backend::SCLS_ERR", $"SetCustomLevelPlayed: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "success")
+				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						profile.UpdateSCCMData(response.user);
+						profile.SetCustomLevelStarred(onlineID, response.value);
+
+						MainGame.Inst.SaveProfile();
+					});
+
+					return Tuple.Create(response.stars, response.value);
+				}
+				else
+				{
+					SAMLog.Error("Backend::SCLS_IRC", $"SetCustomLevelStarred: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return null;
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend::SCLS_RCE", e); // probably no internet
+				ShowErrorConnection();
+				return null;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend::SCLS_E", e);
+				ShowErrorCommunication();
+				return null;
+			}
+		}
 
 		private void ShowErrorConnection()
 		{

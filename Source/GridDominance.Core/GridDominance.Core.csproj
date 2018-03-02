@@ -48,6 +48,7 @@
     <Compile Include="Network\Backend\HighscoreCategory.cs" />
     <Compile Include="Network\Backend\IGDServerAPI.cs" />
     <Compile Include="Network\Backend\ChangePasswordResult.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelStarred.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelCompleted.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelPlayed.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultDownloadUserLevel.cs" />

@@ -32,6 +32,7 @@ namespace GridDominance.Shared.Network
 		Task<byte[]> DownloadUserLevel(PlayerProfile profile,long onlineID);
 		Task<bool?> SetCustomLevelPlayed(PlayerProfile profile, long onlineID, FractionDifficulty d);
 		Task<CustomLevelCompletionResult> SetCustomLevelCompleted(PlayerProfile profile, long onlineID, FractionDifficulty d, int time);
+		Task<Tuple<int, bool>> SetCustomLevelStarred(PlayerProfile profile, long onlineID, bool star); // <level_starcount, isStarred>
 	}
 
 	#pragma warning disable 1998
@@ -139,6 +140,11 @@ namespace GridDominance.Shared.Network
 		public async Task<CustomLevelCompletionResult> SetCustomLevelCompleted(PlayerProfile profile, long onlineID, FractionDifficulty d, int time)
 		{
 			return CustomLevelCompletionResult.PersonalBest;
+		}
+
+		public async Task<Tuple<int, bool>> SetCustomLevelStarred(PlayerProfile profile, long onlineID, bool star)
+		{
+			return Tuple.Create(star?1:0, star);
 		}
 	}
 #pragma warning restore 1998
