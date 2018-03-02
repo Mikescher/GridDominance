@@ -101,7 +101,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("SCCMTT::QD", e);
+				SAMLog.Error("SCCMTH::QD", e);
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{

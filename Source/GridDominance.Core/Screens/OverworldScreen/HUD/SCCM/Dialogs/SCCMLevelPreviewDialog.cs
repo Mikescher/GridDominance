@@ -28,13 +28,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 		public const float WIDTH = 14 * TW;
 		public const float HEIGHT = 8 * TW;
 
-		private enum DownloadState { Initial, Downloading, Error, Finished }
+		private enum DownloadState { Initial, Downloading, Error, Finished, CacheUpdate }
 
 		public override int Depth => 0;
 
 		private volatile LevelBlueprint _blueprint = null;
 
-		private readonly SCCMLevelMeta _meta;
+		private volatile SCCMLevelMeta _meta = null;
 
 		private DownloadState _downloadState = DownloadState.Initial;
 
@@ -516,7 +516,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 
 			#endregion
 
-			if (_blueprint==null) StartDownload();
+			if (_blueprint==null && _meta != null) 
+				StartDownload();
+			else if (_blueprint != null && _meta == null) 
+				StartMetaUpdate();
+			else if (_blueprint != null && _meta != null) 
+				_downloadState = DownloadState.Finished;
+			else
+				SAMLog.Error("SCCMLPD::EnumSwitch_OI", $"_blueprint: '{_blueprint}' | _meta = '{_meta}'");
 		}
 
 		private void StartDownload()
@@ -545,26 +552,27 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 			_btnPlay3.ImageColor = FractionDifficultyHelper.GetColor(FractionDifficulty.DIFF_3);
 			_btnPlay3.ImagePadding = 8;
 
-
 			StartDownloadLevel().RunAsync();
 			_downloadState = DownloadState.Downloading;
+		}
+
+		private void StartMetaUpdate()
+		{
+			StartMetaUpdateLevel().RunAsync();
+			_downloadState = DownloadState.CacheUpdate;
 		}
 
 		private async Task StartDownloadLevel()
 		{
 			try
 			{
-				#if DEBUG
-				await Task.Delay(2000);
-				#endif
-
 				var binary = await MainGame.Inst.Backend.DownloadUserLevel(MainGame.Inst.Profile, _meta.OnlineID);
 
 				if (binary == null)
 				{
 					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 					{
-						HUD.ShowToast("SCCMLPD::DF", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+						HUD.ShowToast("SCCMLPD::DF(MULTI)", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
 						MonoSAMGame.CurrentInst.DispatchBeginInvoke(OnDownloadFailed);
 					});
 					return;
@@ -587,12 +595,44 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 			{
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
-					HUD.ShowToast("SCCMLPD::DF", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+					HUD.ShowToast("SCCMLPD::DF(MULTI)", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
 				});
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(OnDownloadFailed);
 				
 				SAMLog.Error("SCCMLPD:DownloadException", e);
+			}
+		}
+
+		private async Task StartMetaUpdateLevel()
+		{
+			try
+			{
+				var meta = await MainGame.Inst.Backend.QueryUserLevelMeta(MainGame.Inst.Profile, _blueprint.CustomMeta_LevelID);
+
+				if (meta == null)
+				{
+					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					{
+						HUD.ShowToast("SCCMLPD::CUF(MULTI)", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(OnDownloadFailed);
+					});
+					return;
+				}
+
+				_meta = meta;
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(OnCacheUpdateSuccess);
+			}
+			catch (Exception e)
+			{
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+				{
+					HUD.ShowToast("SCCMLPD::CUF(MULTI)", L10N.T(L10NImpl.STR_SCCM_DOWNLOADFAILED), 40, FlatColors.Flamingo, FlatColors.Foreground, 3f);
+				});
+
+				MonoSAMGame.CurrentInst.DispatchBeginInvoke(OnDownloadFailed);
+				
+				SAMLog.Error("SCCMLPD:CacheUpdateException", e);
 			}
 		}
 
@@ -623,6 +663,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 			_btnPlay3.Image = Textures.TexIconError;
 			_btnPlay3.ImageColor = FlatColors.Pomegranate;
 			_btnPlay3.ImagePadding = 0;
+		}
+
+		private void OnCacheUpdateSuccess()
+		{
+			Remove();
+			HUD.AddModal(new SCCMLevelPreviewDialog(_meta, _blueprint), true, 0.5f, 0f);
 		}
 
 		private void OnDownloadSuccess()
@@ -699,7 +745,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 				});
 				return;
 			}
-			else if (_downloadState == DownloadState.Finished)
+			else if (_downloadState == DownloadState.Finished || _downloadState == DownloadState.CacheUpdate)
 			{
 				if (GDConstants.IntVersion < _blueprint.CustomMeta_MinVersion)
 				{
@@ -707,7 +753,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 					return;
 				}
 
-				MainGame.Inst.Backend.SetCustomLevelPlayed(MainGame.Inst.Profile, _meta.OnlineID, d).RunAsync();
+				MainGame.Inst.Backend.SetCustomLevelPlayed(MainGame.Inst.Profile, _blueprint.CustomMeta_LevelID, d).RunAsync();
 
 				MainGame.Inst.SetCustomLevelScreen(_blueprint, d);
 			}

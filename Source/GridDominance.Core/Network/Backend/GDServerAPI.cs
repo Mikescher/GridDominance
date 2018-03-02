@@ -42,6 +42,7 @@ namespace GridDominance.Shared.Network
 		private const int RETRY_LEVELQUERY         = 6;
 		private const int RETRY_LEVELDOWNLOAD      = 6;
 		private const int RETRY_CUSTOMLEVELUPDATE  = 6;
+		private const int RETRY_QUERYMETA          = 6;
 
 		private const int MULTISCORE_PARTITION_SIZE = 64;
 
@@ -1262,13 +1263,13 @@ namespace GridDominance.Shared.Network
 			}
 			catch (RestConnectionException e)
 			{
-				SAMLog.Warning("Backend::UUL_RCE", e); // probably no internet
+				SAMLog.Warning("Backend::QUL_RCE", e); // probably no internet
 				ShowErrorConnection();
 				return null;
 			}
 			catch (Exception e)
 			{
-				SAMLog.Error("Backend::UUL_E", e);
+				SAMLog.Error("Backend::QUL_E", e);
 				ShowErrorCommunication();
 				return null;
 			}
@@ -1405,7 +1406,7 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
-					SAMLog.Error("Backend::SCLP_ERR", $"SetCustomLevelPlayed: Error {response.errorid}: {response.errormessage}");
+					SAMLog.Error("Backend::SCLC_ERR", $"SetCustomLevelPlayed: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return CustomLevelCompletionResult.CreateError();
 				}
@@ -1496,6 +1497,54 @@ namespace GridDominance.Shared.Network
 			catch (Exception e)
 			{
 				SAMLog.Error("Backend::SCLS_E", e);
+				ShowErrorCommunication();
+				return null;
+			}
+		}
+		
+		public async Task<SCCMLevelMeta> QueryUserLevelMeta(PlayerProfile profile, long onlineID)
+		{
+			try
+			{
+				var ps = new RestParameterSet();
+				ps.AddParameterInt("userid", profile.OnlineUserID);
+				ps.AddParameterHash("password", profile.OnlinePasswordHash);
+				ps.AddParameterString("app_version", GDConstants.Version.ToString());
+				ps.AddParameterLong("levelid", onlineID);
+
+				var response = await QueryAsync<QueryResultQueryUserLevelMeta>("query-userlevel-meta", ps, RETRY_QUERYMETA);
+
+				if (response == null)
+				{
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "error")
+				{
+					SAMLog.Error("Backend::QULM_ERR", $"QueryUserLevelMeta: Error {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return null;
+				}
+				else if (response.result == "success")
+				{
+					return SCCMLevelMeta.Parse(response.data);
+				}
+				else
+				{
+					SAMLog.Error("Backend::QULM_IRC", $"QueryUserLevelMeta: Invalid Result Code [{response.result}] {response.errorid}: {response.errormessage}");
+					ShowErrorCommunication();
+					return null;
+				}
+			}
+			catch (RestConnectionException e)
+			{
+				SAMLog.Warning("Backend::QULM_RCE", e); // probably no internet
+				ShowErrorConnection();
+				return null;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Error("Backend::QULM_E", e);
 				ShowErrorCommunication();
 				return null;
 			}

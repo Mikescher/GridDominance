@@ -358,8 +358,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 							break;
 						case UploadResult.AlreadyUploaded:
 						case UploadResult.Success:
-							MainGame.Inst.SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab.MyLevels);
-
 							SCCMUtils.UpgradeLevel(SCCMData, binData);
 
 							MainGame.Inst.GetCurrentScreen().HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
@@ -371,6 +369,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 								CloseOnClick = true,
 
 							}, true);
+							
+							MainGame.Inst.SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab.MyLevels);
 							break;
 						default:
 							throw new ArgumentOutOfRangeException();

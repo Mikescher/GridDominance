@@ -121,7 +121,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				{
 					// missing - download
 
-					SAMLog.Info("SCCMTML::QMFS-1", $"Missing local user level {lvlonline.OnlineID} - redownload");
+					SAMLog.Info("SCCMTML::QMFS-2", $"Missing local user level {lvlonline.OnlineID} - redownload");
 					redownload.Add(Tuple.Create(lvlonline.OnlineID, lvlonline));
 				}
 			}

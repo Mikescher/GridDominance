@@ -59,7 +59,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 			if (playerHasWon)
 				HUD.AddModal(new HUDSCCMScorePanel_Transmit(lvl, Difficulty, time), false);
 			else
-				throw new NotImplementedException();//TODO looser
+			HUD.AddModal(new HUDSCCMScorePanel_Lost(lvl, Difficulty), false);
 		}
 
 		protected override void TestForGameEndingCondition()

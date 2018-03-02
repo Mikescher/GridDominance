@@ -52,7 +52,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 
 		public HUDLabel LabelTimeHeader;
 		public HUDLabel LabelTimeValue;
-		private HUDIncrementIndicatorLabel _labelPoints;
 		private EnhancedHUDDifficultyButton _diffButton0;
 		private EnhancedHUDDifficultyButton _diffButton1;
 		private EnhancedHUDDifficultyButton _diffButton2;
@@ -330,7 +329,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				FontSize = 57,
 			});
 
-			AddElement(_labelPoints = new HUDIncrementIndicatorLabel(MainGame.Inst.Profile.ScoreSCCM.ToString(), _scoreGain == 0 ? "" : "+" + _scoreGain, 2)
+			AddElement(new HUDIncrementIndicatorLabel(MainGame.Inst.Profile.ScoreSCCM.ToString(), _scoreGain == 0 ? "" : "+" + _scoreGain, 2)
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 15),

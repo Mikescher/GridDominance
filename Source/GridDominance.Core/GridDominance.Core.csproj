@@ -48,6 +48,7 @@
     <Compile Include="Network\Backend\HighscoreCategory.cs" />
     <Compile Include="Network\Backend\IGDServerAPI.cs" />
     <Compile Include="Network\Backend\ChangePasswordResult.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultQueryUserLevelMeta.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelStarred.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelCompleted.cs" />
     <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelPlayed.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Screens\NormalGameScreen\HUD\GDPreviewHUD.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMScorePanelTimeDisplayOperation.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMScorePanelTimeChangeOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMScorePanel_Lost.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMScorePanel_Won.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMScorePanel_Transmit.cs" />
     <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMUploadScorePanel.cs" />
