@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using GridDominance.Shared.SCCM;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Localization;
 
@@ -44,13 +45,15 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		private readonly SCCMLevelData SCCMData;
 		private readonly FractionDifficulty Diff;
 		private readonly GameSpeedModes Speed;
+		private readonly int Time;
 
-		public HUDSCCMTestScorePanel(LevelBlueprint lvl, SCCMLevelData dat, FractionDifficulty d, GameSpeedModes s)
+		public HUDSCCMTestScorePanel(LevelBlueprint lvl, SCCMLevelData dat, FractionDifficulty d, GameSpeedModes s, int t)
 		{
 			Level = lvl;
 			SCCMData = dat;
 			Diff = d;
 			Speed = s;
+			Time = t;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -116,6 +119,32 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Size = new FSize(1, FOOTER_HEIGHT),
 
 				Color = FlatColors.SeperatorHUD,
+			});
+
+			AddElement(new HUDLabel(2)
+			{
+				Alignment = HUDAlignment.BOTTOMRIGHT,
+				RelativePosition = new FPoint(0, 77),
+				Size = new FSize(WIDTH / 3f, 40),
+
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				L10NText = L10NImpl.STR_HSP_TIME_YOU,
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontRegular,
+				FontSize = 35,
+			});
+
+			AddElement(new HUDLabel(2)
+			{
+				Alignment = HUDAlignment.BOTTOMRIGHT,
+				RelativePosition = new FPoint(0, 15),
+				Size = new FSize(WIDTH / 3f, 60),
+
+				Text = TimeExtension.FormatMilliseconds(Time, false),
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontBold,
+				FontSize = 57,
 			});
 
 			#endregion

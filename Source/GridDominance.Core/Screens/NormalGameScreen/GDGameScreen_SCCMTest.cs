@@ -53,7 +53,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			GameSpeedMode = GameSpeedModes.NORMAL;
 
-			HUD.AddModal(new HUDSCCMTestScorePanel(lvl, SCCMData, Difficulty, _lastSpeed), false);
+			HUD.AddModal(new HUDSCCMTestScorePanel(lvl, SCCMData, Difficulty, _lastSpeed, time), false);
 		}
 
 		protected override void TestForGameEndingCondition()

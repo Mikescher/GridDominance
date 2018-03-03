@@ -10,7 +10,7 @@ function run() {
 	$userid        = getParamUIntOrError('userid');
 	$password      = getParamSHAOrError('password');
 	$appversion    = getParamStrOrError('app_version');
-	$decappversion = getParamStrOrError('app_version_dec');
+	$decappversion = getParamLongOrError('app_version_dec');
 	$levelid       = getParamLongOrError('levelid');
 	$name          = getParamStrOrError('name');
 	$gwidth        = getParamStrOrError('gwidth');

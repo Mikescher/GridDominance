@@ -131,6 +131,32 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				Color = FlatColors.SeperatorHUD,
 			});
 
+			AddElement(new HUDLabel(2)
+			{
+				Alignment = HUDAlignment.BOTTOMRIGHT,
+				RelativePosition = new FPoint(0, 77),
+				Size = new FSize(WIDTH / 3f, 40),
+
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				L10NText = L10NImpl.STR_HSP_TIME_YOU,
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontRegular,
+				FontSize = 35,
+			});
+
+			AddElement(new HUDLabel(2)
+			{
+				Alignment = HUDAlignment.BOTTOMRIGHT,
+				RelativePosition = new FPoint(0, 15),
+				Size = new FSize(WIDTH / 3f, 60),
+
+				Text = TimeExtension.FormatMilliseconds(Time, false),
+				TextAlignment = HUDAlignment.BOTTOMCENTER,
+				TextColor = FlatColors.TextHUD,
+				Font = Textures.HUDFontBold,
+				FontSize = 57,
+			});
+
 			#endregion
 
 			#region Buttons

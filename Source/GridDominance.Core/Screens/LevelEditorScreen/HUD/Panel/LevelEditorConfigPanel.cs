@@ -317,6 +317,11 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 		private void ToggleMusic(HUDTextButton sender, HUDButtonEventArgs e)
 		{
 			_music = (((_music+1)+1) % MainGame.Inst.GDSound.LevelMusic.Length) - 1;
+			
+			if (_music != -1) 
+				MainGame.Inst.GDSound.PlayMusicLevel(_music);
+			else
+				MainGame.Inst.GDSound.StopSong();
 
 			RefreshControls();
 		}
@@ -415,7 +420,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 
 		public override void OnRemove()
 		{
-			//
+			MainGame.Inst.GDSound.PlayMusicBackground();
 		}
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)

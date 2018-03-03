@@ -38,12 +38,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void RestartLevel(bool updateSpeed)
 		{
-			GDOwner.SetEditorTestLevel(Blueprint, Difficulty, SCCMData, updateSpeed ? GameSpeedMode : _lastSpeed);
+			GDOwner.SetEditorUploadLevel(Blueprint, SCCMData, updateSpeed ? GameSpeedMode : _lastSpeed);
 		}
 
 		public override void ReplayLevel(FractionDifficulty diff)
 		{
-			GDOwner.SetEditorTestLevel(Blueprint, Difficulty, SCCMData, GameSpeedMode);
+			GDOwner.SetEditorUploadLevel(Blueprint, SCCMData, GameSpeedMode);
 		}
 
 		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints, int time)
