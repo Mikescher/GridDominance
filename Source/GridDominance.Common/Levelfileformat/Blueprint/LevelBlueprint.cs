@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace GridDominance.Levelfileformat.Blueprint
 {
 	public sealed class LevelBlueprint
 	{
+		public const byte SCHEMA_VERSION = 1; // also update GDConstants.LevelVersion
+
 		public const int KI_TYPE_RAYTRACE    = 10; 
 		public const int KI_TYPE_PRECALC     = 11;
 		public const int KI_TYPE_PRESIMULATE = 12;
@@ -44,6 +47,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const byte SERIALIZE_ID_TRISHOT         = 0x18;
 		public const byte SERIALIZE_ID_META            = 0x80;
 		public const byte SERIALIZE_ID_META_CUSTOM     = 0x82;
+		public const byte SERIALIZE_ID_SCHEMA          = 0xAA;
 		public const byte SERIALIZE_ID_EOF             = 0xFF;
 
 		public readonly List<CannonBlueprint>          BlueprintCannons         = new List<CannonBlueprint>();
@@ -98,6 +102,9 @@ namespace GridDominance.Levelfileformat.Blueprint
 		
 		public void BinarySerialize(BinaryWriter bw, bool custom, ulong minversion, int userid, long customlid)
 		{
+			bw.Write(SERIALIZE_ID_SCHEMA);
+			bw.Write(SCHEMA_VERSION);
+
 			bw.Write(SERIALIZE_ID_META);
 			bw.Write(Name);
 			bw.Write(FullName);
@@ -165,6 +172,14 @@ namespace GridDominance.Levelfileformat.Blueprint
 			{
 				switch (id[0])
 				{
+					case SERIALIZE_ID_SCHEMA:
+						var schema = br.ReadByte();
+						if (schema != SCHEMA_VERSION) // currently only schema 1
+						{
+							throw new Exception($"schema not supported ({schema} <> {SCHEMA_VERSION})");
+						}
+						break;
+
 					case SERIALIZE_ID_CANNON:
 						BlueprintCannons.Add(CannonBlueprint.Deserialize(br));
 						break;
