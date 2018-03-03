@@ -766,9 +766,9 @@ namespace GridDominance.Shared.Resources
 			         "A comenzar");
 
 			L10N.Add(STR_HSP_CONERROR,
-			         "Could not connect to highscore server",
+			         "Could not connect to server",
 			         "Kommunikation mit Server fehlgeschlagen",
-			         "Impossible de se connecter au serveur highscore",
+			         "Impossible de se connecter au serveur",
 			         "Impossibile connettersi al server della classifica",
 			         "No se puede comunicar con Server");
 

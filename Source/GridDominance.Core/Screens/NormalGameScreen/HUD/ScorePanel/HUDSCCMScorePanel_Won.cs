@@ -327,6 +327,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				TextColor = FlatColors.TextHUD,
 				Font = Textures.HUDFontBold,
 				FontSize = 57,
+
+				AutoFontSizeShrink = true,
 			});
 
 			AddElement(new HUDIncrementIndicatorLabel(MainGame.Inst.Profile.ScoreSCCM.ToString(), _scoreGain == 0 ? "" : "+" + _scoreGain, 2)

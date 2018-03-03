@@ -1302,7 +1302,7 @@ namespace GridDominance.Shared.Network
 						return null;
 					}
 
-					SAMLog.Error("Backend::DUL_ERR", $"QueryUserLevel: Error {response.errorid}: {response.errormessage}");
+					SAMLog.Error("Backend::DUL_ERR", $"DownloadUserLevel: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return null;
 				}

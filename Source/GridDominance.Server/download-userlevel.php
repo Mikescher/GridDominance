@@ -10,10 +10,12 @@ function run() {
 	$userid        = getParamUIntOrError('userid');
 	$password      = getParamSHAOrError('password');
 	$levelid       = getParamLongOrError('levelid');
+	$appversion    = getParamStrOrError('app_version');
+	$decappversion = getParamLongOrError('app_version_dec');
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$userid, $password, $levelid]);
+	check_commit_signature($signature, [$userid, $password, $levelid, $appversion, $decappversion]);
 
 	//----------
 
