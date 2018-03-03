@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
@@ -19,6 +20,8 @@ using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using GridDominance.Shared.Screens.Common.HUD.Elements;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
+using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Screens
 {
@@ -140,8 +143,9 @@ namespace GridDominance.Shared.Screens
 			DebugSettings.AddPush("DBG",         "ShowDebugShortcuts",    scrn, SKeys.Tab, KeyModifier.None);
 			DebugSettings.AddPush("DBG",         "ShowSerializedProfile", scrn, SKeys.O,   KeyModifier.None);
 			DebugSettings.AddPush("TRUE",        "HideHUD",               scrn, SKeys.H,   KeyModifier.None);
-			DebugSettings.AddTrigger("DBG",      "RotateLang",            scrn, SKeys.L,   KeyModifier.Control, RotateLang);
-			DebugSettings.AddTrigger("DBG",      "Congratulations",       scrn, SKeys.P,   KeyModifier.None,    ShowAchievement);
+			DebugSettings.AddTrigger("DBG",      "RotateLang",            scrn, SKeys.L,   KeyModifier.Control,      RotateLang);
+			DebugSettings.AddTrigger("DBG",      "Congratulations",       scrn, SKeys.P,   KeyModifier.None,         ShowAchievement);
+			DebugSettings.AddTrigger("DBG",      "SendBigLog",            scrn, SKeys.L,   KeyModifier.ShiftCtrlAlt, SendBigLog);
 
 			if (scrn is GDGameScreen)      DebugSettings.AddSwitch( "DBG",  "ImmortalCannons",      scrn, SKeys.I,         KeyModifier.Control, false);
 			if (scrn is GDGameScreen)      DebugSettings.AddPush(   "TRUE", "AssimilateCannon",     scrn, SKeys.A,         KeyModifier.None);
@@ -170,6 +174,21 @@ namespace GridDominance.Shared.Screens
 		private static void ShowAchievement(DebugListener obj)
 		{
 			AchievementPopup.Show("You suck!");
+		}
+
+		private static void SendBigLog(DebugListener obj)
+		{
+			StringBuilder b = new StringBuilder();
+			for (int i = 0; i < 500; i++)
+			{
+				for (int j = 0; j < 120; j++)
+				{
+					b.Append((char)FloatMath.GetRangedIntRandom('A', 'Z'));
+				}
+				b.Append("\n");
+			}
+
+			SAMLog.Error("ERR-CUSTOM", "DEBUG BIG LOG", b.ToString());
 		}
 
 		private static void DoDirectProtocolDebugTest1()

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
@@ -12,7 +10,6 @@ using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
-using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Screens.HUD;
 
@@ -23,8 +20,6 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		protected override GameHUD CreateHUD() => new GDGameHUD(this);
 
 		public override Fraction LocalPlayerFraction => fractionPlayer;
-
-		private GameSpeedModes _lastSpeed;
 
 		public GDGameScreen_SCCMPlay(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, FractionDifficulty diff) 
 			: base(game, gdm, bp, diff, false, false, false)

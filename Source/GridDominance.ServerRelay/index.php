@@ -1,14 +1,15 @@
 <?php
 
+// error_reporting(E_STRICT);
+// ini_set('display_errors', 1);
+
 $db_host     = 'localhost';
 $db_dbname   = 'gdapi_relay';
-$db_user     = '?';
+$db_user     = 'gdapi_user';
 $db_password = '?';
 
 $mail_to   = 'virtualadmin@mikescher.de';
 $mail_from = 'gdserver-relay-error@mikescher.com';
-
-//error_reporting(E_STRICT);
 
 function ParamServerOrUndef($idx) {
 	return isset($_SERVER[$idx]) ? $_SERVER[$idx] : 'NOT_SET';
@@ -20,18 +21,17 @@ function sendMail($subject, $content, $to, $from) {
 
 try
 {
-
-	$requri = $_SERVER['REQUEST_URI'];
+	$requri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 	$query = isset($_SERVER["QUERY_STRING"]) ? $_SERVER["QUERY_STRING"] : "";
 
-	$host = 'cannonconquest.net';
+	$host = 'gdapi.cannonconquest.net';
 
-	$newurl = 'https://' . $host . $requri . ($query == '' ? '' : ('?'.$query));
+	$newurl = 'http://' . $host . $requri . ($query == '' ? '' : ('?'.$query));
 
-	$options = 
+	$options =
 	[
-		'http' => 
+		'http' =>
 		[
 			'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
 			'method'  => 'POST',
@@ -61,7 +61,7 @@ try
 		$dsn = "mysql:host=$db_host;dbname=$db_dbname;charset=utf8";
 		$opt = 
 		[
-			PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_ERRMODE	    => PDO::ERRMODE_EXCEPTION,
 			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 			PDO::ATTR_EMULATE_PREPARES   => false,
 		];
@@ -79,17 +79,17 @@ catch (Exception $e)
 
 		$content = "";
 
-		$content .= 'HTTP_HOST: '            . ParamServerOrUndef('HTTP_HOST')            . "\n";
-		$content .= 'REQUEST_URI: '          . ParamServerOrUndef('REQUEST_URI')          . "\n";
-		$content .= 'TIME: '                 . date('Y-m-d H:i:s')                        . "\n";
-		$content .= 'REMOTE_ADDR: '          . ParamServerOrUndef('REMOTE_ADDR')          . "\n";
+		$content .= 'HTTP_HOST: '	    . ParamServerOrUndef('HTTP_HOST')	    . "\n";
+		$content .= 'REQUEST_URI: '	  . ParamServerOrUndef('REQUEST_URI')	  . "\n";
+		$content .= 'TIME: '		 . date('Y-m-d H:i:s')			. "\n";
+		$content .= 'REMOTE_ADDR: '	  . ParamServerOrUndef('REMOTE_ADDR')	  . "\n";
 		$content .= 'HTTP_X_FORWARDED_FOR: ' . ParamServerOrUndef('HTTP_X_FORWARDED_FOR') . "\n";
 		$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')      . "\n";
-		$content .= 'MESSAGE:'               . "\n" . $e->getMessage()                    . "\n";
-		$content .= 'TRACE:'                 . "\n" . $e->getTraceAsString ()             . "\n";
-		$content .= '$_GET:'                 . "\n" . print_r($_GET, true)                . "\n";
-		$content .= '$_POST:'                . "\n" . print_r($_POST, true)               . "\n";
-		$content .= '$_FILES:'               . "\n" . print_r($_FILES, true)              . "\n";
+		$content .= 'MESSAGE:'	       . "\n" . $e->getMessage()		    . "\n";
+		$content .= 'TRACE:'		 . "\n" . $e->getTraceAsString ()	     . "\n";
+		$content .= '$_GET:'		 . "\n" . print_r($_GET, true)		. "\n";
+		$content .= '$_POST:'		. "\n" . print_r($_POST, true)	       . "\n";
+		$content .= '$_FILES:'	       . "\n" . print_r($_FILES, true)	      . "\n";
 
 		sendMail($subject, $content, $mail_to, $mail_from);
 }

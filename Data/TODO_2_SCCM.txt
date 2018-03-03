@@ -100,3 +100,13 @@ USER GENERATED LEVEL [[TODO]]
      - userlevels.stars == userlevel-highscores == users.score_stars
      - userlevels.best_time = BEST(userlevel-highscores)
      - users.score_sccm = CALC(userlevel-highscores)
+
+[ ] git repo for bfb apache-config
+
+[ ] harden mysql
+
+[ ] harden apache
+
+[ ] IAB version for iOS
+
+
