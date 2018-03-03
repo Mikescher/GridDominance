@@ -43,6 +43,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public const byte SERIALIZE_ID_RELAY           = 0x17;
 		public const byte SERIALIZE_ID_TRISHOT         = 0x18;
 		public const byte SERIALIZE_ID_META            = 0x80;
+		public const byte SERIALIZE_ID_META_CUSTOM     = 0x82;
 		public const byte SERIALIZE_ID_EOF             = 0xFF;
 
 		public readonly List<CannonBlueprint>          BlueprintCannons         = new List<CannonBlueprint>();
@@ -74,6 +75,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public Guid UniqueID     = Guid.Empty;
 		public string Name       = "";
 		public string FullName   = "";
+		public int CustomMusic   = -1;
 
 		public byte KIType       = KI_TYPE_RAYTRACE;
 		public byte WrapMode     = WRAPMODE_DEATH;
@@ -84,12 +86,17 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public float LevelViewX  = 8 * 64;
 		public float LevelViewY  = 5 * 64;
 
+		public ulong CustomMeta_MinVersion = 0;
+		public DateTimeOffset CustomMeta_Timestamp = DateTimeOffset.MinValue;
+		public int CustomMeta_UserID = -1;
+		public long CustomMeta_LevelID = -1;
+
 		public LevelBlueprint()
 		{
 			//
 		}
 		
-		public void BinarySerialize(BinaryWriter bw)
+		public void BinarySerialize(BinaryWriter bw, bool custom, ulong minversion, int userid, long customlid)
 		{
 			bw.Write(SERIALIZE_ID_META);
 			bw.Write(Name);
@@ -117,6 +124,17 @@ namespace GridDominance.Levelfileformat.Blueprint
 			for (int i = 0; i < BlueprintRelayCannon.Count;     i++) BlueprintRelayCannon[i].Serialize(bw);
 			for (int i = 0; i < BlueprintTrishotCannon.Count;   i++) BlueprintTrishotCannon[i].Serialize(bw);
 
+			if (custom)
+			{
+				bw.Write(SERIALIZE_ID_META_CUSTOM);
+				bw.Write(CustomMusic); 
+				bw.Write(minversion); 
+				bw.Write(userid);
+				long unixTimestamp = (Int64) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+				bw.Write(unixTimestamp);
+				bw.Write(customlid);
+			}
+
 			bw.Write(SERIALIZE_ID_EOF);
 
 			bw.Write((byte)0xB1);
@@ -130,13 +148,18 @@ namespace GridDominance.Levelfileformat.Blueprint
 			using (var ms = new MemoryStream())
 			using (var bw = new BinaryWriter(ms))
 			{
-				BinarySerialize(bw);
+				BinarySerialize(bw, false, 0, -1, 0);
 				return BitConverter.ToUInt64(MD5.GetHash(ms.ToArray()), 0);
 			}
 		}
 
 		public void BinaryDeserialize(BinaryReader br)
 		{
+			CustomMeta_MinVersion = 0;
+			CustomMeta_UserID = -1;
+			CustomMeta_LevelID = -1;
+			CustomMeta_Timestamp = DateTimeOffset.MinValue;
+
 			byte[] id = new byte[1];
 			while (br.Read(id, 0, 1) > 0)
 			{
@@ -208,6 +231,14 @@ namespace GridDominance.Levelfileformat.Blueprint
 						LevelHeight = br.ReadSingle();
 						LevelViewX  = br.ReadSingle();
 						LevelViewY  = br.ReadSingle();
+						break;
+
+					case SERIALIZE_ID_META_CUSTOM:
+						CustomMusic           = br.ReadInt32();
+						CustomMeta_MinVersion = br.ReadUInt64();
+						CustomMeta_UserID     = br.ReadInt32();
+						CustomMeta_Timestamp  = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(br.ReadInt64());
+						CustomMeta_LevelID    = br.ReadInt64();
 						break;
 
 					case SERIALIZE_ID_EOF:

@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.5.0</string>
+        <string>4.6.2</string>
         <key>fileName</key>
         <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet.tps</string>
         <key>autoSDSettings</key>
@@ -104,7 +104,7 @@
         <key>dataFormat</key>
         <string>json-array</string>
         <key>textureFileName</key>
-        <filename>../../../Source/GridDominance.Shared/Content/textures/spritesheet_default_{v}.png</filename>
+        <filename>../../../Source/GridDominance.Content/Content/textures/spritesheet_default_{v}.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -223,7 +223,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../../Source/GridDominance.Shared/Content/textures/spritesheet_default-sheet_{v}.json</filename>
+                <filename>../../../Source/GridDominance.Content/Content/textures/spritesheet_default-sheet_{v}.json</filename>
             </struct>
             <key>datafile</key>
             <struct type="DataFile">
@@ -314,12 +314,17 @@
                 <false/>
             </struct>
             <key type="filename">base_blocks/grid.png</key>
+            <key type="filename">difficulty/difficulty_line_00.png</key>
             <key type="filename">difficulty/difficulty_line_01.png</key>
             <key type="filename">difficulty/difficulty_line_02.png</key>
             <key type="filename">difficulty/difficulty_line_03.png</key>
             <key type="filename">difficulty/difficulty_line_04.png</key>
+            <key type="filename">hud/error.png</key>
+            <key type="filename">hud/genericuser.png</key>
             <key type="filename">hud/jewels.png</key>
             <key type="filename">hud/pokerchip.png</key>
+            <key type="filename">hud/tetro0.png</key>
+            <key type="filename">hud/upload.png</key>
             <key type="filename">level/cannon/cannoncog.png</key>
             <key type="filename">level/cannon/cannoncore_01.png</key>
             <key type="filename">level/cannon/cannoncore_02.png</key>
@@ -375,6 +380,9 @@
             <key type="filename">level/shield/half_shieldlaser_flare.png</key>
             <key type="filename">level/shield/shieldlaser_flare.png</key>
             <key type="filename">level/vortex/vortex_circle_1.png</key>
+            <key type="filename">leveleditor/minigunicon.png</key>
+            <key type="filename">leveleditor/tricircle.png</key>
+            <key type="filename">leveleditor/tricog.png</key>
             <key type="filename">overworld/tutorial.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -505,6 +513,7 @@
             <key type="filename">hud/eye.png</key>
             <key type="filename">hud/fingerprint.png</key>
             <key type="filename">hud/info.png</key>
+            <key type="filename">hud/magnifier.png</key>
             <key type="filename">hud/music_off.png</key>
             <key type="filename">hud/music_on.png</key>
             <key type="filename">hud/reddit.png</key>
@@ -666,6 +675,32 @@
                 <rect>22,16,44,31</rect>
                 <key>scale9Paddings</key>
                 <rect>22,16,44,31</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">hud/play.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,16,27,32</rect>
+                <key>scale9Paddings</key>
+                <rect>14,16,27,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">hud/star.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>33,33,66,66</rect>
+                <key>scale9Paddings</key>
+                <rect>33,33,66,66</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -968,6 +1003,72 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">leveleditor/backhole_icon.png</key>
+            <key type="filename">leveleditor/whitehole_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,24,49,49</rect>
+                <key>scale9Paddings</key>
+                <rect>24,24,49,49</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">leveleditor/fraction_blob.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,47,94,94</rect>
+                <key>scale9Paddings</key>
+                <rect>47,47,94,94</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">leveleditor/glassblock_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9Paddings</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">leveleditor/mirrorblock_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,26,51,51</rect>
+                <key>scale9Paddings</key>
+                <rect>26,26,51,51</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">leveleditor/void_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,26,53,53</rect>
+                <key>scale9Paddings</key>
+                <rect>26,26,53,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">overworld/bluetooth.png</key>
             <key type="filename">overworld/dice.png</key>
             <key type="filename">overworld/internet.png</key>
@@ -1055,6 +1156,7 @@
             <filename>particles</filename>
             <filename>tutorial</filename>
             <filename>worldmap</filename>
+            <filename>leveleditor</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

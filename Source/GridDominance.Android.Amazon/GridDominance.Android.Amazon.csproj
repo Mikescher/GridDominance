@@ -79,7 +79,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="..\GridDominance.Shared\Content\Content.mgcb">
+    <MonoGameContentReference Include="..\GridDominance.Content\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
   </ItemGroup>
@@ -96,14 +96,16 @@
       <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
       <Name>GridDominance.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj">
+      <Project>{3fe0a696-c3ba-450d-9b03-e264af024f0d}</Project>
+      <Name>GridDominance.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
       <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
       <Name>MonoSAMFramework.Portable</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="..\GridDominance.Android.IAB\Impl\AndroidFileHelper.cs">
       <Link>Impl\AndroidFileHelper.cs</Link>
@@ -156,7 +158,6 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Splash.png" />
   </ItemGroup>
-  <Import Project="..\GridDominance.Shared\GridDominance.Shared.projitems" Label="Shared" Condition="Exists('..\GridDominance.Shared\GridDominance.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <PropertyGroup>

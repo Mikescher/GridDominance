@@ -146,6 +146,10 @@
       <Project>{28cd24bd-432c-4987-9e9d-65cfcf120ea1}</Project>
       <Name>GridDominance.Content.Pipeline</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj">
+      <Project>{3fe0a696-c3ba-450d-9b03-e264af024f0d}</Project>
+      <Name>GridDominance.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />

@@ -101,6 +101,9 @@
         <div class="infodiv">
             MP: <?php echo countUsersByUnlock("{d34db335-0001-4000-7711-000000300001}"); ?>
         </div>
+        <div class="infodiv">
+            SCCM: <?php echo countUsersByUnlock("{d34db335-0001-4000-7711-000000300002}"); ?>
+        </div>
     </div>
 
     <div class="infocontainer">
@@ -821,6 +824,7 @@
                         <th>Resolution</th>
                         <th>Unlocks</th>
                         <th>Multiplayer</th>
+                        <th>Online</th>
                         <th style='width: 170px'>Last Online</th>
                         <th>Version</th>
                     </tr>
@@ -838,6 +842,7 @@
                         <td><a class="nolink" href="<?php echo suffixGetParams('resolution', $entry['device_resolution']); ?>"><?php echo $entry['device_resolution']; ?></a></td>
                         <?php expansioncell3($entry['unlocked_worlds'], lc($entry['unlocked_worlds'])); ?>
                         <td><?php echo strpos($entry['unlocked_worlds'], '{d34db335-0001-4000-7711-000000300001}') ? 'TRUE' : 'FALSE'; ?></td>
+                        <td><?php echo strpos($entry['unlocked_worlds'], '{d34db335-0001-4000-7711-000000300002}') ? 'TRUE' : 'FALSE'; ?></td>
                         <td><?php echo $entry['last_online']; ?></td>
                         <td><a class="nolink" href="<?php echo suffixGetParams('app_version', $entry['app_version']); ?>"><?php echo $entry['app_version']; ?></a></td>
                     </tr>

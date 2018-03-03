@@ -16,7 +16,6 @@ FROM
 
         ORDER BY
           totalscore DESC,
-          totaltime ASC,
           userid ASC
       ) x
 

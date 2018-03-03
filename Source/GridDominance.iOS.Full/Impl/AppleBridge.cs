@@ -5,6 +5,7 @@ using System.Threading;
 using Foundation;
 using GridDominance.Generic.Impl;
 using GridDominance.iOS.Impl;
+using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -28,6 +29,7 @@ namespace GridDominance.iOS.Full.Impl
 		public IBluetoothAdapter BluetoothFull { get; } = null; // Not supported
 		public string AppType => "IOS.Full";
 		public SAMSystemType SystemType => SAMSystemType.MONOGAME_IOS;
+		public GDFlavor Flavor => GDFlavor.FULL_NOMP;
 
 		public string EnvironmentStackTrace => Environment.StackTrace;
 
@@ -63,6 +65,11 @@ namespace GridDominance.iOS.Full.Impl
 		public string DoSHA256(string input)
 		{
 			using (var sha256 = SHA256.Create()) return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+		}
+
+		public byte[] DoSHA256(byte[] input)
+		{
+			using (var sha256 = SHA256.Create()) return sha256.ComputeHash(input);
 		}
 
 		public void OpenURL(string url)

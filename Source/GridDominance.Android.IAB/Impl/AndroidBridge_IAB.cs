@@ -6,6 +6,7 @@ using Android.Content;
 using Android.Content.Res;
 using Android.OS;
 using GridDominance.Generic.Impl;
+using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -22,6 +23,7 @@ namespace GridDominance.Android.Impl
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
 		public string AppType => "Android.IAB";
 		public SAMSystemType SystemType => SAMSystemType.MONOGAME_ANDROID;
+		public GDFlavor Flavor => GDFlavor.IAB;
 
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);
@@ -113,6 +115,11 @@ namespace GridDominance.Android.Impl
 		public string DoSHA256(string input)
 		{
 			using (var sha256 = SHA256.Create()) return ByteUtils.ByteToHexBitFiddle(sha256.ComputeHash(Encoding.UTF8.GetBytes(input)));
+		}
+
+		public byte[] DoSHA256(byte[] input)
+		{
+			using (var sha256 = SHA256.Create()) return sha256.ComputeHash(input);
 		}
 
 		public void OpenURL(string url)

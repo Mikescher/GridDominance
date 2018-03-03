@@ -91,3 +91,11 @@ function sql_query_assoc_prep($name, $query, $params)
 	
 	return $r;
 }
+
+function formatForSqlLike($value)
+{
+	$value = str_replace('%', '\\%', $value);
+	$value = str_replace('_', '\\_', $value);
+	$value = str_replace('\\', '\\\\', $value);
+	return '%' . $value . '%';
+}

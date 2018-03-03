@@ -1,0 +1,388 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3FE0A696-C3BA-450D-9B03-E264AF024F0D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>GridDominance.Shared</RootNamespace>
+    <AssemblyName>GridDominance.Core</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile44</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Debug\Core\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Bin\Release\Core\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\GridDominance.Core.csproj.CoreCompileInputs.cache" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DeviceBridge\IGDOperatingSystemBridge.cs" />
+    <Compile Include="GlobalAgents\HighscoreAgent.cs" />
+    <Compile Include="MainGame.cs" />
+    <Compile Include="Network\Backend\BackendCodes.cs" />
+    <Compile Include="Network\Backend\CustomLevelCompletionResult.cs" />
+    <Compile Include="Network\Backend\GDServerAPI.cs" />
+    <Compile Include="Network\Backend\HighscoreCategory.cs" />
+    <Compile Include="Network\Backend\IGDServerAPI.cs" />
+    <Compile Include="Network\Backend\ChangePasswordResult.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultQueryUserLevelMeta.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelStarred.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelCompleted.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUpdateUserLevelPlayed.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultDownloadUserLevel.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultNewLevelID.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultChangePassword.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultCreateUser.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultMergeLogin.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultDownloadData.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultHighscores.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultPing.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultRanking.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultQueryUserLevel.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUploadUserLevel.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultScoreData.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultSetMPScore.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultSetMultiscore.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultSetScore.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUpgradeUser.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultUserData.cs" />
+    <Compile Include="Network\Backend\QueryResult\QueryResultVerify.cs" />
+    <Compile Include="Network\Backend\QueryUserLevelCategory.cs" />
+    <Compile Include="Network\Backend\UpgradeResult.cs" />
+    <Compile Include="Network\Backend\UploadResult.cs" />
+    <Compile Include="Network\Backend\VerifyResult.cs" />
+    <Compile Include="Network\Multiplayer\GDMultiplayerClient.cs" />
+    <Compile Include="Network\Multiplayer\GDMultiplayerCommon.cs" />
+    <Compile Include="Network\Multiplayer\GDMultiplayerServer.cs" />
+    <Compile Include="Network\Multiplayer\RemoteBulletHint.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Animations.cs" />
+    <Compile Include="Resources\Attributions.cs" />
+    <Compile Include="Resources\GDConstants.cs" />
+    <Compile Include="Resources\GDSounds.cs" />
+    <Compile Include="Resources\L10NImpl.cs" />
+    <Compile Include="Resources\Levels.cs" />
+    <Compile Include="Resources\ParticlePresets.cs" />
+    <Compile Include="Resources\TetroConfigurations.cs" />
+    <Compile Include="Resources\Textures.cs" />
+    <Compile Include="Resources\__Secrets.cs" />
+    <Compile Include="SaveData\AccountType.cs" />
+    <Compile Include="SaveData\CustomLevelData.cs" />
+    <Compile Include="SaveData\LevelData.cs" />
+    <Compile Include="SaveData\LevelDiffData.cs" />
+    <Compile Include="SaveData\PlayerProfile.cs" />
+    <Compile Include="SCCM\PreCalculation\BlueprintPreprocessor.cs" />
+    <Compile Include="SCCM\PreCalculation\LevelKISimulator.cs" />
+    <Compile Include="SCCM\PreCalculation\LevelKITracer.cs" />
+    <Compile Include="SCCM\SCCMLevelData.cs" />
+    <Compile Include="SCCM\SCCMLevelElement.cs" />
+    <Compile Include="SCCM\SCCMLevelMeta.cs" />
+    <Compile Include="SCCM\SCCMUtils.cs" />
+    <Compile Include="Screens\Common\CommonCannonRenderer.cs" />
+    <Compile Include="Screens\Common\CommonObstacleRenderer.cs" />
+    <Compile Include="Screens\Common\CommonWallRenderer.cs" />
+    <Compile Include="Screens\Common\DebugUtils.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\AccountReminderPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\AcknowledgementsPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\AnonymousAccountPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\AttributionsPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\AuthErrorPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\ChangePasswordPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\FullAccountPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\HighscorePanel.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\InfoPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Dialogs\UnlockPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\AchievementPopup.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\EnhancedHUDDifficultyButton.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\HUDTetroAnimation.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\SCCMScoreDisplay.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\StarsScoreDisplay.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\MultiplayerScoreDisplay.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\ScoreDisplay.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\ScoreDisplayManager.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\SettingsButton.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\SubSettingButton.cs" />
+    <Compile Include="Screens\Common\HUD\ISettingsOwnerHUD.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\HUDRadioMusicButton.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\HUDRadioSpeedButton.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\MultiplayerClientLobbyPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\MultiplayerConnectionStateControl.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\MultiplayerFindLobbyScreen.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\MultiplayerHostPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\MultiplayerJoinLobbyScreen.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\MultiplayerMainPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\MultiplayerRehostPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Multiplayer\MultiplayerServerLobbyPanel.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\HUDSettingsBaseCloseOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\HUDSettingsCloseOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\HUDSettingsFontAppearOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\HUDSettingsFontCloseOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\HUDSettingsHorizontalOpenOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\HUDSettingsOpenOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\HUDSettingsSlantedOpenOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\HUDTextBoxBlinkOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\SubSettingsButtonShakeOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\UnlockErrorOperation.cs" />
+    <Compile Include="Screens\Common\HUD\Operations\UnlockSucessOperation.cs" />
+    <Compile Include="Screens\Common\HUD\SubSettingClickZone.cs" />
+    <Compile Include="Screens\Common\Operations\ExitAgent.cs" />
+    <Compile Include="Screens\Common\UnlockManager.cs" />
+    <Compile Include="Screens\EndGameScreen\Background\EndGameBackground.cs" />
+    <Compile Include="Screens\EndGameScreen\GDEndGameEntityManager.cs" />
+    <Compile Include="Screens\EndGameScreen\GDEndGameScreen.cs" />
+    <Compile Include="Screens\EndGameScreen\HUD\GDGameEndHUD.cs" />
+    <Compile Include="Screens\LevelEditorScreen\Entities\CannonStub.cs" />
+    <Compile Include="Screens\LevelEditorScreen\Entities\ILeveleditorStub.cs" />
+    <Compile Include="Screens\LevelEditorScreen\Entities\ObstacleStub.cs" />
+    <Compile Include="Screens\LevelEditorScreen\Entities\PortalStub.cs" />
+    <Compile Include="Screens\LevelEditorScreen\Entities\SingleAttrOption.cs" />
+    <Compile Include="Screens\LevelEditorScreen\Entities\WallStub.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Dialogs\LevelEditorTestConfirmPanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Elements\AttributeButton.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Panel\LevelEditorAttrPanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Dialogs\LevelEditorSaveConfirmPanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Dialogs\LevelEditorDeleteConfirmPanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Panel\LevelEditorConfigPanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\Panel\LevelEditorModePanel.cs" />
+    <Compile Include="Screens\LevelEditorScreen\HUD\LevelEditorHUD.cs" />
+    <Compile Include="Screens\LevelEditorScreen\LevelEditorBackground.cs" />
+    <Compile Include="Screens\LevelEditorScreen\LevelEditorEntityManager.cs" />
+    <Compile Include="Screens\LevelEditorScreen\LevelEditorMode.cs" />
+    <Compile Include="Screens\LevelEditorScreen\LevelEditorScreen.cs" />
+    <Compile Include="Screens\LevelEditorScreen\Operations\LeveleditorDragAgent.cs" />
+    <Compile Include="Screens\LevelEditorScreen\Operations\LeveleditorInsertAgent.cs" />
+    <Compile Include="Screens\NormalGameScreen\Background\GDCellularBackground.cs" />
+    <Compile Include="Screens\NormalGameScreen\Background\GDEmptyGridBackground.cs" />
+    <Compile Include="Screens\NormalGameScreen\Background\GDStaticGridBackground.cs" />
+    <Compile Include="Screens\NormalGameScreen\Background\IGDGridBackground.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\BackgroundText.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\BaseBullet.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Bullet.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\BulletPath.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\BulletSplitter.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Cannons\BulletCannon.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Cannons\Cannon.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Cannons\ILaserCannon.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Cannons\LaserCannon.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Cannons\MinigunCannon.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Cannons\RelayCannon.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Cannons\ShieldProjectorCannon.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Cannons\TrishotCannon.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\EntityOperations\BulletDelayedDieOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\EntityOperations\BulletFadeAndDieOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\EntityOperations\BulletGrowOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\EntityOperations\BulletShrinkAndDieOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\EntityOperations\CannonBooster.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\EntityOperations\RedFlashTextOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\EntityOperations\ShakeTextOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Obstacles\BlackHole.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Obstacles\GlassBlock.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Obstacles\MirrorBlock.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Obstacles\MirrorCircle.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Obstacles\Portal.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Obstacles\VoidCircle.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Obstacles\VoidWall.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Particles\DonutParticleEmitter.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\Particles\PortalParticleEmitter.cs" />
+    <Compile Include="Screens\NormalGameScreen\Entities\RemoteBullet.cs" />
+    <Compile Include="Screens\NormalGameScreen\EntityHelper.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\AbstractFractionController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\BulletKIController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\EmptyController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\EndGameAutoComputerController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\EndGameAutoPlayerController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\KIController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\LaserKIController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\NeutralKIController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\PlayerController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\RelayKIController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\RemoteController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\ShieldProjectorKIController.cs" />
+    <Compile Include="Screens\NormalGameScreen\FractionController\TutorialController.cs" />
+    <Compile Include="Screens\NormalGameScreen\Fractions\Fraction.cs" />
+    <Compile Include="Screens\NormalGameScreen\Fractions\FractionDifficulty.cs" />
+    <Compile Include="Screens\NormalGameScreen\Fractions\FractionType.cs" />
+    <Compile Include="Screens\NormalGameScreen\GameSpeedModes.cs" />
+    <Compile Include="Screens\NormalGameScreen\GameWrapMode.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDEntityManager.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_Display.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_MPClient.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_MPServer.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_Preview.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_SCCMPlay.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_SCCMUpload.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_SCCMTest.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_SP.cs" />
+    <Compile Include="Screens\NormalGameScreen\GDGameScreen_Tutorial.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDArrowAnimation.cs" />
+    <Compile Include="Screens\Common\HUD\Elements\HUDDifficultyButton.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDIncrementIndicatorLabel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDSCCMUploadDifficultyButton.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDMultiplayerDifficultyButton.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDPauseButton.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDPauseMenuButton.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDSpeedBaseButton.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDSpeedSetButton.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDTouchAnimation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Elements\HUDTutorialDifficultyButton.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\GDGameHUD.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\GDHudExtension.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\GDMultiplayerGameHUD.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\GDPreviewHUD.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMScorePanelTimeDisplayOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMScorePanelTimeChangeOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMScorePanel_Lost.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMScorePanel_Won.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMScorePanel_Transmit.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMUploadScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDSCCMTestScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDMultiplayerScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\ScorePanel\HUDTutorialScorePanel.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\IGDGameHUD.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDDifficultyButtonBlinkingIconOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDDifficultyButtonGainOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDIncrementIndicatorLabelWiggleOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMUploadButtonBlinkingIconOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDMultiplayerDifficultyButtonBlinkingIconOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDSCCMUploadButtonGainOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDMultiplayerDifficultyButtonGainOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDScorePanelTimeChangeOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDScorePanelTimeDisplayOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\HUD\Operations\HUDTutorialDifficultyButtonBlinkingIconOperation.cs" />
+    <Compile Include="Screens\NormalGameScreen\LaserNetwork\LaserNetwork.cs" />
+    <Compile Include="Screens\NormalGameScreen\LaserNetwork\LaserRay.cs" />
+    <Compile Include="Screens\NormalGameScreen\LaserNetwork\LaserRenderer.cs" />
+    <Compile Include="Screens\NormalGameScreen\LaserNetwork\LaserSource.cs" />
+    <Compile Include="Screens\NormalGameScreen\Operations\GameDragAgent.cs" />
+    <Compile Include="Screens\NormalGameScreen\Operations\TutorialAgent.cs" />
+    <Compile Include="Screens\NormalGameScreen\Physics\ConvertUnits2.cs" />
+    <Compile Include="Screens\NormalGameScreen\Physics\IPhysicsMarker.cs" />
+    <Compile Include="Screens\NormalGameScreen\Physics\MarkerCollisionBorder.cs" />
+    <Compile Include="Screens\NormalGameScreen\Physics\MarkerRefractionCorner.cs" />
+    <Compile Include="Screens\NormalGameScreen\Physics\MarkerRefractionEdge.cs" />
+    <Compile Include="Screens\NormalGameScreen\Physics\ShieldCollisionMarker.cs" />
+    <Compile Include="Screens\OverworldScreen\Background\OverworldBackground.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\EntityOperations\NetworkAnimationTriggerOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\EntityOperations\NetworkAnimationVertexOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\EntityOperations\ShakeNodeOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\EntityOperations\TetrisBlendOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\EntityOperations\TetrisFillOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\EntityOperations\TetrisInitialOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\EntityOperations\TetrisShrinkOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\OverworldNode.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_Graph.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_MP.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_SCCM.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_Tutorial.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_W1.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_W2.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_W3.cs" />
+    <Compile Include="Screens\OverworldScreen\Entities\OverworldNode_W4.cs" />
+    <Compile Include="Screens\OverworldScreen\GDOverworldScreen.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\Dialogs\SCCMPreviewPanel.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Dialogs\SCCMLevelPreviewDialog.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElement.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementNewUserLevel.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementEditable.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementLocalPlayable.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementOnlinePlayable.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListScrollbar.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListPresenter.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\SCCMMainPanel.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\Operations\CharacterControlWaveOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\Operations\JoinErrorOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\OverworldHUD.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabSearch.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabNew.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabHot.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabTop.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Tabs\SCCMTabMyLevels.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\Dialogs\WorldPreviewPanel.cs" />
+    <Compile Include="Screens\OverworldScreen\Operations\OverworldScrollAgent.cs" />
+    <Compile Include="Screens\OverworldScreen\Operations\ReappearTransitionOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\Operations\TransitionZoomInOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\Operations\TransitionZoomInToTutorialOperation.cs" />
+    <Compile Include="Screens\OverworldScreen\OverworldEntityManager.cs" />
+    <Compile Include="Screens\WorldMapScreen\Background\WorldMapBackground.cs" />
+    <Compile Include="Screens\WorldMapScreen\BlueprintAnalyzer.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\BaseWorldNode.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\ConnectionOrb.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\EntityOperations\CenterNodeOperation.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\EntityOperations\CloseNodeOperation.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\EntityOperations\OpenNodeOperation.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\EntityOperations\ScreenShakeAndCenterOperation.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\EntityOperations\ScreenShakeAndCenterOperation2 - Copy.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\EntityOperations\ScreenShakeOperation2.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\IWorldNode.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\LevelGraph.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\LevelNode.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\LevelNodePipe.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\RootNode.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\WarpGameEndNode.cs" />
+    <Compile Include="Screens\WorldMapScreen\Entities\WarpNode.cs" />
+    <Compile Include="Screens\WorldMapScreen\GDWorldMapEntityManager.cs" />
+    <Compile Include="Screens\WorldMapScreen\GDWorldMapScreen.cs" />
+    <Compile Include="Screens\WorldMapScreen\HUD\GDWorldHUD.cs" />
+    <Compile Include="Screens\WorldMapScreen\HUD\InformationDisplay.cs" />
+    <Compile Include="Screens\WorldMapScreen\HUD\TopLevelDisplay.cs" />
+    <Compile Include="Screens\WorldMapScreen\Operations\InitialTransitionOperation.cs" />
+    <Compile Include="Screens\WorldMapScreen\Operations\LeaveTransitionGameEndOperation.cs" />
+    <Compile Include="Screens\WorldMapScreen\Operations\LeaveTransitionOverworldOperation.cs" />
+    <Compile Include="Screens\WorldMapScreen\Operations\LeaveTransitionWorldMapOperation.cs" />
+    <Compile Include="Screens\WorldMapScreen\Operations\WorldMapDragAgent.cs" />
+    <Compile Include="Screens\WorldMapScreen\Operations\ZoomInOperation.cs" />
+    <Compile Include="Screens\WorldMapScreen\Operations\ZoomOutOperation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj">
+      <Project>{550f035e-f23e-4999-bb01-4857486e4125}</Project>
+      <Name>DebugView.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj">
+      <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
+      <Name>FarseerPhysics.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj">
+      <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
+      <Name>GridDominance.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
+      <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
+      <Name>MonoSAMFramework.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.Portable.3.6.0.1625\lib\portable-net45+win8+wpa81\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+</Project>

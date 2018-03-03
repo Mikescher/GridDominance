@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS users
   score_w2                int(11)       NOT NULL DEFAULT 0,
   score_w3                int(11)       NOT NULL DEFAULT 0,
   score_w4                int(11)       NOT NULL DEFAULT 0,
+  score_sccm              int(11)       NOT NULL DEFAULT 0,
+  score_stars             int(11)       NOT NULL DEFAULT 0,
   mpscore                 int(11)       NOT NULL DEFAULT 0,
   time_total              int(11)       NOT NULL DEFAULT 0,
   time_w1                 int(11)       NOT NULL DEFAULT 0,
@@ -108,7 +110,8 @@ CREATE TABLE IF NOT EXISTS error_log
 
 
 DROP TABLE IF EXISTS idmap;
-CREATE TABLE idmap (
+CREATE TABLE idmap
+(
   levelid  char(38)      NOT NULL,
   worldid  char(38)      NOT NULL,
   id       varchar(7)    NOT NULL,
@@ -135,7 +138,8 @@ CREATE TABLE runlog_volatile (
 
 
 DROP TABLE IF EXISTS runlog_history;
-CREATE TABLE runlog_history (
+CREATE TABLE runlog_history
+(
   id              int(11)       NOT NULL AUTO_INCREMENT,
   exectime        timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   action          char(32)      NOT NULL,
@@ -153,7 +157,8 @@ CREATE TABLE runlog_history (
 
 
 DROP TABLE IF EXISTS session_history;
-CREATE TABLE session_history (
+CREATE TABLE session_history
+(
   id                  int(11)       NOT NULL AUTO_INCREMENT,
   time                timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   sessioncount_active int(11)       NOT NULL,
@@ -163,7 +168,8 @@ CREATE TABLE session_history (
 );
 
 DROP TABLE IF EXISTS stats_history;
-CREATE TABLE stats_history (
+CREATE TABLE stats_history
+(
   id                    int(11)       NOT NULL AUTO_INCREMENT,
   exectime              timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -180,6 +186,7 @@ CREATE TABLE stats_history (
   unlocks_w3            int(11)       NOT NULL,
   unlocks_w4            int(11)       NOT NULL,
   unlocks_mp            int(11)       NOT NULL,
+  unlocks_sccm          int(11)       NOT NULL,
 
   user_topscore         int(11)       NOT NULL,
 
@@ -187,4 +194,77 @@ CREATE TABLE stats_history (
   user_old_version      int(11)       NOT NULL,
 
   PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS userlevels;
+CREATE TABLE userlevels
+(
+  id                 bigint(20)          UNSIGNED NOT NULL AUTO_INCREMENT,
+
+  name               varchar(64)         NULL DEFAULT NULL,
+  userid             int(10)             UNSIGNED NOT NULL,
+  creation_timestamp timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  upload_timestamp   timestamp           NULL DEFAULT NULL,
+  upload_version     varchar(24)         NULL DEFAULT NULL,
+  upload_decversion  bigint(20)          UNSIGNED NULL DEFAULT NULL,
+  grid_width         smallint(6)         NULL DEFAULT NULL,
+  grid_height        smallint(6)         NULL DEFAULT NULL,
+  author_time        int(10)             NOT NULL DEFAULT NULL,
+  datahash           varchar(64)         NULL DEFAULT NULL,
+  filesize           int(10)             NULL DEFAULT NULL,
+
+  stars              int(10)             NOT NULL DEFAULT '0',
+
+  d0_completed       int(10)             NOT NULL DEFAULT '0',
+  d0_played          int(10)             NOT NULL DEFAULT '0',
+  d0_bestuserid      int(10)             NULL DEFAULT NULL,
+  d0_besttime        int(10)             NULL DEFAULT NULL,
+  d0_besttimestamp   timestamp           NULL DEFAULT NULL,
+
+  d1_completed       int(10)             NOT NULL DEFAULT '0',
+  d1_played          int(10)             NOT NULL DEFAULT '0',
+  d1_bestuserid      int(10)             NULL DEFAULT NULL,
+  d1_besttime        int(10)             NULL DEFAULT NULL,
+  d1_besttimestamp   timestamp           NULL DEFAULT NULL,
+
+  d2_completed       int(10)             NOT NULL DEFAULT '0',
+  d2_played          int(10)             NOT NULL DEFAULT '0',
+  d2_bestuserid      int(10)             NULL DEFAULT NULL,
+  d2_besttime        int(10)             NULL DEFAULT NULL,
+  d2_besttimestamp   timestamp           NULL DEFAULT NULL,
+
+  d3_completed       int(10)             NOT NULL DEFAULT '0',
+  d3_played          int(10)             NOT NULL DEFAULT '0',
+  d3_bestuserid      int(10)             NULL DEFAULT NULL,
+  d3_besttime        int(10)             NULL DEFAULT NULL,
+  d3_besttimestamp   timestamp           NULL DEFAULT NULL,
+
+  PRIMARY KEY (id),
+
+  INDEX stars (stars),
+  INDEX upload_timestamp (upload_timestamp),
+  INDEX userid (userid)
+);
+
+DROP TABLE IF EXISTS userlevels_highscores;
+CREATE TABLE userlevels_highscores
+(
+  userid            int(11)           NOT NULL,
+  levelid           bigint(20)        NOT NULL,
+
+  d0_time           int(11)           NULL DEFAULT NULL,
+  d0_lastplayed     timestamp         NULL DEFAULT NULL,
+
+  d1_time           int(11)           NULL DEFAULT NULL,
+  d1_lastplayed     timestamp         NULL DEFAULT NULL,
+
+  d2_time           int(11)           NULL DEFAULT NULL,
+  d2_lastplayed     timestamp         NULL DEFAULT NULL,
+
+  d3_time           int(11)           NULL DEFAULT NULL,
+  d3_lastplayed     timestamp         NULL DEFAULT NULL,
+
+  starred           bit(1)            NOT NULL DEFAULT b'0',
+
+  PRIMARY KEY (userid, levelid)
 );

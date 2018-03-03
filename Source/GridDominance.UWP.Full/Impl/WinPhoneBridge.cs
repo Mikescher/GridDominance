@@ -21,6 +21,7 @@ namespace GridDominance.UWP
 		public IBluetoothAdapter BluetoothFull { get; } = null; // Not Supported
 		public IUDPClient CreateUPDClient() => null; // Not Supported
 		public string AppType => "WinPhone.UWP.Full";
+		public GDFlavor Flavor => GDFlavor.FULL_NOMP;
 
         public FSize DeviceResolution { get; } = GetScreenRes();
 

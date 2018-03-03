@@ -192,7 +192,7 @@ namespace GridDominance.DSLEditor
 				using (var ms = new MemoryStream())
 				using (var bw = new BinaryWriter(ms))
 				{
-					_currentDisplayLevel.BinarySerialize(bw);
+					_currentDisplayLevel.BinarySerialize(bw, false, 0, -1, 0);
 					binData = ms.ToArray();
 				}
 

@@ -102,7 +102,7 @@ namespace GridDominance.Android.Impl
 							case BluetoothAdapterState.ConnectionFailed:
 							case BluetoothAdapterState.Error:
 							default:
-								SAMLog.Warning("ABTA::EnumSwitch_TR", "value: " + _adapter.State);
+								SAMLog.Error("ABTA::EnumSwitch_TR", "value: " + _adapter.State);
 								try
 								{
 									socket.Close();

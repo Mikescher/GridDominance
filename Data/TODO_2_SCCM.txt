@@ -1,0 +1,102 @@
+USER GENERATED LEVEL [[TODO]]
+=============================
+
+
+[X] World Node (inifinite tetris)
+
+[X] CustomLevelID's are 48bit ints (uuid is just last section=id)
+     - {B16B00B5-0001-4001-0000-xxxxxxxxxxx}
+
+[X] only allow create with full acc
+
+[X] disallow duplicate names
+
+[X] Unlokable per money, game-beaten (got to end screen) or full version
+
+[X] reduce unlock cost of normal worlds (cost = all prev worlds, all levels on diff=3)
+
+[/] dedicated server (cannonconquest.com)
+     - Public Key SSH
+     - diff ssh port
+     - Fail2Ban
+     - Auto website preview (only gogs/bfb, for security) -> subdomain
+
+[X] Get third currency for sccm level beaten (-> new highscore, no cron but update "live")
+     - show currency  type on click
+
+[ ] Update translations (fr, es, it)
+
+[ ] ADD IAB code in android
+
+[ ] Update google-android (x2)
+[ ] Update amazon-android
+[ ] Update WinPhone
+[ ] Update iOS
+
+[X] level manage screen
+     - add new lvl (get instantly ID from server)
+     - upload local lvl (beat it on diff4), can't edit afterwards
+         * local compile+prealc
+         * gzip compiled level file
+     - edit not uploaded
+     - play uploaded
+
+[X] level create screen
+     - similiar like standalone creator
+     - needs a way to configure level settings (size, ki params, etc)
+
+[X] Play screen
+     - multi tabbed
+         - New level
+         - Hot level
+         - Top level
+         - Random (Hard | Medium | Easy)
+     - custom top-10 scoreboard per level+diff
+     - show completion count/perentage per diff + rating
+     - rate level after complete (only thumbs up | down)
+
+[ ] Update gdapi with new world {d34db335-0001-4000-7711-000000300002}
+
+[ ] gdapi/admin: show amount of people that beaten game (got to end screen)
+
+[ ] gdapi/admin: stuff for sccm
+
+[ ] ReSharper clean imports
+
+[X] Show message when unlocking new world 
+       more permanent than toast
+       like steam achievement?
+       position TL
+       move in from top
+       spinning gear behind, br corner, for effects
+
+[X] Add $GET hint when data in $POST
+
+[ ] fix initial overworld node focus (better logic)
+
+[ ] redirect gdapi on ms
+
+[ ] SCCMTest -> show ki rays
+
+[ ] Move Content to GridDominance.Content
+
+[X] Use eng for missing translations
+
+[X] Show total stars over all uploaded levels
+
+[X] highscore toogle button by currency icon
+
+[ ] dragable level list
+
+[ ] Pagination
+
+[X] remember author upload time
+
+[ ] cache hot levels (how expenive is query ?)
+
+[ ] weekly db backups on server (+ levels)
+
+[ ] TODO DB sanity checks (manually)
+     - userlevels.stars == userlevel-highscores == users.score_stars
+     - userlevels.best_time = BEST(userlevel-highscores)
+     - users.score_sccm = CALC(userlevel-highscores)

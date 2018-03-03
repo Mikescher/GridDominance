@@ -10,7 +10,6 @@ WHERE users.mpscore > 0
 
 ORDER BY
   totalscore DESC,
-  totaltime ASC,
   userid ASC
 
 LIMIT :qlimit

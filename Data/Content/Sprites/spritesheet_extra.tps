@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.5.0</string>
+        <string>4.6.2</string>
         <key>fileName</key>
         <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet_extra.tps</string>
         <key>autoSDSettings</key>
@@ -104,7 +104,7 @@
         <key>dataFormat</key>
         <string>json-array</string>
         <key>textureFileName</key>
-        <filename>../../../Source/GridDominance.Shared/Content/textures/spritesheet_extra_{v}.png</filename>
+        <filename>../../../Source/GridDominance.Content/Content/textures/spritesheet_extra_{v}.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -223,7 +223,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../../Source/GridDominance.Shared/Content/textures/spritesheet_extra-sheet_{v}.json</filename>
+                <filename>../../../Source/GridDominance.Content/Content/textures/spritesheet_extra-sheet_{v}.json</filename>
             </struct>
             <key>datafile</key>
             <struct type="DataFile">
@@ -282,6 +282,19 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">extra/description_sccm.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>218,64,435,127</rect>
+                <key>scale9Paddings</key>
+                <rect>218,64,435,127</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">extra/description_w2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -332,6 +345,19 @@
                 <rect>268,96,536,192</rect>
                 <key>scale9Paddings</key>
                 <rect>268,96,536,192</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">extra/title_sccm.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>252,60,505,120</rect>
+                <key>scale9Paddings</key>
+                <rect>252,60,505,120</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
