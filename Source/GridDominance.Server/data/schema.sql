@@ -209,7 +209,7 @@ CREATE TABLE userlevels
   upload_decversion  bigint(20)          UNSIGNED NULL DEFAULT NULL,
   grid_width         smallint(6)         NULL DEFAULT NULL,
   grid_height        smallint(6)         NULL DEFAULT NULL,
-  author_time        int(10)             NOT NULL,
+  author_time        int(10)             NULL DEFAULT NULL,
   datahash           varchar(64)         NULL DEFAULT NULL,
   filesize           int(10)             NULL DEFAULT NULL,
 

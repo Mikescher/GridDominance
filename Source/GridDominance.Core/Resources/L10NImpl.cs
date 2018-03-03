@@ -1979,7 +1979,7 @@ namespace GridDominance.Shared.Resources
 			         "?"); //TODO translate me
 
 			L10N.Add(STR_LVLED_TAB_MYLEVELS,
-			         "My level",
+			         "My levels",
 			         "Meine Level",
 			         "?",  //TODO translate me
 			         "?",  //TODO translate me
