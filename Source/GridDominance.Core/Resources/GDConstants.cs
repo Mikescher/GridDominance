@@ -6,7 +6,7 @@ namespace GridDominance.Shared.Resources
 
 	public static class GDConstants
 	{
-		public static readonly Version Version = new Version(1,2,4,0);
+		public static readonly Version Version = new Version(1,3,0,0);
 		public static ulong IntVersion { get; } = (ulong)((((((Version.Major << 12) | Version.Minor) << 12) | Version.Build) << 12) | Version.Revision);
 		
 		public static readonly Version LevelVersion = new Version(1,0,0,0);  // also update LevelBlueprint.SCHEMA_VERSION
