@@ -1,0 +1,23 @@
+<en-US>
+ - level editor (+ user generated level)
+ - reduced world unlock cost
+ - bug fixes and other changes
+</en-US>
+
+<de-DE>
+ - Neuer Leveleditor und Benutzerlevel
+ - Schwelle zum Freischalten anderer Welten gesenkt
+ - Allgemeine Fehlerbehebung
+</de-DE>
+
+<all>
+ - level editor (+ user generated level)
+ - reduced world unlock cost
+ - migration to new server
+ - achievement popup for new unlock
+ - show EN-US for missing translations
+ - smaller app size
+ - fixed error in endgame screen (with lang=es-ES)
+ - update SAMFramework
+ - better request compression
+</all>

@@ -74,7 +74,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] fix initial overworld node focus (better logic)
 
-[ ] redirect gdapi on ms
+[X] redirect gdapi on ms
 
 [ ] SCCMTest -> show ki rays
 
@@ -92,16 +92,16 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] remember author upload time
 
-[ ] cache hot levels (how expenive is query ?)
+[ ] cache hot levels (how expensive is query ?)
 
-[ ] weekly db backups on server (+ levels)
+[X] weekly db backups on server (+ levels)
 
 [ ] TODO DB sanity checks (manually)
      - userlevels.stars == userlevel-highscores == users.score_stars
      - userlevels.best_time = BEST(userlevel-highscores)
      - users.score_sccm = CALC(userlevel-highscores)
 
-[ ] git repo for bfb apache-config
+[X] git repo for bfb apache-config
 
 [ ] harden mysql
 
@@ -109,7 +109,11 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] IAB version for iOS
 
-[ ] server setup (alias, scripts, cron, backups, etc)
+[X] server setup (
+     -[x] alias
+     -[x] scripts
+     -[x] cron
+     -[x] backups
 
 [ ] supervisor for proxyserver
 
