@@ -25,7 +25,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { internalText.Alignment = value; recalcText = true; }
 		}
 
-		private int _l10nLangBuffer = -1;
 		private int _l10ntext = -1;
 		public int L10NText
 		{
@@ -83,8 +82,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { _wordWrap = value; recalcText = true; }
 		}
 
-		public bool AutoSize = false;
-		public bool AutoFontSizeShrink = false;
+		private FSize _sizeBuffer = FSize.MaxValue;
+		private int _l10nLangBuffer = -1;
+
+		public bool AutoSize = false;           // auto set size to innerlabel-size
+		public bool AutoFontSizeShrink = false; // if text too long (in x) reduce font size enough for text to fit (never increase font size)
 
 		public FSize InnerLabelSize => internalText.Size;
 
@@ -117,6 +119,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			if (_l10nLangBuffer != L10N.LANGUAGE)
 			{
 				_l10nLangBuffer = L10N.LANGUAGE;
+				recalcText = true;
+			}
+			
+			if (_sizeBuffer != Size)
+			{
+				_sizeBuffer = Size;
 				recalcText = true;
 			}
 

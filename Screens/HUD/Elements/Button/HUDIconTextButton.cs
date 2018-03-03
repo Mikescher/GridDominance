@@ -70,6 +70,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			set { if (internalLabel.FontSize != value) { internalLabel.FontSize = value; InvalidatePosition(); } }
 		}
 
+		public bool AutoFontSizeShrink
+		{
+			get { return internalLabel.AutoFontSizeShrink; }
+			set { internalLabel.AutoFontSizeShrink = value; }
+		}
+
 		private int _iconPadding = 8;
 		public int IconPadding
 		{
@@ -116,6 +122,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				TextAlignment = HUDAlignment.CENTERLEFT,
+				AutoFontSizeShrink = true,
 			};
 		}
 
