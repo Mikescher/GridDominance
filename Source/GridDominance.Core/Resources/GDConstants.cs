@@ -50,7 +50,7 @@ namespace GridDominance.Shared.Resources
 		public const string MULTIPLAYER_SERVER_HOST = "localhost";
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 #else
-		public const string MULTIPLAYER_SERVER_HOST = "cannonconquest-game.net";
+		public const string MULTIPLAYER_SERVER_HOST = "cannonconquest.net";
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 #endif
 
@@ -62,7 +62,7 @@ namespace GridDominance.Shared.Resources
 #if DEBUG
 		public const string SERVER_URL = "http://localhost:666";
 #else
-		public const string SERVER_URL = "http://cannonconquest-game.net/gdapi";
+		public const string SERVER_URL = "http://gdapi.cannonconquest.net";
 #endif
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 
