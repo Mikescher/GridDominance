@@ -8,6 +8,7 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
@@ -55,10 +56,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { internalText.Font = value; recalcText = true; }
 		}
 
+		private float _manualFontSize;
 		public float FontSize
 		{
 			get { return internalText.FontSize; }
-			set { internalText.FontSize = value; recalcText = true; }
+			set { internalText.FontSize = _manualFontSize = value; recalcText = true; }
 		}
 
 		public float Alpha
@@ -82,6 +84,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 		}
 
 		public bool AutoSize = false;
+		public bool AutoFontSizeShrink = false;
 
 		public FSize InnerLabelSize => internalText.Size;
 
@@ -125,6 +128,19 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 				if (MaxWidth == null)
 				{
 					internalText.Text = DisplayText;
+
+					if (!AutoSize && AutoFontSizeShrink)
+					{
+						var w = FontRenderHelper.MeasureStringCached(internalText.Font, internalText.Text, _manualFontSize).Width;
+						if (w > Width && Width>0)
+						{
+							internalText.FontSize = _manualFontSize * (Width / w);
+						}
+						else if (!FloatMath.EpsilonEquals(_manualFontSize, internalText.FontSize, 0.001f))
+						{
+							internalText.FontSize = _manualFontSize;
+						}
+					}
 				}
 				else
 				{

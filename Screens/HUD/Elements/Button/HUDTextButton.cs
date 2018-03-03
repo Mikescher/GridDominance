@@ -50,6 +50,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			get { return internalLabel.FontSize; }
 			set { internalLabel.FontSize = value; InvalidatePosition(); }
 		}
+
+		public bool AutoFontSizeShrink
+		{
+			get { return internalLabel.AutoFontSizeShrink; }
+			set { internalLabel.AutoFontSizeShrink = value; }
+		}
 		
 		private int _textPadding = 0;
 		public int TextPadding
@@ -60,8 +66,6 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 
 		public HUDBackgroundDefinition BackgroundNormal = HUDBackgroundDefinition.DUMMY;
 		public HUDBackgroundDefinition BackgroundPressed = HUDBackgroundDefinition.DUMMY;
-
-		public float BackgroundCornerSize = 16f;
 
 		#endregion
 
@@ -84,6 +88,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			{
 				Alignment = HUDAlignment.TOPLEFT,
 				TextAlignment = HUDAlignment.CENTERLEFT,
+				AutoFontSizeShrink = true,
 			};
 		}
 
