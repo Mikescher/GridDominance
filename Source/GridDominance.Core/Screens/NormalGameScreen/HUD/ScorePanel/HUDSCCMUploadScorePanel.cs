@@ -54,14 +54,16 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 		private readonly FractionDifficulty Diff;
 		private readonly GameSpeedModes Speed;
 		private readonly bool CanUpload;
+		private readonly int Time;
 
-		public HUDSCCMUploadScorePanel(LevelBlueprint lvl, SCCMLevelData dat, FractionDifficulty d, GameSpeedModes s, bool playerWon)
+		public HUDSCCMUploadScorePanel(LevelBlueprint lvl, SCCMLevelData dat, FractionDifficulty d, GameSpeedModes s, bool playerWon, int time)
 		{
 			Level = lvl;
 			SCCMData = dat;
 			Diff = d;
 			Speed = s;
 			CanUpload = playerWon;
+			Time = time;
 
 			RelativePosition = FPoint.Zero;
 			Size = new FSize(WIDTH, HEIGHT);
@@ -271,7 +273,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 					binData = ms.ToArray();
 				}
 
-				var result = await MainGame.Inst.Backend.UploadUserLevel(MainGame.Inst.Profile, Level, SCCMData, binData);
+				var result = await MainGame.Inst.Backend.UploadUserLevel(MainGame.Inst.Profile, Level, SCCMData, binData, Time);
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{

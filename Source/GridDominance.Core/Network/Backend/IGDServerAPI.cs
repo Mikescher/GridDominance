@@ -27,7 +27,7 @@ namespace GridDominance.Shared.Network
 		Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit, HighscoreCategory cat);
 		Task<Tuple<VerifyResult, string>> MergeLogin(PlayerProfile profile, string username, string password);
 		Task<Tuple<bool, Int64>> GetNewCustomLevelID(PlayerProfile profile);
-		Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary);
+		Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary, int time);
 		Task<List<SCCMLevelMeta>> QueryUserLevel(PlayerProfile profile, QueryUserLevelCategory cat, string param, int pagination);
 		Task<byte[]> DownloadUserLevel(PlayerProfile profile,long onlineID);
 		Task<bool?> SetCustomLevelPlayed(PlayerProfile profile, long onlineID, FractionDifficulty d);
@@ -118,7 +118,7 @@ namespace GridDominance.Shared.Network
 			return Tuple.Create(true, 999L);
 		}
 
-		public async Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary)
+		public async Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary, int time)
 		{
 			return UploadResult.Success;
 		}

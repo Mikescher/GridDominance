@@ -45,7 +45,7 @@ function run() {
 	$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 	executeOrFail($stmt);
 	$globalbest = $stmt->fetchColumn();
-	if ($globalbest === null) $globalbest = -99999;
+	if ($globalbest === null) $globalbest = 99999999;
 
 	if ($dblevel !== FALSE) // level already played (normal)
 	{
@@ -63,11 +63,14 @@ function run() {
 			executeOrFail($stmt);
 		}
 
+		$maxDiff = -1;
+		     if ($dblevel['d3_time']!=null) $maxDiff = $maxDiff = 3;
+		else if ($dblevel['d2_time']!=null) $maxDiff = $maxDiff = 2;
+		else if ($dblevel['d1_time']!=null) $maxDiff = $maxDiff = 1;
+		else if ($dblevel['d0_time']!=null) $maxDiff = $maxDiff = 0;
+
 		$scoreInc = 0;
-		if ($dblevel['d0_time']==null && $difficulty <= 0) $scoreInc += $config['diff_scores'][0];
-		if ($dblevel['d1_time']==null && $difficulty <= 1) $scoreInc += $config['diff_scores'][1];
-		if ($dblevel['d2_time']==null && $difficulty <= 2) $scoreInc += $config['diff_scores'][2];
-		if ($dblevel['d3_time']==null && $difficulty <= 3) $scoreInc += $config['diff_scores'][3];
+		for ($i=$maxDiff+1; $i<=$difficulty; $i++) $scoreInc += $config['diff_scores'][$i];
 
 		if ($dblevel[$field_time] === null) // first clear
 		{
@@ -79,7 +82,7 @@ function run() {
 
 			$user->addSCCMPoints($scoreInc);
 
-			$ishighscore = ($time > $globalbest);
+			$ishighscore = ($time < $globalbest);
 			if ($ishighscore)
 			{
 				$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_completed.' = '.$field_completed.'+1, '.$field_besttime.'=:tim, '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
@@ -95,7 +98,7 @@ function run() {
 				executeOrFail($stmt);
 			}
 
-			outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'scoregain' => $scoreInc, 'user' => $user, 'meta' => GDCustomLevel::getByID($levelid) ]);
+			outputResultSuccess([ 'firstclear' => $globalbest>9999999, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'scoregain' => $scoreInc, 'user' => $user, 'meta' => GDCustomLevel::getByID($levelid) ]);
 		}
 		else if ($dblevel[$field_time] > $time) // already cleared - better time
 		{
@@ -105,19 +108,13 @@ function run() {
 			$stmt->bindValue(':tim', $time, PDO::PARAM_INT);
 			executeOrFail($stmt);
 
-			$ishighscore = ($time > $globalbest);
+			$ishighscore = ($time < $globalbest);
 			if ($ishighscore)
 			{
-				$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_completed.' = '.$field_completed.'+1, '.$field_besttime.'=:tim, '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
+				$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_besttime.'=:tim, '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
 				$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 				$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 				$stmt->bindValue(':tim', $time, PDO::PARAM_INT);
-				executeOrFail($stmt);
-			}
-			else
-			{
-				$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_completed.' = '.$field_completed.'+1 WHERE id = :lid');
-				$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 				executeOrFail($stmt);
 			}
 
@@ -144,7 +141,7 @@ function run() {
 
 		$user->addSCCMPoints($scoreInc);
 
-		$ishighscore = ($time > $globalbest);
+		$ishighscore = ($time < $globalbest);
 		if ($ishighscore)
 		{
 			$stmt = $pdo->prepare('UPDATE userlevels SET '.$field_playcount.' = '.$field_playcount.'+1, '.$field_completed.' = '.$field_completed.'+1, '.$field_besttime.'=:tim, '.$field_bestuserid.'=:uid, '.$field_besttimestamp.'=NOW() WHERE id = :lid');
@@ -160,7 +157,7 @@ function run() {
 			executeOrFail($stmt);
 		}
 
-		outputResultSuccess([ 'firstclear' => $globalbest<0, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'scoregain' => $scoreInc, 'user' => $user, 'meta' => GDCustomLevel::getByID($levelid) ]);
+		outputResultSuccess([ 'firstclear' => $globalbest>9999999, 'inserted' => true, 'highscore' => $ishighscore, 'leveltime' => $time, 'scoregain' => $scoreInc, 'user' => $user, 'meta' => GDCustomLevel::getByID($levelid) ]);
 	}
 }
 

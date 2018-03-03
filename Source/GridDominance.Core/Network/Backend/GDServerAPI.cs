@@ -1150,7 +1150,7 @@ namespace GridDominance.Shared.Network
 			}
 		}
 
-		public async Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary)
+		public async Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary, int time)
 		{
 			try
 			{
@@ -1163,6 +1163,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("name", level.FullName);
 				ps.AddParameterInt("gwidth", rawData.Size.Width);
 				ps.AddParameterInt("gheight", rawData.Size.Height);
+				ps.AddParameterInt("authortime", time);
 				ps.AddParameterString("binhash", ByteUtils.ByteToHexBitFiddle(MonoSAMGame.CurrentInst.Bridge.DoSHA256(binary)));
 				ps.AddParameterCompressedBinary("bindata", binary, false, true);
 

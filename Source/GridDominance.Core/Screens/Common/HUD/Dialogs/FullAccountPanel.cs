@@ -271,6 +271,10 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			else if (_logOutCounter == 2)
 			{
 				MainGame.Inst.Profile.LevelData.Clear();
+				MainGame.Inst.Profile.CustomLevelData.Clear();
+				MainGame.Inst.Profile.ScoreSCCM = 0;
+				MainGame.Inst.Profile.ScoreStars = 0;
+				MainGame.Inst.Profile.MultiplayerPoints = 0;
 				
 				MainGame.Inst.Profile.AccountType = AccountType.Local;
 				MainGame.Inst.Profile.OnlineUserID = -1;

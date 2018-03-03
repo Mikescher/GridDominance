@@ -60,31 +60,59 @@ function run() {
 
 			(userid, levelid, d0_time, d0_lastplayed, d1_time, d1_lastplayed, d2_time, d2_lastplayed, d3_time, d3_lastplayed)
 			VALUES
-			(:uid,:lid,:d0t,:d0p,:d1t,:d1p,:d2t,:d2p,:d3t,:d3p)
+			(:uid,:lid,:d0t2,:d0p2,:d1t2,:d1p2,:d2t2,:d2p2,:d3t2,:d3p2)
 
 			ON DUPLICATE KEY UPDATE
 
-			d0_time = LEAST(:d0t,d0_time), d0_lastplayed = GREATEST(:d0p,d0_lastplayed),
-			d1_time = LEAST(:d1t,d1_time), d1_lastplayed = GREATEST(:d1p,d1_lastplayed),
-			d2_time = LEAST(:d2t,d2_time), d2_lastplayed = GREATEST(:d2p,d2_lastplayed),
-			d3_time = LEAST(:d3t,d3_time), d3_lastplayed = GREATEST(:d3p,d3_lastplayed)
+			d0_time = LEAST(:d0t1,d0_time), d0_lastplayed = GREATEST(:d0p1,d0_lastplayed),
+			d1_time = LEAST(:d1t1,d1_time), d1_lastplayed = GREATEST(:d1p1,d1_lastplayed),
+			d2_time = LEAST(:d2t1,d2_time), d2_lastplayed = GREATEST(:d2p1,d2_lastplayed),
+			d3_time = LEAST(:d3t1,d3_time), d3_lastplayed = GREATEST(:d3p1,d3_lastplayed)
 		 */
-		$stmt = $pdo->prepare('INSERT INTO userlevels_highscores(userid, levelid, d0_time, d0_lastplayed, d1_time, d1_lastplayed, d2_time, d2_lastplayed, d3_time, d3_lastplayed) VALUES (:uid,:lid,:d0t,:d0p,:d1t,:d1p,:d2t,:d2p,:d3t,:d3p) ON DUPLICATE KEY UPDATE d0_time = LEAST(:d0t,d0_time), d0_lastplayed = GREATEST(:d0p,d0_lastplayed), d1_time = LEAST(:d1t,d1_time), d1_lastplayed = GREATEST(:d1p,d1_lastplayed), d2_time = LEAST(:d2t,d2_time), d2_lastplayed = GREATEST(:d2p,d2_lastplayed), d3_time = LEAST(:d3t,d3_time), d3_lastplayed = GREATEST(:d3p,d3_lastplayed)');
-		$stmt->bindValue(':uid', $user->ID, PDO::PARAM_INT);
-		$stmt->bindValue(':lid', $entry['levelid'],       PDO::PARAM_INT);
-		$stmt->bindValue(':d0t', $entry['d0_time'],       PDO::PARAM_INT);
-		$stmt->bindValue(':d0p', $entry['d0_lastplayed'], PDO::PARAM_STR);
-		$stmt->bindValue(':d1t', $entry['d1_time'],       PDO::PARAM_INT);
-		$stmt->bindValue(':d1p', $entry['d1_lastplayed'], PDO::PARAM_STR);
-		$stmt->bindValue(':d2t', $entry['d2_time'],       PDO::PARAM_INT);
-		$stmt->bindValue(':d2p', $entry['d2_lastplayed'], PDO::PARAM_STR);
-		$stmt->bindValue(':d3t', $entry['d3_time'],       PDO::PARAM_INT);
-		$stmt->bindValue(':d3p', $entry['d3_lastplayed'], PDO::PARAM_STR);
+		$stmt = $pdo->prepare('INSERT INTO userlevels_highscores(userid, levelid, d0_time, d0_lastplayed, d1_time, d1_lastplayed, d2_time, d2_lastplayed, d3_time, d3_lastplayed) VALUES (:uid,:lid,:d0t2,:d0p2,:d1t2,:d1p2,:d2t2,:d2p2,:d3t2,:d3p2) ON DUPLICATE KEY UPDATE d0_time = LEAST(:d0t1,d0_time), d0_lastplayed = GREATEST(:d0p1,d0_lastplayed), d1_time = LEAST(:d1t1,d1_time), d1_lastplayed = GREATEST(:d1p1,d1_lastplayed), d2_time = LEAST(:d2t1,d2_time), d2_lastplayed = GREATEST(:d2p1,d2_lastplayed), d3_time = LEAST(:d3t1,d3_time), d3_lastplayed = GREATEST(:d3p1,d3_lastplayed)');
+		$stmt->bindValue(':uid',  $user->ID,               PDO::PARAM_INT);
+		$stmt->bindValue(':lid',  $entry['levelid'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d0t1', $entry['d0_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d0p1', $entry['d0_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d1t1', $entry['d1_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d1p1', $entry['d1_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d2t1', $entry['d2_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d2p1', $entry['d2_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d3t1', $entry['d3_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d3p1', $entry['d3_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d0t2', $entry['d0_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d0p2', $entry['d0_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d1t2', $entry['d1_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d1p2', $entry['d1_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d2t2', $entry['d2_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d2p2', $entry['d2_lastplayed'], PDO::PARAM_STR);
+		$stmt->bindValue(':d3t2', $entry['d3_time'],       PDO::PARAM_INT);
+		$stmt->bindValue(':d3p2', $entry['d3_lastplayed'], PDO::PARAM_STR);
 		executeOrFail($stmt);
 
 		$stmt = $pdo->prepare('DELETE FROM userlevels_highscores WHERE userid=:uid AND levelid=:lid');
 		$stmt->bindValue(':uid', $olduser->ID,      PDO::PARAM_INT);
 		$stmt->bindValue(':lid', $entry['levelid'], PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		$stmt = $pdo->prepare('UPDATE userlevels SET d0_bestuserid=:uidnew WHERE d0_bestuserid=:uidold');
+		$stmt->bindValue(':uidnew', $user->ID,    PDO::PARAM_INT);
+		$stmt->bindValue(':uidold', $olduser->ID, PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		$stmt = $pdo->prepare('UPDATE userlevels SET d1_bestuserid=:uidnew WHERE d1_bestuserid=:uidold');
+		$stmt->bindValue(':uidnew', $user->ID,    PDO::PARAM_INT);
+		$stmt->bindValue(':uidold', $olduser->ID, PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		$stmt = $pdo->prepare('UPDATE userlevels SET d2_bestuserid=:uidnew WHERE d2_bestuserid=:uidold');
+		$stmt->bindValue(':uidnew', $user->ID,    PDO::PARAM_INT);
+		$stmt->bindValue(':uidold', $olduser->ID, PDO::PARAM_INT);
+		executeOrFail($stmt);
+
+		$stmt = $pdo->prepare('UPDATE userlevels SET d3_bestuserid=:uidnew WHERE d3_bestuserid=:uidold');
+		$stmt->bindValue(':uidnew', $user->ID,    PDO::PARAM_INT);
+		$stmt->bindValue(':uidold', $olduser->ID, PDO::PARAM_INT);
 		executeOrFail($stmt);
 	}
 
@@ -118,7 +146,9 @@ function run() {
 	$scoresummary = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 	$newscore = 0;
-	foreach ($scoresummary as $ss) $newscore += $ss['levelcount'] * $config['diff_scores'][$ss['diff']];
+	foreach ($scoresummary as $ss) {
+		for ($i=$ss['diff']; $i >=0; $i--) $newscore += $ss['levelcount'] * $config['diff_scores'][$i];
+	}
 
 	$user->SetSCCMScore($newscore);
 

@@ -15,12 +15,13 @@ function run() {
 	$name          = getParamStrOrError('name');
 	$gwidth        = getParamStrOrError('gwidth');
 	$gheight       = getParamStrOrError('gheight');
+	$authortime    = getParamStrOrError('authortime');
 	$binhash       = getParamStrOrError('binhash');
 	$bindata       = getParamDeflBinaryOrError('bindata');
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$userid, $password, $appversion, $decappversion, $levelid, $name, $gwidth, $gheight, $binhash]);
+	check_commit_signature($signature, [$userid, $password, $appversion, $decappversion, $levelid, $name, $gwidth, $gheight, $authortime, $binhash]);
 
 	//----------
 
@@ -67,7 +68,7 @@ function run() {
 
 
 
-	$stmt = $pdo->prepare("UPDATE userlevels SET name=:nam, upload_timestamp=NOW(), upload_version=:vrs, upload_decversion=:vdc, datahash=:hsh, filesize=:fsz, grid_width=:ggw, grid_height=:ggh WHERE id=:lid");
+	$stmt = $pdo->prepare("UPDATE userlevels SET name=:nam, upload_timestamp=NOW(), upload_version=:vrs, upload_decversion=:vdc, datahash=:hsh, filesize=:fsz, grid_width=:ggw, grid_height=:ggh, author_time=:att WHERE id=:lid");
 	$stmt->bindValue(':lid', $levelid,         PDO::PARAM_INT);
 	$stmt->bindValue(':nam', $name,            PDO::PARAM_STR);
 	$stmt->bindValue(':vrs', $appversion,      PDO::PARAM_STR);
@@ -76,6 +77,7 @@ function run() {
 	$stmt->bindValue(':fsz', strlen($bindata), PDO::PARAM_INT);
 	$stmt->bindValue(':ggw', $gwidth,          PDO::PARAM_INT);
 	$stmt->bindValue(':ggh', $gheight,         PDO::PARAM_INT);
+	$stmt->bindValue(':att', $authortime,      PDO::PARAM_INT);
 	executeOrFail($stmt);
 
 	$filename = "{B16B00B5-0001-4001-0000-".str_pad(strtoupper(dechex($levelid)), 12, '0', STR_PAD_LEFT).'}';

@@ -357,6 +357,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 			#endregion
 
 			AddOperation(new HUDSCCMScorePanelTimeDisplayOperation());
+			UpdateTDMLabels();
 		}
 
 		private void Replay(FractionDifficulty d)

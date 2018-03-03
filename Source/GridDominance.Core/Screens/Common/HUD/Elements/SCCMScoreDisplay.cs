@@ -56,8 +56,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			_ani = new HUDTetroAnimation
 			{
 				Alignment = HUDAlignment.CENTERLEFT,
-				RelativePosition = new FPoint(10, 0),
-				Size = new FSize(40, 40),
+				RelativePosition = new FPoint(10+1, 0),
+				Size = new FSize(38, 38),
 
 				Foreground = FlatColors.Alizarin,
 			};
