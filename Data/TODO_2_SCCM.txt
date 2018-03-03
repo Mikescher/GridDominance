@@ -109,4 +109,8 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] IAB version for iOS
 
+[ ] server setup (alias, scripts, cron, backups, etc)
 
+[ ] supervisor for proxyserver
+
+[ ] check if proxyserver online in cron

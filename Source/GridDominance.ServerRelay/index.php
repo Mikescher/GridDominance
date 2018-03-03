@@ -75,21 +75,24 @@ try
 }
 catch (Exception $e)
 {
-		$subject = "SFRelayServer has encountered an Error at " . date("Y-m-d H:i:s") . "] ";
+	$subject = "SFRelayServer has encountered an Error at " . date("Y-m-d H:i:s") . "] ";
 
-		$content = "";
+	$content = "";
 
-		$content .= 'HTTP_HOST: '	    . ParamServerOrUndef('HTTP_HOST')	    . "\n";
-		$content .= 'REQUEST_URI: '	  . ParamServerOrUndef('REQUEST_URI')	  . "\n";
-		$content .= 'TIME: '		 . date('Y-m-d H:i:s')			. "\n";
-		$content .= 'REMOTE_ADDR: '	  . ParamServerOrUndef('REMOTE_ADDR')	  . "\n";
-		$content .= 'HTTP_X_FORWARDED_FOR: ' . ParamServerOrUndef('HTTP_X_FORWARDED_FOR') . "\n";
-		$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')      . "\n";
-		$content .= 'MESSAGE:'	       . "\n" . $e->getMessage()		    . "\n";
-		$content .= 'TRACE:'		 . "\n" . $e->getTraceAsString ()	     . "\n";
-		$content .= '$_GET:'		 . "\n" . print_r($_GET, true)		. "\n";
-		$content .= '$_POST:'		. "\n" . print_r($_POST, true)	       . "\n";
-		$content .= '$_FILES:'	       . "\n" . print_r($_FILES, true)	      . "\n";
+	$content .= 'HTTP_HOST: '	    . ParamServerOrUndef('HTTP_HOST')	    . "\n";
+	$content .= 'REQUEST_URI: '	  . ParamServerOrUndef('REQUEST_URI')	  . "\n";
+	$content .= 'TIME: '		 . date('Y-m-d H:i:s')			. "\n";
+	$content .= 'REMOTE_ADDR: '	  . ParamServerOrUndef('REMOTE_ADDR')	  . "\n";
+	$content .= 'HTTP_X_FORWARDED_FOR: ' . ParamServerOrUndef('HTTP_X_FORWARDED_FOR') . "\n";
+	$content .= 'HTTP_USER_AGENT: '      . ParamServerOrUndef('HTTP_USER_AGENT')      . "\n";
+	$content .= 'MESSAGE:'	       . "\n" . $e->getMessage()		    . "\n";
+	$content .= 'TRACE:'		 . "\n" . $e->getTraceAsString ()	     . "\n";
+	$content .= '$_GET:'		 . "\n" . print_r($_GET, true)		. "\n";
+	$content .= '$_POST:'		. "\n" . print_r($_POST, true)	       . "\n";
+	$content .= '$_FILES:'	       . "\n" . print_r($_FILES, true)	      . "\n";
 
-		sendMail($subject, $content, $mail_to, $mail_from);
+	sendMail($subject, $content, $mail_to, $mail_from);
+
+	header('HTTP/1.1 500 Internal Server Error');
+	print("Relay communication failed");
 }
