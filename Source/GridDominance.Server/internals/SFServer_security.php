@@ -9,7 +9,7 @@ if(count(get_included_files()) ==1) exit("Direct access not permitted.");
 function check_commit_signature($sig_in, $data) {
 	global $config;
 
-	if ($config['debug']) return;
+	//if ($config['debug']) return;
 
 	$sigbuilder = $config['signature_key'] . join("", array_map(function ($a){return "\n$a";}, $data));
 

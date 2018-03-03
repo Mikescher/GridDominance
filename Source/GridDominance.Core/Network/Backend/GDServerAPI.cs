@@ -1466,7 +1466,7 @@ namespace GridDominance.Shared.Network
 				}
 				else if (response.result == "error")
 				{
-					SAMLog.Error("Backend::SCLS_ERR", $"SetCustomLevelPlayed: Error {response.errorid}: {response.errormessage}");
+					SAMLog.Error("Backend::SCLS_ERR", $"SetCustomLevelStarred: Error {response.errorid}: {response.errormessage}");
 					ShowErrorCommunication();
 					return null;
 				}

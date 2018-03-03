@@ -14,7 +14,7 @@ function run() {
 
 	$signature     = getParamStrOrError('msgk');
 
-	check_commit_signature($signature, [$userid, $password, $appversion, $levelid, $starred]);
+	check_commit_signature($signature, [$userid, $password, $appversion, $levelid, $starred?'true':'false']);
 
 	//----------
 
