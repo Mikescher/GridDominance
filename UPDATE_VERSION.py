@@ -47,7 +47,7 @@ for i in version_dot3.split('.'):
 
 version_int = str(version_int)
 
-repl(r"Source\GridDominance.Shared\Resources\GDConstants.cs", r"Version = new Version\((?P<repl>[0-9,\s]+)\)", version_com4)
+repl(r"Source\GridDominance.Core\Resources\GDConstants.cs", r"Version = new Version\((?P<repl>[0-9,\s]+)\)", version_com4)
 repl(r"Source\GridDominance.Common\Properties\AssemblyInfo.cs", "AssemblyVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 repl(r"Source\GridDominance.Common\Properties\AssemblyInfo.cs", "AssemblyFileVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 

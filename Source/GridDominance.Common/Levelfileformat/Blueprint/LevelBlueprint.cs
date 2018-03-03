@@ -86,7 +86,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 		public float LevelViewX  = 8 * 64;
 		public float LevelViewY  = 5 * 64;
 
-		public ulong CustomMeta_MinVersion = 0;
+		public ulong CustomMeta_MinLevelIntVersion = 0;
 		public DateTimeOffset CustomMeta_Timestamp = DateTimeOffset.MinValue;
 		public int CustomMeta_UserID = -1;
 		public long CustomMeta_LevelID = -1;
@@ -155,7 +155,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 		public void BinaryDeserialize(BinaryReader br)
 		{
-			CustomMeta_MinVersion = 0;
+			CustomMeta_MinLevelIntVersion = 0;
 			CustomMeta_UserID = -1;
 			CustomMeta_LevelID = -1;
 			CustomMeta_Timestamp = DateTimeOffset.MinValue;
@@ -235,7 +235,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 
 					case SERIALIZE_ID_META_CUSTOM:
 						CustomMusic           = br.ReadInt32();
-						CustomMeta_MinVersion = br.ReadUInt64();
+						CustomMeta_MinLevelIntVersion = br.ReadUInt64();
 						CustomMeta_UserID     = br.ReadInt32();
 						CustomMeta_Timestamp  = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(br.ReadInt64());
 						CustomMeta_LevelID    = br.ReadInt64();

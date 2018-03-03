@@ -1158,7 +1158,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
-				ps.AddParameterULong("app_version_dec", GDConstants.IntVersion);
+				ps.AddParameterULong("app_version_dec", GDConstants.LevelIntVersion);
 				ps.AddParameterLong("levelid", rawData.OnlineID);
 				ps.AddParameterString("name", level.FullName);
 				ps.AddParameterInt("gwidth", rawData.Size.Width);
@@ -1229,7 +1229,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterString("param", param);
 				ps.AddParameterInt("pagination", pagination);
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
-				ps.AddParameterULong("app_version_dec", GDConstants.IntVersion);
+				ps.AddParameterULong("app_version_dec", GDConstants.LevelIntVersion);
 
 				var response = await QueryAsync<QueryResultQueryUserLevel>("query-userlevels", ps, RETRY_LEVELQUERY);
 
@@ -1285,7 +1285,7 @@ namespace GridDominance.Shared.Network
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
 				ps.AddParameterLong("levelid", onlineID);
 				ps.AddParameterString("app_version", GDConstants.Version.ToString());
-				ps.AddParameterULong("app_version_dec", GDConstants.IntVersion);
+				ps.AddParameterULong("app_version_dec", GDConstants.LevelIntVersion);
 
 				var response = await QueryAsync<QueryResultDownloadUserLevel>("download-userlevel", ps, RETRY_LEVELDOWNLOAD);
 

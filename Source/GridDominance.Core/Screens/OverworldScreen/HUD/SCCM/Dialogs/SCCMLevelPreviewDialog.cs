@@ -747,7 +747,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs
 			}
 			else if (_downloadState == DownloadState.Finished || _downloadState == DownloadState.CacheUpdate)
 			{
-				if (GDConstants.IntVersion < _blueprint.CustomMeta_MinVersion)
+				if (GDConstants.LevelIntVersion < _blueprint.CustomMeta_MinLevelIntVersion)
 				{
 					HUD.ShowToast(null, L10N.T(L10NImpl.STR_SCCM_VERSIONTOOOLD), 32, FlatColors.SunFlower, FlatColors.Foreground, 3f);
 					return;

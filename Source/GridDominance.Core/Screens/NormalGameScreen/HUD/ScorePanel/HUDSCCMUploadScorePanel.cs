@@ -269,7 +269,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
 				using (var ms = new MemoryStream())
 				using (var bw = new BinaryWriter(ms))
 				{
-					Level.BinarySerialize(bw, true, GDConstants.IntVersion, MainGame.Inst.Profile.OnlineUserID, SCCMData.OnlineID);
+					Level.BinarySerialize(bw, true, GDConstants.LevelIntVersion, MainGame.Inst.Profile.OnlineUserID, SCCMData.OnlineID);
 					binData = ms.ToArray();
 				}
 
