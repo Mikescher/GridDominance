@@ -56,7 +56,7 @@ function init($action, $notransaction = false) {
 	if (!$notransaction) $pdo->beginTransaction();
 }
 
-function finish($err) {
+function finish($err, $dorunlog = true) {
 	global $config;
 	global $pdo;
 	global $action_name;
@@ -64,7 +64,7 @@ function finish($err) {
 
 	if ($pdo !== null && $pdo->inTransaction()) $pdo->commit();
 
-	if ($config['runlog'] && !$err) {
+	if ($config['runlog'] && !$err && $dorunlog) {
 		try{
 			$d = (int)((microtime(true) - $start_time) * 1000 * 1000);
 

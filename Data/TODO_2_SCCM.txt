@@ -118,3 +118,5 @@ USER GENERATED LEVEL [[TODO]]
 [ ] supervisor for proxyserver
 
 [ ] check if proxyserver online in cron
+
+[ ] ssh for my server

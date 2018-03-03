@@ -28,6 +28,7 @@ if ($sim == 1)
 	$stmt->execute();
 
 	echo "Acknowledged $id. (" . $stmt->rowCount() . " affected)";
+	finish(false, false);
 }
 else if ($sim == 2)
 {
@@ -40,6 +41,7 @@ else if ($sim == 2)
 	$stmt->execute();
 
 	echo "Acknowledged $eid. (" . $stmt->rowCount() . " affected)";
+	finish(false, false);
 }
 else if ($sim == 3)
 {
@@ -54,6 +56,7 @@ else if ($sim == 3)
 	$stmt->execute();
 
 	echo "Acknowledged $eid + message. (" . $stmt->rowCount() . " affected)";
+	finish(false, false);
 }
 else if ($sim == 99)
 {
@@ -61,6 +64,7 @@ else if ($sim == 99)
 	$stmt->execute();
 
 	echo "Acknowledged all (" . $stmt->rowCount() . " affected)";
+	finish(false, false);
 }
 else 
 {

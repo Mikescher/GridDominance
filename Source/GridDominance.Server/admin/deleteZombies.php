@@ -25,6 +25,8 @@ try {
 		$stmt->execute();
 	}
 
+	finish(false, false);
+
 } catch (Exception $e) {
 
 	echo $e->getMessage();
