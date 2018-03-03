@@ -95,3 +95,8 @@ USER GENERATED LEVEL [[TODO]]
 [ ] cache hot levels (how expenive is query ?)
 
 [ ] weekly db backups on server (+ levels)
+
+[ ] TODO DB sanity checks (manually)
+     - userlevels.stars == userlevel-highscores == users.score_stars
+     - userlevels.best_time = BEST(userlevel-highscores)
+     - users.score_sccm = CALC(userlevel-highscores)

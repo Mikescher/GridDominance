@@ -29,6 +29,15 @@ function run() {
 	executeOrFail($stmt);
 	$currstarred = $stmt->fetchColumn()!=0;
 
+
+	$stmt = $pdo->prepare('SELECT stars, userid FROM userlevels WHERE id = :lid');
+	$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
+	executeOrFail($stmt);
+	$ulcol = $stmt->fetch();
+
+	$allstars = $ulcol['stars'];
+	$authorid = $ulcol['userid'];
+
 	if ($currstarred && !$starred)
 	{
 		// unset
@@ -41,11 +50,11 @@ function run() {
 		$stmt = $pdo->prepare('UPDATE userlevels SET stars=stars-1 WHERE id = :lid');
 		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 		executeOrFail($stmt);
+		$allstars -= 1;
 
-		$stmt = $pdo->prepare('SELECT stars FROM userlevels WHERE id = :lid');
-		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
+		$stmt = $pdo->prepare('UPDATE users SET score_stars=score_stars-1 WHERE userid = :uid');
+		$stmt->bindValue(':uid', $authorid, PDO::PARAM_INT);
 		executeOrFail($stmt);
-		$allstars = $stmt->fetchColumn();
 
 		outputResultSuccess([ 'updated' => false, 'value' => false, 'stars' => $allstars, 'user' => $user ]);
 	}
@@ -61,11 +70,11 @@ function run() {
 		$stmt = $pdo->prepare('UPDATE userlevels SET stars=stars+1 WHERE id = :lid');
 		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
 		executeOrFail($stmt);
+		$allstars += 1;
 
-		$stmt = $pdo->prepare('SELECT stars FROM userlevels WHERE id = :lid');
-		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
+		$stmt = $pdo->prepare('UPDATE users SET score_stars=score_stars+1 WHERE userid = :uid');
+		$stmt->bindValue(':uid', $authorid, PDO::PARAM_INT);
 		executeOrFail($stmt);
-		$allstars = $stmt->fetchColumn();
 
 		outputResultSuccess([ 'updated' => false, 'value' => true, 'stars' => $allstars, 'user' => $user ]);
 	}
@@ -73,21 +82,11 @@ function run() {
 	{
 		// keep set
 
-		$stmt = $pdo->prepare('SELECT stars FROM userlevels WHERE id = :lid');
-		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
-		executeOrFail($stmt);
-		$allstars = $stmt->fetchColumn();
-
 		outputResultSuccess([ 'updated' => false, 'value' => true, 'stars' => $allstars, 'user' => $user ]);
 	}
 	else if (!$currstarred && !$starred)
 	{
 		// keep unset
-
-		$stmt = $pdo->prepare('SELECT stars FROM userlevels WHERE id = :lid');
-		$stmt->bindValue(':lid', $levelid, PDO::PARAM_INT);
-		executeOrFail($stmt);
-		$allstars = $stmt->fetchColumn();
 
 		outputResultSuccess([ 'updated' => false, 'value' => false, 'stars' => $allstars, 'user' => $user ]);
 	}

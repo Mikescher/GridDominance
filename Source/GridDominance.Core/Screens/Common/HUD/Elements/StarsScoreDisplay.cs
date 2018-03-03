@@ -84,6 +84,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				_value.Update(gameTime);
 				_text.Text = ((int)_value.ActualValue).ToString();
 			}
+			
+			_value.Set(MainGame.Inst.Profile.ScoreStars);
 
 			UpdateRelativePosition();
 		}
