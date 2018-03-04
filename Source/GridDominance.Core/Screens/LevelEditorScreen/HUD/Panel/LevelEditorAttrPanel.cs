@@ -28,8 +28,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 			FlatRenderHelper.DrawEdgeAlignedBlurPanel_Opaque(sbatch, bounds, FlatColors.BackgroundHUD2, FlatAlign5.BOTTOM, 16);
 		}
 
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)   => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)   => IsVisible;
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => IsVisible;
 
 		protected override void RecalculatePosition()
 		{

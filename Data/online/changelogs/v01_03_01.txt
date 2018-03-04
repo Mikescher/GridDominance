@@ -1,0 +1,7 @@
+<en-US>
+ - day-one bugfixes for leveleditor
+</en-US>
+
+<de-DE>
+ - Bugfixes im Leveleditor
+</de-DE>
