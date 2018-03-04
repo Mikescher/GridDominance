@@ -1,4 +1,6 @@
 ﻿using System;
+using GridDominance.Levelfileformat.Blueprint;
+using MonoSAMFramework.Portable.Extensions;
 
 namespace GridDominance.Shared.Resources
 {
@@ -7,10 +9,9 @@ namespace GridDominance.Shared.Resources
 	public static class GDConstants
 	{
 		public static readonly Version Version = new Version(1,3,0,0);
-		public static ulong IntVersion { get; } = (ulong)((((((Version.Major << 12) | Version.Minor) << 12) | Version.Build) << 12) | Version.Revision);
+		public static ulong IntVersion { get; } = Version.ToNum();
 		
-		public static readonly Version LevelVersion = new Version(1,0,0,0);  // also update LevelBlueprint.SCHEMA_VERSION
-		public static ulong LevelIntVersion { get; } = (ulong)((((((LevelVersion.Major << 12) | LevelVersion.Minor) << 12) | LevelVersion.Build) << 12) | LevelVersion.Revision);
+		public const ulong LevelIntVersion = LevelBlueprint.SCHEMA_VERSION;
 
 		public const int TILE_WIDTH = 64;
 
