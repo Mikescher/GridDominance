@@ -124,11 +124,11 @@ namespace GridDominance.Shared.SCCM
 					break;
 
 				case WallStub.WallStubType.Glass:
-					bp.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(center.X, center.Y, GlassBlockBlueprint.DEFAULT_WIDTH, length, degrot));
+					bp.BlueprintGlassBlocks.Add(new GlassBlockBlueprint(center.X, center.Y, length, GlassBlockBlueprint.DEFAULT_WIDTH, degrot));
 					break;
 
 				case WallStub.WallStubType.Mirror:
-					bp.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(center.X, center.Y, GlassBlockBlueprint.DEFAULT_WIDTH, length, degrot));
+					bp.BlueprintMirrorBlocks.Add(new MirrorBlockBlueprint(center.X, center.Y, length, GlassBlockBlueprint.DEFAULT_WIDTH, degrot));
 					break;
 
 				default:
