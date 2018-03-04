@@ -47,8 +47,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 			FlatRenderHelper.DrawCornerlessBlurPanel_Opaque(sbatch, bounds, FlatColors.BackgroundHUD2, 16, false, false, false, true);
 		}
 
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)   => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)   => IsVisible;
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => IsVisible;
 
 		protected override void RecalculatePosition()
 		{

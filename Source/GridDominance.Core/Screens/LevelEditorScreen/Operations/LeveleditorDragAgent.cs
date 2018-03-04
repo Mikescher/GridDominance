@@ -26,7 +26,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Operations
 		private LevelEditorScreen _gdScreen;
 
 		private FRectangle _boundsMap;
-		private FRectangle _boundsWorkingArea;
+		private FRectangle _boundsWorkingAreaInner;
+		private FRectangle _boundsWorkingAreaOuter;
 		private DVector _oobForce;
 
 		public override string Name => "LeveleditorDragAgent";
@@ -47,11 +48,12 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Operations
 			var rx = raster * FloatMath.Round((istate.GamePointerPositionOnMap.X - _dragOffCenter.X) / raster);
 			var ry = raster * FloatMath.Round((istate.GamePointerPositionOnMap.Y - _dragOffCenter.Y) / raster);
 
-			_boundsWorkingArea = _gdScreen.VAdapterGame.VirtualTotalBoundingBox.AsDeflated(
+			_boundsWorkingAreaOuter = _gdScreen.VAdapterGame.VirtualTotalBoundingBox.AsDeflated(
 				0, 
 				4 * GDConstants.TILE_WIDTH, 
 				_gdScreen.GDHUD.AttrPanel.IsVisible ? 4 * GDConstants.TILE_WIDTH : 0, 
 				0);
+			_boundsWorkingAreaInner = _boundsWorkingAreaOuter.AsDeflated(GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH);
 
 			_boundsMap = FRectangle.CreateByTopLeft(
 				_gdScreen.MapOffsetX,
@@ -258,10 +260,10 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Operations
 		{
 			var v2 = new DVector();
 
-			if (_boundsMap.Left < _boundsWorkingArea.Left && _boundsMap.Right  < _boundsWorkingArea.Right )  v2.X = +1;
-			if (_boundsMap.Left > _boundsWorkingArea.Left && _boundsMap.Right  > _boundsWorkingArea.Right )  v2.X = -1;
-			if (_boundsMap.Top  < _boundsWorkingArea.Top  && _boundsMap.Bottom < _boundsWorkingArea.Bottom) v2.Y = +1;
-			if (_boundsMap.Top  > _boundsWorkingArea.Top  && _boundsMap.Bottom > _boundsWorkingArea.Bottom) v2.Y = -1;
+			if (_boundsMap.Left < _boundsWorkingAreaOuter.Left && _boundsMap.Right  < _boundsWorkingAreaInner.Right )  v2.X = +1;
+			if (_boundsMap.Left > _boundsWorkingAreaInner.Left && _boundsMap.Right  > _boundsWorkingAreaOuter.Right )  v2.X = -1;
+			if (_boundsMap.Top  < _boundsWorkingAreaOuter.Top  && _boundsMap.Bottom < _boundsWorkingAreaInner.Bottom) v2.Y = +1;
+			if (_boundsMap.Top  > _boundsWorkingAreaInner.Top  && _boundsMap.Bottom > _boundsWorkingAreaOuter.Bottom) v2.Y = -1;
 
 			return v2;
 		}
@@ -282,22 +284,22 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Operations
 			if (next.X == -1 && _oobForce.X == +1)
 			{
 				next.X = 0;
-				_gdScreen.MapOffsetX = _boundsWorkingArea.Right - _boundsMap.Width;
+				_gdScreen.MapOffsetX = _boundsWorkingAreaInner.Right - _boundsMap.Width;
 			}
 			if (next.X == +1 && _oobForce.X == -1)
 			{
 				next.X = 0;
-				_gdScreen.MapOffsetX = _boundsWorkingArea.Left;
+				_gdScreen.MapOffsetX = _boundsWorkingAreaInner.Left;
 			}
 			if (next.Y == -1 && _oobForce.Y == +1)
 			{
 				next.Y = 0;
-				_gdScreen.MapOffsetY = _boundsWorkingArea.Bottom - _boundsMap.Height;
+				_gdScreen.MapOffsetY = _boundsWorkingAreaInner.Bottom - _boundsMap.Height;
 			}
 			if (next.Y == +1 && _oobForce.Y == -1)
 			{
 				next.Y = 0;
-				_gdScreen.MapOffsetY = _boundsWorkingArea.Top;
+				_gdScreen.MapOffsetY = _boundsWorkingAreaInner.Top;
 			}
 
 			_oobForce = next;

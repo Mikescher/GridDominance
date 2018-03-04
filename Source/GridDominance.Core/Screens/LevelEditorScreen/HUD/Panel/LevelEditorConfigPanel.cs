@@ -59,8 +59,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
 			FlatRenderHelper.DrawSimpleBlurPanel_Opaque(sbatch, bounds, FlatColors.BackgroundHUD2, 16);
 		}
 
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)   => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate)   => IsVisible;
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => IsVisible;
 
 		protected override void RecalculatePosition()
 		{

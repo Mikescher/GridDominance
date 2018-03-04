@@ -113,8 +113,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			}
 		}
 		
-		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => true;
-		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => IsVisible;
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => IsVisible;
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
 			HUD.ShowToast(null, L10N.T(L10NImpl.STR_SCOREMAN_INFO_SCCMSCORE), 32, FlatColors.Silver, FlatColors.Foreground, 2f);
