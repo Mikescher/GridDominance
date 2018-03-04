@@ -316,6 +316,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_SCCM_DOWNLOADINPROGRESS = 257;
 		public const int STR_SCCM_VERSIONTOOOLD      = 258;
 		public const int STR_SCCM_NEEDS_ACC          = 259;
+		public const int STR_SCCM_UPLOADINFO         = 278;
 		
 		public const int STR_SCOREMAN_INFO_SCORE     = 260;
 		public const int STR_SCOREMAN_INFO_MPSCORE   = 261;
@@ -330,7 +331,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ACH_FIRSTCLEAR          = 274;
 		public const int STR_ACH_WORLDRECORD         = 275;
 
-		private const int TEXT_COUNT = 278; // = next idx
+		private const int TEXT_COUNT = 279; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -2289,6 +2290,12 @@ namespace GridDominance.Shared.Resources
 			         "?",  //TODO translate me
 			         "?"); //TODO translate me
 
+			L10N.Add(STR_SCCM_UPLOADINFO,
+			         "Beat your own level to upload it.",
+			         "Gewinne dein eigenes Level um es hochzuladen",
+			         "?",  //TODO translate me
+			         "?",  //TODO translate me
+			         "?"); //TODO translate me
 
 		// [en_US] [de-DE] [fr-FR] [it-IT] [es-ES]
 

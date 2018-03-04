@@ -288,7 +288,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
 					spinner.Remove();
-					MainGame.Inst.SetEditorUploadLevel(lvl, LevelData);
+					MainGame.Inst.SetEditorUploadLevel(lvl, LevelData, true);
 				});
 			}
 			catch (Exception e)

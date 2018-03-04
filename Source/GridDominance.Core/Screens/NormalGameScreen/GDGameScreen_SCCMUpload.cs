@@ -12,7 +12,9 @@ using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.SCCM;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
@@ -26,11 +28,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 		public override Fraction LocalPlayerFraction => fractionPlayer;
 
 		private GameSpeedModes _lastSpeed;
+		private readonly bool _toast;
 
-		public GDGameScreen_SCCMUpload(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, SCCMLevelData dat, GameSpeedModes speed) 
+		public GDGameScreen_SCCMUpload(MainGame game, GraphicsDeviceManager gdm, LevelBlueprint bp, SCCMLevelData dat, GameSpeedModes speed, bool toast) 
 			: base(game, gdm, bp, FractionDifficulty.DIFF_3, false, false, false)
 		{
 			SCCMData = dat;
+			_toast = toast;
 
 			GameSpeedMode = _lastSpeed = speed;
 			UpdateGameSpeed();
@@ -38,12 +42,12 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 		public override void RestartLevel(bool updateSpeed)
 		{
-			GDOwner.SetEditorUploadLevel(Blueprint, SCCMData, updateSpeed ? GameSpeedMode : _lastSpeed);
+			GDOwner.SetEditorUploadLevel(Blueprint, SCCMData, false, updateSpeed ? GameSpeedMode : _lastSpeed);
 		}
 
 		public override void ReplayLevel(FractionDifficulty diff)
 		{
-			GDOwner.SetEditorUploadLevel(Blueprint, SCCMData, GameSpeedMode);
+			GDOwner.SetEditorUploadLevel(Blueprint, SCCMData, false, GameSpeedMode);
 		}
 
 		public override void ShowScorePanel(LevelBlueprint lvl, PlayerProfile profile, HashSet<FractionDifficulty> newDifficulties, bool playerHasWon, int addPoints, int time)
@@ -161,6 +165,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 				MainGame.Inst.GDSound.PlayMusicLevel(Blueprint.CustomMusic);
 			else
 				MainGame.Inst.GDSound.StopSong();
+
+			if (_toast) HUD.ShowToast("SCCMUpload:Notif", L10N.T(L10NImpl.STR_SCCM_UPLOADINFO), 40, FlatColors.Silver, FlatColors.Foreground, 4f);
 		}
 	}
 }
