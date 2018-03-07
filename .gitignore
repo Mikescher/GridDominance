@@ -65,3 +65,4 @@ __Secrets.cs
 /Source/GridDominance.UWP.Full/BundleArtifacts
 *.pfx
 *.lnk
+*.patch

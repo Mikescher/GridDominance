@@ -334,6 +334,7 @@ function statisticsUserByUnlocks() {
 	$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100001}', 'count' => sql_query_num('statisticsUserByUnlocks_W', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100001}%'")];
 	$u5[] = ['name' => '{d34db335-0001-4000-7711-000000100002}', 'count' => sql_query_num('statisticsUserByUnlocks_W', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000100002}%'")];
 	$u5[] = ['name' => '{d34db335-0001-4000-7711-000000300001}', 'count' => sql_query_num('statisticsUserByUnlocks_W', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000300001}%'")];
+	$u5[] = ['name' => '{d34db335-0001-4000-7711-000000300002}', 'count' => sql_query_num('statisticsUserByUnlocks_W', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%{d34db335-0001-4000-7711-000000300001}%'")];
 
 	foreach (array_unique(array_map(function($k){ return $k[0]; }, $config['levelmapping'])) as $w) {
 		$u5[] = ['name' => $w, 'count' => sql_query_num('statisticsUserByUnlocks_W', "SELECT COUNT(*) AS count FROM users WHERE score>0 AND unlocked_worlds LIKE '%" . $w . "%'")];
@@ -488,8 +489,8 @@ function getPuchaseDelta() {
 function getUnlockDelta() {
 	$d = getLastStats(3);
 
-	$now = $d[0]['unlocks_w1'] + $d[0]['unlocks_w2'] + $d[0]['unlocks_w3'] + $d[0]['unlocks_w4'] + $d[0]['unlocks_mp'];
-	$old = $d[2]['unlocks_w1'] + $d[2]['unlocks_w2'] + $d[2]['unlocks_w3'] + $d[2]['unlocks_w4'] + $d[2]['unlocks_mp'];
+	$now = $d[0]['unlocks_w1'] + $d[0]['unlocks_w2'] + $d[0]['unlocks_w3'] + $d[0]['unlocks_w4'] + $d[0]['unlocks_mp'] + $d[0]['unlocks_sccm'];
+	$old = $d[2]['unlocks_w1'] + $d[2]['unlocks_w2'] + $d[2]['unlocks_w3'] + $d[2]['unlocks_w4'] + $d[2]['unlocks_mp'] + $d[0]['unlocks_sccm'];
 
 	return '+' . ($now - $old);
 }
@@ -504,4 +505,130 @@ function getUnlockTotal() {
 	$d = getLastStats(3);
 
 	return $d[0]['unlocks_w1'] + $d[0]['unlocks_w2'] + $d[0]['unlocks_w3'] + $d[0]['unlocks_w4'] + $d[0]['unlocks_mp'];
+}
+
+function getUserSCCMEntries($uid) {
+	return sql_query_assoc_prep('getUserSCCMEntries', "SELECT * FROM userlevels_highscores where userid = :uid",
+	[
+		[':uid', $uid, PDO::PARAM_INT],
+	]);
+}
+
+function getLevelSCCMEntries($uid) {
+	return sql_query_assoc_prep('getUserSCCMEntries', "SELECT uh.*, uu.username FROM userlevels_highscores AS uh LEFT JOIN users AS uu ON uh.userid=uu.userid where levelid = :uid",
+	[
+		[':uid', $uid, PDO::PARAM_INT],
+	]);
+}
+
+function getManualRecalculatedScoreStars($uid)
+{
+	return sql_query_num_prep('getManualRecalculatedScoreSCCM', 'SELECT COUNT(*) FROM userlevels_highscores WHERE starred=1 AND userid=:uid',
+	[
+		[':uid', $uid, PDO::PARAM_INT],
+	]);
+}
+
+function getManualRecalculatedScoreSCCM($uid)
+{
+	global $config;
+	/*
+	SELECT max_diff AS diff, COUNT(max_diff) AS levelcount FROM
+		(
+			SELECT
+
+			GREATEST
+			(
+				(CASE WHEN d0_time IS NULL THEN -1 ELSE 0 END),
+				(CASE WHEN d1_time IS NULL THEN -1 ELSE 1 END),
+				(CASE WHEN d2_time IS NULL THEN -1 ELSE 2 END),
+				(CASE WHEN d3_time IS NULL THEN -1 ELSE 3 END)
+			) AS max_diff
+
+			FROM userlevels_highscores
+
+			WHERE userid=:uid
+		) AS score_greatest
+
+		WHERE max_diff <> -1
+
+		GROUP BY max_diff
+	 */
+	$scoresummary = sql_query_assoc_prep('getManualRecalculatedScoreSCCM', 'SELECT max_diff AS diff, COUNT(max_diff) AS levelcount FROM(SELECT GREATEST((CASE WHEN d0_time IS NULL THEN -1 ELSE 0 END),(CASE WHEN d1_time IS NULL THEN -1 ELSE 1 END),(CASE WHEN d2_time IS NULL THEN -1 ELSE 2 END),(CASE WHEN d3_time IS NULL THEN -1 ELSE 3 END)) AS max_diff FROM userlevels_highscores WHERE userid=:uid) AS score_greatest WHERE max_diff <> -1 GROUP BY max_diff',
+	[
+		[':uid', $uid, PDO::PARAM_INT],
+	]);
+
+	$newscore = 0;
+	foreach ($scoresummary as $ss) {
+		for ($i=$ss['diff']; $i >=0; $i--) $newscore += $ss['levelcount'] * $config['diff_scores'][$i];
+	}
+
+	return $newscore;
+}
+
+function getUsernameOrEmpty($uid)
+{
+	if ($uid === null) return "N/A";
+
+	$n = sql_query_assoc_prep('getUsernameOrEmpty', 'SELECT username from users WHERE userid=:uid',
+	[
+		[':uid', $uid, PDO::PARAM_INT],
+	]);
+
+	if ($n === FALSE) return "N/A";
+	if ($n === NULL) return "N/A";
+
+	return $n['username'];
+}
+
+function GetSCCMLevelCount()
+{
+	return sql_query_num('GetSCCMLevelCount', 'SELECT COUNT(*) FROM userlevels WHERE upload_time IS NOT NULL');
+}
+
+function GetSCCMLevelCountAll()
+{
+	return sql_query_num('GetSCCMLevelCount', 'SELECT COUNT(*) FROM userlevels');
+}
+
+function GetSCCMLevelInfo($levelid)
+{
+	return sql_query_assoc_prep('GetSCCMLevelInfo', 'SELECT ul.*, ux.username, (ul.stars / POW(TIMESTAMPDIFF(HOUR, ul.upload_timestamp, NOW()),1.8)) AS hot_ranking FROM userlevels AS ul LEFT JOIN users AS ux ON ux.userid=ul.userid WHERE id=:lid',
+	[
+		':lid', $levelid, PDO::PARAM_INT,
+	]);
+}
+
+function GetSCCMLevelMetadataRecalculated($levelid)
+{			
+	$recalc = []; 
+	$recalc['d0_completed']  = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d0_time) FROM userlevels_highscores WHERE id=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d1_completed']  = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d1_time) FROM userlevels_highscores WHERE id=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d2_completed']  = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d2_time) FROM userlevels_highscores WHERE id=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d3_completed']  = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d3_time) FROM userlevels_highscores WHERE id=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d0_played']     = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d0_lastplayed) FROM userlevels_highscores WHERE id=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d1_played']     = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d1_lastplayed) FROM userlevels_highscores WHERE id=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d2_played']     = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d2_lastplayed) FROM userlevels_highscores WHERE id=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d3_played']     = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d3_lastplayed) FROM userlevels_highscores WHERE id=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d0_bestuserid'] = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT userid FROM userlevels_highscores WHERE id=:lid AND d0_time IS NOT NULL ORDER BY d0_time ASC LIMIT 1', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d1_bestuserid'] = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT userid FROM userlevels_highscores WHERE id=:lid AND d1_time IS NOT NULL ORDER BY d1_time ASC LIMIT 1', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d2_bestuserid'] = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT userid FROM userlevels_highscores WHERE id=:lid AND d2_time IS NOT NULL ORDER BY d2_time ASC LIMIT 1', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d3_bestuserid'] = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT userid FROM userlevels_highscores WHERE id=:lid AND d3_time IS NOT NULL ORDER BY d3_time ASC LIMIT 1', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['stars']         = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(*) FROM userlevels_highscores WHERE id=:lid AND starred=1', [[':lid', $levelid, PDO::PARAM_INT]]);
+	return $recalc;
+}
+
+function GetSCCMLevelByNew($max, $page, $all)
+{
+	return sql_query_assoc_prep('GetSCCMLevelByNew', loadSQL($all ? "get-all-userlevel-by-new" : "get-userlevel-by-new"),
+	[
+		[':lim', $max,       PDO::PARAM_INT],
+		[':off', $page*$max, PDO::PARAM_INT],
+	]);
+}
+
+function GetSCCMLevelSize()
+{
+	return sql_query_num('GetSCCMLevelSize', 'SELECT SUM(filesize) FROM userlevels WHERE upload_time IS NOT NULL');
 }

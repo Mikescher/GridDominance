@@ -44,6 +44,12 @@
         <div class="infodiv">
             Score(MP): <?php echo $user->MultiplayerScore; ?>
         </div>
+        <div class="infodiv">
+            Score(SCCM): <?php echo $user->ScoreSCCM; ?>
+        </div>
+        <div class="infodiv">
+            Stars: <?php echo $user->ScoreStars; ?>
+        </div>
         <div class="infodiv" title="<?php echo $userdata['unlocked_worlds']; ?>">
             Unlocks: <?php echo lc($userdata['unlocked_worlds']); ?>
         </div>
@@ -89,6 +95,8 @@
 	foreach ($manualtimes as $row) {
 		$manual[$row['worldid']] = $row['best_time'];
 	}
+    $manual['$'] = getManualRecalculatedScoreStars($user->ID);
+    $manual['#'] = getManualRecalculatedScoreSCCM($user->ID);
 	?>
 
     <div class="tablebox" data-collapse>
@@ -101,6 +109,7 @@
                 <th>Rank</th>
                 <th style='width: 250px'>Username</th>
                 <th>Total Score</th>
+                <th>Total Score (Recalulated)</th>
                 <th>Total Time</th>
                 <th>Total Time (Recalulated)</th>
             </tr>
@@ -121,6 +130,7 @@
                     <td><?php echo $entry['rank']; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
+                    <td></td>
                     <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
                     <td title="<?php echo $manual['*']; ?>ms" ><?php echo gmdate("H:i:s", $manual['*']/1000.0); ?></td>
                 </tr>
@@ -147,10 +157,33 @@
                     <td><?php echo $entry['rank']; ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
+                    <td></td>
                     <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
                     <td title="<?php echo $manual[$w]; ?>ms" ><?php echo gmdate("H:i:s", $manual[$w]/1000.0); ?></td>
                 </tr>
 			<?php endforeach; ?>
+
+                <tr class="<?php if ($manual['#'] != $user->ScoreSCCM) echo "td_err"; ?>">
+                    <td>SCCM</td>
+                    <td><?php echo $entry['rank']; ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $user->ID; ?>"><?php echo $user->Name; ?></a> (<?php echo $user->ID; ?>)</td>
+                    <td><?php echo $user->ScoreSCCM; ?></td>
+                    <td><?php echo $manual['#']; ?></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                
+                <tr class="<?php if ($manual['$'] != $user->ScoreStars) echo "td_err"; ?>">
+                    <td>stars</td>
+                    <td><?php echo $entry['rank']; ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $user->ID; ?>"><?php echo $user->Name; ?></a> (<?php echo $user->ID; ?>)</td>
+                    <td><?php echo $user->ScoreStars; ?></td>
+                    <td><?php echo $manual['$']; ?></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+
         </table>
     </div>
 
@@ -234,6 +267,76 @@
                     <td title="<?php echo $entry['best_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['best_time']/1000.0); ?></td>
                     <td><?php echo $entry['last_changed']; ?></td>
                 </tr>
+			<?php endforeach; ?>
+        </table>
+    </div>
+
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Scores (per SCCM level)</h2>
+
+        <table class="sqltab pure-table pure-table-bordered sortable">
+            <thead>
+            <tr>
+                <th>Level</th>
+                <th>Difficulty</th>
+                <th>Time</th>
+                <th style='width: 170px'>Last changed</th>
+            </tr>
+            </thead>
+			<?php foreach (getUserSCCMEntries($user->ID) as $entry): ?>
+
+                <?php if ($entry['d0_lastplayed']) != null: ?> 
+                    <tr>
+                        <td title="<?php echo $entry['levelid']; ?>" >
+                            <a href="sccmlevelinfo.php?id=<?php echo $entry['levelid']; ?>">
+                                <?php echo fmtLevelID($entry['levelid']); ?>
+                            </a>
+                        </td>
+                        <td>0</td>
+                        <td title="<?php echo $entry['d0_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['d0_time']/1000.0); ?></td>
+                        <td><?php echo $entry['d0_lastplayed']; ?></td>
+                    </tr>
+                <?php endif; ?> 
+
+                <?php if ($entry['d1_lastplayed']) != null: ?> 
+                    <tr>
+                        <td title="<?php echo $entry['levelid']; ?>" >
+                            <a href="sccmlevelinfo.php?id=<?php echo $entry['levelid']; ?>">
+                                <?php echo fmtLevelID($entry['levelid']); ?>
+                            </a>
+                        </td>
+                        <td>1</td>
+                        <td title="<?php echo $entry['d1_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['d1_time']/1000.0); ?></td>
+                        <td><?php echo $entry['d1_lastplayed']; ?></td>
+                    </tr>
+                <?php endif; ?> 
+
+                <?php if ($entry['d2_lastplayed']) != null: ?> 
+                    <tr>
+                        <td title="<?php echo $entry['levelid']; ?>" >
+                            <a href="sccmlevelinfo.php?id=<?php echo $entry['levelid']; ?>">
+                                <?php echo fmtLevelID($entry['levelid']); ?>
+                            </a>
+                        </td>
+                        <td>2</td>
+                        <td title="<?php echo $entry['d2_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['d2_time']/1000.0); ?></td>
+                        <td><?php echo $entry['d2_lastplayed']; ?></td>
+                    </tr>
+                <?php endif; ?> 
+
+                <?php if ($entry['d3_lastplayed']) != null: ?> 
+                    <tr>
+                        <td title="<?php echo $entry['levelid']; ?>" >
+                            <a href="sccmlevelinfo.php?id=<?php echo $entry['levelid']; ?>">
+                                <?php echo fmtLevelID($entry['levelid']); ?>
+                            </a>
+                        </td>
+                        <td>3</td>
+                        <td title="<?php echo $entry['d3_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['d3_time']/1000.0); ?></td>
+                        <td><?php echo $entry['d3_lastplayed']; ?></td>
+                    </tr>
+                <?php endif; ?> 
+
 			<?php endforeach; ?>
         </table>
     </div>

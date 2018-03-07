@@ -547,7 +547,8 @@
 									echo " count_2: "       .$statshist[$i]['unlocks_w2']. ", ";
 									echo " count_3: "       .$statshist[$i]['unlocks_w3']. ", ";
 									echo " count_4: "       .$statshist[$i]['unlocks_w4']. ", ";
-									echo " count_5: "       .$statshist[$i]['unlocks_mp']. "";
+									echo " count_4: "       .$statshist[$i]['unlocks_mp']. ", ";
+									echo " count_6: "       .$statshist[$i]['unlocks_sccm']. "";
 									echo "}\n";
 								}
 								?>
@@ -602,6 +603,15 @@
                                     "bulletBorderAlpha": 1,
                                     "bulletBorderThickness": 1,
                                     "balloonText": "<div style='margin:5px; font-size:19px;'>Unlocks MP:<b>[[value]]</b></div>"
+                                },
+                                {
+                                    "id": "g6",
+                                    "fillAlphas": 0,
+                                    "valueField": "count_5",
+                                    "bullet": "square",
+                                    "bulletBorderAlpha": 1,
+                                    "bulletBorderThickness": 1,
+                                    "balloonText": "<div style='margin:5px; font-size:19px;'>Unlocks SCCM:<b>[[value]]</b></div>"
                                 },
                             ],
                         "chartScrollbar": {

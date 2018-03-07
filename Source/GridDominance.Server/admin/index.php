@@ -76,6 +76,14 @@
             Unlocks: <?php echo getUnlockDelta(); ?>
         </div>
     </div>
+    <div class="infocontainer">
+		<div class="infodiv">
+			Userlevels:&nbsp;<a href="sccmlist.php"><?php echo GetSCCMLevelCount(); ?>/<?php echo GetSCCMLevelCountAll(); ?></a>
+		</div>
+		<div class="infodiv">
+			Userlevels (size):&nbsp;<?php echo formatSizeUnits(GetSCCMLevelSize()); ?></a>
+		</div>
+    </div>
 
 
     <div class="tablebox" data-collapse>

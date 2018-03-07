@@ -1,7 +1,6 @@
 <Query Kind="Program">
   <Connection>
     <ID>951bc30a-f75f-46a5-b7fa-91398aee62e1</ID>
-    <Persist>true</Persist>
     <Driver Assembly="linq2db.LINQPad" PublicKeyToken="f19f8aed7feff67e">LinqToDB.LINQPad.LinqToDBDriver</Driver>
     <CustomCxString>Data Source=L10N.sqlite3;</CustomCxString>
     <ExcludeRoutines>true</ExcludeRoutines>
@@ -21,8 +20,8 @@
   </Connection>
 </Query>
 
-private const string SOURCEDIR  = @"C:\Users\schwoerm\AppData\Local\M\gd\Source\GridDominance.Core\";
-private const string SOURCEFILE = @"C:\Users\schwoerm\AppData\Local\M\gd\Source\GridDominance.Core\Resources\L10NImpl.cs";
+private string SOURCEDIR  = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\..\GridDominance.Core\");
+private string SOURCEFILE = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @"..\..\GridDominance.Core\Resources\L10NImpl.cs");
 private const string NAMESPACE = "GridDominance.Shared.Resources";
 
 private readonly Regex REX_USAGE = new Regex(@"L10NImpl\.STR_(?<textid>[A-Z_0-9]+)");
