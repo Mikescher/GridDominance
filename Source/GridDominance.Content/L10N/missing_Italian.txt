@@ -4,7 +4,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Subtext for node in Overworld. This is the world-node for user-generated levels. Clicking on it opens the level-browser *)
 
 
 [en-US]  Move
@@ -13,7 +13,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Sets the mode to "drag map around / drag elements around" *)
 
 
 [en-US]  Cannon
@@ -22,7 +22,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Sets the mode to "add new obstacle to playing field" *)
 
 
 [en-US]  Wall
@@ -31,7 +31,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Sets the mode to "add new wall to playing field" *)
 
 
 [en-US]  Obstacle
@@ -40,7 +40,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Sets the mode to "add new obstacle to playing field" *)
 
 
 [en-US]  Settings
@@ -49,7 +49,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Opens the settingspanel for the properties of the current level *)
 
 
 [en-US]  Test
@@ -58,7 +58,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Compiles the level and starts a test-run *)
 
 
 [en-US]  Upload
@@ -67,7 +67,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Starts the upload process of the level (= first you need to beat it then it will be uploaded) *)
 
 
 [en-US]  Exit
@@ -76,7 +76,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Exits the editor, displays a do-you-want-to-save-messagebox before thta *)
 
 
 [en-US]  Fraction
@@ -85,7 +85,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Header of an attribute-button in the leveleditor. Switches through the possible fractions of the currently selected entity (fraction is a property of cannons, eg Player, AI-1, AI2, Neutral, ...) *)
 
 
 [en-US]  Scale
@@ -94,7 +94,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Header of an attribute-button in the leveleditor. Switches through the possible scale values of the currently selected entity (scale is a property of cannons) *)
 
 
 [en-US]  Rotation
@@ -103,7 +103,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Header of an attribute-button in the leveleditor. Switches through the possible rotations of the currently selected entity (rotations are changed in 1/16 steps) *)
 
 
 [en-US]  Type
@@ -112,7 +112,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Header of an attribute-button in the leveleditor. Switches through the possible types of the currently selected entity (eg type of wall or type of obstacle or type of cannon) *)
 
 
 [en-US]  Diameter
@@ -121,7 +121,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Header of an attribute-button in the leveleditor. Switches through the possible diameters of the currently selected entity *)
 
 
 [en-US]  Width
@@ -130,7 +130,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Header of an attribute-button in the leveleditor. Switches through the possible widths of the currently selected entity *)
 
 
 [en-US]  Height
@@ -139,7 +139,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Header of an attribute-button in the leveleditor. Switches through the possible heights of the currently selected entity *)
 
 
 [en-US]  Power
@@ -148,7 +148,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Header of an attribute-button in the leveleditor. Switches through the possible power values of the currently selected entity (power is a property of gravity fields) *)
 
 
 [en-US]  Delete
@@ -157,7 +157,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Deletes either the current level or the current selected element (used for both buttons) *)
 
 
 [en-US]  ID
@@ -166,7 +166,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Label for Textfield in leveleditor settings panel. Describes the level ID (readonly) *)
 
 
 [en-US]  Name
@@ -175,7 +175,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Label for Textfield in leveleditor settings panel. Describes the level name *)
 
 
 [en-US]  Size
@@ -184,7 +184,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Label for Textfield in leveleditor settings panel. Describes the level size (Width x Height) *)
 
 
 [en-US]  Initial view
@@ -193,7 +193,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Label for Textfield in leveleditor settings panel. Describes the level initial view (if the level is bigger than a single view the level gets draggable and this specifies the initial view position) *)
 
 
 [en-US]  Geometry
@@ -202,7 +202,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Label for Textfield in leveleditor settings panel. Describes the level geometry (= how the edges behave, possible values are "reflect" (like solid walls), "donut" (stuff that leaves the top enters from the bottom), "infinite" (stuff just flies out of view) ) *)
 
 
 [en-US]  Infinity
@@ -211,7 +211,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Option for geometry config in leveleditorpanel. In "Infinity"-geometry entities that go out-of bounds just keep flying away until they are unreachable *)
 
 
 [en-US]  Donut
@@ -220,7 +220,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Option for geometry config in leveleditorpanel. In "Donut"-geometry entities that go out-of bounds enter the level at the opposite edge *)
 
 
 [en-US]  Reflect
@@ -229,7 +229,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Option for geometry config in leveleditorpanel. In "Reflect"-geometry entities that hit the border bounce like if they hit a solid wall *)
 
 
 [en-US]  Portal
@@ -238,7 +238,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(*  *)
+(* Button-text in leveleditor. Sets the mode to "add new portal to playing field" *)
 
 
 [en-US]  Channel
@@ -544,7 +544,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(* Column caption, shows the number of players that have beaten this specific level *)
+(* Tabular grid header in online-level preview dialog. Count of users that have beaten the level+difficulty (+ count of users that have played the level) *)
 
 
 [en-US]  Download failed
@@ -625,7 +625,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(* Caption in highscore table. Shows the highscore in the currency "stars" (= best user-made levels) *)
+(* Header in highscore table. Shows the highscore in the currency "stars" (= best user-made levels) *)
 
 
 [en-US]  User level points
@@ -634,7 +634,7 @@
 [it-IT]  ?
 [es-ES]  ?
 
-(* Caption in highscore table. Shows the highscore in user-generated-levels. *)
+(* Header in highscore table. Shows the highscore in user-generated-levels. *)
 
 
 [en-US]  Stars
