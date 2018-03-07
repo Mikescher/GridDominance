@@ -27,18 +27,8 @@ private const string NAMESPACE = "GridDominance.Shared.Resources";
 
 private readonly Regex REX = new Regex(@"public const int STR_(?<id>[A-Z_0-9]+)\s+=\s+(?<num>[0-9]+);");
 
-new List<texts> ttt = new List<texts>();
-
 void Main()
 {
-	foreach (Match m in REX.Matches(File.ReadAllText(SOURCEFILE)))
-	{
-		var xid = m.Groups["id"].Value;
-		var xnm = int.Parse(m.Groups["num"].Value);
-
-		ttt.Add(new texts { arrayindex=xnm, id=xid });
-	}
-
 	#region r
 	xadd("STR_SSB_ABOUT",
 					 "About",
@@ -1998,28 +1988,18 @@ void Main()
 			 "?",  //TODO translate me
 			 "?"); //TODO translate me
 	#endregion
-	
-	foreach (var xcv in ttt.OrderBy(dd => dd.arrayindex))
-	{
-		texts.Insert(() => new texts 
-		{
-			arrayindex = xcv.arrayindex,
-			id = xcv.id,
-			description = xcv.description,
-			en = xcv.en,
-			de = xcv.de,
-			fr = xcv.en,
-			it = xcv.it,
-			es = xcv.es,
-		});
-	}
 }
 
 void xadd(string id, string en, string de, string fr, string it, string es)
 {
-	ttt.Single(t => t.id == id.Substring(4)).en = en;
-	ttt.Single(t => t.id == id.Substring(4)).de = de;
-	ttt.Single(t => t.id == id.Substring(4)).fr = fr;
-	ttt.Single(t => t.id == id.Substring(4)).it = it;
-	ttt.Single(t => t.id == id.Substring(4)).es = es;
+	var frold = texts.Single(t => t.id == id.Substring(4)).fr;
+
+	if (fr != frold) 
+	{
+		$"{fr}\n{frold}\n\n".Dump();
+		var ttt = texts.Single(t => t.id == id.Substring(4));
+		ttt.fr = fr;
+		this.Update(ttt);
+	}
+	
 }
