@@ -179,7 +179,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 
 			if (Server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
-				Owner.HUD.ShowToast(null, L10NImpl.FormatNetworkErrorMessage(Server.Error, Server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+				Owner.HUD.ShowToast(null, L10NImplHelper.FormatNetworkErrorMessage(Server.Error, Server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 
 				switch (Server.Error)
 				{

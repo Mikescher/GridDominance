@@ -87,6 +87,7 @@
     <Compile Include="Resources\GDConstants.cs" />
     <Compile Include="Resources\GDSounds.cs" />
     <Compile Include="Resources\L10NImpl.cs" />
+    <Compile Include="Resources\L10NImplHelper.cs" />
     <Compile Include="Resources\Levels.cs" />
     <Compile Include="Resources\ParticlePresets.cs" />
     <Compile Include="Resources\TetroConfigurations.cs" />

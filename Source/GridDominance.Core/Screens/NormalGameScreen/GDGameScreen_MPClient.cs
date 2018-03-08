@@ -70,7 +70,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			if (_server.Mode == SAMNetworkConnection.ServerMode.Error)
 			{
-				HUD.ShowToast("SCRNSC::ERR", L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+				HUD.ShowToast("SCRNSC::ERR", L10NImplHelper.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 
 				MainGame.Inst.SetOverworldScreen();
 			}

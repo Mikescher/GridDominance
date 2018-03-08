@@ -118,7 +118,7 @@ void CreateSourcefile()
 	b.AppendLine($"\t\tprivate const int TEXT_COUNT = {texts.Count}; // = next idx");
 	b.AppendLine();
 	b.AppendLine($"\t\tpublic static void Init(int lang)");
-	b.AppendLine("\t\t");
+	b.AppendLine("\t\t{");
 	b.AppendLine("\t\t\tL10N.Init(lang, TEXT_COUNT, LANG_COUNT);");
 	b.AppendLine();
 	b.AppendLine($"\t\t\t// {string.Join(" ", languages.Select(l => $"[{l.languagecode}]"))}");

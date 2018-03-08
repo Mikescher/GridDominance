@@ -1,7 +1,12 @@
 ﻿using GridDominance.DSLEditor.Helper;
 using GridDominance.DSLEditor.Properties;
+using GridDominance.Levelfileformat.Blueprint;
+using ICSharpCode.SharpZipLib.Zip;
+using Microsoft.Win32;
 using MSHC.WPF.Extensions.BindingProxies;
 using MSHC.WPF.MVVM;
+using Ookii.Dialogs.Wpf;
+using SharpCompress.Readers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,18 +27,18 @@ namespace GridDominance.DSLEditor
 	{
 		private const int TIMER_COOLDOWN = 33;
 
-		public ICommand ReloadCommand => new RelayCommand(r => Reload());
-		public ICommand SaveCommand => new RelayCommand(Save);
-		public ICommand CompileCommand => new RelayCommand(Compile); 
-		public ICommand PackCommand => new RelayCommand(Pack); 
-		public ICommand RepaintCommand => new RelayCommand(Repaint);
-		public ICommand UUIDCommand => new RelayCommand(InsertUUID);
-		public ICommand ClosingCommand => new RelayCommand<CancelEventArgs>(FormClosing);
+		public ICommand ReloadCommand        => new RelayCommand(r => Reload());
+		public ICommand SaveCommand          => new RelayCommand(Save);
+		public ICommand CompileCommand       => new RelayCommand(Compile); 
+		public ICommand PackCommand          => new RelayCommand(Pack); 
+		public ICommand RepaintCommand       => new RelayCommand(Repaint);
+		public ICommand UUIDCommand          => new RelayCommand(InsertUUID);
+		public ICommand ClosingCommand       => new RelayCommand<CancelEventArgs>(FormClosing);
 		public ICommand EditorChangedCommand => new RelayCommand(ResetTimer);
-		public ICommand HoverCommand => new RelayCommand<MouseEventArgs>(Hover);
-
-		public ICommand DropCommand => new RelayCommand<DragEventArgs>(Drop); 
-		public ICommand DragCommand => new RelayCommand<DragEventArgs>(DragEnter);
+		public ICommand HoverCommand         => new RelayCommand<MouseEventArgs>(Hover);
+		public ICommand ScreenshotsCommand   => new RelayCommand(CreateScreenshots);
+		public ICommand DropCommand          => new RelayCommand<DragEventArgs>(Drop); 
+		public ICommand DragCommand          => new RelayCommand<DragEventArgs>(DragEnter);
 
 		public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
 
@@ -458,6 +463,88 @@ namespace GridDominance.DSLEditor
 			if (IsFilePathLevel && src != null)
 			{
 				OnLevelHover(a.GetPosition(src), src.ActualWidth, src.ActualHeight);
+			}
+		}
+
+		private void CreateScreenshots(object obj)
+		{
+			try
+			{
+				var ofd = new OpenFileDialog();
+				ofd.Filter = "Userlevels Backup (*.tgz)|*.tgz";
+				ofd.Title = "Open Userlevels backup";
+				if (ofd.ShowDialog() != true) return;
+
+				var sfd = new VistaFolderBrowserDialog();
+				sfd.UseDescriptionForTitle = true;
+				sfd.Description = "Save screenshots to directory";
+				if (sfd.ShowDialog() != true) return;
+				
+				List<Tuple<string, LevelBlueprint>> prints = new List<Tuple<string, LevelBlueprint>>();
+
+				using (Stream stream = File.OpenRead(ofd.FileName))
+				{
+					var reader = ReaderFactory.Open(stream);
+					while (reader.MoveToNextEntry())
+					{
+						if (!reader.Entry.IsDirectory)
+						{
+							reader.WriteEntryToDirectory(sfd.SelectedPath, new ExtractionOptions() { ExtractFullPath = false, Overwrite = true });
+
+							var file = Path.Combine(sfd.SelectedPath, Path.GetFileName(reader.Entry.Key.Replace('/', '\\')));
+							var bp = new LevelBlueprint();
+					
+							using (var ms = new MemoryStream(File.ReadAllBytes(file)))
+							{
+								using (var br = new BinaryReader(ms))
+								{
+									bp.BinaryDeserialize(br);
+								}
+							}
+
+							prints.Add(Tuple.Create(file, bp));
+
+							File.Delete(file);
+						}
+					}
+				}
+
+				foreach (var lvl in prints)
+				{
+					var bmp = CreateOverviewSafe(Path.GetFileName(lvl.Item1), lvl.Item2);
+					bmp.Save(lvl.Item1+".png");
+				}
+
+				MessageBox.Show("Success");
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show("LevelOverview failed:\r\n" + e);
+			}
+		}
+		
+		static IEnumerable<string> EnumerateFilesDeep(string path)
+		{
+			Queue<string> queue = new Queue<string>();
+			queue.Enqueue(path);
+			while (queue.Count > 0)
+			{
+				path = queue.Dequeue();
+				
+				foreach (string subDir in Directory.GetDirectories(path))
+				{
+					queue.Enqueue(subDir);
+				}
+
+				string[] files = Directory.GetFiles(path);
+
+				if (files != null)
+				{
+					for (int i = 0; i < files.Length; i++)
+					{
+						yield return files[i];
+					}
+				}
 			}
 		}
 	}

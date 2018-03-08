@@ -334,7 +334,7 @@ namespace GridDominance.Shared.Resources
 		private const int TEXT_COUNT = 279; // = next idx
 
 		public static void Init(int lang)
-		
+		{
 			L10N.Init(lang, TEXT_COUNT, LANG_COUNT);
 
 			// [en-US] [de-DE] [fr-FR] [it-IT] [es-ES]

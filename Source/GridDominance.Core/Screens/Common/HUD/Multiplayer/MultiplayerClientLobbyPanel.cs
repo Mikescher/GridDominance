@@ -232,7 +232,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 				MaxWidth = INFO_C2_WIDTH,
 				Font = Textures.HUDFontRegular,
 				FontSize = 32,
-				Lambda = () => fracName != null ? fracName : "?",
+				Lambda = () => fracName ?? "?",
 				WordWrap = HUDWordWrap.Ellipsis,
 				TextColor = FlatColors.Clouds,
 			});
@@ -330,8 +330,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				_lastLevelID = _server.LevelID.Value;
 
-				LevelBlueprint bp;
-				if (Levels.LEVELS.TryGetValue(_server.LevelID.Value, out bp))
+				if (Levels.LEVELS.TryGetValue(_server.LevelID.Value, out var bp))
 				{
 					var d = GetFractionColorByID(bp, _server.SessionUserID + 1);
 					fracName = d.Item1;
@@ -343,7 +342,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 			{
 				Remove();
 
-				Owner.HUD.ShowToast(null, L10NImpl.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
+				Owner.HUD.ShowToast(null, L10NImplHelper.FormatNetworkErrorMessage(_server.Error, _server.ErrorData), 32, FlatColors.Flamingo, FlatColors.Foreground, 7f);
 				skipUpdate = true;
 			}
 			
