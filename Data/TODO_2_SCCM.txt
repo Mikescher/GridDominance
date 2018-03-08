@@ -124,3 +124,13 @@ USER GENERATED LEVEL [[TODO]]
 [ ] highscore cat button on left side for previous highscore type
 
 [ ] highscore missing column time for normal points (+ additional tab timee for mp points)
+
+[ ] name in ackno pnl (progrm/design + link)
+
+[ ] splash screen scaling
+
+[ ] back button does not close topmmost modal (sccm preview pnl)
+
+[ ] gdapi err in lvl-93
+
+[ ] ios bridge suffix iOS before version (and fix in online db)

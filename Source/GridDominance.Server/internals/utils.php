@@ -12,6 +12,14 @@ function getUserCountWithMPScore() {
 	return sql_query_num('getUserCountWithMPScore', 'SELECT COUNT(*) FROM users WHERE mpscore > 0');
 }
 
+function getUserCountWithSCCMScore() {
+	return sql_query_num('getUserCountWithSCCMScore', 'SELECT COUNT(*) FROM users WHERE score_sccm > 0');
+}
+
+function getUserCountWithStarsScore() {
+	return sql_query_num('getUserCountWithStarsScore', 'SELECT COUNT(*) FROM users WHERE score_stars > 0');
+}
+
 function getActiveUserCount($days) {
 	$days = (int)$days;
 
@@ -159,6 +167,22 @@ function getGlobalHighscores($limit = 100, $page = 0) {
 
 function getMultiplayerHighscores($limit = 100, $page = 0) {
 	return sql_query_assoc_prep('getMultiplayerHighscores', loadSQL("get-ranking_multiplayer_top"),
+	[
+		[':qlimit', $limit,         PDO::PARAM_INT],
+		[':qpage',  $limit * $page, PDO::PARAM_INT],
+	]);
+}
+
+function getSCCMHighscores($limit = 100, $page = 0) {
+	return sql_query_assoc_prep('getSCCMHighscores', loadSQL("get-ranking_sccm_top"),
+	[
+		[':qlimit', $limit,         PDO::PARAM_INT],
+		[':qpage',  $limit * $page, PDO::PARAM_INT],
+	]);
+}
+
+function getStarsHighscores($limit = 100, $page = 0) {
+	return sql_query_assoc_prep('getStarsHighscores', loadSQL("get-ranking_stars_top"),
 	[
 		[':qlimit', $limit,         PDO::PARAM_INT],
 		[':qpage',  $limit * $page, PDO::PARAM_INT],

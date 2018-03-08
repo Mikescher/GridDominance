@@ -226,6 +226,46 @@
 					<?php endforeach; ?>
                 </table>
             </div>
+
+            <h4 class="subhshdr"><a href="worldhighscore.php?id=$">Stars</a></h4>
+            <div class="tablebox">
+                <table class="sqltab pure-table pure-table-bordered sortable">
+                    <thead>
+                    <tr>
+                        <th>Row</th>
+                        <th style='width: 250px'>Username</th>
+                        <th>Score</th>
+                    </tr>
+                    </thead>
+					<?php $i=1; foreach (getStarsHighscores(10) as $entry): ?>
+                        <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                            <td><?php echo $entry['totalscore']; ?></td>
+                        </tr>
+					<?php endforeach; ?>
+                </table>
+            </div>
+
+            <h4 class="subhshdr"><a href="worldhighscore.php?id=#">SCCM</a></h4>
+            <div class="tablebox">
+                <table class="sqltab pure-table pure-table-bordered sortable">
+                    <thead>
+                    <tr>
+                        <th>Row</th>
+                        <th style='width: 250px'>Username</th>
+                        <th>Score</th>
+                    </tr>
+                    </thead>
+					<?php $i=1; foreach (getSCCMHighscores(10) as $entry): ?>
+                        <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
+                            <td><?php echo $entry['totalscore']; ?></td>
+                        </tr>
+					<?php endforeach; ?>
+                </table>
+            </div>
         </div>
     </div>
 

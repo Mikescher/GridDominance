@@ -33,6 +33,14 @@
 		$entries = getMultiplayerHighscores(1000, $page);
 		$entrycount = getUserCountWithMPScore();
 		$showtime = false;
+    } else if ($_GET['id']=='$') {
+		$entries = getStarsHighscores(1000, $page);
+		$entrycount = getUserCountWithStarsScore();
+		$showtime = false;
+    } else if ($_GET['id']=='#') {
+		$entries = getSCCMHighscores(1000, $page);
+		$entrycount = getUserCountWithSCCMScore();
+		$showtime = false;
     } else {
 		$entries = getWorldHighscores($_GET['id'], 1000, $page);
 		$entrycount = getUserCount();
