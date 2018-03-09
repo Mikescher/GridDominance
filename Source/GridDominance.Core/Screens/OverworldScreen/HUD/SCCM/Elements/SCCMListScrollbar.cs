@@ -23,6 +23,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 		public int ScrollMax      = 0;
 		public int ScrollPageSize = 1;
 
+		private HUDImageButton _btn1;
+		private HUDImageButton _btn2;
+
 		public SCCMListScrollbar()
 		{
 
@@ -30,7 +33,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		public override void OnInitialize()
 		{
-			AddElement(new HUDImageButton
+			AddElement(_btn1 = new HUDImageButton
 			{
 				Alignment = HUDAlignment.TOPCENTER,
 				RelativePosition = new FPoint(0, 0),
@@ -46,7 +49,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				Click = (s, a) => DoScroll(-1),
 			});
 
-			AddElement(new HUDImageButton
+			AddElement(_btn2 = new HUDImageButton
 			{
 				Alignment = HUDAlignment.BOTTOMCENTER,
 				RelativePosition = new FPoint(0, 0),
@@ -62,6 +65,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				Click = (s, a) => DoScroll(+1),
 			});
 		}
+		
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => IsVisible;
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => IsVisible;
 
 		private void DoScroll(int delta)
 		{
@@ -89,7 +95,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			//
+			if (Presenter!=null && IsPointerDownOnElement && !_btn1.IsPointerDownOnElement && !_btn2.IsPointerDownOnElement)
+			{
+				var yrange = Height - 64 - 64 - 32;
+				var scroll = (istate.HUDPointerPosition.Y - (Top+64+16)) / yrange;
+
+				var offset = FloatMath.Round(Presenter.MaxOffset * scroll);
+
+				Presenter.SetOffset(offset);
+			}
 		}
 	}
 }

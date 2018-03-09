@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.Operations;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -27,6 +26,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 		private int _entryCount;
 		private float _pad;
 
+		public float EntryDistance => ENTRY_HEIGHT+_pad;
+
+		public float MaxOffset => _entries.Count - _entryCount;
+
+		private SCCMListDragAgent _draAgent;
+
 		public SCCMListPresenter()
 		{
 
@@ -36,6 +41,18 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 		{
 			_entryCount = (int)((Height + PAD_MIN)/(ENTRY_HEIGHT + PAD_MIN));
 			_pad = (Height - _entryCount * ENTRY_HEIGHT) / (_entryCount - 1);
+
+			AddOperation(_draAgent = new SCCMListDragAgent());
+		}
+		
+		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => IsVisible;
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
+		{
+			if (!IsVisible) return false;
+
+			_draAgent?.StartDrag(this, istate);
+
+			return true;
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
@@ -83,6 +100,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		public void Scroll(int delta)
 		{
+			if (delta==0) return;
 			Offset += delta;
 			if (Offset < 0) Offset = 0;
 			if (Offset + (_entryCount-1) >= _entries.Count) Offset = _entries.Count - _entryCount;
@@ -106,6 +124,15 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			_entries.Clear();
 
 			relayout = true;
+		}
+
+		public void SetOffset(int o)
+		{
+			var prev = Offset;
+			Offset = o;
+			if (Offset < 0) Offset = 0;
+			if (Offset + (_entryCount-1) >= _entries.Count) Offset = _entries.Count - _entryCount;
+			if (prev != o) relayout = true;
 		}
 	}
 }

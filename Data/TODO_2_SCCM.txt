@@ -86,13 +86,15 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] highscore toogle button by currency icon
 
-[ ] dragable level list
+[X] dragable level list
 
 [ ] Pagination
 
 [X] remember author upload time
 
 [ ] cache hot levels (how expensive is query ?)
+
+[ ] memcache for sql file read_contents ??
 
 [X] weekly db backups on server (+ levels)
 
