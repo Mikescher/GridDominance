@@ -240,7 +240,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ERR_MUSICPLAYBACK           = 187;
 		public const int STR_ERR_OUTOFMEMORY             = 189;
 
-		public const int STR_ACKNOWLEDGEMENTS            = 188;
+		public const int STR_CREDPNL_HEADER              = 188;
 
 		public const int STR_PROFILESYNC_START           = 190;
 		public const int STR_PROFILESYNC_ERROR           = 191;
@@ -360,30 +360,31 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_SSB_EFFECTS, "Effects", "Effekte", "Effet", "Effetti", "Efectos");
 
 			// Description: Header in highscore table. Shows the highscore in normal (singleplayer) points.
-			// Usage:       HighscorePanel.cs:62
+			// Usage:       HighscorePanel.cs:63
 			L10N.Add(STR_HSP_GLOBALRANKING, "Global Ranking", "Bestenliste", "Classement globale", "Classifica Globale", "Ranking global");
 
 			// Description: Header in highscore table. Shows the highscore in normal (singleplayer) points for a single world.
-			// Usage:       HighscorePanel.cs:65
+			// Usage:       HighscorePanel.cs:66
 			L10N.Add(STR_HSP_RANKINGFOR, "Ranking for \"{0}\"", "Bestenliste für \"{0}\"", "Classement pour \"{0}\"", "Classifica per \"{0}\"", "Ranking");
 
 			// Description: Column caption in highscore table. Shows the username of the user
-			// Usage:       HighscorePanel.cs:155
-			// Usage:       HighscorePanel.cs:161
-			// Usage:       HighscorePanel.cs:167
-			// Usage:       HighscorePanel.cs:174
-			// Usage:       HighscorePanel.cs:180
+			// Usage:       HighscorePanel.cs:176
+			// Usage:       HighscorePanel.cs:183
+			// Usage:       HighscorePanel.cs:190
+			// Usage:       HighscorePanel.cs:196
+			// Usage:       HighscorePanel.cs:202
 			L10N.Add(STR_TAB_NAME, "Name", "Name", "Nom", "Nome", "Nombre");
 
 			// Description: Column caption in highscore table. Shows the points a user has
-			// Usage:       HighscorePanel.cs:156
-			// Usage:       HighscorePanel.cs:162
-			// Usage:       HighscorePanel.cs:168
-			// Usage:       HighscorePanel.cs:181
+			// Usage:       HighscorePanel.cs:177
+			// Usage:       HighscorePanel.cs:184
+			// Usage:       HighscorePanel.cs:191
+			// Usage:       HighscorePanel.cs:203
 			L10N.Add(STR_TAB_POINTS, "Points", "Punkte", "Points", "Punti", "Puntos");
 
 			// Description: Column caption in highscore table. Shows the cummulative time a user has over all played levels
-			// Usage:       HighscorePanel.cs:169
+			// Usage:       HighscorePanel.cs:178
+			// Usage:       HighscorePanel.cs:185
 			L10N.Add(STR_TAB_TIME, "Total Time", "Gesamtzeit", "Temps total", "Tempo Totale", "Tiempo total");
 
 			// Description: Header of the account-manage dialog
@@ -734,6 +735,7 @@ namespace GridDominance.Shared.Resources
 			// Description: Header of promo-code dialog (input promocode to unlock all special features)
 			// Usage:       InfoPanel.cs:114
 			// Usage:       UnlockPanel.cs:48
+			// Usage:       InfoPanel.cs:89
 			L10N.Add(STR_UNLOCK, "Promotion Code", "Promo Code", "Code promotionnel", "Codice Promozionale", "Código de promoción");
 
 			// Description: Toast that is shown when the game was completely unlocked (eg via promotion code)
@@ -1100,7 +1102,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_CAP_SEARCH, "Search for local devices", "Suche nach lokalem Spiel", "Cherchez des périphériques locaux", "Cerca dispostivi locali", "Buscando dispositivos locales");
 
 			// Description: Header in highscore table. Shows the highscore in multiplayer games.
-			// Usage:       HighscorePanel.cs:68
+			// Usage:       HighscorePanel.cs:69
 			L10N.Add(STR_HSP_MULTIPLAYERRANKING, "Multiplayer", "Mehrspieler", "Multijoueur", "Multiplayer", "Multijugador");
 
 			// Description: Multiplayer error message. Bluetooth is not avaiable because the bluetooth permission was not granted
@@ -1186,10 +1188,9 @@ namespace GridDominance.Shared.Resources
 			// Usage:       GDSounds.cs:121
 			L10N.Add(STR_ERR_MUSICPLAYBACK, "Music playback failed. Disabling music ...", "Musikwiedergabe fehlgeschlagen. Musik wird deaktiviert ...", "La lecture de musique a échoué. Désactivation de la musique ...", "La riproduzione musicale è fallita. Disattivazione della musica ...", "Reproducción de música ha fallado. Deactivando sonidos");
 
-			// Description: Header of acknowledgments dialog
+			// Description: Header of credits dialog
 			// Usage:       AcknowledgementsPanel.cs:54
-			// Usage:       InfoPanel.cs:89
-			L10N.Add(STR_ACKNOWLEDGEMENTS, "Acknowledgements", "Danksagungen", "Remerciements", "Ringraziamenti", "Agradecimientos");
+			L10N.Add(STR_CREDPNL_HEADER, "About...", "Über...", "Remerciements", "Ringraziamenti", "Agradecimientos");
 
 			// Description: Text of error toast. Is shown when the profile/level cuold not be saved because there is no free disk space
 			// Usage:       MainGame.cs:357
@@ -1506,15 +1507,15 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_SCOREMAN_INFO_STARS, "You get these stars when other players give a level you created a star", "Du bekommst Sterne wenn andere Spieler ein Level, das du erstellt hast, positiv bewerten", "?", "?", "?"); //TODO translate me
 
 			// Description: Header in highscore table. Shows the highscore in the currency "stars" (= best user-made levels)
-			// Usage:       HighscorePanel.cs:71
+			// Usage:       HighscorePanel.cs:72
 			L10N.Add(STR_HSP_STARRANKING, "Stars", "Sterne", "?", "?", "?"); //TODO translate me
 
 			// Description: Header in highscore table. Shows the highscore in user-generated-levels.
-			// Usage:       HighscorePanel.cs:74
+			// Usage:       HighscorePanel.cs:75
 			L10N.Add(STR_HSP_SCCMRANKING, "User level points", "Benutzerlevel Punkte", "?", "?", "?"); //TODO translate me
 
 			// Description: Column caption in highscore table. Shows the stars a user has
-			// Usage:       HighscorePanel.cs:175
+			// Usage:       HighscorePanel.cs:197
 			L10N.Add(STR_TAB_STARS, "Stars", "Sterne", "?", "?", "?"); //TODO translate me
 
 			// Description: Buttontext in "World locked"-panel. Part of a three-element line: [Unlock now] [or] [Finish the game]

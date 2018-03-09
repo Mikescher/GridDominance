@@ -87,7 +87,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontRegular,
 				FontSize = 52,
 
-				L10NText = L10NImpl.STR_ACKNOWLEDGEMENTS,
+				L10NText = L10NImpl.STR_UNLOCK,
 
 				TextColor = Color.White,
 				TextPadding = 16,
@@ -96,7 +96,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
 
 				ClickMode = HUDButton.HUDButtonClickMode.Single,
-				Click = OnClickAcknowledgements,
+				Click = OnClickUnlock,
 			});
 
 			var btn3y = btn2y + BUTTON_HEIGHT + ELEM_MARGIN;
@@ -112,7 +112,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontRegular,
 				FontSize = 52,
 
-				L10NText = L10NImpl.STR_UNLOCK,
+				L10NText = L10NImpl.STR_CREDPNL_HEADER,
 
 				TextColor = Color.White,
 				TextPadding = 16,
@@ -121,7 +121,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
 
 				ClickMode = HUDButton.HUDButtonClickMode.Single,
-				Click = OnClickUnlock,
+				Click = OnClickAcknowledgements,
 			});
 
 			AddElement(new TimesheetAnimationPresenter(1)

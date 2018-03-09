@@ -36,8 +36,15 @@ namespace GridDominance.Shared.Resources
 			
 		};
 
-		public static readonly Tuple<string, string, string>[] THANKS =
+		public static readonly Tuple<string, string, string>[] CREDITS =
 		{
+			Tuple.Create("Mike Schwörer",      "https://www.mikescher.com",            "Programming"),
+			Tuple.Create("Mike Schwörer",      "https://www.mikescher.com",            "Design"),
+			null,
+			Tuple.Create("Armin Benz",         "",                                     "Alpha/Beta Tester"),
+			Tuple.Create("Simon Vollmer",      "",                                     "Alpha/Beta Tester"),
+			Tuple.Create("Julian Börsig",      "",                                     "Alpha/Beta Tester"),
+			null,
 			Tuple.Create("Dr. Beate Heizmann", "",                                     "French Translations"),
 			Tuple.Create("/u/leolego",         "https://www.reddit.com/user/leolego2", "Italian Translations"),
 			Tuple.Create("/u/brodesto",        "https://www.reddit.com/user/brodesto", "Alpha Tester for 1.2.0"),

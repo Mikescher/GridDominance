@@ -52,19 +52,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				Font = Textures.HUDFontBold,
 				FontSize = 64,
 
-				L10NText = L10NImpl.STR_ACKNOWLEDGEMENTS,
+				L10NText = L10NImpl.STR_CREDPNL_HEADER,
 				TextColor = FlatColors.SunFlower,
 			});
 
-			for (int i = 0; i < Attributions.THANKS.Length; i++)
+			for (int i = 0; i < Attributions.CREDITS.Length; i++)
 			{
-				var dd = Attributions.THANKS[i];
+				var dd = Attributions.CREDITS[i];
+				if (dd==null)continue;
 
 				var btn = new HUDTextButton(1)
 				{
 					TextAlignment = HUDAlignment.CENTERLEFT,
 					Alignment = HUDAlignment.TOPLEFT,
-					RelativePosition = new FPoint(LINE_OFFSET, 96 + i * 56),
+					RelativePosition = new FPoint(LINE_OFFSET, 96 + i * 38),
 					Size = new FSize(LINE_WIDTH, 32),
 
 					Font = Textures.HUDFontRegular,
@@ -85,7 +86,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				{
 					TextAlignment = HUDAlignment.CENTERLEFT,
 					Alignment = HUDAlignment.TOPRIGHT,
-					RelativePosition = new FPoint(LINE_OFFSET, 96 + i * 56),
+					RelativePosition = new FPoint(LINE_OFFSET, 96 + i * 38),
 					Size = new FSize(LINE_WIDTH, 32),
 
 					Font = Textures.HUDFontBold,
