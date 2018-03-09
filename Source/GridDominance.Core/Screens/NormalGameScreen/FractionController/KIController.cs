@@ -487,7 +487,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		// ignore all bullets
 		private bool IsHoming(Bullet b)
 		{
-			GameEntity result = null;
+			object result = null;
 
 			float velo = b.PhysicsBody.LinearVelocity.Length();
 
@@ -500,7 +500,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 				if (f.UserData is IPhysicsMarker) return -1; // ignore
 				if (f.UserData is ShieldCollisionMarker) return -1; // ignore
 
-				result = (GameEntity) f.UserData;
+				result = f.UserData; // can be GameEntity or ShieldCollisionMarker
+
 				return frac; // limit to this length
 			}
 
@@ -515,7 +516,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		// ignore own bullets
 		private bool IsReachable(Cannon c)
 		{
-			GameEntity result = null;
+			object result = null;
 
 			Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 			{
@@ -523,15 +524,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 				if (f.UserData == c) return frac; // limit
 
-				var bulletData = f.UserData as Bullet;
-				if (bulletData != null && bulletData.Source == Cannon) return -1; // ignore own Bullets
+				if (f.UserData is Bullet bulletData && bulletData.Source == Cannon) return -1; // ignore own Bullets
 
-				var shieldData = f.UserData as ShieldCollisionMarker;
-				if (shieldData != null && !shieldData.Active) return -1; // ignore deactivated shields
+				if (f.UserData is ShieldCollisionMarker shieldData && !shieldData.Active) return -1; // ignore deactivated shields
 
 				if (f.UserData is IPhysicsMarker) return -1; // ignore
 
-				result = (GameEntity) f.UserData;
+				result = f.UserData; // can be GameEntity or ShieldCollisionMarker
 
 				return 0; // terminate
 			};
@@ -547,7 +546,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		// ignore all bullets
 		private bool IsBulletBlockedReachable(Cannon c)
 		{
-			GameEntity result = null;
+			object result = null;
 
 			float cbFunc(Fixture f, Vector2 pos, Vector2 normal, float frac)
 			{
@@ -557,12 +556,11 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 				if (f.UserData is Bullet) return -1; // ignore _all_ Bullets
 
-				var shieldData = f.UserData as ShieldCollisionMarker;
-				if (shieldData != null && !shieldData.Active) return -1; // ignore deactivated shields
+				if (f.UserData is ShieldCollisionMarker shieldData && !shieldData.Active) return -1; // ignore deactivated shields
 
 				if (f.UserData is IPhysicsMarker) return -1; // ignore
 
-				result = (GameEntity) f.UserData;
+				result = f.UserData; // can be GameEntity or ShieldCollisionMarker
 
 				return 0; // terminate
 			}
@@ -580,22 +578,20 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			foreach (var ray in p.Rays)
 			{
-				GameEntity result = null;
+				object result = null;
 				Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 				{
 					if (f.UserData == Cannon) return -1; // ignore self;
 
 					if (f.UserData == p.TargetCannon) return frac; // limit
 
-					var bulletData = f.UserData as Bullet;
-					if (bulletData != null && bulletData.Source == Cannon) return -1; // ignore own Bullets
+					if (f.UserData is Bullet bulletData && bulletData.Source == Cannon) return -1; // ignore own Bullets
 
-					var shieldData = f.UserData as ShieldCollisionMarker;
-					if (shieldData != null && !shieldData.Active) return -1; // ignore deactivated shields
+					if (f.UserData is ShieldCollisionMarker shieldData && !shieldData.Active) return -1; // ignore deactivated shields
 
 					if (f.UserData is IPhysicsMarker) return -1; // ignore
 
-					result = (GameEntity)f.UserData;
+					result = f.UserData; // can be GameEntity or ShieldCollisionMarker
 
 					return 0; // terminate
 				};
@@ -627,7 +623,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 		{
 			foreach (var ray in p.Rays)
 			{
-				GameEntity result = null;
+				object result = null;
 				Func<Fixture, Vector2, Vector2, float, float> callback = (f, pos, normal, frac) =>
 				{
 					if (f.UserData == Cannon) return -1; // ignore self;
@@ -638,10 +634,9 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 
 					if (f.UserData is IPhysicsMarker) return -1; // ignore
 
-					var shieldData = f.UserData as ShieldCollisionMarker;
-					if (shieldData != null && !shieldData.Active) return -1; // ignore deactivated shields
+					if (f.UserData is ShieldCollisionMarker shieldData && !shieldData.Active) return -1; // ignore deactivated shields
 
-					result = (GameEntity)f.UserData;
+					result = f.UserData; // can be GameEntity or ShieldCollisionMarker
 
 					return 0; // terminate
 				};
