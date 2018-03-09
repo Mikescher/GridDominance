@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.Operations;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
@@ -15,10 +21,14 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 		private const float ENTRY_HEIGHT = 66.666f;
 		private const float PAD_MIN = 12f;
 
+		public enum LoadFuncResult { Success, LastPage, Error }
+		public enum PresenterMode { Initial, Loading, Normal, FullyLoaded }
+
 		public override int Depth => 0;
 
 		public int Offset = 0;
-		public SCCMListScrollbar Scrollbar;
+		private SCCMListScrollbar _scrollbar;
+		private HUDImage _waitingCog;
 
 		private readonly List<SCCMListElement> _entries = new List<SCCMListElement>();
 		private bool relayout = false;
@@ -30,7 +40,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		public float MaxOffset => _entries.Count - _entryCount;
 
-		private SCCMListDragAgent _draAgent;
+		private SCCMListDragAgent _dragAgent;
+
+		private volatile PresenterMode _mode = PresenterMode.Initial;
+		private Func<SCCMListPresenter, int, int, Task<LoadFuncResult>> _loadFunc;
+		private volatile int _currentPage = -1;
+		private int _currentRequest = 101;
 
 		public SCCMListPresenter()
 		{
@@ -42,15 +57,82 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			_entryCount = (int)((Height + PAD_MIN)/(ENTRY_HEIGHT + PAD_MIN));
 			_pad = (Height - _entryCount * ENTRY_HEIGHT) / (_entryCount - 1);
 
-			AddOperation(_draAgent = new SCCMListDragAgent());
+			AddOperation(_dragAgent = new SCCMListDragAgent());
 		}
 		
+		public void Load(Func<SCCMListPresenter, int, int, Task<LoadFuncResult>> loadFunc, SCCMListScrollbar sb, HUDImage wc, bool async = true)
+		{
+			Clear();
+			_currentRequest++;
+
+			_scrollbar = sb;
+			_waitingCog = wc;
+
+			_scrollbar.Presenter = this;
+
+			this.IsVisible = false;
+			_scrollbar.IsVisible = false;
+			_waitingCog.IsVisible = true;
+
+			_loadFunc = loadFunc;
+
+			_mode = PresenterMode.Loading;
+			if (async) 
+				DoLoad(0, _currentRequest, true).RunAsync();
+			else 
+				DoLoad(0, _currentRequest, false).Wait();
+		}
+
+		private async Task DoLoad(int page, int reqid, bool async)
+		{
+			_mode = PresenterMode.Loading;
+			var r = await _loadFunc(this, page, reqid);
+
+			void FinishAction()
+			{
+				if (IsCurrentRequest(reqid))
+				{
+					switch (r)
+					{
+						case LoadFuncResult.Success:
+							_mode = PresenterMode.Normal;
+							_currentPage = page;
+							break;
+						case LoadFuncResult.LastPage:
+							_mode = PresenterMode.FullyLoaded;
+							_currentPage = page;
+							break;
+						case LoadFuncResult.Error:
+							_mode = PresenterMode.Normal;
+							break;
+						default:
+							SAMLog.Error("SCCMLP::EnumSwitch_DoLoad", "r = " + r);
+							break;
+					}
+
+					this.IsVisible = true;
+					_scrollbar.IsVisible = true;
+					_waitingCog.IsVisible = false;
+				}
+			}
+
+			if (async)
+				MainGame.Inst.DispatchBeginInvoke(FinishAction);
+			else
+				FinishAction();
+		}
+
+		public bool IsCurrentRequest(int reqid)
+		{
+			return _currentRequest == reqid;
+		}
+
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => IsVisible;
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
 		{
 			if (!IsVisible) return false;
 
-			_draAgent?.StartDrag(this, istate);
+			_dragAgent?.StartDrag(this, istate);
 
 			return true;
 		}
@@ -67,9 +149,9 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			if (Scrollbar != null) Scrollbar.ScrollPosition = Offset;
-			if (Scrollbar != null) Scrollbar.ScrollMax      = ChildrenCount;
-			if (Scrollbar != null) Scrollbar.ScrollPageSize = _entryCount;
+			if (_scrollbar != null) _scrollbar.ScrollPosition = Offset;
+			if (_scrollbar != null) _scrollbar.ScrollMax      = ChildrenCount;
+			if (_scrollbar != null) _scrollbar.ScrollPageSize = _entryCount;
 
 
 			if (relayout)
@@ -98,13 +180,49 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			}
 		}
 
-		public void Scroll(int delta)
+		public void Scroll(int delta, bool allowNextPage)
 		{
-			if (delta==0) return;
-			Offset += delta;
+			SetOffset(Offset+delta, allowNextPage);
+		}
+
+		public void SetOffset(int o, bool allowNextPage)
+		{
+			var prev = Offset;
+
+			Offset = o;
 			if (Offset < 0) Offset = 0;
-			if (Offset + (_entryCount-1) >= _entries.Count) Offset = _entries.Count - _entryCount;
-			relayout = true;
+			if (Offset > _entries.Count - _entryCount)
+			{
+				if (_mode == PresenterMode.Normal && allowNextPage)
+				{
+					LoadNextPage();
+				}
+
+				Offset = _entries.Count - _entryCount;
+			}
+
+			if (prev != Offset) relayout = true;
+		}
+
+		private void LoadNextPage()
+		{
+			AddEntry(new SCCMListElementLoading());
+
+			_currentRequest++;
+			DoLoad(_currentPage+1, _currentRequest, true)
+				.ContinueWith((a) => MainGame.Inst.DispatchBeginInvoke(RemoveWaiter))
+				.RunAsync();
+		}
+
+		private void RemoveWaiter()
+		{
+			var waiter = _entries.OfType<SCCMListElementLoading>().ToList();
+			foreach (var w in waiter)
+			{
+				_entries.Remove(w);
+				w.Remove();
+			}
+			SetOffset(Offset, false);
 		}
 
 		public void AddEntry(SCCMListElement e)
@@ -124,15 +242,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 			_entries.Clear();
 
 			relayout = true;
-		}
-
-		public void SetOffset(int o)
-		{
-			var prev = Offset;
-			Offset = o;
-			if (Offset < 0) Offset = 0;
-			if (Offset + (_entryCount-1) >= _entries.Count) Offset = _entries.Count - _entryCount;
-			if (prev != o) relayout = true;
 		}
 	}
 }

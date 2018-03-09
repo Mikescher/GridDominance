@@ -149,6 +149,9 @@
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\shoot.ogg" />
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\zoomin.ogg" />
     <None Include="$(MSBuildThisFileDirectory)Content\sounds\zoomout.ogg" />
+    <None Include="$(MSBuildThisFileDirectory)L10N\L10N.sqlite3" />
+    <None Include="$(MSBuildThisFileDirectory)L10N\L10NOutputMissings.linq" />
+    <None Include="$(MSBuildThisFileDirectory)L10N\L10NProcessor.linq" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\music\cyber-factory.mp3" />

@@ -5,15 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Backend;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.SCCM;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
@@ -24,6 +30,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		private SCCMListPresenter _presenter;
 		private SCCMListScrollbar _scrollbar;
+		private HUDImage _waitingCog;
 
 		public SCCMTabMyLevels()
 		{
@@ -46,15 +53,27 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				Size = new FSize(48, Height - 16 - 16),
 			});
 
-			_presenter.Scrollbar = _scrollbar;
-			_scrollbar.Presenter = _presenter;
+			AddElement(_waitingCog = new HUDImage
+			{
+				Alignment = HUDAlignment.CENTER,
+				RelativePosition = FPoint.Zero,
+				Image = Textures.CannonCogBig,
+				RotationSpeed = 0.35f,
+				Color = FlatColors.Clouds,
+				Size = new FSize(192, 192)
+			});
 
-			_presenter.AddEntry(new SCCMListElementNewUserLevel());
+			_presenter.Load(QueryData, _scrollbar, _waitingCog, false);
+		}
+
+		private Task<SCCMListPresenter.LoadFuncResult> QueryData(SCCMListPresenter list, int page, int reqid)
+		{
+			list.AddEntry(new SCCMListElementNewUserLevel());
 
 			foreach (var userlevel in SCCMUtils.ListUserLevelsUnfinished())
 			{
 				if (userlevel.AuthorUserID != MainGame.Inst.Profile.OnlineUserID) continue;
-				_presenter.AddEntry(new SCCMListElementEditable(userlevel));
+				list.AddEntry(new SCCMListElementEditable(userlevel));
 			}
 
 			var localLevels = new List<Tuple<long, string, SCCMListElementLocalPlayable, string>>();
@@ -70,7 +89,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 					var entry = new SCCMListElementLocalPlayable(userlevel);
 					localLevels.Add(Tuple.Create(userlevel.CustomMeta_LevelID, levelhash, entry, filename));
 
-					_presenter.AddEntry(entry);
+					list.AddEntry(entry);
 				}
 				else
 				{
@@ -78,11 +97,13 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 					SCCMUtils.DeleteUserLevelFinished(filename);
 				}
 			}
-
+				
 			QueryMetaFromServer(localLevels).EnsureNoError();
+
+			return Task.FromResult(SCCMListPresenter.LoadFuncResult.LastPage);
 		}
 
-		private async Task QueryMetaFromServer(List<Tuple<long, string, SCCMListElementLocalPlayable, string>> userlevels_local)
+		private async Task QueryMetaFromServer(List<Tuple<long, string, SCCMListElementLocalPlayable, string>> userlevelsLocal)
 		{
 			var userlevel_online = await MainGame.Inst.Backend.QueryUserLevel(MainGame.Inst.Profile, QueryUserLevelCategory.AllLevelsOfUserid, MainGame.Inst.Profile.OnlineUserID.ToString(), 0);
 
@@ -90,7 +111,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 			foreach (var lvlonline in userlevel_online)
 			{
-				var match = userlevels_local.FirstOrDefault(loc => loc.Item1==lvlonline.OnlineID);
+				var match = userlevelsLocal.FirstOrDefault(loc => loc.Item1==lvlonline.OnlineID);
 				if (match != null)
 				{
 					if (lvlonline.Hash.ToUpper() != match.Item2.ToUpper())

@@ -48,12 +48,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				Size = new FSize(48, Height - 16 - 16),
 			});
 
-			_presenter.Scrollbar = _scrollbar;
-			_scrollbar.Presenter = _presenter;
-
-			_presenter.IsVisible = false;
-			_scrollbar.IsVisible = false;
-
 			AddElement(_waitingCog = new HUDImage
 			{
 				Alignment = HUDAlignment.CENTER,
@@ -64,39 +58,40 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				Size = new FSize(192, 192)
 			});
 
-			QueryData(0).RunAsync();
+			_presenter.Load(QueryData, _scrollbar, _waitingCog);
 		}
-
-		private async Task QueryData(int page)
+		
+		private async Task<SCCMListPresenter.LoadFuncResult> QueryData(SCCMListPresenter list, int page, int reqid)
 		{
 			try
 			{
 				var r = await MainGame.Inst.Backend.QueryUserLevel(MainGame.Inst.Profile, QueryUserLevelCategory.TopLevelsAllTime, string.Empty, page);
-
+				
 				if (r == null)
 				{
-					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
-					{
-						_presenter.IsVisible = true;
-						_scrollbar.IsVisible = true;
-						_waitingCog.Remove();
-					});
-					return;
+					return SCCMListPresenter.LoadFuncResult.Error;
 				}
 				else
 				{
-					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					if (r.Count == 0)
 					{
-						_waitingCog.Remove();
-
-						_presenter.IsVisible = true;
-						_scrollbar.IsVisible = true;
-
-						foreach (var levelmeta in r)
+						return SCCMListPresenter.LoadFuncResult.LastPage;
+					}
+					else
+					{
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							_presenter.AddEntry(new SCCMListElementOnlinePlayable(levelmeta));
-						}
-					});
+							if (list.IsCurrentRequest(reqid))
+							{
+								foreach (var levelmeta in r)
+								{
+									list.AddEntry(new SCCMListElementOnlinePlayable(levelmeta));
+								}
+							}
+						});
+						
+						return SCCMListPresenter.LoadFuncResult.Success;
+					}
 				}
 			}
 			catch (Exception e)
@@ -105,9 +100,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
-					_waitingCog.Remove();
-					_presenter.IsVisible = true;
-					_scrollbar.IsVisible = true;
 					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 					{
 						L10NText = L10NImpl.STR_CPP_COMERR,
@@ -118,6 +110,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 					}, true);
 				});
+				
+				return SCCMListPresenter.LoadFuncResult.Error;
 			}
 		}
 

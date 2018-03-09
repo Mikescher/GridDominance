@@ -92,16 +92,10 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				IsVisible = true,
 			});
 
-			_presenter.Scrollbar = _scrollbar;
-			_scrollbar.Presenter = _presenter;
-
-			_presenter.IsVisible = false;
-			_scrollbar.IsVisible = false;
-
 			AddElement(_waitingCog = new HUDImage
 			{
 				Alignment = HUDAlignment.CENTER,
-				RelativePosition = new FPoint(0, 16+64),
+				RelativePosition = new FPoint(0, 16+32),
 				Image = Textures.CannonCogBig,
 				RotationSpeed = 0.35f,
 				Color = FlatColors.Clouds,
@@ -109,75 +103,55 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 				IsVisible = false,
 			});
+
+			_presenter.Load(QueryData, _scrollbar, _waitingCog);
 		}
 
 		private void StartSearch()
 		{
-			_waitingCog.IsVisible = true;
-			_presenter.Clear();
-			_presenter.IsVisible = false;
-			_scrollbar.IsVisible = false;
-
-			if (!string.IsNullOrWhiteSpace(_textbox.Text))
-			{
-				QueryData(_textbox.Text, 0).EnsureNoError();
-			}
-			else
-			{
-				_waitingCog.IsVisible = false;
-				_presenter.Clear();
-				_presenter.IsVisible = true;
-				_scrollbar.IsVisible = true;
-			}
+			_presenter.Load(QueryData, _scrollbar, _waitingCog);
 		}
-
-		private async Task QueryData(string txt, int page)
+		
+		private async Task<SCCMListPresenter.LoadFuncResult> QueryData(SCCMListPresenter list, int page, int reqid)
 		{
+			var txt =_textbox.Text;
+
+			if (string.IsNullOrWhiteSpace(txt)) return SCCMListPresenter.LoadFuncResult.LastPage;
+
 			try
 			{
 				var r = await MainGame.Inst.Backend.QueryUserLevel(MainGame.Inst.Profile, QueryUserLevelCategory.Search, txt, page);
 
 				if (r == null)
 				{
-					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
-					{
-						_presenter.IsVisible = true;
-						_scrollbar.IsVisible = true;
-						_waitingCog.IsVisible = false;
-
-						if (_textbox.Text == txt)
-						{
-							_presenter.Clear();
-						}
-						else
-						{
-							SAMLog.Warning("SCCMTS::DirtyUpdate1", "Dirty presenter update ignored (response=null)");
-						}
-					});
-					return;
+					return SCCMListPresenter.LoadFuncResult.Error;
 				}
 				else
 				{
-					MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
+					if (r.Count == 0)
 					{
-						_presenter.IsVisible = true;
-						_scrollbar.IsVisible = true;
-						_waitingCog.IsVisible = false;
-
-						if (_textbox.Text == txt)
+						return SCCMListPresenter.LoadFuncResult.LastPage;
+					}
+					else
+					{
+						MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 						{
-							_presenter.Clear();
-							foreach (var levelmeta in r)
+							if (list.IsCurrentRequest(reqid))
 							{
-								_presenter.AddEntry(new SCCMListElementOnlinePlayable(levelmeta));
+								foreach (var levelmeta in r)
+								{
+									_presenter.AddEntry(new SCCMListElementOnlinePlayable(levelmeta));
+								}
 							}
-						}
-						else
-						{
-							SAMLog.Warning("SCCMTS::DirtyUpdate2", "Dirty presenter update ignored (response=ok)");
-						}
+							else
+							{
+								SAMLog.Warning("SCCMTS::DirtyUpdate2", "Dirty presenter update ignored (response=ok)");
+							}
 
-					});
+						});
+						
+						return SCCMListPresenter.LoadFuncResult.Success;
+					}
 				}
 			}
 			catch (Exception e)
@@ -186,19 +160,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 				MonoSAMGame.CurrentInst.DispatchBeginInvoke(() =>
 				{
-					_presenter.IsVisible = true;
-					_scrollbar.IsVisible = true;
-					_waitingCog.IsVisible = false;
-					
-					if (_textbox.Text == txt)
-					{
-						_presenter.Clear();
-					}
-					else
-					{
-						SAMLog.Warning("SCCMTS::DirtyUpdate3", "Dirty presenter update ignored (response=err)");
-					}
-
 					HUD.AddModal(new HUDFadeOutInfoBox(5, 2, 0.3f)
 					{
 						L10NText = L10NImpl.STR_CPP_COMERR,
@@ -209,6 +170,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 					}, true);
 				});
+						
+				return SCCMListPresenter.LoadFuncResult.Error;
 			}
 		}
 

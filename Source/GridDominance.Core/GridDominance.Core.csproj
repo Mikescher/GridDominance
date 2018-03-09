@@ -312,6 +312,7 @@
     <Compile Include="Screens\OverworldScreen\HUD\Operations\SCCMListDragAgent.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Dialogs\SCCMLevelPreviewDialog.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElement.cs" />
+    <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementLoading.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementNewUserLevel.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementEditable.cs" />
     <Compile Include="Screens\OverworldScreen\HUD\SCCM\Elements\SCCMListElementLocalPlayable.cs" />

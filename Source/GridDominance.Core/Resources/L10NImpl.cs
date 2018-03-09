@@ -319,6 +319,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_SCCM_VERSIONTOOOLD          = 258;
 		public const int STR_SCCM_NEEDS_ACC              = 259;
 		public const int STR_SCCM_UPLOADINFO             = 278;
+		public const int STR_SCCM_LOADING                = 279;
 
 		public const int STR_SCOREMAN_INFO_SCORE         = 260;
 		public const int STR_SCOREMAN_INFO_MPSCORE       = 261;
@@ -331,7 +332,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ACH_FIRSTCLEAR              = 274;
 		public const int STR_ACH_WORLDRECORD             = 275;
 
-		private const int TEXT_COUNT = 279; // = next idx
+		private const int TEXT_COUNT = 280; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -429,10 +430,10 @@ namespace GridDominance.Shared.Resources
 			// Usage:       HUDSCCMUploadScorePanel.cs:416
 			// Usage:       SCCMListElementNewUserLevel.cs:117
 			// Usage:       SCCMListElementNewUserLevel.cs:143
-			// Usage:       SCCMTabHot.cs:112
-			// Usage:       SCCMTabNew.cs:112
-			// Usage:       SCCMTabSearch.cs:201
-			// Usage:       SCCMTabTop.cs:112
+			// Usage:       SCCMTabHot.cs:104
+			// Usage:       SCCMTabNew.cs:104
+			// Usage:       SCCMTabSearch.cs:164
+			// Usage:       SCCMTabTop.cs:104
 			L10N.Add(STR_CPP_COMERR, "Could not communicate with server", "Kommunikation mit Server ist gestört", "La communication avec le serveur est perturbé", "Impossibile comunicare con il server", "No se puede comunicar con Server");
 
 			// Description: Generic error message (error toast) when a wrong password was supplied for an operation (eg change-password)
@@ -1568,6 +1569,10 @@ namespace GridDominance.Shared.Resources
 			// Description: Toast that is displayed when you click the [Upload] button in the leveleditor
 			// Usage:       GDGameScreen_SCCMUpload.cs:168
 			L10N.Add(STR_SCCM_UPLOADINFO, "Beat your own level to upload it.", "Gewinne dein eigenes Level um es hochzuladen", "?", "?", "?"); //TODO translate me
+
+			// Description: Text that is displayed while the next page in the levelbrowser is loaded (text is suffixed with three dots)
+			// Usage:       SCCMListElementLoading.cs:44
+			L10N.Add(STR_SCCM_LOADING, "LOADING", "LADEN", "?", "?", "?"); //TODO translate me
 
 
 			// [en-US] [de-DE] [fr-FR] [it-IT] [es-ES]

@@ -754,3 +754,12 @@
 (* Toast that is displayed when you click the [Upload] button in the leveleditor *)
 
 
+[en-US]  LOADING
+[de-DE]  LADEN
+[fr-FR]  ?
+[it-IT]  ?
+[es-ES]  ?
+
+(* Text that is displayed while the next page in the levelbrowser is loaded (text is suffixed with three dots) *)
+
+

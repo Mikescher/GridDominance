@@ -51,7 +51,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Operations
 		{
 			var delta = FloatMath.Round((_mouseStartPos - istate.HUDPointerPosition).Y / owner.EntryDistance);
 
-			owner.SetOffset(_startOffset + delta);
+			owner.SetOffset(_startOffset + delta, true);
 
 		}
 

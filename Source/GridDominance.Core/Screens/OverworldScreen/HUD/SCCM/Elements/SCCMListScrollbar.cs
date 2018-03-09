@@ -71,7 +71,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 		private void DoScroll(int delta)
 		{
-			Presenter?.Scroll(delta);
+			Presenter?.Scroll(delta, true);
 		}
 
 		protected override void DoDraw(IBatchRenderer sbatch, FRectangle bounds)
@@ -102,7 +102,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 
 				var offset = FloatMath.Round(Presenter.MaxOffset * scroll);
 
-				Presenter.SetOffset(offset);
+				Presenter.SetOffset(offset, true);
 			}
 		}
 	}

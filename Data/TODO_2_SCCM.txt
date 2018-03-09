@@ -88,7 +88,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] dragable level list
 
-[ ] Pagination
+[X] Pagination
 
 [X] remember author upload time
 
@@ -137,4 +137,4 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] ios bridge suffix iOS before version (and fix in online db)
 
-[ ] git quickpush alias
+[X] git quickpush alias
