@@ -20,7 +20,6 @@ using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.Common.HUD.Dialogs;
 using GridDominance.Shared.Screens.Common.Operations;
 using GridDominance.Shared.Screens.OverworldScreen.Operations;
-using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 
 namespace GridDominance.Shared.Screens.OverworldScreen
 {

@@ -7,7 +7,6 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Resources;
 using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath;

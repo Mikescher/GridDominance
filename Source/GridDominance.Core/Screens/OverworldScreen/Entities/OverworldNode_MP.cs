@@ -3,7 +3,6 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.Common.HUD.Multiplayer;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
-using GridDominance.Shared.Screens.OverworldScreen.HUD;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using MonoSAMFramework.Portable.Screens;

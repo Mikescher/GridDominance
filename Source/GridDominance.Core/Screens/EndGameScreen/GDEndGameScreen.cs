@@ -3,7 +3,6 @@ using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.EndGameScreen.Background;
 using GridDominance.Shared.Screens.EndGameScreen.HUD;
 using GridDominance.Shared.Screens.WorldMapScreen;
-using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;

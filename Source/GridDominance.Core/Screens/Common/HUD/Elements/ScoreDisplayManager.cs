@@ -1,5 +1,4 @@
-﻿using GridDominance.Shared.Screens.WorldMapScreen.HUD;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.HUD;
 

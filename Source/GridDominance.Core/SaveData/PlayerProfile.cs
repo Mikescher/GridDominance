@@ -8,7 +8,6 @@ using MonoSAMFramework.Portable.Persistance;
 using MonoSAMFramework.Portable.Persistance.DataFile;
 using MonoSAMFramework.Portable.Localization;
 using GridDominance.Graphfileformat.Blueprint;
-using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Network.Backend.QueryResult;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;

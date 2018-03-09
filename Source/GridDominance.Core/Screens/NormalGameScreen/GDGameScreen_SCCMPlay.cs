@@ -6,7 +6,6 @@ using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using Microsoft.Xna.Framework;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD.ScorePanel;

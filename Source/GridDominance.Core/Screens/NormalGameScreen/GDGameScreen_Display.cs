@@ -4,7 +4,6 @@ using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using Microsoft.Xna.Framework;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Screens.HUD;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Background;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;

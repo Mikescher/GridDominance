@@ -3,7 +3,6 @@ using System.IO;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.GlobalAgents;
-using GridDominance.Shared.Network;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;

@@ -1,5 +1,4 @@
 ﻿using System;
-using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Network.Backend.QueryResult;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using MonoSAMFramework.Portable.Extensions;

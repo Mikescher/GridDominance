@@ -1,7 +1,6 @@
 ﻿using System;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;

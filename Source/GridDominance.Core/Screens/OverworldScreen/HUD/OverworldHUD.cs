@@ -2,7 +2,6 @@
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD;
-using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.Screens.HUD;

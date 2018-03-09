@@ -1,5 +1,4 @@
 ﻿using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;

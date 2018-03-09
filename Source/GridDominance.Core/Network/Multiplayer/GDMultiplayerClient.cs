@@ -5,7 +5,6 @@ using GridDominance.Shared.Screens.NormalGameScreen;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Screens;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Levelfileformat.Blueprint;
