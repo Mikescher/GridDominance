@@ -6,6 +6,7 @@ using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.Dialogs;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;

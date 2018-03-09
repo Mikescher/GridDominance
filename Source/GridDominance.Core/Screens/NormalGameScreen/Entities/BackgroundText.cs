@@ -2,7 +2,6 @@
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;

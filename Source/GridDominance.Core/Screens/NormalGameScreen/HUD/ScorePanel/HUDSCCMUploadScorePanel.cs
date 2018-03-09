@@ -1,29 +1,29 @@
-﻿using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame;
-using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
-using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.RenderHelper;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Backend;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using GridDominance.Shared.SCCM;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.ScorePanel
 {
 	class HUDSCCMUploadScorePanel : HUDRoundedPanel
 	{

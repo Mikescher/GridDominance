@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using GridDominance.Graphfileformat.Blueprint;
-using GridDominance.Shared.Network.Backend;
+using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.DeviceBridge;
+using GridDominance.Shared.Network.Backend.QueryResult;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.Language;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.REST;
-using MonoSAMFramework.Portable.Localization;
-using System.Text;
-using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.SCCM;
-using MonoSAMFramework.Portable.Language;
 
-namespace GridDominance.Shared.Network
+namespace GridDominance.Shared.Network.Backend
 {
 	public class GDServerAPI : SAMRestAPI, IGDServerAPI
 	{

@@ -1,11 +1,11 @@
-﻿using GridDominance.Shared.Screens.NormalGameScreen.HUDOperations;
+﻿using GridDominance.Shared.Screens.NormalGameScreen.HUD.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements
 {
 	public class HUDIncrementIndicatorLabel : HUDLabel
 	{

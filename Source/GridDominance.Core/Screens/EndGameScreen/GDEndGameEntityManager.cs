@@ -3,7 +3,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen
+namespace GridDominance.Shared.Screens.EndGameScreen
 {
 	public class GDEndGameEntityManager : EntityManager
 	{

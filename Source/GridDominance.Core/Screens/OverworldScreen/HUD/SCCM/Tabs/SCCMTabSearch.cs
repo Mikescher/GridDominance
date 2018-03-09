@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Elements;
 using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
@@ -19,7 +20,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
+namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Tabs
 {
 	class SCCMTabSearch : HUDContainer
 	{

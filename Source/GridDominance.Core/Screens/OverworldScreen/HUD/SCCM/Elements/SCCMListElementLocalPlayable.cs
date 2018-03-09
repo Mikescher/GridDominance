@@ -1,7 +1,7 @@
 ﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.SCCM;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -14,7 +14,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
+namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Elements
 {
 	class SCCMListElementLocalPlayable : SCCMListElement
 	{

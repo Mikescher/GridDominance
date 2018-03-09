@@ -1,11 +1,11 @@
-﻿using GridDominance.Shared.Screens.NormalGameScreen.HUD;
+﻿using GridDominance.Shared.Screens.Common.HUD.Elements;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUDOperations
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.Operations
 {
 	public class HUDDifficultyButtonBlinkingIconOperation : SAMUpdateOp<HUDDifficultyButton>
 	{

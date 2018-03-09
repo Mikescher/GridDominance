@@ -3,18 +3,18 @@ using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD;
+using GridDominance.Shared.Screens.Common.HUD.Dialogs;
 using GridDominance.Shared.Screens.Common.HUD.Elements;
-using GridDominance.Shared.Screens.EndGameScreen;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
-using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.RenderHelper;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.EndGameScreen.HUD
 {
 	public class GDGameEndHUD : GameHUD, ISettingsOwnerHUD
 	{

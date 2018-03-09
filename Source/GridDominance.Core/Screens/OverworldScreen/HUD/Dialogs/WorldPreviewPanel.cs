@@ -19,7 +19,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD
+namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Dialogs
 {
 	class WorldPreviewPanel : HUDRoundedPanel
 	{

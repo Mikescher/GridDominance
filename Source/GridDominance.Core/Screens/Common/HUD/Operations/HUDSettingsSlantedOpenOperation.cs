@@ -1,10 +1,11 @@
-﻿using MonoSAMFramework.Portable.GameMath;
+﻿using GridDominance.Shared.Screens.Common.HUD.Elements;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Operations
 {
 	class HUDSettingsHorizontalOpenOperation : FixTimeOperation<SettingsButton>
 	{

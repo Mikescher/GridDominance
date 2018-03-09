@@ -1,4 +1,5 @@
 ﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Background

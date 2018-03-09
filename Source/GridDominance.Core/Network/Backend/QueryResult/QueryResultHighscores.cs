@@ -4,7 +4,7 @@ using System.Collections.Generic;
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeModifiers
-namespace GridDominance.Shared.Network.Backend
+namespace GridDominance.Shared.Network.Backend.QueryResult
 {
 #pragma warning disable 169
 #pragma warning disable 649

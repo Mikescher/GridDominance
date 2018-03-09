@@ -1,11 +1,11 @@
-﻿using MonoSAMFramework.Portable.ColorHelper;
+﻿using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens;
-using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents;
 
-namespace GridDominance.Shared.Screens.Common.Agents
+namespace GridDominance.Shared.Screens.Common.Operations
 {
 	class ExitAgent : SAMUpdateOp<GameScreen>
 	{

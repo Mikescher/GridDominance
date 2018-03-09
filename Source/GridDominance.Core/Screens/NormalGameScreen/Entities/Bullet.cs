@@ -3,7 +3,6 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen.EntityOperations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Input;
@@ -17,9 +16,11 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 using FarseerPhysics.Common;
 using System.Collections.Generic;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.EntityOperations;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Obstacles;
 using MonoSAMFramework.Portable;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
-using GridDominance.Shared.Screens.ScreenGame;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 {

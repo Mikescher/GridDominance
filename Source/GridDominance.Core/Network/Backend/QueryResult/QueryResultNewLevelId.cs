@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GridDominance.Shared.Network.Backend
+namespace GridDominance.Shared.Network.Backend.QueryResult
 {
 #pragma warning disable 169
 #pragma warning disable 649

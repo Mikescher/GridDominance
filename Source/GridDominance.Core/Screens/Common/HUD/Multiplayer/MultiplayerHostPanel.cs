@@ -5,7 +5,6 @@ using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
-using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -22,7 +21,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 {
     class MultiplayerHostPanel : HUDRoundedPanel
 	{

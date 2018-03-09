@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.Common.HUD.Dialogs;
 using GridDominance.Shared.SCCM;
-using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -19,7 +19,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
+namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Elements
 {
 	class SCCMListElementNewUserLevel : SCCMListElement
 	{

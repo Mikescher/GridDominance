@@ -1,37 +1,38 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.NormalGameScreen;
+using GridDominance.Shared.Network.Multiplayer;
+using GridDominance.Shared.Resources;
+using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.Common;
+using GridDominance.Shared.Screens.NormalGameScreen.Background;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Obstacles;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles;
+using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
+using GridDominance.Shared.Screens.NormalGameScreen.Operations;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.Screens.Entities;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
-using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen;
-using GridDominance.Shared.Screens.NormalGameScreen.Background;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
-using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using MonoSAMFramework.Portable;
-using MonoSAMFramework.Portable.BatchRenderer;
-using System.Collections.Generic;
-using GridDominance.Shared.SaveData;
-using GridDominance.Shared.Screens.NormalGameScreen.Agents;
-using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
-using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
-using GridDominance.Shared.Screens.NormalGameScreen.Physics;
-using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
-using FarseerPhysics.Factories;
-using GridDominance.Shared.Network.Multiplayer;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles;
-using MonoSAMFramework.Portable.LogProtocol;
-using MonoSAMFramework.Portable.GameMath;
 
-namespace GridDominance.Shared.Screens.ScreenGame
+namespace GridDominance.Shared.Screens.NormalGameScreen
 {
 	public abstract class GDGameScreen : GameScreen
 	{
@@ -97,7 +98,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 		public readonly LevelBlueprint Blueprint;
 		public readonly FractionDifficulty Difficulty;
-		public readonly LaserNetwork LaserNetwork;
+		public readonly LaserNetwork.LaserNetwork LaserNetwork;
 		public          GameWrapMode WrapMode;
 		public          Dictionary<byte, Cannon> CannonMap;
 		public readonly RemoteBulletHint[] BulletMapping = new RemoteBulletHint[MAX_BULLET_ID];
@@ -126,7 +127,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 
 			_superslow = slow;
 
-			LaserNetwork = new LaserNetwork(GetPhysicsWorld(), this, (GameWrapMode)bp.WrapMode);
+			LaserNetwork = new LaserNetwork.LaserNetwork(GetPhysicsWorld(), this, (GameWrapMode)bp.WrapMode);
 
 			Initialize();
 		}
@@ -537,7 +538,7 @@ namespace GridDominance.Shared.Screens.ScreenGame
 			return GDEntities.PhysicsWorld;
 		}
 
-		public LaserNetwork GetLaserNetwork()
+		public LaserNetwork.LaserNetwork GetLaserNetwork()
 		{
 			return LaserNetwork;
 		}

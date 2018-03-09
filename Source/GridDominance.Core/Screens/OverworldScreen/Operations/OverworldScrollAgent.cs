@@ -1,18 +1,18 @@
-﻿using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Input;
-using GridDominance.Shared.Screens.OverworldScreen.Entities;
+﻿using System;
+using System.Linq;
+using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using GridDominance.Graphfileformat.Blueprint;
-using System;
-using System.Linq;
-using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.Agents
+namespace GridDominance.Shared.Screens.OverworldScreen.Operations
 {
 	public class OverworldScrollAgent : SAMUpdateOp<GDOverworldScreen>
 	{

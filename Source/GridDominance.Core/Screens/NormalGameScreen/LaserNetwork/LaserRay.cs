@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.LogProtocol;

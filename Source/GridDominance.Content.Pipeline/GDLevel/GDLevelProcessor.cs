@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
 using System.Linq;
-using GridDominance.Content.Pipeline.PreCalculation;
 using GridDominance.Levelfileformat;
+using GridDominance.Shared.SCCM.PreCalculation;
 
 namespace GridDominance.Content.Pipeline.GDLevel
 {

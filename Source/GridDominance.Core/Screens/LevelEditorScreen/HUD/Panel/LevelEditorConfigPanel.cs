@@ -18,7 +18,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
+namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 {
 	class LevelEditorConfigPanel : HUDContainer
 	{

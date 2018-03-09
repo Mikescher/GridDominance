@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Network.Backend;
+using GridDominance.Shared.Network.Backend.QueryResult;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using Microsoft.Xna.Framework;
@@ -9,16 +10,16 @@ using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
-using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Table;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 {
 	class HighscorePanel : HUDRoundedPanel
 	{

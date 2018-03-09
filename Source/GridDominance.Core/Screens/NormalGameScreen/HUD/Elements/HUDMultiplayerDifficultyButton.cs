@@ -1,5 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen.HUDOperations;
+using GridDominance.Shared.Screens.NormalGameScreen.HUD.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
@@ -9,7 +9,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements
 {
 	public class HUDMultiplayerDifficultyButton : HUDEllipseButton
 	{

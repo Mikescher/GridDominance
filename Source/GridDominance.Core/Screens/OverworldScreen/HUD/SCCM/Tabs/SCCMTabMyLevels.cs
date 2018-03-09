@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Elements;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -19,7 +20,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
+namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Tabs
 {
 	class SCCMTabMyLevels : HUDContainer
 	{

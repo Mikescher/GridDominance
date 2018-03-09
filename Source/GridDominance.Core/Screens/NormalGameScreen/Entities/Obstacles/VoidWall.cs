@@ -5,7 +5,6 @@ using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
-using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
@@ -16,7 +15,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
+namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Obstacles
 {
 	public class VoidWall : GameEntity
 	{

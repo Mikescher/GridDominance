@@ -1,6 +1,4 @@
-﻿using GridDominance.Shared.NormalGameScreen;
-using GridDominance.Shared.Screens.ScreenGame;
-using MonoSAMFramework.Portable.Screens.Entities;
+﻿using MonoSAMFramework.Portable.Screens.Entities;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen
 {

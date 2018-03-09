@@ -1,7 +1,7 @@
 ﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.HUD.Elements;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -12,7 +12,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
+namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Dialogs
 {
 	class LevelEditorTestConfirmPanel : HUDContainer
 	{

@@ -1,27 +1,25 @@
-﻿using GridDominance.Levelfileformat.Blueprint;
+﻿using FarseerPhysics;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.ScreenGame;
-using MonoSAMFramework.Portable.BatchRenderer;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens;
-using GridDominance.Shared.Screens.NormalGameScreen.EntityOperations;
+using GridDominance.Shared.Screens.Common;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Sound;
-using FarseerPhysics;
-using FarseerPhysics.Factories;
-using FarseerPhysics.Dynamics;
-using GridDominance.Shared.Screens.NormalGameScreen.Physics;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
-using GridDominance.Shared.Screens.Common;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
+namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons
 {
 	public class LaserCannon : Cannon, ILaserCannon
 	{

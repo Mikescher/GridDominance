@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Network.Backend;
+using GridDominance.Shared.Network.Backend.QueryResult;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.LogProtocol;
 
-namespace GridDominance.Shared.Network
+namespace GridDominance.Shared.Network.Backend
 {
 	public interface IGDServerAPI
 	{

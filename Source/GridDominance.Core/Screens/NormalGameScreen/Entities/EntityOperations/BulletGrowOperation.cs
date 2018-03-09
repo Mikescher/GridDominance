@@ -1,9 +1,8 @@
-﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
-using MonoSAMFramework.Portable.Input;
+﻿using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
+namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.EntityOperations
 {
 	class BulletGrowOperation : FixTimeOperation<Bullet>
 	{

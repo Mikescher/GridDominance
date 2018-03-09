@@ -1,26 +1,25 @@
-﻿using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Screens.NormalGameScreen.EntityOperations;
+﻿using System;
+using System.Linq;
+using FarseerPhysics;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.Screens.Common;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using System;
-using System.Linq;
-using MonoSAMFramework.Portable;
-using MonoSAMFramework.Portable.Extensions;
-using FarseerPhysics.Factories;
-using FarseerPhysics;
-using GridDominance.Shared.Screens.NormalGameScreen.Physics;
-using FarseerPhysics.Dynamics;
-using GridDominance.Shared.Screens.Common;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
+namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons
 {
 	public class MinigunCannon : Cannon
 	{

@@ -7,7 +7,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer
+namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 {
 	class HUDRadioMusicButton : HUDButton
 	{

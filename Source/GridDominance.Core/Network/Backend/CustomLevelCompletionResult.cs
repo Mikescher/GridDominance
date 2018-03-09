@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.SCCM;
+﻿using GridDominance.Shared.Network.Backend.QueryResult;
+using GridDominance.Shared.SCCM;
 
 namespace GridDominance.Shared.Network.Backend
 {

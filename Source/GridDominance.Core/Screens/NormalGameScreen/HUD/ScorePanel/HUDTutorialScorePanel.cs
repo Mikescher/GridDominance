@@ -1,20 +1,20 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.RenderHelper;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.ScorePanel
 {
 	class HUDTutorialScorePanel : HUDRoundedPanel
 	{

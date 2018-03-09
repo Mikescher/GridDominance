@@ -5,14 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements
 {
 	class HUDPauseMenuButton : HUDButton
 	{

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.OverworldScreen;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -10,7 +9,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
+namespace GridDominance.Shared.Screens.OverworldScreen.Operations
 {
 	public class ReappearTransitionOperation : FixTimeOperation<GDOverworldScreen>
 	{

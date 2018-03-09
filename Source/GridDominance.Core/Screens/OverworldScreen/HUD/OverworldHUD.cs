@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.RenderHelper;
 using GridDominance.Shared.Network.Backend;
+using GridDominance.Shared.Screens.Common.HUD.Dialogs;
 using GridDominance.Shared.Screens.Common.HUD.Elements;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD

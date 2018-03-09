@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using FarseerPhysics;
+using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Obstacles;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
-using FarseerPhysics.Common;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
-namespace GridDominance.Content.Pipeline.PreCalculation
+namespace GridDominance.Shared.SCCM.PreCalculation
 {
 	internal class LevelKISimulator
 	{

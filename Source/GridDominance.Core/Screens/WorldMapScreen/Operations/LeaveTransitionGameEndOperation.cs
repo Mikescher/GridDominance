@@ -6,7 +6,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
+namespace GridDominance.Shared.Screens.WorldMapScreen.Operations
 {
 	public class LeaveTransitionGameEndOperation : FixTimeOperation<GDWorldMapScreen>
 	{

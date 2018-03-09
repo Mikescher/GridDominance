@@ -3,7 +3,6 @@ using System;
 using GridDominance.Levelfileformat.Blueprint;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath;

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using GridDominance.Content.Pipeline.PreCalculation;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.LevelEditorScreen;
 using GridDominance.Shared.Screens.LevelEditorScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen;
+using GridDominance.Shared.SCCM.PreCalculation;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DeviceBridge;

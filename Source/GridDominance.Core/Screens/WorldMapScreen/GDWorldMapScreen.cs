@@ -2,10 +2,11 @@
 using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.WorldMapScreen.Agents;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using GridDominance.Shared.Screens.WorldMapScreen.Entities;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
+using GridDominance.Shared.Screens.WorldMapScreen.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;

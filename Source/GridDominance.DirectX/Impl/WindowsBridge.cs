@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using GridDominance.Generic.Impl;
+using GridDominance.Shared.DeviceBridge;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.GameMath.Geometry;

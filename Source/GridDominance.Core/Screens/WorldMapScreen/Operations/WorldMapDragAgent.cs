@@ -8,7 +8,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.Agents
+namespace GridDominance.Shared.Screens.WorldMapScreen.Operations
 {
 	class WorldMapDragAgent : SAMUpdateOp<GDWorldMapScreen>
 	{

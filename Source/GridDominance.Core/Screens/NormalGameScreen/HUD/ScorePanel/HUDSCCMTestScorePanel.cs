@@ -1,20 +1,20 @@
 ﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.Common.HUD.Elements;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.RenderHelper;
-using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.SCCM;
-using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.Localization;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.ScorePanel
 {
 	class HUDSCCMTestScorePanel : HUDRoundedPanel
 	{

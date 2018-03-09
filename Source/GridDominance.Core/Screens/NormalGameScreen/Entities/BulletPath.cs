@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using Microsoft.Xna.Framework;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Entities

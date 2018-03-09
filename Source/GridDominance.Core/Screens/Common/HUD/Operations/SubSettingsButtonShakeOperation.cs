@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Screens.WorldMapScreen.HUD;
+﻿using GridDominance.Shared.Screens.Common.HUD.Elements;
+using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;

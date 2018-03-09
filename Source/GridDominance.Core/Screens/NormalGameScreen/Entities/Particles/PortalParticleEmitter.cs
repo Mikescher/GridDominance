@@ -2,6 +2,7 @@
 using System;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Obstacles;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Extensions;

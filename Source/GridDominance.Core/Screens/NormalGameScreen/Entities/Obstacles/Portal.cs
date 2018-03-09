@@ -1,10 +1,13 @@
-﻿using FarseerPhysics;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Particles;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -15,12 +18,8 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
-using System.Collections.Generic;
-using System.Linq;
-using GridDominance.Shared.Screens.Common;
-using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
+namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Obstacles
 {
 	public class Portal : GameEntity
 	{

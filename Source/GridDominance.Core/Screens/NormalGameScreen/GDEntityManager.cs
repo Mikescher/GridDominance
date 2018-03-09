@@ -1,16 +1,15 @@
 ﻿using FarseerPhysics;
 using FarseerPhysics.Dynamics;
-using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens.Entities;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.Common;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Screens.Entities;
 
-namespace GridDominance.Shared.NormalGameScreen
+namespace GridDominance.Shared.Screens.NormalGameScreen
 {
 	public class GDEntityManager : EntityManager
 	{

@@ -1,5 +1,5 @@
 ﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using MonoSAMFramework.Portable.Input;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController

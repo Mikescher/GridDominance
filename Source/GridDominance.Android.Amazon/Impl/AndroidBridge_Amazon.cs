@@ -6,6 +6,7 @@ using Android.Content;
 using Android.Content.Res;
 using Android.OS;
 using GridDominance.Generic.Impl;
+using GridDominance.Shared.DeviceBridge;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;

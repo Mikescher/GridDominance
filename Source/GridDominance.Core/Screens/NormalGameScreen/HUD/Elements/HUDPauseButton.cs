@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.RenderHelper;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements
 {
 	public class HUDPauseButton : HUDEllipseButton
 	{

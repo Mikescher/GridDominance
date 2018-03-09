@@ -1,13 +1,13 @@
 ﻿using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.HUD.Dialogs;
 using GridDominance.Shared.Screens.OverworldScreen;
-using MonoSAMFramework.Portable.Input;
-using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
+namespace GridDominance.Shared.Screens.Common.HUD.Operations
 {
 	class UnlockSucessOperation : FixTimeOperation<UnlockPanel>
 	{

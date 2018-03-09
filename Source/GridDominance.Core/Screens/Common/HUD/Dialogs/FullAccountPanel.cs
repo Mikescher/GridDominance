@@ -1,4 +1,5 @@
-﻿using GridDominance.Shared.Resources;
+﻿using System.Threading.Tasks;
+using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;
@@ -12,9 +13,8 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using System.Threading.Tasks;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 {
 	class FullAccountPanel : HUDRoundedPanel
 	{

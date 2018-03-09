@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 
-namespace GridDominance.Shared.Screens
+namespace GridDominance.Shared.Resources
 {
 	public static class ParticlePresets
 	{

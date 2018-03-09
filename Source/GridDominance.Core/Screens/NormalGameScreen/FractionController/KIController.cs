@@ -4,14 +4,15 @@ using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
-using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.Entities;
 

@@ -1,13 +1,13 @@
-﻿using GridDominance.Shared.Screens.OverworldScreen.HUD;
+﻿using GridDominance.Shared.Screens.Common.HUD.Multiplayer;
 using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
+namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Operations
 {
 	class JoinErrorOperation : FixTimeOperation<MultiplayerJoinLobbyScreen>
 	{

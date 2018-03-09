@@ -10,7 +10,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 {
 	class InfoPanel : HUDRoundedPanel
 	{

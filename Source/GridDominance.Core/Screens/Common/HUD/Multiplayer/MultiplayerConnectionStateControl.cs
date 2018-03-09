@@ -13,7 +13,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer
+namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 {
 	class MultiplayerConnectionStateControl : HUDLayoutContainer
 	{

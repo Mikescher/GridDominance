@@ -1,6 +1,5 @@
 ﻿using System;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.Common;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DeviceBridge;
@@ -16,7 +15,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 {
     class MultiplayerMainPanel : HUDRoundedPanel
 	{

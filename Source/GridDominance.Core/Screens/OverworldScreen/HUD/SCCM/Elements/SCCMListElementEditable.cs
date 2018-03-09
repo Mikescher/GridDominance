@@ -9,7 +9,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
+namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Elements
 {
 	class SCCMListElementEditable : SCCMListElement
 	{

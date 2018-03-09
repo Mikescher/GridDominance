@@ -2,8 +2,8 @@
 using System.Linq;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.Common.HUD.Multiplayer;
+using GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.DebugTools;

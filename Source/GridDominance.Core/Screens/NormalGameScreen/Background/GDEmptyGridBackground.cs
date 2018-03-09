@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -8,7 +9,6 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.Background;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens;
-using GridDominance.Shared.Screens.ScreenGame;
 using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Background

@@ -2,9 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common;
 using GridDominance.Shared.Screens.LevelEditorScreen.Entities;
 using GridDominance.Shared.Screens.LevelEditorScreen.HUD;
+using GridDominance.Shared.Screens.LevelEditorScreen.HUD.Dialogs;
 using GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements;
+using GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel;
 using GridDominance.Shared.Screens.LevelEditorScreen.Operations;
 using GridDominance.Shared.SCCM;
 using Microsoft.Xna.Framework;

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.OverworldScreen.Operations;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
-using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;

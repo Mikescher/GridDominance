@@ -1,10 +1,10 @@
-﻿using GridDominance.Shared.Screens.NormalGameScreen.HUD;
-using MonoSAMFramework.Portable.Input;
+﻿using GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUDOperations
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.Operations
 {
 	class HUDIncrementIndicatorLabelWiggleOperation : SAMUpdateOp<HUDIncrementIndicatorLabel>
 	{

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.Common.Agents;
 using GridDominance.Shared.Screens.OverworldScreen.Background;
 using GridDominance.Shared.Screens.OverworldScreen.Entities;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
@@ -16,8 +15,11 @@ using MonoSAMFramework.Portable.Screens.Entities;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.ViewportAdapters;
-using GridDominance.Shared.Screens.OverworldScreen.Agents;
 using GridDominance.Shared.SaveData;
+using GridDominance.Shared.Screens.Common;
+using GridDominance.Shared.Screens.Common.HUD.Dialogs;
+using GridDominance.Shared.Screens.Common.Operations;
+using GridDominance.Shared.Screens.OverworldScreen.Operations;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
 
 namespace GridDominance.Shared.Screens.OverworldScreen

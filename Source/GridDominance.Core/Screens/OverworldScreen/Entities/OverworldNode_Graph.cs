@@ -15,10 +15,10 @@ using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Screens.Entities.MouseArea;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
-using GridDominance.Shared.Screens.WorldMapScreen.Agents;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
+using GridDominance.Shared.Screens.OverworldScreen.Operations;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 // ReSharper disable HeuristicUnreachableCode

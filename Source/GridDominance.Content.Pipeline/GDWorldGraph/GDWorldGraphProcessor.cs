@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
 using System.Linq;
-using GridDominance.Content.Pipeline.PreCalculation;
 using GridDominance.Graphfileformat;
 using GridDominance.Graphfileformat.Blueprint;
+using GridDominance.Shared.SCCM.PreCalculation;
 
 namespace GridDominance.Content.Pipeline.GDWorldGraph
 {

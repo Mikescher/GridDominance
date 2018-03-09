@@ -3,6 +3,7 @@ using GridDominance.Levelfileformat.Blueprint;
 using System;
 using System.Linq;
 using GridDominance.Shared.Screens.OverworldScreen.HUD;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.Dialogs;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Entities

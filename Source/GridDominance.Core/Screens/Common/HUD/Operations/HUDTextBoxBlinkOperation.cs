@@ -6,7 +6,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Input;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
+namespace GridDominance.Shared.Screens.Common.HUD.Operations
 {
 	class HUDTextBoxBlinkOperation : FixTimeOperation<HUDTextBox>
 	{

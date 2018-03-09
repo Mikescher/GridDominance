@@ -4,15 +4,15 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.RenderHelper;
-using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 {
 	class AcknowledgementsPanel : HUDRoundedPanel
 	{

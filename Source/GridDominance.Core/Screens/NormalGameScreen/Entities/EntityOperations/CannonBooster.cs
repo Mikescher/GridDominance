@@ -1,9 +1,9 @@
-﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.EntityOperations
+namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.EntityOperations
 {
 	class CannonBooster : FixTimeOperation<Cannon>
 	{

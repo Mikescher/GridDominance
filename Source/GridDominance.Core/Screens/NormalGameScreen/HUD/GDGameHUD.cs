@@ -1,5 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;

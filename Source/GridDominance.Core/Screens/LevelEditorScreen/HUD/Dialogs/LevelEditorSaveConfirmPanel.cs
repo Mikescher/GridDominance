@@ -11,7 +11,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
+namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Dialogs
 {
 	class LevelEditorSaveConfirmPanel : HUDContainer
 	{

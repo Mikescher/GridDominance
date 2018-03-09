@@ -4,26 +4,26 @@ using System.Linq;
 using System.Text;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.HUD.Dialogs;
+using GridDominance.Shared.Screens.Common.HUD.Elements;
 using GridDominance.Shared.Screens.NormalGameScreen;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.OverworldScreen;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using GridDominance.Shared.Screens.WorldMapScreen;
 using GridDominance.Shared.Screens.WorldMapScreen.HUD;
-using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.Entities.Particles;
-using GridDominance.Shared.Screens.OverworldScreen;
 using MonoSAMFramework.Portable;
+using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.Network.Multiplayer;
-using GridDominance.Shared.Screens.Common.HUD.Elements;
-using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
-using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Network.Multiplayer;
+using MonoSAMFramework.Portable.Screens;
+using MonoSAMFramework.Portable.Screens.Entities.Particles;
 
-namespace GridDominance.Shared.Screens
+namespace GridDominance.Shared.Screens.Common
 {
 	public static class DebugUtils
 	{

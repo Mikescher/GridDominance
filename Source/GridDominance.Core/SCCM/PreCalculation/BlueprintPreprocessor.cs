@@ -1,7 +1,7 @@
 ﻿using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 
-namespace GridDominance.Content.Pipeline.PreCalculation
+namespace GridDominance.Shared.SCCM.PreCalculation
 {
 	public static class BlueprintPreprocessor
 	{

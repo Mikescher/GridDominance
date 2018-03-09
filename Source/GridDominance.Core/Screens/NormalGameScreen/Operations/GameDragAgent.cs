@@ -1,5 +1,4 @@
-﻿using GridDominance.Shared.Screens.ScreenGame;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
@@ -8,7 +7,7 @@ using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.Agents
+namespace GridDominance.Shared.Screens.NormalGameScreen.Operations
 {
 	class GameDragAgent : SAMUpdateOp<GDGameScreen>
 	{

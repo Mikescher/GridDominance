@@ -1,28 +1,28 @@
-﻿using GridDominance.Levelfileformat.Blueprint;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
-using GridDominance.Shared.Screens.ScreenGame;
+using GridDominance.Shared.Screens.Common.HUD.Multiplayer;
+using GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements;
+using GridDominance.Shared.Screens.WorldMapScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.Network.Multiplayer;
+using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.RenderHelper;
-using GridDominance.Shared.Network.Multiplayer;
-using MonoSAMFramework.Portable.Network.Multiplayer;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens;
-using GridDominance.Shared.Screens.OverworldScreen.HUD;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using GridDominance.Shared.Screens.WorldMapScreen;
-using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.Localization;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.HUD
+namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.ScorePanel
 {
 	class HUDMultiplayerScorePanel : HUDRoundedPanel
 	{

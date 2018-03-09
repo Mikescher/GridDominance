@@ -1,7 +1,8 @@
 ﻿using GridDominance.Shared.Resources;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 
-namespace MonoSAMFramework.Portable.DeviceBridge
+namespace GridDominance.Shared.DeviceBridge
 {
 	public interface IGDOperatingSystemBridge : ISAMOperatingSystemBridge
 	{

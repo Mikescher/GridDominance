@@ -5,6 +5,7 @@ using System.Threading;
 using Foundation;
 using GridDominance.Generic.Impl;
 using GridDominance.iOS.Impl;
+using GridDominance.Shared.DeviceBridge;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;

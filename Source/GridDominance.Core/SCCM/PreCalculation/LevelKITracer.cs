@@ -5,17 +5,17 @@ using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Obstacles;
+using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
+using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
-using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
-using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
 
-namespace GridDominance.Content.Pipeline.PreCalculation
+namespace GridDominance.Shared.SCCM.PreCalculation
 {
 	internal class LevelKITracer
 	{

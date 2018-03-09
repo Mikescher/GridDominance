@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements;
+using GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;

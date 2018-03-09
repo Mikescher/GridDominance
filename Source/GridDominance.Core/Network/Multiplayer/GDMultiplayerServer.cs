@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.Screens;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using System.IO;
 using System.Linq;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 
 namespace GridDominance.Shared.Network.Multiplayer
 {

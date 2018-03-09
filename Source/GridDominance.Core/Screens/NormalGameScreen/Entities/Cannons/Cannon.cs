@@ -6,25 +6,24 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen.EntityOperations;
-using Microsoft.Xna.Framework;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
-using MonoSAMFramework.Portable.DebugTools;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.GameMath;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
-using GridDominance.Shared.Screens.ScreenGame;
+using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.Entities;
 
-namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
+namespace GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons
 {
 	public class CannonLaserBoost { public LaserCannon Source; public float RemainingTime; }
 	

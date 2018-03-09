@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.Input;
+﻿using GridDominance.Shared.Screens.Common.HUD.Dialogs;
+using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using GridDominance.Shared.Screens.WorldMapScreen.HUD;
-using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.Common.HUD.HUDOperations
+namespace GridDominance.Shared.Screens.Common.HUD.Operations
 {
 	class UnlockErrorOperation : FixTimeOperation<UnlockPanel>
 	{

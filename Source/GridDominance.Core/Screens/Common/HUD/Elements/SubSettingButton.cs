@@ -1,6 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
-using GridDominance.Shared.Screens.Common.HUD;
 using GridDominance.Shared.Screens.Common.HUD.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
@@ -15,7 +14,7 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Elements
 {
 	public enum SSBOrientation { H, V }
 

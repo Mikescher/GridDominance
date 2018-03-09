@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using GridDominance.Shared.Resources;
+using GridDominance.Shared.Screens.Common.HUD.Operations;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath;
@@ -10,7 +11,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Elements
 {
 	public class SettingsButton : HUDEllipseButton
 	{

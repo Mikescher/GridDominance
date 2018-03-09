@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
-using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Cryptography;
@@ -18,7 +17,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 {
 	class MultiplayerJoinLobbyScreen : HUDRoundedPanel
 	{

@@ -3,14 +3,16 @@ using System.Threading.Tasks;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
-using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
+using GridDominance.Shared.Screens.Common.HUD.Operations;
 using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -18,10 +20,8 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.RenderHelper;
 
-namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 {
 	class AnonymousAccountPanel : HUDRoundedPanel
 	{

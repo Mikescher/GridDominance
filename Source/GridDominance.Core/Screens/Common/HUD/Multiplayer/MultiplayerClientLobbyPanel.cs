@@ -5,11 +5,12 @@ using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
+using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using MonoSAMFramework.Portable.RenderHelper;
@@ -18,9 +19,8 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.Localization;
 
-namespace GridDominance.Shared.Screens.OverworldScreen.HUD
+namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 {
     class MultiplayerClientLobbyPanel : HUDRoundedPanel
 	{

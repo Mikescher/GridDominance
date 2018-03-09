@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using GridDominance.Content.Pipeline.PreCalculation;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Levelfileformat;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Graphfileformat;
 using System.Collections.Generic;
+using GridDominance.Shared.SCCM.PreCalculation;
 
 namespace GridDominance.DSLEditor.Helper
 {

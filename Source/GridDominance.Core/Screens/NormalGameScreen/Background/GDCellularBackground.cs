@@ -12,8 +12,8 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Extensions;
-using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Levelfileformat.Blueprint;
+using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 {

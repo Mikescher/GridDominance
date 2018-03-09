@@ -1,5 +1,6 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.LevelEditorScreen.Entities;
+using GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -13,7 +14,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
-namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Elements
+namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 {
 	public class LevelEditorAttrPanel : HUDContainer
 	{
