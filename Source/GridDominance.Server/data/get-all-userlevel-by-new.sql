@@ -7,7 +7,7 @@ SELECT
   ul.d2_completed, ul.d2_played, ul.d2_bestuserid, u2.username AS d2_bestusername, ul.d2_besttime, ul.d2_besttimestamp,
   ul.d3_completed, ul.d3_played, ul.d3_bestuserid, u3.username AS d3_bestusername, ul.d3_besttime, ul.d3_besttimestamp,
   
-  (ul.stars / POW(TIMESTAMPDIFF(HOUR, ul.upload_timestamp, NOW()),1.8)) AS hot_ranking
+  (ul.stars / POW(TIMESTAMPDIFF(HOUR, ul.upload_timestamp, NOW()),:__HOT_FACTOR__)) AS hot_ranking
 
 FROM userlevels AS ul
 

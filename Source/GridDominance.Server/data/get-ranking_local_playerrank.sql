@@ -7,12 +7,12 @@ FROM
         SELECT
           users.userid AS userid,
           users.username AS username,
-          users.score_#$$FIELD$$  AS totalscore,
-          users.time_#$$FIELD$$ AS totaltime
+          :__FIELD_SCORE__  AS totalscore,
+          :__FIELD_TIME__ AS totaltime
 
         FROM users
 
-        WHERE users.score_#$$FIELD$$ > 0
+        WHERE :__FIELD_SCORE__ > 0
 
         ORDER BY
           totalscore DESC,

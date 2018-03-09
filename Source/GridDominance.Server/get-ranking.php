@@ -2,6 +2,9 @@
 
 require 'internals/backend.php';
 
+/**
+ * @throws Exception
+ */
 function run() {
 	global $pdo;
 
@@ -68,13 +71,21 @@ function run() {
 
 	} else { // world
 
-		$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top', '#$$FIELD$$', worldGuidToSQLField($worldid)));
+		$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_top',
+		[
+			['FIELD_SCORE', 'users.score_' . worldGuidToSQLField($worldid)],
+			['FIELD_TIME', 'users.time_' . worldGuidToSQLField($worldid)],
+		]));
 		$stmt->bindValue(':qlimit', 100);
 		$stmt->bindValue(':qpage', 0);
 		executeOrFail($stmt);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_playerrank', '#$$FIELD$$', worldGuidToSQLField($worldid)));
+		$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_playerrank',
+		[
+			['FIELD_SCORE', 'users.score_' . worldGuidToSQLField($worldid)],
+			['FIELD_TIME', 'users.time_' . worldGuidToSQLField($worldid)],
+		]));
 		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 		executeOrFail($stmt);
 		$rank = $stmt->fetchAll(PDO::FETCH_ASSOC);

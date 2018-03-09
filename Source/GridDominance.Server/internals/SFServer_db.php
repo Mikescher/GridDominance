@@ -38,20 +38,15 @@ function connectOrFail($host, $dbname, $user, $password) {
 }
 
 function loadSQL($scriptname) {
-	if (file_exists('data/' . $scriptname . '.sql'))
-		$sql = file_get_contents('data/' . $scriptname . '.sql');
-	else if (file_exists('../data/' . $scriptname . '.sql'))
-		$sql = file_get_contents('../data/' . $scriptname . '.sql');
-	else
-		throw new Exception("FILE NOT FOUND: $scriptname");
+	$sql = file_get_contents(__DIR__ . '/../data/' . $scriptname . '.sql'); //TODO evtl memcached ??
 
 	$sql = str_replace("\r", "", $sql);
 	$sql = str_replace("\n", " ", $sql);
 	return $sql;
 }
 
-function loadReplSQL($scriptname, $placeholder, $replace) {
+function loadReplSQL($scriptname, $replArray) {
 	$sql = loadSQL($scriptname);
-	$sql = str_replace($placeholder, $replace, $sql);
+	foreach ($replArray as $rep) $sql = str_replace(':__'.$rep[0].'__', $rep[1], $sql);
 	return $sql;
 }

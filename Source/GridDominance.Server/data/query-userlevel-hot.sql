@@ -6,8 +6,8 @@ SELECT
   ul.d1_completed, ul.d1_played, ul.d1_bestuserid, u1.username AS d1_bestusername, ul.d1_besttime, ul.d1_besttimestamp,
   ul.d2_completed, ul.d2_played, ul.d2_bestuserid, u2.username AS d2_bestusername, ul.d2_besttime, ul.d2_besttimestamp,
   ul.d3_completed, ul.d3_played, ul.d3_bestuserid, u3.username AS d3_bestusername, ul.d3_besttime, ul.d3_besttimestamp,
-  
-  (ul.stars / POW(TIMESTAMPDIFF(HOUR, ul.upload_timestamp, NOW()),:__HOT_FACTOR__)) AS hot_ranking
+
+  (ul.stars / POW(TIMESTAMPDIFF(HOUR, ul.upload_timestamp, NOW()), :__HOT_FACTOR__)) AS hot_ranking
 
 FROM userlevels AS ul
 
@@ -19,10 +19,12 @@ LEFT JOIN users AS u2 ON u2.userid=ul.d2_bestuserid
 LEFT JOIN users AS u3 ON u3.userid=ul.d3_bestuserid
 
 WHERE
-	ul.upload_timestamp IS NOT NULL
+ul.upload_timestamp IS NOT NULL AND
+ul.upload_decversion <= :dvs
 
 ORDER BY
-  ul.upload_timestamp DESC
+hot_ranking DESC
+
 
 LIMIT  :lim
 OFFSET :off

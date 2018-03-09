@@ -235,7 +235,11 @@ function getUserEntries($uid) {
 }
 
 function getWorldHighscores($worldid, $limit=100, $page=0) {
-	return sql_query_assoc_prep('getWorldHighscores', loadReplSQL('get-ranking_local_top', '#$$FIELD$$', worldGuidToSQLField($worldid)),
+	return sql_query_assoc_prep('getWorldHighscores', loadReplSQL('get-ranking_local_top',
+	[
+		['FIELD_SCORE', 'users.score_' . worldGuidToSQLField($worldid)],
+		['FIELD_TIME', 'users.time_' . worldGuidToSQLField($worldid)],
+	]),
 	[
 		[':qlimit', $limit,         PDO::PARAM_INT],
 		[':qpage',  $limit * $page, PDO::PARAM_INT],
@@ -289,7 +293,7 @@ function worldGuidToSQLField($worldid)
 	if ($worldid == $config['worldid_3'] ) return "w3";
 	if ($worldid == $config['worldid_4'] ) return "w4";
 
-	throw new Exception("Unknown WorldID: " . $worldid);
+	return "WnF";
 }
 
 function getScoreDistribution($partitionsize) {
@@ -441,7 +445,11 @@ function getGlobalPlayerRank($uid) {
 }
 
 function getLocalPlayerRank($uid, $world) {
-	return sql_query_assoc_prep('getLocalPlayerRank', loadReplSQL('get-ranking_local_playerrank', '#$$FIELD$$', worldGuidToSQLField($world)),
+	return sql_query_assoc_prep('getLocalPlayerRank', loadReplSQL('get-ranking_local_playerrank',
+	[
+		['FIELD_SCORE', 'users.score_' . worldGuidToSQLField($world)],
+		['FIELD_TIME', 'users.time_' . worldGuidToSQLField($world)],
+	]),
 	[
 		[':uid', $uid, PDO::PARAM_INT],
 	]);
@@ -659,7 +667,8 @@ function GetSCCMLevelMetadataRecalculated($levelid)
 
 function GetSCCMLevelByNew($max, $page, $all)
 {
-	return sql_query_assoc_prep('GetSCCMLevelByNew', loadSQL($all ? "get-all-userlevel-by-new" : "get-userlevel-by-new"),
+	global $config;
+	return sql_query_assoc_prep('GetSCCMLevelByNew', loadReplSQL($all ? "get-all-userlevel-by-new" : "get-userlevel-by-new", [['HOT_FACTOR', $config['hot_factor']]]),
 	[
 		[':lim', $max,       PDO::PARAM_INT],
 		[':off', $page*$max, PDO::PARAM_INT],
@@ -668,7 +677,7 @@ function GetSCCMLevelByNew($max, $page, $all)
 
 function GetSCCMLevelByUser($uid)
 {
-	return sql_query_assoc_prep('GetSCCMLevelByNew', 'SELECT * FROM userlevels WHERE userid=:uid',
+	return sql_query_assoc_prep('GetSCCMLevelByUser', 'SELECT * FROM userlevels WHERE userid=:uid',
 		[
 			[':uid', $uid,       PDO::PARAM_INT],
 		]);

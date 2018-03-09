@@ -26,9 +26,9 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] Update translations (fr, es, it)
 
-[ ] ADD IAB code in android
+[X] ADD IAB code in android
 
-[ ] Update google-android (x2)
+[X] Update google-android (x2)
 [ ] Update amazon-android
 [ ] Update WinPhone
 [ ] Update iOS
@@ -131,7 +131,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] back button does not close topmmost modal (sccm preview pnl)
 
-[ ] gdapi err in lvl-93
+[X] gdapi err in lvl-93
 
 [ ] ios bridge suffix iOS before version (and fix in online db)
 
