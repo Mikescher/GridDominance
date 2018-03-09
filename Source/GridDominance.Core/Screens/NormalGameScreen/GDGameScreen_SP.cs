@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD;
@@ -153,6 +154,13 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 					localdata.GlobalCompletionCount++;
 					if (ctime < localdata.GlobalBestTime || localdata.GlobalBestTime == -1)
 					{
+						if (localdata.GlobalBestTime != -1)
+						{
+							// WURLD RECARD !!
+							// Dispatch is trick to put in infront of score panel ...
+							MainGame.Inst.DispatchBeginInvoke(() => {AchievementPopup.Show(L10N.T(L10NImpl.STR_ACH_WORLDRECORD));});
+						}
+
 						localdata.GlobalBestTime = ctime;
 						localdata.GlobalBestUserID = GDOwner.Profile.OnlineUserID;
 					}

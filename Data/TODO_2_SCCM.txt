@@ -72,7 +72,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] Add $GET hint when data in $POST
 
-[ ] fix initial overworld node focus (better logic)
+[X] fix initial overworld node focus (better logic)
 
 [X] redirect gdapi on ms
 
