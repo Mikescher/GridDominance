@@ -54,6 +54,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM
 				BackgroundFocused = HUDBackgroundDefinition.CreateSimpleOutline(FlatColors.Clouds, Color.Black, HUD.PixelWidth),
 
 				EnterKey = (s, e) => StartSearch(),
+
+				CloseKeyboard = (s, e) => StartSearch(),
 			});
 			
 			AddElement(new HUDImageButton
