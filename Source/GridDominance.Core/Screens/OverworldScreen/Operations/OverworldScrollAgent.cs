@@ -6,6 +6,10 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using GridDominance.Graphfileformat.Blueprint;
 using System;
+using System.Linq;
+using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
+using MonoSAMFramework.Portable.Language;
+using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.UpdateAgents;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.Agents
@@ -53,18 +57,19 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			switch (MainGame.Flavor)
 			{
 				case GDFlavor.FREE:
-				case GDFlavor.IAB:
-					for (int i = 0; i < nodes.Length; i++)
-					{
-						if (!nodes[i].IsNodeEnabled) break;
-						focus = i;
-					}
+					focus = GetFocus_Free(nodes);
 					break;
-
-				default:
+				case GDFlavor.IAB:
+					focus = GetFocus_IAB(nodes);
+					break;
 				case GDFlavor.FULL:
+					focus = GetFocus_Full(nodes);
+					break;
 				case GDFlavor.FULL_NOMP:
-					focus = 1;
+					focus = GetFocus_FullNoMP(nodes);
+					break;
+				default:
+					SAMLog.Error("OSA::EnumSwitch_CTR", "MainGame.Flavor = " + MainGame.Flavor);
 					break;
 			}
 
@@ -76,6 +81,86 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Agents
 			}
 
 			CleanUpPositions(true);
+		}
+
+		private static int GetFocus_Free(OverworldNode[] nodes)
+		{
+			// Node where next is locked
+			for (int i = 0; i < nodes.Length; i++)
+			{
+				if (nodes[i] is OverworldNode_Graph n && !n.IsNodeEnabled) return (i==0) ? (0) : (i-1);
+			}
+			
+			// First non-100% node
+			foreach (FractionDifficulty diff in Enum.GetValues(typeof(FractionDifficulty)))
+			{
+				for (int i = 0; i < nodes.Length; i++)
+				{
+					if (nodes[i] is OverworldNode_Graph n && n.GetPerc(diff) < 1) return i;
+				}
+			}
+
+			return nodes.Length-1;
+		}
+
+		private static int GetFocus_IAB(OverworldNode[] nodes)
+		{
+			// Node where next is locked
+			for (int i = 0; i < nodes.Length; i++)
+			{
+				if (nodes[i] is OverworldNode_Graph n && !n.IsNodeEnabled) return (i==0) ? (0) : (i-1);
+			}
+			
+			// unlocked SCCM
+			if (nodes.Any(n => n is OverworldNode_SCCM sccmnode && sccmnode.IsFullyUnlocked)) return nodes.FindIndex(n => n is OverworldNode_SCCM);
+			
+			// unlocked MP
+			if (nodes.Any(n => n is OverworldNode_MP mpnode && mpnode.IsFullyUnlocked)) return nodes.FindIndex(n => n is OverworldNode_MP);
+
+			// First non-100% node
+			foreach (FractionDifficulty diff in Enum.GetValues(typeof(FractionDifficulty)))
+			{
+				for (int i = 0; i < nodes.Length; i++)
+				{
+					if (nodes[i] is OverworldNode_Graph n && n.GetPerc(diff) < 1) return i;
+				}
+			}
+
+			return nodes.Length-1;
+		}
+
+		private static int GetFocus_Full(OverworldNode[] nodes)
+		{
+			// Node where next is locked
+			for (int i = 0; i < nodes.Length; i++)
+			{
+				if (nodes[i] is OverworldNode_Graph n && !n.IsNodeEnabled) return (i==0) ? (0) : (i-1);
+			}
+			
+			// Last SP node
+			for (int i = 1; i < nodes.Length; i++)
+			{
+				if (!(nodes[i] is OverworldNode_Graph)) return (i==0) ? (0) : (i-1);
+			}
+
+			return nodes.Length - 1;
+		}
+
+		private static int GetFocus_FullNoMP(OverworldNode[] nodes)
+		{
+			// Node where next is locked
+			for (int i = 0; i < nodes.Length; i++)
+			{
+				if (nodes[i] is OverworldNode_Graph n && !n.IsNodeEnabled) return (i==0) ? (0) : (i-1);
+			}
+			
+			// Last SP node
+			for (int i = 1; i < nodes.Length; i++)
+			{
+				if (!(nodes[i] is OverworldNode_Graph)) return (i==0) ? (0) : (i-1);
+			}
+
+			return nodes.Length - 1;
 		}
 
 		public void ScrollTo(GraphBlueprint bp)

@@ -32,6 +32,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private readonly Dictionary<FractionDifficulty, float> solvedPerc = new Dictionary<FractionDifficulty, float>();
 
+		public float GetPerc(FractionDifficulty d) => solvedPerc[d];
+		
 		private readonly float _swingPeriode = 4f;
 
 		protected WorldUnlockState _ustate;

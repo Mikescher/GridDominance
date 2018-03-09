@@ -29,6 +29,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private readonly WorldUnlockState _ustate;
 
+		public bool IsFullyUnlocked => _ustate==WorldUnlockState.OpenAndUnlocked;
+
 		public readonly List<MutableTuple<FRectangle, Color>> Blocks = new List<MutableTuple<FRectangle, Color>>();
 
 		public FRectangle NonTranslatedBounds = FRectangle.CreateByCenter(FPoint.Zero, new FSize(INNERSIZE, INNERSIZE));

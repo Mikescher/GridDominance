@@ -15,7 +15,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] reduce unlock cost of normal worlds (cost = all prev worlds, all levels on diff=3)
 
-[/] dedicated server (cannonconquest.com)
+[X] dedicated server (cannonconquest.com)
      - Public Key SSH
      - diff ssh port
      - Fail2Ban
@@ -55,11 +55,11 @@ USER GENERATED LEVEL [[TODO]]
      - show completion count/perentage per diff + rating
      - rate level after complete (only thumbs up | down)
 
-[ ] Update gdapi with new world {d34db335-0001-4000-7711-000000300002}
+[X] Update gdapi with new world {d34db335-0001-4000-7711-000000300002}
 
-[ ] gdapi/admin: show amount of people that beaten game (got to end screen)
+[X] gdapi/admin: show amount of people that beaten game (got to end screen)
 
-[ ] gdapi/admin: stuff for sccm
+[X] gdapi/admin: stuff for sccm
 
 [ ] ReSharper clean imports
 

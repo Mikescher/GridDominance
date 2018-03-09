@@ -36,6 +36,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 
 		private readonly WorldUnlockState _ustate;
 
+		public bool IsFullyUnlocked => _ustate==WorldUnlockState.OpenAndUnlocked;
+
 		public OverworldNode_MP(GDOverworldScreen scrn, FPoint pos) : base(scrn, pos, L10NImpl.STR_WORLD_MULTIPLAYER, Levels.WORLD_ID_MULTIPLAYER)
 		{
 			AddOperationDelayed(new NetworkAnimationTriggerOperation(), NetworkAnimationTriggerOperation.INITIAL_DELAY);
