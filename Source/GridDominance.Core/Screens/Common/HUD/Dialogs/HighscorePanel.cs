@@ -39,7 +39,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		private HUDImage _loader;
 		private HUDScrollTable _table;
-		private HUDButton _btn;
+		private HUDButton _btnPrev;
+		private HUDButton _btnNext;
 
 		public HighscorePanel(GraphBlueprint focus, HighscoreCategory mod)
 		{
@@ -93,14 +94,34 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				TextColor = FlatColors.Clouds,
 			});
 			
-			AddElement(_btn = new HUDImageButton(1)
+			AddElement(_btnPrev = new HUDImageButton(1)
+			{
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = FPoint.Zero,
+				Size = new FSize(72, 72),
+
+				Image = GetModeIcon(NextCategory(_mode, false)),
+				ImageColor = GetModeColor(NextCategory(_mode, false)),
+				ImagePadding = 8,
+				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
+				ImageScale     = HUDImageScaleAlgorithm.UNDERSCALE,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16, true, false, false, false),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16, true, false, false, false),
+
+				Click = (s,e) => SwitchMode(false),
+
+				IsVisible = false,
+			});
+			
+			AddElement(_btnNext = new HUDImageButton(1)
 			{
 				Alignment = HUDAlignment.TOPRIGHT,
 				RelativePosition = FPoint.Zero,
 				Size = new FSize(72, 72),
 
-				Image = GetModeIcon(NextCategory(_mode)),
-				ImageColor = GetModeColor(NextCategory(_mode)),
+				Image = GetModeIcon(NextCategory(_mode, true)),
+				ImageColor = GetModeColor(NextCategory(_mode, true)),
 				ImagePadding = 8,
 				ImageAlignment = HUDImageAlignmentAlgorithm.CENTER,
 				ImageScale     = HUDImageScaleAlgorithm.UNDERSCALE,
@@ -108,7 +129,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16, false, true, false, false),
 				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16, false, true, false, false),
 
-				Click = SwitchMode,
+				Click = (s,e) => SwitchMode(true),
 
 				IsVisible = false,
 			});
@@ -190,36 +211,68 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			LoadHighscore().EnsureNoError();
 		}
 
-		private HighscoreCategory NextCategory(HighscoreCategory cat)
+		private HighscoreCategory NextCategory(HighscoreCategory cat, bool delta)
 		{
-			switch (cat)
+			if (delta)
 			{
-				case HighscoreCategory.GlobalPoints:
-					if (_focus != null) return HighscoreCategory.WorldPoints;
-					return HighscoreCategory.MultiplayerPoints;
+				// FWD
+				
+				switch (cat)
+				{
+					case HighscoreCategory.GlobalPoints:
+						if (_focus != null) return HighscoreCategory.WorldPoints;
+						return HighscoreCategory.MultiplayerPoints;
 
-				case HighscoreCategory.WorldPoints:
-					return HighscoreCategory.MultiplayerPoints;
+					case HighscoreCategory.WorldPoints:
+						return HighscoreCategory.MultiplayerPoints;
 
-				case HighscoreCategory.MultiplayerPoints:
-					return HighscoreCategory.CustomLevelStars;
+					case HighscoreCategory.MultiplayerPoints:
+						return HighscoreCategory.CustomLevelStars;
 
-				case HighscoreCategory.CustomLevelStars:
-					return HighscoreCategory.CustomLevelPoints;
+					case HighscoreCategory.CustomLevelStars:
+						return HighscoreCategory.CustomLevelPoints;
 
-				case HighscoreCategory.CustomLevelPoints:
-					return HighscoreCategory.GlobalPoints;
+					case HighscoreCategory.CustomLevelPoints:
+						return HighscoreCategory.GlobalPoints;
 
-				default:
-					SAMLog.Error("HP::EnumSwitch_SM", "cat: " + _mode);
-					return HighscoreCategory.GlobalPoints;
+					default:
+						SAMLog.Error("HP::EnumSwitch_SM1", "cat: " + _mode);
+						return HighscoreCategory.GlobalPoints;
+				}
+			}
+			else
+			{
+				// RWD
+				
+				switch (cat)
+				{
+					case HighscoreCategory.GlobalPoints:
+						return HighscoreCategory.CustomLevelPoints;
+
+					case HighscoreCategory.WorldPoints:
+						return HighscoreCategory.GlobalPoints;
+
+					case HighscoreCategory.MultiplayerPoints:
+						if (_focus != null) return HighscoreCategory.WorldPoints;
+						return HighscoreCategory.GlobalPoints;
+
+					case HighscoreCategory.CustomLevelStars:
+						return HighscoreCategory.MultiplayerPoints;
+
+					case HighscoreCategory.CustomLevelPoints:
+						return HighscoreCategory.CustomLevelStars;
+
+					default:
+						SAMLog.Error("HP::EnumSwitch_SM2", "cat: " + _mode);
+						return HighscoreCategory.GlobalPoints;
+				}
 			}
 		}
 
-		private void SwitchMode(HUDImageButton sender, HUDButtonEventArgs e)
+		private void SwitchMode(bool delta)
 		{
 			Remove();
-			HUD.AddModal(new HighscorePanel(_focus, NextCategory(_mode)), true);
+			HUD.AddModal(new HighscorePanel(_focus, NextCategory(_mode, delta)), true);
 		}
 
 		private Color GetModeColor(HighscoreCategory cat)
@@ -289,7 +342,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		{
 			_table.IsVisible = true;
 			_loader.IsVisible = false;
-			if (_btn != null) _btn.IsVisible = true;
+			if (_btnPrev != null) _btnPrev.IsVisible = true;
+			if (_btnNext != null) _btnNext.IsVisible = true;
 
 			bool foundyourself = false;
 

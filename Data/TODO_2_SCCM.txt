@@ -123,7 +123,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] ssh for my server
 
-[ ] highscore cat button on left side for previous highscore type
+[X] highscore cat button on left side for previous highscore type
 
 [ ] highscore missing column time for normal points (+ additional tab timee for mp points)
 
