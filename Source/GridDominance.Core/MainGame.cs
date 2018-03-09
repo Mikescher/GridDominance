@@ -146,7 +146,7 @@ namespace GridDominance.Shared
 				TargetElapsedTime = TimeSpan.FromMilliseconds(1);
 
 				Graphics.ApplyChanges();
-				Window.Position = new Point((1920 - Graphics.PreferredBackBufferWidth) / 2, (1080 - Graphics.PreferredBackBufferHeight) / 2);
+				//Window.Position = new Point((1920 - Graphics.PreferredBackBufferWidth) / 2, (1080 - Graphics.PreferredBackBufferHeight) / 2);
 #endif
 			}
 			else
