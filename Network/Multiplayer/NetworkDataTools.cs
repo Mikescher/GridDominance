@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using MonoSAMFramework.Portable.GameMath;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer

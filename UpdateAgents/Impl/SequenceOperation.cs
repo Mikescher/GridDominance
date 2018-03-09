@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.HUD;
 
 namespace MonoSAMFramework.Portable.UpdateAgents.Impl
 {

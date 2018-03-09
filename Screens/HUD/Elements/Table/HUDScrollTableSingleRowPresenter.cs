@@ -5,7 +5,6 @@ using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 {

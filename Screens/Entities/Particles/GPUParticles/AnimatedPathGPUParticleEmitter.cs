@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.GameMath.Geometry;
+﻿using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 
 namespace MonoSAMFramework.Portable.Screens.Entities.Particles.GPUParticles

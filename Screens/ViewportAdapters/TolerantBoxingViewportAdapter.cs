@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.Extensions;
 using System;
-using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Interfaces;
 
 namespace MonoSAMFramework.Portable.Screens.ViewportAdapters

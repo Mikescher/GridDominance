@@ -3,8 +3,6 @@ using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
-using System;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 
 namespace MonoSAMFramework.Portable.RenderHelper

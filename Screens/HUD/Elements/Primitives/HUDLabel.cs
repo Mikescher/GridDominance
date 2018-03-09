@@ -9,7 +9,6 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
 using MonoSAMFramework.Portable.GameMath;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
