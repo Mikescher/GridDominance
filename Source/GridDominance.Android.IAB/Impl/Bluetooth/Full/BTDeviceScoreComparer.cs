@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using MonoSAMFramework.Portable.Network.Multiplayer;
 using Android.Bluetooth;
+using MonoSAMFramework.Portable.DeviceBridge;
 
 namespace GridDominance.Android.Impl
 {

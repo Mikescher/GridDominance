@@ -12,7 +12,6 @@ using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Language;
-using MonoSAMFramework.Portable.Network.Multiplayer;
 
 namespace GridDominance.Android.Impl
 {

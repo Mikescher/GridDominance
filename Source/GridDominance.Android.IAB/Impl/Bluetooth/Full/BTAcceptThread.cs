@@ -1,7 +1,7 @@
 ﻿using Android.Bluetooth;
 using Java.Lang;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
-using MonoSAMFramework.Portable.Network.Multiplayer;
 using Exception = Java.Lang.Exception;
 
 namespace GridDominance.Android.Impl

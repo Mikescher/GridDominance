@@ -10,8 +10,8 @@ using Android.Content.PM;
 using Android.OS;
 using GridDominance.Shared.Resources;
 using Java.Util;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
-using MonoSAMFramework.Portable.Network.Multiplayer;
 using Exception = Java.Lang.Exception;
 
 namespace GridDominance.Android.Impl
