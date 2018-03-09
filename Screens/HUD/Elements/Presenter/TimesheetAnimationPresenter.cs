@@ -50,7 +50,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter
 
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)
 		{
-			ButtonClick?.Invoke(this, new EventArgs());
+			ButtonClick?.Invoke(this, EventArgs.Empty);
 		}
 
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => true;

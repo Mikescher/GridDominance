@@ -42,9 +42,11 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 		public event TextboxEventHandler TextboxChanged;
 		public event TextboxEventHandler TextboxEnterKeyPressed;
+		public event TextboxEventHandler TextboxKeyboardClosed;
 
 		public TextboxEventHandler Changed { set { TextboxChanged += value; } }
 		public TextboxEventHandler EnterKey { set { TextboxEnterKeyPressed += value; } }
+		public TextboxEventHandler CloseKeyboard { set { TextboxKeyboardClosed += value; } }
 
 		private float _cursorBlinkTimer = 0;
 		private float _lastCharAdd = 0;
@@ -163,7 +165,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 			{
 				Text += chr;
 				_lastCharAdd = MonoSAMGame.CurrentTime.TotalElapsedSeconds;
-				TextboxChanged?.Invoke(this, new EventArgs());
+				TextboxChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
 
@@ -172,18 +174,18 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 			if (Text.Length > 0)
 			{
 				Text = Text.Substring(0, Text.Length - 1);
-				TextboxChanged?.Invoke(this, new EventArgs());
+				TextboxChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
 
 		public void PressEnter()
 		{
-			TextboxEnterKeyPressed?.Invoke(this, new EventArgs());
+			TextboxEnterKeyPressed?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void KeyboardClosed()
 		{
-			//
+			TextboxKeyboardClosed?.Invoke(this, EventArgs.Empty);
 		}
 
 		public string GetPreviewText() => IsPassword ? new string('*', Text.Length) : Text;

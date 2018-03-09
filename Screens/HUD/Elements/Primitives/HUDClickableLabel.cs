@@ -27,7 +27,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 			if (ClickSound) HUD.Screen.Game.Sound.TryPlayButtonClickEffect();
 
-			LabelClick?.Invoke(this, new EventArgs());
+			LabelClick?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }
