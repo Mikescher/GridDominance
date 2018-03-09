@@ -176,19 +176,20 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 					_table.AddColumn("", 100);
 					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
 					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 100);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175);
 					break;
 
 				case HighscoreCategory.WorldPoints:
 					_table.AddColumn("", 100);
 					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
 					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 100);
+					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175);
 					break;
 
 				case HighscoreCategory.MultiplayerPoints:
 					_table.AddColumn("", 100);
 					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_NAME), null);
 					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_POINTS), 100);
-					_table.AddColumn(L10N.T(L10NImpl.STR_TAB_TIME), 175);
 					break;
 
 				case HighscoreCategory.CustomLevelStars:

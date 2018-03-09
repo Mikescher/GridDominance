@@ -125,7 +125,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] highscore cat button on left side for previous highscore type
 
-[ ] highscore missing column time for normal points (+ additional tab timee for mp points)
+[X] highscore missing column time for normal points (+ additional tab timee for mp points)
 
 [ ] name in ackno pnl (progrm/design + link)
 
