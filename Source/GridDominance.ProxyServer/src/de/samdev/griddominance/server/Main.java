@@ -58,6 +58,7 @@ public class Main {
 
     public static String logfileError = "";
     public static String stateFile = "";
+    public static String ussUrl = "";
 
     public static void main(String[] args) throws Exception {
 
@@ -84,13 +85,15 @@ public class Main {
 
             logfileError = properties.getProperty("logfile_error");
             stateFile    = properties.getProperty("statefile");
+            ussUrl       = properties.getProperty("update_session_url");
         } catch (FileNotFoundException e) {
             _log.Error(e.toString());
         }
 
         _log.PersistantInfo("Server started");
-        _log.PersistantInfo("Logfile:  " + logfileError);
+        _log.PersistantInfo("Logfile:   " + logfileError);
         _log.PersistantInfo("StateFile: " + stateFile);
+        _log.PersistantInfo("USS-URL:   " + ussUrl);
 
         OutputState();
 
@@ -679,7 +682,7 @@ public class Main {
 
         try (PrintWriter out = new PrintWriter(stateFile)) { out.write(builder.toString()); }
 
-        Call("http://gdapi.mikescher.com/savesessionstate.php");
+        Call(ussUrl);
     }
 
     private static void Call(String url) {
