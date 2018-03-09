@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FarseerPhysics.Dynamics;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;

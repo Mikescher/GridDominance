@@ -1,5 +1,4 @@
-﻿using System;
-using MonoSAMFramework.Portable.ColorHelper;
+﻿using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;
 using GridDominance.Shared.Resources;

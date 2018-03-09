@@ -10,7 +10,6 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

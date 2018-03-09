@@ -9,10 +9,8 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 
 // ReSharper disable HeuristicUnreachableCode

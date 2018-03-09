@@ -1,5 +1,4 @@
-﻿using System;
-using GridDominance.Shared.Screens.NormalGameScreen.Entities;
+﻿using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
@@ -14,7 +13,6 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens;
-using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.RenderHelper;
 

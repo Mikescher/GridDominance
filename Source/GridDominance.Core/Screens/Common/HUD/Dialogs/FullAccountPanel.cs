@@ -1,5 +1,4 @@
-﻿using System;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;

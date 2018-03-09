@@ -7,7 +7,6 @@ using GridDominance.Shared;
 using Microsoft.Xna.Framework;
 using Android.Content;
 using GridDominance.Android.Impl;
-using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable;
 

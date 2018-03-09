@@ -5,7 +5,6 @@ using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using MonoSAMFramework.Portable.Input;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.ScreenGame;
-using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.FractionController
 {

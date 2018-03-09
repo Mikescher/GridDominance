@@ -1,7 +1,6 @@
 ﻿using GridDominance.DSLEditor.Helper;
 using GridDominance.DSLEditor.Properties;
 using GridDominance.Levelfileformat.Blueprint;
-using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
 using MSHC.WPF.Extensions.BindingProxies;
 using MSHC.WPF.MVVM;

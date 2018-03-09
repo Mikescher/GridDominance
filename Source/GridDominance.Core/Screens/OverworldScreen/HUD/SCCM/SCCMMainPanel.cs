@@ -1,5 +1,4 @@
-﻿using System;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;

@@ -1,6 +1,4 @@
-﻿using GridDominance.Shared.Resources;
-using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.UpdateAgents.Impl;
+﻿using MonoSAMFramework.Portable.UpdateAgents.Impl;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.Operations
 {

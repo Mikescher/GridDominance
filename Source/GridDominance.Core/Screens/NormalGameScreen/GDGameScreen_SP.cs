@@ -13,7 +13,6 @@ using Microsoft.Xna.Framework;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
-using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.Screens.HUD;

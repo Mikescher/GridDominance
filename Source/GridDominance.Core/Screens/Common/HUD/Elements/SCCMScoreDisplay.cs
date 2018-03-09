@@ -1,6 +1,5 @@
 ﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common.HUD.Elements;
-using GridDominance.Shared.Screens.Common.HUD.Operations;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;

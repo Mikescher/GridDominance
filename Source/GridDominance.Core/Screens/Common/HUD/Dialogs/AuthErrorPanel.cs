@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
 using GridDominance.Shared.Screens.OverworldScreen;
 using Microsoft.Xna.Framework;

@@ -1,12 +1,8 @@
-﻿using System.Linq;
-using GridDominance.Shared.Network.Multiplayer;
+﻿using GridDominance.Shared.Network.Multiplayer;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.Common.HUD.HUDOperations;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.Multiplayer;
 using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.GameMath.Cryptography;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Network.Multiplayer;
@@ -14,8 +10,6 @@ using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Other;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Presenter;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 

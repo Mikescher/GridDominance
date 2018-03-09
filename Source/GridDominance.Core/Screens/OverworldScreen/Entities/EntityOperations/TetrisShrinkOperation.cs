@@ -1,5 +1,4 @@
-﻿using System;
-using MonoSAMFramework.Portable.GameMath;
+﻿using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens;

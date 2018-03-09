@@ -2,7 +2,6 @@
 using System;
 using MonoSAMFramework.Portable.Screens.Entities.Particles;
 using GridDominance.Shared.Resources;
-using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Extensions;

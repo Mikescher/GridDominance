@@ -1,12 +1,10 @@
 ﻿using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
-using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
-using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.RenderHelper;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen.HUD

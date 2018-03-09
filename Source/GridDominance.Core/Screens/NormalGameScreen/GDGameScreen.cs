@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using GridDominance.Levelfileformat.Blueprint;

@@ -19,7 +19,6 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using GridDominance.Shared.Screens.NormalGameScreen.Entities.Cannons;
-using System;
 using GridDominance.Shared.Screens.Common;
 using MonoSAMFramework.Portable.ColorHelper;
 

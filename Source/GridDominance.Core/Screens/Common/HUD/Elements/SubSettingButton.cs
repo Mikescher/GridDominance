@@ -3,7 +3,6 @@ using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.Common.HUD;
 using GridDominance.Shared.Screens.Common.HUD.Operations;
 using Microsoft.Xna.Framework;
-using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.ColorHelper;

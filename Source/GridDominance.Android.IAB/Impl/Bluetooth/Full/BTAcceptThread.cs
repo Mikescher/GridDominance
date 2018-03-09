@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Bluetooth;
+﻿using Android.Bluetooth;
 using Java.Lang;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.Multiplayer;

@@ -4,7 +4,6 @@ using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.NormalGameScreen.Background;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 
 namespace GridDominance.Shared.Screens.WorldMapScreen

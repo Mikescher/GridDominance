@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Android.Bluetooth;
 using Android.Content;
 using MonoSAMFramework.Portable.LogProtocol;

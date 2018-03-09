@@ -1,5 +1,4 @@
-﻿using System;
-using GridDominance.Levelfileformat.Blueprint;
+﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SCCM;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs;

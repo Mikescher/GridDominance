@@ -1,6 +1,5 @@
 ﻿using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.Resources;
-using GridDominance.Shared.SaveData;
 using GridDominance.Shared.Screens.ScreenGame;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
@@ -10,19 +9,9 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.RenderHelper;
-using GridDominance.Shared.Network.Multiplayer;
-using MonoSAMFramework.Portable.Network.Multiplayer;
-using MonoSAMFramework.Portable.Input;
-using MonoSAMFramework.Portable.Screens;
-using GridDominance.Shared.Screens.OverworldScreen.HUD;
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
-using GridDominance.Shared.Screens.WorldMapScreen;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.Extensions;
-using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared.Screens.NormalGameScreen.HUD

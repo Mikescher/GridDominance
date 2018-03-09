@@ -11,10 +11,9 @@ using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.DebugTools;
 using MonoSAMFramework.Portable.RenderHelper;
-using System;
 using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Screens.Common.HUD.Elements;
-using Microsoft.Xna.Framework;
+
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD
 {
 	public class OverworldHUD : GameHUD, ISettingsOwnerHUD

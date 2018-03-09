@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using GridDominance.Graphfileformat.Blueprint;
 using GridDominance.Levelfileformat.Blueprint;
 using GridDominance.Shared.GlobalAgents;
@@ -29,7 +27,6 @@ using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using GridDominance.Shared.Screens.ScreenGame;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.ColorHelper;
-using MonoSAMFramework.Portable.Language;
 using MonoSAMFramework.Portable.Localization;
 
 namespace GridDominance.Shared

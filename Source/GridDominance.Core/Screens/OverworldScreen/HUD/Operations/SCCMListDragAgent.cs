@@ -1,6 +1,4 @@
-﻿using System;
-using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
-using GridDominance.Shared.Screens.ScreenGame;
+﻿using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;

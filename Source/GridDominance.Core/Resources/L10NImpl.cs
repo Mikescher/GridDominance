@@ -1,5 +1,4 @@
 using MonoSAMFramework.Portable.Localization;
-using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Resources
 {

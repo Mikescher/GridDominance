@@ -1,5 +1,4 @@
 ﻿using MonoSAMFramework.Portable.DeviceBridge;
-using System;
 using System.Collections.Generic;
 
 namespace GridDominance.Windows

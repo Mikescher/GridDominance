@@ -1,5 +1,4 @@
-﻿using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Resources;
+﻿using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Dialogs;
 using GridDominance.Shared.SCCM;
@@ -9,7 +8,6 @@ using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
-using MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM

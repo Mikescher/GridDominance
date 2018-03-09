@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using MonoSAMFramework.Portable.Network.Multiplayer;
 using Android.Bluetooth;

@@ -1,5 +1,4 @@
 ﻿using GridDominance.Levelfileformat.Blueprint;
-using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen.EntityOperations;
 using GridDominance.Shared.Screens.NormalGameScreen.FractionController;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;

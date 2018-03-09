@@ -14,7 +14,6 @@ using GridDominance.Shared.Screens.NormalGameScreen.LaserNetwork;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using GridDominance.Shared.Screens.NormalGameScreen.Physics;
 using MonoSAMFramework.Portable.GameMath.Geometry.Alignment;
-using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Content.Pipeline.PreCalculation
 {

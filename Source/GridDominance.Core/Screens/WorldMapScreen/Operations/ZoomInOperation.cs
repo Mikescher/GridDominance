@@ -1,5 +1,4 @@
 ﻿using GridDominance.Shared.Resources;
-using GridDominance.Shared.Screens.WorldMapScreen.Background;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;

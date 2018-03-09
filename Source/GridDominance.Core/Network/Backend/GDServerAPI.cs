@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using GridDominance.Graphfileformat.Blueprint;
@@ -15,7 +13,6 @@ using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Network.REST;
-using MonoSAMFramework.Portable.Screens;
 using MonoSAMFramework.Portable.Localization;
 using System.Text;
 using GridDominance.Levelfileformat.Blueprint;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.SaveData;
 using GridDominance.Shared.SCCM;

@@ -12,7 +12,6 @@ using GridDominance.Shared.Network.Backend;
 using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.NormalGameScreen;
 using GridDominance.Shared.Screens.OverworldScreen;
-using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.LogProtocol;
 
