@@ -22,7 +22,7 @@ namespace GridDominance.iOS.Full.Impl
 		public string FullDeviceInfoString => GenerateInfoStr();
 
 		public string DeviceName { get; } = CrossDeviceInfo.Current.Model;
-		public string DeviceVersion { get; } = CrossDeviceInfo.Current.Version;
+		public string DeviceVersion { get; } = "Apple iOS " + CrossDeviceInfo.Current.Version;
 		public FSize DeviceResolution { get; } = new FSize((float)UIScreen.MainScreen.Bounds.Width, (float)UIScreen.MainScreen.Bounds.Height);
 		public FileHelper FileHelper { get; } = new AppleFileHelper();
 		public IBillingAdapter IAB { get; } = new AppleFullVersionBilling();
