@@ -1,7 +1,7 @@
-﻿using MonoSAMFramework.Portable.Persistance.DataFileFormat;
-using System;
+﻿using System;
+using MonoSAMFramework.Portable.Persistance.DataFileFormat;
 
-namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
+namespace MonoSAMFramework.Portable.Persistance.DataFile.ObjectWrapper
 {
 	public class DataFileGUIDWrapper : BaseDataFile
 	{

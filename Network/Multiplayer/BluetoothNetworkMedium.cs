@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MonoSAMFramework.Portable.DebugTools;
+using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
 
 namespace MonoSAMFramework.Portable.Network.Multiplayer

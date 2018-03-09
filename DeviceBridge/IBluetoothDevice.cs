@@ -1,4 +1,4 @@
-﻿namespace MonoSAMFramework.Portable.Network.Multiplayer
+﻿namespace MonoSAMFramework.Portable.DeviceBridge
 {
 	public interface IBluetoothDevice
 	{

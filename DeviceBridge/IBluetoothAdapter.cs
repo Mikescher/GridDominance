@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MonoSAMFramework.Portable.Network.Multiplayer
+namespace MonoSAMFramework.Portable.DeviceBridge
 {
 	public enum BluetoothAdapterState
 	{

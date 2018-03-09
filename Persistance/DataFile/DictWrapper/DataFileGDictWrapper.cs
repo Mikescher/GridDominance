@@ -1,8 +1,8 @@
-﻿using MonoSAMFramework.Portable.Persistance.DataFileFormat;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using MonoSAMFramework.Portable.Persistance.DataFileFormat;
 
-namespace MonoSAMFramework.Portable.Persistance.DataFile.PrimitiveWrapper
+namespace MonoSAMFramework.Portable.Persistance.DataFile.DictWrapper
 {
 	public class DataFileGDictWrapper<T> : BaseDataFile where T : BaseDataFile
 	{
