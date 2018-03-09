@@ -61,7 +61,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] gdapi/admin: stuff for sccm
 
-[ ] ReSharper clean imports
+[X] ReSharper clean imports
 
 [X] Show message when unlocking new world 
        more permanent than toast
@@ -98,7 +98,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] weekly db backups on server (+ levels)
 
-[ ] TODO DB sanity checks (manually)
+[X] TODO DB sanity checks (manually)
      - userlevels.stars == userlevel-highscores == users.score_stars
      - userlevels.best_time = BEST(userlevel-highscores)
      - users.score_sccm = CALC(userlevel-highscores)
@@ -119,7 +119,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] supervisor for proxyserver
 
-[ ] check if proxyserver online in cron
+[X] check if proxyserver online in cron
 
 [ ] ssh for my server
 

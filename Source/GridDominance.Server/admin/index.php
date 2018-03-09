@@ -23,9 +23,15 @@
 		<div class="infodiv">
             Active Users:&nbsp;<a href="userlist.php?d=1"><?php echo getActiveUserCount(1); ?></a>&nbsp;|&nbsp;<a href="userlist.php?d=7"><?php echo getActiveUserCount(7); ?></a>
 		</div>
+		<?php if (isProxyActive()): ?>
         <div class="infodiv">
             Online Sessions:&nbsp;<a href="proxylist.php"><?php echo getSessionCount(); ?></a>
         </div>
+		<?php else: ?>
+        <div class="infodiv" style="background: #FF4444">
+            PROXY INACTIVE
+        </div>
+		<?php endif; ?>
 	</div>
 
 	<div class="infocontainer">

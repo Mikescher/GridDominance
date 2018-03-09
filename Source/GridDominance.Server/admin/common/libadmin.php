@@ -90,6 +90,13 @@ function getSessionCount() {
 	return count($json['sessions']);
 }
 
+function isProxyActive() {
+	if (! file_exists("/var/log/gdapi_log/proxystate.json")) return false;
+
+	$mtime = filemtime("/var/log/gdapi_log/proxystate.json");
+	return $mtime > (time() - (60 * 5)); // max 5 min
+}
+
 function lc($txt) {
 	$c = 0;
 	foreach (explode("\n", $txt) as $l) { if (!empty($l)) $c++; }

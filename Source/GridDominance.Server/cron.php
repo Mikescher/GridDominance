@@ -82,6 +82,12 @@ function run() {
 		echo ("[" . date("Y-m-d H:i:s") . "]  " . "Runlog(3)" . "  <br/>\n");
 	}
 
+	// ProxyServer health check
+	if (!isProxyActive())
+	{
+		logError("::ProxyHealthCheck:: Proxy server is not active - proxystate too old or not found.");
+	}
+
 	$delta = (int)((microtime(true) - $time_start)*1000);
 	$min = round($delta/(1000*60), 2);
 	logDebug("Cronjob succesful executed in $delta ms.");
