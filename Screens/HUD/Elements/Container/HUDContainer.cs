@@ -79,7 +79,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 			}
 
 			bool childrenChanged = false;
-			foreach (var element in children.ToList())
+			foreach (var element in Enumerable.Reverse(children).ToList()) // in reverse order so topmost elements get keypresses first
 			{
 				element.Update(gameTime, istate);
 
