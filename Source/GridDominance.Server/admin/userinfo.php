@@ -165,8 +165,8 @@
 
                 <tr class="<?php if ($manual['#'] != $user->ScoreSCCM) echo "td_err"; ?>">
                     <td>SCCM</td>
-                    <td><?php echo $entry['rank']; ?></td>
-                    <td><a href="userinfo.php?id=<?php echo $user->ID; ?>"><?php echo $user->Name; ?></a> (<?php echo $user->ID; ?>)</td>
+                    <td><?php echo getSCCMRank($user->ID); ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $user->ID; ?>"><?php echo $user->Username; ?></a> (<?php echo $user->ID; ?>)</td>
                     <td><?php echo $user->ScoreSCCM; ?></td>
                     <td><?php echo $manual['#']; ?></td>
                     <td></td>
@@ -174,9 +174,9 @@
                 </tr>
                 
                 <tr class="<?php if ($manual['$'] != $user->ScoreStars) echo "td_err"; ?>">
-                    <td>stars</td>
-                    <td><?php echo $entry['rank']; ?></td>
-                    <td><a href="userinfo.php?id=<?php echo $user->ID; ?>"><?php echo $user->Name; ?></a> (<?php echo $user->ID; ?>)</td>
+                    <td>Stars</td>
+                    <td><?php echo getStarsRank($user->ID); ?></td>
+                    <td><a href="userinfo.php?id=<?php echo $user->ID; ?>"><?php echo $user->Username; ?></a> (<?php echo $user->ID; ?>)</td>
                     <td><?php echo $user->ScoreStars; ?></td>
                     <td><?php echo $manual['$']; ?></td>
                     <td></td>
@@ -285,7 +285,7 @@
             </thead>
 			<?php foreach (getUserSCCMEntries($user->ID) as $entry): ?>
 
-                <?php if ($entry['d0_lastplayed']) != null: ?> 
+                <?php if ($entry['d0_lastplayed'] != null): ?>
                     <tr>
                         <td title="<?php echo $entry['levelid']; ?>" >
                             <a href="sccmlevelinfo.php?id=<?php echo $entry['levelid']; ?>">
@@ -298,7 +298,7 @@
                     </tr>
                 <?php endif; ?> 
 
-                <?php if ($entry['d1_lastplayed']) != null: ?> 
+                <?php if ($entry['d1_lastplayed'] != null): ?>
                     <tr>
                         <td title="<?php echo $entry['levelid']; ?>" >
                             <a href="sccmlevelinfo.php?id=<?php echo $entry['levelid']; ?>">
@@ -311,7 +311,7 @@
                     </tr>
                 <?php endif; ?> 
 
-                <?php if ($entry['d2_lastplayed']) != null: ?> 
+                <?php if ($entry['d2_lastplayed'] != null): ?>
                     <tr>
                         <td title="<?php echo $entry['levelid']; ?>" >
                             <a href="sccmlevelinfo.php?id=<?php echo $entry['levelid']; ?>">
@@ -324,7 +324,7 @@
                     </tr>
                 <?php endif; ?> 
 
-                <?php if ($entry['d3_lastplayed']) != null: ?> 
+                <?php if ($entry['d3_lastplayed'] != null): ?>
                     <tr>
                         <td title="<?php echo $entry['levelid']; ?>" >
                             <a href="sccmlevelinfo.php?id=<?php echo $entry['levelid']; ?>">
@@ -337,6 +337,38 @@
                     </tr>
                 <?php endif; ?> 
 
+			<?php endforeach; ?>
+        </table>
+    </div>
+
+    <div class="tablebox" data-collapse>
+        <h2 class="open collapseheader">Uploads</h2>
+
+        <table class="sqltab pure-table pure-table-bordered sortable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th style="width: 200px" >Upload timestamp</th>
+                <th style="width: 500px" >Level</th>
+                <th>Stars</th>
+                <th>Author time</th>
+            </tr>
+            </thead>
+			<?php foreach (GetSCCMLevelByUser($user->ID) as $entry): ?>
+                <tr>
+                    <td><a href="sccmlevelinfo.php?id=<?php echo $entry['id'] ?>"><?php echo $entry['id'] ?></a></td>
+					<?php if ($entry['upload_timestamp'] == null): ?>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    <?php else: ?>
+                        <td><?php echo $entry['upload_timestamp']; ?></td>
+                        <td><?php echo htmlspecialchars($entry['name']); ?></td>
+                        <td><?php echo $entry['stars']; ?></td>
+                        <td><?php echo gmdate("H:i:s", $entry['author_time']/1000.0)?></td>
+                    <?php endif ?>
+                </tr>
 			<?php endforeach; ?>
         </table>
     </div>

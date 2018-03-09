@@ -14,35 +14,38 @@
 
     <?php includeScripts(); ?>
 
-    <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>4
+    <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
 	
     <?php
         global $pdo;
         
-		$levelid = $_GET['id'];
+		$ilevelid = (int)$_GET['id'];
 
-        $level = GetSCCMLevelInfo($levelid);
-		$recalc = GetSCCMLevelMetadataRecalculated($levelid);
+        $level = GetSCCMLevelInfo($ilevelid);
+		$recalc = GetSCCMLevelMetadataRecalculated($ilevelid);
 
-	    $levelid = "{B16B00B5-0001-4001-0000-".str_pad(strtoupper(dechex($levelid)), 12, '0', STR_PAD_LEFT).'}';
+	    $levelid = "{B16B00B5-0001-4001-0000-".str_pad(strtoupper(dechex($ilevelid)), 12, '0', STR_PAD_LEFT).'}';
         $level['filepath'] = $config['userlevel_directory'].$levelid;
-	    $content = file_get_contents($level['filepath']);
+	    $content = @file_get_contents($level['filepath']);
         $recalc['filesize'] = strlen($content);
         $recalc['datahash'] = strtoupper(hash('sha256', $content))
     ?>
 
     <div class="infocontainer">
         <div class="infodiv">
-            ID: {B16B00B5-0001-4001-0000-<?php echo $level['id']; ?>}
+            ID: <?php echo $levelid; ?>
         </div>
+    </div>
+
+    <div class="infocontainer">
         <div class="infodiv">
             Name: <?php echo $level['name']; ?>
         </div>
         <div class="infodiv">
             Stars: <?php echo $level['stars']; ?>
         </div>
-        <div class="infodiv">
-            Hot: <?php echo $level['hot_ranking']; ?>
+        <div class="infodiv" title="<?php echo $level['hot_ranking']; ?>" >
+            Hot: <?php echo number_format($level['hot_ranking']*100000, 3); ?>
         </div>
     </div>
 
@@ -51,10 +54,10 @@
             Author: <a href="userinfo.php?id=<?php echo $level['userid']; ?>"><?php echo $level['username']; ?></a> (<?php echo $level['userid']; ?>)
         </div>
         <div class="infodiv">
-            Hash: <?php echo $level['datahash']; ?>
+            Hash: <?php echo substr($level['datahash'], 0, 16); ?>...
         </div>
         <div class="infodiv">
-            Filesize: <?php echo formatSizeUnits($level['filesize']); ?>byte
+            Filesize: <?php echo formatSizeUnits($level['filesize']); ?>
         </div>
     </div>
 
@@ -72,12 +75,9 @@
 
     <div class="infocontainer">
         <div class="infodiv">
-            Width: <?php echo $level['grid_width']; ?>
+            Size: <?php echo $level['grid_width']; ?>x<?php echo $level['grid_height']; ?>
         </div>
-        <div class="infodiv">
-            Height: <?php echo $level['grid_height']; ?>
-        </div>
-        <div class="infodiv">
+        <div class="infodiv" title="<?php echo $level['author_time']; ?>ms">
             Author time: <?php echo gmdate("H:i:s", $level['author_time']/1000.0); ?>
         </div>
     </div>
@@ -88,9 +88,9 @@
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
-                <th style='width: 170px'>Key</th>
-                <th>Value</th>
-                <th>Value (Recalculated)</th>
+                <th style='width: 270px'>Key</th>
+                <th style='width: 611px'>Value</th>
+                <th style='width: 611px'>Value (Recalculated)</th>
             </tr>
             </thead>
 
@@ -117,7 +117,7 @@
 				</tr>
                 <tr>
 					<td>BestTime (Diff_0)</td>
-					<td title="<?php echo $entry['d0_besttime']; ?>ms @ <?php echo $entry['d0_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $entry['d0_besttime']/1000.0); ?></td>
+					<td title="<?php echo $level['d0_besttime']; ?>ms @ <?php echo $level['d0_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d0_besttime']/1000.0); ?></td>
 					<td></td>
 				</tr>
 
@@ -138,7 +138,7 @@
 				</tr>
                 <tr>
 					<td>BestTime (Diff_1)</td>
-					<td title="<?php echo $entry['d1_besttime']; ?>ms @ <?php echo $entry['d1_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $entry['d1_besttime']/1000.0); ?></td>
+					<td title="<?php echo $level['d1_besttime']; ?>ms @ <?php echo $level['d1_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d1_besttime']/1000.0); ?></td>
 					<td></td>
 				</tr>
 
@@ -159,7 +159,7 @@
 				</tr>
                 <tr>
 					<td>BestTime (Diff_2)</td>
-					<td title="<?php echo $entry['d2_besttime']; ?>ms @ <?php echo $entry['d2_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $entry['d2_besttime']/1000.0); ?></td>
+					<td title="<?php echo $level['d2_besttime']; ?>ms @ <?php echo $level['d2_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d2_besttime']/1000.0); ?></td>
 					<td></td>
 				</tr>
 
@@ -180,7 +180,7 @@
 				</tr>
                 <tr>
 					<td>BestTime (Diff_3)</td>
-					<td title="<?php echo $entry['d3_besttime']; ?>ms @ <?php echo $entry['d3_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $entry['d3_besttime']/1000.0); ?></td>
+					<td title="<?php echo $level['d3_besttime']; ?>ms @ <?php echo $level['d3_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d3_besttime']/1000.0); ?></td>
 					<td></td>
 				</tr>
 
@@ -201,7 +201,7 @@
     <div class="tablebox" data-collapse>
         <h2 class="open collapseheader">Content</h2>
 
-        <div style="width:100px; word-wrap:break-word; display:inline-block;background:lightgray;">
+        <div style="display:inline-block;background:#EEE;border: 1px solid black;padding: 8px;font-family: monospace;font-size: 14pt;word-break: break-all;">
             <?php echo base64_encode($content) ?>
         </div>
 
@@ -213,23 +213,23 @@
         <table class="sqltab pure-table pure-table-bordered sortable">
             <thead>
             <tr>
-                <th >User</th>
-                <th>Difficulty 0</th>
-                <th>Difficulty 1</th>
-                <th>Difficulty 2</th>
-                <th>Difficulty 3</th>
+                <th style="width: 200px;">User</th>
+                <th style="width: 250px;">Difficulty 0</th>
+                <th style="width: 250px;">Difficulty 1</th>
+                <th style="width: 250px;">Difficulty 2</th>
+                <th style="width: 250px;">Difficulty 3</th>
                 <th>starred</th>
             </tr>
             </thead>
 
-				<?php foreach(getLevelSCCMEntries() as $entry): ?>
+				<?php foreach(getLevelSCCMEntries($ilevelid) as $entry): ?>
 				
 					<tr>
 						<td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-						<td title="<?php echo $level['d0_time']; ?>ms"><?php echo gmdate("H:i:s", $level['d0_time']/1000.0); ?>  ($level['d0_lastplayed'])</td>
-						<td title="<?php echo $level['d1_time']; ?>ms"><?php echo gmdate("H:i:s", $level['d1_time']/1000.0); ?>  ($level['d1_lastplayed'])</td>
-						<td title="<?php echo $level['d2_time']; ?>ms"><?php echo gmdate("H:i:s", $level['d2_time']/1000.0); ?>  ($level['d2_lastplayed'])</td>
-						<td title="<?php echo $level['d3_time']; ?>ms"><?php echo gmdate("H:i:s", $level['d3_time']/1000.0); ?>  ($level['d3_lastplayed'])</td>
+						<td title="<?php echo $entry['d0_time']; ?>ms"><?php echo gmdate("H:i:s", $entry['d0_time']/1000.0); ?>  (<?php echo $entry['d0_lastplayed'] ?>)</td>
+						<td title="<?php echo $entry['d1_time']; ?>ms"><?php echo gmdate("H:i:s", $entry['d1_time']/1000.0); ?>  (<?php echo $entry['d1_lastplayed'] ?>)</td>
+						<td title="<?php echo $entry['d2_time']; ?>ms"><?php echo gmdate("H:i:s", $entry['d2_time']/1000.0); ?>  (<?php echo $entry['d2_lastplayed'] ?>)</td>
+						<td title="<?php echo $entry['d3_time']; ?>ms"><?php echo gmdate("H:i:s", $entry['d3_time']/1000.0); ?>  (<?php echo $entry['d3_lastplayed'] ?>)</td>
 						<td><?php echo $entry['starred']?'yes':'no'; ?></td>
 					</tr>
 

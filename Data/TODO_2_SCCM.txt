@@ -134,3 +134,5 @@ USER GENERATED LEVEL [[TODO]]
 [ ] gdapi err in lvl-93
 
 [ ] ios bridge suffix iOS before version (and fix in online db)
+
+[ ] git quickpush alias

@@ -14,7 +14,7 @@
 
     <?php includeScripts(); ?>
 
-    <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>4
+    <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
     
 	<?php
 		$showall = false;
@@ -72,14 +72,34 @@
 							<td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
 							<td><a href="sccmlevelinfo.php?id=<?php echo $entry['id'] ?>"><?php echo $entry['name']; ?></a></td>
 							<td><?php echo $entry['stars']; ?></td>
-							<td><?php echo $entry['hot_ranking']; ?></td>
+							<td title="<?php echo $entry['hot_ranking'];?>" ><?php echo number_format($entry['hot_ranking']*100000, 3); ?></td>
 							<td><?php echo $entry['upload_timestamp']; ?></td>
 							<td><?php echo ($entry['d0_completed']+$entry['d1_completed']+$entry['d2_completed']+$entry['d3_completed']); ?></td>
 							<td><?php echo ($entry['d0_played']+$entry['d1_played']+$entry['d2_played']+$entry['d3_played']); ?></td>
+
+                            <?php if ($entry['d0_besttime'] !== null): ?>
 							<td title="<?php echo $entry['d0_besttime']; ?> @ <?php echo $entry['d0_besttimestamp']; ?>" ><a href="userinfo.php?id=<?php echo $entry['d0_bestuserid']; ?>"><?php echo $entry['d0_bestusername']; ?></a> (<?php echo $entry['d0_bestuserid']; ?>)</td>
-							<td title="<?php echo $entry['d1_besttime']; ?> @ <?php echo $entry['d1_besttimestamp']; ?>" ><a href="userinfo.php?id=<?php echo $entry['d1_bestuserid']; ?>"><?php echo $entry['d1_bestusername']; ?></a> (<?php echo $entry['d1_bestuserid']; ?>)</td>
-							<td title="<?php echo $entry['d2_besttime']; ?> @ <?php echo $entry['d2_besttimestamp']; ?>" ><a href="userinfo.php?id=<?php echo $entry['d2_bestuserid']; ?>"><?php echo $entry['d2_bestusername']; ?></a> (<?php echo $entry['d2_bestuserid']; ?>)</td>
-							<td title="<?php echo $entry['d3_besttime']; ?> @ <?php echo $entry['d3_besttimestamp']; ?>" ><a href="userinfo.php?id=<?php echo $entry['d3_bestuserid']; ?>"><?php echo $entry['d3_bestusername']; ?></a> (<?php echo $entry['d3_bestuserid']; ?>)</td>
+							<?php else: ?>
+                                <td></td>
+							<?php endif ?>
+
+							<?php if ($entry['d1_besttime'] !== null): ?>
+                            <td title="<?php echo $entry['d1_besttime']; ?> @ <?php echo $entry['d1_besttimestamp']; ?>" ><a href="userinfo.php?id=<?php echo $entry['d1_bestuserid']; ?>"><?php echo $entry['d1_bestusername']; ?></a> (<?php echo $entry['d1_bestuserid']; ?>)</td>
+                            <?php else: ?>
+                            <td></td>
+                            <?php endif ?>
+
+							<?php if ($entry['d2_besttime'] !== null): ?>
+                            <td title="<?php echo $entry['d2_besttime']; ?> @ <?php echo $entry['d2_besttimestamp']; ?>" ><a href="userinfo.php?id=<?php echo $entry['d2_bestuserid']; ?>"><?php echo $entry['d2_bestusername']; ?></a> (<?php echo $entry['d2_bestuserid']; ?>)</td>
+                            <?php else: ?>
+                            <td></td>
+                            <?php endif ?>
+
+							<?php if ($entry['d3_besttime'] !== null): ?>
+                            <td title="<?php echo $entry['d3_besttime']; ?> @ <?php echo $entry['d3_besttimestamp']; ?>" ><a href="userinfo.php?id=<?php echo $entry['d3_bestuserid']; ?>"><?php echo $entry['d3_bestusername']; ?></a> (<?php echo $entry['d3_bestuserid']; ?>)</td>
+                            <?php else: ?>
+                            <td></td>
+                            <?php endif ?>
 						</tr>
 
 					<?php endforeach; ?>
