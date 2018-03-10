@@ -105,9 +105,9 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] git repo for bfb apache-config
 
-[ ] harden mysql
+[X] harden mysql
 
-[ ] harden apache
+[X] harden apache
 
 [ ] IAB version for iOS
 
@@ -117,11 +117,11 @@ USER GENERATED LEVEL [[TODO]]
      -[x] cron
      -[x] backups
 
-[ ] supervisor for proxyserver
+[/] supervisor for proxyserver
 
 [X] check if proxyserver online in cron
 
-[ ] ssh for my server
+[X] ssh for my server
 
 [X] highscore cat button on left side for previous highscore type
 
@@ -135,6 +135,6 @@ USER GENERATED LEVEL [[TODO]]
 
 [X] gdapi err in lvl-93
 
-[ ] ios bridge suffix iOS before version (and fix in online db)
+[X] ios bridge suffix iOS before version (and fix in online db)
 
 [X] git quickpush alias
