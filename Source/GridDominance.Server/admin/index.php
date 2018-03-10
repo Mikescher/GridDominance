@@ -253,7 +253,7 @@
                 </table>
             </div>
 
-            <h4 class="subhshdr"><a href="worldhighscore.php?id=#">SCCM</a></h4>
+            <h4 class="subhshdr"><a href="worldhighscore.php?id=%23">SCCM</a></h4>
             <div class="tablebox">
                 <table class="sqltab pure-table pure-table-bordered sortable">
                     <thead>
