@@ -152,6 +152,8 @@
     <None Include="$(MSBuildThisFileDirectory)L10N\L10N.sqlite3" />
     <None Include="$(MSBuildThisFileDirectory)L10N\L10NOutputMissings.linq" />
     <None Include="$(MSBuildThisFileDirectory)L10N\L10NProcessor.linq" />
+    <None Include="$(MSBuildThisFileDirectory)TexturePacker\spritesheet.tps" />
+    <None Include="$(MSBuildThisFileDirectory)TexturePacker\spritesheet_extra.tps" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\music\cyber-factory.mp3" />

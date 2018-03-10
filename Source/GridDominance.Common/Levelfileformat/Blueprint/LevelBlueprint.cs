@@ -9,7 +9,7 @@ namespace GridDominance.Levelfileformat.Blueprint
 {
 	public sealed class LevelBlueprint
 	{
-		public const byte SCHEMA_VERSION = 1; // also update GDConstants.LevelVersion
+		public const byte SCHEMA_VERSION = 1;
 
 		public const int KI_TYPE_RAYTRACE    = 10; 
 		public const int KI_TYPE_PRECALC     = 11;

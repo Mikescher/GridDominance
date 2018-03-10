@@ -1,0 +1,11 @@
+<en-US>
+ - levelbrowser UI improvements
+ - fixed various bugs with user-generated levels
+ - faster server responses
+</en-US>
+
+<de-DE>
+ - UI Verbesserungen im Level browser
+ - Verschiedene Fehler in Zusammenhang mit Benutzerlevel behoben
+ - (Hoffentlich) schnellere Serverkommunikation
+</de-DE>
