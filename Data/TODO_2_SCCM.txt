@@ -78,7 +78,7 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] SCCMTest -> show ki rays
 
-[ ] Move Content to GridDominance.Content
+[X] Move Content to GridDominance.Content
 
 [X] Use eng for missing translations
 

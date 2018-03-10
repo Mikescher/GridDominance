@@ -87,7 +87,6 @@
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
-    <PreBuildEvent>texturepacker $(SolutionDir)..\Data\Content\Sprites\spritesheet.tps 2&gt;nul 1&gt;nul
-Exit 0</PreBuildEvent>
+    <PreBuildEvent>texturepacker $(SolutionDir)GridDominance.Content\TexturePacker\spritesheet.tps</PreBuildEvent>
   </PropertyGroup>
 </Project>

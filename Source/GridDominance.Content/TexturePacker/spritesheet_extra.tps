@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.2</string>
         <key>fileName</key>
-        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Data/Content/Sprites/spritesheet_extra.tps</string>
+        <string>F:/Eigene Dateien/Dropbox/Programming/C-Sharp/Xamarin Studio/GridDominance/Source/GridDominance.Content/TexturePacker/spritesheet_extra.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -104,7 +104,7 @@
         <key>dataFormat</key>
         <string>json-array</string>
         <key>textureFileName</key>
-        <filename>../../../Source/GridDominance.Content/Content/textures/spritesheet_extra_{v}.png</filename>
+        <filename>../../GridDominance.Content/Content/textures/spritesheet_extra_{v}.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -218,17 +218,17 @@
             <key>classfile</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../../GridDominance.DirectX/Content/textures/textures.cs</filename>
+                <filename>../../GridDominance.DirectX/Content/textures/textures.cs</filename>
             </struct>
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../../Source/GridDominance.Content/Content/textures/spritesheet_extra-sheet_{v}.json</filename>
+                <filename>../../GridDominance.Content/Content/textures/spritesheet_extra-sheet_{v}.json</filename>
             </struct>
             <key>datafile</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../../GridDominance.DirectX/Content/textures/textures.txt</filename>
+                <filename>../../GridDominance.DirectX/Content/textures/textures.txt</filename>
             </struct>
             <key>pandajson</key>
             <struct type="DataFile">
