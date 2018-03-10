@@ -45,7 +45,7 @@
             Stars: <?php echo $level['stars']; ?>
         </div>
         <div class="infodiv" title="<?php echo $level['hot_ranking']; ?>" >
-            Hot: <?php echo number_format($level['hot_ranking']*100000, 3); ?>
+            Hot: <?php echo number_format($level['hot_ranking']*100000, 3, '.', ''); ?>
         </div>
     </div>
 
@@ -115,10 +115,10 @@
 					<td><a href="userinfo.php?id=<?php echo $level['d0_bestuserid']; ?>"><?php echo getUsernameOrEmpty($level['d0_bestuserid']); ?></a> (<?php echo $level['d0_bestuserid']; ?>)</td>
 					<td><?php echo $recalc['d0_bestuserid']; ?></td>
 				</tr>
-                <tr>
+                <tr class="<?php if ($level['d0_besttime'] != $recalc['d0_besttime']) echo "td_err"; ?>">
 					<td>BestTime (Diff_0)</td>
 					<td title="<?php echo $level['d0_besttime']; ?>ms @ <?php echo $level['d0_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d0_besttime']/1000.0); ?></td>
-					<td></td>
+                    <td title="<?php echo $recalc['d0_besttime']; ?>"><?php echo gmdate("H:i:s", $recalc['d0_besttime']/1000.0); ?></td>
 				</tr>
 
                 <tr class="<?php if ($level['d1_completed'] != $recalc['d1_completed']) echo "td_err"; ?>">
@@ -136,10 +136,10 @@
 					<td><a href="userinfo.php?id=<?php echo $level['d1_bestuserid']; ?>"><?php echo getUsernameOrEmpty($level['d1_bestuserid']); ?></a> (<?php echo $level['d1_bestuserid']; ?>)</td>
 					<td><?php echo $recalc['d1_bestuserid']; ?></td>
 				</tr>
-                <tr>
+                <tr class="<?php if ($level['d1_besttime'] != $recalc['d1_besttime']) echo "td_err"; ?>">
 					<td>BestTime (Diff_1)</td>
 					<td title="<?php echo $level['d1_besttime']; ?>ms @ <?php echo $level['d1_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d1_besttime']/1000.0); ?></td>
-					<td></td>
+                    <td title="<?php echo $recalc['d1_besttime']; ?>"><?php echo gmdate("H:i:s", $recalc['d1_besttime']/1000.0); ?></td>
 				</tr>
 
                 <tr class="<?php if ($level['d2_completed'] != $recalc['d2_completed']) echo "td_err"; ?>">
@@ -157,10 +157,10 @@
 					<td><a href="userinfo.php?id=<?php echo $level['d2_bestuserid']; ?>"><?php echo getUsernameOrEmpty($level['d2_bestuserid']); ?></a> (<?php echo $level['d2_bestuserid']; ?>)</td>
 					<td><?php echo $recalc['d2_bestuserid']; ?></td>
 				</tr>
-                <tr>
+                <tr class="<?php if ($level['d2_besttime'] != $recalc['d2_besttime']) echo "td_err"; ?>">
 					<td>BestTime (Diff_2)</td>
 					<td title="<?php echo $level['d2_besttime']; ?>ms @ <?php echo $level['d2_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d2_besttime']/1000.0); ?></td>
-					<td></td>
+                    <td title="<?php echo $recalc['d2_besttime']; ?>"><?php echo gmdate("H:i:s", $recalc['d2_besttime']/1000.0); ?></td>
 				</tr>
 
                 <tr class="<?php if ($level['d3_completed'] != $recalc['d3_completed']) echo "td_err"; ?>">
@@ -178,10 +178,10 @@
 					<td><a href="userinfo.php?id=<?php echo $level['d3_bestuserid']; ?>"><?php echo getUsernameOrEmpty($level['d3_bestuserid']); ?></a> (<?php echo $level['d3_bestuserid']; ?>)</td>
 					<td><?php echo $recalc['d3_bestuserid']; ?></td>
 				</tr>
-                <tr>
+                <tr class="<?php if ($level['d3_besttime'] != $recalc['d3_besttime']) echo "td_err"; ?>">
 					<td>BestTime (Diff_3)</td>
 					<td title="<?php echo $level['d3_besttime']; ?>ms @ <?php echo $level['d3_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d3_besttime']/1000.0); ?></td>
-					<td></td>
+                    <td title="<?php echo $recalc['d3_besttime']; ?>"><?php echo gmdate("H:i:s", $recalc['d3_besttime']/1000.0); ?></td>
 				</tr>
 
                 <tr>
@@ -201,7 +201,7 @@
     <div class="tablebox" data-collapse>
         <h2 class="open collapseheader">Content</h2>
 
-        <div style="display:inline-block;background:#EEE;border: 1px solid black;padding: 8px;font-family: monospace;font-size: 14pt;word-break: break-all;">
+        <div style="display:inline-block;background:#EEE;border: 1px solid black;padding: 8px;font-family: monospace;word-break: break-all;">
             <?php echo base64_encode($content) ?>
         </div>
 

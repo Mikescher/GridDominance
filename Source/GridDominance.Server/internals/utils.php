@@ -624,6 +624,8 @@ function getUsernameOrEmpty($uid)
 
 	if ($n === FALSE) return "N/A";
 	if ($n === NULL) return "N/A";
+	if (empty($n)) return "N/A";
+	if (empty($n[0])) return "N/A";
 
 	return $n[0]['username'];
 }
@@ -661,6 +663,10 @@ function GetSCCMLevelMetadataRecalculated($levelid)
 	$recalc['d1_bestuserid'] = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT userid FROM userlevels_highscores WHERE levelid=:lid AND d1_time IS NOT NULL ORDER BY d1_time ASC LIMIT 1', [[':lid', $levelid, PDO::PARAM_INT]]);
 	$recalc['d2_bestuserid'] = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT userid FROM userlevels_highscores WHERE levelid=:lid AND d2_time IS NOT NULL ORDER BY d2_time ASC LIMIT 1', [[':lid', $levelid, PDO::PARAM_INT]]);
 	$recalc['d3_bestuserid'] = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT userid FROM userlevels_highscores WHERE levelid=:lid AND d3_time IS NOT NULL ORDER BY d3_time ASC LIMIT 1', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d0_besttime']   = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT MIN(d0_time) FROM userlevels_highscores WHERE levelid=:lid AND d0_time IS NOT NULL', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d1_besttime']   = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT MIN(d1_time) FROM userlevels_highscores WHERE levelid=:lid AND d1_time IS NOT NULL', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d2_besttime']   = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT MIN(d2_time) FROM userlevels_highscores WHERE levelid=:lid AND d2_time IS NOT NULL', [[':lid', $levelid, PDO::PARAM_INT]]);
+	$recalc['d3_besttime']   = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT MIN(d3_time) FROM userlevels_highscores WHERE levelid=:lid AND d3_time IS NOT NULL', [[':lid', $levelid, PDO::PARAM_INT]]);
 	$recalc['stars']         = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(*) FROM userlevels_highscores WHERE levelid=:lid AND starred=1', [[':lid', $levelid, PDO::PARAM_INT]]);
 	return $recalc;
 }
