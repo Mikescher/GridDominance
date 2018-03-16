@@ -693,3 +693,21 @@ function GetSCCMLevelSize()
 {
 	return sql_query_num('GetSCCMLevelSize', 'SELECT SUM(filesize) FROM userlevels WHERE upload_timestamp IS NOT NULL');
 }
+
+function isProxyActive() 
+{
+	if (! file_exists("/var/log/gdapi_log/proxystate.json")) return false;
+
+	$mtime = filemtime("/var/log/gdapi_log/proxystate.json");
+	return $mtime > (time() - (60 * 5)); // max 5 min
+}
+
+function isCronActive() 
+{
+	global $config;
+
+	if (! file_exists($config['logfile-cron'])) return false;
+
+	$mtime = filemtime($config['logfile-cron']);
+	return $mtime > (time() - (60 * 60 * 24)); // max 24 hours
+}
