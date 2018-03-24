@@ -29,6 +29,12 @@ try
 
 	$newurl = 'http://' . $host . $requri . ($query == '' ? '' : ('?'.$query));
 
+	if ($requri == '/') die('No more!');
+	if ($requri == '/favicon.ico') die('No more!');
+	if ($requri == '/admin') die('No more!');
+	if ($requri == '/admin/') die('No more!');
+	if ($requri == '/savesessionstate.php') die('No more!');
+
 	$options =
 	[
 		'http' =>
