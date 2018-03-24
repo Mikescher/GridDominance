@@ -104,6 +104,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM.Tabs
 		private async Task QueryMetaFromServer(List<Tuple<long, string, SCCMListElementLocalPlayable, string>> userlevelsLocal)
 		{
 			var userlevel_online = await MainGame.Inst.Backend.QueryUserLevel(MainGame.Inst.Profile, QueryUserLevelCategory.AllLevelsOfUserid, MainGame.Inst.Profile.OnlineUserID.ToString(), 0);
+			if (userlevel_online == null) return; // no internetz
 
 			var redownload = new List<Tuple<long, SCCMLevelMeta>>();
 
