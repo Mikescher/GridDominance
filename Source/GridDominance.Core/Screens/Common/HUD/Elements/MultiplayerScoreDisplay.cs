@@ -77,6 +77,11 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
+			Update2(gameTime);
+		}
+
+		public void Update2(SAMTime gameTime)
+		{
 			_icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
 			_icon.Rotation = 0.05f * gameTime.TotalElapsedSeconds * FloatMath.TAU;
 

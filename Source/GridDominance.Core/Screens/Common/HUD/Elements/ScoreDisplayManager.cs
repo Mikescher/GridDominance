@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.HUD;
 
@@ -13,11 +14,21 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 
 		public ScoreDisplayManager(GameHUD hud, bool firstShow)
 		{
-			hud.AddElement(ScoreDisplay   = new ScoreDisplay(firstShow));
-			hud.AddElement(MPScoreDisplay = new MultiplayerScoreDisplay(firstShow));
+			hud.AddElement(ScoreDisplay      = new ScoreDisplay(firstShow));
+			hud.AddElement(MPScoreDisplay    = new MultiplayerScoreDisplay(firstShow));
 			hud.AddElement(StarsScoreDisplay = new StarsScoreDisplay(firstShow));
-			hud.AddElement(SCCMScoreDisplay = new SCCMScoreDisplay(firstShow));
+			hud.AddElement(SCCMScoreDisplay  = new SCCMScoreDisplay(firstShow));
 
+			FakeFirstUpdate();
+		}
+
+		private void FakeFirstUpdate()
+		{
+			Update();
+			ScoreDisplay.Update2(MonoSAMGame.CurrentTime);
+			MPScoreDisplay.Update2(MonoSAMGame.CurrentTime);
+			StarsScoreDisplay.Update2(MonoSAMGame.CurrentTime);
+			SCCMScoreDisplay.Update2(MonoSAMGame.CurrentTime);
 		}
 
 		public void FinishCounter()

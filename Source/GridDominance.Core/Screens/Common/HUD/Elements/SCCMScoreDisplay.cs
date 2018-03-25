@@ -90,7 +90,11 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
+			Update2(gameTime);
+		}
 
+		public void Update2(SAMTime gameTime)
+		{
 			if (FloatMath.FloatInequals(_value.ActualValue, _value.TargetValue))
 			{
 				_value.Update(gameTime);

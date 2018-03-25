@@ -37,7 +37,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 			};
 
 			Alignment = HUDAlignment.TOPCENTER;
-			RelativePosition = FPoint.Zero;
+			RelativePosition = new FPoint(0, -35);
 			Size = new FSize(300, 35);
 		}
 

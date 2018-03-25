@@ -72,13 +72,18 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
+			Update2(gameTime);
+		}
+
+		public void Update2(SAMTime gameTime)
+		{
 			var whud = HUD as GDWorldHUD;
 
 			_text.Text = MainGame.Inst.Profile.TotalPoints.ToString();
 
 			_icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
 
-			if (whud != null)
+			if (whud != null && whud.TopLevelDisplay != null)
 				_offset.Set(whud.TopLevelDisplay.RelativeBottom);
 			else
 				_offset.Set(0);
@@ -99,7 +104,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 				Revalidate();
 			}
 		}
-		
+
 		protected override bool OnPointerUp(FPoint relPositionPoint, InputState istate) => IsVisible;
 		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate) => IsVisible;
 		protected override void OnPointerClick(FPoint relPositionPoint, InputState istate)

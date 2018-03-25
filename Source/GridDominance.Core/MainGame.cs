@@ -129,7 +129,7 @@ namespace GridDominance.Shared
 			{
 #if DEBUG
 //			const double ZOOM = 0.925;
-				const double ZOOM = 0.525;
+			const double ZOOM = 0.525;
 //			const double ZOOM = 0.325;
 
 				IsMouseVisible = true;
