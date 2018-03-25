@@ -89,9 +89,9 @@ function getParamStrOrError($name, $allowEmpty = false) {
 	}
 
 
-	if ($v === null)               outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::ERROR);
-	if ($v === false)              outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set", LOGLEVEL::ERROR);
-	if (!$allowEmpty && empty($v)) outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is empty", LOGLEVEL::ERROR);
+	if ($v === null)               outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set (query = '".$_SERVER['REQUEST_URI']."')", LOGLEVEL::ERROR);
+	if ($v === false)              outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set (query = '".$_SERVER['REQUEST_URI']."')", LOGLEVEL::ERROR);
+	if (!$allowEmpty && empty($v)) outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is empty (query = '".$_SERVER['REQUEST_URI']."')", LOGLEVEL::ERROR);
 
 	return $v;
 }
