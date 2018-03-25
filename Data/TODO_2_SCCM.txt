@@ -111,6 +111,8 @@ USER GENERATED LEVEL [[TODO]]
 
 [ ] IAB version for iOS
 
+[ ] ignore iPhone X notch
+
 [X] server setup (
      -[x] alias
      -[x] scripts

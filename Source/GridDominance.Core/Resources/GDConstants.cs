@@ -4,7 +4,7 @@ using MonoSAMFramework.Portable.Extensions;
 
 namespace GridDominance.Shared.Resources
 {
-	public enum GDFlavor { FREE, IAB, FULL, FULL_NOMP }
+	public enum GDFlavor { FREE, IAB, IAB_NOMP, FULL, FULL_NOMP }
 
 	public static class GDConstants
 	{

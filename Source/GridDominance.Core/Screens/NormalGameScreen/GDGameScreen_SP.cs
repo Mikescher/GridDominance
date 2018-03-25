@@ -65,7 +65,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 			HUD.AddModal(new HUDScorePanel(lvl, profile, newDifficulties, Difficulty, playerHasWon, addPoints, time), false);
 
-			if (playerHasWon && MainGame.Flavor==GDFlavor.IAB)
+			if (playerHasWon && (MainGame.Flavor==GDFlavor.IAB || MainGame.Flavor==GDFlavor.IAB_NOMP))
 			{
 				var diff = UnlockManager.GetFullUnlockState().Except(_unlocksBefore);
 				foreach (var d in diff)

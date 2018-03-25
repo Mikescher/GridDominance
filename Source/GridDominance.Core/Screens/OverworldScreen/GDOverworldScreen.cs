@@ -67,7 +67,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen
 			nodesList.Add(new OverworldNode_W2(this, FPoint.Zero));
 			nodesList.Add(new OverworldNode_W3(this, FPoint.Zero));
 			nodesList.Add(new OverworldNode_W4(this, FPoint.Zero));
-			if (MainGame.Flavor != GDFlavor.FREE && MainGame.Flavor != GDFlavor.FULL_NOMP) nodesList.Add(new OverworldNode_MP(this, FPoint.Zero));
+			if (MainGame.Flavor != GDFlavor.FREE && MainGame.Flavor != GDFlavor.FULL_NOMP && MainGame.Flavor != GDFlavor.IAB_NOMP) nodesList.Add(new OverworldNode_MP(this, FPoint.Zero));
 			if (MainGame.Flavor != GDFlavor.FREE) nodesList.Add(new OverworldNode_SCCM(this, FPoint.Zero));
 
 			foreach (var node in nodesList) Entities.AddEntity(node);

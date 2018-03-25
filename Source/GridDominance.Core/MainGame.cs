@@ -58,7 +58,7 @@ namespace GridDominance.Shared
 			Backend = new GDServerAPI(GDBridge);
 			//Backend = new DummyGDServerAPI();
 
-			if (MainGame.Flavor == GDFlavor.IAB) GDBridge.IAB.Connect(GDConstants.IABList);
+			if (MainGame.Flavor == GDFlavor.IAB || MainGame.Flavor == GDFlavor.IAB_NOMP) GDBridge.IAB.Connect(GDConstants.IABList);
 
 			Profile = new PlayerProfile();
 

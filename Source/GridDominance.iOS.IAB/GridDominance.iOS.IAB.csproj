@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{E92E42EF-545C-4F06-ABCD-380A740BCA84}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>GridDominance.iOS</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>GridDominance.iOS</AssemblyName>
+    <MonoGamePlatform>iOS</MonoGamePlatform>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_SHADERLESS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386, x86_64</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <MtouchFastDev>true</MtouchFastDev>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchProfiling>true</MtouchProfiling>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;GD_SHADERLESS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386, x86_64</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_SHADERLESS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Debug\iOS.IAB\</OutputPath>
+    <DefineConstants>RELEASE;__UNIFIED__;__MOBILE__;__IOS__;GD_SHADERLESS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchProfiling>true</MtouchProfiling>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Bin\Release\iOS.IAB\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignKey>iPhone Distribution: Julian Börsig, Simon Vollmer, Armin Benz und Mike Schwoerer (9X5SVX7DQ7)</CodesignKey>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_SHADERLESS</DefineConstants>
+    <CodesignProvision>Cannon Conquest Distribution Profile</CodesignProvision>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Plugin.BLE, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\Xamarin.iOS10\Plugin.BLE.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.BLE.Abstractions, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\Xamarin.iOS10\Plugin.BLE.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.3.0.1\lib\Xamarin.iOS10\Plugin.DeviceInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.3.0.1\lib\Xamarin.iOS10\Plugin.DeviceInfo.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.Forms.2.3.4.247\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.Forms.2.3.4.247\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform.iOS, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.Forms.2.3.4.247\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.Forms.2.3.4.247\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\iOS\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinUDPClient.cs">
+      <Link>Impl\XamarinUDPClient.cs</Link>
+    </Compile>
+    <Compile Include="Impl\AppleIABVersionBilling.cs" />
+    <Compile Include="Impl\AppleFileHelper.cs" />
+    <Compile Include="Impl\AppleBridge.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1024x768.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1536x2048.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2048x1536.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_640x1136.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_640x960.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_768x1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <None Include="Entitlements.plist" />
+    <None Include="Info.plist" />
+    <None Include="packages.config" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0029.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0040.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0058.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0076.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0080.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0087.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0120.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0180.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0060.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_0020.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\icon_1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Splash.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2208x1242.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1242x2208.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_750x1334.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2048x2732.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_768x1004.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1024x748.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2048x1496.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1536x2008.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_320x480.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Default.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\GameThumbnail.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <None Include="Content\music\macaron-island.m4a" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_bd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_fd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_hd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_ld.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default-sheet_md.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_bd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_fd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_hd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_ld.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_default_md.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_bd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_fd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_hd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_ld.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra-sheet_md.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_bd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_fd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_hd.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_ld.xnb" />
+    <BundleResource Include="Content\textures\spritesheet_extra_md.xnb" />
+    <BundleResource Include="Content\sounds\boost.xnb" />
+    <BundleResource Include="Content\sounds\button.xnb" />
+    <BundleResource Include="Content\sounds\click.xnb" />
+    <BundleResource Include="Content\sounds\close.xnb" />
+    <BundleResource Include="Content\sounds\collision.xnb" />
+    <BundleResource Include="Content\sounds\error.xnb" />
+    <BundleResource Include="Content\sounds\gameover.xnb" />
+    <BundleResource Include="Content\sounds\gamewon.xnb" />
+    <BundleResource Include="Content\sounds\glass.xnb" />
+    <BundleResource Include="Content\sounds\hit.xnb" />
+    <BundleResource Include="Content\sounds\laser.xnb" />
+    <BundleResource Include="Content\sounds\open.xnb" />
+    <BundleResource Include="Content\sounds\reflect.xnb" />
+    <BundleResource Include="Content\sounds\shoot.xnb" />
+    <BundleResource Include="Content\sounds\zoomin.xnb" />
+    <BundleResource Include="Content\sounds\zoomout.xnb" />
+    <BundleResource Include="Content\shaders\SAMParticleEffect.xnb" />
+    <BundleResource Include="Content\music\cyber-factory.xnb" />
+    <BundleResource Include="Content\music\macaron-island.xnb" />
+    <BundleResource Include="Content\music\mr-krabs.xnb" />
+    <BundleResource Include="Content\music\spinning-gears.xnb" />
+    <BundleResource Include="Content\music\spirit-forge.xnb" />
+    <BundleResource Include="Content\music\tekno-labs.xnb" />
+    <BundleResource Include="Content\levels\level_1-01.xnb" />
+    <BundleResource Include="Content\levels\level_1-02.xnb" />
+    <BundleResource Include="Content\levels\level_1-03.xnb" />
+    <BundleResource Include="Content\levels\level_1-04.xnb" />
+    <BundleResource Include="Content\levels\level_1-05.xnb" />
+    <BundleResource Include="Content\levels\level_1-06.xnb" />
+    <BundleResource Include="Content\levels\level_1-07.xnb" />
+    <BundleResource Include="Content\levels\level_1-08.xnb" />
+    <BundleResource Include="Content\levels\level_1-09.xnb" />
+    <BundleResource Include="Content\levels\level_1-10.xnb" />
+    <BundleResource Include="Content\levels\level_1-11.xnb" />
+    <BundleResource Include="Content\levels\level_1-12.xnb" />
+    <BundleResource Include="Content\levels\level_1-13.xnb" />
+    <BundleResource Include="Content\levels\level_1-14.xnb" />
+    <BundleResource Include="Content\levels\level_2-01.xnb" />
+    <BundleResource Include="Content\levels\level_2-02.xnb" />
+    <BundleResource Include="Content\levels\level_2-03.xnb" />
+    <BundleResource Include="Content\levels\level_2-04.xnb" />
+    <BundleResource Include="Content\levels\level_2-05.xnb" />
+    <BundleResource Include="Content\levels\level_2-06.xnb" />
+    <BundleResource Include="Content\levels\level_2-07.xnb" />
+    <BundleResource Include="Content\levels\level_2-08.xnb" />
+    <BundleResource Include="Content\levels\level_2-09.xnb" />
+    <BundleResource Include="Content\levels\level_2-10.xnb" />
+    <BundleResource Include="Content\levels\level_2-11.xnb" />
+    <BundleResource Include="Content\levels\level_2-12.xnb" />
+    <BundleResource Include="Content\levels\level_2-13.xnb" />
+    <BundleResource Include="Content\levels\level_2-14.xnb" />
+    <BundleResource Include="Content\levels\level_2-15.xnb" />
+    <BundleResource Include="Content\levels\level_2-16.xnb" />
+    <BundleResource Include="Content\levels\level_2-17.xnb" />
+    <BundleResource Include="Content\levels\level_2-18.xnb" />
+    <BundleResource Include="Content\levels\level_2-19.xnb" />
+    <BundleResource Include="Content\levels\level_2-20.xnb" />
+    <BundleResource Include="Content\levels\level_2-21.xnb" />
+    <BundleResource Include="Content\levels\level_2-22.xnb" />
+    <BundleResource Include="Content\levels\level_2-23.xnb" />
+    <BundleResource Include="Content\levels\level_2-24.xnb" />
+    <BundleResource Include="Content\levels\level_2-25.xnb" />
+    <BundleResource Include="Content\levels\level_2-26.xnb" />
+    <BundleResource Include="Content\levels\level_2-27.xnb" />
+    <BundleResource Include="Content\levels\level_3-01.xnb" />
+    <BundleResource Include="Content\levels\level_3-02.xnb" />
+    <BundleResource Include="Content\levels\level_3-03.xnb" />
+    <BundleResource Include="Content\levels\level_3-04.xnb" />
+    <BundleResource Include="Content\levels\level_3-05.xnb" />
+    <BundleResource Include="Content\levels\level_3-06.xnb" />
+    <BundleResource Include="Content\levels\level_3-07.xnb" />
+    <BundleResource Include="Content\levels\level_3-08.xnb" />
+    <BundleResource Include="Content\levels\level_3-09.xnb" />
+    <BundleResource Include="Content\levels\level_3-10.xnb" />
+    <BundleResource Include="Content\levels\level_3-11.xnb" />
+    <BundleResource Include="Content\levels\level_3-12.xnb" />
+    <BundleResource Include="Content\levels\level_3-13.xnb" />
+    <BundleResource Include="Content\levels\level_3-14.xnb" />
+    <BundleResource Include="Content\levels\level_3-15.xnb" />
+    <BundleResource Include="Content\levels\level_3-16.xnb" />
+    <BundleResource Include="Content\levels\level_3-17.xnb" />
+    <BundleResource Include="Content\levels\level_3-18.xnb" />
+    <BundleResource Include="Content\levels\level_3-19.xnb" />
+    <BundleResource Include="Content\levels\level_3-20.xnb" />
+    <BundleResource Include="Content\levels\level_3-21.xnb" />
+    <BundleResource Include="Content\levels\level_3-22.xnb" />
+    <BundleResource Include="Content\levels\level_3-23.xnb" />
+    <BundleResource Include="Content\levels\level_3-24.xnb" />
+    <BundleResource Include="Content\levels\level_3-25.xnb" />
+    <BundleResource Include="Content\levels\level_3-26.xnb" />
+    <BundleResource Include="Content\levels\level_3-27.xnb" />
+    <BundleResource Include="Content\levels\level_3-28.xnb" />
+    <BundleResource Include="Content\levels\level_3-29.xnb" />
+    <BundleResource Include="Content\levels\level_3-30.xnb" />
+    <BundleResource Include="Content\levels\level_3-31.xnb" />
+    <BundleResource Include="Content\levels\level_4-01.xnb" />
+    <BundleResource Include="Content\levels\level_4-02.xnb" />
+    <BundleResource Include="Content\levels\level_4-03.xnb" />
+    <BundleResource Include="Content\levels\level_4-04.xnb" />
+    <BundleResource Include="Content\levels\level_4-05.xnb" />
+    <BundleResource Include="Content\levels\level_4-06.xnb" />
+    <BundleResource Include="Content\levels\level_4-07.xnb" />
+    <BundleResource Include="Content\levels\level_4-08.xnb" />
+    <BundleResource Include="Content\levels\level_4-09.xnb" />
+    <BundleResource Include="Content\levels\level_4-10.xnb" />
+    <BundleResource Include="Content\levels\level_4-11.xnb" />
+    <BundleResource Include="Content\levels\level_4-12.xnb" />
+    <BundleResource Include="Content\levels\level_4-13.xnb" />
+    <BundleResource Include="Content\levels\level_4-14.xnb" />
+    <BundleResource Include="Content\levels\level_4-15.xnb" />
+    <BundleResource Include="Content\levels\level_4-16.xnb" />
+    <BundleResource Include="Content\levels\level_4-17.xnb" />
+    <BundleResource Include="Content\levels\level_4-18.xnb" />
+    <BundleResource Include="Content\levels\level_4-19.xnb" />
+    <BundleResource Include="Content\levels\level_4-20.xnb" />
+    <BundleResource Include="Content\levels\level_4-21.xnb" />
+    <BundleResource Include="Content\levels\level_4-22.xnb" />
+    <BundleResource Include="Content\levels\level_4-23.xnb" />
+    <BundleResource Include="Content\levels\level_4-24.xnb" />
+    <BundleResource Include="Content\levels\level_4-25.xnb" />
+    <BundleResource Include="Content\levels\level_4-26.xnb" />
+    <BundleResource Include="Content\levels\level_4-27.xnb" />
+    <BundleResource Include="Content\levels\level_4-28.xnb" />
+    <BundleResource Include="Content\levels\level_4-29.xnb" />
+    <BundleResource Include="Content\levels\level_4-30.xnb" />
+    <BundleResource Include="Content\levels\level_4-31.xnb" />
+    <BundleResource Include="Content\levels\lvl_debug.xnb" />
+    <BundleResource Include="Content\levels\lvl_tutorial.xnb" />
+    <BundleResource Include="Content\levels\world_1.xnb" />
+    <BundleResource Include="Content\levels\world_2.xnb" />
+    <BundleResource Include="Content\levels\world_3.xnb" />
+    <BundleResource Include="Content\levels\world_4.xnb" />
+    <BundleResource Include="Content\fonts\debugFont.xnb" />
+    <BundleResource Include="Content\fonts\debugFontSmall.xnb" />
+    <BundleResource Include="Content\fonts\hudFontBold.xnb" />
+    <BundleResource Include="Content\fonts\hudFontRegular.xnb" />
+    <BundleResource Include="Content\fonts\levelBackgroundFont.xnb" />
+    <BundleResource Include="Content\music\cyber-factory.m4a" />
+    <BundleResource Include="Content\music\mr-krabs.m4a" />
+    <BundleResource Include="Content\music\spinning-gears.m4a" />
+    <BundleResource Include="Content\music\spirit-forge.m4a" />
+    <BundleResource Include="Content\music\tekno-labs.m4a" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj">
+      <Project>{550f035e-f23e-4999-bb01-4857486e4125}</Project>
+      <Name>DebugView.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj">
+      <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
+      <Name>FarseerPhysics.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj">
+      <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
+      <Name>GridDominance.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj">
+      <Project>{3fe0a696-c3ba-450d-9b03-e264af024f0d}</Project>
+      <Name>GridDominance.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
+      <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
+      <Name>MonoSAMFramework.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Impl\Bluetooth\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork" />
+    <ITunesArtwork Include="iTunesArtwork%402x" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <!--<Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" /> -->
+  <Import Project="..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets'))" />
+  </Target>
+</Project>

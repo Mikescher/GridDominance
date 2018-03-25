@@ -60,13 +60,12 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Operations
 					focus = GetFocus_Free(nodes);
 					break;
 				case GDFlavor.IAB:
+				case GDFlavor.IAB_NOMP:
 					focus = GetFocus_IAB(nodes);
 					break;
 				case GDFlavor.FULL:
-					focus = GetFocus_Full(nodes);
-					break;
 				case GDFlavor.FULL_NOMP:
-					focus = GetFocus_FullNoMP(nodes);
+					focus = GetFocus_Full(nodes);
 					break;
 				default:
 					SAMLog.Error("OSA::EnumSwitch_CTR", "MainGame.Flavor = " + MainGame.Flavor);
@@ -130,23 +129,6 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Operations
 		}
 
 		private static int GetFocus_Full(OverworldNode[] nodes)
-		{
-			// Node where next is locked
-			for (int i = 0; i < nodes.Length; i++)
-			{
-				if (nodes[i] is OverworldNode_Graph n && !n.IsNodeEnabled) return (i==0) ? (0) : (i-1);
-			}
-			
-			// Last SP node
-			for (int i = 1; i < nodes.Length; i++)
-			{
-				if (!(nodes[i] is OverworldNode_Graph)) return (i==0) ? (0) : (i-1);
-			}
-
-			return nodes.Length - 1;
-		}
-
-		private static int GetFocus_FullNoMP(OverworldNode[] nodes)
 		{
 			// Node where next is locked
 			for (int i = 0; i < nodes.Length; i++)

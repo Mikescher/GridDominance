@@ -52,6 +52,7 @@ namespace GridDominance.Shared.Screens.Common
 					}
 
 					case GDFlavor.IAB:
+					case GDFlavor.IAB_NOMP:
 					{
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_001, Levels.WORLD_002.ID);
 						int neededPoints = PointsForUnlock(id);
@@ -93,6 +94,7 @@ namespace GridDominance.Shared.Screens.Common
 						return WorldUnlockState.UnreachableButCanBePreviewed;
 					}
 					case GDFlavor.IAB:
+					case GDFlavor.IAB_NOMP:
 					{
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_002, Levels.WORLD_003.ID);
 						int neededPoints = PointsForUnlock(id);
@@ -134,6 +136,7 @@ namespace GridDominance.Shared.Screens.Common
 						return WorldUnlockState.UnreachableButCanBePreviewed;
 					}
 					case GDFlavor.IAB:
+					case GDFlavor.IAB_NOMP:
 					{
 						bool reachable = BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_003, Levels.WORLD_004.ID);
 						int neededPoints = PointsForUnlock(id);
@@ -187,6 +190,7 @@ namespace GridDominance.Shared.Screens.Common
 					}
 
 					case GDFlavor.FULL_NOMP:
+					case GDFlavor.IAB_NOMP:
 					{
 						return WorldUnlockState.UnreachableAndFullyLocked;
 					}
@@ -208,6 +212,7 @@ namespace GridDominance.Shared.Screens.Common
 						return WorldUnlockState.UnreachableAndFullyLocked;
 					}
 					case GDFlavor.IAB:
+					case GDFlavor.IAB_NOMP:
 					{
 						if (GetIABState(GDConstants.IAB_ONLINE, Levels.WORLD_ID_ONLINE, showToast)) return WorldUnlockState.OpenAndUnlocked;
 						if (BlueprintAnalyzer.IsWorldReachable(Levels.WORLD_004, Levels.WORLD_ID_GAMEEND)) return WorldUnlockState.OpenAndUnlocked;
