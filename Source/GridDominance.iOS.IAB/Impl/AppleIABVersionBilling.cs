@@ -3,6 +3,9 @@ using MonoSAMFramework.Portable.DeviceBridge;
 
 namespace GridDominance.iOS.Impl
 {
+	/// <summary>
+	/// https://docs.microsoft.com/en-us/xamarin/ios/platform/in-app-purchasing/
+	/// </summary>
 	class AppleIABVersionBilling : IBillingAdapter
 	{
 		public bool IsConnected => true;
