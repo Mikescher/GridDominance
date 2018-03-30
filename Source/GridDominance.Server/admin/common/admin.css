@@ -269,7 +269,7 @@ h1 a:hover { color: blue; text-decoration: underline; }
 .samtabheaderbox {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 
   justify-content: center;
   text-align: center;

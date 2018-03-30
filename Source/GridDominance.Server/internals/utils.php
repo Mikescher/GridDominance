@@ -480,11 +480,9 @@ function getRunLogActionList() {
 	return sql_query_assoc('getRunLogActionList', "SELECT action FROM runlog_history GROUP BY action");
 }
 
-function getRunLog($action) {
-	return sql_query_assoc_prep('getRunLog', "SELECT * FROM runlog_history WHERE action = :ac AND exectime >= now() - INTERVAL 28 DAY ORDER BY exectime DESC",
-	[
-		[':ac', $action, PDO::PARAM_STR],
-	]);
+function getAllRunLogs() {
+
+	return sql_query_assoc('getRunLog', "SELECT * FROM runlog_history ORDER BY exectime DESC");
 }
 
 function getRunLogCountVolatile() {

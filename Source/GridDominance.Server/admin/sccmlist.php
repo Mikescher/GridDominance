@@ -38,7 +38,7 @@
     </div>
 
     <div class="tablebox" data-collapse>
-        <h2 class="open collapseheader">Linked Entries</h2>
+        <h2 class="open collapseheader">Custom Levels</h2>
 		<div>
             <div class="filterlinkrow">
                 <?php if (! $showall): ?>
