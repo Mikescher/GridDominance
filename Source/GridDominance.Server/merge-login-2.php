@@ -46,6 +46,19 @@ function run() {
 	$user->SetScoreAndTime($totalscore, $score_w1, $score_w2, $score_w3, $score_w4, $totaltime, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp, $appversion);
 	logDebug("score and time changed (update) for user:$user->ID [[$score_w1, $score_w2, $score_w3, $score_w4, $totaltime, $time_w1, $time_w2, $time_w3, $time_w4, $score_mp]]");
 
+	//---------- step 3.5: [test for bullshit]
+
+	if ($old_userid == $user->ID)
+	{
+		// fast return because this is basically a NO-OP
+
+		$finished_data = $user->GetAllLevelScoreEntries();
+
+		logError("Account merge is no-op from $old_userid to $user->ID.");
+		outputResultSuccess(['user' => $user, 'updatecount' => $changecount, 'scores' => $finished_data]);
+		return;
+	}
+
 	//---------- step 4: [migrate customlevelscores]
 
 	$stmt = $pdo->prepare('SELECT * FROM userlevels_highscores WHERE userid = :uid');
@@ -55,21 +68,7 @@ function run() {
 
 	foreach ($oldentries as $entry)
 	{
-		/*
-			INSERT INTO userlevels_highscores
-
-			(userid, levelid, d0_time, d0_lastplayed, d1_time, d1_lastplayed, d2_time, d2_lastplayed, d3_time, d3_lastplayed)
-			VALUES
-			(:uid,:lid,:d0t2,:d0p2,:d1t2,:d1p2,:d2t2,:d2p2,:d3t2,:d3p2)
-
-			ON DUPLICATE KEY UPDATE
-
-			d0_time = LEAST(:d0t1,d0_time), d0_lastplayed = GREATEST(:d0p1,d0_lastplayed),
-			d1_time = LEAST(:d1t1,d1_time), d1_lastplayed = GREATEST(:d1p1,d1_lastplayed),
-			d2_time = LEAST(:d2t1,d2_time), d2_lastplayed = GREATEST(:d2p1,d2_lastplayed),
-			d3_time = LEAST(:d3t1,d3_time), d3_lastplayed = GREATEST(:d3p1,d3_lastplayed)
-		 */
-		$stmt = $pdo->prepare('INSERT INTO userlevels_highscores(userid, levelid, d0_time, d0_lastplayed, d1_time, d1_lastplayed, d2_time, d2_lastplayed, d3_time, d3_lastplayed) VALUES (:uid,:lid,:d0t2,:d0p2,:d1t2,:d1p2,:d2t2,:d2p2,:d3t2,:d3p2) ON DUPLICATE KEY UPDATE d0_time = LEAST(:d0t1,d0_time), d0_lastplayed = GREATEST(:d0p1,d0_lastplayed), d1_time = LEAST(:d1t1,d1_time), d1_lastplayed = GREATEST(:d1p1,d1_lastplayed), d2_time = LEAST(:d2t1,d2_time), d2_lastplayed = GREATEST(:d2p1,d2_lastplayed), d3_time = LEAST(:d3t1,d3_time), d3_lastplayed = GREATEST(:d3p1,d3_lastplayed)');
+		$stmt = $pdo->prepare(loadSQL("merge-userlevels-highscores-single"));
 		$stmt->bindValue(':uid',  $user->ID,               PDO::PARAM_INT);
 		$stmt->bindValue(':lid',  $entry['levelid'],       PDO::PARAM_INT);
 		$stmt->bindValue(':d0t1', $entry['d0_time'],       PDO::PARAM_INT);
@@ -118,29 +117,7 @@ function run() {
 
 	//---------- step 5: [recalc sccm scores]
 
-	/*
-		SELECT max_diff AS diff, COUNT(max_diff) AS levelcount FROM
-		(
-			SELECT
-
-			GREATEST
-			(
-				(CASE WHEN d0_time IS NULL THEN -1 ELSE 0 END),
-				(CASE WHEN d1_time IS NULL THEN -1 ELSE 1 END),
-				(CASE WHEN d2_time IS NULL THEN -1 ELSE 2 END),
-				(CASE WHEN d3_time IS NULL THEN -1 ELSE 3 END)
-			) AS max_diff
-
-			FROM userlevels_highscores
-
-			WHERE userid=:uid
-		) AS score_greatest
-
-		WHERE max_diff <> -1
-
-		GROUP BY max_diff
-	 */
-	$stmt = $pdo->prepare('SELECT max_diff AS diff, COUNT(max_diff) AS levelcount FROM(SELECT GREATEST((CASE WHEN d0_time IS NULL THEN -1 ELSE 0 END),(CASE WHEN d1_time IS NULL THEN -1 ELSE 1 END),(CASE WHEN d2_time IS NULL THEN -1 ELSE 2 END),(CASE WHEN d3_time IS NULL THEN -1 ELSE 3 END)) AS max_diff FROM userlevels_highscores WHERE userid=:uid) AS score_greatest WHERE max_diff <> -1 GROUP BY max_diff');
+	$stmt = $pdo->prepare(loadSQL("recalc-sccm-score-for-user"));
 	$stmt->bindValue(':uid', $user->ID,      PDO::PARAM_INT);
 	executeOrFail($stmt);
 	$scoresummary = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -162,7 +139,7 @@ function run() {
 
 	//---------- step 8: [return]
 
-	logMessage("Account merge sucessful ($old_userid into $user->ID) with $changecount changes. Old account purged.");
+	logMessage("Account merge sucessful ($old_userid into $user->ID) with $changecount changes. Old account ($old_userid) purged.");
 	outputResultSuccess(['user' => $user, 'updatecount' => $changecount, 'scores' => $finished_data]);
 }
 

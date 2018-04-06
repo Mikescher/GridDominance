@@ -86,7 +86,7 @@ function run() {
 
 	if ($success === FALSE)
 	{
-		logError("Write Levelfile failed for $filename");
+		outputError(ERRORS::INTERNAL_EXCEPTION, "Write Levelfile failed for $filename", LOGLEVEL::ERROR);
 	}
 
 	//----------

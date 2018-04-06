@@ -23,6 +23,8 @@ try {
 
 		$stmt = $pdo->prepare("DELETE FROM users WHERE userid = " . $row['userid']);
 		$stmt->execute();
+
+		logMessage("Deleted Zombie: " . $row['userid']);
 	}
 
 	finish(false, false);
