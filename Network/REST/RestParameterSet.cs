@@ -115,7 +115,7 @@ namespace MonoSAMFramework.Portable.Network.REST
 			dict.Add(new PEntry(name, value, RestParameterSetType.BinaryCompressed, signed, forcePost));
 		}
 
-		public Tuple<string, FormUrlEncodedContent> CreateParamString(string secret)
+		public Tuple<string, HttpContent> CreateParamString(string secret)
 		{
 			var post = new List<KeyValuePair<string, string>>();
 			
@@ -226,9 +226,19 @@ namespace MonoSAMFramework.Portable.Network.REST
 				get = get + "&xsampostredirect=" + "("+string.Join(";", post.Select(p => p.Key+":"+p.Value.Length))+")";
 			}
 
-			var postContent = post.Any() ? new FormUrlEncodedContent(post) : null;
+			var postContent = post.Any() ? CreatePostData(post) : null;
 
 			return Tuple.Create(get, postContent);
+		}
+
+		private static HttpContent CreatePostData(List<KeyValuePair<string, string>> data)
+		{
+			var content = new MultipartFormDataContent();
+			foreach (var keyValuePair in data)
+			{
+				content.Add(new StringContent(keyValuePair.Value), keyValuePair.Key);
+			}
+			return content;
 		}
 
 		public static string CompressString(string str)
