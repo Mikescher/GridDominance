@@ -72,6 +72,16 @@ function is_int_str($value) {
 }
 
 /**
+ * @param string $value
+ * @return bool
+ */
+function strempty($value) {
+	if ($value === null) return true;
+	if ($value === '') return true;
+	return false;
+}
+
+/**
  * @param string $name
  * @param bool $allowEmpty
  * @return string
@@ -89,9 +99,9 @@ function getParamStrOrError($name, $allowEmpty = false) {
 	}
 
 
-	if ($v === null)               outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set (query = '".$_SERVER['REQUEST_URI']."')", LOGLEVEL::ERROR);
-	if ($v === false)              outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set (query = '".$_SERVER['REQUEST_URI']."')", LOGLEVEL::ERROR);
-	if (!$allowEmpty && empty($v)) outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is empty (query = '".$_SERVER['REQUEST_URI']."')", LOGLEVEL::ERROR);
+	if ($v === null)                  outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set (query = '".$_SERVER['REQUEST_URI']."')", LOGLEVEL::ERROR);
+	if ($v === false)                 outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is not set (query = '".$_SERVER['REQUEST_URI']."')", LOGLEVEL::ERROR);
+	if (!$allowEmpty && strempty($v)) outputError(ERRORS::MISSING_PARAMETER, "The parameter $name is empty (query = '".$_SERVER['REQUEST_URI']."')", LOGLEVEL::ERROR);
 
 	return $v;
 }
@@ -115,7 +125,7 @@ function getParamStrOrEmpty($name) {
 
 	if ($v === null)  return '';
 	if ($v === false) return '';
-	if (empty($v))    return '';
+	if (strempty($v)) return '';
 
 	return $v;
 }
