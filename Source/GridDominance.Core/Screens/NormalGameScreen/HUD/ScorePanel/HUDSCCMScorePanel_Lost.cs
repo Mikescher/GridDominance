@@ -3,6 +3,7 @@ using GridDominance.Shared.Resources;
 using GridDominance.Shared.Screens.Common.HUD.Elements;
 using GridDominance.Shared.Screens.NormalGameScreen.Fractions;
 using GridDominance.Shared.Screens.NormalGameScreen.HUD.Elements;
+using GridDominance.Shared.Screens.OverworldScreen.HUD.SCCM;
 using Microsoft.Xna.Framework;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
@@ -117,11 +118,31 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.ScorePanel
 			#endregion
 			
 			#region Buttons
+			
+			AddElement(new HUDIconTextButton(2)
+			{
+				Alignment = HUDAlignment.BOTTOMLEFT,
+				RelativePosition = new FPoint(24, 3.50f * TW),
+				Size = new FSize(3.5f * TW, 60),
+
+				L10NText = L10NImpl.STR_HSP_BACK,
+				TextColor = Color.White,
+				Font = Textures.HUDFontRegular,
+				FontSize = 55,
+				TextAlignment = HUDAlignment.CENTER,
+				TextPadding = 8,
+				Icon = Textures.TexIconBack,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
+
+				Click = (s, a) => MainGame.Inst.SetOverworldScreenWithSCCM(SCCMMainPanel.SCCMTab.Hot),
+			});
 
 			AddElement(new HUDIconTextButton(2)
 			{
-				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 3.50f * TW),
+				Alignment = HUDAlignment.BOTTOMRIGHT,
+				RelativePosition = new FPoint(24, 3.50f * TW),
 				Size = new FSize(3.5f * TW, 60),
 
 				L10NText = L10NImpl.STR_HSP_AGAIN,
@@ -130,7 +151,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.HUD.ScorePanel
 				FontSize = 55,
 				TextAlignment = HUDAlignment.CENTER,
 				TextPadding = 8,
-				Icon = Textures.TexIconBack,
+				Icon = Textures.TexIconRedo,
 				
 				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.Orange, 16),
 				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.SunFlower, 16),
