@@ -63,6 +63,7 @@
     <Compile Include="Extensions\VersionExtension.cs" />
     <Compile Include="GameMath\AdaptionFloat.cs" />
     <Compile Include="GameMath\BistateProgress.cs" />
+    <Compile Include="GameMath\ByteMath.cs" />
     <Compile Include="GameMath\CircularDirection.cs" />
     <Compile Include="GameMath\Cryptography\KiddieCryptography.cs" />
     <Compile Include="GameMath\Cryptography\MD5.cs" />
