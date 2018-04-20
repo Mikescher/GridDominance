@@ -49,6 +49,7 @@ Thumbs.db
 MyBuilds
 
 /Data/web/*
+/Data/userlevels/*
 
 *.xnb
 UpgradeLog*.html
