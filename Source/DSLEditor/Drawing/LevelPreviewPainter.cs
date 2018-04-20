@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.DSLEditor.Drawing
 {
@@ -30,7 +31,7 @@ namespace GridDominance.DSLEditor.Drawing
 				g.Clear(Color.White);
 				g.DrawImageUnscaled(img, 0, 16 + 48);
 				g.DrawString(level.Name + ": " + level.FullName, new Font("Calibri", 28, FontStyle.Bold), Brushes.DarkRed, 24, 16 + 8);
-				g.DrawString(level.UniqueID.ToString("B"), new Font("Courier New", 28, FontStyle.Bold), Brushes.DarkRed, 24, 16 + 8 + img.Height + 48);
+				g.DrawString($"{{{ByteMath.SplitGuid(level.UniqueID).Item5:X12}}}", new Font("Courier New", 28, FontStyle.Bold), Brushes.DarkRed, 24, 16 + 8 + img.Height + 48);
 
 
 				var kitRect = new RectangleF(img.Width - 16, 48, 32, 32);

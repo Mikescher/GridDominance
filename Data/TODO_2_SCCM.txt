@@ -140,3 +140,11 @@ USER GENERATED LEVEL [[TODO]]
 [X] ios bridge suffix iOS before version (and fix in online db)
 
 [X] git quickpush alias
+ 
+[X]  (!!!) SCCMLevelData:279 serializes OnlineLID as dec not hex 
+             - fix in code
+             - fix binaries on server (+checksums) -> does this break anything???
+             - see why currently no problems?
+             - what happens with local cache ??
+
+[ ] Upload userlevel screenshots to iimgur album

@@ -276,7 +276,7 @@ namespace GridDominance.Shared.SCCM
 		{
 			var bp = new LevelBlueprint();
 
-			bp.UniqueID    = Guid.Parse($"b16b00b5-0001-4001-0000-{OnlineID:000000000000}");
+			bp.UniqueID    = Guid.Parse($"b16b00b5-0001-4001-0000-{OnlineID:X12}");
 			bp.WrapMode    = (byte)Geometry;
 			bp.LevelWidth  = Width * 64;
 			bp.LevelHeight = Height * 64;

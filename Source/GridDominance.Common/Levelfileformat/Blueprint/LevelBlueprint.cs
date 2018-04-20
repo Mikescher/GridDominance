@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.Levelfileformat.Blueprint
 {
 	public sealed class LevelBlueprint
 	{
-		public const byte SCHEMA_VERSION = 1;
+		public const byte SCHEMA_VERSION = 2;
 
 		public const int KI_TYPE_RAYTRACE    = 10; 
 		public const int KI_TYPE_PRECALC     = 11;
@@ -165,17 +166,20 @@ namespace GridDominance.Levelfileformat.Blueprint
 			CustomMeta_UserID = -1;
 			CustomMeta_LevelID = -1;
 			CustomMeta_Timestamp = DateTimeOffset.MinValue;
-
+			
+			byte schema = 0;
+			
+			var eof = false;
 			byte[] id = new byte[1];
 			while (br.Read(id, 0, 1) > 0)
 			{
 				switch (id[0])
 				{
 					case SERIALIZE_ID_SCHEMA:
-						var schema = br.ReadByte();
-						if (schema != SCHEMA_VERSION) // currently only schema 1
+						schema = br.ReadByte();
+						if (schema > SCHEMA_VERSION)
 						{
-							throw new Exception($"schema not supported ({schema} <> {SCHEMA_VERSION})");
+							throw new Exception($"schema not supported ({schema} > {SCHEMA_VERSION})");
 						}
 						break;
 
@@ -248,11 +252,11 @@ namespace GridDominance.Levelfileformat.Blueprint
 						break;
 
 					case SERIALIZE_ID_META_CUSTOM:
-						CustomMusic           = br.ReadInt32();
+						CustomMusic                   = br.ReadInt32();
 						CustomMeta_MinLevelIntVersion = br.ReadUInt64();
-						CustomMeta_UserID     = br.ReadInt32();
-						CustomMeta_Timestamp  = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(br.ReadInt64());
-						CustomMeta_LevelID    = br.ReadInt64();
+						CustomMeta_UserID             = br.ReadInt32();
+						CustomMeta_Timestamp          = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(br.ReadInt64());
+						CustomMeta_LevelID            = br.ReadInt64();
 						break;
 
 					case SERIALIZE_ID_EOF:
@@ -261,14 +265,41 @@ namespace GridDominance.Levelfileformat.Blueprint
 						if (br.ReadByte() != 0x00) throw new Exception("Missing footer byte 3");
 						if (br.ReadByte() != 0xB5) throw new Exception("Missing footer byte 4");
 
-						return;
+						eof = true;
+						break;
 
 					default:
 						throw new Exception("Unknown binary ID:" + id[0]);
 				}
+				if (eof) break;
+			}
+			
+			if (!eof) throw new Exception("Unexpected binary file end");
+
+			if (schema == 0)
+			{
+				// no schema
+			}
+			else if (schema == 1)
+			{
+				if (CustomMeta_LevelID > 0)
+				{
+					// Fix wrong LevelID Serialization in schema-1 :/
+
+					var uid = ByteMath.SplitGuid(UniqueID);
+
+					var a = uid.Item1;
+					var b = uid.Item2;
+					var c = uid.Item3;
+					var d = uid.Item4;
+					var e = uid.Item5;
+
+					e = Convert.ToUInt64($"{e:X}", 10);
+
+					UniqueID = ByteMath.JoinGuid(a, b, c, d, e);
+				}
 			}
 
-			throw new Exception("Unexpected binary file end");
 		}
 		
 		public static bool IsIncludeMatch(string a, string b)

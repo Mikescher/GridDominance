@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\MonoSAMFramework.Portable\GameMath\ByteMath.cs">
+      <Link>Helper\ByteMath.cs</Link>
+    </Compile>
     <Compile Include="Graphfileformat\Blueprint\INodeBlueprint.cs" />
     <Compile Include="Graphfileformat\Blueprint\WarpNodeBlueprint.cs" />
     <Compile Include="Graphfileformat\Blueprint\RootNodeBlueprint.cs" />
