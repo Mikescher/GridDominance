@@ -1,0 +1,9 @@
+<en-US>
+ - fixed upload bug with big level files
+ - fixed various smaller bugs
+</en-US>
+
+<de-DE>
+ - Fehler beim Hochladen von großen Level behoben
+ - Weitere kleinere Fehler behoben
+</de-DE>
