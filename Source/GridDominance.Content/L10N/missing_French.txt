@@ -1,6 +1,6 @@
 [en-US]  Online
 [de-DE]  Online
-[fr-FR]  ?
+[fr-FR]  en ligne
 [it-IT]  ?
 [es-ES]  ?
 
@@ -9,7 +9,7 @@
 
 [en-US]  Move
 [de-DE]  Verschieben
-[fr-FR]  ?
+[fr-FR]  déplacer
 [it-IT]  ?
 [es-ES]  ?
 
@@ -18,7 +18,7 @@
 
 [en-US]  Cannon
 [de-DE]  Kanone
-[fr-FR]  ?
+[fr-FR]  canon
 [it-IT]  ?
 [es-ES]  ?
 
@@ -27,7 +27,7 @@
 
 [en-US]  Wall
 [de-DE]  Wand
-[fr-FR]  ?
+[fr-FR]  Mur
 [it-IT]  ?
 [es-ES]  ?
 
@@ -36,7 +36,7 @@
 
 [en-US]  Obstacle
 [de-DE]  Hindernis
-[fr-FR]  ?
+[fr-FR]  Obstacle
 [it-IT]  ?
 [es-ES]  ?
 
@@ -45,7 +45,7 @@
 
 [en-US]  Settings
 [de-DE]  Einstellungen
-[fr-FR]  ?
+[fr-FR]  Embauchage
 [it-IT]  ?
 [es-ES]  ?
 
@@ -54,7 +54,7 @@
 
 [en-US]  Test
 [de-DE]  Testen
-[fr-FR]  ?
+[fr-FR]  Tester
 [it-IT]  ?
 [es-ES]  ?
 
@@ -63,7 +63,7 @@
 
 [en-US]  Upload
 [de-DE]  Hochladen
-[fr-FR]  ?
+[fr-FR]  Télécharger
 [it-IT]  ?
 [es-ES]  ?
 
@@ -81,7 +81,7 @@
 
 [en-US]  Fraction
 [de-DE]  Fraktion
-[fr-FR]  ?
+[fr-FR]  Fraction
 [it-IT]  ?
 [es-ES]  ?
 
@@ -90,7 +90,7 @@
 
 [en-US]  Scale
 [de-DE]  Größe
-[fr-FR]  ?
+[fr-FR]  Taille
 [it-IT]  ?
 [es-ES]  ?
 
@@ -99,7 +99,7 @@
 
 [en-US]  Rotation
 [de-DE]  Drehung
-[fr-FR]  ?
+[fr-FR]  Rotation
 [it-IT]  ?
 [es-ES]  ?
 
@@ -108,7 +108,7 @@
 
 [en-US]  Type
 [de-DE]  Typ
-[fr-FR]  ?
+[fr-FR]  Format
 [it-IT]  ?
 [es-ES]  ?
 
@@ -117,7 +117,7 @@
 
 [en-US]  Diameter
 [de-DE]  Durchmesser
-[fr-FR]  ?
+[fr-FR]  Diamètre
 [it-IT]  ?
 [es-ES]  ?
 
@@ -126,7 +126,7 @@
 
 [en-US]  Width
 [de-DE]  Breite
-[fr-FR]  ?
+[fr-FR]  Largeur
 [it-IT]  ?
 [es-ES]  ?
 
@@ -135,7 +135,7 @@
 
 [en-US]  Height
 [de-DE]  Höhe
-[fr-FR]  ?
+[fr-FR]  Hauteur
 [it-IT]  ?
 [es-ES]  ?
 
@@ -144,7 +144,7 @@
 
 [en-US]  Power
 [de-DE]  Stärke
-[fr-FR]  ?
+[fr-FR]  Force
 [it-IT]  ?
 [es-ES]  ?
 
@@ -153,7 +153,7 @@
 
 [en-US]  Delete
 [de-DE]  Entfernen
-[fr-FR]  ?
+[fr-FR]  Supprimer
 [it-IT]  ?
 [es-ES]  ?
 
@@ -162,7 +162,7 @@
 
 [en-US]  ID
 [de-DE]  ID
-[fr-FR]  ?
+[fr-FR]  ID
 [it-IT]  ?
 [es-ES]  ?
 
@@ -171,7 +171,7 @@
 
 [en-US]  Name
 [de-DE]  Name
-[fr-FR]  ?
+[fr-FR]  Nom
 [it-IT]  ?
 [es-ES]  ?
 
@@ -180,7 +180,7 @@
 
 [en-US]  Size
 [de-DE]  Größe
-[fr-FR]  ?
+[fr-FR]  Taille
 [it-IT]  ?
 [es-ES]  ?
 
@@ -189,7 +189,7 @@
 
 [en-US]  Initial view
 [de-DE]  Startansicht
-[fr-FR]  ?
+[fr-FR]  Vue accueil
 [it-IT]  ?
 [es-ES]  ?
 
@@ -198,7 +198,7 @@
 
 [en-US]  Geometry
 [de-DE]  Geometrie
-[fr-FR]  ?
+[fr-FR]  Géometrie
 [it-IT]  ?
 [es-ES]  ?
 
@@ -207,7 +207,7 @@
 
 [en-US]  Infinity
 [de-DE]  Endlos
-[fr-FR]  ?
+[fr-FR]  Infini
 [it-IT]  ?
 [es-ES]  ?
 
@@ -216,7 +216,7 @@
 
 [en-US]  Donut
 [de-DE]  Donut
-[fr-FR]  ?
+[fr-FR]  Donut
 [it-IT]  ?
 [es-ES]  ?
 
@@ -225,7 +225,7 @@
 
 [en-US]  Reflect
 [de-DE]  Reflektierend
-[fr-FR]  ?
+[fr-FR]  Réfléchissant
 [it-IT]  ?
 [es-ES]  ?
 
@@ -234,7 +234,7 @@
 
 [en-US]  Portal
 [de-DE]  Portal
-[fr-FR]  ?
+[fr-FR]  Portail
 [it-IT]  ?
 [es-ES]  ?
 
@@ -243,7 +243,7 @@
 
 [en-US]  Channel
 [de-DE]  Kanal
-[fr-FR]  ?
+[fr-FR]  Conal
 [it-IT]  ?
 [es-ES]  ?
 
@@ -252,7 +252,7 @@
 
 [en-US]  Direction
 [de-DE]  Richtung
-[fr-FR]  ?
+[fr-FR]  Direction
 [it-IT]  ?
 [es-ES]  ?
 
@@ -261,7 +261,7 @@
 
 [en-US]  Length
 [de-DE]  Länge
-[fr-FR]  ?
+[fr-FR]  Longueur
 [it-IT]  ?
 [es-ES]  ?
 
@@ -270,7 +270,7 @@
 
 [en-US]  Level has no name set
 [de-DE]  Level hat keinen Namen gesetzt
-[fr-FR]  ?
+[fr-FR]  Le niveau n'a pas de nom défini
 [it-IT]  ?
 [es-ES]  ?
 
@@ -279,7 +279,7 @@
 
 [en-US]  You need at least two player
 [de-DE]  Ein Level braucht mindestens zwei Spieler
-[fr-FR]  ?
+[fr-FR]  Un niveau a d'au moins deux joueurs
 [it-IT]  ?
 [es-ES]  ?
 
@@ -288,7 +288,7 @@
 
 [en-US]  At least one cannon must be owned by the player
 [de-DE]  Mindestens eine Kanone muss dem Spieler gehören
-[fr-FR]  ?
+[fr-FR]  Au moins un canon doit appartenir au joueur
 [it-IT]  ?
 [es-ES]  ?
 
@@ -297,7 +297,7 @@
 
 [en-US]  Level has too many entities
 [de-DE]  Zu viele Elemente im Level
-[fr-FR]  ?
+[fr-FR]  Zu viele Elemente im Level
 [it-IT]  ?
 [es-ES]  ?
 
@@ -306,7 +306,7 @@
 
 [en-US]  Level compilation failed internally
 [de-DE]  Level konnte nicht kompiliert werden
-[fr-FR]  ?
+[fr-FR]  Le niveau n'a pas pu être compilé
 [it-IT]  ?
 [es-ES]  ?
 
@@ -315,7 +315,7 @@
 
 [en-US]  Delete level
 [de-DE]  Level löschen
-[fr-FR]  ?
+[fr-FR]  Supprimer le niveau
 [it-IT]  ?
 [es-ES]  ?
 
@@ -324,7 +324,7 @@
 
 [en-US]  Save changes
 [de-DE]  Änderungen speichern
-[fr-FR]  ?
+[fr-FR]  Enregistrer les modifications
 [it-IT]  ?
 [es-ES]  ?
 
@@ -333,7 +333,7 @@
 
 [en-US]  Discard changes
 [de-DE]  Änderungen verwerfen
-[fr-FR]  ?
+[fr-FR]  Supprimer les modifications
 [it-IT]  ?
 [es-ES]  ?
 
@@ -342,7 +342,7 @@
 
 [en-US]  Level deleted.
 [de-DE]  Level gelöscht.
-[fr-FR]  ?
+[fr-FR]  Supprimer le niveau
 [it-IT]  ?
 [es-ES]  ?
 
@@ -351,7 +351,7 @@
 
 [en-US]  User levels
 [de-DE]  Benutzerlevel
-[fr-FR]  ?
+[fr-FR]  Niveau utilisateur
 [it-IT]  ?
 [es-ES]  ?
 
@@ -360,7 +360,7 @@
 
 [en-US]  My levels
 [de-DE]  Meine Level
-[fr-FR]  ?
+[fr-FR]  Mes niveaux
 [it-IT]  ?
 [es-ES]  ?
 
@@ -369,7 +369,7 @@
 
 [en-US]  Hot
 [de-DE]  Beliebt
-[fr-FR]  ?
+[fr-FR]  Aimé
 [it-IT]  ?
 [es-ES]  ?
 
@@ -378,7 +378,7 @@
 
 [en-US]  Top
 [de-DE]  Top
-[fr-FR]  ?
+[fr-FR]  Top
 [it-IT]  ?
 [es-ES]  ?
 
@@ -387,7 +387,7 @@
 
 [en-US]  New
 [de-DE]  Neu
-[fr-FR]  ?
+[fr-FR]  Nouveau
 [it-IT]  ?
 [es-ES]  ?
 
@@ -396,7 +396,7 @@
 
 [en-US]  Search
 [de-DE]  Suche
-[fr-FR]  ?
+[fr-FR]  Chercher
 [it-IT]  ?
 [es-ES]  ?
 
@@ -405,7 +405,7 @@
 
 [en-US]  Create new level
 [de-DE]  Neues Level erstellen
-[fr-FR]  ?
+[fr-FR]  Créer un nouveau niveau
 [it-IT]  ?
 [es-ES]  ?
 
@@ -414,7 +414,7 @@
 
 [en-US]  Processing your request
 [de-DE]  Anfrage wird bearbeitet
-[fr-FR]  ?
+[fr-FR]  L'enquête est en cours de traitement
 [it-IT]  ?
 [es-ES]  ?
 
@@ -423,7 +423,7 @@
 
 [en-US]  Edit
 [de-DE]  Edit
-[fr-FR]  ?
+[fr-FR]  Façonner
 [it-IT]  ?
 [es-ES]  ?
 
@@ -432,7 +432,7 @@
 
 [en-US]  Play
 [de-DE]  Play
-[fr-FR]  ?
+[fr-FR]  Joue
 [it-IT]  ?
 [es-ES]  ?
 
@@ -441,7 +441,7 @@
 
 [en-US]  Compiling
 [de-DE]  Erzeugen
-[fr-FR]  ?
+[fr-FR]  Produire
 [it-IT]  ?
 [es-ES]  ?
 
@@ -450,7 +450,7 @@
 
 [en-US]  None
 [de-DE]  Keine
-[fr-FR]  ?
+[fr-FR]  Aucun
 [it-IT]  ?
 [es-ES]  ?
 
@@ -459,7 +459,7 @@
 
 [en-US]  Song {0}
 [de-DE]  Lied {0}
-[fr-FR]  ?
+[fr-FR]  Chanson
 [it-IT]  ?
 [es-ES]  ?
 
@@ -468,7 +468,7 @@
 
 [en-US]  Upload
 [de-DE]  Veröffentlichen
-[fr-FR]  ?
+[fr-FR]  Publier
 [it-IT]  ?
 [es-ES]  ?
 
@@ -477,7 +477,7 @@
 
 [en-US]  Uploading
 [de-DE]  Wird hochgeladen
-[fr-FR]  ?
+[fr-FR]  En cours de télécharger
 [it-IT]  ?
 [es-ES]  ?
 
@@ -486,7 +486,7 @@
 
 [en-US]  Level successfully published
 [de-DE]  Level wurde veröffentlicht
-[fr-FR]  ?
+[fr-FR]  Niveau était publié
 [it-IT]  ?
 [es-ES]  ?
 
@@ -495,7 +495,7 @@
 
 [en-US]  Server error while uploading level
 [de-DE]  Im Server trat ein Fehler während des Uploads auf
-[fr-FR]  ?
+[fr-FR]  Le serveur a rencontré une erreur lors du téléchargement
 [it-IT]  ?
 [es-ES]  ?
 
@@ -504,7 +504,7 @@
 
 [en-US]  Levelfile too big
 [de-DE]  Leveldatei zu groß
-[fr-FR]  ?
+[fr-FR]  Fichier de niveau trop grand
 [it-IT]  ?
 [es-ES]  ?
 
@@ -513,7 +513,7 @@
 
 [en-US]  Level was created by a different account
 [de-DE]  Level wurde von einem anderen Benutzer erstellt
-[fr-FR]  ?
+[fr-FR]  Le niveau a été créé par un autre utilisateur
 [it-IT]  ?
 [es-ES]  ?
 
@@ -522,7 +522,7 @@
 
 [en-US]  Level was deleted on the server
 [de-DE]  Level wurde auf dem Server gelöscht
-[fr-FR]  ?
+[fr-FR]  Le niveau était supprimé sur le serveur
 [it-IT]  ?
 [es-ES]  ?
 
@@ -531,7 +531,7 @@
 
 [en-US]  Ungültiger Name
 [de-DE]  Invalid name for level
-[fr-FR]  ?
+[fr-FR]  Nom invalide
 [it-IT]  ?
 [es-ES]  ?
 
@@ -540,7 +540,7 @@
 
 [en-US]  Clears
 [de-DE]  Gesamt
-[fr-FR]  ?
+[fr-FR]  Global
 [it-IT]  ?
 [es-ES]  ?
 
@@ -549,7 +549,7 @@
 
 [en-US]  Download failed
 [de-DE]  Dowload fehlgeschlagen
-[fr-FR]  ?
+[fr-FR]  Téléchargement échoué
 [it-IT]  ?
 [es-ES]  ?
 
@@ -558,7 +558,7 @@
 
 [en-US]  Downloading...
 [de-DE]  Downloading...
-[fr-FR]  ?
+[fr-FR]  Télécharge...
 [it-IT]  ?
 [es-ES]  ?
 
@@ -567,7 +567,7 @@
 
 [en-US]  This level needs a newer version of the game
 [de-DE]  Level benötigt eine neue Version der App
-[fr-FR]  ?
+[fr-FR]  Ce niveau a besoin d’une nouvelle version d’App
 [it-IT]  ?
 [es-ES]  ?
 
@@ -576,7 +576,7 @@
 
 [en-US]  You need a registered account to create levels
 [de-DE]  Ein Account wird benötigt um Level zu erstellen
-[fr-FR]  ?
+[fr-FR]  Un compte est requis pour créer des niveaux
 [it-IT]  ?
 [es-ES]  ?
 
@@ -585,7 +585,7 @@
 
 [en-US]  You get these tokens by completing normal levels.\nHigher difficulties result in more points.
 [de-DE]  Diese Punkte erlangt man durch das Spielen normaler Level.\nHöhere Schwierigkeitsstufen geben mehr Punkte.
-[fr-FR]  ?
+[fr-FR]  Ces points sont obtenus en jouant des niveaux normaux. Les niveaux de difficulté supérieurs donnent plus de points.
 [it-IT]  ?
 [es-ES]  ?
 
@@ -594,7 +594,7 @@
 
 [en-US]  You can get these tokens by winning multiplayer games against your friends.
 [de-DE]  Diese Punkte erlangt man durch gewinnen von lokalen Mehrspieler-Partien
-[fr-FR]  ?
+[fr-FR]  Ces points sont obtenus en gagnant des parties multijoueurs locales
 [it-IT]  ?
 [es-ES]  ?
 
@@ -603,7 +603,7 @@
 
 [en-US]  You can get these tokens by winning user generated levels from other players
 [de-DE]  Dise Punkte erlangt man durch das Spielen von Leveln die von anderen Spielern erstellt wurden
-[fr-FR]  ?
+[fr-FR]  Ces points sont obtenus en jouant des niveaux créés par d&#39;autres joueurs
 [it-IT]  ?
 [es-ES]  ?
 
@@ -612,7 +612,7 @@
 
 [en-US]  You get these stars when other players give a level you created a star
 [de-DE]  Du bekommst Sterne wenn andere Spieler ein Level, das du erstellt hast, positiv bewerten
-[fr-FR]  ?
+[fr-FR]  Tu obtiens des étoiles lorsque d&#39;autres joueurs évaluent positivement un niveau que vous avez créé
 [it-IT]  ?
 [es-ES]  ?
 
@@ -621,7 +621,7 @@
 
 [en-US]  Stars
 [de-DE]  Sterne
-[fr-FR]  ?
+[fr-FR]  étoiles
 [it-IT]  ?
 [es-ES]  ?
 
@@ -630,7 +630,7 @@
 
 [en-US]  User level points
 [de-DE]  Benutzerlevel Punkte
-[fr-FR]  ?
+[fr-FR]  Niveau utilisateur points
 [it-IT]  ?
 [es-ES]  ?
 
@@ -639,7 +639,7 @@
 
 [en-US]  Stars
 [de-DE]  Sterne
-[fr-FR]  ?
+[fr-FR]  étoiles
 [it-IT]  ?
 [es-ES]  ?
 
@@ -648,7 +648,7 @@
 
 [en-US]  Finish the game
 [de-DE]  Gewinne das Spiel
-[fr-FR]  ?
+[fr-FR]  Gagner le jeu
 [it-IT]  ?
 [es-ES]  ?
 
@@ -657,7 +657,7 @@
 
 [en-US]  User levels unlocked
 [de-DE]  Benutzerlevel entsperrt
-[fr-FR]  ?
+[fr-FR]  Niveau utilisateur débloqué
 [it-IT]  ?
 [es-ES]  ?
 
@@ -666,7 +666,7 @@
 
 [en-US]  Local multiplayer unlocked
 [de-DE]  Lokaler Mehrspieler entsperrt
-[fr-FR]  ?
+[fr-FR]  Multijoueur local débloqué
 [it-IT]  ?
 [es-ES]  ?
 
@@ -675,7 +675,7 @@
 
 [en-US]  Unlocked world {0}
 [de-DE]  Welt {0} entsperrt
-[fr-FR]  ?
+[fr-FR]  le monde {0} débloqué
 [it-IT]  ?
 [es-ES]  ?
 
@@ -684,7 +684,7 @@
 
 [en-US]  Name is already used by another level
 [de-DE]  Levelname wird schon verwendet
-[fr-FR]  ?
+[fr-FR]  Le nom du niveau est déjà utilisé
 [it-IT]  ?
 [es-ES]  ?
 
@@ -693,7 +693,7 @@
 
 [en-US]  Abort
 [de-DE]  Abbrechen
-[fr-FR]  ?
+[fr-FR]  Annuler
 [it-IT]  ?
 [es-ES]  ?
 
@@ -702,7 +702,7 @@
 
 [en-US]  Retry
 [de-DE]  Wiederholen
-[fr-FR]  ?
+[fr-FR]  Répéter
 [it-IT]  ?
 [es-ES]  ?
 
@@ -711,7 +711,7 @@
 
 [en-US]  First Clear
 [de-DE]  Erster
-[fr-FR]  ?
+[fr-FR]  Premier
 [it-IT]  ?
 [es-ES]  ?
 
@@ -720,7 +720,7 @@
 
 [en-US]  World record
 [de-DE]  Weltrekord
-[fr-FR]  ?
+[fr-FR]  Record du monde
 [it-IT]  ?
 [es-ES]  ?
 
@@ -729,7 +729,7 @@
 
 [en-US]  Author
 [de-DE]  Ersteller
-[fr-FR]  ?
+[fr-FR]  Auteur
 [it-IT]  ?
 [es-ES]  ?
 
@@ -738,7 +738,7 @@
 
 [en-US]  Time (you)
 [de-DE]  Deine Bestzeit
-[fr-FR]  ?
+[fr-FR]  Ta meilleure heure
 [it-IT]  ?
 [es-ES]  ?
 
@@ -747,7 +747,7 @@
 
 [en-US]  Beat your own level to upload it.
 [de-DE]  Gewinne dein eigenes Level um es hochzuladen
-[fr-FR]  ?
+[fr-FR]  Gagnez votre propre niveau pour télécharger
 [it-IT]  ?
 [es-ES]  ?
 
@@ -756,7 +756,7 @@
 
 [en-US]  LOADING
 [de-DE]  LADEN
-[fr-FR]  ?
+[fr-FR]  Charger
 [it-IT]  ?
 [es-ES]  ?
 
