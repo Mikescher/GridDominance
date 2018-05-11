@@ -1,4 +1,5 @@
 using MonoSAMFramework.Portable.Localization;
+using MonoSAMFramework.Portable.LogProtocol;
 
 namespace GridDominance.Shared.Resources
 {
@@ -240,6 +241,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ERR_OUTOFMEMORY             = 189;
 
 		public const int STR_CREDPNL_HEADER              = 188;
+		public const int STR_CREDPNL_BTN                 = 280;
 
 		public const int STR_PROFILESYNC_START           = 190;
 		public const int STR_PROFILESYNC_ERROR           = 191;
@@ -331,7 +333,7 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ACH_FIRSTCLEAR              = 274;
 		public const int STR_ACH_WORLDRECORD             = 275;
 
-		private const int TEXT_COUNT = 280; // = next idx
+		private const int TEXT_COUNT = 281; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -343,35 +345,30 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_SSB_ABOUT, "About", "Info", "Info", "Informazioni", "Información");
 
 			// Description: Text of mainscreen popupmenu. Entry [Account Information / Account Creation] (show account panel)
-			// Usage:       SubSettingButton.cs:189
+			// Usage:       SubSettingButton.cs:187
 			L10N.Add(STR_SSB_ACCOUNT, "Account", "Benutzerkonto", "Compte", "Account", "Cuenta");
 
 			// Description: Text of mainscreen popupmenu. Entry [Highscore] (show highscore panel)
-			// Usage:       SubSettingButton.cs:204
+			// Usage:       SubSettingButton.cs:202
 			L10N.Add(STR_SSB_HIGHSCORE, "Highscore", "Bestenliste", "Tableau d'honneur", "Classifica", "Puntaje alto");
 
 			// Description: Text of mainscreen popupmenu. Entry [Music] (disable/enable sound effects)
-			// Usage:       SubSettingButton.cs:219
+			// Usage:       SubSettingButton.cs:217
 			L10N.Add(STR_SSB_MUTE, "Mute", "Stumm", "Muet", "Muto", "Mute");
 
 			// Description: Text of mainscreen popupmenu. Entry [Effects] (disable/enable special effects)
-			// Usage:       SubSettingButton.cs:248
+			// Usage:       SubSettingButton.cs:246
 			L10N.Add(STR_SSB_EFFECTS, "Effects", "Effekte", "Effet", "Effetti", "Efectos");
 
 			// Description: Header in highscore table. Shows the highscore in normal (singleplayer) points.
-			// Usage:       HighscorePanel.cs:63
+			// Usage:       HighscorePanel.cs:64
 			L10N.Add(STR_HSP_GLOBALRANKING, "Global Ranking", "Bestenliste", "Classement globale", "Classifica Globale", "Ranking global");
 
 			// Description: Header in highscore table. Shows the highscore in normal (singleplayer) points for a single world.
-			// Usage:       HighscorePanel.cs:66
+			// Usage:       HighscorePanel.cs:67
 			L10N.Add(STR_HSP_RANKINGFOR, "Ranking for \"{0}\"", "Bestenliste für \"{0}\"", "Classement pour \"{0}\"", "Classifica per \"{0}\"", "Ranking");
 
 			// Description: Column caption in highscore table. Shows the username of the user
-			// Usage:       HighscorePanel.cs:176
-			// Usage:       HighscorePanel.cs:183
-			// Usage:       HighscorePanel.cs:190
-			// Usage:       HighscorePanel.cs:196
-			// Usage:       HighscorePanel.cs:202
 			L10N.Add(STR_TAB_NAME, "Name", "Name", "Nom", "Nome", "Nombre");
 
 			// Description: Column caption in highscore table. Shows the points a user has
@@ -379,89 +376,93 @@ namespace GridDominance.Shared.Resources
 			// Usage:       HighscorePanel.cs:184
 			// Usage:       HighscorePanel.cs:191
 			// Usage:       HighscorePanel.cs:203
+			// Usage:       HighscorePanel.cs:192
+			// Usage:       HighscorePanel.cs:204
 			L10N.Add(STR_TAB_POINTS, "Points", "Punkte", "Points", "Punti", "Puntos");
 
 			// Description: Column caption in highscore table. Shows the cummulative time a user has over all played levels
 			// Usage:       HighscorePanel.cs:178
 			// Usage:       HighscorePanel.cs:185
+			// Usage:       HighscorePanel.cs:179
+			// Usage:       HighscorePanel.cs:186
 			L10N.Add(STR_TAB_TIME, "Total Time", "Gesamtzeit", "Temps total", "Tempo Totale", "Tiempo total");
 
 			// Description: Header of the account-manage dialog
-			// Usage:       FullAccountPanel.cs:64
+			// Usage:       FullAccountPanel.cs:63
 			L10N.Add(STR_FAP_ACCOUNT, "Account", "Benutzerkonto", "Compte d'utilisateur", "Account", "Cuenta");
 
 			// Description: Label in account-manage dialog. Shows the username
-			// Usage:       FullAccountPanel.cs:78
+			// Usage:       FullAccountPanel.cs:77
 			L10N.Add(STR_FAP_USERNAME, "Username:", "Benutzername:", "Nom d'utilisateur", "Username:", "Usuario");
 
 			// Description: Button in account-manage dialog. Opens the change-password dialog
-			// Usage:       FullAccountPanel.cs:145
+			// Usage:       FullAccountPanel.cs:144
 			L10N.Add(STR_FAP_CHANGEPW, "Change Password", "Passwort ändern", "Mot de passe", "Cambia Password", "Cambiar clave");
 
 			// Description: Header of change-password dialog
-			// Usage:       ChangePasswordPanel.cs:66
+			// Usage:       ChangePasswordPanel.cs:65
 			L10N.Add(STR_CPP_CHANGEPW, "Change Password", "Passwort ändern", "Changer mot de passe", "Cambia Password", "Cambiar clave");
 
 			// Description: Placeholder for inputfield in change-password-dialog. Enter your username here
-			// Usage:       ChangePasswordPanel.cs:80
+			// Usage:       ChangePasswordPanel.cs:79
 			L10N.Add(STR_CPP_USERNAME, "Username:", "Benutzername:", "Nom d'utilisateur", "Username:", "Usuario");
 
 			// Description: Placeholder for inputfield in change-password-dialog. Enter the new password here
-			// Usage:       ChangePasswordPanel.cs:105
+			// Usage:       ChangePasswordPanel.cs:104
 			L10N.Add(STR_CPP_NEWPW, "New Password", "Neues Passwort", "Noveau mot de passe", "Nuova Password", "Nueva clave");
 
 			// Description: Buttontext in change-password panel. Changes the password for the current account
-			// Usage:       ChangePasswordPanel.cs:122
+			// Usage:       ChangePasswordPanel.cs:121
 			L10N.Add(STR_CPP_CHANGE, "Change", "Ändern", "Changer mot de passe", "Cambia", "Cambiar");
 
 			// Description: Text of waiting-box that is shown while the password is changed on the server
-			// Usage:       ChangePasswordPanel.cs:148
+			// Usage:       ChangePasswordPanel.cs:147
 			L10N.Add(STR_CPP_CHANGING, "Changing password", "Passwort wird geändert", "Changement du mot de passe ", "Cambiando la password", "Coambiando clave");
 
 			// Description: Text of infobox that is shown when the password change was successful
-			// Usage:       ChangePasswordPanel.cs:182
+			// Usage:       ChangePasswordPanel.cs:181
 			L10N.Add(STR_CPP_CHANGED, "Password changed", "Passwort geändert", "Mot de passe est changé", "Password cambiata", "Clave modificada");
 
 			// Description: Generic error message (error toast) when server (highscore, multiplayer or levelbrowser-server) communication failed due to an unexpected exception
-			// Usage:       LevelEditorScreen.cs:302
-			// Usage:       LevelEditorScreen.cs:364
-			// Usage:       ChangePasswordPanel.cs:211
-			// Usage:       HUDSCCMUploadScorePanel.cs:323
-			// Usage:       HUDSCCMUploadScorePanel.cs:416
-			// Usage:       SCCMListElementNewUserLevel.cs:117
-			// Usage:       SCCMListElementNewUserLevel.cs:143
-			// Usage:       SCCMTabHot.cs:104
-			// Usage:       SCCMTabNew.cs:104
 			// Usage:       SCCMTabSearch.cs:164
-			// Usage:       SCCMTabTop.cs:104
+			// Usage:       LevelEditorScreen.cs:304
+			// Usage:       LevelEditorScreen.cs:366
+			// Usage:       ChangePasswordPanel.cs:210
+			// Usage:       HUDSCCMUploadScorePanel.cs:313
+			// Usage:       HUDSCCMUploadScorePanel.cs:406
+			// Usage:       SCCMListElementNewUserLevel.cs:116
+			// Usage:       SCCMListElementNewUserLevel.cs:142
+			// Usage:       SCCMTabHot.cs:103
+			// Usage:       SCCMTabNew.cs:103
+			// Usage:       SCCMTabTop.cs:103
 			L10N.Add(STR_CPP_COMERR, "Could not communicate with server", "Kommunikation mit Server ist gestört", "La communication avec le serveur est perturbé", "Impossibile comunicare con il server", "No se puede comunicar con Server");
 
 			// Description: Generic error message (error toast) when a wrong password was supplied for an operation (eg change-password)
-			// Usage:       ChangePasswordPanel.cs:225
+			// Usage:       ChangePasswordPanel.cs:224
 			L10N.Add(STR_CPP_AUTHERR, "Authentication error", "Authentifizierung fehlgeschlagen", "Erreur d'authentification", "Errore di autenticazione", "Error de auntentificación");
 
 			// Description: Text of infobox that is shown when the password change failed (unknown error)
-			// Usage:       ChangePasswordPanel.cs:246
+			// Usage:       ChangePasswordPanel.cs:245
 			L10N.Add(STR_CPP_CHANGEERR, "Could not change password", "Passwort konnte nicht geändert werden", "Mot de passe ne peut pas être modifié", "Impossibile cambiare password", "No se pudo cambiar la clave");
 
 			// Description: Header of attributions dialog
-			// Usage:       AttributionsPanel.cs:45
-			// Usage:       InfoPanel.cs:64
+			// Usage:       AttributionsPanel.cs:43
+			// Usage:       InfoPanel.cs:63
 			L10N.Add(STR_ATTRIBUTIONS, "Attributions", "Lizenzen", "Licences", "Attribuzioni", "Atribuciones");
 
 			// Description: Header of anonymous-account-panel. Here you can login to an existing account or create a new one
-			// Usage:       AccountReminderPanel.cs:70
 			// Usage:       AnonymousAccountPanel.cs:67
+			// Usage:       AccountReminderPanel.cs:56
 			L10N.Add(STR_AAP_HEADER, "Sign up / Log in", "Anmelden / Registrieren", "Se connecter", "Iscriviti / Accedi", "Registrarse / Iniciar sesión");
 
 			// Description: Placeholder for inputfield "username"
 			// Usage:       AnonymousAccountPanel.cs:80
-			// Usage:       AuthErrorPanel.cs:80
+			// Usage:       AuthErrorPanel.cs:79
 			L10N.Add(STR_AAP_USERNAME, "Username", "Benutzername", "Nom d'utilisateur", "Username", "Usuario");
 
 			// Description: Placeholder for inputfield "password"
 			// Usage:       AnonymousAccountPanel.cs:100
-			// Usage:       AuthErrorPanel.cs:101
+			// Usage:       AuthErrorPanel.cs:100
 			L10N.Add(STR_AAP_PASSWORD, "Password", "Passwort", "Mot de passe", "Password", "Clave");
 
 			// Description: Buttontext in anonymous-account-panel. Creates a real account with username+password
@@ -470,17 +471,18 @@ namespace GridDominance.Shared.Resources
 
 			// Description: Buttontext in anonymous-account-panel. Logs the user in to an existing account
 			// Usage:       AnonymousAccountPanel.cs:135
-			// Usage:       AuthErrorPanel.cs:118
+			// Usage:       AuthErrorPanel.cs:117
 			L10N.Add(STR_AAP_LOGIN, "Login", "Anmelden", "S'inscrire", "Accedi", "Iniciar sesión");
 
 			// Description: Text of waitingbox that is shown while you are being logged in
 			// Usage:       AnonymousAccountPanel.cs:164
-			// Usage:       AuthErrorPanel.cs:169
+			// Usage:       AuthErrorPanel.cs:168
 			L10N.Add(STR_AAP_LOGGINGIN, "Logging in", "Wird angemeldet", "Est enregistré", "Accedendo", "Iniciando sesión");
 
 			// Description: Text of infobox that is shown when the login failed because the password is wrong
 			// Usage:       AnonymousAccountPanel.cs:195
 			// Usage:       AuthErrorPanel.cs:200
+			// Usage:       AuthErrorPanel.cs:199
 			L10N.Add(STR_AAP_WRONGPW, "Wrong password", "Falsches Passwort", "Mot de passe incorrect", "Password sbagliata", "Clave incorrecta");
 
 			// Description: Text of infobox that is shown when an operation failed because the local user was not found on the server
@@ -491,17 +493,16 @@ namespace GridDominance.Shared.Resources
 			// Description: Text of infobox that is shown whem the communication with the server failed
 			// Usage:       AnonymousAccountPanel.cs:197
 			// Usage:       AnonymousAccountPanel.cs:353
-			// Usage:       AuthErrorPanel.cs:202
 			L10N.Add(STR_AAP_NOCOM, "Could not communicate with server", "Konnte nicht mit Server kommunizieren", "La communication avec le serveur est perturbé", "Impossibile comunicare con il server", "No se puede comunicar con Server");
 
 			// Description: Text of infobox that is shown when the login was successfull
 			// Usage:       AnonymousAccountPanel.cs:223
-			// Usage:       AuthErrorPanel.cs:228
+			// Usage:       AuthErrorPanel.cs:227
 			L10N.Add(STR_AAP_LOGINSUCCESS, "Successfully logged in", "Benutzer erfolgreich angemeldet", "Connecté avec succès", "Accesso completo", "Sesión iniciada correctamente");
 
 			// Description: Text of infobox that is shown when the login failed because of an internal exception
 			// Usage:       AnonymousAccountPanel.cs:243
-			// Usage:       AuthErrorPanel.cs:248
+			// Usage:       AuthErrorPanel.cs:247
 			L10N.Add(STR_AAP_NOLOGIN, "Could not login", "Anmeldung fehlgeschlagen", "Échec de la connexion", "Impossibile accedere", "No se pudo iniciar sesión");
 
 			// Description: Text of waitingbox that is shown while a new account is being created
@@ -530,6 +531,7 @@ namespace GridDominance.Shared.Resources
 
 			// Description: Normal game screen top-left pause menu entry. Resume the current game (un-pause)
 			// Usage:       HUDPauseButton.cs:139
+			// Usage:       HUDPauseButton.cs:138
 			L10N.Add(STR_PAUS_RESUME, "RESUME", "WEITER", "REPRENDRE", "CONTINUA", "Continuar");
 
 			// Description: Normal game screen top-left pause menu entry. Restart the current game
@@ -537,20 +539,19 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_PAUS_RESTART, "RESTART", "NEU STARTEN", "REDÉMARRER", "RICOMINCIA", "Reiniciar");
 
 			// Description: Normal game screen top-left pause menu entry. Exit game and return to (worldmap / levelbrowser / multiplayerlobby)
-			// Usage:       HUDPauseButton.cs:141
 			L10N.Add(STR_PAUS_EXIT, "EXIT", "BEENDEN", "TERMINER", "ESCI", "Salir");
 
 			// Description: Caption of post-game score-panel footer area. Shows the shortname of the level
 			// Usage:       HUDMultiplayerScorePanel.cs:137
-			// Usage:       HUDScorePanel.cs:130
 			// Usage:       HUDTutorialScorePanel.cs:115
+			// Usage:       HUDScorePanel.cs:131
 			L10N.Add(STR_HSP_LEVEL, "Level", "Level", "Niveau", "Livello", "Nivel");
 
 			// Description: Caption of post-game score-panel footer area. Shows the singleplayer-points of the user (and the change in them from the played game)
-			// Usage:       HUDSCCMScorePanel_Lost.cs:204
-			// Usage:       HUDSCCMScorePanel_Won.cs:298
-			// Usage:       HUDScorePanel.cs:143
 			// Usage:       HUDTutorialScorePanel.cs:128
+			// Usage:       HUDSCCMScorePanel_Lost.cs:225
+			// Usage:       HUDSCCMScorePanel_Won.cs:294
+			// Usage:       HUDScorePanel.cs:144
 			L10N.Add(STR_HSP_POINTS, "Points", "Punkte", "Ponts", "Punti", "Puntos");
 
 			// Description: Caption of post-game score-panel footer area. Shows the progress of the current level (ege 4/4 = all 4 difficulties beaten), only visible in singleplayer
@@ -558,23 +559,24 @@ namespace GridDominance.Shared.Resources
 
 			// Description: Button text of after-game score panel. "Go back to the (worldmap/multiplaymenu/leveleditor/levelbrowser)"
 			// Usage:       HUDMultiplayerScorePanel.cs:206
-			// Usage:       HUDSCCMScorePanel_Won.cs:153
-			// Usage:       HUDSCCMTestScorePanel.cs:159
-			// Usage:       HUDSCCMUploadScorePanel.cs:169
-			// Usage:       HUDScorePanel.cs:210
+			// Usage:       HUDSCCMScorePanel_Lost.cs:127
+			// Usage:       HUDSCCMScorePanel_Won.cs:149
+			// Usage:       HUDSCCMTestScorePanel.cs:148
+			// Usage:       HUDSCCMUploadScorePanel.cs:159
+			// Usage:       HUDScorePanel.cs:211
 			L10N.Add(STR_HSP_BACK, "Back", "Zurück", "De retour", "Indietro", "Atrás");
 
 			// Description: Button in post-game score-panel. Play the next level (visible for singleplayer games)
-			// Usage:       HUDScorePanel.cs:236
+			// Usage:       HUDScorePanel.cs:237
 			L10N.Add(STR_HSP_NEXT, "Next", "Weiter", "Prochain", "Avanti", "Siguiente");
 
 			// Description: Button text of after-game score panel. "Play the level again"
-			// Usage:       HUDSCCMScorePanel_Lost.cs:126
-			// Usage:       HUDSCCMScorePanel_Won.cs:173
-			// Usage:       HUDSCCMScorePanel_Won.cs:422
-			// Usage:       HUDSCCMTestScorePanel.cs:180
-			// Usage:       HUDSCCMUploadScorePanel.cs:215
-			// Usage:       HUDScorePanel.cs:261
+			// Usage:       HUDSCCMScorePanel_Lost.cs:147
+			// Usage:       HUDSCCMScorePanel_Won.cs:169
+			// Usage:       HUDSCCMScorePanel_Won.cs:418
+			// Usage:       HUDSCCMTestScorePanel.cs:169
+			// Usage:       HUDSCCMUploadScorePanel.cs:205
+			// Usage:       HUDScorePanel.cs:262
 			L10N.Add(STR_HSP_AGAIN, "Again", "Wiederholen", "Répéter", "Ripeti", "Repetir");
 
 			// Description: Content of post-game score-panel footer area. Content of "levelname" footer area if level was the tutorial
@@ -630,15 +632,15 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_TUT_INFO8, "Win the game by capturing all enemy cannons", "Gewinne die Schlacht indem du alle Einheiten eroberst", "Gagnez le jeu en capturant tous les canons ennemis", "Vinci il gioco catturando tutti i cannoni nemici", "Ganarás cuando hayas capturado todos los cañones");
 
 			// Description: Generic error message (error toast) when server (highscore-server) communication failed due to no connection (eg no internet)
-			// Usage:       GDServerAPI.cs:1557
+			// Usage:       GDServerAPI.cs:1554
 			L10N.Add(STR_API_CONERR, "Could not connect to highscore server", "Verbindung mit Highscore Server fehlgeschlagen", "Impossible de se connecter au serveur Highscore", "Impossibile connettersi al server della classifica", "No se puede comunicar con Server");
 
 			// Description: Generic error message (error toast) when server (highscore-server) communication failed due to an unexpected exception
-			// Usage:       GDServerAPI.cs:1565
+			// Usage:       GDServerAPI.cs:1562
 			L10N.Add(STR_API_COMERR, "Could not communicate with highscore server", "Kommunikation mit Highscore Server fehlgeschlagen", "Impossible de communiquer avec le serveur highscore", "Impossibile comunicare al server della classifica", "No se puede comunicar con Server");
 
 			// Description: Toast-message that is shown when user presses teh hardware back-key in the menu.
-			// Usage:       ExitAgent.cs:45
+			// Usage:       ExitAgent.cs:44
 			L10N.Add(STR_GLOB_EXITTOAST, "Click again to exit game", "Drücke nochmal \"Zurück\" um das Spiel zu beenden", "Cliquez de noouveau pour quitter le jeu", "Clicca di nuovo per uscire dal gioco", "Presiona otra vez para finalizar el juego");
 
 			// Description: text of toast. highscore-server communication failed due to no connection (eg no internet)
@@ -657,7 +659,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_GLOB_UNLOCKTOAST3, "World unlocked", "Welt freigeschaltet", "Monde débloqué", "Mondo sbloccato", "Mundo desbloqueado");
 
 			// Description: Text of mainscreen popupmenu. Entry [Language] (toggle through available languages)
-			// Usage:       SubSettingButton.cs:262
+			// Usage:       SubSettingButton.cs:260
 			L10N.Add(STR_SSB_LANGUAGE, "Language", "Sprache", "Longue", "Linguaggio", "Idioma");
 
 			// Description: Toast-message that is shown when a user clicks on a locked level-node
@@ -665,17 +667,17 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_GLOB_LEVELLOCK, "Level locked", "Level noch nicht freigespielt", "Niveau bloqué", "Livello bloccato", "Nivel bloqueado");
 
 			// Description: Toast-message that is shown when a user clicks on a locked world-node
-			// Usage:       OverworldNode_Graph.cs:253
-			// Usage:       OverworldNode_Graph.cs:262
-			// Usage:       OverworldNode_SCCM.cs:117
-			// Usage:       WarpGameEndNode.cs:99
-			// Usage:       WarpNode.cs:102
+			// Usage:       OverworldNode_Graph.cs:255
+			// Usage:       OverworldNode_Graph.cs:264
+			// Usage:       OverworldNode_SCCM.cs:119
+			// Usage:       WarpGameEndNode.cs:98
+			// Usage:       WarpNode.cs:101
 			L10N.Add(STR_GLOB_WORLDLOCK, "World locked", "Welt noch nicht freigespielt", "Monde bloqué", "Mondo bloccato", "Mundo bloqueado");
 
 			// Description: Tabular grid header in online-level preview dialog. Your highscore time of this level+difficulty
 			// Usage:       InformationDisplay.cs:46
 			// Usage:       SCCMLevelPreviewDialog.cs:136
-			// Usage:       SCCMListElementLocalPlayable.cs:91
+			// Usage:       SCCMListElementLocalPlayable.cs:90
 			L10N.Add(STR_INF_YOU, "You", "Du", "Toi", "Tu", "Tú");
 
 			// Description: Tabular grid header in singleplayer-level preview dialog. Count of users that have beaten the level+difficulty
@@ -684,8 +686,8 @@ namespace GridDominance.Shared.Resources
 
 			// Description: Tabular grid header in online-level preview dialog. World highscore time of this level+difficulty
 			// Usage:       InformationDisplay.cs:47
-			// Usage:       HUDSCCMScorePanel_Won.cs:440
 			// Usage:       SCCMLevelPreviewDialog.cs:151
+			// Usage:       HUDSCCMScorePanel_Won.cs:436
 			L10N.Add(STR_INF_HIGHSCORE, "Highscore", "Bestzeit", "Highscore", "Highscore", "Puntaje alto");
 
 			// Description: Subtext for overworld-node. This node is shown on the levelmap and leads back to teh over-world
@@ -695,7 +697,7 @@ namespace GridDominance.Shared.Resources
 			// Description: Generic text for waitingbox - the current operation waits for a server response
 			// Usage:       GDGameEndHUD.cs:67
 			// Usage:       GDWorldHUD.cs:96
-			// Usage:       SCCMListElementNewUserLevel.cs:166
+			// Usage:       SCCMListElementNewUserLevel.cs:165
 			L10N.Add(STR_GLOB_WAITFORSERVER, "Contacting server", "Server wird kontaktiert", "Contacter le serveur", "Contattando il server", "Conectando con Server");
 
 			// Description: Subtext for node in Overworld. This is the world-node for the tutorial. Clicking on it starts the tutorial
@@ -704,7 +706,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_TUTORIAL, "Tutorial", "Tutorial", "Didacticiel", "Tutorial", "Tutorial");
 
 			// Description: Label in account-manage dialog. Shows the current score
-			// Usage:       FullAccountPanel.cs:104
+			// Usage:       FullAccountPanel.cs:103
 			L10N.Add(STR_FAP_SCORE, "Points:", "Punkte:", "Points", "Points:", "Puntos");
 
 			// Description: Tutorial informationbox 1 (shown in tutorial to indicate the next action the user has to do) (wordrap enabled)
@@ -720,21 +722,20 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_W2, "Professional", "Fortgeschritten", "Niveau avancé", "Professionale", "Profesional");
 
 			// Description: Text of error toast. Querying of In-App-Purchases failed because the google-play connection threw an error
-			// Usage:       UnlockManager.cs:264
+			// Usage:       UnlockManager.cs:269
 			L10N.Add(STR_IAB_TESTERR, "Error connecting to Google Play services", "Fehler beim Versuch mit Google Play zu verbinden", "Erreurde connexion avec Google Play services", "Impossibile connettersi ai servizi Google Play", "Error en conexión con Google Play");
 
 			// Description: Text of error toast. Querying of In-App-Purchases failed because the google-play connection could not be established
-			// Usage:       UnlockManager.cs:277
+			// Usage:       UnlockManager.cs:282
 			L10N.Add(STR_IAB_TESTNOCONN, "No connection to Google Play services", "Keine Verbindung zu Google Play services", "Pas de connexion avec Google Play services", "Nessuna connessione ai servizi Google Play", "Sin conexión a Google Play");
 
 			// Description: Text of error toast. Querying of In-App-Purchases failed because the google-play connection is currently busy
-			// Usage:       UnlockManager.cs:281
+			// Usage:       UnlockManager.cs:286
 			L10N.Add(STR_IAB_TESTINPROGRESS, "Payment in progress", "Zahlung wird verarbeitet", "Paiement en cours", "Pagamento in lavorazione", "Pago en progreso");
 
 			// Description: Header of promo-code dialog (input promocode to unlock all special features)
-			// Usage:       InfoPanel.cs:114
-			// Usage:       UnlockPanel.cs:48
-			// Usage:       InfoPanel.cs:89
+			// Usage:       InfoPanel.cs:88
+			// Usage:       UnlockPanel.cs:47
 			L10N.Add(STR_UNLOCK, "Promotion Code", "Promo Code", "Code promotionnel", "Codice Promozionale", "Código de promoción");
 
 			// Description: Toast that is shown when the game was completely unlocked (eg via promotion code)
@@ -742,33 +743,33 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_GLOB_UNLOCKSUCCESS, "Upgraded game to full version!", "Spiel wurde zur Vollversion aufgewertet", "Mise à niveau du jeu en version complète!", "Congratulazioni, hai acquistato la versione completa!", "Has obtenido la versión completa del juego");
 
 			// Description: Buttontext in "World locked"-panel. Part of a three-element line: [Unlock now] [or] [Finish the game]
-			// Usage:       SCCMPreviewPanel.cs:93
-			// Usage:       WorldPreviewPanel.cs:93
+			// Usage:       SCCMPreviewPanel.cs:87
+			// Usage:       WorldPreviewPanel.cs:90
 			L10N.Add(STR_PREV_BUYNOW, "Unlock now", "Jetzt freischalten", "Débloquer maintenant", "Sblocca ora", "Desbloquear ahora");
 
 			// Description: Text of error toast. In-App-Purchase failed because the google-play connection threw an error
-			// Usage:       MultiplayerMainPanel.cs:274
 			// Usage:       SCCMPreviewPanel.cs:170
 			// Usage:       WorldPreviewPanel.cs:200
+			// Usage:       MultiplayerMainPanel.cs:273
+			// Usage:       SCCMPreviewPanel.cs:164
+			// Usage:       WorldPreviewPanel.cs:197
 			L10N.Add(STR_IAB_BUYERR, "Error connecting to Google Play services", "Fehler beim Versuch mit Google Play zu verbinden", "Erreurde connexion avec Google Play services", "Impossibile connettersi ai servizi Google Play", "Error en conexión con Google Play");
 
 			// Description: Text of error toast. In-App-Purchase failed because the google-play connection could not be established
-			// Usage:       MultiplayerMainPanel.cs:277
-			// Usage:       SCCMPreviewPanel.cs:173
 			// Usage:       WorldPreviewPanel.cs:203
+			// Usage:       MultiplayerMainPanel.cs:276
+			// Usage:       SCCMPreviewPanel.cs:167
 			L10N.Add(STR_IAB_BUYNOCONN, "No connection to Google Play services", "Keine Verbindung zu Google Play services", "Pas de connexion avec Google Play services", "Nessuna connessione ai servizi Google Play", "Sin conexión a Google Play");
 
 			// Description: Text of error toast. In-App-Purchase failed because the google-play connection was not ready
-			// Usage:       MultiplayerMainPanel.cs:280
-			// Usage:       SCCMPreviewPanel.cs:176
-			// Usage:       WorldPreviewPanel.cs:206
+			// Usage:       MultiplayerMainPanel.cs:279
 			L10N.Add(STR_IAB_BUYNOTREADY, "Connection to Google Play services not ready", "Verbindung zu Google Play services nicht bereit", "La connexion aux services Google Play n'est pas prête", "Connessione ai servizi Google Play non pronta", "Conexión a Google Play no disponible");
 
 			// Description: Text of toast. In-App-Purchase (of a world) was successfull
-			// Usage:       SCCMPreviewPanel.cs:147
-			// Usage:       SCCMPreviewPanel.cs:156
-			// Usage:       WorldPreviewPanel.cs:170
-			// Usage:       WorldPreviewPanel.cs:179
+			// Usage:       SCCMPreviewPanel.cs:141
+			// Usage:       SCCMPreviewPanel.cs:150
+			// Usage:       WorldPreviewPanel.cs:167
+			// Usage:       WorldPreviewPanel.cs:176
 			L10N.Add(STR_IAB_BUYSUCESS, "World successfully purchased", "Levelpack wurde erfolgreich erworben", "Le monde a acheté avec succès", "Mondo acquistato!", "Has comprado el mundo exitosamente");
 
 			// Description: Subtext for node in Overworld. This is the world-node for world 3 (new elements: laser, refraction, big maps, different geometries). Clicking on opens the world-map
@@ -776,19 +777,19 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_W3, "Futuristic", "Futuristisch", "Futuriste", "Futuristico", "Futurístico");
 
 			// Description: Button in account-manage dialog. Logs the current user out
-			// Usage:       FullAccountPanel.cs:126
+			// Usage:       FullAccountPanel.cs:125
 			L10N.Add(STR_FAP_LOGOUT, "Logout", "Ausloggen", "Déconnecter", "Esci", "Cerrar sesión");
 
 			// Description: Warning toast. Is shown when clicking on [log out] the first time. Warns user about the consequences.
-			// Usage:       FullAccountPanel.cs:256
+			// Usage:       FullAccountPanel.cs:255
 			L10N.Add(STR_FAP_WARN1, "This will clear all local data. Press again to log out.", "Dies löscht alle lokalen Daten. Nochmal drücken zum ausloggen.", "Cette opération efface toutes les données locales. Appuyez à nouveau pour vous déconnecter.", "Questo cancellerà tutti i dati locali. Premi di nuovo per uscire.", "Esto borra todos los datos locales. Presiona otra vey para cerrar sesión");
 
 			// Description: Warning toast. Is shown when clicking on [log out] the second time. Warns user again about the consequences.
-			// Usage:       FullAccountPanel.cs:265
+			// Usage:       FullAccountPanel.cs:264
 			L10N.Add(STR_FAP_WARN2, "Are you really sure you want to log out?", "Wirklich vom Serverkonto abmelden?", "Êtes-vous vraiment sûr de vouloir vous déconnecter?", "Sei sicuro di voler uscire?", "Estas seguro que quieres cerrar sesión");
 
 			// Description: Text of info toast. Sown when the user was successfully logged out
-			// Usage:       FullAccountPanel.cs:287
+			// Usage:       FullAccountPanel.cs:286
 			L10N.Add(STR_FAP_LOGOUT_SUCESS, "Logged out from account", "Lokaler Benutzer wurde abgemeldet.", "Déconnecté du compte", "Uscito dall'account", "Usuario desconectado");
 
 			// Description: Hint that is shown on the floor of a level
@@ -842,20 +843,20 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_INFOTOAST_4, "You have not completed this level on {0}", "Du hast dieses Level auf {0} noch nicht geschafft", "Vous n'avez pas terminé ce niveau sur {0}", "Non hai completato questo livello in {0}", "No has completado este nivel en {0}");
 
 			// Description: Buttontext in "World locked"-panel. Part of a three-element line: [Unlock now] [or] [Finish the world x]
-			// Usage:       WorldPreviewPanel.cs:126
+			// Usage:       WorldPreviewPanel.cs:123
 			L10N.Add(STR_PREV_FINISHWORLD, "Finish World {0}", "Welt {0}", "Terminer Monde {0}", "Finisci il mondo {0}", "Finalizar el mundo");
 
 			// Description: Labeltext in "World locked"-panel. Part of a three-element line: [Unlock now] [or] [Finish the game]
-			// Usage:       SCCMPreviewPanel.cs:112
-			// Usage:       WorldPreviewPanel.cs:112
+			// Usage:       SCCMPreviewPanel.cs:106
+			// Usage:       WorldPreviewPanel.cs:109
 			L10N.Add(STR_PREV_OR, "OR", "ODER", "OU", "oppure", "O");
 
 			// Description: text of toast. Shown when someone clicks "Finshes the world x" in "world-locked"-panel
-			// Usage:       WorldPreviewPanel.cs:233
+			// Usage:       WorldPreviewPanel.cs:230
 			L10N.Add(STR_PREV_MISS_TOAST, "You are missing {0} points to unlock world {1}", "Dir fehlen noch {0} Punkte um Welt {1} freizuschalten", "Vous manquez de {0} points pour débloquer le monde {1}", "Ti mancano {0} punti per sbloccare il mondo {1}", "Te faltan {0} puntos para desbloquear el mundo {1}");
 
 			// Description: Text of mainscreen popupmenu. Entry [Music] (disable/enable background music)
-			// Usage:       SubSettingButton.cs:233
+			// Usage:       SubSettingButton.cs:231
 			L10N.Add(STR_SSB_MUSIC, "Music", "Musik", "Musique", "Musica", "Música");
 
 			// Description: Hint that is shown on the floor of a level (part of a two-part text [HINT_007]+[HINT_008], both are shown together and form a "single text")
@@ -915,7 +916,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_SERVERDISCONNECT, "Server has closed this session", "Spiel wurde vom Server geschlossen", "Le serveur a fermé cette session", "Il server ha chiuso questa sessione", "Server ha cerrado esta sesión");
 
 			// Description: Header of multiplayer main dialog
-			// Usage:       MultiplayerMainPanel.cs:53
+			// Usage:       MultiplayerMainPanel.cs:52
 			L10N.Add(STR_MENU_CAP_MULTIPLAYER, "Multiplayer", "Mehrspieler", "Multijoueur", "Multiplayer", "Multijugador");
 
 			// Description: Header of multiplayer lobby dialog
@@ -924,8 +925,8 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_CAP_LOBBY, "Multiplayer Lobby", "Lobby", "Online Lobby", "Multiplayer Lobby", "Lobby mas de un jugador");
 
 			// Description: Button in main multiplayer dialog. Creates a new online (= via internet) multiplayer game
-			// Usage:       MultiplayerHostPanel.cs:86
-			// Usage:       MultiplayerRehostPanel.cs:86
+			// Usage:       MultiplayerHostPanel.cs:84
+			// Usage:       MultiplayerRehostPanel.cs:84
 			L10N.Add(STR_MENU_CAP_CGAME_PROX, "Create Online Game", "Onlinespiel erstellen", "Creer un jeu en ligne", "Crea una partita Online", "Crear juego online");
 
 			// Description: Multiplayer status display. You are [online/connected]
@@ -934,57 +935,57 @@ namespace GridDominance.Shared.Resources
 
 			// Description: Multiplayer status display. You are [offline/disconnected]
 			// Usage:       MultiplayerConnectionStateControl.cs:68
+			// Usage:       MultiplayerConnectionStateControl.cs:65
 			L10N.Add(STR_MP_OFFLINE, "Offline", "Offline", "Hors ligne", "Offline", "Offline");
 
 			// Description: Generic tex of waiting dialog or status display. Connecting to (server / multiplayer-host)
-			// Usage:       OverworldNode_SCCM.cs:100
-			// Usage:       MultiplayerConnectionStateControl.cs:74
+			// Usage:       OverworldNode_SCCM.cs:102
 			L10N.Add(STR_MP_CONNECTING, "Connecting", "Verbinden", "Connecter", "Connessione", "Conectando");
 
 			// Description: Button in main multiplayer dialog. Opens the join-lobby panel
-			// Usage:       MultiplayerMainPanel.cs:127
-			// Usage:       MultiplayerMainPanel.cs:146
+			// Usage:       MultiplayerMainPanel.cs:126
+			// Usage:       MultiplayerMainPanel.cs:145
 			L10N.Add(STR_MENU_MP_JOIN, "Join", "Beitreten", "Joindre", "Partecipa", "Participar");
 
 			// Description: Button in main multiplayer dialog. Opens the create-lobby panel
-			// Usage:       MultiplayerMainPanel.cs:167
-			// Usage:       MultiplayerMainPanel.cs:186
-			// Usage:       MultiplayerMainPanel.cs:207
-			// Usage:       MultiplayerMainPanel.cs:226
+			// Usage:       MultiplayerMainPanel.cs:166
+			// Usage:       MultiplayerMainPanel.cs:185
+			// Usage:       MultiplayerMainPanel.cs:206
+			// Usage:       MultiplayerMainPanel.cs:225
 			L10N.Add(STR_MENU_MP_HOST, "Host", "Erstellen", "Rédiger", "Ospita", "Crear");
 
 			// Description: Header of multiplayer dialog. Play via local connection (bluetooth)
-			// Usage:       MultiplayerMainPanel.cs:85
+			// Usage:       MultiplayerMainPanel.cs:84
 			L10N.Add(STR_MENU_MP_LOCAL_CLASSIC, "Local (Bluetooth)", "Lokal (Bluetooth)", "Local (Bluetooth)", "Locale (Bluetooth)", "Local (Bluetooth)");
 
 			// Description: Header of multiplayer dialog. Play via online connection (internet)
-			// Usage:       MultiplayerMainPanel.cs:99
+			// Usage:       MultiplayerMainPanel.cs:98
 			L10N.Add(STR_MENU_MP_ONLINE, "Online (UDP/IP)", "Internet (UDP/IP)", "En ligne (UDP/IP)", "Online (UDP/IP)", "Online (UDP/IP)");
 
 			// Description: Header of multiplayer connect dialog. Inputbox for lobby code is under teh caption
-			// Usage:       MultiplayerJoinLobbyScreen.cs:63
+			// Usage:       MultiplayerJoinLobbyScreen.cs:60
 			L10N.Add(STR_MENU_CAP_AUTH, "Enter lobby code", "Lobby Code eingeben", "Entrer lobby code", "Inserisci codice lobby", "Ingresa código lobby");
 
 			// Description: Button in multiplayer-create-lobby-dialog. Creates a new lobby
-			// Usage:       MultiplayerHostPanel.cs:380
+			// Usage:       MultiplayerHostPanel.cs:378
 			L10N.Add(STR_MENU_MP_CREATE, "Create", "Start", "Créer", "Crea", "Iniciar");
 
 			// Description: Generic button text of an [cancel] button (eg in a yes/no/cancel messagebox)
-			// Usage:       AuthErrorPanel.cs:136
-			// Usage:       MultiplayerFindLobbyScreen.cs:95
-			// Usage:       MultiplayerHostPanel.cs:399
-			// Usage:       MultiplayerRehostPanel.cs:399
 			// Usage:       LevelEditorConfigPanel.cs:276
+			// Usage:       AuthErrorPanel.cs:135
+			// Usage:       MultiplayerFindLobbyScreen.cs:88
+			// Usage:       MultiplayerHostPanel.cs:397
+			// Usage:       MultiplayerRehostPanel.cs:397
 			L10N.Add(STR_MENU_CANCEL, "Cancel", "Abbrechen", "Abandonner", "Cancella", "Cancelar");
 
 			// Description: Button in multiplayer-create-lobby-dialog. Specifies the game-speed for the hosted game
-			// Usage:       MultiplayerHostPanel.cs:308
-			// Usage:       MultiplayerRehostPanel.cs:308
+			// Usage:       MultiplayerHostPanel.cs:306
+			// Usage:       MultiplayerRehostPanel.cs:306
 			L10N.Add(STR_MENU_MP_GAMESPEED, "Game speed:", "Spielgeschwindigkeit:", "La vitesse du jeux", "Velocità gioco:", "Velocidad de juego");
 
 			// Description: Label text in multiplayer lobby. Show the selected background music
-			// Usage:       MultiplayerHostPanel.cs:229
-			// Usage:       MultiplayerRehostPanel.cs:229
+			// Usage:       MultiplayerHostPanel.cs:227
+			// Usage:       MultiplayerRehostPanel.cs:227
 			L10N.Add(STR_MENU_MP_MUSIC, "Background music:", "Hintergrundmusik:", "Musique de fond", "Musica:", "Música de fondo");
 
 			// Description: Label text (multiline, wordwrap) in multiplayer-lobby panel. Shows the lobby code that other users need to join
@@ -1022,13 +1023,13 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MENU_DISCONNECT, "Disconnect", "Verbindung trennen", "Déconnecter", "Disconnetti", "Desconectar");
 
 			// Description: Label text in multiplayer lobby. Show the amount of currently connected users (as format string)
-			// Usage:       MultiplayerHostPanel.cs:215
-			// Usage:       MultiplayerRehostPanel.cs:215
+			// Usage:       MultiplayerHostPanel.cs:213
+			// Usage:       MultiplayerRehostPanel.cs:213
 			L10N.Add(STR_MENU_MP_LOBBY_USER_FMT, "Users: {0}", "Mitspieler: {0}", "Coéquipier: {0}", "Utenti: {0}", "Usuario: {0}");
 
 			// Description: Button in multiplayer-lobby-dialog. Start the game
-			// Usage:       MultiplayerRehostPanel.cs:380
 			// Usage:       MultiplayerServerLobbyPanel.cs:325
+			// Usage:       MultiplayerRehostPanel.cs:378
 			L10N.Add(STR_MENU_MP_START, "Start", "Start", "Démarrage", "Inizia", "Iniciar");
 
 			// Description: Color of Fraction [NEUTRAL]. Shown as textlabel in pre-game multiplayer-info-screen
@@ -1097,11 +1098,11 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_DIRECTCONNFAIL, "Bluetooth connection failed", "Bluetooth Verbindungsaufbau fehlgeschlagen", "Connexion Bluetooth échoué", "Connessione Bluetooth fallita", "Conexión a Bluetooth ha fallado");
 
 			// Description: Header of multiplayer local-join dialog (searching for bluetooth devices with open lobbys)
-			// Usage:       MultiplayerFindLobbyScreen.cs:61
+			// Usage:       MultiplayerFindLobbyScreen.cs:54
 			L10N.Add(STR_MENU_CAP_SEARCH, "Search for local devices", "Suche nach lokalem Spiel", "Cherchez des périphériques locaux", "Cerca dispostivi locali", "Buscando dispositivos locales");
 
 			// Description: Header in highscore table. Shows the highscore in multiplayer games.
-			// Usage:       HighscorePanel.cs:69
+			// Usage:       HighscorePanel.cs:70
 			L10N.Add(STR_HSP_MULTIPLAYERRANKING, "Multiplayer", "Mehrspieler", "Multijoueur", "Multiplayer", "Multijugador");
 
 			// Description: Multiplayer error message. Bluetooth is not avaiable because the bluetooth permission was not granted
@@ -1109,31 +1110,31 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_BTADAPTERPERMDENIED, "Missing bluetooth permission", "Bluetooth Berechtigung wurde nicht gewährt", "Absence d'autorisation de bluetooth", "Permessi bluetooth disattivati", "Autorización de Bluetooth desactivada");
 
 			// Description: Button in main multiplayer dialog. Creates a new local (= via bluetooth) multiplayer game
-			// Usage:       MultiplayerHostPanel.cs:86
-			// Usage:       MultiplayerRehostPanel.cs:86
+			// Usage:       MultiplayerHostPanel.cs:84
+			// Usage:       MultiplayerRehostPanel.cs:84
 			L10N.Add(STR_MENU_CAP_CGAME_BT, "Create Local Game", "Lokales Spiel erstellen", "Creer un jeu local", "Crea una partita Local", "Crear un juego local");
 
 			// Description: Multiplayer info toast. Bluetooth connection to device x is pending
-			// Usage:       GDMultiplayerCommon.cs:94
+			// Usage:       GDMultiplayerCommon.cs:93
 			L10N.Add(STR_MP_TOAST_CONN_TRY, "Connecting to '{0}'", "Verbinden mit '{0}'", "Connecter à '{0}'", "Connessione a '{0}'", "Conectando a");
 
 			// Description: Multiplayer error toast. Bluetooth connection to device x failed
-			// Usage:       GDMultiplayerCommon.cs:98
+			// Usage:       GDMultiplayerCommon.cs:97
 			L10N.Add(STR_MP_TOAST_CONN_FAIL, "Connection to '{0}' failed", "Verbindung mit '{0}' fehlgeschlagen", "Connexion avec '{0}' est échoué", "Connessione a '{0}' fallita", "Conección a '{0}' ha fallado");
 
 			// Description: Multiplayer info toast. Bluetooth connection to device x successfull
-			// Usage:       GDMultiplayerCommon.cs:102
+			// Usage:       GDMultiplayerCommon.cs:101
 			L10N.Add(STR_MP_TOAST_CONN_SUCC, "Connected to '{0}'", "Verbunden mit '{0}'", "Connecté avec '{0}'", "Connessione a '{0}'", "Conectado a '{0}'");
 
 			// Description: Hint that is shown on the floor of a level
 			L10N.Add(STR_HINT_009, "Some cannons only relay", "Manche Kanonen leiten nur weiter", "Certains canons relèvent", "Alcuni cannoni collegano e basta", "Algunos cañones solo redireccionan");
 
 			// Description: First line of the big end-game particle effect. Should create a valid text together with the second line
-			// Usage:       GDEndGameScreen.cs:60
+			// Usage:       GDEndGameScreen.cs:56
 			L10N.Add(STR_ENDGAME_1, "THANKS FOR", "THANKS FOR", "THANKS FOR", "GRAZIE PER", "GRACIAS POR");
 
 			// Description: Second line of the big end-game particle effect. Should create a valid text together with the first line
-			// Usage:       GDEndGameScreen.cs:67
+			// Usage:       GDEndGameScreen.cs:63
 			L10N.Add(STR_ENDGAME_2, "PLAYING", "PLAYING", "PLAYING", "AVER GIOCATO", "JUGANDO");
 
 			// Description: Hint that is shown on the floor of a level (part of a two-part text [HINT_010]+[HINT_011], both are shown together and form a "single text")
@@ -1146,16 +1147,16 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_SINGLEPLAYER, "Singleplayer", "Einzelspieler", "Seul joueur", "Singleplayer", "Juego individual");
 
 			// Description: Text of reminder-panel. This panel is shown after x games and reminds you to create an account
-			// Usage:       AccountReminderPanel.cs:87
+			// Usage:       AccountReminderPanel.cs:73
 			L10N.Add(STR_ACCOUNT_REMINDER, "You can create an account to display your name in the highscore and to backup your score online.\nDo you want to create an account now?", "Du kannst einen Onlineaccount anlegen um deinen Namen im Highscore zu sehen und deine Punkte zu sichern.\n Account jetzt erstellen?", "Vous pouvez créer un compte pour afficher votre nom dans les meilleurs scores et sauvegarder vos points en ligne.\nVoulez - vous créer un compte maintenant?", "Puoi creare un account per far apparire il tuo nome nella classifica e per salvare i tuoi dati online.\nVuoi creare un'account?", "Puedes crear una cuenta online para registrar tu puntuación y guardar tus puntajes altos.\nCrear cuenta ahora?");
 
 			// Description: Generic "OK" button text for Yes/No dialogs
-			// Usage:       AccountReminderPanel.cs:96
 			// Usage:       LevelEditorConfigPanel.cs:295
+			// Usage:       AccountReminderPanel.cs:82
 			L10N.Add(STR_BTN_OK, "OK", "OK", "OK", "OK", "OK");
 
 			// Description: Generic "No" button text for Yes/No dialogs
-			// Usage:       AccountReminderPanel.cs:115
+			// Usage:       AccountReminderPanel.cs:101
 			L10N.Add(STR_BTN_NO, "No", "Nein", "Aucun", "No", "No");
 
 			// Description: Multiplayer error message. No connection to server
@@ -1163,20 +1164,20 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_NOSERVERCONN, "No connection to server", "Keine Verbindung zu Server", "Pas de connexion au serveur", "Nessuna connessione al server", "Sin conexión a Server");
 
 			// Description: Caption in the score-panel. Shows your current time for this level+difficulty (time of the last run)
-			// Usage:       HUDSCCMScorePanel_Won.cs:311
-			// Usage:       HUDSCCMScorePanel_Won.cs:445
-			// Usage:       HUDScorePanel.cs:156
-			// Usage:       HUDScorePanel.cs:347
+			// Usage:       HUDSCCMScorePanel_Won.cs:307
+			// Usage:       HUDSCCMScorePanel_Won.cs:441
+			// Usage:       HUDScorePanel.cs:157
 			L10N.Add(STR_HSP_TIME_NOW, "Time (now)", "Levelzeit", "Temps", "Tempo", "Tiempo actual");
 
 			// Description: Caption in the score-panel. Shows the global (worldwide) best time for this level+difficulty
 			// Usage:       HUDScorePanel.cs:348
-			// Usage:       HUDScorePanel.cs:352
 			// Usage:       HUDTutorialScorePanel.cs:141
+			// Usage:       HUDScorePanel.cs:349
+			// Usage:       HUDScorePanel.cs:353
 			L10N.Add(STR_HSP_TIME_BEST, "Time (best)", "Bestzeit", "Meilleur temps", "Miglior tempo", "Mejor tiempo");
 
 			// Description: Text of mainscreen popupmenu. Entry [Color scheme] (normal | color-blind)
-			// Usage:       SubSettingButton.cs:316
+			// Usage:       SubSettingButton.cs:314
 			L10N.Add(STR_SSB_COLOR, "Color scheme", "Farbschema", "Schéma de couleurs", "Schema a colori", "Esquema de colores");
 
 			// Description: Text of error toast. Is shown when the sound playback failed. Informs the user that the sound is now disabled until he manually enables them again
@@ -1188,391 +1189,397 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_ERR_MUSICPLAYBACK, "Music playback failed. Disabling music ...", "Musikwiedergabe fehlgeschlagen. Musik wird deaktiviert ...", "La lecture de musique a échoué. Désactivation de la musique ...", "La riproduzione musicale è fallita. Disattivazione della musica ...", "Reproducción de música ha fallado. Deactivando sonidos");
 
 			// Description: Header of credits dialog
-			// Usage:       AcknowledgementsPanel.cs:54
-			L10N.Add(STR_CREDPNL_HEADER, "About...", "Über...", "Remerciements", "Ringraziamenti", "Agradecimientos");
+			// Usage:       AcknowledgementsPanel.cs:50
+			// Usage:       InfoPanel.cs:113
+			L10N.Add(STR_CREDPNL_HEADER, "Credits", "Credits", "Remerciements", "Ringraziamenti", "Agradecimientos");
 
 			// Description: Text of error toast. Is shown when the profile/level cuold not be saved because there is no free disk space
-			// Usage:       MainGame.cs:357
 			// Usage:       SCCMLevelData.cs:189
+			// Usage:       MainGame.cs:355
 			L10N.Add(STR_ERR_OUTOFMEMORY, "Saving failed: Disk full", "Speichern fehlgeschlagen: Speicher voll", "Échec échoué: Disque complet", "Salvataggio non riuscito: disco pieno", "Memoria llena: almacenamiento ha fallado ");
 
 			// Description: text of (info) toast in account dialog (manual sync action)
-			// Usage:       FullAccountPanel.cs:184
+			// Usage:       FullAccountPanel.cs:183
 			L10N.Add(STR_PROFILESYNC_START, "Starting manual sync", "Manuelle Synchronisation gestartet", "La synchronisation manuelle a commencé", "La sincronizzazione manuale è iniziata", "Inicio de sincronización manual");
 
 			// Description: text of (error) toast in account dialog (manual sync action)
-			// Usage:       FullAccountPanel.cs:204
-			// Usage:       FullAccountPanel.cs:220
+			// Usage:       FullAccountPanel.cs:203
+			// Usage:       FullAccountPanel.cs:219
 			L10N.Add(STR_PROFILESYNC_ERROR, "Manual sync failed", "Manuelle Synchronisation fehlgeschlagen", "La synchronisation manuelle a échoué", "La sincronizzazione manuale non è riuscita", "La sincronización manual falló");
 
 			// Description: text of (success) toast in account dialog (manual sync action)
-			// Usage:       FullAccountPanel.cs:233
+			// Usage:       FullAccountPanel.cs:232
 			L10N.Add(STR_PROFILESYNC_SUCCESS, "Manual sync finished", "Manuelle Synchronisation erfolgreich", "Synchronisation manuelle réussie", "La sincronizzazione manuale è riuscita", "Sincronización manual finalizada");
 
 			// Description: Text of (error) panel that is shown when a user is unexpectedly logged out (server refused saved credentials). This panel gives the user the option to re-enter the password and log in again
-			// Usage:       AuthErrorPanel.cs:67
+			// Usage:       AuthErrorPanel.cs:66
 			L10N.Add(STR_AUTHERR_HEADER, "You've been logged out", "Sie wurden ausgeloggt", "Vous avez été déconnecté", "Sei stato disconnesso", "Has sido desconectado");
 
 			// Description: Subtext for node in Overworld. This is the world-node for user-generated levels. Clicking on it opens the level-browser
-			// Usage:       OverworldNode_SCCM.cs:35
-			L10N.Add(STR_WORLD_ONLINE, "Online", "Online", "?", "?", "?"); //TODO translate me
+			// Usage:       OverworldNode_SCCM.cs:37
+			L10N.Add(STR_WORLD_ONLINE, "Online", "Online", "En ligne", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Sets the mode to "drag map around / drag elements around"
-			// Usage:       LevelEditorModePanel.cs:73
-			L10N.Add(STR_LVLED_MOUSE, "Move", "Verschieben", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorModePanel.cs:66
+			L10N.Add(STR_LVLED_MOUSE, "Move", "Verschieben", "Déplacer", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Sets the mode to "add new obstacle to playing field"
-			// Usage:       LevelEditorModePanel.cs:92
-			L10N.Add(STR_LVLED_CANNON, "Cannon", "Kanone", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorModePanel.cs:85
+			L10N.Add(STR_LVLED_CANNON, "Cannon", "Kanone", "Canon", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Sets the mode to "add new wall to playing field"
-			// Usage:       LevelEditorModePanel.cs:111
-			L10N.Add(STR_LVLED_WALL, "Wall", "Wand", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorModePanel.cs:104
+			L10N.Add(STR_LVLED_WALL, "Wall", "Wand", "Mur", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Sets the mode to "add new obstacle to playing field"
-			// Usage:       LevelEditorModePanel.cs:130
-			L10N.Add(STR_LVLED_OBSTACLE, "Obstacle", "Hindernis", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorModePanel.cs:123
+			L10N.Add(STR_LVLED_OBSTACLE, "Obstacle", "Hindernis", "Obstacle", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Opens the settingspanel for the properties of the current level
-			// Usage:       LevelEditorModePanel.cs:168
-			L10N.Add(STR_LVLED_SETTINGS, "Settings", "Einstellungen", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorModePanel.cs:161
+			L10N.Add(STR_LVLED_SETTINGS, "Settings", "Einstellungen", "Embauchage", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Compiles the level and starts a test-run
-			// Usage:       LevelEditorModePanel.cs:187
-			L10N.Add(STR_LVLED_PLAY, "Test", "Testen", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorModePanel.cs:180
+			L10N.Add(STR_LVLED_PLAY, "Test", "Testen", "Tester", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Starts the upload process of the level (= first you need to beat it then it will be uploaded)
-			// Usage:       LevelEditorModePanel.cs:206
-			L10N.Add(STR_LVLED_UPLOAD, "Upload", "Hochladen", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorModePanel.cs:199
+			L10N.Add(STR_LVLED_UPLOAD, "Upload", "Hochladen", "Télécharger", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Exits the editor, displays a do-you-want-to-save-messagebox before thta
-			// Usage:       LevelEditorModePanel.cs:244
-			L10N.Add(STR_LVLED_EXIT, "Exit", "Beenden", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorModePanel.cs:237
+			L10N.Add(STR_LVLED_EXIT, "Exit", "Beenden", "Sortie", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible fractions of the currently selected entity (fraction is a property of cannons, eg Player, AI-1, AI2, Neutral, ...)
 			// Usage:       CannonStub.cs:269
-			L10N.Add(STR_LVLED_BTN_FRAC, "Fraction", "Fraktion", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_FRAC, "Fraction", "Fraktion", "Fraction", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible scale values of the currently selected entity (scale is a property of cannons)
 			// Usage:       CannonStub.cs:251
-			L10N.Add(STR_LVLED_BTN_SCALE, "Scale", "Größe", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_SCALE, "Scale", "Größe", "Taille", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible rotations of the currently selected entity (rotations are changed in 1/16 steps)
 			// Usage:       CannonStub.cs:260
 			// Usage:       ObstacleStub.cs:263
 			// Usage:       PortalStub.cs:172
-			L10N.Add(STR_LVLED_BTN_ROT, "Rotation", "Drehung", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_ROT, "Rotation", "Drehung", "Rotation", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible types of the currently selected entity (eg type of wall or type of obstacle or type of cannon)
 			// Usage:       CannonStub.cs:242
 			// Usage:       ObstacleStub.cs:222
 			// Usage:       WallStub.cs:159
-			L10N.Add(STR_LVLED_BTN_TYPE, "Type", "Typ", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_TYPE, "Type", "Typ", "Format", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible diameters of the currently selected entity
 			// Usage:       ObstacleStub.cs:233
-			L10N.Add(STR_LVLED_BTN_DIAMETER, "Diameter", "Durchmesser", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_DIAMETER, "Diameter", "Durchmesser", "Diamètre", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible widths of the currently selected entity
 			// Usage:       ObstacleStub.cs:245
-			L10N.Add(STR_LVLED_BTN_WIDTH, "Width", "Breite", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_WIDTH, "Width", "Breite", "Largeur", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible heights of the currently selected entity
 			// Usage:       ObstacleStub.cs:254
-			L10N.Add(STR_LVLED_BTN_HEIGHT, "Height", "Höhe", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_HEIGHT, "Height", "Höhe", "Hauteur", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible power values of the currently selected entity (power is a property of gravity fields)
 			// Usage:       ObstacleStub.cs:275
-			L10N.Add(STR_LVLED_BTN_POWER, "Power", "Stärke", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_POWER, "Power", "Stärke", "Force", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Deletes either the current level or the current selected element (used for both buttons)
-			// Usage:       LevelEditorAttrPanel.cs:91
-			// Usage:       LevelEditorModePanel.cs:225
-			L10N.Add(STR_LVLED_BTN_DEL, "Delete", "Entfernen", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorAttrPanel.cs:92
+			// Usage:       LevelEditorModePanel.cs:218
+			L10N.Add(STR_LVLED_BTN_DEL, "Delete", "Entfernen", "Supprimer", "?", "?"); //TODO translate me
 
 			// Description: Label for Textfield in leveleditor settings panel. Describes the level ID (readonly)
 			// Usage:       LevelEditorConfigPanel.cs:89
-			L10N.Add(STR_LVLED_CFG_ID, "ID", "ID", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_CFG_ID, "ID", "ID", "ID", "?", "?"); //TODO translate me
 
 			// Description: Label for Textfield in leveleditor settings panel. Describes the level name
 			// Usage:       LevelEditorConfigPanel.cs:118
-			L10N.Add(STR_LVLED_CFG_NAME, "Name", "Name", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_CFG_NAME, "Name", "Name", "Nom", "?", "?"); //TODO translate me
 
 			// Description: Label for Textfield in leveleditor settings panel. Describes the level size (Width x Height)
 			// Usage:       LevelEditorConfigPanel.cs:150
-			L10N.Add(STR_LVLED_CFG_SIZE, "Size", "Größe", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_CFG_SIZE, "Size", "Größe", "Taille", "?", "?"); //TODO translate me
 
 			// Description: Label for Textfield in leveleditor settings panel. Describes the level initial view (if the level is bigger than a single view the level gets draggable and this specifies the initial view position)
 			// Usage:       LevelEditorConfigPanel.cs:182
-			L10N.Add(STR_LVLED_CFG_VIEW, "Initial view", "Startansicht", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_CFG_VIEW, "Initial view", "Startansicht", "Vue accueil", "?", "?"); //TODO translate me
 
 			// Description: Label for Textfield in leveleditor settings panel. Describes the level geometry (= how the edges behave, possible values are "reflect" (like solid walls), "donut" (stuff that leaves the top enters from the bottom), "infinite" (stuff just flies out of view) )
 			// Usage:       LevelEditorConfigPanel.cs:214
-			L10N.Add(STR_LVLED_CFG_GEOMETRY, "Geometry", "Geometrie", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_CFG_GEOMETRY, "Geometry", "Geometrie", "Géometrie", "?", "?"); //TODO translate me
 
 			// Description: Option for geometry config in leveleditorpanel. In "Infinity"-geometry entities that go out-of bounds just keep flying away until they are unreachable
 			// Usage:       LevelEditorConfigPanel.cs:385
-			L10N.Add(STR_LVLED_CFG_WRAP_INFINITY, "Infinity", "Endlos", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_CFG_WRAP_INFINITY, "Infinity", "Endlos", "Infini", "?", "?"); //TODO translate me
 
 			// Description: Option for geometry config in leveleditorpanel. In "Donut"-geometry entities that go out-of bounds enter the level at the opposite edge
 			// Usage:       LevelEditorConfigPanel.cs:388
-			L10N.Add(STR_LVLED_CFG_WRAP_DONUT, "Donut", "Donut", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_CFG_WRAP_DONUT, "Donut", "Donut", "Donut", "?", "?"); //TODO translate me
 
 			// Description: Option for geometry config in leveleditorpanel. In "Reflect"-geometry entities that hit the border bounce like if they hit a solid wall
 			// Usage:       LevelEditorConfigPanel.cs:391
-			L10N.Add(STR_LVLED_CFG_WRAP_REFLECT, "Reflect", "Reflektierend", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_CFG_WRAP_REFLECT, "Reflect", "Reflektierend", "Réfléchissant", "?", "?"); //TODO translate me
 
 			// Description: Button-text in leveleditor. Sets the mode to "add new portal to playing field"
-			// Usage:       LevelEditorModePanel.cs:149
-			L10N.Add(STR_LVLED_PORTAL, "Portal", "Portal", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorModePanel.cs:142
+			L10N.Add(STR_LVLED_PORTAL, "Portal", "Portal", "Portail", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible channels of the currently selected entity (Direction is between 1 and 5 and is a property of portals)
 			// Usage:       PortalStub.cs:145
-			L10N.Add(STR_LVLED_BTN_CHANNEL, "Channel", "Kanal", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_CHANNEL, "Channel", "Kanal", "Conal", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible directions of the currently selected entity (Direction is "I" or "O" and is a property of portals)
 			// Usage:       PortalStub.cs:154
-			L10N.Add(STR_LVLED_BTN_DIR, "Direction", "Richtung", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_DIR, "Direction", "Richtung", "Direction", "?", "?"); //TODO translate me
 
 			// Description: Header of an attribute-button in the leveleditor. Switches through the possible lengths of the currently selected entity
 			// Usage:       PortalStub.cs:163
-			L10N.Add(STR_LVLED_BTN_LEN, "Length", "Länge", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_LEN, "Length", "Länge", "Longueur", "?", "?"); //TODO translate me
 
 			// Description: Error toast that is shown when the level compilation failed because the level has no name set
 			// Usage:       SCCMLevelData.cs:243
 			// Usage:       LevelEditorConfigPanel.cs:407
-			L10N.Add(STR_LVLED_ERR_NONAME, "Level has no name set", "Level hat keinen Namen gesetzt", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_ERR_NONAME, "Level has no name set", "Level hat keinen Namen gesetzt", "Le niveau n'a pas de nom défini", "?", "?"); //TODO translate me
 
 			// Description: Error toast that is shown when the level compilation failed because there was no cannon owned by the computer
 			// Usage:       SCCMLevelData.cs:267
-			L10N.Add(STR_LVLED_ERR_NOENEMY, "You need at least two player", "Ein Level braucht mindestens zwei Spieler", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_ERR_NOENEMY, "You need at least two player", "Ein Level braucht mindestens zwei Spieler", "Un niveau a d'au moins deux joueurs", "?", "?"); //TODO translate me
 
 			// Description: Error toast that is shown when the level compilation failed because there was no cannon owned by the player
 			// Usage:       SCCMLevelData.cs:261
-			L10N.Add(STR_LVLED_ERR_NOPLAYER, "At least one cannon must be owned by the player", "Mindestens eine Kanone muss dem Spieler gehören", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_ERR_NOPLAYER, "At least one cannon must be owned by the player", "Mindestens eine Kanone muss dem Spieler gehören", "Au moins un canon doit appartenir au joueur", "?", "?"); //TODO translate me
 
 			// Description: Error toast that is shown when the level compilation failed because too many entities were used
 			// Usage:       SCCMLevelData.cs:237
-			L10N.Add(STR_LVLED_ERR_TOOMANYENTS, "Level has too many entities", "Zu viele Elemente im Level", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_ERR_TOOMANYENTS, "Level has too many entities", "Zu viele Elemente im Level", "Le niveau a trop d'entités", "?", "?"); //TODO translate me
 
 			// Description: Error toast that is shown when the level compilation failed with an unknown error
 			// Usage:       SCCMLevelData.cs:308
-			L10N.Add(STR_LVLED_ERR_COMPILERERR, "Level compilation failed internally", "Level konnte nicht kompiliert werden", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_ERR_COMPILERERR, "Level compilation failed internally", "Level konnte nicht kompiliert werden", "Le niveau n'a pas pu être compilé", "?", "?"); //TODO translate me
 
 			// Description: Buttontext "delete level". Button in leveleditor to delete the current level
 			// Usage:       LevelEditorDeleteConfirmPanel.cs:46
-			L10N.Add(STR_LVLED_BTN_DELLEVEL, "Delete level", "Level löschen", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_DELLEVEL, "Delete level", "Level löschen", "Supprimer le niveau", "?", "?"); //TODO translate me
 
 			// Description: Buttontext "Save changes". Shown as part of a option box (discard changes || save changes) in leveleditor
 			// Usage:       LevelEditorSaveConfirmPanel.cs:46
-			L10N.Add(STR_LVLED_BTN_SAVE, "Save changes", "Änderungen speichern", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_SAVE, "Save changes", "Änderungen speichern", "Enregistrer les modifications", "?", "?"); //TODO translate me
 
 			// Description: Buttontext "Discard changes". Shown as part of a option box (discard changes || save changes) in leveleditor
 			// Usage:       LevelEditorSaveConfirmPanel.cs:65
-			L10N.Add(STR_LVLED_BTN_DISCARD, "Discard changes", "Änderungen verwerfen", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_DISCARD, "Discard changes", "Änderungen verwerfen", "Supprimer les modifications", "?", "?"); //TODO translate me
 
 			// Description: Toast that appears when a level is (successfully) deleted
 			// Usage:       LevelEditorDeleteConfirmPanel.cs:64
-			L10N.Add(STR_LVLED_TOAST_DELLEVEL, "Level deleted.", "Level gelöscht.", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_TOAST_DELLEVEL, "Level deleted.", "Level gelöscht.", "Supprimer le niveau", "?", "?"); //TODO translate me
 
 			// Description: Menutext for user-generated levels
-			L10N.Add(STR_MENU_CAP_SCCM, "User levels", "Benutzerlevel", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_MENU_CAP_SCCM, "User levels", "Benutzerlevel", "Niveau utilisateur", "?", "?"); //TODO translate me
 
 			// Description: Header of tab in online-level-browser. Opens the "Levels created by me" tab
 			// Usage:       SCCMMainPanel.cs:59
-			L10N.Add(STR_LVLED_TAB_MYLEVELS, "My levels", "Meine Level", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_TAB_MYLEVELS, "My levels", "Meine Level", "Mes niveaux", "?", "?"); //TODO translate me
 
 			// Description: Header of tab in online-level-browser. Opens the "Currently hot levels" tab
 			// Usage:       SCCMMainPanel.cs:75
-			L10N.Add(STR_LVLED_TAB_HOT, "Hot", "Beliebt", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_TAB_HOT, "Hot", "Beliebt", "Aimé", "?", "?"); //TODO translate me
 
 			// Description: Header of tab in online-level-browser. Opens the "Best rated levels" tab
 			// Usage:       SCCMMainPanel.cs:91
-			L10N.Add(STR_LVLED_TAB_TOP, "Top", "Top", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_TAB_TOP, "Top", "Top", "Top", "?", "?"); //TODO translate me
 
 			// Description: Header of tab in online-level-browser. Opens the "New levels" tab
 			// Usage:       SCCMMainPanel.cs:107
-			L10N.Add(STR_LVLED_TAB_NEW, "New", "Neu", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_TAB_NEW, "New", "Neu", "Nouveau", "?", "?"); //TODO translate me
 
 			// Description: Header of tab in online-level-browser. Opens the "Search" tab
 			// Usage:       SCCMMainPanel.cs:123
-			L10N.Add(STR_LVLED_TAB_SEARCH, "Search", "Suche", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_TAB_SEARCH, "Search", "Suche", "Chercher", "?", "?"); //TODO translate me
 
 			// Description: Buttontext in online-level browser. Creates a new level. (= opens leveleditor)
-			// Usage:       SCCMListElementNewUserLevel.cs:39
-			L10N.Add(STR_LVLED_BTN_NEWLVL, "Create new level", "Neues Level erstellen", "?", "?", "?"); //TODO translate me
+			// Usage:       SCCMListElementNewUserLevel.cs:38
+			L10N.Add(STR_LVLED_BTN_NEWLVL, "Create new level", "Neues Level erstellen", "Créer un nouveau niveau", "?", "?"); //TODO translate me
 
 			// Description: Waitingbox text: Generic message that is displayed while we wait for the server
-			// Usage:       SCCMListElementNewUserLevel.cs:88
-			L10N.Add(STR_GENERIC_SERVER_QUERY, "Processing your request", "Anfrage wird bearbeitet", "?", "?", "?"); //TODO translate me
+			// Usage:       SCCMListElementNewUserLevel.cs:87
+			L10N.Add(STR_GENERIC_SERVER_QUERY, "Processing your request", "Anfrage wird bearbeitet", "L'enquête est en cours de traitement", "?", "?"); //TODO translate me
 
 			// Description: Buttontext in online-level browser. Edits the selected level. (= opens leveleditor)
 			// Usage:       SCCMListElementEditable.cs:43
-			L10N.Add(STR_LVLED_BTN_EDIT, "Edit", "Edit", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_LVLED_BTN_EDIT, "Edit", "Edit", "Façonner", "?", "?"); //TODO translate me
 
 			// Description: Buttontext in online-level browser. Starts the selected level.
-			// Usage:       HUDSCCMScorePanel_Won.cs:422
-			// Usage:       SCCMListElementLocalPlayable.cs:52
-			// Usage:       SCCMListElementOnlinePlayable.cs:36
-			L10N.Add(STR_LVLED_BTN_PLAY, "Play", "Play", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMScorePanel_Won.cs:418
+			// Usage:       SCCMListElementLocalPlayable.cs:51
+			// Usage:       SCCMListElementOnlinePlayable.cs:34
+			L10N.Add(STR_LVLED_BTN_PLAY, "Play", "Play", "Joue", "?", "?"); //TODO translate me
 
 			// Description: Waitingbox text that is shown while the level compiles
-			// Usage:       LevelEditorScreen.cs:260
-			// Usage:       LevelEditorScreen.cs:325
-			L10N.Add(STR_LVLED_COMPILING, "Compiling", "Erzeugen", "?", "?", "?"); //TODO translate me
+			// Usage:       LevelEditorScreen.cs:262
+			// Usage:       LevelEditorScreen.cs:327
+			L10N.Add(STR_LVLED_COMPILING, "Compiling", "Erzeugen", "Produire", "?", "?"); //TODO translate me
 
 			// Description: String for showing the option "Do not play music" in the leveleditor
 			// Usage:       LevelEditorConfigPanel.cs:381
-			L10N.Add(STR_MUSIC_NONE, "None", "Keine", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_MUSIC_NONE, "None", "Keine", "Aucun", "?", "?"); //TODO translate me
 
 			// Description: Formatstring for showing the different avaiable music (eg "Song 1", "Song 2", ...) in the leveleditor
 			// Usage:       LevelEditorConfigPanel.cs:381
-			L10N.Add(STR_MUSIC_INT, "Song {0}", "Lied {0}", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_MUSIC_INT, "Song {0}", "Lied {0}", "Musique {0}", "?", "?"); //TODO translate me
 
 			// Description: Label for Parameter "Music" in leveleditor
 			// Usage:       LevelEditorConfigPanel.cs:246
 			L10N.Add(STR_LVLED_CFG_MUSIC, "Song:", "Lied:", "Musique:", "Musica:", "Música:");
 
 			// Description: Buttontext. Uploads a level.
-			// Usage:       HUDSCCMUploadScorePanel.cs:192
-			L10N.Add(STR_LVLED_BTN_UPLOAD, "Upload", "Veröffentlichen", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMUploadScorePanel.cs:182
+			L10N.Add(STR_LVLED_BTN_UPLOAD, "Upload", "Veröffentlichen", "Publier", "?", "?"); //TODO translate me
 
 			// Description: Toast that is shown while the level is uploading (after you created a new level) or while the score is uploading (after you finished a level)
-			// Usage:       HUDSCCMScorePanel_Transmit.cs:95
-			// Usage:       HUDSCCMUploadScorePanel.cs:273
-			L10N.Add(STR_LVLED_UPLOADING, "Uploading", "Wird hochgeladen", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMScorePanel_Transmit.cs:89
+			// Usage:       HUDSCCMUploadScorePanel.cs:263
+			L10N.Add(STR_LVLED_UPLOADING, "Uploading", "Wird hochgeladen", "En cours de télécharger", "?", "?"); //TODO translate me
 
 			// Description: Message text that is shown when teh level upload was successful
-			// Usage:       HUDSCCMUploadScorePanel.cs:392
-			L10N.Add(STR_LVLED_UPLOAD_FIN, "Level successfully published", "Level wurde veröffentlicht", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMUploadScorePanel.cs:382
+			L10N.Add(STR_LVLED_UPLOAD_FIN, "Level successfully published", "Level wurde veröffentlicht", "Niveau était publié", "?", "?"); //TODO translate me
 
 			// Description: Text of a error-message that is shown when you try to upload a level and an internal error occured
-			// Usage:       HUDSCCMUploadScorePanel.cs:312
-			L10N.Add(STR_LVLUPLD_ERR_INTERNAL, "Server error while uploading level", "Im Server trat ein Fehler während des Uploads auf", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMUploadScorePanel.cs:302
+			L10N.Add(STR_LVLUPLD_ERR_INTERNAL, "Server error while uploading level", "Im Server trat ein Fehler während des Uploads auf", "Le serveur a rencontré une erreur lors du téléchargement", "?", "?"); //TODO translate me
 
 			// Description: Text of a error-message that is shown when you try to upload a level that has a filesize over the limit
-			// Usage:       HUDSCCMUploadScorePanel.cs:334
-			L10N.Add(STR_LVLUPLD_ERR_FILETOOBIG, "Levelfile too big", "Leveldatei zu groß", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMUploadScorePanel.cs:324
+			L10N.Add(STR_LVLUPLD_ERR_FILETOOBIG, "Levelfile too big", "Leveldatei zu groß", "Fichier de niveau trop grand", "?", "?"); //TODO translate me
 
 			// Description: Text of a error-message that is shown when you try to upload a level that was made by another user
-			// Usage:       HUDSCCMUploadScorePanel.cs:345
-			L10N.Add(STR_LVLUPLD_ERR_WRONGUSER, "Level was created by a different account", "Level wurde von einem anderen Benutzer erstellt", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMUploadScorePanel.cs:335
+			L10N.Add(STR_LVLUPLD_ERR_WRONGUSER, "Level was created by a different account", "Level wurde von einem anderen Benutzer erstellt", "Le niveau a été créé par un autre utilisateur", "?", "?"); //TODO translate me
 
 			// Description: Text of a error-message that is shown when you try to upload a level that was not found on the server
-			// Usage:       HUDSCCMUploadScorePanel.cs:356
-			L10N.Add(STR_LVLUPLD_ERR_LIDNOTFOUND, "Level was deleted on the server", "Level wurde auf dem Server gelöscht", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMUploadScorePanel.cs:346
+			L10N.Add(STR_LVLUPLD_ERR_LIDNOTFOUND, "Level was deleted on the server", "Level wurde auf dem Server gelöscht", "Le niveau était supprimé sur le serveur", "?", "?"); //TODO translate me
 
 			// Description: Text of a error-message that is shown when you try to upload a level with an invalid name
-			// Usage:       HUDSCCMUploadScorePanel.cs:367
-			L10N.Add(STR_LVLUPLD_ERR_INVALIDNAME, "Ungültiger Name", "Invalid name for level", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMUploadScorePanel.cs:357
+			L10N.Add(STR_LVLUPLD_ERR_INVALIDNAME, "Ungültiger Name", "Invalid name for level", "Nom invalide", "?", "?"); //TODO translate me
 
 			// Description: Tabular grid header in online-level preview dialog. Count of users that have beaten the level+difficulty (+ count of users that have played the level)
 			// Usage:       SCCMLevelPreviewDialog.cs:166
-			L10N.Add(STR_INF_CLEARS, "Clears", "Gesamt", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_INF_CLEARS, "Clears", "Gesamt", "Global", "?", "?"); //TODO translate me
 
 			// Description: Toast-error that is shown when the level download failed.
 			// Usage:       SCCMLevelPreviewDialog.cs:574
 			// Usage:       SCCMLevelPreviewDialog.cs:597
 			// Usage:       SCCMLevelPreviewDialog.cs:616
 			// Usage:       SCCMLevelPreviewDialog.cs:629
-			L10N.Add(STR_SCCM_DOWNLOADFAILED, "Download failed", "Dowload fehlgeschlagen", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_SCCM_DOWNLOADFAILED, "Download failed", "Dowload fehlgeschlagen", "Téléchargement échoué", "?", "?"); //TODO translate me
 
 			// Description: Toast that is shown when when user tries to play a level thats not finished downloading
 			// Usage:       SCCMLevelPreviewDialog.cs:743
-			L10N.Add(STR_SCCM_DOWNLOADINPROGRESS, "Downloading...", "Downloading...", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_SCCM_DOWNLOADINPROGRESS, "Downloading...", "Downloading...", "Télécharge...", "?", "?"); //TODO translate me
 
 			// Description: Toast-error that is shown when someone tries to play a level with an too-old version
 			// Usage:       SCCMLevelPreviewDialog.cs:751
-			L10N.Add(STR_SCCM_VERSIONTOOOLD, "This level needs a newer version of the game", "Level benötigt eine neue Version der App", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_SCCM_VERSIONTOOOLD, "This level needs a newer version of the game", "Level benötigt eine neue Version der App", "Ce niveau a besoin d’une nouvelle version d’App", "?", "?"); //TODO translate me
 
 			// Description: Toast that is displayed when someone tries to create a level with an anonymous account
-			// Usage:       SCCMListElementNewUserLevel.cs:82
-			L10N.Add(STR_SCCM_NEEDS_ACC, "You need a registered account to create levels", "Ein Account wird benötigt um Level zu erstellen", "?", "?", "?"); //TODO translate me
+			// Usage:       SCCMListElementNewUserLevel.cs:81
+			L10N.Add(STR_SCCM_NEEDS_ACC, "You need a registered account to create levels", "Ein Account wird benötigt um Level zu erstellen", "Un compte est requis pour créer des niveaux", "?", "?"); //TODO translate me
 
 			// Description: Toast that is displayed when you click on the info-box "points" (how many points the user has)
-			// Usage:       ScoreDisplay.cs:106
-			L10N.Add(STR_SCOREMAN_INFO_SCORE, "You get these tokens by completing normal levels.\nHigher difficulties result in more points.", "Diese Punkte erlangt man durch das Spielen normaler Level.\nHöhere Schwierigkeitsstufen geben mehr Punkte.", "?", "?", "?"); //TODO translate me
+			// Usage:       ScoreDisplay.cs:111
+			L10N.Add(STR_SCOREMAN_INFO_SCORE, "You get these tokens by completing normal levels.\nHigher difficulties result in more points.", "Diese Punkte erlangt man durch das Spielen normaler Level.\nHöhere Schwierigkeitsstufen geben mehr Punkte.", "Ces points sont obtenus en jouant des niveaux normaux.\nLes niveaux de difficulté supérieurs donnent plus de points.", "?", "?"); //TODO translate me
 
 			// Description: Toast that is displayed when you click on the info-box "multiplayer points" (how many points the user has in multiplayer games)
-			// Usage:       MultiplayerScoreDisplay.cs:104
-			L10N.Add(STR_SCOREMAN_INFO_MPSCORE, "You can get these tokens by winning multiplayer games against your friends.", "Diese Punkte erlangt man durch gewinnen von lokalen Mehrspieler-Partien", "?", "?", "?"); //TODO translate me
+			// Usage:       MultiplayerScoreDisplay.cs:109
+			L10N.Add(STR_SCOREMAN_INFO_MPSCORE, "You can get these tokens by winning multiplayer games against your friends.", "Diese Punkte erlangt man durch gewinnen von lokalen Mehrspieler-Partien", "Ces points sont obtenus en gagnant des parties multijoueurs locales", "?", "?"); //TODO translate me
 
 			// Description: Toast that is displayed when you click on the info-box "user-generated levels score" (how many points the user has in user-generated levels)
-			// Usage:       SCCMScoreDisplay.cs:119
-			L10N.Add(STR_SCOREMAN_INFO_SCCMSCORE, "You can get these tokens by winning user generated levels from other players", "Dise Punkte erlangt man durch das Spielen von Leveln die von anderen Spielern erstellt wurden", "?", "?", "?"); //TODO translate me
+			// Usage:       SCCMScoreDisplay.cs:121
+			L10N.Add(STR_SCOREMAN_INFO_SCCMSCORE, "You can get these tokens by winning user generated levels from other players", "Dise Punkte erlangt man durch das Spielen von Leveln die von anderen Spielern erstellt wurden", "Ces points sont obtenus en jouant des niveaux créés par d'autres joueurs", "?", "?"); //TODO translate me
 
 			// Description: Toast that is displayed when you click on the info-box "stars" (how many stars the user has)
-			// Usage:       StarsScoreDisplay.cs:105
-			L10N.Add(STR_SCOREMAN_INFO_STARS, "You get these stars when other players give a level you created a star", "Du bekommst Sterne wenn andere Spieler ein Level, das du erstellt hast, positiv bewerten", "?", "?", "?"); //TODO translate me
+			// Usage:       StarsScoreDisplay.cs:110
+			L10N.Add(STR_SCOREMAN_INFO_STARS, "You get these stars when other players give a level you created a star", "Du bekommst Sterne wenn andere Spieler ein Level, das du erstellt hast, positiv bewerten", "Tu obtiens des étoiles lorsque d'autres joueurs évaluent positivement un niveau que vous avez créé", "?", "?"); //TODO translate me
 
 			// Description: Header in highscore table. Shows the highscore in the currency "stars" (= best user-made levels)
-			// Usage:       HighscorePanel.cs:72
-			L10N.Add(STR_HSP_STARRANKING, "Stars", "Sterne", "?", "?", "?"); //TODO translate me
+			// Usage:       HighscorePanel.cs:73
+			L10N.Add(STR_HSP_STARRANKING, "Stars", "Sterne", "Étoiles", "?", "?"); //TODO translate me
 
 			// Description: Header in highscore table. Shows the highscore in user-generated-levels.
-			// Usage:       HighscorePanel.cs:75
-			L10N.Add(STR_HSP_SCCMRANKING, "User level points", "Benutzerlevel Punkte", "?", "?", "?"); //TODO translate me
+			// Usage:       HighscorePanel.cs:76
+			L10N.Add(STR_HSP_SCCMRANKING, "User level points", "Benutzerlevel Punkte", "Niveau utilisateur points", "?", "?"); //TODO translate me
 
 			// Description: Column caption in highscore table. Shows the stars a user has
 			// Usage:       HighscorePanel.cs:197
-			L10N.Add(STR_TAB_STARS, "Stars", "Sterne", "?", "?", "?"); //TODO translate me
+			// Usage:       HighscorePanel.cs:198
+			L10N.Add(STR_TAB_STARS, "Stars", "Sterne", "étoiles", "?", "?"); //TODO translate me
 
 			// Description: Buttontext in "World locked"-panel. Part of a three-element line: [Unlock now] [or] [Finish the game]
-			// Usage:       SCCMPreviewPanel.cs:125
-			L10N.Add(STR_PREV_FINISHGAME, "Finish the game", "Gewinne das Spiel", "?", "?", "?"); //TODO translate me
+			// Usage:       SCCMPreviewPanel.cs:119
+			L10N.Add(STR_PREV_FINISHGAME, "Finish the game", "Gewinne das Spiel", "Gagner le jeu", "?", "?"); //TODO translate me
 
 			// Description: Text of the achievementbox that appears when you unlock user-generated levels + leveleditor
 			// Usage:       GDGameScreen_SP.cs:72
-			L10N.Add(STR_ACH_UNLOCK_ONLINE, "User levels unlocked", "Benutzerlevel entsperrt", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_ACH_UNLOCK_ONLINE, "User levels unlocked", "Benutzerlevel entsperrt", "Niveau utilisateur débloqué", "?", "?"); //TODO translate me
 
 			// Description: Text of the achievementbox that appears when you unlock the multiplayer
 			// Usage:       GDGameScreen_SP.cs:73
-			L10N.Add(STR_ACH_UNLOCK_MULTIPLAYER, "Local multiplayer unlocked", "Lokaler Mehrspieler entsperrt", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_ACH_UNLOCK_MULTIPLAYER, "Local multiplayer unlocked", "Lokaler Mehrspieler entsperrt", "Multijoueur local débloqué", "?", "?"); //TODO translate me
 
 			// Description: Text of the achievementbox that appears when you unlock a new world
 			// Usage:       GDGameScreen_SP.cs:74
 			// Usage:       GDGameScreen_SP.cs:75
 			// Usage:       GDGameScreen_SP.cs:76
 			// Usage:       GDGameScreen_SP.cs:77
-			L10N.Add(STR_ACH_UNLOCK_WORLD, "Unlocked world {0}", "Welt {0} entsperrt", "?", "?", "?"); //TODO translate me
+			L10N.Add(STR_ACH_UNLOCK_WORLD, "Unlocked world {0}", "Welt {0} entsperrt", "Le monde {0} débloqué", "?", "?"); //TODO translate me
 
 			// Description: Text of a error-message that is shown when you try to upload a level with a name that already exists
-			// Usage:       HUDSCCMUploadScorePanel.cs:378
-			L10N.Add(STR_LVLUPLD_ERR_DUPLNAME, "Name is already used by another level", "Levelname wird schon verwendet", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMUploadScorePanel.cs:368
+			L10N.Add(STR_LVLUPLD_ERR_DUPLNAME, "Name is already used by another level", "Levelname wird schon verwendet", "Le nom du niveau est déjà utilisé", "?", "?"); //TODO translate me
 
 			// Description: Text in the score-panel. Does _not_ upload the level and exits the upload screen
-			// Usage:       HUDSCCMScorePanel_Transmit.cs:108
-			L10N.Add(STR_LVLED_BTN_ABORT, "Abort", "Abbrechen", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMScorePanel_Transmit.cs:102
+			L10N.Add(STR_LVLED_BTN_ABORT, "Abort", "Abbrechen", "Annuler", "?", "?"); //TODO translate me
 
 			// Description: Text in the score-panel. Is visible if you tried to upload a level but lost, gives you the option to try again.
-			// Usage:       HUDSCCMScorePanel_Transmit.cs:128
-			L10N.Add(STR_LVLED_BTN_RETRY, "Retry", "Wiederholen", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMScorePanel_Transmit.cs:122
+			L10N.Add(STR_LVLED_BTN_RETRY, "Retry", "Wiederholen", "Répéter", "?", "?"); //TODO translate me
 
 			// Description: Text of the achievementbox that appears when you are the first person to clear the level
-			// Usage:       HUDSCCMScorePanel_Transmit.cs:181
-			L10N.Add(STR_ACH_FIRSTCLEAR, "First Clear", "Erster", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMScorePanel_Transmit.cs:175
+			L10N.Add(STR_ACH_FIRSTCLEAR, "First Clear", "Erster", "Premier", "?", "?"); //TODO translate me
 
 			// Description: Caption in the score-panel. Shows teh current world record for this level+difficulty
-			// Usage:       HUDSCCMScorePanel_Transmit.cs:185
-			L10N.Add(STR_ACH_WORLDRECORD, "World record", "Weltrekord", "?", "?", "?"); //TODO translate me
+			// Usage:       GDGameScreen_SP.cs:159
+			// Usage:       HUDSCCMScorePanel_Transmit.cs:179
+			L10N.Add(STR_ACH_WORLDRECORD, "World record", "Weltrekord", "Record du monde", "?", "?"); //TODO translate me
 
 			// Description: Caption in the score-panel. Shows the author of the level
-			// Usage:       HUDSCCMScorePanel_Won.cs:285
-			L10N.Add(STR_HSP_AUTHOR, "Author", "Ersteller", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMScorePanel_Won.cs:281
+			L10N.Add(STR_HSP_AUTHOR, "Author", "Ersteller", "Auteur", "?", "?"); //TODO translate me
 
 			// Description: Caption in the score-panel. Shows your personal best time for this level+difficulty
-			// Usage:       HUDSCCMScorePanel_Won.cs:435
-			// Usage:       HUDSCCMTestScorePanel.cs:130
-			// Usage:       HUDSCCMUploadScorePanel.cs:140
-			L10N.Add(STR_HSP_TIME_YOU, "Time (you)", "Deine Bestzeit", "?", "?", "?"); //TODO translate me
+			// Usage:       HUDSCCMScorePanel_Won.cs:431
+			// Usage:       HUDSCCMTestScorePanel.cs:119
+			// Usage:       HUDSCCMUploadScorePanel.cs:130
+			L10N.Add(STR_HSP_TIME_YOU, "Time (you)", "Deine Bestzeit", "Ta meilleure heure", "?", "?"); //TODO translate me
 
 			// Description: Toast that is displayed when you click the [Upload] button in the leveleditor
-			// Usage:       GDGameScreen_SCCMUpload.cs:168
-			L10N.Add(STR_SCCM_UPLOADINFO, "Beat your own level to upload it.", "Gewinne dein eigenes Level um es hochzuladen", "?", "?", "?"); //TODO translate me
+			// Usage:       GDGameScreen_SCCMUpload.cs:167
+			L10N.Add(STR_SCCM_UPLOADINFO, "Beat your own level to upload it.", "Gewinne dein eigenes Level um es hochzuladen", "Gagnez votre propre niveau pour télécharger", "?", "?"); //TODO translate me
 
 			// Description: Text that is displayed while the next page in the levelbrowser is loaded (text is suffixed with three dots)
-			// Usage:       SCCMListElementLoading.cs:44
-			L10N.Add(STR_SCCM_LOADING, "LOADING", "LADEN", "?", "?", "?"); //TODO translate me
+			// Usage:       SCCMListElementLoading.cs:33
+			L10N.Add(STR_SCCM_LOADING, "LOADING", "LADEN", "Charger", "?", "?"); //TODO translate me
+
+			// Description: Button to open credits dialog
+			L10N.Add(STR_CREDPNL_BTN, "About...", "Über...", "Remerciements", "Ringraziamenti", "Agradecimientos");
 
 
 			// [en-US] [de-DE] [fr-FR] [it-IT] [es-ES]
