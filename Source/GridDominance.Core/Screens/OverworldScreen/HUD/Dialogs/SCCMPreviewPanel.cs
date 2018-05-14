@@ -34,6 +34,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Dialogs
 			Size = new FSize(WIDTH, HEIGHT);
 			Alignment = HUDAlignment.CENTER;
 			Background = FlatColors.Asbestos;
+
+            MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
 		}
 
 		public override void OnInitialize()

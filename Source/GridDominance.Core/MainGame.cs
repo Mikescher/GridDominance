@@ -58,8 +58,12 @@ namespace GridDominance.Shared
 			Backend = new GDServerAPI(GDBridge);
 			//Backend = new DummyGDServerAPI();
 
-			if (MainGame.Flavor == GDFlavor.IAB || MainGame.Flavor == GDFlavor.IAB_NOMP) GDBridge.IAB.Connect(GDConstants.IABList);
-
+			if (MainGame.Flavor == GDFlavor.IAB || MainGame.Flavor == GDFlavor.IAB_NOMP) 
+			{
+				GDBridge.IAB.Connect();
+				if (IsAndroid()) GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
+			}
+            
 			Profile = new PlayerProfile();
 
 			var sdata = FileHelper.Inst.ReadDataOrNull(GDConstants.PROFILE_FILENAME); // %LOCALAPPDATA%\IsolatedStorage\...
@@ -144,7 +148,7 @@ namespace GridDominance.Shared
 				TargetElapsedTime = TimeSpan.FromMilliseconds(1);
 
 				Graphics.ApplyChanges();
-				Window.Position = new Point((1920 - Graphics.PreferredBackBufferWidth) / 2, (1080 - Graphics.PreferredBackBufferHeight) / 2);
+				//Window.Position = new Point((1920 - Graphics.PreferredBackBufferWidth) / 2, (1080 - Graphics.PreferredBackBufferHeight) / 2);
 #endif
 			}
 			else

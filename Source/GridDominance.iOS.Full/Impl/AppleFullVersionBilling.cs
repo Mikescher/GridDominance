@@ -7,7 +7,9 @@ namespace GridDominance.iOS.Impl
 	{
 		public bool IsConnected => true;
 
-		public bool Connect(string[] productIDs)
+		public bool IsSynchronized => true;
+
+		public bool Connect()
 		{
 			return true;
 		}
@@ -27,6 +29,12 @@ namespace GridDominance.iOS.Impl
 		{
 			SAMLog.Error("IAB_FULL_IOS::IsPurchased", $"Calling IsPurchased({id}) in full version");
 			return PurchaseQueryResult.Purchased;
+		}
+
+		public bool SynchronizePurchases(string[] productIDs)
+		{
+			SAMLog.Error("IAB_FULL_IOS::SynchronizePurchases", $"Calling SynchronizePurchases() in full version");
+            return true;
 		}
 	}
 }

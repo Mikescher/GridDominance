@@ -34,6 +34,8 @@ namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 			Background = FlatColors.BackgroundHUD;
 
 			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, true);
+         
+            MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
 		}
 
 		public override void OnInitialize()

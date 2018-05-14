@@ -105,6 +105,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 				return;
 			}
 
+            MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
+
 			var ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_ONLINE, true);
 
 			switch (ustate)

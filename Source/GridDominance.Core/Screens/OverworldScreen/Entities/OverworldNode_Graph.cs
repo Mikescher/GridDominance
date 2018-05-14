@@ -208,6 +208,8 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 #endif
 
 			_ustate = UnlockManager.IsUnlocked(Blueprint, true);
+           
+            MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
 
 			switch (_ustate)
 			{
