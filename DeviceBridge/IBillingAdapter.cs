@@ -1,6 +1,6 @@
 ﻿namespace MonoSAMFramework.Portable.DeviceBridge
 {
-	public enum PurchaseQueryResult { Purchased, NotPurchased, Refunded, Cancelled, Error, NotConnected, CurrentlyInitializing }
+	public enum PurchaseQueryResult { Purchased, NotPurchased, Refunded, Cancelled, Error, NotConnected, CurrentlyInitializing, Pending }
 	public enum PurchaseResult { ProductNotFound, NotConnected, CurrentlyInitializing, PurchaseStarted }
 
 	public static class AndroidBillingHelper
