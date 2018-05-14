@@ -264,6 +264,7 @@ namespace GridDominance.Shared.Screens.Common
 
 				case PurchaseQueryResult.NotPurchased:
 				case PurchaseQueryResult.Cancelled:
+				case PurchaseQueryResult.Pending:
 					return false;
 
 				case PurchaseQueryResult.Error:

@@ -83,7 +83,7 @@ namespace GridDominance.iOS.Impl
 
 		public void ExitApp()
 		{
-			SAMLog.Error("APPLBRIDG::EXIT", "Trying to exit app in iOS");
+			SAMLog.Error("APPLBRIDG_IAB::EXIT", "Trying to exit app in iOS");
 		}
 
 		public void ShareAppLink()
