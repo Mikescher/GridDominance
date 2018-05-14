@@ -9,6 +9,8 @@ namespace GridDominance.Android.Impl
 	{
 		public bool IsConnected => true;
 
+		public bool IsSynchronized => true;
+		
 		public bool Connect(string[] productIDs)
 		{
 			return true;
@@ -34,6 +36,11 @@ namespace GridDominance.Android.Impl
 		{
 			SAMLog.Error("IAB_AMZN::IsPurchased", $"Calling IsPurchased({id}) in full version");
 			return PurchaseQueryResult.Purchased;
+		}
+
+		public bool SynchronizePurchases(string[] productIDs)
+		{
+			return true;
 		}
 	}
 }

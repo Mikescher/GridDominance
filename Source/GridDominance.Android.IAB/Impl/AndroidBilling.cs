@@ -21,9 +21,11 @@ namespace GridDominance.Android.Impl
 
 		public bool IsConnected => (_serviceConnection != null && _serviceConnection.Connected);
 
+		public bool IsSynchronized {get; private set;} = false;
+
 		private List<Product> _products;
 		private List<Purchase> _purchases;
-		private string[] _productIDs;
+		private string[] _productIDs = null;
 		private bool _isInitializing = false;
 
 		public AndroidBilling(MainActivity a)
@@ -47,7 +49,6 @@ namespace GridDominance.Android.Impl
 				SAMLog.Debug("AndroidBilling.Connect");
 
 				_purchases = null;
-				_productIDs = productIDs;
 
 				if (IsConnected) Disconnect();
 
@@ -63,6 +64,11 @@ namespace GridDominance.Android.Impl
 				SAMLog.Info("IAB::Connect", e);
 				return false;
 			}
+		}
+
+		public bool SynchronizePurchases(string[] productIDs)
+		{
+			return true;
 		}
 
 		public PurchaseQueryResult IsPurchased(string id)
@@ -140,6 +146,7 @@ namespace GridDominance.Android.Impl
 				_purchases = _serviceConnection.BillingHandler.GetPurchases(ItemType.Product).ToList();
 				SAMLog.Debug($"AndroidBilling.OnConnected[2]");
 
+				IsSynchronized = true;
 
 				_products = _serviceConnection.BillingHandler.QueryInventoryAsync(_productIDs.ToList(), ItemType.Product).Result.ToList();
 				SAMLog.Debug($"AndroidBilling.OnConnected[3]");

@@ -28,7 +28,7 @@ namespace GridDominance.iOS.Impl
 		private readonly Dictionary<string, InAppBillingProduct> _products = new Dictionary<string, InAppBillingProduct>();
 		private readonly Dictionary<string, InAppBillingPurchase> _purchases = new Dictionary<string, InAppBillingPurchase>();
       
-		public bool Connect()
+		public bool Connect(string[] productIDs)
 		{
 			DoConnnect().Wait();
 			return true;

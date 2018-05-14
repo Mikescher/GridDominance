@@ -9,7 +9,7 @@ namespace GridDominance.iOS.Impl
 
 		public bool IsSynchronized => true;
 
-		public bool Connect()
+		public bool Connect(string[] productIDs)
 		{
 			return true;
 		}

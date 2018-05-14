@@ -60,10 +60,10 @@ namespace GridDominance.Shared
 
 			if (MainGame.Flavor == GDFlavor.IAB || MainGame.Flavor == GDFlavor.IAB_NOMP) 
 			{
-				GDBridge.IAB.Connect();
+				GDBridge.IAB.Connect(GDConstants.IABList);
 				if (IsAndroid()) GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
 			}
-            
+
 			Profile = new PlayerProfile();
 
 			var sdata = FileHelper.Inst.ReadDataOrNull(GDConstants.PROFILE_FILENAME); // %LOCALAPPDATA%\IsolatedStorage\...
