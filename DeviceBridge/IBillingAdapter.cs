@@ -20,7 +20,7 @@
 		bool IsConnected { get; }
         bool IsSynchronized { get; }
 
-		bool Connect();
+		bool Connect(string[] productIDs);
 		void Disconnect();
 
 		PurchaseResult StartPurchase(string id);
