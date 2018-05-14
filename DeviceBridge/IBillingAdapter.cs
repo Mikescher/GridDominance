@@ -18,11 +18,14 @@
 	public interface IBillingAdapter
 	{
 		bool IsConnected { get; }
+        bool IsSynchronized { get; }
 
-		bool Connect(string[] productIDs);
+		bool Connect();
 		void Disconnect();
 
 		PurchaseResult StartPurchase(string id);
 		PurchaseQueryResult IsPurchased(string id);
+		bool SynchronizePurchases(string[] productIDs);
+
 	}
 }
