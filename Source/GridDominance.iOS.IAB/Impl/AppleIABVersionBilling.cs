@@ -30,7 +30,7 @@ namespace GridDominance.iOS.Impl
       
 		public bool Connect()
 		{
-			DoConnnect().RunSynchronously();
+			DoConnnect().Wait();
 			return true;
 		}
 
