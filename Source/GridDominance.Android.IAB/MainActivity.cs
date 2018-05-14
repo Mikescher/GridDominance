@@ -30,8 +30,8 @@ namespace GridDominance.Android
 			base.OnCreate(savedInstanceState);
 
 			_impl = new AndroidBridge_IAB(this);
-            MonoSAMGame.StaticBridge = _impl;
-            var g = new MainGame();
+			MonoSAMGame.StaticBridge = _impl;
+			var g = new MainGame();
 			SetContentView(g.Services.GetService<View>());
 			g.Run();
 		}
