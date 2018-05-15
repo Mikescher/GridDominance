@@ -210,19 +210,9 @@
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_320x480.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImage.launchimage\Default.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\GameThumbnail.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <None Include="Content\music\macaron-island.m4a" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1125x2436.png" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2436x1125.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Content\textures\spritesheet_default-sheet_bd.xnb" />
