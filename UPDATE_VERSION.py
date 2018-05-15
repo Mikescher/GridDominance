@@ -71,6 +71,11 @@ repl(r"Source\GridDominance.iOS.Full\Info.plist", "<key>CFBundleVersion</key>\s*
 repl(r"Source\GridDominance.iOS.Full\Properties\AssemblyInfo.cs", "AssemblyVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 repl(r"Source\GridDominance.iOS.Full\Properties\AssemblyInfo.cs", "AssemblyFileVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 
+repl(r"Source\GridDominance.iOS.IAB\Info.plist", "<key>CFBundleShortVersionString</key>\s*<string>(?P<repl>[0-9\.]+)</string>", version_dot3)
+repl(r"Source\GridDominance.iOS.IAB\Info.plist", "<key>CFBundleVersion</key>\s*<string>(?P<repl>[0-9\.]+)</string>", version_dot3)
+repl(r"Source\GridDominance.iOS.IAB\Properties\AssemblyInfo.cs", "AssemblyVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
+repl(r"Source\GridDominance.iOS.IAB\Properties\AssemblyInfo.cs", "AssemblyFileVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
+
 repl(r"Source\GridDominance.Core\Properties\AssemblyInfo.cs", "AssemblyVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 repl(r"Source\GridDominance.Core\Properties\AssemblyInfo.cs", "AssemblyFileVersion\\(\"(?P<repl>[0-9\\.]+)\"\\)", version_dot4)
 
