@@ -25,6 +25,7 @@ namespace GridDominance.Windows
 		public string AppType => "Windows.DirectX";
 		public SAMSystemType SystemType => SAMSystemType.MONOGAME_DESKTOP;
 		public GDFlavor Flavor => GDFlavor.IAB;
+		public FMargin DeviceSafeAreaInset { get; } = FMargin.NONE;
 
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 

@@ -24,6 +24,7 @@ namespace GridDominance.Android.Impl
 		public string AppType => "Android.Amazon";
 		public SAMSystemType SystemType => SAMSystemType.MONOGAME_ANDROID;
 		public GDFlavor Flavor => GDFlavor.FULL;
+		public FMargin DeviceSafeAreaInset { get; } = FMargin.NONE;
 
 		public string FullDeviceInfoString { get; } = GenerateInfoStr();
 		public string DeviceName { get; } = string.Format("{0} {1}", Build.Manufacturer, Build.Model);

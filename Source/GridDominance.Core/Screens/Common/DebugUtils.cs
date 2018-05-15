@@ -76,7 +76,7 @@ namespace GridDominance.Shared.Screens.Common
 			                                        $"         Proxies:          [{TIMING_DRAW_PROXIES.Format()}]\n");
 			debugDisp.AddLine("DebugTimings", () => $"Drawing[BATCH_GAME]: [{TIMING_DRAW_BATCH_GAME.Format()}]\nDrawing[BATCH_HUD]:  [{TIMING_DRAW_BATCH_HUD.Format()}]");
 
-			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{scrn.Game.GraphicsDevice.Viewport.Width}|{scrn.Game.GraphicsDevice.Viewport.Height}]");
+			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GraphicsDevice.Viewport=[{scrn.Game.GraphicsDevice.Viewport.Width}|{scrn.Game.GraphicsDevice.Viewport.Height}] SafeAreaInsets={MainGame.Inst.Bridge.DeviceSafeAreaInset}");
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualGuaranteedSize={scrn.VAdapterGame.VirtualGuaranteedSize} || GameAdapter.VirtualGuaranteedSize={scrn.VAdapterHUD.VirtualGuaranteedSize}");
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.RealGuaranteedSize={scrn.VAdapterGame.RealGuaranteedSize} || GameAdapter.RealGuaranteedSize={scrn.VAdapterHUD.RealGuaranteedSize}");
 			debugDisp.AddLine("ShowMatrixTextInfos", () => $"GameAdapter.VirtualTotalSize={scrn.VAdapterGame.VirtualTotalSize} || GameAdapter.VirtualTotalSize={scrn.VAdapterHUD.VirtualTotalSize}");

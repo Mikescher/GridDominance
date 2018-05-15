@@ -30,6 +30,8 @@ namespace GridDominance.iOS.Impl
 		public SAMSystemType SystemType => SAMSystemType.MONOGAME_IOS;
 		public GDFlavor Flavor => GDFlavor.IAB_NOMP;
 
+		public FMargin DeviceSafeAreaInset { get; } = GetSafeArea();
+
 		public string EnvironmentStackTrace => Environment.StackTrace;
 
 		public IUDPClient CreateUPDClient() => new XamarinUDPClient();
@@ -96,6 +98,16 @@ namespace GridDominance.iOS.Impl
 			var activityController = new UIActivityViewController(activitiesItems, null);
 
 			if (Program.game.Services.GetService(typeof(UIViewController)) is UIViewController gameController) gameController.PresentViewController(activityController, true, null);
+		}
+
+		private static FMargin GetSafeArea()
+		{
+			double n = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top;
+			double e = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Right;
+			double s = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom;
+			double w = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Left;
+
+			return new FMargin((float)n, (float)e, (float)s, (float)w);
 		}
 	}
 }
