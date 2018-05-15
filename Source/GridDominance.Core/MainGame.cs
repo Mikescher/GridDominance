@@ -133,14 +133,15 @@ namespace GridDominance.Shared
 			{
 #if DEBUG
 //			const double ZOOM = 0.925;
-			const double ZOOM = 0.525;
+			const double ZOOM = 0.7;
+//			const double ZOOM = 0.525;
 //			const double ZOOM = 0.325;
 
 				IsMouseVisible = true;
 				Graphics.IsFullScreen = false;
 
-				Graphics.PreferredBackBufferWidth = (int) (1920 * ZOOM);
-				Graphics.PreferredBackBufferHeight = (int) (1080 * ZOOM);
+				Graphics.PreferredBackBufferWidth = (int) (2436 * ZOOM);
+				Graphics.PreferredBackBufferHeight = (int) (1125 * ZOOM);
 				Window.AllowUserResizing = true;
 
 				Graphics.SynchronizeWithVerticalRetrace = false;
@@ -148,7 +149,7 @@ namespace GridDominance.Shared
 				TargetElapsedTime = TimeSpan.FromMilliseconds(1);
 
 				Graphics.ApplyChanges();
-				//Window.Position = new Point((1920 - Graphics.PreferredBackBufferWidth) / 2, (1080 - Graphics.PreferredBackBufferHeight) / 2);
+				Window.Position = new Point((1920 - Graphics.PreferredBackBufferWidth) / 2, (1080 - Graphics.PreferredBackBufferHeight) / 2);
 #endif
 			}
 			else

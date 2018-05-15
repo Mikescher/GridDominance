@@ -39,7 +39,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 	class GDCellularBackground : GameBackground, IGDGridBackground
 	{
 		private const int TILE_WIDTH = GDConstants.TILE_WIDTH;
-		private const int MAX_EXTENSION = 2;
+		private const int MAX_EXTENSION_X = 4;
+		private const int MAX_EXTENSION_Y = 2;
 		
 		public const int SRC_DIST_INF = 12;
 
@@ -64,8 +65,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 		public GDCellularBackground(GDGameScreen scrn, LevelBlueprint lvl) : base(scrn)
 		{
-			tileCountX = FloatMath.Ceiling(lvl.LevelWidth / 64f) + 2 * MAX_EXTENSION;
-			tileCountY = FloatMath.Ceiling(lvl.LevelHeight / 64f) + 2 * MAX_EXTENSION;
+			tileCountX = FloatMath.Ceiling(lvl.LevelWidth  / 64f) + 2 * MAX_EXTENSION_X;
+			tileCountY = FloatMath.Ceiling(lvl.LevelHeight / 64f) + 2 * MAX_EXTENSION_Y;
 			wrapMode   = scrn.WrapMode;
 
 			_grid = new GridCellMembership[tileCountX, tileCountY];
@@ -98,8 +99,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			int ioffX = -(int)(Owner.MapOffsetX / TILE_WIDTH);
 			int ioffY = -(int)(Owner.MapOffsetY / TILE_WIDTH);
 			
-			int extensionX = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH));
-			int extensionY = MathHelper.Min(MAX_EXTENSION, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH));
+			int extensionX = MathHelper.Min(MAX_EXTENSION_X, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetX / TILE_WIDTH));
+			int extensionY = MathHelper.Min(MAX_EXTENSION_Y, FloatMath.Ceiling(VAdapter.VirtualGuaranteedBoundingsOffsetY / TILE_WIDTH));
 
 			int countX = FloatMath.Ceiling(VAdapter.VirtualTotalWidth / TILE_WIDTH) + 1;
 			int countY = FloatMath.Ceiling(VAdapter.VirtualTotalHeight / TILE_WIDTH) + 1;
@@ -108,8 +109,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			{
 				for (int oy = ioffY - extensionY; oy < ioffY + countY + extensionY; oy++)
 				{
-					var x = ox + MAX_EXTENSION; // real coords -> array coords
-					var y = oy + MAX_EXTENSION;
+					var x = ox + MAX_EXTENSION_X; // real coords -> array coords
+					var y = oy + MAX_EXTENSION_Y;
 
 					if (x < 0) continue;
 					if (y < 0) continue;
@@ -416,8 +417,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			{
 				for (int oy = (int)((circle.Y - circle.Radius) / GDConstants.TILE_WIDTH); oy <= (int)((circle.Y + circle.Radius) / GDConstants.TILE_WIDTH); oy++)
 				{
-					int x = ox + MAX_EXTENSION; // real coords -> array coords
-					int y = oy + MAX_EXTENSION;
+					int x = ox + MAX_EXTENSION_X; // real coords -> array coords
+					int y = oy + MAX_EXTENSION_Y;
 
 					if (x < 0) continue;
 					if (y < 0) continue;
@@ -456,10 +457,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 					if (oy != lastoy)
 					{
-						BlockSegmentVert(ox + MAX_EXTENSION - 1, lastoy + MAX_EXTENSION, oy + MAX_EXTENSION);
+						BlockSegmentVert(ox + MAX_EXTENSION_X - 1, lastoy + MAX_EXTENSION_Y, oy + MAX_EXTENSION_Y);
 					}
 
-					BlockSegmentHorz(oy + MAX_EXTENSION, ox - 1 + MAX_EXTENSION, ox + MAX_EXTENSION);
+					BlockSegmentHorz(oy + MAX_EXTENSION_Y, ox - 1 + MAX_EXTENSION_X, ox + MAX_EXTENSION_X);
 
 					lastoy = oy;
 				}
@@ -481,10 +482,10 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 
 					if (ox != lastox)
 					{
-						BlockSegmentHorz(oy + MAX_EXTENSION - 1, lastox + MAX_EXTENSION, ox + MAX_EXTENSION);
+						BlockSegmentHorz(oy + MAX_EXTENSION_Y - 1, lastox + MAX_EXTENSION_X, ox + MAX_EXTENSION_X);
 					}
 
-					BlockSegmentVert(ox + MAX_EXTENSION, oy - 1 + MAX_EXTENSION, oy + MAX_EXTENSION);
+					BlockSegmentVert(ox + MAX_EXTENSION_X, oy - 1 + MAX_EXTENSION_Y, oy + MAX_EXTENSION_Y);
 
 					lastox = ox;
 				}
@@ -534,8 +535,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			{
 				for (int oy = (int)((circle.Y - circle.Radius) / GDConstants.TILE_WIDTH); oy <= (int)((circle.Y + circle.Radius) / GDConstants.TILE_WIDTH); oy++)
 				{
-					int x = ox + MAX_EXTENSION; // real coords -> array coords
-					int y = oy + MAX_EXTENSION;
+					int x = ox + MAX_EXTENSION_X; // real coords -> array coords
+					int y = oy + MAX_EXTENSION_Y;
 
 					if (x < 0) continue;
 					if (y < 0) continue;
@@ -575,8 +576,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			{
 				for (int oy = (int)(block.MostTop / GDConstants.TILE_WIDTH); oy <= (int)(block.MostBottom / GDConstants.TILE_WIDTH); oy++)
 				{
-					int x = ox + MAX_EXTENSION; // real coords -> array coords
-					int y = oy + MAX_EXTENSION;
+					int x = ox + MAX_EXTENSION_X; // real coords -> array coords
+					int y = oy + MAX_EXTENSION_Y;
 
 					if (x < 0) continue;
 					if (y < 0) continue;
@@ -606,8 +607,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Background
 			{
 				for (int oy = (int)(block.Top / GDConstants.TILE_WIDTH); oy <= (int)(block.Bottom / GDConstants.TILE_WIDTH); oy++)
 				{
-					int x = ox + MAX_EXTENSION; // real coords -> array coords
-					int y = oy + MAX_EXTENSION;
+					int x = ox + MAX_EXTENSION_X; // real coords -> array coords
+					int y = oy + MAX_EXTENSION_Y;
 
 					if (x < 0) continue;
 					if (y < 0) continue;

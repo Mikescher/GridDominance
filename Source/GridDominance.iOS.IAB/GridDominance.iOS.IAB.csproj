@@ -221,8 +221,12 @@
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_320x480.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1125x2436.png" />
-    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2436x1125.png" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_1125x2436.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\splash_2436x1125.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Content\textures\spritesheet_default-sheet_bd.xnb" />
