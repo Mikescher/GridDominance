@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.Extensions;
@@ -17,6 +18,8 @@ namespace GridDominance.iOS.Impl
 		private const long TRYCONNECT_TIMEOUT = 16 * 1000; // 16s
 
 		private const string VERIFY_PAYLOAD = "{1F0F9EFA-A23F-4CD1-8AC4-5AA8008532E8}";
+
+		private const string PREFIX = "blackforestbytes.";
 
 		public bool IsConnected { get; set; } = false;
 		public bool IsSynchronized { get; set; } = false;
@@ -66,7 +69,7 @@ namespace GridDominance.iOS.Impl
 		public bool SynchronizePurchases(string[] productIDs)
 		{
 			if (IsSynchronized) return false;
-			Resync(productIDs).EnsureNoError();
+			Resync(productIDs.Select(p => PREFIX+p).ToArray()).EnsureNoError();
 			return true;
 		}
 
@@ -218,6 +221,8 @@ namespace GridDominance.iOS.Impl
 
 		private async Task DoPurchase(string id)
 		{
+			id = PREFIX + id;
+
 			var purchase = await _iab.PurchaseAsync(id, ItemType.InAppPurchase, VERIFY_PAYLOAD, null);
 
 			lock (_purchases)
@@ -242,6 +247,8 @@ namespace GridDominance.iOS.Impl
 		public PurchaseQueryResult IsPurchased(string id)
 		{
 			if (!IsConnected) return PurchaseQueryResult.NotConnected;
+
+			id = PREFIX + id;
 
 			lock (_purchases)
 			{

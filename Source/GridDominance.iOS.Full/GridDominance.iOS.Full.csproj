@@ -64,7 +64,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchArch>ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Distribution: Julian Börsig, Simon Vollmer, Armin Benz und Mike Schwoerer (9X5SVX7DQ7)</CodesignKey>
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
