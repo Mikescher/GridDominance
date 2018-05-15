@@ -79,6 +79,7 @@
     <Compile Include="GameMath\Geometry\DPoint.cs" />
     <Compile Include="GameMath\Geometry\FCircle.cs" />
     <Compile Include="GameMath\Geometry\DSize.cs" />
+    <Compile Include="GameMath\Geometry\FMargin.cs" />
     <Compile Include="GameMath\Geometry\FRotatedRectangle.cs" />
     <Compile Include="GameMath\Geometry\IFShape.cs" />
     <Compile Include="GameMath\Geometry\EllipseHelper.cs" />

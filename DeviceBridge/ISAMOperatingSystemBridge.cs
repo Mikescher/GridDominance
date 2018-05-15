@@ -8,6 +8,7 @@ namespace MonoSAMFramework.Portable.DeviceBridge
 		string DeviceName { get; }
 		string DeviceVersion { get; }
 		FSize DeviceResolution { get; }
+		FMargin DeviceSafeAreaInset { get; }
 
 		SAMSystemType SystemType { get; }
 		void OnNativeInitialize(MonoSAMGame game);

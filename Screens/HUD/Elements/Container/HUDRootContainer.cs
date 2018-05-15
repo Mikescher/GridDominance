@@ -8,6 +8,14 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 	{
 		public override int Depth => int.MinValue;
 		
+		private FMargin _margins;
+
+		public HUDRootContainer()
+		{
+			// SafeAreaMargins (eg iPhone X Notch)
+			_margins = MonoSAMGame.CurrentInst.Bridge.DeviceSafeAreaInset;
+		}
+
 		public override void OnInitialize()
 		{
 			// NOP
@@ -51,8 +59,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 		{
 			if (HUD == null) return;
 
-			Size = new FSize(HUD.Width, HUD.Height);
-			Position = new FPoint(HUD.Left, HUD.Top);
+			Size = new FSize(HUD.Width - _margins.SumX, HUD.Height - _margins.SumY);
+			Position = new FPoint(HUD.Left + _margins.MarginLeft, HUD.Top + _margins.MarginTop);
 			BoundingRectangle = new FRectangle(Position, Size);
 			
 			PositionInvalidated = false;
