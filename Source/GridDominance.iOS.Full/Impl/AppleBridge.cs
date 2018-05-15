@@ -15,6 +15,7 @@ using MonoSAMFramework.Portable.Network.Multiplayer;
 using Plugin.DeviceInfo;
 using UIKit;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.GameMath;
 
 namespace GridDominance.iOS.Full.Impl
 {
@@ -24,7 +25,7 @@ namespace GridDominance.iOS.Full.Impl
 
 		public string DeviceName { get; } = CrossDeviceInfo.Current.Model;
 		public string DeviceVersion { get; } = "Apple iOS " + CrossDeviceInfo.Current.Version;
-		public FSize DeviceResolution { get; } = new FSize((float)UIScreen.MainScreen.Bounds.Width, (float)UIScreen.MainScreen.Bounds.Height);
+        public FSize DeviceResolution { get; } = new FSize((float)UIScreen.MainScreen.NativeBounds.Width, (float)UIScreen.MainScreen.NativeBounds.Height);
 		public FileHelper FileHelper { get; } = new AppleFileHelper();
 		public IBillingAdapter IAB { get; } = new AppleFullVersionBilling();
 		public IBluetoothAdapter BluetoothFull { get; } = null; // Not supported
@@ -52,8 +53,10 @@ namespace GridDominance.iOS.Full.Impl
 			b.AppendFormat("CrossDeviceInfo.Id        := '{0}'\n", CrossDeviceInfo.Current.Id);
 			b.AppendFormat("CrossDeviceInfo.Idiom     := '{0}'\n", CrossDeviceInfo.Current.Idiom);
 			b.AppendFormat("CrossDeviceInfo.Platform  := '{0}'\n", CrossDeviceInfo.Current.Platform);
-			b.AppendFormat("UIScreen.Width            := '{0}'\n", UIScreen.MainScreen.Bounds.Width);
-			b.AppendFormat("UIScreen.Height           := '{0}'\n", UIScreen.MainScreen.Bounds.Height);
+            b.AppendFormat("UIScreen.Width            := '{0}'\n", UIScreen.MainScreen.Bounds.Width);
+            b.AppendFormat("UIScreen.Height           := '{0}'\n", UIScreen.MainScreen.Bounds.Height);
+            b.AppendFormat("UIScreen.NatBounds.Width  := '{0}'\n", UIScreen.MainScreen.NativeBounds.Width);
+            b.AppendFormat("UIScreen.NatBounds.Height := '{0}'\n", UIScreen.MainScreen.NativeBounds.Height);
 			b.AppendFormat("UIScreen.Brightness       := '{0}'\n", UIScreen.MainScreen.Brightness);
 			b.AppendFormat("UIScreen.CurrentMode      := '{0}'\n", UIScreen.MainScreen.CurrentMode);
 			b.AppendFormat("UIScreen.CoordinateSpace  := '{0}'\n", UIScreen.MainScreen.CoordinateSpace);
@@ -104,12 +107,14 @@ namespace GridDominance.iOS.Full.Impl
 
 		private static FMargin GetSafeArea()
 		{
-			double n = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top;
-			double e = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Right;
-			double s = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom;
-			double w = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Left;
+            var sz = new FSize((float)UIScreen.MainScreen.NativeBounds.Width, (float)UIScreen.MainScreen.NativeBounds.Height);
 
-			return new FMargin((float)n, (float)e, (float)s, (float)w);
+            var w = FloatMath.Min(FloatMath.Round(sz.Width), FloatMath.Round(sz.Height));
+            var h = FloatMath.Max(FloatMath.Round(sz.Width), FloatMath.Round(sz.Height));
+
+            if (w == 1125 && h == 2436) return new FMargin(16, 36, 16, 36);
+
+            return FMargin.NONE;
 		}
 	}
 }
