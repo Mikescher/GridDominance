@@ -1,8 +1,10 @@
 ﻿using System;
 using GridDominance.Shared.Resources;
 using Microsoft.Xna.Framework;
+using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
+using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -23,6 +25,10 @@ namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 		public const float BUTTON_HEIGHT = 65;
 
 		public override int Depth => 0;
+
+		private HUDTextButton btnUnlock;
+
+		private int _clickCount = 0;
 
 		public InfoPanel()
 		{
@@ -86,31 +92,6 @@ namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 				Font = Textures.HUDFontRegular,
 				FontSize = 52,
 
-				L10NText = L10NImpl.STR_UNLOCK,
-
-				TextColor = Color.White,
-				TextPadding = 16,
-
-				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16),
-				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
-
-				ClickMode = HUDButton.HUDButtonClickMode.Single,
-				Click = OnClickUnlock,
-			});
-
-			var btn3y = btn2y + BUTTON_HEIGHT + ELEM_MARGIN;
-
-			AddElement(new HUDTextButton(1)
-			{
-				TextAlignment = HUDAlignment.CENTER,
-				Alignment = HUDAlignment.TOPCENTER,
-
-				RelativePosition = new FPoint(0, btn3y),
-				Size = new FSize(imgWidth, BUTTON_HEIGHT),
-
-				Font = Textures.HUDFontRegular,
-				FontSize = 52,
-
 				L10NText = L10NImpl.STR_CREDPNL_HEADER,
 
 				TextColor = Color.White,
@@ -121,6 +102,33 @@ namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 
 				ClickMode = HUDButton.HUDButtonClickMode.Single,
 				Click = OnClickAcknowledgements,
+			});
+
+			var btn3y = btn2y + BUTTON_HEIGHT + ELEM_MARGIN;
+
+			AddElement(btnUnlock = new HUDTextButton(1)
+			{
+				TextAlignment = HUDAlignment.CENTER,
+				Alignment = HUDAlignment.TOPCENTER,
+
+				RelativePosition = new FPoint(0, btn3y),
+				Size = new FSize(imgWidth, BUTTON_HEIGHT),
+
+				Font = Textures.HUDFontRegular,
+				FontSize = 52,
+
+				L10NText = L10NImpl.STR_UNLOCK,
+
+				TextColor = Color.White,
+				TextPadding = 16,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
+
+				ClickMode = HUDButton.HUDButtonClickMode.Single,
+				Click = OnClickUnlock,
+
+				IsVisible = !MonoSAMGame.IsIOS(),
 			});
 
 			AddElement(new TimesheetAnimationPresenter(1)
@@ -156,6 +164,14 @@ namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 		{
 			Remove();
 			HUD.AddModal(new AcknowledgementsPanel(), true);
+		}
+		
+		protected override bool OnPointerDown(FPoint relPositionPoint, InputState istate)
+		{
+			if (_clickCount++ == 16) btnUnlock.IsVisible = true;
+
+
+			return base.OnPointerDown(relPositionPoint, istate);
 		}
 	}
 }
