@@ -17,7 +17,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 {
-    class MultiplayerMainPanel : HUDRoundedPanel
+	class MultiplayerMainPanel : HUDRoundedPanel
 	{
 		public const float WIDTH = 14.0f * GDConstants.TILE_WIDTH;
 		public const float HEIGHT = 8.0f * GDConstants.TILE_WIDTH;
@@ -34,8 +34,8 @@ namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 			Background = FlatColors.BackgroundHUD;
 
 			_ustate = UnlockManager.IsUnlocked(Levels.WORLD_ID_MULTIPLAYER, true);
-         
-            MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
+		 
+			//MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
 		}
 
 		public override void OnInitialize()

@@ -58,11 +58,7 @@ namespace GridDominance.Shared
 			Backend = new GDServerAPI(GDBridge);
 			//Backend = new DummyGDServerAPI();
 
-			if (MainGame.Flavor == GDFlavor.IAB || MainGame.Flavor == GDFlavor.IAB_NOMP) 
-			{
-				GDBridge.IAB.Connect(GDConstants.IABList);
-				if (IsAndroid()) GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
-			}
+			if (IsIAB()) GDBridge.IAB.Connect(GDConstants.IABList);
 
 			Profile = new PlayerProfile();
 
@@ -103,6 +99,8 @@ namespace GridDominance.Shared
 
 			Inst = this;
 		}
+
+		public static bool IsIAB() => Flavor == GDFlavor.IAB || Flavor == GDFlavor.IAB_NOMP;
 
 		private void SAMLogOnLogEvent(object sender, SAMLog.LogEventArgs args)
 		{

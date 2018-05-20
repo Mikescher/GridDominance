@@ -5,6 +5,7 @@ using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Localization;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
@@ -131,6 +132,32 @@ namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 				IsVisible = !MonoSAMGame.IsIOS(),
 			});
 
+			
+			AddElement(new HUDTextButton(1)
+			{
+				TextAlignment = HUDAlignment.CENTER,
+				Alignment = HUDAlignment.BOTTOMLEFT,
+
+				RelativePosition = new FPoint(ELEM_MARGIN, ELEM_MARGIN),
+				Size = new FSize(WIDTH - (BFB_WIDTH + 3 * ELEM_MARGIN), BFB_WIDTH - 10),
+
+				Font = Textures.HUDFontRegular,
+				FontSize = 52,
+
+				L10NText = L10NImpl.STR_RESTOREPURCHASES,
+
+				TextColor = Color.White,
+				TextPadding = 16,
+
+				BackgroundNormal = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonHUD, 16),
+				BackgroundPressed = HUDBackgroundDefinition.CreateRounded(FlatColors.ButtonPressedHUD, 16),
+
+				ClickMode = HUDButton.HUDButtonClickMode.Single,
+				Click = OnClickPurchaseRestore,
+
+				IsVisible = MonoSAMGame.IsIOS() && MainGame.IsIAB(),
+			});
+
 			AddElement(new TimesheetAnimationPresenter(1)
 			{
 				Animation = Animations.AnimationBlackForestBytesLogo,
@@ -152,6 +179,12 @@ namespace GridDominance.Shared.Screens.Common.HUD.Dialogs
 		{
 			Remove();
 			HUD.AddModal(new UnlockPanel(), true);
+		}
+
+		private void OnClickPurchaseRestore(HUDTextButton sender, HUDButtonEventArgs e)
+		{
+			MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
+			HUD.ShowToast(null, L10N.T(L10NImpl.STR_STARTSYNC), 32, FlatColors.Silver, FlatColors.Foreground, 3f);
 		}
 
 		private void OnClickAttributions(HUDTextButton sender, HUDButtonEventArgs e)

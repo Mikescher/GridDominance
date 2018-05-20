@@ -333,7 +333,11 @@ namespace GridDominance.Shared.Resources
 		public const int STR_ACH_FIRSTCLEAR              = 274;
 		public const int STR_ACH_WORLDRECORD             = 275;
 
-		private const int TEXT_COUNT = 281; // = next idx
+		public const int STR_RESTOREPURCHASES            = 281;
+
+		public const int STR_STARTSYNC                   = 282;
+
+		private const int TEXT_COUNT = 283; // = next idx
 
 		public static void Init(int lang)
 		{
@@ -447,7 +451,7 @@ namespace GridDominance.Shared.Resources
 
 			// Description: Header of attributions dialog
 			// Usage:       AttributionsPanel.cs:43
-			// Usage:       InfoPanel.cs:63
+			// Usage:       InfoPanel.cs:70
 			L10N.Add(STR_ATTRIBUTIONS, "Attributions", "Lizenzen", "Licences", "Attribuzioni", "Atribuciones");
 
 			// Description: Header of anonymous-account-panel. Here you can login to an existing account or create a new one
@@ -667,11 +671,11 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_GLOB_LEVELLOCK, "Level locked", "Level noch nicht freigespielt", "Niveau bloqué", "Livello bloccato", "Nivel bloqueado");
 
 			// Description: Toast-message that is shown when a user clicks on a locked world-node
-			// Usage:       OverworldNode_Graph.cs:255
-			// Usage:       OverworldNode_Graph.cs:264
-			// Usage:       OverworldNode_SCCM.cs:119
 			// Usage:       WarpGameEndNode.cs:98
 			// Usage:       WarpNode.cs:101
+			// Usage:       OverworldNode_Graph.cs:257
+			// Usage:       OverworldNode_Graph.cs:266
+			// Usage:       OverworldNode_SCCM.cs:121
 			L10N.Add(STR_GLOB_WORLDLOCK, "World locked", "Welt noch nicht freigespielt", "Monde bloqué", "Mondo bloccato", "Mundo bloqueado");
 
 			// Description: Tabular grid header in online-level preview dialog. Your highscore time of this level+difficulty
@@ -722,20 +726,20 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_WORLD_W2, "Professional", "Fortgeschritten", "Niveau avancé", "Professionale", "Profesional");
 
 			// Description: Text of error toast. Querying of In-App-Purchases failed because the google-play connection threw an error
-			// Usage:       UnlockManager.cs:269
+			// Usage:       UnlockManager.cs:270
 			L10N.Add(STR_IAB_TESTERR, "Error connecting to Google Play services", "Fehler beim Versuch mit Google Play zu verbinden", "Erreurde connexion avec Google Play services", "Impossibile connettersi ai servizi Google Play", "Error en conexión con Google Play");
 
 			// Description: Text of error toast. Querying of In-App-Purchases failed because the google-play connection could not be established
-			// Usage:       UnlockManager.cs:282
+			// Usage:       UnlockManager.cs:283
 			L10N.Add(STR_IAB_TESTNOCONN, "No connection to Google Play services", "Keine Verbindung zu Google Play services", "Pas de connexion avec Google Play services", "Nessuna connessione ai servizi Google Play", "Sin conexión a Google Play");
 
 			// Description: Text of error toast. Querying of In-App-Purchases failed because the google-play connection is currently busy
-			// Usage:       UnlockManager.cs:286
+			// Usage:       UnlockManager.cs:287
 			L10N.Add(STR_IAB_TESTINPROGRESS, "Payment in progress", "Zahlung wird verarbeitet", "Paiement en cours", "Pagamento in lavorazione", "Pago en progreso");
 
 			// Description: Header of promo-code dialog (input promocode to unlock all special features)
-			// Usage:       InfoPanel.cs:88
 			// Usage:       UnlockPanel.cs:47
+			// Usage:       InfoPanel.cs:120
 			L10N.Add(STR_UNLOCK, "Promotion Code", "Promo Code", "Code promotionnel", "Codice Promozionale", "Código de promoción");
 
 			// Description: Toast that is shown when the game was completely unlocked (eg via promotion code)
@@ -743,33 +747,33 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_GLOB_UNLOCKSUCCESS, "Upgraded game to full version!", "Spiel wurde zur Vollversion aufgewertet", "Mise à niveau du jeu en version complète!", "Congratulazioni, hai acquistato la versione completa!", "Has obtenido la versión completa del juego");
 
 			// Description: Buttontext in "World locked"-panel. Part of a three-element line: [Unlock now] [or] [Finish the game]
-			// Usage:       SCCMPreviewPanel.cs:87
-			// Usage:       WorldPreviewPanel.cs:90
+			// Usage:       SCCMPreviewPanel.cs:89
+			// Usage:       WorldPreviewPanel.cs:91
 			L10N.Add(STR_PREV_BUYNOW, "Unlock now", "Jetzt freischalten", "Débloquer maintenant", "Sblocca ora", "Desbloquear ahora");
 
 			// Description: Text of error toast. In-App-Purchase failed because the google-play connection threw an error
-			// Usage:       SCCMPreviewPanel.cs:170
-			// Usage:       WorldPreviewPanel.cs:200
-			// Usage:       MultiplayerMainPanel.cs:273
-			// Usage:       SCCMPreviewPanel.cs:164
-			// Usage:       WorldPreviewPanel.cs:197
+			// Usage:       MultiplayerMainPanel.cs:275
+			// Usage:       SCCMPreviewPanel.cs:166
+			// Usage:       WorldPreviewPanel.cs:198
 			L10N.Add(STR_IAB_BUYERR, "Error connecting to Google Play services", "Fehler beim Versuch mit Google Play zu verbinden", "Erreurde connexion avec Google Play services", "Impossibile connettersi ai servizi Google Play", "Error en conexión con Google Play");
 
 			// Description: Text of error toast. In-App-Purchase failed because the google-play connection could not be established
-			// Usage:       WorldPreviewPanel.cs:203
-			// Usage:       MultiplayerMainPanel.cs:276
-			// Usage:       SCCMPreviewPanel.cs:167
+			// Usage:       MultiplayerMainPanel.cs:278
+			// Usage:       SCCMPreviewPanel.cs:169
+			// Usage:       WorldPreviewPanel.cs:201
 			L10N.Add(STR_IAB_BUYNOCONN, "No connection to Google Play services", "Keine Verbindung zu Google Play services", "Pas de connexion avec Google Play services", "Nessuna connessione ai servizi Google Play", "Sin conexión a Google Play");
 
 			// Description: Text of error toast. In-App-Purchase failed because the google-play connection was not ready
-			// Usage:       MultiplayerMainPanel.cs:279
+			// Usage:       MultiplayerMainPanel.cs:281
+			// Usage:       SCCMPreviewPanel.cs:172
+			// Usage:       WorldPreviewPanel.cs:204
 			L10N.Add(STR_IAB_BUYNOTREADY, "Connection to Google Play services not ready", "Verbindung zu Google Play services nicht bereit", "La connexion aux services Google Play n'est pas prête", "Connessione ai servizi Google Play non pronta", "Conexión a Google Play no disponible");
 
 			// Description: Text of toast. In-App-Purchase (of a world) was successfull
-			// Usage:       SCCMPreviewPanel.cs:141
-			// Usage:       SCCMPreviewPanel.cs:150
-			// Usage:       WorldPreviewPanel.cs:167
-			// Usage:       WorldPreviewPanel.cs:176
+			// Usage:       SCCMPreviewPanel.cs:143
+			// Usage:       SCCMPreviewPanel.cs:152
+			// Usage:       WorldPreviewPanel.cs:168
+			// Usage:       WorldPreviewPanel.cs:177
 			L10N.Add(STR_IAB_BUYSUCESS, "World successfully purchased", "Levelpack wurde erfolgreich erworben", "Le monde a acheté avec succès", "Mondo acquistato!", "Has comprado el mundo exitosamente");
 
 			// Description: Subtext for node in Overworld. This is the world-node for world 3 (new elements: laser, refraction, big maps, different geometries). Clicking on opens the world-map
@@ -843,16 +847,16 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_INFOTOAST_4, "You have not completed this level on {0}", "Du hast dieses Level auf {0} noch nicht geschafft", "Vous n'avez pas terminé ce niveau sur {0}", "Non hai completato questo livello in {0}", "No has completado este nivel en {0}");
 
 			// Description: Buttontext in "World locked"-panel. Part of a three-element line: [Unlock now] [or] [Finish the world x]
-			// Usage:       WorldPreviewPanel.cs:123
+			// Usage:       WorldPreviewPanel.cs:124
 			L10N.Add(STR_PREV_FINISHWORLD, "Finish World {0}", "Welt {0}", "Terminer Monde {0}", "Finisci il mondo {0}", "Finalizar el mundo");
 
 			// Description: Labeltext in "World locked"-panel. Part of a three-element line: [Unlock now] [or] [Finish the game]
-			// Usage:       SCCMPreviewPanel.cs:106
-			// Usage:       WorldPreviewPanel.cs:109
+			// Usage:       SCCMPreviewPanel.cs:108
+			// Usage:       WorldPreviewPanel.cs:110
 			L10N.Add(STR_PREV_OR, "OR", "ODER", "OU", "oppure", "O");
 
 			// Description: text of toast. Shown when someone clicks "Finshes the world x" in "world-locked"-panel
-			// Usage:       WorldPreviewPanel.cs:230
+			// Usage:       WorldPreviewPanel.cs:231
 			L10N.Add(STR_PREV_MISS_TOAST, "You are missing {0} points to unlock world {1}", "Dir fehlen noch {0} Punkte um Welt {1} freizuschalten", "Vous manquez de {0} points pour débloquer le monde {1}", "Ti mancano {0} punti per sbloccare il mondo {1}", "Te faltan {0} puntos para desbloquear el mundo {1}");
 
 			// Description: Text of mainscreen popupmenu. Entry [Music] (disable/enable background music)
@@ -916,7 +920,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_SERVERDISCONNECT, "Server has closed this session", "Spiel wurde vom Server geschlossen", "Le serveur a fermé cette session", "Il server ha chiuso questa sessione", "Server ha cerrado esta sesión");
 
 			// Description: Header of multiplayer main dialog
-			// Usage:       MultiplayerMainPanel.cs:52
+			// Usage:       MultiplayerMainPanel.cs:54
 			L10N.Add(STR_MENU_CAP_MULTIPLAYER, "Multiplayer", "Mehrspieler", "Multijoueur", "Multiplayer", "Multijugador");
 
 			// Description: Header of multiplayer lobby dialog
@@ -943,23 +947,23 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_MP_CONNECTING, "Connecting", "Verbinden", "Connecter", "Connessione", "Conectando");
 
 			// Description: Button in main multiplayer dialog. Opens the join-lobby panel
-			// Usage:       MultiplayerMainPanel.cs:126
-			// Usage:       MultiplayerMainPanel.cs:145
+			// Usage:       MultiplayerMainPanel.cs:128
+			// Usage:       MultiplayerMainPanel.cs:147
 			L10N.Add(STR_MENU_MP_JOIN, "Join", "Beitreten", "Joindre", "Partecipa", "Participar");
 
 			// Description: Button in main multiplayer dialog. Opens the create-lobby panel
-			// Usage:       MultiplayerMainPanel.cs:166
-			// Usage:       MultiplayerMainPanel.cs:185
-			// Usage:       MultiplayerMainPanel.cs:206
-			// Usage:       MultiplayerMainPanel.cs:225
+			// Usage:       MultiplayerMainPanel.cs:168
+			// Usage:       MultiplayerMainPanel.cs:187
+			// Usage:       MultiplayerMainPanel.cs:208
+			// Usage:       MultiplayerMainPanel.cs:227
 			L10N.Add(STR_MENU_MP_HOST, "Host", "Erstellen", "Rédiger", "Ospita", "Crear");
 
 			// Description: Header of multiplayer dialog. Play via local connection (bluetooth)
-			// Usage:       MultiplayerMainPanel.cs:84
+			// Usage:       MultiplayerMainPanel.cs:86
 			L10N.Add(STR_MENU_MP_LOCAL_CLASSIC, "Local (Bluetooth)", "Lokal (Bluetooth)", "Local (Bluetooth)", "Locale (Bluetooth)", "Local (Bluetooth)");
 
 			// Description: Header of multiplayer dialog. Play via online connection (internet)
-			// Usage:       MultiplayerMainPanel.cs:98
+			// Usage:       MultiplayerMainPanel.cs:100
 			L10N.Add(STR_MENU_MP_ONLINE, "Online (UDP/IP)", "Internet (UDP/IP)", "En ligne (UDP/IP)", "Online (UDP/IP)", "Online (UDP/IP)");
 
 			// Description: Header of multiplayer connect dialog. Inputbox for lobby code is under teh caption
@@ -1190,12 +1194,12 @@ namespace GridDominance.Shared.Resources
 
 			// Description: Header of credits dialog
 			// Usage:       AcknowledgementsPanel.cs:50
-			// Usage:       InfoPanel.cs:113
+			// Usage:       InfoPanel.cs:95
 			L10N.Add(STR_CREDPNL_HEADER, "Credits", "Credits", "Remerciements", "Ringraziamenti", "Agradecimientos");
 
 			// Description: Text of error toast. Is shown when the profile/level cuold not be saved because there is no free disk space
 			// Usage:       SCCMLevelData.cs:189
-			// Usage:       MainGame.cs:355
+			// Usage:       MainGame.cs:363
 			L10N.Add(STR_ERR_OUTOFMEMORY, "Saving failed: Disk full", "Speichern fehlgeschlagen: Speicher voll", "Échec échoué: Disque complet", "Salvataggio non riuscito: disco pieno", "Memoria llena: almacenamiento ha fallado ");
 
 			// Description: text of (info) toast in account dialog (manual sync action)
@@ -1521,7 +1525,7 @@ namespace GridDominance.Shared.Resources
 			L10N.Add(STR_TAB_STARS, "Stars", "Sterne", "étoiles", "?", "?"); //TODO translate me
 
 			// Description: Buttontext in "World locked"-panel. Part of a three-element line: [Unlock now] [or] [Finish the game]
-			// Usage:       SCCMPreviewPanel.cs:119
+			// Usage:       SCCMPreviewPanel.cs:121
 			L10N.Add(STR_PREV_FINISHGAME, "Finish the game", "Gewinne das Spiel", "Gagner le jeu", "?", "?"); //TODO translate me
 
 			// Description: Text of the achievementbox that appears when you unlock user-generated levels + leveleditor
@@ -1580,6 +1584,14 @@ namespace GridDominance.Shared.Resources
 
 			// Description: Button to open credits dialog
 			L10N.Add(STR_CREDPNL_BTN, "About...", "Über...", "Remerciements", "Ringraziamenti", "Agradecimientos");
+
+			// Description: Button test to restore in-app purchases (iOS)
+			// Usage:       InfoPanel.cs:146
+			L10N.Add(STR_RESTOREPURCHASES, "Restore\nPurchases", "Käufe\nwiederherstellen", "Restaurer\nles achats", "Ripristinare\ngli acquisti", "Restaurar\nlas compras");
+
+			// Description: Toast that appears when in-app purchase synchronization starts
+			// Usage:       InfoPanel.cs:186
+			L10N.Add(STR_STARTSYNC, "Start synchronization", "Synchronization gestartet", "Démarrer la synchronisation", "Inizia la sincronizzazione", "Start synchronization");
 
 
 			// [en-US] [de-DE] [fr-FR] [it-IT] [es-ES]

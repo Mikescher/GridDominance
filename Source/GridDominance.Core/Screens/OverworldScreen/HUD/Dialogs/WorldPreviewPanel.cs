@@ -65,7 +65,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.HUD.Dialogs
 				if (_worldNumber > 3 && UnlockManager.IsUnlocked(Levels.WORLD_003, false) == WorldUnlockState.OpenAndUnlocked) _unlockWorldNumber = 3;
 				if (_worldNumber > 4 && UnlockManager.IsUnlocked(Levels.WORLD_004, false) == WorldUnlockState.OpenAndUnlocked) _unlockWorldNumber = 4;
 			}
-            MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
+			//MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
 		}
 
 		public override void OnInitialize()

@@ -102,7 +102,7 @@ namespace GridDominance.Shared.Screens.OverworldScreen.Entities
 			var ownr = ((GDOverworldScreen)Owner);
 			if (ownr.IsTransitioning) return;
 
-            MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
+			//MainGame.Inst.GDBridge.IAB.SynchronizePurchases(GDConstants.IABList);
 
 			Owner.HUD.AddModal(new MultiplayerMainPanel(), true, 0.5f, 1f);
 		}

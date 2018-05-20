@@ -27,43 +27,43 @@ namespace GridDominance.iOS.Impl
 		private PurchaseError? LastConnectError = null;
 
 		private readonly IInAppBilling _iab = CrossInAppBilling.Current;
-      
+	  
 		private readonly Dictionary<string, InAppBillingProduct> _products = new Dictionary<string, InAppBillingProduct>();
 		private readonly Dictionary<string, InAppBillingPurchase> _purchases = new Dictionary<string, InAppBillingPurchase>();
-      
+	  
 		public bool Connect(string[] productIDs)
 		{
 			DoConnnect().Wait();
 			return true;
 		}
 
-        private async Task DoConnnect()
+		private async Task DoConnnect()
 		{
-            try
-            {
-                SAMLog.Debug("AppleIABVersionBilling.TryConnect");
+			try
+			{
+				SAMLog.Debug("AppleIABVersionBilling.TryConnect");
 
-                var sucess = await _iab.ConnectAsync();
+				var sucess = await _iab.ConnectAsync();
 
-                if (!sucess) { LastConnectError = null; IsConnected = false; return; }
-            
-                LastConnectError = null;
-                IsConnected = true;
-            }
-            catch (InAppBillingPurchaseException e)
-            {
-                SAMLog.Info("IAB_IOS::TryConnect_Start_1", e.PurchaseError.ToString(), e.ToString());
+				if (!sucess) { LastConnectError = null; IsConnected = false; return; }
+			
+				LastConnectError = null;
+				IsConnected = true;
+			}
+			catch (InAppBillingPurchaseException e)
+			{
+				SAMLog.Info("IAB_IOS::TryConnect_Start_1", e.PurchaseError.ToString(), e.ToString());
 
-                LastConnectError = e.PurchaseError;
-                IsConnected = false;
-            }
-            catch (Exception e)
-            {
-                SAMLog.Info("IAB_IOS::TryConnect_Start_2", e);
+				LastConnectError = e.PurchaseError;
+				IsConnected = false;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Info("IAB_IOS::TryConnect_Start_2", e);
 
-                LastConnectError = null;
-                IsConnected = false;
-            }
+				LastConnectError = null;
+				IsConnected = false;
+			}
 		}
 
 		public bool SynchronizePurchases(string[] productIDs)
@@ -75,41 +75,41 @@ namespace GridDominance.iOS.Impl
 
 		private async Task Resync(string[] productIDs)
 		{         
-            if (LastConnectError != null) SAMLog.Debug("TryConnect: [[LastConnectError]]: " + LastConnectError);
+			if (LastConnectError != null) SAMLog.Debug("TryConnect: [[LastConnectError]]: " + LastConnectError);
 
-            try
-            {
-                SAMLog.Debug("AppleIABVersionBilling.TryConnect");
+			try
+			{
+				SAMLog.Debug("AppleIABVersionBilling.TryConnect");
 
-                var sucess = await _iab.ConnectAsync();
+				var sucess = await _iab.ConnectAsync();
 
-                if (!sucess) { LastConnectError = null; IsConnected = false; return; }
+				if (!sucess) { LastConnectError = null; IsConnected = false; return; }
 
 				await QueryStatesAsync(productIDs);
 
-                LastConnectError = null;
-                IsConnected = true;
+				LastConnectError = null;
+				IsConnected = true;
 				IsSynchronized = true;
-                return;
-            }
-            catch (InAppBillingPurchaseException e)
-            {
-                SAMLog.Info("IAB_IOS::TryConnect_Start_1", e.PurchaseError.ToString(), e.ToString());
+				return;
+			}
+			catch (InAppBillingPurchaseException e)
+			{
+				SAMLog.Info("IAB_IOS::TryConnect_Start_1", e.PurchaseError.ToString(), e.ToString());
 
-                LastConnectError = e.PurchaseError;
-                IsConnected = false;
-                return;
-            }
-            catch (Exception e)
-            {
-                SAMLog.Info("IAB_IOS::TryConnect_Start_2", e);
+				LastConnectError = e.PurchaseError;
+				IsConnected = false;
+				return;
+			}
+			catch (Exception e)
+			{
+				SAMLog.Info("IAB_IOS::TryConnect_Start_2", e);
 
-                LastConnectError = null;
-                IsConnected = false;
-                return;
-            }
+				LastConnectError = null;
+				IsConnected = false;
+				return;
+			}
 		}
-      
+	  
 		private async Task QueryStatesAsync(string[] productIDs)
 		{
 			try
@@ -212,7 +212,7 @@ namespace GridDominance.iOS.Impl
 
 		public PurchaseResult StartPurchase(string id)
 		{
-            if (!IsConnected) return PurchaseResult.NotConnected;
+			if (!IsConnected) return PurchaseResult.NotConnected;
 
 			DoPurchase(id).EnsureNoError();
 
