@@ -48,12 +48,14 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.Operations
 			var rx = raster * FloatMath.Round((istate.GamePointerPositionOnMap.X - _dragOffCenter.X) / raster);
 			var ry = raster * FloatMath.Round((istate.GamePointerPositionOnMap.Y - _dragOffCenter.Y) / raster);
 
-			_boundsWorkingAreaOuter = _gdScreen.VAdapterGame.VirtualTotalBoundingBox.AsDeflated(
-				0, 
-				4 * GDConstants.TILE_WIDTH, 
-				_gdScreen.GDHUD.AttrPanel.IsVisible ? 4 * GDConstants.TILE_WIDTH : 0, 
-				0);
-			_boundsWorkingAreaInner = _boundsWorkingAreaOuter.AsDeflated(GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH);
+			_boundsWorkingAreaOuter = _gdScreen.VAdapterGame.VirtualTotalBoundingBox
+				.AsDeflated(0, 4 * GDConstants.TILE_WIDTH, 0, 0);
+
+			
+			_boundsWorkingAreaInner = _gdScreen.VAdapterGame.VirtualTotalBoundingBox
+				.AsDeflated(0, 4 * GDConstants.TILE_WIDTH, 0, 0)
+				.AsDeflated(GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH, GDConstants.TILE_WIDTH)
+				.AsDeflated(0, 0, 4*GDConstants.TILE_WIDTH, 0);
 
 			_boundsMap = FRectangle.CreateByTopLeft(
 				_gdScreen.MapOffsetX,
