@@ -15,8 +15,6 @@ namespace GridDominance.iOS.Impl
 	/// </summary>
 	class AppleIABVersionBilling : IBillingAdapter
 	{
-		private const long TRYCONNECT_TIMEOUT = 16 * 1000; // 16s
-
 		private const string VERIFY_PAYLOAD = "{1F0F9EFA-A23F-4CD1-8AC4-5AA8008532E8}";
 
 		private const string PREFIX = "blackforestbytes.";
@@ -223,25 +221,94 @@ namespace GridDominance.iOS.Impl
 		{
 			id = PREFIX + id;
 
-			var purchase = await _iab.PurchaseAsync(id, ItemType.InAppPurchase, VERIFY_PAYLOAD, null);
-
-			lock (_purchases)
+			try
 			{
-				SAMLog.Debug("AppleIABVersionBilling.DoPurchase1");
+				var purchase = await _iab.PurchaseAsync(id, ItemType.InAppPurchase, VERIFY_PAYLOAD, null);
 				
-				if (purchase == null)
+				lock (_purchases)
 				{
-					SAMLog.Debug("AppleIABVersionBilling.DoPurchase: returned null");
-					_purchases.Remove(id.ToLower());
-					return;
-				}
-				else
-				{
-					SAMLog.Debug("AppleIABVersionBilling.DoPurchase: returned " + purchase.State);
-					_purchases[id.ToLower()] = purchase;
-					return;
+					SAMLog.Debug("AppleIABVersionBilling.DoPurchase1");
+				
+					if (purchase == null)
+					{
+						SAMLog.Debug("AppleIABVersionBilling.DoPurchase: returned null");
+						_purchases.Remove(id.ToLower());
+						return;
+					}
+					else
+					{
+						SAMLog.Debug("AppleIABVersionBilling.DoPurchase: returned " + purchase.State);
+						_purchases[id.ToLower()] = purchase;
+						return;
+					}
 				}
 			}
+			catch (InAppBillingPurchaseException e)
+			{
+				switch (e.PurchaseError)
+				{
+					case PurchaseError.BillingUnavailable:
+						SAMLog.Error("IAB_IOS::QSA_1", "BillingUnavailable", e.ToString());
+						return;
+
+					case PurchaseError.DeveloperError:
+						SAMLog.Error("IAB_IOS::QSA_1", "DeveloperError", e.ToString());
+						return;
+
+					case PurchaseError.ItemUnavailable:
+						SAMLog.Error("IAB_IOS::QSA_1", "ItemUnavailable", e.ToString());
+						return;
+
+					case PurchaseError.GeneralError:
+						SAMLog.Error("IAB_IOS::QSA_1", "GeneralError", e.ToString());
+						return;
+
+					case PurchaseError.UserCancelled:
+						SAMLog.Info("IAB_IOS::QSA_1", "UserCancelled", e.ToString());
+						return;
+
+					case PurchaseError.AppStoreUnavailable:
+						SAMLog.Warning("IAB_IOS::QSA_1", "AppStoreUnavailable", e.ToString());
+						return;
+
+					case PurchaseError.PaymentNotAllowed:
+						SAMLog.Error("IAB_IOS::QSA_1", "PaymentNotAllowed", e.ToString());
+						return;
+
+					case PurchaseError.PaymentInvalid:
+						SAMLog.Error("IAB_IOS::QSA_1", "PaymentInvalid", e.ToString());
+						return;
+
+					case PurchaseError.InvalidProduct:
+						SAMLog.Error("IAB_IOS::QSA_1", "InvalidProduct", e.ToString());
+						return;
+
+					case PurchaseError.ProductRequestFailed:
+						SAMLog.Error("IAB_IOS::QSA_1", "ProductRequestFailed", e.ToString());
+						return;
+
+					case PurchaseError.RestoreFailed:
+						SAMLog.Warning("IAB_IOS::QSA_1", "RestoreFailed", e.ToString());
+						return;
+
+					case PurchaseError.ServiceUnavailable:
+						SAMLog.Info("IAB_IOS::QSA_1", "ServiceUnavailable", e.ToString());
+						return;
+
+					case PurchaseError.AlreadyOwned:
+						SAMLog.Warning("IAB_IOS::QSA_1", "AlreadyOwned", e.ToString());
+						return;
+
+					case PurchaseError.NotOwned:
+						SAMLog.Error("IAB_IOS::QSA_1", "NotOwned", e.ToString());
+						return;
+
+					default:
+						SAMLog.Error("IAB_IOS::QSA_EnumSwitch", "e.PurchaseError = " + e.PurchaseError);
+						return;
+				}
+			}
+
 		}
 
 		public PurchaseQueryResult IsPurchased(string id)
