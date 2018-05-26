@@ -62,7 +62,11 @@ function finish($err, $dorunlog = true) {
 	global $action_name;
 	global $start_time;
 
-	if ($pdo !== null && $pdo->inTransaction()) $pdo->commit();
+	if ($pdo !== null && $pdo->inTransaction())
+	{
+		if ($err) $pdo->rollBack();
+		else $pdo->commit();
+	}
 
 	if ($config['runlog'] && !$err && $dorunlog) {
 		try{
