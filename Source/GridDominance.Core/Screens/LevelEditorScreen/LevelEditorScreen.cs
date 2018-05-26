@@ -215,6 +215,29 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen
 			return s;
 		}
 
+		public void RemoveOOBElements()
+		{
+			foreach (var elem in GetEntities<WallStub>())
+			{
+				if (CanInsertWallStub(elem.Point1, elem.Point2, elem) == null) elem.Alive = false;
+			}
+			
+			foreach (var elem in GetEntities<ObstacleStub>())
+			{
+				if (CanInsertObstacleStub(elem.Center, elem.ObstacleType, elem.Width, elem.Height, elem.Rotation, elem) == null) elem.Alive = false;
+			}
+			
+			foreach (var elem in GetEntities<CannonStub>())
+			{
+				if (CanInsertCannonStub(elem.Center, elem.Scale, elem) == null) elem.Alive = false;
+			}
+			
+			foreach (var elem in GetEntities<PortalStub>())
+			{
+				if (CanInsertPortalStub(elem.Center, elem.Length, elem.Normal, elem) == null) elem.Alive = false;
+			}
+		}
+
 		public void SetMode(LevelEditorMode m)
 		{
 			Mode = m;

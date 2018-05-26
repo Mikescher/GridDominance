@@ -172,7 +172,6 @@ namespace GridDominance.Shared.SCCM
 			}
 		}
 
-
 		private bool SaveToDisk()
 		{
 			var sdata = SerializeToString();

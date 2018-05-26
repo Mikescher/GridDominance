@@ -415,6 +415,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 			_data.Geometry = _geometry;
 			_data.Music = _music;
 
+			GDScreen.RemoveOOBElements();
+
 			this.Remove();
 		}
 
