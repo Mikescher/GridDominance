@@ -50,7 +50,7 @@ function init($action, $notransaction = false) {
 		ini_set('log_errors', 1);
 	}
 
-	$pdo = connectOrFail($config['database_host'], $config['database_name'], $config['database_user'], $config['database_pass']);
+	$pdo = connectOrFail($config['database_host'], $config['database_name'], $config['database_user'], $config['database_pass'], $notransaction);
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	if (!$notransaction) $pdo->beginTransaction();

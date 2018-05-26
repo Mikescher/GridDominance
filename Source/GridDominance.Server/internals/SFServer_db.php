@@ -19,21 +19,24 @@ function executeOrFail($stmt) {
  * @param string $dbname
  * @param string $user
  * @param string $password
+ * @param boolean $notransaction
  * @return PDO
  */
-function connectOrFail($host, $dbname, $user, $password)
+function connectOrFail($host, $dbname, $user, $password, $notransaction)
 {
 	for ($i = 6;; $i--)
 	{
 		try
 		{
 			$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
-			$opt = [
+			$opt =
+			[
 				PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
 				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 				PDO::ATTR_EMULATE_PREPARES   => false,
 				//PDO::ATTR_PERSISTENT         => true,
 			];
+			if (!$notransaction) $opt[PDO::ATTR_TIMEOUT] = 10;
 
 			return new PDO($dsn, $user, $password, $opt);
 		}
