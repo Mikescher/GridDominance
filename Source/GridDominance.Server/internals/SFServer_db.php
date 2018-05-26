@@ -21,20 +21,31 @@ function executeOrFail($stmt) {
  * @param string $password
  * @return PDO
  */
-function connectOrFail($host, $dbname, $user, $password) {
-	try {
-		$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
-		$opt = [
-			PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-			PDO::ATTR_EMULATE_PREPARES   => false,
-		];
+function connectOrFail($host, $dbname, $user, $password)
+{
+	for ($i = 6;; $i--)
+	{
+		try
+		{
+			$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
+			$opt = [
+				PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+				PDO::ATTR_EMULATE_PREPARES   => false,
+				//PDO::ATTR_PERSISTENT         => true,
+			];
 
-		return new PDO($dsn, $user, $password, $opt);
-	} catch (Exception $e) {
-		outputErrorException(ERRORS::INTERNAL_EXCEPTION, "Can't connect to db", $e, LOGLEVEL::ERROR);
-		return null;
+			return new PDO($dsn, $user, $password, $opt);
+		}
+		catch (Exception $e)
+		{
+			if ($i>0 && strpos($e->getMessage(), 'SQLSTATE[HY000] [2002] Connection refused') !== false) { usleep(100 * 1000); continue; } // wait 0.1s and retry
+
+			outputErrorException(ERRORS::INTERNAL_EXCEPTION, "Can't connect to db", $e, LOGLEVEL::ERROR);
+			return null;
+		}
 	}
+
 }
 
 function loadSQL($scriptname) {
