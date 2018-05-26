@@ -47,21 +47,21 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 		{
 			base.RecalculatePosition();
 
-			RelativePosition = FPoint.Zero;
-			Size = new FSize(WIDTH, HUD.Height);
+			RelativePosition = HUD.UnsafeTopRight;
+			Size = new FSize(WIDTH + HUD.SafetyMargins.MarginRight, HUD.RealHeight);
 			Alignment = HUDAlignment.TOPRIGHT;
 		}
 
 		public override void OnInitialize()
 		{
-			RelativePosition = FPoint.Zero;
-			Size = new FSize(WIDTH, HUD.Height);
+			RelativePosition = HUD.UnsafeTopRight;
+			Size = new FSize(WIDTH + HUD.SafetyMargins.MarginRight, HUD.RealHeight);
 			Alignment = HUDAlignment.TOPRIGHT;
 
 			AddElement(BtnMouse = new HUDTextButton(1)
 			{
-				Alignment = HUDAlignment.TOPCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 0),
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(24, 16 + 75 * 0),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_MOUSE,
@@ -79,8 +79,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 
 			AddElement(BtnCannon = new HUDTextButton(1)
 			{
-				Alignment = HUDAlignment.TOPCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 1),
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(24, 16 + 75 * 1),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_CANNON,
@@ -98,8 +98,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 
 			AddElement(BtnWall = new HUDTextButton(1)
 			{
-				Alignment = HUDAlignment.TOPCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 2),
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(24, 16 + 75 * 2),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_WALL,
@@ -117,8 +117,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 
 			AddElement(BtnObstacle = new HUDTextButton(1)
 			{
-				Alignment = HUDAlignment.TOPCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 3),
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(24, 16 + 75 * 3),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_OBSTACLE,
@@ -136,8 +136,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 
 			AddElement(BtnPortal = new HUDTextButton(1)
 			{
-				Alignment = HUDAlignment.TOPCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 4),
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(24, 16 + 75 * 4),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_PORTAL,
@@ -155,8 +155,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 
 			AddElement(BtnSettings = new HUDTextButton(1)
 			{
-				Alignment = HUDAlignment.TOPCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 5.5f),
+				Alignment = HUDAlignment.TOPLEFT,
+				RelativePosition = new FPoint(24, 16 + 75 * 5.5f),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_SETTINGS,
@@ -174,8 +174,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 
 			AddElement(BtnPlay = new HUDTextButton(1)
 			{
-				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 4),
+				Alignment = HUDAlignment.BOTTOMLEFT,
+				RelativePosition = new FPoint(24, 16 + 75 * 4),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_PLAY,
@@ -193,8 +193,8 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 
 			AddElement(BtnTest = new HUDTextButton(1)
 			{
-				Alignment = HUDAlignment.BOTTOMCENTER,
-				RelativePosition = new FPoint(0, 16 + 75 * 3),
+				Alignment = HUDAlignment.BOTTOMLEFT,
+				RelativePosition = new FPoint(24, 16 + 75 * 3),
 				Size = new FSize((WIDTH - 2 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_UPLOAD,
@@ -213,7 +213,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 			AddElement(BtnDelete = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(24, 16 + 75 * 1),
+				RelativePosition = new FPoint(24+HUD.SafetyMargins.MarginRight, 16 + 75 * 1),
 				Size = new FSize((WIDTH - 3 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_BTN_DEL,
@@ -232,7 +232,7 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 			AddElement(BtnExit = new HUDTextButton(1)
 			{
 				Alignment = HUDAlignment.BOTTOMRIGHT,
-				RelativePosition = new FPoint(24, 16 + 75 * 0),
+				RelativePosition = new FPoint(24+HUD.SafetyMargins.MarginRight, 16 + 75 * 0),
 				Size = new FSize((WIDTH - 3 * 24), 64),
 
 				L10NText = L10NImpl.STR_LVLED_EXIT,

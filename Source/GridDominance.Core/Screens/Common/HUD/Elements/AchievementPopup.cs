@@ -201,7 +201,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 		{
 			_particles.Add(new AchievementParticle
 			{
-				Position = new FPoint(FloatMath.GetRangedRandom(Left, Right), HUD.Top),
+				Position = new FPoint(FloatMath.GetRangedRandom(Left, Right), HUD.RealTop),
 				Vector = new Vector2(FloatMath.GetRangedRandom(-PARTICLE_SPEED_X_MAX, +PARTICLE_SPEED_X_MAX), FloatMath.GetRangedRandom(PARTICLE_SPEED_Y_MIN, PARTICLE_SPEED_Y_MAX)),
 				Size = new FSize(FloatMath.GetRangedRandom(PARTICLE_SIDELEN_MIN, PARTICLE_SIDELEN_MAX), FloatMath.GetRangedRandom(PARTICLE_SIDELEN_MIN, PARTICLE_SIDELEN_MAX)),
 				Rotation = FloatMath.GetRangedRandom(0, FloatMath.TAU),

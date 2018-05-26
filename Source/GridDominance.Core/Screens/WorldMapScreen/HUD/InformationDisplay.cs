@@ -121,7 +121,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 
 		public override void OnInitialize()
 		{
-
+			RelativePosition = HUD.UnsafeBottomRight;
 		}
 
 		public override void OnRemove()

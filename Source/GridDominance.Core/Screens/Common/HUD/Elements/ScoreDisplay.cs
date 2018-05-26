@@ -84,7 +84,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 			_icon.RenderScaleOverride = 1 + FloatMath.Sin(gameTime.TotalElapsedSeconds * 2) * 0.05f;
 
 			if (whud != null && whud.TopLevelDisplay != null)
-				_offset.Set(whud.TopLevelDisplay.RelativeBottom);
+				_offset.Set(whud.TopLevelDisplay.RelativeBottom + HUD.SafetyMargins.MarginTop);
 			else
 				_offset.Set(0);
 

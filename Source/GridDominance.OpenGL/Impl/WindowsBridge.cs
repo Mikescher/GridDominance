@@ -25,7 +25,7 @@ namespace GridDominance.Windows
 		public string AppType => "Windows.OpenGL";
 		public SAMSystemType SystemType => SAMSystemType.MONOGAME_DESKTOP;
 		public GDFlavor Flavor => GDFlavor.IAB;
-		public FMargin DeviceSafeAreaInset { get; } = new FMargin(0, 32, 0, 32);
+		public FMargin DeviceSafeAreaInset { get; } = new FMargin(8, 64, 16, 32);
 
 		public FSize DeviceResolution { get; } = new FSize(0, 0);
 

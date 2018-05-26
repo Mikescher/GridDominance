@@ -36,15 +36,15 @@ namespace GridDominance.Shared.Screens.LevelEditorScreen.HUD.Panel
 		{
 			base.RecalculatePosition();
 
-			RelativePosition = new FPoint(GDConstants.TILE_WIDTH / 2f, 0);
-			Size = new FSize(HUD.Width - 5 * GDConstants.TILE_WIDTH, HEIGHT);
+			RelativePosition = new FPoint(GDConstants.TILE_WIDTH / 2f, -HUD.SafetyMargins.MarginBottom);
+			Size = new FSize(HUD.SafeWidth - 5 * GDConstants.TILE_WIDTH, HEIGHT);
 			Alignment = HUDAlignment.BOTTOMLEFT;
 		}
 
 		public override void OnInitialize()
 		{
 			RelativePosition = new FPoint(GDConstants.TILE_WIDTH/2f, 0);
-			Size = new FSize(HUD.Width - 5 * GDConstants.TILE_WIDTH, HEIGHT);
+			Size = new FSize(HUD.SafeWidth - 5 * GDConstants.TILE_WIDTH, HEIGHT);
 			Alignment = HUDAlignment.BOTTOMLEFT;
 			IsVisible = false;
 		}

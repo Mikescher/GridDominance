@@ -36,8 +36,8 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FontSize = 30f,
 			};
 
-			Alignment = HUDAlignment.TOPCENTER;
-			RelativePosition = new FPoint(0, -35);
+			Alignment = HUDAlignment.TOPLEFT;
+			RelativePosition = new FPoint(0, -MainGame.Inst.Bridge.DeviceSafeAreaInset.MarginTop - 35);
 			Size = new FSize(300, 35);
 		}
 
@@ -59,7 +59,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 		// ReSharper disable RedundantCheckBeforeAssignment
 		protected override void DoUpdate(SAMTime gameTime, InputState istate)
 		{
-			if (!FloatMath.FloatEquals(Size.Width, HUD.Width)) Size = new FSize(HUD.Width, Height);
+			if (!FloatMath.FloatEquals(Size.Width, HUD.RealWidth)) Size = new FSize(HUD.RealWidth, Height);
 
 			var sel = ((GDWorldHUD) HUD).SelectedNode;
 
@@ -111,7 +111,7 @@ namespace GridDominance.Shared.Screens.WorldMapScreen.HUD
 				FloatMath.ProgressInc(ref progressBlend, gameTime.ElapsedSeconds * SPEED_BLEND);
 			}
 
-			var rp = new FPoint(0, (1-progressMove) * -Height);
+			var rp = new FPoint(-HUD.SafetyMargins.MarginLeft, -HUD.SafetyMargins.MarginTop + (1-progressMove) * -Height);
 			if (rp != RelativePosition)
 			{
 				RelativePosition = rp;
