@@ -19,6 +19,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 	{
 		public const int MAX_TOAST_COUNT = 4;
 
+		// SafeAreaMargins (eg iPhone X Notch)
+		public readonly FMargin SafetyMargins;
+		public readonly FPoint UnsafeTopLeft;
+		public readonly FPoint UnsafeTopRight;
+		public readonly FPoint UnsafeBottomLeft;
+		public readonly FPoint UnsafeBottomRight;
+
 		public readonly GameScreen Screen;
 		protected readonly HUDRootContainer root;
 		public readonly SpriteFont DefaultFont;
@@ -30,24 +37,46 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 		{
 			Screen = scrn;
 			DefaultFont = font;
+			
+			SafetyMargins     = MonoSAMGame.CurrentInst.Bridge.DeviceSafeAreaInset;
+			UnsafeTopLeft     = new FPoint(-SafetyMargins.MarginLeft, -SafetyMargins.MarginTop);
+			UnsafeTopRight    = new FPoint(-SafetyMargins.MarginRight, -SafetyMargins.MarginTop);
+			UnsafeBottomLeft  = new FPoint(-SafetyMargins.MarginLeft, -SafetyMargins.MarginBottom);
+			UnsafeBottomRight = new FPoint(-SafetyMargins.MarginRight, -SafetyMargins.MarginBottom);
 
 			root = new HUDRootContainer { HUD = this };
 			root.Initialize();
 		}
 
-		public float Left => -Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetX;
-		public float Top => -Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetY;
 
-		public float Right => Screen.VAdapterHUD.VirtualTotalWidth - Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetX;
-		public float Bottom => Screen.VAdapterHUD.VirtualTotalHeight - Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetY;
+		// "Real" values are the actual size of the HUD
 
-		public float Width => Right - Left;
-		public float Height => Bottom - Top;
+		public float RealLeft => -Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetX;
+		public float RealTop => -Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetY;
+		public float RealRight => Screen.VAdapterHUD.VirtualTotalWidth - Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetX;
+		public float RealBottom => Screen.VAdapterHUD.VirtualTotalHeight - Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetY;
 
-		public float CenterX => Left + Width/2;
-		public float CenterY => Top + Height / 2;
+		public float RealWidth => RealRight - RealLeft;
+		public float RealHeight => RealBottom - RealTop;
 
-		public float PixelWidth => Width * 1f / Screen.VAdapterHUD.RealTotalWidth;
+		public float RealCenterX => RealLeft + RealWidth/2;
+		public float RealCenterY => RealTop  + RealHeight / 2;
+
+		public float PixelWidth => RealWidth * 1f / Screen.VAdapterHUD.RealTotalWidth;
+
+		// "Safe" values are the size of the HUD minus the Safety margins, its the area thats safe to use
+		// This values are most of the time the correct ones to use, because they are also the real size of the HUDRootContainer
+		
+		public float SafeLeft => -Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetX + SafetyMargins.MarginLeft;
+		public float SafeTop => -Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetY + SafetyMargins.MarginTop;
+		public float SafeRight => Screen.VAdapterHUD.VirtualTotalWidth - Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetX - SafetyMargins.MarginRight;
+		public float SafeBottom => Screen.VAdapterHUD.VirtualTotalHeight - Screen.VAdapterHUD.VirtualGuaranteedBoundingsOffsetY - SafetyMargins.MarginBottom;
+
+		public float SafeWidth => SafeRight - SafeLeft;
+		public float SafeHeight => SafeBottom - SafeTop;
+
+		public float SafeCenterX => SafeLeft + SafeWidth/2;
+		public float SafeCenterY => SafeTop  + SafeHeight / 2;
 
 		private HUDElement _focusedElement = null;
 		public HUDElement FocusedElement
@@ -213,7 +242,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 				toast.TextColor = foreground;
 				toast.Background = HUDBackgroundDefinition.CreateSimpleBlur(background, size / 4f);
 				toast.TextPadding = new FSize(size / 5f, size / 5f);
-				toast.MaxWidth = Width * 0.8f;
+				toast.MaxWidth = SafeWidth * 0.8f;
 				toast.WordWrap = HUDWordWrap.WrapByWordTrusted;
 
 				AddElement(toast);

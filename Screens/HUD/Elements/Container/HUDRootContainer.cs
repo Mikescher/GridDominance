@@ -1,6 +1,7 @@
 ﻿using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 {
@@ -8,12 +9,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 	{
 		public override int Depth => int.MinValue;
 		
-		private FMargin _margins;
-
 		public HUDRootContainer()
 		{
-			// SafeAreaMargins (eg iPhone X Notch)
-			_margins = MonoSAMGame.CurrentInst.Bridge.DeviceSafeAreaInset;
+			//
 		}
 
 		public override void OnInitialize()
@@ -59,10 +57,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Container
 		{
 			if (HUD == null) return;
 
-			Size = new FSize(HUD.Width - _margins.SumX, HUD.Height - _margins.SumY);
-			Position = new FPoint(HUD.Left + _margins.MarginLeft, HUD.Top + _margins.MarginTop);
+			Alignment = HUDAlignment.ABSOLUTE;
+			Size = new FSize(HUD.SafeWidth, HUD.SafeHeight);
+			RelativePosition = new FPoint(HUD.SafeLeft, HUD.SafeTop);
+
+			// trick for speed - no real recalc, just set Position+Bounds directly
+			Position = new FPoint(HUD.SafeLeft, HUD.SafeTop);
 			BoundingRectangle = new FRectangle(Position, Size);
-			
 			PositionInvalidated = false;
 		}
 	}

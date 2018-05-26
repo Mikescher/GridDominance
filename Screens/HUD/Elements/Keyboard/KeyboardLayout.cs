@@ -38,7 +38,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 
 		public HUDLabel AddPreviewLine()
 		{
-			var scale = _target.HUD.Width / _virtualWidth;
+			var scale = _target.HUD.SafeWidth / _virtualWidth;
 
 			var x = currentVirtualX;
 			var y = _padNS + currentRow * _rowHeight + currentRow * _padKey;
@@ -49,7 +49,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 			var pnl = new HUDRectangle(1)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
-				RelativePosition = new FPoint(x * scale, y * scale),
+				RelativePosition = new FPoint(_target.HUD.SafetyMargins.MarginLeft + x * scale, y * scale),
 				Size = new FSize(w * scale, h * scale),
 
 				Definition = HUDBackgroundDefinition.CreateRounded(HUDKeyboard.COLOR_PREVIEW_BG, scale * 0.1f),
@@ -63,7 +63,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 			var lbl = new HUDLabel(2)
 			{
 				Alignment = HUDAlignment.TOPLEFT,
-				RelativePosition = new FPoint((x+padH) * scale, (y+padV) * scale),
+				RelativePosition = new FPoint(_target.HUD.SafetyMargins.MarginLeft + (x+padH) * scale, (y+padV) * scale),
 				Size = new FSize((w-2*padH) * scale, (h-2*padV) * scale),
 				TextColor = HUDKeyboard.COLOR_PREVIEW_TEXT,
 				FontSize = (h - 2 * padV) * scale,
@@ -78,7 +78,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 
 		public void Add(char? keyNormal, char? keyCaps, char? keyAlt, float? width, HUDKeyboardButtonType t)
 		{
-			var scale = _target.HUD.Width / _virtualWidth;
+			var scale = _target.HUD.SafeWidth / _virtualWidth;
 
 			var x = currentVirtualX;
 			var y = _padNS + currentRow * _rowHeight + currentRow * _padKey;
@@ -89,7 +89,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 			var key = new HUDKeyboardButton(_target);
 
 			key.Alignment = HUDAlignment.TOPLEFT;
-			key.RelativePosition = new FPoint(x * scale, y * scale);
+			key.RelativePosition = new FPoint(_target.HUD.SafetyMargins.MarginLeft + x * scale, y * scale);
 			key.Size = new FSize(w * scale, h * scale);
 			key.TextSize = scale * h * 0.65f;
 			key.CornerRadius = scale * 0.1f;
@@ -152,9 +152,9 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Keyboard
 
 		public void Finish()
 		{
-			var scale = _target.HUD.Width / _virtualWidth;
+			var scale = _target.HUD.SafeWidth / _virtualWidth;
 
-			_target.Size = new FSize(_target.HUD.Width, (2 * _padNS + (currentRow + 1) * _rowHeight + currentRow * _padKey) * scale);
+			_target.Size = new FSize(_target.HUD.RealWidth, (2 * _padNS + (currentRow + 1) * _rowHeight + currentRow * _padKey) * scale + _target.HUD.SafetyMargins.MarginBottom);
 			_target.Alignment = HUDAlignment.BOTTOMLEFT;
 		}
 

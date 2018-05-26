@@ -5,6 +5,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
+using MonoSAMFramework.Portable.Screens.HUD.Enums;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 {
@@ -99,10 +100,13 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 		{
 			if (HUD == null) return;
 
-			Size = new FSize(HUD.Width, HUD.Height);
-			Position = new FPoint(HUD.Left, HUD.Top);
+			Alignment = HUDAlignment.ABSOLUTE;
+			Size = new FSize(HUD.RealWidth, HUD.RealHeight);
+			RelativePosition = new FPoint(HUD.RealLeft, HUD.RealTop);
+			
+			// a small trick - don't do a recalc, we do it manually here (faster)
+			Position = new FPoint(HUD.RealLeft, HUD.RealTop);
 			BoundingRectangle = new FRectangle(Position, Size);
-
 			PositionInvalidated = false;
 		}
 	}
