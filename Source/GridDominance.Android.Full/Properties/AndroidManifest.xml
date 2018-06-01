@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="10305" android:versionName="1.3.5" package="com.blackforestbytes.griddominance.full" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="10306" android:versionName="1.3.6" package="com.blackforestbytes.griddominance.full" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="17" android:targetSdkVersion="25" />
 	
 	<uses-permission android:required="true" android:name="android.permission.ACCESS_NETWORK_STATE" />
