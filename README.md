@@ -1,4 +1,4 @@
-Cannon Conquest [![Get it in Google Play](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/README/badge_google.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.iab) [![Get it in Google Play](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/README/badge_google_2.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.full) [![Availalble at amazon](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/README/badge_amazon.png)](https://www.amazon.com/gp/product/B075QMHZV7) [![Get it from Microsoft](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/README/badge_microsoft.png)](https://www.microsoft.com/store/apps/9nx24pbs19rp) [![Get it from AppStore](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/README/badge_apple.png)](https://itunes.apple.com/us/app/cannon-conquest/id1303565192)
+Cannon Conquest [![Get it in Google Play](Data/README/badge_google.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.iab) [![Get it in Google Play](Data/README/badge_google_2.png)](https://play.google.com/store/apps/details?id=com.blackforestbytes.griddominance.full) [![Availalble at amazon](Data/README/badge_amazon.png)](https://www.amazon.com/gp/product/B075QMHZV7) [![Get it from Microsoft](Data/README/badge_microsoft.png)](https://www.microsoft.com/store/apps/9nx24pbs19rp) [![Get it from AppStore](Data/README/badge_apple.png)](https://itunes.apple.com/us/app/cannon-conquest/id1363746596) [![Get it from AppStore](Data/README/badge_apple_2.png)](https://itunes.apple.com/us/app/cannon-conquest/id1303565192)
 ===============
 
 
@@ -20,16 +20,16 @@ Features
  - Background music and sound effects
  - Self made graphics (not sure if this is a good thing...)
 
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_04.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_01.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_03.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_05.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_08.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_07.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_09.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_12.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_10.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_13.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_11.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_02.png)
-![](https://raw.githubusercontent.com/Mikescher/GridDominance/master/Data/Screenshots/Shot_06.png)
+![](Data/Screenshots/Shot_04.png)
+![](Data/Screenshots/Shot_01.png)
+![](Data/Screenshots/Shot_03.png)
+![](Data/Screenshots/Shot_05.png)
+![](Data/Screenshots/Shot_08.png)
+![](Data/Screenshots/Shot_07.png)
+![](Data/Screenshots/Shot_09.png)
+![](Data/Screenshots/Shot_12.png)
+![](Data/Screenshots/Shot_10.png)
+![](Data/Screenshots/Shot_13.png)
+![](Data/Screenshots/Shot_11.png)
+![](Data/Screenshots/Shot_02.png)
+![](Data/Screenshots/Shot_06.png)

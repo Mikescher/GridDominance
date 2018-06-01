@@ -95,7 +95,7 @@ namespace GridDominance.iOS.Impl
 		{
 			NSObject[] activitiesItems = {
 				new NSString("Cannon Conquest"),
-				new NSUrl(@"https://itunes.apple.com/de/app/cannon-conquest/id1363746596")
+				new NSUrl(@"https://itunes.apple.com/us/app/cannon-conquest/id1363746596")
 			};
 
 			var activityController = new UIActivityViewController(activitiesItems, null);
