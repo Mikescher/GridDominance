@@ -1,0 +1,7 @@
+<en-US>
+ - added levelditor and a lot of bugfixes and small features
+</en-US>
+
+<de-DE>
+ - Leveleditor und verschiedene bugfixes / kleinere features
+</de-DE>

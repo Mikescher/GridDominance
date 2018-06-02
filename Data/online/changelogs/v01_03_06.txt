@@ -1,0 +1,11 @@
+<en-US>
+ - fixed some UI elements for the iPhoneX notch
+ - fixed some leveleditor bugs
+ - general bugfixing
+</en-US>
+
+<de-DE>
+ - einige UI Elemente angepasst (iPhone X)
+ - Fehler im Leveleditor behoben
+ - allgemeine Fehleberreinigung
+</de-DE>
