@@ -44,7 +44,7 @@ return [
 	'diff_scores'  => [11,   13,   17,   23  ],
 	'hot_factor'   => 1.8,
 
-	'userlevel_maxsize'   => 128 * 1024,
+	'userlevel_maxsize'   => 256 * 1024,
 	'userlevel_directory' => 'F:\\Stash\\gd_server_upload\\',
 
 	'debug'  => true,
