@@ -50,6 +50,13 @@ function init($action, $notransaction = false) {
 		ini_set('log_errors', 1);
 	}
 
+	if (count($_GET)>0 && count($_POST)>0)
+    {
+        $star = true;
+        foreach ($_GET as $key => $value) { if ($value !== '*') { $star=false; break; } }
+        if ($star) outputError(ERRORS::EXPLOIT_HEURISTIC, "Space, the final frontier. These are the voyages of the starship Enterprise. Its 5-year mission, to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before.", LOGLEVEL::WARN);
+    }
+
 	$pdo = connectOrFail($config['database_host'], $config['database_name'], $config['database_user'], $config['database_pass'], $notransaction);
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
