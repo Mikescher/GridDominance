@@ -50,7 +50,7 @@ function init($action, $notransaction = false) {
 		ini_set('log_errors', 1);
 	}
 
-	if (count($_GET)>0 && count($_POST)>0)
+	if (count($_GET)>0 && count($_POST)==0)
     {
         $star = true;
         foreach ($_GET as $key => $value) { if ($value !== '*') { $star=false; break; } }
