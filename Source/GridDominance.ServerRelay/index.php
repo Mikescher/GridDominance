@@ -34,6 +34,7 @@ try
 	if ($requri == '/admin') die('No more!');
 	if ($requri == '/admin/') die('No more!');
 	if ($requri == '/savesessionstate.php') die('No more!');
+	if ($requri == '/robots.txt') die("User-agent: *\nDisallow: /");
 
 	$options =
 	[
