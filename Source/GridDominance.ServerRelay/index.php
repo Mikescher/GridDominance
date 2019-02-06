@@ -33,6 +33,7 @@ try
 	if ($requri == '/favicon.ico') die('No more!');
 	if ($requri == '/admin') die('No more!');
 	if ($requri == '/admin/') die('No more!');
+	if ($requri == '/admin/index.php') die('No more!');
 	if ($requri == '/savesessionstate.php') die('No more!');
 	if ($requri == '/robots.txt') die("User-agent: *\nDisallow: /");
 
