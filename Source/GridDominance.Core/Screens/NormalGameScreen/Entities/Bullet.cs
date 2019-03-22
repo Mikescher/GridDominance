@@ -50,6 +50,8 @@ namespace GridDominance.Shared.Screens.NormalGameScreen.Entities
 			GDOwner = scrn;
 			BulletID = scrn.AssignBulletID(this);
 
+			if (Scale * BULLET_DIAMETER < 0.2) Scale = 0.2f / BULLET_DIAMETER; // prevent zero-size bullet  ( Error #14941 )
+
 			DrawingBoundingBox = new FSize(Scale * BULLET_DIAMETER, Scale * BULLET_DIAMETER);
 		}
 
