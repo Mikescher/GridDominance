@@ -2,5 +2,8 @@
     "name": "Grid-Dominance.server",
     "description": "Grid Dominance PHP backend",
     "require": {
+      "ext-curl": "*",
+      "ext-json": "*",
+      "ext-zlib": "*"
     }
 }

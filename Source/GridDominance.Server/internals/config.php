@@ -23,7 +23,11 @@ return [
 
 	'email-clientlog-target' => 'virtualadmin@mikescher.de',
 	'email-clientlog-sender' => 'gd-log@mikescher.com',
-	'sendmail' => false,
+	'sendmail'         => false,
+	'sendnotification' => true,
+
+	'scn_id'  => '56',
+	'scn_key' => '5B27a01fHhq6BvrWT5HrYS6xt4IAha0a6qA5TpoG20Iti1b3522VxvgjMo4UA7CS',
 
 	'maxsize-logfile-normal' =>  128 * 1024 * 1024, // 512MB
 	'maxsize-logfile-debug'  =>   16 * 1024 * 1024, // 128MB
