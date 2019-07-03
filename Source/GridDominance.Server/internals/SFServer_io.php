@@ -376,6 +376,8 @@ function sendMail($subject, $content, $to, $from) {
 function sendSCN($title, $content, $priority) {
 	global $config;
 
+	if (strlen($content)    > 16300) $content    = substr($content,    0, 16300) . "...";
+
 	$data =
 	[
 		'user_id'  => $config['scn_id'],
