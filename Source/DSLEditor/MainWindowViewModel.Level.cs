@@ -212,6 +212,12 @@ namespace GridDominance.DSLEditor
 			}
 		}
 
+		private Bitmap CreateOverviewUnsafe(LevelBlueprint bp)
+		{
+			var lpp = new LevelPreviewPainter();
+			return lpp.DrawOverview(bp);
+		}
+
 		private void LevelOverview()
 		{
 			if (!File.Exists(FilePath)) return;

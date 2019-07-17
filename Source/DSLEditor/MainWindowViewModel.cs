@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,6 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using GridDominance.DSLEditor.Drawing;
 
 namespace GridDominance.DSLEditor
 {
@@ -38,6 +40,7 @@ namespace GridDominance.DSLEditor
 		public ICommand ScreenshotsCommand   => new RelayCommand(CreateScreenshots);
 		public ICommand DropCommand          => new RelayCommand<DragEventArgs>(Drop); 
 		public ICommand DragCommand          => new RelayCommand<DragEventArgs>(DragEnter);
+		public ICommand OpenBinLevelCommand  => new RelayCommand(OpenBinLevel);
 
 		public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
 
@@ -394,6 +397,7 @@ namespace GridDominance.DSLEditor
 				foreach (string file in files)
 				{
 					if (!ConditionalSave()) return;
+
 					FilePath = file;
 					PreviewImage = null;
 					Reload(false, true);
@@ -462,6 +466,36 @@ namespace GridDominance.DSLEditor
 			if (IsFilePathLevel && src != null)
 			{
 				OnLevelHover(a.GetPosition(src), src.ActualWidth, src.ActualHeight);
+			}
+		}
+
+		private void OpenBinLevel()
+		{
+			try
+			{
+				var ofd = new OpenFileDialog();
+				ofd.Filter = "Userlevel (*.bin)|*";
+				ofd.Title = "Open Userlevel";
+				if (ofd.ShowDialog() != true) return;
+				var filename = ofd.FileName;
+
+				var bp = new LevelBlueprint();
+				using (var ms = new MemoryStream(File.ReadAllBytes(filename)))
+				{
+					using (var br = new BinaryReader(ms))
+					{
+						bp.BinaryDeserialize(br);
+					}
+				}
+				
+				var bmp = CreateOverviewUnsafe(bp);
+				PreviewImage = ImageHelper.CreateImageSource(bmp).Item1;
+				_currentDisplayLevel = null;
+				return;
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show("OpenXNB:\r\n" + e);
 			}
 		}
 
