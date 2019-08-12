@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="26405blackforestbytes.CannonConquest" Publisher="CN=68BB5E8E-29A0-4D5C-A782-267CC2601A5D" Version="1.3.6.0" />
+  <Identity Name="26405blackforestbytes.CannonConquest" Publisher="CN=68BB5E8E-29A0-4D5C-A782-267CC2601A5D" Version="1.3.7.0" />
   <mp:PhoneIdentity PhoneProductId="c2b1f38a-380c-456d-84dd-9ef9d14ba00b" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Cannon Conquest</DisplayName>
