@@ -70,6 +70,9 @@
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;GD_FULL_NOMP;GD_SHADERLESS</DefineConstants>
     <CodesignProvision>Cannon Conquest Distribution Profile</CodesignProvision>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Plugin.BLE, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Plugin.BLE.1.3.0\lib\Xamarin.iOS10\Plugin.BLE.dll</HintPath>
