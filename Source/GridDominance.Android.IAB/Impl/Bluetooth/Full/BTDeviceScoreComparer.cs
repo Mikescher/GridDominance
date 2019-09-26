@@ -20,6 +20,8 @@ namespace GridDominance.Android.Impl
 
 			if (x == null || y == null || xx == null || yy == null) return 0;
 
+			if (xx.BluetoothClass == null || yy.BluetoothClass == null) return 0;
+
 			if (IsPhone(xx.BluetoothClass.DeviceClass) && !IsPhone(yy.BluetoothClass.DeviceClass)) return -1;
 			if (IsPhone(yy.BluetoothClass.DeviceClass) && !IsPhone(xx.BluetoothClass.DeviceClass)) return +1;
 
