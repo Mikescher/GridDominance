@@ -55,7 +55,7 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DefineConstants>GD_FULL</DefineConstants>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidSupportedAbis />
+    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <EnableProguard>true</EnableProguard>
   </PropertyGroup>
   <ItemGroup>
