@@ -50,11 +50,14 @@ namespace MonoSAMFramework.Portable.Network.REST
 			{
 				try
 				{
-					HttpResponseMessage response;
-					if (para.Item2 != null)
-						response = http.PostAsync(url, para.Item2).Result;
-					else
-						response = http.GetAsync(url).Result;
+					var req = new HttpRequestMessage
+					{
+						Method = (para.Item2 != null) ? HttpMethod.Post : HttpMethod.Get,
+						RequestUri = new Uri(url)
+					};
+					if (para.Item2 != null) req.Content = para.Item2;
+
+					var response = http.SendAsync(req, HttpCompletionOption.ResponseHeadersRead).Result;
 
 					response.EnsureSuccessStatusCode();
 					var content = response.Content.ReadAsStringAsync().Result;
