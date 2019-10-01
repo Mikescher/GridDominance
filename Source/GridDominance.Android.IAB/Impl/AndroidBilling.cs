@@ -36,10 +36,7 @@ namespace GridDominance.Android.Impl
 
 		public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			if (_serviceConnection == null) return;
-			if (_serviceConnection.BillingHandler == null) return;
-
-			_serviceConnection.BillingHandler.HandleActivityResult(requestCode, resultCode, data);
+			_serviceConnection?.BillingHandler?.HandleActivityResult(requestCode, resultCode, data);
 		}
 
 		public bool Connect(string[] productIDs)
@@ -49,6 +46,7 @@ namespace GridDominance.Android.Impl
 				SAMLog.Debug("AndroidBilling.Connect");
 
 				_purchases = null;
+				_productIDs = productIDs;
 
 				if (IsConnected) Disconnect();
 
