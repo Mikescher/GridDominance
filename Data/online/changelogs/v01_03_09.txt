@@ -1,0 +1,17 @@
+<en-US>
+ - fixed downloading of really big levels (hi @gheed)
+ - fixed crash when bullets become too small
+ - fixed exception with invalid bluetooth devices
+ - added 64bit architecture target
+ - move to api version 26
+ - fixed in-app purchase queries
+</en-US>
+
+<de-DE>
+ - Probleme beim download sehr großer Level behoben (Hi @gheed)
+ - Absturz bei extrem kleinen Kugeln behoben
+ - Absturz bei invaliden Bluetooth Geräten behoben
+ - Support für 64bit Geräte hinzugefügt
+ - Update zu Android API 26
+ - Fehler in In-App-Käufen behoben
+</de-DE>
