@@ -87,12 +87,12 @@ body {
 }
 
 .collapseheader a:after {
-  content:' [-]';
+  content:' [+]';
   visibility: visible;
   display: inline;
 }
 .collapseheader.open a:after {
-  content:' [+]';
+  content:' [-]';
 }
 
 
