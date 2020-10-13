@@ -45,11 +45,13 @@ function run() {
 
 	if ($config['runlog'])
 	{
-		$stmt = $pdo->prepare("INSERT INTO runlog_history (action, min_timestamp, max_timestamp, count, duration, duration_min, duration_max, duration_avg, duration_median) (SELECT action, MIN(exectime), MAX(exectime), COUNT(*), SUM(duration), MIN(duration), MAX(duration), AVG(duration), MEDIAN(duration) FROM runlog_volatile GROUP BY action)");
+		// median windows functions needs mariadb
+		// https://mariadb.com/kb/en/median/
+		$stmt = $pdo->prepare("INSERT INTO runlog_history (action, min_timestamp, max_timestamp, count, duration, duration_min, duration_max, duration_avg, duration_median) (SELECT action, MIN(exectime), MAX(exectime), COUNT(*), SUM(duration), MIN(duration), MAX(duration), AVG(duration), median_calc FROM (SELECT *, (MEDIAN(duration) OVER (PARTITION BY action)) AS median_calc FROM runlog_volatile) AS t1 GROUP BY action)");
 		executeOrFail($stmt);
 
 		echo ("[" . date("Y-m-d H:i:s") . "]  " . "Runlog(1)" . "  <br/>\n");
-		
+
 		$stmt = $pdo->prepare("DELETE FROM runlog_volatile");
 		executeOrFail($stmt);
 
