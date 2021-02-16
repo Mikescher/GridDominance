@@ -1,26 +1,17 @@
-SELECT o.rank, o.userid, o.username, o.totalscore, o.totaltime
-FROM
-  (
-    SELECT @rownum:=@rownum+1 As rank, x.userid, x.username, x.totalscore, x.totaltime
-    FROM
-      (
-        SELECT
-          users.userid AS userid,
-          users.username AS username,
-          users.score AS totalscore,
-          users.time_total AS totaltime
+SELECT
+	usr.userid,
+	usr.username,
+	usr.score as totalscore,
+	usr.time_total as totaltime,
+	(
+		SELECT COUNT(*)  + 1
+		FROM users othr
+		WHERE
+		      (othr.score > usr.score) OR
+		      (othr.score = usr.score AND othr.time_total < usr.time_total ) OR
+		      (othr.score = usr.score AND othr.time_total = usr.time_total AND othr.userid < usr.userid )
+	) AS "rank"
 
-        FROM users
+FROM users usr
 
-        WHERE score > 0
-
-        ORDER BY
-          totalscore DESC,
-          totaltime ASC,
-          userid ASC
-      ) x
-
-      JOIN (SELECT @rownum := 0) r
-  ) o
-
-WHERE o.userid = :uid
+WHERE usr.userid = :uid

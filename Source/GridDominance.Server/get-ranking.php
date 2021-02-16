@@ -83,8 +83,8 @@ function run() {
 
 		$stmt = $pdo->prepare(loadReplSQL('get-ranking_local_playerrank',
 		[
-			['FIELD_SCORE', 'users.score_' . worldGuidToSQLField($worldid)],
-			['FIELD_TIME', 'users.time_' . worldGuidToSQLField($worldid)],
+			['FIELD_SCORE', 'score_' . worldGuidToSQLField($worldid)],
+			['FIELD_TIME',  'time_'  . worldGuidToSQLField($worldid)],
 		]));
 		$stmt->bindValue(':uid', $userid, PDO::PARAM_INT);
 		executeOrFail($stmt);
