@@ -190,17 +190,17 @@ function getStarsHighscores($limit = 100, $page = 0) {
 }
 
 function getSCCMRank($userid) {
-	return sql_query_num_prep('getSCCMRank', loadSQL("get-ranking_sccm_playerrank"),
+	return sql_query_assoc_prep('getSCCMRank', loadSQL("get-ranking_sccm_playerrank"),
 		[
 			[':uid', $userid, PDO::PARAM_INT],
-		]);
+		])[0]["rank"];
 }
 
 function getStarsRank($userid) {
-	return sql_query_num_prep('getStarsRank', loadSQL("get-ranking_stars_playerrank"),
+	return sql_query_assoc_prep('getStarsRank', loadSQL("get-ranking_stars_playerrank"),
 		[
 			[':uid', $userid, PDO::PARAM_INT],
-		]);
+		])[0]["rank"];
 }
 
 function getAllEntries($page, $pagesize) {
