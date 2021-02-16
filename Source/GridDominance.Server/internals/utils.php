@@ -447,8 +447,8 @@ function getGlobalPlayerRank($uid) {
 function getLocalPlayerRank($uid, $world) {
 	return sql_query_assoc_prep('getLocalPlayerRank', loadReplSQL('get-ranking_local_playerrank',
 	[
-		['FIELD_SCORE', 'users.score_' . worldGuidToSQLField($world)],
-		['FIELD_TIME', 'users.time_' . worldGuidToSQLField($world)],
+		['FIELD_SCORE', 'score_' . worldGuidToSQLField($world)],
+		['FIELD_TIME',  'time_'  . worldGuidToSQLField($world)],
 	]),
 	[
 		[':uid', $uid, PDO::PARAM_INT],
@@ -647,8 +647,8 @@ function GetSCCMLevelInfo($levelid)
 }
 
 function GetSCCMLevelMetadataRecalculated($levelid)
-{			
-	$recalc = []; 
+{
+	$recalc = [];
 	$recalc['d0_completed']  = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d0_time) FROM userlevels_highscores WHERE levelid=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
 	$recalc['d1_completed']  = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d1_time) FROM userlevels_highscores WHERE levelid=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
 	$recalc['d2_completed']  = sql_query_num_prep('GetSCCMLevelMetadataRecalculated', 'SELECT COUNT(d2_time) FROM userlevels_highscores WHERE levelid=:lid', [[':lid', $levelid, PDO::PARAM_INT]]);
@@ -692,7 +692,7 @@ function GetSCCMLevelSize()
 	return sql_query_num('GetSCCMLevelSize', 'SELECT SUM(filesize) FROM userlevels WHERE upload_timestamp IS NOT NULL');
 }
 
-function isProxyActive() 
+function isProxyActive()
 {
 	if (! file_exists("/var/log/gdapi_log/proxystate.json")) return false;
 
@@ -700,7 +700,7 @@ function isProxyActive()
 	return $mtime > (time() - (60 * 5)); // max 5 min
 }
 
-function isCronActive() 
+function isCronActive()
 {
 	global $config;
 
