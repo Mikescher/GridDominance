@@ -15,10 +15,11 @@
     <?php includeScripts(); ?>
 
     <h1><a href="index.php">Cannon Conquest | Admin Page</a></h1>
-	
+
     <?php
         global $pdo;
-        
+	    global $config;
+
 		$ilevelid = (int)$_GET['id'];
 
         $level = GetSCCMLevelInfo($ilevelid);
@@ -81,7 +82,7 @@
             Author time: <?php echo gmdate("H:i:s", $level['author_time']/1000.0); ?>
         </div>
     </div>
-	
+
     <div class="tablebox" data-collapse>
         <h2 class="open collapseheader">Metainformation</h2>
 
@@ -206,7 +207,7 @@
         </div>
 
     </div>
-	
+
     <div class="tablebox" data-collapse>
         <h2 class="open collapseheader">Linked Entries</h2>
 
@@ -223,7 +224,7 @@
             </thead>
 
 				<?php foreach(getLevelSCCMEntries($ilevelid) as $entry): ?>
-				
+
 					<tr>
 						<td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
 						<td title="<?php echo $entry['d0_time']; ?>ms"><?php echo gmdate("H:i:s", $entry['d0_time']/1000.0); ?>  (<?php echo $entry['d0_lastplayed'] ?>)</td>

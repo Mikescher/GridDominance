@@ -1,6 +1,8 @@
 <?php
 {$c=require('../internals/config.php'); if (!$c['debug']) exit('Nope.');}
 
+global $pdo;
+
 require '../internals/backend.php';
 
 init("");

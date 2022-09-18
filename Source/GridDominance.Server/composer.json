@@ -4,6 +4,7 @@
     "require": {
       "ext-curl": "*",
       "ext-json": "*",
-      "ext-zlib": "*"
+      "ext-zlib": "*",
+      "ext-pdo": "*"
     }
 }

@@ -234,7 +234,7 @@ class GDUser implements JsonSerializable
 	 */
 	public function UpdateMeta($app_version, $device_name, $device_version, $unlocked_worlds, $device_resolution, $app_type) {
 		global $pdo;
-		if (empty($app_type)) 
+		if (empty($app_type))
 		{
 			$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), app_version=:av, device_name=:dn, device_version=:dv, unlocked_worlds=:uw, device_resolution=:dr, ping_counter=ping_counter+1 WHERE userid=:uid");
 			$stmt->bindValue(':uid', $this->ID,         PDO::PARAM_INT);
@@ -244,8 +244,8 @@ class GDUser implements JsonSerializable
 			$stmt->bindValue(':uw', $unlocked_worlds,   PDO::PARAM_STR);
 			$stmt->bindValue(':dr', $device_resolution, PDO::PARAM_STR);
 			executeOrFail($stmt);
-		} 
-		else 
+		}
+		else
 		{
 			$stmt = $pdo->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP(), app_version=:av, device_name=:dn, device_version=:dv, unlocked_worlds=:uw, device_resolution=:dr, app_type=:at, ping_counter=ping_counter+1 WHERE userid=:uid");
 			$stmt->bindValue(':uid', $this->ID,         PDO::PARAM_INT);
@@ -482,7 +482,7 @@ class GDUser implements JsonSerializable
 		$this->RevID++;
 	}
 
-	function jsonSerialize() {
+	function jsonSerialize():mixed {
 		return
 			[
 				'ID'               => $this->ID,

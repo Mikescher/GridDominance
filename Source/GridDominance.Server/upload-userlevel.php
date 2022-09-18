@@ -64,7 +64,7 @@ function run() {
 	$realhash = strtoupper(hash('sha256', $bindata));
 	if ($realhash !== $binhash) outputError(ERRORS::LEVELUPLOAD_HASH_MISMATCH, "Hash '$realhash' <> '$binhash'", LOGLEVEL::ERROR);
 
-	if ($namecollision !== FALSE) outputError(ERRORS::LEVELUPLOAD_DUPLICATENAME, "Name '$name' is already user", LOGLEVEL::INFO);
+	if ($namecollision !== FALSE) outputError(ERRORS::LEVELUPLOAD_DUPLICATENAME, "Name '$name' is already user", LOGLEVEL::DEBUG);
 
 
 
