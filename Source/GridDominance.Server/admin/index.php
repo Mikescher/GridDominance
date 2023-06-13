@@ -185,7 +185,7 @@
                             <td><?php echo $i++; ?></td>
                             <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                             <td><?php echo $entry['totalscore']; ?></td>
-                            <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                            <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['totaltime']/1000.0)); ?></td>
                         </tr>
 					<?php endforeach; ?>
                 </table>
@@ -209,7 +209,7 @@
                                     <td><?php echo $i++; ?></td>
                                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                                     <td><?php echo $entry['totalscore']; ?></td>
-                                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['totaltime']/1000.0)); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
@@ -233,7 +233,7 @@
                             <td><?php echo $i++; ?></td>
                             <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                             <td><?php echo $entry['totalscore']; ?></td>
-                            <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                            <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['totaltime']/1000.0)); ?></td>
                         </tr>
 					<?php endforeach; ?>
                 </table>
@@ -307,7 +307,7 @@
                         <?php endif; ?>
                     </td>
                     <td><?php echo $entry['difficulty']; ?></td>
-                    <td title="<?php echo $entry['best_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['best_time']/1000.0); ?></td>
+                    <td title="<?php echo $entry['best_time']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['best_time']/1000.0)); ?></td>
                     <td><a href="userinfo.php?id=<?php echo $entry['best_userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['best_userid']; ?>)</td>
                     <td><?php echo $entry['best_last_changed']; ?></td>
                     <td><?php echo $entry['completion_count']; ?></td>

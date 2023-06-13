@@ -131,8 +131,8 @@
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
                     <td></td>
-                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
-                    <td title="<?php echo $manual['*']; ?>ms" ><?php echo gmdate("H:i:s", $manual['*']/1000.0); ?></td>
+                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['totaltime']/1000.0)); ?></td>
+                    <td title="<?php echo $manual['*']; ?>ms" ><?php echo gmdate("H:i:s", (int)($manual['*']/1000.0)); ?></td>
                 </tr>
 
 			<?php endif; ?>
@@ -158,8 +158,8 @@
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
                     <td></td>
-                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
-                    <td title="<?php echo $manual[$w]; ?>ms" ><?php echo gmdate("H:i:s", $manual[$w]/1000.0); ?></td>
+                    <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['totaltime']/1000.0)); ?></td>
+                    <td title="<?php echo $manual[$w]; ?>ms" ><?php echo gmdate("H:i:s", (int)($manual[$w]/1000.0)); ?></td>
                 </tr>
 			<?php endforeach; ?>
 
@@ -233,11 +233,11 @@
                 <th>Time</th>
             </tr>
             </thead>
-            <tr> <td>Total</td> <td><?php echo $user->Score; ?>           </td> <td title="<?php echo $user->TotalTime; ?>ms" ><?php echo gmdate("H:i:s", $user->TotalTime/1000.0); ?></td> </tr>
-            <tr> <td>W1</td>    <td><?php echo $user->ScoreW1; ?>         </td> <td title="<?php echo $user->TimeW1; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW1/1000.0); ?></td> </tr>
-            <tr> <td>W2</td>    <td><?php echo $user->ScoreW2; ?>         </td> <td title="<?php echo $user->TimeW2; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW2/1000.0); ?></td> </tr>
-            <tr> <td>W3</td>    <td><?php echo $user->ScoreW3; ?>         </td> <td title="<?php echo $user->TimeW3; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW3/1000.0); ?></td> </tr>
-            <tr> <td>W4</td>    <td><?php echo $user->ScoreW4; ?>         </td> <td title="<?php echo $user->TimeW4; ?>ms" ><?php echo gmdate("H:i:s", $user->TimeW4/1000.0); ?></td> </tr>
+            <tr> <td>Total</td> <td><?php echo $user->Score; ?>           </td> <td title="<?php echo $user->TotalTime; ?>ms" ><?php echo gmdate("H:i:s", (int)($user->TotalTime/1000.0)); ?></td> </tr>
+            <tr> <td>W1</td>    <td><?php echo $user->ScoreW1; ?>         </td> <td title="<?php echo $user->TimeW1; ?>ms"    ><?php echo gmdate("H:i:s", (int)($user->TimeW1/1000.0));    ?></td> </tr>
+            <tr> <td>W2</td>    <td><?php echo $user->ScoreW2; ?>         </td> <td title="<?php echo $user->TimeW2; ?>ms"    ><?php echo gmdate("H:i:s", (int)($user->TimeW2/1000.0));    ?></td> </tr>
+            <tr> <td>W3</td>    <td><?php echo $user->ScoreW3; ?>         </td> <td title="<?php echo $user->TimeW3; ?>ms"    ><?php echo gmdate("H:i:s", (int)($user->TimeW3/1000.0));    ?></td> </tr>
+            <tr> <td>W4</td>    <td><?php echo $user->ScoreW4; ?>         </td> <td title="<?php echo $user->TimeW4; ?>ms"    ><?php echo gmdate("H:i:s", (int)($user->TimeW4/1000.0));    ?></td> </tr>
             <tr> <td>MP</td>    <td><?php echo $user->MultiplayerScore; ?></td> <td title="?"></td> </tr>
         </table>
     </div>
@@ -264,7 +264,7 @@
                         </a>
                     </td>
                     <td><?php echo $entry['difficulty']; ?></td>
-                    <td title="<?php echo $entry['best_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['best_time']/1000.0); ?></td>
+                    <td title="<?php echo $entry['best_time']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['best_time']/1000.0)); ?></td>
                     <td><?php echo $entry['last_changed']; ?></td>
                 </tr>
 			<?php endforeach; ?>
@@ -293,7 +293,7 @@
                             </a>
                         </td>
                         <td>0</td>
-                        <td title="<?php echo $entry['d0_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['d0_time']/1000.0); ?></td>
+                        <td title="<?php echo $entry['d0_time']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['d0_time']/1000.0)); ?></td>
                         <td><?php echo $entry['d0_lastplayed']; ?></td>
                     </tr>
                 <?php endif; ?> 
@@ -306,7 +306,7 @@
                             </a>
                         </td>
                         <td>1</td>
-                        <td title="<?php echo $entry['d1_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['d1_time']/1000.0); ?></td>
+                        <td title="<?php echo $entry['d1_time']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['d1_time']/1000.0)); ?></td>
                         <td><?php echo $entry['d1_lastplayed']; ?></td>
                     </tr>
                 <?php endif; ?> 
@@ -319,7 +319,7 @@
                             </a>
                         </td>
                         <td>2</td>
-                        <td title="<?php echo $entry['d2_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['d2_time']/1000.0); ?></td>
+                        <td title="<?php echo $entry['d2_time']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['d2_time']/1000.0)); ?></td>
                         <td><?php echo $entry['d2_lastplayed']; ?></td>
                     </tr>
                 <?php endif; ?> 
@@ -332,7 +332,7 @@
                             </a>
                         </td>
                         <td>3</td>
-                        <td title="<?php echo $entry['d3_time']; ?>ms" ><?php echo gmdate("H:i:s", $entry['d3_time']/1000.0); ?></td>
+                        <td title="<?php echo $entry['d3_time']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['d3_time']/1000.0)); ?></td>
                         <td><?php echo $entry['d3_lastplayed']; ?></td>
                     </tr>
                 <?php endif; ?> 
@@ -366,7 +366,7 @@
                         <td><?php echo $entry['upload_timestamp']; ?></td>
                         <td><?php echo htmlspecialchars($entry['name']); ?></td>
                         <td><?php echo $entry['stars']; ?></td>
-                        <td><?php echo gmdate("H:i:s", $entry['author_time']/1000.0)?></td>
+                        <td><?php echo gmdate("H:i:s", (int)($entry['author_time']/1000.0))?></td>
                     <?php endif ?>
                 </tr>
 			<?php endforeach; ?>

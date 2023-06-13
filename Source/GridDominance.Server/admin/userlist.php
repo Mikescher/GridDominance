@@ -27,11 +27,11 @@
 			"Score[W2] = " . $entry['score_w2']   . "\n" .
 			"Score[W3] = " . $entry['score_w3']   . "\n" .
 			"Score[W4] = " . $entry['score_w4']   . "\n" .
-			"Time      = " . gmdate("H:i:s", $entry['time_total']) . " = " . $entry['time_total'] . "\n" .
-			"Time[W1]  = " . gmdate("H:i:s", $entry['time_w1'])    . " = " . $entry['time_w1']    . "\n" .
-			"Time[W2]  = " . gmdate("H:i:s", $entry['time_w2'])    . " = " . $entry['time_w2']    . "\n" .
-			"Time[W3]  = " . gmdate("H:i:s", $entry['time_w3'])    . " = " . $entry['time_w3']    . "\n" .
-			"Time[W4]  = " . gmdate("H:i:s", $entry['time_w4'])    . " = " . $entry['time_w4']    . "\n" .
+			"Time      = " . gmdate("H:i:s", (int)($entry['time_total'])) . " = " . $entry['time_total'] . "\n" .
+			"Time[W1]  = " . gmdate("H:i:s", (int)($entry['time_w1']))    . " = " . $entry['time_w1']    . "\n" .
+			"Time[W2]  = " . gmdate("H:i:s", (int)($entry['time_w2']))    . " = " . $entry['time_w2']    . "\n" .
+			"Time[W3]  = " . gmdate("H:i:s", (int)($entry['time_w3']))    . " = " . $entry['time_w3']    . "\n" .
+			"Time[W4]  = " . gmdate("H:i:s", (int)($entry['time_w4']))    . " = " . $entry['time_w4']    . "\n" .
 			"Score[MP] = " . $entry['mpscore']    . "\n" ;
     }
 

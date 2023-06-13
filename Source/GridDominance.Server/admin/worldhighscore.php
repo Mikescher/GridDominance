@@ -146,7 +146,7 @@
                     <td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
                     <td><?php echo $entry['totalscore']; ?></td>
                     <?php if ($showtime): ?>
-                        <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", $entry['totaltime']/1000.0); ?></td>
+                        <td title="<?php echo $entry['totaltime']; ?>ms" ><?php echo gmdate("H:i:s", (int)($entry['totaltime']/1000.0)); ?></td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>

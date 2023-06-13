@@ -79,7 +79,7 @@
             Size: <?php echo $level['grid_width']; ?>x<?php echo $level['grid_height']; ?>
         </div>
         <div class="infodiv" title="<?php echo $level['author_time']; ?>ms">
-            Author time: <?php echo gmdate("H:i:s", $level['author_time']/1000.0); ?>
+            Author time: <?php echo gmdate("H:i:s", (int)($level['author_time']/1000.0)); ?>
         </div>
     </div>
 
@@ -118,8 +118,8 @@
 				</tr>
                 <tr class="<?php if ($level['d0_besttime'] != $recalc['d0_besttime']) echo "td_err"; ?>">
 					<td>BestTime (Diff_0)</td>
-					<td title="<?php echo $level['d0_besttime']; ?>ms @ <?php echo $level['d0_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d0_besttime']/1000.0); ?></td>
-                    <td title="<?php echo $recalc['d0_besttime']; ?>"><?php echo gmdate("H:i:s", $recalc['d0_besttime']/1000.0); ?></td>
+					<td title="<?php echo $level['d0_besttime']; ?>ms @ <?php echo $level['d0_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", (int)($level['d0_besttime']/1000.0)); ?></td>
+                    <td title="<?php echo $recalc['d0_besttime']; ?>"><?php echo gmdate("H:i:s", (int)($recalc['d0_besttime']/1000.0)); ?></td>
 				</tr>
 
                 <tr class="<?php if ($level['d1_completed'] != $recalc['d1_completed']) echo "td_err"; ?>">
@@ -139,8 +139,8 @@
 				</tr>
                 <tr class="<?php if ($level['d1_besttime'] != $recalc['d1_besttime']) echo "td_err"; ?>">
 					<td>BestTime (Diff_1)</td>
-					<td title="<?php echo $level['d1_besttime']; ?>ms @ <?php echo $level['d1_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d1_besttime']/1000.0); ?></td>
-                    <td title="<?php echo $recalc['d1_besttime']; ?>"><?php echo gmdate("H:i:s", $recalc['d1_besttime']/1000.0); ?></td>
+					<td title="<?php echo $level['d1_besttime']; ?>ms @ <?php echo $level['d1_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", (int)($level['d1_besttime']/1000.0)); ?></td>
+                    <td title="<?php echo $recalc['d1_besttime']; ?>"><?php echo gmdate("H:i:s", (int)($recalc['d1_besttime']/1000.0)); ?></td>
 				</tr>
 
                 <tr class="<?php if ($level['d2_completed'] != $recalc['d2_completed']) echo "td_err"; ?>">
@@ -160,8 +160,8 @@
 				</tr>
                 <tr class="<?php if ($level['d2_besttime'] != $recalc['d2_besttime']) echo "td_err"; ?>">
 					<td>BestTime (Diff_2)</td>
-					<td title="<?php echo $level['d2_besttime']; ?>ms @ <?php echo $level['d2_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d2_besttime']/1000.0); ?></td>
-                    <td title="<?php echo $recalc['d2_besttime']; ?>"><?php echo gmdate("H:i:s", $recalc['d2_besttime']/1000.0); ?></td>
+					<td title="<?php echo $level['d2_besttime']; ?>ms @ <?php echo $level['d2_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", (int)($level['d2_besttime']/1000.0)); ?></td>
+                    <td title="<?php echo $recalc['d2_besttime']; ?>"><?php echo gmdate("H:i:s", (int)($recalc['d2_besttime']/1000.0)); ?></td>
 				</tr>
 
                 <tr class="<?php if ($level['d3_completed'] != $recalc['d3_completed']) echo "td_err"; ?>">
@@ -181,8 +181,8 @@
 				</tr>
                 <tr class="<?php if ($level['d3_besttime'] != $recalc['d3_besttime']) echo "td_err"; ?>">
 					<td>BestTime (Diff_3)</td>
-					<td title="<?php echo $level['d3_besttime']; ?>ms @ <?php echo $level['d3_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", $level['d3_besttime']/1000.0); ?></td>
-                    <td title="<?php echo $recalc['d3_besttime']; ?>"><?php echo gmdate("H:i:s", $recalc['d3_besttime']/1000.0); ?></td>
+					<td title="<?php echo $level['d3_besttime']; ?>ms @ <?php echo $level['d3_besttimestamp']; ?>" ><?php echo gmdate("H:i:s", (int)($level['d3_besttime']/1000.0)); ?></td>
+                    <td title="<?php echo $recalc['d3_besttime']; ?>"><?php echo gmdate("H:i:s", (int)($recalc['d3_besttime']/1000.0)); ?></td>
 				</tr>
 
                 <tr>
@@ -227,10 +227,10 @@
 
 					<tr>
 						<td><a href="userinfo.php?id=<?php echo $entry['userid']; ?>"><?php echo $entry['username']; ?></a> (<?php echo $entry['userid']; ?>)</td>
-						<td title="<?php echo $entry['d0_time']; ?>ms"><?php echo gmdate("H:i:s", $entry['d0_time']/1000.0); ?>  (<?php echo $entry['d0_lastplayed'] ?>)</td>
-						<td title="<?php echo $entry['d1_time']; ?>ms"><?php echo gmdate("H:i:s", $entry['d1_time']/1000.0); ?>  (<?php echo $entry['d1_lastplayed'] ?>)</td>
-						<td title="<?php echo $entry['d2_time']; ?>ms"><?php echo gmdate("H:i:s", $entry['d2_time']/1000.0); ?>  (<?php echo $entry['d2_lastplayed'] ?>)</td>
-						<td title="<?php echo $entry['d3_time']; ?>ms"><?php echo gmdate("H:i:s", $entry['d3_time']/1000.0); ?>  (<?php echo $entry['d3_lastplayed'] ?>)</td>
+						<td title="<?php echo $entry['d0_time']; ?>ms"><?php echo gmdate("H:i:s", (int)($entry['d0_time']/1000.0)); ?>  (<?php echo $entry['d0_lastplayed'] ?>)</td>
+						<td title="<?php echo $entry['d1_time']; ?>ms"><?php echo gmdate("H:i:s", (int)($entry['d1_time']/1000.0)); ?>  (<?php echo $entry['d1_lastplayed'] ?>)</td>
+						<td title="<?php echo $entry['d2_time']; ?>ms"><?php echo gmdate("H:i:s", (int)($entry['d2_time']/1000.0)); ?>  (<?php echo $entry['d2_lastplayed'] ?>)</td>
+						<td title="<?php echo $entry['d3_time']; ?>ms"><?php echo gmdate("H:i:s", (int)($entry['d3_time']/1000.0)); ?>  (<?php echo $entry['d3_lastplayed'] ?>)</td>
 						<td><?php echo $entry['starred']?'yes':'no'; ?></td>
 					</tr>
 
