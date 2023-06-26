@@ -73,7 +73,7 @@ function run() {
 		{
 			if ($config['sendmail']) sendmail($subject, $content, $config['email-clientlog-target'], $config['email-clientlog-sender']);
 
-			if ($config['sendnotification']) sendSCN('[GDAPI] ClientLog', $subject . "\n\n" . $content, 1);
+			if ($config['sendnotification']) sendSCN('GDAPI', 'ClientLog', $subject . "\n\n" . $content, 1);
 		}
 	} catch (Exception $e) {
 		outputErrorException(Errors::INTERNAL_EXCEPTION, 'Cannot send mail', $e, LOGLEVEL::ERROR);

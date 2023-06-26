@@ -86,7 +86,7 @@ function logError($msg, $sendmail=true) {
 			sendMail($subject, $content, $config['email-error-target'], $config['email-error-sender']);
 
 		if ($config['sendnotification'] && $sendmail)
-			sendSCN('[GDAPI] Error', $subject . "\n\n" . $content, 1);
+			sendSCN('GDAPI', 'Error', $subject . "\n\n" . $content, 1);
 
 	} catch (Exception $e) {
 		$exc = $e;

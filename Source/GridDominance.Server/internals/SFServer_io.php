@@ -373,13 +373,14 @@ function sendMail($subject, $content, $to, $from) {
  * @param int $priority
  * @return bool
  */
-function sendSCN($title, $content, $priority) {
+function sendSCN($chan, $title, $content, $priority) {
 	global $config;
 
 	if (strlen($content)    > 16300) $content    = substr($content,    0, 16300) . "...";
 
 	$data =
 	[
+		'channel'  => $chan,
 		'user_id'  => $config['scn_id'],
 		'user_key' => $config['scn_key'],
 		'title'    => $title,
