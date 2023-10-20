@@ -27,7 +27,7 @@
 
 	    $levelid = "{B16B00B5-0001-4001-0000-".str_pad(strtoupper(dechex($ilevelid)), 12, '0', STR_PAD_LEFT).'}';
         $level['filepath'] = $config['userlevel_directory'].$levelid;
-	    $content = @file_get_contents($level['filepath']);
+	    $content = file_exists($level['filepath']) ? @file_get_contents($level['filepath']) : '';
         $recalc['filesize'] = strlen($content);
         $recalc['datahash'] = strtoupper(hash('sha256', $content))
     ?>
@@ -55,7 +55,7 @@
             Author: <a href="userinfo.php?id=<?php echo $level['userid']; ?>"><?php echo $level['username']; ?></a> (<?php echo $level['userid']; ?>)
         </div>
         <div class="infodiv">
-            Hash: <?php echo substr($level['datahash'], 0, 16); ?>...
+            Hash: <?php echo substr($level['datahash'] ?? '', 0, 16); ?>...
         </div>
         <div class="infodiv">
             Filesize: <?php echo formatSizeUnits($level['filesize']); ?>

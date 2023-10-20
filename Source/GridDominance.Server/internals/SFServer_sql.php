@@ -24,20 +24,28 @@ class SQLStatistics
 	}
 }
 
-function sql_query_num($name, $query)
+function sql_query_num($name, $query, $default = NULL)
 {
 	global $pdo;
 
 	$start = microtime(true);
 
-	$r = $pdo->query($query)->fetch(PDO::FETCH_NUM)[0];
+	if ($default !== NULL)
+	{
+		$rall = $pdo->query($query)->fetch(PDO::FETCH_NUM);
+		$r = ($rall === FALSE) ? 0 : $rall[0];
+	}
+	else
+	{
+		$r = $pdo->query($query)->fetch(PDO::FETCH_NUM)[0];
+	}
 
 	SQLStatistics::Add($name, $query, microtime(true) - $start);
 	
 	return $r;
 }
 
-function sql_query_num_prep($name, $query, $params)
+function sql_query_num_prep($name, $query, $params, $default = NULL)
 {
 	global $pdo;
 
@@ -50,8 +58,17 @@ function sql_query_num_prep($name, $query, $params)
 		if (strpos($query, $p[0]) !== FALSE) $stmt->bindValue($p[0], $p[1], $p[2]);
 	}
 
-	$stmt->execute();
-	$r = $stmt->fetch(PDO::FETCH_NUM)[0];
+	if ($default !== NULL)
+	{
+		$stmt->execute();
+		$rall = $stmt->fetch(PDO::FETCH_NUM);
+		$r = ($rall === FALSE) ? 0 : $rall[0];
+	}
+	else
+	{
+		$stmt->execute();
+		$r = $stmt->fetch(PDO::FETCH_NUM)[0];
+	}
 
 	SQLStatistics::Add($name, $query, microtime(true) - $start);
 	
