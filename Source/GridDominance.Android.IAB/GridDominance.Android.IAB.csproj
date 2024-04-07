@@ -169,8 +169,8 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\Splash.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+	<!--<Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" /> -->
   <PropertyGroup>
-    <PreBuildEvent>texturepacker $(SolutionDir)GridDominance.Content\TexturePacker\spritesheet.tps</PreBuildEvent>
+   <!-- <PreBuildEvent>texturepacker $(SolutionDir)GridDominance.Content\TexturePacker\spritesheet.tps</PreBuildEvent> -->
   </PropertyGroup>
 </Project>

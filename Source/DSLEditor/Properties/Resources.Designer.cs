@@ -19,7 +19,7 @@ namespace GridDominance.DSLEditor.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -119,28 +119,25 @@ namespace GridDominance.DSLEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to # Levelfile - Example  #
-        ///########################
+        ///   Looks up a localized string similar to ===============
+        ///GSLevel Grammar
+        ///===============
         ///
-        ///define(N0, 0) # Neutral
-        ///define(P1, 1) # Human
-        ///define(A2, 2) # PC 1
-        ///define(A3, 3) # PC 2
-        ///define(A4, 4) # PC 3
+        ///alias(key, value)
+        ///define(key, value)
+        ///include(filename)
         ///
-        ///define(ROT_E,  000)
-        ///define(ROT_SE, 045)
-        ///define(ROT_S,  090)
-        ///define(ROT_SW, 135)
-        ///define(ROT_W,  180)
-        ///define(ROT_NW, 225)
-        ///define(ROT_N,  270)
-        ///define(ROT_NE, 315)
+        ///init(name, description, id, ki)
+        ///scale(factor)
+        ///setview(width, height, {x, y})
+        ///setwrap(mode)
+        ///config(identifier, value)
         ///
-        ///define(SIZE_TINY,      0.750)  # 2/4 * CANNON_DIAMETER
-        ///define(SIZE_SMALL,     1.125)  # 3/4 * CANNON_DIAMETER
-        ///define(SIZE_NORMAL,    1.500)  # 4/4 * CANNON_DIAMETER
-        ///defi [rest of string was truncated]&quot;;.
+        ///cannon  (size, player, {x, y}, [rotation], [id: cannonid])
+        ///laser   (size, player, {x, y}, [rotation], [id: cannonid])
+        ///minigun (size, player, {x, y}, [rotation], [id: cannonid])
+        ///shielder(size, player, {x, y}, [rotation], [id: cannonid])
+        ///relay   (size, player, {x, y}, [rot [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string grammar {
             get {
