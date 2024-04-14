@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
@@ -15,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarseerPhysics.Portable", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugView.Portable", "External\DebugView.Portable\DebugView.Portable.csproj", "{550F035E-F23E-4999-BB01-4857486E4125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Content.Pipeline", "GridDominance.Content.Pipeline\GridDominance.Content.Pipeline.csproj", "{28CD24BD-432C-4987-9E9D-65CFCF120EA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridDominance.Content.Pipeline", "GridDominance.Content.Pipeline\GridDominance.Content.Pipeline.csproj", "{28CD24BD-432C-4987-9E9D-65CFCF120EA1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{45B7C48F-CB14-4B13-AD82-5D2AEDF45DC6}"
 EndProject

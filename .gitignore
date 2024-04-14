@@ -67,3 +67,5 @@ __Secrets.cs
 *.pfx
 *.lnk
 *.patch
+.mgstats
+.qcignore
