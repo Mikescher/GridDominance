@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoSAMFramework.Portable",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Common", "GridDominance.Common\GridDominance.Common.csproj", "{D8D02F4E-92C8-4E02-9B79-76C9F996FB8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSLEditor", "DSLEditor\DSLEditor.csproj", "{277DA996-84FB-41B8-996E-79C336EEFDE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSLEditor", "DSLEditor\DSLEditor.csproj", "{277DA996-84FB-41B8-996E-79C336EEFDE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.PromotionKeybase", "GridDominance.PromotionKeybase\GridDominance.PromotionKeybase.csproj", "{5A7561CB-57F1-441E-B662-51EADB1858B5}"
 EndProject

@@ -63,11 +63,19 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DefineConstants>GD_IAB</DefineConstants>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <EnableProguard>true</EnableProguard>
-    <AndroidSupportedAbis>armeabi;armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
+    <AndroidLinkTool>r8</AndroidLinkTool>
+    <MandroidI18n />
   </PropertyGroup>
   <ItemGroup>
+	<Reference Include="MonoGame.Framework, Version=3.8.1.303, Culture=neutral, processorArchitecture=MSIL">
+	    <HintPath>..\packages\MonoGame.Framework.Android.3.8.1.303\net6.0-android31.0\MonoGame.Framework.dll</HintPath>
+	    <Private>True</Private>
+	</Reference>
     <Reference Include="Plugin.BLE, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.dll</HintPath>
     </Reference>
@@ -190,9 +198,7 @@
     <Error Condition="!Exists('..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.props'))" />
     <Error Condition="!Exists('..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.targets'))" />
     <Error Condition="!Exists('..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets'))" />
-    <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets'))" />
   </Target>
   <Import Project="..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.targets" Condition="Exists('..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.targets')" />
   <Import Project="..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets" Condition="Exists('..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets')" />
-  <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets')" />
 </Project>

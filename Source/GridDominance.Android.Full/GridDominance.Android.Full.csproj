@@ -62,11 +62,18 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DefineConstants>GD_FULL</DefineConstants>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidSupportedAbis>armeabi;armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
-    <EnableProguard>true</EnableProguard>
+    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
+    <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.8.1.303, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.Android.3.8.1.303\lib\net6.0-android31.0\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Plugin.BLE, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.dll</HintPath>
     </Reference>
@@ -74,6 +81,15 @@
       <HintPath>..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\netstandard2.0\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.8.0.0\lib\netstandard2.0\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\netstandard2.0\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
@@ -174,9 +190,7 @@
     <Error Condition="!Exists('..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.props'))" />
     <Error Condition="!Exists('..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.targets'))" />
     <Error Condition="!Exists('..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets'))" />
-    <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets'))" />
   </Target>
   <Import Project="..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.targets" Condition="Exists('..\packages\MonoGame.Content.Builder.Task.3.8.1.303\build\MonoGame.Content.Builder.Task.targets')" />
   <Import Project="..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets" Condition="Exists('..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets')" />
-  <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets')" />
 </Project>
