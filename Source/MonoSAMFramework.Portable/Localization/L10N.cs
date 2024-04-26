@@ -1,0 +1,77 @@
+﻿using MonoSAMFramework.Portable.LogProtocol;
+
+namespace MonoSAMFramework.Portable.Localization
+{
+	public static class L10N
+	{
+		public const int LANG_EN_US =  0;
+
+		public static int LANG_COUNT = 1;
+		public static int TEXT_COUNT = 0;
+
+		public static int LANGUAGE = LANG_EN_US;
+
+		public static string[,] Dictionary = new string[TEXT_COUNT, LANG_COUNT];
+
+		public static void Init(int lang, int txtcount, int langcount)
+		{
+			LANGUAGE   = lang;
+			LANG_COUNT = langcount;
+			TEXT_COUNT = txtcount;
+
+			Dictionary = new string[TEXT_COUNT, LANG_COUNT];
+		}
+
+		public static void Add(int id, params string[] data)
+		{
+			#if DEBUG
+
+			if (data.Length != LANG_COUNT) SAMLog.Error("L10N::Add", $"Wrong lang count {data.Length} != {LANG_COUNT} for {id}");
+
+			#endif
+
+			for (int i = 0; i < data.Length; i++)
+			{
+				Dictionary[id, i] = data[i];
+			}
+		}
+
+		public static void Verify()
+		{
+			for (int t = 0; t < TEXT_COUNT; t++)
+			{
+				for (int l = 0; l < LANG_COUNT; l++)
+				{
+					if (string.IsNullOrWhiteSpace(Dictionary[t, l])) SAMLog.Error("L10N::Verify1", $"Missing translation {t} for lang={l}");
+					if (Dictionary[t, l] == "?" && l == LANG_EN_US) SAMLog.Error("L10N::Verify2", $"Missing fallback-translation {t} for lang={l}");
+				}
+			}
+		}
+
+		public static string T(int id)
+		{
+			if (id < 0 || id >= TEXT_COUNT)
+			{
+				SAMLog.Error("L10N::T", $"Missing translation {id} for lang={LANGUAGE}");
+				return $"\"{id}\"";
+			}
+			
+			var txt = Dictionary[id, LANGUAGE];
+
+			if (txt == "?") 
+				return Dictionary[id, LANG_EN_US]; // missing text
+			else
+				return txt;
+		}
+
+		public static string TF(int id, object o1) => string.Format(T(id), o1);
+		public static string TF(int id, object o1, object o2) => string.Format(T(id), o1, o2);
+		public static string TF(int id, object o1, object o2, object o3) => string.Format(T(id), o1, o2 ,o3);
+		public static string TF(int id, params object[] o) => string.Format(T(id), o);
+
+		public static void ChangeLanguage(int lang)
+		{
+			LANGUAGE = lang;
+		}
+	}
+}

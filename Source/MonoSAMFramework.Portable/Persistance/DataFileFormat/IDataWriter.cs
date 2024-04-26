@@ -1,0 +1,18 @@
+﻿using System;
+
+namespace MonoSAMFramework.Portable.Persistance.DataFileFormat
+{
+	public interface IDataWriter
+	{
+		void WriteInteger(int v);
+		void WriteLong(long v);
+		void WriteString(string v);
+		void WriteDouble(double v);
+		void WriteFloat(float v);
+		void WriteBool(bool v);
+		void WriteVersion(SemVersion v);
+		void WriteRawPrintableByte(byte v);
+		void WriteFixedLengthNonEscapedASCII(string s, int length);
+		void WriteUUID(Guid g);
+	}
+}
