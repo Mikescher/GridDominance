@@ -1,47 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>GridDominance.DSLEditor</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\Bin\Debug\DSLEditor\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\Bin\Release\DSLEditor\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
-  </PropertyGroup>
-  <ItemGroup>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\External\CSharpUtils\LanguageUtils\LanguageUtils.csproj" />
-    <ProjectReference Include="..\External\CSharpUtils\WPFUtils\WPFUtils.csproj" />
-    <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj" />
-    <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj" />
-    <ProjectReference Include="..\GridDominance.Content.Pipeline\GridDominance.Content.Pipeline.csproj" />
-    <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj" />
-    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resource\grammar.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
-    <PackageReference Include="Ookii.Dialogs" Version="5.0.1" />
-    <PackageReference Include="SharpCompress" Version="0.37.0" />
-    <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<OutputType>WinExe</OutputType>
+		<RootNamespace>GridDominance.DSLEditor</RootNamespace>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<UseWindowsForms>true</UseWindowsForms>
+		<UseWPF>true</UseWPF>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<OutputPath>..\..\Bin\Debug\DSLEditor\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<OutputPath>..\..\Bin\Release\DSLEditor\</OutputPath>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\External\CSharpUtils\LanguageUtils\LanguageUtils.csproj" />
+		<ProjectReference Include="..\External\CSharpUtils\WPFUtils\WPFUtils.csproj" />
+		<ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj" />
+		<ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj" />
+		<ProjectReference Include="..\GridDominance.Content.Pipeline\GridDominance.Content.Pipeline.csproj" />
+		<ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj" />
+		<ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<AppDesigner Include="Properties\" />
+		<Resource Include="icon.ico" />
+		<Resource Include="Resource\grammar.txt" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
+		<PackageReference Include="Ookii.Dialogs" Version="5.0.1" />
+		<PackageReference Include="SharpCompress" Version="0.37.0" />
+		<PackageReference Include="SharpZipLib" Version="1.4.2" />
+		<PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
+	</ItemGroup>
 </Project>

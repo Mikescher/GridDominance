@@ -1,23 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-	  <TargetFramework>net6.0</TargetFramework>
-	  <AssemblyVersion>3.5.0.1</AssemblyVersion>
-	  <AssemblyFileVersion>3.5.0.1</AssemblyFileVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\FarseerPhysics.Portable.xml</DocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-	 <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Common\PolygonManipulation\SimpleCombiner.cs" />
-    <Compile Remove="Common\Stopwatch.cs" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AssemblyVersion>3.5.0.1</AssemblyVersion>
+		<AssemblyFileVersion>3.5.0.1</AssemblyFileVersion>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DefineConstants>TRACE;PORTABLE</DefineConstants>
+		<WarningLevel>4</WarningLevel>
+		<DocumentationFile>bin\Release\FarseerPhysics.Portable.xml</DocumentationFile>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Compile Remove="Common\PolygonManipulation\SimpleCombiner.cs" />
+		<Compile Remove="Common\Stopwatch.cs" />
+	</ItemGroup>
 </Project>

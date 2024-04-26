@@ -3,7 +3,6 @@
 
 /outputDir:.\
 /intermediateDir:../obj/$(Platform)
-/platform:iOS
 /config:
 /profile:Reach
 /compress:True
