@@ -1,44 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net48</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AF110750-B036-4FDC-AF51-B08C7389AAA8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GridDominance.OpenGL</RootNamespace>
-    <AssemblyName>GridDominance.OpenGL</AssemblyName>
-    <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>WindowsGL</MonoGamePlatform>
-    <MonoGameContentBuilderExe>
-    </MonoGameContentBuilderExe>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <MonoGameContentBuilderExe></MonoGameContentBuilderExe>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>..\..\Bin\Debug\WindowsGL\</OutputPath>
     <DefineConstants>TRACE;DEBUG;__WINDOWS__;__DESKTOP__;GD_IAB</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
     <OutputPath>..\..\Bin\Release\WindowsGL\</OutputPath>
     <DefineConstants>TRACE;__WINDOWS__;__DESKTOP__;GD_FULL</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
@@ -53,68 +28,27 @@
     <Compile Include="..\GridDominance.DirectX\Impl\WindowsFileHelper.cs">
       <Link>Impl\WindowsFileHelper.cs</Link>
     </Compile>
-    <Compile Include="Impl\WindowsBridge.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
     <MonoGameContentReference Include="..\GridDominance.Content\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj">
-      <Project>{550f035e-f23e-4999-bb01-4857486e4125}</Project>
-      <Name>DebugView.Portable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj">
-      <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
-      <Name>FarseerPhysics.Portable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj">
-      <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
-      <Name>GridDominance.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj">
-      <Project>{3fe0a696-c3ba-450d-9b03-e264af024f0d}</Project>
-      <Name>GridDominance.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
-      <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
-      <Name>MonoSAMFramework.Portable</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj" />
+    <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj" />
+    <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj" />
+    <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj" />
+    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj" />
   </ItemGroup>
-  <!-- Specify the search path explicitly so the ResolveAssemblyReferences task picks the right ones -->
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+  </ItemGroup>
   <Target Name="BeforeResolveReferences">
     <CreateProperty Value="$(MSBuildProgramFiles32)\MonoGame\v3.0\Assemblies\Windows;$(AssemblySearchPaths)">
       <Output TaskParameter="Value" PropertyName="AssemblySearchPaths" />
     </CreateProperty>
   </Target>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!--<Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />-->
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <Import Project="..\packages\MonoGame.Framework.DesktopGL.3.8.1.303\build\MonoGame.Framework.DesktopGL.targets" Condition="Exists('..\packages\MonoGame.Framework.DesktopGL.3.8.1.303\build\MonoGame.Framework.DesktopGL.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MonoGame.Framework.DesktopGL.3.8.1.303\build\MonoGame.Framework.DesktopGL.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.DesktopGL.3.8.1.303\build\MonoGame.Framework.DesktopGL.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <PropertyGroup />
 </Project>
