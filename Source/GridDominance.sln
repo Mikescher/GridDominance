@@ -2,11 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.DirectX", "GridDominance.DirectX\GridDominance.DirectX.csproj", "{DAED060D-BE0D-44D1-AC38-E189C7A6D300}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridDominance.DirectX", "GridDominance.DirectX\GridDominance.DirectX.csproj", "{DAED060D-BE0D-44D1-AC38-E189C7A6D300}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android.IAB", "GridDominance.Android.IAB\GridDominance.Android.IAB.csproj", "{D49363EF-8D37-42B4-9AB4-C2083A4B186E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.OpenGL", "GridDominance.OpenGL\GridDominance.OpenGL.csproj", "{AF110750-B036-4FDC-AF51-B08C7389AAA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridDominance.OpenGL", "GridDominance.OpenGL\GridDominance.OpenGL.csproj", "{AF110750-B036-4FDC-AF51-B08C7389AAA8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{3A0EEB35-977B-4A96-87D0-A6C29BD9F96C}"
 EndProject
@@ -98,8 +98,8 @@ Global
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.AppStore|x64.Build.0 = Release|x86
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.AppStore|x86.ActiveCfg = Release|x86
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.AppStore|x86.Build.0 = Release|x86
-		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|Any CPU.Build.0 = Debug|x86
+		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|ARM.ActiveCfg = Debug|x86
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|iPhone.ActiveCfg = Debug|x86
 		{DAED060D-BE0D-44D1-AC38-E189C7A6D300}.Debug|iPhoneSimulator.ActiveCfg = Debug|x86
