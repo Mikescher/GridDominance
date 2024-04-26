@@ -280,13 +280,16 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			var angle = FloatMath.Atan2(point2.Y - point1.Y, point2.X - point1.X);
 			var scale = new Vector2(length, thickness);
 
-			internalBatch.Draw(
-				texture: texture.Texture,
-				position: point1.ToVec2D(), 
-				sourceRectangle: texture.Bounds, 
-				color: color, 
-				rotation: angle, 
-				scale: scale);
+            internalBatch.Draw(
+                texture:         texture.Texture,
+				position:        point1.ToVec2D(), 
+				sourceRectangle: texture.Bounds,
+                origin:          Vector2.Zero,
+                color:           color,
+                rotation:        angle, 
+				scale:           scale,
+				effects:         SpriteEffects.None,
+				layerDepth:      0f);
 		}
 
 		public void FillRectangle(FRectangle rectangle, Color color)
@@ -301,15 +304,15 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 #endif
 
 			internalBatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				location.ToVec2D(),
-				StaticTextures.SinglePixel.Bounds,
-				color,
-				0,
-				Vector2.Zero,
-				size.ToVec2D(),
-				SpriteEffects.None,
-				0);
+				texture:         StaticTextures.SinglePixel.Texture,
+				position:        location.ToVec2D(),
+				sourceRectangle: StaticTextures.SinglePixel.Bounds,
+				color:           color,
+				rotation:        0,
+				origin:          Vector2.Zero,
+				scale:           size.ToVec2D(),
+				effects:         SpriteEffects.None,
+                layerDepth:      0);
 		}
 
 		public void FillRectangleRot(FPoint center, FSize size, Color color, float rotation)
@@ -319,15 +322,15 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 #endif
 
 			internalBatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				center.ToVec2D(),
-				StaticTextures.SinglePixel.Bounds,
-				color,
-				rotation,
-				StaticTextures.SinglePixel.VecCenter(),
-				size.ToVec2D(),
-				SpriteEffects.None,
-				0);
+                texture:         StaticTextures.SinglePixel.Texture,
+				position:        center.ToVec2D(),
+				sourceRectangle: StaticTextures.SinglePixel.Bounds,
+				color:           color,
+                rotation:        rotation,
+                origin:          StaticTextures.SinglePixel.VecCenter(),
+				scale:           size.ToVec2D(),
+				effects:         SpriteEffects.None,
+				layerDepth:      0);
 		}
 
 
@@ -338,15 +341,15 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 #endif
 
 			internalBatch.Draw(
-				StaticTextures.SinglePixel.Texture,
-				rectangle.VecCenter,
-				StaticTextures.SinglePixel.Bounds,
-				color,
-				rotation,
-				StaticTextures.SinglePixel.VecCenter(),
-				rectangle.VecSize,
-				SpriteEffects.None,
-				0);
+                texture:         StaticTextures.SinglePixel.Texture,
+				position:        rectangle.VecCenter,
+				sourceRectangle: StaticTextures.SinglePixel.Bounds,
+				color:           color,
+				rotation:        rotation,
+				origin:          StaticTextures.SinglePixel.VecCenter(),
+				scale:           rectangle.VecSize,
+				effects:         SpriteEffects.None,
+                layerDepth:      0);
 		}
 
 		public void DrawRectangle(FRectangle rectangle, Color color, float thickness = 1f)
@@ -362,10 +365,10 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			var horizontalScale = new Vector2(rectangle.Width, thickness);
 			var verticalScale = new Vector2(thickness, rectangle.Height);
 
-			internalBatch.Draw(pixel.Texture, topLeft, sourceRectangle: pixel.Bounds, scale: horizontalScale, color: color);
-			internalBatch.Draw(pixel.Texture, topLeft, sourceRectangle: pixel.Bounds, scale: verticalScale, color: color);
-			internalBatch.Draw(pixel.Texture, topRight, sourceRectangle: pixel.Bounds, scale: verticalScale, color: color);
-			internalBatch.Draw(pixel.Texture, bottomLeft, sourceRectangle: pixel.Bounds, scale: horizontalScale, color: color);
+			internalBatch.Draw(texture: pixel.Texture, position: topLeft,    sourceRectangle: pixel.Bounds, color: color, rotation: 0, origin: Vector2.Zero, scale: horizontalScale, effects: SpriteEffects.None, layerDepth: 0f);
+			internalBatch.Draw(texture: pixel.Texture, position: topLeft,    sourceRectangle: pixel.Bounds, color: color, rotation: 0, origin: Vector2.Zero, scale: verticalScale,   effects: SpriteEffects.None, layerDepth: 0f);
+			internalBatch.Draw(texture: pixel.Texture, position: topRight,   sourceRectangle: pixel.Bounds, color: color, rotation: 0, origin: Vector2.Zero, scale: verticalScale,   effects: SpriteEffects.None, layerDepth: 0f);
+			internalBatch.Draw(texture: pixel.Texture, position: bottomLeft, sourceRectangle: pixel.Bounds, color: color, rotation: 0, origin: Vector2.Zero, scale: horizontalScale, effects: SpriteEffects.None, layerDepth: 0f);
 		}
 
 		public void DrawRectangleRot(FRectangle rectangle, Color color, float rotation, float thickness = 1f)
@@ -422,7 +425,17 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			var origin = new Vector2(0f, 0.5f);
 			var scale = new Vector2(length, thickness);
-			internalBatch.Draw(StaticTextures.SinglePixel.Texture, point.ToVec2D(), StaticTextures.SinglePixel.Bounds, color, angle, origin, scale, SpriteEffects.None, 0);
+
+			internalBatch.Draw(
+                texture:         StaticTextures.SinglePixel.Texture,
+				position:        point.ToVec2D(),
+				sourceRectangle: StaticTextures.SinglePixel.Bounds,
+				color:           color,
+				rotation:        angle,
+				origin:          origin,
+				scale:           scale,
+				effects:         SpriteEffects.None,
+                layerDepth:      0);
 		}
 		
 		public void DrawPoint(FPoint position, Color color, float size = 1f)
@@ -433,7 +446,17 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 
 			var scale = Vector2.One * size;
 			var offset = new Vector2(0.5f) - new Vector2(size * 0.5f);
-			internalBatch.Draw(StaticTextures.SinglePixel.Texture, (position + offset).ToVec2D(), sourceRectangle: StaticTextures.SinglePixel.Bounds, color: color, scale: scale);
+			
+			internalBatch.Draw(
+                texture:         StaticTextures.SinglePixel.Texture,
+				position:        (position + offset).ToVec2D(),
+				sourceRectangle: StaticTextures.SinglePixel.Bounds,
+				color:           color,
+				rotation:        0f,
+				origin:          Vector2.Zero,
+				scale:           scale,
+				effects:         SpriteEffects.None,
+                layerDepth:      0);
 		}
 
 		public void DrawCircle(FPoint center, float radius, int sides, Color color, float thickness = 1f)
@@ -501,14 +524,15 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			for (int i = 0; i < sides; i++)
 			{
 				internalBatch.Draw(
-					StaticTextures.SinglePixel.Texture,
-					null,
-					r.Round(),
-					StaticTextures.SinglePixel.Bounds,
-					new Vector2(0.5f, 0),
-					angle * i,
-					Vector2.One, 
-					color);
+					texture:              StaticTextures.SinglePixel.Texture,
+                    destinationRectangle: r.Round(),
+                    sourceRectangle:      StaticTextures.SinglePixel.Bounds,
+                    color:                color,
+					rotation:             angle * i,
+					origin:               new Vector2(0.5f, 0),
+					effects:              SpriteEffects.None,
+					layerDepth:           0);
+
 			}
 		}
 

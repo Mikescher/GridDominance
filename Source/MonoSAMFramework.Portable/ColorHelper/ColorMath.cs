@@ -8,7 +8,7 @@ namespace MonoSAMFramework.Portable.ColorHelper
 	{
 		public static readonly Dictionary<string, Color> COLOR_MAP = new Dictionary<string, Color>
 		{
-			{"color.transparentblack", Color.TransparentBlack},
+			{"color.transparentblack", new Color(0, 0, 0, 0)},
 			{"color.transparent", Color.Transparent},
 			{"color.aliceblue", Color.AliceBlue},
 			{"color.antiquewhite", Color.AntiqueWhite},
