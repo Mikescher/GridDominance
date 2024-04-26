@@ -1,173 +1,63 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{FF40F3C9-0E41-40E2-AA26-F8BACDE2F32D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <MonoGamePlatform>Android</MonoGamePlatform>
-    <MonoGameContentBuilderExe>
-    </MonoGameContentBuilderExe>
-    <RootNamespace>GridDominance.Android</RootNamespace>
-    <AndroidApplication>True</AndroidApplication>
-    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
-    <AndroidResgenClass>Resource</AndroidResgenClass>
-    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
-    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <AssemblyName>GridDominance.Android</AssemblyName>
-    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\Bin\Debug\Android.Amazon\</OutputPath>
-    <DefineConstants>DEBUG;GD_FULL</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <AndroidLinkMode>None</AndroidLinkMode>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
-    <AndroidSupportedAbis />
-    <AotAssemblies>false</AotAssemblies>
-    <EnableLLVM>false</EnableLLVM>
-    <BundleAssemblies>false</BundleAssemblies>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\Bin\Release\Android.Amazon\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <AotAssemblies>false</AotAssemblies>
-    <EnableLLVM>false</EnableLLVM>
-    <BundleAssemblies>false</BundleAssemblies>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <DefineConstants>GD_FULL</DefineConstants>
-    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidSupportedAbis />
-    <EnableProguard>true</EnableProguard>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Plugin.BLE, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.BLE.Abstractions, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="Mono.Android" />
-    <Reference Include="OpenTK" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <MonoGameContentReference Include="..\GridDominance.Content\Content\Content.mgcb">
-      <Link>Content\Content.mgcb</Link>
-    </MonoGameContentReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj">
-      <Project>{550f035e-f23e-4999-bb01-4857486e4125}</Project>
-      <Name>DebugView.Portable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj">
-      <Project>{a1807d3f-3546-4c28-b713-c4f767383b61}</Project>
-      <Name>FarseerPhysics.Portable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj">
-      <Project>{d8d02f4e-92c8-4e02-9b79-76c9f996fb8b}</Project>
-      <Name>GridDominance.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj">
-      <Project>{3fe0a696-c3ba-450d-9b03-e264af024f0d}</Project>
-      <Name>GridDominance.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj">
-      <Project>{550f036e-f23e-4999-bb01-4857486e4125}</Project>
-      <Name>MonoSAMFramework.Portable</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\AndroidFileHelper.cs">
-      <Link>Impl\AndroidFileHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTAcceptThread.cs">
-      <Link>Impl\Bluetooth\Full\BTAcceptThread.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTConnectThread.cs">
-      <Link>Impl\Bluetooth\Full\BTConnectThread.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTDeviceScoreComparer.cs">
-      <Link>Impl\Bluetooth\Full\BTDeviceScoreComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTDeviceWrapper.cs">
-      <Link>Impl\Bluetooth\Full\BTDeviceWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTScanReciever.cs">
-      <Link>Impl\Bluetooth\Full\BTScanReciever.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTTransferRecieveThread.cs">
-      <Link>Impl\Bluetooth\Full\BTTransferRecieveThread.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\BTTransferSendThread.cs">
-      <Link>Impl\Bluetooth\Full\BTTransferSendThread.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\Bluetooth\Full\XamarinBluetooth.cs">
-      <Link>Impl\Bluetooth\Full\XamarinBluetooth.cs</Link>
-    </Compile>
-    <Compile Include="..\GridDominance.Android.IAB\Impl\XamarinUDPClient.cs">
-      <Link>Impl\XamarinUDPClient.cs</Link>
-    </Compile>
-    <Compile Include="Impl\AndroidBridge_Amazon.cs" />
-    <Compile Include="Impl\AndroidFullVersionBilling.cs" />
-    <Compile Include="MainActivity.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Properties\AndroidManifest.xml" />
-    <AndroidResource Include="Resources\values\Styles.xml" />
-    <AndroidResource Include="Resources\drawable-ldpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\Splash.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\Splash.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\Splash.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\Splash.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\Splash.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\Splash.png" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" /> -->
-  <PropertyGroup>
-    <!-- <PreBuildEvent>texturepacker $(SolutionDir)GridDominance.Content\TexturePacker\spritesheet.tps</PreBuildEvent> -->
-  </PropertyGroup>
-  <Import Project="..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets" Condition="Exists('..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.Android.3.8.1.303\build\MonoGame.Framework.Android.targets'))" />
-    <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets'))" />
-  </Target>
-  <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.1.303\build\MonoGame.Framework.WindowsDX.targets')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<MonoGamePlatform>Android</MonoGamePlatform>
+		<MonoGameContentBuilderExe></MonoGameContentBuilderExe>
+		<AndroidApplication>True</AndroidApplication>
+		<AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+		<AndroidResgenClass>Resource</AndroidResgenClass>
+		<MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+		<MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+		<AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
+		<AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<ConsolePause>false</ConsolePause>
+		<AndroidLinkMode>None</AndroidLinkMode>
+		<AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+		<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+		<AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+		<AndroidSupportedAbis />
+		<AotAssemblies>false</AotAssemblies>
+		<EnableLLVM>false</EnableLLVM>
+		<BundleAssemblies>false</BundleAssemblies>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<ConsolePause>false</ConsolePause>
+		<AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+		<AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+		<AndroidLinkMode>SdkOnly</AndroidLinkMode>
+		<AotAssemblies>false</AotAssemblies>
+		<EnableLLVM>false</EnableLLVM>
+		<BundleAssemblies>false</BundleAssemblies>
+		<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+		<AndroidSupportedAbis />
+		<EnableProguard>true</EnableProguard>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net60-android</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="OpenTK" />
+	</ItemGroup>
+	<ItemGroup>
+		<MonoGameContentReference Include="..\GridDominance.Content\Content\Content.mgcb">
+			<Link>Content\Content.mgcb</Link>
+		</MonoGameContentReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\External\DebugView.Portable\DebugView.Portable.csproj" />
+		<ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj" />
+		<ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj" />
+		<ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj" />
+		<ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Properties\AndroidManifest.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MonoGame.Framework.Android" Version="3.8.1.303" />
+		<PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
+		<PackageReference Include="Plugin.BLE" Version="1.3.0" />
+	</ItemGroup>
 </Project>
