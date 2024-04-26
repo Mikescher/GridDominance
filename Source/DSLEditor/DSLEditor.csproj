@@ -22,10 +22,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\External\CSharpUtils\LanguageUtils\LanguageUtils.csproj" />
+    <ProjectReference Include="..\External\CSharpUtils\WPFUtils\WPFUtils.csproj" />
     <ProjectReference Include="..\External\FarseerPhysics.Portable\FarseerPhysics.Portable\FarseerPhysics.Portable.csproj" />
     <ProjectReference Include="..\GridDominance.Common\GridDominance.Common.csproj" />
     <ProjectReference Include="..\GridDominance.Content.Pipeline\GridDominance.Content.Pipeline.csproj" />
     <ProjectReference Include="..\GridDominance.Core\GridDominance.Core.csproj" />
+    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />
@@ -34,17 +36,12 @@
     <Resource Include="Resource\grammar.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
-    <PackageReference Include="Costura.Fody" Version="1.4.1" />
-    <PackageReference Include="Fody" Version="2.0.6" />
+    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="Ookii.Dialogs" Version="5.0.1" />
-    <PackageReference Include="SharpCompress" Version="0.19.2" />
-    <PackageReference Include="SharpZipLib" Version="0.86.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="SharpCompress" Version="0.37.0" />
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
   </ItemGroup>
-  <Target AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths">
-    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
-  </Target>
 </Project>

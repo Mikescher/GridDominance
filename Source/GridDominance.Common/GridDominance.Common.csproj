@@ -13,14 +13,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\MonoSAMFramework.Portable\GameMath\ByteMath.cs">
-      <Link>Helper\ByteMath.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
 	  <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\MonoSAMFramework.Portable\MonoSAMFramework.Portable.csproj" />
   </ItemGroup>
 </Project>

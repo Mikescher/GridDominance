@@ -2,7 +2,7 @@
 using GridDominance.DSLEditor.Properties;
 using GridDominance.Levelfileformat.Blueprint;
 using Microsoft.Win32;
-using MSHC.WPF.Extensions.BindingProxies;
+using MSHC.WPF.BindingProxies;
 using MSHC.WPF.MVVM;
 using Ookii.Dialogs.Wpf;
 using SharpCompress.Readers;
@@ -522,7 +522,7 @@ namespace GridDominance.DSLEditor
 					{
 						if (!reader.Entry.IsDirectory)
 						{
-							reader.WriteEntryToDirectory(sfd.SelectedPath, new ExtractionOptions() { ExtractFullPath = false, Overwrite = true });
+							reader.WriteEntryToDirectory(sfd.SelectedPath, new SharpCompress.Common.ExtractionOptions() { ExtractFullPath = false, Overwrite = true });
 
 							var file = Path.Combine(sfd.SelectedPath, Path.GetFileName(reader.Entry.Key.Replace('/', '\\')));
 							var bp = new LevelBlueprint();
