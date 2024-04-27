@@ -62,10 +62,10 @@ namespace GridDominance.Android.Impl
 			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothDevice.ActionFound));
 			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
 #if DEBUG
-			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionRequestDiscoverable));
-			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionRequestEnable));
-			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionStateChanged));
-			_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryStarted));
+			//_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionRequestDiscoverable), ActivityFlags.);
+			//_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionRequestEnable));
+			//_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionStateChanged));
+			//_activity.RegisterReceiver(_reciever, new IntentFilter(BluetoothAdapter.ActionDiscoveryStarted));
 #endif
 
 			if (Adapter == null) State = BluetoothAdapterState.AdapterNotFound;

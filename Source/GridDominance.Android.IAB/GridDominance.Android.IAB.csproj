@@ -4,7 +4,7 @@
 		<OutputType>Exe</OutputType>
 
 		<SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
-		<TargetFrameworkVersion>33</TargetFrameworkVersion>
+		<TargetFrameworkVersion>34</TargetFrameworkVersion>
 		<ApplicationId>com.blackforestbytes.griddominance.iab</ApplicationId>
 		<ApplicationVersion>10309</ApplicationVersion>
 		<ApplicationDisplayVersion>1.3.9</ApplicationDisplayVersion>
