@@ -284,7 +284,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.Multiplayer
 					case PurchaseResult.PurchaseStarted:
 						SAMLog.Info("MMP::IAB-BUY", "PurchaseStarted");
 						break;
-					default:
+                    default:
 						SAMLog.Error("MMP::EnumSwitch_OCU", "OnClickBuy()", "r -> " + r);
 						break;
 				}

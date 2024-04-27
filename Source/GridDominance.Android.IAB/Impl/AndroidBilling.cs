@@ -1,60 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Android.App;
-using Android.Content;
-using Android.OS;
+using System.Threading.Tasks;
 using GridDominance.Shared.Resources;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
-using Xamarin.InAppBilling;
+using Plugin.InAppBilling;
 
 namespace GridDominance.Android.Impl
 {
 	// https://components.xamarin.com/gettingstarted/xamarin.inappbilling
 	class AndroidBilling : IBillingAdapter
 	{
-		private readonly string PUBLIC_KEY = __Secrets.BILLING_PUBLIC_KEY;
-		
-		private readonly MainActivity _activity;
-		private InAppBillingServiceConnection _serviceConnection;
-
-		public bool IsConnected => (_serviceConnection != null && _serviceConnection.Connected);
+		public bool IsConnected => CrossInAppBilling.Current.IsConnected;
 
 		public bool IsSynchronized {get; private set;} = false;
 
-		private List<Product> _products;
-		private List<Purchase> _purchases;
+		private List<InAppBillingProduct> _products;
+		private List<InAppBillingPurchase> _purchases;
 		private string[] _productIDs = null;
 		private bool _isInitializing = false;
 
-		public AndroidBilling(MainActivity a)
+		public AndroidBilling()
 		{
 			SAMLog.Debug("AndroidBilling.ctr");
-			_activity = a;
 		}
 
-		public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
-		{
-			_serviceConnection?.BillingHandler?.HandleActivityResult(requestCode, resultCode, data);
-		}
-
-		public bool Connect(string[] productIDs)
+		public async Task<bool> Connect(string[] productIDs)
 		{
 			try
 			{
 				SAMLog.Debug("AndroidBilling.Connect");
 
-				_purchases = null;
+                if (!CrossInAppBilling.IsSupported)
+                {
+                    SAMLog.Info("IAB::Connect::NotSupported", "CrossInAppBilling.IsSupported == false");
+                    return false;
+                }
+
+                _purchases = null;
 				_productIDs = productIDs;
 
-				if (IsConnected) Disconnect();
+				if (IsConnected) await Disconnect();
 
-				_serviceConnection = new InAppBillingServiceConnection(_activity, PUBLIC_KEY);
+				var connected = await CrossInAppBilling.Current.ConnectAsync();
+				if (!connected) return false;
 
-				_serviceConnection.OnConnected += OnConnected;
+				await OnConnected();
 
-				_serviceConnection.Connect(); // throws Exception
 				return true;
 			}
 			catch (Exception e)
@@ -77,18 +70,24 @@ namespace GridDominance.Android.Impl
 
 				if (!IsConnected || _purchases == null) return PurchaseQueryResult.NotConnected;
 
-				int result = -1;
-				foreach (var purch in _purchases.Where(p => p.ProductId == id).OrderBy(p => p.PurchaseTime))
+				PurchaseState result = PurchaseState.Unknown;
+				foreach (var purch in _purchases.Where(p => p.ProductId == id).OrderBy(p => p.TransactionDateUtc))
 				{
-					result = purch.PurchaseState;
-					if (purch.PurchaseState == AndroidBillingHelper.STATE_PURCHASED) return PurchaseQueryResult.Purchased;
-				}
+					result = purch.State;
+                    if (purch.State == PurchaseState.Purchased) return PurchaseQueryResult.Purchased;
+                    if (purch.State == PurchaseState.Restored) return PurchaseQueryResult.Purchased;
+                }
 
-				if (result == -1) return PurchaseQueryResult.NotPurchased;
-				if (result == AndroidBillingHelper.STATE_CANCELLED) return PurchaseQueryResult.Cancelled;
-				if (result == AndroidBillingHelper.STATE_REFUNDED) return PurchaseQueryResult.Refunded;
+				if (result == PurchaseState.Unknown) return PurchaseQueryResult.NotPurchased;
+                if (result == PurchaseState.Deferred) return PurchaseQueryResult.NotPurchased;
+                if (result == PurchaseState.Purchasing) return PurchaseQueryResult.NotPurchased;
+                if (result == PurchaseState.PaymentPending) return PurchaseQueryResult.NotPurchased;
 
-				SAMLog.Error("IAB::IsPurchased-Inv", "result has invalid value: " + result);
+                if (result == PurchaseState.Canceled) return PurchaseQueryResult.Cancelled;
+                if (result == PurchaseState.Failed) return PurchaseQueryResult.Cancelled;
+
+
+                SAMLog.Error("IAB::IsPurchased-Inv", "result has invalid value: " + result);
 				return PurchaseQueryResult.Error;
 			}
 			catch (Exception e)
@@ -110,17 +109,34 @@ namespace GridDominance.Android.Impl
 			var prod = _products.FirstOrDefault(p => p.ProductId == id);
 			if (prod == null) return PurchaseResult.ProductNotFound;
 
-			_serviceConnection.BillingHandler.BuyProduct(prod);
-			return PurchaseResult.PurchaseStarted;
-		}
+            PurchaseInBackground(prod);
+            return PurchaseResult.PurchaseStarted;
+        }
 
-		public void Disconnect()
+        private async void PurchaseInBackground(InAppBillingProduct prod)
+        {
+            try
+            {
+                var purch = await CrossInAppBilling.Current.PurchaseAsync(prod.ProductId, ItemType.InAppPurchase);
+				this._purchases.Add(purch);
+            }
+            catch (InAppBillingPurchaseException e)
+            {
+                SAMLog.Info("IAB::PurchaseInBackground::IABPE", e);
+            }
+            catch (Exception e)
+            {
+                SAMLog.Info("IAB::PurchaseInBackground::EX", e);
+            }
+        }
+
+        public async Task Disconnect()
 		{
 			try
 			{
 				SAMLog.Debug($"AndroidBilling.Disconnect");
 
-				if (IsConnected) _serviceConnection.Disconnect();
+				if (IsConnected) await CrossInAppBilling.Current.DisconnectAsync();
 			}
 			catch (Exception e)
 			{
@@ -128,64 +144,30 @@ namespace GridDominance.Android.Impl
 			}
 		}
 
-		private void OnConnected()
+		private async Task OnConnected()
 		{
 			try
 			{
 				_isInitializing = true;
 				SAMLog.Debug($"AndroidBilling.OnConnected[1]");
 
-				_serviceConnection.BillingHandler.QueryInventoryError += QueryInventoryError;
-				_serviceConnection.BillingHandler.BuyProductError += BuyProductError;
-				_serviceConnection.BillingHandler.OnProductPurchased += OnProductPurchased;
-				_serviceConnection.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
-				_serviceConnection.BillingHandler.OnPurchaseFailedValidation += OnPurchaseFailedValidation;
+				_purchases = (await CrossInAppBilling.Current.GetPurchasesAsync(ItemType.InAppPurchase)).ToList();
+                IsSynchronized = true;
 
-				_purchases = _serviceConnection.BillingHandler.GetPurchases(ItemType.Product).ToList();
-				SAMLog.Debug($"AndroidBilling.OnConnected[2]");
+                SAMLog.Debug($"AndroidBilling.OnConnected[2]");
 
-				IsSynchronized = true;
+                _products = (await CrossInAppBilling.Current.GetProductInfoAsync(ItemType.InAppPurchase, _productIDs)).ToList();
 
-				_products = _serviceConnection.BillingHandler.QueryInventoryAsync(_productIDs.ToList(), ItemType.Product).Result.ToList();
-				SAMLog.Debug($"AndroidBilling.OnConnected[3]");
+                SAMLog.Debug($"AndroidBilling.OnConnected[3]");
 			}
 			catch (Exception e)
 			{
 				SAMLog.Info("IAB::OnConnected", e);
-				_serviceConnection = null;
 			}
 			finally
 			{
 				_isInitializing = false;
 			}
-		}
-
-		private void QueryInventoryError(int responseCode, Bundle skuDetails)
-		{
-			SAMLog.Info("IAB::QueryInventoryError", $"QueryInventoryError error code={responseCode}");
-			Disconnect();
-		}
-
-		private void BuyProductError(int responseCode, string sku)
-		{
-			SAMLog.Info("IAB::BuyProductError", $"BuyProductError error code={responseCode}");
-		}
-
-		private void OnProductPurchasedError(int responseCode, string sku)
-		{
-			SAMLog.Info("IAB::OnProductPurchasedError", $"OnProductPurchasedError error code={responseCode}");
-		}
-
-		private void OnPurchaseFailedValidation(Purchase purchase, string purchaseData, string purchaseSignature)
-		{
-			SAMLog.Info("IAB::OnPurchaseFailedValidation", $"OnPurchaseFailedValidation error id={purchase.ProductId}");
-		}
-
-		private void OnProductPurchased(int response, Purchase purchase, string purchaseData, string purchaseSignature)
-		{
-			SAMLog.Debug($"OnProductPurchased({response}, {purchaseData}, {purchaseSignature})");
-
-			_purchases.Add(purchase);
 		}
 	}
 }

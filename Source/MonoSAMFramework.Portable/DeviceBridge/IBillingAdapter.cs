@@ -1,4 +1,6 @@
-﻿namespace MonoSAMFramework.Portable.DeviceBridge
+﻿using System.Threading.Tasks;
+
+namespace MonoSAMFramework.Portable.DeviceBridge
 {
 	public enum PurchaseQueryResult { Purchased, NotPurchased, Refunded, Cancelled, Error, NotConnected, CurrentlyInitializing, Pending }
 	public enum PurchaseResult { ProductNotFound, NotConnected, CurrentlyInitializing, PurchaseStarted }
@@ -9,10 +11,6 @@
 		public const string PID_CANCELED    = @"android.test.canceled";
 		public const string PID_REFUNDED    = @"android.test.refunded";
 		public const string PID_UNAVAILABLE = @"android.test.item_unavailable";
-
-		public const int STATE_PURCHASED = 0;
-		public const int STATE_REFUNDED  = 1;
-		public const int STATE_CANCELLED = 2;
 	}
 
 	public interface IBillingAdapter
@@ -20,10 +18,10 @@
 		bool IsConnected { get; }
         bool IsSynchronized { get; }
 
-		bool Connect(string[] productIDs);
-		void Disconnect();
+        Task<bool> Connect(string[] productIDs);
+		Task Disconnect();
 
-		PurchaseResult StartPurchase(string id);
+        PurchaseResult StartPurchase(string id);
 		PurchaseQueryResult IsPurchased(string id);
 		bool SynchronizePurchases(string[] productIDs);
 

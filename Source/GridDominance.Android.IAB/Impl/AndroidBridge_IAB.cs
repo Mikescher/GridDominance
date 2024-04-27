@@ -53,7 +53,7 @@ namespace GridDominance.Android.Impl
 		{
 			_activity = a;
 
-			_iab = new AndroidBilling(a);
+			_iab = new AndroidBilling();
 			_btfull = new XamarinBluetooth(a);
 		}
 
@@ -104,7 +104,6 @@ namespace GridDominance.Android.Impl
 
 		public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			_iab.HandleActivityResult(requestCode, resultCode, data);
 			_btfull.HandleActivityResult(requestCode, resultCode, data);
 		}
 

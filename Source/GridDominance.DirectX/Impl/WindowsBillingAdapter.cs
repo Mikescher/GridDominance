@@ -1,5 +1,6 @@
 ﻿using MonoSAMFramework.Portable.DeviceBridge;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GridDominance.Windows
 {
@@ -11,14 +12,14 @@ namespace GridDominance.Windows
 
 		private readonly List<string> _purchased = new List<string>();
 
-		public bool Connect(string[] productIDs)
+		public Task<bool> Connect(string[] productIDs)
 		{
-			return true;
+			return Task.FromResult(true);
 		}
 
-		public void Disconnect()
+		public Task Disconnect()
 		{
-			//
+			return Task.CompletedTask;
 		}
 
 		public PurchaseQueryResult IsPurchased(string id)
