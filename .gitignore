@@ -69,3 +69,5 @@ __Secrets.cs
 *.patch
 .mgstats
 .qcignore
+
+.idea/
