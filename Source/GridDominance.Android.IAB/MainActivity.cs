@@ -18,7 +18,8 @@ namespace GridDominance.Android
 		Theme = "@style/Theme.Splash",
 		LaunchMode = LaunchMode.SingleInstance,
 		ScreenOrientation = ScreenOrientation.SensorLandscape,
-		ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.Keyboard | ConfigChanges.ScreenSize)]
+        Immersive = true,
+        ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.Keyboard | ConfigChanges.ScreenSize)]
 
 	// ReSharper disable once ClassNeverInstantiated.Global
 	public class MainActivity : AndroidGameActivity
@@ -31,9 +32,21 @@ namespace GridDominance.Android
 
 			_impl = new AndroidBridge_IAB(this);
 			MonoSAMGame.StaticBridge = _impl;
+
 			var g = new MainGame();
-			SetContentView(g.Services.GetService<View>());
-			g.Run();
+
+			var _view = g.Services.GetService<View>();
+
+            _view.SystemUiFlags = SystemUiFlags.LayoutStable |
+                SystemUiFlags.LayoutHideNavigation |
+                SystemUiFlags.LayoutFullscreen |
+                SystemUiFlags.HideNavigation |
+                SystemUiFlags.Fullscreen |
+                SystemUiFlags.ImmersiveSticky;
+
+            SetContentView(_view);
+
+            g.Run();
 		}
 
 		protected override void OnDestroy()
