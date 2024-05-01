@@ -7,3 +7,17 @@ build-linux-opengl: prepare
 
 prepare:
 	cd "Source/GridDominance.Content.Pipeline" && dotnet build
+
+sign:
+	jarsigner -verbose \
+	          -sigalg SHA1withRSA \
+			  -digestalg SHA1 \
+			  -keystore BFB_identity.keystore  \
+			  -signedjar "Publish/Android.IAB/com.blackforestbytes.griddominance.iab.signed.aab" \
+			  "Publish/Android.IAB/com.blackforestbytes.griddominance.iab.aab" bfb_identity
+	jarsigner -verbose \
+	          -sigalg SHA1withRSA \
+			  -digestalg SHA1 \
+			  -keystore BFB_identity.keystore  \
+			  -signedjar "Publish/Android.Full/com.blackforestbytes.griddominance.full.signed.aab" \
+			  "Publish/Android.Full/com.blackforestbytes.griddominance.full.aab" bfb_identity
