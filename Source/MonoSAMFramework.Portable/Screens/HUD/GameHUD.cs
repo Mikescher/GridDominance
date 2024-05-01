@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
+using MonoSAMFramework.Portable.Font;
 
 namespace MonoSAMFramework.Portable.Screens.HUD
 {
@@ -28,12 +29,12 @@ namespace MonoSAMFramework.Portable.Screens.HUD
 
 		public readonly GameScreen Screen;
 		protected readonly HUDRootContainer root;
-		public readonly SpriteFont DefaultFont;
+		public readonly SAMFont DefaultFont;
 
 		private HUDKeyboard _keyboard = null;
 		private readonly List<HUDToast> _toasts = new List<HUDToast>();
 
-		protected GameHUD(GameScreen scrn, SpriteFont font)
+		protected GameHUD(GameScreen scrn, SAMFont font)
 		{
 			Screen = scrn;
 			DefaultFont = font;

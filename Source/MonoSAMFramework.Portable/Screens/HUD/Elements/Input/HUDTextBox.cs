@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
@@ -21,7 +22,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 		public string Placeholder = "";
 
 		public string Text = "";
-		public SpriteFont Font = null;
+		public SAMFont Font = null;
 		public float FontSize = 12;
 		public int Padding = 4;
 
@@ -59,7 +60,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 
 		protected void DrawText(IBatchRenderer sbatch, FRectangle bounds, float leftOffset, float rightOffset)
 		{
-			var maxWidth = bounds.Width - leftOffset  - rightOffset - CursorWidth - Font.Spacing;
+			var maxWidth = bounds.Width - leftOffset  - rightOffset - CursorWidth - Font.Spacing();
 			var dispText = Text;
 
 			if (IsPassword)
@@ -94,7 +95,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Input
 				SimpleRenderHelper.DrawSimpleRect(
 					sbatch, 
 					new FRectangle(
-						bounds.X + leftOffset + textBounds.Width + Font.Spacing, 
+						bounds.X + leftOffset + textBounds.Width + Font.Spacing(), 
 						bounds.Y + bounds.Height / 2 - FontSize / 2, 
 						CursorWidth, 
 						FontSize), 

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
 using System;
@@ -19,8 +20,8 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 		void DrawCentered(TextureRegion2D texture, FPoint centerTarget, float width, float height, Color color, float rotation = 0f, float layerDepth = 0f);
 		void DrawScaled(TextureRegion2D texture, FPoint centerTarget, float scale, Color color, float rotation = 0f, float layerDepth = 0f);
 
-		void DrawString(SpriteFont spriteFont, string text, FPoint position, Color color);
-		void DrawString(SpriteFont spriteFont, string text, FPoint position, Color color, float rotation, FPoint origin, float scale, SpriteEffects effects, float layerDepth);
+		void DrawString(SAMFont spriteFont, string text, FPoint position, Color color);
+		void DrawString(SAMFont spriteFont, string text, FPoint position, Color color, float rotation, FPoint origin, float scale, SpriteEffects effects, float layerDepth);
 
 		void FillRectangle(FRectangle rectangle, Color color);
 		void FillRectangle(FRotatedRectangle rectangle, Color color);

@@ -9,6 +9,7 @@ using MonoSAMFramework.Portable.Screens.HUD.Elements.Container;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using System;
 using MonoSAMFramework.Portable.GameMath;
+using MonoSAMFramework.Portable.Font;
 
 namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 {
@@ -48,7 +49,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 
 		public HUDBackgroundDefinition Background = HUDBackgroundDefinition.NONE;
 
-		public SpriteFont Font
+		public SAMFont Font
 		{
 			get { return internalText.Font; }
 			set { internalText.Font = value; recalcText = true; }

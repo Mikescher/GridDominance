@@ -1,0 +1,126 @@
+﻿using FontStashSharp;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Threading.Channels;
+
+namespace MonoSAMFramework.Portable.Font
+{
+    public abstract class SAMFont
+    {
+        public abstract void Draw(SpriteBatch batch, string text, Vector2 position, Color color);
+        public abstract void Draw(SpriteBatch batch, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
+        public abstract Vector2 MeasureString(string text);
+        public abstract float GetVCenterOffset();
+        public abstract bool Contains(char c);
+        public abstract float LineSpacing();
+        public abstract float Spacing();
+    }
+
+    public class MonoGameSpriteFont : SAMFont
+    {
+        public readonly SpriteFont Font;
+
+        public MonoGameSpriteFont(SpriteFont font)
+        {
+            Font = font;
+        }
+
+        public override void Draw(SpriteBatch batch, string text, Vector2 position, Color color)
+        {
+            batch.DrawString(Font, text, position, color);
+        }
+
+        public override void Draw(SpriteBatch batch, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
+        {
+            batch.DrawString(Font, text, position, color, rotation, origin, scale, effects, layerDepth);
+        }
+
+        public override Vector2 MeasureString(string text)
+        {
+            return Font.MeasureString(text);
+        }
+
+        public override float GetVCenterOffset()
+        {
+            var glyph = Font.GetGlyphs()['M'];
+            var top = glyph.Cropping.Y;
+            var bot = Font.LineSpacing - glyph.BoundsInTexture.Height - top;
+
+            var offset = (bot - top) / 2f;
+
+            return offset;
+        }
+
+        public override bool Contains(char c)
+        {
+            if (Font.Characters == null) return false;
+
+            return Font.Characters.Contains(c);
+        }
+
+        public override float LineSpacing()
+        {
+            return Font.LineSpacing;
+        }
+
+        public override float Spacing()
+        {
+            return Font.Spacing;
+        }
+    }
+
+    public class FontStashFont : SAMFont
+    {
+        public readonly SpriteFontBase Font;
+
+        public FontStashFont(SpriteFontBase font)
+        {
+            Font = font;
+        }
+
+        public override bool Contains(char c)
+        {
+            return true;
+        }
+
+        public override void Draw(SpriteBatch batch, string text, Vector2 position, Color color)
+        {
+            Font.DrawText(batch, text, position, color);
+        }
+
+        public override void Draw(SpriteBatch batch, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
+        {
+            Font.DrawText(batch: batch, 
+                          text: text, 
+                          position: position, 
+                          color: color, 
+                          scale: new Vector2(1/scale, 1/scale),
+                          origin: origin,
+                          rotation: rotation,
+                          layerDepth: layerDepth);
+        }
+
+        public override float GetVCenterOffset()
+        {
+            var glyph = Font.GetGlyphs("M", Vector2.Zero)[0];
+
+            return glyph.Bounds.Center.Y;
+        }
+
+        public override float LineSpacing()
+        {
+            return Font.LineHeight;
+        }
+
+        public override Vector2 MeasureString(string text)
+        {
+            return Font.MeasureString(text);
+        }
+
+        public override float Spacing()
+        {
+            return 0;
+        }
+    }
+}

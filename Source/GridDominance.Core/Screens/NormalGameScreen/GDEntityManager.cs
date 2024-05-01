@@ -26,7 +26,7 @@ namespace GridDominance.Shared.Screens.NormalGameScreen
 
 #if DEBUG
 			debugView = new FarseerPhysics.DebugView.DebugViewXNA(PhysicsWorld);
-			debugView.LoadContent(GDOwner.Graphics.GraphicsDevice, GDOwner.Game.Content, Textures.DebugFont);
+			debugView.LoadContent(GDOwner.Graphics.GraphicsDevice, GDOwner.Game.Content, Textures.DebugFont.Font);
 			debugView.AppendFlags(DebugViewFlags.Shape);
 			debugView.AppendFlags(DebugViewFlags.DebugPanel);
 			debugView.AppendFlags(DebugViewFlags.PerformanceGraph);

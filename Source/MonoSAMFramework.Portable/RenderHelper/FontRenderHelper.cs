@@ -12,6 +12,7 @@ using MonoSAMFramework.Portable.Extensions;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.Screens.HUD.Enums;
 using MonoSAMFramework.Portable.LogProtocol;
+using MonoSAMFramework.Portable.Font;
 
 namespace MonoSAMFramework.Portable.RenderHelper
 {
@@ -19,11 +20,11 @@ namespace MonoSAMFramework.Portable.RenderHelper
 	{
 		private const int MEASURE_CACHE_SIZE = 128;
 
-		private static readonly Dictionary<SpriteFont, float> _fontHeight = new Dictionary<SpriteFont, float>();
-		private static readonly Dictionary<SpriteFont, float> _fontVCenterOffsetCache = new Dictionary<SpriteFont, float>(); 
-		private static readonly Dictionary<SpriteFont, CacheCollection<string, FSize>> _measureCache = new Dictionary<SpriteFont, CacheCollection<string, FSize>>();
+		private static readonly Dictionary<SAMFont, float> _fontHeight = new Dictionary<SAMFont, float>();
+		private static readonly Dictionary<SAMFont, float> _fontVCenterOffsetCache = new Dictionary<SAMFont, float>(); 
+		private static readonly Dictionary<SAMFont, CacheCollection<string, FSize>> _measureCache = new Dictionary<SAMFont, CacheCollection<string, FSize>>();
 
-		public static float GetFontScale(SpriteFont fnt, float targetSize)
+		public static float GetFontScale(SAMFont fnt, float targetSize)
 		{
 			float y;
 			if (!_fontHeight.TryGetValue(fnt, out y)) _fontHeight[fnt] = y = fnt.MeasureString("M").Y;
@@ -31,40 +32,34 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			return targetSize / y;
 		}
 
-		public static float GetFontScale(SpriteFont fnt, string text, FSize targetSize)
+		public static float GetFontScale(SAMFont fnt, string text, FSize targetSize)
 		{
 			var fsz = fnt.MeasureString(text);
 
 			return FloatMath.Min(targetSize.Width / fsz.X, targetSize.Height / fsz.Y);
 		}
 
-		public static float GetFontVCenterOffset(SpriteFont fnt)
+		public static float GetFontVCenterOffset(SAMFont fnt)
 		{
 			if (!_fontVCenterOffsetCache.ContainsKey(fnt))
-			{
-				var glyph = fnt.GetGlyphs()['M'];
-				var top = glyph.Cropping.Y;
-				var bot = fnt.LineSpacing - glyph.BoundsInTexture.Height - top;
-
-				var offset = (bot - top) / 2f;
-
-				_fontVCenterOffsetCache[fnt] = offset;
+			{ 
+				_fontVCenterOffsetCache[fnt] = fnt.GetVCenterOffset();
 			}
 
 			return _fontVCenterOffsetCache[fnt];
 		}
 
-		public static FSize MeasureStringUncached(SpriteFont font, string text, float size)
+		public static FSize MeasureStringUncached(SAMFont font, string text, float size)
 		{
 			return font.MeasureString(text).ToFSize() * GetFontScale(font, size);
 		}
 
-		public static FSize MeasureStringCached(SpriteFont font, string text, float size)
+		public static FSize MeasureStringCached(SAMFont font, string text, float size)
 		{
 			return MeasureStringCached(font, text) * GetFontScale(font, size);
 		}
 
-		public static FSize MeasureStringCached(SpriteFont font, string text)
+		public static FSize MeasureStringCached(SAMFont font, string text)
 		{
 			CacheCollection<string, FSize> cache;
 			if (!_measureCache.TryGetValue(font, out cache))
@@ -90,7 +85,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			}
 		}
 
-		private static string LimitStringLength(SpriteFont font, float size, string text, float maxlen)
+		private static string LimitStringLength(SAMFont font, float size, string text, float maxlen)
 		{
 			var len = MeasureStringCached(font, text, size).Width;
 			while (len > maxlen && text.Length > 1)
@@ -101,7 +96,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			return text;
 		}
 
-		public static void DrawTextCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position)
+		public static void DrawTextCentered(IBatchRenderer sbatch, SAMFont font, float size, string text, Color color, FPoint position)
 		{
 			if (text == "") return;
 			var bounds = MeasureStringCached(font, text);
@@ -118,7 +113,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0);
 		}
 
-		public static void DrawTextCenteredWithScale(IBatchRenderer sbatch, SpriteFont font, float scale, string text, Color color, FPoint position, float rotation = 0f)
+		public static void DrawTextCenteredWithScale(IBatchRenderer sbatch, SAMFont font, float scale, string text, Color color, FPoint position, float rotation = 0f)
 		{
 			if (text == "") return;
 			var bounds = MeasureStringCached(font, text);
@@ -135,7 +130,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0);
 		}
 
-		public static void DrawTextCenteredWithBackground(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position, Color background)
+		public static void DrawTextCenteredWithBackground(IBatchRenderer sbatch, SAMFont font, float size, string text, Color color, FPoint position, Color background)
 		{
 			if (text == "") return;
 			var bounds = MeasureStringCached(font, text);
@@ -155,7 +150,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0);
 		}
 
-		public static void DrawTextVerticallyCentered(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position)
+		public static void DrawTextVerticallyCentered(IBatchRenderer sbatch, SAMFont font, float size, string text, Color color, FPoint position)
 		{
 			if (text == "") return;
 
@@ -173,7 +168,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0);
 		}
 
-		public static void DrawTextVerticallyCenteredRightAligned(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position)
+		public static void DrawTextVerticallyCenteredRightAligned(IBatchRenderer sbatch, SAMFont font, float size, string text, Color color, FPoint position)
 		{
 			if (text == "") return;
 
@@ -191,7 +186,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0);
 		}
 
-		public static void DrawTextVerticallyCenteredWithBackground(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position, Color background)
+		public static void DrawTextVerticallyCenteredWithBackground(IBatchRenderer sbatch, SAMFont font, float size, string text, Color color, FPoint position, Color background)
 		{
 			if (text == "") return;
 
@@ -212,7 +207,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0);
 		}
 
-		public static void DrawTextTopRight(IBatchRenderer sbatch, SpriteFont font, float size, string text, Color color, FPoint position)
+		public static void DrawTextTopRight(IBatchRenderer sbatch, SAMFont font, float size, string text, Color color, FPoint position)
 		{
 			if (text == "") return;
 
@@ -230,7 +225,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				0);
 		}
 
-		public static void DrawSingleLineInBox(IBatchRenderer sbatch, SpriteFont font, string text, FRectangle rect, float padding, bool horzCenter, Color color)
+		public static void DrawSingleLineInBox(IBatchRenderer sbatch, SAMFont font, string text, FRectangle rect, float padding, bool horzCenter, Color color)
 		{
 			if (text == "") return;
 
@@ -245,7 +240,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				DrawTextVerticallyCentered(sbatch, font, size, text, color, new FPoint(rect.X + padding, rect.CenterY));
 		}
 
-		public static List<string> WrapLinesIntoWidth(string text, SpriteFont font, float fontSize, float maxWidth, HUDWordWrap wrap)
+		public static List<string> WrapLinesIntoWidth(string text, SAMFont font, float fontSize, float maxWidth, HUDWordWrap wrap)
 		{
 			if (wrap == HUDWordWrap.NoWrap) return new List<string>{text};
 
@@ -333,12 +328,12 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			return lines;
 		}
 
-		private static List<string> CropTextToLength(string text, SpriteFont font, float fontSize, float maxWidth, string ellipsis)
+		private static List<string> CropTextToLength(string text, SAMFont font, float fontSize, float maxWidth, string ellipsis)
 		{
 			return Regex.Split(text, @"\r?\n").Select(l => CropLineToLength(l, font, fontSize, maxWidth, ellipsis)).ToList();
 		}
 
-		private static string CropLineToLength(string text, SpriteFont font, float fontSize, float maxWidth, string ellipsis)
+		private static string CropLineToLength(string text, SAMFont font, float fontSize, float maxWidth, string ellipsis)
 		{
 			var sz = MeasureStringCached(font, text, fontSize);
 
@@ -354,41 +349,41 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			return text;
 		}
 
-		public static string MakeTextSafe(SpriteFont font, string s)
+		public static string MakeTextSafe(SAMFont font, string s)
 		{
-			if (font?.Characters == null) return "";
+			if (font == null) return "";
 			if (s == null) return "";
 
 			var cc = new StringBuilder();
 			foreach (char chr in s)
 			{
-				if (font.Characters.Contains(chr) || chr == 0x0A || chr == 0x0D) cc.Append(chr);
+				if (font.Contains(chr) || chr == 0x0A || chr == 0x0D) cc.Append(chr);
 			}
 			return cc.ToString();
 		}
 
-		public static string MakeTextSafe(SpriteFont font, string s, char c)
+		public static string MakeTextSafe(SAMFont font, string s, char c)
 		{
-			if (font?.Characters == null) return "";
+			if (font == null) return "";
 			if (s == null) return "";
 
 			char[] cc = new char[s.Length];
 			for (int i = 0; i < s.Length; i++)
 			{
-				if (!font.Characters.Contains(s[i]) && s[i] != 0x0A && s[i] != 0x0D) cc[i] = c; else cc[i] = s[i];
+				if (!font.Contains(s[i]) && s[i] != 0x0A && s[i] != 0x0D) cc[i] = c; else cc[i] = s[i];
 			}
 			return new string(cc);
 		}
 
-		public static string MakeTextSafeWithWarn(SpriteFont font, string s, char c)
+		public static string MakeTextSafeWithWarn(SAMFont font, string s, char c)
 		{
-			if (font?.Characters == null) return "";
+			if (font == null) return "";
 			if (s == null) return "";
 
 			char[] cc = new char[s.Length];
 			for (int i = 0; i < s.Length; i++)
 			{
-				if (!font.Characters.Contains(s[i]) && s[i] != 0x0A && s[i] != 0x0D)
+				if (!font.Contains(s[i]) && s[i] != 0x0A && s[i] != 0x0D)
 				{
 					SAMLog.Warning("FRH::MC", $"Cant render char with font: 0x{((int)s[i]):X2}");
 					cc[i] = c;

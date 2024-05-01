@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
 using MonoSAMFramework.Portable.Screens.HUD.Elements.Button;
@@ -36,8 +37,8 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Other
 			set { if (_textColor != value) { _textColor = value; InvalidateButtonState(); } }
 		}
 
-		private SpriteFont _font = null;
-		public SpriteFont ButtonFont
+		private SAMFont _font = null;
+		public SAMFont ButtonFont
 		{
 			get => _font;
 			set { if (_font != value) { _font = value; InvalidateButtonState(); } }

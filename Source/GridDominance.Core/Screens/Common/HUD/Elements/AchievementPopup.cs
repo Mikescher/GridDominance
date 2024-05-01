@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -74,7 +75,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 		public Color Foreground = FlatColors.SunFlower;
 		public Color Outline    = FlatColors.Clouds;
 
-		private SpriteFont _font;
+		private SAMFont _font;
 		private float _width;
 		private float _height;
 		private float _rotation = 0f;
@@ -88,7 +89,7 @@ namespace GridDominance.Shared.Screens.Common.HUD.Elements
 		private float _nextParticleSpawn = 0f;
 		private readonly List<AchievementParticle> _particles = new List<AchievementParticle>();
 
-		private AchievementPopup(SpriteFont font, string text)
+		private AchievementPopup(SAMFont font, string text)
 		{
 			_font = font;
 			_height = PAD + FONTSIZE + PAD;

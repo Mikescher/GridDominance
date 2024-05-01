@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.Interfaces;
@@ -34,9 +35,9 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		private float backgroundAlpha = 0.666f;
 
-		private readonly SpriteFont font;
+		private readonly SAMFont font;
 
-		public DebugTextDisplay(GraphicsDevice graphics, SpriteFont renderFont)
+		public DebugTextDisplay(GraphicsDevice graphics, SAMFont renderFont)
 		{
 			debugBatch = new SpriteBatchWrapper(new SpriteBatch(graphics));
 			font = renderFont;

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.LogProtocol;
 using MonoSAMFramework.Portable.RenderHelper;
 
@@ -303,15 +304,15 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexDescription_SCCM;
 		public static TextureRegion2D TexTitle_SCCM;
 
-		public static SpriteFont HUDFontRegular;
-		public static SpriteFont HUDFontBold;
-		public static SpriteFont LevelBackgroundFont;
+		public static SAMFont HUDFontRegular;
+		public static SAMFont HUDFontBold;
+		public static SAMFont LevelBackgroundFont;
 
 		#endregion
 
 #if DEBUG
-		public static SpriteFont DebugFont;
-		public static SpriteFont DebugFontSmall;
+		public static MonoGameSpriteFont DebugFont;
+		public static MonoGameSpriteFont DebugFontSmall;
 #endif
 
 		public static void Initialize(ContentManager content, GraphicsDevice device)
@@ -534,13 +535,13 @@ namespace GridDominance.Shared.Resources
 			TexIconTetromino   = AtlasTextures["tetro0"];
 			TexIconError       = AtlasTextures["error"];
 
-			HUDFontRegular      = content.Load<SpriteFont>("fonts/hudFontRegular");
-			HUDFontBold         = content.Load<SpriteFont>("fonts/hudFontBold");
-			LevelBackgroundFont = content.Load<SpriteFont>("fonts/levelBackgroundFont");
+			HUDFontRegular      = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/hudFontRegular"));
+			HUDFontBold         = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/hudFontBold"));
+			LevelBackgroundFont = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/levelBackgroundFont"));
 
 #if DEBUG
-			DebugFont          = content.Load<SpriteFont>("fonts/debugFont");
-			DebugFontSmall     = content.Load<SpriteFont>("fonts/debugFontSmall");
+			DebugFont          = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/debugFont"));
+			DebugFontSmall     = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/debugFontSmall"));
 #endif
 			
 			StaticTextures.SinglePixel           = TexPixel;

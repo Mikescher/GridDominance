@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.ColorHelper;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -29,7 +30,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 		public Color ColorStateOff = Color.Magenta;
 
 		public Color FontColor = Color.Black;
-		public SpriteFont Font = null;
+		public SAMFont Font = null;
 
 		#endregion
 

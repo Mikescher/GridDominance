@@ -1,6 +1,7 @@
 ﻿using FontStashSharp;
 using GridDominance.Common.TTFFonts;
 using Microsoft.Xna.Framework.Content;
+using MonoSAMFramework.Portable.Font;
 
 namespace GridDominance.Core.Resources
 {
@@ -9,31 +10,42 @@ namespace GridDominance.Core.Resources
         private static FontSystem _fontAsapBold    = new FontSystem();
         private static FontSystem _fontAsapRegular = new FontSystem();
         private static FontSystem _fontComicJens   = new FontSystem();
+#if DEBUG
         private static FontSystem _fontCourierNew  = new FontSystem();
+#endif
 
-        public static DynamicSpriteFont DebugFont;
-        public static DynamicSpriteFont DebugFontSmall;
-        public static DynamicSpriteFont HUDFontBold;
-        public static DynamicSpriteFont HUDFontRegular;
-        public static DynamicSpriteFont LevelBackgroundFont;
+#if DEBUG
+        public static SAMFont DebugFont;
+        public static SAMFont DebugFontSmall;
+#endif
+
+        public static SAMFont HUDFontBold;
+        public static SAMFont HUDFontRegular;
+        public static SAMFont LevelBackgroundFont;
 
         public static void LoadContent(ContentManager content)
         {
             var fontDataAsapBold    = content.Load<TTFFontData>("binfonts/AsapBold");
             var fontDataAsapRegular = content.Load<TTFFontData>("binfonts/AsapRegular");
             var fontDataComicJens   = content.Load<TTFFontData>("binfonts/ComicJens");
+#if DEBUG
             var fontDataCourierNew  = content.Load<TTFFontData>("binfonts/CourierNew");
+#endif
 
             _fontAsapBold.AddFont(fontDataAsapBold.BinaryData);
             _fontAsapRegular.AddFont(fontDataAsapRegular.BinaryData);
             _fontComicJens.AddFont(fontDataComicJens.BinaryData);
+#if DEBUG
             _fontCourierNew.AddFont(fontDataCourierNew.BinaryData);
+#endif
 
-            DebugFont           = _fontCourierNew.GetFont(14);
-            DebugFontSmall      = _fontCourierNew.GetFont(8);
-            HUDFontBold         = _fontAsapBold.GetFont(64);
-            HUDFontRegular      = _fontAsapRegular.GetFont(64);
-            LevelBackgroundFont = _fontComicJens.GetFont(128);
+#if DEBUG
+            DebugFont = new FontStashFont(_fontCourierNew.GetFont(14));
+            DebugFontSmall      = new FontStashFont(_fontCourierNew.GetFont(8));
+#endif
+            HUDFontBold = new FontStashFont(_fontAsapBold.GetFont(64));
+            HUDFontRegular      = new FontStashFont(_fontAsapRegular.GetFont(64));
+            LevelBackgroundFont = new FontStashFont(_fontComicJens.GetFont(128));
         }  
     }      
 }          

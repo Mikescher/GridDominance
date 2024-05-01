@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MonoSAMFramework.Portable.Interfaces;
+using MonoSAMFramework.Portable.Font;
 
 namespace MonoSAMFramework.Portable.DebugTools
 {
@@ -104,7 +105,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 
 		}
 
-		public void UpdatePosition(SAMTime gameTime, SpriteFont font, int lineCount, ref float posY)
+		public void UpdatePosition(SAMTime gameTime, SAMFont font, int lineCount, ref float posY)
 		{
 			if (InertiaPosition < 0)
 			{
@@ -112,7 +113,7 @@ namespace MonoSAMFramework.Portable.DebugTools
 			}
 			else if (posY < InertiaPosition)
 			{
-				var speed = gameTime.ElapsedSeconds * DebugTextDisplay.INERTIA_SPEED * FloatMath.Max(1, FloatMath.Round((InertiaPosition - posY) / font.LineSpacing));
+				var speed = gameTime.ElapsedSeconds * DebugTextDisplay.INERTIA_SPEED * FloatMath.Max(1, FloatMath.Round((InertiaPosition - posY) / font.LineSpacing()));
 
 				if (lineCount > DebugTextDisplay.OVERFLOW_MAX) speed = 99999;
 

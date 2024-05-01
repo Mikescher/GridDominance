@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
@@ -30,7 +31,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Table
 		public float ScrollWidth      = 16;
 		public float ScrollHeight     = 64;
 		public float LineWidth        = 2;
-		public SpriteFont Font        = null;
+		public SAMFont Font           = null;
 		public float FontSize         = 16;
 
 		public float ScrollPosition   = 0; // top row

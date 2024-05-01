@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.GameMath;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.GameMath.VectorPath;
@@ -233,22 +234,22 @@ namespace MonoSAMFramework.Portable.BatchRenderer
 			DrawCircle(circle.Center, circle.Radius, sides, color, thickness);
 		}
 
-		public void DrawString(SpriteFont spriteFont, string text, FPoint position, Color color)
+		public void DrawString(SAMFont spriteFont, string text, FPoint position, Color color)
 		{
 #if DEBUG
 			IncRenderTextCount(text.Length);
 #endif
 
-			internalBatch.DrawString(spriteFont, text, position.ToVec2D(), color);
+			spriteFont.Draw(internalBatch, text, position.ToVec2D(), color);
 		}
 
-		public void DrawString(SpriteFont spriteFont, string text, FPoint position, Color color, float rotation, FPoint origin, float scale, SpriteEffects effects, float layerDepth)
+		public void DrawString(SAMFont spriteFont, string text, FPoint position, Color color, float rotation, FPoint origin, float scale, SpriteEffects effects, float layerDepth)
 		{
 #if DEBUG
 			IncRenderTextCount(text.Length);
 #endif
 
-			internalBatch.DrawString(spriteFont, text, position.ToVec2D(), color, rotation, origin.ToVec2D(), scale, effects, layerDepth);
+            spriteFont.Draw(internalBatch, text, position.ToVec2D(), color, rotation, origin.ToVec2D(), scale, effects, layerDepth);
 		}
 		
 		public void DrawPolygon(FPoint offset, FPoint[] points, Color color, bool closed, float thickness)

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.Extensions;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.LogProtocol;
@@ -38,7 +39,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 			set { if (_fontSize != value) {_fontSize = value; InvalidatePosition(); } }
 		}
 
-		public SpriteFont Font;
+		public SAMFont Font;
 
 		public HUDRawText(int depth = 0)
 		{

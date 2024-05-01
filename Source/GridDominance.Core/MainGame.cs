@@ -57,8 +57,13 @@ namespace GridDominance.Shared
 
 		public MainGame() : base()
 		{
-			Backend = new GDServerAPI(GDBridge);
-			//Backend = new DummyGDServerAPI();
+			var debug = false;
+#if DEBUG
+			debug = true;
+#endif
+
+
+            Backend = (debug && GDBridge.SystemType == SAMSystemType.MONOGAME_DESKTOP) ? new DummyGDServerAPI() : new GDServerAPI(GDBridge);
 
 			if (IsIAB()) GDBridge.IAB.Connect(GDConstants.IABList).ContinueWith((_) => { });
 

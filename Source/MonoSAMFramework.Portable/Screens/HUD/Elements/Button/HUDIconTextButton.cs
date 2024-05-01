@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoSAMFramework.Portable.BatchRenderer;
 using MonoSAMFramework.Portable.BatchRenderer.TextureAtlases;
+using MonoSAMFramework.Portable.Font;
 using MonoSAMFramework.Portable.GameMath.Geometry;
 using MonoSAMFramework.Portable.Input;
 using MonoSAMFramework.Portable.RenderHelper;
@@ -58,7 +59,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Button
 			set => internalLabel.TextColor = value;
 		}
 		
-		public SpriteFont Font
+		public SAMFont Font
 		{
 			get => internalLabel.Font;
 			set => internalLabel.Font = value;
