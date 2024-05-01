@@ -4,7 +4,7 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridDominance.DirectX", "GridDominance.DirectX\GridDominance.DirectX.csproj", "{DAED060D-BE0D-44D1-AC38-E189C7A6D300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android.IAB", "GridDominance.Android.IAB\GridDominance.Android.IAB.csproj", "{D49363EF-8D37-42B4-9AB4-C2083A4B186E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridDominance.Android.IAB", "GridDominance.Android.IAB\GridDominance.Android.IAB.csproj", "{D49363EF-8D37-42B4-9AB4-C2083A4B186E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{3A0EEB35-977B-4A96-87D0-A6C29BD9F96C}"
 EndProject
@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSLEditor", "DSLEditor\DSLE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.PromotionKeybase", "GridDominance.PromotionKeybase\GridDominance.PromotionKeybase.csproj", "{5A7561CB-57F1-441E-B662-51EADB1858B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android.Full", "GridDominance.Android.Full\GridDominance.Android.Full.csproj", "{A0911695-9785-4E6E-BE1E-6935398B1344}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridDominance.Android.Full", "GridDominance.Android.Full\GridDominance.Android.Full.csproj", "{A0911695-9785-4E6E-BE1E-6935398B1344}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.iOS.Full", "GridDominance.iOS.Full\GridDominance.iOS.Full.csproj", "{E92E42EF-545C-4F06-A04D-380A740BCA84}"
 EndProject
@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.WinPhone8.Ful
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.UWP.Full", "GridDominance.UWP.Full\GridDominance.UWP.Full.csproj", "{425B4E9C-B8AF-495A-88ED-E73A0FAB3BFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridDominance.Android.Amazon", "GridDominance.Android.Amazon\GridDominance.Android.Amazon.csproj", "{FF40F3C9-0E41-40E2-AA26-F8BACDE2F32D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridDominance.Android.Amazon", "GridDominance.Android.Amazon\GridDominance.Android.Amazon.csproj", "{FF40F3C9-0E41-40E2-AA26-F8BACDE2F32D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridDominance.Core", "GridDominance.Core\GridDominance.Core.csproj", "{3FE0A696-C3BA-450D-9B03-E264AF024F0D}"
 EndProject
