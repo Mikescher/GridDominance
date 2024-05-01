@@ -2,6 +2,7 @@
 using Android.Content;
 using MonoSAMFramework.Portable.DeviceBridge;
 using MonoSAMFramework.Portable.LogProtocol;
+using System.Threading.Tasks;
 
 namespace GridDominance.Android.Impl
 {
@@ -11,9 +12,9 @@ namespace GridDominance.Android.Impl
 
 		public bool IsSynchronized => true;
 
-		public bool Connect(string[] productIDs)
+		public Task<bool> Connect(string[] productIDs)
 		{
-			return true;
+			return Task.FromResult(true);
 		}
 
 		public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
@@ -21,9 +22,9 @@ namespace GridDominance.Android.Impl
 			//
 		}
 
-		public void Disconnect()
+		public Task Disconnect()
 		{
-			//
+			return Task.CompletedTask;
 		}
 
 		public PurchaseResult StartPurchase(string id)
