@@ -21,7 +21,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 		private const int MEASURE_CACHE_SIZE = 128;
 
 		private static readonly Dictionary<SAMFont, float> _fontHeight = new Dictionary<SAMFont, float>();
-		private static readonly Dictionary<SAMFont, float> _fontVCenterOffsetCache = new Dictionary<SAMFont, float>(); 
+		private static readonly Dictionary<(SAMFont, float), float> _fontVCenterOffsetCache = new Dictionary<(SAMFont, float), float>(); 
 		private static readonly Dictionary<SAMFont, CacheCollection<string, FSize>> _measureCache = new Dictionary<SAMFont, CacheCollection<string, FSize>>();
 
 		public static float GetFontScale(SAMFont fnt, float targetSize)
@@ -29,7 +29,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			float y;
 			if (!_fontHeight.TryGetValue(fnt, out y)) _fontHeight[fnt] = y = fnt.MeasureString("M").Y;
 
-			return targetSize / y;
+			return (targetSize / y) * fnt.ExtraScaleFactor();
 		}
 
 		public static float GetFontScale(SAMFont fnt, string text, FSize targetSize)
@@ -39,14 +39,14 @@ namespace MonoSAMFramework.Portable.RenderHelper
 			return FloatMath.Min(targetSize.Width / fsz.X, targetSize.Height / fsz.Y);
 		}
 
-		public static float GetFontVCenterOffset(SAMFont fnt)
+		public static float GetFontVCenterOffset(float height, SAMFont fnt)
 		{
-			if (!_fontVCenterOffsetCache.ContainsKey(fnt))
+			if (!_fontVCenterOffsetCache.ContainsKey((fnt, height)))
 			{ 
-				_fontVCenterOffsetCache[fnt] = fnt.GetVCenterOffset();
+				_fontVCenterOffsetCache[(fnt, height)] = fnt.GetVCenterOffset(height);
 			}
 
-			return _fontVCenterOffsetCache[fnt];
+			return _fontVCenterOffsetCache[(fnt, height)];
 		}
 
 		public static FSize MeasureStringUncached(SAMFont font, string text, float size)
@@ -107,7 +107,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(font)),
+                new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(bounds.Height, font)),
 				GetFontScale(font, size),
 				SpriteEffects.None,
 				0);
@@ -124,7 +124,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				rotation,
-				new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(font)),
+				new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(bounds.Height, font)),
 				scale,
 				SpriteEffects.None,
 				0);
@@ -144,8 +144,8 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(font)), 
-				scale,
+                new FPoint(bounds.Width / 2f, bounds.Height / 2f - GetFontVCenterOffset(bounds.Height, font)), 
+                scale,
 				SpriteEffects.None,
 				0);
 		}
@@ -162,7 +162,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new FPoint(0, bounds.Height / 2f - GetFontVCenterOffset(font)),
+				new FPoint(0, bounds.Height / 2f - GetFontVCenterOffset(bounds.Height, font)),
 				GetFontScale(font, size),
 				SpriteEffects.None,
 				0);
@@ -180,7 +180,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new FPoint(bounds.Width, bounds.Height / 2f - GetFontVCenterOffset(font)),
+				new FPoint(bounds.Width, bounds.Height / 2f - GetFontVCenterOffset(bounds.Height,  font)),
 				GetFontScale(font, size),
 				SpriteEffects.None,
 				0);
@@ -201,7 +201,7 @@ namespace MonoSAMFramework.Portable.RenderHelper
 				position,
 				color,
 				0,
-				new FPoint(0, bounds.Height / 2f - GetFontVCenterOffset(font)),
+				new FPoint(0, bounds.Height / 2f - GetFontVCenterOffset(bounds.Height, font)),
 				scale,
 				SpriteEffects.None,
 				0);

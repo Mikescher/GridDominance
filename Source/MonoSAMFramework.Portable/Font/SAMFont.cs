@@ -11,10 +11,11 @@ namespace MonoSAMFramework.Portable.Font
         public abstract void Draw(SpriteBatch batch, string text, Vector2 position, Color color);
         public abstract void Draw(SpriteBatch batch, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
         public abstract Vector2 MeasureString(string text);
-        public abstract float GetVCenterOffset();
+        public abstract float GetVCenterOffset(float boundsHeight);
         public abstract bool Contains(char c);
         public abstract float LineSpacing();
         public abstract float Spacing();
+        public abstract float ExtraScaleFactor();
     }
 
     public class MonoGameSpriteFont : SAMFont
@@ -41,7 +42,7 @@ namespace MonoSAMFramework.Portable.Font
             return Font.MeasureString(text);
         }
 
-        public override float GetVCenterOffset()
+        public override float GetVCenterOffset(float boundsHeight)
         {
             var glyph = Font.GetGlyphs()['M'];
             var top = glyph.Cropping.Y;
@@ -67,6 +68,11 @@ namespace MonoSAMFramework.Portable.Font
         public override float Spacing()
         {
             return Font.Spacing;
+        }
+
+        public override float ExtraScaleFactor()
+        {
+            return 1.0f;
         }
     }
 
@@ -95,17 +101,23 @@ namespace MonoSAMFramework.Portable.Font
                           text: text, 
                           position: position, 
                           color: color, 
-                          scale: new Vector2(1/scale, 1/scale),
+                          scale: new Vector2(scale, scale),
                           origin: origin,
                           rotation: rotation,
                           layerDepth: layerDepth);
         }
 
-        public override float GetVCenterOffset()
+        public override float GetVCenterOffset(float boundsHeight)
         {
             var glyph = Font.GetGlyphs("M", Vector2.Zero)[0];
 
-            return glyph.Bounds.Center.Y;
+            var top = glyph.Bounds.Top;
+            var bot = glyph.Bounds.Bottom;
+
+            var offsetReal = top + (bot - top) / 2f;
+            var offsetCenter = boundsHeight / 2f;
+
+            return offsetCenter - offsetReal;
         }
 
         public override float LineSpacing()
@@ -121,6 +133,11 @@ namespace MonoSAMFramework.Portable.Font
         public override float Spacing()
         {
             return 0;
+        }
+
+        public override float ExtraScaleFactor()
+        {
+            return 0.9f;
         }
     }
 }

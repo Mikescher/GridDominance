@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GridDominance.Core.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -304,14 +305,20 @@ namespace GridDominance.Shared.Resources
 		public static TextureRegion2D TexDescription_SCCM;
 		public static TextureRegion2D TexTitle_SCCM;
 
-		public static SAMFont HUDFontRegular;
-		public static SAMFont HUDFontBold;
-		public static SAMFont LevelBackgroundFont;
+        private static MonoGameSpriteFont _HUDFontRegular;
+        private static MonoGameSpriteFont _HUDFontBold;
+        private static MonoGameSpriteFont _LevelBackgroundFont;
 
-		#endregion
+        public static SAMFont HUDFontRegular      => Fonts.HUDFontRegular;
+		public static SAMFont HUDFontBold => Fonts.HUDFontBold;
+
+
+		public static SAMFont LevelBackgroundFont => Fonts.LevelBackgroundFont;
+
+        #endregion
 
 #if DEBUG
-		public static MonoGameSpriteFont DebugFont;
+        public static MonoGameSpriteFont DebugFont;
 		public static MonoGameSpriteFont DebugFontSmall;
 #endif
 
@@ -535,9 +542,9 @@ namespace GridDominance.Shared.Resources
 			TexIconTetromino   = AtlasTextures["tetro0"];
 			TexIconError       = AtlasTextures["error"];
 
-			HUDFontRegular      = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/hudFontRegular"));
-			HUDFontBold         = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/hudFontBold"));
-			LevelBackgroundFont = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/levelBackgroundFont"));
+			_HUDFontRegular      = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/hudFontRegular"));
+			_HUDFontBold         = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/hudFontBold"));
+			_LevelBackgroundFont = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/levelBackgroundFont"));
 
 #if DEBUG
 			DebugFont          = new MonoGameSpriteFont(content.Load<SpriteFont>("fonts/debugFont"));

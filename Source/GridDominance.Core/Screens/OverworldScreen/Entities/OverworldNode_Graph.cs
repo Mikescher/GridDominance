@@ -20,6 +20,7 @@ using MonoSAMFramework.Portable.LogProtocol;
 using GridDominance.Shared.Screens.OverworldScreen.Entities.EntityOperations;
 using GridDominance.Shared.Screens.OverworldScreen.Operations;
 using MonoSAMFramework.Portable.UpdateAgents.Impl;
+using GridDominance.Core.Resources;
 
 // ReSharper disable HeuristicUnreachableCode
 #pragma warning disable 162

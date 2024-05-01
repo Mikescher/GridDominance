@@ -108,7 +108,7 @@ namespace MonoSAMFramework.Portable.Screens.HUD.Elements.Primitives
 				_textCache = _text;
 			}
 
-			_fontVOffset = FontRenderHelper.GetFontVCenterOffset(Font) * _fontScale;
+			_fontVOffset = FontRenderHelper.GetFontVCenterOffset(Size.Height, Font) * _fontScale;
 		}
 
 		protected override void DrawDebugHUDBorders(IBatchRenderer sbatch)
