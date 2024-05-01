@@ -1,0 +1,7 @@
+<en-US>
+ - updated dependencies and raised android target framework to 34
+</en-US>
+
+<de-DE>
+ - Bibliotheken und Android TargetFramework auf 34 aktualisiert
+</de-DE>
