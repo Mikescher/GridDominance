@@ -18,7 +18,6 @@ namespace GridDominance.Android
 		Theme = "@style/Theme.Splash",
 		LaunchMode = LaunchMode.SingleInstance,
 		ScreenOrientation = ScreenOrientation.SensorLandscape,
-        Immersive = true,
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.Keyboard | ConfigChanges.ScreenSize)]
 
 	// ReSharper disable once ClassNeverInstantiated.Global
@@ -40,9 +39,9 @@ namespace GridDominance.Android
             _view.SystemUiFlags = SystemUiFlags.LayoutStable |
                 SystemUiFlags.LayoutHideNavigation |
                 SystemUiFlags.LayoutFullscreen |
-                SystemUiFlags.HideNavigation |
-                SystemUiFlags.Fullscreen |
-                SystemUiFlags.ImmersiveSticky;
+                SystemUiFlags.Fullscreen;
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.P) Window.Attributes.LayoutInDisplayCutoutMode |= LayoutInDisplayCutoutMode.ShortEdges;
 
             SetContentView(_view);
 
