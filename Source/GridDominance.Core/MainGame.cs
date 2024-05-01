@@ -29,6 +29,8 @@ using GridDominance.Shared.Screens.WorldMapScreen.Operations;
 using GridDominance.Shared.SCCM;
 using MonoSAMFramework.Portable.ColorHelper;
 using MonoSAMFramework.Portable.Localization;
+using GridDominance.Common.TTFFonts;
+using GridDominance.Core.Resources;
 
 namespace GridDominance.Shared
 {
@@ -98,7 +100,8 @@ namespace GridDominance.Shared
 			AddAgent(new HighscoreAgent());
 
 			Inst = this;
-		}
+
+        }
 
 		public static bool IsIAB() => Flavor == GDFlavor.IAB || Flavor == GDFlavor.IAB_NOMP;
 
@@ -326,9 +329,13 @@ namespace GridDominance.Shared
 		}
 
 		protected override void LoadContent()
-		{
-			Textures.Initialize(Content, GraphicsDevice);
+        {
+            Textures.Initialize(Content, GraphicsDevice);
+			
 			Levels.LoadContent(Content);
+
+			Fonts.LoadContent(Content);
+
 			try
 			{
 				Sound.Initialize(Content);

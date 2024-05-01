@@ -13,6 +13,26 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin binfonts/AsapBold.ttf
+/importer:TTFImporter
+/processor:TTFProcessor
+/build:binfonts/AsapBold.ttf
+
+#begin binfonts/AsapRegular.ttf
+/importer:TTFImporter
+/processor:TTFProcessor
+/build:binfonts/AsapRegular.ttf
+
+#begin binfonts/ComicJens.ttf
+/importer:TTFImporter
+/processor:TTFProcessor
+/build:binfonts/ComicJens.ttf
+
+#begin binfonts/CourierNew.ttf
+/importer:TTFImporter
+/processor:TTFProcessor
+/build:binfonts/CourierNew.ttf
+
 #begin fonts/debugFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

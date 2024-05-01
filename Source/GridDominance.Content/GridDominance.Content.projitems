@@ -183,4 +183,10 @@
     <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_ld.png" />
     <None Include="$(MSBuildThisFileDirectory)Content\textures\spritesheet_extra_md.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\binfonts\AsapBold.ttf" />
+    <None Include="$(MSBuildThisFileDirectory)Content\binfonts\AsapRegular.ttf" />
+    <None Include="$(MSBuildThisFileDirectory)Content\binfonts\ComicJens.ttf" />
+    <None Include="$(MSBuildThisFileDirectory)Content\binfonts\CourierNew.ttf" />
+  </ItemGroup>
 </Project>

@@ -18,10 +18,23 @@ namespace GridDominance.Content.Pipeline.GDLevel
 
 			BlueprintPreprocessor.ProcessLevel(lf);
 
-			Console.WriteLine("Parsing file with " + lf.BlueprintCannons.Count + " cannon definitions");
-			Console.WriteLine("Parsing file with " + lf.BlueprintVoidWalls.Count + " voidwall definitions");
+			Console.WriteLine("Parsing file with " + lf.BlueprintCannons.Count + " Cannon definitions");
+			Console.WriteLine("Parsing file with " + lf.BlueprintVoidWalls.Count + " VoidWall definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintVoidCircles.Count + " VoidCircle definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintGlassBlocks.Count + " GlassBlock definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintBlackHoles.Count + " BlackHole definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintPortals.Count + " Portal definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintLaserCannons.Count + " LaserCannon definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintMirrorBlocks.Count + " MirrorBlock definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintMirrorCircles.Count + " MirrorCircle definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintBackgroundText.Count + " BackgroundText definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintMinigun.Count + " Minigun definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintShieldProjector.Count + " ShieldProjector definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintRelayCannon.Count + " RelayCannon definitions");
+            Console.WriteLine("Parsing file with " + lf.BlueprintTrishotCannon.Count + " TrishotCannon definitions");
 
-			return lf;
+
+            return lf;
 		}
 	}
 }
