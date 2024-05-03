@@ -6,8 +6,8 @@
 		<SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
 		<TargetFrameworkVersion>34</TargetFrameworkVersion>
 		<ApplicationId>com.blackforestbytes.griddominance.full</ApplicationId>
-		<ApplicationVersion>10311</ApplicationVersion>
-		<ApplicationDisplayVersion>1.3.11</ApplicationDisplayVersion>
+		<ApplicationVersion>10312</ApplicationVersion>
+		<ApplicationDisplayVersion>1.3.12</ApplicationDisplayVersion>
 
 		<!-- idk why, but it does not run with a trimmed binary -->
 		<PublishTrimmed>False</PublishTrimmed>

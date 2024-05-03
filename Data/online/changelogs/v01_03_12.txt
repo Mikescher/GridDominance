@@ -1,0 +1,7 @@
+<en-US>
+ - fix connection to highscore server and fullscreen under newer android version
+</en-US>
+
+<de-DE>
+ - Verbindungsprobleme zu Highscore-Server behoben und Navigation Bar unter neueren Android Versionen ausgeblendet.
+</de-DE>
