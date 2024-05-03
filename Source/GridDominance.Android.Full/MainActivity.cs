@@ -37,9 +37,11 @@ namespace GridDominance.Android
             var _view = g.Services.GetService<View>();
 
             _view.SystemUiFlags = SystemUiFlags.LayoutStable |
-                SystemUiFlags.LayoutHideNavigation |
-                SystemUiFlags.LayoutFullscreen |
-                SystemUiFlags.Fullscreen;
+                                  SystemUiFlags.LayoutHideNavigation |
+                                  SystemUiFlags.LayoutFullscreen |
+                                  SystemUiFlags.HideNavigation |
+                                  SystemUiFlags.Fullscreen |
+                                  SystemUiFlags.Immersive;
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.P) Window.Attributes.LayoutInDisplayCutoutMode |= LayoutInDisplayCutoutMode.ShortEdges;
 
