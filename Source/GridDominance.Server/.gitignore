@@ -83,3 +83,5 @@ composer.phar
 
 *.log
 log/*
+
+DOCKER_GIT_INFO

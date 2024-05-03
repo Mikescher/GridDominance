@@ -6,28 +6,30 @@ $config_levelids = require 'config_levelids.php';
 $config_auto     = require 'config_auto.php';
 
 return [
-	'database_host' =>  'localhost',
+	'database_host' =>  '{{DB_HOST}}',
 	'database_name' =>  'gdapi_data',
-	'database_user' =>  'root',
-	'database_pass' =>  '',
+	'database_user' =>  '{{DB_USER}}',
+	'database_pass' =>  '{{DB_PASS}}',
 
-	'signature_key' => 'smth',
-	'cron-secret'   => 'cron',
+	'signature_key' => '{{SIGNATURE_KEY}}',
+	'cron-secret'   => '{{CRON_SECRET}}',
 
-	'logfile-normal' => __DIR__ . '\\..\\log\\server.log',
-	'logfile-debug'  => __DIR__ . '\\..\\log\\server_[{action}]_debug.log',
-	'logfile-error'  => __DIR__ . '\\..\\log\\server_error.log',
-	'logfile-cron'   => __DIR__ . '\\..\\log\\cron.log',
+	'logfile-normal' => '/var/log/gdapi_log/server.log',
+	'logfile-debug'  => '/var/log/gdapi_log/server_[{action}]_debug.log',
+	'logfile-error'  => '/var/log/gdapi_log/server_error.log',
+	'logfile-cron'   => '/var/log/gdapi_log/cron.log',
+
 	'email-error-target' => 'virtualadmin@mikescher.de',
 	'email-error-sender' => 'gdserver-error@mikescher.com',
 
 	'email-clientlog-target' => 'virtualadmin@mikescher.de',
 	'email-clientlog-sender' => 'gd-log@mikescher.com',
-	'sendmail'         => false,
-	'sendnotification' => true,
 
-	'scn_id'  => '56',
-	'scn_key' => '5B27a01fHhq6BvrWT5HrYS6xt4IAha0a6qA5TpoG20Iti1b3522VxvgjMo4UA7CS',
+	'sendmail'         => {{SENDMAIL}},
+	'sendnotification' => {{SENDNOTIFICATION}},
+
+	'scn_id'  => '{{SCN_ID}}',
+	'scn_key' => '{{SCN_KEY}}',
 
 	'maxsize-logfile-normal' =>  128 * 1024 * 1024, // 512MB
 	'maxsize-logfile-debug'  =>   16 * 1024 * 1024, // 128MB
@@ -49,10 +51,10 @@ return [
 	'hot_factor'   => 1.8,
 
 	'userlevel_maxsize'   => 256 * 1024,
-	'userlevel_directory' => 'F:\\Stash\\gd_server_upload\\',
+	'userlevel_directory' => '/media/gdapi_userlevel/',
 
-	'debug'  => true,
-	'runlog' => true,
+	'debug'  => {{DEBUG}},
+	'runlog' => {{RUNLOG}},
 
 	'ping_emulation' => 0.0, // sec
 ];
