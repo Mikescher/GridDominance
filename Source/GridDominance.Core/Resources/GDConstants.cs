@@ -44,11 +44,11 @@ namespace GridDominance.Shared.Resources
 		};
 
 		public const string LOGO_STRING = "CANNON\nCONQUEST";
-		public const string BFB_URL     = @"http://blackforestbytes.de/";
+		public const string BFB_URL     = @"https://blackforestbytes.de/";
 		public const string PROFILE_FILENAME = "USERPROFILE";
 
 		public const string URL_REDDIT = @"https://www.reddit.com/r/CannonConquest/";
-		public const string URL_BLACKFORESTBYTES = @"http://blackforestbytes.de/";
+		public const string URL_BLACKFORESTBYTES = @"https://blackforestbytes.de/";
 
 #if DEBUG
 		public const string MULTIPLAYER_SERVER_HOST = "localhost";
@@ -66,7 +66,7 @@ namespace GridDominance.Shared.Resources
 #if DEBUG
 		public const string SERVER_URL = "http://localhost:666";
 #else
-		public const string SERVER_URL = "http://gdapi.cannonconquest.net";
+		public const string SERVER_URL = "https://gdapi.cannonconquest.net";
 #endif
 		public const string SERVER_SECRET = __Secrets.SERVER_SECRET;
 
