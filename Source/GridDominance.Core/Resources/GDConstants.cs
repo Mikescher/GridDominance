@@ -58,7 +58,13 @@ namespace GridDominance.Shared.Resources
 		public const int    MULTIPLAYER_SERVER_PORT = 28023;
 #endif
 
-		public const string BLUETOOTH_NAME = "GridDominance.BluetoothSocket";
+#if DEBUG
+        public static bool OFFLINE_MODE = true; // change me to get working network conn while debugging
+#else
+        public static bool OFFLINE_MODE = false;
+#endif
+
+        public const string BLUETOOTH_NAME = "GridDominance.BluetoothSocket";
 		public const string BLUETOOTH_UUID = "4748A5F0-0AC7-44F7-BE49-30F5FD2A08ED";
 		public const string BLUETOOTH_LE_SERVICE_UUID = "64BBAB15-2F82-4789-996F-0691B65E5E0E";
 		public const string BLUETOOTH_LE_CHRCTR_UUID = "33AB15F8-45CE-49C3-ACFC-96F6B510C989";

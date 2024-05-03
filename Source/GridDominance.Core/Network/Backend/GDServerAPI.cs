@@ -52,6 +52,8 @@ namespace GridDominance.Shared.Network.Backend
 
 		public async Task Ping(PlayerProfile profile)
 		{
+			if (GDConstants.OFFLINE_MODE) return;
+
 			try
 			{
 				var ps = new RestParameterSet();
@@ -135,9 +137,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task CreateUser(PlayerProfile profile)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return;
+
+            try
+            {
 				var pw = bridge.DoSHA256(Guid.NewGuid().ToString("N"));
 
 				var ps = new RestParameterSet();
@@ -196,9 +200,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task SetScore(PlayerProfile profile, Guid levelid, FractionDifficulty diff, int time)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -302,9 +308,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task SetScoreAndTime(PlayerProfile profile)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -402,9 +410,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<bool> DownloadData(PlayerProfile profile)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return false;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -492,8 +502,10 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<bool> Reupload(PlayerProfile profile)
-		{
-			profile.NeedsReupload = false;
+        {
+            if (GDConstants.OFFLINE_MODE) return false;
+
+            profile.NeedsReupload = false;
 
 			var sarray = CreateScoreStrings(profile, MULTISCORE_PARTITION_SIZE).ToList();
 
@@ -509,9 +521,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		private async Task<bool> ReuploadMulti(PlayerProfile profile, string data)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return false;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -622,9 +636,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task LogClient(PlayerProfile profile, SAMLogEntry entry)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID, false);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash, false);
@@ -659,9 +675,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 		
 		public async Task DownloadHighscores(PlayerProfile profile)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return;
+
+            try
+            {
 				var response = await QueryAsync<QueryResultHighscores>("get-highscores", new RestParameterSet(), RETRY_DOWNLOADHIGHSCORES);
 
 				if (response == null)
@@ -722,9 +740,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<Tuple<VerifyResult, int, string>> Verify(string username, string password)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return Tuple.Create(VerifyResult.NoConnection, -1, string.Empty);
+
+            try
+            {
 				var pwHash = bridge.DoSHA256(password);
 
 				var ps = new RestParameterSet();
@@ -792,8 +812,10 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<Tuple<UpgradeResult, string>> UpgradeUser(PlayerProfile profile, string username, string password)
-		{
-			try
+        {
+            if (GDConstants.OFFLINE_MODE) return Tuple.Create(UpgradeResult.NoConnection, string.Empty);
+
+            try
 			{
 				var pwHashOld = profile.OnlinePasswordHash;
 				var pwHashNew = bridge.DoSHA256(password);
@@ -873,9 +895,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<Tuple<ChangePasswordResult, string>> ChangePassword(PlayerProfile profile, string newPassword)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return Tuple.Create(ChangePasswordResult.NoConnection, string.Empty);
+
+            try
+            {
 				var pwHashOld = profile.OnlinePasswordHash;
 				var pwHashNew = bridge.DoSHA256(newPassword);
 
@@ -943,9 +967,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<QueryResultRanking> GetRanking(PlayerProfile profile, GraphBlueprint limit, HighscoreCategory cat)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return null;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 
@@ -1009,9 +1035,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<Tuple<VerifyResult, string>> MergeLogin(PlayerProfile profile, string username, string password)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return Tuple.Create(VerifyResult.NoConnection, string.Empty);
+
+            try
+            {
 				var pwHash = bridge.DoSHA256(password);
 
 				var ps = new RestParameterSet();
@@ -1107,9 +1135,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<Tuple<bool, long>> GetNewCustomLevelID(PlayerProfile profile)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return Tuple.Create(false, -1L);
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -1148,9 +1178,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<UploadResult> UploadUserLevel(PlayerProfile profile, LevelBlueprint level, SCCMLevelData rawData, byte[] binary, int time)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return UploadResult.NoConnection;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -1217,9 +1249,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<List<SCCMLevelMeta>> QueryUserLevel(PlayerProfile profile, QueryUserLevelCategory cat, string param, int pagination)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return null;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterString("category", QueryUserLevelCategoryHelper.EnumToString(cat));
@@ -1274,9 +1308,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<byte[]> DownloadUserLevel(PlayerProfile profile, long onlineID)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return null;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -1329,9 +1365,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<bool?> SetCustomLevelPlayed(PlayerProfile profile, long onlineID, FractionDifficulty diff)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return null;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -1384,9 +1422,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 
 		public async Task<CustomLevelCompletionResult> SetCustomLevelCompleted(PlayerProfile profile, long onlineID, FractionDifficulty diff, int time)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return CustomLevelCompletionResult.CreateError();
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -1444,9 +1484,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 		
 		public async Task<Tuple<int, bool>> SetCustomLevelStarred(PlayerProfile profile, long onlineID, bool star) // <level_starcount, isStarred>
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return null;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
@@ -1501,9 +1543,11 @@ namespace GridDominance.Shared.Network.Backend
 		}
 		
 		public async Task<SCCMLevelMeta> QueryUserLevelMeta(PlayerProfile profile, long onlineID)
-		{
-			try
-			{
+        {
+            if (GDConstants.OFFLINE_MODE) return null;
+
+            try
+            {
 				var ps = new RestParameterSet();
 				ps.AddParameterInt("userid", profile.OnlineUserID);
 				ps.AddParameterHash("password", profile.OnlinePasswordHash);
