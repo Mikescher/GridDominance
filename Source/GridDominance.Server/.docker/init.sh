@@ -43,6 +43,11 @@ echo ""
 
 cp -rv "/_html" "/var/www/html"
 
+rm "/var/www/html/.gitignore"
+rm "/var/www/html/.dockerignore"
+rm "/var/www/html/DOCKER_GIT_INFO"
+rm "/var/www/html/composer.json"
+
 echo ""
 blue "================ [ REPLACE ENV ] ================="
 echo ""
